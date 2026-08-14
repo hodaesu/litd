@@ -1,0 +1,30 @@
+[
+  {
+    "id": "strike",
+    "name": "Frappe",
+    "power": 1.0,
+    "target": "enemy",
+    "description": "Attaque directe."
+  },
+  {
+    "id": "heavy",
+    "name": "Coup lourd",
+    "power": 1.35,
+    "target": "enemy",
+    "description": "Plus puissant, moins précis."
+  },
+  {
+    "id": "heal",
+    "name": "Lueur réparatrice",
+    "power": 0.85,
+    "target": "ally",
+    "description": "Restaure des PV."
+  },
+  {
+    "id": "guard",
+    "name": "Garde",
+    "power": 0.0,
+    "target": "self",
+    "description": "Réduit les dégâts du prochain coup."
+  }
+]

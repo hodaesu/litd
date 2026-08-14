@@ -1,0 +1,1 @@
+Importez le CONTENU de ce dossier dans un nouveau dépôt créé dans Working Copy.

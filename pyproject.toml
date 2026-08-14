@@ -1,0 +1,15 @@
+[project]
+name = "light-in-the-dark-tools"
+version = "1.0.0"
+requires-python = ">=3.11"
+dependencies = ["pytest>=8.0,<9", "PyYAML>=6.0,<7"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
+addopts = "-ra --strict-markers"
+markers = [
+  "data: data-contract tests",
+  "assets: asset integrity tests",
+  "workflow: GitHub Actions tests",
+  "save: save compatibility tests",
+]

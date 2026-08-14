@@ -1,0 +1,22 @@
+[
+  {
+    "id": "human",
+    "name": "Humain",
+    "passive": "Polyvalence"
+  },
+  {
+    "id": "marrow_eater",
+    "name": "Mangeur de Moelles",
+    "passive": "Réserve sanguine"
+  },
+  {
+    "id": "deep_shadow",
+    "name": "Ombre des Tréfonds",
+    "passive": "Puissance par la folie"
+  },
+  {
+    "id": "veilborn",
+    "name": "Né du Voile",
+    "passive": "Résistance à la peur"
+  }
+]

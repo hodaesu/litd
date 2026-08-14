@@ -1,0 +1,37 @@
+name: Builds
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - preset: Web
+            artifact: light-in-the-dark-web
+            path: build/web
+          - preset: Windows Desktop
+            artifact: light-in-the-dark-windows
+            path: build/windows
+          - preset: Linux/X11
+            artifact: light-in-the-dark-linux
+            path: build/linux
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p "${{ matrix.path }}"
+      - run: godot --headless --path . --export-release "${{ matrix.preset }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.path }}
+          if-no-files-found: error

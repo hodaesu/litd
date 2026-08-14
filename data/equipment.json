@@ -1,0 +1,20 @@
+[
+  {
+    "id": "rust_blade",
+    "name": "Lame rouillée",
+    "slot": "weapon",
+    "damage_bonus": 1
+  },
+  {
+    "id": "veil_armor",
+    "name": "Armure du Voile",
+    "slot": "armor",
+    "hp_bonus": 8
+  },
+  {
+    "id": "bone_ring",
+    "name": "Anneau d'os",
+    "slot": "ring",
+    "crit_bonus": 3
+  }
+]

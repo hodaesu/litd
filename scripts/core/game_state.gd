@@ -1,0 +1,48 @@
+extends Node
+
+signal state_changed
+signal screen_requested(screen_name: String)
+
+var current_screen := "title"
+var gold := 120
+var essence := 18
+var light := 75
+var supplies := 8
+var expedition_room := 0
+var expedition_rooms := 4
+var party: Array = []
+var battle_enemies: Array = []
+var selected_hero := 0
+var log_lines: Array[String] = []
+
+func _ready() -> void:
+    reset_new_game()
+
+func reset_new_game() -> void:
+    party = []
+    for hero in DataLoader.heroes:
+        party.append(hero.duplicate(true))
+    gold = 120
+    essence = 18
+    light = 75
+    supplies = 8
+    expedition_room = 0
+    battle_enemies = []
+    log_lines = ["Le Sanctuaire attend."]
+    state_changed.emit()
+
+func request_screen(name: String) -> void:
+    current_screen = name
+    screen_requested.emit(name)
+
+func add_log(text: String) -> void:
+    log_lines.push_front(text)
+    if log_lines.size() > 8:
+        log_lines.resize(8)
+    state_changed.emit()
+
+func alive_heroes() -> Array:
+    return party.filter(func(h): return int(h.get("hp", 0)) > 0)
+
+func alive_enemies() -> Array:
+    return battle_enemies.filter(func(e): return int(e.get("hp", 0)) > 0)

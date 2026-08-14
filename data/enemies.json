@@ -1,0 +1,470 @@
+[
+  {
+    "id": 1,
+    "name": "Goule affamée",
+    "hp": 38,
+    "damage": [
+      5,
+      9
+    ],
+    "fear": 3,
+    "boss": false,
+    "art": "enemy_01.webp"
+  },
+  {
+    "id": 2,
+    "name": "Cultiste fanatisé",
+    "hp": 44,
+    "damage": [
+      6,
+      10
+    ],
+    "fear": 4,
+    "boss": false,
+    "art": "enemy_02.webp"
+  },
+  {
+    "id": 3,
+    "name": "Chevalier déchu",
+    "hp": 50,
+    "damage": [
+      7,
+      11
+    ],
+    "fear": 5,
+    "boss": false,
+    "art": "enemy_03.webp"
+  },
+  {
+    "id": 4,
+    "name": "Ver des profondeurs",
+    "hp": 56,
+    "damage": [
+      4,
+      12
+    ],
+    "fear": 6,
+    "boss": false,
+    "art": "enemy_04.webp"
+  },
+  {
+    "id": 5,
+    "name": "Écorcheur",
+    "hp": 62,
+    "damage": [
+      5,
+      13
+    ],
+    "fear": 2,
+    "boss": false,
+    "art": "enemy_05.webp"
+  },
+  {
+    "id": 6,
+    "name": "Gorgone",
+    "hp": 68,
+    "damage": [
+      6,
+      14
+    ],
+    "fear": 3,
+    "boss": false,
+    "art": "enemy_06.webp"
+  },
+  {
+    "id": 7,
+    "name": "Minotaure",
+    "hp": 32,
+    "damage": [
+      7,
+      8
+    ],
+    "fear": 4,
+    "boss": false,
+    "art": "enemy_07.webp"
+  },
+  {
+    "id": 8,
+    "name": "Oni",
+    "hp": 38,
+    "damage": [
+      4,
+      9
+    ],
+    "fear": 5,
+    "boss": false,
+    "art": "enemy_08.webp"
+  },
+  {
+    "id": 9,
+    "name": "Tengu",
+    "hp": 44,
+    "damage": [
+      5,
+      10
+    ],
+    "fear": 6,
+    "boss": false,
+    "art": "enemy_09.webp"
+  },
+  {
+    "id": 10,
+    "name": "Jorōgumo",
+    "hp": 50,
+    "damage": [
+      6,
+      11
+    ],
+    "fear": 2,
+    "boss": false,
+    "art": "enemy_10.webp"
+  },
+  {
+    "id": 11,
+    "name": "Yuki-Onna",
+    "hp": 56,
+    "damage": [
+      7,
+      12
+    ],
+    "fear": 3,
+    "boss": false,
+    "art": "enemy_11.webp"
+  },
+  {
+    "id": 12,
+    "name": "Anubis",
+    "hp": 62,
+    "damage": [
+      4,
+      13
+    ],
+    "fear": 4,
+    "boss": false,
+    "art": "enemy_12.webp"
+  },
+  {
+    "id": 13,
+    "name": "Prêtre momifié",
+    "hp": 68,
+    "damage": [
+      5,
+      14
+    ],
+    "fear": 5,
+    "boss": false,
+    "art": "enemy_13.webp"
+  },
+  {
+    "id": 14,
+    "name": "Scarabée funéraire",
+    "hp": 32,
+    "damage": [
+      6,
+      8
+    ],
+    "fear": 6,
+    "boss": false,
+    "art": "enemy_14.webp"
+  },
+  {
+    "id": 15,
+    "name": "Nécrophage",
+    "hp": 38,
+    "damage": [
+      7,
+      9
+    ],
+    "fear": 2,
+    "boss": false,
+    "art": "enemy_15.webp"
+  },
+  {
+    "id": 16,
+    "name": "Porte-Cierge",
+    "hp": 44,
+    "damage": [
+      4,
+      10
+    ],
+    "fear": 3,
+    "boss": false,
+    "art": "enemy_16.webp"
+  },
+  {
+    "id": 17,
+    "name": "Veuve du Voile",
+    "hp": 50,
+    "damage": [
+      5,
+      11
+    ],
+    "fear": 4,
+    "boss": false,
+    "art": "enemy_17.webp"
+  },
+  {
+    "id": 18,
+    "name": "Pèlerin creux",
+    "hp": 56,
+    "damage": [
+      6,
+      12
+    ],
+    "fear": 5,
+    "boss": false,
+    "art": "enemy_18.webp"
+  },
+  {
+    "id": 19,
+    "name": "Mange-Rêves",
+    "hp": 62,
+    "damage": [
+      7,
+      13
+    ],
+    "fear": 6,
+    "boss": false,
+    "art": "enemy_19.webp"
+  },
+  {
+    "id": 20,
+    "name": "Chien d’Os",
+    "hp": 68,
+    "damage": [
+      4,
+      14
+    ],
+    "fear": 2,
+    "boss": false,
+    "art": "enemy_20.webp"
+  },
+  {
+    "id": 21,
+    "name": "Sangsue royale",
+    "hp": 32,
+    "damage": [
+      5,
+      8
+    ],
+    "fear": 3,
+    "boss": false,
+    "art": "enemy_21.webp"
+  },
+  {
+    "id": 22,
+    "name": "Gardien aveugle",
+    "hp": 38,
+    "damage": [
+      6,
+      9
+    ],
+    "fear": 4,
+    "boss": false,
+    "art": "enemy_22.webp"
+  },
+  {
+    "id": 23,
+    "name": "Oracle brisé",
+    "hp": 44,
+    "damage": [
+      7,
+      10
+    ],
+    "fear": 5,
+    "boss": false,
+    "art": "enemy_23.webp"
+  },
+  {
+    "id": 24,
+    "name": "Enfant de suie",
+    "hp": 50,
+    "damage": [
+      4,
+      11
+    ],
+    "fear": 6,
+    "boss": false,
+    "art": "enemy_24.webp"
+  },
+  {
+    "id": 25,
+    "name": "Masque hurlant",
+    "hp": 56,
+    "damage": [
+      5,
+      12
+    ],
+    "fear": 2,
+    "boss": false,
+    "art": "enemy_25.webp"
+  },
+  {
+    "id": 26,
+    "name": "Dévoreur de lumière",
+    "hp": 62,
+    "damage": [
+      6,
+      13
+    ],
+    "fear": 3,
+    "boss": false,
+    "art": "enemy_26.webp"
+  },
+  {
+    "id": 27,
+    "name": "Porte-Peste",
+    "hp": 68,
+    "damage": [
+      7,
+      14
+    ],
+    "fear": 4,
+    "boss": false,
+    "art": "enemy_27.webp"
+  },
+  {
+    "id": 28,
+    "name": "Moiré",
+    "hp": 32,
+    "damage": [
+      4,
+      8
+    ],
+    "fear": 5,
+    "boss": false,
+    "art": "enemy_28.webp"
+  },
+  {
+    "id": 29,
+    "name": "Géant des cryptes",
+    "hp": 38,
+    "damage": [
+      5,
+      9
+    ],
+    "fear": 6,
+    "boss": false,
+    "art": "enemy_29.webp"
+  },
+  {
+    "id": 30,
+    "name": "Nonne renversée",
+    "hp": 44,
+    "damage": [
+      6,
+      10
+    ],
+    "fear": 2,
+    "boss": false,
+    "art": "enemy_30.webp"
+  },
+  {
+    "id": 31,
+    "name": "Éclat vivant",
+    "hp": 50,
+    "damage": [
+      7,
+      11
+    ],
+    "fear": 3,
+    "boss": false,
+    "art": "enemy_31.webp"
+  },
+  {
+    "id": 32,
+    "name": "Charognard cuirassé",
+    "hp": 56,
+    "damage": [
+      4,
+      12
+    ],
+    "fear": 4,
+    "boss": false,
+    "art": "enemy_32.webp"
+  },
+  {
+    "id": 33,
+    "name": "Loup du Voile",
+    "hp": 62,
+    "damage": [
+      5,
+      13
+    ],
+    "fear": 5,
+    "boss": false,
+    "art": "enemy_33.webp"
+  },
+  {
+    "id": 34,
+    "name": "Semeur de cendres",
+    "hp": 68,
+    "damage": [
+      6,
+      14
+    ],
+    "fear": 6,
+    "boss": false,
+    "art": "enemy_34.webp"
+  },
+  {
+    "id": 35,
+    "name": "Miroir mort",
+    "hp": 32,
+    "damage": [
+      7,
+      8
+    ],
+    "fear": 2,
+    "boss": false,
+    "art": "enemy_35.webp"
+  },
+  {
+    "id": 36,
+    "name": "Prêtre du Néant",
+    "hp": 38,
+    "damage": [
+      4,
+      9
+    ],
+    "fear": 3,
+    "boss": false,
+    "art": "enemy_36.webp"
+  },
+  {
+    "id": 37,
+    "name": "Colosse sans nom",
+    "hp": 44,
+    "damage": [
+      5,
+      10
+    ],
+    "fear": 4,
+    "boss": false,
+    "art": "enemy_37.webp"
+  },
+  {
+    "id": 38,
+    "name": "Ange inversé",
+    "hp": 85,
+    "damage": [
+      6,
+      11
+    ],
+    "fear": 5,
+    "boss": true,
+    "art": "enemy_38.webp"
+  },
+  {
+    "id": 39,
+    "name": "Mère des Souffrances",
+    "hp": 91,
+    "damage": [
+      7,
+      12
+    ],
+    "fear": 6,
+    "boss": true,
+    "art": "enemy_39.webp"
+  }
+]

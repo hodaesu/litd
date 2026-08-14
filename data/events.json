@@ -1,0 +1,20 @@
+[
+  {
+    "id": "pilgrim",
+    "name": "Le Pèlerin sans visage",
+    "text": "Une silhouette demande qui porte réellement la lumière.",
+    "choices": [
+      "Répondre avec espoir",
+      "Répondre avec folie"
+    ]
+  },
+  {
+    "id": "curio",
+    "name": "Reliquaire fendu",
+    "text": "Une lumière froide fuit d'un coffret ancien.",
+    "choices": [
+      "Ouvrir",
+      "Ignorer"
+    ]
+  }
+]

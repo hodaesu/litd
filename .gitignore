@@ -1,0 +1,25 @@
+# Godot
+.godot/
+.import/
+*.translation
+
+# Builds and QA outputs
+build/
+reports/*.html
+reports/*.json
+reports/*.xml
+!reports/.gitkeep
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Local nested Git placeholder
+LITD/

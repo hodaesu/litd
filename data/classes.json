@@ -1,0 +1,112 @@
+[
+  {
+    "id": "inquisitor",
+    "name": "Inquisiteur",
+    "role": "Contrôle et châtiment",
+    "hp": 110,
+    "damage": [
+      8,
+      13
+    ],
+    "art": "inquisitor.webp"
+  },
+  {
+    "id": "vestal",
+    "name": "Vestale",
+    "role": "Soins et lumière",
+    "hp": 90,
+    "damage": [
+      5,
+      9
+    ],
+    "art": "vestal.webp"
+  },
+  {
+    "id": "mystic",
+    "name": "Mystique",
+    "role": "Folie et altérations",
+    "hp": 82,
+    "damage": [
+      7,
+      12
+    ],
+    "art": "mystic.webp"
+  },
+  {
+    "id": "ranger",
+    "name": "Rôdeur",
+    "role": "Tir et mobilité",
+    "hp": 88,
+    "damage": [
+      8,
+      14
+    ],
+    "art": "ranger.webp"
+  },
+  {
+    "id": "breaker",
+    "name": "Briseur",
+    "role": "Dégâts et rupture",
+    "hp": 125,
+    "damage": [
+      10,
+      16
+    ],
+    "art": "breaker.webp"
+  },
+  {
+    "id": "surgeon",
+    "name": "Chirurgien",
+    "role": "Soutien et saignement",
+    "hp": 94,
+    "damage": [
+      6,
+      11
+    ],
+    "art": "surgeon.webp"
+  },
+  {
+    "id": "watcher",
+    "name": "Veilleur",
+    "role": "Protection et riposte",
+    "hp": 120,
+    "damage": [
+      7,
+      12
+    ],
+    "art": "watcher.webp"
+  },
+  {
+    "id": "scout",
+    "name": "Éclaireur",
+    "role": "Vitesse et découverte",
+    "hp": 86,
+    "damage": [
+      7,
+      13
+    ],
+    "art": "scout.webp"
+  },
+  {
+    "id": "occultist",
+    "name": "Occultiste",
+    "role": "Malédictions et sacrifice",
+    "hp": 80,
+    "damage": [
+      9,
+      15
+    ],
+    "art": "occultist.webp"
+  },
+  {
+    "id": "duelist",
+    "name": "Duelliste",
+    "role": "Précision et esquive",
+    "hp": 92,
+    "damage": [
+      9,
+      14
+    ],
+    "art": "duelist.webp"
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "secret",
+    "name": "Le passage oublié",
+    "description": "Découvrir un passage secret dans les Cryptes."
+  },
+  {
+    "id": "pilgrim",
+    "name": "Voix dans le voile",
+    "description": "Répondre au Pèlerin sans visage."
+  },
+  {
+    "id": "boss",
+    "name": "Le Gardien des Cryptes",
+    "description": "Vaincre le Gardien du Premier Voile."
+  }
+]

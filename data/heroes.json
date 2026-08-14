@@ -1,0 +1,50 @@
+[
+  {
+    "id": "aurelien",
+    "name": "Aurélien",
+    "class_id": "occultist",
+    "race_id": "deep_shadow",
+    "level": 3,
+    "hp": 82,
+    "max_hp": 100,
+    "fear": 48,
+    "madness": 36,
+    "hope": 62
+  },
+  {
+    "id": "malvor",
+    "name": "Malvor",
+    "class_id": "breaker",
+    "race_id": "marrow_eater",
+    "level": 3,
+    "hp": 70,
+    "max_hp": 110,
+    "fear": 25,
+    "madness": 18,
+    "hope": 55
+  },
+  {
+    "id": "lysandra",
+    "name": "Lysandra",
+    "class_id": "vestal",
+    "race_id": "veilborn",
+    "level": 3,
+    "hp": 88,
+    "max_hp": 95,
+    "fear": 18,
+    "madness": 8,
+    "hope": 76
+  },
+  {
+    "id": "darius",
+    "name": "Darius",
+    "class_id": "watcher",
+    "race_id": "human",
+    "level": 3,
+    "hp": 102,
+    "max_hp": 120,
+    "fear": 31,
+    "madness": 12,
+    "hope": 60
+  }
+]
