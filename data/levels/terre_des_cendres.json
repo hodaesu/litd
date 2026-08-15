@@ -1,115 +1,64 @@
 {
   "id": "terre_des_cendres",
   "display_name": "Terre des Cendres",
-  "status": "placeholder_polish_v1",
+  "status": "placeholder_polish_v2",
   "reference_art": "validated_image_1",
-  "design_goal": "Valider le rythme, l'exploration, les rencontres et la tension avant toute production Blender finale.",
+  "design_goal": "Créer une expédition longue où l'attrition impose de gérer provisions, feux de camp et retours volontaires ou nécessaires au Sanctuaire avant le boss.",
   "rules": {
     "final_meshes_required": false,
     "encounter_rosters_can_use_tags": true,
     "gameplay_values_live_in_godot": true,
-    "all_non_boss_enemies_recruitable": true
+    "all_non_boss_enemies_recruitable": true,
+    "retreat_to_hub_allowed": true,
+    "zones_persist_after_discovery": true
   },
   "zones": [
-    {
-      "id": "village_ravage",
-      "order": 1,
-      "role": "entrée_et_tutoriel_de_tension",
-      "target_duration_minutes": [8, 12],
-      "beats": [
-        "arrivée silencieuse",
-        "premier choix de route",
-        "première rencontre",
-        "indice environnemental",
-        "première opportunité de capture"
-      ],
-      "encounter_slots": ["ashlands_intro_01", "ashlands_intro_optional_01"],
-      "risk_reward_branch": {
-        "safe_path": "route principale plus lisible, pression modérée",
-        "risky_path": "bâtiments en ruine, récompense supérieure, rencontre optionnelle"
-      },
-      "stress_pressure": "low_to_medium",
-      "rest_slot": false
-    },
-    {
-      "id": "foret_morte",
-      "order": 2,
-      "role": "désorientation_et_montée_de_folie",
-      "target_duration_minutes": [10, 14],
-      "beats": [
-        "visibilité réduite",
-        "embranchement trompeur",
-        "événement de folie",
-        "rencontre en terrain resserré",
-        "raccourci déverrouillable"
-      ],
-      "encounter_slots": ["ashlands_forest_01", "ashlands_forest_02"],
-      "stress_pressure": "medium_high",
-      "rest_slot": true,
-      "rest_rule": "repos partiel avec coût ou contrepartie à définir dans les données gameplay"
-    },
-    {
-      "id": "cimetiere",
-      "order": 3,
-      "role": "attrition_et_narration_environnementale",
-      "target_duration_minutes": [10, 15],
-      "beats": [
-        "vue d'ensemble depuis un point haut",
-        "choix entre raccourci dangereux et détour",
-        "rencontre renforcée",
-        "interaction avec tombes ou reliques",
-        "préfiguration de l'abbaye"
-      ],
-      "encounter_slots": ["ashlands_graveyard_01", "ashlands_graveyard_elite_01"],
-      "stress_pressure": "high",
-      "rest_slot": false
-    },
-    {
-      "id": "abbaye",
-      "order": 4,
-      "role": "compression_avant_boss",
-      "target_duration_minutes": [12, 18],
-      "beats": [
-        "entrée monumentale",
-        "progression intérieure plus linéaire",
-        "événement narratif principal",
-        "combat difficile",
-        "dernier point de préparation"
-      ],
-      "encounter_slots": ["ashlands_abbey_01", "ashlands_abbey_guard_01"],
-      "stress_pressure": "high_to_critical",
-      "rest_slot": true,
-      "rest_rule": "dernier point de préparation avant le clocher"
-    },
-    {
-      "id": "clocher_boss",
-      "order": 5,
-      "role": "climax",
-      "target_duration_minutes": [8, 12],
-      "beats": [
-        "approche verticale",
-        "entrée arène",
-        "boss multi-phase placeholder",
-        "résolution et récompense",
-        "retour vers le Sanctuaire"
-      ],
-      "boss_slot": "ashlands_boss_01",
-      "stress_pressure": "critical",
-      "rest_slot": false
-    }
+    {"id":"faubourg_cendreux","order":1,"role":"entrée_et_lecture_du_danger","target_duration_minutes":[7,10],"stress_pressure":"low","rest_slot":false,"supply_pressure":"low","beats":["arrivée depuis le Sanctuaire","premières traces de pillage","choix de route","rencontre légère"]},
+    {"id":"village_ravage","order":2,"role":"première_attrition","target_duration_minutes":[9,13],"stress_pressure":"low_to_medium","rest_slot":false,"supply_pressure":"medium","beats":["maisons explorables","première rencontre sérieuse","butin de provisions possible","première opportunité de capture"]},
+    {"id":"moulin_calcine","order":3,"role":"risque_recompense","target_duration_minutes":[8,12],"stress_pressure":"medium","rest_slot":true,"campfire_id":"campfire_01","supply_pressure":"medium","beats":["détour vers le moulin","réserve potentielle","embuscade","premier feu de camp"]},
+    {"id":"foret_morte","order":4,"role":"désorientation_et_folie","target_duration_minutes":[10,15],"stress_pressure":"medium_high","rest_slot":false,"supply_pressure":"medium_high","beats":["visibilité réduite","embranchements trompeurs","événement de folie","raccourci à ouvrir"]},
+    {"id":"ravin_des_pendus","order":5,"role":"pression_et_traversée","target_duration_minutes":[8,12],"stress_pressure":"high","rest_slot":false,"supply_pressure":"high","beats":["passage étroit","menace à distance","route alternative coûteuse","indice vers le cimetière"]},
+    {"id":"chapelle_effondree","order":6,"role":"refuge_precaire","target_duration_minutes":[8,12],"stress_pressure":"medium_high","rest_slot":true,"campfire_id":"campfire_02","supply_pressure":"high","beats":["refuge apparent","feu de camp","événement possible pendant le repos","choix continuer ou retourner au Sanctuaire"]},
+    {"id":"cimetiere","order":7,"role":"attrition_et_narration","target_duration_minutes":[11,16],"stress_pressure":"high","rest_slot":false,"supply_pressure":"high","beats":["point haut","tombes et reliques","rencontre renforcée","préfiguration des catacombes"]},
+    {"id":"catacombes","order":8,"role":"compression_et_ressources_rares","target_duration_minutes":[12,18],"stress_pressure":"high_to_critical","rest_slot":false,"supply_pressure":"very_high","beats":["progression souterraine","lumière limitée","combat resserré","cache de ressources optionnelle","sortie raccourcie déverrouillable"]},
+    {"id":"ossuaire","order":9,"role":"point_de_rupture","target_duration_minutes":[9,14],"stress_pressure":"critical","rest_slot":true,"campfire_id":"campfire_03","supply_pressure":"very_high","beats":["amas d'ossements","combat ou sacrifice de ressources","feu de camp rare","forte incitation à évaluer un retour au hub"]},
+    {"id":"hameau_deserte","order":10,"role":"fausse_respiration","target_duration_minutes":[9,14],"stress_pressure":"high","rest_slot":false,"supply_pressure":"very_high","beats":["silence trompeur","fouille de bâtiments","provisions rares","rencontre imprévisible"]},
+    {"id":"route_des_penitents","order":11,"role":"marche_finale_vers_abbaye","target_duration_minutes":[8,12],"stress_pressure":"high_to_critical","rest_slot":false,"supply_pressure":"critical","beats":["procession abandonnée","ennemis renforcés","dernier embranchement extérieur","vue sur l'abbaye"]},
+    {"id":"abbaye","order":12,"role":"donjon_final_et_preparation","target_duration_minutes":[14,20],"stress_pressure":"critical","rest_slot":true,"campfire_id":"campfire_04","supply_pressure":"critical","beats":["entrée monumentale","progression intérieure","événement narratif principal","combat difficile","dernier feu de camp avant le boss"]},
+    {"id":"clocher_boss","order":13,"role":"climax","target_duration_minutes":[10,15],"stress_pressure":"critical","rest_slot":false,"supply_pressure":"critical","boss_slot":"ashlands_boss_01","beats":["ascension","entrée arène","boss multi-phase placeholder","résolution","retour au Sanctuaire"]}
+  ],
+  "expedition_economy": {
+    "design_intent": "Une équipe correctement préparée ne doit pas pouvoir explorer confortablement les 13 zones en une seule sortie lors de la progression normale.",
+    "consumable_categories": ["nourriture","soins","éclairage","outils_de_camp","objets_de_survie"],
+    "consumption_triggers": ["progression_de_zone","repos_au_feu","soins_hors_combat","événements","certaines_interactions"],
+    "campfire_rule": "Un feu de camp permet de récupérer et stabiliser l'équipe mais consomme des ressources; ce n'est pas un ravitaillement gratuit.",
+    "hub_rule": "Le Sanctuaire reste la seule source fiable de ravitaillement complet.",
+    "retreat_rule": "Le joueur peut abandonner temporairement l'expédition et retourner au Sanctuaire avec ce qu'il a sécurisé; les raccourcis et zones découvertes réduisent le coût du retour suivant.",
+    "forced_pressure_rule": "Lorsque les ressources critiques sont épuisées, poursuivre doit devenir nettement plus dangereux sans provoquer un game over arbitraire immédiat.",
+    "target_first_run_reach": [5,8],
+    "target_prepared_run_reach": [8,11],
+    "full_clear_expectation": "Le boss devient raisonnablement atteignable après préparation, connaissance du niveau, raccourcis et amélioration de l'équipe."
+  },
+  "campfires": [
+    {"id":"campfire_01","zone":3,"purpose":"enseigner le coût du repos"},
+    {"id":"campfire_02","zone":6,"purpose":"première vraie décision continuer ou rentrer"},
+    {"id":"campfire_03","zone":9,"purpose":"point de rupture de l'expédition"},
+    {"id":"campfire_04","zone":12,"purpose":"préparation finale sans ravitaillement complet"}
   ],
   "global_pacing": {
-    "target_total_duration_minutes": [48, 71],
-    "combat_density_rule": "éviter deux combats obligatoires lourds sans respiration entre eux",
-    "exploration_rule": "chaque zone doit offrir au moins une décision spatiale ou risque/récompense",
-    "narrative_rule": "au moins un élément de narration environnementale significatif par zone",
-    "capture_rule": "au moins une occasion claire de capture/recrutement doit être testable avant l'abbaye"
+    "target_total_duration_minutes":[123,183],
+    "expected_sessions":"plusieurs sorties au Sanctuaire pendant la découverte initiale",
+    "combat_density_rule":"alterner combat, exploration, décision et respiration; éviter les chaînes de combats lourds sans choix",
+    "exploration_rule":"chaque zone offre au moins une décision spatiale, économique ou risque/récompense",
+    "narrative_rule":"au moins un élément de narration environnementale significatif par zone",
+    "capture_rule":"au moins une occasion claire de capture avant le premier feu de camp",
+    "shortcut_rule":"les retours au hub ne doivent pas obliger à répéter intégralement les zones maîtrisées; ouvrir progressivement des raccourcis ou points de reprise"
   },
   "placeholder_policy": {
-    "geometry": "primitives et modules temporaires",
-    "characters": "capsules/sprites/modèles temporaires",
-    "audio": "events nommés sans dépendre d'un fichier final",
-    "vfx": "markers et placeholders",
-    "lighting": "volumes et valeurs temporaires réglables dans Godot"
+    "geometry":"primitives et modules temporaires",
+    "characters":"capsules/sprites/modèles temporaires",
+    "audio":"events nommés sans dépendre d'un fichier final",
+    "vfx":"markers et placeholders",
+    "lighting":"volumes et valeurs temporaires réglables dans Godot"
   }
 }
