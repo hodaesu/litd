@@ -1,0 +1,95 @@
+from pathlib import Path
+import json
+import unittest
+
+ROOT = Path(__file__).resolve().parents[2]
+MANIFEST = ROOT / 'data/levels/terre_des_cendres_blockout_manifest.json'
+SURVIVAL = ROOT / 'data/levels/ashlands_survival_rules.json'
+MINIBOSSES = ROOT / 'data/levels/ashlands_minibosses.json'
+
+class AshlandsPreBlenderTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.manifest = json.loads(MANIFEST.read_text(encoding='utf-8'))
+        cls.survival = json.loads(SURVIVAL.read_text(encoding='utf-8'))
+        cls.minibosses = json.loads(MINIBOSSES.read_text(encoding='utf-8'))
+
+    def test_exactly_fifteen_zones(self):
+        self.assertEqual(len(self.manifest['zones']), 15)
+
+    def test_zone_ids_are_unique(self):
+        ids = [z['id'] for z in self.manifest['zones']]
+        self.assertEqual(len(ids), len(set(ids)))
+
+    def test_all_zone_scenes_exist(self):
+        special = {'zone_07_cimetiere': 'zone_07_cimetiere_blockout.tscn'}
+        for z in self.manifest['zones']:
+            filename = special.get(z['id'], z['id'] + '.tscn')
+            self.assertTrue((ROOT / 'scenes/world/terre_des_cendres' / filename).is_file(), filename)
+
+    def test_secret_zones_are_14_and_15(self):
+        ids = {z['id'] for z in self.manifest['zones'] if z.get('miniboss_secret_pool')}
+        self.assertEqual(ids, {'zone_14_clairiere_des_corbeaux', 'zone_15_crypte_du_sans_nom'})
+
+    def test_ash_never_hides_bosses(self):
+        never = set(self.manifest['global_rules']['ash_never_hides'])
+        self.assertIn('miniboss', never)
+        self.assertIn('boss', never)
+
+    def test_minibosses_are_not_recruitable(self):
+        self.assertFalse(self.manifest['global_rules']['minibosses_recruitable'])
+        self.assertFalse(self.minibosses['rules']['recruitable'])
+
+    def test_normal_minibosses_always_have_allowed_zones(self):
+        zone_ids = {z['id'] for z in self.manifest['zones']}
+        for boss in self.minibosses['normal_pool']:
+            self.assertTrue(boss['allowed_zones'])
+            self.assertTrue(set(boss['allowed_zones']).issubset(zone_ids))
+
+    def test_secret_miniboss_rotation_only_uses_secret_zones(self):
+        allowed = {'zone_14_clairiere_des_corbeaux', 'zone_15_crypte_du_sans_nom'}
+        for boss in self.minibosses['secret_pool']:
+            self.assertTrue(set(boss['allowed_zones']).issubset(allowed))
+
+    def test_campfires_exist_at_designed_breakpoints(self):
+        camp_zones = {z['id'] for z in self.manifest['zones'] if z.get('campfire')}
+        self.assertEqual(camp_zones, {
+            'zone_03_moulin_calcine',
+            'zone_06_chapelle_effondree',
+            'zone_09_ossuaire',
+            'zone_12_abbaye'
+        })
+
+    def test_hub_is_only_full_resupply(self):
+        self.assertTrue(self.manifest['global_rules']['hub_is_only_full_resupply'])
+        self.assertTrue(self.survival['principles']['hub_only_full_resupply'])
+
+    def test_crow_can_drop_food(self):
+        crow = self.survival['corpse_harvest']['crow']
+        self.assertTrue(any(x['item'] == 'food' and x['max'] >= 1 for x in crow))
+
+    def test_required_runtime_scripts_exist(self):
+        required = [
+            'scripts/core/expedition_manager.gd',
+            'scripts/world/ashlands_miniboss_director.gd',
+            'scripts/world/ashlands_scene_router.gd',
+            'scripts/world/ash_volume.gd',
+            'scripts/world/resource_node.gd',
+            'scripts/world/corpse_harvest.gd',
+            'scripts/world/campfire_interaction.gd',
+            'scripts/world/zone_transition_gate.gd',
+            'scripts/world/shortcut_gate.gd',
+            'scripts/world/encounter_trigger.gd',
+            'scripts/world/exploration_party_controller.gd',
+            'scripts/world/isometric_camera_rig.gd',
+        ]
+        for rel in required:
+            self.assertTrue((ROOT / rel).is_file(), rel)
+
+    def test_project_registers_ashlands_autoloads(self):
+        text = (ROOT / 'project.godot').read_text(encoding='utf-8')
+        for name in ('ExpeditionManager=', 'AshlandsMinibossDirector=', 'AshlandsRuntime=', 'AshlandsSceneRouter='):
+            self.assertIn(name, text)
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
