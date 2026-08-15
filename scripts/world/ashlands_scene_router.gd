@@ -5,6 +5,7 @@ signal zone_load_finished(zone_id: String)
 signal zone_load_failed(zone_id: String, reason: String)
 
 const BASE_PATH := "res://scenes/world/terre_des_cendres/"
+const MAIN_SCENE := "res://scenes/Main.tscn"
 
 var zone_scene_paths := {
     "zone_01_faubourg_cendreux": BASE_PATH + "zone_01_faubourg_cendreux.tscn",
@@ -52,4 +53,11 @@ func start_ashlands() -> bool:
 
 func return_to_hub(reason: String = "voluntary") -> void:
     ExpeditionManager.return_to_hub(reason)
-    GameState.request_screen("hub")
+    GameState.current_screen = "sanctuary"
+    var error := get_tree().change_scene_to_file(MAIN_SCENE)
+    if error == OK:
+        call_deferred("_show_sanctuary_after_load")
+
+func _show_sanctuary_after_load() -> void:
+    await get_tree().process_frame
+    GameState.request_screen("sanctuary")
