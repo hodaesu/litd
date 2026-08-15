@@ -28,6 +28,7 @@ func build_zone() -> void:
     AshlandsRuntime.enter_zone(zone_id)
     _build_floor()
     _build_boundaries()
+    _build_layout_profile()
     _build_navigation_placeholder()
     _build_entry_and_exits()
     _build_ash_volumes()
@@ -100,6 +101,9 @@ func _build_boundaries() -> void:
     _build_wall(Vector3(0, height * 0.5, d * 0.5), Vector3(w, height, thickness), "SouthBoundary")
     _build_wall(Vector3(-w * 0.5, height * 0.5, 0), Vector3(thickness, height, d), "WestBoundary")
     _build_wall(Vector3(w * 0.5, height * 0.5, 0), Vector3(thickness, height, d), "EastBoundary")
+
+func _build_layout_profile() -> void:
+    AshlandsLayoutGenerator.generate(_root(), zone_id, zone_data)
 
 func _build_wall(pos: Vector3, size: Vector3, node_name: String) -> void:
     var body := StaticBody3D.new()
