@@ -7,6 +7,8 @@ config/features=PackedStringArray("4.3")
 DataLoader="*res://scripts/core/data_loader.gd"
 GameState="*res://scripts/core/game_state.gd"
 SaveManager="*res://scripts/core/save_manager.gd"
+ExpeditionManager="*res://scripts/core/expedition_manager.gd"
+AshlandsMinibossDirector="*res://scripts/world/ashlands_miniboss_director.gd"
 AshlandsRuntime="*res://scripts/world/ashlands_zone_runtime.gd"
 
 [display]
