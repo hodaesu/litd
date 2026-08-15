@@ -12,17 +12,20 @@ signal movement_state_changed(is_moving: bool, is_running: bool)
 
 var _last_moving := false
 var _last_running := false
+var _virtual_input := Vector2.ZERO
+var _virtual_run := false
 
 func _ready() -> void:
     add_to_group("player_party")
 
 func _physics_process(delta: float) -> void:
-    var input_vec := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+    var keyboard_input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+    var input_vec := _virtual_input if _virtual_input.length_squared() > keyboard_input.length_squared() else keyboard_input
     var direction := Vector3(input_vec.x, 0.0, input_vec.y)
     if direction.length_squared() > 1.0:
         direction = direction.normalized()
 
-    var running := Input.is_action_pressed("sprint") and direction.length_squared() > 0.0
+    var running := (Input.is_action_pressed("sprint") or _virtual_run) and direction.length_squared() > 0.0
     var speed := run_speed if running else walk_speed
     var target := direction * speed
     velocity.x = move_toward(velocity.x, target.x, acceleration * delta)
@@ -43,10 +46,19 @@ func _physics_process(delta: float) -> void:
         _last_running = running
         movement_state_changed.emit(moving, running)
 
+func set_virtual_input(value: Vector2) -> void:
+    _virtual_input = value.limit_length(1.0)
+
+func set_virtual_run(value: bool) -> void:
+    _virtual_run = value
+
+func interact() -> void:
+    interaction_requested.emit()
+    _try_interact()
+
 func _unhandled_input(event: InputEvent) -> void:
     if event.is_action_pressed("interact"):
-        interaction_requested.emit()
-        _try_interact()
+        interact()
 
 func _try_interact() -> void:
     var origin := global_position + Vector3.UP * 1.0
