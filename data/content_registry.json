@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "characters": [
+    {"id":"hero_crusader","label":"Croisé","rig":"humanoid_male_base","target":"assets/characters/heroes/crusader/crusader.glb","status":"pre_blender"},
+    {"id":"hero_shadow_hunter","label":"Chasseur de l'Ombre","rig":"humanoid_male_base","target":"assets/characters/heroes/shadow_hunter/shadow_hunter.glb","status":"pre_blender"},
+    {"id":"hero_plague_doctor","label":"Médecin de la Peste","rig":"humanoid_male_base","target":"assets/characters/heroes/plague_doctor/plague_doctor.glb","status":"pre_blender"},
+    {"id":"hero_dark_acolyte","label":"Acolyte des Ténèbres","rig":"humanoid_female_base","target":"assets/characters/heroes/dark_acolyte/dark_acolyte.glb","status":"pre_blender"},
+    {"id":"hero_tomb_guardian","label":"Gardien des Tombeaux","rig":"humanoid_male_base","target":"assets/characters/heroes/tomb_guardian/tomb_guardian.glb","status":"pre_blender"}
+  ],
+  "shared_rigs": [
+    {"id":"humanoid_male_base","target":"assets/characters/shared/rigs/humanoid_male_base.glb","status":"planned"},
+    {"id":"humanoid_female_base","target":"assets/characters/shared/rigs/humanoid_female_base.glb","status":"planned"}
+  ],
+  "environments": [
+    {"id":"hub_ash_sanctuary","label":"Sanctuaire des Cendres","target":"assets/environments/hub/","status":"pre_blender"},
+    {"id":"ashlands","label":"Terre des Cendres","target":"assets/environments/ashlands/","status":"pre_blender"}
+  ]
+}
