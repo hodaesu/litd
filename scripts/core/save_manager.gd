@@ -1,7 +1,7 @@
 extends Node
 
 const SAVE_PATH := "user://light_in_the_dark_save.json"
-const SAVE_VERSION := "0.13"
+const SAVE_VERSION := "0.14"
 
 func save_game() -> bool:
     var payload := {
@@ -14,7 +14,8 @@ func save_game() -> bool:
         "expedition_room": GameState.expedition_room,
         "ashlands": AshlandsRuntime.serialize(),
         "expedition": ExpeditionManager.serialize(),
-        "ashlands_minibosses": AshlandsMinibossDirector.serialize()
+        "ashlands_minibosses": AshlandsMinibossDirector.serialize(),
+        "ashlands_combat": AshlandsCombatBridge.serialize()
     }
     var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
     if file == null:
@@ -39,5 +40,6 @@ func load_game() -> bool:
     AshlandsRuntime.deserialize(payload.get("ashlands", {}))
     ExpeditionManager.deserialize(payload.get("expedition", {}))
     AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses", {}))
+    AshlandsCombatBridge.deserialize(payload.get("ashlands_combat", {}))
     GameState.add_log("Sauvegarde chargée.")
     return true
