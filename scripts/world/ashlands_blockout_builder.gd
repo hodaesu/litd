@@ -2,11 +2,13 @@ extends Node3D
 class_name AshlandsBlockoutBuilder
 
 const PARTY_SCENE := preload("res://scenes/world/terre_des_cendres/exploration_party_placeholder.tscn")
+const HUD_SCENE := preload("res://scenes/world/terre_des_cendres/ashlands_hud.tscn")
 
 @export_file("*.json") var manifest_path := "res://data/levels/terre_des_cendres_blockout_manifest.json"
 @export var zone_id := "zone_01_faubourg_cendreux"
 @export var build_on_ready := true
 @export var spawn_player_placeholder := true
+@export var spawn_hud := true
 
 var manifest: Dictionary = {}
 var zone_data: Dictionary = {}
@@ -36,6 +38,8 @@ func build_zone() -> void:
     _build_boss_slot()
     if spawn_player_placeholder:
         _build_player_placeholder()
+    if spawn_hud:
+        _build_hud()
 
 func _clear_generated() -> void:
     var old := get_node_or_null("GeneratedBlockout")
@@ -223,6 +227,11 @@ func _build_player_placeholder() -> void:
     party.name = "ExplorationPartyRuntime"
     party.position = _array_to_vec3(zone_data.get("entry", [0, 0, 0])) + Vector3.UP * 0.1
     _root().add_child(party)
+
+func _build_hud() -> void:
+    var hud := HUD_SCENE.instantiate()
+    hud.name = "AshlandsHUDRuntime"
+    add_child(hud)
 
 func _slot_position(index: int, count: int, radius_factor: float) -> Vector3:
     var zone_size: Array = zone_data.get("size_m", [100, 100])
