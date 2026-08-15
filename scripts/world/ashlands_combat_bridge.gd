@@ -11,11 +11,16 @@ var encounter_type := ""
 var return_zone_id := ""
 var miniboss_data: Dictionary = {}
 var pending_loot: Dictionary = {}
+var _resolving := false
+
+func _ready() -> void:
+    GameState.screen_requested.connect(_on_screen_requested)
 
 func begin(encounter_id_value: String, encounter_type_value: String, miniboss: Dictionary = {}) -> void:
     if active:
         return
     active = true
+    _resolving = false
     encounter_id = encounter_id_value
     encounter_type = encounter_type_value
     return_zone_id = AshlandsRuntime.current_zone_id
@@ -31,6 +36,16 @@ func begin(encounter_id_value: String, encounter_type_value: String, miniboss: D
 func _show_combat_after_load() -> void:
     await get_tree().process_frame
     GameState.request_screen("combat")
+
+func _on_screen_requested(screen_name: String) -> void:
+    if not active or _resolving:
+        return
+    if screen_name == "rewards":
+        _resolving = true
+        call_deferred("resolve_victory")
+    elif screen_name == "sanctuary":
+        _resolving = true
+        call_deferred("resolve_defeat")
 
 func _prepare_placeholder_enemies() -> void:
     GameState.battle_enemies = []
@@ -71,6 +86,7 @@ func resolve_defeat() -> void:
     var finished_id := encounter_id
     ashlands_combat_finished.emit(finished_id, false, {})
     active = false
+    _resolving = false
     encounter_id = ""
     encounter_type = ""
     miniboss_data = {}
@@ -107,6 +123,7 @@ func _apply_loot(loot: Dictionary) -> void:
 func _return_to_exploration() -> void:
     var target := return_zone_id
     active = false
+    _resolving = false
     encounter_id = ""
     encounter_type = ""
     miniboss_data = {}
@@ -125,6 +142,7 @@ func serialize() -> Dictionary:
 
 func deserialize(data: Dictionary) -> void:
     active = bool(data.get("active", false))
+    _resolving = false
     encounter_id = str(data.get("encounter_id", ""))
     encounter_type = str(data.get("encounter_type", ""))
     return_zone_id = str(data.get("return_zone_id", ""))
