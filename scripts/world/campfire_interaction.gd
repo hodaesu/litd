@@ -34,6 +34,5 @@ func _apply_party_recovery(effects: Dictionary) -> void:
         var max_hp := int(hero.get("max_hp", hero.get("hp", 0)))
         if max_hp > 0 and int(hero.get("hp", 0)) > 0:
             hero["hp"] = min(max_hp, int(hero.get("hp", 0)) + int(round(max_hp * heal_ratio)))
-        if hero.has("stress"):
-            hero["stress"] = max(0, int(hero.get("stress", 0)) - stress_reduction)
+    ExpeditionManager.reduce_pressure(stress_reduction)
     GameState.state_changed.emit()
