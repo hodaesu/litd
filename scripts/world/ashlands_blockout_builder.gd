@@ -1,9 +1,12 @@
 extends Node3D
 class_name AshlandsBlockoutBuilder
 
+const PARTY_SCENE := preload("res://scenes/world/terre_des_cendres/exploration_party_placeholder.tscn")
+
 @export_file("*.json") var manifest_path := "res://data/levels/terre_des_cendres_blockout_manifest.json"
 @export var zone_id := "zone_01_faubourg_cendreux"
 @export var build_on_ready := true
+@export var spawn_player_placeholder := true
 
 var manifest: Dictionary = {}
 var zone_data: Dictionary = {}
@@ -20,21 +23,24 @@ func build_zone() -> void:
         push_error("AshlandsBlockoutBuilder: zone introuvable: %s" % zone_id)
         return
 
+    AshlandsRuntime.enter_zone(zone_id)
     _build_floor()
     _build_boundaries()
+    _build_navigation_placeholder()
     _build_entry_and_exits()
-    _build_slots("AshVolumes", int(zone_data.get("ash_volumes", 0)), Vector3(8, 2.5, 8), "ash")
-    _build_slots("EncounterSlots", int(zone_data.get("encounter_slots", 0)), Vector3(2, 1, 2), "encounter")
-    _build_slots("ResourceSlots", int(zone_data.get("resource_slots", 0)), Vector3(1, 0.5, 1), "resource")
+    _build_ash_volumes()
+    _build_encounter_slots()
+    _build_resource_slots()
     _build_shortcut_slots()
-    if bool(zone_data.get("campfire", false)):
-        _build_marker("Campfire", Vector3.ZERO + Vector3(0, 0.6, 0), Vector3(1.6, 1.2, 1.6), "campfire")
-    if zone_data.has("boss"):
-        _build_marker("BossSlot", Vector3(0, 1, -10), Vector3(4, 2, 4), "boss")
+    _build_campfire()
+    _build_boss_slot()
+    if spawn_player_placeholder:
+        _build_player_placeholder()
 
 func _clear_generated() -> void:
     var old := get_node_or_null("GeneratedBlockout")
     if old:
+        remove_child(old)
         old.queue_free()
 
 func _root() -> Node3D:
@@ -49,8 +55,7 @@ func _load_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
         push_error("AshlandsBlockoutBuilder: manifeste absent: %s" % path)
         return {}
-    var f := FileAccess.open(path, FileAccess.READ)
-    var parsed = JSON.parse_string(f.get_as_text())
+    var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
     return parsed if typeof(parsed) == TYPE_DICTIONARY else {}
 
 func _find_zone(id_value: String) -> Dictionary:
@@ -103,53 +108,139 @@ func _build_wall(pos: Vector3, size: Vector3, node_name: String) -> void:
     collision.shape = shape
     body.add_child(collision)
 
+func _build_navigation_placeholder() -> void:
+    var region := NavigationRegion3D.new()
+    region.name = "NavigationPlaceholder"
+    region.navigation_mesh = NavigationMesh.new()
+    region.set_meta("requires_editor_bake_after_layout_polish", true)
+    _root().add_child(region)
+
 func _build_entry_and_exits() -> void:
-    _build_marker("Entry", _array_to_vec3(zone_data.get("entry", [0,0,0])), Vector3(2,2,2), "entry")
+    _build_marker("Entry", _array_to_vec3(zone_data.get("entry", [0, 0, 0])), "entry")
     var exits := Node3D.new()
     exits.name = "Exits"
     _root().add_child(exits)
     var i := 0
     for exit_data in zone_data.get("exits", []):
-        var marker := Marker3D.new()
-        marker.name = "Exit_%02d_%s" % [i + 1, str(exit_data.get("to", "unknown"))]
-        marker.position = _array_to_vec3(exit_data.get("position", [0,0,0]))
-        marker.set_meta("target_zone", str(exit_data.get("to", "")))
-        marker.set_meta("secret", bool(exit_data.get("secret", false)))
-        marker.set_meta("teleporter", bool(exit_data.get("teleporter", false)))
-        exits.add_child(marker)
+        var gate := ZoneTransitionGate.new()
+        gate.name = "Exit_%02d_%s" % [i + 1, str(exit_data.get("to", "unknown"))]
+        gate.position = _array_to_vec3(exit_data.get("position", [0, 0, 0]))
+        gate.gate_id = "%s_to_%s" % [zone_id, str(exit_data.get("to", ""))]
+        gate.from_zone = zone_id
+        gate.to_zone = str(exit_data.get("to", ""))
+        gate.secret = bool(exit_data.get("secret", false))
+        gate.teleporter = bool(exit_data.get("teleporter", false))
+        gate.required_obsidian_points = 1 if gate.teleporter else 0
+        _add_box_area_collision(gate, Vector3(3.0, 2.5, 3.0))
+        exits.add_child(gate)
         i += 1
 
-func _build_slots(parent_name: String, count: int, size: Vector3, slot_type: String) -> void:
+func _build_ash_volumes() -> void:
     var parent := Node3D.new()
-    parent.name = parent_name
+    parent.name = "AshVolumes"
     _root().add_child(parent)
-    var zone_size: Array = zone_data.get("size_m", [100,100])
-    var w := float(zone_size[0]) * 0.7
-    var d := float(zone_size[1]) * 0.7
+    var count := int(zone_data.get("ash_volumes", 0))
     for i in count:
-        var angle := TAU * float(i) / max(1.0, float(count))
-        var pos := Vector3(cos(angle) * w * 0.35, 0.5, sin(angle) * d * 0.35)
-        var marker := Node3D.new()
-        marker.name = "%s_%02d" % [slot_type.capitalize(), i + 1]
-        marker.position = pos
-        marker.set_meta("slot_type", slot_type)
-        parent.add_child(marker)
+        var area := AshVolume.new()
+        area.name = "AshVolume_%02d" % [i + 1]
+        area.position = _slot_position(i, count, 0.23)
+        area.density = 0.72 if i % 2 == 0 else 0.48
+        _add_box_area_collision(area, Vector3(9.0, 3.0, 9.0))
+        parent.add_child(area)
+
+func _build_encounter_slots() -> void:
+    var parent := Node3D.new()
+    parent.name = "EncounterSlots"
+    _root().add_child(parent)
+    var count := int(zone_data.get("encounter_slots", 0))
+    var miniboss := AshlandsMinibossDirector.get_assignment(zone_id)
+    for i in count:
+        var trigger := EncounterTrigger.new()
+        trigger.name = "Encounter_%02d" % [i + 1]
+        trigger.position = _slot_position(i, count, 0.31)
+        trigger.encounter_id = "%s:encounter:%02d" % [zone_id, i + 1]
+        trigger.encounter_type = "miniboss" if i == 0 and not miniboss.is_empty() else "normal"
+        trigger.alternate_route_available = true
+        if trigger.encounter_type == "miniboss":
+            trigger.set_meta("miniboss", miniboss)
+        _add_box_area_collision(trigger, Vector3(4.0, 2.0, 4.0))
+        parent.add_child(trigger)
+
+func _build_resource_slots() -> void:
+    var parent := Node3D.new()
+    parent.name = "ResourceSlots"
+    _root().add_child(parent)
+    var count := int(zone_data.get("resource_slots", 0))
+    var resource_cycle := ["food", "bandages", "light", "craft_scrap"]
+    for i in count:
+        var node := ResourceNode.new()
+        node.name = "Resource_%02d" % [i + 1]
+        node.node_id = "%s:resource:%02d" % [zone_id, i + 1]
+        node.resource_type = resource_cycle[i % resource_cycle.size()]
+        node.amount_min = 1
+        node.amount_max = 2
+        node.position = _slot_position(i, count, 0.39) + Vector3(1.5, 0.0, -1.5)
+        _add_box_area_collision(node, Vector3(1.6, 1.4, 1.6))
+        node.sync_from_runtime()
+        parent.add_child(node)
 
 func _build_shortcut_slots() -> void:
     var parent := Node3D.new()
     parent.name = "ShortcutSlots"
     _root().add_child(parent)
-    var i := 0
-    for shortcut_id in zone_data.get("shortcut_slots", []):
-        var marker := Marker3D.new()
-        marker.name = str(shortcut_id)
-        marker.position = Vector3(-6 + i * 4, 0.5, 6)
-        marker.set_meta("persistent", true)
-        parent.add_child(marker)
-        i += 1
+    var ids: Array = zone_data.get("shortcut_slots", [])
+    for i in ids.size():
+        var gate := ShortcutGate.new()
+        gate.name = str(ids[i])
+        gate.shortcut_id = str(ids[i])
+        gate.position = Vector3(-6 + i * 5, 0.0, 7)
+        _add_box_area_collision(gate, Vector3(2.5, 2.5, 1.5))
+        parent.add_child(gate)
 
-func _build_marker(node_name: String, pos: Vector3, size: Vector3, marker_type: String) -> void:
-    var node := Node3D.new()
+func _build_campfire() -> void:
+    if not bool(zone_data.get("campfire", false)):
+        return
+    var campfire := CampfireInteraction.new()
+    campfire.name = "Campfire"
+    campfire.zone_id = zone_id
+    campfire.position = Vector3.ZERO
+    _add_box_area_collision(campfire, Vector3(2.5, 2.0, 2.5))
+    _root().add_child(campfire)
+
+func _build_boss_slot() -> void:
+    if not zone_data.has("boss"):
+        return
+    var trigger := EncounterTrigger.new()
+    trigger.name = "BossSlot"
+    trigger.encounter_id = str(zone_data.get("boss", "ashlands_boss"))
+    trigger.encounter_type = "boss"
+    trigger.position = Vector3(0, 0, -10)
+    _add_box_area_collision(trigger, Vector3(7.0, 3.0, 7.0))
+    _root().add_child(trigger)
+
+func _build_player_placeholder() -> void:
+    var party := PARTY_SCENE.instantiate()
+    party.name = "ExplorationPartyRuntime"
+    party.position = _array_to_vec3(zone_data.get("entry", [0, 0, 0])) + Vector3.UP * 0.1
+    _root().add_child(party)
+
+func _slot_position(index: int, count: int, radius_factor: float) -> Vector3:
+    var zone_size: Array = zone_data.get("size_m", [100, 100])
+    var w := float(zone_size[0])
+    var d := float(zone_size[1])
+    var angle := TAU * float(index) / max(1.0, float(count))
+    return Vector3(cos(angle) * w * radius_factor, 0.0, sin(angle) * d * radius_factor)
+
+func _add_box_area_collision(area: Area3D, size: Vector3) -> void:
+    var collision := CollisionShape3D.new()
+    var shape := BoxShape3D.new()
+    shape.size = size
+    collision.shape = shape
+    collision.position.y = size.y * 0.5
+    area.add_child(collision)
+
+func _build_marker(node_name: String, pos: Vector3, marker_type: String) -> void:
+    var node := Marker3D.new()
     node.name = node_name
     node.position = pos
     node.set_meta("marker_type", marker_type)
