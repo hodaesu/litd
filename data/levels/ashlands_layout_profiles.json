@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "zones": {
+    "zone_01_faubourg_cendreux": {"profile":"settlement_edge","levels":3,"landmark":"burned_gate","branching":3,"cover_density":"medium"},
+    "zone_02_village_ravage": {"profile":"settlement_hub","levels":3,"landmark":"village_square","branching":5,"cover_density":"high"},
+    "zone_03_moulin_calcine": {"profile":"vertical_landmark","levels":3,"landmark":"burned_mill","branching":3,"cover_density":"medium"},
+    "zone_04_foret_morte": {"profile":"forest_paths","levels":2,"landmark":"dead_grove","branching":5,"cover_density":"high"},
+    "zone_05_ravin_des_pendus": {"profile":"ravine","levels":3,"landmark":"hanging_bridge","branching":3,"cover_density":"medium"},
+    "zone_06_chapelle_effondree": {"profile":"ruined_interior","levels":3,"landmark":"collapsed_chapel","branching":4,"cover_density":"medium"},
+    "zone_07_cimetiere": {"profile":"open_graveyard","levels":2,"landmark":"necromantic_circle","branching":5,"cover_density":"medium"},
+    "zone_08_catacombes": {"profile":"underground_maze","levels":3,"landmark":"sealed_crypt_door","branching":6,"cover_density":"high"},
+    "zone_09_ossuaire": {"profile":"underground_chambers","levels":2,"landmark":"bone_pit","branching":4,"cover_density":"high"},
+    "zone_10_hameau_deserte": {"profile":"settlement_hub","levels":2,"landmark":"abandoned_well","branching":4,"cover_density":"medium"},
+    "zone_11_route_des_penitents": {"profile":"processional_route","levels":2,"landmark":"penitent_statues","branching":3,"cover_density":"low"},
+    "zone_12_abbaye": {"profile":"large_interior","levels":4,"landmark":"abbey_nave","branching":6,"cover_density":"high"},
+    "zone_13_clocher_boss": {"profile":"boss_ascent","levels":4,"landmark":"bell_tower","branching":2,"cover_density":"low"},
+    "zone_14_clairiere_des_corbeaux": {"profile":"secret_clearing","levels":2,"landmark":"crow_nest","branching":3,"cover_density":"medium"},
+    "zone_15_crypte_du_sans_nom": {"profile":"secret_crypt","levels":3,"landmark":"nameless_sarcophagus","branching":5,"cover_density":"high"}
+  },
+  "profile_rules": {
+    "settlement_edge": {"building_count":8,"platform_count":2,"wall_count":3},
+    "settlement_hub": {"building_count":12,"platform_count":2,"wall_count":4},
+    "vertical_landmark": {"building_count":4,"platform_count":5,"wall_count":3},
+    "forest_paths": {"building_count":0,"platform_count":2,"wall_count":14},
+    "ravine": {"building_count":0,"platform_count":5,"wall_count":8},
+    "ruined_interior": {"building_count":3,"platform_count":3,"wall_count":9},
+    "open_graveyard": {"building_count":1,"platform_count":2,"wall_count":12},
+    "underground_maze": {"building_count":0,"platform_count":3,"wall_count":18},
+    "underground_chambers": {"building_count":0,"platform_count":3,"wall_count":12},
+    "processional_route": {"building_count":0,"platform_count":2,"wall_count":7},
+    "large_interior": {"building_count":5,"platform_count":6,"wall_count":16},
+    "boss_ascent": {"building_count":1,"platform_count":7,"wall_count":5},
+    "secret_clearing": {"building_count":0,"platform_count":3,"wall_count":10},
+    "secret_crypt": {"building_count":0,"platform_count":4,"wall_count":14}
+  }
+}
