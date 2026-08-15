@@ -9,6 +9,7 @@ signal encounter_cleared(encounter_id: String)
 @export var one_shot := true
 @export var alternate_route_available := true
 @export var starts_on_contact := true
+@export var use_combat_bridge := true
 
 var cleared := false
 var armed := true
@@ -38,6 +39,9 @@ func start_encounter() -> bool:
         return false
     armed = false
     encounter_started.emit(encounter_id, encounter_type)
+    if use_combat_bridge:
+        var miniboss: Dictionary = get_meta("miniboss", {})
+        AshlandsCombatBridge.begin(encounter_id, encounter_type, miniboss)
     return true
 
 func mark_cleared() -> void:
