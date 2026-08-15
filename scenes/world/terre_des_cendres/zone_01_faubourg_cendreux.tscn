@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource path="res://scripts/world/ashlands_blockout_builder.gd" type="Script" id="1"]
+[node name="Zone01FaubourgCendreux" type="Node3D"]
+script = ExtResource("1")
+zone_id = "zone_01_faubourg_cendreux"
