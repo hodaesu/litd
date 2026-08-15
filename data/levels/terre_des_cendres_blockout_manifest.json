@@ -1,0 +1,33 @@
+{
+  "id": "terre_des_cendres_blockout",
+  "status": "pre_blender_blockout_ready",
+  "engine": "Godot 4",
+  "camera": {"mode": "isometric_2_5d", "pitch_degrees": 40, "rotation": "zone_authored"},
+  "default_zone_extent_m": [100, 100],
+  "zones": [
+    {"id":"zone_01_faubourg_cendreux","size_m":[100,100],"entry":[-42,0,38],"exits":[{"to":"zone_02_village_ravage","position":[42,0,-38]}],"shortcut_slots":["shortcut_z02_to_z01"],"ash_volumes":2,"encounter_slots":4,"resource_slots":6,"campfire":false,"miniboss_normal_pool":true},
+    {"id":"zone_02_village_ravage","size_m":[110,100],"entry":[-45,0,36],"exits":[{"to":"zone_03_moulin_calcine","position":[30,2,-43]},{"to":"zone_04_foret_morte","position":[47,0,8]}],"shortcut_slots":["shortcut_z02_to_z01"],"ash_volumes":3,"encounter_slots":6,"resource_slots":8,"campfire":false,"miniboss_normal_pool":true},
+    {"id":"zone_03_moulin_calcine","size_m":[90,100],"entry":[-32,0,38],"exits":[{"to":"zone_04_foret_morte","position":[34,-2,-40]}],"shortcut_slots":[],"ash_volumes":2,"encounter_slots":4,"resource_slots":5,"campfire":true,"miniboss_normal_pool":true},
+    {"id":"zone_04_foret_morte","size_m":[120,100],"entry":[-52,0,12],"exits":[{"to":"zone_05_ravin_des_pendus","position":[50,1,-24]},{"to":"zone_14_clairiere_des_corbeaux","position":[16,0,-44],"secret":true}],"shortcut_slots":["shortcut_z04_to_z02"],"ash_volumes":4,"encounter_slots":6,"resource_slots":7,"campfire":false,"miniboss_normal_pool":true},
+    {"id":"zone_05_ravin_des_pendus","size_m":[120,70],"entry":[-52,5,18],"exits":[{"to":"zone_06_chapelle_effondree","position":[50,-4,-14]}],"shortcut_slots":["shortcut_z05_to_z04"],"ash_volumes":3,"encounter_slots":5,"resource_slots":5,"campfire":false,"miniboss_normal_pool":true},
+    {"id":"zone_06_chapelle_effondree","size_m":[90,100],"entry":[-36,0,34],"exits":[{"to":"zone_07_cimetiere","position":[34,0,-40]}],"shortcut_slots":[],"ash_volumes":2,"encounter_slots":5,"resource_slots":6,"campfire":true,"miniboss_normal_pool":true},
+    {"id":"zone_07_cimetiere","size_m":[110,100],"entry":[-44,0,36],"exits":[{"to":"zone_08_catacombes","position":[40,-3,-34]},{"to":"zone_15_crypte_du_sans_nom","position":[-8,-4,-45],"secret":true}],"shortcut_slots":["shortcut_z07_to_z02"],"ash_volumes":4,"encounter_slots":6,"resource_slots":7,"campfire":false,"miniboss_normal_pool":true},
+    {"id":"zone_08_catacombes","size_m":[100,110],"entry":[-40,-5,42],"exits":[{"to":"zone_09_ossuaire","position":[36,-8,-44]},{"to":"zone_15_crypte_du_sans_nom","position":[44,-6,2],"secret":true}],"shortcut_slots":["shortcut_z08_to_z07"],"ash_volumes":2,"encounter_slots":6,"resource_slots":6,"campfire":false,"miniboss_normal_pool":true},
+    {"id":"zone_09_ossuaire","size_m":[90,90],"entry":[-34,-4,32],"exits":[{"to":"zone_10_hameau_deserte","position":[34,0,-32]}],"shortcut_slots":[],"ash_volumes":2,"encounter_slots":5,"resource_slots":6,"campfire":true,"miniboss_normal_pool":true},
+    {"id":"zone_10_hameau_deserte","size_m":[110,100],"entry":[-44,0,34],"exits":[{"to":"zone_11_route_des_penitents","position":[44,0,-32]}],"shortcut_slots":["shortcut_z10_to_z02"],"ash_volumes":3,"encounter_slots":6,"resource_slots":8,"campfire":false,"miniboss_normal_pool":true},
+    {"id":"zone_11_route_des_penitents","size_m":[130,70],"entry":[-58,0,16],"exits":[{"to":"zone_12_abbaye","position":[56,8,-14]}],"shortcut_slots":[],"ash_volumes":3,"encounter_slots":6,"resource_slots":5,"campfire":false,"miniboss_normal_pool":true},
+    {"id":"zone_12_abbaye","size_m":[110,110],"entry":[-44,0,40],"exits":[{"to":"zone_13_clocher_boss","position":[42,12,-40]},{"to":"zone_15_crypte_du_sans_nom","position":[0,-6,-48],"teleporter":true}],"shortcut_slots":["shortcut_z12_to_z11"],"ash_volumes":3,"encounter_slots":7,"resource_slots":7,"campfire":true,"miniboss_normal_pool":true},
+    {"id":"zone_13_clocher_boss","size_m":[80,80],"entry":[-28,0,30],"exits":[],"shortcut_slots":[],"ash_volumes":1,"encounter_slots":1,"resource_slots":2,"campfire":false,"boss":"ashlands_boss_01","miniboss_normal_pool":false},
+    {"id":"zone_14_clairiere_des_corbeaux","size_m":[90,90],"entry":[-34,0,30],"exits":[{"to":"zone_04_foret_morte","position":[34,0,-30],"secret":true}],"shortcut_slots":[],"ash_volumes":3,"encounter_slots":3,"resource_slots":10,"campfire":false,"miniboss_secret_pool":true},
+    {"id":"zone_15_crypte_du_sans_nom","size_m":[90,100],"entry":[-34,-5,36],"exits":[{"to":"zone_07_cimetiere","position":[30,-4,-38],"secret":true},{"to":"zone_08_catacombes","position":[38,-6,-8],"secret":true},{"to":"zone_12_abbaye","position":[0,-6,44],"teleporter":true}],"shortcut_slots":[],"ash_volumes":2,"encounter_slots":4,"resource_slots":9,"campfire":false,"miniboss_secret_pool":true}
+  ],
+  "global_rules": {
+    "ash_can_hide": ["normal_enemy", "loot", "resource"],
+    "ash_never_hides": ["miniboss", "boss"],
+    "minibosses_recruitable": false,
+    "normal_miniboss_alternate_route_required": true,
+    "secret_miniboss_rotates_between": ["zone_14_clairiere_des_corbeaux", "zone_15_crypte_du_sans_nom"],
+    "shortcuts_persist": true,
+    "hub_is_only_full_resupply": true
+  }
+}
