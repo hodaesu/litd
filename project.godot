@@ -10,6 +10,7 @@ SaveManager="*res://scripts/core/save_manager.gd"
 ExpeditionManager="*res://scripts/core/expedition_manager.gd"
 AshlandsMinibossDirector="*res://scripts/world/ashlands_miniboss_director.gd"
 AshlandsRuntime="*res://scripts/world/ashlands_zone_runtime.gd"
+AshlandsSceneRouter="*res://scripts/world/ashlands_scene_router.gd"
 
 [display]
 window/size/viewport_width=1280
