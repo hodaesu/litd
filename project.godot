@@ -7,6 +7,7 @@ config/features=PackedStringArray("4.3")
 DataLoader="*res://scripts/core/data_loader.gd"
 GameState="*res://scripts/core/game_state.gd"
 SaveManager="*res://scripts/core/save_manager.gd"
+AshlandsRuntime="*res://scripts/world/ashlands_zone_runtime.gd"
 
 [display]
 window/size/viewport_width=1280
