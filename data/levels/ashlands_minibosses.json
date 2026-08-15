@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "rules": {
+    "unique": true,
+    "recruitable": false,
+    "mandatory_for_progression": false,
+    "normal_requires_alternate_route": true,
+    "ash_can_hide_miniboss": false,
+    "relocate_each_expedition": true
+  },
+  "normal_pool": [
+    {"id":"cure_dechu","name":"Le Curé Déchu","archetype":"necromancer","loot_tier":"major","allowed_zones":["zone_04_foret_morte","zone_05_ravin_des_pendus","zone_07_cimetiere","zone_09_ossuaire","zone_10_hameau_deserte","zone_11_route_des_penitents"]},
+    {"id":"gardienne_des_tombes","name":"La Gardienne des Tombes","archetype":"ritual_guardian","loot_tier":"major","allowed_zones":["zone_06_chapelle_effondree","zone_07_cimetiere","zone_08_catacombes","zone_09_ossuaire"]},
+    {"id":"porteur_de_chaines","name":"Le Porteur de Chaînes","archetype":"brute","loot_tier":"major","allowed_zones":["zone_05_ravin_des_pendus","zone_10_hameau_deserte","zone_11_route_des_penitents"]},
+    {"id":"revenant_du_cimetiere","name":"Le Revenant du Cimetière","archetype":"undead_duelist","loot_tier":"major","allowed_zones":["zone_07_cimetiere","zone_08_catacombes","zone_09_ossuaire"]},
+    {"id":"chevalier_penitent","name":"Le Chevalier Pénitent","archetype":"cursed_knight","loot_tier":"major","allowed_zones":["zone_10_hameau_deserte","zone_11_route_des_penitents","zone_12_abbaye"]}
+  ],
+  "secret_pool": [
+    {"id":"reine_des_corbeaux","name":"Reine des Corbeaux","archetype":"ancient_beast","loot_tier":"secret_major","allowed_zones":["zone_14_clairiere_des_corbeaux","zone_15_crypte_du_sans_nom"]},
+    {"id":"ombre_sans_nom","name":"L’Ombre Sans-Nom","archetype":"ancient_spirit","loot_tier":"secret_major","allowed_zones":["zone_14_clairiere_des_corbeaux","zone_15_crypte_du_sans_nom"]},
+    {"id":"gardien_des_reliques","name":"Le Gardien des Reliques","archetype":"construct","loot_tier":"secret_major","allowed_zones":["zone_14_clairiere_des_corbeaux","zone_15_crypte_du_sans_nom"]},
+    {"id":"devoreur_dos","name":"Le Dévoreur d’Os","archetype":"abomination","loot_tier":"secret_major","allowed_zones":["zone_14_clairiere_des_corbeaux","zone_15_crypte_du_sans_nom"]}
+  ],
+  "loot_tables": {
+    "major": {"guaranteed":["rare_material"],"rolls":2,"possible":["unique_trinket","rare_weapon_component","ritual_component","large_supply_cache"]},
+    "secret_major": {"guaranteed":["unique_relic","rare_material"],"rolls":2,"possible":["secret_trinket","obsidian_point","large_supply_cache","lore_fragment"]}
+  }
+}
