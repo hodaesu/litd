@@ -4,6 +4,7 @@ signal inventory_changed(inventory: Dictionary)
 signal expedition_started(seed: int)
 signal expedition_ended(return_reason: String)
 signal resource_shortage(resource_id: String)
+signal pressure_applied(amount: int, source: String)
 
 const RULES_PATH := "res://data/levels/ashlands_survival_rules.json"
 
@@ -49,7 +50,10 @@ func on_zone_entered(zone_id: String) -> Dictionary:
         start_expedition()
     if not zones_entered_this_run.has(zone_id):
         zones_entered_this_run.append(zone_id)
-        return consume_bundle(rules.get("zone_entry_cost", {}))
+        var result := consume_bundle(rules.get("zone_entry_cost", {}))
+        if not bool(result.get("success", true)):
+            apply_pressure(5 * result.get("missing", []).size(), "resource_shortage")
+        return result
     return {"success": true, "missing": []}
 
 func can_pay(bundle: Dictionary) -> bool:
@@ -102,7 +106,32 @@ func cross_dense_ash() -> Dictionary:
         inventory["light"] = int(inventory.get("light", 0)) - cost
         inventory_changed.emit(inventory.duplicate(true))
         return {"success": true, "stress": 0}
-    return {"success": true, "stress": int(ash_rules.get("stress_on_unlit_crossing", 0))}
+    var stress := int(ash_rules.get("stress_on_unlit_crossing", 0))
+    apply_pressure(stress, "dense_ash_without_light")
+    return {"success": true, "stress": stress}
+
+func apply_pressure(amount: int, source: String) -> void:
+    if amount <= 0:
+        return
+    for hero in GameState.party:
+        if int(hero.get("hp", 0)) <= 0:
+            continue
+        if hero.has("fear"):
+            hero["fear"] = min(100, int(hero.get("fear", 0)) + amount)
+        if hero.has("madness") and int(hero.get("fear", 0)) >= 80:
+            hero["madness"] = min(100, int(hero.get("madness", 0)) + max(1, amount / 2))
+    pressure_applied.emit(amount, source)
+    GameState.state_changed.emit()
+
+func reduce_pressure(amount: int) -> void:
+    if amount <= 0:
+        return
+    for hero in GameState.party:
+        if hero.has("fear"):
+            hero["fear"] = max(0, int(hero.get("fear", 0)) - amount)
+        if hero.has("madness"):
+            hero["madness"] = max(0, int(hero.get("madness", 0)) - max(1, amount / 3))
+    GameState.state_changed.emit()
 
 func harvest_corpse(corpse_type: String, rng: RandomNumberGenerator = null) -> Array:
     var tables: Dictionary = rules.get("corpse_harvest", {})
