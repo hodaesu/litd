@@ -1,0 +1,2554 @@
+{
+  "version": 1,
+  "generator": "tools/blender/generate_character_jobs.py",
+  "jobs": [
+    {
+      "job_id": "character_aurelien",
+      "character_id": "aurelien",
+      "name": "Aurélien",
+      "category": "hero",
+      "archetype": "occultist",
+      "reference_art": "assets/heroes/occultist.webp",
+      "height_m": 1.89,
+      "body_scale": 1.06,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": true,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/hero/aurelien"
+    },
+    {
+      "job_id": "character_malvor",
+      "character_id": "malvor",
+      "name": "Malvor",
+      "category": "hero",
+      "archetype": "breaker",
+      "reference_art": "assets/heroes/breaker.webp",
+      "height_m": 1.92,
+      "body_scale": 1.08,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": true,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/hero/malvor"
+    },
+    {
+      "job_id": "character_lysandra",
+      "character_id": "lysandra",
+      "name": "Lysandra",
+      "category": "hero",
+      "archetype": "vestal",
+      "reference_art": "assets/heroes/vestal.webp",
+      "height_m": 1.87,
+      "body_scale": 1.05,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": true,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/hero/lysandra"
+    },
+    {
+      "job_id": "character_darius",
+      "character_id": "darius",
+      "name": "Darius",
+      "category": "hero",
+      "archetype": "watcher",
+      "reference_art": "assets/heroes/watcher.webp",
+      "height_m": 1.96,
+      "body_scale": 1.1,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": true,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/hero/darius"
+    },
+    {
+      "job_id": "character_enemy_01_goule_affamee",
+      "character_id": "enemy_01_goule_affamee",
+      "name": "Goule affamée",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_01.webp",
+      "height_m": 1.67,
+      "body_scale": 0.94,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_01_goule_affamee"
+    },
+    {
+      "job_id": "character_enemy_02_cultiste_fanatise",
+      "character_id": "enemy_02_cultiste_fanatise",
+      "name": "Cultiste fanatisé",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_02.webp",
+      "height_m": 1.69,
+      "body_scale": 0.95,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_02_cultiste_fanatise"
+    },
+    {
+      "job_id": "character_enemy_03_chevalier_dechu",
+      "character_id": "enemy_03_chevalier_dechu",
+      "name": "Chevalier déchu",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_03.webp",
+      "height_m": 1.71,
+      "body_scale": 0.96,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_03_chevalier_dechu"
+    },
+    {
+      "job_id": "character_enemy_04_ver_des_profondeurs",
+      "character_id": "enemy_04_ver_des_profondeurs",
+      "name": "Ver des profondeurs",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_04.webp",
+      "height_m": 1.73,
+      "body_scale": 0.97,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_04_ver_des_profondeurs"
+    },
+    {
+      "job_id": "character_enemy_05_ecorcheur",
+      "character_id": "enemy_05_ecorcheur",
+      "name": "Écorcheur",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_05.webp",
+      "height_m": 1.74,
+      "body_scale": 0.98,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_05_ecorcheur"
+    },
+    {
+      "job_id": "character_enemy_06_gorgone",
+      "character_id": "enemy_06_gorgone",
+      "name": "Gorgone",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_06.webp",
+      "height_m": 1.78,
+      "body_scale": 1.0,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_06_gorgone"
+    },
+    {
+      "job_id": "character_enemy_07_minotaure",
+      "character_id": "enemy_07_minotaure",
+      "name": "Minotaure",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_07.webp",
+      "height_m": 1.64,
+      "body_scale": 0.92,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_07_minotaure"
+    },
+    {
+      "job_id": "character_enemy_08_oni",
+      "character_id": "enemy_08_oni",
+      "name": "Oni",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_08.webp",
+      "height_m": 1.67,
+      "body_scale": 0.94,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_08_oni"
+    },
+    {
+      "job_id": "character_enemy_09_tengu",
+      "character_id": "enemy_09_tengu",
+      "name": "Tengu",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_09.webp",
+      "height_m": 1.69,
+      "body_scale": 0.95,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_09_tengu"
+    },
+    {
+      "job_id": "character_enemy_10_jorogumo",
+      "character_id": "enemy_10_jorogumo",
+      "name": "Jorōgumo",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_10.webp",
+      "height_m": 1.71,
+      "body_scale": 0.96,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_10_jorogumo"
+    },
+    {
+      "job_id": "character_enemy_11_yuki_onna",
+      "character_id": "enemy_11_yuki_onna",
+      "name": "Yuki-Onna",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_11.webp",
+      "height_m": 1.73,
+      "body_scale": 0.97,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_11_yuki_onna"
+    },
+    {
+      "job_id": "character_enemy_12_anubis",
+      "character_id": "enemy_12_anubis",
+      "name": "Anubis",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_12.webp",
+      "height_m": 1.74,
+      "body_scale": 0.98,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_12_anubis"
+    },
+    {
+      "job_id": "character_enemy_13_pretre_momifie",
+      "character_id": "enemy_13_pretre_momifie",
+      "name": "Prêtre momifié",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_13.webp",
+      "height_m": 1.78,
+      "body_scale": 1.0,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_13_pretre_momifie"
+    },
+    {
+      "job_id": "character_enemy_14_scarabee_funeraire",
+      "character_id": "enemy_14_scarabee_funeraire",
+      "name": "Scarabée funéraire",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_14.webp",
+      "height_m": 1.64,
+      "body_scale": 0.92,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_14_scarabee_funeraire"
+    },
+    {
+      "job_id": "character_enemy_15_necrophage",
+      "character_id": "enemy_15_necrophage",
+      "name": "Nécrophage",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_15.webp",
+      "height_m": 1.67,
+      "body_scale": 0.94,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_15_necrophage"
+    },
+    {
+      "job_id": "character_enemy_16_porte_cierge",
+      "character_id": "enemy_16_porte_cierge",
+      "name": "Porte-Cierge",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_16.webp",
+      "height_m": 1.69,
+      "body_scale": 0.95,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_16_porte_cierge"
+    },
+    {
+      "job_id": "character_enemy_17_veuve_du_voile",
+      "character_id": "enemy_17_veuve_du_voile",
+      "name": "Veuve du Voile",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_17.webp",
+      "height_m": 1.71,
+      "body_scale": 0.96,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_17_veuve_du_voile"
+    },
+    {
+      "job_id": "character_enemy_18_pelerin_creux",
+      "character_id": "enemy_18_pelerin_creux",
+      "name": "Pèlerin creux",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_18.webp",
+      "height_m": 1.73,
+      "body_scale": 0.97,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_18_pelerin_creux"
+    },
+    {
+      "job_id": "character_enemy_19_mange_reves",
+      "character_id": "enemy_19_mange_reves",
+      "name": "Mange-Rêves",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_19.webp",
+      "height_m": 1.74,
+      "body_scale": 0.98,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_19_mange_reves"
+    },
+    {
+      "job_id": "character_enemy_20_chien_dos",
+      "character_id": "enemy_20_chien_dos",
+      "name": "Chien d’Os",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_20.webp",
+      "height_m": 1.78,
+      "body_scale": 1.0,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_20_chien_dos"
+    },
+    {
+      "job_id": "character_enemy_21_sangsue_royale",
+      "character_id": "enemy_21_sangsue_royale",
+      "name": "Sangsue royale",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_21.webp",
+      "height_m": 1.64,
+      "body_scale": 0.92,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_21_sangsue_royale"
+    },
+    {
+      "job_id": "character_enemy_22_gardien_aveugle",
+      "character_id": "enemy_22_gardien_aveugle",
+      "name": "Gardien aveugle",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_22.webp",
+      "height_m": 1.67,
+      "body_scale": 0.94,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_22_gardien_aveugle"
+    },
+    {
+      "job_id": "character_enemy_23_oracle_brise",
+      "character_id": "enemy_23_oracle_brise",
+      "name": "Oracle brisé",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_23.webp",
+      "height_m": 1.69,
+      "body_scale": 0.95,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_23_oracle_brise"
+    },
+    {
+      "job_id": "character_enemy_24_enfant_de_suie",
+      "character_id": "enemy_24_enfant_de_suie",
+      "name": "Enfant de suie",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_24.webp",
+      "height_m": 1.71,
+      "body_scale": 0.96,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_24_enfant_de_suie"
+    },
+    {
+      "job_id": "character_enemy_25_masque_hurlant",
+      "character_id": "enemy_25_masque_hurlant",
+      "name": "Masque hurlant",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_25.webp",
+      "height_m": 1.73,
+      "body_scale": 0.97,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_25_masque_hurlant"
+    },
+    {
+      "job_id": "character_enemy_26_devoreur_de_lumiere",
+      "character_id": "enemy_26_devoreur_de_lumiere",
+      "name": "Dévoreur de lumière",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_26.webp",
+      "height_m": 1.74,
+      "body_scale": 0.98,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_26_devoreur_de_lumiere"
+    },
+    {
+      "job_id": "character_enemy_27_porte_peste",
+      "character_id": "enemy_27_porte_peste",
+      "name": "Porte-Peste",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_27.webp",
+      "height_m": 1.78,
+      "body_scale": 1.0,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_27_porte_peste"
+    },
+    {
+      "job_id": "character_enemy_28_moire",
+      "character_id": "enemy_28_moire",
+      "name": "Moiré",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_28.webp",
+      "height_m": 1.64,
+      "body_scale": 0.92,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_28_moire"
+    },
+    {
+      "job_id": "character_enemy_29_geant_des_cryptes",
+      "character_id": "enemy_29_geant_des_cryptes",
+      "name": "Géant des cryptes",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_29.webp",
+      "height_m": 1.67,
+      "body_scale": 0.94,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_29_geant_des_cryptes"
+    },
+    {
+      "job_id": "character_enemy_30_nonne_renversee",
+      "character_id": "enemy_30_nonne_renversee",
+      "name": "Nonne renversée",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_30.webp",
+      "height_m": 1.69,
+      "body_scale": 0.95,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_30_nonne_renversee"
+    },
+    {
+      "job_id": "character_enemy_31_eclat_vivant",
+      "character_id": "enemy_31_eclat_vivant",
+      "name": "Éclat vivant",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_31.webp",
+      "height_m": 1.71,
+      "body_scale": 0.96,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_31_eclat_vivant"
+    },
+    {
+      "job_id": "character_enemy_32_charognard_cuirasse",
+      "character_id": "enemy_32_charognard_cuirasse",
+      "name": "Charognard cuirassé",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_32.webp",
+      "height_m": 1.73,
+      "body_scale": 0.97,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_32_charognard_cuirasse"
+    },
+    {
+      "job_id": "character_enemy_33_loup_du_voile",
+      "character_id": "enemy_33_loup_du_voile",
+      "name": "Loup du Voile",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_33.webp",
+      "height_m": 1.74,
+      "body_scale": 0.98,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_33_loup_du_voile"
+    },
+    {
+      "job_id": "character_enemy_34_semeur_de_cendres",
+      "character_id": "enemy_34_semeur_de_cendres",
+      "name": "Semeur de cendres",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_34.webp",
+      "height_m": 1.78,
+      "body_scale": 1.0,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_34_semeur_de_cendres"
+    },
+    {
+      "job_id": "character_enemy_35_miroir_mort",
+      "character_id": "enemy_35_miroir_mort",
+      "name": "Miroir mort",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_35.webp",
+      "height_m": 1.64,
+      "body_scale": 0.92,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_35_miroir_mort"
+    },
+    {
+      "job_id": "character_enemy_36_pretre_du_neant",
+      "character_id": "enemy_36_pretre_du_neant",
+      "name": "Prêtre du Néant",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_36.webp",
+      "height_m": 1.67,
+      "body_scale": 0.94,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_36_pretre_du_neant"
+    },
+    {
+      "job_id": "character_enemy_37_colosse_sans_nom",
+      "character_id": "enemy_37_colosse_sans_nom",
+      "name": "Colosse sans nom",
+      "category": "enemy",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_37.webp",
+      "height_m": 1.69,
+      "body_scale": 0.95,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/enemy/enemy_37_colosse_sans_nom"
+    },
+    {
+      "job_id": "character_enemy_38_ange_inverse",
+      "character_id": "enemy_38_ange_inverse",
+      "name": "Ange inversé",
+      "category": "boss",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_38.webp",
+      "height_m": 2.1,
+      "body_scale": 1.18,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": true,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/boss/enemy_38_ange_inverse"
+    },
+    {
+      "job_id": "character_enemy_39_mere_des_souffrances",
+      "character_id": "enemy_39_mere_des_souffrances",
+      "name": "Mère des Souffrances",
+      "category": "boss",
+      "archetype": "hostile_humanoid",
+      "reference_art": "assets/enemies/enemy_39.webp",
+      "height_m": 2.1,
+      "body_scale": 1.18,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": true,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/boss/enemy_39_mere_des_souffrances"
+    },
+    {
+      "job_id": "character_cure_dechu",
+      "character_id": "cure_dechu",
+      "name": "Le Curé Déchu",
+      "category": "miniboss",
+      "archetype": "necromancer",
+      "reference_art": "",
+      "height_m": 2.1,
+      "body_scale": 1.18,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": true,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/miniboss/cure_dechu"
+    },
+    {
+      "job_id": "character_gardienne_des_tombes",
+      "character_id": "gardienne_des_tombes",
+      "name": "La Gardienne des Tombes",
+      "category": "miniboss",
+      "archetype": "ritual_guardian",
+      "reference_art": "",
+      "height_m": 2.1,
+      "body_scale": 1.18,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": true,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/miniboss/gardienne_des_tombes"
+    },
+    {
+      "job_id": "character_porteur_de_chaines",
+      "character_id": "porteur_de_chaines",
+      "name": "Le Porteur de Chaînes",
+      "category": "miniboss",
+      "archetype": "brute",
+      "reference_art": "",
+      "height_m": 2.1,
+      "body_scale": 1.18,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": true,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/miniboss/porteur_de_chaines"
+    },
+    {
+      "job_id": "character_revenant_du_cimetiere",
+      "character_id": "revenant_du_cimetiere",
+      "name": "Le Revenant du Cimetière",
+      "category": "miniboss",
+      "archetype": "undead_duelist",
+      "reference_art": "",
+      "height_m": 2.1,
+      "body_scale": 1.18,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": true,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/miniboss/revenant_du_cimetiere"
+    },
+    {
+      "job_id": "character_chevalier_penitent",
+      "character_id": "chevalier_penitent",
+      "name": "Le Chevalier Pénitent",
+      "category": "miniboss",
+      "archetype": "cursed_knight",
+      "reference_art": "",
+      "height_m": 2.1,
+      "body_scale": 1.18,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": true,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/miniboss/chevalier_penitent"
+    },
+    {
+      "job_id": "character_reine_des_corbeaux",
+      "character_id": "reine_des_corbeaux",
+      "name": "Reine des Corbeaux",
+      "category": "miniboss",
+      "archetype": "ancient_beast",
+      "reference_art": "",
+      "height_m": 2.1,
+      "body_scale": 1.18,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": true,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/miniboss/reine_des_corbeaux"
+    },
+    {
+      "job_id": "character_ombre_sans_nom",
+      "character_id": "ombre_sans_nom",
+      "name": "L’Ombre Sans-Nom",
+      "category": "miniboss",
+      "archetype": "ancient_spirit",
+      "reference_art": "",
+      "height_m": 2.1,
+      "body_scale": 1.18,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": true,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/miniboss/ombre_sans_nom"
+    },
+    {
+      "job_id": "character_gardien_des_reliques",
+      "character_id": "gardien_des_reliques",
+      "name": "Le Gardien des Reliques",
+      "category": "miniboss",
+      "archetype": "construct",
+      "reference_art": "",
+      "height_m": 2.1,
+      "body_scale": 1.18,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": true,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/miniboss/gardien_des_reliques"
+    },
+    {
+      "job_id": "character_devoreur_dos",
+      "character_id": "devoreur_dos",
+      "name": "Le Dévoreur d’Os",
+      "category": "miniboss",
+      "archetype": "abomination",
+      "reference_art": "",
+      "height_m": 2.1,
+      "body_scale": 1.18,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": false,
+      "boss": true,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/miniboss/devoreur_dos"
+    }
+  ]
+}
