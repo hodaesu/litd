@@ -15,6 +15,7 @@ class_name IsometricCameraRig
 var target: Node3D
 
 func _ready() -> void:
+    add_to_group("isometric_camera_rig")
     if target_path != NodePath(""):
         target = get_node_or_null(target_path) as Node3D
     _apply_camera_transform()
@@ -26,11 +27,17 @@ func _process(delta: float) -> void:
     if target != null:
         global_position = global_position.lerp(target.global_position + Vector3.UP * height_offset, min(1.0, delta * follow_lerp))
     if Input.is_action_just_pressed("camera_zoom_in"):
-        distance = max(min_distance, distance - zoom_step)
-        _apply_camera_transform()
+        zoom_in()
     elif Input.is_action_just_pressed("camera_zoom_out"):
-        distance = min(max_distance, distance + zoom_step)
-        _apply_camera_transform()
+        zoom_out()
+
+func zoom_in() -> void:
+    distance = max(min_distance, distance - zoom_step)
+    _apply_camera_transform()
+
+func zoom_out() -> void:
+    distance = min(max_distance, distance + zoom_step)
+    _apply_camera_transform()
 
 func _apply_camera_transform() -> void:
     rotation_degrees = Vector3(-pitch_degrees, yaw_degrees, 0.0)
