@@ -2,6 +2,7 @@ extends CanvasLayer
 class_name MobileExplorationControls
 
 var controller: ExplorationPartyController
+var camera_rig: IsometricCameraRig
 var held := {"left": false, "right": false, "up": false, "down": false, "run": false}
 
 func _ready() -> void:
@@ -12,6 +13,9 @@ func _bind_controller() -> void:
     var nodes := get_tree().get_nodes_in_group("player_party")
     if not nodes.is_empty():
         controller = nodes[0] as ExplorationPartyController
+    var rigs := get_tree().get_nodes_in_group("isometric_camera_rig")
+    if not rigs.is_empty():
+        camera_rig = rigs[0] as IsometricCameraRig
 
 func _process(_delta: float) -> void:
     if controller == null:
@@ -38,3 +42,11 @@ func _on_run_up() -> void: _set_hold("run", false)
 func _on_interact_pressed() -> void:
     if controller != null:
         controller.interact()
+
+func _on_zoom_in_pressed() -> void:
+    if camera_rig != null:
+        camera_rig.zoom_in()
+
+func _on_zoom_out_pressed() -> void:
+    if camera_rig != null:
+        camera_rig.zoom_out()
