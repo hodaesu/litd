@@ -5,6 +5,7 @@ const PARTY_SCENE := preload("res://scenes/world/terre_des_cendres/exploration_p
 const HUD_SCENE := preload("res://scenes/world/terre_des_cendres/ashlands_hud.tscn")
 const BLUEPRINT_PATH := "res://data/levels/ashlands_zone_blueprints.json"
 const PERFORMANCE_PROBE := preload("res://scripts/world/ashlands_performance_probe.gd")
+const AMBIENCE_CONTROLLER := preload("res://scripts/world/ashlands_ambience_controller.gd")
 
 @export_file("*.json") var manifest_path := "res://data/levels/terre_des_cendres_blockout_manifest.json"
 @export var zone_id := "zone_01_faubourg_cendreux"
@@ -36,6 +37,7 @@ func build_zone() -> void:
     _build_authored_routes()
     _build_navigation_placeholder()
     _build_performance_probe()
+    _build_ambience()
     _build_entry_and_exits()
     _build_ash_volumes()
     _build_encounter_slots()
@@ -143,6 +145,13 @@ func _build_performance_probe() -> void:
     probe.name = "PreBlenderPerformanceProbe"
     probe.zone_id = zone_id
     _root().add_child(probe)
+
+func _build_ambience() -> void:
+    var ambience := AMBIENCE_CONTROLLER.new()
+    ambience.name = "PreBlenderAmbience"
+    ambience.zone_id = zone_id
+    ambience.base_ash_density = clamp(float(zone_data.get("ash_volumes", 0)) / 8.0, 0.2, 0.8)
+    _root().add_child(ambience)
 
 func _build_authored_routes() -> void:
     var routes := Node3D.new()
