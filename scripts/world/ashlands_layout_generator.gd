@@ -43,7 +43,7 @@ static func _generate_walls(root: Node3D, count: int, w: float, d: float, profil
     if profile == "ravine":
         for i in count:
             var side: float = -1.0 if i % 2 == 0 else 1.0
-            var z := lerp(-d * 0.38, d * 0.38, float(i) / max(1.0, float(count - 1)))
+            var z: float = lerp(-d * 0.38, d * 0.38, float(i) / max(1.0, float(count - 1)))
             _box(root, "Cliff_%02d" % [i + 1], Vector3(side * w * 0.30, 3.5, z), Vector3(w * 0.32, 7.0, 6.0), true)
         return
     if profile in ["underground_maze", "secret_crypt", "underground_chambers"]:
