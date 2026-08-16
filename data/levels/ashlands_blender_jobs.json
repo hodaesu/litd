@@ -1,0 +1,577 @@
+{
+  "version": 1,
+  "source": "pre_blender_contracts",
+  "export_format": "glb",
+  "jobs": [
+    {
+      "job_id": "ashlands_01_faubourg_ruins",
+      "zone_id": "zone_01_faubourg_cendreux",
+      "priority": "P0",
+      "kit_id": "faubourg_ruins",
+      "layout_profile": "settlement_edge",
+      "landmark": "burned_gate",
+      "zone_size_m": [
+        100,
+        100
+      ],
+      "deliverables": {
+        "buildings": 8,
+        "walls_or_blockers": 3,
+        "platforms": 2,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 4,
+        "resources": 6,
+        "ash_volumes": 2,
+        "shortcuts": 1,
+        "campfire": false,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_01_faubourg_cendreux",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_02_village_ruins",
+      "zone_id": "zone_02_village_ravage",
+      "priority": "P1",
+      "kit_id": "village_ruins",
+      "layout_profile": "settlement_hub",
+      "landmark": "village_square",
+      "zone_size_m": [
+        110,
+        100
+      ],
+      "deliverables": {
+        "buildings": 12,
+        "walls_or_blockers": 4,
+        "platforms": 2,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 6,
+        "resources": 8,
+        "ash_volumes": 3,
+        "shortcuts": 1,
+        "campfire": false,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_02_village_ravage",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_03_burnt_mill",
+      "zone_id": "zone_03_moulin_calcine",
+      "priority": "P1",
+      "kit_id": "burnt_mill",
+      "layout_profile": "vertical_landmark",
+      "landmark": "burned_mill",
+      "zone_size_m": [
+        90,
+        100
+      ],
+      "deliverables": {
+        "buildings": 4,
+        "walls_or_blockers": 3,
+        "platforms": 5,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 4,
+        "resources": 5,
+        "ash_volumes": 2,
+        "shortcuts": 0,
+        "campfire": true,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_03_moulin_calcine",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_04_dead_forest",
+      "zone_id": "zone_04_foret_morte",
+      "priority": "P0",
+      "kit_id": "dead_forest",
+      "layout_profile": "forest_paths",
+      "landmark": "dead_grove",
+      "zone_size_m": [
+        120,
+        100
+      ],
+      "deliverables": {
+        "buildings": 0,
+        "walls_or_blockers": 14,
+        "platforms": 2,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 6,
+        "resources": 7,
+        "ash_volumes": 4,
+        "shortcuts": 1,
+        "campfire": false,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_04_foret_morte",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_05_hanged_ravine",
+      "zone_id": "zone_05_ravin_des_pendus",
+      "priority": "P2",
+      "kit_id": "hanged_ravine",
+      "layout_profile": "ravine",
+      "landmark": "hanging_bridge",
+      "zone_size_m": [
+        120,
+        70
+      ],
+      "deliverables": {
+        "buildings": 0,
+        "walls_or_blockers": 8,
+        "platforms": 5,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 5,
+        "resources": 5,
+        "ash_volumes": 3,
+        "shortcuts": 1,
+        "campfire": false,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_05_ravin_des_pendus",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_06_collapsed_chapel",
+      "zone_id": "zone_06_chapelle_effondree",
+      "priority": "P2",
+      "kit_id": "collapsed_chapel",
+      "layout_profile": "ruined_interior",
+      "landmark": "collapsed_chapel",
+      "zone_size_m": [
+        90,
+        100
+      ],
+      "deliverables": {
+        "buildings": 3,
+        "walls_or_blockers": 9,
+        "platforms": 3,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 5,
+        "resources": 6,
+        "ash_volumes": 2,
+        "shortcuts": 0,
+        "campfire": true,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_06_chapelle_effondree",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_07_open_graveyard",
+      "zone_id": "zone_07_cimetiere",
+      "priority": "P0",
+      "kit_id": "open_graveyard",
+      "layout_profile": "open_graveyard",
+      "landmark": "necromantic_circle",
+      "zone_size_m": [
+        110,
+        100
+      ],
+      "deliverables": {
+        "buildings": 1,
+        "walls_or_blockers": 12,
+        "platforms": 2,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 6,
+        "resources": 7,
+        "ash_volumes": 4,
+        "shortcuts": 1,
+        "campfire": false,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_07_cimetiere",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_08_catacomb_maze",
+      "zone_id": "zone_08_catacombes",
+      "priority": "P1",
+      "kit_id": "catacomb_maze",
+      "layout_profile": "underground_maze",
+      "landmark": "sealed_crypt_door",
+      "zone_size_m": [
+        100,
+        110
+      ],
+      "deliverables": {
+        "buildings": 0,
+        "walls_or_blockers": 18,
+        "platforms": 3,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 6,
+        "resources": 6,
+        "ash_volumes": 2,
+        "shortcuts": 1,
+        "campfire": false,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_08_catacombes",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_09_ossuary_chambers",
+      "zone_id": "zone_09_ossuaire",
+      "priority": "P1",
+      "kit_id": "ossuary_chambers",
+      "layout_profile": "underground_chambers",
+      "landmark": "bone_pit",
+      "zone_size_m": [
+        90,
+        90
+      ],
+      "deliverables": {
+        "buildings": 0,
+        "walls_or_blockers": 12,
+        "platforms": 3,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 5,
+        "resources": 6,
+        "ash_volumes": 2,
+        "shortcuts": 0,
+        "campfire": true,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_09_ossuaire",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_10_deserted_hamlet",
+      "zone_id": "zone_10_hameau_deserte",
+      "priority": "P2",
+      "kit_id": "deserted_hamlet",
+      "layout_profile": "settlement_hub",
+      "landmark": "abandoned_well",
+      "zone_size_m": [
+        110,
+        100
+      ],
+      "deliverables": {
+        "buildings": 12,
+        "walls_or_blockers": 4,
+        "platforms": 2,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 6,
+        "resources": 8,
+        "ash_volumes": 3,
+        "shortcuts": 1,
+        "campfire": false,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_10_hameau_deserte",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_11_penitent_road",
+      "zone_id": "zone_11_route_des_penitents",
+      "priority": "P2",
+      "kit_id": "penitent_road",
+      "layout_profile": "processional_route",
+      "landmark": "penitent_statues",
+      "zone_size_m": [
+        130,
+        70
+      ],
+      "deliverables": {
+        "buildings": 0,
+        "walls_or_blockers": 7,
+        "platforms": 2,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 6,
+        "resources": 5,
+        "ash_volumes": 3,
+        "shortcuts": 0,
+        "campfire": false,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_11_route_des_penitents",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_12_ruined_abbey",
+      "zone_id": "zone_12_abbaye",
+      "priority": "P0",
+      "kit_id": "ruined_abbey",
+      "layout_profile": "large_interior",
+      "landmark": "abbey_nave",
+      "zone_size_m": [
+        110,
+        110
+      ],
+      "deliverables": {
+        "buildings": 5,
+        "walls_or_blockers": 16,
+        "platforms": 6,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 7,
+        "resources": 7,
+        "ash_volumes": 3,
+        "shortcuts": 1,
+        "campfire": true,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_12_abbaye",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_13_boss_bell_tower",
+      "zone_id": "zone_13_clocher_boss",
+      "priority": "P0",
+      "kit_id": "boss_bell_tower",
+      "layout_profile": "boss_ascent",
+      "landmark": "bell_tower",
+      "zone_size_m": [
+        80,
+        80
+      ],
+      "deliverables": {
+        "buildings": 1,
+        "walls_or_blockers": 5,
+        "platforms": 7,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 1,
+        "resources": 2,
+        "ash_volumes": 1,
+        "shortcuts": 0,
+        "campfire": false,
+        "boss": "ashlands_boss_01"
+      },
+      "output": "assets/3d/ashlands/zones/zone_13_clocher_boss",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_14_crow_clearing",
+      "zone_id": "zone_14_clairiere_des_corbeaux",
+      "priority": "P1",
+      "kit_id": "crow_clearing",
+      "layout_profile": "secret_clearing",
+      "landmark": "crow_nest",
+      "zone_size_m": [
+        90,
+        90
+      ],
+      "deliverables": {
+        "buildings": 0,
+        "walls_or_blockers": 10,
+        "platforms": 3,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 3,
+        "resources": 10,
+        "ash_volumes": 3,
+        "shortcuts": 0,
+        "campfire": false,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_14_clairiere_des_corbeaux",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    },
+    {
+      "job_id": "ashlands_15_nameless_crypt",
+      "zone_id": "zone_15_crypte_du_sans_nom",
+      "priority": "P1",
+      "kit_id": "nameless_crypt",
+      "layout_profile": "secret_crypt",
+      "landmark": "nameless_sarcophagus",
+      "zone_size_m": [
+        90,
+        100
+      ],
+      "deliverables": {
+        "buildings": 0,
+        "walls_or_blockers": 14,
+        "platforms": 4,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 4,
+        "resources": 9,
+        "ash_volumes": 2,
+        "shortcuts": 0,
+        "campfire": false,
+        "boss": null
+      },
+      "output": "assets/3d/ashlands/zones/zone_15_crypte_du_sans_nom",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
+    }
+  ]
+}
