@@ -241,7 +241,7 @@ func _slot_position(index: int, count: int, radius_factor: float) -> Vector3:
     var zone_size: Array = zone_data.get("size_m", [100, 100])
     var w := float(zone_size[0])
     var d := float(zone_size[1])
-    var angle := TAU * float(index) / max(1.0, float(count))
+    var angle: float = TAU * float(index) / max(1.0, float(count))
     return Vector3(cos(angle) * w * radius_factor, 0.0, sin(angle) * d * radius_factor)
 
 func _add_box_area_collision(area: Area3D, size: Vector3) -> void:
