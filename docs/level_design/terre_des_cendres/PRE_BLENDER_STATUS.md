@@ -60,6 +60,8 @@
 - Validateur GLB des personnages : skin, armature `RIG_`, mesh `SK_`, canaux et six animations minimales obligatoires.
 - Pipeline équipements/props : armes, armures, accessoires, feu de camp, ressources, raccourci, téléporteur et cadavre avec dimensions, collisions, matériaux, sockets et LOD.
 - Orchestrateur complet de 76 jobs Blender avec dépendances, sorties `.blend`/GLB, exécution globale ou par catégorie et contrôle anti-dérive.
+- Registre automatique de 75 imports GLB vers Godot avec chemins uniques et conservation des placeholders jusqu'à approbation.
+- Porte de validation finale classant chaque asset `missing`, `blocked` ou `ready`, contrôlant format, nommage, LOD, collisions, rigs, animations et budgets mobiles.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
 - Ajustement manuel fin des plans authored après parcours en jeu ; le placement circulaire provisoire n'est plus utilisé lorsque le plan de zone est présent.
