@@ -39,15 +39,18 @@
 - Profil NavigationMesh préconfiguré pour le groupe (rayon, hauteur, pente, marche et résolution de bake).
 - Retour exploration → combat → même zone et même position, y compris dans la sauvegarde en cours de combat.
 - Sonde de performance par zone (FPS, temps de frame, objets, nœuds, draw calls et mémoire vidéo).
+- Commandes d'exploration mobiles adaptatives : déplacement, course, interaction et zoom, ancrées aux bords de l'écran.
+- Occultation multi-obstacles appliquée aux bâtiments, murs, reliefs et landmarks du blockout.
+- Ambiance pré‑Blender par zone : éclairage, brume, particules de cendres et contrats audio placeholders.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
 - Ajustement manuel fin des plans authored après parcours en jeu ; le placement circulaire provisoire n'est plus utilisé lorsque le plan de zone est présent.
 - Bake des NavigationMesh après stabilisation des volumes gris.
 - Valeurs d'attrition et équilibrage des ressources après playtests.
 - Position exacte des routes d'évitement des mini-boss.
-- Contrôles tactiles iOS et ergonomie mobile.
-- Occultation/transparence des murs/toits par caméra.
-- Audio/VFX placeholders plus poussés.
+- Validation de l'ergonomie tactile sur les tailles réelles d'iPhone et d'iPad.
+- Réglage artistique final de l'occultation et des densités de cendres après playtest.
+- Remplacement des contrats audio placeholders par les boucles et stingers définitifs.
 - Mesure sur appareils iOS cibles et ajustement des budgets de la sonde après playtests.
 
 ## Ce qui exige réellement Blender
