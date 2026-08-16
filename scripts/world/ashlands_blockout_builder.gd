@@ -3,6 +3,7 @@ class_name AshlandsBlockoutBuilder
 
 const PARTY_SCENE := preload("res://scenes/world/terre_des_cendres/exploration_party_placeholder.tscn")
 const HUD_SCENE := preload("res://scenes/world/terre_des_cendres/ashlands_hud.tscn")
+const BLUEPRINT_PATH := "res://data/levels/ashlands_zone_blueprints.json"
 
 @export_file("*.json") var manifest_path := "res://data/levels/terre_des_cendres_blockout_manifest.json"
 @export var zone_id := "zone_01_faubourg_cendreux"
@@ -12,6 +13,7 @@ const HUD_SCENE := preload("res://scenes/world/terre_des_cendres/ashlands_hud.ts
 
 var manifest: Dictionary = {}
 var zone_data: Dictionary = {}
+var zone_blueprint: Dictionary = {}
 
 func _ready() -> void:
     if build_on_ready:
@@ -24,11 +26,13 @@ func build_zone() -> void:
     if zone_data.is_empty():
         push_error("AshlandsBlockoutBuilder: zone introuvable: %s" % zone_id)
         return
+    zone_blueprint = _load_json(BLUEPRINT_PATH).get("zones", {}).get(zone_id, {})
 
     AshlandsRuntime.enter_zone(zone_id)
     _build_floor()
     _build_boundaries()
     _build_layout_profile()
+    _build_authored_routes()
     _build_navigation_placeholder()
     _build_entry_and_exits()
     _build_ash_volumes()
@@ -123,6 +127,25 @@ func _build_navigation_placeholder() -> void:
     region.set_meta("requires_editor_bake_after_layout_polish", true)
     _root().add_child(region)
 
+func _build_authored_routes() -> void:
+    var routes := Node3D.new()
+    routes.name = "AuthoredRoutes"
+    _root().add_child(routes)
+    _build_route_markers(routes, "PrimaryRoute", zone_blueprint.get("primary_route", []), false)
+    _build_route_markers(routes, "BypassRoute", zone_blueprint.get("bypass_route", []), true)
+
+func _build_route_markers(parent: Node3D, route_name: String, points: Array, is_bypass: bool) -> void:
+    var route := Node3D.new()
+    route.name = route_name
+    route.set_meta("navigation_role", "miniboss_bypass" if is_bypass else "critical_path")
+    parent.add_child(route)
+    for i in points.size():
+        var marker := Marker3D.new()
+        marker.name = "Waypoint_%02d" % [i + 1]
+        marker.position = _array_to_vec3(points[i])
+        marker.set_meta("route_index", i)
+        route.add_child(marker)
+
 func _build_entry_and_exits() -> void:
     _build_marker("Entry", _array_to_vec3(zone_data.get("entry", [0, 0, 0])), "entry")
     var exits := Node3D.new()
@@ -151,7 +174,7 @@ func _build_ash_volumes() -> void:
     for i in count:
         var area := AshVolume.new()
         area.name = "AshVolume_%02d" % [i + 1]
-        area.position = _slot_position(i, count, 0.23)
+        area.position = _authored_position("ash", i, count, 0.23)
         area.density = 0.72 if i % 2 == 0 else 0.48
         _add_box_area_collision(area, Vector3(9.0, 3.0, 9.0))
         parent.add_child(area)
@@ -165,7 +188,7 @@ func _build_encounter_slots() -> void:
     for i in count:
         var trigger := EncounterTrigger.new()
         trigger.name = "Encounter_%02d" % [i + 1]
-        trigger.position = _slot_position(i, count, 0.31)
+        trigger.position = _authored_position("encounters", i, count, 0.31)
         trigger.encounter_id = "%s:encounter:%02d" % [zone_id, i + 1]
         trigger.encounter_type = "miniboss" if i == 0 and not miniboss.is_empty() else "normal"
         trigger.alternate_route_available = true
@@ -187,7 +210,7 @@ func _build_resource_slots() -> void:
         node.resource_type = resource_cycle[i % resource_cycle.size()]
         node.amount_min = 1
         node.amount_max = 2
-        node.position = _slot_position(i, count, 0.39) + Vector3(1.5, 0.0, -1.5)
+        node.position = _authored_position("resources", i, count, 0.39)
         _add_box_area_collision(node, Vector3(1.6, 1.4, 1.6))
         node.sync_from_runtime()
         parent.add_child(node)
@@ -201,7 +224,7 @@ func _build_shortcut_slots() -> void:
         var gate := ShortcutGate.new()
         gate.name = str(ids[i])
         gate.shortcut_id = str(ids[i])
-        gate.position = Vector3(-6 + i * 5, 0.0, 7)
+        gate.position = _authored_position("shortcuts", i, ids.size(), 0.18)
         _add_box_area_collision(gate, Vector3(2.5, 2.5, 1.5))
         parent.add_child(gate)
 
@@ -211,7 +234,7 @@ func _build_campfire() -> void:
     var campfire := CampfireInteraction.new()
     campfire.name = "Campfire"
     campfire.zone_id = zone_id
-    campfire.position = Vector3.ZERO
+    campfire.position = _array_to_vec3(zone_blueprint.get("campfire", [0, 0, 0]))
     _add_box_area_collision(campfire, Vector3(2.5, 2.0, 2.5))
     _root().add_child(campfire)
 
@@ -222,7 +245,7 @@ func _build_boss_slot() -> void:
     trigger.name = "BossSlot"
     trigger.encounter_id = str(zone_data.get("boss", "ashlands_boss"))
     trigger.encounter_type = "boss"
-    trigger.position = Vector3(0, 0, -10)
+    trigger.position = _array_to_vec3(zone_blueprint.get("boss", [0, 0, -10]))
     _add_box_area_collision(trigger, Vector3(7.0, 3.0, 7.0))
     _root().add_child(trigger)
 
@@ -243,6 +266,12 @@ func _slot_position(index: int, count: int, radius_factor: float) -> Vector3:
     var d := float(zone_size[1])
     var angle: float = TAU * float(index) / max(1.0, float(count))
     return Vector3(cos(angle) * w * radius_factor, 0.0, sin(angle) * d * radius_factor)
+
+func _authored_position(key: String, index: int, count: int, fallback_radius: float) -> Vector3:
+    var positions: Array = zone_blueprint.get(key, [])
+    if index < positions.size():
+        return _array_to_vec3(positions[index])
+    return _slot_position(index, count, fallback_radius)
 
 func _add_box_area_collision(area: Area3D, size: Vector3) -> void:
     var collision := CollisionShape3D.new()

@@ -10,6 +10,7 @@ func _initialize() -> void:
         "res://data/skills.json",
         "res://data/levels/terre_des_cendres_blockout_manifest.json",
         "res://data/levels/ashlands_layout_profiles.json",
+        "res://data/levels/ashlands_zone_blueprints.json",
         "res://data/levels/ashlands_survival_rules.json",
         "res://data/levels/ashlands_minibosses.json",
         "res://scripts/core/expedition_manager.gd",

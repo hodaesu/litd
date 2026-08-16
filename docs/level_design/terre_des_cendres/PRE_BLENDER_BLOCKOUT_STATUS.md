@@ -34,3 +34,6 @@ Le projet peut maintenant matérialiser chaque zone à son échelle cible avec p
 - tests de parcours et ajustements d'échelle.
 
 Les modèles Blender viendront remplacer les volumes gris sans modifier la logique de niveau.
+
+## Mise à jour
+Les 15 zones disposent désormais d'un plan d'implantation authored dans `data/levels/ashlands_zone_blueprints.json`. Le constructeur utilise ces coordonnées pour les routes, rencontres, ressources, cendres, raccourcis, feux de camp et boss. Les anciens placements procéduraux ne servent plus que de repli de sécurité si une donnée manque.

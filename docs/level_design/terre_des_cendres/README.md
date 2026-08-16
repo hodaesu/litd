@@ -40,4 +40,4 @@ Ce dossier contient les 15 zones de la Terre des Cendres sous forme de fiches de
 15. Crypte du Sans-Nom — zone secrète de lore et reliques.
 
 ## Prochaine étape
-Créer les blockouts Godot avec primitives, collisions, navigation, volumes de cendres, entrées/sorties, raccourcis, emplacements d’ennemis, mini-boss, feu de camp, ressources et points d’intérêt. Les détails artistiques finaux seront peaufinés lors du passage à Blender.
+Parcourir les 15 implantations authored dans Godot, corriger les largeurs et dénivelés en situation, puis baker les NavigationMesh stabilisés. Les détails artistiques finaux seront peaufinés lors du passage à Blender.

@@ -34,9 +34,11 @@
 - Téléporteur Abbaye ↔ Crypte avec coût prévu.
 - Sauvegarde de l'état des zones, raccourcis, ressources, rencontres, provisions et rotation mini-boss.
 - Tests Python et smoke test Godot de contrat Pré-Blender, incluant la couverture des profils de géométrie.
+- Plans d'implantation authored pour les 15 zones : route principale, voie de contournement, rencontres, ressources, cendres, raccourcis, feux et boss.
+- Marqueurs de navigation générés dans Godot à partir de ces plans, prêts pour le bake après playtest des volumes gris.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
-- Placement manuel précis des blockouts selon les plans validés, au lieu des slots procéduraux provisoires.
+- Ajustement manuel fin des plans authored après parcours en jeu ; le placement circulaire provisoire n'est plus utilisé lorsque le plan de zone est présent.
 - Bake des NavigationMesh après stabilisation des volumes gris.
 - Connexion finale exploration → combat → retour au même point d'exploration.
 - Valeurs d'attrition et équilibrage des ressources après playtests.
