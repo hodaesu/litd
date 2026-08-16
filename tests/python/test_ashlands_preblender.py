@@ -124,6 +124,8 @@ class AshlandsPreBlenderTests(unittest.TestCase):
             'scripts/world/ashlands_blockout_builder.gd',
             'scripts/world/ashlands_layout_generator.gd',
             'scripts/world/ashlands_asset_registry.gd',
+            'scripts/world/ashlands_playtest_session.gd',
+            'scripts/world/ashlands_playtest_panel.gd',
         ]
         for rel in required:
             self.assertTrue((ROOT / rel).is_file(), rel)
@@ -171,6 +173,15 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         rig = (ROOT / 'scripts/world/isometric_camera_rig.gd').read_text(encoding='utf-8')
         self.assertIn('camera.size = distance', rig)
         self.assertIn('apply_zone_profile(AshlandsRuntime.current_zone_id)', rig)
+
+    def test_playtest_harness_covers_routes_camera_mobile_and_performance(self):
+        session = (ROOT / 'scripts/world/ashlands_playtest_session.gd').read_text(encoding='utf-8')
+        builder = (ROOT / 'scripts/world/ashlands_blockout_builder.gd').read_text(encoding='utf-8')
+        project = (ROOT / 'project.godot').read_text(encoding='utf-8')
+        for gate in ('primary_route_checked', 'bypass_route_checked', 'camera_checked', 'mobile_checked', 'performance'):
+            self.assertIn(gate, session)
+        self.assertIn('OS.is_debug_build()', builder)
+        self.assertIn('AshlandsPlaytestSession=', project)
 
     def test_project_registers_ashlands_autoloads(self):
         text = (ROOT / 'project.godot').read_text(encoding='utf-8')

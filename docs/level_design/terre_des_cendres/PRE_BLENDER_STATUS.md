@@ -47,6 +47,8 @@
 - Métadonnées de remplacement sur chaque volume architectural avec conservation des collisions jusqu'à approbation.
 - Profils de caméra authored pour les 15 zones : angle, orientation, cadrage, zoom et intention de lisibilité propres à chaque espace.
 - Zoom orthographique corrigé pour modifier réellement le cadrage sur clavier et écran tactile.
+- Outil de playtest intégré aux builds debug : navigation entre les 15 zones, validation route/détour/caméra/mobile et capture des performances.
+- Rapport pré‑Blender persistant généré dans `user://ashlands_preblender_playtest.json` avec progression globale par zone.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
 - Ajustement manuel fin des plans authored après parcours en jeu ; le placement circulaire provisoire n'est plus utilisé lorsque le plan de zone est présent.

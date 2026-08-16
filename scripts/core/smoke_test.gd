@@ -33,6 +33,8 @@ func _initialize() -> void:
         "res://scripts/world/ashlands_performance_probe.gd",
         "res://scripts/world/ashlands_ambience_controller.gd",
         "res://scripts/world/ashlands_asset_registry.gd",
+        "res://scripts/world/ashlands_playtest_session.gd",
+        "res://scripts/world/ashlands_playtest_panel.gd",
         "res://scripts/world/isometric_occludable.gd",
         "res://scripts/world/isometric_occlusion_manager.gd",
         "res://scripts/world/mobile_exploration_controls.gd",
