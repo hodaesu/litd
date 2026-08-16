@@ -6,6 +6,7 @@ const HUD_SCENE := preload("res://scenes/world/terre_des_cendres/ashlands_hud.ts
 const BLUEPRINT_PATH := "res://data/levels/ashlands_zone_blueprints.json"
 const PERFORMANCE_PROBE := preload("res://scripts/world/ashlands_performance_probe.gd")
 const AMBIENCE_CONTROLLER := preload("res://scripts/world/ashlands_ambience_controller.gd")
+const PLAYTEST_PANEL := preload("res://scripts/world/ashlands_playtest_panel.gd")
 
 @export_file("*.json") var manifest_path := "res://data/levels/terre_des_cendres_blockout_manifest.json"
 @export var zone_id := "zone_01_faubourg_cendreux"
@@ -49,6 +50,8 @@ func build_zone() -> void:
         _build_player_placeholder()
     if spawn_hud:
         _build_hud()
+    if OS.is_debug_build():
+        _build_playtest_panel()
 
 func _clear_generated() -> void:
     var old := get_node_or_null("GeneratedBlockout")
@@ -156,6 +159,7 @@ func _build_ambience() -> void:
 func _build_authored_routes() -> void:
     var routes := Node3D.new()
     routes.name = "AuthoredRoutes"
+    routes.add_to_group("ashlands_authored_routes")
     _root().add_child(routes)
     _build_route_markers(routes, "PrimaryRoute", zone_blueprint.get("primary_route", []), false)
     _build_route_markers(routes, "BypassRoute", zone_blueprint.get("bypass_route", []), true)
@@ -285,6 +289,11 @@ func _build_hud() -> void:
     var hud := HUD_SCENE.instantiate()
     hud.name = "AshlandsHUDRuntime"
     add_child(hud)
+
+func _build_playtest_panel() -> void:
+    var panel := PLAYTEST_PANEL.new()
+    panel.name = "PreBlenderPlaytestTools"
+    add_child(panel)
 
 func _slot_position(index: int, count: int, radius_factor: float) -> Vector3:
     var zone_size: Array = zone_data.get("size_m", [100, 100])
