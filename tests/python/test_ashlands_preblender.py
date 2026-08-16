@@ -9,6 +9,7 @@ MINIBOSSES = ROOT / 'data/levels/ashlands_minibosses.json'
 BLUEPRINTS = ROOT / 'data/levels/ashlands_zone_blueprints.json'
 LAYOUT_PROFILES = ROOT / 'data/levels/ashlands_layout_profiles.json'
 BLENDER_HANDOFF = ROOT / 'data/levels/ashlands_blender_handoff.json'
+CAMERA_PROFILES = ROOT / 'data/levels/ashlands_camera_profiles.json'
 
 class AshlandsPreBlenderTests(unittest.TestCase):
     @classmethod
@@ -19,6 +20,7 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         cls.blueprints = json.loads(BLUEPRINTS.read_text(encoding='utf-8'))
         cls.layout_profiles = json.loads(LAYOUT_PROFILES.read_text(encoding='utf-8'))
         cls.blender_handoff = json.loads(BLENDER_HANDOFF.read_text(encoding='utf-8'))
+        cls.camera_profiles = json.loads(CAMERA_PROFILES.read_text(encoding='utf-8'))
 
     def test_exactly_fifteen_zones(self):
         self.assertEqual(len(self.manifest['zones']), 15)
@@ -152,6 +154,23 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         self.assertTrue(self.blender_handoff['runtime_contract']['preserve_navigation_source'])
         self.assertGreaterEqual(len(self.blender_handoff['asset_slots']), 8)
         self.assertGreaterEqual(len(self.blender_handoff['approval_gates']), 7)
+
+    def test_every_zone_has_an_authored_camera_profile(self):
+        zone_ids = {zone['id'] for zone in self.manifest['zones']}
+        self.assertEqual(set(self.camera_profiles['zones']), zone_ids)
+        for zone_id, profile in self.camera_profiles['zones'].items():
+            with self.subTest(zone=zone_id):
+                self.assertGreaterEqual(profile['pitch'], 35.0)
+                self.assertLessEqual(profile['pitch'], 55.0)
+                self.assertGreaterEqual(profile['view_size'], 10.0)
+                self.assertLessEqual(profile['view_size'], 18.0)
+                self.assertEqual(len(profile['focus_offset']), 3)
+                self.assertTrue(profile['intent'])
+
+    def test_orthographic_zoom_changes_camera_size(self):
+        rig = (ROOT / 'scripts/world/isometric_camera_rig.gd').read_text(encoding='utf-8')
+        self.assertIn('camera.size = distance', rig)
+        self.assertIn('apply_zone_profile(AshlandsRuntime.current_zone_id)', rig)
 
     def test_project_registers_ashlands_autoloads(self):
         text = (ROOT / 'project.godot').read_text(encoding='utf-8')
