@@ -50,6 +50,8 @@
 - Outil de playtest intégré aux builds debug : navigation entre les 15 zones, validation route/détour/caméra/mobile et capture des performances.
 - Rapport pré‑Blender persistant généré dans `user://ashlands_preblender_playtest.json` avec progression globale par zone.
 - Télémétrie de pacing : chronométrage des routes et détours, distance, vitesse moyenne, trajectoire échantillonnée et comparaison aux objectifs des 15 zones.
+- Plan de production Blender généré automatiquement pour les 15 zones : priorités, kits, quantités, landmarks, sockets de gameplay, LOD, collisions et dossiers de sortie.
+- Contrôle anti‑dérive garantissant que les ordres Blender restent synchronisés avec le level design et le blockout.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
 - Ajustement manuel fin des plans authored après parcours en jeu ; le placement circulaire provisoire n'est plus utilisé lorsque le plan de zone est présent.
