@@ -278,7 +278,7 @@ func show_combat() -> void:
         var art := TextureRect.new()
         art.texture = load(hero_art(h))
         art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-        art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CONTAINED
+        art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
         art.custom_minimum_size = Vector2(135,320)
         art.modulate = Color(1,1,1, 1.0 if h.hp > 0 else 0.35)
         card.add_child(art)
@@ -300,7 +300,7 @@ func show_combat() -> void:
         var art := TextureRect.new()
         art.texture = load("res://assets/enemies/%s" % e.art)
         art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-        art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CONTAINED
+        art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
         art.custom_minimum_size = Vector2(150,310)
         art.modulate = Color(1,1,1,1.0 if e.hp > 0 else 0.25)
         v.add_child(art)
