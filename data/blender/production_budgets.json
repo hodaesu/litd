@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "target": "iPhone/iPad Godot 4.3 gl_compatibility",
+  "budgets": {
+    "environments": {"max_glb_mb": 48, "max_nodes": 450, "max_meshes": 180, "max_materials": 36},
+    "characters": {"max_glb_mb": 24, "max_nodes": 180, "max_meshes": 18, "max_materials": 8, "max_animations": 32},
+    "props": {"max_glb_mb": 8, "max_nodes": 48, "max_meshes": 12, "max_materials": 4}
+  }
+}
