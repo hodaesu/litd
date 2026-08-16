@@ -14,6 +14,7 @@ func _initialize() -> void:
         "res://data/levels/ashlands_survival_rules.json",
         "res://data/levels/ashlands_minibosses.json",
         "res://data/levels/ashlands_blender_handoff.json",
+        "res://data/levels/ashlands_camera_profiles.json",
         "res://scripts/core/expedition_manager.gd",
         "res://scripts/world/ashlands_zone_runtime.gd",
         "res://scripts/world/ashlands_miniboss_director.gd",
