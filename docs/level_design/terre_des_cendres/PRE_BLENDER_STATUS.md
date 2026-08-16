@@ -64,6 +64,8 @@
 - Porte de validation finale classant chaque asset `missing`, `blocked` ou `ready`, contrôlant format, nommage, LOD, collisions, rigs, animations et budgets mobiles.
 - Console opérateur unifiée acceptant trois formes d'instruction : options directes, fichier JSON et questions interactives.
 - Sélection fine des catégories/jobs, dépendances automatiques, simulation par défaut et reprise fiable après interruption grâce au contrôle des sorties réelles.
+- File de revue visuelle des 75 GLB avec vues isométriques des zones et turntables multi-angles des personnages/props.
+- Critères d'approbation spécialisés par catégorie, refus automatique des validations incomplètes et historique traçable des décisions.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
 - Ajustement manuel fin des plans authored après parcours en jeu ; le placement circulaire provisoire n'est plus utilisé lorsque le plan de zone est présent.
