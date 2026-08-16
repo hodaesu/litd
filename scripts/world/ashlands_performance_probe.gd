@@ -12,6 +12,9 @@ signal budget_exceeded(zone_id: String, metric: String, value: float, budget: fl
 var _elapsed := 0.0
 var latest_sample: Dictionary = {}
 
+func _ready() -> void:
+    add_to_group("ashlands_performance_probe")
+
 func _process(delta: float) -> void:
     _elapsed += delta
     if _elapsed < sample_interval_seconds:
