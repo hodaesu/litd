@@ -45,6 +45,8 @@
 - Contrat Blender → Godot versionné : échelle, axes, nommage, GLB, LOD, matériaux, collisions, sockets et budgets mobiles.
 - Kit 3D cible attribué à chacune des 15 zones et registre runtime prêt à charger progressivement les futurs GLB.
 - Métadonnées de remplacement sur chaque volume architectural avec conservation des collisions jusqu'à approbation.
+- Profils de caméra authored pour les 15 zones : angle, orientation, cadrage, zoom et intention de lisibilité propres à chaque espace.
+- Zoom orthographique corrigé pour modifier réellement le cadrage sur clavier et écran tactile.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
 - Ajustement manuel fin des plans authored après parcours en jeu ; le placement circulaire provisoire n'est plus utilisé lorsque le plan de zone est présent.
