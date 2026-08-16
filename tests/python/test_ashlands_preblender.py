@@ -113,6 +113,10 @@ class AshlandsPreBlenderTests(unittest.TestCase):
             'scripts/world/exploration_party_controller.gd',
             'scripts/world/isometric_camera_rig.gd',
             'scripts/world/ashlands_performance_probe.gd',
+            'scripts/world/ashlands_ambience_controller.gd',
+            'scripts/world/isometric_occludable.gd',
+            'scripts/world/isometric_occlusion_manager.gd',
+            'scripts/world/mobile_exploration_controls.gd',
             'scripts/world/ashlands_blockout_builder.gd',
             'scripts/world/ashlands_layout_generator.gd',
         ]
@@ -126,6 +130,16 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         self.assertIn('PARSED_GEOMETRY_STATIC_COLLIDERS', builder)
         self.assertIn('return_position', bridge)
         self.assertIn('_restore_exploration_position', bridge)
+
+    def test_mobile_occlusion_and_ambience_contracts_exist(self):
+        mobile_scene = (ROOT / 'scenes/world/terre_des_cendres/mobile_exploration_controls.tscn').read_text(encoding='utf-8')
+        layout = (ROOT / 'scripts/world/ashlands_layout_generator.gd').read_text(encoding='utf-8')
+        ambience = (ROOT / 'scripts/world/ashlands_ambience_controller.gd').read_text(encoding='utf-8')
+        self.assertIn('anchor_bottom = 1.0', mobile_scene)
+        self.assertIn('ZoomIn', mobile_scene)
+        self.assertIn('OCCLUDABLE_SCRIPT.new()', layout)
+        self.assertIn('AshVFXPlaceholder', ambience)
+        self.assertIn('WindLoopPlaceholder', ambience)
 
     def test_project_registers_ashlands_autoloads(self):
         text = (ROOT / 'project.godot').read_text(encoding='utf-8')
