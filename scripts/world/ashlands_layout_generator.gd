@@ -42,7 +42,7 @@ static func _generate_buildings(root: Node3D, count: int, w: float, d: float, rn
 static func _generate_walls(root: Node3D, count: int, w: float, d: float, profile: String, rng: RandomNumberGenerator) -> void:
     if profile == "ravine":
         for i in count:
-            var side := -1.0 if i % 2 == 0 else 1.0
+            var side: float = -1.0 if i % 2 == 0 else 1.0
             var z := lerp(-d * 0.38, d * 0.38, float(i) / max(1.0, float(count - 1)))
             _box(root, "Cliff_%02d" % [i + 1], Vector3(side * w * 0.30, 3.5, z), Vector3(w * 0.32, 7.0, 6.0), true)
         return
@@ -56,8 +56,8 @@ static func _generate_walls(root: Node3D, count: int, w: float, d: float, profil
         return
     if profile in ["forest_paths", "secret_clearing", "open_graveyard"]:
         for i in count:
-            var angle := TAU * float(i) / max(1.0, float(count)) + rng.randf_range(-0.12, 0.12)
-            var radius := min(w, d) * rng.randf_range(0.22, 0.38)
+            var angle: float = TAU * float(i) / max(1.0, float(count)) + rng.randf_range(-0.12, 0.12)
+            var radius: float = min(w, d) * rng.randf_range(0.22, 0.38)
             var pos := Vector3(cos(angle) * radius, 1.5, sin(angle) * radius)
             var dims := Vector3(rng.randf_range(2.0, 5.0), rng.randf_range(2.5, 6.0), rng.randf_range(2.0, 5.0))
             _box(root, "NaturalBlock_%02d" % [i + 1], pos, dims, true)
@@ -71,7 +71,7 @@ static func _generate_walls(root: Node3D, count: int, w: float, d: float, profil
 
 static func _generate_platforms(root: Node3D, count: int, w: float, d: float, levels: int, profile: String, rng: RandomNumberGenerator) -> void:
     for i in count:
-        var level := 1 + (i % max(1, levels - 1))
+        var level: int = 1 + (i % max(1, levels - 1))
         var y := float(level) * 2.5
         var x := rng.randf_range(-w * 0.28, w * 0.28)
         var z := rng.randf_range(-d * 0.28, d * 0.28)
