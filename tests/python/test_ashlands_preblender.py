@@ -112,11 +112,20 @@ class AshlandsPreBlenderTests(unittest.TestCase):
             'scripts/world/encounter_trigger.gd',
             'scripts/world/exploration_party_controller.gd',
             'scripts/world/isometric_camera_rig.gd',
+            'scripts/world/ashlands_performance_probe.gd',
             'scripts/world/ashlands_blockout_builder.gd',
             'scripts/world/ashlands_layout_generator.gd',
         ]
         for rel in required:
             self.assertTrue((ROOT / rel).is_file(), rel)
+
+    def test_navigation_and_return_position_contracts_exist(self):
+        builder = (ROOT / 'scripts/world/ashlands_blockout_builder.gd').read_text(encoding='utf-8')
+        bridge = (ROOT / 'scripts/world/ashlands_combat_bridge.gd').read_text(encoding='utf-8')
+        self.assertIn('agent_radius = 0.6', builder)
+        self.assertIn('PARSED_GEOMETRY_STATIC_COLLIDERS', builder)
+        self.assertIn('return_position', bridge)
+        self.assertIn('_restore_exploration_position', bridge)
 
     def test_project_registers_ashlands_autoloads(self):
         text = (ROOT / 'project.godot').read_text(encoding='utf-8')

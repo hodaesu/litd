@@ -28,6 +28,7 @@ func _initialize() -> void:
         "res://scripts/world/encounter_trigger.gd",
         "res://scripts/world/exploration_party_controller.gd",
         "res://scripts/world/isometric_camera_rig.gd",
+        "res://scripts/world/ashlands_performance_probe.gd",
         "res://scenes/world/terre_des_cendres/exploration_party_placeholder.tscn",
         "res://scenes/world/terre_des_cendres/ashlands_hud.tscn"
     ]

@@ -4,6 +4,7 @@ class_name AshlandsBlockoutBuilder
 const PARTY_SCENE := preload("res://scenes/world/terre_des_cendres/exploration_party_placeholder.tscn")
 const HUD_SCENE := preload("res://scenes/world/terre_des_cendres/ashlands_hud.tscn")
 const BLUEPRINT_PATH := "res://data/levels/ashlands_zone_blueprints.json"
+const PERFORMANCE_PROBE := preload("res://scripts/world/ashlands_performance_probe.gd")
 
 @export_file("*.json") var manifest_path := "res://data/levels/terre_des_cendres_blockout_manifest.json"
 @export var zone_id := "zone_01_faubourg_cendreux"
@@ -34,6 +35,7 @@ func build_zone() -> void:
     _build_layout_profile()
     _build_authored_routes()
     _build_navigation_placeholder()
+    _build_performance_probe()
     _build_entry_and_exits()
     _build_ash_volumes()
     _build_encounter_slots()
@@ -123,9 +125,24 @@ func _build_wall(pos: Vector3, size: Vector3, node_name: String) -> void:
 func _build_navigation_placeholder() -> void:
     var region := NavigationRegion3D.new()
     region.name = "NavigationPlaceholder"
-    region.navigation_mesh = NavigationMesh.new()
+    var navigation_mesh := NavigationMesh.new()
+    navigation_mesh.agent_radius = 0.6
+    navigation_mesh.agent_height = 1.8
+    navigation_mesh.agent_max_climb = 0.45
+    navigation_mesh.agent_max_slope = 46.0
+    navigation_mesh.cell_size = 0.25
+    navigation_mesh.cell_height = 0.2
+    navigation_mesh.geometry_parsed_geometry_type = NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
+    navigation_mesh.geometry_source_geometry_mode = NavigationMesh.SOURCE_GEOMETRY_ROOT_NODE_CHILDREN
+    region.navigation_mesh = navigation_mesh
     region.set_meta("requires_editor_bake_after_layout_polish", true)
     _root().add_child(region)
+
+func _build_performance_probe() -> void:
+    var probe := PERFORMANCE_PROBE.new()
+    probe.name = "PreBlenderPerformanceProbe"
+    probe.zone_id = zone_id
+    _root().add_child(probe)
 
 func _build_authored_routes() -> void:
     var routes := Node3D.new()

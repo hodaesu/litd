@@ -9,6 +9,8 @@ var active := false
 var encounter_id := ""
 var encounter_type := ""
 var return_zone_id := ""
+var return_position := Vector3.ZERO
+var has_return_position := false
 var miniboss_data: Dictionary = {}
 var pending_loot: Dictionary = {}
 var _resolving := false
@@ -24,6 +26,7 @@ func begin(encounter_id_value: String, encounter_type_value: String, miniboss: D
     encounter_id = encounter_id_value
     encounter_type = encounter_type_value
     return_zone_id = AshlandsRuntime.current_zone_id
+    _capture_return_position()
     miniboss_data = miniboss.duplicate(true)
     pending_loot = {}
     _prepare_placeholder_enemies()
@@ -122,13 +125,30 @@ func _apply_loot(loot: Dictionary) -> void:
 
 func _return_to_exploration() -> void:
     var target := return_zone_id
+    var target_position := return_position
+    var restore_position := has_return_position
     active = false
     _resolving = false
     encounter_id = ""
     encounter_type = ""
     miniboss_data = {}
     if target != "":
-        AshlandsSceneRouter.load_zone(target)
+        if AshlandsSceneRouter.load_zone(target) and restore_position:
+            _restore_exploration_position.call_deferred(target_position)
+
+func _capture_return_position() -> void:
+    has_return_position = false
+    var parties := get_tree().get_nodes_in_group("player_party")
+    if not parties.is_empty() and parties[0] is Node3D:
+        return_position = (parties[0] as Node3D).global_position
+        has_return_position = true
+
+func _restore_exploration_position(target_position: Vector3) -> void:
+    await get_tree().process_frame
+    await get_tree().process_frame
+    var parties := get_tree().get_nodes_in_group("player_party")
+    if not parties.is_empty() and parties[0] is Node3D:
+        (parties[0] as Node3D).global_position = target_position
 
 func serialize() -> Dictionary:
     return {
@@ -136,6 +156,8 @@ func serialize() -> Dictionary:
         "encounter_id": encounter_id,
         "encounter_type": encounter_type,
         "return_zone_id": return_zone_id,
+        "return_position": [return_position.x, return_position.y, return_position.z],
+        "has_return_position": has_return_position,
         "miniboss_data": miniboss_data,
         "pending_loot": pending_loot
     }
@@ -146,5 +168,9 @@ func deserialize(data: Dictionary) -> void:
     encounter_id = str(data.get("encounter_id", ""))
     encounter_type = str(data.get("encounter_type", ""))
     return_zone_id = str(data.get("return_zone_id", ""))
+    var position_data: Array = data.get("return_position", [0, 0, 0])
+    if position_data.size() >= 3:
+        return_position = Vector3(float(position_data[0]), float(position_data[1]), float(position_data[2]))
+    has_return_position = bool(data.get("has_return_position", false))
     miniboss_data = data.get("miniboss_data", {}).duplicate(true)
     pending_loot = data.get("pending_loot", {}).duplicate(true)
