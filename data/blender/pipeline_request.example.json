@@ -1,0 +1,8 @@
+{
+  "stages": ["materials", "environments", "characters", "props"],
+  "job_ids": [],
+  "execute": false,
+  "resume": true,
+  "blender": "blender",
+  "state_path": "reports/blender_pipeline_state.json"
+}
