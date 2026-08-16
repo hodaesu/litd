@@ -1,0 +1,1451 @@
+{
+  "version": 1,
+  "generator": "tools/blender/run_full_pipeline.py",
+  "summary": {
+    "total_jobs": 76,
+    "materials": 1,
+    "environments": 15,
+    "characters": 52,
+    "props": 8
+  },
+  "stages": [
+    {
+      "stage": "materials",
+      "job_id": "material_library",
+      "depends_on": [],
+      "command": [
+        "tools/blender/build_material_library.py",
+        "--output",
+        "builds/materials/litd_material_library.blend"
+      ],
+      "outputs": [
+        "builds/materials/litd_material_library.blend"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_01_faubourg_ruins",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_01_faubourg_ruins",
+        "--output",
+        "assets/3d/ashlands/zones/zone_01_faubourg_cendreux/ashlands_01_faubourg_ruins.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_01_faubourg_cendreux/ashlands_01_faubourg_ruins.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_01_faubourg_cendreux/ashlands_01_faubourg_ruins.blend",
+        "assets/3d/ashlands/zones/zone_01_faubourg_cendreux/ashlands_01_faubourg_ruins.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_02_village_ruins",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_02_village_ruins",
+        "--output",
+        "assets/3d/ashlands/zones/zone_02_village_ravage/ashlands_02_village_ruins.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_02_village_ravage/ashlands_02_village_ruins.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_02_village_ravage/ashlands_02_village_ruins.blend",
+        "assets/3d/ashlands/zones/zone_02_village_ravage/ashlands_02_village_ruins.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_03_burnt_mill",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_03_burnt_mill",
+        "--output",
+        "assets/3d/ashlands/zones/zone_03_moulin_calcine/ashlands_03_burnt_mill.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_03_moulin_calcine/ashlands_03_burnt_mill.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_03_moulin_calcine/ashlands_03_burnt_mill.blend",
+        "assets/3d/ashlands/zones/zone_03_moulin_calcine/ashlands_03_burnt_mill.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_04_dead_forest",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_04_dead_forest",
+        "--output",
+        "assets/3d/ashlands/zones/zone_04_foret_morte/ashlands_04_dead_forest.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_04_foret_morte/ashlands_04_dead_forest.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_04_foret_morte/ashlands_04_dead_forest.blend",
+        "assets/3d/ashlands/zones/zone_04_foret_morte/ashlands_04_dead_forest.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_05_hanged_ravine",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_05_hanged_ravine",
+        "--output",
+        "assets/3d/ashlands/zones/zone_05_ravin_des_pendus/ashlands_05_hanged_ravine.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_05_ravin_des_pendus/ashlands_05_hanged_ravine.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_05_ravin_des_pendus/ashlands_05_hanged_ravine.blend",
+        "assets/3d/ashlands/zones/zone_05_ravin_des_pendus/ashlands_05_hanged_ravine.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_06_collapsed_chapel",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_06_collapsed_chapel",
+        "--output",
+        "assets/3d/ashlands/zones/zone_06_chapelle_effondree/ashlands_06_collapsed_chapel.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_06_chapelle_effondree/ashlands_06_collapsed_chapel.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_06_chapelle_effondree/ashlands_06_collapsed_chapel.blend",
+        "assets/3d/ashlands/zones/zone_06_chapelle_effondree/ashlands_06_collapsed_chapel.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_07_open_graveyard",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_07_open_graveyard",
+        "--output",
+        "assets/3d/ashlands/zones/zone_07_cimetiere/ashlands_07_open_graveyard.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_07_cimetiere/ashlands_07_open_graveyard.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_07_cimetiere/ashlands_07_open_graveyard.blend",
+        "assets/3d/ashlands/zones/zone_07_cimetiere/ashlands_07_open_graveyard.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_08_catacomb_maze",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_08_catacomb_maze",
+        "--output",
+        "assets/3d/ashlands/zones/zone_08_catacombes/ashlands_08_catacomb_maze.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_08_catacombes/ashlands_08_catacomb_maze.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_08_catacombes/ashlands_08_catacomb_maze.blend",
+        "assets/3d/ashlands/zones/zone_08_catacombes/ashlands_08_catacomb_maze.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_09_ossuary_chambers",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_09_ossuary_chambers",
+        "--output",
+        "assets/3d/ashlands/zones/zone_09_ossuaire/ashlands_09_ossuary_chambers.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_09_ossuaire/ashlands_09_ossuary_chambers.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_09_ossuaire/ashlands_09_ossuary_chambers.blend",
+        "assets/3d/ashlands/zones/zone_09_ossuaire/ashlands_09_ossuary_chambers.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_10_deserted_hamlet",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_10_deserted_hamlet",
+        "--output",
+        "assets/3d/ashlands/zones/zone_10_hameau_deserte/ashlands_10_deserted_hamlet.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_10_hameau_deserte/ashlands_10_deserted_hamlet.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_10_hameau_deserte/ashlands_10_deserted_hamlet.blend",
+        "assets/3d/ashlands/zones/zone_10_hameau_deserte/ashlands_10_deserted_hamlet.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_11_penitent_road",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_11_penitent_road",
+        "--output",
+        "assets/3d/ashlands/zones/zone_11_route_des_penitents/ashlands_11_penitent_road.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_11_route_des_penitents/ashlands_11_penitent_road.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_11_route_des_penitents/ashlands_11_penitent_road.blend",
+        "assets/3d/ashlands/zones/zone_11_route_des_penitents/ashlands_11_penitent_road.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_12_ruined_abbey",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_12_ruined_abbey",
+        "--output",
+        "assets/3d/ashlands/zones/zone_12_abbaye/ashlands_12_ruined_abbey.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_12_abbaye/ashlands_12_ruined_abbey.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_12_abbaye/ashlands_12_ruined_abbey.blend",
+        "assets/3d/ashlands/zones/zone_12_abbaye/ashlands_12_ruined_abbey.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_13_boss_bell_tower",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_13_boss_bell_tower",
+        "--output",
+        "assets/3d/ashlands/zones/zone_13_clocher_boss/ashlands_13_boss_bell_tower.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_13_clocher_boss/ashlands_13_boss_bell_tower.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_13_clocher_boss/ashlands_13_boss_bell_tower.blend",
+        "assets/3d/ashlands/zones/zone_13_clocher_boss/ashlands_13_boss_bell_tower.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_14_crow_clearing",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_14_crow_clearing",
+        "--output",
+        "assets/3d/ashlands/zones/zone_14_clairiere_des_corbeaux/ashlands_14_crow_clearing.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_14_clairiere_des_corbeaux/ashlands_14_crow_clearing.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_14_clairiere_des_corbeaux/ashlands_14_crow_clearing.blend",
+        "assets/3d/ashlands/zones/zone_14_clairiere_des_corbeaux/ashlands_14_crow_clearing.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_15_nameless_crypt",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_15_nameless_crypt",
+        "--output",
+        "assets/3d/ashlands/zones/zone_15_crypte_du_sans_nom/ashlands_15_nameless_crypt.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_15_crypte_du_sans_nom/ashlands_15_nameless_crypt.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_15_crypte_du_sans_nom/ashlands_15_nameless_crypt.blend",
+        "assets/3d/ashlands/zones/zone_15_crypte_du_sans_nom/ashlands_15_nameless_crypt.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_aurelien",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "aurelien",
+        "--output",
+        "builds/characters/hero/aurelien/aurelien.blend",
+        "--export-glb",
+        "builds/characters/hero/aurelien/aurelien.glb"
+      ],
+      "outputs": [
+        "builds/characters/hero/aurelien/aurelien.blend",
+        "builds/characters/hero/aurelien/aurelien.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_malvor",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "malvor",
+        "--output",
+        "builds/characters/hero/malvor/malvor.blend",
+        "--export-glb",
+        "builds/characters/hero/malvor/malvor.glb"
+      ],
+      "outputs": [
+        "builds/characters/hero/malvor/malvor.blend",
+        "builds/characters/hero/malvor/malvor.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_lysandra",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "lysandra",
+        "--output",
+        "builds/characters/hero/lysandra/lysandra.blend",
+        "--export-glb",
+        "builds/characters/hero/lysandra/lysandra.glb"
+      ],
+      "outputs": [
+        "builds/characters/hero/lysandra/lysandra.blend",
+        "builds/characters/hero/lysandra/lysandra.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_darius",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "darius",
+        "--output",
+        "builds/characters/hero/darius/darius.blend",
+        "--export-glb",
+        "builds/characters/hero/darius/darius.glb"
+      ],
+      "outputs": [
+        "builds/characters/hero/darius/darius.blend",
+        "builds/characters/hero/darius/darius.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_01_goule_affamee",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_01_goule_affamee",
+        "--output",
+        "builds/characters/enemy/enemy_01_goule_affamee/enemy_01_goule_affamee.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_01_goule_affamee/enemy_01_goule_affamee.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_01_goule_affamee/enemy_01_goule_affamee.blend",
+        "builds/characters/enemy/enemy_01_goule_affamee/enemy_01_goule_affamee.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_02_cultiste_fanatise",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_02_cultiste_fanatise",
+        "--output",
+        "builds/characters/enemy/enemy_02_cultiste_fanatise/enemy_02_cultiste_fanatise.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_02_cultiste_fanatise/enemy_02_cultiste_fanatise.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_02_cultiste_fanatise/enemy_02_cultiste_fanatise.blend",
+        "builds/characters/enemy/enemy_02_cultiste_fanatise/enemy_02_cultiste_fanatise.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_03_chevalier_dechu",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_03_chevalier_dechu",
+        "--output",
+        "builds/characters/enemy/enemy_03_chevalier_dechu/enemy_03_chevalier_dechu.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_03_chevalier_dechu/enemy_03_chevalier_dechu.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_03_chevalier_dechu/enemy_03_chevalier_dechu.blend",
+        "builds/characters/enemy/enemy_03_chevalier_dechu/enemy_03_chevalier_dechu.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_04_ver_des_profondeurs",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_04_ver_des_profondeurs",
+        "--output",
+        "builds/characters/enemy/enemy_04_ver_des_profondeurs/enemy_04_ver_des_profondeurs.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_04_ver_des_profondeurs/enemy_04_ver_des_profondeurs.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_04_ver_des_profondeurs/enemy_04_ver_des_profondeurs.blend",
+        "builds/characters/enemy/enemy_04_ver_des_profondeurs/enemy_04_ver_des_profondeurs.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_05_ecorcheur",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_05_ecorcheur",
+        "--output",
+        "builds/characters/enemy/enemy_05_ecorcheur/enemy_05_ecorcheur.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_05_ecorcheur/enemy_05_ecorcheur.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_05_ecorcheur/enemy_05_ecorcheur.blend",
+        "builds/characters/enemy/enemy_05_ecorcheur/enemy_05_ecorcheur.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_06_gorgone",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_06_gorgone",
+        "--output",
+        "builds/characters/enemy/enemy_06_gorgone/enemy_06_gorgone.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_06_gorgone/enemy_06_gorgone.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_06_gorgone/enemy_06_gorgone.blend",
+        "builds/characters/enemy/enemy_06_gorgone/enemy_06_gorgone.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_07_minotaure",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_07_minotaure",
+        "--output",
+        "builds/characters/enemy/enemy_07_minotaure/enemy_07_minotaure.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_07_minotaure/enemy_07_minotaure.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_07_minotaure/enemy_07_minotaure.blend",
+        "builds/characters/enemy/enemy_07_minotaure/enemy_07_minotaure.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_08_oni",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_08_oni",
+        "--output",
+        "builds/characters/enemy/enemy_08_oni/enemy_08_oni.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_08_oni/enemy_08_oni.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_08_oni/enemy_08_oni.blend",
+        "builds/characters/enemy/enemy_08_oni/enemy_08_oni.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_09_tengu",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_09_tengu",
+        "--output",
+        "builds/characters/enemy/enemy_09_tengu/enemy_09_tengu.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_09_tengu/enemy_09_tengu.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_09_tengu/enemy_09_tengu.blend",
+        "builds/characters/enemy/enemy_09_tengu/enemy_09_tengu.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_10_jorogumo",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_10_jorogumo",
+        "--output",
+        "builds/characters/enemy/enemy_10_jorogumo/enemy_10_jorogumo.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_10_jorogumo/enemy_10_jorogumo.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_10_jorogumo/enemy_10_jorogumo.blend",
+        "builds/characters/enemy/enemy_10_jorogumo/enemy_10_jorogumo.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_11_yuki_onna",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_11_yuki_onna",
+        "--output",
+        "builds/characters/enemy/enemy_11_yuki_onna/enemy_11_yuki_onna.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_11_yuki_onna/enemy_11_yuki_onna.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_11_yuki_onna/enemy_11_yuki_onna.blend",
+        "builds/characters/enemy/enemy_11_yuki_onna/enemy_11_yuki_onna.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_12_anubis",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_12_anubis",
+        "--output",
+        "builds/characters/enemy/enemy_12_anubis/enemy_12_anubis.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_12_anubis/enemy_12_anubis.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_12_anubis/enemy_12_anubis.blend",
+        "builds/characters/enemy/enemy_12_anubis/enemy_12_anubis.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_13_pretre_momifie",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_13_pretre_momifie",
+        "--output",
+        "builds/characters/enemy/enemy_13_pretre_momifie/enemy_13_pretre_momifie.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_13_pretre_momifie/enemy_13_pretre_momifie.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_13_pretre_momifie/enemy_13_pretre_momifie.blend",
+        "builds/characters/enemy/enemy_13_pretre_momifie/enemy_13_pretre_momifie.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_14_scarabee_funeraire",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_14_scarabee_funeraire",
+        "--output",
+        "builds/characters/enemy/enemy_14_scarabee_funeraire/enemy_14_scarabee_funeraire.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_14_scarabee_funeraire/enemy_14_scarabee_funeraire.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_14_scarabee_funeraire/enemy_14_scarabee_funeraire.blend",
+        "builds/characters/enemy/enemy_14_scarabee_funeraire/enemy_14_scarabee_funeraire.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_15_necrophage",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_15_necrophage",
+        "--output",
+        "builds/characters/enemy/enemy_15_necrophage/enemy_15_necrophage.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_15_necrophage/enemy_15_necrophage.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_15_necrophage/enemy_15_necrophage.blend",
+        "builds/characters/enemy/enemy_15_necrophage/enemy_15_necrophage.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_16_porte_cierge",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_16_porte_cierge",
+        "--output",
+        "builds/characters/enemy/enemy_16_porte_cierge/enemy_16_porte_cierge.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_16_porte_cierge/enemy_16_porte_cierge.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_16_porte_cierge/enemy_16_porte_cierge.blend",
+        "builds/characters/enemy/enemy_16_porte_cierge/enemy_16_porte_cierge.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_17_veuve_du_voile",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_17_veuve_du_voile",
+        "--output",
+        "builds/characters/enemy/enemy_17_veuve_du_voile/enemy_17_veuve_du_voile.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_17_veuve_du_voile/enemy_17_veuve_du_voile.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_17_veuve_du_voile/enemy_17_veuve_du_voile.blend",
+        "builds/characters/enemy/enemy_17_veuve_du_voile/enemy_17_veuve_du_voile.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_18_pelerin_creux",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_18_pelerin_creux",
+        "--output",
+        "builds/characters/enemy/enemy_18_pelerin_creux/enemy_18_pelerin_creux.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_18_pelerin_creux/enemy_18_pelerin_creux.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_18_pelerin_creux/enemy_18_pelerin_creux.blend",
+        "builds/characters/enemy/enemy_18_pelerin_creux/enemy_18_pelerin_creux.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_19_mange_reves",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_19_mange_reves",
+        "--output",
+        "builds/characters/enemy/enemy_19_mange_reves/enemy_19_mange_reves.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_19_mange_reves/enemy_19_mange_reves.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_19_mange_reves/enemy_19_mange_reves.blend",
+        "builds/characters/enemy/enemy_19_mange_reves/enemy_19_mange_reves.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_20_chien_dos",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_20_chien_dos",
+        "--output",
+        "builds/characters/enemy/enemy_20_chien_dos/enemy_20_chien_dos.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_20_chien_dos/enemy_20_chien_dos.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_20_chien_dos/enemy_20_chien_dos.blend",
+        "builds/characters/enemy/enemy_20_chien_dos/enemy_20_chien_dos.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_21_sangsue_royale",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_21_sangsue_royale",
+        "--output",
+        "builds/characters/enemy/enemy_21_sangsue_royale/enemy_21_sangsue_royale.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_21_sangsue_royale/enemy_21_sangsue_royale.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_21_sangsue_royale/enemy_21_sangsue_royale.blend",
+        "builds/characters/enemy/enemy_21_sangsue_royale/enemy_21_sangsue_royale.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_22_gardien_aveugle",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_22_gardien_aveugle",
+        "--output",
+        "builds/characters/enemy/enemy_22_gardien_aveugle/enemy_22_gardien_aveugle.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_22_gardien_aveugle/enemy_22_gardien_aveugle.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_22_gardien_aveugle/enemy_22_gardien_aveugle.blend",
+        "builds/characters/enemy/enemy_22_gardien_aveugle/enemy_22_gardien_aveugle.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_23_oracle_brise",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_23_oracle_brise",
+        "--output",
+        "builds/characters/enemy/enemy_23_oracle_brise/enemy_23_oracle_brise.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_23_oracle_brise/enemy_23_oracle_brise.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_23_oracle_brise/enemy_23_oracle_brise.blend",
+        "builds/characters/enemy/enemy_23_oracle_brise/enemy_23_oracle_brise.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_24_enfant_de_suie",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_24_enfant_de_suie",
+        "--output",
+        "builds/characters/enemy/enemy_24_enfant_de_suie/enemy_24_enfant_de_suie.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_24_enfant_de_suie/enemy_24_enfant_de_suie.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_24_enfant_de_suie/enemy_24_enfant_de_suie.blend",
+        "builds/characters/enemy/enemy_24_enfant_de_suie/enemy_24_enfant_de_suie.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_25_masque_hurlant",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_25_masque_hurlant",
+        "--output",
+        "builds/characters/enemy/enemy_25_masque_hurlant/enemy_25_masque_hurlant.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_25_masque_hurlant/enemy_25_masque_hurlant.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_25_masque_hurlant/enemy_25_masque_hurlant.blend",
+        "builds/characters/enemy/enemy_25_masque_hurlant/enemy_25_masque_hurlant.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_26_devoreur_de_lumiere",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_26_devoreur_de_lumiere",
+        "--output",
+        "builds/characters/enemy/enemy_26_devoreur_de_lumiere/enemy_26_devoreur_de_lumiere.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_26_devoreur_de_lumiere/enemy_26_devoreur_de_lumiere.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_26_devoreur_de_lumiere/enemy_26_devoreur_de_lumiere.blend",
+        "builds/characters/enemy/enemy_26_devoreur_de_lumiere/enemy_26_devoreur_de_lumiere.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_27_porte_peste",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_27_porte_peste",
+        "--output",
+        "builds/characters/enemy/enemy_27_porte_peste/enemy_27_porte_peste.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_27_porte_peste/enemy_27_porte_peste.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_27_porte_peste/enemy_27_porte_peste.blend",
+        "builds/characters/enemy/enemy_27_porte_peste/enemy_27_porte_peste.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_28_moire",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_28_moire",
+        "--output",
+        "builds/characters/enemy/enemy_28_moire/enemy_28_moire.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_28_moire/enemy_28_moire.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_28_moire/enemy_28_moire.blend",
+        "builds/characters/enemy/enemy_28_moire/enemy_28_moire.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_29_geant_des_cryptes",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_29_geant_des_cryptes",
+        "--output",
+        "builds/characters/enemy/enemy_29_geant_des_cryptes/enemy_29_geant_des_cryptes.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_29_geant_des_cryptes/enemy_29_geant_des_cryptes.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_29_geant_des_cryptes/enemy_29_geant_des_cryptes.blend",
+        "builds/characters/enemy/enemy_29_geant_des_cryptes/enemy_29_geant_des_cryptes.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_30_nonne_renversee",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_30_nonne_renversee",
+        "--output",
+        "builds/characters/enemy/enemy_30_nonne_renversee/enemy_30_nonne_renversee.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_30_nonne_renversee/enemy_30_nonne_renversee.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_30_nonne_renversee/enemy_30_nonne_renversee.blend",
+        "builds/characters/enemy/enemy_30_nonne_renversee/enemy_30_nonne_renversee.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_31_eclat_vivant",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_31_eclat_vivant",
+        "--output",
+        "builds/characters/enemy/enemy_31_eclat_vivant/enemy_31_eclat_vivant.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_31_eclat_vivant/enemy_31_eclat_vivant.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_31_eclat_vivant/enemy_31_eclat_vivant.blend",
+        "builds/characters/enemy/enemy_31_eclat_vivant/enemy_31_eclat_vivant.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_32_charognard_cuirasse",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_32_charognard_cuirasse",
+        "--output",
+        "builds/characters/enemy/enemy_32_charognard_cuirasse/enemy_32_charognard_cuirasse.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_32_charognard_cuirasse/enemy_32_charognard_cuirasse.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_32_charognard_cuirasse/enemy_32_charognard_cuirasse.blend",
+        "builds/characters/enemy/enemy_32_charognard_cuirasse/enemy_32_charognard_cuirasse.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_33_loup_du_voile",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_33_loup_du_voile",
+        "--output",
+        "builds/characters/enemy/enemy_33_loup_du_voile/enemy_33_loup_du_voile.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_33_loup_du_voile/enemy_33_loup_du_voile.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_33_loup_du_voile/enemy_33_loup_du_voile.blend",
+        "builds/characters/enemy/enemy_33_loup_du_voile/enemy_33_loup_du_voile.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_34_semeur_de_cendres",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_34_semeur_de_cendres",
+        "--output",
+        "builds/characters/enemy/enemy_34_semeur_de_cendres/enemy_34_semeur_de_cendres.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_34_semeur_de_cendres/enemy_34_semeur_de_cendres.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_34_semeur_de_cendres/enemy_34_semeur_de_cendres.blend",
+        "builds/characters/enemy/enemy_34_semeur_de_cendres/enemy_34_semeur_de_cendres.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_35_miroir_mort",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_35_miroir_mort",
+        "--output",
+        "builds/characters/enemy/enemy_35_miroir_mort/enemy_35_miroir_mort.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_35_miroir_mort/enemy_35_miroir_mort.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_35_miroir_mort/enemy_35_miroir_mort.blend",
+        "builds/characters/enemy/enemy_35_miroir_mort/enemy_35_miroir_mort.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_36_pretre_du_neant",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_36_pretre_du_neant",
+        "--output",
+        "builds/characters/enemy/enemy_36_pretre_du_neant/enemy_36_pretre_du_neant.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_36_pretre_du_neant/enemy_36_pretre_du_neant.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_36_pretre_du_neant/enemy_36_pretre_du_neant.blend",
+        "builds/characters/enemy/enemy_36_pretre_du_neant/enemy_36_pretre_du_neant.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_37_colosse_sans_nom",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_37_colosse_sans_nom",
+        "--output",
+        "builds/characters/enemy/enemy_37_colosse_sans_nom/enemy_37_colosse_sans_nom.blend",
+        "--export-glb",
+        "builds/characters/enemy/enemy_37_colosse_sans_nom/enemy_37_colosse_sans_nom.glb"
+      ],
+      "outputs": [
+        "builds/characters/enemy/enemy_37_colosse_sans_nom/enemy_37_colosse_sans_nom.blend",
+        "builds/characters/enemy/enemy_37_colosse_sans_nom/enemy_37_colosse_sans_nom.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_38_ange_inverse",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_38_ange_inverse",
+        "--output",
+        "builds/characters/boss/enemy_38_ange_inverse/enemy_38_ange_inverse.blend",
+        "--export-glb",
+        "builds/characters/boss/enemy_38_ange_inverse/enemy_38_ange_inverse.glb"
+      ],
+      "outputs": [
+        "builds/characters/boss/enemy_38_ange_inverse/enemy_38_ange_inverse.blend",
+        "builds/characters/boss/enemy_38_ange_inverse/enemy_38_ange_inverse.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_enemy_39_mere_des_souffrances",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "enemy_39_mere_des_souffrances",
+        "--output",
+        "builds/characters/boss/enemy_39_mere_des_souffrances/enemy_39_mere_des_souffrances.blend",
+        "--export-glb",
+        "builds/characters/boss/enemy_39_mere_des_souffrances/enemy_39_mere_des_souffrances.glb"
+      ],
+      "outputs": [
+        "builds/characters/boss/enemy_39_mere_des_souffrances/enemy_39_mere_des_souffrances.blend",
+        "builds/characters/boss/enemy_39_mere_des_souffrances/enemy_39_mere_des_souffrances.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_cure_dechu",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "cure_dechu",
+        "--output",
+        "builds/characters/miniboss/cure_dechu/cure_dechu.blend",
+        "--export-glb",
+        "builds/characters/miniboss/cure_dechu/cure_dechu.glb"
+      ],
+      "outputs": [
+        "builds/characters/miniboss/cure_dechu/cure_dechu.blend",
+        "builds/characters/miniboss/cure_dechu/cure_dechu.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_gardienne_des_tombes",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "gardienne_des_tombes",
+        "--output",
+        "builds/characters/miniboss/gardienne_des_tombes/gardienne_des_tombes.blend",
+        "--export-glb",
+        "builds/characters/miniboss/gardienne_des_tombes/gardienne_des_tombes.glb"
+      ],
+      "outputs": [
+        "builds/characters/miniboss/gardienne_des_tombes/gardienne_des_tombes.blend",
+        "builds/characters/miniboss/gardienne_des_tombes/gardienne_des_tombes.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_porteur_de_chaines",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "porteur_de_chaines",
+        "--output",
+        "builds/characters/miniboss/porteur_de_chaines/porteur_de_chaines.blend",
+        "--export-glb",
+        "builds/characters/miniboss/porteur_de_chaines/porteur_de_chaines.glb"
+      ],
+      "outputs": [
+        "builds/characters/miniboss/porteur_de_chaines/porteur_de_chaines.blend",
+        "builds/characters/miniboss/porteur_de_chaines/porteur_de_chaines.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_revenant_du_cimetiere",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "revenant_du_cimetiere",
+        "--output",
+        "builds/characters/miniboss/revenant_du_cimetiere/revenant_du_cimetiere.blend",
+        "--export-glb",
+        "builds/characters/miniboss/revenant_du_cimetiere/revenant_du_cimetiere.glb"
+      ],
+      "outputs": [
+        "builds/characters/miniboss/revenant_du_cimetiere/revenant_du_cimetiere.blend",
+        "builds/characters/miniboss/revenant_du_cimetiere/revenant_du_cimetiere.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_chevalier_penitent",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "chevalier_penitent",
+        "--output",
+        "builds/characters/miniboss/chevalier_penitent/chevalier_penitent.blend",
+        "--export-glb",
+        "builds/characters/miniboss/chevalier_penitent/chevalier_penitent.glb"
+      ],
+      "outputs": [
+        "builds/characters/miniboss/chevalier_penitent/chevalier_penitent.blend",
+        "builds/characters/miniboss/chevalier_penitent/chevalier_penitent.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_reine_des_corbeaux",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "reine_des_corbeaux",
+        "--output",
+        "builds/characters/miniboss/reine_des_corbeaux/reine_des_corbeaux.blend",
+        "--export-glb",
+        "builds/characters/miniboss/reine_des_corbeaux/reine_des_corbeaux.glb"
+      ],
+      "outputs": [
+        "builds/characters/miniboss/reine_des_corbeaux/reine_des_corbeaux.blend",
+        "builds/characters/miniboss/reine_des_corbeaux/reine_des_corbeaux.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_ombre_sans_nom",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "ombre_sans_nom",
+        "--output",
+        "builds/characters/miniboss/ombre_sans_nom/ombre_sans_nom.blend",
+        "--export-glb",
+        "builds/characters/miniboss/ombre_sans_nom/ombre_sans_nom.glb"
+      ],
+      "outputs": [
+        "builds/characters/miniboss/ombre_sans_nom/ombre_sans_nom.blend",
+        "builds/characters/miniboss/ombre_sans_nom/ombre_sans_nom.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_gardien_des_reliques",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "gardien_des_reliques",
+        "--output",
+        "builds/characters/miniboss/gardien_des_reliques/gardien_des_reliques.blend",
+        "--export-glb",
+        "builds/characters/miniboss/gardien_des_reliques/gardien_des_reliques.glb"
+      ],
+      "outputs": [
+        "builds/characters/miniboss/gardien_des_reliques/gardien_des_reliques.blend",
+        "builds/characters/miniboss/gardien_des_reliques/gardien_des_reliques.glb"
+      ]
+    },
+    {
+      "stage": "characters",
+      "job_id": "character_devoreur_dos",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_character_scene.py",
+        "devoreur_dos",
+        "--output",
+        "builds/characters/miniboss/devoreur_dos/devoreur_dos.blend",
+        "--export-glb",
+        "builds/characters/miniboss/devoreur_dos/devoreur_dos.glb"
+      ],
+      "outputs": [
+        "builds/characters/miniboss/devoreur_dos/devoreur_dos.blend",
+        "builds/characters/miniboss/devoreur_dos/devoreur_dos.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_rust_blade",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "rust_blade",
+        "--output",
+        "builds/props/equipment/rust_blade/rust_blade.blend",
+        "--export-glb",
+        "builds/props/equipment/rust_blade/rust_blade.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/rust_blade/rust_blade.blend",
+        "builds/props/equipment/rust_blade/rust_blade.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_veil_armor",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "veil_armor",
+        "--output",
+        "builds/props/equipment/veil_armor/veil_armor.blend",
+        "--export-glb",
+        "builds/props/equipment/veil_armor/veil_armor.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/veil_armor/veil_armor.blend",
+        "builds/props/equipment/veil_armor/veil_armor.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_bone_ring",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "bone_ring",
+        "--output",
+        "builds/props/equipment/bone_ring/bone_ring.blend",
+        "--export-glb",
+        "builds/props/equipment/bone_ring/bone_ring.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/bone_ring/bone_ring.blend",
+        "builds/props/equipment/bone_ring/bone_ring.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_campfire",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "campfire",
+        "--output",
+        "builds/props/gameplay/campfire/campfire.blend",
+        "--export-glb",
+        "builds/props/gameplay/campfire/campfire.glb"
+      ],
+      "outputs": [
+        "builds/props/gameplay/campfire/campfire.blend",
+        "builds/props/gameplay/campfire/campfire.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_resource_cache",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "resource_cache",
+        "--output",
+        "builds/props/gameplay/resource_cache/resource_cache.blend",
+        "--export-glb",
+        "builds/props/gameplay/resource_cache/resource_cache.glb"
+      ],
+      "outputs": [
+        "builds/props/gameplay/resource_cache/resource_cache.blend",
+        "builds/props/gameplay/resource_cache/resource_cache.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_shortcut_gate",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "shortcut_gate",
+        "--output",
+        "builds/props/architecture/shortcut_gate/shortcut_gate.blend",
+        "--export-glb",
+        "builds/props/architecture/shortcut_gate/shortcut_gate.glb"
+      ],
+      "outputs": [
+        "builds/props/architecture/shortcut_gate/shortcut_gate.blend",
+        "builds/props/architecture/shortcut_gate/shortcut_gate.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_abbey_teleporter",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "abbey_teleporter",
+        "--output",
+        "builds/props/gameplay/abbey_teleporter/abbey_teleporter.blend",
+        "--export-glb",
+        "builds/props/gameplay/abbey_teleporter/abbey_teleporter.glb"
+      ],
+      "outputs": [
+        "builds/props/gameplay/abbey_teleporter/abbey_teleporter.blend",
+        "builds/props/gameplay/abbey_teleporter/abbey_teleporter.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_harvestable_corpse",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "harvestable_corpse",
+        "--output",
+        "builds/props/gameplay/harvestable_corpse/harvestable_corpse.blend",
+        "--export-glb",
+        "builds/props/gameplay/harvestable_corpse/harvestable_corpse.glb"
+      ],
+      "outputs": [
+        "builds/props/gameplay/harvestable_corpse/harvestable_corpse.blend",
+        "builds/props/gameplay/harvestable_corpse/harvestable_corpse.glb"
+      ]
+    }
+  ]
+}
