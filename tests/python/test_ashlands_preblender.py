@@ -10,6 +10,7 @@ BLUEPRINTS = ROOT / 'data/levels/ashlands_zone_blueprints.json'
 LAYOUT_PROFILES = ROOT / 'data/levels/ashlands_layout_profiles.json'
 BLENDER_HANDOFF = ROOT / 'data/levels/ashlands_blender_handoff.json'
 CAMERA_PROFILES = ROOT / 'data/levels/ashlands_camera_profiles.json'
+PACING_TARGETS = ROOT / 'data/levels/ashlands_pacing_targets.json'
 
 class AshlandsPreBlenderTests(unittest.TestCase):
     @classmethod
@@ -21,6 +22,7 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         cls.layout_profiles = json.loads(LAYOUT_PROFILES.read_text(encoding='utf-8'))
         cls.blender_handoff = json.loads(BLENDER_HANDOFF.read_text(encoding='utf-8'))
         cls.camera_profiles = json.loads(CAMERA_PROFILES.read_text(encoding='utf-8'))
+        cls.pacing_targets = json.loads(PACING_TARGETS.read_text(encoding='utf-8'))
 
     def test_exactly_fifteen_zones(self):
         self.assertEqual(len(self.manifest['zones']), 15)
@@ -182,6 +184,17 @@ class AshlandsPreBlenderTests(unittest.TestCase):
             self.assertIn(gate, session)
         self.assertIn('OS.is_debug_build()', builder)
         self.assertIn('AshlandsPlaytestSession=', project)
+
+    def test_pacing_targets_and_route_telemetry_cover_all_zones(self):
+        zone_ids = {zone['id'] for zone in self.manifest['zones']}
+        self.assertEqual(set(self.pacing_targets['zones']), zone_ids)
+        for zone_id, targets in self.pacing_targets['zones'].items():
+            for route in ('primary_seconds', 'bypass_seconds'):
+                self.assertEqual(len(targets[route]), 2, f'{zone_id}:{route}')
+                self.assertLess(targets[route][0], targets[route][1])
+        session = (ROOT / 'scripts/world/ashlands_playtest_session.gd').read_text(encoding='utf-8')
+        for contract in ('duration_seconds', 'distance_m', 'average_speed_mps', 'trail', 'within_target'):
+            self.assertIn(contract, session)
 
     def test_project_registers_ashlands_autoloads(self):
         text = (ROOT / 'project.godot').read_text(encoding='utf-8')

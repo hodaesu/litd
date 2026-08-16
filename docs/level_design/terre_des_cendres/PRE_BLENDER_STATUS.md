@@ -49,6 +49,7 @@
 - Zoom orthographique corrigé pour modifier réellement le cadrage sur clavier et écran tactile.
 - Outil de playtest intégré aux builds debug : navigation entre les 15 zones, validation route/détour/caméra/mobile et capture des performances.
 - Rapport pré‑Blender persistant généré dans `user://ashlands_preblender_playtest.json` avec progression globale par zone.
+- Télémétrie de pacing : chronométrage des routes et détours, distance, vitesse moyenne, trajectoire échantillonnée et comparaison aux objectifs des 15 zones.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
 - Ajustement manuel fin des plans authored après parcours en jeu ; le placement circulaire provisoire n'est plus utilisé lorsque le plan de zone est présent.

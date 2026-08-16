@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "sample_interval_seconds": 0.5,
+  "zones": {
+    "zone_01_faubourg_cendreux": {"primary_seconds": [60, 120], "bypass_seconds": [75, 150]},
+    "zone_02_village_ravage": {"primary_seconds": [120, 240], "bypass_seconds": [150, 300]},
+    "zone_03_moulin_calcine": {"primary_seconds": [90, 180], "bypass_seconds": [110, 220]},
+    "zone_04_foret_morte": {"primary_seconds": [150, 300], "bypass_seconds": [180, 360]},
+    "zone_05_ravin_des_pendus": {"primary_seconds": [120, 240], "bypass_seconds": [150, 300]},
+    "zone_06_chapelle_effondree": {"primary_seconds": [120, 240], "bypass_seconds": [140, 280]},
+    "zone_07_cimetiere": {"primary_seconds": [150, 300], "bypass_seconds": [180, 360]},
+    "zone_08_catacombes": {"primary_seconds": [180, 360], "bypass_seconds": [210, 420]},
+    "zone_09_ossuaire": {"primary_seconds": [120, 240], "bypass_seconds": [150, 300]},
+    "zone_10_hameau_deserte": {"primary_seconds": [150, 300], "bypass_seconds": [180, 360]},
+    "zone_11_route_des_penitents": {"primary_seconds": [120, 240], "bypass_seconds": [150, 300]},
+    "zone_12_abbaye": {"primary_seconds": [180, 360], "bypass_seconds": [210, 420]},
+    "zone_13_clocher_boss": {"primary_seconds": [90, 180], "bypass_seconds": [90, 180]},
+    "zone_14_clairiere_des_corbeaux": {"primary_seconds": [120, 240], "bypass_seconds": [150, 300]},
+    "zone_15_crypte_du_sans_nom": {"primary_seconds": [150, 300], "bypass_seconds": [180, 360]}
+  }
+}
