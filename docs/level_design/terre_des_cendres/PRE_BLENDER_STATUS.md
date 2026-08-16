@@ -17,6 +17,7 @@
 - Manifeste de blockout des 15 zones.
 - 15 scènes de zone chargées à partir du même constructeur de blockout.
 - Sol, limites et collisions de placeholder.
+- Profils de géométrie distincts pour les 15 zones (relief, murs, plateformes et landmark de référence).
 - Points d'entrée et sorties physiques.
 - Routeur de scènes entre zones.
 - Contrôleur d'exploration CharacterBody3D.
@@ -32,7 +33,7 @@
 - Raccourcis persistants.
 - Téléporteur Abbaye ↔ Crypte avec coût prévu.
 - Sauvegarde de l'état des zones, raccourcis, ressources, rencontres, provisions et rotation mini-boss.
-- Tests Python de contrat Pré-Blender.
+- Tests Python et smoke test Godot de contrat Pré-Blender, incluant la couverture des profils de géométrie.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
 - Placement manuel précis des blockouts selon les plans validés, au lieu des slots procéduraux provisoires.
