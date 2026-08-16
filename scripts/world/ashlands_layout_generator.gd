@@ -97,6 +97,9 @@ static func _box(parent: Node3D, name_value: String, pos: Vector3, size: Vector3
     var root := OCCLUDABLE_SCRIPT.new() as Node3D
     root.name = name_value
     root.position = pos
+    root.set_meta("blender_asset_slot", _asset_slot_for_name(name_value))
+    root.set_meta("blockout_size_m", size)
+    root.set_meta("preserve_collision_until_approved", collision_enabled)
     var mesh := MeshInstance3D.new()
     var box_mesh := BoxMesh.new()
     box_mesh.size = size
@@ -111,6 +114,17 @@ static func _box(parent: Node3D, name_value: String, pos: Vector3, size: Vector3
         collision.shape = shape
         body.add_child(collision)
     parent.add_child(root)
+
+static func _asset_slot_for_name(node_name: String) -> String:
+    if node_name.begins_with("Building"):
+        return "architecture/building"
+    if node_name.begins_with("Platform"):
+        return "architecture/platform"
+    if node_name.begins_with("Landmark"):
+        return "architecture/landmark"
+    if node_name.begins_with("NaturalBlock") or node_name.begins_with("Cliff"):
+        return "nature/blocker"
+    return "architecture/wall"
 
 static func _load_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
