@@ -11,6 +11,7 @@ LAYOUT_PROFILES = ROOT / 'data/levels/ashlands_layout_profiles.json'
 BLENDER_HANDOFF = ROOT / 'data/levels/ashlands_blender_handoff.json'
 CAMERA_PROFILES = ROOT / 'data/levels/ashlands_camera_profiles.json'
 PACING_TARGETS = ROOT / 'data/levels/ashlands_pacing_targets.json'
+BLENDER_JOBS = ROOT / 'data/levels/ashlands_blender_jobs.json'
 
 class AshlandsPreBlenderTests(unittest.TestCase):
     @classmethod
@@ -23,6 +24,7 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         cls.blender_handoff = json.loads(BLENDER_HANDOFF.read_text(encoding='utf-8'))
         cls.camera_profiles = json.loads(CAMERA_PROFILES.read_text(encoding='utf-8'))
         cls.pacing_targets = json.loads(PACING_TARGETS.read_text(encoding='utf-8'))
+        cls.blender_jobs = json.loads(BLENDER_JOBS.read_text(encoding='utf-8'))
 
     def test_exactly_fifteen_zones(self):
         self.assertEqual(len(self.manifest['zones']), 15)
@@ -195,6 +197,19 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         session = (ROOT / 'scripts/world/ashlands_playtest_session.gd').read_text(encoding='utf-8')
         for contract in ('duration_seconds', 'distance_m', 'average_speed_mps', 'trail', 'within_target'):
             self.assertIn(contract, session)
+
+    def test_blender_production_jobs_are_complete_and_current(self):
+        from tools.blender.generate_ashlands_jobs import build_plan
+        self.assertEqual(self.blender_jobs, build_plan())
+        jobs = self.blender_jobs['jobs']
+        self.assertEqual(len(jobs), 15)
+        self.assertEqual({job['zone_id'] for job in jobs}, {zone['id'] for zone in self.manifest['zones']})
+        self.assertEqual(self.blender_jobs['export_format'], 'glb')
+        for job in jobs:
+            self.assertIn(job['priority'], {'P0', 'P1', 'P2'})
+            self.assertTrue(job['landmark'])
+            self.assertEqual(job['deliverables']['collision_policy'], 'keep_blockout_until_approved')
+            self.assertGreaterEqual(len(job['approval_gates']), 7)
 
     def test_project_registers_ashlands_autoloads(self):
         text = (ROOT / 'project.godot').read_text(encoding='utf-8')
