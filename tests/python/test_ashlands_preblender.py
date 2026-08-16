@@ -8,6 +8,7 @@ SURVIVAL = ROOT / 'data/levels/ashlands_survival_rules.json'
 MINIBOSSES = ROOT / 'data/levels/ashlands_minibosses.json'
 BLUEPRINTS = ROOT / 'data/levels/ashlands_zone_blueprints.json'
 LAYOUT_PROFILES = ROOT / 'data/levels/ashlands_layout_profiles.json'
+BLENDER_HANDOFF = ROOT / 'data/levels/ashlands_blender_handoff.json'
 
 class AshlandsPreBlenderTests(unittest.TestCase):
     @classmethod
@@ -17,6 +18,7 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         cls.minibosses = json.loads(MINIBOSSES.read_text(encoding='utf-8'))
         cls.blueprints = json.loads(BLUEPRINTS.read_text(encoding='utf-8'))
         cls.layout_profiles = json.loads(LAYOUT_PROFILES.read_text(encoding='utf-8'))
+        cls.blender_handoff = json.loads(BLENDER_HANDOFF.read_text(encoding='utf-8'))
 
     def test_exactly_fifteen_zones(self):
         self.assertEqual(len(self.manifest['zones']), 15)
@@ -119,6 +121,7 @@ class AshlandsPreBlenderTests(unittest.TestCase):
             'scripts/world/mobile_exploration_controls.gd',
             'scripts/world/ashlands_blockout_builder.gd',
             'scripts/world/ashlands_layout_generator.gd',
+            'scripts/world/ashlands_asset_registry.gd',
         ]
         for rel in required:
             self.assertTrue((ROOT / rel).is_file(), rel)
@@ -140,6 +143,15 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         self.assertIn('OCCLUDABLE_SCRIPT.new()', layout)
         self.assertIn('AshVFXPlaceholder', ambience)
         self.assertIn('WindLoopPlaceholder', ambience)
+
+    def test_blender_handoff_covers_every_zone_and_slot(self):
+        zone_ids = {zone['id'] for zone in self.manifest['zones']}
+        self.assertEqual(set(self.blender_handoff['zone_kits']), zone_ids)
+        self.assertEqual(self.blender_handoff['coordinate_system']['scale'], 1.0)
+        self.assertEqual(self.blender_handoff['export']['format'], 'glb')
+        self.assertTrue(self.blender_handoff['runtime_contract']['preserve_navigation_source'])
+        self.assertGreaterEqual(len(self.blender_handoff['asset_slots']), 8)
+        self.assertGreaterEqual(len(self.blender_handoff['approval_gates']), 7)
 
     def test_project_registers_ashlands_autoloads(self):
         text = (ROOT / 'project.godot').read_text(encoding='utf-8')
