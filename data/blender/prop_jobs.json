@@ -1,0 +1,225 @@
+{
+  "version": 1,
+  "generator": "tools/blender/generate_prop_jobs.py",
+  "jobs": [
+    {
+      "job_id": "prop_rust_blade",
+      "prop_id": "rust_blade",
+      "name": "Lame rouillée",
+      "category": "equipment",
+      "dimensions_m": [
+        1.05,
+        0.08,
+        0.12
+      ],
+      "material_profile": "iron_tarnished",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_grip",
+      "output": "builds/props/equipment/rust_blade",
+      "equipment_slot": "weapon"
+    },
+    {
+      "job_id": "prop_veil_armor",
+      "prop_id": "veil_armor",
+      "name": "Armure du Voile",
+      "category": "equipment",
+      "dimensions_m": [
+        0.65,
+        0.95,
+        0.3
+      ],
+      "material_profile": "cloth_soot",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_spine",
+      "output": "builds/props/equipment/veil_armor",
+      "equipment_slot": "armor"
+    },
+    {
+      "job_id": "prop_bone_ring",
+      "prop_id": "bone_ring",
+      "name": "Anneau d'os",
+      "category": "equipment",
+      "dimensions_m": [
+        0.06,
+        0.02,
+        0.06
+      ],
+      "material_profile": "bone_old",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_finger",
+      "output": "builds/props/equipment/bone_ring",
+      "equipment_slot": "ring"
+    },
+    {
+      "job_id": "prop_campfire",
+      "prop_id": "campfire",
+      "name": "Feu de camp",
+      "category": "gameplay",
+      "dimensions_m": [
+        1.2,
+        1.0,
+        1.2
+      ],
+      "material_profile": "ember_emissive",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_interact",
+      "output": "builds/props/gameplay/campfire"
+    },
+    {
+      "job_id": "prop_resource_cache",
+      "prop_id": "resource_cache",
+      "name": "Cache de ressources",
+      "category": "gameplay",
+      "dimensions_m": [
+        1.0,
+        0.8,
+        0.8
+      ],
+      "material_profile": "wood_charred",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_loot",
+      "output": "builds/props/gameplay/resource_cache"
+    },
+    {
+      "job_id": "prop_shortcut_gate",
+      "prop_id": "shortcut_gate",
+      "name": "Porte de raccourci",
+      "category": "architecture",
+      "dimensions_m": [
+        2.4,
+        3.0,
+        0.35
+      ],
+      "material_profile": "iron_tarnished",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_interact",
+      "output": "builds/props/architecture/shortcut_gate"
+    },
+    {
+      "job_id": "prop_abbey_teleporter",
+      "prop_id": "abbey_teleporter",
+      "name": "Téléporteur ancestral",
+      "category": "gameplay",
+      "dimensions_m": [
+        3.0,
+        0.45,
+        3.0
+      ],
+      "material_profile": "stone_ash",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_teleport",
+      "output": "builds/props/gameplay/abbey_teleporter"
+    },
+    {
+      "job_id": "prop_harvestable_corpse",
+      "prop_id": "harvestable_corpse",
+      "name": "Cadavre récoltable",
+      "category": "gameplay",
+      "dimensions_m": [
+        1.8,
+        0.45,
+        0.65
+      ],
+      "material_profile": "cloth_soot",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_harvest",
+      "output": "builds/props/gameplay/harvestable_corpse"
+    }
+  ]
+}
