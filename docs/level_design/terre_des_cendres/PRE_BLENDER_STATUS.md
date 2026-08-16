@@ -56,6 +56,8 @@
 - Premier exécuteur Blender automatisé : création des collections, volumes, collisions, sockets, caméra, lumière, fichier `.blend` et export GLB depuis les jobs des 15 zones.
 - Pipeline personnages automatisé : 52 jobs couvrant héros, ennemis, mini-boss et boss, avec proportions, références, armature, animations, LOD, collisions, matériaux et sockets d'équipement.
 - Constructeur Blender de mannequins structurés prêt à générer les fichiers `.blend` et GLB de contrôle avant modélisation finale.
+- Bibliothèque cel-shading dark fantasy automatisée : huit familles de surfaces, palettes procédurales à trois tons, paramètres PBR portables et budgets mobiles.
+- Validateur GLB des personnages : skin, armature `RIG_`, mesh `SK_`, canaux et six animations minimales obligatoires.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
 - Ajustement manuel fin des plans authored après parcours en jeu ; le placement circulaire provisoire n'est plus utilisé lorsque le plan de zone est présent.
