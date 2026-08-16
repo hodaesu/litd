@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "coordinate_system": {
+    "unit": "meter",
+    "scale": 1.0,
+    "up_axis": "+Y",
+    "forward_axis": "-Z",
+    "origin": "ground_contact_center",
+    "apply_transforms": true
+  },
+  "export": {
+    "format": "glb",
+    "godot_version": "4.3",
+    "mesh_naming": "SM_{kit}_{asset}_{variant}",
+    "collision_naming": "COL_{asset}",
+    "socket_naming": "SOCKET_{purpose}",
+    "material_naming": "M_{family}_{surface}",
+    "lod_suffixes": ["LOD0", "LOD1", "LOD2"],
+    "required_uv_sets": 1,
+    "max_materials_per_modular_mesh": 3,
+    "texture_sizes": [512, 1024, 2048],
+    "texture_channels": ["base_color", "normal", "orm", "emission_optional"]
+  },
+  "runtime_contract": {
+    "preserve_blockout_collision_until_approved": true,
+    "preserve_navigation_source": true,
+    "occludable_architecture": true,
+    "mobile_renderer": "gl_compatibility",
+    "hero_height_m": 1.8,
+    "door_clearance_m": [1.4, 2.4],
+    "minimum_corridor_width_m": 2.2,
+    "minimum_stair_width_m": 1.8,
+    "maximum_step_height_m": 0.45
+  },
+  "asset_slots": {
+    "architecture/building": {"folder": "assets/3d/ashlands/architecture", "required_lods": 3},
+    "architecture/wall": {"folder": "assets/3d/ashlands/architecture", "required_lods": 3},
+    "architecture/platform": {"folder": "assets/3d/ashlands/architecture", "required_lods": 2},
+    "architecture/landmark": {"folder": "assets/3d/ashlands/landmarks", "required_lods": 3},
+    "nature/blocker": {"folder": "assets/3d/ashlands/nature", "required_lods": 3},
+    "gameplay/campfire": {"folder": "assets/3d/ashlands/gameplay", "required_lods": 2},
+    "gameplay/resource": {"folder": "assets/3d/ashlands/gameplay", "required_lods": 2},
+    "gameplay/shortcut": {"folder": "assets/3d/ashlands/gameplay", "required_lods": 2}
+  },
+  "zone_kits": {
+    "zone_01_faubourg_cendreux": "faubourg_ruins",
+    "zone_02_village_ravage": "village_ruins",
+    "zone_03_moulin_calcine": "burnt_mill",
+    "zone_04_foret_morte": "dead_forest",
+    "zone_05_ravin_des_pendus": "hanged_ravine",
+    "zone_06_chapelle_effondree": "collapsed_chapel",
+    "zone_07_cimetiere": "open_graveyard",
+    "zone_08_catacombes": "catacomb_maze",
+    "zone_09_ossuaire": "ossuary_chambers",
+    "zone_10_hameau_deserte": "deserted_hamlet",
+    "zone_11_route_des_penitents": "penitent_road",
+    "zone_12_abbaye": "ruined_abbey",
+    "zone_13_clocher_boss": "boss_bell_tower",
+    "zone_14_clairiere_des_corbeaux": "crow_clearing",
+    "zone_15_crypte_du_sans_nom": "nameless_crypt"
+  },
+  "approval_gates": [
+    "silhouette_matches_blockout",
+    "critical_path_clear",
+    "miniboss_bypass_clear",
+    "camera_occlusion_validated",
+    "navigation_rebaked",
+    "mobile_budget_validated",
+    "materials_readable_in_ash_fog"
+  ]
+}
