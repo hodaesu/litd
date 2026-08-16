@@ -25,8 +25,10 @@ func _on_body_entered(body: Node) -> void:
     if density >= 0.65 and body.is_in_group("player_party"):
         var result := ExpeditionManager.cross_dense_ash()
         entered_dense_ash.emit(result)
+        get_tree().call_group("ashlands_ambience", "set_dense_ash", true, density)
 
 func _on_body_exited(body: Node) -> void:
     _inside_bodies.erase(body.get_instance_id())
     if body.is_in_group("player_party"):
         exited_ash.emit()
+        get_tree().call_group("ashlands_ambience", "set_dense_ash", false, density)

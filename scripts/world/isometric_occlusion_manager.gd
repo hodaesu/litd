@@ -7,7 +7,7 @@ class_name IsometricOcclusionManager
 
 var camera: Camera3D
 var target: Node3D
-var _last_occluder: Node = null
+var _active_occluders: Array[Node] = []
 
 func _ready() -> void:
     camera = get_node_or_null(camera_path) as Camera3D
@@ -19,17 +19,25 @@ func _physics_process(_delta: float) -> void:
     var query := PhysicsRayQueryParameters3D.create(camera.global_position, target.global_position + Vector3.UP)
     query.collision_mask = ray_collision_mask
     query.exclude = [target.get_rid()] if target is CollisionObject3D else []
-    var hit := camera.get_world_3d().direct_space_state.intersect_ray(query)
-    var occluder: Node = null
-    if not hit.is_empty():
-        occluder = _find_occludable(hit.get("collider"))
-    if occluder == _last_occluder:
-        return
-    if _last_occluder != null and is_instance_valid(_last_occluder):
-        _last_occluder.set_occluded(false)
-    _last_occluder = occluder
-    if _last_occluder != null:
-        _last_occluder.set_occluded(true)
+    var next_occluders: Array[Node] = []
+    for _index in 4:
+        var hit := camera.get_world_3d().direct_space_state.intersect_ray(query)
+        if hit.is_empty():
+            break
+        var collider := hit.get("collider") as CollisionObject3D
+        var occluder := _find_occludable(collider)
+        if occluder != null and not next_occluders.has(occluder):
+            next_occluders.append(occluder)
+        if collider == null:
+            break
+        query.exclude.append(collider.get_rid())
+    for old_occluder in _active_occluders:
+        if is_instance_valid(old_occluder) and not next_occluders.has(old_occluder):
+            old_occluder.set_occluded(false)
+    for new_occluder in next_occluders:
+        if not _active_occluders.has(new_occluder):
+            new_occluder.set_occluded(true)
+    _active_occluders = next_occluders
 
 func _find_occludable(node: Node) -> Node:
     var current := node
