@@ -33,6 +33,11 @@ func _build_panel() -> void:
     _add_button(gates, "Détour", _toggle_bypass)
     _add_button(gates, "Caméra", _toggle_camera)
     _add_button(gates, "Mobile", _toggle_mobile)
+    var pacing := HBoxContainer.new()
+    box.add_child(pacing)
+    _add_button(pacing, "Départ route", _start_primary_route)
+    _add_button(pacing, "Départ détour", _start_bypass_route)
+    _add_button(pacing, "Arrivée", _finish_route)
     _add_button(box, "Afficher/masquer les routes", _toggle_routes)
 
 func _add_button(parent: Control, text_value: String, callback: Callable) -> void:
@@ -57,6 +62,17 @@ func _toggle_camera() -> void:
 func _toggle_mobile() -> void:
     _refresh(AshlandsPlaytestSession.toggle_gate("mobile_checked"))
 
+func _start_primary_route() -> void:
+    AshlandsPlaytestSession.start_route("primary")
+    _refresh(AshlandsPlaytestSession.capture_current_zone())
+
+func _start_bypass_route() -> void:
+    AshlandsPlaytestSession.start_route("bypass")
+    _refresh(AshlandsPlaytestSession.capture_current_zone())
+
+func _finish_route() -> void:
+    _refresh(AshlandsPlaytestSession.finish_route())
+
 func _toggle_routes() -> void:
     var routes := get_tree().get_nodes_in_group("ashlands_authored_routes")
     for route in routes:
@@ -68,9 +84,10 @@ func _on_report_updated(_zone_id: String, report: Dictionary) -> void:
 
 func _refresh(report: Dictionary) -> void:
     var summary := AshlandsPlaytestSession.completion_summary()
-    status_label.text = "PLAYTEST PRÉ-BLENDER — %s\nZones validées : %d/%d\nRoute %s | Détour %s | Caméra %s | Mobile %s | Perf %s" % [
+    status_label.text = "PLAYTEST PRÉ-BLENDER — %s\nZones validées : %d/%d | Chrono : %s\nRoute %s | Détour %s | Caméra %s | Mobile %s | Perf %s" % [
         AshlandsRuntime.current_zone_id,
         int(summary.get("completed", 0)), int(summary.get("total", 15)),
+        AshlandsPlaytestSession.active_route if AshlandsPlaytestSession.active_route != "" else "arrêté",
         _mark(report, "primary_route_checked"), _mark(report, "bypass_route_checked"),
         _mark(report, "camera_checked"), _mark(report, "mobile_checked"),
         "✓" if report.has("performance") else "·"
