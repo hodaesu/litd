@@ -2,6 +2,7 @@ extends RefCounted
 class_name AshlandsLayoutGenerator
 
 const PROFILE_PATH := "res://data/levels/ashlands_layout_profiles.json"
+const OCCLUDABLE_SCRIPT := preload("res://scripts/world/isometric_occludable.gd")
 
 static func generate(parent: Node3D, zone_id: String, zone_data: Dictionary) -> void:
     var data := _load_json(PROFILE_PATH)
@@ -93,10 +94,9 @@ static func _generate_landmark(root: Node3D, landmark: String, profile: String) 
     _box(root, "Landmark_%s" % landmark, Vector3(0.0, dims.y * 0.5, -4.0), dims, false)
 
 static func _box(parent: Node3D, name_value: String, pos: Vector3, size: Vector3, collision_enabled: bool) -> void:
-    var root := Node3D.new()
+    var root := OCCLUDABLE_SCRIPT.new() as Node3D
     root.name = name_value
     root.position = pos
-    parent.add_child(root)
     var mesh := MeshInstance3D.new()
     var box_mesh := BoxMesh.new()
     box_mesh.size = size
@@ -110,6 +110,7 @@ static func _box(parent: Node3D, name_value: String, pos: Vector3, size: Vector3
         shape.size = size
         collision.shape = shape
         body.add_child(collision)
+    parent.add_child(root)
 
 static func _load_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
