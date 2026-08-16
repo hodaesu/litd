@@ -1,0 +1,608 @@
+{
+  "version": 1,
+  "generator": "tools/blender/generate_godot_import_registry.py",
+  "godot_version": "4.3",
+  "asset_count": 75,
+  "assets": [
+    {
+      "job_id": "ashlands_01_faubourg_ruins",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_01_faubourg_cendreux/ashlands_01_faubourg_ruins.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_01_faubourg_cendreux/ashlands_01_faubourg_ruins.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_02_village_ruins",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_02_village_ravage/ashlands_02_village_ruins.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_02_village_ravage/ashlands_02_village_ruins.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_03_burnt_mill",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_03_moulin_calcine/ashlands_03_burnt_mill.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_03_moulin_calcine/ashlands_03_burnt_mill.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_04_dead_forest",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_04_foret_morte/ashlands_04_dead_forest.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_04_foret_morte/ashlands_04_dead_forest.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_05_hanged_ravine",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_05_ravin_des_pendus/ashlands_05_hanged_ravine.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_05_ravin_des_pendus/ashlands_05_hanged_ravine.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_06_collapsed_chapel",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_06_chapelle_effondree/ashlands_06_collapsed_chapel.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_06_chapelle_effondree/ashlands_06_collapsed_chapel.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_07_open_graveyard",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_07_cimetiere/ashlands_07_open_graveyard.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_07_cimetiere/ashlands_07_open_graveyard.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_08_catacomb_maze",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_08_catacombes/ashlands_08_catacomb_maze.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_08_catacombes/ashlands_08_catacomb_maze.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_09_ossuary_chambers",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_09_ossuaire/ashlands_09_ossuary_chambers.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_09_ossuaire/ashlands_09_ossuary_chambers.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_10_deserted_hamlet",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_10_hameau_deserte/ashlands_10_deserted_hamlet.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_10_hameau_deserte/ashlands_10_deserted_hamlet.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_11_penitent_road",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_11_route_des_penitents/ashlands_11_penitent_road.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_11_route_des_penitents/ashlands_11_penitent_road.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_12_ruined_abbey",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_12_abbaye/ashlands_12_ruined_abbey.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_12_abbaye/ashlands_12_ruined_abbey.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_13_boss_bell_tower",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_13_clocher_boss/ashlands_13_boss_bell_tower.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_13_clocher_boss/ashlands_13_boss_bell_tower.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_14_crow_clearing",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_14_clairiere_des_corbeaux/ashlands_14_crow_clearing.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_14_clairiere_des_corbeaux/ashlands_14_crow_clearing.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "ashlands_15_nameless_crypt",
+      "category": "environments",
+      "source_glb": "assets/3d/ashlands/zones/zone_15_crypte_du_sans_nom/ashlands_15_nameless_crypt.glb",
+      "godot_path": "res://assets/3d/ashlands/zones/zone_15_crypte_du_sans_nom/ashlands_15_nameless_crypt.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_aurelien",
+      "category": "characters",
+      "source_glb": "builds/characters/hero/aurelien/aurelien.glb",
+      "godot_path": "res://assets/3d/characters/hero/aurelien/aurelien.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_malvor",
+      "category": "characters",
+      "source_glb": "builds/characters/hero/malvor/malvor.glb",
+      "godot_path": "res://assets/3d/characters/hero/malvor/malvor.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_lysandra",
+      "category": "characters",
+      "source_glb": "builds/characters/hero/lysandra/lysandra.glb",
+      "godot_path": "res://assets/3d/characters/hero/lysandra/lysandra.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_darius",
+      "category": "characters",
+      "source_glb": "builds/characters/hero/darius/darius.glb",
+      "godot_path": "res://assets/3d/characters/hero/darius/darius.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_01_goule_affamee",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_01_goule_affamee/enemy_01_goule_affamee.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_01_goule_affamee/enemy_01_goule_affamee.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_02_cultiste_fanatise",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_02_cultiste_fanatise/enemy_02_cultiste_fanatise.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_02_cultiste_fanatise/enemy_02_cultiste_fanatise.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_03_chevalier_dechu",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_03_chevalier_dechu/enemy_03_chevalier_dechu.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_03_chevalier_dechu/enemy_03_chevalier_dechu.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_04_ver_des_profondeurs",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_04_ver_des_profondeurs/enemy_04_ver_des_profondeurs.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_04_ver_des_profondeurs/enemy_04_ver_des_profondeurs.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_05_ecorcheur",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_05_ecorcheur/enemy_05_ecorcheur.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_05_ecorcheur/enemy_05_ecorcheur.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_06_gorgone",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_06_gorgone/enemy_06_gorgone.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_06_gorgone/enemy_06_gorgone.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_07_minotaure",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_07_minotaure/enemy_07_minotaure.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_07_minotaure/enemy_07_minotaure.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_08_oni",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_08_oni/enemy_08_oni.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_08_oni/enemy_08_oni.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_09_tengu",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_09_tengu/enemy_09_tengu.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_09_tengu/enemy_09_tengu.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_10_jorogumo",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_10_jorogumo/enemy_10_jorogumo.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_10_jorogumo/enemy_10_jorogumo.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_11_yuki_onna",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_11_yuki_onna/enemy_11_yuki_onna.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_11_yuki_onna/enemy_11_yuki_onna.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_12_anubis",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_12_anubis/enemy_12_anubis.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_12_anubis/enemy_12_anubis.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_13_pretre_momifie",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_13_pretre_momifie/enemy_13_pretre_momifie.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_13_pretre_momifie/enemy_13_pretre_momifie.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_14_scarabee_funeraire",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_14_scarabee_funeraire/enemy_14_scarabee_funeraire.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_14_scarabee_funeraire/enemy_14_scarabee_funeraire.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_15_necrophage",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_15_necrophage/enemy_15_necrophage.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_15_necrophage/enemy_15_necrophage.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_16_porte_cierge",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_16_porte_cierge/enemy_16_porte_cierge.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_16_porte_cierge/enemy_16_porte_cierge.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_17_veuve_du_voile",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_17_veuve_du_voile/enemy_17_veuve_du_voile.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_17_veuve_du_voile/enemy_17_veuve_du_voile.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_18_pelerin_creux",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_18_pelerin_creux/enemy_18_pelerin_creux.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_18_pelerin_creux/enemy_18_pelerin_creux.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_19_mange_reves",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_19_mange_reves/enemy_19_mange_reves.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_19_mange_reves/enemy_19_mange_reves.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_20_chien_dos",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_20_chien_dos/enemy_20_chien_dos.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_20_chien_dos/enemy_20_chien_dos.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_21_sangsue_royale",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_21_sangsue_royale/enemy_21_sangsue_royale.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_21_sangsue_royale/enemy_21_sangsue_royale.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_22_gardien_aveugle",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_22_gardien_aveugle/enemy_22_gardien_aveugle.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_22_gardien_aveugle/enemy_22_gardien_aveugle.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_23_oracle_brise",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_23_oracle_brise/enemy_23_oracle_brise.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_23_oracle_brise/enemy_23_oracle_brise.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_24_enfant_de_suie",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_24_enfant_de_suie/enemy_24_enfant_de_suie.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_24_enfant_de_suie/enemy_24_enfant_de_suie.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_25_masque_hurlant",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_25_masque_hurlant/enemy_25_masque_hurlant.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_25_masque_hurlant/enemy_25_masque_hurlant.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_26_devoreur_de_lumiere",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_26_devoreur_de_lumiere/enemy_26_devoreur_de_lumiere.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_26_devoreur_de_lumiere/enemy_26_devoreur_de_lumiere.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_27_porte_peste",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_27_porte_peste/enemy_27_porte_peste.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_27_porte_peste/enemy_27_porte_peste.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_28_moire",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_28_moire/enemy_28_moire.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_28_moire/enemy_28_moire.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_29_geant_des_cryptes",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_29_geant_des_cryptes/enemy_29_geant_des_cryptes.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_29_geant_des_cryptes/enemy_29_geant_des_cryptes.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_30_nonne_renversee",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_30_nonne_renversee/enemy_30_nonne_renversee.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_30_nonne_renversee/enemy_30_nonne_renversee.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_31_eclat_vivant",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_31_eclat_vivant/enemy_31_eclat_vivant.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_31_eclat_vivant/enemy_31_eclat_vivant.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_32_charognard_cuirasse",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_32_charognard_cuirasse/enemy_32_charognard_cuirasse.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_32_charognard_cuirasse/enemy_32_charognard_cuirasse.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_33_loup_du_voile",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_33_loup_du_voile/enemy_33_loup_du_voile.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_33_loup_du_voile/enemy_33_loup_du_voile.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_34_semeur_de_cendres",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_34_semeur_de_cendres/enemy_34_semeur_de_cendres.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_34_semeur_de_cendres/enemy_34_semeur_de_cendres.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_35_miroir_mort",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_35_miroir_mort/enemy_35_miroir_mort.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_35_miroir_mort/enemy_35_miroir_mort.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_36_pretre_du_neant",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_36_pretre_du_neant/enemy_36_pretre_du_neant.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_36_pretre_du_neant/enemy_36_pretre_du_neant.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_37_colosse_sans_nom",
+      "category": "characters",
+      "source_glb": "builds/characters/enemy/enemy_37_colosse_sans_nom/enemy_37_colosse_sans_nom.glb",
+      "godot_path": "res://assets/3d/characters/enemy/enemy_37_colosse_sans_nom/enemy_37_colosse_sans_nom.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_38_ange_inverse",
+      "category": "characters",
+      "source_glb": "builds/characters/boss/enemy_38_ange_inverse/enemy_38_ange_inverse.glb",
+      "godot_path": "res://assets/3d/characters/boss/enemy_38_ange_inverse/enemy_38_ange_inverse.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_enemy_39_mere_des_souffrances",
+      "category": "characters",
+      "source_glb": "builds/characters/boss/enemy_39_mere_des_souffrances/enemy_39_mere_des_souffrances.glb",
+      "godot_path": "res://assets/3d/characters/boss/enemy_39_mere_des_souffrances/enemy_39_mere_des_souffrances.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_cure_dechu",
+      "category": "characters",
+      "source_glb": "builds/characters/miniboss/cure_dechu/cure_dechu.glb",
+      "godot_path": "res://assets/3d/characters/miniboss/cure_dechu/cure_dechu.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_gardienne_des_tombes",
+      "category": "characters",
+      "source_glb": "builds/characters/miniboss/gardienne_des_tombes/gardienne_des_tombes.glb",
+      "godot_path": "res://assets/3d/characters/miniboss/gardienne_des_tombes/gardienne_des_tombes.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_porteur_de_chaines",
+      "category": "characters",
+      "source_glb": "builds/characters/miniboss/porteur_de_chaines/porteur_de_chaines.glb",
+      "godot_path": "res://assets/3d/characters/miniboss/porteur_de_chaines/porteur_de_chaines.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_revenant_du_cimetiere",
+      "category": "characters",
+      "source_glb": "builds/characters/miniboss/revenant_du_cimetiere/revenant_du_cimetiere.glb",
+      "godot_path": "res://assets/3d/characters/miniboss/revenant_du_cimetiere/revenant_du_cimetiere.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_chevalier_penitent",
+      "category": "characters",
+      "source_glb": "builds/characters/miniboss/chevalier_penitent/chevalier_penitent.glb",
+      "godot_path": "res://assets/3d/characters/miniboss/chevalier_penitent/chevalier_penitent.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_reine_des_corbeaux",
+      "category": "characters",
+      "source_glb": "builds/characters/miniboss/reine_des_corbeaux/reine_des_corbeaux.glb",
+      "godot_path": "res://assets/3d/characters/miniboss/reine_des_corbeaux/reine_des_corbeaux.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_ombre_sans_nom",
+      "category": "characters",
+      "source_glb": "builds/characters/miniboss/ombre_sans_nom/ombre_sans_nom.glb",
+      "godot_path": "res://assets/3d/characters/miniboss/ombre_sans_nom/ombre_sans_nom.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_gardien_des_reliques",
+      "category": "characters",
+      "source_glb": "builds/characters/miniboss/gardien_des_reliques/gardien_des_reliques.glb",
+      "godot_path": "res://assets/3d/characters/miniboss/gardien_des_reliques/gardien_des_reliques.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "character_devoreur_dos",
+      "category": "characters",
+      "source_glb": "builds/characters/miniboss/devoreur_dos/devoreur_dos.glb",
+      "godot_path": "res://assets/3d/characters/miniboss/devoreur_dos/devoreur_dos.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_rust_blade",
+      "category": "props",
+      "source_glb": "builds/props/equipment/rust_blade/rust_blade.glb",
+      "godot_path": "res://assets/3d/props/equipment/rust_blade/rust_blade.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_veil_armor",
+      "category": "props",
+      "source_glb": "builds/props/equipment/veil_armor/veil_armor.glb",
+      "godot_path": "res://assets/3d/props/equipment/veil_armor/veil_armor.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_bone_ring",
+      "category": "props",
+      "source_glb": "builds/props/equipment/bone_ring/bone_ring.glb",
+      "godot_path": "res://assets/3d/props/equipment/bone_ring/bone_ring.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_campfire",
+      "category": "props",
+      "source_glb": "builds/props/gameplay/campfire/campfire.glb",
+      "godot_path": "res://assets/3d/props/gameplay/campfire/campfire.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_resource_cache",
+      "category": "props",
+      "source_glb": "builds/props/gameplay/resource_cache/resource_cache.glb",
+      "godot_path": "res://assets/3d/props/gameplay/resource_cache/resource_cache.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_shortcut_gate",
+      "category": "props",
+      "source_glb": "builds/props/architecture/shortcut_gate/shortcut_gate.glb",
+      "godot_path": "res://assets/3d/props/architecture/shortcut_gate/shortcut_gate.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_abbey_teleporter",
+      "category": "props",
+      "source_glb": "builds/props/gameplay/abbey_teleporter/abbey_teleporter.glb",
+      "godot_path": "res://assets/3d/props/gameplay/abbey_teleporter/abbey_teleporter.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_harvestable_corpse",
+      "category": "props",
+      "source_glb": "builds/props/gameplay/harvestable_corpse/harvestable_corpse.glb",
+      "godot_path": "res://assets/3d/props/gameplay/harvestable_corpse/harvestable_corpse.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    }
+  ]
+}
