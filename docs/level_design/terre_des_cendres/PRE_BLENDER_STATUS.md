@@ -42,6 +42,9 @@
 - Commandes d'exploration mobiles adaptatives : déplacement, course, interaction et zoom, ancrées aux bords de l'écran.
 - Occultation multi-obstacles appliquée aux bâtiments, murs, reliefs et landmarks du blockout.
 - Ambiance pré‑Blender par zone : éclairage, brume, particules de cendres et contrats audio placeholders.
+- Contrat Blender → Godot versionné : échelle, axes, nommage, GLB, LOD, matériaux, collisions, sockets et budgets mobiles.
+- Kit 3D cible attribué à chacune des 15 zones et registre runtime prêt à charger progressivement les futurs GLB.
+- Métadonnées de remplacement sur chaque volume architectural avec conservation des collisions jusqu'à approbation.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
 - Ajustement manuel fin des plans authored après parcours en jeu ; le placement circulaire provisoire n'est plus utilisé lorsque le plan de zone est présent.
