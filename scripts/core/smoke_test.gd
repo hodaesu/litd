@@ -9,6 +9,7 @@ func _initialize() -> void:
         "res://data/enemies.json",
         "res://data/skills.json",
         "res://data/levels/terre_des_cendres_blockout_manifest.json",
+        "res://data/levels/ashlands_layout_profiles.json",
         "res://data/levels/ashlands_survival_rules.json",
         "res://data/levels/ashlands_minibosses.json",
         "res://scripts/core/expedition_manager.gd",
@@ -16,6 +17,7 @@ func _initialize() -> void:
         "res://scripts/world/ashlands_miniboss_director.gd",
         "res://scripts/world/ashlands_scene_router.gd",
         "res://scripts/world/ashlands_blockout_builder.gd",
+        "res://scripts/world/ashlands_layout_generator.gd",
         "res://scripts/world/ash_volume.gd",
         "res://scripts/world/resource_node.gd",
         "res://scripts/world/corpse_harvest.gd",
@@ -53,9 +55,25 @@ func _initialize() -> void:
             elif ResourceLoader.load(scene_path) == null:
                 failures.append("Cannot load zone scene: " + scene_path)
 
+        var layout_data = JSON.parse_string(FileAccess.get_file_as_string("res://data/levels/ashlands_layout_profiles.json"))
+        if typeof(layout_data) != TYPE_DICTIONARY:
+            failures.append("Invalid Ashlands layout profiles JSON")
+        else:
+            var profiles: Dictionary = layout_data.get("zones", {})
+            var rules: Dictionary = layout_data.get("profile_rules", {})
+            for zone in zones:
+                var zone_id := str(zone.get("id", ""))
+                if not profiles.has(zone_id):
+                    failures.append("Missing layout profile: " + zone_id)
+                    continue
+                var profile_name := str(profiles[zone_id].get("profile", ""))
+                if not rules.has(profile_name):
+                    failures.append("Missing layout rule: " + profile_name)
+
     if failures.is_empty():
         print("SMOKE_TEST_OK")
         quit(0)
+        return
     for failure in failures:
         push_error(failure)
     quit(1)

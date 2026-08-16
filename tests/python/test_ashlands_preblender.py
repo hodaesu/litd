@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ROOT / 'data/levels/terre_des_cendres_blockout_manifest.json'
 SURVIVAL = ROOT / 'data/levels/ashlands_survival_rules.json'
 MINIBOSSES = ROOT / 'data/levels/ashlands_minibosses.json'
+LAYOUT_PROFILES = ROOT / 'data/levels/ashlands_layout_profiles.json'
 
 class AshlandsPreBlenderTests(unittest.TestCase):
     @classmethod
@@ -13,6 +14,7 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         cls.manifest = json.loads(MANIFEST.read_text(encoding='utf-8'))
         cls.survival = json.loads(SURVIVAL.read_text(encoding='utf-8'))
         cls.minibosses = json.loads(MINIBOSSES.read_text(encoding='utf-8'))
+        cls.layout_profiles = json.loads(LAYOUT_PROFILES.read_text(encoding='utf-8'))
 
     def test_exactly_fifteen_zones(self):
         self.assertEqual(len(self.manifest['zones']), 15)
@@ -26,6 +28,32 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         for z in self.manifest['zones']:
             filename = special.get(z['id'], z['id'] + '.tscn')
             self.assertTrue((ROOT / 'scenes/world/terre_des_cendres' / filename).is_file(), filename)
+
+    def test_every_zone_has_a_layout_profile(self):
+        manifest_ids = {zone['id'] for zone in self.manifest['zones']}
+        profile_ids = set(self.layout_profiles['zones'])
+        self.assertEqual(profile_ids, manifest_ids)
+
+    def test_layout_profiles_reference_complete_rules(self):
+        rules = self.layout_profiles['profile_rules']
+        for zone_id, profile in self.layout_profiles['zones'].items():
+            with self.subTest(zone=zone_id):
+                self.assertIn(profile['profile'], rules)
+                self.assertGreaterEqual(profile['levels'], 1)
+                self.assertGreaterEqual(profile['branching'], 1)
+                self.assertIn(profile['cover_density'], {'low', 'medium', 'high'})
+                self.assertTrue(profile['landmark'])
+
+        referenced_rules = {profile['profile'] for profile in self.layout_profiles['zones'].values()}
+        self.assertEqual(set(rules), referenced_rules)
+        for profile_name, rule in rules.items():
+            with self.subTest(profile=profile_name):
+                self.assertEqual(
+                    set(rule),
+                    {'building_count', 'platform_count', 'wall_count'},
+                )
+                self.assertTrue(all(isinstance(count, int) and count >= 0 for count in rule.values()))
+                self.assertGreater(sum(rule.values()), 0)
 
     def test_secret_zones_are_14_and_15(self):
         ids = {z['id'] for z in self.manifest['zones'] if z.get('miniboss_secret_pool')}
@@ -82,6 +110,8 @@ class AshlandsPreBlenderTests(unittest.TestCase):
             'scripts/world/encounter_trigger.gd',
             'scripts/world/exploration_party_controller.gd',
             'scripts/world/isometric_camera_rig.gd',
+            'scripts/world/ashlands_blockout_builder.gd',
+            'scripts/world/ashlands_layout_generator.gd',
         ]
         for rel in required:
             self.assertTrue((ROOT / rel).is_file(), rel)
