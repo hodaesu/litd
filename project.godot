@@ -12,6 +12,7 @@ AshlandsMinibossDirector="*res://scripts/world/ashlands_miniboss_director.gd"
 AshlandsRuntime="*res://scripts/world/ashlands_zone_runtime.gd"
 AshlandsSceneRouter="*res://scripts/world/ashlands_scene_router.gd"
 AshlandsCombatBridge="*res://scripts/world/ashlands_combat_bridge.gd"
+AshlandsPlaytestSession="*res://scripts/world/ashlands_playtest_session.gd"
 
 [display]
 window/size/viewport_width=1280
