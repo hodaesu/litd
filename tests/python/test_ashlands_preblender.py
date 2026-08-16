@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ROOT / 'data/levels/terre_des_cendres_blockout_manifest.json'
 SURVIVAL = ROOT / 'data/levels/ashlands_survival_rules.json'
 MINIBOSSES = ROOT / 'data/levels/ashlands_minibosses.json'
+BLUEPRINTS = ROOT / 'data/levels/ashlands_zone_blueprints.json'
 LAYOUT_PROFILES = ROOT / 'data/levels/ashlands_layout_profiles.json'
 
 class AshlandsPreBlenderTests(unittest.TestCase):
@@ -14,6 +15,7 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         cls.manifest = json.loads(MANIFEST.read_text(encoding='utf-8'))
         cls.survival = json.loads(SURVIVAL.read_text(encoding='utf-8'))
         cls.minibosses = json.loads(MINIBOSSES.read_text(encoding='utf-8'))
+        cls.blueprints = json.loads(BLUEPRINTS.read_text(encoding='utf-8'))
         cls.layout_profiles = json.loads(LAYOUT_PROFILES.read_text(encoding='utf-8'))
 
     def test_exactly_fifteen_zones(self):
@@ -120,6 +122,42 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         text = (ROOT / 'project.godot').read_text(encoding='utf-8')
         for name in ('ExpeditionManager=', 'AshlandsMinibossDirector=', 'AshlandsRuntime=', 'AshlandsSceneRouter='):
             self.assertIn(name, text)
+
+    def test_every_zone_has_an_authored_blueprint(self):
+        zone_ids = {z['id'] for z in self.manifest['zones']}
+        self.assertEqual(set(self.blueprints['zones']), zone_ids)
+
+    def test_authored_slots_match_manifest_counts(self):
+        for zone in self.manifest['zones']:
+            blueprint = self.blueprints['zones'][zone['id']]
+            for blueprint_key, manifest_key in (
+                ('encounters', 'encounter_slots'), ('resources', 'resource_slots'),
+                ('ash', 'ash_volumes'), ('shortcuts', 'shortcut_slots'),
+            ):
+                expected = len(zone[manifest_key]) if manifest_key == 'shortcut_slots' else zone[manifest_key]
+                self.assertEqual(len(blueprint.get(blueprint_key, [])), expected, f"{zone['id']}:{blueprint_key}")
+
+    def test_authored_positions_stay_inside_zone_envelopes(self):
+        zones = {z['id']: z for z in self.manifest['zones']}
+        for zone_id, blueprint in self.blueprints['zones'].items():
+            width, depth = zones[zone_id]['size_m']
+            for key in ('primary_route', 'bypass_route', 'encounters', 'resources', 'ash', 'shortcuts'):
+                for x, _y, z in blueprint.get(key, []):
+                    self.assertLessEqual(abs(x), width / 2, f"{zone_id}:{key}:x")
+                    self.assertLessEqual(abs(z), depth / 2, f"{zone_id}:{key}:z")
+
+    def test_routes_are_ready_for_navigation_bake(self):
+        for zone_id, blueprint in self.blueprints['zones'].items():
+            self.assertGreaterEqual(len(blueprint['primary_route']), 5, zone_id)
+            self.assertGreaterEqual(len(blueprint['bypass_route']), 4, zone_id)
+
+    def test_special_slots_have_authored_positions(self):
+        for zone in self.manifest['zones']:
+            blueprint = self.blueprints['zones'][zone['id']]
+            if zone.get('campfire'):
+                self.assertEqual(len(blueprint.get('campfire', [])), 3, zone['id'])
+            if zone.get('boss'):
+                self.assertEqual(len(blueprint.get('boss', [])), 3, zone['id'])
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
