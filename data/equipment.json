@@ -1,17 +1,244 @@
 [
-  {"id":"ritual_dagger","name":"Dague rituelle","slot":"weapon","class_id":"occultist","base_bonuses":{"damage_bonus":2},"allowed_affixes":["critical_chance","madness_resistance","max_madness","precision","bleed_chance"],"test_level":true},
-  {"id":"occult_staff","name":"Bâton occulte","slot":"weapon","class_id":"occultist","base_bonuses":{"damage_bonus":2},"allowed_affixes":["max_madness","madness_resistance","critical_chance","precision","bleed_chance"],"test_level":true},
-  {"id":"reinforced_robe","name":"Robe renforcée","slot":"armor","class_id":"occultist","base_bonuses":{"hp_bonus":10,"madness_resistance":4},"test_level":true},
-  {"id":"great_axe","name":"Grande hache","slot":"weapon","class_id":"breaker","base_bonuses":{"damage_bonus":2},"allowed_affixes":["break_chance","stun_chance","bleed_chance","precision","physical_resistance"],"test_level":true},
-  {"id":"war_hammer","name":"Marteau de guerre","slot":"weapon","class_id":"breaker","base_bonuses":{"damage_bonus":2},"allowed_affixes":["stun_chance","break_chance","bleed_chance","precision","physical_resistance"],"test_level":true},
-  {"id":"bone_harness","name":"Harnois d’os","slot":"armor","class_id":"breaker","base_bonuses":{"hp_bonus":10,"physical_resistance":4},"test_level":true},
-  {"id":"ceremonial_mace","name":"Masse cérémonielle","slot":"weapon","class_id":"vestal","base_bonuses":{"damage_bonus":2},"allowed_affixes":["healing_power","max_hope","fear_resistance","precision","stun_chance"],"test_level":true},
-  {"id":"sacred_staff","name":"Bâton sacré","slot":"weapon","class_id":"vestal","base_bonuses":{"damage_bonus":2},"allowed_affixes":["max_hope","healing_power","fear_resistance","precision","stun_chance"],"test_level":true},
-  {"id":"reinforced_habit","name":"Habit renforcé","slot":"armor","class_id":"vestal","base_bonuses":{"hp_bonus":10,"fear_resistance":4},"test_level":true},
-  {"id":"watcher_mace","name":"Masse d’armes","slot":"weapon","class_id":"watcher","base_bonuses":{"damage_bonus":2},"allowed_affixes":["riposte_chance","guard_power","precision","stun_chance","physical_resistance"],"test_level":true},
-  {"id":"guard_spear","name":"Lance de garde","slot":"weapon","class_id":"watcher","base_bonuses":{"damage_bonus":2},"allowed_affixes":["guard_power","riposte_chance","precision","stun_chance","physical_resistance"],"test_level":true},
-  {"id":"lamellar_armor","name":"Armure lamellaire","slot":"armor","class_id":"watcher","base_bonuses":{"hp_bonus":10,"physical_resistance":4},"test_level":true},
-  {"id":"rust_blade","name":"Lame rouillée","slot":"weapon","class_id":"","base_bonuses":{"damage_bonus":1},"allowed_affixes":["critical_chance","precision"],"legacy":true},
-  {"id":"veil_armor","name":"Armure du Voile","slot":"armor","class_id":"","base_bonuses":{"hp_bonus":8},"legacy":true},
-  {"id":"bone_ring","name":"Anneau d’os","slot":"ring","class_id":"","base_bonuses":{"critical_chance":3},"legacy":true}
+  {
+    "id": "ritual_dagger",
+    "name": "Dague rituelle",
+    "slot": "weapon",
+    "class_id": "occultist",
+    "base_bonuses": {
+      "damage_bonus": 2
+    },
+    "allowed_affixes": [
+      "critical_chance",
+      "madness_resistance",
+      "max_madness",
+      "precision",
+      "bleed_chance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "occult_staff",
+    "name": "Bâton occulte",
+    "slot": "weapon",
+    "class_id": "occultist",
+    "base_bonuses": {
+      "damage_bonus": 2
+    },
+    "allowed_affixes": [
+      "max_madness",
+      "madness_resistance",
+      "critical_chance",
+      "precision",
+      "bleed_chance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "reinforced_robe",
+    "name": "Robe renforcée",
+    "slot": "armor",
+    "class_id": "occultist",
+    "base_bonuses": {
+      "hp_bonus": 10,
+      "madness_resistance": 4
+    },
+    "test_level": true,
+    "allowed_affixes": [
+      "madness_resistance",
+      "max_madness",
+      "fear_resistance",
+      "physical_resistance",
+      "guard_power"
+    ]
+  },
+  {
+    "id": "great_axe",
+    "name": "Grande hache",
+    "slot": "weapon",
+    "class_id": "breaker",
+    "base_bonuses": {
+      "damage_bonus": 2
+    },
+    "allowed_affixes": [
+      "break_chance",
+      "stun_chance",
+      "bleed_chance",
+      "precision",
+      "physical_resistance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "war_hammer",
+    "name": "Marteau de guerre",
+    "slot": "weapon",
+    "class_id": "breaker",
+    "base_bonuses": {
+      "damage_bonus": 2
+    },
+    "allowed_affixes": [
+      "stun_chance",
+      "break_chance",
+      "bleed_chance",
+      "precision",
+      "physical_resistance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "bone_harness",
+    "name": "Harnois d’os",
+    "slot": "armor",
+    "class_id": "breaker",
+    "base_bonuses": {
+      "hp_bonus": 10,
+      "physical_resistance": 4
+    },
+    "test_level": true,
+    "allowed_affixes": [
+      "physical_resistance",
+      "guard_power",
+      "fear_resistance",
+      "stun_chance",
+      "max_hope"
+    ]
+  },
+  {
+    "id": "ceremonial_mace",
+    "name": "Masse cérémonielle",
+    "slot": "weapon",
+    "class_id": "vestal",
+    "base_bonuses": {
+      "damage_bonus": 2
+    },
+    "allowed_affixes": [
+      "healing_power",
+      "max_hope",
+      "fear_resistance",
+      "precision",
+      "stun_chance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "sacred_staff",
+    "name": "Bâton sacré",
+    "slot": "weapon",
+    "class_id": "vestal",
+    "base_bonuses": {
+      "damage_bonus": 2
+    },
+    "allowed_affixes": [
+      "max_hope",
+      "healing_power",
+      "fear_resistance",
+      "precision",
+      "stun_chance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "reinforced_habit",
+    "name": "Habit renforcé",
+    "slot": "armor",
+    "class_id": "vestal",
+    "base_bonuses": {
+      "hp_bonus": 10,
+      "fear_resistance": 4
+    },
+    "test_level": true,
+    "allowed_affixes": [
+      "fear_resistance",
+      "healing_power",
+      "max_hope",
+      "madness_resistance",
+      "guard_power"
+    ]
+  },
+  {
+    "id": "watcher_mace",
+    "name": "Masse d’armes",
+    "slot": "weapon",
+    "class_id": "watcher",
+    "base_bonuses": {
+      "damage_bonus": 2
+    },
+    "allowed_affixes": [
+      "riposte_chance",
+      "guard_power",
+      "precision",
+      "stun_chance",
+      "physical_resistance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "guard_spear",
+    "name": "Lance de garde",
+    "slot": "weapon",
+    "class_id": "watcher",
+    "base_bonuses": {
+      "damage_bonus": 2
+    },
+    "allowed_affixes": [
+      "guard_power",
+      "riposte_chance",
+      "precision",
+      "stun_chance",
+      "physical_resistance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "lamellar_armor",
+    "name": "Armure lamellaire",
+    "slot": "armor",
+    "class_id": "watcher",
+    "base_bonuses": {
+      "hp_bonus": 10,
+      "physical_resistance": 4
+    },
+    "test_level": true,
+    "allowed_affixes": [
+      "physical_resistance",
+      "guard_power",
+      "riposte_chance",
+      "fear_resistance",
+      "madness_resistance"
+    ]
+  },
+  {
+    "id": "rust_blade",
+    "name": "Lame rouillée",
+    "slot": "weapon",
+    "class_id": "",
+    "base_bonuses": {
+      "damage_bonus": 1
+    },
+    "allowed_affixes": [
+      "critical_chance",
+      "precision"
+    ],
+    "legacy": true
+  },
+  {
+    "id": "veil_armor",
+    "name": "Armure du Voile",
+    "slot": "armor",
+    "class_id": "",
+    "base_bonuses": {
+      "hp_bonus": 8
+    },
+    "legacy": true
+  },
+  {
+    "id": "bone_ring",
+    "name": "Anneau d’os",
+    "slot": "ring",
+    "class_id": "",
+    "base_bonuses": {
+      "critical_chance": 3
+    },
+    "legacy": true
+  }
 ]
