@@ -15,17 +15,32 @@
       "offense": [
         {"id": "ghoul_claws", "name": "Griffes aiguisées", "description": "+2 dégâts", "cost": 1, "required_level": 1, "requires": "", "stat": "damage_bonus", "value": 2},
         {"id": "ghoul_critical", "name": "Instinct du charognard", "description": "+8 % critique", "cost": 1, "required_level": 4, "requires": "ghoul_claws", "stat": "critical_chance", "value": 8},
-        {"id": "ghoul_frenzy", "name": "Frénésie des cendres", "description": "+25 % dégâts", "cost": 1, "required_level": 8, "requires": "ghoul_critical", "stat": "damage_percent", "value": 25}
+        {"id": "ghoul_frenzy", "name": "Frénésie des cendres", "description": "+25 % dégâts", "cost": 1, "required_level": 8, "requires": "ghoul_critical", "stat": "damage_percent", "value": 25},
+        {"id": "ghoul_rend", "name": "Lacération funèbre", "description": "+12 % saignement", "cost": 2, "required_level": 14, "requires": "ghoul_frenzy", "stat": "bleed_chance", "value": 12},
+        {"id": "ghoul_hunt", "name": "Chasse nocturne", "description": "+4 dégâts", "cost": 2, "required_level": 20, "requires": "ghoul_rend", "stat": "damage_bonus", "value": 4},
+        {"id": "ghoul_massacre", "name": "Massacre des faibles", "description": "+20 % dégâts", "cost": 3, "required_level": 28, "requires": "ghoul_hunt", "stat": "damage_percent", "value": 20},
+        {"id": "ghoul_apex", "name": "Prédateur des charniers", "description": "+12 % critique", "cost": 3, "required_level": 36, "requires": "ghoul_massacre", "stat": "critical_chance", "value": 12},
+        {"id": "ghoul_death", "name": "Faim de la Mort", "description": "+45 % exécution", "cost": 4, "required_level": 45, "requires": "ghoul_apex", "stat": "execute_percent", "value": 45}
       ],
       "defense": [
         {"id": "ghoul_hide", "name": "Peau morte", "description": "+3 % résistance physique", "cost": 1, "required_level": 1, "requires": "", "stat": "physical_resistance", "value": 3},
         {"id": "ghoul_scent", "name": "Flair des tombes", "description": "+4 résistance à la peur", "cost": 1, "required_level": 4, "requires": "ghoul_hide", "stat": "fear_resistance", "value": 4},
-        {"id": "ghoul_guard", "name": "Rempart de carcasses", "description": "+8 puissance de garde", "cost": 1, "required_level": 8, "requires": "ghoul_scent", "stat": "guard_power", "value": 8}
+        {"id": "ghoul_guard", "name": "Rempart de carcasses", "description": "+8 puissance de garde", "cost": 1, "required_level": 8, "requires": "ghoul_scent", "stat": "guard_power", "value": 8},
+        {"id": "ghoul_bones", "name": "Os soudés", "description": "+4 % résistance physique", "cost": 2, "required_level": 14, "requires": "ghoul_guard", "stat": "physical_resistance", "value": 4},
+        {"id": "ghoul_dread", "name": "Insensible à l'effroi", "description": "+6 résistance à la peur", "cost": 2, "required_level": 20, "requires": "ghoul_bones", "stat": "fear_resistance", "value": 6},
+        {"id": "ghoul_shell", "name": "Carapace de cendres", "description": "+7 % résistance physique", "cost": 3, "required_level": 28, "requires": "ghoul_dread", "stat": "physical_resistance", "value": 7},
+        {"id": "ghoul_anchor", "name": "Ancrage sépulcral", "description": "+12 puissance de garde", "cost": 3, "required_level": 36, "requires": "ghoul_shell", "stat": "guard_power", "value": 12},
+        {"id": "ghoul_undying", "name": "Chair immortelle", "description": "+10 % résistance physique", "cost": 4, "required_level": 45, "requires": "ghoul_anchor", "stat": "physical_resistance", "value": 10}
       ],
       "special": [
         {"id": "ghoul_bleed", "name": "Morsure infectée", "description": "20 % de saignement", "cost": 1, "required_level": 2, "requires": "", "stat": "bleed_chance", "value": 20},
         {"id": "ghoul_feast", "name": "Festin impie", "description": "Soigne 3 PV après son attaque", "cost": 1, "required_level": 6, "requires": "ghoul_bleed", "stat": "party_heal", "value": 3},
-        {"id": "ghoul_execute", "name": "Dévorer les faibles", "description": "+40 % dégâts sous 25 % PV", "cost": 1, "required_level": 10, "requires": "ghoul_feast", "stat": "execute_percent", "value": 40}
+        {"id": "ghoul_execute", "name": "Dévorer les faibles", "description": "+40 % dégâts sous 25 % PV", "cost": 1, "required_level": 10, "requires": "ghoul_feast", "stat": "execute_percent", "value": 40},
+        {"id": "ghoul_rot", "name": "Pourriture active", "description": "+10 % saignement", "cost": 2, "required_level": 14, "requires": "ghoul_execute", "stat": "bleed_chance", "value": 10},
+        {"id": "ghoul_devour", "name": "Dévoration", "description": "Soigne 3 PV après l'attaque", "cost": 2, "required_level": 20, "requires": "ghoul_rot", "stat": "party_heal", "value": 3},
+        {"id": "ghoul_plague", "name": "Peste des fosses", "description": "+18 % saignement", "cost": 3, "required_level": 28, "requires": "ghoul_devour", "stat": "bleed_chance", "value": 18},
+        {"id": "ghoul_rebirth", "name": "Renaissance putride", "description": "Soigne 5 PV après l'attaque", "cost": 3, "required_level": 36, "requires": "ghoul_plague", "stat": "party_heal", "value": 5},
+        {"id": "ghoul_endless", "name": "Appétit sans fin", "description": "+50 % exécution", "cost": 4, "required_level": 45, "requires": "ghoul_rebirth", "stat": "execute_percent", "value": 50}
       ]
     }
   },
@@ -45,17 +60,32 @@
       "offense": [
         {"id": "oni_impact", "name": "Impact du kanabō", "description": "+3 dégâts", "cost": 1, "required_level": 1, "requires": "", "stat": "damage_bonus", "value": 3},
         {"id": "oni_break", "name": "Brise-armure", "description": "+15 % rupture", "cost": 1, "required_level": 4, "requires": "oni_impact", "stat": "break_chance", "value": 15},
-        {"id": "oni_fury", "name": "Colère de la fournaise", "description": "+30 % dégâts", "cost": 1, "required_level": 8, "requires": "oni_break", "stat": "damage_percent", "value": 30}
+        {"id": "oni_fury", "name": "Colère de la fournaise", "description": "+30 % dégâts", "cost": 1, "required_level": 8, "requires": "oni_break", "stat": "damage_percent", "value": 30},
+        {"id": "oni_crush", "name": "Écrasement", "description": "+12 % rupture", "cost": 2, "required_level": 14, "requires": "oni_fury", "stat": "break_chance", "value": 12},
+        {"id": "oni_might", "name": "Force ogresque", "description": "+5 dégâts", "cost": 2, "required_level": 20, "requires": "oni_crush", "stat": "damage_bonus", "value": 5},
+        {"id": "oni_quake", "name": "Séisme écarlate", "description": "+15 % étourdissement", "cost": 3, "required_level": 28, "requires": "oni_might", "stat": "stun_chance", "value": 15},
+        {"id": "oni_warlord", "name": "Seigneur du kanabō", "description": "+25 % dégâts", "cost": 3, "required_level": 36, "requires": "oni_quake", "stat": "damage_percent", "value": 25},
+        {"id": "oni_cataclysm", "name": "Cataclysme démoniaque", "description": "+25 % rupture", "cost": 4, "required_level": 45, "requires": "oni_warlord", "stat": "break_chance", "value": 25}
       ],
       "defense": [
         {"id": "oni_plates", "name": "Plaques fendues", "description": "+5 % résistance physique", "cost": 1, "required_level": 1, "requires": "", "stat": "physical_resistance", "value": 5},
         {"id": "oni_roar", "name": "Rugissement impérieux", "description": "+5 résistance à la peur", "cost": 1, "required_level": 4, "requires": "oni_plates", "stat": "fear_resistance", "value": 5},
-        {"id": "oni_bulwark", "name": "Rempart démoniaque", "description": "+12 puissance de garde", "cost": 1, "required_level": 8, "requires": "oni_roar", "stat": "guard_power", "value": 12}
+        {"id": "oni_bulwark", "name": "Rempart démoniaque", "description": "+12 puissance de garde", "cost": 1, "required_level": 8, "requires": "oni_roar", "stat": "guard_power", "value": 12},
+        {"id": "oni_iron", "name": "Peau de fer", "description": "+5 % résistance physique", "cost": 2, "required_level": 14, "requires": "oni_bulwark", "stat": "physical_resistance", "value": 5},
+        {"id": "oni_defiance", "name": "Défi du démon", "description": "+7 résistance à la peur", "cost": 2, "required_level": 20, "requires": "oni_iron", "stat": "fear_resistance", "value": 7},
+        {"id": "oni_fortress", "name": "Forteresse vivante", "description": "+15 puissance de garde", "cost": 3, "required_level": 28, "requires": "oni_defiance", "stat": "guard_power", "value": 15},
+        {"id": "oni_armor", "name": "Armure ancestrale", "description": "+8 % résistance physique", "cost": 3, "required_level": 36, "requires": "oni_fortress", "stat": "physical_resistance", "value": 8},
+        {"id": "oni_immovable", "name": "Montagne immobile", "description": "+20 puissance de garde", "cost": 4, "required_level": 45, "requires": "oni_armor", "stat": "guard_power", "value": 20}
       ],
       "special": [
         {"id": "oni_stun", "name": "Onde de choc", "description": "18 % d’étourdissement", "cost": 1, "required_level": 2, "requires": "", "stat": "stun_chance", "value": 18},
         {"id": "oni_guard_break", "name": "Pas du géant", "description": "20 % de rupture", "cost": 1, "required_level": 6, "requires": "oni_stun", "stat": "break_chance", "value": 20},
-        {"id": "oni_execute", "name": "Sentence écarlate", "description": "+50 % dégâts sous 20 % PV", "cost": 1, "required_level": 10, "requires": "oni_guard_break", "stat": "execute_percent", "value": 50}
+        {"id": "oni_execute", "name": "Sentence écarlate", "description": "+50 % dégâts sous 20 % PV", "cost": 1, "required_level": 10, "requires": "oni_guard_break", "stat": "execute_percent", "value": 50},
+        {"id": "oni_thunder", "name": "Tonnerre du kanabō", "description": "+10 % étourdissement", "cost": 2, "required_level": 14, "requires": "oni_execute", "stat": "stun_chance", "value": 10},
+        {"id": "oni_sunder", "name": "Fendre la garde", "description": "+15 % rupture", "cost": 2, "required_level": 20, "requires": "oni_thunder", "stat": "break_chance", "value": 15},
+        {"id": "oni_terror", "name": "Terreur incarnée", "description": "+10 résistance à la peur", "cost": 3, "required_level": 28, "requires": "oni_sunder", "stat": "fear_resistance", "value": 10},
+        {"id": "oni_judgment", "name": "Jugement infernal", "description": "+30 % exécution", "cost": 3, "required_level": 36, "requires": "oni_terror", "stat": "execute_percent", "value": 30},
+        {"id": "oni_overlord", "name": "Sang du seigneur oni", "description": "+30 % dégâts", "cost": 4, "required_level": 45, "requires": "oni_judgment", "stat": "damage_percent", "value": 30}
       ]
     }
   },
@@ -75,17 +105,32 @@
       "offense": [
         {"id": "joro_fangs", "name": "Crochets venimeux", "description": "+2 dégâts", "cost": 1, "required_level": 1, "requires": "", "stat": "damage_bonus", "value": 2},
         {"id": "joro_precision", "name": "Fil du destin", "description": "+10 % critique", "cost": 1, "required_level": 4, "requires": "joro_fangs", "stat": "critical_chance", "value": 10},
-        {"id": "joro_venom", "name": "Venin d’obsidienne", "description": "+25 % dégâts", "cost": 1, "required_level": 8, "requires": "joro_precision", "stat": "damage_percent", "value": 25}
+        {"id": "joro_venom", "name": "Venin d’obsidienne", "description": "+25 % dégâts", "cost": 1, "required_level": 8, "requires": "joro_precision", "stat": "damage_percent", "value": 25},
+        {"id": "joro_barbs", "name": "Soie barbelée", "description": "+12 % saignement", "cost": 2, "required_level": 14, "requires": "joro_venom", "stat": "bleed_chance", "value": 12},
+        {"id": "joro_stalk", "name": "Traque au plafond", "description": "+4 dégâts", "cost": 2, "required_level": 20, "requires": "joro_barbs", "stat": "damage_bonus", "value": 4},
+        {"id": "joro_ambush", "name": "Embuscade parfaite", "description": "+15 % critique", "cost": 3, "required_level": 28, "requires": "joro_stalk", "stat": "critical_chance", "value": 15},
+        {"id": "joro_brood", "name": "Fureur de la couvée", "description": "+22 % dégâts", "cost": 3, "required_level": 36, "requires": "joro_ambush", "stat": "damage_percent", "value": 22},
+        {"id": "joro_queen", "name": "Crochets de la reine", "description": "+20 % critique", "cost": 4, "required_level": 45, "requires": "joro_brood", "stat": "critical_chance", "value": 20}
       ],
       "defense": [
         {"id": "joro_web", "name": "Voile de soie", "description": "+4 % résistance physique", "cost": 1, "required_level": 1, "requires": "", "stat": "physical_resistance", "value": 4},
         {"id": "joro_calm", "name": "Regard hypnotique", "description": "+6 résistance à la peur", "cost": 1, "required_level": 4, "requires": "joro_web", "stat": "fear_resistance", "value": 6},
-        {"id": "joro_guard", "name": "Cocon protecteur", "description": "+10 puissance de garde", "cost": 1, "required_level": 8, "requires": "joro_calm", "stat": "guard_power", "value": 10}
+        {"id": "joro_guard", "name": "Cocon protecteur", "description": "+10 puissance de garde", "cost": 1, "required_level": 8, "requires": "joro_calm", "stat": "guard_power", "value": 10},
+        {"id": "joro_silk", "name": "Armure de soie", "description": "+5 % résistance physique", "cost": 2, "required_level": 14, "requires": "joro_guard", "stat": "physical_resistance", "value": 5},
+        {"id": "joro_trance", "name": "Transe immobile", "description": "+8 résistance à la peur", "cost": 2, "required_level": 20, "requires": "joro_silk", "stat": "fear_resistance", "value": 8},
+        {"id": "joro_layers", "name": "Cocon multicouche", "description": "+12 puissance de garde", "cost": 3, "required_level": 28, "requires": "joro_trance", "stat": "guard_power", "value": 12},
+        {"id": "joro_carapace", "name": "Carapace d’obsidienne", "description": "+8 % résistance physique", "cost": 3, "required_level": 36, "requires": "joro_layers", "stat": "physical_resistance", "value": 8},
+        {"id": "joro_matriarch", "name": "Égide de la Matriarche", "description": "+18 puissance de garde", "cost": 4, "required_level": 45, "requires": "joro_carapace", "stat": "guard_power", "value": 18}
       ],
       "special": [
         {"id": "joro_stun", "name": "Toile entravante", "description": "22 % d’étourdissement", "cost": 1, "required_level": 2, "requires": "", "stat": "stun_chance", "value": 22},
         {"id": "joro_bleed", "name": "Fil barbelé", "description": "18 % de saignement", "cost": 1, "required_level": 6, "requires": "joro_stun", "stat": "bleed_chance", "value": 18},
-        {"id": "joro_heal", "name": "Cocon réparateur", "description": "Soigne 5 PV après son attaque", "cost": 1, "required_level": 10, "requires": "joro_bleed", "stat": "party_heal", "value": 5}
+        {"id": "joro_heal", "name": "Cocon réparateur", "description": "Soigne 5 PV après son attaque", "cost": 1, "required_level": 10, "requires": "joro_bleed", "stat": "party_heal", "value": 5},
+        {"id": "joro_snare", "name": "Piège de soie", "description": "+10 % étourdissement", "cost": 2, "required_level": 14, "requires": "joro_heal", "stat": "stun_chance", "value": 10},
+        {"id": "joro_mend", "name": "Tissage réparateur", "description": "Soigne 4 PV après l'attaque", "cost": 2, "required_level": 20, "requires": "joro_snare", "stat": "party_heal", "value": 4},
+        {"id": "joro_maze", "name": "Labyrinthe de fils", "description": "+18 % étourdissement", "cost": 3, "required_level": 28, "requires": "joro_mend", "stat": "stun_chance", "value": 18},
+        {"id": "joro_bloodweb", "name": "Toile sanguine", "description": "+20 % saignement", "cost": 3, "required_level": 36, "requires": "joro_maze", "stat": "bleed_chance", "value": 20},
+        {"id": "joro_fate", "name": "Tisser le destin", "description": "Soigne 8 PV après l'attaque", "cost": 4, "required_level": 45, "requires": "joro_bloodweb", "stat": "party_heal", "value": 8}
       ]
     }
   }
