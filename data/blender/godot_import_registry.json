@@ -2,7 +2,7 @@
   "version": 1,
   "generator": "tools/blender/generate_godot_import_registry.py",
   "godot_version": "4.3",
-  "asset_count": 75,
+  "asset_count": 87,
   "assets": [
     {
       "job_id": "ashlands_01_faubourg_ruins",
@@ -537,6 +537,102 @@
       "category": "characters",
       "source_glb": "builds/characters/miniboss/devoreur_dos/devoreur_dos.glb",
       "godot_path": "res://assets/3d/characters/miniboss/devoreur_dos/devoreur_dos.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_ritual_dagger",
+      "category": "props",
+      "source_glb": "builds/props/equipment/ritual_dagger/ritual_dagger.glb",
+      "godot_path": "res://assets/3d/props/equipment/ritual_dagger/ritual_dagger.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_occult_staff",
+      "category": "props",
+      "source_glb": "builds/props/equipment/occult_staff/occult_staff.glb",
+      "godot_path": "res://assets/3d/props/equipment/occult_staff/occult_staff.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_reinforced_robe",
+      "category": "props",
+      "source_glb": "builds/props/equipment/reinforced_robe/reinforced_robe.glb",
+      "godot_path": "res://assets/3d/props/equipment/reinforced_robe/reinforced_robe.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_great_axe",
+      "category": "props",
+      "source_glb": "builds/props/equipment/great_axe/great_axe.glb",
+      "godot_path": "res://assets/3d/props/equipment/great_axe/great_axe.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_war_hammer",
+      "category": "props",
+      "source_glb": "builds/props/equipment/war_hammer/war_hammer.glb",
+      "godot_path": "res://assets/3d/props/equipment/war_hammer/war_hammer.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_bone_harness",
+      "category": "props",
+      "source_glb": "builds/props/equipment/bone_harness/bone_harness.glb",
+      "godot_path": "res://assets/3d/props/equipment/bone_harness/bone_harness.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_ceremonial_mace",
+      "category": "props",
+      "source_glb": "builds/props/equipment/ceremonial_mace/ceremonial_mace.glb",
+      "godot_path": "res://assets/3d/props/equipment/ceremonial_mace/ceremonial_mace.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_sacred_staff",
+      "category": "props",
+      "source_glb": "builds/props/equipment/sacred_staff/sacred_staff.glb",
+      "godot_path": "res://assets/3d/props/equipment/sacred_staff/sacred_staff.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_reinforced_habit",
+      "category": "props",
+      "source_glb": "builds/props/equipment/reinforced_habit/reinforced_habit.glb",
+      "godot_path": "res://assets/3d/props/equipment/reinforced_habit/reinforced_habit.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_watcher_mace",
+      "category": "props",
+      "source_glb": "builds/props/equipment/watcher_mace/watcher_mace.glb",
+      "godot_path": "res://assets/3d/props/equipment/watcher_mace/watcher_mace.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_guard_spear",
+      "category": "props",
+      "source_glb": "builds/props/equipment/guard_spear/guard_spear.glb",
+      "godot_path": "res://assets/3d/props/equipment/guard_spear/guard_spear.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_lamellar_armor",
+      "category": "props",
+      "source_glb": "builds/props/equipment/lamellar_armor/lamellar_armor.glb",
+      "godot_path": "res://assets/3d/props/equipment/lamellar_armor/lamellar_armor.glb",
       "approval": "pending",
       "preserve_placeholder_collision": true
     },
