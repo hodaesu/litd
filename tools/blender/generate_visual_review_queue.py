@@ -49,11 +49,11 @@ def main() -> int:
     if args.check:
         if not args.output.exists() or args.output.read_text(encoding="utf-8") != rendered:
             raise SystemExit("visual review queue is out of date")
-        print("75 visual review jobs are current")
+        print(f"{build_queue()['review_count']} visual review jobs are current")
         return 0
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(rendered, encoding="utf-8")
-    print("generated 75 visual review jobs")
+    print(f"generated {build_queue()['review_count']} visual review jobs")
     return 0
 
 

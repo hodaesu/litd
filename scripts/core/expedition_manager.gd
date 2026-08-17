@@ -116,10 +116,14 @@ func apply_pressure(amount: int, source: String) -> void:
     for hero in GameState.party:
         if int(hero.get("hp", 0)) <= 0:
             continue
+        var bonuses: Dictionary = EquipmentManager.bonuses_for_hero(str(hero.get("id", "")))
+        var fear_amount: int = maxi(0, amount - int(bonuses.get("fear_resistance", 0)))
         if hero.has("fear"):
-            hero["fear"] = min(100, int(hero.get("fear", 0)) + amount)
+            hero["fear"] = min(100, int(hero.get("fear", 0)) + fear_amount)
         if hero.has("madness") and int(hero.get("fear", 0)) >= 80:
-            hero["madness"] = min(100, int(hero.get("madness", 0)) + max(1, amount / 2))
+            var madness_cap: int = 100 + int(bonuses.get("max_madness", 0))
+            var madness_amount: int = maxi(0, max(1, amount / 2) - int(bonuses.get("madness_resistance", 0)))
+            hero["madness"] = min(madness_cap, int(hero.get("madness", 0)) + madness_amount)
     pressure_applied.emit(amount, source)
     GameState.state_changed.emit()
 

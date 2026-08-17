@@ -5,7 +5,8 @@ import json
 
 DATA_FILES = {
     "classes.json", "races.json", "heroes.json", "enemies.json",
-    "skills.json", "equipment.json", "quests.json", "events.json", "dialogues.json"
+    "skills.json", "equipment.json", "equipment_rarities.json", "equipment_affixes.json",
+    "quests.json", "events.json", "dialogues.json"
 }
 
 REQUIRED_FIELDS = {
@@ -14,7 +15,9 @@ REQUIRED_FIELDS = {
     "heroes.json": {"id", "name", "class_id", "race_id", "hp", "max_hp"},
     "enemies.json": {"id", "name", "hp", "damage", "art"},
     "skills.json": {"id", "name", "power", "target"},
-    "equipment.json": {"id", "name", "slot"},
+    "equipment.json": {"id", "name", "slot", "base_bonuses"},
+    "equipment_rarities.json": {"id", "name", "rank", "base_multiplier", "affix_multiplier", "affix_count", "special_affix_count"},
+    "equipment_affixes.json": {"id", "name", "stat", "base_range", "unit", "special"},
     "quests.json": {"id", "name", "description"},
     "events.json": {"id", "name", "text", "choices"},
 }

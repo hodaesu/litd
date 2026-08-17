@@ -1,6 +1,6 @@
 # Console unifiée du pipeline Blender
 
-`tools/blender/pipeline_console.py` rassemble les 76 jobs derrière une seule interface. Elle accepte les trois modes d'instruction prévus.
+`tools/blender/pipeline_console.py` rassemble les 88 jobs derrière une seule interface. Elle accepte les trois modes d'instruction prévus.
 
 ## 1. Commande directe
 

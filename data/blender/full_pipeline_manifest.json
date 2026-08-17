@@ -2,11 +2,11 @@
   "version": 1,
   "generator": "tools/blender/run_full_pipeline.py",
   "summary": {
-    "total_jobs": 76,
+    "total_jobs": 88,
     "materials": 1,
     "environments": 15,
     "characters": 52,
-    "props": 8
+    "props": 20
   },
   "stages": [
     {
@@ -1293,6 +1293,234 @@
       "outputs": [
         "builds/characters/miniboss/devoreur_dos/devoreur_dos.blend",
         "builds/characters/miniboss/devoreur_dos/devoreur_dos.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_ritual_dagger",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "ritual_dagger",
+        "--output",
+        "builds/props/equipment/ritual_dagger/ritual_dagger.blend",
+        "--export-glb",
+        "builds/props/equipment/ritual_dagger/ritual_dagger.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/ritual_dagger/ritual_dagger.blend",
+        "builds/props/equipment/ritual_dagger/ritual_dagger.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_occult_staff",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "occult_staff",
+        "--output",
+        "builds/props/equipment/occult_staff/occult_staff.blend",
+        "--export-glb",
+        "builds/props/equipment/occult_staff/occult_staff.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/occult_staff/occult_staff.blend",
+        "builds/props/equipment/occult_staff/occult_staff.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_reinforced_robe",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "reinforced_robe",
+        "--output",
+        "builds/props/equipment/reinforced_robe/reinforced_robe.blend",
+        "--export-glb",
+        "builds/props/equipment/reinforced_robe/reinforced_robe.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/reinforced_robe/reinforced_robe.blend",
+        "builds/props/equipment/reinforced_robe/reinforced_robe.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_great_axe",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "great_axe",
+        "--output",
+        "builds/props/equipment/great_axe/great_axe.blend",
+        "--export-glb",
+        "builds/props/equipment/great_axe/great_axe.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/great_axe/great_axe.blend",
+        "builds/props/equipment/great_axe/great_axe.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_war_hammer",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "war_hammer",
+        "--output",
+        "builds/props/equipment/war_hammer/war_hammer.blend",
+        "--export-glb",
+        "builds/props/equipment/war_hammer/war_hammer.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/war_hammer/war_hammer.blend",
+        "builds/props/equipment/war_hammer/war_hammer.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_bone_harness",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "bone_harness",
+        "--output",
+        "builds/props/equipment/bone_harness/bone_harness.blend",
+        "--export-glb",
+        "builds/props/equipment/bone_harness/bone_harness.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/bone_harness/bone_harness.blend",
+        "builds/props/equipment/bone_harness/bone_harness.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_ceremonial_mace",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "ceremonial_mace",
+        "--output",
+        "builds/props/equipment/ceremonial_mace/ceremonial_mace.blend",
+        "--export-glb",
+        "builds/props/equipment/ceremonial_mace/ceremonial_mace.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/ceremonial_mace/ceremonial_mace.blend",
+        "builds/props/equipment/ceremonial_mace/ceremonial_mace.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_sacred_staff",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "sacred_staff",
+        "--output",
+        "builds/props/equipment/sacred_staff/sacred_staff.blend",
+        "--export-glb",
+        "builds/props/equipment/sacred_staff/sacred_staff.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/sacred_staff/sacred_staff.blend",
+        "builds/props/equipment/sacred_staff/sacred_staff.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_reinforced_habit",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "reinforced_habit",
+        "--output",
+        "builds/props/equipment/reinforced_habit/reinforced_habit.blend",
+        "--export-glb",
+        "builds/props/equipment/reinforced_habit/reinforced_habit.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/reinforced_habit/reinforced_habit.blend",
+        "builds/props/equipment/reinforced_habit/reinforced_habit.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_watcher_mace",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "watcher_mace",
+        "--output",
+        "builds/props/equipment/watcher_mace/watcher_mace.blend",
+        "--export-glb",
+        "builds/props/equipment/watcher_mace/watcher_mace.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/watcher_mace/watcher_mace.blend",
+        "builds/props/equipment/watcher_mace/watcher_mace.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_guard_spear",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "guard_spear",
+        "--output",
+        "builds/props/equipment/guard_spear/guard_spear.blend",
+        "--export-glb",
+        "builds/props/equipment/guard_spear/guard_spear.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/guard_spear/guard_spear.blend",
+        "builds/props/equipment/guard_spear/guard_spear.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_lamellar_armor",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "lamellar_armor",
+        "--output",
+        "builds/props/equipment/lamellar_armor/lamellar_armor.blend",
+        "--export-glb",
+        "builds/props/equipment/lamellar_armor/lamellar_armor.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/lamellar_armor/lamellar_armor.blend",
+        "builds/props/equipment/lamellar_armor/lamellar_armor.glb"
       ]
     },
     {

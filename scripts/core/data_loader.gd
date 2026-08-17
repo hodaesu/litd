@@ -6,6 +6,8 @@ var heroes: Array = []
 var enemies: Array = []
 var skills: Array = []
 var equipment: Array = []
+var equipment_rarities: Array = []
+var equipment_affixes: Array = []
 var quests: Array = []
 var events: Array = []
 var dialogues: Array = []
@@ -31,6 +33,8 @@ func reload_all() -> void:
     enemies = load_json("res://data/enemies.json")
     skills = load_json("res://data/skills.json")
     equipment = load_json("res://data/equipment.json")
+    equipment_rarities = load_json("res://data/equipment_rarities.json")
+    equipment_affixes = load_json("res://data/equipment_affixes.json")
     quests = load_json("res://data/quests.json")
     events = load_json("res://data/events.json")
     dialogues = load_json("res://data/dialogues.json")

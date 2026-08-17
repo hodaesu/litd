@@ -1,0 +1,7 @@
+[
+  {"id":"common","name":"Commun","rank":1,"base_multiplier":1.0,"affix_multiplier":1.0,"affix_count":1,"special_affix_count":0,"color":"#9b9b9b"},
+  {"id":"uncommon","name":"Peu commun","rank":2,"base_multiplier":1.5,"affix_multiplier":1.5,"affix_count":1,"special_affix_count":0,"color":"#5fae62"},
+  {"id":"rare","name":"Rare","rank":3,"base_multiplier":2.0,"affix_multiplier":2.0,"affix_count":2,"special_affix_count":0,"color":"#4d78c9"},
+  {"id":"epic","name":"Épique","rank":4,"base_multiplier":3.0,"affix_multiplier":3.0,"affix_count":3,"special_affix_count":0,"color":"#8756bd"},
+  {"id":"legendary","name":"Légendaire","rank":5,"base_multiplier":4.0,"affix_multiplier":4.0,"affix_count":2,"special_affix_count":1,"color":"#c88a2d"}
+]

@@ -1,0 +1,19 @@
+[
+  {"id":"critical_chance","name":"Précision meurtrière","stat":"critical_chance","base_range":[2,4],"unit":"percent","special":false},
+  {"id":"break_chance","name":"Fracture","stat":"break_chance","base_range":[3,5],"unit":"percent","special":false},
+  {"id":"stun_chance","name":"Impact","stat":"stun_chance","base_range":[2,4],"unit":"percent","special":false},
+  {"id":"guard_power","name":"Garde","stat":"guard_power","base_range":[3,5],"unit":"percent","special":false},
+  {"id":"riposte_chance","name":"Riposte","stat":"riposte_chance","base_range":[2,4],"unit":"percent","special":false},
+  {"id":"healing_power","name":"Onction","stat":"healing_power","base_range":[2,4],"unit":"percent","special":false},
+  {"id":"max_hope","name":"Espérance","stat":"max_hope","base_range":[4,6],"unit":"flat","special":false},
+  {"id":"max_madness","name":"Vertige","stat":"max_madness","base_range":[4,6],"unit":"flat","special":false},
+  {"id":"bleed_chance","name":"Saignement","stat":"bleed_chance","base_range":[2,4],"unit":"percent","special":false},
+  {"id":"precision","name":"Précision","stat":"precision","base_range":[2,4],"unit":"percent","special":false},
+  {"id":"physical_resistance","name":"Endurance","stat":"physical_resistance","base_range":[3,5],"unit":"flat","special":false},
+  {"id":"madness_resistance","name":"Ancrage mental","stat":"madness_resistance","base_range":[3,5],"unit":"flat","special":false},
+  {"id":"fear_resistance","name":"Résolution","stat":"fear_resistance","base_range":[3,5],"unit":"flat","special":false},
+  {"id":"void_echo","name":"Écho du Vide","stat":"void_echo","base_range":[1,1],"unit":"effect","special":true,"classes":["occultist"]},
+  {"id":"bone_fury","name":"Furie des Moelles","stat":"bone_fury","base_range":[1,1],"unit":"effect","special":true,"classes":["breaker"]},
+  {"id":"radiant_mercy","name":"Grâce rayonnante","stat":"radiant_mercy","base_range":[1,1],"unit":"effect","special":true,"classes":["vestal"]},
+  {"id":"steadfast_counter","name":"Contre inébranlable","stat":"steadfast_counter","base_range":[1,1],"unit":"effect","special":true,"classes":["watcher"]}
+]

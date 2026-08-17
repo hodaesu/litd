@@ -43,6 +43,7 @@ class ProjectTests(unittest.TestCase):
     def test_autoload_order(self):
         text=(ROOT/'project.godot').read_text(encoding='utf-8')
         self.assertLess(text.index('DataLoader='),text.index('GameState='))
+        self.assertLess(text.index('DataLoader='),text.index('EquipmentManager='))
     def test_save_version(self):
         text=(ROOT/'scripts/core/save_manager.gd').read_text(encoding='utf-8')
         self.assertIn('"version"',text)

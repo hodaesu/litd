@@ -19,6 +19,7 @@ func _ready() -> void:
     reset_new_game()
 
 func reset_new_game() -> void:
+    EquipmentManager.reset_new_game()
     party = []
     for hero in DataLoader.heroes:
         party.append(hero.duplicate(true))

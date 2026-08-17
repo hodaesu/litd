@@ -43,11 +43,11 @@ def main() -> int:
     if args.check:
         if not args.output.exists() or args.output.read_text(encoding="utf-8") != rendered:
             raise SystemExit("Godot import registry is out of date")
-        print("75 Godot GLB import mappings are current")
+        print(f"{build_registry()['asset_count']} Godot GLB import mappings are current")
         return 0
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(rendered, encoding="utf-8")
-    print("generated 75 Godot GLB import mappings")
+    print(f"generated {build_registry()['asset_count']} Godot GLB import mappings")
     return 0
 
 

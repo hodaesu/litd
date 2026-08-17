@@ -39,7 +39,8 @@ def build_pipeline_plan(root: Path = ROOT) -> dict:
             "command": ["tools/blender/build_character_scene.py", job["character_id"], "--output", blend, "--export-glb", glb],
             "outputs": [blend, glb],
         })
-    for job in _load(root / "data/blender/prop_jobs.json"):
+    prop_jobs = _load(root / "data/blender/prop_jobs.json")
+    for job in prop_jobs:
         blend = f"{job['output']}/{job['prop_id']}.blend"
         glb = f"{job['output']}/{job['prop_id']}.glb"
         stages.append({
@@ -51,7 +52,7 @@ def build_pipeline_plan(root: Path = ROOT) -> dict:
         "version": 1, "generator": "tools/blender/run_full_pipeline.py",
         "summary": {
             "total_jobs": len(stages),
-            "materials": 1, "environments": 15, "characters": 52, "props": 8,
+            "materials": 1, "environments": 15, "characters": 52, "props": len(prop_jobs),
         },
         "stages": stages,
     }

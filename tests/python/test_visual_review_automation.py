@@ -12,9 +12,9 @@ class VisualReviewQueueTests(unittest.TestCase):
         cls.queue = build_queue()
 
     def test_queue_covers_all_godot_assets(self):
-        self.assertEqual(self.queue["review_count"], 75)
-        self.assertEqual(len(self.queue["reviews"]), 75)
-        self.assertEqual(len({review["job_id"] for review in self.queue["reviews"]}), 75)
+        self.assertEqual(self.queue["review_count"], 87)
+        self.assertEqual(len(self.queue["reviews"]), 87)
+        self.assertEqual(len({review["job_id"] for review in self.queue["reviews"]}), 87)
 
     def test_environment_reviews_use_four_isometric_views(self):
         reviews = [review for review in self.queue["reviews"] if review["category"] == "environments"]
@@ -26,7 +26,7 @@ class VisualReviewQueueTests(unittest.TestCase):
 
     def test_characters_and_props_use_eight_angle_turntables(self):
         reviews = [review for review in self.queue["reviews"] if review["category"] != "environments"]
-        self.assertEqual(len(reviews), 60)
+        self.assertEqual(len(reviews), 72)
         for review in reviews:
             self.assertEqual(review["preview"]["type"], "turntable")
             self.assertEqual(len(review["preview"]["angles_degrees"]), 8)
@@ -68,7 +68,7 @@ class ApprovalTests(unittest.TestCase):
         self.assertEqual(record["status"], "approved")
         self.assertEqual(record["history"][0]["note"], "validé")
         self.assertEqual(build_summary(decisions, self.queue), {
-            "total": 75, "approved": 1, "changes_requested": 0, "pending": 74,
+            "total": 87, "approved": 1, "changes_requested": 0, "pending": 86,
         })
 
     def test_incomplete_gate_map_is_rejected(self):
