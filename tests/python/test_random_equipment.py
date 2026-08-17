@@ -32,6 +32,12 @@ class RandomEquipmentTests(unittest.TestCase):
             self.assertGreaterEqual(len(weapon["allowed_affixes"]), 5)
             self.assertTrue(set(weapon["allowed_affixes"]) <= affix_ids)
 
+    def test_every_test_armor_has_a_valid_class_specific_affix_pool(self):
+        affix_ids = {affix["id"] for affix in self.affixes if not affix["special"]}
+        for armor in (item for item in self.equipment if item.get("test_level") and item["slot"] == "armor"):
+            self.assertGreaterEqual(len(armor["allowed_affixes"]), 5)
+            self.assertTrue(set(armor["allowed_affixes"]) <= affix_ids)
+
     def test_rarity_power_is_strictly_proportional(self):
         expected = {
             "common": (1.0, 1, 0),
