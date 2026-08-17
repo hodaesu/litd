@@ -19,12 +19,14 @@ class RandomEquipmentTests(unittest.TestCase):
         cls.rarities = load("equipment_rarities.json")
         cls.affixes = load("equipment_affixes.json")
 
-    def test_test_level_has_two_weapons_and_one_armor_per_playable_class(self):
+    def test_test_level_has_full_equipment_bundle_per_playable_class(self):
         expected = {"occultist", "breaker", "vestal", "watcher"}
         for class_id in expected:
             items = [item for item in self.equipment if item.get("test_level") and item.get("class_id") == class_id]
             self.assertEqual(2, sum(item["slot"] == "weapon" for item in items), class_id)
             self.assertEqual(1, sum(item["slot"] == "armor" for item in items), class_id)
+            self.assertEqual(2, sum(item["slot"] == "ring" for item in items), class_id)
+            self.assertEqual(1, sum(item["slot"] == "necklace" for item in items), class_id)
 
     def test_every_test_weapon_has_a_valid_class_specific_affix_pool(self):
         affix_ids = {affix["id"] for affix in self.affixes if not affix["special"]}
