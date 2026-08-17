@@ -128,10 +128,13 @@ func equip(hero_id: String, instance_id: String) -> bool:
     if item.is_empty():
         return false
     var hero: Dictionary = DataLoader.find_by_id(DataLoader.heroes, hero_id)
-    if hero.is_empty() or str(item.get("class_id", "")) != str(hero.get("class_id", "")):
+    var item_class_id: String = str(item.get("class_id", ""))
+    if hero.is_empty() or (item_class_id != "" and item_class_id != str(hero.get("class_id", ""))):
         return false
     var slots: Dictionary = equipped_by_hero.get(hero_id, {})
-    var slot: String = str(item.get("slot", ""))
+    if slots.values().has(instance_id):
+        return true
+    var slot: String = _resolve_equipment_slot(slots, str(item.get("slot", "")))
     var old_item: Dictionary = get_instance(str(slots.get(slot, "")))
     var old_hp_bonus: int = int(effective_bonuses(old_item).get("hp_bonus", 0)) if not old_item.is_empty() else 0
     var new_hp_bonus: int = int(effective_bonuses(item).get("hp_bonus", 0))
@@ -146,6 +149,15 @@ func equip(hero_id: String, instance_id: String) -> bool:
             break
     item_equipped.emit(hero_id, item.duplicate(true))
     return true
+
+func _resolve_equipment_slot(slots: Dictionary, item_slot: String) -> String:
+    if item_slot != "ring":
+        return item_slot
+    if not slots.has("ring_1"):
+        return "ring_1"
+    if not slots.has("ring_2"):
+        return "ring_2"
+    return "ring_1"
 
 func get_instance(instance_id: String) -> Dictionary:
     for item in items:
