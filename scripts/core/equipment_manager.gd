@@ -5,6 +5,9 @@ signal item_generated(item: Dictionary)
 signal item_equipped(hero_id: String, item: Dictionary)
 
 const DEFAULT_SEED := 0x4C495444
+const LEVELS_PER_SCALING_STEP: int = 3
+const LEVEL_SCALING_STEP: float = 0.25
+const MAX_WEAPON_LEVEL_MULTIPLIER: float = 3.0
 
 var items: Array[Dictionary] = []
 var equipped_by_hero: Dictionary = {}
@@ -163,12 +166,40 @@ func effective_bonuses(item: Dictionary) -> Dictionary:
         result[stat] = int(result.get(stat, 0)) + int(affix.get("value", 0))
     return result
 
+func weapon_level_multiplier(level: int) -> float:
+    var safe_level: int = maxi(1, level)
+    var completed_steps: int = floori(float(safe_level - 1) / float(LEVELS_PER_SCALING_STEP))
+    return minf(MAX_WEAPON_LEVEL_MULTIPLIER, 1.0 + float(completed_steps) * LEVEL_SCALING_STEP)
+
+func effective_bonuses_for_level(item: Dictionary, level: int) -> Dictionary:
+    var result: Dictionary = effective_bonuses(item)
+    if str(item.get("slot", "")) != "weapon":
+        return result
+    var multiplier: float = weapon_level_multiplier(level)
+    for key_value in result.keys():
+        var key: String = str(key_value)
+        result[key] = maxi(1, int(round(float(result.get(key, 0)) * multiplier)))
+    return result
+
+func level_for_class(class_id: String) -> int:
+    for hero_value in GameState.party:
+        var hero: Dictionary = hero_value
+        if str(hero.get("class_id", "")) == class_id:
+            return maxi(1, int(hero.get("level", 1)))
+    return 1
+
 func bonuses_for_hero(hero_id: String) -> Dictionary:
     var result: Dictionary = {}
+    var hero_level: int = 1
+    for hero_value in GameState.party:
+        var hero: Dictionary = hero_value
+        if str(hero.get("id", "")) == hero_id:
+            hero_level = maxi(1, int(hero.get("level", 1)))
+            break
     var slots: Dictionary = equipped_by_hero.get(hero_id, {})
     for instance_value in slots.values():
         var item: Dictionary = get_instance(str(instance_value))
-        var item_bonuses: Dictionary = effective_bonuses(item)
+        var item_bonuses: Dictionary = effective_bonuses_for_level(item, hero_level)
         for key_value in item_bonuses.keys():
             var key: String = str(key_value)
             result[key] = int(result.get(key, 0)) + int(item_bonuses.get(key, 0))
@@ -184,20 +215,23 @@ func has_effect(hero_id: String, effect_id: String) -> bool:
                 return true
     return false
 
-func describe_item(item: Dictionary) -> String:
+func describe_item(item: Dictionary, hero_level: int = 0) -> String:
     var rarity: Dictionary = DataLoader.find_by_id(DataLoader.equipment_rarities, str(item.get("rarity", "common")))
     var parts: Array[String] = []
-    for key_value in item.get("base_bonuses", {}).keys():
+    var displayed_bonuses: Dictionary = effective_bonuses(item)
+    var level_suffix: String = ""
+    if hero_level > 0 and str(item.get("slot", "")) == "weapon":
+        displayed_bonuses = effective_bonuses_for_level(item, hero_level)
+        level_suffix = " · niv. %d ×%.2f" % [hero_level, weapon_level_multiplier(hero_level)]
+    for key_value in displayed_bonuses.keys():
         var key: String = str(key_value)
-        parts.append("+%d %s" % [int(item["base_bonuses"][key]), _stat_label(key)])
+        var suffix: String = "%" if _is_percentage_stat(key) else ""
+        parts.append("+%d%s %s" % [int(displayed_bonuses.get(key, 0)), suffix, _stat_label(key)])
     for affix_value in item.get("affixes", []):
         var affix: Dictionary = affix_value
         if str(affix.get("unit", "")) == "effect":
             parts.append(str(affix.get("name", "Effet spécial")))
-        else:
-            var suffix: String = "%" if str(affix.get("unit", "")) == "percent" else ""
-            parts.append("+%d%s %s" % [int(affix.get("value", 0)), suffix, _stat_label(str(affix.get("stat", "")))])
-    return "%s [%s] — %s" % [str(item.get("name", "Objet")), str(rarity.get("name", "Commun")), ", ".join(parts)]
+    return "%s [%s%s] — %s" % [str(item.get("name", "Objet")), str(rarity.get("name", "Commun")), level_suffix, ", ".join(parts)]
 
 func serialize() -> Dictionary:
     return {
@@ -291,6 +325,13 @@ func _preview_seed(base_id: String, rarity_id: String, context: String, index: i
 
 func _instance_id(base_id: String, item_seed: int, index: int) -> String:
     return "%s-%08x-%06d" % [base_id, item_seed & 0x7fffffff, index]
+
+func _is_percentage_stat(stat: String) -> bool:
+    return stat in [
+        "critical_chance", "break_chance", "stun_chance", "guard_power",
+        "riposte_chance", "healing_power", "bleed_chance", "precision",
+        "physical_resistance", "madness_resistance", "fear_resistance"
+    ]
 
 func _stat_label(stat: String) -> String:
     var labels: Dictionary = {
