@@ -5,6 +5,7 @@ config/features=PackedStringArray("4.3")
 
 [autoload]
 DataLoader="*res://scripts/core/data_loader.gd"
+EquipmentManager="*res://scripts/core/equipment_manager.gd"
 GameState="*res://scripts/core/game_state.gd"
 SaveManager="*res://scripts/core/save_manager.gd"
 ExpeditionManager="*res://scripts/core/expedition_manager.gd"
