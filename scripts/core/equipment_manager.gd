@@ -191,7 +191,7 @@ func effective_bonuses_for_level(item: Dictionary, level: int) -> Dictionary:
     var multiplier: float = weapon_level_multiplier(level)
     for key_value in result.keys():
         var key: String = str(key_value)
-        if slot == "armor" and key == "hp_bonus":
+        if slot != "weapon" and key == "hp_bonus":
             continue
         result[key] = maxi(1, int(round(float(result.get(key, 0)) * multiplier)))
     return result
