@@ -223,7 +223,8 @@ func describe_item(item: Dictionary, hero_level: int = 0) -> String:
     var parts: Array[String] = []
     var displayed_bonuses: Dictionary = effective_bonuses(item)
     var level_suffix: String = ""
-    if hero_level > 0 and str(item.get("slot", "")) == "weapon":
+    var slot: String = str(item.get("slot", ""))
+    if hero_level > 0 and (slot == "weapon" or slot == "armor"):
         displayed_bonuses = effective_bonuses_for_level(item, hero_level)
         level_suffix = " · niv. %d ×%.2f" % [hero_level, weapon_level_multiplier(hero_level)]
     for key_value in displayed_bonuses.keys():
