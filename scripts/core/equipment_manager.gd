@@ -53,7 +53,7 @@ func generate_item(base_id: String, rarity_id: String = "common", context: Strin
         "base_bonuses": _scaled_bonuses(definition.get("base_bonuses", {}), float(rarity.get("base_multiplier", 1.0))),
         "affixes": []
     }
-    if item["slot"] == "weapon" or item["slot"] == "armor":
+    if item["slot"] in ["weapon", "armor", "ring", "necklace"]:
         item["affixes"] = _roll_weapon_affixes(definition, rarity, rng)
     return item
 
