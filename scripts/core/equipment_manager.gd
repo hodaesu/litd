@@ -10,6 +10,7 @@ const LEVEL_SCALING_STEP: float = 0.25
 const MAX_WEAPON_LEVEL_MULTIPLIER: float = 3.0
 
 var items: Array[Dictionary] = []
+var guild_stash: Array[Dictionary] = []
 var equipped_by_hero: Dictionary = {}
 var drop_counter: int = 0
 var generation_seed: int = DEFAULT_SEED
@@ -20,6 +21,7 @@ func _ready() -> void:
 
 func reset_new_game(seed_value: int = 0) -> void:
     items.clear()
+    guild_stash.clear()
     equipped_by_hero.clear()
     last_rewards.clear()
     drop_counter = 0
@@ -166,7 +168,33 @@ func get_instance(instance_id: String) -> Dictionary:
     return {}
 
 func has_instance(instance_id: String) -> bool:
-    return not get_instance(instance_id).is_empty()
+    return not get_instance(instance_id).is_empty() or not get_stashed_instance(instance_id).is_empty()
+
+func get_stashed_instance(instance_id: String) -> Dictionary:
+    for item in guild_stash:
+        if str(item.get("instance_id", "")) == instance_id:
+            return item.duplicate(true)
+    return {}
+
+func store_in_guild_stash(instance_id: String) -> bool:
+    for slots_value in equipped_by_hero.values():
+        var slots: Dictionary = slots_value
+        if slots.values().has(instance_id):
+            return false
+    for index in range(items.size()):
+        if str(items[index].get("instance_id", "")) == instance_id:
+            guild_stash.append(items.pop_at(index))
+            inventory_changed.emit(items.duplicate(true))
+            return true
+    return false
+
+func withdraw_from_guild_stash(instance_id: String) -> bool:
+    for index in range(guild_stash.size()):
+        if str(guild_stash[index].get("instance_id", "")) == instance_id:
+            items.append(guild_stash.pop_at(index))
+            inventory_changed.emit(items.duplicate(true))
+            return true
+    return false
 
 func effective_bonuses(item: Dictionary) -> Dictionary:
     var result: Dictionary = item.get("base_bonuses", {}).duplicate(true)
@@ -252,6 +280,7 @@ func describe_item(item: Dictionary, hero_level: int = 0) -> String:
 func serialize() -> Dictionary:
     return {
         "items": items,
+        "guild_stash": guild_stash,
         "equipped_by_hero": equipped_by_hero,
         "drop_counter": drop_counter,
         "generation_seed": generation_seed,
@@ -260,6 +289,7 @@ func serialize() -> Dictionary:
 
 func deserialize(data: Dictionary) -> void:
     items.clear()
+    guild_stash.clear()
     var seen: Dictionary = {}
     for item_value in data.get("items", []):
         var item: Dictionary = item_value
@@ -268,6 +298,13 @@ func deserialize(data: Dictionary) -> void:
             continue
         seen[instance_id] = true
         items.append(item.duplicate(true))
+    for item_value in data.get("guild_stash", []):
+        var item: Dictionary = item_value
+        var instance_id: String = str(item.get("instance_id", ""))
+        if instance_id == "" or seen.has(instance_id):
+            continue
+        seen[instance_id] = true
+        guild_stash.append(item.duplicate(true))
     equipped_by_hero = data.get("equipped_by_hero", {}).duplicate(true)
     for hero_key_value in equipped_by_hero.keys():
         var hero_key: String = str(hero_key_value)
