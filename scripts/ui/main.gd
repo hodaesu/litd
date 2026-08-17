@@ -285,8 +285,8 @@ func show_creatures() -> void:
         list.add_child(header)
         for branch_value in ["offense", "defense", "special"]:
             var branch: String = str(branch_value)
-            var branch_row := HBoxContainer.new()
-            branch_row.add_theme_constant_override("separation", 8)
+            var branch_row := VBoxContainer.new()
+            branch_row.add_theme_constant_override("separation", 6)
             var branch_name: String = str({
                 "offense": "OFFENSIF", "defense": "DÉFENSIF", "special": "SPÉCIAL"
             }.get(branch, branch.to_upper()))
@@ -295,8 +295,13 @@ func show_creatures() -> void:
             elif specialization != "":
                 branch_name += " — VERROUILLÉ"
             var branch_label := make_label(branch_name, 14, MUTED)
-            branch_label.custom_minimum_size = Vector2(105, 52)
+            branch_label.custom_minimum_size = Vector2(105, 28)
             branch_row.add_child(branch_label)
+            var skill_grid := GridContainer.new()
+            skill_grid.columns = 3
+            skill_grid.add_theme_constant_override("h_separation", 8)
+            skill_grid.add_theme_constant_override("v_separation", 8)
+            branch_row.add_child(skill_grid)
             for node_value in CreatureManager.skill_nodes(creature, branch):
                 var node: Dictionary = node_value
                 var node_id: String = str(node.get("id", ""))
@@ -309,10 +314,10 @@ func show_creatures() -> void:
                     node_text,
                     func(creature_id = instance_id, skill_id = node_id):
                         _unlock_creature_skill(str(creature_id), str(skill_id)),
-                    Vector2(300, 52)
+                    Vector2(350, 58)
                 )
                 node_button.disabled = unlocked or not CreatureManager.can_unlock(instance_id, node_id)
-                branch_row.add_child(node_button)
+                skill_grid.add_child(node_button)
             list.add_child(branch_row)
     var back := make_button("RETOUR AU SANCTUAIRE", func(): GameState.request_screen("sanctuary"), Vector2(280, 48))
     back.position = Vector2(32, 625)
