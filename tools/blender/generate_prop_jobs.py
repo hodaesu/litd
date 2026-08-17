@@ -21,6 +21,7 @@ SLOT_PROFILES = {
     "weapon": ("iron_tarnished", [1.05, 0.08, 0.12], "SOCKET_grip"),
     "armor": ("cloth_soot", [0.65, 0.95, 0.3], "SOCKET_spine"),
     "ring": ("bone_old", [0.06, 0.02, 0.06], "SOCKET_finger"),
+    "necklace": ("iron_tarnished", [0.22, 0.32, 0.05], "SOCKET_neck"),
 }
 
 
