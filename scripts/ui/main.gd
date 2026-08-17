@@ -5,6 +5,8 @@ var content: Control
 var selected_enemy := 0
 var battle_locked := false
 var selected_hero_id: String = "aurelien"
+var selected_skill_branch: String = "offense"
+var selected_skill_id: String = ""
 
 const GOLD := Color("#d5b26c")
 const PANEL := Color(0.025, 0.027, 0.035, 0.94)
@@ -261,21 +263,40 @@ func show_hero_skills() -> void:
     for hero_value in GameState.party:
         if str(hero_value.id) == selected_hero_id: hero = hero_value
     if hero.is_empty(): GameState.request_screen("company"); return
-    var title := make_label("%s — 45 COMPÉTENCES · %d POINT(S)" % [hero.name, int(hero.skill_points)], 24, GOLD)
-    title.position = Vector2(24, 15); content.add_child(title)
-    var scroll := ScrollContainer.new(); scroll.position = Vector2(24,55); scroll.size = Vector2(1230,570); content.add_child(scroll)
-    var list := VBoxContainer.new(); list.custom_minimum_size = Vector2(1190,0); scroll.add_child(list)
     var specialization: String = str(hero.specialization)
+    if selected_skill_branch not in HeroSkillManager.BRANCHES: selected_skill_branch="offense"
+    var title := make_label("%s · NIVEAU %d" % [hero.name, int(hero.level)], 25, GOLD); title.position=Vector2(24,12); content.add_child(title)
+    var points := make_label("POINTS DISPONIBLES  ◆ %d" % int(hero.skill_points),17,TEXT); points.position=Vector2(975,18); content.add_child(points)
+    var tabs := HBoxContainer.new(); tabs.position=Vector2(24,52); tabs.add_theme_constant_override("separation",10); content.add_child(tabs)
     for branch in HeroSkillManager.BRANCHES:
-        var label := make_label("%s%s" % [branch.to_upper(), " — CHOISI" if specialization==branch else (" — VERROUILLÉ" if specialization!="" else "")],16,GOLD)
-        list.add_child(label)
-        var grid := GridContainer.new(); grid.columns=3; list.add_child(grid)
-        for node_value in HeroSkillManager.skill_nodes(hero,branch):
-            var node: Dictionary=node_value; var unlocked: bool=hero.unlocked_skills.has(str(node.id))
-            var button := make_button("%s\n%s"%[node.name,"ACQUIS" if unlocked else node.description],func(skill_id=str(node.id)):
-                HeroSkillManager.unlock(hero,skill_id); show_hero_skills(),Vector2(380,55))
-            button.disabled=unlocked or not HeroSkillManager.can_unlock(hero,str(node.id)); grid.add_child(button)
+        var locked: bool = specialization!="" and specialization!=branch
+        var tab_text: String = "%s%s" % [branch.to_upper(), "  🔒" if locked else ("  ◆" if specialization==branch else "")]
+        var tab := make_button(tab_text,func(branch_id=branch): selected_skill_branch=branch_id; selected_skill_id=""; show_hero_skills(),Vector2(230,46))
+        tab.modulate = _skill_branch_color(branch) if selected_skill_branch==branch else Color(0.62,0.62,0.66,1); tabs.add_child(tab)
+    var nodes: Array = HeroSkillManager.skill_nodes(hero,selected_skill_branch)
+    if selected_skill_id=="" and not nodes.is_empty(): selected_skill_id=str(nodes[0].id)
+    var scroll := ScrollContainer.new(); scroll.position=Vector2(24,108); scroll.size=Vector2(805,500); content.add_child(scroll)
+    var tree := GridContainer.new(); tree.columns=3; tree.custom_minimum_size=Vector2(770,0); tree.add_theme_constant_override("h_separation",12); tree.add_theme_constant_override("v_separation",12); scroll.add_child(tree)
+    for index in range(nodes.size()):
+        var node: Dictionary=nodes[index]; var node_id:String=str(node.id); var unlocked:bool=hero.unlocked_skills.has(node_id)
+        var available:bool=HeroSkillManager.can_unlock(hero,node_id); var state:String="◆ ACQUIS" if unlocked else ("◇ DISPONIBLE" if available else "🔒 VERROUILLÉ")
+        var button:=make_button("PALIER %02d · NIV. %d\n%s\n%s"%[index+1,int(node.required_level),str(node.name),state],func(skill_id=node_id):selected_skill_id=skill_id;show_hero_skills(),Vector2(248,76))
+        button.modulate=_skill_branch_color(selected_skill_branch) if unlocked or available else Color(0.35,0.35,0.38,1); tree.add_child(button)
+    var detail := VBoxContainer.new(); detail.position=Vector2(850,108); detail.size=Vector2(405,500); detail.add_theme_constant_override("separation",12); content.add_child(detail)
+    var chosen:Dictionary={}
+    for node_value in nodes:
+        if str(node_value.id)==selected_skill_id: chosen=node_value
+    if not chosen.is_empty():
+        detail.add_child(make_label(str(chosen.name),22,_skill_branch_color(selected_skill_branch)))
+        detail.add_child(make_label("NIVEAU REQUIS  %d\nCOÛT  ◆ %d\nPRÉREQUIS  %s"%[int(chosen.required_level),int(chosen.cost),"Aucun" if str(chosen.requires)=="" else str(chosen.requires)],15,MUTED))
+        detail.add_child(make_label(str(chosen.description),18,TEXT))
+        var acquired:bool=hero.unlocked_skills.has(str(chosen.id)); var can_buy:bool=HeroSkillManager.can_unlock(hero,str(chosen.id))
+        var buy:=make_button("ACQUIS" if acquired else ("DÉBLOQUER" if can_buy else "INDISPONIBLE"),func(skill_id=str(chosen.id)):HeroSkillManager.unlock(hero,skill_id);show_hero_skills(),Vector2(390,52)); buy.disabled=acquired or not can_buy; detail.add_child(buy)
+    detail.add_child(make_label("◆ Acquis   ◇ Disponible   🔒 Verrouillé\nLe premier talent choisi verrouille les deux autres arbres.",13,MUTED))
     var back := make_button("RETOUR",func():GameState.request_screen("company"),Vector2(180,45)); back.position=Vector2(24,640); content.add_child(back)
+
+func _skill_branch_color(branch:String)->Color:
+    return {"offense":Color("#b9413f"),"defense":Color("#5e8fc4"),"special":Color("#9b6bc5")}.get(branch,GOLD)
 
 func hero_bonuses(hero: Dictionary) -> Dictionary:
     var result: Dictionary = EquipmentManager.bonuses_for_hero(str(hero.get("id","")))
