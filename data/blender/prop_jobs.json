@@ -3,6 +3,342 @@
   "generator": "tools/blender/generate_prop_jobs.py",
   "jobs": [
     {
+      "job_id": "prop_ritual_dagger",
+      "prop_id": "ritual_dagger",
+      "name": "Dague rituelle",
+      "category": "equipment",
+      "dimensions_m": [
+        1.05,
+        0.08,
+        0.12
+      ],
+      "material_profile": "iron_tarnished",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_grip",
+      "output": "builds/props/equipment/ritual_dagger",
+      "equipment_slot": "weapon"
+    },
+    {
+      "job_id": "prop_occult_staff",
+      "prop_id": "occult_staff",
+      "name": "Bâton occulte",
+      "category": "equipment",
+      "dimensions_m": [
+        1.05,
+        0.08,
+        0.12
+      ],
+      "material_profile": "iron_tarnished",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_grip",
+      "output": "builds/props/equipment/occult_staff",
+      "equipment_slot": "weapon"
+    },
+    {
+      "job_id": "prop_reinforced_robe",
+      "prop_id": "reinforced_robe",
+      "name": "Robe renforcée",
+      "category": "equipment",
+      "dimensions_m": [
+        0.65,
+        0.95,
+        0.3
+      ],
+      "material_profile": "cloth_soot",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_spine",
+      "output": "builds/props/equipment/reinforced_robe",
+      "equipment_slot": "armor"
+    },
+    {
+      "job_id": "prop_great_axe",
+      "prop_id": "great_axe",
+      "name": "Grande hache",
+      "category": "equipment",
+      "dimensions_m": [
+        1.05,
+        0.08,
+        0.12
+      ],
+      "material_profile": "iron_tarnished",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_grip",
+      "output": "builds/props/equipment/great_axe",
+      "equipment_slot": "weapon"
+    },
+    {
+      "job_id": "prop_war_hammer",
+      "prop_id": "war_hammer",
+      "name": "Marteau de guerre",
+      "category": "equipment",
+      "dimensions_m": [
+        1.05,
+        0.08,
+        0.12
+      ],
+      "material_profile": "iron_tarnished",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_grip",
+      "output": "builds/props/equipment/war_hammer",
+      "equipment_slot": "weapon"
+    },
+    {
+      "job_id": "prop_bone_harness",
+      "prop_id": "bone_harness",
+      "name": "Harnois d’os",
+      "category": "equipment",
+      "dimensions_m": [
+        0.65,
+        0.95,
+        0.3
+      ],
+      "material_profile": "cloth_soot",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_spine",
+      "output": "builds/props/equipment/bone_harness",
+      "equipment_slot": "armor"
+    },
+    {
+      "job_id": "prop_ceremonial_mace",
+      "prop_id": "ceremonial_mace",
+      "name": "Masse cérémonielle",
+      "category": "equipment",
+      "dimensions_m": [
+        1.05,
+        0.08,
+        0.12
+      ],
+      "material_profile": "iron_tarnished",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_grip",
+      "output": "builds/props/equipment/ceremonial_mace",
+      "equipment_slot": "weapon"
+    },
+    {
+      "job_id": "prop_sacred_staff",
+      "prop_id": "sacred_staff",
+      "name": "Bâton sacré",
+      "category": "equipment",
+      "dimensions_m": [
+        1.05,
+        0.08,
+        0.12
+      ],
+      "material_profile": "iron_tarnished",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_grip",
+      "output": "builds/props/equipment/sacred_staff",
+      "equipment_slot": "weapon"
+    },
+    {
+      "job_id": "prop_reinforced_habit",
+      "prop_id": "reinforced_habit",
+      "name": "Habit renforcé",
+      "category": "equipment",
+      "dimensions_m": [
+        0.65,
+        0.95,
+        0.3
+      ],
+      "material_profile": "cloth_soot",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_spine",
+      "output": "builds/props/equipment/reinforced_habit",
+      "equipment_slot": "armor"
+    },
+    {
+      "job_id": "prop_watcher_mace",
+      "prop_id": "watcher_mace",
+      "name": "Masse d’armes",
+      "category": "equipment",
+      "dimensions_m": [
+        1.05,
+        0.08,
+        0.12
+      ],
+      "material_profile": "iron_tarnished",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_grip",
+      "output": "builds/props/equipment/watcher_mace",
+      "equipment_slot": "weapon"
+    },
+    {
+      "job_id": "prop_guard_spear",
+      "prop_id": "guard_spear",
+      "name": "Lance de garde",
+      "category": "equipment",
+      "dimensions_m": [
+        1.05,
+        0.08,
+        0.12
+      ],
+      "material_profile": "iron_tarnished",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_grip",
+      "output": "builds/props/equipment/guard_spear",
+      "equipment_slot": "weapon"
+    },
+    {
+      "job_id": "prop_lamellar_armor",
+      "prop_id": "lamellar_armor",
+      "name": "Armure lamellaire",
+      "category": "equipment",
+      "dimensions_m": [
+        0.65,
+        0.95,
+        0.3
+      ],
+      "material_profile": "cloth_soot",
+      "collections": [
+        "PROP",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "convex",
+      "socket": "SOCKET_spine",
+      "output": "builds/props/equipment/lamellar_armor",
+      "equipment_slot": "armor"
+    },
+    {
       "job_id": "prop_rust_blade",
       "prop_id": "rust_blade",
       "name": "Lame rouillée",
@@ -61,7 +397,7 @@
     {
       "job_id": "prop_bone_ring",
       "prop_id": "bone_ring",
-      "name": "Anneau d'os",
+      "name": "Anneau d’os",
       "category": "equipment",
       "dimensions_m": [
         0.06,
