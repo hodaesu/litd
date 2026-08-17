@@ -19,10 +19,10 @@ def write_glb(path: Path, document: dict) -> None:
 class GodotImportRegistryTests(unittest.TestCase):
     def test_registry_covers_every_glb_output(self):
         registry = build_registry()
-        self.assertEqual(registry["asset_count"], 75)
-        self.assertEqual(len(registry["assets"]), 75)
-        self.assertEqual(len({asset["job_id"] for asset in registry["assets"]}), 75)
-        self.assertEqual(len({asset["godot_path"] for asset in registry["assets"]}), 75)
+        self.assertEqual(registry["asset_count"], 87)
+        self.assertEqual(len(registry["assets"]), 87)
+        self.assertEqual(len({asset["job_id"] for asset in registry["assets"]}), 87)
+        self.assertEqual(len({asset["godot_path"] for asset in registry["assets"]}), 87)
         self.assertTrue(all(asset["godot_path"].startswith("res://assets/3d/") for asset in registry["assets"]))
 
     def test_saved_registry_matches_pipeline(self):
@@ -32,7 +32,7 @@ class GodotImportRegistryTests(unittest.TestCase):
 
     def test_preproduction_report_marks_outputs_as_missing_not_blocked(self):
         report = build_report()
-        self.assertEqual(report["summary"], {"total": 75, "ready": 0, "missing": 75, "blocked": 0})
+        self.assertEqual(report["summary"], {"total": 87, "ready": 0, "missing": 87, "blocked": 0})
 
 
 class MobileBudgetTests(unittest.TestCase):
