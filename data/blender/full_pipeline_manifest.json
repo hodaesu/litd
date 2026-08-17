@@ -2,11 +2,11 @@
   "version": 1,
   "generator": "tools/blender/run_full_pipeline.py",
   "summary": {
-    "total_jobs": 88,
+    "total_jobs": 100,
     "materials": 1,
     "environments": 15,
     "characters": 52,
-    "props": 20
+    "props": 32
   },
   "stages": [
     {
@@ -1521,6 +1521,234 @@
       "outputs": [
         "builds/props/equipment/lamellar_armor/lamellar_armor.blend",
         "builds/props/equipment/lamellar_armor/lamellar_armor.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_void_seal_ring",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "void_seal_ring",
+        "--output",
+        "builds/props/equipment/void_seal_ring/void_seal_ring.blend",
+        "--export-glb",
+        "builds/props/equipment/void_seal_ring/void_seal_ring.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/void_seal_ring/void_seal_ring.blend",
+        "builds/props/equipment/void_seal_ring/void_seal_ring.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_whisper_ring",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "whisper_ring",
+        "--output",
+        "builds/props/equipment/whisper_ring/whisper_ring.blend",
+        "--export-glb",
+        "builds/props/equipment/whisper_ring/whisper_ring.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/whisper_ring/whisper_ring.blend",
+        "builds/props/equipment/whisper_ring/whisper_ring.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_black_star_necklace",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "black_star_necklace",
+        "--output",
+        "builds/props/equipment/black_star_necklace/black_star_necklace.blend",
+        "--export-glb",
+        "builds/props/equipment/black_star_necklace/black_star_necklace.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/black_star_necklace/black_star_necklace.blend",
+        "builds/props/equipment/black_star_necklace/black_star_necklace.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_shatter_ring",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "shatter_ring",
+        "--output",
+        "builds/props/equipment/shatter_ring/shatter_ring.blend",
+        "--export-glb",
+        "builds/props/equipment/shatter_ring/shatter_ring.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/shatter_ring/shatter_ring.blend",
+        "builds/props/equipment/shatter_ring/shatter_ring.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_iron_blood_ring",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "iron_blood_ring",
+        "--output",
+        "builds/props/equipment/iron_blood_ring/iron_blood_ring.blend",
+        "--export-glb",
+        "builds/props/equipment/iron_blood_ring/iron_blood_ring.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/iron_blood_ring/iron_blood_ring.blend",
+        "builds/props/equipment/iron_blood_ring/iron_blood_ring.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_bone_torc",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "bone_torc",
+        "--output",
+        "builds/props/equipment/bone_torc/bone_torc.blend",
+        "--export-glb",
+        "builds/props/equipment/bone_torc/bone_torc.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/bone_torc/bone_torc.blend",
+        "builds/props/equipment/bone_torc/bone_torc.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_dawn_ring",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "dawn_ring",
+        "--output",
+        "builds/props/equipment/dawn_ring/dawn_ring.blend",
+        "--export-glb",
+        "builds/props/equipment/dawn_ring/dawn_ring.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/dawn_ring/dawn_ring.blend",
+        "builds/props/equipment/dawn_ring/dawn_ring.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_vow_ring",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "vow_ring",
+        "--output",
+        "builds/props/equipment/vow_ring/vow_ring.blend",
+        "--export-glb",
+        "builds/props/equipment/vow_ring/vow_ring.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/vow_ring/vow_ring.blend",
+        "builds/props/equipment/vow_ring/vow_ring.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_reliquary_necklace",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "reliquary_necklace",
+        "--output",
+        "builds/props/equipment/reliquary_necklace/reliquary_necklace.blend",
+        "--export-glb",
+        "builds/props/equipment/reliquary_necklace/reliquary_necklace.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/reliquary_necklace/reliquary_necklace.blend",
+        "builds/props/equipment/reliquary_necklace/reliquary_necklace.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_sentinel_ring",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "sentinel_ring",
+        "--output",
+        "builds/props/equipment/sentinel_ring/sentinel_ring.blend",
+        "--export-glb",
+        "builds/props/equipment/sentinel_ring/sentinel_ring.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/sentinel_ring/sentinel_ring.blend",
+        "builds/props/equipment/sentinel_ring/sentinel_ring.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_counter_ring",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "counter_ring",
+        "--output",
+        "builds/props/equipment/counter_ring/counter_ring.blend",
+        "--export-glb",
+        "builds/props/equipment/counter_ring/counter_ring.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/counter_ring/counter_ring.blend",
+        "builds/props/equipment/counter_ring/counter_ring.glb"
+      ]
+    },
+    {
+      "stage": "props",
+      "job_id": "prop_watch_necklace",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_prop_scene.py",
+        "watch_necklace",
+        "--output",
+        "builds/props/equipment/watch_necklace/watch_necklace.blend",
+        "--export-glb",
+        "builds/props/equipment/watch_necklace/watch_necklace.glb"
+      ],
+      "outputs": [
+        "builds/props/equipment/watch_necklace/watch_necklace.blend",
+        "builds/props/equipment/watch_necklace/watch_necklace.glb"
       ]
     },
     {
