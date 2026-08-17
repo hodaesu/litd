@@ -5,7 +5,6 @@ signal creature_captured(creature: Dictionary)
 signal creature_leveled(creature: Dictionary)
 
 const DEFAULT_SEED: int = 0x43524541
-const MAX_LEVEL: int = 15
 
 var captured_creatures: Array[Dictionary] = []
 var active_instance_id: String = ""
@@ -141,7 +140,7 @@ func grant_active_xp(amount: int) -> void:
             continue
         creature["xp"] = int(creature.get("xp", 0)) + amount
         var leveled: bool = false
-        while int(creature.get("level", 1)) < MAX_LEVEL:
+        while int(creature.get("level", 1)) < GameState.MAX_CHARACTER_LEVEL:
             var required: int = xp_to_next_level(int(creature.get("level", 1)))
             if int(creature.get("xp", 0)) < required:
                 break
@@ -287,6 +286,9 @@ func deserialize(data: Dictionary) -> void:
         var instance_id: String = str(creature.get("instance_id", ""))
         if instance_id == "" or seen.has(instance_id):
             continue
+        creature["level"] = clampi(int(creature.get("level", 1)), 1, GameState.MAX_CHARACTER_LEVEL)
+        creature["xp"] = maxi(0, int(creature.get("xp", 0)))
+        creature["skill_points"] = maxi(0, int(creature.get("skill_points", 0)))
         seen[instance_id] = true
         captured_creatures.append(creature.duplicate(true))
     active_instance_id = str(data.get("active_instance_id", ""))

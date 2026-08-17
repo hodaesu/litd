@@ -3,6 +3,8 @@ extends Node
 signal state_changed
 signal screen_requested(screen_name: String)
 
+const MAX_CHARACTER_LEVEL: int = 50
+
 var current_screen := "title"
 var gold := 120
 var essence := 18
