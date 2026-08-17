@@ -38,6 +38,8 @@ func load_game() -> bool:
     GameState.light = int(payload.get("light", 75))
     GameState.supplies = int(payload.get("supplies", 8))
     GameState.party = payload.get("party", DataLoader.heroes.duplicate(true))
+    for hero_value in GameState.party:
+        HeroSkillManager.prepare_hero(hero_value)
     EquipmentManager.deserialize(payload.get("equipment", {}))
     CreatureManager.deserialize(payload.get("creatures", {}))
     GameState.expedition_room = int(payload.get("expedition_room", 0))

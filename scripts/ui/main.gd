@@ -4,6 +4,7 @@ var root: Control
 var content: Control
 var selected_enemy := 0
 var battle_locked := false
+var selected_hero_id: String = "aurelien"
 
 const GOLD := Color("#d5b26c")
 const PANEL := Color(0.025, 0.027, 0.035, 0.94)
@@ -118,6 +119,7 @@ func show_screen(name: String) -> void:
         "title": show_title()
         "sanctuary": show_sanctuary()
         "company": show_company()
+        "hero_skills": show_hero_skills()
         "creatures": show_creatures()
         "market": show_market()
         "expedition": show_expedition()
@@ -223,10 +225,40 @@ func show_company() -> void:
         var cls = DataLoader.find_by_id(DataLoader.classes, hero.class_id)
         card.add_child(make_label("%s — %s" % [cls.name, cls.role], 13, MUTED))
         card.add_child(make_label("PV %d/%d   Peur %d   Folie %d" % [hero.hp,hero.max_hp,hero.fear,hero.madness], 13))
+        card.add_child(make_button("ARBRES DE COMPÉTENCES", func(hero_id = str(hero.id)):
+            selected_hero_id = hero_id
+            GameState.request_screen("hero_skills"), Vector2(220, 42)))
         row.add_child(card)
     var back := make_button("RETOUR AU SANCTUAIRE", func(): GameState.request_screen("sanctuary"), Vector2(280,48))
     back.position = Vector2(24,630)
     content.add_child(back)
+
+func show_hero_skills() -> void:
+    var hero: Dictionary = {}
+    for hero_value in GameState.party:
+        if str(hero_value.id) == selected_hero_id: hero = hero_value
+    if hero.is_empty(): GameState.request_screen("company"); return
+    var title := make_label("%s — 45 COMPÉTENCES · %d POINT(S)" % [hero.name, int(hero.skill_points)], 24, GOLD)
+    title.position = Vector2(24, 15); content.add_child(title)
+    var scroll := ScrollContainer.new(); scroll.position = Vector2(24,55); scroll.size = Vector2(1230,570); content.add_child(scroll)
+    var list := VBoxContainer.new(); list.custom_minimum_size = Vector2(1190,0); scroll.add_child(list)
+    var specialization: String = str(hero.specialization)
+    for branch in HeroSkillManager.BRANCHES:
+        var label := make_label("%s%s" % [branch.to_upper(), " — CHOISI" if specialization==branch else (" — VERROUILLÉ" if specialization!="" else "")],16,GOLD)
+        list.add_child(label)
+        var grid := GridContainer.new(); grid.columns=3; list.add_child(grid)
+        for node_value in HeroSkillManager.skill_nodes(hero,branch):
+            var node: Dictionary=node_value; var unlocked: bool=hero.unlocked_skills.has(str(node.id))
+            var button := make_button("%s\n%s"%[node.name,"ACQUIS" if unlocked else node.description],func(skill_id=str(node.id)):
+                HeroSkillManager.unlock(hero,skill_id); show_hero_skills(),Vector2(380,55))
+            button.disabled=unlocked or not HeroSkillManager.can_unlock(hero,str(node.id)); grid.add_child(button)
+    var back := make_button("RETOUR",func():GameState.request_screen("company"),Vector2(180,45)); back.position=Vector2(24,640); content.add_child(back)
+
+func hero_bonuses(hero: Dictionary) -> Dictionary:
+    var result: Dictionary = EquipmentManager.bonuses_for_hero(str(hero.get("id","")))
+    for key_value in HeroSkillManager.stats_for(hero).keys():
+        var key: String=str(key_value); result[key]=int(result.get(key,0))+int(HeroSkillManager.stats_for(hero).get(key,0))
+    return result
 
 func show_creatures() -> void:
     var bg := full_texture("res://assets/backgrounds/forgotten_city.webp")
@@ -522,15 +554,15 @@ func hero_action(action: String) -> void:
         return
     elif action == "heal":
         var target: Dictionary = GameState.party[mini(2, GameState.party.size() - 1)]
-        var bonuses: Dictionary = EquipmentManager.bonuses_for_hero(str(hero.get("id", "")))
+        var bonuses: Dictionary = hero_bonuses(hero)
         var amount: int = int(round(18.0 * (1.0 + float(bonuses.get("healing_power", 0)) / 100.0)))
         target.hp = min(target.max_hp, target.hp + amount)
-        var target_bonuses: Dictionary = EquipmentManager.bonuses_for_hero(str(target.get("id", "")))
+        var target_bonuses: Dictionary = hero_bonuses(target)
         target.hope = mini(100 + int(target_bonuses.get("max_hope", 0)), int(target.get("hope", 0)) + 2)
         GameState.add_log("%s restaure %d PV à %s." % [hero.name,amount,target.name])
     elif action == "guard":
         hero["guarding"] = true
-        hero["guard_power"] = int(EquipmentManager.bonuses_for_hero(str(hero.get("id", ""))).get("guard_power", 0))
+        hero["guard_power"] = int(hero_bonuses(hero).get("guard_power", 0))
         GameState.add_log("%s se met en garde." % hero.name)
     else:
         var living: Array = GameState.alive_enemies()
@@ -543,7 +575,7 @@ func hero_action(action: String) -> void:
             target = living[0]
         var power := 1.0 if action == "strike" else 1.35
         var cls: Dictionary = DataLoader.find_by_id(DataLoader.classes, hero.class_id)
-        var bonuses: Dictionary = EquipmentManager.bonuses_for_hero(str(hero.get("id", "")))
+        var bonuses: Dictionary = hero_bonuses(hero)
         var base_damage: int = randi_range(int(cls.damage[0]), int(cls.damage[1])) + int(bonuses.get("damage_bonus", 0))
         var damage: int = int(base_damage * power)
         damage += int(round(damage * float(bonuses.get("precision", 0)) / 100.0))
@@ -599,7 +631,7 @@ func enemy_turn() -> void:
             finish_defeat()
             return
         var target: Dictionary = targets[randi() % targets.size()]
-        var target_bonuses: Dictionary = EquipmentManager.bonuses_for_hero(str(target.get("id", "")))
+        var target_bonuses: Dictionary = hero_bonuses(target)
         var creature_bonuses: Dictionary = CreatureManager.party_bonuses()
         for bonus_key_value in creature_bonuses.keys():
             var bonus_key: String = str(bonus_key_value)
@@ -628,6 +660,8 @@ func finish_victory() -> void:
     GameState.essence += 4
     GameState.expedition_room += 1
     CreatureManager.grant_active_xp(30)
+    for hero_value in GameState.party:
+        HeroSkillManager.grant_xp(hero_value, 30)
     if not AshlandsCombatBridge.active:
         var hero_index: int = clampi(GameState.expedition_room - 2, 0, DataLoader.heroes.size() - 1)
         EquipmentManager.grant_test_level_bundle(hero_index, "common")

@@ -24,6 +24,7 @@ func _initialize() -> void:
         "res://scripts/core/expedition_manager.gd",
         "res://scripts/core/equipment_manager.gd",
         "res://scripts/core/creature_manager.gd",
+        "res://scripts/core/hero_skill_manager.gd",
         "res://scripts/world/ashlands_zone_runtime.gd",
         "res://scripts/world/ashlands_miniboss_director.gd",
         "res://scripts/world/ashlands_scene_router.gd",
