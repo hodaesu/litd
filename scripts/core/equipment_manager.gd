@@ -186,7 +186,7 @@ func weapon_level_multiplier(level: int) -> float:
 func effective_bonuses_for_level(item: Dictionary, level: int) -> Dictionary:
     var result: Dictionary = effective_bonuses(item)
     var slot: String = str(item.get("slot", ""))
-    if slot != "weapon" and slot != "armor":
+    if slot not in ["weapon", "armor", "ring", "necklace"]:
         return result
     var multiplier: float = weapon_level_multiplier(level)
     for key_value in result.keys():
