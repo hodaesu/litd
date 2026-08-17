@@ -54,9 +54,11 @@ def build_report(root: Path = ROOT) -> dict:
 
 def validate_contract(root: Path = ROOT) -> list[str]:
     registry = json.loads((root / "data/blender/godot_import_registry.json").read_text(encoding="utf-8"))
+    pipeline = json.loads((root / "data/blender/full_pipeline_manifest.json").read_text(encoding="utf-8"))
+    expected_count = sum(job["stage"] != "materials" for job in pipeline["stages"])
     errors = []
-    if registry.get("asset_count") != 75 or len(registry.get("assets", [])) != 75:
-        errors.append("registry must contain exactly 75 GLB mappings")
+    if registry.get("asset_count") != expected_count or len(registry.get("assets", [])) != expected_count:
+        errors.append(f"registry must contain exactly {expected_count} GLB mappings")
     job_ids = [asset["job_id"] for asset in registry["assets"]]
     targets = [asset["godot_path"] for asset in registry["assets"]]
     if len(job_ids) != len(set(job_ids)):
@@ -81,7 +83,7 @@ def main() -> int:
             print(f"ERROR: {error}")
         return 1
     if args.check_contract:
-        print("75 Godot import mappings satisfy the production contract")
+        print(f"{len(json.loads(REGISTRY.read_text(encoding='utf-8'))['assets'])} Godot import mappings satisfy the production contract")
         return 0
     report = build_report()
     args.report.parent.mkdir(parents=True, exist_ok=True)
