@@ -118,6 +118,7 @@ func show_screen(name: String) -> void:
         "title": show_title()
         "sanctuary": show_sanctuary()
         "company": show_company()
+        "market": show_market()
         "expedition": show_expedition()
         "combat": show_combat()
         "rewards": show_rewards()
@@ -173,6 +174,8 @@ func show_sanctuary() -> void:
                 GameState.request_screen("company")
             elif a == "expedition":
                 GameState.request_screen("expedition")
+            elif a == "market":
+                GameState.request_screen("market")
             else:
                 GameState.add_log("%s : cette fonction est préparée pour la phase suivante." % a)
         , Vector2(230,70))
@@ -220,6 +223,50 @@ func show_company() -> void:
     var back := make_button("RETOUR AU SANCTUAIRE", func(): GameState.request_screen("sanctuary"), Vector2(280,48))
     back.position = Vector2(24,630)
     content.add_child(back)
+
+func show_market() -> void:
+    var bg := full_texture("res://assets/backgrounds/forgotten_city.webp")
+    bg.modulate = Color(0.38, 0.38, 0.42, 1)
+    content.add_child(bg)
+    var shade := ColorRect.new()
+    shade.color = Color(0, 0, 0, 0.68)
+    shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    content.add_child(shade)
+    var title := make_label("MARCHÉ NOIR — INVENTAIRE D’ÉQUIPEMENT", 28, GOLD)
+    title.position = Vector2(32, 18)
+    content.add_child(title)
+    var scroll := ScrollContainer.new()
+    scroll.position = Vector2(32, 66)
+    scroll.size = Vector2(1216, 548)
+    content.add_child(scroll)
+    var list := VBoxContainer.new()
+    list.custom_minimum_size = Vector2(1180, 0)
+    list.add_theme_constant_override("separation", 8)
+    scroll.add_child(list)
+    if EquipmentManager.items.is_empty():
+        list.add_child(make_label("Aucun équipement trouvé. Les quatre salles du niveau test accordent chacune le lot d’un héros.", 18, MUTED))
+    for item in EquipmentManager.items:
+        var row := HBoxContainer.new()
+        var description := make_label(EquipmentManager.describe_item(item), 15)
+        description.custom_minimum_size = Vector2(930, 48)
+        description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        row.add_child(description)
+        var instance_id: String = str(item.get("instance_id", ""))
+        row.add_child(make_button("ÉQUIPER", func(id_value = instance_id): _equip_matching_hero(str(id_value)), Vector2(180, 44)))
+        list.add_child(row)
+    var back := make_button("RETOUR AU SANCTUAIRE", func(): GameState.request_screen("sanctuary"), Vector2(280, 48))
+    back.position = Vector2(32, 625)
+    content.add_child(back)
+
+func _equip_matching_hero(instance_id: String) -> void:
+    var item: Dictionary = EquipmentManager.get_instance(instance_id)
+    for hero_value in GameState.party:
+        var hero: Dictionary = hero_value
+        if str(hero.get("class_id", "")) == str(item.get("class_id", "")):
+            if EquipmentManager.equip(str(hero.get("id", "")), instance_id):
+                GameState.add_log("%s équipe %s." % [str(hero.get("name", "Héros")), str(item.get("name", "objet"))])
+            break
+    show_market()
 
 func show_expedition() -> void:
     var bg := full_texture("res://assets/backgrounds/crypts.webp")
@@ -334,51 +381,97 @@ func hero_action(action: String) -> void:
     if battle_locked:
         return
     battle_locked = true
-    var hero = GameState.alive_heroes()[0] if not GameState.alive_heroes().is_empty() else {}
+    var hero: Dictionary = GameState.alive_heroes()[0] if not GameState.alive_heroes().is_empty() else {}
     if hero.is_empty():
         finish_defeat()
         return
     if action == "heal":
-        var target = GameState.party[mini(2, GameState.party.size() - 1)]
-        var amount := 18
+        var target: Dictionary = GameState.party[mini(2, GameState.party.size() - 1)]
+        var bonuses: Dictionary = EquipmentManager.bonuses_for_hero(str(hero.get("id", "")))
+        var amount: int = int(round(18.0 * (1.0 + float(bonuses.get("healing_power", 0)) / 100.0)))
         target.hp = min(target.max_hp, target.hp + amount)
+        var target_bonuses: Dictionary = EquipmentManager.bonuses_for_hero(str(target.get("id", "")))
+        target.hope = mini(100 + int(target_bonuses.get("max_hope", 0)), int(target.get("hope", 0)) + 2)
         GameState.add_log("%s restaure %d PV à %s." % [hero.name,amount,target.name])
     elif action == "guard":
         hero["guarding"] = true
+        hero["guard_power"] = int(EquipmentManager.bonuses_for_hero(str(hero.get("id", ""))).get("guard_power", 0))
         GameState.add_log("%s se met en garde." % hero.name)
     else:
-        var living = GameState.alive_enemies()
+        var living: Array = GameState.alive_enemies()
         if living.is_empty():
             finish_victory()
             return
         selected_enemy = clampi(selected_enemy, 0, GameState.battle_enemies.size() - 1)
-        var target = GameState.battle_enemies[selected_enemy]
+        var target: Dictionary = GameState.battle_enemies[selected_enemy]
         if target.hp <= 0:
             target = living[0]
         var power := 1.0 if action == "strike" else 1.35
-        var cls = DataLoader.find_by_id(DataLoader.classes, hero.class_id)
-        var base_damage := randi_range(int(cls.damage[0]), int(cls.damage[1]))
-        var damage := int(base_damage * power)
+        var cls: Dictionary = DataLoader.find_by_id(DataLoader.classes, hero.class_id)
+        var bonuses: Dictionary = EquipmentManager.bonuses_for_hero(str(hero.get("id", "")))
+        var base_damage: int = randi_range(int(cls.damage[0]), int(cls.damage[1])) + int(bonuses.get("damage_bonus", 0))
+        var damage: int = int(base_damage * power)
+        damage += int(round(damage * float(bonuses.get("precision", 0)) / 100.0))
+        var critical_chance: int = int(bonuses.get("critical_chance", 0))
+        var critical: bool = critical_chance > 0 and randi_range(1, 100) <= critical_chance
+        if critical:
+            damage = int(round(damage * 1.5))
+        if EquipmentManager.has_effect(str(hero.get("id", "")), "bone_fury") and int(hero.get("hp", 0)) * 2 <= int(hero.get("max_hp", 1)):
+            damage = int(round(damage * 1.25))
+        if int(target.get("broken", 0)) > 0:
+            damage = int(round(damage * 1.15))
+            target["broken"] = int(target.get("broken", 0)) - 1
+        if EquipmentManager.has_effect(str(hero.get("id", "")), "void_echo"):
+            damage += int(round(damage * 0.20))
         target.hp = max(0, target.hp - damage)
-        GameState.add_log("%s inflige %d dégâts à %s." % [hero.name,damage,target.name])
+        if int(bonuses.get("stun_chance", 0)) > 0 and randi_range(1, 100) <= int(bonuses.get("stun_chance", 0)):
+            target["stunned"] = true
+        if int(bonuses.get("bleed_chance", 0)) > 0 and randi_range(1, 100) <= int(bonuses.get("bleed_chance", 0)):
+            target["bleeding"] = maxi(2, int(bonuses.get("bleed_chance", 0)) / 2)
+        if int(bonuses.get("break_chance", 0)) > 0 and randi_range(1, 100) <= int(bonuses.get("break_chance", 0)):
+            target["broken"] = 2
+        if EquipmentManager.has_effect(str(hero.get("id", "")), "radiant_mercy"):
+            var wounded: Array = GameState.alive_heroes()
+            wounded.sort_custom(func(left: Dictionary, right: Dictionary): return int(left.get("hp", 0)) < int(right.get("hp", 0)))
+            if not wounded.is_empty():
+                var healed: Dictionary = wounded[0]
+                healed["hp"] = mini(int(healed.get("max_hp", 1)), int(healed.get("hp", 0)) + 4)
+        GameState.add_log("%s inflige %d dégâts%s à %s." % [hero.name, damage, " critiques" if critical else "", target.name])
     if GameState.alive_enemies().is_empty():
         finish_victory()
         return
     enemy_turn()
 
 func enemy_turn() -> void:
-    for enemy in GameState.alive_enemies():
-        var targets = GameState.alive_heroes()
+    for enemy_value in GameState.alive_enemies():
+        var enemy: Dictionary = enemy_value
+        if int(enemy.get("bleeding", 0)) > 0:
+            enemy.hp = max(0, int(enemy.hp) - int(enemy.get("bleeding", 0)))
+        if bool(enemy.get("stunned", false)):
+            enemy["stunned"] = false
+            GameState.add_log("%s est étourdi et perd son tour." % enemy.name)
+            continue
+        var targets: Array = GameState.alive_heroes()
         if targets.is_empty():
             finish_defeat()
             return
-        var target = targets[randi() % targets.size()]
-        var damage := randi_range(int(enemy.damage[0]), int(enemy.damage[1]))
+        var target: Dictionary = targets[randi() % targets.size()]
+        var target_bonuses: Dictionary = EquipmentManager.bonuses_for_hero(str(target.get("id", "")))
+        var damage: int = randi_range(int(enemy.damage[0]), int(enemy.damage[1]))
+        damage = maxi(1, int(round(damage * (1.0 - float(target_bonuses.get("physical_resistance", 0)) / 100.0))))
         if target.get("guarding",false):
-            damage = maxi(1, int(damage / 2))
+            var guard_reduction: float = clampf(0.5 + float(target.get("guard_power", 0)) / 100.0, 0.5, 0.85)
+            damage = maxi(1, int(round(damage * (1.0 - guard_reduction))))
             target["guarding"] = false
         target.hp = max(0, target.hp - damage)
-        target.fear = min(100, target.fear + int(enemy.fear))
+        var fear_gain: int = maxi(0, int(enemy.fear) - int(target_bonuses.get("fear_resistance", 0)))
+        target.fear = min(100, target.fear + fear_gain)
+        var riposte_chance: int = int(target_bonuses.get("riposte_chance", 0))
+        if EquipmentManager.has_effect(str(target.get("id", "")), "steadfast_counter"):
+            riposte_chance += 10
+        if riposte_chance > 0 and randi_range(1, 100) <= riposte_chance:
+            enemy.hp = max(0, int(enemy.hp) - 4)
+            GameState.add_log("%s riposte contre %s." % [target.name, enemy.name])
         GameState.add_log("%s frappe %s pour %d dégâts." % [enemy.name,target.name,damage])
     battle_locked = false
     show_screen("combat")
@@ -387,6 +480,9 @@ func finish_victory() -> void:
     GameState.gold += 28
     GameState.essence += 4
     GameState.expedition_room += 1
+    if not AshlandsCombatBridge.active:
+        var hero_index: int = clampi(GameState.expedition_room - 2, 0, DataLoader.heroes.size() - 1)
+        EquipmentManager.grant_test_level_bundle(hero_index, "common")
     GameState.add_log("Victoire. La compagnie récupère ses récompenses.")
     GameState.request_screen("rewards")
 
@@ -407,7 +503,11 @@ func show_rewards() -> void:
     box.add_theme_constant_override("separation", 15)
     content.add_child(box)
     box.add_child(make_label("VICTOIRE", 42, GOLD))
-    box.add_child(make_label("+28 or\n+4 essence\nUne relique oubliée a été récupérée.", 22))
+    var reward_lines: Array[String] = ["+28 or", "+4 essence"]
+    for reward_value in EquipmentManager.last_rewards:
+        var reward: Dictionary = reward_value
+        reward_lines.append(EquipmentManager.describe_item(reward))
+    box.add_child(make_label("\n".join(reward_lines), 18))
     if GameState.expedition_room > GameState.expedition_rooms:
         box.add_child(make_label("Les Cryptes du Premier Voile sont terminées.", 18, MUTED))
         box.add_child(make_button("RETOUR AU SANCTUAIRE", func():
