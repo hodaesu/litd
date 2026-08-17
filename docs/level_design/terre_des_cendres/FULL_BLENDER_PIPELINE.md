@@ -1,6 +1,6 @@
 # Pipeline Blender complet
 
-Le pré‑Blender dispose maintenant d'un orchestrateur unique couvrant 76 productions :
+Le pré‑Blender dispose maintenant d'un orchestrateur unique couvrant 88 productions :
 
 - 1 bibliothèque de matériaux ;
 - 15 environnements de la Terre des Cendres ;
