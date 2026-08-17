@@ -59,12 +59,12 @@
 - Bibliothèque cel-shading dark fantasy automatisée : huit familles de surfaces, palettes procédurales à trois tons, paramètres PBR portables et budgets mobiles.
 - Validateur GLB des personnages : skin, armature `RIG_`, mesh `SK_`, canaux et six animations minimales obligatoires.
 - Pipeline équipements/props : armes, armures, accessoires, feu de camp, ressources, raccourci, téléporteur et cadavre avec dimensions, collisions, matériaux, sockets et LOD.
-- Orchestrateur complet de 76 jobs Blender avec dépendances, sorties `.blend`/GLB, exécution globale ou par catégorie et contrôle anti-dérive.
-- Registre automatique de 75 imports GLB vers Godot avec chemins uniques et conservation des placeholders jusqu'à approbation.
+- Orchestrateur complet de 88 jobs Blender avec dépendances, sorties `.blend`/GLB, exécution globale ou par catégorie et contrôle anti-dérive.
+- Registre automatique de 87 imports GLB vers Godot avec chemins uniques et conservation des placeholders jusqu'à approbation.
 - Porte de validation finale classant chaque asset `missing`, `blocked` ou `ready`, contrôlant format, nommage, LOD, collisions, rigs, animations et budgets mobiles.
 - Console opérateur unifiée acceptant trois formes d'instruction : options directes, fichier JSON et questions interactives.
 - Sélection fine des catégories/jobs, dépendances automatiques, simulation par défaut et reprise fiable après interruption grâce au contrôle des sorties réelles.
-- File de revue visuelle des 75 GLB avec vues isométriques des zones et turntables multi-angles des personnages/props.
+- File de revue visuelle des 87 GLB avec vues isométriques des zones et turntables multi-angles des personnages/props.
 - Critères d'approbation spécialisés par catégorie, refus automatique des validations incomplètes et historique traçable des décisions.
 
 ## À tester/peaufiner dans Godot avant production 3D finale
