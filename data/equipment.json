@@ -310,6 +310,108 @@
     "test_level": true
   },
   {
+    "id": "dawn_ring",
+    "name": "Anneau de l’aube",
+    "slot": "ring",
+    "class_id": "vestal",
+    "base_bonuses": {
+      "healing_power": 2
+    },
+    "allowed_affixes": [
+      "healing_power",
+      "max_hope",
+      "fear_resistance",
+      "precision",
+      "stun_chance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "vow_ring",
+    "name": "Anneau du vœu",
+    "slot": "ring",
+    "class_id": "vestal",
+    "base_bonuses": {
+      "max_hope": 2
+    },
+    "allowed_affixes": [
+      "max_hope",
+      "healing_power",
+      "fear_resistance",
+      "madness_resistance",
+      "guard_power"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "reliquary_necklace",
+    "name": "Collier-reliquaire",
+    "slot": "necklace",
+    "class_id": "vestal",
+    "base_bonuses": {
+      "fear_resistance": 1
+    },
+    "allowed_affixes": [
+      "fear_resistance",
+      "healing_power",
+      "max_hope",
+      "madness_resistance",
+      "precision"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "sentinel_ring",
+    "name": "Anneau de la sentinelle",
+    "slot": "ring",
+    "class_id": "watcher",
+    "base_bonuses": {
+      "guard_power": 2
+    },
+    "allowed_affixes": [
+      "guard_power",
+      "riposte_chance",
+      "precision",
+      "stun_chance",
+      "physical_resistance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "counter_ring",
+    "name": "Anneau de contre-garde",
+    "slot": "ring",
+    "class_id": "watcher",
+    "base_bonuses": {
+      "riposte_chance": 2
+    },
+    "allowed_affixes": [
+      "riposte_chance",
+      "guard_power",
+      "physical_resistance",
+      "precision",
+      "stun_chance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "watch_necklace",
+    "name": "Collier de veille",
+    "slot": "necklace",
+    "class_id": "watcher",
+    "base_bonuses": {
+      "physical_resistance": 1
+    },
+    "allowed_affixes": [
+      "physical_resistance",
+      "guard_power",
+      "riposte_chance",
+      "fear_resistance",
+      "precision"
+    ],
+    "test_level": true
+  },
+  {
     "id": "rust_blade",
     "name": "Lame rouillée",
     "slot": "weapon",
