@@ -65,3 +65,11 @@ def test_save_schema_includes_creatures_and_version_bump():
     assert 'SAVE_VERSION := "0.16"' in save_manager
     assert '"creatures": CreatureManager.serialize()' in save_manager
     assert 'CreatureManager.deserialize(payload.get("creatures", {}))' in save_manager
+
+
+def test_creatures_share_the_hero_level_cap():
+    game_state = (ROOT / "scripts/core/game_state.gd").read_text()
+    manager = (ROOT / "scripts/core/creature_manager.gd").read_text()
+    assert "const MAX_CHARACTER_LEVEL: int = 50" in game_state
+    assert "GameState.MAX_CHARACTER_LEVEL" in manager
+    assert "const MAX_LEVEL" not in manager
