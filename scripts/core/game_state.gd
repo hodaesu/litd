@@ -25,7 +25,9 @@ func reset_new_game() -> void:
     CreatureManager.reset_new_game()
     party = []
     for hero in DataLoader.heroes:
-        party.append(hero.duplicate(true))
+        var prepared_hero: Dictionary = hero.duplicate(true)
+        HeroSkillManager.prepare_hero(prepared_hero)
+        party.append(prepared_hero)
     gold = 120
     essence = 18
     light = 75
