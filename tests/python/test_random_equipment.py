@@ -75,6 +75,34 @@ class RandomEquipmentTests(unittest.TestCase):
         self.assertIn("GameState.expedition_room - 2", script)
         self.assertIn("EquipmentManager.grant_test_level_bundle", script)
 
+    def test_weapon_bonuses_scale_every_three_levels_and_cap_at_three(self):
+        def multiplier(level: int) -> float:
+            completed_steps = (max(1, level) - 1) // 3
+            return min(3.0, 1.0 + completed_steps * 0.25)
+
+        expected = {
+            1: 1.0,
+            3: 1.0,
+            4: 1.25,
+            6: 1.25,
+            7: 1.5,
+            10: 1.75,
+            25: 3.0,
+            99: 3.0,
+        }
+        self.assertEqual(expected, {level: multiplier(level) for level in expected})
+
+    def test_runtime_scales_only_weapons_using_the_saved_hero_level(self):
+        manager = (ROOT / "scripts/core/equipment_manager.gd").read_text(encoding="utf-8")
+        main = (ROOT / "scripts/ui/main.gd").read_text(encoding="utf-8")
+        self.assertIn("func weapon_level_multiplier(level: int) -> float:", manager)
+        self.assertIn("func effective_bonuses_for_level(item: Dictionary, level: int)", manager)
+        self.assertIn('if str(item.get("slot", "")) != "weapon":', manager)
+        self.assertIn("MAX_WEAPON_LEVEL_MULTIPLIER: float = 3.0", manager)
+        self.assertIn('int(hero.get("level", 1))', manager)
+        self.assertIn("effective_bonuses_for_level(item, hero_level)", manager)
+        self.assertIn("EquipmentManager.describe_item(item, hero_level)", main)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
