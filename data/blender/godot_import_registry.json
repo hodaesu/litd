@@ -2,7 +2,7 @@
   "version": 1,
   "generator": "tools/blender/generate_godot_import_registry.py",
   "godot_version": "4.3",
-  "asset_count": 87,
+  "asset_count": 99,
   "assets": [
     {
       "job_id": "ashlands_01_faubourg_ruins",
@@ -633,6 +633,102 @@
       "category": "props",
       "source_glb": "builds/props/equipment/lamellar_armor/lamellar_armor.glb",
       "godot_path": "res://assets/3d/props/equipment/lamellar_armor/lamellar_armor.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_void_seal_ring",
+      "category": "props",
+      "source_glb": "builds/props/equipment/void_seal_ring/void_seal_ring.glb",
+      "godot_path": "res://assets/3d/props/equipment/void_seal_ring/void_seal_ring.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_whisper_ring",
+      "category": "props",
+      "source_glb": "builds/props/equipment/whisper_ring/whisper_ring.glb",
+      "godot_path": "res://assets/3d/props/equipment/whisper_ring/whisper_ring.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_black_star_necklace",
+      "category": "props",
+      "source_glb": "builds/props/equipment/black_star_necklace/black_star_necklace.glb",
+      "godot_path": "res://assets/3d/props/equipment/black_star_necklace/black_star_necklace.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_shatter_ring",
+      "category": "props",
+      "source_glb": "builds/props/equipment/shatter_ring/shatter_ring.glb",
+      "godot_path": "res://assets/3d/props/equipment/shatter_ring/shatter_ring.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_iron_blood_ring",
+      "category": "props",
+      "source_glb": "builds/props/equipment/iron_blood_ring/iron_blood_ring.glb",
+      "godot_path": "res://assets/3d/props/equipment/iron_blood_ring/iron_blood_ring.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_bone_torc",
+      "category": "props",
+      "source_glb": "builds/props/equipment/bone_torc/bone_torc.glb",
+      "godot_path": "res://assets/3d/props/equipment/bone_torc/bone_torc.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_dawn_ring",
+      "category": "props",
+      "source_glb": "builds/props/equipment/dawn_ring/dawn_ring.glb",
+      "godot_path": "res://assets/3d/props/equipment/dawn_ring/dawn_ring.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_vow_ring",
+      "category": "props",
+      "source_glb": "builds/props/equipment/vow_ring/vow_ring.glb",
+      "godot_path": "res://assets/3d/props/equipment/vow_ring/vow_ring.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_reliquary_necklace",
+      "category": "props",
+      "source_glb": "builds/props/equipment/reliquary_necklace/reliquary_necklace.glb",
+      "godot_path": "res://assets/3d/props/equipment/reliquary_necklace/reliquary_necklace.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_sentinel_ring",
+      "category": "props",
+      "source_glb": "builds/props/equipment/sentinel_ring/sentinel_ring.glb",
+      "godot_path": "res://assets/3d/props/equipment/sentinel_ring/sentinel_ring.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_counter_ring",
+      "category": "props",
+      "source_glb": "builds/props/equipment/counter_ring/counter_ring.glb",
+      "godot_path": "res://assets/3d/props/equipment/counter_ring/counter_ring.glb",
+      "approval": "pending",
+      "preserve_placeholder_collision": true
+    },
+    {
+      "job_id": "prop_watch_necklace",
+      "category": "props",
+      "source_glb": "builds/props/equipment/watch_necklace/watch_necklace.glb",
+      "godot_path": "res://assets/3d/props/equipment/watch_necklace/watch_necklace.glb",
       "approval": "pending",
       "preserve_placeholder_collision": true
     },
