@@ -98,12 +98,14 @@ class RandomEquipmentTests(unittest.TestCase):
         }
         self.assertEqual(expected, {level: multiplier(level) for level in expected})
 
-    def test_runtime_scales_only_weapons_using_the_saved_hero_level(self):
+    def test_runtime_scales_weapons_and_armor_using_the_saved_hero_level(self):
         manager = (ROOT / "scripts/core/equipment_manager.gd").read_text(encoding="utf-8")
         main = (ROOT / "scripts/ui/main.gd").read_text(encoding="utf-8")
         self.assertIn("func weapon_level_multiplier(level: int) -> float:", manager)
         self.assertIn("func effective_bonuses_for_level(item: Dictionary, level: int)", manager)
-        self.assertIn('if str(item.get("slot", "")) != "weapon":', manager)
+        self.assertIn('if slot != "weapon" and slot != "armor":', manager)
+        self.assertIn('if slot == "armor" and key == "hp_bonus":', manager)
+        self.assertIn('item["slot"] == "weapon" or item["slot"] == "armor"', manager)
         self.assertIn("MAX_WEAPON_LEVEL_MULTIPLIER: float = 3.0", manager)
         self.assertIn('int(hero.get("level", 1))', manager)
         self.assertIn("effective_bonuses_for_level(item, hero_level)", manager)
