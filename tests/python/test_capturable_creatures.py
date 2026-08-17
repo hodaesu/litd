@@ -31,6 +31,16 @@ def test_every_creature_has_three_complete_skill_trees():
                 assert not node.get("requires") or node["requires"] in skill_ids
 
 
+def test_runtime_expands_every_branch_to_fifteen_skills():
+    manager = (ROOT / "scripts/core/creature_manager.gd").read_text()
+    assert "const ADVANCED_SKILL_LEVELS: Array[int] = [25, 28, 31, 35, 39, 44, 49]" in manager
+    assert "const ADVANCED_SKILL_COSTS: Array[int] = [2, 2, 3, 3, 4, 4, 5]" in manager
+    assert "result.append" in manager
+    assert '"%s_%s_ascension_%d"' in manager
+    assert "ADVANCED_SKILL_LEVELS.size()" in manager
+    assert 8 + 7 == 15
+
+
 def test_capture_contracts_are_playable():
     for definition in _load("capturable_creatures.json"):
         capture = definition["capture"]

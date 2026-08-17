@@ -5,6 +5,8 @@ signal creature_captured(creature: Dictionary)
 signal creature_leveled(creature: Dictionary)
 
 const DEFAULT_SEED: int = 0x43524541
+const ADVANCED_SKILL_LEVELS: Array[int] = [25, 28, 31, 35, 39, 44, 49]
+const ADVANCED_SKILL_COSTS: Array[int] = [2, 2, 3, 3, 4, 4, 5]
 
 var captured_creatures: Array[Dictionary] = []
 var active_instance_id: String = ""
@@ -163,7 +165,66 @@ func xp_to_next_level(level: int) -> int:
 func skill_nodes(creature: Dictionary, branch: String) -> Array:
     var definition: Dictionary = definition_for_species(str(creature.get("species_id", "")))
     var trees: Dictionary = definition.get("skill_trees", {})
-    return trees.get(branch, [])
+    var result: Array = trees.get(branch, []).duplicate(true)
+    if result.is_empty():
+        return result
+    var species_id: String = str(definition.get("id", "creature"))
+    var species_name: String = str(definition.get("name", "Créature"))
+    var previous_id: String = str(result[-1].get("id", ""))
+    var stats: Array[String] = _advanced_stats(species_id, branch)
+    for index in range(ADVANCED_SKILL_LEVELS.size()):
+        var stat: String = stats[index]
+        var skill_id: String = "%s_%s_ascension_%d" % [species_id, branch, index + 1]
+        var value: int = _advanced_value(stat, index)
+        result.append({
+            "id": skill_id,
+            "name": "%s — %s %s" % [species_name, _branch_title(branch), _roman(index + 1)],
+            "description": _advanced_description(stat, value),
+            "cost": ADVANCED_SKILL_COSTS[index],
+            "required_level": ADVANCED_SKILL_LEVELS[index],
+            "requires": previous_id,
+            "stat": stat,
+            "value": value
+        })
+        previous_id = skill_id
+    return result
+
+func _advanced_stats(species_id: String, branch: String) -> Array[String]:
+    if branch == "offense":
+        return ["damage_bonus", "critical_chance", "damage_percent", "bleed_chance", "damage_bonus", "critical_chance", "damage_percent"]
+    if branch == "defense":
+        return ["physical_resistance", "fear_resistance", "guard_power", "physical_resistance", "fear_resistance", "guard_power", "physical_resistance"]
+    match species_id:
+        "hungry_ghoul":
+            return ["bleed_chance", "party_heal", "execute_percent", "bleed_chance", "party_heal", "execute_percent", "damage_percent"]
+        "oni":
+            return ["stun_chance", "break_chance", "execute_percent", "stun_chance", "break_chance", "execute_percent", "damage_percent"]
+        _:
+            return ["stun_chance", "bleed_chance", "party_heal", "stun_chance", "bleed_chance", "party_heal", "critical_chance"]
+
+func _advanced_value(stat: String, index: int) -> int:
+    var base_values: Dictionary = {
+        "damage_bonus": 2, "critical_chance": 4, "damage_percent": 8,
+        "bleed_chance": 5, "stun_chance": 5, "break_chance": 6,
+        "physical_resistance": 3, "fear_resistance": 3, "guard_power": 5,
+        "party_heal": 2, "execute_percent": 10
+    }
+    return int(base_values.get(stat, 2)) + int(index / 2)
+
+func _advanced_description(stat: String, value: int) -> String:
+    var labels: Dictionary = {
+        "damage_bonus": "dégâts", "critical_chance": "% critique", "damage_percent": "% dégâts",
+        "bleed_chance": "% saignement", "stun_chance": "% étourdissement", "break_chance": "% rupture",
+        "physical_resistance": "% résistance physique", "fear_resistance": "résistance à la peur",
+        "guard_power": "puissance de garde", "party_heal": "PV de soin", "execute_percent": "% exécution"
+    }
+    return "+%d %s" % [value, str(labels.get(stat, stat))]
+
+func _branch_title(branch: String) -> String:
+    return str({"offense": "Ascendance", "defense": "Égide", "special": "Essence"}.get(branch, "Maîtrise"))
+
+func _roman(value: int) -> String:
+    return ["I", "II", "III", "IV", "V", "VI", "VII"][clampi(value - 1, 0, 6)]
 
 func can_unlock(instance_id: String, skill_id: String) -> bool:
     var creature: Dictionary = get_creature(instance_id)
