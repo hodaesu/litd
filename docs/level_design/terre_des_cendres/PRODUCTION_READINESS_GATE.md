@@ -4,7 +4,7 @@ La production 3D dispose d'une validation globale avant import dans Godot 4.3.
 
 ## Registre d'import
 
-`data/blender/godot_import_registry.json` relie les 75 GLB attendus à une destination unique sous `res://assets/3d/` :
+`data/blender/godot_import_registry.json` relie les 87 GLB attendus à une destination unique sous `res://assets/3d/` :
 
 - 15 environnements ;
 - 52 personnages ;
