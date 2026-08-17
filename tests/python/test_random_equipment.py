@@ -19,12 +19,14 @@ class RandomEquipmentTests(unittest.TestCase):
         cls.rarities = load("equipment_rarities.json")
         cls.affixes = load("equipment_affixes.json")
 
-    def test_test_level_has_two_weapons_and_one_armor_per_playable_class(self):
+    def test_test_level_has_full_equipment_bundle_per_playable_class(self):
         expected = {"occultist", "breaker", "vestal", "watcher"}
         for class_id in expected:
             items = [item for item in self.equipment if item.get("test_level") and item.get("class_id") == class_id]
             self.assertEqual(2, sum(item["slot"] == "weapon" for item in items), class_id)
             self.assertEqual(1, sum(item["slot"] == "armor" for item in items), class_id)
+            self.assertEqual(2, sum(item["slot"] == "ring" for item in items), class_id)
+            self.assertEqual(1, sum(item["slot"] == "necklace" for item in items), class_id)
 
     def test_every_test_weapon_has_a_valid_class_specific_affix_pool(self):
         affix_ids = {affix["id"] for affix in self.affixes if not affix["special"]}
@@ -37,6 +39,16 @@ class RandomEquipmentTests(unittest.TestCase):
         for armor in (item for item in self.equipment if item.get("test_level") and item["slot"] == "armor"):
             self.assertGreaterEqual(len(armor["allowed_affixes"]), 5)
             self.assertTrue(set(armor["allowed_affixes"]) <= affix_ids)
+
+    def test_every_test_accessory_has_a_valid_class_specific_affix_pool(self):
+        affix_ids = {affix["id"] for affix in self.affixes if not affix["special"]}
+        accessories = (
+            item for item in self.equipment
+            if item.get("test_level") and item["slot"] in {"ring", "necklace"}
+        )
+        for accessory in accessories:
+            self.assertGreaterEqual(len(accessory["allowed_affixes"]), 5)
+            self.assertTrue(set(accessory["allowed_affixes"]) <= affix_ids)
 
     def test_rarity_power_is_strictly_proportional(self):
         expected = {
@@ -98,15 +110,18 @@ class RandomEquipmentTests(unittest.TestCase):
         }
         self.assertEqual(expected, {level: multiplier(level) for level in expected})
 
-    def test_runtime_scales_weapons_and_armor_using_the_saved_hero_level(self):
+    def test_runtime_scales_all_equipment_using_the_saved_hero_level(self):
         manager = (ROOT / "scripts/core/equipment_manager.gd").read_text(encoding="utf-8")
         main = (ROOT / "scripts/ui/main.gd").read_text(encoding="utf-8")
         self.assertIn("func weapon_level_multiplier(level: int) -> float:", manager)
         self.assertIn("func effective_bonuses_for_level(item: Dictionary, level: int)", manager)
-        self.assertIn('if slot != "weapon" and slot != "armor":', manager)
-        self.assertIn('if slot == "armor" and key == "hp_bonus":', manager)
-        self.assertIn('item["slot"] == "weapon" or item["slot"] == "armor"', manager)
+        self.assertIn('if slot not in ["weapon", "armor", "ring", "necklace"]:', manager)
+        self.assertIn('if slot != "weapon" and key == "hp_bonus":', manager)
+        self.assertIn('item["slot"] in ["weapon", "armor", "ring", "necklace"]', manager)
         self.assertIn("MAX_WEAPON_LEVEL_MULTIPLIER: float = 3.0", manager)
+        self.assertIn('return "ring_1"', manager)
+        self.assertIn('return "ring_2"', manager)
+        self.assertIn('slots["ring_1"] = slots["ring"]', manager)
         self.assertIn('int(hero.get("level", 1))', manager)
         self.assertIn("effective_bonuses_for_level(item, hero_level)", manager)
         self.assertIn("EquipmentManager.describe_item(item, hero_level)", main)

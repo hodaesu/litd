@@ -1,7 +1,7 @@
 {
   "version": 1,
   "generator": "tools/blender/generate_visual_review_queue.py",
-  "review_count": 87,
+  "review_count": 99,
   "reviews": [
     {
       "job_id": "ashlands_01_faubourg_ruins",
@@ -2618,6 +2618,414 @@
           512
         ],
         "output_dir": "reports/visual_reviews/prop_lamellar_armor"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_void_seal_ring",
+      "category": "props",
+      "blend_path": "builds/props/equipment/void_seal_ring/void_seal_ring.blend",
+      "glb_path": "builds/props/equipment/void_seal_ring/void_seal_ring.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_void_seal_ring"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_whisper_ring",
+      "category": "props",
+      "blend_path": "builds/props/equipment/whisper_ring/whisper_ring.blend",
+      "glb_path": "builds/props/equipment/whisper_ring/whisper_ring.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_whisper_ring"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_black_star_necklace",
+      "category": "props",
+      "blend_path": "builds/props/equipment/black_star_necklace/black_star_necklace.blend",
+      "glb_path": "builds/props/equipment/black_star_necklace/black_star_necklace.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_black_star_necklace"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_shatter_ring",
+      "category": "props",
+      "blend_path": "builds/props/equipment/shatter_ring/shatter_ring.blend",
+      "glb_path": "builds/props/equipment/shatter_ring/shatter_ring.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_shatter_ring"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_iron_blood_ring",
+      "category": "props",
+      "blend_path": "builds/props/equipment/iron_blood_ring/iron_blood_ring.blend",
+      "glb_path": "builds/props/equipment/iron_blood_ring/iron_blood_ring.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_iron_blood_ring"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_bone_torc",
+      "category": "props",
+      "blend_path": "builds/props/equipment/bone_torc/bone_torc.blend",
+      "glb_path": "builds/props/equipment/bone_torc/bone_torc.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_bone_torc"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_dawn_ring",
+      "category": "props",
+      "blend_path": "builds/props/equipment/dawn_ring/dawn_ring.blend",
+      "glb_path": "builds/props/equipment/dawn_ring/dawn_ring.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_dawn_ring"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_vow_ring",
+      "category": "props",
+      "blend_path": "builds/props/equipment/vow_ring/vow_ring.blend",
+      "glb_path": "builds/props/equipment/vow_ring/vow_ring.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_vow_ring"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_reliquary_necklace",
+      "category": "props",
+      "blend_path": "builds/props/equipment/reliquary_necklace/reliquary_necklace.blend",
+      "glb_path": "builds/props/equipment/reliquary_necklace/reliquary_necklace.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_reliquary_necklace"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_sentinel_ring",
+      "category": "props",
+      "blend_path": "builds/props/equipment/sentinel_ring/sentinel_ring.blend",
+      "glb_path": "builds/props/equipment/sentinel_ring/sentinel_ring.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_sentinel_ring"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_counter_ring",
+      "category": "props",
+      "blend_path": "builds/props/equipment/counter_ring/counter_ring.blend",
+      "glb_path": "builds/props/equipment/counter_ring/counter_ring.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_counter_ring"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_watch_necklace",
+      "category": "props",
+      "blend_path": "builds/props/equipment/watch_necklace/watch_necklace.blend",
+      "glb_path": "builds/props/equipment/watch_necklace/watch_necklace.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_watch_necklace"
       },
       "gates": [
         "silhouette",

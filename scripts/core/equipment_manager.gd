@@ -53,7 +53,7 @@ func generate_item(base_id: String, rarity_id: String = "common", context: Strin
         "base_bonuses": _scaled_bonuses(definition.get("base_bonuses", {}), float(rarity.get("base_multiplier", 1.0))),
         "affixes": []
     }
-    if item["slot"] == "weapon" or item["slot"] == "armor":
+    if item["slot"] in ["weapon", "armor", "ring", "necklace"]:
         item["affixes"] = _roll_weapon_affixes(definition, rarity, rng)
     return item
 
@@ -128,10 +128,13 @@ func equip(hero_id: String, instance_id: String) -> bool:
     if item.is_empty():
         return false
     var hero: Dictionary = DataLoader.find_by_id(DataLoader.heroes, hero_id)
-    if hero.is_empty() or str(item.get("class_id", "")) != str(hero.get("class_id", "")):
+    var item_class_id: String = str(item.get("class_id", ""))
+    if hero.is_empty() or (item_class_id != "" and item_class_id != str(hero.get("class_id", ""))):
         return false
     var slots: Dictionary = equipped_by_hero.get(hero_id, {})
-    var slot: String = str(item.get("slot", ""))
+    if slots.values().has(instance_id):
+        return true
+    var slot: String = _resolve_equipment_slot(slots, str(item.get("slot", "")))
     var old_item: Dictionary = get_instance(str(slots.get(slot, "")))
     var old_hp_bonus: int = int(effective_bonuses(old_item).get("hp_bonus", 0)) if not old_item.is_empty() else 0
     var new_hp_bonus: int = int(effective_bonuses(item).get("hp_bonus", 0))
@@ -146,6 +149,15 @@ func equip(hero_id: String, instance_id: String) -> bool:
             break
     item_equipped.emit(hero_id, item.duplicate(true))
     return true
+
+func _resolve_equipment_slot(slots: Dictionary, item_slot: String) -> String:
+    if item_slot != "ring":
+        return item_slot
+    if not slots.has("ring_1"):
+        return "ring_1"
+    if not slots.has("ring_2"):
+        return "ring_2"
+    return "ring_1"
 
 func get_instance(instance_id: String) -> Dictionary:
     for item in items:
@@ -174,12 +186,12 @@ func weapon_level_multiplier(level: int) -> float:
 func effective_bonuses_for_level(item: Dictionary, level: int) -> Dictionary:
     var result: Dictionary = effective_bonuses(item)
     var slot: String = str(item.get("slot", ""))
-    if slot != "weapon" and slot != "armor":
+    if slot not in ["weapon", "armor", "ring", "necklace"]:
         return result
     var multiplier: float = weapon_level_multiplier(level)
     for key_value in result.keys():
         var key: String = str(key_value)
-        if slot == "armor" and key == "hp_bonus":
+        if slot != "weapon" and key == "hp_bonus":
             continue
         result[key] = maxi(1, int(round(float(result.get(key, 0)) * multiplier)))
     return result
@@ -224,7 +236,7 @@ func describe_item(item: Dictionary, hero_level: int = 0) -> String:
     var displayed_bonuses: Dictionary = effective_bonuses(item)
     var level_suffix: String = ""
     var slot: String = str(item.get("slot", ""))
-    if hero_level > 0 and (slot == "weapon" or slot == "armor"):
+    if hero_level > 0 and slot in ["weapon", "armor", "ring", "necklace"]:
         displayed_bonuses = effective_bonuses_for_level(item, hero_level)
         level_suffix = " · niv. %d ×%.2f" % [hero_level, weapon_level_multiplier(hero_level)]
     for key_value in displayed_bonuses.keys():
@@ -257,6 +269,14 @@ func deserialize(data: Dictionary) -> void:
         seen[instance_id] = true
         items.append(item.duplicate(true))
     equipped_by_hero = data.get("equipped_by_hero", {}).duplicate(true)
+    for hero_key_value in equipped_by_hero.keys():
+        var hero_key: String = str(hero_key_value)
+        var slots: Dictionary = equipped_by_hero.get(hero_key, {})
+        if slots.has("ring"):
+            if not slots.has("ring_1"):
+                slots["ring_1"] = slots["ring"]
+            slots.erase("ring")
+            equipped_by_hero[hero_key] = slots
     drop_counter = maxi(0, int(data.get("drop_counter", items.size())))
     generation_seed = int(data.get("generation_seed", DEFAULT_SEED))
     last_rewards.clear()

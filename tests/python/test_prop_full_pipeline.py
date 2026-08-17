@@ -9,10 +9,10 @@ from tools.blender.run_full_pipeline import build_pipeline_plan
 class PropAutomationTests(unittest.TestCase):
     def test_equipment_and_gameplay_props_are_covered(self):
         jobs = build_jobs()
-        self.assertEqual(len(jobs), 20)
-        self.assertEqual(sum(job["category"] == "equipment" for job in jobs), 15)
+        self.assertEqual(len(jobs), 32)
+        self.assertEqual(sum(job["category"] == "equipment" for job in jobs), 27)
         self.assertEqual(sum(job["category"] != "equipment" for job in jobs), 5)
-        self.assertEqual(len({job["job_id"] for job in jobs}), 20)
+        self.assertEqual(len({job["job_id"] for job in jobs}), 32)
 
     def test_every_prop_plan_has_mesh_collision_socket_and_material(self):
         for job in build_jobs():
@@ -37,10 +37,10 @@ class FullPipelineTests(unittest.TestCase):
     def test_pipeline_covers_all_production_domains(self):
         plan = build_pipeline_plan()
         self.assertEqual(plan["summary"], {
-            "total_jobs": 88, "materials": 1, "environments": 15, "characters": 52, "props": 20,
+            "total_jobs": 100, "materials": 1, "environments": 15, "characters": 52, "props": 32,
         })
-        self.assertEqual(len(plan["stages"]), 88)
-        self.assertEqual(len({job["job_id"] for job in plan["stages"]}), 88)
+        self.assertEqual(len(plan["stages"]), 100)
+        self.assertEqual(len({job["job_id"] for job in plan["stages"]}), 100)
 
     def test_non_material_jobs_depend_on_library(self):
         plan = build_pipeline_plan()

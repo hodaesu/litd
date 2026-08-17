@@ -208,6 +208,210 @@
     ]
   },
   {
+    "id": "void_seal_ring",
+    "name": "Anneau du sceau vide",
+    "slot": "ring",
+    "class_id": "occultist",
+    "base_bonuses": {
+      "max_madness": 2
+    },
+    "allowed_affixes": [
+      "critical_chance",
+      "madness_resistance",
+      "max_madness",
+      "precision",
+      "bleed_chance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "whisper_ring",
+    "name": "Anneau des murmures",
+    "slot": "ring",
+    "class_id": "occultist",
+    "base_bonuses": {
+      "madness_resistance": 2
+    },
+    "allowed_affixes": [
+      "madness_resistance",
+      "max_madness",
+      "critical_chance",
+      "precision",
+      "fear_resistance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "black_star_necklace",
+    "name": "Collier de l’étoile noire",
+    "slot": "necklace",
+    "class_id": "occultist",
+    "base_bonuses": {
+      "critical_chance": 1
+    },
+    "allowed_affixes": [
+      "critical_chance",
+      "max_madness",
+      "madness_resistance",
+      "precision",
+      "bleed_chance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "shatter_ring",
+    "name": "Anneau du fracas",
+    "slot": "ring",
+    "class_id": "breaker",
+    "base_bonuses": {
+      "break_chance": 2
+    },
+    "allowed_affixes": [
+      "break_chance",
+      "stun_chance",
+      "bleed_chance",
+      "precision",
+      "physical_resistance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "iron_blood_ring",
+    "name": "Anneau du sang de fer",
+    "slot": "ring",
+    "class_id": "breaker",
+    "base_bonuses": {
+      "physical_resistance": 2
+    },
+    "allowed_affixes": [
+      "physical_resistance",
+      "guard_power",
+      "break_chance",
+      "stun_chance",
+      "bleed_chance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "bone_torc",
+    "name": "Torque d’os",
+    "slot": "necklace",
+    "class_id": "breaker",
+    "base_bonuses": {
+      "hp_bonus": 3
+    },
+    "allowed_affixes": [
+      "break_chance",
+      "stun_chance",
+      "physical_resistance",
+      "bleed_chance",
+      "guard_power"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "dawn_ring",
+    "name": "Anneau de l’aube",
+    "slot": "ring",
+    "class_id": "vestal",
+    "base_bonuses": {
+      "healing_power": 2
+    },
+    "allowed_affixes": [
+      "healing_power",
+      "max_hope",
+      "fear_resistance",
+      "precision",
+      "stun_chance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "vow_ring",
+    "name": "Anneau du vœu",
+    "slot": "ring",
+    "class_id": "vestal",
+    "base_bonuses": {
+      "max_hope": 2
+    },
+    "allowed_affixes": [
+      "max_hope",
+      "healing_power",
+      "fear_resistance",
+      "madness_resistance",
+      "guard_power"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "reliquary_necklace",
+    "name": "Collier-reliquaire",
+    "slot": "necklace",
+    "class_id": "vestal",
+    "base_bonuses": {
+      "fear_resistance": 1
+    },
+    "allowed_affixes": [
+      "fear_resistance",
+      "healing_power",
+      "max_hope",
+      "madness_resistance",
+      "precision"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "sentinel_ring",
+    "name": "Anneau de la sentinelle",
+    "slot": "ring",
+    "class_id": "watcher",
+    "base_bonuses": {
+      "guard_power": 2
+    },
+    "allowed_affixes": [
+      "guard_power",
+      "riposte_chance",
+      "precision",
+      "stun_chance",
+      "physical_resistance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "counter_ring",
+    "name": "Anneau de contre-garde",
+    "slot": "ring",
+    "class_id": "watcher",
+    "base_bonuses": {
+      "riposte_chance": 2
+    },
+    "allowed_affixes": [
+      "riposte_chance",
+      "guard_power",
+      "physical_resistance",
+      "precision",
+      "stun_chance"
+    ],
+    "test_level": true
+  },
+  {
+    "id": "watch_necklace",
+    "name": "Collier de veille",
+    "slot": "necklace",
+    "class_id": "watcher",
+    "base_bonuses": {
+      "physical_resistance": 1
+    },
+    "allowed_affixes": [
+      "physical_resistance",
+      "guard_power",
+      "riposte_chance",
+      "fear_resistance",
+      "precision"
+    ],
+    "test_level": true
+  },
+  {
     "id": "rust_blade",
     "name": "Lame rouillée",
     "slot": "weapon",
