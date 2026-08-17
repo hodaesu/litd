@@ -8,6 +8,7 @@ var skills: Array = []
 var equipment: Array = []
 var equipment_rarities: Array = []
 var equipment_affixes: Array = []
+var capturable_creatures: Array = []
 var quests: Array = []
 var events: Array = []
 var dialogues: Array = []
@@ -35,6 +36,7 @@ func reload_all() -> void:
     equipment = load_json("res://data/equipment.json")
     equipment_rarities = load_json("res://data/equipment_rarities.json")
     equipment_affixes = load_json("res://data/equipment_affixes.json")
+    capturable_creatures = load_json("res://data/capturable_creatures.json")
     quests = load_json("res://data/quests.json")
     events = load_json("res://data/events.json")
     dialogues = load_json("res://data/dialogues.json")

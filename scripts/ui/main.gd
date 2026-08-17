@@ -118,6 +118,7 @@ func show_screen(name: String) -> void:
         "title": show_title()
         "sanctuary": show_sanctuary()
         "company": show_company()
+        "creatures": show_creatures()
         "market": show_market()
         "expedition": show_expedition()
         "combat": show_combat()
@@ -165,6 +166,7 @@ func show_sanctuary() -> void:
         ["TAVERNE\nRecruter et rumeurs", "tavern", Vector2(980,180)],
         ["MARCHÉ NOIR\nÉquipement", "market", Vector2(185,360)],
         ["LA PORTE\nPartir en expédition", "expedition", Vector2(555,350)],
+        ["BESTIAIRE\nCréatures liées", "creatures", Vector2(910,360)],
         ["MÉMORIAL\nHéros tombés", "memorial", Vector2(250,535)],
     ]
     for item in buttons:
@@ -176,6 +178,8 @@ func show_sanctuary() -> void:
                 GameState.request_screen("expedition")
             elif a == "market":
                 GameState.request_screen("market")
+            elif a == "creatures":
+                GameState.request_screen("creatures")
             else:
                 GameState.add_log("%s : cette fonction est préparée pour la phase suivante." % a)
         , Vector2(230,70))
@@ -223,6 +227,96 @@ func show_company() -> void:
     var back := make_button("RETOUR AU SANCTUAIRE", func(): GameState.request_screen("sanctuary"), Vector2(280,48))
     back.position = Vector2(24,630)
     content.add_child(back)
+
+func show_creatures() -> void:
+    var bg := full_texture("res://assets/backgrounds/forgotten_city.webp")
+    bg.modulate = Color(0.35, 0.35, 0.40, 1)
+    content.add_child(bg)
+    var shade := ColorRect.new()
+    shade.color = Color(0, 0, 0, 0.76)
+    shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    content.add_child(shade)
+    var title := make_label("BESTIAIRE — CRÉATURES LIÉES", 28, GOLD)
+    title.position = Vector2(32, 18)
+    content.add_child(title)
+    var scroll := ScrollContainer.new()
+    scroll.position = Vector2(32, 64)
+    scroll.size = Vector2(1216, 548)
+    content.add_child(scroll)
+    var list := VBoxContainer.new()
+    list.custom_minimum_size = Vector2(1180, 0)
+    list.add_theme_constant_override("separation", 14)
+    scroll.add_child(list)
+    if CreatureManager.captured_creatures.is_empty():
+        list.add_child(make_label(
+            "Aucune créature liée. Affaiblissez une Goule affamée, un Oni ou une Jorōgumo, puis utilisez CAPTURER. Les boss ne peuvent jamais être capturés.",
+            18, MUTED
+        ))
+    for creature_value in CreatureManager.captured_creatures:
+        var creature: Dictionary = creature_value
+        var instance_id: String = str(creature.get("instance_id", ""))
+        var active: bool = instance_id == CreatureManager.active_instance_id
+        var header := HBoxContainer.new()
+        var status: String = " — ACTIVE" if active else ""
+        var info := make_label(
+            "%s%s · niveau %d · XP %d/%d · %d point(s)" % [
+                str(creature.get("evolution_name", creature.get("name", "Créature"))),
+                status,
+                int(creature.get("level", 1)),
+                int(creature.get("xp", 0)),
+                CreatureManager.xp_to_next_level(int(creature.get("level", 1))),
+                int(creature.get("skill_points", 0))
+            ],
+            18, GOLD if active else TEXT
+        )
+        info.custom_minimum_size = Vector2(890, 44)
+        info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        header.add_child(info)
+        var active_button := make_button(
+            "ACTIVE" if active else "ACTIVER",
+            func(id_value = instance_id):
+                CreatureManager.set_active(str(id_value))
+                show_creatures(),
+            Vector2(170, 42)
+        )
+        active_button.disabled = active
+        header.add_child(active_button)
+        list.add_child(header)
+        for branch_value in ["offense", "defense", "special"]:
+            var branch: String = str(branch_value)
+            var branch_row := HBoxContainer.new()
+            branch_row.add_theme_constant_override("separation", 8)
+            var branch_name: String = str({
+                "offense": "OFFENSIF", "defense": "DÉFENSIF", "special": "SPÉCIAL"
+            }.get(branch, branch.to_upper()))
+            var branch_label := make_label(branch_name, 14, MUTED)
+            branch_label.custom_minimum_size = Vector2(105, 52)
+            branch_row.add_child(branch_label)
+            for node_value in CreatureManager.skill_nodes(creature, branch):
+                var node: Dictionary = node_value
+                var node_id: String = str(node.get("id", ""))
+                var unlocked: bool = creature.get("unlocked_skills", []).has(node_id)
+                var node_text: String = "%s\n%s" % [
+                    str(node.get("name", "Talent")),
+                    "ACQUIS" if unlocked else str(node.get("description", ""))
+                ]
+                var node_button := make_button(
+                    node_text,
+                    func(creature_id = instance_id, skill_id = node_id):
+                        _unlock_creature_skill(str(creature_id), str(skill_id)),
+                    Vector2(300, 52)
+                )
+                node_button.disabled = unlocked or not CreatureManager.can_unlock(instance_id, node_id)
+                branch_row.add_child(node_button)
+            list.add_child(branch_row)
+    var back := make_button("RETOUR AU SANCTUAIRE", func(): GameState.request_screen("sanctuary"), Vector2(280, 48))
+    back.position = Vector2(32, 625)
+    content.add_child(back)
+
+func _unlock_creature_skill(instance_id: String, skill_id: String) -> void:
+    if CreatureManager.unlock_skill(instance_id, skill_id):
+        GameState.add_log("Un nouveau talent de créature est débloqué.")
+    show_creatures()
 
 func show_market() -> void:
     var bg := full_texture("res://assets/backgrounds/forgotten_city.webp")
@@ -369,12 +463,22 @@ func show_combat() -> void:
     action_panel.add_child(make_button("COUP LOURD", func(): hero_action("heavy"), Vector2(170,55)))
     action_panel.add_child(make_button("SOIN", func(): hero_action("heal"), Vector2(140,55)))
     action_panel.add_child(make_button("GARDE", func(): hero_action("guard"), Vector2(140,55)))
+    action_panel.add_child(make_button("CAPTURER", func(): hero_action("capture"), Vector2(150,55)))
 
     var log := VBoxContainer.new()
     log.position = Vector2(20,15)
     log.size = Vector2(500,130)
     content.add_child(log)
     log.add_child(make_label("TOUR DE COMBAT", 22, GOLD))
+    var companion: Dictionary = CreatureManager.active_creature()
+    if not companion.is_empty():
+        log.add_child(make_label(
+            "Compagnon : %s · niv. %d" % [
+                str(companion.get("evolution_name", companion.get("name", "Créature"))),
+                int(companion.get("level", 1))
+            ],
+            13, GOLD
+        ))
     for line in GameState.log_lines.slice(0,4):
         log.add_child(make_label("• "+line, 13, MUTED))
 
@@ -386,7 +490,27 @@ func hero_action(action: String) -> void:
     if hero.is_empty():
         finish_defeat()
         return
-    if action == "heal":
+    if action == "capture":
+        var living_targets: Array = GameState.alive_enemies()
+        if living_targets.is_empty():
+            finish_victory()
+            return
+        selected_enemy = clampi(selected_enemy, 0, GameState.battle_enemies.size() - 1)
+        var capture_target: Dictionary = GameState.battle_enemies[selected_enemy]
+        if int(capture_target.get("hp", 0)) <= 0:
+            capture_target = living_targets[0]
+        var capture_result: Dictionary = CreatureManager.attempt_capture(capture_target)
+        GameState.add_log(str(capture_result.get("message", "Le sceau échoue.")))
+        if bool(capture_result.get("success", false)) and GameState.alive_enemies().is_empty():
+            finish_victory()
+            return
+        if bool(capture_result.get("consumed", false)):
+            enemy_turn()
+        else:
+            battle_locked = false
+            show_screen("combat")
+        return
+    elif action == "heal":
         var target: Dictionary = GameState.party[mini(2, GameState.party.size() - 1)]
         var bonuses: Dictionary = EquipmentManager.bonuses_for_hero(str(hero.get("id", "")))
         var amount: int = int(round(18.0 * (1.0 + float(bonuses.get("healing_power", 0)) / 100.0)))
@@ -438,6 +562,14 @@ func hero_action(action: String) -> void:
                 var healed: Dictionary = wounded[0]
                 healed["hp"] = mini(int(healed.get("max_hp", 1)), int(healed.get("hp", 0)) + 4)
         GameState.add_log("%s inflige %d dégâts%s à %s." % [hero.name, damage, " critiques" if critical else "", target.name])
+    var companion_targets: Array = GameState.alive_enemies()
+    if not companion_targets.is_empty():
+        var companion_result: Dictionary = CreatureManager.companion_turn(companion_targets[0])
+        if not companion_result.is_empty():
+            GameState.add_log("%s inflige %d dégâts." % [
+                str(companion_result.get("name", "Le compagnon")),
+                int(companion_result.get("damage", 0))
+            ])
     if GameState.alive_enemies().is_empty():
         finish_victory()
         return
@@ -458,6 +590,10 @@ func enemy_turn() -> void:
             return
         var target: Dictionary = targets[randi() % targets.size()]
         var target_bonuses: Dictionary = EquipmentManager.bonuses_for_hero(str(target.get("id", "")))
+        var creature_bonuses: Dictionary = CreatureManager.party_bonuses()
+        for bonus_key_value in creature_bonuses.keys():
+            var bonus_key: String = str(bonus_key_value)
+            target_bonuses[bonus_key] = int(target_bonuses.get(bonus_key, 0)) + int(creature_bonuses.get(bonus_key, 0))
         var damage: int = randi_range(int(enemy.damage[0]), int(enemy.damage[1]))
         damage = maxi(1, int(round(damage * (1.0 - float(target_bonuses.get("physical_resistance", 0)) / 100.0))))
         if target.get("guarding",false):
@@ -481,6 +617,7 @@ func finish_victory() -> void:
     GameState.gold += 28
     GameState.essence += 4
     GameState.expedition_room += 1
+    CreatureManager.grant_active_xp(30)
     if not AshlandsCombatBridge.active:
         var hero_index: int = clampi(GameState.expedition_room - 2, 0, DataLoader.heroes.size() - 1)
         EquipmentManager.grant_test_level_bundle(hero_index, "common")
