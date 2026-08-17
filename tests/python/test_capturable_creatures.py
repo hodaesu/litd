@@ -22,9 +22,9 @@ def test_every_creature_has_three_complete_skill_trees():
         trees = definition["skill_trees"]
         assert set(trees) == {"offense", "defense", "special"}
         skill_ids = {node["id"] for nodes in trees.values() for node in nodes}
-        assert len(skill_ids) == 9
+        assert len(skill_ids) == 24
         for branch, nodes in trees.items():
-            assert len(nodes) == 3, (definition["id"], branch)
+            assert len(nodes) == 8, (definition["id"], branch)
             for node in nodes:
                 assert node["cost"] > 0
                 assert node["required_level"] >= 1
@@ -73,3 +73,13 @@ def test_creatures_share_the_hero_level_cap():
     assert "const MAX_CHARACTER_LEVEL: int = 50" in game_state
     assert "GameState.MAX_CHARACTER_LEVEL" in manager
     assert "const MAX_LEVEL" not in manager
+
+
+def test_first_skill_permanently_locks_the_creature_tree():
+    manager = (ROOT / "scripts/core/creature_manager.gd").read_text()
+    ui = (ROOT / "scripts/ui/main.gd").read_text()
+    assert '"specialization": ""' in manager
+    assert "specialization != skill_branch" in manager
+    assert 'creature["specialization"] = skill_branch' in manager
+    assert "_skill_branch" in manager
+    assert "VERROUILLÉ" in ui

@@ -256,6 +256,7 @@ func show_creatures() -> void:
         var creature: Dictionary = creature_value
         var instance_id: String = str(creature.get("instance_id", ""))
         var active: bool = instance_id == CreatureManager.active_instance_id
+        var specialization: String = str(creature.get("specialization", ""))
         var header := HBoxContainer.new()
         var status: String = " — ACTIVE" if active else ""
         var info := make_label(
@@ -289,6 +290,10 @@ func show_creatures() -> void:
             var branch_name: String = str({
                 "offense": "OFFENSIF", "defense": "DÉFENSIF", "special": "SPÉCIAL"
             }.get(branch, branch.to_upper()))
+            if specialization == branch:
+                branch_name += " — CHOISI"
+            elif specialization != "":
+                branch_name += " — VERROUILLÉ"
             var branch_label := make_label(branch_name, 14, MUTED)
             branch_label.custom_minimum_size = Vector2(105, 52)
             branch_row.add_child(branch_label)

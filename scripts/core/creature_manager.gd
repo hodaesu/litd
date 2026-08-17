@@ -111,6 +111,7 @@ func _create_creature(definition: Dictionary) -> Dictionary:
         "xp": 0,
         "skill_points": 1,
         "unlocked_skills": [],
+        "specialization": "",
         "evolution_name": _evolution_name(definition, 1),
         "seed": instance_seed
     }
@@ -171,6 +172,10 @@ func can_unlock(instance_id: String, skill_id: String) -> bool:
     var node: Dictionary = _find_skill_node(creature, skill_id)
     if node.is_empty():
         return false
+    var skill_branch: String = _skill_branch(creature, skill_id)
+    var specialization: String = str(creature.get("specialization", ""))
+    if skill_branch == "" or (specialization != "" and specialization != skill_branch):
+        return false
     if int(creature.get("skill_points", 0)) < int(node.get("cost", 1)):
         return false
     if int(creature.get("level", 1)) < int(node.get("required_level", 1)):
@@ -186,9 +191,12 @@ func unlock_skill(instance_id: String, skill_id: String) -> bool:
         if str(creature.get("instance_id", "")) != instance_id:
             continue
         var node: Dictionary = _find_skill_node(creature, skill_id)
+        var skill_branch: String = _skill_branch(creature, skill_id)
         var unlocked: Array = creature.get("unlocked_skills", [])
         unlocked.append(skill_id)
         creature["unlocked_skills"] = unlocked
+        if str(creature.get("specialization", "")) == "":
+            creature["specialization"] = skill_branch
         creature["skill_points"] = int(creature.get("skill_points", 0)) - int(node.get("cost", 1))
         captured_creatures[index] = creature
         creatures_changed.emit()
@@ -203,6 +211,15 @@ func _find_skill_node(creature: Dictionary, skill_id: String) -> Dictionary:
             if str(node.get("id", "")) == skill_id:
                 return node
     return {}
+
+func _skill_branch(creature: Dictionary, skill_id: String) -> String:
+    for branch_value in ["offense", "defense", "special"]:
+        var branch: String = str(branch_value)
+        for node_value in skill_nodes(creature, branch):
+            var node: Dictionary = node_value
+            if str(node.get("id", "")) == skill_id:
+                return branch
+    return ""
 
 func active_stats() -> Dictionary:
     var result: Dictionary = {}
@@ -289,6 +306,12 @@ func deserialize(data: Dictionary) -> void:
         creature["level"] = clampi(int(creature.get("level", 1)), 1, GameState.MAX_CHARACTER_LEVEL)
         creature["xp"] = maxi(0, int(creature.get("xp", 0)))
         creature["skill_points"] = maxi(0, int(creature.get("skill_points", 0)))
+        var specialization: String = str(creature.get("specialization", ""))
+        if specialization not in ["offense", "defense", "special"]:
+            specialization = ""
+        if specialization == "" and not creature.get("unlocked_skills", []).is_empty():
+            specialization = _skill_branch(creature, str(creature.get("unlocked_skills", [""])[0]))
+        creature["specialization"] = specialization
         seen[instance_id] = true
         captured_creatures.append(creature.duplicate(true))
     active_instance_id = str(data.get("active_instance_id", ""))
