@@ -97,7 +97,7 @@ func resolve_defeat() -> void:
 
 func _roll_loot() -> Dictionary:
     if encounter_type != "miniboss":
-        return {"gold": 18, "essence": 2}
+        return {"gold": 18, "essence": 2, "equipment_rarity": "common"}
     var tier := str(miniboss_data.get("loot_tier", "major"))
     var table := AshlandsMinibossDirector.get_loot_table(tier)
     return {
@@ -106,12 +106,16 @@ func _roll_loot() -> Dictionary:
         "tier": tier,
         "guaranteed": table.get("guaranteed", []),
         "possible": table.get("possible", []),
-        "rolls": int(table.get("rolls", 0))
+        "rolls": int(table.get("rolls", 0)),
+        "equipment_rarity": "rare"
     }
 
 func _apply_loot(loot: Dictionary) -> void:
     GameState.gold += int(loot.get("gold", 0))
     GameState.essence += int(loot.get("essence", 0))
+    var equipment_rarity: String = str(loot.get("equipment_rarity", ""))
+    if equipment_rarity != "":
+        loot["equipment"] = EquipmentManager.grant_random_party_weapon(equipment_rarity, encounter_id)
     for item in loot.get("guaranteed", []):
         ExpeditionManager.add_resource(str(item), 1)
     var possible: Array = loot.get("possible", [])
