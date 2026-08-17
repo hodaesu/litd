@@ -53,7 +53,7 @@ func generate_item(base_id: String, rarity_id: String = "common", context: Strin
         "base_bonuses": _scaled_bonuses(definition.get("base_bonuses", {}), float(rarity.get("base_multiplier", 1.0))),
         "affixes": []
     }
-    if item["slot"] == "weapon":
+    if item["slot"] == "weapon" or item["slot"] == "armor":
         item["affixes"] = _roll_weapon_affixes(definition, rarity, rng)
     return item
 
@@ -173,11 +173,14 @@ func weapon_level_multiplier(level: int) -> float:
 
 func effective_bonuses_for_level(item: Dictionary, level: int) -> Dictionary:
     var result: Dictionary = effective_bonuses(item)
-    if str(item.get("slot", "")) != "weapon":
+    var slot: String = str(item.get("slot", ""))
+    if slot != "weapon" and slot != "armor":
         return result
     var multiplier: float = weapon_level_multiplier(level)
     for key_value in result.keys():
         var key: String = str(key_value)
+        if slot == "armor" and key == "hp_bonus":
+            continue
         result[key] = maxi(1, int(round(float(result.get(key, 0)) * multiplier)))
     return result
 
@@ -220,7 +223,8 @@ func describe_item(item: Dictionary, hero_level: int = 0) -> String:
     var parts: Array[String] = []
     var displayed_bonuses: Dictionary = effective_bonuses(item)
     var level_suffix: String = ""
-    if hero_level > 0 and str(item.get("slot", "")) == "weapon":
+    var slot: String = str(item.get("slot", ""))
+    if hero_level > 0 and (slot == "weapon" or slot == "armor"):
         displayed_bonuses = effective_bonuses_for_level(item, hero_level)
         level_suffix = " · niv. %d ×%.2f" % [hero_level, weapon_level_multiplier(hero_level)]
     for key_value in displayed_bonuses.keys():
