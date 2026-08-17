@@ -24,3 +24,15 @@ def test_hero_skills_are_available_in_ui_and_combat():
     assert "func show_hero_skills()" in ui
     assert "HeroSkillManager.stats_for" in ui
     assert "HeroSkillManager.grant_xp" in ui
+
+
+def test_each_hero_uses_distinct_effect_profiles_and_scaling():
+    manager = (ROOT / "scripts/core/hero_skill_manager.gd").read_text()
+    assert "hero_offset" in manager
+    assert "branch_offset" in manager
+    assert '"aurelien":1' in manager
+    assert '"malvor":2' in manager
+    assert '"lysandra":3' in manager
+    assert '"darius":4' in manager
+    assert manager.count('if branch=="offense"') == 4
+    assert manager.count('if branch=="defense"') == 4

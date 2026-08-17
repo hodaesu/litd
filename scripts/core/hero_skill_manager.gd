@@ -18,7 +18,7 @@ func skill_nodes(hero: Dictionary, branch: String) -> Array:
     for index in range(15):
         var skill_id: String = "%s_%s_%02d" % [hero_id, branch, index + 1]
         var stat: String = stats[index % stats.size()]
-        var value: int = _value(stat, index)
+        var value: int = _value(stat, index, hero_id, branch)
         result.append({"id":skill_id,"name":_skill_name(hero_id,branch,index),"description":"+%d %s"%[value,stat.replace("_"," ")],"stat":stat,"value":value,"cost":COSTS[index],"required_level":LEVELS[index],"requires":previous})
         previous = skill_id
     return result
@@ -64,13 +64,26 @@ func _branch_for(hero: Dictionary, skill_id: String) -> String:
             if str(node_value.id)==skill_id: return branch
     return ""
 func _stats(hero_id: String, branch: String) -> Array[String]:
-    if branch=="offense": return ["damage_bonus","critical_chance","damage_percent","break_chance","bleed_chance"]
-    if branch=="defense": return ["physical_resistance","fear_resistance","guard_power","max_hp","riposte_chance"]
     match hero_id:
-        "aurelien": return ["madness_resistance","critical_chance","damage_percent","max_madness","fear_resistance"]
-        "malvor": return ["break_chance","stun_chance","damage_bonus","physical_resistance","execute_percent"]
-        "lysandra": return ["healing_power","max_hope","fear_resistance","party_heal","guard_power"]
-        _: return ["guard_power","riposte_chance","physical_resistance","stun_chance","fear_resistance"]
-func _value(stat:String,index:int)->int: return int({"damage_bonus":2,"critical_chance":3,"damage_percent":5,"break_chance":4,"bleed_chance":4,"physical_resistance":2,"fear_resistance":3,"guard_power":4,"max_hp":5,"riposte_chance":3,"madness_resistance":3,"max_madness":4,"stun_chance":3,"execute_percent":6,"healing_power":5,"max_hope":4,"party_heal":2}.get(stat,2))+int(index/4)
+        "aurelien":
+            if branch=="offense": return ["damage_percent","critical_chance","max_madness","damage_bonus","madness_resistance"]
+            if branch=="defense": return ["madness_resistance","fear_resistance","max_hp","physical_resistance","guard_power"]
+            return ["max_madness","damage_percent","party_heal","critical_chance","fear_resistance"]
+        "malvor":
+            if branch=="offense": return ["break_chance","damage_bonus","stun_chance","execute_percent","damage_percent"]
+            if branch=="defense": return ["physical_resistance","max_hp","guard_power","fear_resistance","riposte_chance"]
+            return ["execute_percent","break_chance","stun_chance","damage_bonus","physical_resistance"]
+        "lysandra":
+            if branch=="offense": return ["precision","critical_chance","damage_bonus","stun_chance","damage_percent"]
+            if branch=="defense": return ["max_hope","fear_resistance","physical_resistance","max_hp","guard_power"]
+            return ["healing_power","party_heal","max_hope","fear_resistance","guard_power"]
+        _:
+            if branch=="offense": return ["riposte_chance","damage_bonus","critical_chance","stun_chance","damage_percent"]
+            if branch=="defense": return ["guard_power","physical_resistance","max_hp","riposte_chance","fear_resistance"]
+            return ["riposte_chance","guard_power","stun_chance","physical_resistance","party_heal"]
+func _value(stat:String,index:int,hero_id:String,branch:String)->int:
+    var hero_offset: int = int({"aurelien":1,"malvor":2,"lysandra":3,"darius":4}.get(hero_id,0))
+    var branch_offset: int = int({"offense":0,"defense":1,"special":2}.get(branch,0))
+    return int({"damage_bonus":2,"critical_chance":3,"damage_percent":5,"break_chance":4,"bleed_chance":4,"physical_resistance":2,"fear_resistance":3,"guard_power":4,"max_hp":5,"riposte_chance":3,"madness_resistance":3,"max_madness":4,"stun_chance":3,"execute_percent":6,"healing_power":5,"max_hope":4,"party_heal":2,"precision":3}.get(stat,2))+int(index/4)+hero_offset+branch_offset
 func _skill_name(hero_id:String,branch:String,index:int)->String:
     return "%s · %s %d"%[str({"aurelien":"Rite occulte","malvor":"Fureur brisée","lysandra":"Grâce du Voile","darius":"Serment du Veilleur"}.get(hero_id,"Maîtrise")),str({"offense":"Assaut","defense":"Égide","special":"Essence"}.get(branch,branch)),index+1]
