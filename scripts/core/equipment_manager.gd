@@ -269,6 +269,14 @@ func deserialize(data: Dictionary) -> void:
         seen[instance_id] = true
         items.append(item.duplicate(true))
     equipped_by_hero = data.get("equipped_by_hero", {}).duplicate(true)
+    for hero_key_value in equipped_by_hero.keys():
+        var hero_key: String = str(hero_key_value)
+        var slots: Dictionary = equipped_by_hero.get(hero_key, {})
+        if slots.has("ring"):
+            if not slots.has("ring_1"):
+                slots["ring_1"] = slots["ring"]
+            slots.erase("ring")
+            equipped_by_hero[hero_key] = slots
     drop_counter = maxi(0, int(data.get("drop_counter", items.size())))
     generation_seed = int(data.get("generation_seed", DEFAULT_SEED))
     last_rewards.clear()
