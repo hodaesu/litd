@@ -119,6 +119,7 @@ func show_screen(name: String) -> void:
         "title": show_title()
         "sanctuary": show_sanctuary()
         "company": show_company()
+        "guild_chest": show_guild_chest()
         "hero_skills": show_hero_skills()
         "creatures": show_creatures()
         "market": show_market()
@@ -232,6 +233,28 @@ func show_company() -> void:
     var back := make_button("RETOUR AU SANCTUAIRE", func(): GameState.request_screen("sanctuary"), Vector2(280,48))
     back.position = Vector2(24,630)
     content.add_child(back)
+    var chest := make_button("COFFRE COMMUN", func(): GameState.request_screen("guild_chest"), Vector2(240,48))
+    chest.position = Vector2(330,630)
+    content.add_child(chest)
+
+func show_guild_chest() -> void:
+    var title := make_label("GUILDE — COFFRE COMMUN",28,GOLD); title.position=Vector2(24,16); content.add_child(title)
+    var columns := HBoxContainer.new(); columns.position=Vector2(24,60); columns.size=Vector2(1230,550); columns.add_theme_constant_override("separation",20); content.add_child(columns)
+    var carried := VBoxContainer.new(); carried.custom_minimum_size=Vector2(590,0); columns.add_child(carried)
+    carried.add_child(make_label("INVENTAIRE TRANSPORTÉ",18,GOLD))
+    if EquipmentManager.items.is_empty(): carried.add_child(make_label("Inventaire vide",14,MUTED))
+    for item in EquipmentManager.items:
+        var row:=HBoxContainer.new(); var id:String=str(item.instance_id)
+        var label:=make_label(EquipmentManager.describe_item(item,EquipmentManager.level_for_class(str(item.class_id))),13); label.custom_minimum_size=Vector2(410,45); row.add_child(label)
+        row.add_child(make_button("DÉPOSER",func(item_id=id): EquipmentManager.store_in_guild_stash(item_id); show_guild_chest(),Vector2(140,40))); carried.add_child(row)
+    var stored := VBoxContainer.new(); stored.custom_minimum_size=Vector2(590,0); columns.add_child(stored)
+    stored.add_child(make_label("BUTIN STOCKÉ · %d OBJET(S)"%EquipmentManager.guild_stash.size(),18,GOLD))
+    if EquipmentManager.guild_stash.is_empty(): stored.add_child(make_label("Coffre vide",14,MUTED))
+    for item in EquipmentManager.guild_stash:
+        var row:=HBoxContainer.new(); var id:String=str(item.instance_id)
+        var label:=make_label(EquipmentManager.describe_item(item,EquipmentManager.level_for_class(str(item.class_id))),13); label.custom_minimum_size=Vector2(410,45); row.add_child(label)
+        row.add_child(make_button("RETIRER",func(item_id=id): EquipmentManager.withdraw_from_guild_stash(item_id); show_guild_chest(),Vector2(140,40))); stored.add_child(row)
+    var back:=make_button("RETOUR À LA GUILDE",func():GameState.request_screen("company"),Vector2(250,45)); back.position=Vector2(24,640); content.add_child(back)
 
 func show_hero_skills() -> void:
     var hero: Dictionary = {}
