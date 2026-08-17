@@ -1,6 +1,6 @@
 # Revue visuelle automatisée des assets Blender
 
-La file `data/blender/visual_review_queue.json` couvre les 75 GLB attendus par Godot.
+La file `data/blender/visual_review_queue.json` couvre les 87 GLB attendus par Godot.
 
 ## Rendus de contrôle
 
