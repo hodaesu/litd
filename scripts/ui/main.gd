@@ -247,7 +247,8 @@ func show_market() -> void:
         list.add_child(make_label("Aucun équipement trouvé. Les quatre salles du niveau test accordent chacune le lot d’un héros.", 18, MUTED))
     for item in EquipmentManager.items:
         var row := HBoxContainer.new()
-        var description := make_label(EquipmentManager.describe_item(item), 15)
+        var hero_level: int = EquipmentManager.level_for_class(str(item.get("class_id", "")))
+        var description := make_label(EquipmentManager.describe_item(item, hero_level), 15)
         description.custom_minimum_size = Vector2(930, 48)
         description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
         row.add_child(description)
@@ -506,7 +507,8 @@ func show_rewards() -> void:
     var reward_lines: Array[String] = ["+28 or", "+4 essence"]
     for reward_value in EquipmentManager.last_rewards:
         var reward: Dictionary = reward_value
-        reward_lines.append(EquipmentManager.describe_item(reward))
+        var hero_level: int = EquipmentManager.level_for_class(str(reward.get("class_id", "")))
+        reward_lines.append(EquipmentManager.describe_item(reward, hero_level))
     box.add_child(make_label("\n".join(reward_lines), 18))
     if GameState.expedition_room > GameState.expedition_rooms:
         box.add_child(make_label("Les Cryptes du Premier Voile sont terminées.", 18, MUTED))
