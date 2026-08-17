@@ -1,7 +1,7 @@
 {
   "version": 1,
   "generator": "tools/blender/generate_visual_review_queue.py",
-  "review_count": 75,
+  "review_count": 87,
   "reviews": [
     {
       "job_id": "ashlands_01_faubourg_ruins",
@@ -2218,6 +2218,414 @@
         "rig_deformation",
         "equipment_sockets",
         "animation_clarity"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_ritual_dagger",
+      "category": "props",
+      "blend_path": "builds/props/equipment/ritual_dagger/ritual_dagger.blend",
+      "glb_path": "builds/props/equipment/ritual_dagger/ritual_dagger.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_ritual_dagger"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_occult_staff",
+      "category": "props",
+      "blend_path": "builds/props/equipment/occult_staff/occult_staff.blend",
+      "glb_path": "builds/props/equipment/occult_staff/occult_staff.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_occult_staff"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_reinforced_robe",
+      "category": "props",
+      "blend_path": "builds/props/equipment/reinforced_robe/reinforced_robe.blend",
+      "glb_path": "builds/props/equipment/reinforced_robe/reinforced_robe.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_reinforced_robe"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_great_axe",
+      "category": "props",
+      "blend_path": "builds/props/equipment/great_axe/great_axe.blend",
+      "glb_path": "builds/props/equipment/great_axe/great_axe.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_great_axe"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_war_hammer",
+      "category": "props",
+      "blend_path": "builds/props/equipment/war_hammer/war_hammer.blend",
+      "glb_path": "builds/props/equipment/war_hammer/war_hammer.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_war_hammer"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_bone_harness",
+      "category": "props",
+      "blend_path": "builds/props/equipment/bone_harness/bone_harness.blend",
+      "glb_path": "builds/props/equipment/bone_harness/bone_harness.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_bone_harness"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_ceremonial_mace",
+      "category": "props",
+      "blend_path": "builds/props/equipment/ceremonial_mace/ceremonial_mace.blend",
+      "glb_path": "builds/props/equipment/ceremonial_mace/ceremonial_mace.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_ceremonial_mace"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_sacred_staff",
+      "category": "props",
+      "blend_path": "builds/props/equipment/sacred_staff/sacred_staff.blend",
+      "glb_path": "builds/props/equipment/sacred_staff/sacred_staff.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_sacred_staff"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_reinforced_habit",
+      "category": "props",
+      "blend_path": "builds/props/equipment/reinforced_habit/reinforced_habit.blend",
+      "glb_path": "builds/props/equipment/reinforced_habit/reinforced_habit.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_reinforced_habit"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_watcher_mace",
+      "category": "props",
+      "blend_path": "builds/props/equipment/watcher_mace/watcher_mace.blend",
+      "glb_path": "builds/props/equipment/watcher_mace/watcher_mace.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_watcher_mace"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_guard_spear",
+      "category": "props",
+      "blend_path": "builds/props/equipment/guard_spear/guard_spear.blend",
+      "glb_path": "builds/props/equipment/guard_spear/guard_spear.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_guard_spear"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
+      ],
+      "status": "pending"
+    },
+    {
+      "job_id": "prop_lamellar_armor",
+      "category": "props",
+      "blend_path": "builds/props/equipment/lamellar_armor/lamellar_armor.blend",
+      "glb_path": "builds/props/equipment/lamellar_armor/lamellar_armor.glb",
+      "preview": {
+        "type": "turntable",
+        "angles_degrees": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "elevation_degrees": 15,
+        "resolution": [
+          512,
+          512
+        ],
+        "output_dir": "reports/visual_reviews/prop_lamellar_armor"
+      },
+      "gates": [
+        "silhouette",
+        "scale",
+        "cel_shading_readability",
+        "collision_alignment",
+        "interaction_socket",
+        "lod_readability"
       ],
       "status": "pending"
     },
