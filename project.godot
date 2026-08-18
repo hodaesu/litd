@@ -5,6 +5,7 @@ config/features=PackedStringArray("4.3")
 
 [autoload]
 DataLoader="*res://scripts/core/data_loader.gd"
+BossRecruitmentState="*res://scripts/core/ngplus_boss_recruitment.gd"
 EquipmentManager="*res://scripts/core/equipment_manager.gd"
 CreatureManager="*res://scripts/core/creature_manager.gd"
 HeroSkillManager="*res://scripts/core/hero_skill_manager.gd"
