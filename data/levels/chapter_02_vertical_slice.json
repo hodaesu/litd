@@ -5,7 +5,7 @@
   "theme":"Le passé récent du continent commence à contredire l'explication officielle de la catastrophe.",
   "start_condition":"chapter_02_unlock",
   "stages":[
-    {"id":"c02_stage_01_archive","name":"Les dossiers que personne ne lisait","type":"investigation","zone":"sanctuary_archive_room","objective":"Recouper les trois premières archives et identifier une anomalie antérieure à la Chute."},
+    {"id":"c02_stage_01_archive","name":"Les dossiers que personne ne lisait","type":"investigation","zone":"sanctuary_archive_room","objective":"Recouper les preuves rapportées du Chapitre I et identifier une anomalie antérieure à la Chute."},
     {"id":"c02_stage_02_old_road","name":"La route des bornes muettes","type":"exploration","zone":"c02_old_road","objective":"Suivre une série de bornes dont les inscriptions ont été volontairement effacées."},
     {"id":"c02_stage_03_watchpost","name":"Le poste abandonné","type":"rescue_investigation","zone":"c02_watchpost","objective":"Retrouver une équipe de reconnaissance et comprendre pourquoi elle a cessé de répondre."},
     {"id":"c02_stage_04_camp","name":"Ce que l'on choisit de croire","type":"campfire","zone":"c02_quarry_camp","objective":"Au feu de camp, confronter deux interprétations incompatibles des indices."},
@@ -15,9 +15,9 @@
     {"id":"c02_stage_08_return","name":"Une histoire corrigée","type":"return","zone":"sanctuary","objective":"Présenter les preuves au Sanctuaire et décider si elles doivent être rendues publiques immédiatement."}
   ],
   "main_quests":[
-    {"id":"c02_erased_stones","name":"Les pierres effacées"},
-    {"id":"c02_seven_dates","name":"Sept dates"},
-    {"id":"c02_protocol","name":"Le protocole oublié"}
+    {"id":"c02_old_instruments","name":"Les instruments muets"},
+    {"id":"c02_deleted_pages","name":"Ce que les archives ont perdu"},
+    {"id":"c02_false_accident","name":"Un accident trop préparé"}
   ],
   "investigation":{"required_clues":5,"independent_sources_min":2,"false_leads":3,"core_revelation":"Des autorités pré-Chute avaient déjà documenté des phénomènes apparentés au Voile, mais ces dossiers avaient été classés comme erreurs, superstitions ou incidents sans lien."},
   "miniboss":{"id":"c02_broken_curator","name":"Le Conservateur Brisé","concept":"Ancien gardien d'archives dont la Folie s'exprime par une obsession de protéger les documents contre toute lecture."},
@@ -27,5 +27,5 @@
     {"id":"council","label":"Les confier d'abord aux médiateurs","effects":{"trust":1,"tension":1,"justice_integrity":2}},
     {"id":"withhold","label":"Garder temporairement le secret","effects":{"tension":-2,"trust":-3,"veil_knowledge":2}}
   ],
-  "completion":{"unlock_chapter":"chapter_03_threshold_project","revelation":"Quelqu'un, avant la Chute, savait que certaines anomalies formaient un réseau cohérent."}
+  "completion":{"unlock_chapter":"chapter_03_threshold","revelation":"Quelqu'un, avant la Chute, savait que certaines anomalies formaient un réseau cohérent."}
 }
