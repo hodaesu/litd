@@ -70,6 +70,10 @@ func _prepare_placeholder_enemies() -> void:
                 "va_miniboss_dissonant_custodian": _setup_enemy(e,"Le Custode Dissonant",132,[9,14],9,"Accord Refusé")
                 "vs_miniboss_doctrine_hound": _setup_enemy(e,"Le Limier de Doctrine",146,[10,15],10,"Chasse à la Répétition")
                 "vn_miniboss_seal_keeper": _setup_enemy(e,"Le Gardien du Sceau Fendu",142,[9,15],10,"Scellement Réactif")
+                "vv_miniboss_order_bearer": _setup_enemy(e,"Le Porte-Ordre de Basalte",158,[10,16],11,"Priorité absolue")
+                "vm_miniboss_drowned_pilot": _setup_enemy(e,"Le Pilote Sans Horizon",160,[10,17],11,"Courant de retour")
+                "vz_miniboss_stone_cantor": _setup_enemy(e,"Le Chantre de Pierre",162,[10,17],12,"Répétez après moi")
+                "vy_miniboss_causal_auditor": _setup_enemy(e,"L'Auditeur Causal",164,[11,17],12,"Erreur prévue")
             e["chapter_miniboss_id"] = encounter_id
         if encounter_type == "boss":
             e["recruitable"] = false
@@ -87,6 +91,10 @@ func _prepare_placeholder_enemies() -> void:
                 "vestige_ashai_boss_seventh_voice": _setup_enemy(e,"La Septième Voix",230,[10,16],11,"Le Monde que Nous Accordons"); e["deep_vestige_boss"] = true
                 "vestige_silex_boss_last_strategist": _setup_enemy(e,"Le Dernier Stratège",252,[11,17],12,"Victoire avant la bataille"); e["deep_vestige_boss"] = true
                 "vestige_saan_boss_last_watch": _setup_enemy(e,"La Dernière Veille",248,[10,17],12,"Que personne ne passe"); e["deep_vestige_boss"] = true
+                "vestige_vaor_boss_command_without_body": _setup_enemy(e,"Le Commandement Sans Corps",262,[12,18],13,"Obéissez et le chemin s'ouvrira"); e["deep_vestige_boss"] = true
+                "vestige_lyrmar_boss_absent_cartographer": _setup_enemy(e,"La Cartographe des Mers Absentes",264,[12,18],13,"Toutes les routes reviennent"); e["deep_vestige_boss"] = true
+                "vestige_sahmir_boss_single_interpreter": _setup_enemy(e,"L'Interprète Unique",268,[12,19],14,"Un seul sens"); e["deep_vestige_boss"] = true
+                "vestige_ydris_boss_living_theorem": _setup_enemy(e,"Le Théorème Vivant",270,[13,19],14,"Déjà calculé"); e["deep_vestige_boss"] = true
             e["chapter_boss_id"] = encounter_id
         GameState.battle_enemies.append(e)
 
@@ -120,7 +128,7 @@ func resolve_defeat() -> void:
     AshlandsSceneRouter.return_to_hub("defeat")
 
 func _roll_loot() -> Dictionary:
-    if encounter_id in ["vestige_ashai_boss_seventh_voice","vestige_silex_boss_last_strategist","vestige_saan_boss_last_watch"]:
+    if encounter_id in ["vestige_ashai_boss_seventh_voice","vestige_silex_boss_last_strategist","vestige_saan_boss_last_watch","vestige_vaor_boss_command_without_body","vestige_lyrmar_boss_absent_cartographer","vestige_sahmir_boss_single_interpreter","vestige_ydris_boss_living_theorem"]:
         return {"gold":80,"essence":18,"equipment_rarity":"rare"}
     if encounter_id in ["c06_boss_boundary","c07_boss_edras","c08_boss_varkhane","c08_boss_azravel"]:
         return {"gold":60,"essence":10,"equipment_rarity":"rare"}
