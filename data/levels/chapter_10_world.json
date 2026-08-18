@@ -8,7 +8,7 @@
     {"id":"c10_shared_routes","name":"Routes Partagées","size_m":[142,108],"entry":[-62,0,0],"exits":[{"to":"c10_border_of_absent","position":[-66,0,0]},{"to":"c10_cost_chamber","position":[66,0,0]}],"stakes":["c10_stake_foreign_sovereignty","c10_stake_refuge_routes"],"nodes":["c10_route_local","c10_route_foreign","c10_route_return"],"encounters":[{"id":"c10_route_fracture","type":"normal","position":[18,0,10]}]},
     {"id":"c10_cost_chamber","name":"Chambre du Coût Oublié","size_m":[134,100],"entry":[-56,0,0],"exits":[{"to":"c10_shared_routes","position":[-60,0,0]},{"to":"c10_central_node","position":[60,0,0]}],"stakes":["c10_stake_future_generation","c10_stake_unreturned_dead"],"nodes":["c10_cost_present","c10_cost_absent","c10_cost_future"],"encounters":[{"id":"c10_unpaid_cost","type":"miniboss","name":"Le Coût Oublié","position":[30,0,0]}]},
     {"id":"c10_central_node","name":"Nœud Central","size_m":[144,110],"entry":[-64,0,0],"exits":[{"to":"c10_cost_chamber","position":[-68,0,0]},{"to":"c10_common_rupture","position":[68,0,0]}],"stakes":["c10_stake_maintenance","c10_stake_power"],"nodes":["c10_anchor_body","c10_anchor_spirit","c10_anchor_city"],"campfire":true,"campfire_position":[-12,0,24],"encounters":[]},
-    {"id":"c10_common_rupture","name":"La Rupture Commune","size_m":[150,114],"entry":[-66,0,0],"exits":[{"to":"c10_central_node","position":[-70,0,0]}],"stakes":[],"nodes":[],"encounters":[{"id":"c10_boss_final","type":"boss","name":"La Rupture Commune","position":[36,0,0]}]}
+    {"id":"c10_common_rupture","name":"La Rupture Commune","size_m":[150,114],"entry":[-66,0,0],"exits":[{"to":"c10_central_node","position":[-70,0,0]}],"stakes":[],"nodes":["c10_rupture_body","c10_rupture_spirit","c10_rupture_city"],"encounters":[{"id":"c10_boss_final","type":"boss","name":"La Rupture Commune","position":[36,0,0]}]}
   ],
   "stakes":[
     {"id":"c10_stake_sanctuary_food","title":"Trois semaines de réserves","source_family":"sanctuary_households","voice":"habitants","text":"Une fermeture massive consommerait presque toutes les réserves disponibles. Une coexistence durable exigerait au contraire une maintenance que personne ne sait encore financer longtemps.","affects_endings":["radical_closure","stable_coexistence","preserve_crossings"]},
@@ -41,6 +41,9 @@
     {"id":"c10_cost_future","zone":"c10_cost_chamber","type":"cost","position":[22,0,-12],"label":"Nommer le coût pour ceux qui viendront après"},
     {"id":"c10_anchor_body","zone":"c10_central_node","type":"world_anchor","awakening":"body","position":[-24,0,-18],"label":"CORPS — rendre la survie matériellement possible"},
     {"id":"c10_anchor_spirit","zone":"c10_central_node","type":"world_anchor","awakening":"spirit","position":[0,0,22],"label":"ESPRIT — préserver mémoire, sensibilité et continuité"},
-    {"id":"c10_anchor_city","zone":"c10_central_node","type":"world_anchor","awakening":"city","position":[24,0,-18],"label":"CITÉ — rendre la décision contestable et commune"}
+    {"id":"c10_anchor_city","zone":"c10_central_node","type":"world_anchor","awakening":"city","position":[24,0,-18],"label":"CITÉ — rendre la décision contestable et commune"},
+    {"id":"c10_rupture_body","zone":"c10_common_rupture","type":"rupture_anchor","awakening":"body","position":[-24,0,-20],"label":"RÉANCRER LE CORPS — aucune idée ne remplace la survie des vivants"},
+    {"id":"c10_rupture_spirit","zone":"c10_common_rupture","type":"rupture_anchor","awakening":"spirit","position":[0,0,24],"label":"RÉANCRER L'ESPRIT — aucune stabilité ne justifie d'effacer les consciences"},
+    {"id":"c10_rupture_city","zone":"c10_common_rupture","type":"rupture_anchor","awakening":"city","position":[24,0,-20],"label":"RÉANCRER LA CITÉ — aucune nécessité ne parle seule au nom de tous"}
   ]
 }
