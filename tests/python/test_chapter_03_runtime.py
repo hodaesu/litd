@@ -59,9 +59,9 @@ def test_chapter_three_is_autoloaded_saved_reset_and_visible_in_journal():
     journal = (ROOT / 'scripts/ui/quest_journal_ui.gd').read_text()
     assert 'Chapter03Runtime="*res://scripts/world/chapter_03_runtime.gd"' in project
     assert 'Chapter03BossRuntime="*res://scripts/world/chapter_03_boss_runtime.gd"' in project
-    assert 'SAVE_VERSION := "0.26"' in save
+    assert 'SAVE_VERSION := "0.27"' in save
     assert '"chapter_03": Chapter03Runtime.serialize()' in save
     assert 'Chapter03Runtime.reset_new_game()' in game
-    assert '_stage_header(parent, "CHAPITRE III", Chapter03Runtime)' in journal
+    assert '_stage_header(parent,"CHAPITRE III",Chapter03Runtime)' in journal
     assert 'DOSSIER DU PROJET SEUIL' in journal
     assert 'ENTRER DANS LE RÉSEAU DU SEUIL' in journal
