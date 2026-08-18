@@ -21,6 +21,7 @@ SaveManager="*res://scripts/core/save_manager.gd"
 ExpeditionManager="*res://scripts/core/expedition_manager.gd"
 AshlandsMinibossDirector="*res://scripts/world/ashlands_miniboss_director.gd"
 AshlandsSceneRouter="*res://scripts/world/ashlands_scene_router.gd"
+Chapter01EncounterInjector="*res://scripts/world/chapter_01_encounter_injector.gd"
 AshlandsCombatBridge="*res://scripts/world/ashlands_combat_bridge.gd"
 AshlandsPlaytestSession="*res://scripts/world/ashlands_playtest_session.gd"
 
