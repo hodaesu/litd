@@ -20,8 +20,10 @@ jobs:
           cache: pip
       - name: Installer les dépendances QA
         run: python -m pip install -r requirements-dev.txt
+      - name: Préparer les rapports QA
+        run: mkdir -p reports
       - name: Tests Python
-        run: python -m pytest
+        run: python -m pytest -q --tb=short --junitxml=reports/pytest.xml
       - name: Audit des données de base
         run: python -m tools.qa.audit
       - name: Audit transversal campagne et systèmes
