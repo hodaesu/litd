@@ -6,12 +6,16 @@ const FRAGMENT_SCRIPT := preload("res://scripts/world/deep_vestige_fragment.gd")
 
 @export_file("*.json") var data_path := "res://data/levels/vestige_ashai_seven_resonances.json"
 @export var zone_id := "va01_threshold_gallery"
+@export var use_pending_zone := false
 @export var spawn_player_placeholder := true
 var data: Dictionary = {}
 var zone: Dictionary = {}
 
 func _ready() -> void:
-    if not FileAccess.file_exists(data_path): return
+    if use_pending_zone:
+        zone_id = DeepVestigeRuntime.pending_zone_id
+        data_path = DeepVestigeRuntime.data_path_for_zone(zone_id)
+    if zone_id == "" or data_path == "" or not FileAccess.file_exists(data_path): return
     data = JSON.parse_string(FileAccess.get_file_as_string(data_path))
     for value in data.get("zones", []):
         if String(value.get("id", "")) == zone_id:
