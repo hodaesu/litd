@@ -20,9 +20,9 @@ def test_vertical_slice_is_autoloaded_reset_saved_and_visible_in_journal():
     project = (ROOT / "project.godot").read_text(); game_state = (ROOT / "scripts/core/game_state.gd").read_text(); save = (ROOT / "scripts/core/save_manager.gd").read_text(); journal = (ROOT / "scripts/ui/quest_journal_ui.gd").read_text()
     assert 'Chapter01Runtime="*res://scripts/world/chapter_01_runtime.gd"' in project
     assert "Chapter01Runtime.reset_new_game()" in game_state
-    assert 'SAVE_VERSION := "0.26"' in save
+    assert 'SAVE_VERSION := "0.27"' in save
     assert '"chapter_01": Chapter01Runtime.serialize()' in save
-    assert '_stage_header(parent, "CHAPITRE I", Chapter01Runtime)' in journal
+    assert '_stage_header(parent,"CHAPITRE I",Chapter01Runtime)' in journal
 
 
 def test_ash_witness_contract():
