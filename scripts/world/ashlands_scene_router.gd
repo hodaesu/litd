@@ -5,6 +5,7 @@ signal zone_load_finished(zone_id: String)
 signal zone_load_failed(zone_id: String, reason: String)
 
 const BASE_PATH := "res://scenes/world/terre_des_cendres/"
+const CHAPTER_02_PATH := "res://scenes/world/chapter_02/"
 const MAIN_SCENE := "res://scenes/Main.tscn"
 
 var zone_scene_paths := {
@@ -22,7 +23,12 @@ var zone_scene_paths := {
     "zone_12_abbaye": BASE_PATH + "zone_12_abbaye.tscn",
     "zone_13_clocher_boss": BASE_PATH + "zone_13_clocher_boss.tscn",
     "zone_14_clairiere_des_corbeaux": BASE_PATH + "zone_14_clairiere_des_corbeaux.tscn",
-    "zone_15_crypte_du_sans_nom": BASE_PATH + "zone_15_crypte_du_sans_nom.tscn"
+    "zone_15_crypte_du_sans_nom": BASE_PATH + "zone_15_crypte_du_sans_nom.tscn",
+    "c02_old_road": CHAPTER_02_PATH + "c02_old_road.tscn",
+    "c02_watchpost": CHAPTER_02_PATH + "c02_watchpost.tscn",
+    "c02_quarry_camp": CHAPTER_02_PATH + "c02_quarry_camp.tscn",
+    "c02_buried_archive": CHAPTER_02_PATH + "c02_buried_archive.tscn",
+    "c02_resonance_station": CHAPTER_02_PATH + "c02_resonance_station.tscn"
 }
 
 func _ready() -> void:
@@ -50,6 +56,14 @@ func start_ashlands() -> bool:
     AshlandsRuntime.begin_new_expedition()
     AshlandsMinibossDirector.roll_for_expedition(ExpeditionManager.expedition_seed)
     return load_zone("zone_01_faubourg_cendreux")
+
+func start_chapter_02() -> bool:
+    if CampaignState.current_chapter_id != "chapter_02_before_fall":
+        return false
+    if not ExpeditionManager.expedition_active:
+        ExpeditionManager.start_expedition()
+    AshlandsRuntime.begin_new_expedition()
+    return load_zone("c02_old_road")
 
 func return_to_hub(reason: String = "voluntary") -> void:
     ExpeditionManager.return_to_hub(reason)
