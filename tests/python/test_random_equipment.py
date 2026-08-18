@@ -85,8 +85,9 @@ class RandomEquipmentTests(unittest.TestCase):
 
     def test_save_manager_persists_equipment_without_regeneration(self):
         script = (ROOT / "scripts/core/save_manager.gd").read_text(encoding="utf-8")
-        self.assertIn('"equipment": EquipmentManager.serialize()', script)
-        self.assertIn('EquipmentManager.deserialize(payload.get("equipment", {}))', script)
+        compact_script = "".join(script.split())
+        self.assertIn('"equipment":EquipmentManager.serialize()', compact_script)
+        self.assertIn('EquipmentManager.deserialize(payload.get("equipment",{}))', compact_script)
 
     def test_four_test_rooms_award_the_four_class_bundles_in_order(self):
         script = (ROOT / "scripts/ui/main.gd").read_text(encoding="utf-8")
