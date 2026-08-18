@@ -86,7 +86,7 @@ def test_chapter_ten_is_routed_autoloaded_saved_reset_and_visible():
     assert 'Chapter10BossRuntime="*res://scripts/world/chapter_10_boss_runtime.gd"' in project
     assert 'Chapter10JournalUI="*res://scripts/ui/chapter_10_journal_ui.gd"' in project
     assert 'func start_chapter_10()' in router
-    assert 'SAVE_VERSION := "0.30"' in save
+    assert 'SAVE_VERSION := "0.31"' in save
     assert '"chapter_10": Chapter10Runtime.serialize()' in save
     assert 'Chapter10Runtime.reset_new_game()' in game
     assert 'OUVRIR LE CONSEIL DU MONDE' in ui
