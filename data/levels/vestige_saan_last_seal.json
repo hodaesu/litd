@@ -1,0 +1,27 @@
+{
+  "schema_version":1,
+  "vestige_id":"vestige_saan_last_seal",
+  "name":"Monastère du Dernier Sceau",
+  "recommended_level_offset":4,
+  "zones":[
+    {"id":"vn01_outer_cloister","size_m":[88,74],"entry":[0,0,27],"exits":[{"to":"vn02_silent_archive","position":[0,0,-31]}],"fragments":["vn_f01","vn_f02"],"encounters":[]},
+    {"id":"vn02_silent_archive","size_m":[96,80],"entry":[0,0,30],"exits":[{"to":"vn01_outer_cloister","position":[0,0,35]},{"to":"vn03_sealed_dormitory","position":[0,0,-35]}],"fragments":["vn_f03"],"encounters":[]},
+    {"id":"vn03_sealed_dormitory","size_m":[100,82],"entry":[0,0,31],"exits":[{"to":"vn02_silent_archive","position":[0,0,36]},{"to":"vn04_watchers_well","position":[0,0,-36]}],"fragments":["vn_f04","vn_f05"],"encounters":[{"id":"vn_miniboss_seal_keeper","type":"miniboss","name":"Le Gardien du Sceau Fendu","position":[9,0,-9]}]},
+    {"id":"vn04_watchers_well","size_m":[102,84],"entry":[0,0,32],"exits":[{"to":"vn03_sealed_dormitory","position":[0,0,38]},{"to":"vn05_last_vigil","position":[0,0,-38]}],"fragments":["vn_f06"],"campfire":true,"campfire_position":[-7,0,3],"encounters":[]},
+    {"id":"vn05_last_vigil","size_m":[106,86],"entry":[0,0,33],"exits":[{"to":"vn04_watchers_well","position":[0,0,39]},{"to":"vn06_seal_heart","position":[0,0,-39]}],"fragments":["vn_f07"],"encounters":[]},
+    {"id":"vn06_seal_heart","size_m":[114,92],"entry":[0,0,35],"exits":[{"to":"vn05_last_vigil","position":[0,0,41]}],"fragments":["vn_f08"],"encounters":[{"id":"vestige_saan_boss_last_watch","type":"boss","name":"La Dernière Veille","position":[0,0,-14]}]}
+  ],
+  "fragments":[
+    {"id":"vn_f01","title":"Règle de veille","text":"On ne ferme jamais une porte sans inscrire qui demeure de l'autre côté."},
+    {"id":"vn_f02","title":"Liste des veilleurs","text":"Chaque nœud possède des volontaires chargés de rester jusqu'à la fermeture complète."},
+    {"id":"vn_f03","title":"Archive interdite","text":"Des signaux ont continué après la Grande Fermeture."},
+    {"id":"vn_f04","title":"Lit encore fait","text":"Certains veilleurs croyaient pouvoir rouvrir un jour lorsque le monde serait prêt."},
+    {"id":"vn_f05","title":"Lettre jamais envoyée","text":"Si nous vous sauvons en les abandonnant, ne nous appelez pas héros."},
+    {"id":"vn_f06","title":"Mesure du Puits","text":"La frontière tient mieux lorsqu'elle est entretenue par plusieurs consciences en accord volontaire."},
+    {"id":"vn_f07","title":"Dernière décision","text":"La majorité vote de ne pas rouvrir malgré les réponses reçues après le scellement."},
+    {"id":"vn_f08","title":"Message de l'autre côté","text":"Nous ne sommes pas morts. Nous ne savons plus exactement où nous sommes."}
+  ],
+  "completion_requirements":{"fragments_min":6,"boss":"vestige_saan_boss_last_watch"},
+  "boss":{"name":"La Dernière Veille","signature":"Que personne ne passe","mechanics":["sceaux_interdépendants","protection_des_absents","choix_de_non_agression","résonance_du_groupe"],"counterplay":"Comprendre quels sceaux protègent réellement des consciences, neutraliser seulement ceux qui enferment la Veille et préserver ceux qui empêchent une rupture."},
+  "rewards":{"gold":120,"essence":30,"relic":{"id":"relic_last_seal_thread","name":"Fil du Dernier Sceau","effect":"Une fois par donjon, empêche une rupture ou un effet de terrain de se propager pendant un tour."},"deep_truth":{"id":"deep_truth_saan","text":"Les Veilleurs de Saan avaient des indices sérieux que certains isolés survivaient encore. Leur héroïsme fut moins de fermer que d'accepter de vivre avec une décision qu'ils savaient peut-être injuste pour ceux qu'ils sauvaient mal."}}
+}
