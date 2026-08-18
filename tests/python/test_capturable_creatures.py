@@ -20,9 +20,9 @@ def test_creature_runtime_and_save_contracts():
     save_manager = (ROOT / "scripts/core/save_manager.gd").read_text()
     assert "func serialize()" in manager
     assert "func deserialize(data: Dictionary)" in manager
-    assert 'SAVE_VERSION := "0.22"' in save_manager
+    assert 'SAVE_VERSION := "0.23"' in save_manager
     assert '"creatures": CreatureManager.serialize()' in save_manager
-    assert 'CreatureManager.deserialize(payload.get("creatures", {}))' in save_manager
+    assert 'CreatureManager.deserialize(payload.get("creatures",{}))' in save_manager
 
 
 def test_creatures_share_the_hero_level_cap():
