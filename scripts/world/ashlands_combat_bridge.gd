@@ -96,6 +96,7 @@ func _prepare_placeholder_enemies() -> void:
                 "vestige_sahmir_boss_single_interpreter": _setup_enemy(e,"L'Interprète Unique",268,[12,19],14,"Un seul sens"); e["deep_vestige_boss"] = true
                 "vestige_ydris_boss_living_theorem": _setup_enemy(e,"Le Théorème Vivant",270,[13,19],14,"Déjà calculé"); e["deep_vestige_boss"] = true
             e["chapter_boss_id"] = encounter_id
+        EndgameState.apply_enemy_scaling(e)
         GameState.battle_enemies.append(e)
 
 func _setup_enemy(enemy: Dictionary, name: String, hp: int, damage: Array, fear: int, signature: String) -> void:
