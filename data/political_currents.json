@@ -1,0 +1,74 @@
+{
+  "system": "Concorde",
+  "post_fall_question": "Faut-il sauver la Concorde telle qu'elle était, la transformer pour survivre, ou accepter qu'elle appartienne au monde d'avant ?",
+  "currents": [
+    {
+      "id": "faithful_concord",
+      "name": "Fidèles de la Concorde",
+      "position": "Préserver les principes et limites du Pacte malgré l'urgence.",
+      "strength": "Protège les droits fondamentaux et empêche la peur de devenir doctrine.",
+      "risk": "Lenteur et rigidité procédurale dans les crises immédiates."
+    },
+    {
+      "id": "exception_guardians",
+      "name": "Gardiens d'Exception",
+      "position": "Étendre temporairement les pouvoirs d'urgence pour assurer la survie.",
+      "strength": "Capacité d'action rapide en situation catastrophique.",
+      "risk": "Normalisation progressive de l'exception et dérive autoritaire."
+    },
+    {
+      "id": "refuge_separatists",
+      "name": "Séparatistes des Refuges",
+      "position": "Privilégier l'autonomie et la survie locale des communautés.",
+      "strength": "Résilience locale et décisions adaptées aux ressources immédiates.",
+      "risk": "Isolement, abandon des autres et rétrécissement de la communauté morale."
+    },
+    {
+      "id": "purifiers",
+      "name": "Purificateurs",
+      "position": "Retirer certaines protections aux groupes jugés trop dangereux.",
+      "strength": "Réponse simple et immédiate à la peur et au besoin de sécurité.",
+      "risk": "Xénophobie, culpabilité collective, extermination et crimes de Rupture."
+    },
+    {
+      "id": "living_reformers",
+      "name": "Réformateurs du Vivant",
+      "position": "Étendre la Concorde aux formes de conscience et équilibres du vivant révélés par la Chute.",
+      "strength": "Cohérence avec l'interdépendance du vivant et refus de l'extermination par espèce.",
+      "risk": "Décisions difficiles à tenir lorsque la menace est immédiate et mal comprise."
+    }
+  ],
+  "figures": [
+    {
+      "id": "maera_sol",
+      "name": "Maera Sol",
+      "role": "Ancienne juriste de la Concorde",
+      "current": "faithful_concord",
+      "wound": "A perdu son fils pendant la Chute.",
+      "core_conflict": "Défendre les droits fondamentaux tout en connaissant intimement le désir de vengeance."
+    },
+    {
+      "id": "varos_khel",
+      "name": "Varos Khel",
+      "role": "Ancien coordinateur de secours",
+      "current": "exception_guardians",
+      "wound": "A dû imposer des mesures coercitives durant les premières heures de la Chute.",
+      "core_conflict": "Ses décisions autoritaires ont sauvé des vies, renforçant sa conviction que l'exception est nécessaire."
+    },
+    {
+      "id": "ilyan_veyr",
+      "name": "Ilyan Veyr",
+      "role": "Survivant devenu voix politique",
+      "current": "purifiers",
+      "wound": "A perdu plusieurs proches lors d'une attaque de créatures.",
+      "core_conflict": "Sa demande de protection glisse vers la généralisation, la haine et le désir de vengeance.",
+      "lucid_quote": "Je sais qu'ils ne sont pas tous responsables. Je le sais. Mais lorsque je ferme les yeux, je revois son corps… et pendant quelques secondes, je voudrais qu'ils meurent tous."
+    }
+  ],
+  "narrative_rules": {
+    "no_simple_good_evil_split": true,
+    "politics_through_people_and_consequences": true,
+    "humor_as_breathing_room_not_tone_break": true,
+    "dark_fantasy_remains_dominant": true
+  }
+}
