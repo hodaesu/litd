@@ -12,6 +12,7 @@ var capturable_creatures: Array = []
 var quests: Array = []
 var events: Array = []
 var dialogues: Array = []
+var ashlands_lore: Dictionary = {}
 
 func _ready() -> void:
     reload_all()
@@ -40,6 +41,8 @@ func reload_all() -> void:
     quests = load_json("res://data/quests.json")
     events = load_json("res://data/events.json")
     dialogues = load_json("res://data/dialogues.json")
+    var lore_value = load_json("res://data/levels/ashlands_lore.json")
+    ashlands_lore = lore_value if typeof(lore_value) == TYPE_DICTIONARY else {}
 
 func find_by_id(items: Array, id_value: Variant) -> Dictionary:
     for item in items:
