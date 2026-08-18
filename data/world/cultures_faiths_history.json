@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "beliefs": [
+    {"id":"ancestor_houses","name":"Maisons des Ancêtres","type":"ancestor_memory","core":"Les morts ne gouvernent pas les vivants; leur mémoire oblige les générations suivantes."},
+    {"id":"green_breath","name":"Respiration Verte","type":"living_cycles","core":"Le vivant est un réseau de cycles, de migrations, de mort et de continuité."},
+    {"id":"path_of_returns","name":"Chemin des Retours","type":"reincarnation_philosophies","core":"La conscience ou son héritage peut connaître plusieurs formes de continuité."},
+    {"id":"lantern_bearers","name":"Porte-Lanternes","type":"shared_truth","core":"La Lumière symbolise la vérité rendue visible et contestable par plusieurs consciences."},
+    {"id":"first_silence_cults","name":"Cultes du Premier Silence","type":"pre_awakenings","core":"Des traditions très anciennes évoquent une seconde profondeur du monde et des souvenirs qui demeurent dans les lieux."},
+    {"id":"children_of_the_rift","name":"Enfants de la Déchirure","type":"post_fall","core":"La Chute révèle une réalité plus vaste; les branches extrêmes refusent toute fermeture du Voile."}
+  ],
+  "historical_eras": [
+    {"id":"separate_roads","name":"Âge des Routes séparées","order":1,"summary":"Développement indépendant de nombreux peuples, royaumes et territoires."},
+    {"id":"great_encounters","name":"Grandes Rencontres","order":2,"summary":"Migrations, commerce, alliances, mariages, conflits et premières grandes villes plurispécifiques."},
+    {"id":"linked_kingdoms","name":"Ère des Royaumes liés","order":3,"summary":"Grandes puissances régionales, infrastructures, conquêtes et hiérarchies variées."},
+    {"id":"first_silences","name":"Premiers Silences","order":4,"summary":"Phénomènes locaux ressemblant au Voile, sans catastrophe continentale."},
+    {"id":"last_war","name":"Dernière Guerre","order":5,"summary":"Guerre continentale puis révoltes, mutineries et rejet des anciens systèmes de domination."},
+    {"id":"concord_foundation","name":"Fondation des Trois Éveils et de la Concorde","order":6,"summary":"Décennies de débats puis institutions communes et premiers Sanctuaires."},
+    {"id":"thousand_year_concord","name":"Mille ans de Concorde","order":7,"summary":"Période de paix continentale durable, réformes, crises non guerrières et progrès culturels et techniques."}
+  ],
+  "species_cultural_rule":"Une espèce décrit un héritage biologique. Une culture décrit une histoire vécue. Les deux ne doivent jamais être confondus.",
+  "species": [
+    {"id":"humans","name":"Humains","culture_examples":["Jian-Lu urbain","communautés portuaires","hautes vallées","diasporas marchandes"],"monolithic":false},
+    {"id":"orcs","name":"Orcs","culture_examples":["lignées urbaines","pastoralisme des hautes plaines","écoles martiales communautaires","communautés portuaires"],"monolithic":false},
+    {"id":"dwarves","name":"Nains","culture_examples":["cités minières","artisans urbains","réseaux marchands","communautés itinérantes"],"monolithic":false},
+    {"id":"elves","name":"Elfes","culture_examples":["communautés forestières","juristes urbains","navigateurs","artisans et musiciens"],"monolithic":false},
+    {"id":"lizardfolk","name":"Lézardiens","culture_examples":["deltas","zones humides","littoraux chauds","cités fluviales"],"monolithic":false},
+    {"id":"foresters","name":"Forestiers","culture_examples":["massifs forestiers","communautés urbaines","gardiens de routes sylvestres","diasporas artisanales"],"monolithic":false}
+  ]
+}
