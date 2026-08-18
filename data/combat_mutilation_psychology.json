@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "rule": "Voir une mutilation affecte différemment les témoins selon leur Folie, leur Espoir et leurs résistances. L'auteur du coup est moins affecté que les témoins.",
+  "witness_bands": [
+    {"max_madness":24,"state":"lucide","fear":3,"madness":1,"hope":0},
+    {"max_madness":49,"state":"ébranlé","fear":5,"madness":2,"hope":-1},
+    {"max_madness":74,"state":"fragile","fear":6,"madness":4,"hope":-2},
+    {"max_madness":1000,"state":"dissocié","fear":3,"madness":6,"hope":-3}
+  ],
+  "attacker_multiplier":0.5,
+  "high_hope_threshold":60,
+  "high_hope_fear_reduction":2,
+  "boss_dismemberment_fear_bonus":2,
+  "ally_resistance_scaling":1.0
+}
