@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "name": "Nouveau Cycle+",
   "design_rule": "Le Nouveau Cycle+ conserve la mémoire du monde précédent sans transformer la nouvelle partie en simple reprise surpuissante.",
   "unlock":{"campaign_complete":true,"postgame_operations_min":3},
@@ -7,6 +7,15 @@
   "max_legacy_perks":1,
   "carry_over":["ending_history","legacy_points","legacy_perk_history","epilogue_archive"],
   "reset":["campaign_progress","politics","party_progression","inventory","creatures","sanctuary_resources","chapter_choices"],
+  "boss_recruitment":{
+    "enabled_from_cycle":1,
+    "includes":["miniboss","boss","deep_miniboss","deep_boss"],
+    "identity_key":"encounter_id",
+    "level_sync":"party_average",
+    "stat_rule":"La version alliée garde son identité, sa signature et son archétype, mais ses dégâts et sa progression sont calculés depuis son niveau de compagnon, jamais depuis ses PV ou multiplicateurs de boss ennemi.",
+    "capture_action":"CAPTURER",
+    "normal_cycle_rule":"Les boss et mini-boss restent non recrutables pendant le cycle initial."
+  },
   "perks":[
     {"id":"legacy_archivist","name":"Mémoire des archives","cost":2,"description":"Commencer le nouveau cycle avec une partie du savoir méthodologique déjà acquise.","effects":{"veil_knowledge":6}},
     {"id":"legacy_concord","name":"Réflexes de Concorde","cost":2,"description":"Les premiers débats bénéficient de procédures déjà éprouvées dans un autre cycle.","effects":{"trust":4,"city":3}},
