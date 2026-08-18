@@ -26,11 +26,12 @@ func _decorate_anatomy_targeting() -> void:
     if part.is_empty():
         return
     var hero := _active_round_hero()
-    var chance := AnatomyRuntime.part_hit_chance(hero, part) if not hero.is_empty() else 0
+    var chance := AnatomyRuntime.part_hit_chance(hero, part, enemy) if not hero.is_empty() else 0
     var trauma_map: Dictionary = enemy.get("anatomy_part_trauma", {})
     var part_id := str(part.get("id", ""))
     var threshold := AnatomyRuntime.part_threshold(enemy, part)
     var trauma := int(trauma_map.get(part_id, 0))
+    var protected := str(enemy.get("protected_anatomy_part", "")) == part_id
 
     var previous := make_button("◀ PARTIE", func(): _cycle_anatomy_part(-1), Vector2(105, 42))
     previous.position = Vector2(760, 205)
@@ -39,9 +40,10 @@ func _decorate_anatomy_targeting() -> void:
     next.position = Vector2(1125, 205)
     content.add_child(next)
 
+    var protection_text := " · PROTÉGÉE" if protected else ""
     var label := make_label(
-        "CIBLE ANATOMIQUE · %s · Trauma %d/%d · précision %d %%" % [
-            str(part.get("name", part_id)), trauma, threshold, chance
+        "CIBLE ANATOMIQUE · %s · Trauma %d/%d · précision %d %%%s" % [
+            str(part.get("name", part_id)), trauma, threshold, chance, protection_text
         ],
         12, GOLD
     )
