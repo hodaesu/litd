@@ -34,15 +34,15 @@ def run(root: Path = ROOT) -> dict:
     anatomy_runtime = (root / "scripts/core/anatomy_runtime.gd").read_text(encoding="utf-8")
     capture_runtime = (root / "scripts/core/capture_wound_runtime.gd").read_text(encoding="utf-8")
     injury_runtime = (root / "scripts/core/injury_runtime.gd").read_text(encoding="utf-8")
-    ui = {i: (root / f"scripts/ui/main_v{i}.gd").read_text(encoding="utf-8") for i in range(6, 13)}
+    ui = {i: (root / f"scripts/ui/main_v{i}.gd").read_text(encoding="utf-8") for i in range(6, 14)}
     generator = (root / "tools/blender/generate_dismemberment_jobs.py").read_text(encoding="utf-8")
 
     checks: list[dict] = []
     def check(name: str, ok: bool, detail: str = "") -> None:
         checks.append({"name": name, "ok": bool(ok), "detail": detail})
 
-    check("Anatomie : Main utilise v12", 'res://scripts/ui/main_v12.gd' in scene)
-    for child in range(12, 6, -1):
+    check("Anatomie : Main utilise v13", 'res://scripts/ui/main_v13.gd' in scene)
+    for child in range(13, 6, -1):
         check(f"Anatomie : v{child} hérite de v{child-1}", f'extends "res://scripts/ui/main_v{child-1}.gd"' in ui[child])
 
     check("Étape 1 : ciblage anatomique explicite", "select_part" in anatomy_runtime and "cycle_part" in anatomy_runtime and "selected_anatomy_part" in ui[7])
@@ -84,6 +84,7 @@ def run(root: Path = ROOT) -> dict:
     check("Étape 7 : convalescence bloque combat", capture.get("disable_combat_until_care_complete") is True and "anatomy_recovery_locked" in capture_runtime and "_finish_party_round" in ui[10])
     check("Étape 7 : soins Sanctuaire prévus", "provide_sanctuary_care" in capture_runtime and "care_progress" in capture_runtime)
     check("Étape 7 : soins accessibles dans le Bestiaire", "SOINS DU SANCTUAIRE" in ui[12] and "_provide_creature_care" in ui[12])
+    check("Étape 7 : Infirmerie réellement accessible", "show_infirmary" in ui[13] and 'GameState.request_screen("infirmary")' in ui[13] and "_treat_in_infirmary" in ui[13])
     check("Étape 7 : échec de capture restaure les PV avant le tour", "capture_target[\"hp\"] = original_hp" in ui[10] and "_complete_hero_action(hero)" in ui[10])
 
     by_tag = injuries.get("by_tag", {})
