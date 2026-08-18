@@ -50,7 +50,7 @@ def test_deep_vestige_is_routed_autoloaded_saved_and_reset():
     assert 'DeepVestigeRuntime="*res://scripts/world/deep_vestige_runtime.gd"' in project
     assert 'DeepVestigeBossRuntime="*res://scripts/world/deep_vestige_boss_runtime_v2.gd"' in project
     assert 'func start_ashai_deep_vestige()' in router
-    assert 'SAVE_VERSION := "0.27"' in save
+    assert 'SAVE_VERSION := "0.28"' in save
     assert '"deep_vestiges": DeepVestigeRuntime.serialize()' in save
     assert 'DeepVestigeRuntime.reset_new_game()' in game
     assert 'Temple des Sept Résonances' in ui
