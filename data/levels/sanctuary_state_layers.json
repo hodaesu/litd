@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "sanctuary_id": "first_veil",
+  "design_rule": "Le Sanctuaire combine des couches d'état plutôt que des scènes entièrement séparées. Chaque couche peut modifier décor, population, ambiance sonore, éclairage et activité sans effacer les autres.",
+  "base_state": "stable",
+  "layers": [
+    {
+      "id": "stable",
+      "name": "Stable",
+      "priority": 0,
+      "when": {},
+      "visual": ["éclairage chaud mais faible", "circulation normale", "étals partiellement ouverts", "gardes discrets"],
+      "audio": ["murmures calmes", "feu", "outils lointains", "pas réguliers"],
+      "population": ["habitants dispersés", "artisans", "soigneurs", "gardiens"]
+    },
+    {
+      "id": "welcoming",
+      "name": "Accueillant",
+      "priority": 20,
+      "when": {"any_flag": ["refugees_welcomed", "refugees_quarantined"]},
+      "visual": ["couchages improvisés", "linge suspendu", "caisses redistribuées", "tables communes agrandies"],
+      "audio": ["plus de conversations", "enfants et familles au loin", "activité de cuisine accrue"],
+      "population": ["réfugiés", "familles", "volontaires supplémentaires"],
+      "gameplay": {"social_density": 2, "supply_pressure": 1}
+    },
+    {
+      "id": "tense",
+      "name": "Tendu",
+      "priority": 50,
+      "when": {"tension_min": 55},
+      "visual": ["groupes séparés", "armes portées plus visiblement", "postes de garde improvisés", "portes intérieures surveillées"],
+      "audio": ["murmures courts", "silences plus fréquents", "disputes lointaines"],
+      "population": ["patrouilles supplémentaires", "habitants regroupés par affinité"],
+      "gameplay": {"guard_presence": 1, "social_density": -1}
+    },
+    {
+      "id": "militarized",
+      "name": "Militarisé",
+      "priority": 70,
+      "when": {"body_min": 62, "tension_min": 45},
+      "visual": ["barricades mobiles", "râteliers d'armes", "postes de contrôle", "zones de circulation marquées"],
+      "audio": ["ordres brefs", "entraînement", "cliquetis d'armes"],
+      "population": ["gardiens visibles", "volontaires armés"],
+      "gameplay": {"guard_presence": 2, "social_density": -1}
+    },
+    {
+      "id": "impoverished",
+      "name": "Appauvri",
+      "priority": 80,
+      "when": {"supplies_max": 4},
+      "visual": ["étals vides", "braseros éteints", "portions réduites", "matériel réparé plusieurs fois"],
+      "audio": ["moins d'activité", "toux", "vaisselle rare", "vent plus présent"],
+      "population": ["files d'attente", "moins de marchands actifs"],
+      "gameplay": {"market_activity": -2, "social_density": -1}
+    },
+    {
+      "id": "creature_coexistence",
+      "name": "Coexistence",
+      "priority": 40,
+      "when": {"any_flag": ["creature_sanctuary_trial"]},
+      "visual": ["habitat protégé", "marques de distance au sol", "abreuvoir adapté", "panneaux explicatifs"],
+      "audio": ["sons de créature intégrés à l'ambiance", "réactions murmurées des habitants"],
+      "population": ["veilleur des créatures", "curieux", "habitants évitant volontairement la zone"],
+      "gameplay": {"creature_habitat_visible": true}
+    },
+    {
+      "id": "civic_reconstruction",
+      "name": "Reconstruction civique",
+      "priority": 30,
+      "when": {"city_min": 60, "trust_min": 58},
+      "visual": ["tables d'assemblée", "panneaux d'annonces", "archives remises en ordre", "réparations collectives visibles"],
+      "audio": ["débats publics", "lectures d'annonces", "activité d'atelier coordonnée"],
+      "population": ["médiateurs", "citoyens en assemblée", "archivistes"],
+      "gameplay": {"social_density": 2, "civic_activity": 2}
+    },
+    {
+      "id": "fractured",
+      "name": "Fragmenté",
+      "priority": 90,
+      "when": {"trust_max": 28},
+      "visual": ["affiches arrachées", "espaces communs désertés", "groupes séparés", "inscriptions hostiles"],
+      "audio": ["silence", "disputes soudaines", "portes qui claquent"],
+      "population": ["habitants isolés", "factions sociales regroupées"],
+      "gameplay": {"social_density": -2, "civic_activity": -2}
+    }
+  ],
+  "composition": {
+    "max_simultaneous_major_layers": 3,
+    "always_keep_base": true,
+    "tie_break": "priority_desc",
+    "examples": [
+      ["stable", "welcoming", "tense"],
+      ["stable", "impoverished", "civic_reconstruction"],
+      ["stable", "creature_coexistence", "tense", "militarized"]
+    ]
+  }
+}
