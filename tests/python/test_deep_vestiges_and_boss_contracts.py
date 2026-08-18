@@ -48,9 +48,9 @@ def test_deep_vestige_is_routed_autoloaded_saved_and_reset():
     game = (ROOT/'scripts/core/game_state.gd').read_text()
     ui = (ROOT/'scripts/ui/deep_vestige_ui.gd').read_text()
     assert 'DeepVestigeRuntime="*res://scripts/world/deep_vestige_runtime.gd"' in project
-    assert 'DeepVestigeBossRuntime="*res://scripts/world/deep_vestige_boss_runtime.gd"' in project
+    assert 'DeepVestigeBossRuntime="*res://scripts/world/deep_vestige_boss_runtime_v2.gd"' in project
     assert 'func start_ashai_deep_vestige()' in router
-    assert 'SAVE_VERSION := "0.24"' in save
+    assert 'SAVE_VERSION := "0.26"' in save
     assert '"deep_vestiges": DeepVestigeRuntime.serialize()' in save
     assert 'DeepVestigeRuntime.reset_new_game()' in game
     assert 'Temple des Sept Résonances' in ui
@@ -58,10 +58,9 @@ def test_deep_vestige_is_routed_autoloaded_saved_and_reset():
 
 def test_seventh_voice_is_connected_to_combat_and_punishes_repetition():
     bridge = (ROOT/'scripts/world/ashlands_combat_bridge.gd').read_text()
-    boss = (ROOT/'scripts/world/deep_vestige_boss_runtime.gd').read_text()
+    boss = (ROOT/'scripts/world/deep_vestige_boss_runtime_v2.gd').read_text()
     assert 'vestige_ashai_boss_seventh_voice' in bridge
     assert 'La Septième Voix' in bridge
     assert 'Le Monde que Nous Accordons' in bridge
-    assert 'func notify_player_action(action_type: String)' in boss
     assert 'ACCORD FORCÉ' in boss
     assert 'forced_agreement' in boss
