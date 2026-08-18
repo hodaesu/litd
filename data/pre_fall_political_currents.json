@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "system": "Concorde",
+  "period": "pre_fall",
+  "exclusive_membership": false,
+  "membership_rule": "Un même personnage peut cumuler plusieurs sensibilités selon les sujets. Les alliances se forment autour de problèmes concrets plutôt que de partis permanents.",
+  "currents": [
+    {
+      "id": "continuities",
+      "name": "Les Continuités",
+      "core": "Préserver le Pacte de Concorde, les mandats courts, les limites du pouvoir et la protection des minorités.",
+      "strength": "Stabilité, mémoire historique, vigilance contre les mécanismes de la Dernière Guerre.",
+      "risk": "Résistance excessive aux réformes nécessaires."
+    },
+    {
+      "id": "civic_reformers",
+      "name": "Les Réformateurs civiques",
+      "core": "Adapter régulièrement les institutions par plus de participation, de tirage au sort, de transparence et de représentation.",
+      "strength": "Capacité d'adaptation.",
+      "risk": "Instabilité institutionnelle et accumulation de réformes."
+    },
+    {
+      "id": "city_autonomists",
+      "name": "Les Autonomistes des Cités",
+      "core": "Maintenir le pouvoir au plus près des communautés et limiter les compétences continentales au strict nécessaire.",
+      "strength": "Préservation de la diversité politique et culturelle.",
+      "risk": "Sous-estimation de la solidarité continentale et des problèmes transfrontaliers."
+    },
+    {
+      "id": "concord_unionists",
+      "name": "Les Unionistes de la Concorde",
+      "core": "Renforcer la coordination continentale pour les infrastructures, crises, échanges, diplomatie et enjeux partagés.",
+      "strength": "Vision à l'échelle du continent.",
+      "risk": "Centralisation progressive du pouvoir."
+    },
+    {
+      "id": "living_guardians",
+      "name": "Les Gardiens du Vivant",
+      "core": "Défendre l'interdépendance du vivant, les écosystèmes, les générations futures et la limitation du gaspillage.",
+      "strength": "Protection du long terme et des intérêts sans voix politique directe.",
+      "risk": "Blocage ou ralentissement de projets jugés matériellement nécessaires."
+    },
+    {
+      "id": "body_pragmatists",
+      "name": "Les Pragmatistes du Corps",
+      "core": "Donner la priorité à la faisabilité, la sécurité, les infrastructures, les réserves et la préparation aux crises.",
+      "strength": "Efficacité pratique et attention aux contraintes réelles.",
+      "risk": "Utilitarisme excessif au détriment de protections fondamentales."
+    }
+  ],
+  "example_profile": {
+    "institutional": "city_autonomists",
+    "ecology": "living_guardians",
+    "education": "civic_reformers",
+    "defense": "body_pragmatists"
+  },
+  "typical_debates": [
+    "Construction d'un grand canal ou d'une nouvelle route",
+    "Protection d'une forêt ou ouverture d'une zone d'exploitation",
+    "Contribution des cités riches aux régions en difficulté",
+    "Durée et renouvellement des mandats",
+    "Pouvoirs du Conseil de la Concorde",
+    "Accueil de populations déplacées",
+    "Règles des Grands Tournois",
+    "Financement des Sanctuaires",
+    "Protection juridique de certaines créatures conscientes",
+    "Partage de l'eau entre plusieurs cités",
+    "Commerce et ressources rares"
+  ]
+}
