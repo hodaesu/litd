@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "rule": "Les déplacements forcés réordonnent la formation plutôt que d'annuler des tours. Les membres perdus peuvent supprimer ou modifier ces manœuvres.",
+  "hero_forced_movement": {
+    "malvor": {"heavy": "push_enemy_1"},
+    "darius": {"heavy": "push_enemy_1"},
+    "aurelien": {"heavy": "pull_enemy_1"},
+    "lysandra": {"heavy": "push_enemy_1"}
+  },
+  "fear_recoil": {
+    "threshold": 100,
+    "ranks": 1,
+    "once_per_round": true
+  },
+  "limb_displacement": {
+    "support_leg": "retreat_enemy_1",
+    "hind_leg": "retreat_enemy_1",
+    "rear_leg": "retreat_enemy_1",
+    "anchor_appendage": "retreat_enemy_1",
+    "support_limb": "retreat_enemy_1",
+    "anchor_limb": "pull_enemy_to_front"
+  },
+  "boss_maneuvers": {
+    "c05_boss_silex_general": {
+      "name": "Ordre de recul",
+      "part_required": "offensive_limb",
+      "cadence": 2,
+      "effect": "push_front_hero_1",
+      "lost_part_transform": "Le Général perd sa capacité à casser la première ligne et doit combattre dans l'ordre déjà établi."
+    },
+    "c06_boss_boundary": {
+      "name": "Translation de frontière",
+      "part_required": "anchor_limb",
+      "cadence": 2,
+      "effect": "swap_outer_heroes",
+      "lost_part_transform": "La Frontière ne peut plus échanger brutalement l'avant et l'arrière de la compagnie."
+    },
+    "c09_boss_consensus": {
+      "name": "Permutation des perspectives",
+      "part_required": "anchor_limb",
+      "cadence": 2,
+      "effect": "rotate_party_right",
+      "lost_part_transform": "Le Consensus perd sa capacité à imposer une perspective commune par déplacement forcé."
+    },
+    "c10_boss_final": {
+      "name": "Onde de rupture commune",
+      "part_required": "support_limb",
+      "cadence": 2,
+      "effect": "invert_pairs",
+      "lost_part_transform": "La Rupture Commune ne peut plus casser simultanément les duos de formation ; les synergies peuvent être reconstruites durablement."
+    }
+  }
+}
