@@ -16,26 +16,23 @@ REQUIRED_STATS = {
 
 def run(root: Path = ROOT) -> dict:
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
+    versions = {i: (root / f"scripts/ui/main_v{i}.gd").read_text(encoding="utf-8") for i in range(2, 13)}
     base = (root / "scripts/ui/main.gd").read_text(encoding="utf-8")
-    v2 = (root / "scripts/ui/main_v2.gd").read_text(encoding="utf-8")
-    v3 = (root / "scripts/ui/main_v3.gd").read_text(encoding="utf-8")
-    v4 = (root / "scripts/ui/main_v4.gd").read_text(encoding="utf-8")
-    v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
-    v6 = (root / "scripts/ui/main_v6.gd").read_text(encoding="utf-8")
     hero_skills = (root / "scripts/core/hero_skill_manager.gd").read_text(encoding="utf-8")
-    sources = [base, v2, v3, v4, v5, v6]
+    sources = [base] + [versions[i] for i in range(2, 13)]
     effective_combat = "\n".join(sources)
 
     checks: list[dict] = []
     def check(name: str, ok: bool, detail: str = "") -> None:
         checks.append({"name": name, "ok": bool(ok), "detail": detail})
 
-    check("Main utilise combat v6", 'res://scripts/ui/main_v6.gd' in scene)
-    check("Combat v6 conserve les déplacements v5", 'extends "res://scripts/ui/main_v5.gd"' in v6)
-    check("Combat v5 conserve le démembrement v4", 'extends "res://scripts/ui/main_v4.gd"' in v5)
-    check("Combat v4 conserve la tactique v3", 'extends "res://scripts/ui/main_v3.gd"' in v4)
-    check("Combat v3 conserve le moteur v2", 'extends "res://scripts/ui/main_v2.gd"' in v3)
-    check("Combat v2 hérite de l'UI stable", 'extends "res://scripts/ui/main.gd"' in v2)
+    check("Main utilise combat v12", 'res://scripts/ui/main_v12.gd' in scene)
+    for child in range(12, 2, -1):
+        parent = child - 1
+        check(f"Combat v{child} conserve v{parent}", f'extends "res://scripts/ui/main_v{parent}.gd"' in versions[child])
+    check("Combat v3 conserve le moteur v2", 'extends "res://scripts/ui/main_v2.gd"' in versions[3])
+    check("Combat v2 hérite de l'UI stable", 'extends "res://scripts/ui/main.gd"' in versions[2])
+    v2 = versions[2]
     check("Round suit les héros ayant agi", "acted_hero_ids" in v2 and "_mark_hero_acted" in v2)
     check("Héros actif choisi parmi les non-joués", "func _active_round_hero()" in v2 and "acted_hero_ids.get" in v2)
     check("Combat effectif n'utilise pas alive_heroes()[0]", all("alive_heroes()[0]" not in source for source in sources[1:]))
@@ -47,25 +44,19 @@ def run(root: Path = ROOT) -> dict:
     consumed = set(re.findall(r'\.get\("([a-z_]+)"', effective_combat)) & REQUIRED_STATS
     missing = sorted(produced - consumed)
     check("Toutes les stats d'arbres sont consommées", not missing, ", ".join(missing))
-
     for stat in ["damage_percent", "execute_percent", "max_hp", "party_heal", "madness_resistance", "max_madness"]:
         check(f"Stat auparavant inerte branchée : {stat}", stat in consumed)
-
     check("PV max synchronisés sans empilement infini", "skill_max_hp_applied" in v2)
     check("Peur extrême peut alimenter la Folie", "base_madness_gain" in v2 and "madness_resistance" in effective_combat)
     check("Soin cible un allié blessé", "_hero_heal_action" in effective_combat and "left_ratio" in effective_combat)
 
-    payload = {
-        "summary": {
-            "checks": len(checks),
-            "errors": sum(1 for item in checks if not item["ok"]),
-        },
+    return {
+        "summary": {"checks": len(checks), "errors": sum(1 for item in checks if not item["ok"])},
         "checks": checks,
         "produced_stats": sorted(produced),
         "consumed_stats": sorted(consumed),
         "missing_stats": missing,
     }
-    return payload
 
 
 def main() -> int:
