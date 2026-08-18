@@ -28,6 +28,8 @@ def test_postgame_has_real_operations_and_ng_plus_gate():
     ids = {op['id'] for op in postgame['operations']}
     assert {'postgame_routes','postgame_hearing','postgame_absent','postgame_creatures','postgame_stabilizers','postgame_delegations','postgame_memorial','postgame_future'} == ids
     assert all(op['cost'] and op['reward'] and op['flag'] for op in postgame['operations'])
+    free = [op for op in postgame['operations'] if all(int(value) == 0 for value in op['cost'].values()) and not op.get('requirements')]
+    assert len(free) >= postgame['operations_required_for_ng_plus']
 
 
 def test_new_game_plus_resets_power_but_keeps_memory_and_scales_difficulty():
