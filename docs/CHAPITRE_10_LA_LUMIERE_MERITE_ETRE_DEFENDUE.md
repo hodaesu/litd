@@ -111,6 +111,8 @@ La Grande Fermeture produit un lieu marqué par les évacuations et les disposit
 
 Les états d'échec ont eux aussi leur propre Sanctuaire : refuges fragmentés, ordre d'exception ou réseau instable.
 
+Le fonctionnement détaillé des épilogues, opérations de reconstruction et du Nouveau Cycle+ est documenté dans `docs/EPILOGUES_POSTGAME_NG_PLUS.md`.
+
 ## Conclusion canonique
 
 > **La lumière ne supprime pas l'obscurité ; elle rend possible un monde commun malgré elle. Défendre la lumière signifie aussi refuser de cacher qui paie le prix de nos solutions.**
@@ -132,4 +134,4 @@ Fichiers principaux :
 - `scenes/world/chapter_10/*.tscn`
 - `tests/python/test_chapter_10_runtime.py`
 
-La sauvegarde associée est la version **0.30**.
+Le postgame et le Nouveau Cycle+ étendent la sauvegarde jusqu'à la version **0.31**.
