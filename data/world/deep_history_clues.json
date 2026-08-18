@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "principle": "L'histoire ancienne est révélée par fragments contradictoires ou incomplets; aucun donjon ne livre seul la vérité complète.",
+  "clue_tracks": [
+    {
+      "id":"ashai_track",
+      "subject":"Ashaï de Nhal et Première Rupture",
+      "fragments":[
+        {"region":"ashlands","type":"wall_motif","reveal":"les cercles ne sont pas religieux mais cartographiques"},
+        {"region":"ashlands","type":"resonance_stone","reveal":"la pierre réagit à plusieurs voix simultanées"},
+        {"region":"seven_silences","type":"star_chart","reveal":"certaines constellations observées n'appartiennent pas au ciel actuel"},
+        {"region":"city_under_ash","type":"archive","reveal":"les Ashaï ont provoqué une rupture plutôt que subi une catastrophe naturelle"}
+      ]
+    },
+    {
+      "id":"or_silex_track",
+      "subject":"Or-Silex et militarisation du Voile",
+      "fragments":[
+        {"region":"urban_ruins","type":"weapon","reveal":"certaines lames supposées post-Chute sont millénaires"},
+        {"region":"black_glass_crypts","type":"funerary_device","reveal":"les morts étaient protégés contre l'imitation de leurs souvenirs"},
+        {"region":"inverted_library","type":"military_tablet","reveal":"des souverains voulaient utiliser les anomalies pour le déplacement stratégique"},
+        {"region":"saan_well","type":"testimony","reveal":"les expériences d'Or-Silex ont déclenché la Grande Fermeture"}
+      ]
+    },
+    {
+      "id":"saan_track",
+      "subject":"Veilleurs de Saan, Grande Fermeture et Absents",
+      "fragments":[
+        {"region":"mountains","type":"broken_marker","reveal":"un réseau transrégional surveillait les anomalies"},
+        {"region":"seasonless_garden","type":"refuge_record","reveal":"des civils ont été évacués vers des zones de confinement"},
+        {"region":"saan_well","type":"sealed_archive","reveal":"les Veilleurs ont détruit volontairement leurs propres savoirs"},
+        {"region":"silent_gates","type":"missing_names","reveal":"des groupes entiers ont disparu sans preuve de mort"},
+        {"region":"late_game_veil_zone","type":"echo_contact","reveal":"au moins certains Absents pourraient encore exister"}
+      ]
+    },
+    {
+      "id":"tree_track",
+      "subject":"Arbre du Premier Voile",
+      "fragments":[
+        {"region":"main_sanctuary","type":"foundation_stone","reveal":"les fondations sous l'Arbre sont antérieures à la Concorde"},
+        {"region":"saan_well","type":"anchor_diagram","reveal":"les motifs sous l'Arbre correspondent aux ancrages de Saan"},
+        {"region":"main_sanctuary_late","type":"root_chamber","reveal":"les racines entourent un ancien dispositif de stabilisation"},
+        {"region":"late_game","type":"comparative_archive","reveal":"le Sanctuaire a survécu en partie grâce à cette stabilisation locale"}
+      ]
+    },
+    {
+      "id":"project_threshold_connection",
+      "subject":"Projet Seuil et savoirs anciens",
+      "fragments":[
+        {"region":"foreign_archive","type":"research_note","reveal":"des savants étrangers ont copié des fragments de tablettes anciennes"},
+        {"region":"kor_em_lab","type":"prototype","reveal":"les relais du Projet Seuil reprennent des géométries de Saan sans leur protocole de confinement"},
+        {"region":"late_game","type":"protocol_comparison","reveal":"le Projet Seuil a reproduit des principes de rupture déjà documentés dans l'Antiquité"}
+      ]
+    }
+  ],
+  "reveal_rules": {
+    "no_single_exposition_dump": true,
+    "minimum_fragments_for_major_truth": 3,
+    "allow_false_interpretation_before_correction": true,
+    "journal_updates_after_key_fragments": true
+  }
+}
