@@ -1,0 +1,27 @@
+{
+  "schema_version":1,
+  "vestige_id":"vestige_or_silex_black_glass",
+  "name":"Citadelle sous le Verre Noir",
+  "recommended_level_offset":4,
+  "zones":[
+    {"id":"vs01_gate_of_doctrine","size_m":[92,76],"entry":[0,0,28],"exits":[{"to":"vs02_countermeasure_hall","position":[0,0,-32]}],"fragments":["vs_f01","vs_f02"],"encounters":[]},
+    {"id":"vs02_countermeasure_hall","size_m":[100,82],"entry":[0,0,31],"exits":[{"to":"vs01_gate_of_doctrine","position":[0,0,36]},{"to":"vs03_black_arsenal","position":[0,0,-36]}],"fragments":["vs_f03"],"encounters":[{"id":"vs_miniboss_doctrine_hound","type":"miniboss","name":"Le Limier de Doctrine","position":[10,0,-8]}]},
+    {"id":"vs03_black_arsenal","size_m":[106,86],"entry":[0,0,33],"exits":[{"to":"vs02_countermeasure_hall","position":[0,0,39]},{"to":"vs04_civilian_foundry","position":[0,0,-39]}],"fragments":["vs_f04","vs_f05"],"encounters":[]},
+    {"id":"vs04_civilian_foundry","size_m":[96,78],"entry":[0,0,29],"exits":[{"to":"vs03_black_arsenal","position":[0,0,35]},{"to":"vs05_last_strategy","position":[0,0,-35]}],"fragments":["vs_f06"],"campfire":true,"campfire_position":[-8,0,2],"encounters":[]},
+    {"id":"vs05_last_strategy","size_m":[104,84],"entry":[0,0,31],"exits":[{"to":"vs04_civilian_foundry","position":[0,0,37]},{"to":"vs06_war_table","position":[0,0,-37]}],"fragments":["vs_f07"],"encounters":[]},
+    {"id":"vs06_war_table","size_m":[116,94],"entry":[0,0,36],"exits":[{"to":"vs05_last_strategy","position":[0,0,42]}],"fragments":["vs_f08"],"encounters":[{"id":"vestige_silex_boss_last_strategist","type":"boss","name":"Le Dernier Stratège","position":[0,0,-15]}]}
+  ],
+  "fragments":[
+    {"id":"vs_f01","title":"Doctrine zéro","text":"La meilleure défense est une réalité où l'ennemi ne peut plus exister comme possibilité."},
+    {"id":"vs_f02","title":"Plaque d'un soldat","text":"On nous disait que ces armes empêcheraient une autre guerre."},
+    {"id":"vs_f03","title":"Manuel de contre-mesure","text":"Toute tactique répétée devient une faiblesse lisible."},
+    {"id":"vs_f04","title":"Inventaire des arsenaux","text":"Les armes défensives deviennent progressivement des systèmes de projection."},
+    {"id":"vs_f05","title":"Procès-verbal censuré","text":"Des ingénieurs civils refusent de poursuivre après les premiers disparus."},
+    {"id":"vs_f06","title":"Mur des ouvriers","text":"Les noms des morts de la forge ont été gravés sous les plaques militaires."},
+    {"id":"vs_f07","title":"Dernière stratégie","text":"Le commandement conclut que la paix durable exige l'élimination de toute divergence stratégique."},
+    {"id":"vs_f08","title":"Ordre jamais exécuté","text":"Désactivez le système. Nous avons construit un général qui n'a plus besoin de guerre."}
+  ],
+  "completion_requirements":{"fragments_min":6,"boss":"vestige_silex_boss_last_strategist"},
+  "boss":{"name":"Le Dernier Stratège","signature":"Victoire avant la bataille","mechanics":["lecture_des_habitudes","ordres_conditionnels","table_de_guerre_interactive","fausses_victoires"],"counterplay":"Changer de logique avant chaque ordre, détruire les marqueurs de doctrine puis retourner sa table de guerre contre lui."},
+  "rewards":{"gold":130,"essence":34,"relic":{"id":"relic_black_glass_compass","name":"Compas de Verre Noir","effect":"Une fois par donjon, révèle la prochaine adaptation d'un boss avant qu'elle ne s'active."},"deep_truth":{"id":"deep_truth_or_silex","text":"Or-Silex n'est pas devenu militariste parce qu'il aimait la guerre : il a transformé la peur d'une nouvelle catastrophe en doctrine où toute différence devenait une menace à supprimer."}}
+}
