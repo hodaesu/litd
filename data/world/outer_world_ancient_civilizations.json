@@ -1,0 +1,54 @@
+{
+  "schema_version":1,
+  "rule":"Chaque monde extérieur possède une histoire profonde antérieure à ses régimes modernes. Aucune civilisation ancienne n'est l'ancêtre moral obligatoire du peuple actuel : continuités, ruptures, réemplois de ruines et réinterprétations doivent rester distincts.",
+  "civilizations":[
+    {
+      "id":"vaor_khal",
+      "modern_world":"varkhane",
+      "name":"Cités de Vaor-Khal",
+      "period":"environ 2 700 à 2 100 ans avant la Chute",
+      "identity":"Réseau de cités de plateaux reliées par des routes de basalte, des bornes de répartition et des assemblées de logisticiens capables de coordonner famines, migrations et travaux sans souverain unique.",
+      "veil_relation":"Les bornes semblaient favoriser certains itinéraires lorsque plusieurs communautés acceptaient la même priorité de passage.",
+      "collapse":"Un Directoire de Crise centralisa progressivement le réseau. Les bornes finirent par traiter les ordres centraux comme plus réels que les besoins locaux, rendant certaines routes presque impraticables aux communautés non reconnues.",
+      "legacy":"Varkhane a réemployé des routes et des symboles de Vaor-Khal sans comprendre leur fonction d'origine. La dynastie impériale n'est pas une continuation juridique de Vaor-Khal.",
+      "vestige":"vestige_vaor_khal_thousand_orders",
+      "deep_question":"Quand un système conçu pour coordonner l'entraide commence-t-il à fabriquer l'obéissance ?"
+    },
+    {
+      "id":"lyr_mar",
+      "modern_world":"namar",
+      "name":"Navigateurs de Lyr-Mar",
+      "period":"environ 2 400 à 1 800 ans avant la Chute",
+      "identity":"Confédération de cités maritimes, phares, chantiers et communautés insulaires qui cartographiaient non seulement les courants mais les routes possibles d'une traversée.",
+      "veil_relation":"Leurs instruments de marée comparaient plusieurs trajectoires probables et semblaient stabiliser celle qu'un équipage choisissait collectivement.",
+      "collapse":"Les grandes écoles de navigation voulurent éliminer les routes dangereuses des cartes. À force de réduire les possibilités, certaines flottes furent enfermées dans des trajets parfaits qui revenaient toujours aux mêmes ports ou à des mers qui n'existaient plus.",
+      "legacy":"Des fondations de phares et des chambres de marée se trouvent sous plusieurs ports namari. Les Maisons marchandes ont réutilisé certaines pratiques de cartographie sans connaître leur origine.",
+      "vestige":"vestige_lyr_mar_reversed_tides",
+      "deep_question":"Prévoir toutes les routes protège-t-il les voyageurs, ou finit-il par décider à leur place où ils peuvent aller ?"
+    },
+    {
+      "id":"sahm_ir",
+      "modern_world":"azravel",
+      "name":"Cités de Sahm-Ir",
+      "period":"environ 3 100 à 2 500 ans avant la Chute",
+      "identity":"Cités de montagne organisées autour de maisons d'interprétation où plusieurs écoles philosophiques, rituelles et poétiques traduisaient les mêmes symboles de façons concurrentes.",
+      "veil_relation":"Certains rites collectifs stabilisaient des lieux menacés lorsque leurs participants partageaient un symbole sans être obligés de lui donner exactement le même sens.",
+      "collapse":"Une école affirma qu'une interprétation unique rendrait les ancrages plus sûrs. Le langage rituel se rigidifia jusqu'à ce que la contradiction soit traitée par les dispositifs eux-mêmes comme une rupture à supprimer.",
+      "legacy":"Plusieurs sanctuaires d'Azravel ont été construits sur des fondations de Sahm-Ir. Les autorités modernes ont parfois revendiqué cette antiquité, mais les textes retrouvés montrent une tradition beaucoup plus pluraliste que leur doctrine officielle.",
+      "vestige":"vestige_sahm_ir_sealed_voices",
+      "deep_question":"Une croyance commune peut-elle protéger sans exiger que chacun donne le même sens au monde ?"
+    },
+    {
+      "id":"ydris",
+      "modern_world":"kor_em",
+      "name":"Ateliers d'Ydris",
+      "period":"environ 2 000 à 1 500 ans avant la Chute",
+      "identity":"Réseau d'observatoires, ateliers hydrauliques et écoles de calcul qui construisaient des machines destinées à comparer causes, probabilités et décisions humaines.",
+      "veil_relation":"Leurs calculateurs obtenaient parfois de meilleurs résultats lorsqu'un observateur annonçait publiquement ce qu'il croyait devoir se produire, comme si mesure et attente participaient au phénomène.",
+      "collapse":"Les ateliers cherchèrent un modèle capable de prédire les accidents liés au Voile. Plus leurs prédictions devinrent précises, plus les événements commencèrent à se conformer aux scénarios publiés, rendant impossible de savoir si la machine prévoyait ou produisait certaines issues.",
+      "legacy":"Kor-Em conserve des engrenages, tables de calcul et méthodes d'Ydris sans toujours reconnaître leur provenance. Plusieurs principes du Projet Seuil dérivent indirectement de copies incomplètes de ces travaux.",
+      "vestige":"vestige_ydris_impossible_causes",
+      "deep_question":"Que reste-t-il d'une prédiction lorsqu'être certain qu'elle est vraie contribue à la rendre vraie ?"
+    }
+  ]
+}
