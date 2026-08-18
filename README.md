@@ -11,6 +11,7 @@ Fondation professionnelle du prototype Godot de **Light in the Dark**.
 - [Campagne principale — 10 chapitres, boss, révélations et fins](docs/CAMPAGNE_PRINCIPALE.md)
 - [Chapitre I — verticale jouable des Terres de Cendre](docs/CHAPITRE_01_VERTICAL_SLICE.md)
 - [Chapitre II — enquête jouable et Route des Bornes](docs/CHAPITRE_02_VERTICAL_SLICE.md)
+- [Chapitre III — Projet Seuil, responsabilités et Écho](docs/CHAPITRE_03_PROJET_SEUIL.md)
 - [Histoire fondatrice — Dernière Guerre et Trois Éveils](docs/HISTOIRE_TROIS_EVEILS.md)
 - [La Concorde — droit et justice](docs/CONCORDE_DROIT_JUSTICE.md)
 - [La Concorde avant la Chute — courants politiques](docs/CONCORDE_COURANTS_PRE_CHUTE.md)
