@@ -33,7 +33,14 @@ Fondation professionnelle du prototype Godot de **Light in the Dark**.
 python -m pip install -r requirements-dev.txt
 python -m pytest
 python -m tools.qa.audit
+python -m tools.qa.cross_system_audit
 ```
+
+`tools.qa.audit` vérifie les données de base, les références `res://`, les assets, les conflits Git et les workflows YAML.
+
+`tools.qa.cross_system_audit` vérifie les relations entre systèmes : campagne I→X, scènes et routes, contrats des boss, sept Vestiges Profonds, sauvegarde, autoloads, postgame et règles du Nouveau Cycle+.
+
+Les rapports sont écrits dans `reports/qa-report.json`, `reports/qa-report.html` et `reports/cross-system-report.json`.
 
 Ou sous macOS/Linux :
 
@@ -41,11 +48,11 @@ Ou sous macOS/Linux :
 bash ./tools/build/run_ci.sh
 ```
 
-Le script exécute également le smoke test Godot si `godot` est disponible localement. Le rapport est écrit dans `reports/qa-report.html`.
+Le script exécute également le smoke test Godot si `godot` est disponible localement.
 
 ## GitHub Actions
 
-- **CI** : tests Python, audit et smoke test Godot.
+- **CI** : tests Python, audit de base, audit transversal et smoke test Godot headless.
 - **Builds** : exports Web, Windows et Linux.
 - **Nightly QA** : régression quotidienne.
 - **Release** : création d’une release lors d’un tag `v*`.
@@ -56,4 +63,4 @@ Décompressez l’archive, envoyez tout son contenu à la racine d’un dépôt 
 
 ## Limites du Sprint 1
 
-La CI est prête, mais sa première exécution réelle dépend de l’envoi sur GitHub. Les exports Android/iOS nécessitent des SDK et signatures et sont prévus dans un sprint ultérieur.
+La CI est prête à exécuter les validations dans GitHub. Les exports Android/iOS nécessitent toujours leurs SDK et signatures et sont prévus dans un sprint ultérieur.
