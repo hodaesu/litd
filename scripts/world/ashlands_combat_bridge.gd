@@ -52,6 +52,8 @@ func _prepare_placeholder_enemies() -> void:
                 e["name"] = "La Sentinelle du Seuil"; e["hp"] = 96; e["max_hp"] = 96; e["damage"] = [7,12]; e["fear"] = 7; e["chapter_miniboss_id"] = encounter_id; e["signature"] = "Protocole de Purge"
             elif encounter_id == "c04_faceless_measure":
                 e["name"] = "Le Mesureur Sans Visage"; e["hp"] = 108; e["max_hp"] = 108; e["damage"] = [7,13]; e["fear"] = 8; e["chapter_miniboss_id"] = encounter_id; e["signature"] = "Accord Impossible"
+            elif encounter_id == "va_miniboss_dissonant_custodian":
+                e["name"] = "Le Custode Dissonant"; e["hp"] = 132; e["max_hp"] = 132; e["damage"] = [9,14]; e["fear"] = 9; e["chapter_miniboss_id"] = encounter_id; e["signature"] = "Accord Refusé"
         if encounter_type == "boss":
             e["recruitable"] = false; e["is_boss"] = true
             if encounter_id == "c01_boss_ash_witness":
@@ -62,6 +64,8 @@ func _prepare_placeholder_enemies() -> void:
                 e["name"] = "L'Écho du Seuil"; e["hp"] = 148; e["max_hp"] = 148; e["damage"] = [8,13]; e["fear"] = 8; e["chapter_boss_id"] = encounter_id; e["signature"] = "Zéro Seconde"
             elif encounter_id == "c04_boss_unfinished_chorus":
                 e["name"] = "Le Chœur Inachevé"; e["hp"] = 166; e["max_hp"] = 166; e["damage"] = [8,13]; e["fear"] = 8; e["chapter_boss_id"] = encounter_id; e["signature"] = "Nous étions plusieurs"
+            elif encounter_id == "vestige_ashai_boss_seventh_voice":
+                e["name"] = "La Septième Voix"; e["hp"] = 230; e["max_hp"] = 230; e["damage"] = [10,16]; e["fear"] = 11; e["chapter_boss_id"] = encounter_id; e["signature"] = "Le Monde que Nous Accordons"; e["deep_vestige_boss"] = true
         GameState.battle_enemies.append(e)
 
 func resolve_victory() -> Dictionary:
@@ -74,6 +78,7 @@ func resolve_defeat() -> void:
     var finished_id := encounter_id; ashlands_combat_finished.emit(finished_id,false,{}); active = false; _resolving = false; encounter_id = ""; encounter_type = ""; miniboss_data = {}; AshlandsSceneRouter.return_to_hub("defeat")
 
 func _roll_loot() -> Dictionary:
+    if encounter_id == "vestige_ashai_boss_seventh_voice": return {"gold":70,"essence":16,"equipment_rarity":"rare"}
     if encounter_type != "miniboss": return {"gold":18,"essence":2,"equipment_rarity":"common"}
     var tier := str(miniboss_data.get("loot_tier","major")); var table := AshlandsMinibossDirector.get_loot_table(tier)
     return {"gold":45,"essence":8,"tier":tier,"guaranteed":table.get("guaranteed",[]),"possible":table.get("possible",[]),"rolls":int(table.get("rolls",0)),"equipment_rarity":"rare"}
