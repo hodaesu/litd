@@ -1,7 +1,7 @@
 extends Node
 
 const SAVE_PATH := "user://light_in_the_dark_save.json"
-const SAVE_VERSION := "0.27"
+const SAVE_VERSION := "0.28"
 
 func save_game() -> bool:
     var payload := {
@@ -22,6 +22,7 @@ func save_game() -> bool:
         "chapter_05": Chapter05Runtime.serialize(),
         "chapter_06": Chapter06Runtime.serialize(),
         "chapter_07": Chapter07Runtime.serialize(),
+        "chapter_08": Chapter08Runtime.serialize(),
         "deep_vestiges": DeepVestigeRuntime.serialize(),
         "expedition_room": GameState.expedition_room,
         "ashlands": AshlandsRuntime.serialize(),
@@ -40,7 +41,7 @@ func load_game() -> bool:
     GameState.gold = int(payload.get("gold",120)); GameState.essence = int(payload.get("essence",18)); GameState.light = int(payload.get("light",75)); GameState.supplies = int(payload.get("supplies",8)); GameState.party = payload.get("party",DataLoader.heroes.duplicate(true))
     for hero_value in GameState.party: HeroSkillManager.prepare_hero(hero_value)
     EquipmentManager.deserialize(payload.get("equipment",{})); CreatureManager.deserialize(payload.get("creatures",{})); GameState.expedition_room = int(payload.get("expedition_room",0)); PoliticalState.deserialize(payload.get("politics",{})); CampaignState.deserialize(payload.get("campaign",{})); AshlandsRuntime.deserialize(payload.get("ashlands",{}))
-    Chapter01Runtime.deserialize(payload.get("chapter_01",{})); Chapter02Runtime.deserialize(payload.get("chapter_02",{})); Chapter03Runtime.deserialize(payload.get("chapter_03",{})); Chapter04Runtime.deserialize(payload.get("chapter_04",{})); Chapter05Runtime.deserialize(payload.get("chapter_05",{})); Chapter06Runtime.deserialize(payload.get("chapter_06",{})); Chapter07Runtime.deserialize(payload.get("chapter_07",{})); DeepVestigeRuntime.deserialize(payload.get("deep_vestiges",{}))
+    Chapter01Runtime.deserialize(payload.get("chapter_01",{})); Chapter02Runtime.deserialize(payload.get("chapter_02",{})); Chapter03Runtime.deserialize(payload.get("chapter_03",{})); Chapter04Runtime.deserialize(payload.get("chapter_04",{})); Chapter05Runtime.deserialize(payload.get("chapter_05",{})); Chapter06Runtime.deserialize(payload.get("chapter_06",{})); Chapter07Runtime.deserialize(payload.get("chapter_07",{})); Chapter08Runtime.deserialize(payload.get("chapter_08",{})); DeepVestigeRuntime.deserialize(payload.get("deep_vestiges",{}))
     ExpeditionManager.deserialize(payload.get("expedition",{})); AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses",{})); AshlandsCombatBridge.deserialize(payload.get("ashlands_combat",{}))
-    Chapter01Runtime.refresh_progress(); Chapter02Runtime.refresh_progress(); Chapter03Runtime.refresh_progress(); Chapter04Runtime.refresh_progress(); Chapter05Runtime.refresh_progress(); Chapter06Runtime.refresh_progress(); Chapter07Runtime.refresh_progress(); DeepVestigeRuntime.refresh_unlocks()
+    Chapter01Runtime.refresh_progress(); Chapter02Runtime.refresh_progress(); Chapter03Runtime.refresh_progress(); Chapter04Runtime.refresh_progress(); Chapter05Runtime.refresh_progress(); Chapter06Runtime.refresh_progress(); Chapter07Runtime.refresh_progress(); Chapter08Runtime.refresh_progress(); DeepVestigeRuntime.refresh_unlocks()
     GameState.add_log("Sauvegarde chargée."); return true
