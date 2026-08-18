@@ -16,8 +16,8 @@ def test_political_runtime_and_save_contracts():
     assert "func refresh_unlocks()" in runtime
     assert "func serialize()" in runtime
     assert "func deserialize(payload: Dictionary)" in runtime
-    assert 'SAVE_VERSION := "0.22"' in save_manager
+    assert 'SAVE_VERSION := "0.23"' in save_manager
     assert '"politics": PoliticalState.serialize()' in save_manager
-    expedition_load = save_manager.index('GameState.expedition_room = int(payload.get("expedition_room", 0))')
-    politics_load = save_manager.index('PoliticalState.deserialize(payload.get("politics", {}))')
+    expedition_load = save_manager.index('GameState.expedition_room = int(payload.get("expedition_room",0))')
+    politics_load = save_manager.index('PoliticalState.deserialize(payload.get("politics",{}))')
     assert expedition_load < politics_load
