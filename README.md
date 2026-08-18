@@ -35,6 +35,7 @@ python -m pytest
 python -m tools.qa.audit
 python -m tools.qa.cross_system_audit
 python -m tools.qa.balance_audit
+python -m tools.qa.combat_economy_sim
 ```
 
 `tools.qa.audit` vérifie les données de base, les références `res://`, les assets, les conflits Git et les workflows YAML.
@@ -43,7 +44,9 @@ python -m tools.qa.balance_audit
 
 `tools.qa.balance_audit` vérifie la progression 1→50, le coût et les prérequis des arbres, les ascensions des compagnons, les six fins, les soft-locks économiques du postgame, le scaling NG+ et les 34 recrutements de boss/mini-boss. Les incohérences certaines échouent en CI ; les cas qui exigent encore un playtest ou une analyse de chemins exclusifs sont signalés comme avertissements.
 
-Les rapports sont écrits dans `reports/qa-report.json`, `reports/qa-report.html`, `reports/cross-system-report.json` et `reports/balance-report.json`.
+`tools.qa.combat_economy_sim` simule les checkpoints de niveaux 1/10/20/30/40/50, les dégâts théoriques du groupe et des compagnons, plus de trente boss/mini-boss, les cycles NG+ 0→5, la vitesse d'XP et l'économie Or/Essence. Il signale également les risques de prototype tels qu'un tour de combat incomplet ou un bonus de compétence produit mais non consommé par la formule de combat.
+
+Les rapports sont écrits dans `reports/qa-report.json`, `reports/qa-report.html`, `reports/cross-system-report.json`, `reports/balance-report.json` et `reports/combat-economy-report.json`.
 
 Ou sous macOS/Linux :
 
@@ -55,9 +58,9 @@ Le script exécute également le smoke test Godot si `godot` est disponible loca
 
 ## GitHub Actions
 
-- **CI** : tests Python, audit de base, audit transversal, audit d'équilibrage et smoke test Godot headless.
+- **CI** : tests Python, audits de structure/équilibrage, simulation combat-économie et smoke test Godot headless.
 - **Builds** : exports Web, Windows et Linux.
-- **Nightly QA** : régression quotidienne avec les trois audits et smoke test Godot.
+- **Nightly QA** : régression quotidienne avec les audits, la simulation et le smoke test Godot.
 - **Release** : création d’une release lors d’un tag `v*`.
 
 ## Premier envoi sur GitHub
