@@ -13,4 +13,4 @@ def test_chapter_two_save_version_and_runtime_contracts():
     assert 'func independent_source_count()' in runtime
     assert 'func choose_final_outcome(choice_id: String)' in runtime
     assert 'func start_chapter_02()' in router
-    assert 'PROGRESSION DU CHAPITRE II' in journal
+    assert '_stage_header(parent, "CHAPITRE II", Chapter02Runtime)' in journal
