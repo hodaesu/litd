@@ -34,7 +34,7 @@ Chapter02BossRuntime="*res://scripts/world/chapter_02_boss_runtime.gd"
 Chapter03BossRuntime="*res://scripts/world/chapter_03_boss_runtime.gd"
 Chapter04BossRuntime="*res://scripts/world/chapter_04_boss_runtime.gd"
 Chapter05BossRuntime="*res://scripts/world/chapter_05_boss_runtime.gd"
-DeepVestigeBossRuntime="*res://scripts/world/deep_vestige_boss_runtime.gd"
+DeepVestigeBossRuntime="*res://scripts/world/deep_vestige_boss_runtime_v2.gd"
 AshlandsPlaytestSession="*res://scripts/world/ashlands_playtest_session.gd"
 
 [display]
