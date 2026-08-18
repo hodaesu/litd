@@ -5,6 +5,7 @@ Fondation professionnelle du prototype Godot de **Light in the Dark**.
 ## Documentation
 
 - [Bible du lore — Trois Éveils](docs/LORE_BIBLE.md)
+- [Histoire fondatrice — Dernière Guerre et Trois Éveils](docs/HISTOIRE_TROIS_EVEILS.md)
 
 ## Vérifier le projet
 
