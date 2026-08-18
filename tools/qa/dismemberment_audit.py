@@ -12,6 +12,7 @@ def run(root: Path = ROOT) -> dict:
     runtime = (root / "scripts/core/dismemberment_runtime.gd").read_text(encoding="utf-8")
     v4 = (root / "scripts/ui/main_v4.gd").read_text(encoding="utf-8")
     v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
+    v6 = (root / "scripts/ui/main_v6.gd").read_text(encoding="utf-8")
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
     project = (root / "project.godot").read_text(encoding="utf-8")
     checks: list[dict] = []
@@ -41,7 +42,8 @@ def run(root: Path = ROOT) -> dict:
     check("Démembrement : modes de présentation prévus", set(visual.get("presentation_modes", [])) == {"full", "reduced", "off"})
 
     check("Runtime autoloadé", 'DismembermentRuntime="*res://scripts/core/dismemberment_runtime.gd"' in project)
-    check("Main utilise combat v5", 'res://scripts/ui/main_v5.gd' in scene)
+    check("Main utilise combat v6", 'res://scripts/ui/main_v6.gd' in scene)
+    check("Combat v6 conserve v5", 'extends "res://scripts/ui/main_v5.gd"' in v6)
     check("Combat v5 conserve v4 démembrement", 'extends "res://scripts/ui/main_v4.gd"' in v5)
     check("Combat v4 hérite de v3", 'extends "res://scripts/ui/main_v3.gd"' in v4)
     check("Coups enregistrent le trauma", 'DismembermentRuntime.register_hit' in v4)
@@ -52,6 +54,7 @@ def run(root: Path = ROOT) -> dict:
     check("Perte de soutien peut étourdir", 'enemy["stunned"] = true' in runtime)
     check("Boss exposent un hook mécanique", 'boss_dismemberment_changed' in runtime)
     check("Combat v5 exploite le membre perdu pour les rangs", '_apply_limb_displacement' in v5)
+    check("Combat v6 exploite le membre perdu par famille", '_apply_family_limb_reaction' in v6 and 'required_part' in v6)
 
     return {
         "summary": {"checks": len(checks), "errors": sum(1 for item in checks if not item["ok"])},
