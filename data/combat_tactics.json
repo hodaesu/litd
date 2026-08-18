@@ -43,15 +43,15 @@
     "aurelien": {
       "preferred_ranks": [2, 3, 4],
       "strike_from": [2, 3, 4],
-      "strike_targets": [2, 3, 4],
+      "strike_targets": [1, 2, 3, 4],
       "heavy_from": [3, 4],
-      "heavy_targets": [3, 4],
+      "heavy_targets": [2, 3, 4],
       "identity": "Occultiste de seconde ligne",
       "technique": {
         "id": "aurelien_veil_mark",
         "name": "MARQUE DU VOILE",
         "from": [3, 4],
-        "targets": [2, 3, 4],
+        "targets": [1, 2, 3, 4],
         "kind": "enemy",
         "description": "Dégâts légers et cible marquée : les deux prochaines attaques alliées gagnent 10 %."
       }
@@ -59,7 +59,7 @@
     "lysandra": {
       "preferred_ranks": [3, 4],
       "strike_from": [3, 4],
-      "strike_targets": [2, 3, 4],
+      "strike_targets": [1, 2, 3, 4],
       "heavy_from": [4],
       "heavy_targets": [3, 4],
       "identity": "Vestale d'arrière-garde",
