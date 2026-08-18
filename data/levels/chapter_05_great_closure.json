@@ -1,0 +1,28 @@
+{
+  "schema_version":1,
+  "chapter_id":"chapter_05_great_closure",
+  "title":"Or-Silex et la Grande Fermeture",
+  "start_zone":"c05_black_glass_crypts",
+  "moral_question":"Une décision peut-elle être juste lorsqu'elle sauve le plus grand nombre en condamnant volontairement ceux qu'elle ne peut pas protéger ?",
+  "stages":[
+    {"id":"c05_stage_01_crypts","name":"Sous le verre noir","zone":"c05_black_glass_crypts","type":"exploration","objective":"Entrer dans les cryptes d'Or-Silex et identifier les premières armes de réalité."},
+    {"id":"c05_stage_02_forge","name":"Une arme contre le réel","zone":"c05_war_forge","type":"investigation","objective":"Comprendre comment les ingénieurs d'Or-Silex ont transformé les recherches sur le Voile en doctrine militaire."},
+    {"id":"c05_stage_03_bastion","name":"La guerre qui continue","zone":"c05_silex_bastion","type":"miniboss","objective":"Neutraliser le Stratège de Verre, commandement secondaire encore actif."},
+    {"id":"c05_stage_04_saan","name":"Ceux qui fermèrent les portes","zone":"c05_saan_well","type":"investigation","objective":"Réactiver un premier nœud de Saan et distinguer technologie de confinement et arme d'Or-Silex."},
+    {"id":"c05_stage_05_camp","name":"Ce qu'on accepte de perdre","zone":"c05_last_watch_camp","type":"campfire","objective":"Confronter les survivants à la logique morale de la Grande Fermeture."},
+    {"id":"c05_stage_06_closure","name":"Le prix de la fermeture","zone":"c05_closure_chamber","type":"inquiry","objective":"Croiser les ordres de fermeture, témoignages et cartes de populations isolées pour comprendre le sacrifice."},
+    {"id":"c05_stage_07_general","name":"Le Général de Silex","zone":"c05_command_vault","type":"boss","objective":"Briser la doctrine adaptative du Général et décider du sort de son arsenal."},
+    {"id":"c05_stage_08_return","name":"Une victoire qui n'en fut pas une","zone":"sanctuary","type":"return","objective":"Ramener la vérité sur Or-Silex et la Grande Fermeture au Sanctuaire."}
+  ],
+  "investigation":{"required_fragments":8,"independent_source_families":4,"civilian_sources_min":2,"saan_sources_min":2,"required_hypotheses":["weaponized_reality","saan_network","closure_cost"]},
+  "miniboss":{"id":"c05_glass_strategist","name":"Le Stratège de Verre","signature":"Doctrine de Contre-Mesure","core_puzzle":"Il mémorise le type d'action le plus utilisé et renforce la défense correspondante."},
+  "boss":{"id":"c05_boss_silex_general","name":"Le Général de Silex","phases":["Doctrine figée","Guerre totale","Ordre sans ennemi"],"signature":"Ordre qui ne finit jamais","core_puzzle":"Le Général adapte ses défenses aux tactiques répétées, transmet des ordres à des relais de l'arène et ne devient réellement vulnérable qu'en brisant sa chaîne de commandement."},
+  "boss_choices":[
+    {"id":"destroy","label":"Détruire l'arsenal","effects":{"veil_knowledge":3,"ancient_preservation":-5,"tension":-2},"cost":"Des preuves et technologies disparaissent avec lui."},
+    {"id":"disarm","label":"Désarmer et préserver","effects":{"veil_knowledge":6,"ancient_preservation":5,"justice_integrity":2},"cost":"Le Sanctuaire devra surveiller durablement les dispositifs conservés."},
+    {"id":"use_once","label":"Conserver une arme pour une rupture active","effects":{"veil_knowledge":8,"ancient_preservation":2,"tension":5},"cost":"Le Sanctuaire accepte de manier temporairement une technologie conçue pour la guerre du réel."}
+  ],
+  "deep_vestige_unlocks":["vestige_or_silex_black_glass","vestige_saan_last_seal"],
+  "end_revelation":"La Grande Fermeture a empêché une catastrophe continentale, mais certaines populations furent volontairement isolées et pourraient ne pas avoir été détruites.",
+  "unlock":"chapter_06_absent"
+}
