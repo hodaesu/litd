@@ -25,6 +25,10 @@ func _ready() -> void:
     AshlandsRuntime.encounter_cleared.connect(_on_encounter_cleared)
     AshlandsRuntime.campfire_used.connect(_on_campfire_used)
 
+func _process(_delta: float) -> void:
+    if CampaignState.current_chapter_id == "chapter_02_before_fall" and final_choice != "" and not bool(completed_stages.get("c02_stage_08_return", false)) and GameState.current_screen == "sanctuary":
+        refresh_progress()
+
 func _load_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
         return {}
@@ -116,8 +120,12 @@ func _on_zone_discovered(_zone_id: String) -> void:
 
 func _on_encounter_cleared(encounter_id: String) -> void:
     if encounter_id == "c02_marker_warden" and final_choice == "":
-        final_choice_required.emit()
+        call_deferred("_emit_final_choice_required")
     refresh_progress()
+
+func _emit_final_choice_required() -> void:
+    await get_tree().process_frame
+    final_choice_required.emit()
 
 func _on_campfire_used(_zone_id: String) -> void:
     refresh_progress()
