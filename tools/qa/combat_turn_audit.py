@@ -18,18 +18,20 @@ def run(root: Path = ROOT) -> dict:
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
     base = (root / "scripts/ui/main.gd").read_text(encoding="utf-8")
     v2 = (root / "scripts/ui/main_v2.gd").read_text(encoding="utf-8")
+    v3 = (root / "scripts/ui/main_v3.gd").read_text(encoding="utf-8")
     hero_skills = (root / "scripts/core/hero_skill_manager.gd").read_text(encoding="utf-8")
-    effective_combat = base + "\n" + v2
+    effective_combat = base + "\n" + v2 + "\n" + v3
 
     checks: list[dict] = []
     def check(name: str, ok: bool, detail: str = "") -> None:
         checks.append({"name": name, "ok": bool(ok), "detail": detail})
 
-    check("Main utilise combat v2", 'res://scripts/ui/main_v2.gd' in scene)
+    check("Main utilise combat tactique v3", 'res://scripts/ui/main_v3.gd' in scene)
+    check("Combat v3 conserve le moteur v2", 'extends "res://scripts/ui/main_v2.gd"' in v3)
     check("Combat v2 hérite de l'UI stable", 'extends "res://scripts/ui/main.gd"' in v2)
     check("Round suit les héros ayant agi", "acted_hero_ids" in v2 and "_mark_hero_acted" in v2)
     check("Héros actif choisi parmi les non-joués", "func _active_round_hero()" in v2 and "acted_hero_ids.get" in v2)
-    check("Combat v2 n'utilise pas alive_heroes()[0]", "alive_heroes()[0]" not in v2)
+    check("Combat effectif n'utilise pas alive_heroes()[0]", "alive_heroes()[0]" not in v2 and "alive_heroes()[0]" not in v3)
     check("Compagnon agit en fin de round", "func _finish_party_round()" in v2 and v2.count("CreatureManager.companion_turn") == 1)
     check("Ennemis agissent après le groupe", "_finish_party_round()" in v2 and "enemy_turn()" in v2)
     check("Nouveau round après le tour ennemi", "_reset_round_state()" in v2)
@@ -43,8 +45,8 @@ def run(root: Path = ROOT) -> dict:
         check(f"Stat auparavant inerte branchée : {stat}", stat in consumed)
 
     check("PV max synchronisés sans empilement infini", "skill_max_hp_applied" in v2)
-    check("Peur extrême peut alimenter la Folie", "base_madness_gain" in v2 and "madness_resistance" in v2)
-    check("Soin cible un allié blessé", "_hero_heal_action" in v2 and "left_ratio" in v2)
+    check("Peur extrême peut alimenter la Folie", "base_madness_gain" in v2 and "madness_resistance" in effective_combat)
+    check("Soin cible un allié blessé", "_hero_heal_action" in effective_combat and "left_ratio" in effective_combat)
 
     payload = {
         "summary": {
