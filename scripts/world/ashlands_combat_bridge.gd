@@ -73,6 +73,14 @@ func _prepare_placeholder_enemies() -> void:
                 e["damage"] = [6, 11]
                 e["fear"] = 6
                 e["chapter_miniboss_id"] = "c02_broken_curator"
+            elif encounter_id == "c03_threshold_sentinel":
+                e["name"] = "La Sentinelle du Seuil"
+                e["hp"] = 96
+                e["max_hp"] = 96
+                e["damage"] = [7, 12]
+                e["fear"] = 7
+                e["chapter_miniboss_id"] = "c03_threshold_sentinel"
+                e["signature"] = "Protocole de Purge"
         if encounter_type == "boss":
             e["recruitable"] = false
             e["is_boss"] = true
@@ -92,6 +100,14 @@ func _prepare_placeholder_enemies() -> void:
                 e["fear"] = 6
                 e["chapter_boss_id"] = "c02_marker_warden"
                 e["signature"] = "La Carte qui se Souvient"
+            elif encounter_id == "c03_boss_threshold_echo":
+                e["name"] = "L'Écho du Seuil"
+                e["hp"] = 148
+                e["max_hp"] = 148
+                e["damage"] = [8, 13]
+                e["fear"] = 8
+                e["chapter_boss_id"] = "c03_boss_threshold_echo"
+                e["signature"] = "Zéro Seconde"
         GameState.battle_enemies.append(e)
 
 func resolve_victory() -> Dictionary:
@@ -122,15 +138,7 @@ func _roll_loot() -> Dictionary:
         return {"gold": 18, "essence": 2, "equipment_rarity": "common"}
     var tier := str(miniboss_data.get("loot_tier", "major"))
     var table := AshlandsMinibossDirector.get_loot_table(tier)
-    return {
-        "gold": 45,
-        "essence": 8,
-        "tier": tier,
-        "guaranteed": table.get("guaranteed", []),
-        "possible": table.get("possible", []),
-        "rolls": int(table.get("rolls", 0)),
-        "equipment_rarity": "rare"
-    }
+    return {"gold":45,"essence":8,"tier":tier,"guaranteed":table.get("guaranteed",[]),"possible":table.get("possible",[]),"rolls":int(table.get("rolls",0)),"equipment_rarity":"rare"}
 
 func _apply_loot(loot: Dictionary) -> void:
     GameState.gold += int(loot.get("gold", 0))
@@ -177,16 +185,7 @@ func _restore_exploration_position(target_position: Vector3) -> void:
         (parties[0] as Node3D).global_position = target_position
 
 func serialize() -> Dictionary:
-    return {
-        "active": active,
-        "encounter_id": encounter_id,
-        "encounter_type": encounter_type,
-        "return_zone_id": return_zone_id,
-        "return_position": [return_position.x, return_position.y, return_position.z],
-        "has_return_position": has_return_position,
-        "miniboss_data": miniboss_data,
-        "pending_loot": pending_loot
-    }
+    return {"active":active,"encounter_id":encounter_id,"encounter_type":encounter_type,"return_zone_id":return_zone_id,"return_position":[return_position.x,return_position.y,return_position.z],"has_return_position":has_return_position,"miniboss_data":miniboss_data,"pending_loot":pending_loot}
 
 func deserialize(data: Dictionary) -> void:
     active = bool(data.get("active", false))
