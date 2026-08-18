@@ -3,26 +3,33 @@ extends Node
 signal politics_changed
 
 const DATA_PATH := "res://data/levels/ashlands_politics.json"
+const SOCIAL_PATH := "res://data/levels/ashlands_social_politics.json"
 
 var data: Dictionary = {}
+var social_data: Dictionary = {}
 var reputation := 0
 var trust := 50
 var tension := 20
 var three_awakenings := {"body": 50, "spirit": 50, "city": 50}
 var quest_states: Dictionary = {}
 var flags: Dictionary = {}
+var seen_events: Array[String] = []
+var world_memory_tags: Array[String] = []
 
 func _ready() -> void:
     _load_data()
     reset_new_game()
 
-func _load_data() -> void:
-    if not FileAccess.file_exists(DATA_PATH):
-        data = {}
-        return
-    var file := FileAccess.open(DATA_PATH, FileAccess.READ)
+func _load_json(path: String) -> Dictionary:
+    if not FileAccess.file_exists(path):
+        return {}
+    var file := FileAccess.open(path, FileAccess.READ)
     var parsed = JSON.parse_string(file.get_as_text())
-    data = parsed if typeof(parsed) == TYPE_DICTIONARY else {}
+    return parsed if typeof(parsed) == TYPE_DICTIONARY else {}
+
+func _load_data() -> void:
+    data = _load_json(DATA_PATH)
+    social_data = _load_json(SOCIAL_PATH)
 
 func reset_new_game() -> void:
     var initial: Dictionary = data.get("sanctuary", {}).get("initial_state", {})
@@ -32,6 +39,8 @@ func reset_new_game() -> void:
     three_awakenings = initial.get("three_awakenings", {"body": 50, "spirit": 50, "city": 50}).duplicate(true)
     quest_states = {}
     flags = {}
+    seen_events = []
+    world_memory_tags = []
     for quest in data.get("quests", []):
         quest_states[String(quest.get("id", ""))] = {"status": "locked", "choice": ""}
     politics_changed.emit()
@@ -62,6 +71,7 @@ func is_flag_set(flag_name: String) -> bool:
 
 func set_flag(flag_name: String, value := true) -> void:
     flags[flag_name] = value
+    _rebuild_world_memory()
     refresh_unlocks()
     politics_changed.emit()
 
@@ -138,6 +148,7 @@ func complete_quest(quest_id: String, choice_id: String) -> bool:
     state["status"] = "completed"
     state["choice"] = choice_id
     quest_states[quest_id] = state
+    _rebuild_world_memory()
     GameState.add_log("Décision de Concorde : %s" % String(choice.get("label", choice_id)))
     refresh_unlocks()
     politics_changed.emit()
@@ -200,6 +211,152 @@ func get_npc_dialogue(npc_id: String, context := "auto") -> String:
         return String(dialogues[resolved_context])
     return String(dialogues.get("default", ""))
 
+func _conversation_satisfied(entry: Dictionary) -> bool:
+    if int(GameState.expedition_room) < int(entry.get("after_expedition", 0)):
+        return false
+    if bool(entry.get("requires_creature", false)) and CreatureManager.captured_creatures.is_empty():
+        return false
+    if GameState.supplies > int(entry.get("supplies_max", 9999)):
+        return false
+    if tension < int(entry.get("tension_min", 0)):
+        return false
+    var required_flag := String(entry.get("requires_flag", ""))
+    if required_flag != "" and not is_flag_set(required_flag):
+        return false
+    var any_flags: Array = entry.get("requires_any_flag", [])
+    if not any_flags.is_empty():
+        var found := false
+        for flag_name in any_flags:
+            if is_flag_set(String(flag_name)):
+                found = true
+                break
+        if not found:
+            return false
+    return true
+
+func conversation_for(npc_id: String) -> Dictionary:
+    var best: Dictionary = {}
+    for entry_value in social_data.get("conversations", {}).get(npc_id, []):
+        var entry: Dictionary = entry_value
+        if _conversation_satisfied(entry):
+            best = entry
+    return best
+
+func relationship_for(a: String, b: String) -> Dictionary:
+    for relation_value in social_data.get("relationships", []):
+        var relation: Dictionary = relation_value
+        if (String(relation.get("a", "")) == a and String(relation.get("b", "")) == b) or (String(relation.get("a", "")) == b and String(relation.get("b", "")) == a):
+            return relation
+    return {}
+
+func social_factions() -> Array:
+    return social_data.get("social_factions", [])
+
+func _event_conditions_satisfied(conditions: Dictionary) -> bool:
+    if GameState.supplies > int(conditions.get("supplies_max", 9999)):
+        return false
+    if tension < int(conditions.get("tension_min", 0)):
+        return false
+    if trust > int(conditions.get("trust_max", 9999)):
+        return false
+    if int(GameState.expedition_room) < int(conditions.get("expedition_room_min", 0)):
+        return false
+    if bool(conditions.get("requires_creature", false)) and CreatureManager.captured_creatures.is_empty():
+        return false
+    var required_flag := String(conditions.get("requires_flag", ""))
+    if required_flag != "" and not is_flag_set(required_flag):
+        return false
+    return true
+
+func available_social_events() -> Array:
+    var result: Array = []
+    for event_value in social_data.get("dynamic_events", []):
+        var event: Dictionary = event_value
+        var event_id := String(event.get("id", ""))
+        if seen_events.has(event_id):
+            continue
+        if _event_conditions_satisfied(event.get("conditions", {})):
+            result.append(event)
+    result.sort_custom(func(left: Dictionary, right: Dictionary): return int(left.get("priority", 0)) > int(right.get("priority", 0)))
+    return result
+
+func trigger_next_social_event() -> Dictionary:
+    var events := available_social_events()
+    if events.is_empty():
+        return {}
+    var event: Dictionary = events[0]
+    var event_id := String(event.get("id", ""))
+    seen_events.append(event_id)
+    _apply_effects(event.get("effects", {}))
+    GameState.add_log("Événement au Sanctuaire : %s" % String(event.get("name", "Incident")))
+    politics_changed.emit()
+    return event
+
+func visible_consequences() -> Array:
+    var result: Array = []
+    var definitions: Dictionary = social_data.get("visible_consequences", {})
+    for flag_name in definitions.keys():
+        if is_flag_set(String(flag_name)):
+            var item: Dictionary = definitions[flag_name].duplicate(true)
+            item["source_flag"] = String(flag_name)
+            result.append(item)
+    return result
+
+func guard_delta() -> int:
+    var total := 0
+    for item_value in visible_consequences():
+        total += int(item_value.get("guard_delta", 0))
+    return total
+
+func active_population_tags() -> Array[String]:
+    var tags: Array[String] = []
+    for item_value in visible_consequences():
+        for tag_value in item_value.get("population_tags", []):
+            var tag := String(tag_value)
+            if not tags.has(tag):
+                tags.append(tag)
+    return tags
+
+func active_rumors() -> Array[String]:
+    var rumors: Array[String] = []
+    for item_value in visible_consequences():
+        for rumor_value in item_value.get("rumors", []):
+            rumors.append(String(rumor_value))
+    for event_id in seen_events:
+        for event_value in social_data.get("dynamic_events", []):
+            var event: Dictionary = event_value
+            if String(event.get("id", "")) == event_id and String(event.get("rumor", "")) != "":
+                rumors.append(String(event.get("rumor", "")))
+    return rumors
+
+func active_inscriptions() -> Array[String]:
+    var inscriptions: Array[String] = []
+    for item_value in visible_consequences():
+        for text_value in item_value.get("inscriptions", []):
+            inscriptions.append(String(text_value))
+    return inscriptions
+
+func _rebuild_world_memory() -> void:
+    world_memory_tags = []
+    var memory: Dictionary = social_data.get("world_memory", {})
+    for flag_name in memory.keys():
+        if not is_flag_set(String(flag_name)):
+            continue
+        for tag_value in memory[flag_name].get("tags", []):
+            var tag := String(tag_value)
+            if not world_memory_tags.has(tag):
+                world_memory_tags.append(tag)
+
+func future_effects() -> Array[String]:
+    var result: Array[String] = []
+    var memory: Dictionary = social_data.get("world_memory", {})
+    for flag_name in memory.keys():
+        if not is_flag_set(String(flag_name)):
+            continue
+        for effect_value in memory[flag_name].get("future_effects", []):
+            result.append(String(effect_value))
+    return result
+
 func serialize() -> Dictionary:
     return {
         "reputation": reputation,
@@ -207,7 +364,9 @@ func serialize() -> Dictionary:
         "tension": tension,
         "three_awakenings": three_awakenings.duplicate(true),
         "quest_states": quest_states.duplicate(true),
-        "flags": flags.duplicate(true)
+        "flags": flags.duplicate(true),
+        "seen_events": seen_events.duplicate(),
+        "world_memory_tags": world_memory_tags.duplicate()
     }
 
 func deserialize(payload: Dictionary) -> void:
@@ -219,9 +378,16 @@ func deserialize(payload: Dictionary) -> void:
         three_awakenings[key] = clampi(int(three_awakenings.get(key, 50)), 0, 100)
     quest_states = payload.get("quest_states", {}).duplicate(true)
     flags = payload.get("flags", {}).duplicate(true)
+    seen_events = []
+    for event_value in payload.get("seen_events", []):
+        seen_events.append(String(event_value))
+    world_memory_tags = []
+    for tag_value in payload.get("world_memory_tags", []):
+        world_memory_tags.append(String(tag_value))
     for quest in data.get("quests", []):
         var quest_id: String = String(quest.get("id", ""))
         if not quest_states.has(quest_id):
             quest_states[quest_id] = {"status": "locked", "choice": ""}
+    _rebuild_world_memory()
     refresh_unlocks()
     politics_changed.emit()
