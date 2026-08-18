@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "description": "Conséquences inter-niveaux produites par les décisions politiques du Sanctuaire. Un futur niveau applique les hooks dont le tag existe dans PoliticalState.world_memory_tags.",
+  "hooks": [
+    {"tag":"open_sanctuary_reputation","targets":[{"city":"orun_sai","effects":{"refugee_trust":15,"security_faction_trust":-4},"content":["dialogue_refugees_remember_open_gate","quest_delegation_of_displaced"]},{"city":"jian_lu","effects":{"civic_trust":8},"content":["archive_testimony_open_sanctuary"]}]},
+    {"tag":"closed_sanctuary_reputation","targets":[{"city":"dhor_khal","effects":{"security_faction_trust":12},"content":["dialogue_closed_gates_precedent"]},{"city":"orun_sai","effects":{"refugee_trust":-18},"content":["encounter_survivors_of_refused_column"]}]},
+    {"tag":"restorative_justice_precedent","targets":[{"city":"sorye","effects":{"jurist_trust":14},"content":["quest_folie_trial_arbitration","dialogue_nara_reputation"]},{"city":"tessen","effects":{"civic_trust":7},"content":["circle_of_justice_invitation"]}]},
+    {"tag":"summary_justice_precedent","targets":[{"city":"dhor_khal","effects":{"authoritarian_current_trust":12,"jurist_trust":-10},"content":["debate_emergency_courts"]},{"city":"sorye","effects":{"jurist_trust":-15},"content":["accusation_sanctuary_abandoned_pact"]}]},
+    {"tag":"creature_rights_precedent","targets":[{"city":"lhaor","effects":{"living_guardian_trust":18},"content":["quest_creature_refuge","dialogue_guardians_of_living"]},{"city":"jian_lu","effects":{"scholar_trust":10},"content":["research_conscious_creatures"]}]},
+    {"tag":"creature_exclusion_precedent","targets":[{"city":"dhor_khal","effects":{"security_faction_trust":8},"content":["dialogue_creature_exclusion_support"]},{"city":"lhaor","effects":{"living_guardian_trust":-16},"content":["protest_against_sanctuary_policy"]}]}
+  ]
+}
