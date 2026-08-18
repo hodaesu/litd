@@ -81,7 +81,7 @@ def test_chapter_eight_is_routed_saved_reset_and_contextually_visible():
     assert 'Chapter08BossRuntime="*res://scripts/world/chapter_08_boss_runtime.gd"' in project
     assert 'Chapter08JournalUI="*res://scripts/ui/chapter_08_journal_ui.gd"' in project
     assert 'func start_chapter_08()' in router
-    assert 'SAVE_VERSION := "0.30"' in save
+    assert 'SAVE_VERSION := "0.31"' in save
     assert '"chapter_08": Chapter08Runtime.serialize()' in save
     assert 'Chapter08Runtime.reset_new_game()' in game
     assert 'TRAVERSER VERS VARKHANE' in ui
