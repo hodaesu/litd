@@ -1,0 +1,36 @@
+{
+  "schema_version":1,
+  "chapter_id":"chapter_03_threshold",
+  "title":"Le Projet Seuil",
+  "moral_question":"Savoir qu'une catastrophe était possible, mais croire qu'on pouvait la contrôler, rend-il moins responsable que vouloir la provoquer ?",
+  "start_zone":"c03_abandoned_relay",
+  "stages":[
+    {"id":"c03_stage_01_relay","name":"Les relais qui attendaient","zone":"c03_abandoned_relay","type":"exploration","objective":"Atteindre le premier relais du Projet Seuil et identifier son architecture étrangère."},
+    {"id":"c03_stage_02_korem","name":"Le laboratoire brisé","zone":"c03_korem_lab","type":"investigation","objective":"Reconstituer les travaux de Veyra Oss et Bram Torgun à partir d'archives sabotées."},
+    {"id":"c03_stage_03_diplomatic","name":"Les signatures sous les ruines","zone":"c03_diplomatic_post","type":"investigation","objective":"Identifier les financeurs et organisateurs politiques du Pacte de l'Horizon Fermé."},
+    {"id":"c03_stage_04_defense","name":"Ce qui protège encore le secret","zone":"c03_threshold_complex","type":"miniboss","objective":"Neutraliser la Sentinelle du Seuil, défense automatique du complexe."},
+    {"id":"c03_stage_05_abort","name":"Le dernier ordre d'arrêt","zone":"c03_abort_chamber","type":"investigation","objective":"Retrouver la preuve du sabotage de Bram et le message volé par Eline Sar."},
+    {"id":"c03_stage_06_responsibility","name":"Six noms, six responsabilités","zone":"c03_abort_chamber","type":"inquiry","objective":"Classer les rôles des six acteurs principaux sans réduire leur culpabilité à une opposition innocent/coupable."},
+    {"id":"c03_stage_07_echo","name":"Les dernières secondes","zone":"c03_ritual_core","type":"boss","objective":"Affronter l'Écho du Seuil et décider jusqu'où risquer la Folie pour comprendre le rituel."},
+    {"id":"c03_stage_08_return","name":"Nommer les responsables","zone":"sanctuary","type":"return","objective":"Ramener les preuves et inscrire le Projet Seuil comme cause immédiate de la Chute."}
+  ],
+  "actors":[
+    {"id":"veyra_oss","name":"Veyra Oss","function":"Conceptrice scientifique","role_category":"scientifique","knowledge":"Comprend tardivement que le phénomène répond à la conscience et que les modèles de contrôle sont faux.","culpability":"A poursuivi les essais après des alertes graves parce qu'elle croyait encore pouvoir stabiliser le processus.","counterpoint":"Sabote ensuite une partie de la stabilisation pour réduire la portée de l'ouverture."},
+    {"id":"edras_nhal","name":"Edras Nhal","function":"Maître rituel","role_category":"exécutant idéologique","knowledge":"Comprend avant les autres que le phénomène réagit à la conscience.","culpability":"Continue volontairement l'ouverture, considérant les victimes comme le prix d'une révélation métaphysique.","counterpoint":"Ne ment presque jamais sur ses intentions, ce qui le rend plus lisible mais pas moins responsable."},
+    {"id":"sera_val_khesh","name":"Sera Val-Khesh","function":"Coordinatrice politique","role_category":"organisatrice politique","knowledge":"Sait qu'une catastrophe contrôlée est recherchée pour affaiblir la Concorde.","culpability":"Ordonne la poursuite malgré l'instabilité afin de préserver l'alliance étrangère.","counterpoint":"Ne comprend pas la nature véritable du Voile."},
+    {"id":"othmar_sevr","name":"Othmar Sevr","function":"Commanditaire radical","role_category":"financeur et idéologue","knowledge":"Ignore presque tout de la mécanique du Voile.","culpability":"Réclame explicitement une catastrophe démographique et pousse l'expérience au-delà des limites recommandées.","counterpoint":"Son ignorance technique ne réduit pas son intention destructrice."},
+    {"id":"bram_torgun","name":"Bram Torgun","function":"Ingénieur des relais","role_category":"exécutant puis opposant tardif","knowledge":"Participe pendant des années à la construction avant de comprendre le risque systémique.","culpability":"A rendu matériellement possible le projet et a ignoré plusieurs signaux parce qu'il croyait à la maîtrise technique.","counterpoint":"Détruit un relais secondaire et transmet un ordre d'arrêt, réduisant l'ampleur immédiate de la Chute."},
+    {"id":"eline_sar","name":"Eline Sar","function":"Novice et assistante de protocole","role_category":"témoin puis dissidente","knowledge":"Comprend qu'on lui cache l'objectif politique réel.","culpability":"Participe initialement aux préparatifs sans mesurer leur portée.","counterpoint":"Vole une copie du protocole et tente d'avertir la Concorde avant l'ouverture."}
+  ],
+  "responsibility_categories":["financeur","organisateur politique","scientifique","exécutant","opposant tardif","dissident"],
+  "evidence_rules":{"required_evidence":9,"required_actor_links":6,"independent_source_groups":4,"contradictions_required":2,"rule":"Aucun acteur ne peut être considéré comme compris à partir d'une seule source."},
+  "miniboss":{"id":"c03_threshold_sentinel","name":"La Sentinelle du Seuil","concept":"Défense automatique conçue pour détruire les intrus et les preuves en cas de compromission du Projet Seuil.","signature":"Protocole de Purge"},
+  "boss":{"id":"c03_boss_threshold_echo","name":"L'Écho du Seuil","concept":"Une répétition autonome des dernières secondes du rituel, alimentée par les gestes, voix et intentions enregistrés dans le lieu.","phases":["Compte à rebours","Ordres contradictoires","Ouverture"],"signature":"Zéro Seconde","truth":"L'Écho n'est pas une personne ni le Voile lui-même ; c'est une boucle de protocole devenue localement réelle."},
+  "boss_choices":[
+    {"id":"break","label":"Rompre l'Écho","effects":{"tension":-2,"veil_knowledge":3,"madness_all":-2},"cost":"Perte d'une partie des données du rituel."},
+    {"id":"record","label":"Enregistrer l'Écho","effects":{"veil_knowledge":7,"tension":2,"madness_all":4},"cost":"Exposition prolongée à la répétition."},
+    {"id":"prolong","label":"Maintenir la boucle","effects":{"veil_knowledge":12,"tension":5,"madness_all":10},"cost":"Risque important de Folie, mais révèle les symboles anciens."}
+  ],
+  "ancient_symbol_revelation":{"minimum_choice":"record","fact":"Plusieurs glyphes centraux du rituel ne proviennent d'aucune tradition connue des quatre puissances étrangères.","strong_reveal":"Avec suffisamment de données, leur géométrie correspond à des motifs retrouvés dans des vestiges attribués plus tard aux Ashaï de Nhal.","unlock":"chapter_04_first_rupture"},
+  "end_revelation":"Le Projet Seuil est la cause immédiate de la Chute, mais ses concepteurs ont utilisé un langage rituel beaucoup plus ancien qu'eux et qu'ils ne comprenaient pas entièrement."
+}
