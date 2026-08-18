@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "quests": [
+    {"id":"politics_orun_gates","name":"Les Portes d'Orun","origin_city":"orun_sai","values":["security","dignity","fear","resources"],"choices":["welcome","respectful_quarantine","close_gates","investigate_first"]},
+    {"id":"politics_first_blood","name":"Le Premier Sang","origin_city":"sorye","values":["justice","grief","madness","responsibility"],"choices":["protective_detention","restorative_circle","leniency","punitive_response"]},
+    {"id":"politics_bridge_creature","name":"La Créature sous le Pont","origin_city":"jian_lu","values":["living_world","risk","prejudice","coexistence"],"choices":["kill","capture_and_study","heal_and_release","supervised_coexistence"]},
+    {"id":"politics_three_days","name":"Trois Jours de Pouvoir","origin_city":"dhor_khal","values":["emergency","efficiency","oversight","authoritarian_risk"],"choices":["grant_unchecked","grant_with_control","refuse","shared_authority"]},
+    {"id":"politics_last_reservoir","name":"Le Dernier Réservoir","origin_city":"tessen","values":["water","solidarity","autonomy","survival"],"choices":["equal_rationing","prioritize_vulnerable","local_priority","seek_costly_alternative"]},
+    {"id":"politics_names_on_gate","name":"Les Noms sur la Porte","origin_city":"orun_sai","values":["memory","fear","collective_guilt","xenophobia"],"choices":["forbid_collective_list","allow_individual_record","publish_group_list","mediate_publicly"]},
+    {"id":"politics_law_without_court","name":"Ce que vaut une loi sans tribunal","origin_city":"tessen","values":["legality","urgency","detention","arbitrariness"],"choices":["improvised_circle","temporary_detention","release","summary_judgment"]},
+    {"id":"politics_screaming_forest","name":"La Forêt qui hurle","origin_city":"lhaor","values":["living_world","necessity","sacrifice","alternatives"],"choices":["burn_forest","evacuate_village","contain_zone","seek_costly_alternative"]}
+  ],
+  "design_rule":"Aucune quête politique ne doit se réduire à une jauge de faction ou à un choix simplement bon/mauvais. Les conséquences doivent refléter les valeurs et coûts précis de la décision."
+}
