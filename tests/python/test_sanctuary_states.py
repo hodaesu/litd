@@ -4,7 +4,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_sanctuary_has_eight_modular_states():
+def test_sanctuary_has_modular_states_including_absent_listening_room():
     data = json.loads((ROOT / "data/levels/sanctuary_state_layers.json").read_text())
     ids = {layer["id"] for layer in data["layers"]}
     assert ids == {
@@ -15,6 +15,7 @@ def test_sanctuary_has_eight_modular_states():
         "impoverished",
         "creature_coexistence",
         "civic_reconstruction",
+        "absent_listening",
         "fractured",
     }
     assert data["base_state"] == "stable"
@@ -29,7 +30,7 @@ def test_every_state_explains_visual_audio_and_population_changes():
         assert layer["population"]
 
 
-def test_state_runtime_is_driven_by_politics_resources_and_flags():
+def test_state_runtime_is_driven_by_politics_resources_and_campaign_flags():
     runtime = (ROOT / "scripts/core/sanctuary_state.gd").read_text()
     for contract in (
         "PoliticalState.tension",
@@ -37,6 +38,8 @@ def test_state_runtime_is_driven_by_politics_resources_and_flags():
         "PoliticalState.three_awakenings",
         "GameState.supplies",
         "PoliticalState.is_flag_set",
+        "CampaignState.chapter_flags",
+        "campaign_any_flag",
         "func current_visual_cues()",
         "func current_audio_cues()",
         "func current_population_cues()",
@@ -68,4 +71,5 @@ def test_states_cover_requested_player_consequences():
     assert by_id["impoverished"]["when"]["supplies_max"] <= 4
     assert "creature_sanctuary_trial" in by_id["creature_coexistence"]["when"]["any_flag"]
     assert "city_min" in by_id["civic_reconstruction"]["when"]
+    assert "sanctuary_listening_room_unlocked" in by_id["absent_listening"]["when"]["campaign_any_flag"]
     assert "trust_max" in by_id["fractured"]["when"]
