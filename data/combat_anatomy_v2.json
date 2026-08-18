@@ -61,5 +61,95 @@
     {"ratio":0.35,"state":"strained","name":"Fragilisé"},
     {"ratio":0.65,"state":"injured","name":"Blessé"},
     {"ratio":0.85,"state":"critical","name":"Critique"}
-  ]
+  ],
+  "boss_anatomies": {
+    "c05_boss_silex_general": {
+      "name":"Le Général de Silex",
+      "parts":[
+        {"id":"command_arm","name":"Bras du commandement","hit_modifier":-5,"trauma_resistance":1.4,"severable":true,"tags":["weapon","attack"],"consequence":"Neutralise Ordre de recul et réduit les dégâts de doctrine."},
+        {"id":"silex_plate","name":"Plastron de silex","hit_modifier":5,"trauma_resistance":1.65,"severable":false,"tags":["armor"],"consequence":"Le briser ouvre une fenêtre de vulnérabilité aux attaques lourdes."},
+        {"id":"march_leg","name":"Jambe de marche","hit_modifier":0,"trauma_resistance":1.25,"severable":true,"tags":["mobility","support"],"consequence":"Réduit ses changements de rang et sa stabilité."}
+      ]
+    },
+    "c06_boss_boundary": {
+      "name":"La Frontière qui marche",
+      "parts":[
+        {"id":"boundary_anchor","name":"Ancrage de frontière","hit_modifier":-20,"trauma_resistance":1.7,"severable":true,"tags":["anchor","veil"],"consequence":"Neutralise Translation de frontière."},
+        {"id":"walking_edge","name":"Bord locomoteur","hit_modifier":0,"trauma_resistance":1.3,"severable":true,"tags":["mobility"],"consequence":"Réduit ses déplacements et sa capacité à maintenir les distances impossibles."},
+        {"id":"echo_lobe","name":"Lobe d'écho spatial","hit_modifier":-15,"trauma_resistance":1.45,"severable":false,"tags":["sensor","veil"],"consequence":"Réduit la Peur et la précision de ses distorsions."}
+      ]
+    },
+    "c09_boss_consensus": {
+      "name":"Le Consensus Brisé",
+      "parts":[
+        {"id":"perspective_anchor","name":"Ancrage de perspective","hit_modifier":-20,"trauma_resistance":1.65,"severable":true,"tags":["anchor","veil"],"consequence":"Neutralise Permutation des perspectives."},
+        {"id":"choral_mask","name":"Masque choral","hit_modifier":-15,"trauma_resistance":1.4,"severable":false,"tags":["sensor","fear"],"consequence":"Réduit sa pression de Peur et les effets d'unanimité forcée."},
+        {"id":"shared_hand","name":"Main partagée","hit_modifier":0,"trauma_resistance":1.25,"severable":true,"tags":["support","attack"],"consequence":"Réduit les attaques qui imposent une seule réponse à la compagnie."}
+      ]
+    },
+    "c10_boss_final": {
+      "name":"La Rupture Commune",
+      "parts":[
+        {"id":"common_support","name":"Pilier de soutien commun","hit_modifier":-10,"trauma_resistance":1.75,"severable":true,"tags":["support","anchor"],"consequence":"Neutralise Onde de rupture commune et stabilise les duos de formation."},
+        {"id":"contradiction_core","name":"Noyau de contradiction","hit_modifier":-30,"trauma_resistance":1.9,"severable":false,"tags":["core","veil"],"consequence":"Le fissurer réduit la résistance de phase mais ne remplace jamais les trois ancrages requis."},
+        {"id":"fracture_limb","name":"Membre de fracture","hit_modifier":-5,"trauma_resistance":1.45,"severable":true,"tags":["attack"],"consequence":"Réduit les attaques qui brisent les positions et la cohésion."}
+      ]
+    },
+    "vestige_ashai_boss_seventh_voice": {
+      "name":"La Septième Voix",
+      "parts":[
+        {"id":"resonance_throat","name":"Gorge de résonance","hit_modifier":-20,"trauma_resistance":1.55,"severable":false,"tags":["sensor","fear"],"consequence":"Réduit les harmoniques qui imposent un accord unique."},
+        {"id":"seventh_anchor","name":"Ancrage de la septième note","hit_modifier":-25,"trauma_resistance":1.7,"severable":true,"tags":["anchor","veil"],"consequence":"Interrompt une partie de la résonance de phase."},
+        {"id":"conducting_arm","name":"Bras de direction","hit_modifier":-5,"trauma_resistance":1.35,"severable":true,"tags":["support","attack"],"consequence":"Réduit sa capacité à réordonner les voix du combat."}
+      ]
+    },
+    "vestige_silex_boss_last_strategist": {
+      "name":"Le Dernier Stratège",
+      "parts":[
+        {"id":"calculation_hand","name":"Main de calcul","hit_modifier":-10,"trauma_resistance":1.5,"severable":true,"tags":["weapon","support"],"consequence":"Réduit la préparation des contre-mesures."},
+        {"id":"black_glass_eye","name":"Œil de verre noir","hit_modifier":-25,"trauma_resistance":1.45,"severable":false,"tags":["sensor","critical"],"consequence":"Réduit sa lecture des actions futures."},
+        {"id":"doctrine_plate","name":"Plaque doctrinale","hit_modifier":5,"trauma_resistance":1.7,"severable":false,"tags":["armor"],"consequence":"La briser réduit sa défense adaptative."}
+      ]
+    },
+    "vestige_saan_boss_last_watch": {
+      "name":"La Dernière Veille",
+      "parts":[
+        {"id":"seal_arm","name":"Bras du sceau","hit_modifier":-10,"trauma_resistance":1.55,"severable":true,"tags":["support","anchor"],"consequence":"Réduit sa capacité à refermer les ouvertures du combat."},
+        {"id":"watch_eye","name":"Œil de veille","hit_modifier":-25,"trauma_resistance":1.4,"severable":false,"tags":["sensor"],"consequence":"Réduit sa précision et ses ripostes préventives."},
+        {"id":"seal_base","name":"Base du dernier sceau","hit_modifier":0,"trauma_resistance":1.7,"severable":false,"tags":["armor","anchor"],"consequence":"La fissurer affaiblit sa résistance de phase."}
+      ]
+    },
+    "vestige_vaor_boss_command_without_body": {
+      "name":"Le Commandement Sans Corps",
+      "parts":[
+        {"id":"order_anchor","name":"Ancrage d'ordre","hit_modifier":-25,"trauma_resistance":1.75,"severable":true,"tags":["anchor","core"],"consequence":"Réduit les ordres qui déplacent la formation sans corps physique."},
+        {"id":"basalt_vector","name":"Vecteur de basalte","hit_modifier":-10,"trauma_resistance":1.45,"severable":false,"tags":["attack","mechanical"],"consequence":"Réduit la force de projection."},
+        {"id":"obedience_node","name":"Nœud d'obéissance","hit_modifier":-20,"trauma_resistance":1.6,"severable":false,"tags":["core","fear"],"consequence":"Réduit la pression mentale des ordres absolus."}
+      ]
+    },
+    "vestige_lyrmar_boss_absent_cartographer": {
+      "name":"La Cartographe des Mers Absentes",
+      "parts":[
+        {"id":"route_hand","name":"Main des routes","hit_modifier":-10,"trauma_resistance":1.45,"severable":true,"tags":["support","veil"],"consequence":"Réduit les déplacements imposés par les routes impossibles."},
+        {"id":"tide_anchor","name":"Ancrage de marée","hit_modifier":-20,"trauma_resistance":1.7,"severable":true,"tags":["anchor","veil"],"consequence":"Stabilise les rangs et empêche certaines inversions de courant."},
+        {"id":"horizon_eye","name":"Œil d'horizon","hit_modifier":-25,"trauma_resistance":1.4,"severable":false,"tags":["sensor"],"consequence":"Réduit sa portée et sa capacité à viser l'arrière-garde."}
+      ]
+    },
+    "vestige_sahmir_boss_single_interpreter": {
+      "name":"L'Interprète Unique",
+      "parts":[
+        {"id":"speaking_mask","name":"Masque d'interprétation","hit_modifier":-20,"trauma_resistance":1.5,"severable":false,"tags":["sensor","fear"],"consequence":"Réduit l'imposition d'un seul sens aux actions du groupe."},
+        {"id":"translation_hand","name":"Main de traduction","hit_modifier":-10,"trauma_resistance":1.4,"severable":true,"tags":["support"],"consequence":"Réduit les conversions de buffs en contraintes."},
+        {"id":"meaning_anchor","name":"Ancrage de sens","hit_modifier":-25,"trauma_resistance":1.75,"severable":true,"tags":["anchor","veil"],"consequence":"Ouvre plusieurs lectures de sa phase sans l'annuler."}
+      ]
+    },
+    "vestige_ydris_boss_living_theorem": {
+      "name":"Le Théorème Vivant",
+      "parts":[
+        {"id":"causal_core","name":"Noyau causal","hit_modifier":-30,"trauma_resistance":1.9,"severable":false,"tags":["core","veil"],"consequence":"Le fissurer augmente l'incertitude de ses prédictions."},
+        {"id":"proof_limb","name":"Membre de démonstration","hit_modifier":-5,"trauma_resistance":1.45,"severable":true,"tags":["attack","support"],"consequence":"Réduit les attaques qui punissent une action déjà prédite."},
+        {"id":"axiom_anchor","name":"Ancrage d'axiome","hit_modifier":-25,"trauma_resistance":1.75,"severable":true,"tags":["anchor"],"consequence":"Déstabilise une règle de phase sans supprimer le boss."}
+      ]
+    }
+  }
 }
