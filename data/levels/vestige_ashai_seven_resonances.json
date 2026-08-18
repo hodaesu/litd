@@ -1,0 +1,39 @@
+{
+  "schema_version":1,
+  "vestige_id":"vestige_ashai_seven_resonances",
+  "name":"Temple des Sept Résonances",
+  "civilization":"Ashaï de Nhal",
+  "optional":true,
+  "difficulty_tier":"deep_vestige",
+  "recommended_level_offset":4,
+  "entry_zone":"va01_threshold_gallery",
+  "zones":[
+    {"id":"va01_threshold_gallery","name":"Galerie du Premier Accord","size_m":[92,72],"entry":[0,0,28],"exits":[{"to":"va02_singing_well","position":[0,0,-30]}],"fragments":["va_frag_01","va_frag_02"],"encounters":[{"id":"va_elite_resonant_guardians","type":"normal","position":[0,0,-8]}]},
+    {"id":"va02_singing_well","name":"Puits Chantant","size_m":[86,86],"entry":[0,0,32],"exits":[{"to":"va03_hall_of_pairs","position":[0,0,-34]}],"fragments":["va_frag_03","va_frag_04"],"puzzle":"Faire résonner deux piliers opposés avec deux membres différents du groupe."},
+    {"id":"va03_hall_of_pairs","name":"Salle des Deux Vérités","size_m":[104,76],"entry":[0,0,30],"exits":[{"to":"va04_silent_cloister","position":[0,0,-32]}],"fragments":["va_frag_05","va_frag_06"],"encounters":[{"id":"va_miniboss_dissonant_custodian","type":"miniboss","name":"Le Custode Dissonant","position":[0,0,-12]}]},
+    {"id":"va04_silent_cloister","name":"Cloître sans Écho","size_m":[96,82],"entry":[0,0,31],"exits":[{"to":"va05_memory_organ","position":[0,0,-34]}],"campfire":true,"campfire_position":[-18,0,2],"fragments":["va_frag_07"]},
+    {"id":"va05_memory_organ","name":"Orgue des Mémoires","size_m":[110,88],"entry":[0,0,34],"exits":[{"to":"va06_seventh_chamber","position":[0,0,-36]}],"fragments":["va_frag_08","va_frag_09"],"puzzle":"Reconstruire un motif à partir de souvenirs contradictoires sans choisir arbitrairement une seule version."},
+    {"id":"va06_seventh_chamber","name":"Chambre de la Septième Voix","size_m":[118,96],"entry":[0,0,38],"exits":[],"fragments":["va_frag_10"],"encounters":[{"id":"vestige_ashai_boss_seventh_voice","type":"boss","name":"La Septième Voix","position":[0,0,-14]}]}
+  ],
+  "fragments":[
+    {"id":"va_frag_01","title":"Le monde tenu à plusieurs","text":"Une réalité partagée n'est pas plus vraie parce qu'elle est commune ; elle est seulement plus habitable.","deep_truth_weight":1},
+    {"id":"va_frag_02","title":"Sept voix, aucune reine","text":"Aucune voix ne doit imposer l'accord. L'accord n'existe que si chaque voix demeure distincte.","deep_truth_weight":1},
+    {"id":"va_frag_03","title":"Expérience du puits","text":"Deux observateurs obtiennent des mesures incompatibles, puis une troisième mesure apparaît lorsqu'ils se répondent.","deep_truth_weight":2},
+    {"id":"va_frag_04","title":"Interdiction de l'unisson forcé","text":"Forcer l'unisson détruit l'information contenue dans la différence.","deep_truth_weight":1},
+    {"id":"va_frag_05","title":"La peur réduit le monde","text":"Sous la peur, les possibilités observées convergent vers les issues attendues comme dangereuses.","deep_truth_weight":2},
+    {"id":"va_frag_06","title":"Désaccord utile","text":"Le désaccord maintient ouvertes des possibilités que le consensus aurait fermées.","deep_truth_weight":2},
+    {"id":"va_frag_07","title":"Repos des écouteurs","text":"Après trois cycles de résonance, les observateurs devaient cesser toute mesure et retrouver des perceptions ordinaires.","deep_truth_weight":1},
+    {"id":"va_frag_08","title":"Lumière d'ancrage","text":"La lumière ne chasse pas l'ombre ; elle donne aux observateurs un repère qu'ils acceptent de partager.","deep_truth_weight":3},
+    {"id":"va_frag_09","title":"Erreur de Nhal","text":"Nous avons cru qu'un accord parfait stabiliserait tout. Nous avons découvert qu'un accord parfait ne laisse plus rien respirer.","deep_truth_weight":3},
+    {"id":"va_frag_10","title":"La septième voix","text":"Quand six voix s'accordent trop parfaitement, la septième n'est peut-être pas un invité. Elle peut être ce que leur accord a rendu possible.","deep_truth_weight":4}
+  ],
+  "miniboss":{"id":"va_miniboss_dissonant_custodian","name":"Le Custode Dissonant","signature":"Accord Refusé","core_puzzle":"Il devient résistant au type d'action le plus répété ; la victoire exige d'alterner attaques, garde, soutien et interaction d'environnement."},
+  "boss":{"id":"vestige_ashai_boss_seventh_voice","name":"La Septième Voix","tier":"deep_vestige_boss","signature":"Le Monde que Nous Accordons","phases":[
+    {"id":"six_voices","name":"Six voix","mechanic":"Six motifs apparaissent. Répéter une même réponse renforce le motif correspondant."},
+    {"id":"perfect_agreement","name":"Accord parfait","mechanic":"Le boss tente de forcer tous les héros vers le même état de Peur et de Lumière ; l'uniformité le rend invulnérable."},
+    {"id":"seventh_voice","name":"La septième voix","mechanic":"Une présence émerge lorsque le groupe est trop synchronisé. Il faut maintenir une cohérence commune sans supprimer les différences entre héros."}
+  ],"environmental_solution":"Activer trois des sept piliers dans des rythmes différents mais compatibles afin de créer une fenêtre de réalité stable.","alternate_resolutions":["dissiper","écouter","ancrer"],"punishes_bruteforce":"Chaque séquence de trois attaques offensives consécutives sans variation donne au boss une charge d'Accord Forcé et réduit les dégâts reçus."},
+  "completion_requirements":{"boss_resolved":true,"fragments_min":7},
+  "rewards":{"gold":180,"essence":40,"relic":{"id":"relic_anchor_lantern","name":"Lanterne d'Ancrage Ashaï","effect":"Une fois par donjon, annule un effet majeur de Folie ou stabilise une anomalie environnementale."},"set":{"id":"ashai_resonance_set","name":"Parure des Sept Écoutes","effect":"Bonus croissant lorsque les membres du groupe utilisent des types d'actions différents au cours d'un même round."},"deep_truth":{"id":"deep_truth_ashai","text":"Les Ashaï cherchaient d'abord à comprendre comment plusieurs consciences maintiennent un monde commun. Leur catastrophe vint lorsqu'ils tentèrent de transformer cet accord vivant en stabilité parfaite."}},
+  "replay":{"shortcuts_persist":true,"secret_rooms":2,"all_fragments_required_for_deep_truth":true}
+}
