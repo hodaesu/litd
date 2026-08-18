@@ -30,7 +30,7 @@ func _decorate_enemy_family_status() -> void:
     if family_id == "":
         return
     var family := _family_rule(family_id)
-    var required := str(family.get("required_part", ""))
+    var required := _family_required_part(enemy, family_id, family)
     var active := required == "" or _part_is_available(enemy, required)
     var state_text := "ACTIVE" if active else "NEUTRALISÉE"
     var label := make_label("FAMILLE · %s · %s" % [str(family.get("name", family_id)), state_text], 11, MUTED)
@@ -54,7 +54,7 @@ func _apply_enemy_family_maneuvers() -> void:
         var cadence := maxi(1, int(family.get("cadence", 3)))
         if round_number % cadence != 0:
             continue
-        var required := str(family.get("required_part", ""))
+        var required := _family_required_part(enemy, family_id, family)
         if required != "" and not _part_is_available(enemy, required):
             continue
         var effect := str(family.get("effect", ""))
@@ -63,13 +63,11 @@ func _apply_enemy_family_maneuvers() -> void:
 
 func _family_for_enemy(enemy: Dictionary) -> String:
     _load_enemy_family_data()
-    # Les quatre boss possédant déjà une manœuvre dédiée ne reçoivent pas une seconde
-    # manœuvre générique le même tour.
     if not _boss_maneuver_for(enemy).is_empty():
         return ""
     if bool(enemy.get("is_miniboss", false)):
         return "elite"
-    if bool(enemy.get("is_boss", false)) or bool(enemy.get("boss", false)):
+    if bool(enemy.get("is_boss", false)) or bool(enemy.get("boss", false)) or bool(enemy.get("deep_vestige_boss", false)):
         return "boss"
     var enemy_id := int(enemy.get("id", -1))
     var groups: Dictionary = enemy_family_data.get("generic_enemy_ids", {})
@@ -82,6 +80,14 @@ func _family_for_enemy(enemy: Dictionary) -> String:
 
 func _family_rule(family_id: String) -> Dictionary:
     return enemy_family_data.get("families", {}).get(family_id, {})
+
+func _family_required_part(enemy: Dictionary, family_id: String, family: Dictionary) -> String:
+    if family_id == "boss":
+        var encounter_id := _encounter_id(enemy)
+        var overrides: Dictionary = enemy_family_data.get("boss_required_part_overrides", {})
+        if encounter_id != "" and overrides.has(encounter_id):
+            return str(overrides.get(encounter_id, ""))
+    return str(family.get("required_part", ""))
 
 func _execute_family_effect(effect: String) -> bool:
     match effect:
@@ -106,7 +112,7 @@ func _report_dismemberment(result: Dictionary) -> void:
     if family_id == "":
         return
     var family := _family_rule(family_id)
-    var required := str(family.get("required_part", ""))
+    var required := _family_required_part(enemy, family_id, family)
     var part_id := str(result.get("part_id", ""))
     if required == "" or required != part_id:
         return
