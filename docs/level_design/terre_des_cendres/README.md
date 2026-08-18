@@ -41,12 +41,17 @@ Ce dossier contient les 15 zones de la Terre des Cendres sous forme de fiches de
 
 ## Archives collectables
 
-Les Terres de Cendre contiennent 22 documents persistants définis dans
+Les Terres de Cendre contiennent 40 documents persistants définis dans
 `data/levels/ashlands_lore.json` :
 
 - 12 **Échos d'avant la Chute**, consacrés à la vie quotidienne et aux Trois Éveils ;
 - 10 **Méditations du monde brisé**, consacrées aux dimensions intime,
   surnaturelle et collective de la Folie ;
+- 6 **Traités de la Peur**, consacrés à la vigilance, au courage et à la
+  transmission de la Peur dans un groupe ;
+- 6 **Veilles de l'Espoir**, consacrées à l'action, l'art et la reconstruction ;
+- 6 **Archives de la Cité brisée**, dont trois documents politiques d'avant la
+  Chute et trois écrits après la catastrophe ;
 - 3 scènes de narration environnementale destinées à la production 3D.
 
 Chaque document possède un emplacement authored dans l'une des 15 zones. Leur
