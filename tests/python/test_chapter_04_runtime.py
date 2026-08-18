@@ -49,7 +49,7 @@ def test_chapter_four_is_routed_saved_reset_and_visible_in_journal():
     assert 'SAVE_VERSION := "0.26"' in save
     assert '"chapter_04": Chapter04Runtime.serialize()' in save
     assert 'Chapter04Runtime.reset_new_game()' in game
-    assert 'PROGRESSION DU CHAPITRE IV' in journal
+    assert '_stage_header(parent, "CHAPITRE IV", Chapter04Runtime)' in journal
     assert 'ARCHÉOLOGIE ASHAÏ' in journal
     assert 'DESCENDRE VERS LA CITÉ DE NHAL' in journal
 
