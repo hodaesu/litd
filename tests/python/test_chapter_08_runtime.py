@@ -86,15 +86,37 @@ def test_chapter_eight_is_routed_saved_reset_and_contextually_visible():
     assert 'Chapter08Runtime.reset_new_game()' in game
     assert 'TRAVERSER VERS VARKHANE' in ui
     assert 'DOSSIER TRANSFRONTALIER' in ui
+    assert 'HISTOIRE PROFONDE' in ui
     assert 'c08_boss_varkhane' in bridge and 'c08_boss_azravel' in bridge
 
 
-def test_chapter_eight_unlocks_foreign_delegations_without_a_new_ancient_vestige():
-    chapter = load('data/levels/chapter_08_outer_world.json')
-    sanctuary = load('data/levels/sanctuary_state_layers.json')
-    by_id = {layer['id']: layer for layer in sanctuary['layers']}
-    assert chapter['unique_rewards']['service']['name'] == 'Maison des Délégations'
-    assert 'foreign_delegations' in by_id
-    assert 'sanctuary_foreign_house_unlocked' in by_id['foreign_delegations']['when']['campaign_any_flag']
+def test_each_outer_world_has_an_ancient_trace_and_deep_vestige():
+    traces = load('data/levels/chapter_08_ancient_traces.json')['traces']
+    ancient = load('data/world/outer_world_ancient_civilizations.json')['civilizations']
     vestiges = load('data/world/deep_vestiges.json')['vestiges']
-    assert all(v['civilization'] not in {'Empire de Varkhane','Thalassocratie de Namar',"Royaume sacré d'Azravel",'Ligue de Kor-Em'} for v in vestiges)
+    assert len(traces) == 4
+    assert len(ancient) == 4
+    assert {t['power'] for t in traces} == {'varkhane','namar','azravel','kor_em'}
+    assert {c['modern_world'] for c in ancient} == {'varkhane','namar','azravel','kor_em'}
+    outer = [v for v in vestiges if v.get('modern_world')]
+    assert len(outer) == 4
+    assert {v['modern_world'] for v in outer} == {'varkhane','namar','azravel','kor_em'}
+    assert {t['vestige_id'] for t in traces} == {v['id'] for v in outer}
+    runtime = (ROOT / 'scripts/world/chapter_08_runtime.gd').read_text()
+    builder = (ROOT / 'scripts/world/chapter_08_blockout_builder.gd').read_text()
+    assert 'func collect_ancient_trace' in runtime
+    assert 'collected_ancient_traces' in runtime
+    assert '_build_ancient_traces' in builder
+
+
+def test_outer_world_vestiges_use_generic_extensible_routing():
+    runtime = (ROOT / 'scripts/world/deep_vestige_runtime.gd').read_text()
+    router = (ROOT / 'scripts/world/ashlands_scene_router.gd').read_text()
+    ui = (ROOT / 'scripts/ui/deep_vestige_ui.gd').read_text()
+    assert 'data_path' in (ROOT / 'data/world/deep_vestiges.json').read_text()
+    assert 'func vestige_id_for_zone' in runtime
+    assert 'func prepare_zone' in runtime
+    assert 'func start_deep_vestige(vestige_id: String)' in router
+    assert 'GENERIC_DEEP_VESTIGE_SCENE' in router
+    assert 'DeepVestigeRuntime.index_entries()' in ui
+    assert (ROOT / 'scenes/world/deep_vestiges/generic_deep_vestige.tscn').exists()
