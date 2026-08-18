@@ -22,13 +22,7 @@ func build_zone() -> void:
         push_error("Chapter06BlockoutBuilder: zone inconnue %s" % zone_id)
         return
     AshlandsRuntime.enter_zone(zone_id)
-    _build_floor()
-    _build_boundaries()
-    _build_exits()
-    _build_encounters()
-    _build_signals()
-    _build_nodes()
-    _build_campfire()
+    _build_floor(); _build_boundaries(); _build_exits(); _build_encounters(); _build_signals(); _build_nodes(); _build_campfire()
     if spawn_player_placeholder: _build_player()
 
 func _load_json(path: String) -> Dictionary:
@@ -45,9 +39,7 @@ func _find_zone(id_value: String) -> Dictionary:
 func _root() -> Node3D:
     var root := get_node_or_null("GeneratedChapter06") as Node3D
     if root == null:
-        root = Node3D.new()
-        root.name = "GeneratedChapter06"
-        add_child(root)
+        root = Node3D.new(); root.name = "GeneratedChapter06"; add_child(root)
     return root
 
 func _build_floor() -> void:
@@ -67,46 +59,32 @@ func _wall(pos: Vector3, size: Vector3) -> void:
 func _build_exits() -> void:
     for value in zone.get("exits", []):
         var data: Dictionary = value
-        var gate := ZoneTransitionGate.new()
-        gate.from_zone = zone_id
-        gate.to_zone = String(data.get("to", ""))
-        gate.gate_id = "%s_to_%s" % [zone_id, gate.to_zone]
-        gate.position = _vec3(data.get("position", [0,0,0]))
-        _area_box(gate, Vector3(3,2.5,3))
-        _root().add_child(gate)
+        var gate := ZoneTransitionGate.new(); gate.from_zone = zone_id; gate.to_zone = String(data.get("to", "")); gate.gate_id = "%s_to_%s" % [zone_id, gate.to_zone]; gate.position = _vec3(data.get("position", [0,0,0]))
+        _area_box(gate, Vector3(3,2.5,3)); _root().add_child(gate)
 
 func _build_encounters() -> void:
     for value in zone.get("encounters", []):
         var data: Dictionary = value
-        var trigger := EncounterTrigger.new()
-        trigger.encounter_id = String(data.get("id", ""))
-        trigger.encounter_type = String(data.get("type", "normal"))
-        trigger.position = _vec3(data.get("position", [0,0,0]))
+        var trigger := EncounterTrigger.new(); trigger.encounter_id = String(data.get("id", "")); trigger.encounter_type = String(data.get("type", "normal")); trigger.position = _vec3(data.get("position", [0,0,0]))
         if data.has("name"): trigger.set_meta("miniboss", {"name":data.get("name"),"loot_tier":"major"})
-        _area_box(trigger, Vector3(8,3,8) if trigger.encounter_type == "boss" else Vector3(5,2.5,5))
-        _root().add_child(trigger)
+        _area_box(trigger, Vector3(8,3,8) if trigger.encounter_type == "boss" else Vector3(5,2.5,5)); _root().add_child(trigger)
 
 func _build_signals() -> void:
     var ids: Array = zone.get("signals", [])
     for i in ids.size():
-        var signal := SIGNAL_SCRIPT.new() as Chapter06Signal
-        signal.name = String(ids[i])
-        signal.position = Vector3(-18.0 + float(i) * 20.0, 0, -5.0 + float(i % 2) * 12.0)
-        signal.configure(String(ids[i]))
-        _area_box(signal, Vector3(1.6,1.6,1.6))
-        _root().add_child(signal)
+        var signal_node := SIGNAL_SCRIPT.new() as Chapter06Signal
+        signal_node.name = String(ids[i])
+        signal_node.position = Vector3(-18.0 + float(i) * 20.0, 0, -5.0 + float(i % 2) * 12.0)
+        signal_node.configure(String(ids[i]))
+        _area_box(signal_node, Vector3(1.6,1.6,1.6)); _root().add_child(signal_node)
 
 func _build_nodes() -> void:
     for node_id_value in zone.get("nodes", []):
-        var node_id := String(node_id_value)
-        var data := _node_data(node_id)
+        var node_id := String(node_id_value); var data := _node_data(node_id)
         if data.is_empty(): continue
-        var node := NODE_SCRIPT.new() as Chapter06ResonanceNode
-        node.name = node_id
-        node.position = _vec3(data.get("position", [0,0,0]))
-        node.configure(node_id)
-        _area_box(node, Vector3(2.2,2.2,2.2))
-        _root().add_child(node)
+        var resonance_node := NODE_SCRIPT.new() as Chapter06ResonanceNode
+        resonance_node.name = node_id; resonance_node.position = _vec3(data.get("position", [0,0,0])); resonance_node.configure(node_id)
+        _area_box(resonance_node, Vector3(2.2,2.2,2.2)); _root().add_child(resonance_node)
 
 func _node_data(node_id: String) -> Dictionary:
     for value in world.get("nodes", []):
@@ -116,17 +94,10 @@ func _node_data(node_id: String) -> Dictionary:
 
 func _build_campfire() -> void:
     if not bool(zone.get("campfire", false)): return
-    var camp := CampfireInteraction.new()
-    camp.zone_id = zone_id
-    camp.position = _vec3(zone.get("campfire_position", [0,0,0]))
-    _area_box(camp, Vector3(2.5,2,2.5))
-    _root().add_child(camp)
+    var camp := CampfireInteraction.new(); camp.zone_id = zone_id; camp.position = _vec3(zone.get("campfire_position", [0,0,0])); _area_box(camp, Vector3(2.5,2,2.5)); _root().add_child(camp)
 
 func _build_player() -> void:
-    var party := PARTY_SCENE.instantiate()
-    party.name = "Chapter06PartyRuntime"
-    party.position = _vec3(zone.get("entry", [0,0,0])) + Vector3.UP * 0.1
-    _root().add_child(party)
+    var party := PARTY_SCENE.instantiate(); party.name = "Chapter06PartyRuntime"; party.position = _vec3(zone.get("entry", [0,0,0])) + Vector3.UP * 0.1; _root().add_child(party)
 
 func _area_box(area: Area3D, size: Vector3) -> void:
     var collision := CollisionShape3D.new(); var shape := BoxShape3D.new(); shape.size = size; collision.shape = shape; collision.position.y = size.y * 0.5; area.add_child(collision)
