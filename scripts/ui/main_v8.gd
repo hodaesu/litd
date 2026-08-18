@@ -115,13 +115,13 @@ func _lost_fear_multiplier(enemy: Dictionary) -> float:
 func _best_part_to_protect(enemy: Dictionary) -> String:
     var rows := AnatomyRuntime.anatomy_status(enemy)
     var best_id := ""
-    var best_ratio := 2.0
+    var best_ratio := -1.0
     for row_value in rows:
         var row: Dictionary = row_value
         if str(row.get("state", "")) == "lost":
             continue
         var ratio := float(row.get("trauma", 0)) / float(maxi(1, int(row.get("threshold", 1))))
-        if ratio < best_ratio:
+        if ratio > best_ratio:
             best_ratio = ratio
             best_id = str(row.get("id", ""))
     return best_id
