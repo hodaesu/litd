@@ -137,6 +137,7 @@ func _render() -> void:
         body.add_child(_label("Accomplir au moins %d opérations du monde d'après pour transmettre un héritage au cycle suivant." % required, 12, WARNING))
     else:
         body.add_child(_label("Le nouveau cycle remet à zéro campagne, niveaux, inventaire, créatures et politique. Il conserve l'historique des fins et un seul héritage choisi. Les ennemis deviennent plus résistants et plus dangereux à chaque cycle.", 12, MUTED))
+        body.add_child(_label("NOUVELLE RÈGLE — tous les mini-boss et boss, y compris ceux des Vestiges profonds, deviennent recrutables avec CAPTURER. Leur version alliée se synchronise au niveau moyen de la compagnie et ne conserve jamais les PV bruts de sa version boss.", 12, GOLD))
         for value in EndgameState.perks():
             var perk: Dictionary = value
             var perk_id := String(perk.get("id", ""))
