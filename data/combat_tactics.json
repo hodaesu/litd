@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "rank_rule": "Le rang 1 est l'avant de la formation et le rang 4 l'arrière. Un déplacement échange le héros actif avec le rang adjacent et consomme son action.",
+  "initial_formation": {
+    "malvor": 1,
+    "darius": 2,
+    "aurelien": 3,
+    "lysandra": 4
+  },
+  "hero_profiles": {
+    "malvor": {
+      "preferred_ranks": [1, 2],
+      "strike_from": [1, 2],
+      "strike_targets": [1, 2],
+      "heavy_from": [1],
+      "heavy_targets": [1],
+      "identity": "Briseur de première ligne"
+    },
+    "darius": {
+      "preferred_ranks": [1, 2, 3],
+      "strike_from": [1, 2, 3],
+      "strike_targets": [1, 2],
+      "heavy_from": [1, 2],
+      "heavy_targets": [1],
+      "identity": "Veilleur de ligne"
+    },
+    "aurelien": {
+      "preferred_ranks": [2, 3, 4],
+      "strike_from": [2, 3, 4],
+      "strike_targets": [2, 3, 4],
+      "heavy_from": [3, 4],
+      "heavy_targets": [3, 4],
+      "identity": "Occultiste de seconde ligne"
+    },
+    "lysandra": {
+      "preferred_ranks": [3, 4],
+      "strike_from": [3, 4],
+      "strike_targets": [2, 3, 4],
+      "heavy_from": [4],
+      "heavy_targets": [3, 4],
+      "identity": "Vestale d'arrière-garde"
+    }
+  },
+  "enemy_targeting": {
+    "front_ranks": [1, 2],
+    "front_targets": [1, 2],
+    "rear_ranks": [3, 4],
+    "rear_targets": [2, 3, 4],
+    "bosses_ignore_target_rank": true
+  },
+  "synergies": [
+    {
+      "id": "frontline_wall",
+      "name": "Mur de la Veille",
+      "heroes": ["malvor", "darius"],
+      "condition": "occupy_ranks_1_2",
+      "effect": {"physical_resistance": 5},
+      "description": "Malvor et Darius tiennent ensemble les deux premiers rangs : chacun gagne 5 % de résistance physique."
+    },
+    {
+      "id": "veil_concord",
+      "name": "Concorde du Voile",
+      "heroes": ["aurelien", "lysandra"],
+      "condition": "adjacent",
+      "effect": {"fear_resistance": 5, "lysandra_healing_percent": 15},
+      "description": "Aurélien et Lysandra sont adjacents : leur lecture commune du Voile réduit la Peur et renforce les soins de Lysandra."
+    },
+    {
+      "id": "opening_exploit",
+      "name": "Faille préparée",
+      "heroes": ["malvor", "aurelien"],
+      "condition": "malvor_directly_ahead_of_aurelien",
+      "effect": {"aurelien_status_target_damage_percent": 15},
+      "description": "Malvor ouvre la garde devant Aurélien : Aurélien inflige 15 % de dégâts supplémentaires aux cibles brisées ou étourdies."
+    }
+  ]
+}
