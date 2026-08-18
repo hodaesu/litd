@@ -72,7 +72,7 @@ def test_capture_and_bestiary_are_connected_to_combat_ui():
 
 def test_save_schema_includes_creatures_and_version_bump():
     save_manager = (ROOT / "scripts/core/save_manager.gd").read_text()
-    assert 'SAVE_VERSION := "0.18"' in save_manager
+    assert 'SAVE_VERSION := "0.19"' in save_manager
     assert '"creatures": CreatureManager.serialize()' in save_manager
     assert 'CreatureManager.deserialize(payload.get("creatures", {}))' in save_manager
 
