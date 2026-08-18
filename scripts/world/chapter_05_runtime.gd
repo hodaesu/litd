@@ -66,16 +66,22 @@ func category_count(category: String) -> int:
 
 func _recalculate_hypotheses() -> void:
     for value in hypotheses():
-        var h: Dictionary = value; var id := String(h.get("id",""))
+        var h: Dictionary = value
+        var id := String(h.get("id",""))
         if bool(confirmed_hypotheses.get(id,false)): continue
-        var support := 0; var sources := {}
+        var support := 0
+        var sources := {}
         for f_value in discovered_fragments.values():
             var f: Dictionary = f_value
-            if id in f.get("supports",[]): support += 1; sources[String(f.get("source_family","unknown"))] = true
+            if id in f.get("supports",[]):
+                support += 1
+                sources[String(f.get("source_family","unknown"))] = true
         if support >= int(h.get("required_support",1)) and sources.size() >= int(h.get("independent_sources",1)):
             confirmed_hypotheses[id] = true
             CampaignState.discovered_revelations["c05_%s" % id] = String(h.get("title",id))
+            CampaignState.set_chapter_flag("c05_%s_confirmed" % id)
             CampaignState.add_metric("veil_knowledge",4)
+            DeepVestigeRuntime.refresh_unlocks()
             hypothesis_confirmed.emit(id)
 
 func active_stage() -> Dictionary:
