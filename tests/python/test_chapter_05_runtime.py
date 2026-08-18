@@ -54,7 +54,7 @@ def test_chapter_five_is_routed_saved_reset_and_visible_in_journal():
     assert 'SAVE_VERSION := "0.26"' in save
     assert '"chapter_05": Chapter05Runtime.serialize()' in save
     assert 'Chapter05Runtime.reset_new_game()' in game
-    assert 'PROGRESSION DU CHAPITRE V' in journal
+    assert '_stage_header(parent, "CHAPITRE V", Chapter05Runtime)' in journal
     assert 'DOSSIER OR-SILEX / SAAN' in journal
 
 
