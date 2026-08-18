@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "rule": "La mutilation facilite physiquement le lien mais détériore la confiance et impose une convalescence. Elle ne doit jamais être la stratégie de recrutement optimale sans coût.",
+  "capture_bonus_per_lost_part": 7,
+  "capture_bonus_per_critical_injury": 3,
+  "capture_bonus_cap": 20,
+  "bond_base": 50,
+  "bond_penalty_per_lost_part": 7,
+  "bond_penalty_per_critical_injury": 2,
+  "bond_minimum": 15,
+  "care_base": 1,
+  "care_per_lost_part": 2,
+  "care_per_critical_injury": 1,
+  "disable_combat_until_care_complete": true,
+  "sanctuary_care_points_per_treatment": 1
+}
