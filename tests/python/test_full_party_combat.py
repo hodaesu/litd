@@ -22,10 +22,13 @@ def test_all_hero_skill_stats_are_consumed():
     assert "max_madness" in report["consumed_stats"]
 
 
-def test_main_scene_routes_through_v2():
+def test_main_scene_routes_through_v3_and_keeps_v2_round_engine():
     scene = (ROOT / "scenes/Main.tscn").read_text(encoding="utf-8")
+    tactical = (ROOT / "scripts/ui/main_v3.gd").read_text(encoding="utf-8")
     combat = (ROOT / "scripts/ui/main_v2.gd").read_text(encoding="utf-8")
-    assert 'res://scripts/ui/main_v2.gd' in scene
+    assert 'res://scripts/ui/main_v3.gd' in scene
+    assert 'extends "res://scripts/ui/main_v2.gd"' in tactical
     assert "func _active_round_hero()" in combat
     assert "func _finish_party_round()" in combat
     assert "alive_heroes()[0]" not in combat
+    assert "alive_heroes()[0]" not in tactical
