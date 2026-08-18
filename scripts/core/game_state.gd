@@ -30,6 +30,7 @@ func reset_new_game() -> void:
     Chapter02Runtime.reset_new_game()
     Chapter03Runtime.reset_new_game()
     Chapter04Runtime.reset_new_game()
+    DeepVestigeRuntime.reset_new_game()
     party = []
     for hero in DataLoader.heroes:
         var prepared_hero: Dictionary = hero.duplicate(true)
