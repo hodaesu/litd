@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "civilizations": [
+    {
+      "id": "ashai_nhal",
+      "name": "Ashaï de Nhal",
+      "period": "env. -4300 à -3200",
+      "language": "Nhalique",
+      "arts": ["chants polyphoniques", "pierres résonantes", "fresques minérales", "cartographie du ciel et des rêves"],
+      "veil_model": "plusieurs accords superposés du réel",
+      "mistake": "provoquer des états collectifs de conscience pour observer le Voile",
+      "major_event": "Première Rupture",
+      "fate": "dispersion culturelle après l'abandon de la capitale"
+    },
+    {
+      "id": "or_silex",
+      "name": "Royaumes d'Or-Silex",
+      "period": "env. -2900 à -2300",
+      "language": "Silexien",
+      "arts": ["métallurgie noire", "hydraulique souterraine", "tablettes de pierre assemblées", "architecture fortifiée"],
+      "veil_model": "outil capable d'altérer distance, perception et matière",
+      "mistake": "militariser un phénomène incompris",
+      "major_event": "catastrophe d'Or-Silex",
+      "fate": "effondrement politique pendant la Grande Fermeture"
+    },
+    {
+      "id": "watchers_saan",
+      "name": "Veilleurs de Saan",
+      "period": "env. -2400 à -1900",
+      "language": "traditions plurilingues avec signes de Saan",
+      "arts": ["ancrages de réalité", "architecture de confinement", "archives fragmentées", "itinéraires codés"],
+      "veil_model": "phénomène réactif aux consciences et aux émotions",
+      "mistake": "aucune maîtrise totale; leur choix tragique fut de sacrifier lieux et mémoire pour contenir le phénomène",
+      "major_event": "Grande Fermeture de Saan",
+      "fate": "réseau dissous après la destruction volontaire de ses propres relais"
+    }
+  ],
+  "ancient_sites": [
+    {"id":"city_under_ash","name":"Cité sous la Cendre","origin":"ashai_nhal","anomaly":"chronologie architecturale incohérente"},
+    {"id":"seven_silences","name":"Observatoire des Sept Silences","origin":"ashai_nhal","anomaly":"constellations absentes du ciel actuel"},
+    {"id":"inverted_library","name":"Bibliothèque Renversée","origin":"or_silex","anomaly":"fenêtres donnant sur un horizon inconnu"},
+    {"id":"black_glass_crypts","name":"Cryptes de Verre Noir","origin":"or_silex","anomaly":"sarcophages protégeant les souvenirs des morts"},
+    {"id":"saan_well","name":"Puits de Saan","origin":"watchers_saan","anomaly":"gravité non fiable dans les niveaux inférieurs"},
+    {"id":"seasonless_garden","name":"Jardin Sans Saison","origin":"watchers_saan","anomaly":"plantes de périodes incompatibles vivant ensemble"},
+    {"id":"silent_gates","name":"Salle des Portes Muettes","origin":"watchers_saan","anomaly":"arches marquées de destinations inconnues"}
+  ],
+  "relics": [
+    {"id":"anchor_lantern","name":"Lanterne d'Ancrage","true_origin":"watchers_saan"},
+    {"id":"resonance_stone","name":"Pierre de Résonance","true_origin":"ashai_nhal"},
+    {"id":"black_flint_blade","name":"Lame de Silex Noir","true_origin":"or_silex"},
+    {"id":"faceless_mask","name":"Masque sans visage","true_origin":"or_silex"},
+    {"id":"return_ring","name":"Anneau de Retour","true_origin":"watchers_saan"},
+    {"id":"mute_tablet","name":"Tablette muette","true_origin":"watchers_saan"}
+  ],
+  "ancient_entities": {
+    "absents": {
+      "name": "Absents",
+      "description": "populations déplacées hors de la réalité partagée durant la Grande Fermeture",
+      "status": "possible_survival",
+      "player_truth_tier": "late"
+    }
+  },
+  "first_veil_tree": {
+    "name": "Arbre du Premier Voile",
+    "truth": "pousse sur un ancien nœud de stabilisation de Saan et contribue à maintenir une réalité commune autour du Sanctuaire",
+    "not_true": ["le Voile a créé l'arbre", "l'arbre contrôle le Voile", "les fondateurs de la Concorde connaissaient toute sa fonction"]
+  }
+}
