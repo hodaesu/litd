@@ -30,6 +30,8 @@ func ensure_state(enemy: Dictionary) -> void:
 
 func register_hit(enemy: Dictionary, action: String, damage: int, technique_id: String = "") -> Dictionary:
     ensure_state(enemy)
+    if bool(enemy.get("anatomy_v2_enabled", false)):
+        return {"severed": false, "trauma_added": 0, "legacy_skipped": true}
     if not eligible(enemy):
         return {"severed": false, "trauma_added": 0}
     var mechanics: Dictionary = data.get("mechanics", {})
