@@ -16,7 +16,7 @@
     {"id":"c06_sig_shore_reply","title":"Réponse de la rive","source_family":"absent_voice","reliability":"responsive","text":"Trois appels espacés reçoivent trois réponses différentes mais cohérentes avec le même interlocuteur.","supports":["conscious_survival","stable_contact"]},
     {"id":"c06_sig_shore_saan","title":"Mesure de la Dernière Veille","source_family":"saan_record","reliability":"authentic","text":"Un appareil de Saan enregistre après la Grande Fermeture des motifs que ses opérateurs avaient classés comme réponses possibles.","supports":["continuity_beyond_closure","closure_risk"]},
     {"id":"c06_sig_doors_register","title":"Registre des Portes Muettes","source_family":"saan_record","reliability":"authentic","text":"Plusieurs portes furent maintenues fermées malgré des signaux internes après la fermeture du réseau.","supports":["closure_risk"]},
-    {"id":"c06_sig_doors_knock","title":"Les quatre coups","source_family":"boundary_response","reliability":"repeatable","text":"Quatre coups reviennent uniquement lorsqu'un membre du groupe prononce son propre nom.","supports":["stable_contact"]},
+    {"id":"c06_sig_doors_knock","title":"Les quatre coups","source_family":"boundary_response","reliability":"repeatable","text":"Quatre coups reviennent uniquement lorsqu'un membre du groupe prononce son propre nom.","supports":["conscious_survival","stable_contact"]},
     {"id":"c06_sig_hamlet_table","title":"La table dressée deux fois","source_family":"civilian_echo","reliability":"partial","text":"La même famille apparaît autour de la même table à deux âges différents, sans se voir elle-même.","supports":["continuity_beyond_closure"]},
     {"id":"c06_sig_hamlet_child","title":"Comptine sans fin","source_family":"civilian_echo","reliability":"responsive","text":"Une enfant absente modifie une comptine lorsque Sela en change volontairement un vers.","supports":["conscious_survival","stable_contact"]},
     {"id":"c06_sig_creature_imprint","title":"Mémoire dans la pierre","source_family":"creature_imprint","reliability":"indirect","text":"Une créature réagit à un refuge disparu avant qu'aucun humain du groupe n'en identifie la forme.","supports":["carried_memory"]},
@@ -27,7 +27,7 @@
     {"id":"c06_sig_boundary_after","title":"Après la limite","source_family":"material_anomaly","reliability":"authentic","text":"Des objets déplacés au-delà de la frontière reviennent parfois avec une usure qui ne correspond pas au temps écoulé ici.","supports":["continuity_beyond_closure","closure_risk"]}
   ],
   "hypotheses":[
-    {"id":"conscious_survival","title":"Certaines consciences ont survécu à la Grande Fermeture","required_support":4,"independent_sources":2},
+    {"id":"conscious_survival","title":"Certaines consciences ont survécu à la Grande Fermeture","required_support":3,"independent_sources":2},
     {"id":"carried_memory","title":"Certaines créatures transportent ou perçoivent des empreintes mémorielles qui ne leur appartiennent pas","required_support":2,"independent_sources":1},
     {"id":"stable_contact","title":"Un échange stable est possible sans ouvrir complètement une porte","required_support":4,"independent_sources":3},
     {"id":"closure_risk","title":"Une fermeture totale pourrait condamner des consciences toujours actives","required_support":4,"independent_sources":3},
