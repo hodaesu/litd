@@ -8,6 +8,7 @@ const BASE_PATH := "res://scenes/world/terre_des_cendres/"
 const CHAPTER_02_PATH := "res://scenes/world/chapter_02/"
 const CHAPTER_03_PATH := "res://scenes/world/chapter_03/"
 const CHAPTER_04_PATH := "res://scenes/world/chapter_04/"
+const DEEP_VESTIGE_PATH := "res://scenes/world/deep_vestiges/"
 const MAIN_SCENE := "res://scenes/Main.tscn"
 
 var zone_scene_paths := {
@@ -42,7 +43,13 @@ var zone_scene_paths := {
     "c04_seven_silences": CHAPTER_04_PATH + "c04_seven_silences.tscn",
     "c04_echo_camp": CHAPTER_04_PATH + "c04_echo_camp.tscn",
     "c04_broken_observatory": CHAPTER_04_PATH + "c04_broken_observatory.tscn",
-    "c04_chorus_chamber": CHAPTER_04_PATH + "c04_chorus_chamber.tscn"
+    "c04_chorus_chamber": CHAPTER_04_PATH + "c04_chorus_chamber.tscn",
+    "va01_threshold_gallery": DEEP_VESTIGE_PATH + "va01_threshold_gallery.tscn",
+    "va02_singing_well": DEEP_VESTIGE_PATH + "va02_singing_well.tscn",
+    "va03_hall_of_pairs": DEEP_VESTIGE_PATH + "va03_hall_of_pairs.tscn",
+    "va04_silent_cloister": DEEP_VESTIGE_PATH + "va04_silent_cloister.tscn",
+    "va05_memory_organ": DEEP_VESTIGE_PATH + "va05_memory_organ.tscn",
+    "va06_seventh_chamber": DEEP_VESTIGE_PATH + "va06_seventh_chamber.tscn"
 }
 
 func _ready() -> void:
@@ -65,10 +72,8 @@ func load_zone(zone_id: String) -> bool:
     return true
 
 func start_ashlands() -> bool:
-    if not ExpeditionManager.expedition_active:
-        ExpeditionManager.start_expedition()
-    AshlandsRuntime.begin_new_expedition()
-    AshlandsMinibossDirector.roll_for_expedition(ExpeditionManager.expedition_seed)
+    if not ExpeditionManager.expedition_active: ExpeditionManager.start_expedition()
+    AshlandsRuntime.begin_new_expedition(); AshlandsMinibossDirector.roll_for_expedition(ExpeditionManager.expedition_seed)
     return load_zone("zone_01_faubourg_cendreux")
 
 func start_chapter_02() -> bool:
@@ -89,9 +94,14 @@ func start_chapter_04() -> bool:
     AshlandsRuntime.begin_new_expedition(); GameState.request_screen("exploration")
     return load_zone("c04_buried_city")
 
+func start_ashai_deep_vestige() -> bool:
+    if not DeepVestigeRuntime.is_unlocked("vestige_ashai_seven_resonances"): return false
+    if not ExpeditionManager.expedition_active: ExpeditionManager.start_expedition()
+    AshlandsRuntime.begin_new_expedition(); GameState.request_screen("exploration")
+    return load_zone("va01_threshold_gallery")
+
 func return_to_hub(reason: String = "voluntary") -> void:
-    ExpeditionManager.return_to_hub(reason)
-    GameState.current_screen = "sanctuary"
+    ExpeditionManager.return_to_hub(reason); GameState.current_screen = "sanctuary"
     var error := get_tree().change_scene_to_file(MAIN_SCENE)
     if error == OK: call_deferred("_show_sanctuary_after_load")
 
