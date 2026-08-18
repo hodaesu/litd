@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_06_absent",
+  "title": "Les Absents",
+  "theme": "La disparition n'est pas nécessairement la mort, et sauver la réalité commune peut condamner ceux qui existent à sa frontière.",
+  "start_zone": "c06_timeless_garden",
+  "stages": [
+    {"id":"c06_stage_01_garden","name":"Le Jardin Sans Saison","type":"exploration","zone":"c06_timeless_garden","objective":"Entrer dans une région où le temps, la croissance et les souvenirs ne suivent plus le même rythme."},
+    {"id":"c06_stage_02_voices","name":"Des voix sans corps","type":"investigation","zone":"c06_echo_shore","objective":"Croiser au moins quatre signaux issus de deux familles de sources et établir qu'une réponse consciente persiste."},
+    {"id":"c06_stage_03_creatures","name":"Ce que les créatures reconnaissent","type":"creature_investigation","zone":"c06_creature_hollow","objective":"Observer les réactions d'une créature recrutée à des traces anciennes, ou utiliser les balises de Meira si aucune créature n'accompagne le groupe."},
+    {"id":"c06_stage_04_camp","name":"La nuit qui n'arrive pas","type":"campfire","zone":"c06_overlap_hamlet","objective":"Établir un camp dans une zone où deux moments semblent coexister."},
+    {"id":"c06_stage_05_wayfarer","name":"L'Arpenteur Décalé","type":"miniboss","zone":"c06_mute_doors","encounter_id":"c06_shifted_wayfarer","objective":"Comprendre quelle position de l'Arpenteur appartient réellement au présent avant de le neutraliser."},
+    {"id":"c06_stage_06_saen","name":"Saen","type":"contact","zone":"c06_saen_contact","objective":"Réunir huit signaux issus d'au moins quatre familles et établir un premier échange stable avec une conscience absente."},
+    {"id":"c06_stage_07_boundary","name":"La Frontière qui marche","type":"boss","zone":"c06_walking_boundary","encounter_id":"c06_boss_boundary","objective":"Stabiliser les trois ancrages de l'arène, survivre au déplacement de la frontière puis décider comment traiter le passage."},
+    {"id":"c06_stage_08_return","name":"Ceux qui attendent ailleurs","type":"return","zone":"sanctuary","objective":"Ramener la preuve au Sanctuaire et accepter qu'une fermeture totale du Voile pourrait condamner des consciences encore actives."}
+  ],
+  "main_quest_bindings": {
+    "c06_voices_without_bodies": ["c06_stage_01_garden","c06_stage_02_voices","c06_stage_05_wayfarer"],
+    "c06_creature_memory": ["c06_stage_03_creatures","c06_stage_04_camp"],
+    "c06_absent_choice": ["c06_stage_06_saen","c06_stage_07_boundary","c06_stage_08_return"]
+  },
+  "investigation": {
+    "required_signals": 8,
+    "independent_source_families": 4,
+    "direct_creature_reactions": 2,
+    "proxy_reactions_without_creature": 3,
+    "boundary_anchors": 3,
+    "rule": "Une voix isolée peut être une rémanence. Une identité persistante doit répondre de manière cohérente à plusieurs sources et à plusieurs instants."
+  },
+  "creature_mediation": {
+    "direct": "Une créature active peut reconnaître certains vestiges avant les héros et produire une réaction interprétable.",
+    "proxy": "Sans créature active, Meira utilise une balise de résonance. Elle permet d'avancer mais exige davantage de mesures et donne moins de contexte.",
+    "ethic": "La créature n'est jamais utilisée comme instrument sacrificiel ni forcée à entrer dans une rupture."
+  },
+  "miniboss": {
+    "id":"c06_shifted_wayfarer",
+    "name":"L'Arpenteur Décalé",
+    "signature":"Un pas trop tôt",
+    "core_puzzle":"Plusieurs positions du même être se superposent ; attaquer une position qui n'appartient pas au présent renforce la Peur.",
+    "counterplay":"Observer les décalages de rythme et frapper seulement lorsque l'ombre, le son et la position se rejoignent."
+  },
+  "boss": {
+    "id":"c06_boss_boundary",
+    "name":"La Frontière qui marche",
+    "type":"phénomène vivant",
+    "hp":210,
+    "phases":["Le Bord","Deux mondes","La limite choisit"],
+    "signature":"Ici n'est plus ici",
+    "truth":"Ce n'est pas une créature au sens ordinaire mais une limite de réalité devenue auto-protectrice.",
+    "core_puzzle":"Ses PV ne représentent que la résistance locale de la frontière. Sans ancrages stabilisés, elle absorbe la majorité des dégâts et déplace le champ de bataille.",
+    "counterplay":"Explorer l'arène, stabiliser les trois ancrages, conserver la Lumière et décider ensuite s'il faut forcer, négocier ou se retirer."
+  },
+  "boss_choices": [
+    {"id":"force","label":"FORCER LE PASSAGE","effects":{"absent_contact":3,"veil_knowledge":3,"tension":5},"consequence":"Un passage temporaire est imposé. Il livre des données mais déstabilise davantage la zone."},
+    {"id":"resonate","label":"NÉGOCIER PAR RÉSONANCE","effects":{"absent_contact":10,"creature_relations":3,"veil_knowledge":5,"tension":2},"consequence":"La frontière cesse brièvement de traiter le groupe comme une intrusion et Saen peut maintenir un échange plus clair."},
+    {"id":"withdraw","label":"RENONCER ET PROTÉGER LE SANCTUAIRE","effects":{"absent_contact":2,"justice_integrity":2,"trust":2,"tension":-2},"consequence":"Le groupe refuse de risquer une rupture plus grande. Le contact reste incomplet mais le Sanctuaire n'est pas exposé."}
+  ],
+  "saen": {
+    "name":"Saen",
+    "status":"Absent conscient — nature ontologique non résolue",
+    "first_lines":["Vous m'entendez trop vite. Cela faisait longtemps que personne n'arrivait au même moment que moi.","Ne dites pas que je suis mort. Je ne sais pas si ce mot atteint jusqu'ici.","Nous n'attendons pas tous au même endroit."],
+    "design_rule":"Saen confirme une continuité d'identité et de mémoire sans donner de réponse définitive sur ce qu'est un Absent."
+  },
+  "unique_rewards": {
+    "relic":{"id":"relic_saen_thread","name":"Fil de Saen","effect":"Une fois par donjon, empêche une perte de Lumière provoquée par une zone de chevauchement."},
+    "knowledge":{"id":"knowledge_absent_continuity","name":"Continuité absente","effect":"Débloque dans le journal les témoignages et contradictions liés aux consciences déplacées."},
+    "service":{"id":"sanctuary_listening_room","name":"Chambre d'Écoute","effect":"Permet au Sanctuaire de conserver des contacts faibles avec les Absents sans ouvrir un passage complet."}
+  },
+  "end_revelation":"Une fermeture totale du Voile pourrait tuer, dissoudre ou condamner des consciences qui continuent d'exister hors de la réalité commune.",
+  "unlock":"chapter_07_living_responsible"
+}
