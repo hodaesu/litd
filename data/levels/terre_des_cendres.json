@@ -1,0 +1,112 @@
+{
+  "id": "terre_des_cendres",
+  "display_name": "Terre des Cendres",
+  "status": "placeholder_polish_v3",
+  "reference_art": "validated_image_1",
+  "design_goal": "Créer une expédition longue où l'attrition impose de gérer provisions, feux de camp, récupération sur le terrain et retours au Sanctuaire avant le boss.",
+  "rules": {
+    "final_meshes_required": false,
+    "encounter_rosters_can_use_tags": true,
+    "gameplay_values_live_in_godot": true,
+    "all_non_boss_enemies_recruitable": true,
+    "retreat_to_hub_allowed": true,
+    "zones_persist_after_discovery": true,
+    "corpse_harvesting_enabled": true,
+    "secret_zones_enabled": true
+  },
+  "zones": [
+    {"id":"faubourg_cendreux","order":1,"role":"entrée_et_lecture_du_danger","target_duration_minutes":[7,10],"stress_pressure":"low","rest_slot":false,"supply_pressure":"low","beats":["arrivée depuis le Sanctuaire","premières traces de pillage","choix de route","rencontre légère"]},
+    {"id":"village_ravage","order":2,"role":"première_attrition","target_duration_minutes":[9,13],"stress_pressure":"low_to_medium","rest_slot":false,"supply_pressure":"medium","beats":["maisons explorables","première rencontre sérieuse","butin de provisions possible","première opportunité de capture"]},
+    {"id":"moulin_calcine","order":3,"role":"risque_recompense","target_duration_minutes":[8,12],"stress_pressure":"medium","rest_slot":true,"campfire_id":"campfire_01","supply_pressure":"medium","beats":["détour vers le moulin","réserve potentielle","embuscade","premier feu de camp"]},
+    {"id":"foret_morte","order":4,"role":"désorientation_et_folie","target_duration_minutes":[10,15],"stress_pressure":"medium_high","rest_slot":false,"supply_pressure":"medium_high","beats":["visibilité réduite","embranchements trompeurs","événement de folie","raccourci à ouvrir"]},
+    {"id":"ravin_des_pendus","order":5,"role":"pression_et_traversée","target_duration_minutes":[8,12],"stress_pressure":"high","rest_slot":false,"supply_pressure":"high","beats":["passage étroit","menace à distance","route alternative coûteuse","indice vers le cimetière"]},
+    {"id":"chapelle_effondree","order":6,"role":"refuge_precaire","target_duration_minutes":[8,12],"stress_pressure":"medium_high","rest_slot":true,"campfire_id":"campfire_02","supply_pressure":"high","beats":["refuge apparent","feu de camp","événement possible pendant le repos","choix continuer ou retourner au Sanctuaire"]},
+    {"id":"cimetiere","order":7,"role":"attrition_et_narration","target_duration_minutes":[11,16],"stress_pressure":"high","rest_slot":false,"supply_pressure":"high","beats":["point haut","tombes et reliques","rencontre renforcée","préfiguration des catacombes"]},
+    {"id":"catacombes","order":8,"role":"compression_et_ressources_rares","target_duration_minutes":[12,18],"stress_pressure":"high_to_critical","rest_slot":false,"supply_pressure":"very_high","beats":["progression souterraine","lumière limitée","combat resserré","cache de ressources optionnelle","sortie raccourcie déverrouillable"]},
+    {"id":"ossuaire","order":9,"role":"point_de_rupture","target_duration_minutes":[9,14],"stress_pressure":"critical","rest_slot":true,"campfire_id":"campfire_03","supply_pressure":"very_high","beats":["amas d'ossements","combat ou sacrifice de ressources","feu de camp rare","forte incitation à évaluer un retour au hub"]},
+    {"id":"hameau_deserte","order":10,"role":"fausse_respiration","target_duration_minutes":[9,14],"stress_pressure":"high","rest_slot":false,"supply_pressure":"very_high","beats":["silence trompeur","fouille de bâtiments","provisions rares","rencontre imprévisible"]},
+    {"id":"route_des_penitents","order":11,"role":"marche_finale_vers_abbaye","target_duration_minutes":[8,12],"stress_pressure":"high_to_critical","rest_slot":false,"supply_pressure":"critical","beats":["procession abandonnée","ennemis renforcés","dernier embranchement extérieur","vue sur l'abbaye"]},
+    {"id":"abbaye","order":12,"role":"donjon_final_et_preparation","target_duration_minutes":[14,20],"stress_pressure":"critical","rest_slot":true,"campfire_id":"campfire_04","supply_pressure":"critical","beats":["entrée monumentale","progression intérieure","événement narratif principal","combat difficile","dernier feu de camp avant le boss"]},
+    {"id":"clocher_boss","order":13,"role":"climax","target_duration_minutes":[10,15],"stress_pressure":"critical","rest_slot":false,"supply_pressure":"critical","boss_slot":"ashlands_boss_01","beats":["ascension","entrée arène","boss multi-phase placeholder","résolution","retour au Sanctuaire"]}
+  ],
+  "secret_zones": [
+    {
+      "id":"clairiere_des_corbeaux",
+      "secret_index":1,
+      "access_from":["foret_morte","ravin_des_pendus"],
+      "discovery":"indice visuel + interaction ou test d'observation",
+      "role":"chasse_et_survie",
+      "target_duration_minutes":[8,12],
+      "stress_pressure":"medium_high",
+      "rest_slot":false,
+      "rewards":["viande_de_corbeau","plumes_noires","petit_cache_de_provisions","indice_de_raccourci"],
+      "risk":"combat optionnel et consommation de temps/éclairage",
+      "beats":["cris lointains","passage dissimulé","nid collectif","récolte sur cadavres","sortie secondaire"]
+    },
+    {
+      "id":"crypte_du_sans_nom",
+      "secret_index":2,
+      "access_from":["cimetiere","catacombes"],
+      "discovery":"clé/relique, mur fissuré ou chemin caché",
+      "role":"lore_et_recompense_rare",
+      "target_duration_minutes":[10,15],
+      "stress_pressure":"high_to_critical",
+      "rest_slot":false,
+      "rewards":["relique_rare","composants_medicaux","ressource_d_artisanat","fragment_de_lore"],
+      "risk":"rencontre élite facultative, stress élevé, aucune sortie directe vers le hub",
+      "beats":["entrée dissimulée","tombe profanée","rencontre facultative","butin rare","révélation narrative"]
+    }
+  ],
+  "resource_recovery": {
+    "design_intent":"Les cadavres ennemis et animaux peuvent prolonger une expédition, mais ne doivent jamais remplacer complètement un vrai ravitaillement au Sanctuaire.",
+    "corpse_harvest_rule":"Après un combat, certains cadavres proposent une action Récolter si le type de créature possède une table de ressources.",
+    "tradeoff":"Récolter consomme du temps et peut augmenter le stress, attirer une rencontre ou nécessiter un outil selon la ressource.",
+    "resource_examples": [
+      {"source":"corbeau","resource":"viande_de_corbeau","category":"nourriture","use":"repas de camp ou ration de secours"},
+      {"source":"corbeau","resource":"plume_noire","category":"artisanat","use":"rituels, traits de flèche ou commerce"},
+      {"source":"bete","resource":"viande_crue","category":"nourriture","use":"cuisson au feu de camp"},
+      {"source":"humanoide","resource":"bandages_ou_provisions","category":"survie","use":"butin contextuel, non garanti"},
+      {"source":"mort_vivant","resource":"os_et_residus","category":"artisanat_alchimie","use":"craft, médecine occulte ou commerce"}
+    ],
+    "food_safety_rule":"La viande brute doit idéalement être cuite au feu de camp; la consommer brute peut avoir un risque ou rendement inférieur.",
+    "balance_rule":"Les ressources récupérées réduisent la pression d'attrition sans assurer une autonomie infinie."
+  },
+  "expedition_economy": {
+    "design_intent": "Une équipe correctement préparée ne doit pas pouvoir explorer confortablement les 15 zones en une seule sortie lors de la progression normale.",
+    "consumable_categories": ["nourriture","soins","éclairage","outils_de_camp","objets_de_survie"],
+    "consumption_triggers": ["progression_de_zone","repos_au_feu","soins_hors_combat","événements","certaines_interactions","récolte_de_cadavres"],
+    "campfire_rule": "Un feu de camp permet de récupérer, cuisiner et stabiliser l'équipe mais consomme des ressources; ce n'est pas un ravitaillement gratuit.",
+    "hub_rule": "Le Sanctuaire reste la seule source fiable de ravitaillement complet.",
+    "retreat_rule": "Le joueur peut abandonner temporairement l'expédition et retourner au Sanctuaire avec ce qu'il a sécurisé; les raccourcis et zones découvertes réduisent le coût du retour suivant.",
+    "forced_pressure_rule": "Lorsque les ressources critiques sont épuisées, poursuivre doit devenir nettement plus dangereux sans provoquer un game over arbitraire immédiat.",
+    "target_first_run_reach": [5,8],
+    "target_prepared_run_reach": [8,11],
+    "full_clear_expectation": "Le boss et les deux zones secrètes deviennent raisonnablement explorables après préparation, connaissance du niveau, raccourcis et amélioration de l'équipe."
+  },
+  "campfires": [
+    {"id":"campfire_01","zone":3,"purpose":"enseigner le coût du repos et la cuisson"},
+    {"id":"campfire_02","zone":6,"purpose":"première vraie décision continuer ou rentrer"},
+    {"id":"campfire_03","zone":9,"purpose":"point de rupture de l'expédition"},
+    {"id":"campfire_04","zone":12,"purpose":"préparation finale sans ravitaillement complet"}
+  ],
+  "global_pacing": {
+    "main_zone_count":13,
+    "secret_zone_count":2,
+    "total_zone_count":15,
+    "target_total_duration_minutes":[141,210],
+    "expected_sessions":"plusieurs sorties au Sanctuaire pendant la découverte initiale",
+    "combat_density_rule":"alterner combat, exploration, décision et respiration; éviter les chaînes de combats lourds sans choix",
+    "exploration_rule":"chaque zone offre au moins une décision spatiale, économique ou risque/récompense",
+    "secret_rule":"les zones secrètes offrent des récompenses fortes mais ne sont jamais obligatoires pour atteindre le boss",
+    "narrative_rule":"au moins un élément de narration environnementale significatif par zone",
+    "capture_rule":"au moins une occasion claire de capture avant le premier feu de camp",
+    "shortcut_rule":"les retours au hub ne doivent pas obliger à répéter intégralement les zones maîtrisées; ouvrir progressivement des raccourcis ou points de reprise"
+  },
+  "placeholder_policy": {
+    "geometry":"primitives et modules temporaires",
+    "characters":"capsules/sprites/modèles temporaires",
+    "audio":"events nommés sans dépendre d'un fichier final",
+    "vfx":"markers et placeholders",
+    "lighting":"volumes et valeurs temporaires réglables dans Godot"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "design_rule": "Les ressources de terrain prolongent une expédition sans remplacer le ravitaillement complet du Sanctuaire.",
+  "tables": {
+    "corbeau": {
+      "harvest_time_seconds": 20,
+      "tool_required": false,
+      "drops": [
+        {"id":"viande_de_corbeau","category":"food_raw","min":1,"max":2,"chance":0.85},
+        {"id":"plume_noire","category":"craft","min":1,"max":3,"chance":0.70}
+      ]
+    },
+    "bete": {
+      "harvest_time_seconds": 35,
+      "tool_required": true,
+      "drops": [
+        {"id":"viande_crue","category":"food_raw","min":1,"max":4,"chance":0.90},
+        {"id":"peau_abimee","category":"craft","min":0,"max":2,"chance":0.45}
+      ]
+    },
+    "humanoide": {
+      "harvest_time_seconds": 12,
+      "tool_required": false,
+      "drops": [
+        {"id":"bandage_use","category":"medical","min":0,"max":2,"chance":0.35},
+        {"id":"ration_abimee","category":"food","min":0,"max":1,"chance":0.25},
+        {"id":"ferraille","category":"craft","min":0,"max":2,"chance":0.45}
+      ]
+    },
+    "mort_vivant": {
+      "harvest_time_seconds": 25,
+      "tool_required": false,
+      "drops": [
+        {"id":"os_sec","category":"craft","min":1,"max":3,"chance":0.80},
+        {"id":"residu_funeraire","category":"alchemy","min":0,"max":2,"chance":0.45}
+      ]
+    }
+  },
+  "food_processing": {
+    "viande_de_corbeau":{"raw_risk":true,"campfire_recipe":"viande_de_corbeau_cuite"},
+    "viande_crue":{"raw_risk":true,"campfire_recipe":"viande_cuite"}
+  }
+}
