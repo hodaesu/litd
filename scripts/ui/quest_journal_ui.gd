@@ -16,6 +16,7 @@ func _ready() -> void:
     _build_overlay()
     GameState.screen_requested.connect(_on_screen_requested)
     PoliticalState.politics_changed.connect(_on_state_changed)
+    CampaignState.campaign_changed.connect(_on_state_changed)
     SanctuaryState.sanctuary_state_changed.connect(_on_sanctuary_changed)
     _on_screen_requested(GameState.current_screen)
 
@@ -124,8 +125,27 @@ func _render() -> void:
     quest_box.custom_minimum_size = Vector2(550, 0)
     quest_box.add_theme_constant_override("separation", 9)
     quest_scroll.add_child(quest_box)
-    quest_box.add_child(_label("QUÊTES ET DÉCISIONS", 19, GOLD))
 
+    var chapter := CampaignState.current_chapter()
+    quest_box.add_child(_label("QUÊTE PRINCIPALE", 19, GOLD))
+    quest_box.add_child(_label("CHAPITRE %d — %s" % [CampaignState.current_chapter_number(), String(chapter.get("title", ""))], 18, TEXT))
+    quest_box.add_child(_label(String(chapter.get("premise", "")), 13, MUTED))
+
+    var main_active := CampaignState.active_main_quests()
+    if main_active.is_empty():
+        quest_box.add_child(_label("Toutes les quêtes principales de ce chapitre sont terminées.", 14, MUTED))
+    else:
+        for quest_value in main_active:
+            var main_quest: Dictionary = quest_value
+            quest_box.add_child(_label("◆ %s" % String(main_quest.get("name", "Quête principale")), 16, TEXT))
+            quest_box.add_child(_label(String(main_quest.get("goal", "")), 13, MUTED))
+
+    if not CampaignState.discovered_revelations.is_empty():
+        quest_box.add_child(_label("RÉVÉLATIONS CONFIRMÉES", 16, GOLD))
+        for revelation in CampaignState.discovered_revelations.values():
+            quest_box.add_child(_label("• %s" % String(revelation), 13, MUTED))
+
+    quest_box.add_child(_label("DÉCISIONS LOCALES", 18, GOLD))
     var available := PoliticalState.available_quests()
     if available.is_empty():
         quest_box.add_child(_label("Aucune décision politique urgente pour le moment.", 14, MUTED))
@@ -136,7 +156,7 @@ func _render() -> void:
 
     var completed := PoliticalState.completed_quests()
     if not completed.is_empty():
-        quest_box.add_child(_label("TERMINÉES", 17, GOLD))
+        quest_box.add_child(_label("DÉCISIONS TERMINÉES", 17, GOLD))
         for quest_value in completed:
             var quest: Dictionary = quest_value
             var quest_id := String(quest.get("id", ""))
