@@ -1,0 +1,31 @@
+{
+  "schema_version":1,
+  "chapter_id":"chapter_02_before_fall",
+  "title":"Les traces d'avant la Chute",
+  "theme":"Le passé récent du continent commence à contredire l'explication officielle de la catastrophe.",
+  "start_condition":"chapter_02_unlock",
+  "stages":[
+    {"id":"c02_stage_01_archive","name":"Les dossiers que personne ne lisait","type":"investigation","zone":"sanctuary_archive_room","objective":"Recouper les trois premières archives et identifier une anomalie antérieure à la Chute."},
+    {"id":"c02_stage_02_old_road","name":"La route des bornes muettes","type":"exploration","zone":"c02_old_road","objective":"Suivre une série de bornes dont les inscriptions ont été volontairement effacées."},
+    {"id":"c02_stage_03_watchpost","name":"Le poste abandonné","type":"rescue_investigation","zone":"c02_watchpost","objective":"Retrouver une équipe de reconnaissance et comprendre pourquoi elle a cessé de répondre."},
+    {"id":"c02_stage_04_camp","name":"Ce que l'on choisit de croire","type":"campfire","zone":"c02_quarry_camp","objective":"Au feu de camp, confronter deux interprétations incompatibles des indices."},
+    {"id":"c02_stage_05_miniboss","name":"Le Conservateur Brisé","type":"miniboss","zone":"c02_buried_archive","objective":"Survivre au gardien déformé d'un dépôt d'archives pré-Chute."},
+    {"id":"c02_stage_06_inquiry","name":"Sept dates pour un même événement","type":"investigation","zone":"c02_buried_archive","objective":"Réunir cinq indices, dont au moins deux sources indépendantes, pour établir que les anomalies précèdent le Projet Seuil."},
+    {"id":"c02_stage_07_boss","name":"La Veilleuse des Bornes","type":"boss","zone":"c02_resonance_station","objective":"Affronter une ancienne Veilleuse transformée qui protège encore un protocole oublié."},
+    {"id":"c02_stage_08_return","name":"Une histoire corrigée","type":"return","zone":"sanctuary","objective":"Présenter les preuves au Sanctuaire et décider si elles doivent être rendues publiques immédiatement."}
+  ],
+  "main_quests":[
+    {"id":"c02_erased_stones","name":"Les pierres effacées"},
+    {"id":"c02_seven_dates","name":"Sept dates"},
+    {"id":"c02_protocol","name":"Le protocole oublié"}
+  ],
+  "investigation":{"required_clues":5,"independent_sources_min":2,"false_leads":3,"core_revelation":"Des autorités pré-Chute avaient déjà documenté des phénomènes apparentés au Voile, mais ces dossiers avaient été classés comme erreurs, superstitions ou incidents sans lien."},
+  "miniboss":{"id":"c02_broken_curator","name":"Le Conservateur Brisé","concept":"Ancien gardien d'archives dont la Folie s'exprime par une obsession de protéger les documents contre toute lecture."},
+  "boss":{"id":"c02_marker_warden","name":"La Veilleuse des Bornes","former_identity":"Sahra Vel, cartographe de la Concorde","phases":["Cartographie impossible","Routes superposées","Le chemin interdit"],"signature":"La Carte qui se Souvient","narrative_truth":"Elle ne protégeait pas un secret militaire : elle empêchait qu'un ancien réseau de résonance soit réactivé."},
+  "final_choice":[
+    {"id":"publish","label":"Rendre les preuves publiques","effects":{"trust":3,"tension":5,"veil_knowledge":4}},
+    {"id":"council","label":"Les confier d'abord aux médiateurs","effects":{"trust":1,"tension":1,"justice_integrity":2}},
+    {"id":"withhold","label":"Garder temporairement le secret","effects":{"tension":-2,"trust":-3,"veil_knowledge":2}}
+  ],
+  "completion":{"unlock_chapter":"chapter_03_threshold_project","revelation":"Quelqu'un, avant la Chute, savait que certaines anomalies formaient un réseau cohérent."}
+}
