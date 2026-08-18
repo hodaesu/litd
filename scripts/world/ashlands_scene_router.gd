@@ -13,6 +13,7 @@ const CHAPTER_06_PATH := "res://scenes/world/chapter_06/"
 const CHAPTER_07_PATH := "res://scenes/world/chapter_07/"
 const CHAPTER_08_PATH := "res://scenes/world/chapter_08/"
 const DEEP_VESTIGE_PATH := "res://scenes/world/deep_vestiges/"
+const GENERIC_DEEP_VESTIGE_SCENE := DEEP_VESTIGE_PATH + "generic_deep_vestige.tscn"
 const MAIN_SCENE := "res://scenes/Main.tscn"
 
 var zone_scene_paths := {
@@ -29,11 +30,22 @@ var zone_scene_paths := {
     "vn01_outer_cloister": DEEP_VESTIGE_PATH + "vn01_outer_cloister.tscn", "vn02_silent_archive": DEEP_VESTIGE_PATH + "vn02_silent_archive.tscn", "vn03_sealed_dormitory": DEEP_VESTIGE_PATH + "vn03_sealed_dormitory.tscn", "vn04_watchers_well": DEEP_VESTIGE_PATH + "vn04_watchers_well.tscn", "vn05_last_vigil": DEEP_VESTIGE_PATH + "vn05_last_vigil.tscn", "vn06_seal_heart": DEEP_VESTIGE_PATH + "vn06_seal_heart.tscn"
 }
 
-func _ready() -> void: AshlandsRuntime.transition_requested.connect(load_zone)
+func _ready() -> void:
+    _register_dynamic_deep_vestige_zones()
+    AshlandsRuntime.transition_requested.connect(load_zone)
+
+func _register_dynamic_deep_vestige_zones() -> void:
+    for vestige_id in DeepVestigeRuntime.vestige_data.keys():
+        var data: Dictionary = DeepVestigeRuntime.data_for(String(vestige_id))
+        for value in data.get("zones", []):
+            var zone_id := String((value as Dictionary).get("id", ""))
+            if zone_id != "" and not zone_scene_paths.has(zone_id): zone_scene_paths[zone_id] = GENERIC_DEEP_VESTIGE_SCENE
+
 func has_zone(zone_id: String) -> bool: return zone_scene_paths.has(zone_id) and ResourceLoader.exists(zone_scene_paths[zone_id])
 func load_zone(zone_id: String) -> bool:
     zone_load_started.emit(zone_id)
     if not has_zone(zone_id): zone_load_failed.emit(zone_id,"scene_missing"); return false
+    if DeepVestigeRuntime.has_zone(zone_id): DeepVestigeRuntime.prepare_zone(zone_id)
     var error := get_tree().change_scene_to_file(zone_scene_paths[zone_id])
     if error != OK: zone_load_failed.emit(zone_id,"change_scene_error_%s" % error); return false
     AshlandsRuntime.enter_zone(zone_id); zone_load_finished.emit(zone_id); return true
@@ -50,9 +62,13 @@ func start_chapter_05() -> bool: return CampaignState.current_chapter_id == "cha
 func start_chapter_06() -> bool: return CampaignState.current_chapter_id == "chapter_06_absent" and _start_exp("c06_timeless_garden")
 func start_chapter_07() -> bool: return CampaignState.current_chapter_id == "chapter_07_living_responsible" and _start_exp("c07_engineer_refuge")
 func start_chapter_08() -> bool: return CampaignState.current_chapter_id == "chapter_08_outer_world" and _start_exp("c08_varkhane_border")
-func start_ashai_deep_vestige() -> bool: return DeepVestigeRuntime.is_unlocked("vestige_ashai_seven_resonances") and _start_exp("va01_threshold_gallery")
-func start_or_silex_deep_vestige() -> bool: return DeepVestigeRuntime.is_unlocked("vestige_or_silex_black_glass") and _start_exp("vs01_gate_of_doctrine")
-func start_saan_deep_vestige() -> bool: return DeepVestigeRuntime.is_unlocked("vestige_saan_last_seal") and _start_exp("vn01_outer_cloister")
+func start_deep_vestige(vestige_id: String) -> bool:
+    if not DeepVestigeRuntime.is_unlocked(vestige_id): return false
+    var entry_zone := DeepVestigeRuntime.entry_zone_for(vestige_id)
+    return entry_zone != "" and _start_exp(entry_zone)
+func start_ashai_deep_vestige() -> bool: return start_deep_vestige("vestige_ashai_seven_resonances")
+func start_or_silex_deep_vestige() -> bool: return start_deep_vestige("vestige_or_silex_black_glass")
+func start_saan_deep_vestige() -> bool: return start_deep_vestige("vestige_saan_last_seal")
 func return_to_hub(reason: String = "voluntary") -> void:
     ExpeditionManager.return_to_hub(reason); GameState.current_screen = "sanctuary"; var error := get_tree().change_scene_to_file(MAIN_SCENE); if error == OK: call_deferred("_show_sanctuary_after_load")
 func _show_sanctuary_after_load() -> void:
