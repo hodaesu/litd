@@ -22,7 +22,7 @@ def test_vertical_slice_is_autoloaded_reset_saved_and_visible_in_journal():
     assert "Chapter01Runtime.reset_new_game()" in game_state
     assert 'SAVE_VERSION := "0.26"' in save
     assert '"chapter_01": Chapter01Runtime.serialize()' in save
-    assert "PROGRESSION DU CHAPITRE I" in journal
+    assert '_stage_header(parent, "CHAPITRE I", Chapter01Runtime)' in journal
 
 
 def test_ash_witness_contract():
