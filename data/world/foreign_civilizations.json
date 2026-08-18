@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "civilizations": [
+    {
+      "id": "varkhane",
+      "name": "Empire de Varkhane",
+      "regime": "dynastie militaire impériale",
+      "identity": "Hiérarchie, stabilité, administration et prestige militaire.",
+      "major_cities": ["Khar-Vor", "Selkaï", "Orvak", "Mera-Tal"],
+      "population": ["agriculteurs", "artisans", "bateliers", "scribes", "commerçants", "ouvriers des fortifications", "militaires"],
+      "military": ["infanterie lourde", "cavalerie de frontière", "archers", "arbalétriers", "ingénieurs de siège", "logisticiens"],
+      "internal_opposition": "Officiers, juristes et vétérans favorables à certaines limitations du pouvoir inspirées de la Concorde.",
+      "post_fall": {
+        "status": "fragmented",
+        "capital_status": "unknown",
+        "core_conflict": "centre impérial contre autonomie de survie des provinces",
+        "survival_pattern": "Certaines provinces survivent mieux après avoir cessé d'attendre les ordres centraux."
+      }
+    },
+    {
+      "id": "namar",
+      "name": "Thalassocratie de Namar",
+      "regime": "oligarchie marchande de cités portuaires",
+      "identity": "Commerce, navigation, réputation, crédit et contrôle des routes maritimes.",
+      "major_cities": ["Namaris", "Vey-Lor", "Sahrin", "Ilyara"],
+      "population": ["marins", "dockers", "artisans", "navigateurs", "marchands", "travailleurs endettés", "communautés étrangères"],
+      "military": ["marines professionnelles", "archers embarqués", "troupes de débarquement", "mercenaires", "ingénieurs navals"],
+      "internal_opposition": "Syndicats de dockers, confréries de marins et petits comptoirs hostiles au pouvoir permanent des Grandes Maisons.",
+      "post_fall": {
+        "status": "maritime_dislocation",
+        "capital_status": "uncertain",
+        "core_conflict": "Maisons marchandes contre capitaines et refuges autonomes",
+        "survival_pattern": "Îles isolées, navires-refuges et ports fermés limitent localement la propagation."
+      }
+    },
+    {
+      "id": "azravel",
+      "name": "Royaume sacré d'Azravel",
+      "regime": "théocratie centralisée",
+      "identity": "Ordre religieux, hiérarchie spirituelle, calendrier sacré et institutions communautaires liées au culte.",
+      "major_cities": ["Azh-Meran", "Vel Or", "Serekh", "Damar Az"],
+      "population": ["paysans", "artisans", "clercs", "moines", "soldats", "minorités religieuses", "communautés hétérodoxes"],
+      "military": ["ordres militaires religieux", "fantassins levés", "gardes des sanctuaires", "cavalerie des hauts plateaux", "exorcistes", "alchimistes rituels"],
+      "internal_opposition": "Clercs compassionnels, théologiens réformateurs et communautés qui refusent de confondre foi et obéissance au pouvoir.",
+      "post_fall": {
+        "status": "religious_schism",
+        "capital_status": "unknown",
+        "core_conflict": "interprétations rivales du désastre et découverte possible de la responsabilité du clergé",
+        "survival_pattern": "Certains temples deviennent refuges, d'autres centres de purge ou de résistance."
+      }
+    },
+    {
+      "id": "kor_em",
+      "name": "Ligue de Kor-Em",
+      "regime": "confédération de principautés, académies et cités savantes",
+      "identity": "Savoir, mécénat, compétition intellectuelle, médecine, observation et ingénierie.",
+      "major_cities": ["Kor-Em", "Deyra", "Tal-Ves", "Brannor"],
+      "population": ["savants", "étudiants", "artisans spécialisés", "ouvriers", "médecins", "ingénieurs", "mécènes"],
+      "military": ["gardes princières", "mercenaires", "ingénieurs militaires", "milices académiques"],
+      "internal_opposition": "Savants favorables à la coopération ouverte avec la Concorde et critiques du système de mécénat.",
+      "post_fall": {
+        "status": "uneven_survival",
+        "capital_status": "partially_functional_possible",
+        "core_conflict": "préservation du savoir contre expérimentations désespérées",
+        "survival_pattern": "La fragmentation empêche une réponse commune mais évite l'activation uniforme des relais du Projet Seuil."
+      }
+    }
+  ],
+  "shared_post_fall_rule": "Le monde extérieur n'est ni intact ni totalement détruit. Des survivants, villes isolées, dissidents et responsables peuvent encore exister.",
+  "canonical_rule": "Aucune civilisation étrangère n'est moralement homogène et aucune population n'est collectivement coupable du Pacte de l'Horizon Fermé."
+}
