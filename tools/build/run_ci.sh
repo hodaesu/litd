@@ -22,6 +22,9 @@ python -m tools.qa.balance_audit
 echo "==> Audit tours complets et effets de talents"
 python -m tools.qa.combat_turn_audit
 
+echo "==> Audit rangs, déplacements et synergies tactiques"
+python -m tools.qa.tactical_combat_audit
+
 echo "==> Simulation combat v2, économie et cycles NG+"
 python -m tools.qa.combat_economy_sim_v2
 
