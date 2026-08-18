@@ -6,6 +6,7 @@ signal zone_load_failed(zone_id: String, reason: String)
 
 const BASE_PATH := "res://scenes/world/terre_des_cendres/"
 const CHAPTER_02_PATH := "res://scenes/world/chapter_02/"
+const CHAPTER_03_PATH := "res://scenes/world/chapter_03/"
 const MAIN_SCENE := "res://scenes/Main.tscn"
 
 var zone_scene_paths := {
@@ -28,7 +29,13 @@ var zone_scene_paths := {
     "c02_watchpost": CHAPTER_02_PATH + "c02_watchpost.tscn",
     "c02_quarry_camp": CHAPTER_02_PATH + "c02_quarry_camp.tscn",
     "c02_buried_archive": CHAPTER_02_PATH + "c02_buried_archive.tscn",
-    "c02_resonance_station": CHAPTER_02_PATH + "c02_resonance_station.tscn"
+    "c02_resonance_station": CHAPTER_02_PATH + "c02_resonance_station.tscn",
+    "c03_abandoned_relay": CHAPTER_03_PATH + "c03_abandoned_relay.tscn",
+    "c03_korem_lab": CHAPTER_03_PATH + "c03_korem_lab.tscn",
+    "c03_diplomatic_post": CHAPTER_03_PATH + "c03_diplomatic_post.tscn",
+    "c03_threshold_complex": CHAPTER_03_PATH + "c03_threshold_complex.tscn",
+    "c03_abort_chamber": CHAPTER_03_PATH + "c03_abort_chamber.tscn",
+    "c03_ritual_core": CHAPTER_03_PATH + "c03_ritual_core.tscn"
 }
 
 func _ready() -> void:
@@ -65,6 +72,15 @@ func start_chapter_02() -> bool:
     AshlandsRuntime.begin_new_expedition()
     GameState.request_screen("exploration")
     return load_zone("c02_old_road")
+
+func start_chapter_03() -> bool:
+    if CampaignState.current_chapter_id != "chapter_03_threshold":
+        return false
+    if not ExpeditionManager.expedition_active:
+        ExpeditionManager.start_expedition()
+    AshlandsRuntime.begin_new_expedition()
+    GameState.request_screen("exploration")
+    return load_zone("c03_abandoned_relay")
 
 func return_to_hub(reason: String = "voluntary") -> void:
     ExpeditionManager.return_to_hub(reason)
