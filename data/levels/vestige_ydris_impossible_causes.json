@@ -1,0 +1,34 @@
+{
+  "schema_version":1,
+  "vestige_id":"vestige_ydris_impossible_causes",
+  "name":"Observatoire des Causes Impossibles",
+  "civilization":"Ateliers d'Ydris",
+  "optional":true,
+  "difficulty_tier":"deep_vestige",
+  "recommended_level_offset":5,
+  "entry_zone":"vy01_probability_court",
+  "zones":[
+    {"id":"vy01_probability_court","name":"Cour des Probabilités","size_m":[108,82],"entry":[0,0,31],"exits":[{"to":"vy02_water_calculator","position":[0,0,-36]}],"fragments":["vy_f01","vy_f02"],"encounters":[{"id":"vy_elite_prediction_keepers","type":"normal","position":[0,0,-10]}]},
+    {"id":"vy02_water_calculator","name":"Calculateur Hydraulique","size_m":[114,88],"entry":[0,0,34],"exits":[{"to":"vy03_observer_gallery","position":[0,0,-39]}],"fragments":["vy_f03","vy_f04"],"puzzle":"Modifier une prédiction après l'avoir observée pour vérifier si le dispositif décrit l'avenir ou l'influence."},
+    {"id":"vy03_observer_gallery","name":"Galerie des Observateurs","size_m":[110,86],"entry":[0,0,33],"exits":[{"to":"vy04_failed_forecasts","position":[0,0,-38]}],"fragments":["vy_f05"],"encounters":[{"id":"vy_miniboss_causal_auditor","type":"miniboss","name":"L'Auditeur Causal","position":[0,0,-13]}]},
+    {"id":"vy04_failed_forecasts","name":"Archive des Prévisions Fausses","size_m":[112,88],"entry":[0,0,34],"exits":[{"to":"vy05_model_chamber","position":[0,0,-39]}],"fragments":["vy_f06"],"campfire":true,"campfire_position":[-18,0,4]},
+    {"id":"vy05_model_chamber","name":"Chambre du Modèle Certain","size_m":[120,92],"entry":[0,0,36],"exits":[{"to":"vy06_living_theorem","position":[0,0,-42]}],"fragments":["vy_f07","vy_f08"],"puzzle":"Conserver volontairement une variable inconnue afin d'empêcher le modèle de fermer toutes les issues possibles."},
+    {"id":"vy06_living_theorem","name":"Salle du Théorème Vivant","size_m":[130,100],"entry":[0,0,40],"exits":[],"fragments":["vy_f09"],"encounters":[{"id":"vestige_ydris_boss_living_theorem","type":"boss","name":"Le Théorème Vivant","position":[0,0,-18]}]}
+  ],
+  "fragments":[
+    {"id":"vy_f01","title":"Mesurer n'est pas regarder","text":"Un instrument modifie toujours un peu ce qu'il mesure. La question est de savoir combien."},
+    {"id":"vy_f02","title":"Prévision publique","text":"Lorsque les observateurs connaissent le résultat attendu, les écarts diminuent d'une manière que les erreurs de mesure n'expliquent pas."},
+    {"id":"vy_f03","title":"Machine des causes","text":"Le calculateur ne donne pas une réponse : il classe les chaînes de causes compatibles avec les observations."},
+    {"id":"vy_f04","title":"Expérience inversée","text":"Annoncer volontairement une mauvaise prévision suffit parfois à modifier le phénomène observé."},
+    {"id":"vy_f05","title":"Le problème de l'observateur","text":"Nous ignorons désormais si certaines anomalies suivent le modèle ou si le modèle leur apprend comment se produire."},
+    {"id":"vy_f06","title":"Bibliothèque des erreurs","text":"Les prévisions fausses sont conservées parce qu'elles contiennent les mondes que notre certitude n'a pas réussi à imposer."},
+    {"id":"vy_f07","title":"Modèle certain","text":"Le mécène exige une machine qui ne se trompe jamais. Les chercheurs répondent qu'une telle machine serait plus dangereuse qu'une machine inutile."},
+    {"id":"vy_f08","title":"Fermeture des ateliers","text":"Arrêtez les calculs publics. Nous observons une convergence des événements vers les scénarios que nous annonçons avec le plus de confiance."},
+    {"id":"vy_f09","title":"Le théorème vivant","text":"La dernière équation ne prédit plus les choix. Elle attend qu'un choix soit fait pour prouver qu'il était inévitable."}
+  ],
+  "miniboss":{"id":"vy_miniboss_causal_auditor","name":"L'Auditeur Causal","signature":"Erreur prévue","core_puzzle":"Il classe rapidement l'action la plus répétée comme cause dominante et construit une contre-mesure autour d'elle.","counterplay":"Introduire des actions de soutien, garde et environnement afin de maintenir plusieurs chaînes causales possibles."},
+  "boss":{"id":"vestige_ydris_boss_living_theorem","name":"Le Théorème Vivant","tier":"deep_vestige_boss","signature":"Déjà calculé","phases":["Hypothèse","Prédiction certaine","Cause après effet"],"environmental_solution":"Laisser volontairement une variable non résolue dans trois calculateurs afin que le boss ne puisse plus présenter une seule chaîne causale comme nécessaire.","alternate_resolutions":["effacer_le_modele","introduire_l_inconnu","archiver_sans_executer"],"punishes_bruteforce":"Plus le groupe répète un schéma, plus le boss peut le présenter comme inévitable et augmenter sa réduction de dégâts."},
+  "completion_requirements":{"fragments_min":7,"boss":"vestige_ydris_boss_living_theorem"},
+  "rewards":{"gold":180,"essence":44,"relic":{"id":"relic_ydris_unknown_variable","name":"Variable Inconnue d'Ydris","effect":"Une fois par donjon, empêche un ennemi de prédire, copier ou verrouiller la prochaine action du groupe."},"deep_truth":{"id":"deep_truth_ydris","text":"Ydris a découvert que certaines observations du Voile ne sont pas passives : annoncer avec assez de certitude ce qui doit arriver peut contribuer à réduire les autres possibilités."}},
+  "replay":{"shortcuts_persist":true,"secret_rooms":2,"all_fragments_required_for_deep_truth":true}
+}
