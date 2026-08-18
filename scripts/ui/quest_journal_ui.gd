@@ -10,42 +10,33 @@ var overlay: Control
 var body: Control
 
 func _ready() -> void:
-    layer = 28
-    _build_launcher(); _build_overlay()
-    GameState.screen_requested.connect(_on_screen_requested)
-    PoliticalState.politics_changed.connect(_on_state_changed)
-    CampaignState.campaign_changed.connect(_on_state_changed)
+    layer = 28; _build_launcher(); _build_overlay()
+    GameState.screen_requested.connect(_on_screen_requested); PoliticalState.politics_changed.connect(_on_state_changed); CampaignState.campaign_changed.connect(_on_state_changed)
     Chapter01Runtime.chapter_one_changed.connect(_on_state_changed); Chapter01Runtime.boss_choice_required.connect(_open_journal)
     Chapter02Runtime.chapter_two_changed.connect(_on_state_changed); Chapter02Runtime.final_choice_required.connect(_open_journal)
     Chapter03Runtime.chapter_three_changed.connect(_on_state_changed); Chapter03Runtime.echo_choice_required.connect(_open_journal)
     Chapter04Runtime.chapter_four_changed.connect(_on_state_changed); Chapter04Runtime.final_choice_required.connect(_open_journal)
-    SanctuaryState.sanctuary_state_changed.connect(_on_sanctuary_changed)
-    _on_screen_requested(GameState.current_screen)
+    Chapter05Runtime.chapter_five_changed.connect(_on_state_changed); Chapter05Runtime.final_choice_required.connect(_open_journal)
+    SanctuaryState.sanctuary_state_changed.connect(_on_sanctuary_changed); _on_screen_requested(GameState.current_screen)
 
 func _style(color := PANEL) -> StyleBoxFlat:
     var style := StyleBoxFlat.new(); style.bg_color = color; style.border_color = Color(0.45,0.34,0.20,0.82); style.set_border_width_all(1); style.set_corner_radius_all(5); style.content_margin_left = 12; style.content_margin_right = 12; style.content_margin_top = 9; style.content_margin_bottom = 9; return style
-
 func _label(text: String, size := 15, color := TEXT) -> Label:
     var label := Label.new(); label.text = text; label.add_theme_font_size_override("font_size",size); label.add_theme_color_override("font_color",color); label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; return label
-
 func _button(text: String, callback: Callable, size := Vector2(180,44)) -> Button:
     var b := Button.new(); b.text = text; b.custom_minimum_size = size; b.add_theme_font_size_override("font_size",15); b.add_theme_color_override("font_color",TEXT); b.add_theme_stylebox_override("normal",_style()); b.add_theme_stylebox_override("hover",_style(Color(0.11,0.085,0.06,0.99))); b.pressed.connect(callback); return b
-
 func _build_launcher() -> void:
     launcher = _button("JOURNAL",func(): GameState.request_screen("quest_journal"),Vector2(150,44)); launcher.position = Vector2(1080,80); launcher.visible = false; add_child(launcher)
-
 func _build_overlay() -> void:
     overlay = Control.new(); overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); overlay.visible = false; add_child(overlay)
     var bg := ColorRect.new(); bg.color = DARK; bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); overlay.add_child(bg)
     var header := HBoxContainer.new(); header.position = Vector2(24,18); header.size = Vector2(1232,52); overlay.add_child(header)
     var title := _label("JOURNAL",26,GOLD); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; header.add_child(title); header.add_child(_button("RETOUR",func(): GameState.request_screen("sanctuary"),Vector2(130,42)))
     body = Control.new(); body.position = Vector2(24,82); body.size = Vector2(1232,610); overlay.add_child(body)
-
 func _on_screen_requested(screen_name: String) -> void:
     overlay.visible = screen_name == "quest_journal"; launcher.visible = false
     if overlay.visible:
-        SanctuaryState.refresh(); PoliticalState.refresh_unlocks(); Chapter01Runtime.refresh_progress(); Chapter02Runtime.refresh_progress(); Chapter03Runtime.refresh_progress(); Chapter04Runtime.refresh_progress(); _render()
-
+        SanctuaryState.refresh(); PoliticalState.refresh_unlocks(); Chapter01Runtime.refresh_progress(); Chapter02Runtime.refresh_progress(); Chapter03Runtime.refresh_progress(); Chapter04Runtime.refresh_progress(); Chapter05Runtime.refresh_progress(); _render()
 func _open_journal() -> void: GameState.request_screen("quest_journal")
 func _on_state_changed() -> void:
     if overlay.visible: call_deferred("_render")
@@ -56,8 +47,7 @@ func _clear() -> void:
 
 func _render() -> void:
     if not overlay.visible: return
-    _clear()
-    var columns := HBoxContainer.new(); columns.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); columns.add_theme_constant_override("separation",16); body.add_child(columns)
+    _clear(); var columns := HBoxContainer.new(); columns.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); columns.add_theme_constant_override("separation",16); body.add_child(columns)
     var qp := PanelContainer.new(); qp.custom_minimum_size = Vector2(590,590); qp.add_theme_stylebox_override("panel",_style()); columns.add_child(qp)
     var qs := ScrollContainer.new(); qp.add_child(qs); var q := VBoxContainer.new(); q.custom_minimum_size = Vector2(550,0); q.add_theme_constant_override("separation",9); qs.add_child(q)
     var chapter := CampaignState.current_chapter(); q.add_child(_label("QUÊTE PRINCIPALE",19,GOLD)); q.add_child(_label("CHAPITRE %d — %s" % [CampaignState.current_chapter_number(),String(chapter.get("title",""))],18,TEXT)); q.add_child(_label(String(chapter.get("premise","")),13,MUTED))
@@ -66,6 +56,7 @@ func _render() -> void:
         "chapter_02_before_fall": _render_chapter_two(q)
         "chapter_03_threshold": _render_chapter_three(q)
         "chapter_04_first_rupture": _render_chapter_four(q)
+        "chapter_05_great_closure": _render_chapter_five(q)
     for quest_value in CampaignState.active_main_quests():
         var quest: Dictionary = quest_value; q.add_child(_label("◆ %s" % String(quest.get("name","Quête principale")),16,TEXT)); q.add_child(_label(String(quest.get("goal","")),13,MUTED))
     if not CampaignState.discovered_revelations.is_empty():
@@ -79,53 +70,41 @@ func _render() -> void:
     s.add_child(_label("SANCTUAIRE DU PREMIER VOILE",19,GOLD)); s.add_child(_label("État actuel : %s" % SanctuaryState.summary(),16,TEXT)); s.add_child(_label("Confiance %d · Tension %d · Réputation %+d" % [PoliticalState.trust,PoliticalState.tension,PoliticalState.reputation],14,MUTED))
     var a: Dictionary = PoliticalState.three_awakenings; s.add_child(_label("Corps %d · Esprit %d · Cité %d" % [int(a.get("body",50)),int(a.get("spirit",50)),int(a.get("city",50))],14,MUTED)); _add_section(s,"CHANGEMENTS VISIBLES",SanctuaryState.current_visual_cues()); _add_section(s,"POPULATION ET PRÉSENCES",SanctuaryState.current_population_cues()); _add_section(s,"AMBIANCE",SanctuaryState.current_audio_cues())
 
+func _stage_header(parent: VBoxContainer, title: String, runtime: Node) -> void:
+    parent.add_child(_label("PROGRESSION DU %s — %s" % [title,runtime.progress_text()],15,GOLD)); var st: Dictionary = runtime.active_stage(); if not st.is_empty(): parent.add_child(_label("Objectif actuel : %s" % String(st.get("name","")),16,TEXT)); parent.add_child(_label(String(st.get("objective","")),13,MUTED))
 func _render_chapter_one(parent: VBoxContainer) -> void:
-    parent.add_child(_label("PROGRESSION DU CHAPITRE I — %s" % Chapter01Runtime.progress_text(),15,GOLD)); var st := Chapter01Runtime.active_stage(); if not st.is_empty(): parent.add_child(_label("Objectif actuel : %s" % String(st.get("name","")),16,TEXT)); parent.add_child(_label(String(st.get("objective","")),13,MUTED)); _add_c01_choice(parent)
-
+    _stage_header(parent,"CHAPITRE I",Chapter01Runtime); _add_c01_choice(parent)
 func _render_chapter_two(parent: VBoxContainer) -> void:
-    parent.add_child(_label("PROGRESSION DU CHAPITRE II — %s" % Chapter02Runtime.progress_text(),15,GOLD)); var st := Chapter02Runtime.active_stage(); if not st.is_empty(): parent.add_child(_label("Objectif actuel : %s" % String(st.get("name","")),16,TEXT)); parent.add_child(_label(String(st.get("objective","")),13,MUTED))
-    if not AshlandsRuntime.is_zone_discovered("c02_old_road"): parent.add_child(_button("PARTIR SUR LA ROUTE DES BORNES",func(): AshlandsSceneRouter.start_chapter_02(),Vector2(520,48)))
-    parent.add_child(_label("ENQUÊTE — %d indices · %d sources indépendantes" % [Chapter02Runtime.clue_count(),Chapter02Runtime.independent_source_count()],15,GOLD)); _add_c02_choice(parent)
-
+    _stage_header(parent,"CHAPITRE II",Chapter02Runtime); if not AshlandsRuntime.is_zone_discovered("c02_old_road"): parent.add_child(_button("PARTIR SUR LA ROUTE DES BORNES",func(): AshlandsSceneRouter.start_chapter_02(),Vector2(520,48))); parent.add_child(_label("ENQUÊTE — %d indices · %d sources indépendantes" % [Chapter02Runtime.clue_count(),Chapter02Runtime.independent_source_count()],15,GOLD)); _add_c02_choice(parent)
 func _render_chapter_three(parent: VBoxContainer) -> void:
-    parent.add_child(_label("PROGRESSION DU CHAPITRE III — %s" % Chapter03Runtime.progress_text(),15,GOLD)); var st := Chapter03Runtime.active_stage(); if not st.is_empty(): parent.add_child(_label("Objectif actuel : %s" % String(st.get("name","")),16,TEXT)); parent.add_child(_label(String(st.get("objective","")),13,MUTED))
-    if not AshlandsRuntime.is_zone_discovered("c03_abandoned_relay"): parent.add_child(_button("ENTRER DANS LE RÉSEAU DU SEUIL",func(): AshlandsSceneRouter.start_chapter_03(),Vector2(520,48)))
-    parent.add_child(_label("DOSSIER DU PROJET SEUIL — %d preuves · %d acteurs reliés · %d sources" % [Chapter03Runtime.evidence_count(),Chapter03Runtime.actor_count_with_evidence(),Chapter03Runtime.independent_source_count()],15,GOLD)); _add_c03_choice(parent)
-
+    _stage_header(parent,"CHAPITRE III",Chapter03Runtime); if not AshlandsRuntime.is_zone_discovered("c03_abandoned_relay"): parent.add_child(_button("ENTRER DANS LE RÉSEAU DU SEUIL",func(): AshlandsSceneRouter.start_chapter_03(),Vector2(520,48))); parent.add_child(_label("DOSSIER DU PROJET SEUIL — %d preuves · %d acteurs reliés · %d sources" % [Chapter03Runtime.evidence_count(),Chapter03Runtime.actor_count_with_evidence(),Chapter03Runtime.independent_source_count()],15,GOLD)); _add_c03_choice(parent)
 func _render_chapter_four(parent: VBoxContainer) -> void:
-    parent.add_child(_label("PROGRESSION DU CHAPITRE IV — %s" % Chapter04Runtime.progress_text(),15,GOLD)); var st := Chapter04Runtime.active_stage(); if not st.is_empty(): parent.add_child(_label("Objectif actuel : %s" % String(st.get("name","")),16,TEXT)); parent.add_child(_label(String(st.get("objective","")),13,MUTED))
-    if not AshlandsRuntime.is_zone_discovered("c04_buried_city"): parent.add_child(_button("DESCENDRE VERS LA CITÉ DE NHAL",func(): AshlandsSceneRouter.start_chapter_04(),Vector2(520,48)))
-    parent.add_child(_label("ARCHÉOLOGIE ASHAÏ — %d fragments · %d familles de sources · %d contradictions" % [Chapter04Runtime.fragment_count(),Chapter04Runtime.independent_source_family_count(),Chapter04Runtime.contradiction_count()],15,GOLD))
-    for fragment_value in Chapter04Runtime.discovered_fragments.values():
-        var f: Dictionary = fragment_value; parent.add_child(_label("• %s — %s" % [String(f.get("title","Fragment")),String(f.get("reliability","inconnu"))],13,MUTED))
-    if not Chapter04Runtime.confirmed_hypotheses.is_empty(): parent.add_child(_label("HYPOTHÈSES ASHAÏ CONFIRMÉES",15,GOLD))
-    for h_value in Chapter04Runtime.hypotheses():
-        var h: Dictionary = h_value; var id := String(h.get("id","")); if bool(Chapter04Runtime.confirmed_hypotheses.get(id,false)): parent.add_child(_label("✓ %s" % String(h.get("title",id)),13,TEXT))
-    _add_c04_choice(parent)
+    _stage_header(parent,"CHAPITRE IV",Chapter04Runtime); if not AshlandsRuntime.is_zone_discovered("c04_buried_city"): parent.add_child(_button("DESCENDRE VERS LA CITÉ DE NHAL",func(): AshlandsSceneRouter.start_chapter_04(),Vector2(520,48))); parent.add_child(_label("ARCHÉOLOGIE ASHAÏ — %d fragments · %d familles de sources · %d contradictions" % [Chapter04Runtime.fragment_count(),Chapter04Runtime.independent_source_family_count(),Chapter04Runtime.contradiction_count()],15,GOLD)); _add_c04_choice(parent)
+func _render_chapter_five(parent: VBoxContainer) -> void:
+    _stage_header(parent,"CHAPITRE V",Chapter05Runtime)
+    if not AshlandsRuntime.is_zone_discovered("c05_black_glass_crypts"): parent.add_child(_button("ENTRER DANS LES CRYPTES DE VERRE NOIR",func(): AshlandsSceneRouter.start_chapter_05(),Vector2(520,48)))
+    parent.add_child(_label("DOSSIER OR-SILEX / SAAN — %d fragments · %d familles de sources" % [Chapter05Runtime.fragment_count(),Chapter05Runtime.independent_source_family_count()],15,GOLD))
+    parent.add_child(_label("Sources civiles : %d · Sources de Saan : %d" % [Chapter05Runtime.category_count("civilian"),Chapter05Runtime.category_count("saan")],13,MUTED))
+    for h_value in Chapter05Runtime.hypotheses():
+        var h: Dictionary = h_value; var id := String(h.get("id","")); if bool(Chapter05Runtime.confirmed_hypotheses.get(id,false)): parent.add_child(_label("✓ %s" % String(h.get("title",id)),13,TEXT))
+    _add_c05_choice(parent)
 
 func _add_c01_choice(parent: VBoxContainer) -> void:
     if Chapter01Runtime.boss_choice != "" or not AshlandsRuntime.is_encounter_cleared("c01_boss_ash_witness"): return
-    for value in Chapter01Runtime.stage("c01_stage_07_witness").get("boss_choices",[]):
-        var c: Dictionary = value; var id := String(c.get("id","")); parent.add_child(_button(String(c.get("label",id)),func(v=id): Chapter01Runtime.choose_boss_outcome(String(v)); SaveManager.save_game(); _render(),Vector2(520,48)))
-
+    for value in Chapter01Runtime.stage("c01_stage_07_witness").get("boss_choices",[]): var c: Dictionary = value; var id := String(c.get("id","")); parent.add_child(_button(String(c.get("label",id)),func(v=id): Chapter01Runtime.choose_boss_outcome(String(v)); SaveManager.save_game(); _render(),Vector2(520,48)))
 func _add_c02_choice(parent: VBoxContainer) -> void:
     if Chapter02Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c02_marker_warden"): return
-    for value in Chapter02Runtime.slice.get("final_choice",[]):
-        var c: Dictionary = value; var id := String(c.get("id","")); parent.add_child(_button(String(c.get("label",id)),func(v=id): Chapter02Runtime.choose_final_outcome(String(v)); SaveManager.save_game(); _render(),Vector2(520,48)))
-
+    for value in Chapter02Runtime.slice.get("final_choice",[]): var c: Dictionary = value; var id := String(c.get("id","")); parent.add_child(_button(String(c.get("label",id)),func(v=id): Chapter02Runtime.choose_final_outcome(String(v)); SaveManager.save_game(); _render(),Vector2(520,48)))
 func _add_c03_choice(parent: VBoxContainer) -> void:
     if Chapter03Runtime.echo_choice != "" or not AshlandsRuntime.is_encounter_cleared("c03_boss_threshold_echo"): return
-    parent.add_child(_label("DÉCISION — L'ÉCHO DU SEUIL",16,GOLD))
-    for value in Chapter03Runtime.data.get("boss_choices",[]):
-        var c: Dictionary = value; var id := String(c.get("id","")); parent.add_child(_button(String(c.get("label",id)),func(v=id): Chapter03Runtime.choose_echo_outcome(String(v)); SaveManager.save_game(); _render(),Vector2(520,48)))
-
+    parent.add_child(_label("DÉCISION — L'ÉCHO DU SEUIL",16,GOLD)); for value in Chapter03Runtime.data.get("boss_choices",[]): var c: Dictionary = value; var id := String(c.get("id","")); parent.add_child(_button(String(c.get("label",id)),func(v=id): Chapter03Runtime.choose_echo_outcome(String(v)); SaveManager.save_game(); _render(),Vector2(520,48)))
 func _add_c04_choice(parent: VBoxContainer) -> void:
     if Chapter04Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c04_boss_unfinished_chorus"): return
-    parent.add_child(_label("DÉCISION — LE CHŒUR INACHEVÉ",16,GOLD)); parent.add_child(_label("Ces consciences sont à la fois une archive et des êtres prisonniers d'une boucle vieille de millénaires.",13,MUTED))
-    for value in Chapter04Runtime.chapter.get("boss_choices",[]):
-        var c: Dictionary = value; var id := String(c.get("id","")); parent.add_child(_button(String(c.get("label",id)),func(v=id): Chapter04Runtime.choose_final_outcome(String(v)); SaveManager.save_game(); _render(),Vector2(520,48)))
-
+    parent.add_child(_label("DÉCISION — LE CHŒUR INACHEVÉ",16,GOLD)); for value in Chapter04Runtime.chapter.get("boss_choices",[]): var c: Dictionary = value; var id := String(c.get("id","")); parent.add_child(_button(String(c.get("label",id)),func(v=id): Chapter04Runtime.choose_final_outcome(String(v)); SaveManager.save_game(); _render(),Vector2(520,48)))
+func _add_c05_choice(parent: VBoxContainer) -> void:
+    if Chapter05Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c05_boss_silex_general"): return
+    parent.add_child(_label("DÉCISION — L'ARSENAL DU GÉNÉRAL DE SILEX",16,GOLD)); parent.add_child(_label("Détruire ces armes protège le présent. Les conserver peut aider à comprendre — ou à répéter — Or-Silex.",13,MUTED))
+    for value in Chapter05Runtime.chapter.get("boss_choices",[]): var c: Dictionary = value; var id := String(c.get("id","")); parent.add_child(_button(String(c.get("label",id)),func(v=id): Chapter05Runtime.choose_final_outcome(String(v)); SaveManager.save_game(); _render(),Vector2(520,48)))
 func _add_section(parent: VBoxContainer, title: String, entries: Array) -> void:
     if entries.is_empty(): return
-    parent.add_child(_label(title,15,GOLD))
-    for entry in entries: parent.add_child(_label("• %s" % String(entry),13,MUTED))
+    parent.add_child(_label(title,15,GOLD)); for entry in entries: parent.add_child(_label("• %s" % String(entry),13,MUTED))
