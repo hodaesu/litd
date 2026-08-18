@@ -5,6 +5,15 @@ const TEXT := Color("#e5dccb")
 const MUTED := Color("#a49884")
 const WARNING := Color("#c98776")
 const PANEL := Color(0.035,0.038,0.050,0.995)
+const COUNCIL_NODE_BY_GROUP := {
+    "sanctuary":"c10_council_sanctuary",
+    "concord_civic":"c10_council_concord",
+    "expedition_survivors":"c10_council_expeditions",
+    "creatures":"c10_council_creatures",
+    "absent":"c10_council_absent",
+    "foreign":"c10_council_foreign",
+    "justice":"c10_council_justice"
+}
 
 var root_panel: PanelContainer
 var body: VBoxContainer
@@ -25,6 +34,11 @@ func _label(text_value: String, size := 14, color := TEXT) -> Label:
 
 func _button(text_value: String, callback: Callable) -> Button:
     var button := Button.new(); button.text = text_value; button.custom_minimum_size = Vector2(560,48); button.add_theme_font_size_override("font_size",14); button.add_theme_color_override("font_color",TEXT); button.add_theme_stylebox_override("normal",_style()); button.pressed.connect(callback); return button
+
+func _join_strings(values: Array, separator: String) -> String:
+    var parts := PackedStringArray()
+    for value in values: parts.append(String(value))
+    return separator.join(parts)
 
 func _build() -> void:
     root_panel = PanelContainer.new(); root_panel.position = Vector2(20,68); root_panel.size = Vector2(625,620); root_panel.add_theme_stylebox_override("panel",_style()); root_panel.visible = false; add_child(root_panel)
@@ -57,17 +71,22 @@ func _render() -> void:
         body.add_child(_button("OUVRIR LE CONSEIL DU MONDE",func(): AshlandsSceneRouter.start_chapter_10()))
     body.add_child(_label("CONSEIL — %d voix actives" % Chapter10Runtime.council_count(),14,GOLD))
     for value in Chapter10Runtime.chapter.get("council_groups", []):
-        var group: Dictionary = value; var group_id := String(group.get("id","")); var available := Chapter10Runtime.council_group_available(group_id); var active := false
-        for node_id in Chapter10Runtime.active_nodes.keys():
-            var node_data: Dictionary = Chapter10Runtime._node_data(String(node_id))
-            if String(node_data.get("group","")) == group_id: active = true
+        var group: Dictionary = value
+        var group_id := String(group.get("id",""))
+        var available := Chapter10Runtime.council_group_available(group_id)
+        var node_id := String(COUNCIL_NODE_BY_GROUP.get(group_id,""))
+        var active := node_id != "" and Chapter10Runtime.is_node_active(node_id)
         var status := "présente" if active else ("disponible" if available else "non constituée")
         body.add_child(_label("• %s — %s" % [String(group.get("name",group_id)),status],12,TEXT if active else MUTED))
     body.add_child(_label("COÛTS DOCUMENTÉS — %d/13 · %d familles" % [Chapter10Runtime.stake_count(),Chapter10Runtime.stake_family_count()],14,GOLD))
-    body.add_child(_label("Routes %d/3 · coûts nommés %d/3 · ancrages préparés %d/3 · ancrages de Rupture %d/3" % [Chapter10Runtime.route_count(),Chapter10Runtime.cost_count(),Chapter10Runtime.world_anchor_count(),Chapter10Runtime.node_count("rupture_anchor")],12,MUTED))
+    body.add_child(_label("Routes %d/3 · coûts nommés %d/3 · ancrages préparés %d/3 · ancrages de Rupture %d/3" % [Chapter10Runtime.route_count(),Chapter10Runtime.cost_count(),Chapter10Runtime.world_anchor_count(),Chapter10Runtime.rupture_anchor_count()],12,MUTED))
     if Chapter10Runtime.final_orientation != "":
         body.add_child(_label("MONDE D'APRÈS",16,GOLD)); body.add_child(_label(String(Chapter10Runtime.final_record.get("name",Chapter10Runtime.final_orientation)),17,TEXT)); body.add_child(_label(String(Chapter10Runtime.final_record.get("principle",Chapter10Runtime.final_record.get("outcome",""))),13,MUTED)); return
-    if AshlandsRuntime.is_encounter_cleared("c10_boss_final") and GameState.current_screen == "quest_journal": _render_final_choices()
+    if AshlandsRuntime.is_encounter_cleared("c10_boss_final"):
+        if ExpeditionManager.expedition_active:
+            body.add_child(_label("La Rupture est stabilisée. Il faut revenir au Sanctuaire : la décision finale appartient au Conseil, pas à l'expédition.",13,WARNING))
+        else:
+            _render_final_choices()
 
 func _render_final_choices() -> void:
     body.add_child(_label("ORIENTATIONS RÉELLEMENT DISPONIBLES",16,GOLD))
@@ -76,11 +95,11 @@ func _render_final_choices() -> void:
         body.add_child(_label(String(ending.get("name",ending_id)),15,TEXT))
         body.add_child(_label(String(ending.get("principle",ending.get("outcome",""))),12,MUTED))
         var costs: Array = ending.get("costs",[])
-        if not costs.is_empty(): body.add_child(_label("Coûts : %s" % "; ".join(costs),11,WARNING))
+        if not costs.is_empty(): body.add_child(_label("Coûts : %s" % _join_strings(costs,"; "),11,WARNING))
         body.add_child(_button("CHOISIR — %s" % String(ending.get("name",ending_id)),func(id_value=ending_id): Chapter10Runtime.choose_final_orientation(String(id_value)); SaveManager.save_game(); _render()))
     var unavailable := Chapter10Runtime.unavailable_orientations()
     if not unavailable.is_empty():
         body.add_child(_label("ORIENTATIONS NON RÉALISABLES PAR CETTE PARTIE",14,WARNING))
         for value in unavailable:
             var ending: Dictionary = value
-            body.add_child(_label("• %s — manque : %s" % [String(ending.get("name","")),", ".join(ending.get("missing",[]))],11,MUTED))
+            body.add_child(_label("• %s — manque : %s" % [String(ending.get("name","")),_join_strings(ending.get("missing",[]),", ")],11,MUTED))
