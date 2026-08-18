@@ -12,7 +12,8 @@ RANKS = {1, 2, 3, 4}
 def run(root: Path = ROOT) -> dict:
     data = json.loads((root / "data/combat_tactics.json").read_text(encoding="utf-8"))
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
-    source = (root / "scripts/ui/main_v3.gd").read_text(encoding="utf-8")
+    v3 = (root / "scripts/ui/main_v3.gd").read_text(encoding="utf-8")
+    v4 = (root / "scripts/ui/main_v4.gd").read_text(encoding="utf-8")
     checks: list[dict] = []
 
     def check(name: str, ok: bool, detail: str = "") -> None:
@@ -41,22 +42,23 @@ def run(root: Path = ROOT) -> dict:
     check("Tactique : trois synergies de formation", len(synergies) >= 3, str([item.get("id") for item in synergies]))
     check("Tactique : IDs de synergie uniques", len({item.get("id") for item in synergies}) == len(synergies))
 
-    check("Main utilise combat tactique v3", 'res://scripts/ui/main_v3.gd' in scene)
-    check("Combat v3 hérite du moteur 4 héros", 'extends "res://scripts/ui/main_v2.gd"' in source)
-    check("Déplacement avant/arrière présent", '_move_active_hero(-1)' in source and '_move_active_hero(1)' in source)
-    check("Déplacement consomme l'action", 'func _move_active_hero' in source and '_complete_hero_action(hero)' in source)
-    check("Portée dépend du rang du héros", '_can_use_attack_from_rank' in source and '_hero_rank(hero)' in source)
-    check("Ciblage dépend du rang ennemi", '_selected_target_for' in source and '_enemy_rank(selected)' in source)
-    check("Ennemis possèdent leur ciblage positionnel", 'func _legal_enemy_targets' in source and 'enemy_rank <= 2' in source)
-    check("Boss peuvent menacer toute la formation", 'return GameState.alive_heroes()' in source and 'is_boss' in source)
-    check("Techniques positionnelles actives", 'hero_action("technique")' in source and 'func _use_tactical_technique' in source)
-    check("Malvor garantit la rupture", 'target["broken"] = 2' in source)
-    check("Darius possède une posture de riposte", 'tactical_riposte_round' in source and '+ 20' in source)
-    check("Aurélien applique une marque du Voile", 'veil_mark_charges' in source and '_apply_veil_mark_damage' in source)
-    check("Lysandra réduit la Peur du groupe", 'ally["fear"] = maxi(0' in source)
-    check("Mur de la Veille branché", '_frontline_wall_active' in source and 'physical_resistance' in source)
-    check("Concorde du Voile branchée", '_veil_concord_active' in source and 'fear_resistance' in source)
-    check("Faille préparée branchée", '_opening_exploit_active' in source)
+    check("Main utilise combat v4", 'res://scripts/ui/main_v4.gd' in scene)
+    check("Combat v4 conserve la tactique v3", 'extends "res://scripts/ui/main_v3.gd"' in v4)
+    check("Combat v3 hérite du moteur 4 héros", 'extends "res://scripts/ui/main_v2.gd"' in v3)
+    check("Déplacement avant/arrière présent", '_move_active_hero(-1)' in v3 and '_move_active_hero(1)' in v3)
+    check("Déplacement consomme l'action", 'func _move_active_hero' in v3 and '_complete_hero_action(hero)' in v3)
+    check("Portée dépend du rang du héros", '_can_use_attack_from_rank' in v3 and '_hero_rank(hero)' in v3)
+    check("Ciblage dépend du rang ennemi", '_selected_target_for' in v3 and '_enemy_rank(selected)' in v3)
+    check("Ennemis possèdent leur ciblage positionnel", 'func _legal_enemy_targets' in v3 and 'enemy_rank <= 2' in v3)
+    check("Boss peuvent menacer toute la formation", 'return GameState.alive_heroes()' in v3 and 'is_boss' in v3)
+    check("Techniques positionnelles actives", 'hero_action("technique")' in v3 and 'func _use_tactical_technique' in v3)
+    check("Malvor garantit la rupture", 'target["broken"] = 2' in v3)
+    check("Darius possède une posture de riposte", 'tactical_riposte_round' in v3 and '+ 20' in v3)
+    check("Aurélien applique une marque du Voile", 'veil_mark_charges' in v3 and '_apply_veil_mark_damage' in v3)
+    check("Lysandra réduit la Peur du groupe", 'ally["fear"] = maxi(0' in v3)
+    check("Mur de la Veille branché", '_frontline_wall_active' in v3 and 'physical_resistance' in v3)
+    check("Concorde du Voile branchée", '_veil_concord_active' in v3 and 'fear_resistance' in v3)
+    check("Faille préparée branchée", '_opening_exploit_active' in v3)
 
     return {
         "summary": {"checks": len(checks), "errors": sum(1 for item in checks if not item["ok"])},
