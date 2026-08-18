@@ -26,15 +26,17 @@ Veilleur de ligne.
 
 ### Aurélien
 Occultiste de seconde ligne.
-- Frappe : depuis R2–R4 vers R2–R4 ennemis.
-- Coup lourd : depuis R3–R4 vers R3–R4 ennemis.
-- Technique **Marque du Voile** : depuis R3–R4 vers R2–R4 ; marque la cible et renforce les deux prochaines attaques alliées.
+- Frappe : depuis R2–R4 vers **tous les rangs ennemis**.
+- Coup lourd : depuis R3–R4 vers R2–R4 ennemis.
+- Technique **Marque du Voile** : depuis R3–R4 vers tous les rangs ; marque la cible et renforce les deux prochaines attaques alliées.
 
 ### Lysandra
 Vestale d'arrière-garde.
-- Frappe : depuis R3–R4 vers R2–R4 ennemis.
+- Frappe : depuis R3–R4 vers **tous les rangs ennemis**.
 - Coup lourd : depuis R4 vers R3–R4 ennemis.
 - Technique **Lueur de Concorde** : depuis R3–R4 ; soigne l'allié le plus blessé et réduit la Peur de toute la compagnie.
+
+Les attaques légères d'Aurélien et Lysandra peuvent atteindre le rang 1 afin qu'un boss solitaire ne rende jamais l'arrière-garde totalement inactive. Leurs coups lourds restent volontairement plus contraints.
 
 ## Ciblage ennemi
 
