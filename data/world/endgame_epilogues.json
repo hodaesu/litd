@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "design_rule": "Un épilogue de Light in the Dark ne dit pas que le monde est réparé. Il montre ce que la décision finale rend possible, ce qu'elle abîme encore et qui doit vivre avec elle.",
+  "epilogues": [
+    {
+      "ending_id": "radical_closure",
+      "title": "Après la Grande Fermeture nouvelle",
+      "opening": "Les premiers jours sont presque silencieux. Des routes autrefois traversées de reflets impossibles redeviennent des chemins ordinaires. Pour beaucoup, ce silence ressemble enfin à la sécurité.",
+      "middle": "Puis viennent les listes. Les lieux qu'il faut abandonner, les voix que la Chambre d'Écoute ne capte plus, les créatures dont les habitats dépendaient d'une frontière désormais scellée. La fermeture sauve des vivants et coupe aussi des liens que personne ne sait reconstruire.",
+      "political": "Le Conseil refuse que les équipes de fermeture deviennent une caste. Chaque scellement est daté, documenté et contestable. Des familles demandent pourtant que certaines portes soient rouvertes. La paix nouvelle commence déjà par un désaccord.",
+      "closing": "Le monde est plus stable, mais plus petit. Chaque année, au Sanctuaire, on lit les noms de ceux qui ont été sauvés et de ceux que la fermeture a peut-être laissés de l'autre côté."
+    },
+    {
+      "ending_id": "stable_coexistence",
+      "title": "La Concorde des deux rives",
+      "opening": "Le premier passage stabilisé n'est ni un triomphe ni une frontière. C'est un lieu surveillé où personne ne sait encore exactement ce que signifie vivre à côté du Voile sans lui appartenir.",
+      "middle": "Des créatures conscientes s'installent près de certains ancrages. Les humains apprennent des règles nouvelles : ne pas forcer une résonance, ne pas interpréter un silence comme un consentement, ne jamais confondre coexistence et maîtrise.",
+      "political": "Chaque zone de coexistence possède le droit de demander sa fermeture. Les techniciens n'ont pas le dernier mot ; habitants, créatures, juristes et Gardiens du Vivant partagent l'autorité. Le système est lent, parfois exaspérant, mais personne ne peut décider seul qu'un risque vaut la vie des autres.",
+      "closing": "Le Voile demeure. La peur aussi. Mais, pour la première fois depuis la Chute, certains enfants grandissent en sachant que l'inconnu n'est pas toujours un ennemi."
+    },
+    {
+      "ending_id": "preserve_crossings",
+      "title": "Les Portes gardées",
+      "opening": "La plupart des ruptures sont fermées. Quelques passages restent ouverts, numérotés, cartographiés et confiés à des équipes dont les membres viennent de communautés différentes.",
+      "middle": "Chaque traversée exige un motif, des témoins et une route de retour. Les voyageurs maudissent la lenteur des procédures jusqu'au jour où une porte dérive et où ces mêmes procédures empêchent une catastrophe.",
+      "political": "Le débat le plus dur porte sur les gardiens eux-mêmes. Qui contrôle ceux qui contrôlent les passages ? La Concorde impose des mandats courts, des inspections croisées et le droit public de consulter les registres.",
+      "closing": "Le monde garde des portes, mais refuse de leur bâtir un trône."
+    },
+    {
+      "ending_id": "seek_absent",
+      "title": "Ramener les Absents",
+      "opening": "La Chambre d'Écoute devient trop petite. Des familles arrivent avec des objets, des chansons, des habitudes, tout ce qui peut aider une conscience déplacée à reconnaître le chemin d'une conversation.",
+      "middle": "Certains contacts deviennent plus nets. D'autres demandent qu'on cesse de les appeler. Quelques Absents affirment ne pas vouloir revenir, ou ne pas savoir ce que reviendrait à dire. Le Sanctuaire apprend que sauver quelqu'un peut aussi signifier respecter son refus.",
+      "political": "Aucune ouverture n'est autorisée sur la seule demande des vivants. Le consentement des Absents devient une règle fondamentale, même lorsque cette règle brise l'espoir d'une famille.",
+      "closing": "On ramène parfois une voix, parfois un souvenir, parfois personne. Mais les disparus cessent d'être traités comme un territoire à conquérir."
+    },
+    {
+      "ending_id": "restore_concord",
+      "title": "La Concorde restaurée",
+      "opening": "Les premiers Cercles sont réouverts dans des bâtiments sans toit, des granges et des places encore marquées par les combats. Aucun d'eux ne ressemble vraiment aux institutions d'avant la Chute.",
+      "middle": "Les anciennes règles reviennent avec leurs raisons, pas comme des reliques. Mandats courts, pouvoirs d'exception expirant seuls, droit de contester et protection des plus faciles à sacrifier redeviennent des pratiques quotidiennes.",
+      "political": "Les plus jeunes accusent parfois les anciens de vouloir reconstruire un monde disparu. Les anciens répondent que les principes ne valent que s'ils acceptent d'être éprouvés par un monde nouveau. La restauration devient alors moins un retour qu'une discipline.",
+      "closing": "La Concorde ne renaît pas parce qu'on la proclame. Elle renaît chaque fois qu'une décision puissante accepte encore d'être contestée."
+    },
+    {
+      "ending_id": "transform_concord",
+      "title": "La Quatrième Veille",
+      "opening": "Le quatrième symbole reste volontairement inachevé. Certains y voient une faiblesse. D'autres répondent qu'un symbole achevé aurait déjà commencé à mentir.",
+      "middle": "Créatures conscientes, étrangers, familles d'Absents et communautés de la Concorde disposent désormais de places institutionnelles. Les Trois Éveils demeurent, mais ils doivent répondre à une question nouvelle : comment partager un monde dont tous les habitants n'existent pas de la même manière ?",
+      "political": "Les réformes provoquent des ruptures avec des fidèles de l'ancien ordre. Le nouveau système commet ses propres erreurs. Il les inscrit publiquement au lieu de les cacher derrière l'idée de progrès.",
+      "closing": "La Quatrième Veille ne promet pas un monde meilleur. Elle promet seulement qu'aucun monde nouveau ne pourra prétendre être commun sans apprendre à entendre ceux qu'il exclut."
+    },
+    {
+      "ending_id": "fractured_survival",
+      "title": "L'Archipel de refuges",
+      "opening": "Aucune solution commune n'a tenu. Pourtant, le monde ne s'arrête pas. Des refuges survivent, échangent des graines, des cartes et des nouvelles quand les routes le permettent.",
+      "middle": "Chaque communauté invente ses propres règles. Certaines deviennent généreuses, d'autres méfiantes. Le Sanctuaire n'est plus un centre ; il devient l'un des lieux où l'on essaie encore de maintenir des liens.",
+      "political": "La grande politique disparaît au profit de pactes locaux et fragiles. Ceux qui se souviennent de la Concorde continuent d'écrire, non pour restaurer immédiatement un continent, mais pour empêcher que l'idée d'un monde commun ne disparaisse tout à fait.",
+      "closing": "Il n'y a pas de victoire globale. Seulement des lumières assez proches pour que, certaines nuits, on puisse encore les voir les unes depuis les autres."
+    },
+    {
+      "ending_id": "authoritarian_order",
+      "title": "L'Ordre d'exception",
+      "opening": "Les routes sont plus sûres. Les contrôles aussi sont partout. L'urgence qui devait durer quelques jours reçoit de nouveaux noms, de nouveaux uniformes et de nouvelles raisons de continuer.",
+      "middle": "Les archives du Voile sont placées sous garde. Les débats publics se raccourcissent. Beaucoup acceptent cet ordre parce qu'ils se souviennent trop bien du chaos qui l'a précédé.",
+      "political": "Des médiateurs, anciens Porte-Voix et survivants maintiennent clandestinement des registres des décisions, des détentions et des pouvoirs prolongés. Ils ne savent pas encore s'ils reconstruisent la Concorde ou seulement la mémoire de ce qu'elle interdisait.",
+      "closing": "La lumière brûle encore dans les rues. Mais certains commencent à demander pour qui elle est allumée, et qui décide désormais où l'ombre a le droit d'exister."
+    },
+    {
+      "ending_id": "veil_dissolution",
+      "title": "Le Réseau fragmenté",
+      "opening": "Le monde ne s'effondre pas en une nuit. Il cesse plutôt d'être d'accord avec lui-même par endroits. Une porte mène deux fois au même couloir. Une maison manque pendant une heure puis revient avec une fenêtre de plus.",
+      "middle": "Les équipes d'ancrage travaillent sans repos. Chaque refuge apprend à reconnaître les signes d'un glissement de réalité comme autrefois on reconnaissait l'orage.",
+      "political": "Personne ne peut prétendre que les expériences passées n'ont rien coûté. Les protocoles deviennent plus stricts, mais la tentation demeure d'ouvrir encore une fois quelque chose pour réparer ce que les ouvertures précédentes ont brisé.",
+      "closing": "La campagne n'a pas sauvé le monde. Elle lui a laissé des outils, des témoins et suffisamment de lumière pour continuer à chercher une sortie qui ne soit pas une nouvelle catastrophe."
+    }
+  ],
+  "conditional_vignettes": [
+    {"id":"saen_remains","title":"Saen","when":{"campaign_flag":"c06_saen_contact"},"text":"Saen continue parfois de répondre. Ses phrases arrivent avec des retards impossibles. Une place reste vide à chaque assemblée où les Absents sont concernés ; personne ne prétend que ce siège parle à leur place."},
+    {"id":"edras_captured","title":"Edras Nhal","when":{"campaign_flag":"c07_edras_capture"},"text":"Edras vit assez longtemps pour entendre les témoignages de ceux que le Projet Seuil a détruits. Il explique encore. Il justifie parfois. Le Cercle refuse de confondre sa capacité à parler avec un droit à être cru."},
+    {"id":"edras_killed","title":"Le siège vide d'Edras","when":{"campaign_flag":"c07_edras_kill"},"text":"L'audience d'Edras se tient malgré son absence. Les preuves sont lues publiquement afin que sa mort ne transforme ni ses actes en mystère ni ceux qui l'ont tué en juges incontestables."},
+    {"id":"creature_home","title":"Une place proposée","when":{"political_flag":"creature_sanctuary_trial"},"text":"L'ancien habitat expérimental des créatures perd peu à peu son nom. Les habitants parlent simplement du quartier près des arbres. La normalité arrive sans cérémonie."},
+    {"id":"justice_circle","title":"Le Cercle tient encore","when":{"political_flag":"justice_circle_restored"},"text":"Le premier Cercle de Justice provisoire ne ferme jamais complètement. De nouvelles communautés recopient ses règles, y ajoutent leurs erreurs, puis les renvoient au Sanctuaire."},
+    {"id":"foreign_house","title":"Les Quatre Rives","when":{"campaign_flag":"sanctuary_foreign_house_unlocked"},"text":"Varkhane, Namar, Azravel et Kor-Em ne deviennent pas des alliés parfaits. Ils deviennent des voisins capables de se contredire sans que chaque désaccord soit immédiatement une guerre."}
+  ]
+}
