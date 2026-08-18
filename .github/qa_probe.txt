@@ -1,0 +1,1 @@
+Temporary CI diagnostic probe for pytest failures. Safe to delete before merge.
