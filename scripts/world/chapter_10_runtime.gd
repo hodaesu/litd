@@ -67,8 +67,7 @@ func collect_stake(id_value: String) -> bool:
 
 func stake_family_count() -> int:
     var families := {}
-    for value in collected_stakes.values():
-        families[String((value as Dictionary).get("source_family", "unknown"))] = true
+    for value in collected_stakes.values(): families[String((value as Dictionary).get("source_family", "unknown"))] = true
     return families.size()
 
 func _node_data(node_id: String) -> Dictionary:
@@ -108,8 +107,7 @@ func activate_node(node_id: String) -> bool:
     chapter_ten_changed.emit()
     return true
 
-func is_node_active(node_id: String) -> bool:
-    return active_nodes.has(node_id)
+func is_node_active(node_id: String) -> bool: return active_nodes.has(node_id)
 
 func node_count(node_type: String) -> int:
     var total := 0
@@ -129,11 +127,15 @@ func active_stage() -> Dictionary:
         if not bool(completed_stages.get(String(stage.get("id", "")), false)): return stage
     return {}
 
-func progress_text() -> String:
-    return "%d/%d" % [completed_stages.size(), chapter.get("stages", []).size()]
+func progress_text() -> String: return "%d/%d" % [completed_stages.size(), chapter.get("stages", []).size()]
+func available_orientations() -> Array: return CampaignState.available_endings()
 
-func available_orientations() -> Array:
-    return CampaignState.available_endings()
+func _risky_experiment_count() -> int:
+    var flags := ["c03_echo_prolong","c06_boundary_force","c07_edras_controlled_trial","c09_consensus_autonomous_zone"]
+    var total := 0
+    for flag_id in flags:
+        if bool(CampaignState.chapter_flags.get(flag_id, false)): total += 1
+    return total
 
 func _failure_state() -> Dictionary:
     var failure_by_id := {}
@@ -142,15 +144,11 @@ func _failure_state() -> Dictionary:
         failure_by_id[String(entry.get("id", ""))] = entry
     var city := int(PoliticalState.three_awakenings.get("city", 50))
     if PoliticalState.tension >= 75 and city < 50: return failure_by_id.get("authoritarian_order", {}) as Dictionary
-    if int(CampaignState.metrics.get("veil_knowledge", 0)) < 60: return failure_by_id.get("veil_dissolution", {}) as Dictionary
+    if _risky_experiment_count() >= 2 and int(CampaignState.metrics.get("stabilizer_nodes", 0)) <= 6: return failure_by_id.get("veil_dissolution", {}) as Dictionary
     return failure_by_id.get("fractured_survival", {}) as Dictionary
 
 func _failure_name(failure_id: String) -> String:
-    return {
-        "fractured_survival":"Archipel de refuges",
-        "authoritarian_order":"Ordre d'exception",
-        "veil_dissolution":"Réseau fragmenté"
-    }.get(failure_id, "Survie sans solution globale")
+    return {"fractured_survival":"Archipel de refuges","authoritarian_order":"Ordre d'exception","veil_dissolution":"Réseau fragmenté"}.get(failure_id, "Survie sans solution globale")
 
 func final_choices() -> Array:
     var endings := available_orientations()
@@ -207,18 +205,15 @@ func choose_final_orientation(ending_id: String) -> bool:
     return false
 
 func _on_encounter_cleared(encounter_id: String) -> void:
-    if encounter_id == "c10_boss_final":
-        GameState.add_log("La Rupture est stabilisée. La décision appartient maintenant au Conseil du monde.")
+    if encounter_id == "c10_boss_final": GameState.add_log("La Rupture est stabilisée. La décision appartient maintenant au Conseil du monde.")
     refresh_progress()
 
 func _on_screen_requested(screen_name: String) -> void:
     if CampaignState.current_chapter_id != "chapter_10_final_choice": return
-    if screen_name == "sanctuary" and AshlandsRuntime.is_encounter_cleared("c10_boss_final") and final_orientation == "":
-        call_deferred("_request_final_choice")
+    if screen_name == "sanctuary" and AshlandsRuntime.is_encounter_cleared("c10_boss_final") and final_orientation == "": call_deferred("_request_final_choice")
     refresh_progress()
 
-func _request_final_choice() -> void:
-    final_choice_required.emit()
+func _request_final_choice() -> void: final_choice_required.emit()
 
 func refresh_progress() -> void:
     if CampaignState.current_chapter_id != "chapter_10_final_choice": return
@@ -245,8 +240,7 @@ func _sync_main_quests() -> void:
         if CampaignState.is_main_quest_completed(String(quest_id)): continue
         var done := true
         for stage_id in chapter.get("main_quest_bindings", {})[quest_id]:
-            if not bool(completed_stages.get(String(stage_id), false)):
-                done = false; break
+            if not bool(completed_stages.get(String(stage_id), false)): done = false; break
         if done: CampaignState.complete_main_quest(String(quest_id))
 
 func _try_finish() -> void:
