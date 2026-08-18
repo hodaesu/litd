@@ -51,8 +51,7 @@ func stake(id_value: String) -> Dictionary:
         if String(entry.get("id", "")) == id_value: return entry
     return {}
 
-func is_stake_collected(id_value: String) -> bool:
-    return collected_stakes.has(id_value)
+func is_stake_collected(id_value: String) -> bool: return collected_stakes.has(id_value)
 
 func collect_stake(id_value: String) -> bool:
     if collected_stakes.has(id_value): return false
@@ -225,7 +224,7 @@ func refresh_progress() -> void:
     _complete_if("c10_stage_05_cost", cost_count() >= 3 and AshlandsRuntime.is_encounter_cleared("c10_unpaid_cost"))
     _complete_if("c10_stage_06_node", AshlandsRuntime.is_zone_discovered("c10_central_node") and world_anchor_count() >= int(rules.get("world_anchors_required", 3)) and stake_count() >= int(rules.get("stakes_required", 8)) and stake_family_count() >= int(rules.get("stake_families_required", 5)))
     _complete_if("c10_stage_07_rupture", rupture_anchor_count() >= 3 and AshlandsRuntime.is_encounter_cleared("c10_boss_final"))
-    _complete_if("c10_stage_08_choice", not ExpeditionManager.expedition_active and GameState.current_screen == "sanctuary" and final_orientation != "")
+    _complete_if("c10_stage_08_choice", not ExpeditionManager.expedition_active and final_orientation != "")
     _sync_main_quests()
     _try_finish()
     chapter_ten_changed.emit()
