@@ -6,6 +6,8 @@ Fondation professionnelle du prototype Godot de **Light in the Dark**.
 
 - [Bible du lore — Trois Éveils](docs/LORE_BIBLE.md)
 - [Histoire fondatrice — Dernière Guerre et Trois Éveils](docs/HISTOIRE_TROIS_EVEILS.md)
+- [La Concorde — droit et justice](docs/CONCORDE_DROIT_JUSTICE.md)
+- [La Concorde après la Chute — courants et figures politiques](docs/CONCORDE_COURANTS_POST_CHUTE.md)
 
 ## Vérifier le projet
 
