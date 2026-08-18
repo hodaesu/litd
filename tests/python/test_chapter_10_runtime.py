@@ -30,6 +30,10 @@ def test_final_decision_documents_real_costs_and_multiple_voices():
     assert chapter['decision_rules']['stakes_required'] >= 8
     assert chapter['decision_rules']['stake_families_required'] >= 5
     assert 'jamais créée' in chapter['decision_rules']['rule']
+    conditional = {g['id']: g['min'] for g in chapter['council_groups'] if not g.get('always')}
+    assert conditional['creatures'] <= 6
+    assert conditional['absent'] <= 20
+    assert conditional['foreign'] <= 12
 
 
 def test_final_choices_are_inherited_from_campaign_not_created_by_chapter_ten():
@@ -41,6 +45,16 @@ def test_final_choices_are_inherited_from_campaign_not_created_by_chapter_ten():
     assert 'func unavailable_orientations()' in runtime
     assert 'func _failure_state()' in runtime
     assert 'CampaignState.set_chapter_flag("campaign_complete")' in runtime
+    assert 'ExpeditionManager.expedition_active' in runtime
+
+
+def test_ending_thresholds_use_the_implemented_metric_scales():
+    endings = {e['id']: e for e in load('data/world/main_campaign_endings.json')['endings']}
+    assert endings['stable_coexistence']['requirements']['creature_relations_min'] <= 8
+    assert endings['seek_absent']['requirements']['absent_contact_min'] <= 25
+    assert endings['restore_concord']['requirements']['foreign_alliances_min'] <= 12
+    assert endings['transform_concord']['requirements']['foreign_alliances_min'] <= 15
+    assert endings['transform_concord']['requirements']['city_min'] <= 70
 
 
 def test_unpaid_cost_and_common_rupture_follow_mechanical_boss_rule():
@@ -48,6 +62,7 @@ def test_unpaid_cost_and_common_rupture_follow_mechanical_boss_rule():
     world = load('data/levels/chapter_10_world.json')
     contracts = load('data/boss_design_contracts.json')
     boss_runtime = (ROOT / 'scripts/world/chapter_10_boss_runtime.gd').read_text()
+    chapter_runtime = (ROOT / 'scripts/world/chapter_10_runtime.gd').read_text()
     bridge = (ROOT / 'scripts/world/ashlands_combat_bridge.gd').read_text()
     ids = {b['id'] for b in contracts['bosses']}
     assert {'c10_unpaid_cost','c10_boss_final'} <= ids
@@ -57,6 +72,7 @@ def test_unpaid_cost_and_common_rupture_follow_mechanical_boss_rule():
     assert len([n for n in world['nodes'] if n['type'] == 'rupture_anchor']) == 3
     assert '[85,55,25,0]' in boss_runtime
     assert '[95,70,40,0]' in boss_runtime
+    assert 'rupture_anchor_count() >= 3' in chapter_runtime
     assert 'c10_unpaid_cost' in bridge and 'c10_boss_final' in bridge
 
 
@@ -76,6 +92,7 @@ def test_chapter_ten_is_routed_autoloaded_saved_reset_and_visible():
     assert 'OUVRIR LE CONSEIL DU MONDE' in ui
     assert 'ORIENTATIONS RÉELLEMENT DISPONIBLES' in ui
     assert 'ORIENTATIONS NON RÉALISABLES PAR CETTE PARTIE' in ui
+    assert "la décision finale appartient au Conseil" in ui
 
 
 def test_all_six_success_endings_and_three_failure_states_change_sanctuary():
