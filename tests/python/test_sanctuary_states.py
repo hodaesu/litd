@@ -4,7 +4,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_sanctuary_has_modular_states_including_listening_hearing_and_foreign_delegations():
+def test_sanctuary_has_modular_states_including_listening_hearing_delegations_and_models():
     data = json.loads((ROOT / "data/levels/sanctuary_state_layers.json").read_text())
     ids = {layer["id"] for layer in data["layers"]}
     assert ids == {
@@ -18,6 +18,7 @@ def test_sanctuary_has_modular_states_including_listening_hearing_and_foreign_de
         "absent_listening",
         "foreign_delegations",
         "public_hearing",
+        "model_chamber",
         "fractured",
     }
     assert data["base_state"] == "stable"
@@ -76,4 +77,5 @@ def test_states_cover_requested_player_consequences():
     assert "sanctuary_listening_room_unlocked" in by_id["absent_listening"]["when"]["campaign_any_flag"]
     assert "sanctuary_foreign_house_unlocked" in by_id["foreign_delegations"]["when"]["campaign_any_flag"]
     assert "sanctuary_public_hearing_unlocked" in by_id["public_hearing"]["when"]["campaign_any_flag"]
+    assert "sanctuary_model_chamber_unlocked" in by_id["model_chamber"]["when"]["campaign_any_flag"]
     assert "trust_max" in by_id["fractured"]["when"]
