@@ -115,7 +115,7 @@ func get_npc_dialogue(npc_id: String, context := "default") -> String:
             return String(dialogues["high_tension"])
         if context == "low_trust" and trust <= 30 and dialogues.has("low_trust"):
             return String(dialogues["low_trust"])
-        if context == "creature_recruited" and CreatureManager.serialize().get("sanctuary_creatures", []).size() > 0 and dialogues.has("creature_recruited"):
+        if context == "creature_recruited" and CreatureManager.captured_creatures.size() > 0 and dialogues.has("creature_recruited"):
             return String(dialogues["creature_recruited"])
         if dialogues.has(context):
             return String(dialogues[context])
