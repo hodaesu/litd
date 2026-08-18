@@ -1,0 +1,34 @@
+{
+  "schema_version":1,
+  "vestige_id":"vestige_sahm_ir_sealed_voices",
+  "name":"Basilique des Voix Scellées",
+  "civilization":"Cités de Sahm-Ir",
+  "optional":true,
+  "difficulty_tier":"deep_vestige",
+  "recommended_level_offset":5,
+  "entry_zone":"vz01_many_meanings_gate",
+  "zones":[
+    {"id":"vz01_many_meanings_gate","name":"Porte aux Mille Sens","size_m":[106,80],"entry":[0,0,30],"exits":[{"to":"vz02_house_of_readings","position":[0,0,-35]}],"fragments":["vz_f01","vz_f02"],"encounters":[{"id":"vz_elite_sealed_listeners","type":"normal","position":[0,0,-10]}]},
+    {"id":"vz02_house_of_readings","name":"Maison des Interprétations","size_m":[112,86],"entry":[0,0,33],"exits":[{"to":"vz03_cantors_gallery","position":[0,0,-38]}],"fragments":["vz_f03","vz_f04"],"puzzle":"Associer un même symbole à trois fonctions différentes sans invalider les autres lectures."},
+    {"id":"vz03_cantors_gallery","name":"Galerie des Chantres","size_m":[108,84],"entry":[0,0,32],"exits":[{"to":"vz04_silenced_school","position":[0,0,-37]}],"fragments":["vz_f05"],"encounters":[{"id":"vz_miniboss_stone_cantor","type":"miniboss","name":"Le Chantre de Pierre","position":[0,0,-13]}]},
+    {"id":"vz04_silenced_school","name":"École Réduite au Silence","size_m":[110,86],"entry":[0,0,33],"exits":[{"to":"vz05_single_meaning_nave","position":[0,0,-38]}],"fragments":["vz_f06"],"campfire":true,"campfire_position":[-17,0,4]},
+    {"id":"vz05_single_meaning_nave","name":"Nef du Sens Unique","size_m":[118,90],"entry":[0,0,35],"exits":[{"to":"vz06_interpreter_throne","position":[0,0,-41]}],"fragments":["vz_f07","vz_f08"],"puzzle":"Maintenir plusieurs réponses rituelles simultanément afin d'empêcher la nef de réduire le groupe à une seule interprétation."},
+    {"id":"vz06_interpreter_throne","name":"Trône de l'Interprète","size_m":[126,96],"entry":[0,0,38],"exits":[],"fragments":["vz_f09"],"encounters":[{"id":"vestige_sahmir_boss_single_interpreter","type":"boss","name":"L'Interprète Unique","position":[0,0,-16]}]}
+  ],
+  "fragments":[
+    {"id":"vz_f01","title":"Un symbole, plusieurs devoirs","text":"La même flamme signifie accueillir, avertir ou se souvenir selon celui qui la porte."},
+    {"id":"vz_f02","title":"Accord sans identité","text":"Nous pouvons accomplir le même rite sans être d'accord sur ce qu'il raconte."},
+    {"id":"vz_f03","title":"Maison des lectures","text":"Chaque décision importante doit être interprétée par au moins trois écoles qui ne partagent pas la même doctrine."},
+    {"id":"vz_f04","title":"Stabilisation pluraliste","text":"Les ancrages tiennent mieux lorsque les participants partagent le geste mais conservent des raisons différentes de l'accomplir."},
+    {"id":"vz_f05","title":"Le premier sens interdit","text":"Une école est exclue après avoir refusé de reconnaître la lecture officielle d'un signe de rupture."},
+    {"id":"vz_f06","title":"Silence forcé","text":"Les dispositifs commencent à réagir aux paroles dissidentes comme s'il s'agissait d'anomalies physiques."},
+    {"id":"vz_f07","title":"Le sens unique","text":"Une interprétation parfaitement partagée produit une stabilité immédiate et une fragilité absolue face au moindre désaccord."},
+    {"id":"vz_f08","title":"Dernière prière contradictoire","text":"Si le monde exige une seule réponse pour rester entier, alors ce n'est plus nous qui habitons le monde : c'est la réponse qui nous habite."},
+    {"id":"vz_f09","title":"L'Interprète Unique","text":"Le dernier interprète n'était plus une personne. Il était devenu la fonction qui décidait ce que chaque symbole avait le droit de signifier."}
+  ],
+  "miniboss":{"id":"vz_miniboss_stone_cantor","name":"Le Chantre de Pierre","signature":"Répétez après moi","core_puzzle":"Il impose une réponse rituelle et gagne de la protection lorsque les héros utilisent tous la même logique.","counterplay":"Maintenir des actions différentes mais compatibles et interrompre ses phrases avant leur fermeture."},
+  "boss":{"id":"vestige_sahmir_boss_single_interpreter","name":"L'Interprète Unique","tier":"deep_vestige_boss","signature":"Un seul sens","phases":["Lecture commune","Sens obligatoire","Parole interdite"],"environmental_solution":"Réactiver trois pupitres d'interprétation contradictoires pour empêcher le boss de monopoliser le sens des symboles de l'arène.","alternate_resolutions":["briser_le_trone","rendre_les_voix","conserver_les_archives"],"punishes_bruteforce":"La répétition de la même catégorie d'action renforce l'idée qu'une seule réponse est correcte et augmente sa résistance."},
+  "completion_requirements":{"fragments_min":7,"boss":"vestige_sahmir_boss_single_interpreter"},
+  "rewards":{"gold":175,"essence":43,"relic":{"id":"relic_sahmir_polysemic_seal","name":"Sceau aux Mille Sens","effect":"Une fois par donjon, transforme un effet de contrainte mentale ou doctrinale en choix entre deux conséquences différentes."},"deep_truth":{"id":"deep_truth_sahm_ir","text":"Sahm-Ir stabilisait certains phénomènes grâce à des symboles partagés sans exiger une croyance identique. Sa chute commença lorsque l'autorité voulut supprimer l'interprétation plutôt que composer avec elle."}},
+  "replay":{"shortcuts_persist":true,"secret_rooms":2,"all_fragments_required_for_deep_truth":true}
+}
