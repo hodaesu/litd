@@ -36,9 +36,9 @@ func _decorate_full_anatomy_panel() -> void:
     for row_value in rows:
         var row: Dictionary = row_value
         var state := str(row.get("state", "intact"))
-        var marker := "▶" if bool(row.get("selected", false)) else " "
+        var marker := "▶" if bool(row.get("selected", false)) else "·"
         var state_text := _anatomy_state_label(state)
-        var text := "%s %-22s %s · %d/%d" % [
+        var text := "%s %s · %s · %d/%d" % [
             marker,
             str(row.get("name", row.get("id", "partie"))),
             state_text,
