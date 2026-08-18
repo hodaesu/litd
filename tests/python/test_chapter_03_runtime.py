@@ -62,6 +62,6 @@ def test_chapter_three_is_autoloaded_saved_reset_and_visible_in_journal():
     assert 'SAVE_VERSION := "0.26"' in save
     assert '"chapter_03": Chapter03Runtime.serialize()' in save
     assert 'Chapter03Runtime.reset_new_game()' in game
-    assert 'PROGRESSION DU CHAPITRE III' in journal
+    assert '_stage_header(parent, "CHAPITRE III", Chapter03Runtime)' in journal
     assert 'DOSSIER DU PROJET SEUIL' in journal
     assert 'ENTRER DANS LE RÉSEAU DU SEUIL' in journal
