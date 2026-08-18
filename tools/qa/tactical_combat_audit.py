@@ -14,6 +14,7 @@ def run(root: Path = ROOT) -> dict:
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
     v3 = (root / "scripts/ui/main_v3.gd").read_text(encoding="utf-8")
     v4 = (root / "scripts/ui/main_v4.gd").read_text(encoding="utf-8")
+    v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
     checks: list[dict] = []
 
     def check(name: str, ok: bool, detail: str = "") -> None:
@@ -42,7 +43,8 @@ def run(root: Path = ROOT) -> dict:
     check("Tactique : trois synergies de formation", len(synergies) >= 3, str([item.get("id") for item in synergies]))
     check("Tactique : IDs de synergie uniques", len({item.get("id") for item in synergies}) == len(synergies))
 
-    check("Main utilise combat v4", 'res://scripts/ui/main_v4.gd' in scene)
+    check("Main utilise combat v5", 'res://scripts/ui/main_v5.gd' in scene)
+    check("Combat v5 conserve le démembrement v4", 'extends "res://scripts/ui/main_v4.gd"' in v5)
     check("Combat v4 conserve la tactique v3", 'extends "res://scripts/ui/main_v3.gd"' in v4)
     check("Combat v3 hérite du moteur 4 héros", 'extends "res://scripts/ui/main_v2.gd"' in v3)
     check("Déplacement avant/arrière présent", '_move_active_hero(-1)' in v3 and '_move_active_hero(1)' in v3)
@@ -59,6 +61,8 @@ def run(root: Path = ROOT) -> dict:
     check("Mur de la Veille branché", '_frontline_wall_active' in v3 and 'physical_resistance' in v3)
     check("Concorde du Voile branchée", '_veil_concord_active' in v3 and 'fear_resistance' in v3)
     check("Faille préparée branchée", '_opening_exploit_active' in v3)
+    check("Tactique v5 peut déplacer les rangs ennemis", '_move_enemy_relative' in v5)
+    check("Tactique v5 peut déplacer les rangs héros", '_move_hero_relative' in v5)
 
     return {
         "summary": {"checks": len(checks), "errors": sum(1 for item in checks if not item["ok"])},
