@@ -5,6 +5,7 @@ const WORLD_PATH := "res://data/levels/chapter_08_world.json"
 const PARTY_SCENE := preload("res://scenes/world/terre_des_cendres/exploration_party_placeholder.tscn")
 const RECORD_SCRIPT := preload("res://scripts/world/chapter_08_record.gd")
 const NODE_SCRIPT := preload("res://scripts/world/chapter_08_node.gd")
+const ANCIENT_TRACE_SCRIPT := preload("res://scripts/world/chapter_08_ancient_trace.gd")
 
 @export var zone_id := "c08_varkhane_border"
 @export var spawn_player_placeholder := true
@@ -19,7 +20,7 @@ func build_zone() -> void:
     zone = _find_zone(zone_id)
     if zone.is_empty(): push_error("Chapter08BlockoutBuilder: zone inconnue %s" % zone_id); return
     AshlandsRuntime.enter_zone(zone_id)
-    _build_floor(); _build_boundaries(); _build_exits(); _build_encounters(); _build_records(); _build_nodes(); _build_campfire()
+    _build_floor(); _build_boundaries(); _build_exits(); _build_encounters(); _build_records(); _build_nodes(); _build_ancient_traces(); _build_campfire()
     if spawn_player_placeholder: _build_player()
 
 func _load_json(path: String) -> Dictionary:
@@ -76,6 +77,16 @@ func _build_nodes() -> void:
         var node_id := String(node_id_value); var data := _node_data(node_id)
         if data.is_empty(): continue
         var node := NODE_SCRIPT.new() as Chapter08Node; node.name = node_id; node.position = _vec3(data.get("position", [0,0,0])); node.configure(node_id); _area_box(node,Vector3(2.2,2.2,2.2)); _root().add_child(node)
+
+func _build_ancient_traces() -> void:
+    for value in Chapter08Runtime.traces_for_zone(zone_id):
+        var data: Dictionary = value
+        var trace := ANCIENT_TRACE_SCRIPT.new() as Chapter08AncientTrace
+        trace.name = String(data.get("id", "AncientTrace"))
+        trace.position = _vec3(data.get("position", [0,0,0]))
+        trace.configure(String(data.get("id", "")))
+        _area_box(trace,Vector3(2.0,2.0,2.0))
+        _root().add_child(trace)
 
 func _node_data(node_id: String) -> Dictionary:
     for value in world.get("nodes", []):
