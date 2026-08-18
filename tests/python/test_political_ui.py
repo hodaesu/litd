@@ -51,7 +51,7 @@ def test_concord_ui_is_autoloaded_and_exposes_npcs_quests_and_social_state():
 
 def test_political_save_load_order_restores_progress_before_unlock_calculation():
     save_manager = (ROOT / "scripts/core/save_manager.gd").read_text()
-    assert 'SAVE_VERSION := "0.19"' in save_manager
+    assert 'SAVE_VERSION := "0.20"' in save_manager
     assert '"politics": PoliticalState.serialize()' in save_manager
     expedition_load = save_manager.index('GameState.expedition_room = int(payload.get("expedition_room", 0))')
     politics_load = save_manager.index('PoliticalState.deserialize(payload.get("politics", {}))')
