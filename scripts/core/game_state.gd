@@ -27,6 +27,7 @@ func reset_new_game() -> void:
     CampaignState.reset_new_game()
     AshlandsRuntime.reset_world_progression()
     Chapter01Runtime.reset_new_game()
+    Chapter02Runtime.reset_new_game()
     party = []
     for hero in DataLoader.heroes:
         var prepared_hero: Dictionary = hero.duplicate(true)
