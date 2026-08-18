@@ -1,0 +1,40 @@
+{
+  "schema_version":1,
+  "chapter_id":"chapter_10_final_choice",
+  "title":"La lumière mérite d'être défendue",
+  "theme":"Le monde n'est pas sauvé par une doctrine parfaite mais par une décision dont les conditions, les protections et les coûts ont été réellement construits.",
+  "moral_question":"Qui a le droit de décider d'un monde commun, et comment empêcher qu'une solution juste pour certains ne transforme les autres en coût acceptable ?",
+  "start_zone":"c10_world_council",
+  "stages":[
+    {"id":"c10_stage_01_council","name":"Ceux qui doivent décider","type":"assembly","zone":"c10_world_council","objective":"Constituer un conseil minimal puis faire entendre toutes les délégations que la campagne a réellement rendues capables de participer."},
+    {"id":"c10_stage_02_roots","name":"Ce qui vit ici","type":"exploration","zone":"c10_sanctuary_roots","objective":"Traverser les racines du Sanctuaire et documenter ce que chaque orientation peut faire perdre aux communautés présentes."},
+    {"id":"c10_stage_03_elsewhere","name":"Ceux qui vivent autrement","type":"crossing","zone":"c10_border_of_absent","objective":"Maintenir un passage assez stable pour entendre créatures et Absents sans leur promettre un retour que le monde ne peut garantir."},
+    {"id":"c10_stage_04_routes","name":"Un monde plus grand que la Concorde","type":"coalition","zone":"c10_shared_routes","objective":"Maintenir les routes vers les peuples étrangers et établir que la décision finale ne peut être appliquée comme un décret continental."},
+    {"id":"c10_stage_05_cost","name":"Quelqu'un paiera","type":"miniboss","zone":"c10_cost_chamber","encounter_id":"c10_unpaid_cost","objective":"Nommer trois catégories de coût que les solutions politiques préfèrent habituellement rendre invisibles, puis vaincre Le Coût Oublié."},
+    {"id":"c10_stage_06_node","name":"Corps, Esprit, Cité","type":"stabilization","zone":"c10_central_node","objective":"Ancrer simultanément survie matérielle, continuité des consciences et légitimité collective avant d'entrer dans la Rupture Commune."},
+    {"id":"c10_stage_07_rupture","name":"La Rupture Commune","type":"boss","zone":"c10_common_rupture","encounter_id":"c10_boss_final","objective":"Empêcher la crise du réseau de transformer une seule peur ou un seul intérêt en réalité obligatoire."},
+    {"id":"c10_stage_08_choice","name":"Ce que nous ferons du monde","type":"return","zone":"sanctuary","objective":"Choisir parmi les orientations réellement rendues possibles par la partie, en affichant publiquement leurs coûts et leurs protections."}
+  ],
+  "main_quest_bindings":{
+    "c10_gather_world":["c10_stage_01_council","c10_stage_02_roots","c10_stage_03_elsewhere","c10_stage_04_routes"],
+    "c10_last_crossing":["c10_stage_05_cost","c10_stage_06_node","c10_stage_07_rupture"],
+    "c10_world_choice":["c10_stage_08_choice"]
+  },
+  "council_groups":[
+    {"id":"sanctuary","name":"Habitants du Sanctuaire","always":true,"principle":"Ceux qui devront vivre immédiatement avec la décision."},
+    {"id":"concord_civic","name":"Cercles civiques de la Concorde","always":true,"principle":"La décision doit pouvoir être contestée et révisée."},
+    {"id":"expedition_survivors","name":"Survivants des expéditions","always":true,"principle":"Ceux qui ont vu les effets physiques des ruptures."},
+    {"id":"creatures","name":"Créatures conscientes","metric":"creature_relations","min":30,"principle":"La réalité commune ne concerne pas seulement les humains."},
+    {"id":"absent","name":"Absents en contact","metric":"absent_contact","min":30,"principle":"Une fermeture peut être une condamnation pour ceux qui existent hors de notre rive."},
+    {"id":"foreign","name":"Délégations étrangères","metric":"foreign_alliances","min":30,"principle":"La Concorde ne possède pas le monde et ne peut décider seule pour les autres continents."},
+    {"id":"justice","name":"Cercle d'Audience","metric":"justice_integrity","min":55,"principle":"Même en urgence, personne ne doit devenir un sacrifice sans voix."}
+  ],
+  "decision_rules":{"minimum_council_groups":3,"stakes_required":8,"stake_families_required":5,"world_anchors_required":3,"rule":"Une orientation finale n'est jamais créée dans ce chapitre. Elle est seulement révélée comme réalisable si la partie entière a construit ses conditions."},
+  "miniboss":{"id":"c10_unpaid_cost","name":"Le Coût Oublié","hp":188,"signature":"Quelqu'un paiera","core_puzzle":"Le boss se renforce chaque fois que le groupe répète une solution sans avoir rendu visible le coût qu'elle déplace sur d'autres.","counterplay":"Activer les trois témoins du coût — présents, absents et futurs — puis varier attaque, défense et soutien.","truth":"Une manifestation formée par les conséquences que les institutions cessent de compter lorsqu'elles veulent qu'une décision paraisse sans perte."},
+  "boss":{"id":"c10_boss_final","name":"La Rupture Commune","hp":320,"phases":["Le monde se sépare","Une solution pour tous","Ce que nous refusons de sacrifier"],"signature":"Ce que nous refusons de sacrifier","truth":"Une crise du réseau de réalité alimentée par les contradictions du monde vivant ; ce n'est ni un dieu ni une volonté maléfique centrale.","core_puzzle":"La Rupture tente successivement de faire de la survie matérielle, de la mémoire puis de l'ordre politique l'unique réalité légitime.","counterplay":"Maintenir les trois ancrages Corps, Esprit et Cité. Chaque ancrage neutralise une forme de réduction du monde, tandis que la coalition construite pendant la campagne réduit les effets secondaires.","environmental_solution":"Les trois ancrages doivent être actifs simultanément. Les alliances et institutions de la campagne renforcent leur stabilité mais ne remplacent jamais l'action dans l'arène.","alternate_resolution":"Après stabilisation, la crise ne décide pas de la politique du monde : le conseil doit encore choisir parmi les orientations réellement disponibles."},
+  "final_choice_rule":"Le joueur ne choisit qu'entre CampaignState.available_endings(). Si aucune orientation globale n'est réalisable, un état de survie/failure cohérent avec la partie est appliqué.",
+  "failure_priority":["authoritarian_order","veil_dissolution","fractured_survival"],
+  "unique_rewards":{"archive":{"id":"chronicle_world_after","name":"Chronique du monde d'après","effect":"Archive le choix final, les orientations impossibles et les voix qui ont participé au conseil."},"postgame":{"id":"postgame_sanctuary","name":"Le premier lieu du monde d'après","effect":"Le Sanctuaire adopte une couche visuelle et sociale correspondant à l'orientation finale."}},
+  "end_revelation":"La lumière ne supprime pas l'obscurité ; elle rend possible un monde commun malgré elle. Défendre la lumière signifie aussi refuser de cacher qui paie le prix de nos solutions.",
+  "unlock":"endings"
+}
