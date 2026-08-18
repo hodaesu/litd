@@ -18,6 +18,7 @@ func _ready() -> void:
     PoliticalState.politics_changed.connect(_on_state_changed)
     CampaignState.campaign_changed.connect(_on_state_changed)
     Chapter01Runtime.chapter_one_changed.connect(_on_state_changed)
+    Chapter01Runtime.boss_choice_required.connect(_on_boss_choice_required)
     SanctuaryState.sanctuary_state_changed.connect(_on_sanctuary_changed)
     _on_screen_requested(GameState.current_screen)
 
@@ -91,6 +92,9 @@ func _on_screen_requested(screen_name: String) -> void:
         PoliticalState.refresh_unlocks()
         Chapter01Runtime.refresh_progress()
         _render()
+
+func _on_boss_choice_required() -> void:
+    GameState.request_screen("quest_journal")
 
 func _on_state_changed() -> void:
     if overlay.visible:
