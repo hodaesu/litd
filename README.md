@@ -20,6 +20,7 @@ Fondation professionnelle du prototype Godot de **Light in the Dark**.
 - [Chapitre VIII — Le monde extérieur](docs/CHAPITRE_08_MONDE_EXTERIEUR.md)
 - [Chapitre IX — Ce qu'est réellement le Voile](docs/CHAPITRE_09_NATURE_DU_VOILE.md)
 - [Chapitre X — La lumière mérite d'être défendue](docs/CHAPITRE_10_LA_LUMIERE_MERITE_ETRE_DEFENDUE.md)
+- [Épilogues, postgame et Nouveau Cycle+](docs/EPILOGUES_POSTGAME_NG_PLUS.md)
 - [Histoire fondatrice — Dernière Guerre et Trois Éveils](docs/HISTOIRE_TROIS_EVEILS.md)
 - [La Concorde — droit et justice](docs/CONCORDE_DROIT_JUSTICE.md)
 - [La Concorde avant la Chute — courants politiques](docs/CONCORDE_COURANTS_PRE_CHUTE.md)
