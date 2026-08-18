@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "rule": "Le joueur choisit une partie anatomique. Chaque partie possède sa propre précision, résistance au trauma, état de blessure et conséquence tactique.",
+  "targeting": {
+    "default_part": "auto",
+    "miss_on_failed_part_roll": false,
+    "failed_part_roll_damage_multiplier": 0.65,
+    "part_hit_min": 35,
+    "part_hit_max": 95
+  },
+  "generic_profiles": {
+    "humanoid": {
+      "parts": [
+        {"id":"weapon_arm","name":"Bras d'attaque","hit_modifier":5,"trauma_resistance":1.0,"severable":true,"critical":false,"tags":["weapon","support"],"consequence":"Réduit fortement les dégâts et neutralise les manœuvres utilisant l'arme."},
+        {"id":"support_leg","name":"Jambe d'appui","hit_modifier":0,"trauma_resistance":1.05,"severable":true,"critical":false,"tags":["mobility","support"],"consequence":"Brise la stabilité, peut provoquer recul et étourdissement."},
+        {"id":"head","name":"Tête","hit_modifier":-25,"trauma_resistance":1.25,"severable":true,"critical":true,"finisher_only":true,"tags":["sensor","critical"],"consequence":"Coup de grâce uniquement ; ne contourne jamais les règles de boss."}
+      ]
+    },
+    "beast": {
+      "parts": [
+        {"id":"forelimb","name":"Membre antérieur","hit_modifier":0,"trauma_resistance":1.0,"severable":true,"critical":false,"tags":["mobility","attack"],"consequence":"Neutralise ou affaiblit les charges."},
+        {"id":"hind_leg","name":"Membre postérieur","hit_modifier":5,"trauma_resistance":0.95,"severable":true,"critical":false,"tags":["mobility"],"consequence":"Force le recul et réduit la mobilité."},
+        {"id":"jaw","name":"Mâchoire","hit_modifier":-15,"trauma_resistance":1.15,"severable":true,"critical":false,"tags":["attack","fear"],"consequence":"Réduit dégâts et pression de Peur."}
+      ]
+    },
+    "arachnid": {
+      "parts": [
+        {"id":"front_leg","name":"Patte avant","hit_modifier":10,"trauma_resistance":0.85,"severable":true,"critical":false,"tags":["mobility"],"consequence":"Réduit stabilité et capacité de déplacement."},
+        {"id":"venom_appendage","name":"Appendice venimeux","hit_modifier":-10,"trauma_resistance":1.1,"severable":true,"critical":false,"tags":["attack","venom"],"consequence":"Neutralise traction, venin ou fil de rappel selon l'espèce."},
+        {"id":"rear_leg","name":"Patte arrière","hit_modifier":10,"trauma_resistance":0.85,"severable":true,"critical":false,"tags":["mobility"],"consequence":"Fait perdre du terrain à l'arachnide."}
+      ]
+    },
+    "aberration": {
+      "parts": [
+        {"id":"attack_appendage","name":"Appendice offensif","hit_modifier":0,"trauma_resistance":1.0,"severable":true,"critical":false,"tags":["attack"],"consequence":"Réduit la puissance offensive."},
+        {"id":"anchor_appendage","name":"Appendice d'ancrage","hit_modifier":-10,"trauma_resistance":1.2,"severable":true,"critical":false,"tags":["anchor","veil"],"consequence":"Déstabilise le positionnement et les effets liés au Voile."}
+      ]
+    },
+    "construct": {
+      "parts": [
+        {"id":"impact_plate","name":"Plaque d'impact","hit_modifier":5,"trauma_resistance":1.35,"severable":false,"critical":false,"tags":["armor"],"consequence":"Peut être brisée pour réduire les ondes d'impact."},
+        {"id":"joint","name":"Articulation","hit_modifier":-15,"trauma_resistance":1.0,"severable":false,"critical":false,"tags":["mobility","mechanical"],"consequence":"Peut être fracturée pour désorganiser le mouvement."},
+        {"id":"core","name":"Noyau","hit_modifier":-30,"trauma_resistance":1.5,"severable":false,"critical":true,"tags":["core"],"consequence":"Très difficile à atteindre ; ouvre une vulnérabilité sans exécution automatique."}
+      ]
+    },
+    "boss": {
+      "parts": [
+        {"id":"offensive_limb","name":"Membre offensif","hit_modifier":-5,"trauma_resistance":1.35,"severable":true,"critical":false,"tags":["attack"],"consequence":"Réduit l'arsenal offensif du boss."},
+        {"id":"anchor_limb","name":"Ancrage corporel","hit_modifier":-15,"trauma_resistance":1.5,"severable":true,"critical":false,"tags":["anchor"],"consequence":"Altère une mécanique de phase liée au positionnement ou au Voile."},
+        {"id":"support_limb","name":"Membre de soutien","hit_modifier":0,"trauma_resistance":1.3,"severable":true,"critical":false,"tags":["support","mobility"],"consequence":"Réduit stabilité et manœuvres de formation."}
+      ]
+    }
+  },
+  "hero_specializations": {
+    "malvor":{"tags":["armor","support","mobility"],"trauma_multiplier":1.35,"part_hit_bonus":10,"description":"Excellent contre membres porteurs, plaques, articulations et appuis."},
+    "darius":{"tags":["weapon","attack","support"],"trauma_multiplier":1.2,"part_hit_bonus":8,"description":"Désarme et neutralise les organes offensifs avec régularité."},
+    "aurelien":{"tags":["anchor","veil","core"],"trauma_multiplier":1.4,"part_hit_bonus":12,"description":"Perçoit les ancrages du Voile, noyaux et points de cohérence."},
+    "lysandra":{"tags":["sensor","venom","critical"],"trauma_multiplier":1.15,"part_hit_bonus":15,"description":"Précise sur les petites parties vulnérables et organes sensoriels."}
+  },
+  "injury_thresholds": [
+    {"ratio":0.35,"state":"strained","name":"Fragilisé"},
+    {"ratio":0.65,"state":"injured","name":"Blessé"},
+    {"ratio":0.85,"state":"critical","name":"Critique"}
+  ]
+}
