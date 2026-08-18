@@ -67,6 +67,12 @@ func _prepare_placeholder_enemies() -> void:
             e["name"] = str(miniboss_data.get("name", e.get("name", "Mini-boss")))
             e["recruitable"] = false
             e["is_miniboss"] = true
+            if encounter_id == "c02_broken_curator":
+                e["hp"] = 82
+                e["max_hp"] = 82
+                e["damage"] = [6, 11]
+                e["fear"] = 6
+                e["chapter_miniboss_id"] = "c02_broken_curator"
         if encounter_type == "boss":
             e["recruitable"] = false
             e["is_boss"] = true
@@ -78,6 +84,14 @@ func _prepare_placeholder_enemies() -> void:
                 e["fear"] = 7
                 e["chapter_boss_id"] = "c01_boss_ash_witness"
                 e["signature"] = "Dernier Souvenir du Jour"
+            elif encounter_id == "c02_marker_warden":
+                e["name"] = "Sahra Vel — La Veilleuse des Bornes"
+                e["hp"] = 128
+                e["max_hp"] = 128
+                e["damage"] = [7, 12]
+                e["fear"] = 6
+                e["chapter_boss_id"] = "c02_marker_warden"
+                e["signature"] = "La Carte qui se Souvient"
         GameState.battle_enemies.append(e)
 
 func resolve_victory() -> Dictionary:
