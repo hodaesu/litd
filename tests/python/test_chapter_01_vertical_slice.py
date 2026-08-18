@@ -89,6 +89,7 @@ def test_vertical_slice_is_autoloaded_reset_saved_and_visible_in_journal():
     journal = (ROOT / "scripts/ui/quest_journal_ui.gd").read_text()
     assert 'Chapter01Runtime="*res://scripts/world/chapter_01_runtime.gd"' in project
     assert 'Chapter01EncounterInjector="*res://scripts/world/chapter_01_encounter_injector.gd"' in project
+    assert 'Chapter01BossRuntime="*res://scripts/world/chapter_01_boss_runtime.gd"' in project
     assert "Chapter01Runtime.reset_new_game()" in game_state
     assert 'SAVE_VERSION := "0.20"' in save
     assert '"chapter_01": Chapter01Runtime.serialize()' in save
@@ -99,11 +100,16 @@ def test_vertical_slice_is_autoloaded_reset_saved_and_visible_in_journal():
     assert "Chapter01Runtime.boss_choice_required.connect" in journal
 
 
-def test_chapter_boss_identity_reaches_combat_bridge():
+def test_chapter_boss_identity_and_three_phases_reach_combat_runtime():
     bridge = (ROOT / "scripts/world/ashlands_combat_bridge.gd").read_text()
+    boss_runtime = (ROOT / "scripts/world/chapter_01_boss_runtime.gd").read_text()
     assert 'encounter_id == "c01_boss_ash_witness"' in bridge
     assert 'e["name"] = "Le Témoin des Cendres"' in bridge
     assert 'e["signature"] = "Dernier Souvenir du Jour"' in bridge
+    assert "ratio <= 0.60" in boss_runtime
+    assert "ratio <= 0.25" in boss_runtime
+    assert "GameState.light = maxi(0, GameState.light - 15)" in boss_runtime
+    assert 'boss["recognition_window"] = true' in boss_runtime
 
 
 def test_exploration_hud_is_hidden_but_lore_reader_remains_contextual():
