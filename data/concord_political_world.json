@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "cities": [
+    {"id":"jian_lu","name":"Jian-Lu","epithet":"Cité des Ponts","dominant_currents":["concord_unionists","civic_reformers","body_pragmatists"],"fall_tension":"Evacuer les quartiers isolés ou couper les ponts pour ralentir le Voile."},
+    {"id":"sorye","name":"Sorye","epithet":"Cité des Cent Écoles","dominant_currents":["civic_reformers","continuities","living_guardians"],"fall_tension":"Préserver les archives ou mobiliser tous les moyens pour sauver les vivants."},
+    {"id":"dhor_khal","name":"Dhor-Khal","epithet":"Cité de la Forge Commune","dominant_currents":["body_pragmatists","continuities","city_autonomists"],"fall_tension":"Accélérer la chaîne de commandement sans rendre l'exception permanente."},
+    {"id":"lhaor","name":"Lhaor","epithet":"Cité-Jardin","dominant_currents":["living_guardians","city_autonomists","civic_reformers"],"fall_tension":"Protéger le vivant lorsque certaines zones naturelles deviennent hostiles."},
+    {"id":"tessen","name":"Tessen","epithet":"Cité des Mille Voix","dominant_currents":["city_autonomists","civic_reformers","continuities"],"fall_tension":"Préserver l'autonomie des quartiers sans laisser la cité se fragmenter."},
+    {"id":"orun_sai","name":"Orun-Saï","epithet":"Cité du Seuil","dominant_currents":["concord_unionists","continuities","body_pragmatists"],"fall_tension":"Accueillir des réfugiés malgré le risque réel de Folie et d'infiltration."}
+  ],
+  "offices": [
+    {"id":"spokesperson","name":"Porte-Voix","term_years":2,"immediate_renewal":false,"role":"Exécute et représente les décisions des Cercles sans gouverner seul."},
+    {"id":"concord_mediator","name":"Médiateur de Concorde","term_years":4,"role":"Négociation, médiation et désescalade des conflits civiques."},
+    {"id":"pact_watcher","name":"Veilleur du Pacte","term_years":6,"role":"Contrôle la conformité des lois au Pacte de Concorde."},
+    {"id":"living_guardian","name":"Gardien du Vivant","role":"Saisit la justice lorsque des décisions menacent durablement le vivant."},
+    {"id":"awakening_rapporteur","name":"Rapporteur des Trois Examens","role":"Conduit temporairement l'examen du Corps, de l'Esprit ou de la Cité pour une loi."},
+    {"id":"justice_arbiter","name":"Arbitre de Justice","term_years":5,"role":"Préside un Cercle de Justice sans décider seul du verdict."},
+    {"id":"civic_guard","name":"Gardien civique","role":"Sécurité locale fondée sur désescalade, désarmement et neutralisation non létale."}
+  ],
+  "historical_crises": [
+    {"id":"seven_canals","name":"Crise des Sept Canaux","years_before_fall":780,"legacy":"Droit continental de l'eau et gestion des bassins partagés."},
+    {"id":"roots_debate","name":"Débat des Racines","years_before_fall":610,"legacy":"Renforcement du droit du vivant et compromis sur les ressources."},
+    {"id":"linked_mandates","name":"Affaire des Mandats Liés","years_before_fall":430,"legacy":"Règles sur conflits d'intérêts et concentration informelle du pouvoir."},
+    {"id":"stone_watchers","name":"Question des Veilleurs de Pierre","years_before_fall":290,"legacy":"Protection préalable en cas de doute sérieux sur la conscience d'une créature."},
+    {"id":"ash_winters","name":"Hivers de Cendre","years_before_fall":170,"legacy":"Réseau d'urgence commun et expiration automatique des pouvoirs exceptionnels."},
+    {"id":"single_seat_motion","name":"Motion du Siège Unique","years_before_fall":73,"legacy":"Rejet d'un coordinateur continental unique à long mandat."}
+  ],
+  "figures": [
+    {"id":"asha_ren","name":"Asha Ren","role":"Juriste de la limite"},
+    {"id":"toma_vey","name":"Toma Vey","role":"Médiateur et philosophe"},
+    {"id":"enna_solan","name":"Enna Solan","role":"Réformatrice civique"},
+    {"id":"borun_kael","name":"Borun Kael","role":"Ingénieur pragmatiste"},
+    {"id":"seye_aruun","name":"Seye Aruun","role":"Gardienne du Vivant"},
+    {"id":"nael_tessen","name":"Nael Tessen","role":"Autonomiste civique"}
+  ]
+}
