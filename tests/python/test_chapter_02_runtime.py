@@ -8,7 +8,7 @@ def test_chapter_two_save_version_and_runtime_contracts():
     runtime = (ROOT / 'scripts/world/chapter_02_runtime.gd').read_text()
     router = (ROOT / 'scripts/world/ashlands_scene_router.gd').read_text()
     journal = (ROOT / 'scripts/ui/quest_journal_ui.gd').read_text()
-    assert 'SAVE_VERSION := "0.29"' in save
+    assert 'SAVE_VERSION := "0.30"' in save
     assert '"chapter_02": Chapter02Runtime.serialize()' in save
     assert 'func independent_source_count()' in runtime
     assert 'func choose_final_outcome(choice_id: String)' in runtime
