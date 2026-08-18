@@ -1,0 +1,49 @@
+{
+  "schema_version":1,
+  "chapter_id":"chapter_09_veil_nature",
+  "title":"Ce qu'est réellement le Voile",
+  "theme":"Sept civilisations, les créatures, les Absents et les sciences modernes décrivent des facettes compatibles sans fournir une origine ultime certaine.",
+  "moral_question":"Jusqu'où faut-il comprendre un phénomène lorsque l'observer et le tester peut déjà le transformer ?",
+  "start_zone":"c09_tree_node",
+  "stages":[
+    {"id":"c09_stage_01_tree","name":"Sous l'Arbre","type":"exploration","zone":"c09_tree_node","objective":"Ouvrir le nœud sous l'Arbre et réunir les mesures modernes, Saan et ashaï."},
+    {"id":"c09_stage_02_lenses","name":"Sept lentilles, aucune vérité unique","type":"synthesis","zone":"c09_seven_lenses","objective":"Comparer les sept civilisations anciennes et identifier ce que chacune a réellement observé du Voile."},
+    {"id":"c09_stage_03_living_witnesses","name":"Ce que le vivant reconnaît","type":"investigation","zone":"c09_living_resonance","objective":"Comparer réactions de créatures, mémoire humaine et réponses de Saen sans réduire l'une à l'autre."},
+    {"id":"c09_stage_04_saan","name":"Le réseau qui tient encore","type":"stabilization","zone":"c09_saan_network","objective":"Réactiver trois stabilisateurs de Saan et observer ce qu'ils fixent réellement."},
+    {"id":"c09_stage_05_fear","name":"La peur donne une forme","type":"experiment","zone":"c09_fear_basin","objective":"Traverser un champ où la peur rétrécit les issues possibles sans supposer qu'elle crée la matière à partir de rien."},
+    {"id":"c09_stage_06_limit","name":"Ce que nous ne saurons pas","type":"investigation","zone":"c09_deep_overlap","objective":"Atteindre la limite d'observation sûre et choisir quelles mesures ne doivent pas être tentées."},
+    {"id":"c09_stage_07_consensus","name":"Le Consensus Brisé","type":"boss","zone":"c09_consensus_chamber","encounter_id":"c09_boss_consensus","objective":"Stabiliser plusieurs mémoires incompatibles sans exiger qu'une seule version du monde efface toutes les autres."},
+    {"id":"c09_stage_08_return","name":"Un modèle, pas une religion","type":"return","zone":"sanctuary","objective":"Présenter au Sanctuaire un modèle de fonctionnement du Voile en distinguant clairement faits, hypothèses et inconnues."}
+  ],
+  "main_quest_bindings":{
+    "c09_shared_reality":["c09_stage_01_tree","c09_stage_02_lenses","c09_stage_03_living_witnesses","c09_stage_04_saan"],
+    "c09_fear_shape":["c09_stage_05_fear"],
+    "c09_no_final_answer":["c09_stage_06_limit","c09_stage_07_consensus","c09_stage_08_return"]
+  },
+  "ancient_lenses":[
+    {"id":"ashai","civilization":"Ashaï de Nhal","baseline":"Plusieurs consciences peuvent stabiliser un monde commun ; un accord parfait détruit l'information contenue dans la différence.","deep_truth_flag":"deep_vestige_ashai_seven_resonances_complete","adds_model":"shared_reality"},
+    {"id":"or_silex","civilization":"Royaumes d'Or-Silex","baseline":"La divergence perceptive peut être exploitée et projetée comme arme.","deep_truth_flag":"deep_vestige_or_silex_black_glass_complete","adds_model":"perception_materialization"},
+    {"id":"saan","civilization":"Veilleurs de Saan","baseline":"Des frontières de réalité peuvent être stabilisées et des consciences peuvent persister au-delà d'une fermeture.","deep_truth_flag":"deep_vestige_saan_last_seal_complete","adds_model":"displacement"},
+    {"id":"vaor_khal","civilization":"Cités de Vaor-Khal","baseline":"Des priorités collectives peuvent modifier quels passages deviennent praticables.","deep_truth_flag":"deep_vestige_vaor_khal_thousand_orders_complete","adds_model":"collective_priority"},
+    {"id":"lyr_mar","civilization":"Navigateurs de Lyr-Mar","baseline":"Choisir collectivement une route probable peut la rendre plus stable que les autres.","deep_truth_flag":"deep_vestige_lyr_mar_reversed_tides_complete","adds_model":"probability_narrowing"},
+    {"id":"sahm_ir","civilization":"Cités de Sahm-Ir","baseline":"Un symbole partagé peut stabiliser sans imposer une interprétation unique.","deep_truth_flag":"deep_vestige_sahm_ir_sealed_voices_complete","adds_model":"plural_meaning"},
+    {"id":"ydris","civilization":"Ateliers d'Ydris","baseline":"L'attente et l'observation peuvent participer au phénomène mesuré.","deep_truth_flag":"deep_vestige_ydris_impossible_causes_complete","adds_model":"observer_participation"}
+  ],
+  "model_rules":{"observations_required":12,"source_families_required":6,"ancient_lenses_required":7,"deep_truth_bonus_per_vestige":2,"deep_truths_for_high_confidence":3,"rule":"Les sept civilisations doivent être comparées, mais leurs Vestiges restent facultatifs : les Vérités Profondes augmentent la confiance et ouvrent des solutions plus fines, jamais l'accès obligatoire au chapitre."},
+  "models":[
+    {"id":"shared_reality","name":"Réalité partagée","statement":"La Lumière agit comme un repère partagé entre consciences et stabilise localement une version commune du réel.","required_support":4,"required_families":3},
+    {"id":"fear_narrows","name":"Peur et réduction des possibles","statement":"La peur et la Folie n'inventent pas librement le réel : elles rendent certaines issues plus probables, répétitives et difficiles à quitter.","required_support":4,"required_families":3},
+    {"id":"observer_participation","name":"Participation de l'observateur","statement":"Mesurer, attendre et nommer certaines possibilités peut modifier leur stabilité locale.","required_support":4,"required_families":3},
+    {"id":"displaced_identity","name":"Identité déplacée","statement":"Une conscience peut conserver une continuité hors de la réalité partagée sans que sa nature ontologique soit déterminée.","required_support":3,"required_families":3},
+    {"id":"veil_not_place","name":"Le Voile n'est probablement pas un lieu","statement":"Les données s'expliquent mieux si le Voile est une condition ou une frontière de possibilités, mémoire, perception et matière plutôt qu'un monde extérieur ordinaire.","required_support":5,"required_families":4}
+  ],
+  "boss":{"id":"c09_boss_consensus","name":"Le Consensus Brisé","hp":272,"phases":["Mille souvenirs","Une seule version","Le désaccord habitable"],"signature":"Nous ne voyons pas le même monde","truth":"Une réalité locale composée de mémoires contradictoires de milliers de personnes. Elle devient hostile lorsque toute contradiction est forcée vers une version unique.","core_puzzle":"Sept lentilles de mémoire représentent des interprétations incompatibles. Activer trop de lentilles identiques crée un consensus forcé ; maintenir trois perspectives distinctes mais compatibles ouvre une fenêtre stable.","counterplay":"Conserver au moins trois familles de perspective actives, éviter la répétition d'une même réponse et utiliser les Vérités Profondes facultatives pour neutraliser certaines contradictions sans les effacer.","environmental_solution":"Trois ancrages de perspective — vécu, mesure, mémoire — doivent rester simultanément actifs sans atteindre l'unanimité.","alternate_resolutions":["single_anchor","negotiated_plurality","autonomous_zone"]},
+  "boss_choices":[
+    {"id":"single_anchor","label":"IMPOSER UN ANCRAGE UNIQUE","effects":{"veil_knowledge":3,"stabilizer_nodes":4,"absent_contact":-4,"tension":-2},"consequence":"La zone devient stable et prévisible, mais certaines mémoires incompatibles cessent de pouvoir répondre."},
+    {"id":"negotiated_plurality","label":"CONSTRUIRE UN COMPROMIS DE RÉALITÉS","requirements":{"models_confirmed":4,"deep_truths":2,"justice_integrity_min":45},"effects":{"veil_knowledge":8,"absent_contact":4,"creature_relations":3,"justice_integrity":2},"consequence":"Plusieurs versions locales restent compatibles sans être fusionnées. La maintenance est plus difficile mais aucune voix n'est désignée comme seule réalité légitime."},
+    {"id":"autonomous_zone","label":"LAISSER UNE ZONE AUTONOME","requirements":{"models_confirmed":4,"deep_truths":3,"absent_contact_min":8},"effects":{"veil_knowledge":6,"absent_contact":8,"stabilizer_nodes":-2,"tension":3},"consequence":"La Concorde reconnaît une zone où sa réalité commune n'est pas souveraine. Le contact avec les Absents augmente mais le contrôle diminue."}
+  ],
+  "unique_rewards":{"relic":{"id":"relic_prism_common_light","name":"Prisme de Lumière Commune","effect":"Une fois par donjon, transforme des états de Peur différents en ancrage collectif sans les uniformiser."},"knowledge":{"id":"knowledge_operational_veil_model","name":"Modèle opératoire du Voile","effect":"Les futurs choix distinguent les effets probables d'une fermeture, coexistence ou traversée contrôlée."},"service":{"id":"sanctuary_model_chamber","name":"Chambre des Modèles","effect":"Le Sanctuaire conserve côte à côte faits établis, modèles concurrents et inconnues sans les transformer en doctrine officielle."}},
+  "end_revelation":"Nous pouvons décrire plusieurs règles du Voile avec une confiance élevée. Nous ne savons toujours pas ce qu'il est à l'origine, ni s'il possède une volonté, ni pourquoi cette condition existe.",
+  "unlock":"chapter_10_final_choice"
+}
