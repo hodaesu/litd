@@ -34,6 +34,7 @@ func reset_new_game() -> void:
     Chapter06Runtime.reset_new_game()
     Chapter07Runtime.reset_new_game()
     Chapter08Runtime.reset_new_game()
+    Chapter09Runtime.reset_new_game()
     DeepVestigeRuntime.reset_new_game()
     party = []
     for hero in DataLoader.heroes:
