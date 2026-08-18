@@ -91,7 +91,8 @@ func foreign_chain_count() -> int:
 func interview_actor(actor_id: String) -> bool:
     if actor_id not in ["bram","veyra"] or bool(interviews.get(actor_id, false)): return false
     var data_id := "bram_torgun" if actor_id == "bram" else "veyra_oss"
-    if testimony_count_for_actor(data_id) < 2: return false
+    var old_link := int(Chapter03Runtime.actor_links.get(data_id, 0)) >= 1
+    if not old_link or testimony_count_for_actor(data_id) < 3 or independent_source_count_for_actor(data_id) < 2: return false
     interviews[actor_id] = true
     GameState.add_log("Déposition enregistrée : %s." % ("Bram Torgun" if actor_id == "bram" else "Veyra Oss"))
     interview_completed.emit(actor_id)
