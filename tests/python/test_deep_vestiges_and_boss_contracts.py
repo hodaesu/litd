@@ -25,7 +25,12 @@ def test_all_known_campaign_bosses_have_mechanical_contracts():
 def test_deep_vestige_rule_covers_each_known_ancient_civilization():
     data = json.loads((ROOT/'data/world/deep_vestiges.json').read_text())
     civs = {v['civilization'] for v in data['vestiges']}
-    assert {'Ashaï de Nhal', "Royaumes d'Or-Silex", 'Veilleurs de Saan'}.issubset(civs)
+    assert {
+        'Ashaï de Nhal', "Royaumes d'Or-Silex", 'Veilleurs de Saan',
+        'Cités de Vaor-Khal', 'Navigateurs de Lyr-Mar', 'Cités de Sahm-Ir', "Ateliers d'Ydris"
+    }.issubset(civs)
+    assert len(data['vestiges']) >= 7
+    assert all(v.get('data_path') for v in data['vestiges'])
     assert data['difficulty']['recommended_offset_levels'] >= 4
     assert data['difficulty']['resource_abundance_multiplier'] < 1
 
@@ -39,6 +44,7 @@ def test_ashai_vestige_is_full_optional_dungeon_with_high_end_rewards():
     assert len(data['boss']['phases']) == 3
     assert data['boss']['environmental_solution']
     assert data['boss']['punishes_bruteforce']
+    assert data['completion_requirements']['boss'] == 'vestige_ashai_boss_seventh_voice'
     assert data['rewards']['relic']['id'] == 'relic_anchor_lantern'
     assert data['rewards']['deep_truth']['id'] == 'deep_truth_ashai'
     for zone in data['zones']:
@@ -51,13 +57,16 @@ def test_deep_vestige_is_routed_autoloaded_saved_and_reset():
     save = (ROOT/'scripts/core/save_manager.gd').read_text()
     game = (ROOT/'scripts/core/game_state.gd').read_text()
     ui = (ROOT/'scripts/ui/deep_vestige_ui.gd').read_text()
+    runtime = (ROOT/'scripts/world/deep_vestige_runtime.gd').read_text()
     assert 'DeepVestigeRuntime="*res://scripts/world/deep_vestige_runtime.gd"' in project
     assert 'DeepVestigeBossRuntime="*res://scripts/world/deep_vestige_boss_runtime_v2.gd"' in project
     assert 'func start_ashai_deep_vestige()' in router
+    assert 'func start_deep_vestige(vestige_id: String)' in router
     assert 'SAVE_VERSION := "0.28"' in save
     assert '"deep_vestiges": DeepVestigeRuntime.serialize()' in save
     assert 'DeepVestigeRuntime.reset_new_game()' in game
-    assert 'Temple des Sept Résonances' in ui
+    assert 'DeepVestigeRuntime.index_entries()' in ui
+    assert 'data_path_for_zone' in runtime
 
 
 def test_seventh_voice_is_connected_to_combat_and_punishes_repetition():
@@ -67,4 +76,5 @@ def test_seventh_voice_is_connected_to_combat_and_punishes_repetition():
     assert 'La Septième Voix' in bridge
     assert 'Le Monde que Nous Accordons' in bridge
     assert 'ACCORD FORCÉ' in boss
-    assert 'forced_agreement' in boss
+    assert 'consecutive_damage_events' in boss
+    assert 'notify_player_action' in boss
