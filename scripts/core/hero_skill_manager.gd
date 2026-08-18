@@ -10,6 +10,9 @@ func prepare_hero(hero: Dictionary) -> void:
     hero["unlocked_skills"] = hero.get("unlocked_skills", [])
     hero["specialization"] = str(hero.get("specialization", ""))
 
+func multi_tree_enabled() -> bool:
+    return EndgameState.active_cycle >= 1
+
 func skill_nodes(hero: Dictionary, branch: String) -> Array:
     var result: Array = []
     var hero_id: String = str(hero.get("id", "hero"))
@@ -26,7 +29,8 @@ func skill_nodes(hero: Dictionary, branch: String) -> Array:
 func can_unlock(hero: Dictionary, skill_id: String) -> bool:
     var branch: String = _branch_for(hero, skill_id)
     var specialization: String = str(hero.get("specialization", ""))
-    if branch == "" or (specialization != "" and specialization != branch): return false
+    if branch == "": return false
+    if not multi_tree_enabled() and specialization != "" and specialization != branch: return false
     var node: Dictionary = _node(hero, skill_id)
     if node.is_empty() or hero.get("unlocked_skills", []).has(skill_id): return false
     if int(hero.get("level",1)) < int(node.required_level) or int(hero.get("skill_points",0)) < int(node.cost): return false
@@ -38,7 +42,7 @@ func unlock(hero: Dictionary, skill_id: String) -> bool:
     var unlocked: Array = hero.get("unlocked_skills", [])
     unlocked.append(skill_id); hero["unlocked_skills"] = unlocked
     hero["skill_points"] = int(hero.get("skill_points",0)) - int(node.cost)
-    if str(hero.get("specialization","")) == "": hero["specialization"] = _branch_for(hero,skill_id)
+    if not multi_tree_enabled() and str(hero.get("specialization","")) == "": hero["specialization"] = _branch_for(hero,skill_id)
     return true
 
 func stats_for(hero: Dictionary) -> Dictionary:
