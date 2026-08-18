@@ -80,7 +80,7 @@ func part_threshold(enemy: Dictionary, part: Dictionary) -> int:
     var base := 135 if _is_boss(enemy) else 100
     return maxi(25, int(round(float(base) * float(part.get("trauma_resistance", 1.0)))))
 
-func part_hit_chance(hero: Dictionary, part: Dictionary) -> int:
+func part_hit_chance(hero: Dictionary, part: Dictionary, enemy: Dictionary = {}) -> int:
     _load_data()
     var chance := 75 + int(part.get("hit_modifier", 0))
     var specialization: Dictionary = data.get("hero_specializations", {}).get(str(hero.get("id", "")), {})
@@ -89,6 +89,8 @@ func part_hit_chance(hero: Dictionary, part: Dictionary) -> int:
         chance += int(specialization.get("part_hit_bonus", 0))
     var precision := int(hero.get("precision", 0))
     chance += int(round(float(precision) * 0.25))
+    if not enemy.is_empty() and str(enemy.get("protected_anatomy_part", "")) == str(part.get("id", "")):
+        chance -= 15
     var targeting: Dictionary = data.get("targeting", {})
     return clampi(chance, int(targeting.get("part_hit_min", 35)), int(targeting.get("part_hit_max", 95)))
 
@@ -101,7 +103,7 @@ func register_targeted_hit(hero: Dictionary, enemy: Dictionary, action: String, 
         return {"severed": false, "trauma_added": 0, "message": "Aucune partie anatomique accessible."}
 
     var threshold := part_threshold(enemy, part)
-    var chance := part_hit_chance(hero, part)
+    var chance := part_hit_chance(hero, part, enemy)
     var precision_success := randi_range(1, 100) <= chance
     var base_trauma := 8
     if action == "heavy":
@@ -177,7 +179,8 @@ func anatomy_status(enemy: Dictionary) -> Array:
             "consequence": str(part.get("consequence", "")),
             "selected": str(enemy.get("selected_anatomy_part", "")) == part_id,
             "hit_modifier": int(part.get("hit_modifier", 0)),
-            "tags": part.get("tags", [])
+            "tags": part.get("tags", []),
+            "protected": str(enemy.get("protected_anatomy_part", "")) == part_id
         })
     return rows
 
