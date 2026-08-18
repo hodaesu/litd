@@ -16,6 +16,7 @@ def run(root: Path = ROOT) -> dict:
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
     v6 = (root / "scripts/ui/main_v6.gd").read_text(encoding="utf-8")
     v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
+    v12 = (root / "scripts/ui/main_v12.gd").read_text(encoding="utf-8")
     checks: list[dict] = []
 
     def check(name: str, ok: bool, detail: str = "") -> None:
@@ -25,7 +26,6 @@ def run(root: Path = ROOT) -> dict:
     groups = data.get("generic_enemy_ids", {})
     check("Familles ennemies : sept comportements présents", set(families) == EXPECTED_FAMILIES, str(sorted(families)))
     check("Familles génériques : cinq groupes présents", set(groups) == EXPECTED_GENERIC, str(sorted(groups)))
-
     nonboss_ids = {int(enemy["id"]) for enemy in enemies if not bool(enemy.get("boss", False))}
     assigned: list[int] = []
     for family_id, ids in groups.items():
@@ -56,7 +56,8 @@ def run(root: Path = ROOT) -> dict:
         if required:
             check(f"{family_id} : membre requis existe dans l'anatomie", required in known_parts, required)
 
-    check("Main utilise combat v6", 'res://scripts/ui/main_v6.gd' in scene)
+    check("Main utilise combat v12", 'res://scripts/ui/main_v12.gd' in scene)
+    check("Combat v12 conserve v11", 'extends "res://scripts/ui/main_v11.gd"' in v12)
     check("Combat v6 hérite de v5", 'extends "res://scripts/ui/main_v5.gd"' in v6)
     check("Combat v5 reste disponible sous v6", 'extends "res://scripts/ui/main_v4.gd"' in v5)
     check("Famille déterminée par boss/miniboss/ID", '_family_for_enemy' in v6 and 'is_miniboss' in v6 and 'generic_enemy_ids' in v6)
@@ -70,10 +71,7 @@ def run(root: Path = ROOT) -> dict:
     check("Réaction bestiale peut faire reculer", '"retreat_self_1"' in v6 and '_move_enemy_relative(enemy, 1)' in v6)
     check("Réaction aberrante peut ramener en première ligne", '"pull_self_to_front"' in v6 and '_move_enemy_to_rank(enemy, 1)' in v6)
 
-    return {
-        "summary": {"checks": len(checks), "errors": sum(1 for item in checks if not item["ok"])},
-        "checks": checks,
-    }
+    return {"summary": {"checks": len(checks), "errors": sum(1 for item in checks if not item["ok"])}, "checks": checks}
 
 
 def main() -> int:
