@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "rule": "Une fonction tactique peut être neutralisée par blessure critique sans exiger un démembrement. Les blessures ne provoquent jamais d'exécution automatique.",
+  "severity": {
+    "strained": {"rank":1,"multiplier":1.0},
+    "injured": {"rank":2,"multiplier":0.9},
+    "critical": {"rank":3,"multiplier":0.75}
+  },
+  "by_tag": {
+    "armor": {"name":"Armure fendue","effect":"break_guard","critical_disables_part":false},
+    "mobility": {"name":"Tendon / articulation lésé(e)","effect":"mobility_loss","critical_disables_part":true},
+    "sensor": {"name":"Organe sensoriel blessé","effect":"sensor_loss","critical_disables_part":false},
+    "venom": {"name":"Glande ou canal rompu","effect":"venom_loss","critical_disables_part":true},
+    "attack": {"name":"Fracture offensive","effect":"attack_loss","critical_disables_part":false},
+    "weapon": {"name":"Prise / membre armé fracturé","effect":"attack_loss","critical_disables_part":true},
+    "anchor": {"name":"Ancrage fissuré","effect":"anchor_loss","critical_disables_part":true},
+    "veil": {"name":"Cohérence du Voile fissurée","effect":"veil_loss","critical_disables_part":true},
+    "core": {"name":"Noyau fissuré","effect":"core_crack","critical_disables_part":false},
+    "support": {"name":"Structure de soutien lésée","effect":"support_loss","critical_disables_part":true}
+  }
+}
