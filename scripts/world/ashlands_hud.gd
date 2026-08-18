@@ -4,8 +4,10 @@ class_name AshlandsHUD
 @onready var zone_label: Label = $Margin/VBox/ZoneLabel
 @onready var supplies_label: Label = $Margin/VBox/SuppliesLabel
 @onready var status_label: Label = $Margin/VBox/StatusLabel
+@onready var margin: Control = $Margin
 
 func _ready() -> void:
+    margin.visible = false
     ExpeditionManager.inventory_changed.connect(_on_inventory_changed)
     AshlandsRuntime.zone_discovered.connect(_on_zone_discovered)
     AshlandsRuntime.lore_discovered.connect(_on_lore_discovered)
@@ -37,16 +39,16 @@ func _on_lore_discovered(entry: Dictionary) -> void:
     overlay.mouse_filter = Control.MOUSE_FILTER_STOP
     add_child(overlay)
 
-    var margin := MarginContainer.new()
-    margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-    margin.add_theme_constant_override("margin_left", 120)
-    margin.add_theme_constant_override("margin_right", 120)
-    margin.add_theme_constant_override("margin_top", 70)
-    margin.add_theme_constant_override("margin_bottom", 70)
-    overlay.add_child(margin)
+    var margin_reader := MarginContainer.new()
+    margin_reader.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    margin_reader.add_theme_constant_override("margin_left", 120)
+    margin_reader.add_theme_constant_override("margin_right", 120)
+    margin_reader.add_theme_constant_override("margin_top", 70)
+    margin_reader.add_theme_constant_override("margin_bottom", 70)
+    overlay.add_child(margin_reader)
 
     var column := VBoxContainer.new()
-    margin.add_child(column)
+    margin_reader.add_child(column)
     var collection := Label.new()
     var collection_id := str(entry.get("collection", ""))
     var collection_data: Dictionary = DataLoader.ashlands_lore.get("collections", {}).get(collection_id, {})
