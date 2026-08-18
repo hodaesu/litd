@@ -27,13 +27,14 @@ def test_political_runtime_supports_automatic_unlocks_and_persistent_consequence
         "CreatureManager.captured_creatures.size()",
         "func completed_consequence(quest_id: String)",
         "func dialogue_context_for(npc_id: String)",
+        "func service_unlocked(service_id: String)",
         "func serialize()",
         "func deserialize(payload: Dictionary)",
     ):
         assert contract in runtime
 
 
-def test_concord_ui_is_autoloaded_and_exposes_npcs_quests_and_three_awakenings():
+def test_concord_ui_is_autoloaded_and_exposes_npcs_quests_and_social_state():
     project = (ROOT / "project.godot").read_text()
     ui = (ROOT / "scripts/ui/political_ui.gd").read_text()
     assert 'PoliticalUI="*res://scripts/ui/political_ui.gd"' in project
@@ -43,7 +44,9 @@ def test_concord_ui_is_autoloaded_and_exposes_npcs_quests_and_three_awakenings()
     assert "PoliticalState.complete_quest" in ui
     assert "PoliticalState.completed_consequence" in ui
     assert "CORPS %d   ·   ESPRIT %d   ·   CITÉ %d" in ui
-    assert "PoliticalState.service_unlocked" in ui
+    assert "PoliticalState.conversation_for" in ui
+    assert "PoliticalState.active_rumors" in ui
+    assert "PoliticalState.social_factions" in ui
 
 
 def test_political_save_load_order_restores_progress_before_unlock_calculation():
