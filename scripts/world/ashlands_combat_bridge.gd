@@ -4,6 +4,9 @@ signal ashlands_combat_started(encounter_id: String, encounter_type: String)
 signal ashlands_combat_finished(encounter_id: String, victory: bool, loot: Dictionary)
 
 const MAIN_SCENE := "res://scenes/Main.tscn"
+const SHARED_UI_GOLD_REWARD := 28
+const SHARED_UI_ESSENCE_REWARD := 4
+const SHARED_UI_XP_REWARD := 30
 var active := false
 var encounter_id := ""
 var encounter_type := ""
@@ -104,8 +107,33 @@ func _setup_enemy(enemy: Dictionary, name: String, hp: int, damage: Array, fear:
 
 func resolve_victory() -> Dictionary:
     if not active: return {}
+    _remove_shared_ui_currency_reward()
+    _grant_campaign_xp_bonus()
     AshlandsRuntime.mark_encounter_cleared(encounter_id); pending_loot = _roll_loot(); _apply_loot(pending_loot)
     var finished_id := encounter_id; ashlands_combat_finished.emit(finished_id,true,pending_loot.duplicate(true)); _return_to_exploration(); return pending_loot.duplicate(true)
+
+func _remove_shared_ui_currency_reward() -> void:
+    # main.gd accorde encore la récompense du petit donjon prototype avant d'émettre
+    # l'écran rewards. Les combats routés possèdent leur propre table : on retire donc
+    # uniquement ce montant partagé avant d'appliquer le vrai butin de campagne.
+    GameState.gold = maxi(0, GameState.gold - SHARED_UI_GOLD_REWARD)
+    GameState.essence = maxi(0, GameState.essence - SHARED_UI_ESSENCE_REWARD)
+
+func _campaign_xp_target() -> int:
+    var target := 90 + CampaignState.current_chapter_number() * 10
+    if encounter_type == "miniboss": target += 80
+    elif encounter_type == "boss": target += 170
+    if bool(miniboss_data.get("deep_vestige", false)): target += 40
+    return target
+
+func _grant_campaign_xp_bonus() -> void:
+    # L'UI commune a déjà donné 30 XP. La campagne complète seulement jusqu'à
+    # la cible de la rencontre afin d'éviter une progression nécessitant >1000 combats.
+    var bonus := maxi(0, _campaign_xp_target() - SHARED_UI_XP_REWARD)
+    if bonus <= 0: return
+    CreatureManager.grant_active_xp(bonus)
+    for hero_value in GameState.party:
+        HeroSkillManager.grant_xp(hero_value, bonus)
 
 func resolve_defeat() -> void:
     if not active: return
