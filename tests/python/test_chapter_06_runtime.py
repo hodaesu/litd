@@ -71,7 +71,7 @@ def test_chapter_six_is_autoloaded_routed_saved_reset_and_in_journal():
     assert 'Chapter06Runtime="*res://scripts/world/chapter_06_runtime.gd"' in project
     assert 'Chapter06BossRuntime="*res://scripts/world/chapter_06_boss_runtime.gd"' in project
     assert 'func start_chapter_06()' in router
-    assert 'SAVE_VERSION := "0.30"' in save
+    assert 'SAVE_VERSION := "0.31"' in save
     assert '"chapter_06": Chapter06Runtime.serialize()' in save
     assert 'Chapter06Runtime.reset_new_game()' in game
     assert '_stage_header(parent,"CHAPITRE VI",Chapter06Runtime)' in journal
