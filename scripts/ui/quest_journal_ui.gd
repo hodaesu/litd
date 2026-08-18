@@ -17,6 +17,7 @@ func _ready() -> void:
     GameState.screen_requested.connect(_on_screen_requested)
     PoliticalState.politics_changed.connect(_on_state_changed)
     CampaignState.campaign_changed.connect(_on_state_changed)
+    Chapter01Runtime.chapter_one_changed.connect(_on_state_changed)
     SanctuaryState.sanctuary_state_changed.connect(_on_sanctuary_changed)
     _on_screen_requested(GameState.current_screen)
 
@@ -65,12 +66,10 @@ func _build_overlay() -> void:
     overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     overlay.visible = false
     add_child(overlay)
-
     var background := ColorRect.new()
     background.color = DARK
     background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     overlay.add_child(background)
-
     var header := HBoxContainer.new()
     header.position = Vector2(24, 18)
     header.size = Vector2(1232, 52)
@@ -79,7 +78,6 @@ func _build_overlay() -> void:
     title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     header.add_child(title)
     header.add_child(_button("RETOUR", func(): GameState.request_screen("sanctuary"), Vector2(130, 42)))
-
     body = Control.new()
     body.position = Vector2(24, 82)
     body.size = Vector2(1232, 610)
@@ -87,10 +85,11 @@ func _build_overlay() -> void:
 
 func _on_screen_requested(screen_name: String) -> void:
     overlay.visible = screen_name == "quest_journal"
-    launcher.visible = screen_name == "sanctuary"
+    launcher.visible = false
     if overlay.visible:
         SanctuaryState.refresh()
         PoliticalState.refresh_unlocks()
+        Chapter01Runtime.refresh_progress()
         _render()
 
 func _on_state_changed() -> void:
@@ -109,7 +108,6 @@ func _render() -> void:
     if not overlay.visible:
         return
     _clear()
-
     var columns := HBoxContainer.new()
     columns.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     columns.add_theme_constant_override("separation", 16)
@@ -130,6 +128,14 @@ func _render() -> void:
     quest_box.add_child(_label("QUÊTE PRINCIPALE", 19, GOLD))
     quest_box.add_child(_label("CHAPITRE %d — %s" % [CampaignState.current_chapter_number(), String(chapter.get("title", ""))], 18, TEXT))
     quest_box.add_child(_label(String(chapter.get("premise", "")), 13, MUTED))
+
+    if CampaignState.current_chapter_id == "chapter_01_ashlands":
+        quest_box.add_child(_label("PROGRESSION DU CHAPITRE I — %s" % Chapter01Runtime.progress_text(), 15, GOLD))
+        var active_stage := Chapter01Runtime.active_stage()
+        if not active_stage.is_empty():
+            quest_box.add_child(_label("Objectif actuel : %s" % String(active_stage.get("name", "")), 16, TEXT))
+            quest_box.add_child(_label(String(active_stage.get("objective", "")), 13, MUTED))
+        _add_boss_choice_if_needed(quest_box)
 
     var main_active := CampaignState.active_main_quests()
     if main_active.is_empty():
@@ -173,20 +179,31 @@ func _render() -> void:
     sanctuary_box.custom_minimum_size = Vector2(550, 0)
     sanctuary_box.add_theme_constant_override("separation", 9)
     sanctuary_scroll.add_child(sanctuary_box)
-
     sanctuary_box.add_child(_label("SANCTUAIRE DU PREMIER VOILE", 19, GOLD))
     sanctuary_box.add_child(_label("État actuel : %s" % SanctuaryState.summary(), 16, TEXT))
     sanctuary_box.add_child(_label("Confiance %d · Tension %d · Réputation %+d" % [PoliticalState.trust, PoliticalState.tension, PoliticalState.reputation], 14, MUTED))
     var awakenings: Dictionary = PoliticalState.three_awakenings
     sanctuary_box.add_child(_label("Corps %d · Esprit %d · Cité %d" % [int(awakenings.get("body", 50)), int(awakenings.get("spirit", 50)), int(awakenings.get("city", 50))], 14, MUTED))
-
     _add_section(sanctuary_box, "CHANGEMENTS VISIBLES", SanctuaryState.current_visual_cues())
     _add_section(sanctuary_box, "POPULATION ET PRÉSENCES", SanctuaryState.current_population_cues())
     _add_section(sanctuary_box, "AMBIANCE", SanctuaryState.current_audio_cues())
-
     var social := PoliticalState.social_snapshot()
     _add_section(sanctuary_box, "RUMEURS", social.get("rumors", []))
     _add_section(sanctuary_box, "INSCRIPTIONS", social.get("inscriptions", []))
+
+func _add_boss_choice_if_needed(parent: VBoxContainer) -> void:
+    if Chapter01Runtime.boss_choice != "" or not AshlandsRuntime.is_encounter_cleared("c01_boss_ash_witness"):
+        return
+    var boss_stage := Chapter01Runtime.stage("c01_stage_07_witness")
+    parent.add_child(_label("DÉCISION — LE TÉMOIN DES CENDRES", 16, GOLD))
+    parent.add_child(_label("Le combat est terminé, mais ce qu'il reste du Témoin peut encore être traité de plusieurs manières.", 13, MUTED))
+    for choice_value in boss_stage.get("boss_choices", []):
+        var choice: Dictionary = choice_value
+        var choice_id := String(choice.get("id", ""))
+        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id):
+            Chapter01Runtime.choose_boss_outcome(String(id_value))
+            SaveManager.save_game()
+            _render(), Vector2(520, 48)))
 
 func _add_section(parent: VBoxContainer, title: String, entries: Array) -> void:
     if entries.is_empty():
