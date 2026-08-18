@@ -28,6 +28,9 @@ func reset_new_game(seed_value: int = 0) -> void:
         capture_seed = int(Time.get_unix_time_from_system() * 1000.0) + Time.get_ticks_msec()
     creatures_changed.emit()
 
+func multi_tree_enabled() -> bool:
+    return EndgameState.active_cycle >= 1
+
 func definition_for_enemy(enemy_id: int) -> Dictionary:
     for definition_value in DataLoader.capturable_creatures:
         var definition: Dictionary = definition_value
@@ -279,7 +282,9 @@ func can_unlock(instance_id: String, skill_id: String) -> bool:
         return false
     var skill_branch: String = _skill_branch(creature, skill_id)
     var specialization: String = str(creature.get("specialization", ""))
-    if skill_branch == "" or (specialization != "" and specialization != skill_branch):
+    if skill_branch == "":
+        return false
+    if not multi_tree_enabled() and specialization != "" and specialization != skill_branch:
         return false
     if int(creature.get("skill_points", 0)) < int(node.get("cost", 1)):
         return false
@@ -300,7 +305,7 @@ func unlock_skill(instance_id: String, skill_id: String) -> bool:
         var unlocked: Array = creature.get("unlocked_skills", [])
         unlocked.append(skill_id)
         creature["unlocked_skills"] = unlocked
-        if str(creature.get("specialization", "")) == "":
+        if not multi_tree_enabled() and str(creature.get("specialization", "")) == "":
             creature["specialization"] = skill_branch
         creature["skill_points"] = int(creature.get("skill_points", 0)) - int(node.get("cost", 1))
         captured_creatures[index] = creature
