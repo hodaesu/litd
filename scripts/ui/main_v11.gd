@@ -29,3 +29,25 @@ func _move_enemy_relative(enemy: Dictionary, delta: int) -> bool:
         GameState.add_log("%s tente de se déplacer mais sa blessure de mobilité cède." % str(enemy.get("name", "L'ennemi")))
         return false
     return super._move_enemy_relative(enemy, delta)
+
+func _lost_attack_multiplier(enemy: Dictionary) -> float:
+    var multiplier := super._lost_attack_multiplier(enemy)
+    var states: Dictionary = enemy.get("applied_injury_states", {})
+    for part_id_value in states.keys():
+        var state := str(states.get(part_id_value, ""))
+        var part := AnatomyRuntime.part_definition(enemy, str(part_id_value))
+        var tags: Array = part.get("tags", [])
+        if tags.has("attack") or tags.has("weapon") or tags.has("sensor"):
+            multiplier *= 0.75 if state == "critical" else 0.90
+    return multiplier
+
+func _lost_fear_multiplier(enemy: Dictionary) -> float:
+    var multiplier := super._lost_fear_multiplier(enemy)
+    var states: Dictionary = enemy.get("applied_injury_states", {})
+    for part_id_value in states.keys():
+        var state := str(states.get(part_id_value, ""))
+        var part := AnatomyRuntime.part_definition(enemy, str(part_id_value))
+        var tags: Array = part.get("tags", [])
+        if tags.has("fear") or tags.has("sensor") or tags.has("venom") or tags.has("veil") or tags.has("anchor"):
+            multiplier *= 0.75 if state == "critical" else 0.90
+    return multiplier
