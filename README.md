@@ -34,13 +34,16 @@ python -m pip install -r requirements-dev.txt
 python -m pytest
 python -m tools.qa.audit
 python -m tools.qa.cross_system_audit
+python -m tools.qa.balance_audit
 ```
 
 `tools.qa.audit` vérifie les données de base, les références `res://`, les assets, les conflits Git et les workflows YAML.
 
 `tools.qa.cross_system_audit` vérifie les relations entre systèmes : campagne I→X, scènes et routes, contrats des boss, sept Vestiges Profonds, sauvegarde, autoloads, postgame et règles du Nouveau Cycle+.
 
-Les rapports sont écrits dans `reports/qa-report.json`, `reports/qa-report.html` et `reports/cross-system-report.json`.
+`tools.qa.balance_audit` vérifie la progression 1→50, le coût et les prérequis des arbres, les ascensions des compagnons, les six fins, les soft-locks économiques du postgame, le scaling NG+ et les 34 recrutements de boss/mini-boss. Les incohérences certaines échouent en CI ; les cas qui exigent encore un playtest ou une analyse de chemins exclusifs sont signalés comme avertissements.
+
+Les rapports sont écrits dans `reports/qa-report.json`, `reports/qa-report.html`, `reports/cross-system-report.json` et `reports/balance-report.json`.
 
 Ou sous macOS/Linux :
 
@@ -52,9 +55,9 @@ Le script exécute également le smoke test Godot si `godot` est disponible loca
 
 ## GitHub Actions
 
-- **CI** : tests Python, audit de base, audit transversal et smoke test Godot headless.
+- **CI** : tests Python, audit de base, audit transversal, audit d'équilibrage et smoke test Godot headless.
 - **Builds** : exports Web, Windows et Linux.
-- **Nightly QA** : régression quotidienne.
+- **Nightly QA** : régression quotidienne avec les trois audits et smoke test Godot.
 - **Release** : création d’une release lors d’un tag `v*`.
 
 ## Premier envoi sur GitHub
