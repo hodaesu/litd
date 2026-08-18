@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "rule": "Le démembrement est un résultat tactique préparé par la rupture, les coups lourds et certaines techniques. Il modifie le combat avant d'être un effet visuel.",
+  "mechanics": {
+    "normal_threshold": 100,
+    "boss_threshold": 135,
+    "strike_trauma": 8,
+    "heavy_trauma": 35,
+    "broken_bonus": 25,
+    "stunned_bonus": 15,
+    "low_hp_bonus": 15,
+    "malvor_guard_break_bonus": 35,
+    "trauma_carries_between_hits": true,
+    "boss_instant_kill_from_limb_loss": false
+  },
+  "visual_policy": {
+    "mechanics_independent_of_gore": true,
+    "presentation_modes": ["full", "reduced", "off"],
+    "reduced_mode_keeps_animation_readability": true
+  },
+  "immune_name_keywords": ["Miroir mort", "Éclat vivant"],
+  "profile_keywords": {
+    "arachnid": ["Jorōgumo", "Veuve"],
+    "beast": ["Chien", "Loup", "Minotaure"],
+    "aberration": ["Ver", "Sangsue", "Dévoreur", "Mange-Rêves", "Moiré", "Colosse"],
+    "humanoid": ["Goule", "Cultiste", "Chevalier", "Oni", "Tengu", "Yuki-Onna", "Anubis", "Prêtre", "Pèlerin", "Gardien", "Oracle", "Nonne", "Géant", "Semeur"]
+  },
+  "profiles": {
+    "humanoid": {
+      "parts": [
+        {"id": "weapon_arm", "name": "bras d'attaque", "damage_multiplier": 0.75, "fear_multiplier": 1.0, "stun": false, "finisher_only": false},
+        {"id": "support_leg", "name": "jambe d'appui", "damage_multiplier": 0.9, "fear_multiplier": 1.0, "stun": true, "finisher_only": false},
+        {"id": "head", "name": "tête", "damage_multiplier": 1.0, "fear_multiplier": 1.0, "stun": false, "finisher_only": true}
+      ]
+    },
+    "beast": {
+      "parts": [
+        {"id": "forelimb", "name": "membre antérieur", "damage_multiplier": 0.8, "fear_multiplier": 1.0, "stun": false, "finisher_only": false},
+        {"id": "hind_leg", "name": "membre postérieur", "damage_multiplier": 0.9, "fear_multiplier": 1.0, "stun": true, "finisher_only": false},
+        {"id": "jaw", "name": "mâchoire", "damage_multiplier": 0.85, "fear_multiplier": 0.7, "stun": false, "finisher_only": false}
+      ]
+    },
+    "arachnid": {
+      "parts": [
+        {"id": "front_leg", "name": "patte avant", "damage_multiplier": 0.9, "fear_multiplier": 1.0, "stun": true, "finisher_only": false},
+        {"id": "venom_appendage", "name": "appendice venimeux", "damage_multiplier": 0.75, "fear_multiplier": 0.85, "stun": false, "finisher_only": false},
+        {"id": "rear_leg", "name": "patte arrière", "damage_multiplier": 0.9, "fear_multiplier": 1.0, "stun": true, "finisher_only": false}
+      ]
+    },
+    "aberration": {
+      "parts": [
+        {"id": "attack_appendage", "name": "appendice offensif", "damage_multiplier": 0.8, "fear_multiplier": 1.0, "stun": false, "finisher_only": false},
+        {"id": "anchor_appendage", "name": "appendice d'ancrage", "damage_multiplier": 0.95, "fear_multiplier": 0.75, "stun": true, "finisher_only": false}
+      ]
+    },
+    "boss": {
+      "parts": [
+        {"id": "offensive_limb", "name": "membre offensif", "damage_multiplier": 0.85, "fear_multiplier": 1.0, "stun": false, "finisher_only": false},
+        {"id": "anchor_limb", "name": "ancrage corporel", "damage_multiplier": 1.0, "fear_multiplier": 0.8, "stun": false, "finisher_only": false},
+        {"id": "support_limb", "name": "membre de soutien", "damage_multiplier": 0.95, "fear_multiplier": 1.0, "stun": true, "finisher_only": false}
+      ]
+    }
+  }
+}
