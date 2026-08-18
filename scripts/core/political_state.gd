@@ -34,7 +34,6 @@ func reset_new_game() -> void:
     flags = {}
     for quest in data.get("quests", []):
         quest_states[String(quest.get("id", ""))] = {"status": "locked", "choice": ""}
-    refresh_unlocks()
     politics_changed.emit()
 
 func get_quest(quest_id: String) -> Dictionary:
