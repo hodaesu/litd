@@ -60,6 +60,7 @@ func collect_clue(clue_id: String) -> bool:
     if clue.is_empty():
         return false
     discovered_clues[clue_id] = clue.duplicate(true)
+    GameState.add_log("Indice découvert : %s" % String(clue.get("title", clue_id)))
     clue_discovered.emit(clue.duplicate(true))
     _recalculate_hypotheses()
     refresh_progress()
@@ -103,6 +104,7 @@ func _recalculate_hypotheses() -> void:
             confirmed_hypotheses[hypothesis_id] = true
             CampaignState.discovered_revelations["c02_%s" % hypothesis_id] = String(hypothesis.get("title", hypothesis_id))
             CampaignState.add_metric("veil_knowledge", 3)
+            GameState.add_log("Hypothèse confirmée : %s" % String(hypothesis.get("title", hypothesis_id)))
             hypothesis_confirmed.emit(hypothesis_id)
 
 func active_stage() -> Dictionary:
