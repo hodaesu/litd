@@ -46,10 +46,10 @@ def test_chapter_four_is_routed_saved_reset_and_visible_in_journal():
     assert 'Chapter04Runtime="*res://scripts/world/chapter_04_runtime.gd"' in project
     assert 'Chapter04BossRuntime="*res://scripts/world/chapter_04_boss_runtime.gd"' in project
     assert 'func start_chapter_04()' in router
-    assert 'SAVE_VERSION := "0.26"' in save
+    assert 'SAVE_VERSION := "0.27"' in save
     assert '"chapter_04": Chapter04Runtime.serialize()' in save
     assert 'Chapter04Runtime.reset_new_game()' in game
-    assert '_stage_header(parent, "CHAPITRE IV", Chapter04Runtime)' in journal
+    assert '_stage_header(parent,"CHAPITRE IV",Chapter04Runtime)' in journal
     assert 'ARCHÉOLOGIE ASHAÏ' in journal
     assert 'DESCENDRE VERS LA CITÉ DE NHAL' in journal
 
