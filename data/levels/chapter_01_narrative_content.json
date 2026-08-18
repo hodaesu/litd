@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_01_ashlands",
+  "npcs": [
+    {"id":"nara","role":"Médiatrice de la Concorde","dialogues":{"before_departure":"Ne rapporte pas seulement des vivres. Regarde ce que la peur fait aux gens.","after_survivors":"Ils ont survécu ensemble. C'est déjà une réponse à ceux qui prétendent que chacun doit se sauver seul.","after_creature":"Si elle peut choisir de ne pas nous tuer, alors nous devons choisir ce que nous faisons de cette possibilité.","after_boss":"Un monstre qui se souvient d'avoir été une personne complique beaucoup les certitudes."}},
+    {"id":"orren","role":"Ancien Porte-Voix","dialogues":{"before_departure":"La Concorde n'a jamais promis un monde sans peur. Elle promettait seulement que la peur ne déciderait pas seule.","after_marker":"Cette borne est plus vieille que nos registres. Quelqu'un a effacé une partie de notre histoire.","after_boss":"Si le Témoin existait avant la Chute sous une autre forme, nous devons rouvrir les archives interdites."}},
+    {"id":"meira","role":"Gardienne du Vivant","dialogues":{"before_creature":"Observe avant de frapper. La faim, la douleur et la Folie peuvent ressembler à de la cruauté.","after_recruit":"Tu n'as pas ramené un trophée. Tu as ramené une responsabilité.","after_release":"La laisser libre n'était pas forcément de la faiblesse. Nous verrons si elle s'en souvient."}},
+    {"id":"daros","role":"Responsable de la défense","dialogues":{"before_departure":"Je préfère une route sûre à une belle idée. Prouve-moi que nous pouvons encore avoir les deux.","after_miniboss":"Le passage est ouvert. Maintenant il faudra décider qui a le droit de l'emprunter.","after_boss":"Je ne fais pas confiance à ce qui parle avec les souvenirs des morts. Mais je ferai confiance aux preuves."}},
+    {"id":"sela","role":"Survivante","dialogues":{"before_departure":"Ils disent encore qu'il faut comprendre. Moi, j'aimerais seulement dormir sans entendre quelqu'un mourir.","after_creature":"Vous voulez vraiment faire entrer ça ici ?","after_stabilize":"Je le déteste. Et je déteste encore plus le fait qu'il ait eu peur comme nous."}},
+    {"id":"pavel","role":"Intendant","dialogues":{"before_departure":"Ramène ce qui nourrit, ce qui soigne, et si tu peux, ce qui explique. Dans cet ordre.","after_survivors":"Plus de bouches. Plus de bras aussi. Les comptes ne savent pas toujours distinguer les deux.","after_return":"Les réserves racontent une histoire différente de celle des discours. Pour l'instant, elles tiennent."}}
+  ],
+  "archives": {
+    "required": [
+      {"id":"c01_archive_bell_register","zone":"zone_02_village_ravage","title":"Registre de la cloche","text":"Trois sonneries furent consignées des décennies avant la Chute pour un phénomène décrit comme un ciel devenu trop proche.","truth":"authentic","clue":"veil_predates_fall"},
+      {"id":"c01_archive_mill_letter","zone":"zone_03_moulin_calcine","title":"Lettre du meunier","text":"Une lumière sous la terre effrayait les bêtes bien avant l'ouverture du Projet Seuil.","truth":"authentic","clue":"old_anomaly"},
+      {"id":"c01_archive_old_marker","zone":"zone_10_hameau_deserte","title":"Inscription de la borne enfouie","text":"Ne pas ouvrir ce qui répond à la mémoire.","truth":"authentic_but_misdated","clue":"ancient_warning"}
+    ],
+    "optional": [
+      {"id":"c01_archive_false_sermon","zone":"zone_06_chapelle_effondree","title":"Sermon des derniers jours","truth":"false_lead","claim":"La Chute serait un châtiment divin provoqué par l'abandon des anciens rites."},
+      {"id":"c01_archive_guard_report","zone":"zone_07_cimetiere","title":"Rapport d'un garde","truth":"partial","claim":"Des morts auraient parlé avant la première nuit de la Chute.","contradiction":"Le rapport a été recopié après la catastrophe et sa date est douteuse."},
+      {"id":"c01_archive_child_drawing","zone":"zone_04_foret_morte","title":"Dessin sans date","truth":"ambiguous","claim":"Un enfant représente une silhouette dans un cercle noir sous un arbre."},
+      {"id":"c01_archive_abbey_inventory","zone":"zone_12_abbaye","title":"Inventaire scellé de l'abbaye","truth":"authentic","claim":"Une pierre de résonance classée comme relique inconnue était conservée avant la Chute."},
+      {"id":"c01_archive_witness_note","zone":"zone_12_abbaye","title":"Note de service inachevée","truth":"authentic","claim":"Un certain Ilyan Marek devait inspecter le clocher le jour de la Chute."}
+    ]
+  },
+  "ash_witness": {
+    "former_identity":{"name":"Ilyan Marek","occupation":"Archiviste municipal et sonneur auxiliaire du clocher","character":"Patient, méticuleux, connu pour mémoriser les noms des morts afin que personne ne disparaisse une seconde fois."},
+    "transformation":"Au moment de la Chute, Ilyan tentait de faire sonner l'alarme. Une distorsion du Voile a fusionné sa mémoire, les souvenirs conservés dans les registres et les derniers instants de plusieurs habitants.",
+    "memory_fragments":["Fermez les portes... non, ouvrez-les, ils sont encore dehors.","Je connais ce nom. Je connais tous leurs noms.","La cloche devait prévenir. Pourquoi personne ne l'entend ?"],
+    "combat_lines":{"phase_1":"Vous êtes en retard.","phase_2":"Ce jour recommence.","phase_3":"Je... me souviens de mon nom.","signature":"Regardez. Regardez ce que le jour était avant de mourir."},
+    "signature_animation":{"name":"Dernier Souvenir du Jour","beats":["La cendre s'immobilise en plein vol.","Le clocher redevient brièvement intact et baigné d'une lumière chaude.","Des silhouettes civiles traversent l'arène sans voir les combattants.","La cloche sonne une fois ; les silhouettes se figent.","Le décor se fracture comme du verre et revient à la ruine présente."]},
+    "outcomes":{"finish":{"consequence":"Ilyan disparaît définitivement. Daros approuve la sécurité obtenue, Nara regrette la perte d'un témoin, Sela ressent un soulagement immédiat.","future_flag":"witness_destroyed"},"stabilize":{"consequence":"Ilyan demeure dans une chambre d'ancrage du Sanctuaire. Il devient une source rare de souvenirs fragmentaires et un symbole controversé de coexistence.","future_flag":"witness_stable"},"memory":{"consequence":"Une partie de ses souvenirs est extraite. Ilyan ne survit pas intact ; le Sanctuaire obtient davantage de connaissances mais le procédé provoque un débat moral durable.","future_flag":"witness_memory_taken"}}
+  },
+  "return_events": [
+    {"id":"return_refugees","condition":"c01_survivors_reached","event":"Les survivants du Village Ravagé arrivent au Sanctuaire et divisent les habitants sur le partage des réserves."},
+    {"id":"return_creature","condition":"creature_recruited","event":"La présence d'une créature recrutée provoque curiosité, peur et premières discussions sur son statut."},
+    {"id":"return_old_marker","condition":"c01_old_veil_trace","event":"Orren demande l'ouverture d'archives que la Concorde considérait jusque-là comme sans valeur historique."},
+    {"id":"return_witness_stable","condition":"c01_witness_stabilized","event":"Une garde se forme spontanément autour de la chambre du Témoin ; certains veulent le protéger, d'autres l'achever."},
+    {"id":"return_witness_memory","condition":"c01_witness_memory","event":"Des fragments de souvenirs d'Ilyan sont lus publiquement. Plusieurs familles reconnaissent des proches disparus."}
+  ],
+  "creature_narrative": {
+    "rule":"Une créature recrutée n'est jamais présentée comme du butin.",
+    "first_recruitment_effects":["Meira demande un protocole de soin et d'observation.","Sela exprime sa peur et peut évoluer selon les actes ultérieurs de la créature.","Un espace provisoire est aménagé au Sanctuaire.","Le journal crée une entrée individuelle pour la créature et ses comportements observés."],
+    "chapter_02_hook":"Une créature ayant vécu près d'une anomalie ancienne peut réagir à certains vestiges avant les héros."
+  },
+  "unique_rewards": {
+    "relic":{"id":"relic_bell_shard","name":"Éclat de la Cloche d'Ilyan","effect":"Une fois par expédition, réduit la Peur du groupe après la découverte d'une archive ou d'un lieu de mémoire."},
+    "equipment":{"id":"warden_ash_cloak","name":"Manteau du Gardien de Cendre","effect":"Résistance accrue à la Peur lors du premier tour d'un combat."},
+    "knowledge":{"id":"knowledge_old_veil_trace","name":"Trace antérieure","effect":"Débloque dans le journal l'hypothèse : le Voile était connu avant la Chute."},
+    "service":{"id":"sanctuary_archive_room","name":"Salle des Archives","effect":"Permet de recouper des indices et de distinguer progressivement faits, contradictions et hypothèses."}
+  },
+  "chapter_02_unlock": {
+    "required":["chapter_01_vertical_slice_complete","c01_old_veil_trace","boss_outcome_chosen"],
+    "minimum_political_quests":2,
+    "minimum_archives":3,
+    "result":"chapter_02_before_fall"
+  }
+}
