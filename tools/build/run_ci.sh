@@ -10,8 +10,11 @@ python -m pip install -r requirements-dev.txt
 echo "==> Tests Python"
 python -m pytest
 
-echo "==> Audit QA"
+echo "==> Audit QA de base"
 python -m tools.qa.audit
+
+echo "==> Audit transversal campagne et systèmes"
+python -m tools.qa.cross_system_audit
 
 if command -v godot >/dev/null 2>&1; then
   echo "==> Smoke test Godot"
