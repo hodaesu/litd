@@ -54,7 +54,7 @@ func _apply_mutilation_psychology(target: Dictionary, attacker: Dictionary) -> v
         hero["hope"] = clampi(int(hero.get("hope", 0)) + hope_delta, 0, 100 + int(bonuses.get("max_hope", 0)))
         hero["last_mutilation_response"] = str(band.get("state", "lucide"))
         if fear_gain > 0 or madness_gain > 0 or hope_delta != 0:
-            GameState.add_log("%s réagit à la mutilation : %s (Peur %+d · Folie %+d · Espoir %+d)." % [
+            GameState.add_log("%s réagit à la mutilation : %s (Peur %d · Folie %d · Espoir %d)." % [
                 str(hero.get("name", "Héros")), str(band.get("state", "lucide")), fear_gain, madness_gain, hope_delta
             ])
 
