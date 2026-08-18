@@ -12,6 +12,7 @@ BLENDER_HANDOFF = ROOT / 'data/levels/ashlands_blender_handoff.json'
 CAMERA_PROFILES = ROOT / 'data/levels/ashlands_camera_profiles.json'
 PACING_TARGETS = ROOT / 'data/levels/ashlands_pacing_targets.json'
 BLENDER_JOBS = ROOT / 'data/levels/ashlands_blender_jobs.json'
+LORE = ROOT / 'data/levels/ashlands_lore.json'
 
 class AshlandsPreBlenderTests(unittest.TestCase):
     @classmethod
@@ -25,6 +26,48 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         cls.camera_profiles = json.loads(CAMERA_PROFILES.read_text(encoding='utf-8'))
         cls.pacing_targets = json.loads(PACING_TARGETS.read_text(encoding='utf-8'))
         cls.blender_jobs = json.loads(BLENDER_JOBS.read_text(encoding='utf-8'))
+        cls.lore = json.loads(LORE.read_text(encoding='utf-8'))
+
+    def test_ashlands_lore_has_complete_collections(self):
+        entries = self.lore['entries']
+        self.assertEqual(self.lore['total_entries'], 22)
+        self.assertEqual(len(entries), 22)
+        self.assertEqual(len({entry['id'] for entry in entries}), 22)
+        counts = {}
+        for entry in entries:
+            counts[entry['collection']] = counts.get(entry['collection'], 0) + 1
+            self.assertTrue(entry['title'])
+            self.assertTrue(entry['text'])
+        self.assertEqual(counts, {'echoes_before_fall': 12, 'broken_world_meditations': 10})
+
+    def test_ashlands_lore_positions_are_authored_inside_zones(self):
+        zones = {zone['id']: zone for zone in self.manifest['zones']}
+        for entry in self.lore['entries']:
+            self.assertIn(entry['zone_id'], zones)
+            self.assertEqual(len(entry['position']), 3)
+            width, depth = zones[entry['zone_id']]['size_m']
+            x, _y, z = entry['position']
+            self.assertLessEqual(abs(x), width / 2, entry['id'])
+            self.assertLessEqual(abs(z), depth / 2, entry['id'])
+
+    def test_lore_runtime_collection_and_reader_contracts_exist(self):
+        collectible = (ROOT / 'scripts/world/lore_collectible.gd').read_text(encoding='utf-8')
+        runtime = (ROOT / 'scripts/world/ashlands_zone_runtime.gd').read_text(encoding='utf-8')
+        builder = (ROOT / 'scripts/world/ashlands_blockout_builder.gd').read_text(encoding='utf-8')
+        hud = (ROOT / 'scripts/world/ashlands_hud.gd').read_text(encoding='utf-8')
+        self.assertIn('AshlandsRuntime.collect_lore(entry)', collectible)
+        self.assertIn('"collected_lore": collected_lore', runtime)
+        self.assertIn('_build_lore_slots()', builder)
+        self.assertIn('_on_lore_discovered', hud)
+        self.assertIn('_meets_madness_requirement', collectible)
+
+    def test_environmental_lore_has_production_markers(self):
+        stories = self.lore['environmental_scenes']
+        self.assertEqual(len(stories), 3)
+        self.assertEqual(len({story['id'] for story in stories}), 3)
+        builder = (ROOT / 'scripts/world/ashlands_blockout_builder.gd').read_text(encoding='utf-8')
+        self.assertIn('_build_storytelling_markers()', builder)
+        self.assertIn('environmental_storytelling', builder)
 
     def test_exactly_fifteen_zones(self):
         self.assertEqual(len(self.manifest['zones']), 15)
@@ -113,6 +156,7 @@ class AshlandsPreBlenderTests(unittest.TestCase):
             'scripts/world/ashlands_scene_router.gd',
             'scripts/world/ash_volume.gd',
             'scripts/world/resource_node.gd',
+            'scripts/world/lore_collectible.gd',
             'scripts/world/corpse_harvest.gd',
             'scripts/world/campfire_interaction.gd',
             'scripts/world/zone_transition_gate.gd',
