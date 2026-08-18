@@ -15,6 +15,7 @@ def run(root: Path = ROOT) -> dict:
     v3 = (root / "scripts/ui/main_v3.gd").read_text(encoding="utf-8")
     v4 = (root / "scripts/ui/main_v4.gd").read_text(encoding="utf-8")
     v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
+    v6 = (root / "scripts/ui/main_v6.gd").read_text(encoding="utf-8")
     checks: list[dict] = []
 
     def check(name: str, ok: bool, detail: str = "") -> None:
@@ -43,7 +44,8 @@ def run(root: Path = ROOT) -> dict:
     check("Tactique : trois synergies de formation", len(synergies) >= 3, str([item.get("id") for item in synergies]))
     check("Tactique : IDs de synergie uniques", len({item.get("id") for item in synergies}) == len(synergies))
 
-    check("Main utilise combat v5", 'res://scripts/ui/main_v5.gd' in scene)
+    check("Main utilise combat v6", 'res://scripts/ui/main_v6.gd' in scene)
+    check("Combat v6 conserve v5", 'extends "res://scripts/ui/main_v5.gd"' in v6)
     check("Combat v5 conserve le démembrement v4", 'extends "res://scripts/ui/main_v4.gd"' in v5)
     check("Combat v4 conserve la tactique v3", 'extends "res://scripts/ui/main_v3.gd"' in v4)
     check("Combat v3 hérite du moteur 4 héros", 'extends "res://scripts/ui/main_v2.gd"' in v3)
@@ -63,6 +65,7 @@ def run(root: Path = ROOT) -> dict:
     check("Faille préparée branchée", '_opening_exploit_active' in v3)
     check("Tactique v5 peut déplacer les rangs ennemis", '_move_enemy_relative' in v5)
     check("Tactique v5 peut déplacer les rangs héros", '_move_hero_relative' in v5)
+    check("Tactique v6 ajoute les manœuvres de familles", '_apply_enemy_family_maneuvers' in v6 and '_execute_family_effect' in v6)
 
     return {
         "summary": {"checks": len(checks), "errors": sum(1 for item in checks if not item["ok"])},
