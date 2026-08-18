@@ -17,6 +17,7 @@ def run(root: Path = ROOT) -> dict:
     v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
     v6 = (root / "scripts/ui/main_v6.gd").read_text(encoding="utf-8")
     v12 = (root / "scripts/ui/main_v12.gd").read_text(encoding="utf-8")
+    v13 = (root / "scripts/ui/main_v13.gd").read_text(encoding="utf-8")
     checks: list[dict] = []
 
     def check(name: str, ok: bool, detail: str = "") -> None:
@@ -44,7 +45,8 @@ def run(root: Path = ROOT) -> dict:
     check("Tactique : trois synergies de formation", len(synergies) >= 3, str([item.get("id") for item in synergies]))
     check("Tactique : IDs de synergie uniques", len({item.get("id") for item in synergies}) == len(synergies))
 
-    check("Main utilise combat v12", 'res://scripts/ui/main_v12.gd' in scene)
+    check("Main utilise combat v13", 'res://scripts/ui/main_v13.gd' in scene)
+    check("Combat v13 conserve v12", 'extends "res://scripts/ui/main_v12.gd"' in v13)
     check("Combat v12 conserve v11", 'extends "res://scripts/ui/main_v11.gd"' in v12)
     check("Combat v6 conserve v5", 'extends "res://scripts/ui/main_v5.gd"' in v6)
     check("Combat v5 conserve le démembrement v4", 'extends "res://scripts/ui/main_v4.gd"' in v5)
