@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "campaign_id": "light_in_the_dark_main",
+  "title": "Light in the Dark",
+  "design_rule": "La campagne révèle le monde par couches : survie, soupçon, responsabilité, histoire profonde, puis choix de reconstruction. Aucune révélation majeure ne doit être donnée par une source unique.",
+  "chapters": [
+    {
+      "id": "chapter_01_ashlands",
+      "number": 1,
+      "title": "Survivre aux Terres de Cendre",
+      "premise": "Le Sanctuaire tient à peine. La Chute paraît encore être une catastrophe incompréhensible.",
+      "regions": ["Terres de Cendre", "Sanctuaire du Premier Voile"],
+      "main_quests": [
+        {"id":"c01_embers","name":"Sous les cendres","goal":"Sécuriser les premières routes et ramener des survivants.","revelation":"Les créatures ne sont pas toutes des manifestations du Voile."},
+        {"id":"c01_first_voices","name":"Les voix derrière les murs","goal":"Résoudre les premières crises de réfugiés, de justice et de coexistence.","revelation":"La manière de survivre transforme déjà la Concorde."},
+        {"id":"c01_broken_marker","name":"La borne qui ne devrait pas être là","goal":"Explorer une structure antérieure à la Chute découverte sous les cendres.","revelation":"Le Voile a laissé des traces avant la catastrophe actuelle."}
+      ],
+      "bosses": [
+        {"id":"c01_boss_ash_witness","name":"Le Témoin des Cendres","type":"boss de chapitre","truth":"Ancien citoyen déformé par une zone de réalité instable, pas un démon venu d'ailleurs.","choice":"Achever, tenter une stabilisation ou risquer une extraction de mémoire."}
+      ],
+      "sanctuary_reveal":"L'Arbre du Premier Voile réagit à un fragment trouvé dans les ruines.",
+      "key_characters":["Nara Vey","Orren Taal","Sela Mor","Daros Khem","Meira Saan","Pavel Rin"],
+      "end_revelation":"La Chute actuelle n'explique pas toutes les traces du Voile.",
+      "unlock":"chapter_02_before_fall"
+    },
+    {
+      "id": "chapter_02_before_fall",
+      "number": 2,
+      "title": "Les traces d'avant la Chute",
+      "premise": "Des installations enfouies montrent que quelqu'un étudiait déjà des phénomènes voisins du Voile avant l'ouverture moderne.",
+      "regions": ["Faubourgs de Jian-Lu", "Observatoires effondrés", "Archives de route"],
+      "main_quests": [
+        {"id":"c02_old_instruments","name":"Les instruments muets","goal":"Retrouver trois appareils de mesure pré-Chute.","revelation":"Des anomalies furent détectées des mois avant la catastrophe."},
+        {"id":"c02_deleted_pages","name":"Ce que les archives ont perdu","goal":"Comparer plusieurs copies d'un registre effacé.","revelation":"Des étrangers ont acheté ou volé des travaux portant sur les anomalies."},
+        {"id":"c02_false_accident","name":"Un accident trop préparé","goal":"Identifier des relais installés avant la Chute.","revelation":"L'ouverture était préparée, mais le responsable reste inconnu."}
+      ],
+      "bosses":[{"id":"c02_boss_archive_keeper","name":"Le Conservateur Sans Visage","type":"gardien corrompu","truth":"Une ancienne fonction de protection a été déformée par la Folie collective.","choice":"Détruire le noyau, restaurer sa fonction ou détourner son accès."}],
+      "sanctuary_reveal":"Premier fragment de carte reliant plusieurs relais étrangers.",
+      "key_characters":["Archiviste Toma Rei","Éclaireuse Sana Khel"],
+      "end_revelation":"La catastrophe fut provoquée volontairement.",
+      "unlock":"chapter_03_threshold"
+    },
+    {
+      "id":"chapter_03_threshold",
+      "number":3,
+      "title":"Le Projet Seuil",
+      "premise":"Les noms et institutions derrière la catastrophe commencent à émerger.",
+      "regions":["Complexe des Relais", "Portes de Sorye", "Laboratoire brisé de Kor-Em"],
+      "main_quests":[
+        {"id":"c03_six_names","name":"Six noms dans la poussière","goal":"Identifier Veyra Oss, Edras Nhal, Sera Val-Khesh, Othmar Sevr, Bram Torgun et Eline Sar.","revelation":"Les participants au Projet Seuil n'avaient ni la même intention ni le même degré de connaissance."},
+        {"id":"c03_horizon_pact","name":"L'Horizon Fermé","goal":"Reconstituer les accords secrets entre puissances étrangères.","revelation":"Varkhane, Namar, Azravel et certains membres de Kor-Em ont soutenu le projet."},
+        {"id":"c03_last_abort","name":"Le dernier ordre d'arrêt","goal":"Retrouver la trace du sabotage de Bram Torgun.","revelation":"Certains conspirateurs ont essayé d'arrêter le Projet Seuil trop tard."}
+      ],
+      "bosses":[{"id":"c03_boss_threshold_echo","name":"L'Écho du Seuil","type":"manifestation de protocole","truth":"Une répétition autonome des dernières secondes du rituel.","choice":"Rompre l'écho, l'enregistrer ou le laisser se répéter pour obtenir davantage de données au prix de la Folie."}],
+      "sanctuary_reveal":"Le journal nomme officiellement le Projet Seuil comme origine immédiate de la Chute.",
+      "key_characters":["Eline Sar","Bram Torgun"],
+      "end_revelation":"Le Projet Seuil a ouvert la catastrophe mais certains symboles du rituel sont beaucoup plus anciens.",
+      "unlock":"chapter_04_first_rupture"
+    },
+    {
+      "id":"chapter_04_first_rupture",
+      "number":4,
+      "title":"La Première Rupture",
+      "premise":"Les traces des Ashaï de Nhal prouvent que le Voile fut rencontré des millénaires plus tôt.",
+      "regions":["Cité sous la Cendre", "Observatoire des Sept Silences"],
+      "main_quests":[
+        {"id":"c04_ashai_song","name":"La musique qui mesure le monde","goal":"Reconstituer un système de résonance ashaï.","revelation":"Les Ashaï observaient la cohérence entre perception et matière."},
+        {"id":"c04_first_rupture","name":"La première blessure","goal":"Croiser quatre archives incompatibles.","revelation":"Les Ashaï provoquèrent une rupture locale il y a environ 3 700 ans."},
+        {"id":"c04_not_a_door","name":"Ce n'était pas une porte","goal":"Comparer l'ouverture ashaï au Projet Seuil.","revelation":"Le Voile n'est probablement pas un lieu extérieur auquel on ouvre une porte ordinaire."}
+      ],
+      "bosses":[{"id":"c04_boss_chorus","name":"Le Chœur Inachevé","type":"entité mémorielle collective","truth":"Des fragments de consciences ashaï maintenus dans une boucle de résonance.","choice":"Les libérer, tenter de communiquer ou préserver le dispositif."}],
+      "sanctuary_reveal":"L'Arbre répond aux mêmes motifs de résonance que les dispositifs ashaï.",
+      "key_characters":["Mémoire de Nhal","Sela Mor"],
+      "end_revelation":"Le Projet Seuil a reproduit une erreur ancienne au lieu d'inventer le Voile.",
+      "unlock":"chapter_05_great_closure"
+    },
+    {
+      "id":"chapter_05_great_closure",
+      "number":5,
+      "title":"Or-Silex et la Grande Fermeture",
+      "premise":"Une civilisation postérieure aux Ashaï tenta de transformer le Voile en instrument stratégique.",
+      "regions":["Cryptes de Verre Noir", "Forteresse d'Or-Silex", "Puits de Saan"],
+      "main_quests":[
+        {"id":"c05_weaponized_reality","name":"Une arme contre le réel","goal":"Explorer les ateliers militaires d'Or-Silex.","revelation":"Le Voile fut volontairement militarisé."},
+        {"id":"c05_saan_network","name":"Ceux qui fermèrent les portes","goal":"Réactiver trois points du réseau des Veilleurs de Saan.","revelation":"Les Veilleurs réussirent à contenir une catastrophe continentale."},
+        {"id":"c05_price_of_closure","name":"Le prix de la fermeture","goal":"Découvrir pourquoi certaines régions furent volontairement isolées.","revelation":"La Grande Fermeture sauva le monde connu mais fit disparaître des populations entières."}
+      ],
+      "bosses":[{"id":"c05_boss_silex_general","name":"Le Général de Silex","type":"arme ancienne autonome","truth":"Un commandement militaire fossilisé qui continue une guerre depuis des millénaires.","choice":"Détruire, désarmer ou utiliser temporairement contre une rupture active."}],
+      "sanctuary_reveal":"Le dispositif sous l'Arbre est identifié comme un nœud dérivé de la technologie de Saan.",
+      "key_characters":["Dernière Veille de Saan","Orren Taal"],
+      "end_revelation":"Fermer brutalement le Voile peut sauver des millions tout en condamnant ceux qui se trouvent de l'autre côté.",
+      "unlock":"chapter_06_absent"
+    },
+    {
+      "id":"chapter_06_absent",
+      "number":6,
+      "title":"Les Absents",
+      "premise":"Les disparus de la Grande Fermeture ne semblent pas tous avoir péri.",
+      "regions":["Jardin Sans Saison", "Salle des Portes Muettes", "zones de chevauchement"],
+      "main_quests":[
+        {"id":"c06_voices_without_bodies","name":"Des voix sans corps","goal":"Suivre des communications impossibles à travers plusieurs ruptures.","revelation":"Certaines consciences disparues répondent encore."},
+        {"id":"c06_creature_memory","name":"Ce que les créatures reconnaissent","goal":"Observer des réactions de créatures recrutées à des lieux anciens.","revelation":"Certaines créatures portent des traces de mémoire qui ne sont pas les leurs."},
+        {"id":"c06_absent_choice","name":"Ceux qui attendent ailleurs","goal":"Établir un premier contact stable.","revelation":"Une partie des Absents existe encore sous une forme difficile à définir."}
+      ],
+      "bosses":[{"id":"c06_boss_boundary","name":"La Frontière qui marche","type":"phénomène vivant","truth":"Une zone de réalité qui se défend contre toute tentative de stabilisation.","choice":"Forcer le passage, négocier par résonance ou renoncer pour protéger le Sanctuaire."}],
+      "sanctuary_reveal":"Les créatures conscientes peuvent devenir des médiatrices naturelles avec certaines zones du Voile.",
+      "key_characters":["Un Absent nommé Saen","Sela Mor","Meira Saan"],
+      "end_revelation":"Une fermeture totale pourrait tuer ou condamner les Absents.",
+      "unlock":"chapter_07_living_responsible"
+    },
+    {
+      "id":"chapter_07_living_responsible",
+      "number":7,
+      "title":"Les responsables vivants",
+      "premise":"Des acteurs du Projet Seuil sont retrouvés, chacun avec sa propre justification.",
+      "regions":["Refuge de l'ingénieur", "Monastère fracturé", "Palais de relais"],
+      "main_quests":[
+        {"id":"c07_bram","name":"Celui qui a essayé d'arrêter","goal":"Retrouver Bram Torgun.","revelation":"Son sabotage a réduit l'ampleur immédiate de la Chute."},
+        {"id":"c07_veyra","name":"Celle qui voulait comprendre","goal":"Confronter Veyra Oss à ses recherches.","revelation":"Elle avait compris une partie du danger avant l'ouverture complète."},
+        {"id":"c07_edras","name":"Celui qui voulait voir","goal":"Empêcher Edras Nhal de provoquer une nouvelle ouverture contrôlée.","revelation":"Il considère encore la catastrophe comme le prix d'une révélation nécessaire."},
+        {"id":"c07_judgment","name":"Que signifie juger après la fin du monde ?","goal":"Décider du traitement des responsables capturés.","revelation":"La justice de la Concorde est testée lorsqu'elle doit juger ceux qui ont détruit son monde."}
+      ],
+      "bosses":[{"id":"c07_boss_edras","name":"Edras Nhal, l'Ouvert","type":"boss humain/Voile","truth":"Il reste une personne responsable de ses choix malgré les transformations qu'il s'inflige.","choice":"Capturer, tuer ou permettre une expérience limitée sous contrôle."}],
+      "sanctuary_reveal":"Le traitement des responsables modifie durablement la confiance dans la Concorde.",
+      "key_characters":["Bram Torgun","Veyra Oss","Edras Nhal","Eline Sar","Sera Val-Khesh"],
+      "end_revelation":"La vérité sur les commanditaires étrangers devient assez solide pour traverser vers leurs terres.",
+      "unlock":"chapter_08_outer_world"
+    },
+    {
+      "id":"chapter_08_outer_world",
+      "number":8,
+      "title":"Le monde extérieur",
+      "premise":"Le joueur quitte pour la première fois le continent de la Concorde et découvre que les peuples étrangers ont eux aussi été dévastés.",
+      "regions":["Varkhane", "Namar", "Azravel", "Kor-Em"],
+      "main_quests":[
+        {"id":"c08_varkhane","name":"L'Empire sans centre","goal":"Retrouver les archives militaires du Pacte au milieu des provinces autonomes.","revelation":"Une partie de l'armée avait refusé des ordres avant même la Chute."},
+        {"id":"c08_namar","name":"Les îles qui se souviennent","goal":"Négocier avec les refuges de Namar pour accéder aux registres commerciaux.","revelation":"Des marchands ont financé le Projet Seuil tandis que d'autres ont aidé des dissidents à fuir."},
+        {"id":"c08_azravel","name":"Les temples après Dieu","goal":"Explorer les fractures religieuses d'Azravel.","revelation":"La théocratie a utilisé la catastrophe pour justifier de nouvelles purges."},
+        {"id":"c08_korem","name":"La cité qui conserve tout","goal":"Accéder à une académie fortifiée de Kor-Em.","revelation":"Des copies presque complètes des recherches du Projet Seuil existent encore."}
+      ],
+      "bosses":[
+        {"id":"c08_boss_varkhane","name":"Maréchal du Trône Vide","type":"boss politique/militaire","choice":"Le renverser, négocier ou soutenir une transition locale."},
+        {"id":"c08_boss_azravel","name":"Le Saint de la Faille","type":"boss religieux","choice":"Révéler publiquement ses mensonges, l'arrêter ou provoquer un schisme."}
+      ],
+      "sanctuary_reveal":"Des étrangers commencent à rejoindre le Sanctuaire comme réfugiés, témoins ou alliés.",
+      "key_characters":["Capitaine Varek Sorn","Navigatrice Issel Pell","Frère Oren Val","Docteure Keira Om"],
+      "end_revelation":"La catastrophe n'a pas puni un peuple : elle a traversé les frontières et les régimes qui l'avaient provoquée.",
+      "unlock":"chapter_09_veil_nature"
+    },
+    {
+      "id":"chapter_09_veil_nature",
+      "number":9,
+      "title":"Ce qu'est réellement le Voile",
+      "premise":"Les données modernes, étrangères et antiques convergent enfin.",
+      "regions":["Nœud sous l'Arbre", "Réseau de Saan", "Chevauchement profond"],
+      "main_quests":[
+        {"id":"c09_shared_reality","name":"La réalité que nous partageons","goal":"Comparer les expériences de peuples, créatures et Absents.","revelation":"La Lumière stabilise une réalité commune plutôt qu'elle ne détruit simplement les ténèbres."},
+        {"id":"c09_fear_shape","name":"La peur donne une forme","goal":"Étudier plusieurs zones où la Folie a altéré le réel.","revelation":"Peur et Folie n'inventent pas tout mais orientent ce que le Voile fixe dans la matière."},
+        {"id":"c09_no_final_answer","name":"Ce que nous ne saurons pas","goal":"Atteindre la limite de ce qui peut être observé sans déclencher une nouvelle catastrophe.","revelation":"L'origine ultime du Voile demeure inconnue et peut rester hors de portée."}
+      ],
+      "bosses":[{"id":"c09_boss_consensus","name":"Le Consensus Brisé","type":"boss conceptuel","truth":"Une réalité locale formée de mémoires contradictoires de milliers de personnes.","choice":"Imposer un ancrage unique, construire un compromis ou laisser une zone autonome."}],
+      "sanctuary_reveal":"Le Sanctuaire devient le modèle réduit du problème final : fermer, coexister ou transformer la relation au Voile.",
+      "key_characters":["Veyra Oss","Saen l'Absent","Nara Vey","Sela Mor"],
+      "end_revelation":"Aucune solution finale n'est moralement neutre.",
+      "unlock":"chapter_10_final_choice"
+    },
+    {
+      "id":"chapter_10_final_choice",
+      "number":10,
+      "title":"La lumière mérite d'être défendue",
+      "premise":"Le joueur doit choisir une orientation pour le monde, mais seules les options rendues possibles par son parcours sont disponibles.",
+      "regions":["Sanctuaire du Premier Voile", "Nœud central", "Cercle de la Concorde restauré ou improvisé"],
+      "main_quests":[
+        {"id":"c10_gather_world","name":"Ceux qui doivent décider","goal":"Rassembler représentants, survivants, créatures conscientes, étrangers et éventuellement Absents.","revelation":"Le choix final ne doit pas appartenir à un héros seul."},
+        {"id":"c10_last_crossing","name":"La dernière traversée","goal":"Atteindre le nœud central tout en protégeant les communautés liées au réseau.","revelation":"Chaque solution impose des pertes différentes."},
+        {"id":"c10_world_choice","name":"Ce que nous ferons du monde","goal":"Prendre la décision finale selon les options réellement rendues possibles par la partie.","revelation":"La fin juge moins une doctrine que la manière dont le joueur a construit les conditions permettant de la réaliser."}
+      ],
+      "bosses":[{"id":"c10_boss_final","name":"La Rupture Commune","type":"final non nécessairement tuable","truth":"La confrontation finale est une crise du réseau de réalité, pas un dieu maléfique.","choice":"Résoudre selon l'orientation finale débloquée."}],
+      "sanctuary_reveal":"Le Sanctuaire devient le premier lieu du monde d'après.",
+      "key_characters":["Coalition constituée par les choix du joueur"],
+      "end_revelation":"La lumière ne supprime pas l'obscurité ; elle rend possible un monde commun malgré elle.",
+      "unlock":"endings"
+    }
+  ]
+}
