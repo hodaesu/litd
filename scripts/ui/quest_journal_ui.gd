@@ -27,6 +27,8 @@ func _ready() -> void:
     Chapter04Runtime.final_choice_required.connect(_open_journal)
     Chapter05Runtime.chapter_five_changed.connect(_on_state_changed)
     Chapter05Runtime.final_choice_required.connect(_open_journal)
+    Chapter06Runtime.chapter_six_changed.connect(_on_state_changed)
+    Chapter06Runtime.final_choice_required.connect(_open_journal)
     SanctuaryState.sanctuary_state_changed.connect(_on_sanctuary_changed)
     _on_screen_requested(GameState.current_screen)
 
@@ -100,6 +102,7 @@ func _on_screen_requested(screen_name: String) -> void:
         Chapter03Runtime.refresh_progress()
         Chapter04Runtime.refresh_progress()
         Chapter05Runtime.refresh_progress()
+        Chapter06Runtime.refresh_progress()
         _render()
 
 func _open_journal() -> void:
@@ -143,16 +146,12 @@ func _render() -> void:
     quest_box.add_child(_label(String(chapter.get("premise", "")), 13, MUTED))
 
     match CampaignState.current_chapter_id:
-        "chapter_01_ashlands":
-            _render_chapter_one(quest_box)
-        "chapter_02_before_fall":
-            _render_chapter_two(quest_box)
-        "chapter_03_threshold":
-            _render_chapter_three(quest_box)
-        "chapter_04_first_rupture":
-            _render_chapter_four(quest_box)
-        "chapter_05_great_closure":
-            _render_chapter_five(quest_box)
+        "chapter_01_ashlands": _render_chapter_one(quest_box)
+        "chapter_02_before_fall": _render_chapter_two(quest_box)
+        "chapter_03_threshold": _render_chapter_three(quest_box)
+        "chapter_04_first_rupture": _render_chapter_four(quest_box)
+        "chapter_05_great_closure": _render_chapter_five(quest_box)
+        "chapter_06_absent": _render_chapter_six(quest_box)
 
     for quest_value in CampaignState.active_main_quests():
         var quest: Dictionary = quest_value
@@ -234,68 +233,63 @@ func _render_chapter_five(parent: VBoxContainer) -> void:
             parent.add_child(_label("✓ %s" % String(hypothesis.get("title", hypothesis_id)), 13, TEXT))
     _add_c05_choice(parent)
 
+func _render_chapter_six(parent: VBoxContainer) -> void:
+    _stage_header(parent, "CHAPITRE VI", Chapter06Runtime)
+    if not AshlandsRuntime.is_zone_discovered("c06_timeless_garden"):
+        parent.add_child(_button("ENTRER DANS LE JARDIN SANS SAISON", func(): AshlandsSceneRouter.start_chapter_06(), Vector2(520, 48)))
+    parent.add_child(_label("DOSSIER DES ABSENTS — %d signaux · %d familles de sources" % [Chapter06Runtime.signal_count(), Chapter06Runtime.independent_source_family_count()], 15, GOLD))
+    parent.add_child(_label("Réactions directes de créatures : %d · mesures de Meira : %d" % [Chapter06Runtime.direct_reaction_count(), Chapter06Runtime.proxy_reaction_count()], 13, MUTED))
+    parent.add_child(_label("Ancrages de la Frontière : %d/3 · Contact avec Saen : %s" % [Chapter06Runtime.anchor_count(), "stable" if Chapter06Runtime.saen_contact else "non établi"], 13, MUTED))
+    for hypothesis_value in Chapter06Runtime.hypotheses():
+        var hypothesis: Dictionary = hypothesis_value
+        var hypothesis_id := String(hypothesis.get("id", ""))
+        if bool(Chapter06Runtime.confirmed_hypotheses.get(hypothesis_id, false)):
+            parent.add_child(_label("✓ %s" % String(hypothesis.get("title", hypothesis_id)), 13, TEXT))
+    _add_c06_choice(parent)
+
 func _add_c01_choice(parent: VBoxContainer) -> void:
-    if Chapter01Runtime.boss_choice != "" or not AshlandsRuntime.is_encounter_cleared("c01_boss_ash_witness"):
-        return
+    if Chapter01Runtime.boss_choice != "" or not AshlandsRuntime.is_encounter_cleared("c01_boss_ash_witness"): return
     for value in Chapter01Runtime.stage("c01_stage_07_witness").get("boss_choices", []):
-        var choice: Dictionary = value
-        var choice_id := String(choice.get("id", ""))
-        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id):
-            Chapter01Runtime.choose_boss_outcome(String(id_value))
-            SaveManager.save_game()
-            _render(), Vector2(520, 48)))
+        var choice: Dictionary = value; var choice_id := String(choice.get("id", ""))
+        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id): Chapter01Runtime.choose_boss_outcome(String(id_value)); SaveManager.save_game(); _render(), Vector2(520, 48)))
 
 func _add_c02_choice(parent: VBoxContainer) -> void:
-    if Chapter02Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c02_marker_warden"):
-        return
+    if Chapter02Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c02_marker_warden"): return
     for value in Chapter02Runtime.slice.get("final_choice", []):
-        var choice: Dictionary = value
-        var choice_id := String(choice.get("id", ""))
-        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id):
-            Chapter02Runtime.choose_final_outcome(String(id_value))
-            SaveManager.save_game()
-            _render(), Vector2(520, 48)))
+        var choice: Dictionary = value; var choice_id := String(choice.get("id", ""))
+        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id): Chapter02Runtime.choose_final_outcome(String(id_value)); SaveManager.save_game(); _render(), Vector2(520, 48)))
 
 func _add_c03_choice(parent: VBoxContainer) -> void:
-    if Chapter03Runtime.echo_choice != "" or not AshlandsRuntime.is_encounter_cleared("c03_boss_threshold_echo"):
-        return
+    if Chapter03Runtime.echo_choice != "" or not AshlandsRuntime.is_encounter_cleared("c03_boss_threshold_echo"): return
     parent.add_child(_label("DÉCISION — L'ÉCHO DU SEUIL", 16, GOLD))
     for value in Chapter03Runtime.data.get("boss_choices", []):
-        var choice: Dictionary = value
-        var choice_id := String(choice.get("id", ""))
-        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id):
-            Chapter03Runtime.choose_echo_outcome(String(id_value))
-            SaveManager.save_game()
-            _render(), Vector2(520, 48)))
+        var choice: Dictionary = value; var choice_id := String(choice.get("id", ""))
+        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id): Chapter03Runtime.choose_echo_outcome(String(id_value)); SaveManager.save_game(); _render(), Vector2(520, 48)))
 
 func _add_c04_choice(parent: VBoxContainer) -> void:
-    if Chapter04Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c04_boss_unfinished_chorus"):
-        return
+    if Chapter04Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c04_boss_unfinished_chorus"): return
     parent.add_child(_label("DÉCISION — LE CHŒUR INACHEVÉ", 16, GOLD))
     for value in Chapter04Runtime.chapter.get("boss_choices", []):
-        var choice: Dictionary = value
-        var choice_id := String(choice.get("id", ""))
-        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id):
-            Chapter04Runtime.choose_final_outcome(String(id_value))
-            SaveManager.save_game()
-            _render(), Vector2(520, 48)))
+        var choice: Dictionary = value; var choice_id := String(choice.get("id", ""))
+        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id): Chapter04Runtime.choose_final_outcome(String(id_value)); SaveManager.save_game(); _render(), Vector2(520, 48)))
 
 func _add_c05_choice(parent: VBoxContainer) -> void:
-    if Chapter05Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c05_boss_silex_general"):
-        return
+    if Chapter05Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c05_boss_silex_general"): return
     parent.add_child(_label("DÉCISION — L'ARSENAL DU GÉNÉRAL DE SILEX", 16, GOLD))
     parent.add_child(_label("Détruire ces armes protège le présent. Les conserver peut aider à comprendre — ou à répéter — Or-Silex.", 13, MUTED))
     for value in Chapter05Runtime.chapter.get("boss_choices", []):
-        var choice: Dictionary = value
-        var choice_id := String(choice.get("id", ""))
-        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id):
-            Chapter05Runtime.choose_final_outcome(String(id_value))
-            SaveManager.save_game()
-            _render(), Vector2(520, 48)))
+        var choice: Dictionary = value; var choice_id := String(choice.get("id", ""))
+        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id): Chapter05Runtime.choose_final_outcome(String(id_value)); SaveManager.save_game(); _render(), Vector2(520, 48)))
+
+func _add_c06_choice(parent: VBoxContainer) -> void:
+    if Chapter06Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c06_boss_boundary") or Chapter06Runtime.anchor_count() < 3: return
+    parent.add_child(_label("DÉCISION — LA FRONTIÈRE QUI MARCHE", 16, GOLD))
+    parent.add_child(_label("Le passage peut être forcé, négocié ou abandonné. Aucun choix ne prouve encore ce que sont réellement les Absents.", 13, MUTED))
+    for value in Chapter06Runtime.chapter.get("boss_choices", []):
+        var choice: Dictionary = value; var choice_id := String(choice.get("id", ""))
+        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id): Chapter06Runtime.choose_final_outcome(String(id_value)); SaveManager.save_game(); _render(), Vector2(520, 48)))
 
 func _add_section(parent: VBoxContainer, title: String, entries: Array) -> void:
-    if entries.is_empty():
-        return
+    if entries.is_empty(): return
     parent.add_child(_label(title, 15, GOLD))
-    for entry in entries:
-        parent.add_child(_label("• %s" % String(entry), 13, MUTED))
+    for entry in entries: parent.add_child(_label("• %s" % String(entry), 13, MUTED))
