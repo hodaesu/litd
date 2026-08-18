@@ -26,8 +26,10 @@ jobs:
         run: python -m tools.qa.cross_system_audit
       - name: Audit progression, économie et NG+
         run: python -m tools.qa.balance_audit
-      - name: Simulation combat, économie et cycles NG+
-        run: python -m tools.qa.combat_economy_sim
+      - name: Audit tours complets et effets de talents
+        run: python -m tools.qa.combat_turn_audit
+      - name: Simulation combat v2, économie et cycles NG+
+        run: python -m tools.qa.combat_economy_sim_v2
       - uses: actions/upload-artifact@v4
         if: always()
         with:
