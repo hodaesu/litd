@@ -25,6 +25,9 @@ python -m tools.qa.combat_turn_audit
 echo "==> Audit rangs, déplacements et synergies tactiques"
 python -m tools.qa.tactical_combat_audit
 
+echo "==> Audit démembrements tactiques"
+python -m tools.qa.dismemberment_audit
+
 echo "==> Simulation combat v2, économie et cycles NG+"
 python -m tools.qa.combat_economy_sim_v2
 
