@@ -17,6 +17,12 @@ func _process(_delta: float) -> void:
     var boss: Dictionary = GameState.battle_enemies[0]
     var hp := int(boss.get("hp", 0))
     if last_hp >= 0 and hp < last_hp:
+        var raw_loss := last_hp - hp
+        var reduction := int(boss.get("damage_reduction", 0))
+        if reduction > 0:
+            var restored := int(round(float(raw_loss) * float(reduction) / 100.0))
+            hp = mini(int(boss.get("max_hp", hp)), hp + restored)
+            boss["hp"] = hp
         consecutive_damage_events += 1
         if consecutive_damage_events >= 3:
             forced_agreement += 1
