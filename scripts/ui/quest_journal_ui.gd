@@ -19,6 +19,8 @@ func _ready() -> void:
     CampaignState.campaign_changed.connect(_on_state_changed)
     Chapter01Runtime.chapter_one_changed.connect(_on_state_changed)
     Chapter01Runtime.boss_choice_required.connect(_on_boss_choice_required)
+    Chapter02Runtime.chapter_two_changed.connect(_on_state_changed)
+    Chapter02Runtime.final_choice_required.connect(_on_chapter_two_choice_required)
     SanctuaryState.sanctuary_state_changed.connect(_on_sanctuary_changed)
     _on_screen_requested(GameState.current_screen)
 
@@ -91,9 +93,13 @@ func _on_screen_requested(screen_name: String) -> void:
         SanctuaryState.refresh()
         PoliticalState.refresh_unlocks()
         Chapter01Runtime.refresh_progress()
+        Chapter02Runtime.refresh_progress()
         _render()
 
 func _on_boss_choice_required() -> void:
+    GameState.request_screen("quest_journal")
+
+func _on_chapter_two_choice_required() -> void:
     GameState.request_screen("quest_journal")
 
 func _on_state_changed() -> void:
@@ -134,12 +140,9 @@ func _render() -> void:
     quest_box.add_child(_label(String(chapter.get("premise", "")), 13, MUTED))
 
     if CampaignState.current_chapter_id == "chapter_01_ashlands":
-        quest_box.add_child(_label("PROGRESSION DU CHAPITRE I — %s" % Chapter01Runtime.progress_text(), 15, GOLD))
-        var active_stage := Chapter01Runtime.active_stage()
-        if not active_stage.is_empty():
-            quest_box.add_child(_label("Objectif actuel : %s" % String(active_stage.get("name", "")), 16, TEXT))
-            quest_box.add_child(_label(String(active_stage.get("objective", "")), 13, MUTED))
-        _add_boss_choice_if_needed(quest_box)
+        _render_chapter_one(quest_box)
+    elif CampaignState.current_chapter_id == "chapter_02_before_fall":
+        _render_chapter_two(quest_box)
 
     var main_active := CampaignState.active_main_quests()
     if main_active.is_empty():
@@ -195,6 +198,36 @@ func _render() -> void:
     _add_section(sanctuary_box, "RUMEURS", social.get("rumors", []))
     _add_section(sanctuary_box, "INSCRIPTIONS", social.get("inscriptions", []))
 
+func _render_chapter_one(parent: VBoxContainer) -> void:
+    parent.add_child(_label("PROGRESSION DU CHAPITRE I — %s" % Chapter01Runtime.progress_text(), 15, GOLD))
+    var active_stage := Chapter01Runtime.active_stage()
+    if not active_stage.is_empty():
+        parent.add_child(_label("Objectif actuel : %s" % String(active_stage.get("name", "")), 16, TEXT))
+        parent.add_child(_label(String(active_stage.get("objective", "")), 13, MUTED))
+    _add_boss_choice_if_needed(parent)
+
+func _render_chapter_two(parent: VBoxContainer) -> void:
+    parent.add_child(_label("PROGRESSION DU CHAPITRE II — %s" % Chapter02Runtime.progress_text(), 15, GOLD))
+    var active_stage := Chapter02Runtime.active_stage()
+    if not active_stage.is_empty():
+        parent.add_child(_label("Objectif actuel : %s" % String(active_stage.get("name", "")), 16, TEXT))
+        parent.add_child(_label(String(active_stage.get("objective", "")), 13, MUTED))
+    if GameState.current_screen == "quest_journal" and not AshlandsRuntime.is_zone_discovered("c02_old_road"):
+        parent.add_child(_button("PARTIR SUR LA ROUTE DES BORNES", func(): AshlandsSceneRouter.start_chapter_02(), Vector2(520, 48)))
+    parent.add_child(_label("ENQUÊTE — %d indices · %d sources indépendantes" % [Chapter02Runtime.clue_count(), Chapter02Runtime.independent_source_count()], 15, GOLD))
+    for clue_value in Chapter02Runtime.discovered_clues.values():
+        var clue: Dictionary = clue_value
+        var status := "douteux" if String(clue.get("authenticity", "")) in ["false", "partial"] else "établi"
+        parent.add_child(_label("• %s [%s]" % [String(clue.get("title", "Indice")), status], 13, MUTED))
+    if not Chapter02Runtime.confirmed_hypotheses.is_empty():
+        parent.add_child(_label("HYPOTHÈSES CONFIRMÉES", 15, GOLD))
+        for hypothesis_value in Chapter02Runtime.hypotheses():
+            var hypothesis: Dictionary = hypothesis_value
+            var id_value := String(hypothesis.get("id", ""))
+            if bool(Chapter02Runtime.confirmed_hypotheses.get(id_value, false)):
+                parent.add_child(_label("✓ %s" % String(hypothesis.get("title", id_value)), 13, TEXT))
+    _add_chapter_two_choice_if_needed(parent)
+
 func _add_boss_choice_if_needed(parent: VBoxContainer) -> void:
     if Chapter01Runtime.boss_choice != "" or not AshlandsRuntime.is_encounter_cleared("c01_boss_ash_witness"):
         return
@@ -206,6 +239,19 @@ func _add_boss_choice_if_needed(parent: VBoxContainer) -> void:
         var choice_id := String(choice.get("id", ""))
         parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id):
             Chapter01Runtime.choose_boss_outcome(String(id_value))
+            SaveManager.save_game()
+            _render(), Vector2(520, 48)))
+
+func _add_chapter_two_choice_if_needed(parent: VBoxContainer) -> void:
+    if Chapter02Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c02_marker_warden"):
+        return
+    parent.add_child(_label("DÉCISION — LES PREUVES DE SAHRA VEL", 16, GOLD))
+    parent.add_child(_label("La question n'est plus seulement ce qui est vrai, mais quand et comment cette vérité doit être rendue publique.", 13, MUTED))
+    for choice_value in Chapter02Runtime.slice.get("final_choice", []):
+        var choice: Dictionary = choice_value
+        var choice_id := String(choice.get("id", ""))
+        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id):
+            Chapter02Runtime.choose_final_outcome(String(id_value))
             SaveManager.save_game()
             _render(), Vector2(520, 48)))
 
