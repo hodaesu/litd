@@ -8,12 +8,10 @@ def test_all_known_campaign_bosses_have_mechanical_contracts():
     campaign = json.loads((ROOT/'data/world/main_campaign.json').read_text())
     contract_ids = {b['id'] for b in contracts['bosses']}
     known = {chapter['bosses'][0]['id'] for chapter in campaign['chapters']}
-    historical_aliases = {
-        'c02_marker_warden':'c02_boss_archive_keeper',
-        'c10_boss_common_rupture':'c10_boss_final',
-    }
+    historical_aliases = {'c02_marker_warden':'c02_boss_archive_keeper'}
     normalized = contract_ids | {historical_aliases.get(i, i) for i in contract_ids}
     assert known.issubset(normalized)
+    assert 'c10_boss_final' in contract_ids
     for boss in contracts['bosses']:
         assert boss['core_puzzle'].strip()
         assert boss['mechanics']
@@ -61,7 +59,7 @@ def test_deep_vestige_is_routed_autoloaded_saved_and_reset():
     assert 'DeepVestigeBossRuntime="*res://scripts/world/deep_vestige_boss_runtime_v2.gd"' in project
     assert 'func start_ashai_deep_vestige()' in router
     assert 'func start_deep_vestige(vestige_id: String)' in router
-    assert 'SAVE_VERSION := "0.29"' in save
+    assert 'SAVE_VERSION := "0.30"' in save
     assert '"deep_vestiges": DeepVestigeRuntime.serialize()' in save
     assert 'DeepVestigeRuntime.reset_new_game()' in game
     assert 'DeepVestigeRuntime.index_entries()' in ui
