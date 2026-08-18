@@ -29,8 +29,8 @@ def test_chapter_two_mirrors_reference_production_loop():
     assert len(d['stages']) == 8
     types=[s['type'] for s in d['stages']]
     assert 'exploration' in types and 'campfire' in types and 'miniboss' in types and 'boss' in types and 'return' in types
-    assert len(d['main_quests']) == 3
+    assert {q['id'] for q in d['main_quests']} == {'c02_old_instruments','c02_deleted_pages','c02_false_accident'}
     assert d['investigation']['required_clues'] == 5
     assert d['investigation']['independent_sources_min'] >= 2
     assert len(d['final_choice']) == 3
-    assert d['completion']['unlock_chapter']=='chapter_03_threshold_project'
+    assert d['completion']['unlock_chapter']=='chapter_03_threshold'
