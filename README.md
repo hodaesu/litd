@@ -10,6 +10,7 @@ Fondation professionnelle du prototype Godot de **Light in the Dark**.
 - [Civilisations antérieures et Premier Voile](docs/CIVILISATIONS_ANTERIEURES_ET_PREMIER_VOILE.md)
 - [Civilisations antérieures des mondes extérieurs](docs/CIVILISATIONS_ANTERIEURES_MONDES_EXTERIEURS.md)
 - [Campagne principale — 10 chapitres, boss, révélations et fins](docs/CAMPAGNE_PRINCIPALE.md)
+- [Combat tactique — rangs, déplacements et synergies](docs/COMBAT_TACTIQUE_RANGS.md)
 - [Chapitre I — verticale jouable des Terres de Cendre](docs/CHAPITRE_01_VERTICAL_SLICE.md)
 - [Chapitre II — enquête jouable et Route des Bornes](docs/CHAPITRE_02_VERTICAL_SLICE.md)
 - [Chapitre III — Projet Seuil, responsabilités et Écho](docs/CHAPITRE_03_PROJET_SEUIL.md)
@@ -36,6 +37,7 @@ python -m tools.qa.audit
 python -m tools.qa.cross_system_audit
 python -m tools.qa.balance_audit
 python -m tools.qa.combat_turn_audit
+python -m tools.qa.tactical_combat_audit
 python -m tools.qa.combat_economy_sim_v2
 ```
 
@@ -45,11 +47,13 @@ python -m tools.qa.combat_economy_sim_v2
 
 `tools.qa.balance_audit` vérifie la progression 1→50, le coût et les prérequis des arbres, les ascensions des compagnons, les six fins, les soft-locks économiques du postgame, le scaling NG+ et les 34 recrutements de boss/mini-boss. Les incohérences certaines échouent en CI ; les cas qui exigent encore un playtest ou une analyse de chemins exclusifs sont signalés comme avertissements.
 
-`tools.qa.combat_turn_audit` verrouille le moteur de combat v2 : chaque héros vivant agit une fois par round, le compagnon agit une seule fois après le groupe, puis les ennemis. Il vérifie aussi que toutes les statistiques produites par les arbres de compétences sont réellement consommées par le combat.
+`tools.qa.combat_turn_audit` verrouille le moteur de rounds à quatre héros conservé par le combat v3 : chaque héros vivant agit une fois par round, le compagnon agit une seule fois après le groupe, puis les ennemis. Il vérifie aussi que toutes les statistiques produites par les arbres de compétences sont réellement consommées par le combat effectif.
 
-`tools.qa.combat_economy_sim_v2` simule les checkpoints de niveaux 1/10/20/30/40/50 avec la formule de dégâts effective du combat v2, plus de trente boss/mini-boss, les compagnons recrutés, les cycles NG+ 0→5, la vitesse d'XP et l'économie Or/Essence.
+`tools.qa.tactical_combat_audit` vérifie la couche tactique v3 : quatre rangs uniques, positions d'utilisation et de ciblage, déplacement consommant l'action, techniques propres aux héros, ciblage avant/arrière des ennemis, liberté de ciblage des boss et synergies de formation.
 
-Les rapports sont écrits dans `reports/qa-report.json`, `reports/qa-report.html`, `reports/cross-system-report.json`, `reports/balance-report.json`, `reports/combat-turn-report.json` et `reports/combat-economy-report.json`.
+`tools.qa.combat_economy_sim_v2` reste le modèle numérique de base pour les checkpoints de niveaux 1/10/20/30/40/50, plus de trente boss/mini-boss, les compagnons recrutés, les cycles NG+ 0→5, la vitesse d'XP et l'économie Or/Essence. La couche tactique v3 ajoute désormais des contraintes de rang et des synergies par-dessus cette base.
+
+Les rapports sont écrits dans `reports/qa-report.json`, `reports/qa-report.html`, `reports/cross-system-report.json`, `reports/balance-report.json`, `reports/combat-turn-report.json`, `reports/tactical-combat-report.json` et `reports/combat-economy-report.json`.
 
 Ou sous macOS/Linux :
 
@@ -61,7 +65,7 @@ Le script exécute également le smoke test Godot si `godot` est disponible loca
 
 ## GitHub Actions
 
-- **CI** : tests Python, audits de structure/équilibrage, audit du moteur de tours, simulation combat-économie v2 et smoke test Godot headless.
+- **CI** : tests Python, audits de structure/équilibrage, audit du moteur de tours, audit tactique des rangs/synergies, simulation combat-économie et smoke test Godot headless.
 - **Builds** : exports Web, Windows et Linux.
 - **Nightly QA** : régression quotidienne avec les audits, la simulation et le smoke test Godot.
 - **Release** : création d’une release lors d’un tag `v*`.
