@@ -91,6 +91,13 @@ func _render() -> void:
         var display := {"varkhane":"Varkhane","namar":"Namar","azravel":"Azravel","kor_em":"Kor-Em"}[power_id]
         var understood := "compris" if Chapter08Runtime.power_understood(power_id) else "incomplet"
         body.add_child(_label("%s — %d sources · %d civiles/dissidentes · %s" % [display,Chapter08Runtime.record_count_for(power_id),Chapter08Runtime.civilian_or_dissident_count_for(power_id),understood],13,TEXT))
+    body.add_child(_label("HISTOIRE PROFONDE — %d/4 civilisations localisées" % Chapter08Runtime.ancient_trace_count(),14,GOLD))
+    if Chapter08Runtime.collected_ancient_traces.is_empty():
+        body.add_child(_label("Cherchez sous les institutions modernes : certaines fondations appartiennent à des mondes beaucoup plus anciens.",12,MUTED))
+    else:
+        for value in Chapter08Runtime.collected_ancient_traces.values():
+            var trace: Dictionary = value
+            body.add_child(_label("• %s — %s · Vestige profond débloqué" % [String(trace.get("civilization", "")),String(trace.get("title", ""))],12,TEXT))
     body.add_child(_label("CONTRE-AUTORITÉS",14,GOLD))
     body.add_child(_label("Varkhane : %d/3 · Azravel : %d/3" % [Chapter08Runtime.authority_node_count("varkhane"),Chapter08Runtime.authority_node_count("azravel")],13,MUTED))
     _add_boss_choices("c08_boss_varkhane","MARÉCHAL DU TRÔNE VIDE")
