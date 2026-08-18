@@ -38,14 +38,8 @@ func _load_json(path: String) -> Dictionary:
     return parsed if typeof(parsed) == TYPE_DICTIONARY else {}
 
 func reset_new_game() -> void:
-    discovered_signals = {}
-    confirmed_hypotheses = {}
-    reaction_records = {}
-    stabilized_anchors = {}
-    completed_stages = {}
-    saen_contact = false
-    final_choice = ""
-    rewards_claimed = false
+    discovered_signals = {}; confirmed_hypotheses = {}; reaction_records = {}; stabilized_anchors = {}; completed_stages = {}
+    saen_contact = false; final_choice = ""; rewards_claimed = false
     chapter_six_changed.emit()
 
 func signals() -> Array: return world.get("signals", [])
@@ -66,15 +60,12 @@ func collect_signal(signal_id: String) -> bool:
     discovered_signals[signal_id] = entry.duplicate(true)
     signal_discovered.emit(entry.duplicate(true))
     GameState.add_log("Signal des Absents — %s" % String(entry.get("title", signal_id)))
-    _recalculate_hypotheses()
-    refresh_progress()
-    chapter_six_changed.emit()
+    _recalculate_hypotheses(); refresh_progress(); chapter_six_changed.emit()
     return true
 
 func independent_source_family_count() -> int:
     var groups := {}
-    for value in discovered_signals.values():
-        groups[String((value as Dictionary).get("source_family", "unknown"))] = true
+    for value in discovered_signals.values(): groups[String((value as Dictionary).get("source_family", "unknown"))] = true
     return groups.size()
 
 func direct_reaction_count() -> int:
@@ -91,18 +82,16 @@ func proxy_reaction_count() -> int:
 
 func record_creature_reaction(node_id: String) -> bool:
     if reaction_records.has(node_id): return false
-    var direct := not CreatureManager.active_creature().is_empty()
-    reaction_records[node_id] = {"direct":direct, "creature":CreatureManager.active_creature() if direct else {}}
+    var creature := CreatureManager.active_creature()
+    var direct := not creature.is_empty()
+    reaction_records[node_id] = {"direct":direct, "creature":creature if direct else {}}
     if direct:
         CampaignState.add_metric("creature_relations", 1)
-        var creature := CreatureManager.active_creature()
         GameState.add_log("%s reconnaît quelque chose que le groupe ne perçoit pas encore." % String(creature.get("name", "La créature")))
     else:
         GameState.add_log("La balise de Meira enregistre une résonance indirecte. Une mesure supplémentaire sera nécessaire.")
     creature_reaction_recorded.emit(node_id, direct)
-    _try_confirm_carried_memory()
-    refresh_progress()
-    chapter_six_changed.emit()
+    _try_confirm_carried_memory(); refresh_progress(); chapter_six_changed.emit()
     return true
 
 func _try_confirm_carried_memory() -> void:
@@ -122,8 +111,8 @@ func stabilize_anchor(anchor_id: String) -> bool:
     CampaignState.add_metric("stabilizer_nodes", 1)
     anchor_stabilized.emit(anchor_id)
     GameState.add_log("Ancrage stabilisé — %d/3." % anchor_count())
-    refresh_progress()
-    chapter_six_changed.emit()
+    refresh_progress(); chapter_six_changed.emit()
+    if anchor_count() >= 3 and AshlandsRuntime.is_encounter_cleared("c06_boss_boundary") and final_choice == "": call_deferred("_request_choice")
     return true
 
 func establish_saen_contact() -> bool:
@@ -136,22 +125,17 @@ func establish_saen_contact() -> bool:
     CampaignState.set_chapter_flag("c06_saen_contact")
     GameState.add_log("Saen : « Ne dites pas que je suis mort. Je ne sais pas si ce mot atteint jusqu'ici. »")
     saen_contact_established.emit()
-    refresh_progress()
-    chapter_six_changed.emit()
+    refresh_progress(); chapter_six_changed.emit()
     return true
 
 func _recalculate_hypotheses() -> void:
     for value in hypotheses():
-        var h: Dictionary = value
-        var id := String(h.get("id", ""))
+        var h: Dictionary = value; var id := String(h.get("id", ""))
         if id == "carried_memory" or bool(confirmed_hypotheses.get(id, false)): continue
-        var support := 0
-        var families := {}
+        var support := 0; var families := {}
         for signal_value in discovered_signals.values():
             var entry: Dictionary = signal_value
-            if id in entry.get("supports", []):
-                support += 1
-                families[String(entry.get("source_family", "unknown"))] = true
+            if id in entry.get("supports", []): support += 1; families[String(entry.get("source_family", "unknown"))] = true
         if support >= int(h.get("required_support", 1)) and families.size() >= int(h.get("independent_sources", 1)):
             confirmed_hypotheses[id] = true
             CampaignState.discovered_revelations["c06_%s" % id] = String(h.get("title", id))
@@ -164,11 +148,10 @@ func active_stage() -> Dictionary:
         if not bool(completed_stages.get(String(stage.get("id", "")), false)): return stage
     return {}
 
-func progress_text() -> String:
-    return "%d/%d" % [completed_stages.size(), chapter.get("stages", []).size()]
+func progress_text() -> String: return "%d/%d" % [completed_stages.size(), chapter.get("stages", []).size()]
 
 func _on_encounter_cleared(encounter_id: String) -> void:
-    if encounter_id == "c06_boss_boundary" and final_choice == "": call_deferred("_request_choice")
+    if encounter_id == "c06_boss_boundary" and final_choice == "" and anchor_count() >= 3: call_deferred("_request_choice")
     refresh_progress()
 
 func _request_choice() -> void: final_choice_required.emit()
@@ -184,9 +167,7 @@ func refresh_progress() -> void:
     _complete_if("c06_stage_06_saen", saen_contact and signal_count() >= 8 and independent_source_family_count() >= 4)
     _complete_if("c06_stage_07_boundary", anchor_count() >= 3 and AshlandsRuntime.is_encounter_cleared("c06_boss_boundary") and final_choice != "")
     _complete_if("c06_stage_08_return", GameState.current_screen == "sanctuary" and final_choice != "" and bool(confirmed_hypotheses.get("closure_risk", false)))
-    _sync_main_quests()
-    _try_finish()
-    chapter_six_changed.emit()
+    _sync_main_quests(); _try_finish(); chapter_six_changed.emit()
 
 func _complete_if(id: String, condition: bool) -> void:
     if condition and not bool(completed_stages.get(id, false)):
@@ -194,7 +175,7 @@ func _complete_if(id: String, condition: bool) -> void:
         GameState.add_log("Chapitre VI — %s" % id)
 
 func choose_final_outcome(choice_id: String) -> bool:
-    if not AshlandsRuntime.is_encounter_cleared("c06_boss_boundary"): return false
+    if not AshlandsRuntime.is_encounter_cleared("c06_boss_boundary") or anchor_count() < 3: return false
     for value in chapter.get("boss_choices", []):
         var choice: Dictionary = value
         if String(choice.get("id", "")) != choice_id: continue
@@ -202,10 +183,8 @@ func choose_final_outcome(choice_id: String) -> bool:
         var effects: Dictionary = choice.get("effects", {})
         for metric in ["absent_contact","creature_relations","veil_knowledge","justice_integrity","stabilizer_nodes"]:
             if effects.has(metric): CampaignState.add_metric(metric, int(effects[metric]))
-        if effects.has("tension"):
-            PoliticalState.tension = clampi(PoliticalState.tension + int(effects["tension"]), 0, 100)
-        if effects.has("trust"):
-            PoliticalState.trust = clampi(PoliticalState.trust + int(effects["trust"]), 0, 100)
+        if effects.has("tension"): PoliticalState.tension = clampi(PoliticalState.tension + int(effects["tension"]), 0, 100)
+        if effects.has("trust"): PoliticalState.trust = clampi(PoliticalState.trust + int(effects["trust"]), 0, 100)
         CampaignState.set_chapter_flag("c06_boundary_%s" % choice_id)
         PoliticalState.politics_changed.emit()
         refresh_progress()
@@ -218,20 +197,20 @@ func _sync_main_quests() -> void:
         if CampaignState.is_main_quest_completed(String(quest_id)): continue
         var done := true
         for stage_id in bindings[quest_id]:
-            if not bool(completed_stages.get(String(stage_id), false)):
-                done = false
-                break
+            if not bool(completed_stages.get(String(stage_id), false)): done = false; break
         if done: CampaignState.complete_main_quest(String(quest_id))
 
 func _try_finish() -> void:
     if rewards_claimed or completed_stages.size() < chapter.get("stages", []).size(): return
     rewards_claimed = true
     CampaignState.set_chapter_flag("chapter_06_vertical_slice_complete")
+    CampaignState.set_chapter_flag("relic_saen_thread_unlocked")
+    CampaignState.set_chapter_flag("knowledge_absent_continuity_unlocked")
+    CampaignState.set_chapter_flag("sanctuary_listening_room_unlocked")
     CampaignState.discovered_revelations["chapter_06_end"] = String(chapter.get("end_revelation", ""))
     CampaignState.add_metric("absent_contact", 5)
-    GameState.gold += 110
-    GameState.essence += 16
-    GameState.add_log("Chapitre VI terminé : certains Absents répondent encore.")
+    GameState.gold += 110; GameState.essence += 16
+    GameState.add_log("Chapitre VI terminé : la Chambre d'Écoute peut désormais conserver les contacts faibles avec les Absents.")
     chapter_six_completed.emit()
 
 func serialize() -> Dictionary:
