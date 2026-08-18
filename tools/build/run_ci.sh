@@ -28,6 +28,9 @@ python -m tools.qa.tactical_combat_audit
 echo "==> Audit démembrements tactiques"
 python -m tools.qa.dismemberment_audit
 
+echo "==> Audit poussées, tractions et phases de boss"
+python -m tools.qa.displacement_combat_audit
+
 echo "==> Simulation combat v2, économie et cycles NG+"
 python -m tools.qa.combat_economy_sim_v2
 
