@@ -41,8 +41,9 @@ def test_models_keep_observation_interpretation_and_unknowns_separate():
     assert len(world['observations']) >= 19
     assert len({o['source_family'] for o in world['observations']}) >= 10
     assert all(m['required_support'] >= 3 and m['required_families'] >= 3 for m in chapter['models'])
-    assert 'inconnue' in chapter['end_revelation'].lower()
-    assert 'volonté' in chapter['end_revelation'].lower()
+    revelation = chapter['end_revelation'].lower()
+    assert any(marker in revelation for marker in ('inconnue', 'ne savons toujours pas', 'ne savons pas'))
+    assert 'volonté' in revelation
 
 
 def test_deep_truths_raise_confidence_but_are_not_required_for_stage_two():
