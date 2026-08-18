@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+REQUIRED_STATS = {
+    "damage_bonus", "critical_chance", "damage_percent", "break_chance", "bleed_chance",
+    "physical_resistance", "fear_resistance", "guard_power", "max_hp", "riposte_chance",
+    "madness_resistance", "max_madness", "stun_chance", "execute_percent", "healing_power",
+    "max_hope", "party_heal", "precision",
+}
+
+
+def run(root: Path = ROOT) -> dict:
+    scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
+    base = (root / "scripts/ui/main.gd").read_text(encoding="utf-8")
+    v2 = (root / "scripts/ui/main_v2.gd").read_text(encoding="utf-8")
+    hero_skills = (root / "scripts/core/hero_skill_manager.gd").read_text(encoding="utf-8")
+    effective_combat = base + "\n" + v2
+
+    checks: list[dict] = []
+    def check(name: str, ok: bool, detail: str = "") -> None:
+        checks.append({"name": name, "ok": bool(ok), "detail": detail})
+
+    check("Main utilise combat v2", 'res://scripts/ui/main_v2.gd' in scene)
+    check("Combat v2 hérite de l'UI stable", 'extends "res://scripts/ui/main.gd"' in v2)
+    check("Round suit les héros ayant agi", "acted_hero_ids" in v2 and "_mark_hero_acted" in v2)
+    check("Héros actif choisi parmi les non-joués", "func _active_round_hero()" in v2 and "acted_hero_ids.get" in v2)
+    check("Combat v2 n'utilise pas alive_heroes()[0]", "alive_heroes()[0]" not in v2)
+    check("Compagnon agit en fin de round", "func _finish_party_round()" in v2 and v2.count("CreatureManager.companion_turn") == 1)
+    check("Ennemis agissent après le groupe", "_finish_party_round()" in v2 and "enemy_turn()" in v2)
+    check("Nouveau round après le tour ennemi", "_reset_round_state()" in v2)
+
+    produced = set(re.findall(r'"([a-z_]+)"', hero_skills)) & REQUIRED_STATS
+    consumed = set(re.findall(r'(?:bonuses|target_bonuses|skill_stats)\.get\("([a-z_]+)"', effective_combat))
+    missing = sorted(produced - consumed)
+    check("Toutes les stats d'arbres sont consommées", not missing, ", ".join(missing))
+
+    for stat in ["damage_percent", "execute_percent", "max_hp", "party_heal", "madness_resistance", "max_madness"]:
+        check(f"Stat auparavant inerte branchée : {stat}", stat in consumed)
+
+    check("PV max synchronisés sans empilement infini", "skill_max_hp_applied" in v2)
+    check("Peur extrême peut alimenter la Folie", "base_madness_gain" in v2 and "madness_resistance" in v2)
+    check("Soin cible un allié blessé", "_hero_heal_action" in v2 and "left_ratio" in v2)
+
+    payload = {
+        "summary": {
+            "checks": len(checks),
+            "errors": sum(1 for item in checks if not item["ok"]),
+        },
+        "checks": checks,
+        "produced_stats": sorted(produced),
+        "consumed_stats": sorted(consumed & REQUIRED_STATS),
+        "missing_stats": missing,
+    }
+    return payload
+
+
+def main() -> int:
+    payload = run(ROOT)
+    out = ROOT / "reports" / "combat-turn-report.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    for item in payload["checks"]:
+        print(("PASS" if item["ok"] else "FAIL"), "-", item["name"], item["detail"])
+    print(f"RESULT: {payload['summary']['errors']} error(s) — {out}")
+    return 1 if payload["summary"]["errors"] else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
