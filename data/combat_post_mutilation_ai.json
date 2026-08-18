@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "rule": "Une créature mutilée adapte son comportement au lieu de continuer son script intact. Les boss ne fuient jamais.",
+  "global": {
+    "panic_hp_ratio": 0.25,
+    "panic_lost_parts": 2,
+    "flee_chance_regular": 35,
+    "protect_part_hit_penalty": 15,
+    "attack_part_damage_multiplier": 0.78,
+    "fear_part_multiplier": 0.80
+  },
+  "families": {
+    "humanoid": {"state":"guarded_retreat","damage_multiplier":0.92,"fear_multiplier":0.95,"guard":true,"self_move":1,"protect_remaining":true},
+    "beast": {"state":"wounded_rage","damage_multiplier":1.20,"fear_multiplier":1.15,"guard":false,"self_move":-1,"protect_remaining":false},
+    "arachnid": {"state":"crippled_retreat","damage_multiplier":0.88,"fear_multiplier":0.90,"guard":true,"self_move":1,"protect_remaining":true},
+    "aberration": {"state":"unstable_shift","damage_multiplier":1.05,"fear_multiplier":1.10,"guard":false,"self_move":-1,"protect_remaining":true},
+    "construct": {"state":"structural_overload","damage_multiplier":1.12,"fear_multiplier":1.00,"guard":false,"self_move":0,"protect_remaining":false},
+    "elite": {"state":"controlled_adaptation","damage_multiplier":1.00,"fear_multiplier":1.05,"guard":true,"self_move":0,"protect_remaining":true},
+    "boss": {"state":"phase_adaptation","damage_multiplier":1.00,"fear_multiplier":1.05,"guard":true,"self_move":0,"protect_remaining":true}
+  }
+}
