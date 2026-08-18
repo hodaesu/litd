@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "timeline": [
+    {"id":"pre_6h","time":"H-6 à H-1","events":["Projet Seuil en phase finale","animaux agités","rêves communs","anomalies lumineuses isolées"]},
+    {"id":"h0","time":"H0","events":["résonance critique","plusieurs lieux cessent de respecter les mêmes règles de perception"]},
+    {"id":"h10","time":"H+10 min","events":["premières disparitions","retours avec durées subjectives incohérentes"]},
+    {"id":"h30","time":"H+30 min","events":["messages contradictoires","routes menant à des destinations différentes"]},
+    {"id":"h1","time":"H+1 h","events":["premiers morts réveillés","premiers phénomènes matériels"]},
+    {"id":"h2","time":"H+2 h","events":["tentative de coordination du Conseil","procédures locales de catastrophe"]},
+    {"id":"h3","time":"H+3 h","events":["premières entités inconnues confirmées","évacuations civiles armées"]},
+    {"id":"h5","time":"H+5 h","events":["premiers massacres majeurs","meurtres de personnes saines prises pour des transformés"]},
+    {"id":"h8","time":"H+8 h","events":["premières Folies collectives","certitudes fausses partagées"]},
+    {"id":"h12","time":"H+12 h","events":["Sanctuaires convertis en refuges","résistance du Sanctuaire du Premier Voile"]},
+    {"id":"d1","time":"J+1","events":["réseaux administratifs fragmentés","multiplication des refuges"]},
+    {"id":"d3","time":"J+3","events":["abandon de l'hypothèse d'une guerre classique","premières expéditions de survie"]},
+    {"id":"d7","time":"J+7","events":["premières preuves de coexistence possible avec certaines créatures","premières violences politiques post-Chute"]},
+    {"id":"month1","time":"Premier mois","events":["début de l'époque jouable","survie, exploration et enquête sur l'origine de la Chute"]}
+  ],
+  "sanctuary_survival_factors":["architecture_des_trois_eveils","population_entrainee","materiaux_des_premiers_silences","arbre_du_premier_voile","refus_initial_de_la_fermeture_totale"],
+  "mystery_questions": [
+    {
+      "id":"who_caused_fall",
+      "question":"Qui a provoqué la Chute ?",
+      "early_beliefs":["catastrophe naturelle","expérience de la Concorde","punition divine","invasion étrangère","retour d'un phénomène ancien"],
+      "mid_reveal":"Un réseau organisé a préparé volontairement l'ouverture.",
+      "late_reveal":"Le Pacte de l'Horizon Fermé réunissait plusieurs pouvoirs et acteurs aux responsabilités différentes."
+    },
+    {
+      "id":"why_control_failed",
+      "question":"Pourquoi le Voile a-t-il échappé à ses créateurs ?",
+      "partial_answer":"Le Projet Seuil traitait comme une énergie contrôlable un phénomène qui change selon la perception, la peur et les consciences.",
+      "unresolved":"Certains comportements semblent dépasser cette explication."
+    },
+    {
+      "id":"why_concord_survived",
+      "question":"Pourquoi la Concorde a-t-elle survécu ?",
+      "answer":"Les Trois Éveils avaient diffusé des capacités martiales, psychologiques, créatives et civiques qui ont permis une réponse décentralisée et solidaire.",
+      "magical_prophecy":false
+    }
+  ],
+  "irreducible_mysteries":["veil_consciousness","authentic_identity_in_awakened_dead","origin_of_first_silences","tree_of_first_veil_stabilization","coherent_other_side","entities_using_veil"]
+}
