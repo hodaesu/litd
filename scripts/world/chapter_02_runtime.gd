@@ -77,8 +77,11 @@ func independent_source_count() -> int:
         sources[String(clue.get("source_group", "unknown"))] = true
     return sources.size()
 
+func hypotheses() -> Array:
+    return world.get("hypotheses", [])
+
 func _recalculate_hypotheses() -> void:
-    for value in world.get("hypotheses", []):
+    for value in hypotheses():
         var hypothesis: Dictionary = value
         var hypothesis_id := String(hypothesis.get("id", ""))
         if bool(confirmed_hypotheses.get(hypothesis_id, false)):
@@ -122,7 +125,7 @@ func _on_campfire_used(_zone_id: String) -> void:
 func refresh_progress() -> void:
     if CampaignState.current_chapter_id != "chapter_02_before_fall":
         return
-    _complete_if("c02_stage_01_archive", clue_count() >= 3)
+    _complete_if("c02_stage_01_archive", bool(CampaignState.chapter_flags.get("c01_old_veil_trace", false)) or bool(CampaignState.chapter_flags.get("chapter_01_vertical_slice_complete", false)))
     _complete_if("c02_stage_02_old_road", AshlandsRuntime.is_zone_discovered("c02_old_road"))
     _complete_if("c02_stage_03_watchpost", AshlandsRuntime.is_encounter_cleared("c02_watchpost_ambush"))
     _complete_if("c02_stage_04_camp", AshlandsRuntime.was_campfire_used_this_run("c02_quarry_camp"))
