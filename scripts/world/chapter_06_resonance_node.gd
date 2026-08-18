@@ -42,3 +42,5 @@ func interact() -> void:
         consumed = true
         monitoring = false
         visible = false
+        if node_type == "anchor" and Chapter06Runtime.anchor_count() >= 3 and AshlandsRuntime.is_encounter_cleared("c06_boss_boundary") and Chapter06Runtime.final_choice == "":
+            GameState.request_screen("quest_journal")
