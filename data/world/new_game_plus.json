@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "name": "Nouveau Cycle+",
+  "design_rule": "Le Nouveau Cycle+ conserve la mémoire du monde précédent sans transformer la nouvelle partie en simple reprise surpuissante.",
+  "unlock":{"campaign_complete":true,"postgame_operations_min":3},
+  "difficulty_per_cycle":{"enemy_hp_pct":18,"enemy_damage_pct":12,"enemy_fear_pct":8},
+  "max_legacy_perks":1,
+  "carry_over":["ending_history","legacy_points","legacy_perk_history","epilogue_archive"],
+  "reset":["campaign_progress","politics","party_progression","inventory","creatures","sanctuary_resources","chapter_choices"],
+  "perks":[
+    {"id":"legacy_archivist","name":"Mémoire des archives","cost":2,"description":"Commencer le nouveau cycle avec une partie du savoir méthodologique déjà acquise.","effects":{"veil_knowledge":6}},
+    {"id":"legacy_concord","name":"Réflexes de Concorde","cost":2,"description":"Les premiers débats bénéficient de procédures déjà éprouvées dans un autre cycle.","effects":{"trust":4,"city":3}},
+    {"id":"legacy_listener","name":"Écouter avant de nommer","cost":2,"description":"Commencer avec un faible capital de relation envers créatures et Absents.","effects":{"creature_relations":1,"absent_contact":2}},
+    {"id":"legacy_prepared","name":"Réserves cachées","cost":2,"description":"Une cache préparée par la génération précédente augmente les ressources de départ.","effects":{"gold":60,"supplies":3,"essence":4}}
+  ],
+  "cycle_labels":["Premier retour","Deuxième veille","Troisième mémoire","Cycle profond"]
+}
