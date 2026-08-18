@@ -73,7 +73,7 @@ def test_campaign_is_autoloaded_reset_saved_and_shown_in_journal():
     journal = (ROOT / "scripts/ui/quest_journal_ui.gd").read_text()
     assert 'CampaignState="*res://scripts/core/campaign_state.gd"' in project
     assert "CampaignState.reset_new_game()" in game_state
-    assert 'SAVE_VERSION := "0.19"' in save
+    assert 'SAVE_VERSION := "0.20"' in save
     assert '"campaign": CampaignState.serialize()' in save
     assert 'CampaignState.deserialize(payload.get("campaign", {}))' in save
     assert "CampaignState.current_chapter()" in journal
