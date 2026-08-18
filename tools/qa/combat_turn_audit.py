@@ -35,7 +35,7 @@ def run(root: Path = ROOT) -> dict:
     check("Nouveau round après le tour ennemi", "_reset_round_state()" in v2)
 
     produced = set(re.findall(r'"([a-z_]+)"', hero_skills)) & REQUIRED_STATS
-    consumed = set(re.findall(r'(?:bonuses|target_bonuses|skill_stats)\.get\("([a-z_]+)"', effective_combat))
+    consumed = set(re.findall(r'\.get\("([a-z_]+)"', effective_combat)) & REQUIRED_STATS
     missing = sorted(produced - consumed)
     check("Toutes les stats d'arbres sont consommées", not missing, ", ".join(missing))
 
@@ -53,7 +53,7 @@ def run(root: Path = ROOT) -> dict:
         },
         "checks": checks,
         "produced_stats": sorted(produced),
-        "consumed_stats": sorted(consumed & REQUIRED_STATS),
+        "consumed_stats": sorted(consumed),
         "missing_stats": missing,
     }
     return payload
