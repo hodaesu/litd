@@ -41,7 +41,7 @@ Les huit opérations sont :
 - écrire la Chronique des pertes ;
 - former la prochaine veille.
 
-Chaque opération consomme réellement de l'Or, de l'Essence ou des Vivres et peut produire de petits effets persistants ainsi que des points d'héritage.
+Les opérations techniques ou matérielles peuvent consommer de l'Or, de l'Essence ou des Vivres. Trois opérations civiques — routes, audiences et Chronique des pertes — restent toujours réalisables même avec des réserves épuisées, afin que le Nouveau Cycle+ ne puisse pas être bloqué par l'économie de fin de partie.
 
 ## Déblocage du Nouveau Cycle+
 
