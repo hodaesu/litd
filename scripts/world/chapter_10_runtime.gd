@@ -121,6 +121,7 @@ func council_count() -> int: return node_count("council")
 func route_count() -> int: return node_count("route")
 func cost_count() -> int: return node_count("cost")
 func world_anchor_count() -> int: return node_count("world_anchor")
+func rupture_anchor_count() -> int: return node_count("rupture_anchor")
 
 func active_stage() -> Dictionary:
     for value in chapter.get("stages", []):
@@ -140,16 +141,24 @@ func _failure_state() -> Dictionary:
         var entry: Dictionary = value
         failure_by_id[String(entry.get("id", ""))] = entry
     var city := int(PoliticalState.three_awakenings.get("city", 50))
-    if PoliticalState.tension >= 75 and city < 50: return failure_by_id.get("authoritarian_order", {})
-    if int(CampaignState.metrics.get("veil_knowledge", 0)) < 60: return failure_by_id.get("veil_dissolution", {})
-    return failure_by_id.get("fractured_survival", {})
+    if PoliticalState.tension >= 75 and city < 50: return failure_by_id.get("authoritarian_order", {}) as Dictionary
+    if int(CampaignState.metrics.get("veil_knowledge", 0)) < 60: return failure_by_id.get("veil_dissolution", {}) as Dictionary
+    return failure_by_id.get("fractured_survival", {}) as Dictionary
+
+func _failure_name(failure_id: String) -> String:
+    return {
+        "fractured_survival":"Archipel de refuges",
+        "authoritarian_order":"Ordre d'exception",
+        "veil_dissolution":"Réseau fragmenté"
+    }.get(failure_id, "Survie sans solution globale")
 
 func final_choices() -> Array:
     var endings := available_orientations()
     if not endings.is_empty(): return endings
     var failure := _failure_state().duplicate(true)
     if not failure.is_empty():
-        failure["name"] = String(failure.get("id", "failure")).replace("_", " ").capitalize()
+        var failure_id := String(failure.get("id", "failure"))
+        failure["name"] = _failure_name(failure_id)
         failure["principle"] = String(failure.get("outcome", ""))
         failure["costs"] = [String(failure.get("condition", ""))]
         failure["is_failure"] = true
@@ -181,7 +190,7 @@ func _missing_requirements(requirements: Dictionary) -> Array:
     return missing
 
 func choose_final_orientation(ending_id: String) -> bool:
-    if final_orientation != "" or not AshlandsRuntime.is_encounter_cleared("c10_boss_final"): return false
+    if final_orientation != "" or ExpeditionManager.expedition_active or not AshlandsRuntime.is_encounter_cleared("c10_boss_final"): return false
     for value in final_choices():
         var choice: Dictionary = value
         if String(choice.get("id", "")) != ending_id: continue
@@ -220,8 +229,8 @@ func refresh_progress() -> void:
     _complete_if("c10_stage_04_routes", AshlandsRuntime.is_zone_discovered("c10_shared_routes") and route_count() >= 3 and is_stake_collected("c10_stake_foreign_sovereignty"))
     _complete_if("c10_stage_05_cost", cost_count() >= 3 and AshlandsRuntime.is_encounter_cleared("c10_unpaid_cost"))
     _complete_if("c10_stage_06_node", AshlandsRuntime.is_zone_discovered("c10_central_node") and world_anchor_count() >= int(rules.get("world_anchors_required", 3)) and stake_count() >= int(rules.get("stakes_required", 8)) and stake_family_count() >= int(rules.get("stake_families_required", 5)))
-    _complete_if("c10_stage_07_rupture", world_anchor_count() >= 3 and AshlandsRuntime.is_encounter_cleared("c10_boss_final"))
-    _complete_if("c10_stage_08_choice", GameState.current_screen == "sanctuary" and final_orientation != "")
+    _complete_if("c10_stage_07_rupture", rupture_anchor_count() >= 3 and AshlandsRuntime.is_encounter_cleared("c10_boss_final"))
+    _complete_if("c10_stage_08_choice", not ExpeditionManager.expedition_active and GameState.current_screen == "sanctuary" and final_orientation != "")
     _sync_main_quests()
     _try_finish()
     chapter_ten_changed.emit()
