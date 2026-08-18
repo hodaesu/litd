@@ -70,6 +70,14 @@ func _prepare_placeholder_enemies() -> void:
         if encounter_type == "boss":
             e["recruitable"] = false
             e["is_boss"] = true
+            if encounter_id == "c01_boss_ash_witness":
+                e["name"] = "Le Témoin des Cendres"
+                e["hp"] = 110
+                e["max_hp"] = 110
+                e["damage"] = [7, 12]
+                e["fear"] = 7
+                e["chapter_boss_id"] = "c01_boss_ash_witness"
+                e["signature"] = "Dernier Souvenir du Jour"
         GameState.battle_enemies.append(e)
 
 func resolve_victory() -> Dictionary:
