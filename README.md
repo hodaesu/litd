@@ -9,7 +9,7 @@ Fondation professionnelle du prototype Godot de **Light in the Dark**.
 ## Vérifier le projet
 
 ```bash
-python -m pip install .
+python -m pip install -r requirements-dev.txt
 python -m pytest
 python -m tools.qa.audit
 ```
@@ -17,10 +17,10 @@ python -m tools.qa.audit
 Ou sous macOS/Linux :
 
 ```bash
-./tools/build/run_ci.sh
+bash ./tools/build/run_ci.sh
 ```
 
-Le rapport est écrit dans `reports/qa-report.html`.
+Le script exécute également le smoke test Godot si `godot` est disponible localement. Le rapport est écrit dans `reports/qa-report.html`.
 
 ## GitHub Actions
 
