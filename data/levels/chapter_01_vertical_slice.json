@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_01_ashlands",
+  "title": "Survivre aux Terres de Cendre",
+  "design_goal": "Faire parcourir en une boucle complète exploration, combat, feu de camp, recrutement, enquête, décision civique, boss et retour au Sanctuaire.",
+  "start_zone": "ashlands_outskirts",
+  "return_zone": "sanctuary",
+  "stages": [
+    {"id":"c01_stage_01_departure","name":"La route sous la cendre","zone":"ashlands_outskirts","type":"exploration","objective":"Quitter le Sanctuaire et sécuriser la première route.","completion":{"zone_discovered":"ashlands_outskirts"}},
+    {"id":"c01_stage_02_survivors","name":"Des voix dans la poussière","zone":"ashlands_ruined_road","type":"rescue","objective":"Atteindre les survivants isolés et nettoyer l'accès.","completion":{"encounter_cleared":"c01_road_ambush"},"reward":{"supplies":2,"campaign_flag":"c01_survivors_reached"}},
+    {"id":"c01_stage_03_campfire","name":"Une lumière pour la nuit","zone":"ashlands_camp","type":"campfire","objective":"Utiliser le premier feu de camp et choisir comment préparer la suite.","completion":{"campfire_used":"ashlands_camp"},"reward":{"light":8,"campaign_flag":"c01_first_camp"}},
+    {"id":"c01_stage_04_creature","name":"Ce qui n'attaque plus","zone":"ashlands_hollow","type":"creature","objective":"Observer une créature apaisable et décider de son sort.","completion":{"creature_recruited_min":1},"optional_alternative":{"flag_any":["creature_healed_released","creature_sanctuary_trial"]},"reward":{"campaign_metric":{"creature_relations":6}}},
+    {"id":"c01_stage_05_miniboss","name":"Le Gardien du passage","zone":"ashlands_broken_bridge","type":"miniboss","objective":"Vaincre ou contourner le premier gardien majeur des Terres de Cendre.","completion":{"encounter_cleared":"c01_miniboss_warden"},"reward":{"gold":35,"essence":4}},
+    {"id":"c01_stage_06_marker","name":"La borne qui ne devrait pas être là","zone":"ashlands_buried_marker","type":"investigation","objective":"Trouver trois archives liées aux traces antérieures à la Chute.","completion":{"lore_min":3},"reward":{"campaign_flag":"c01_old_veil_trace","campaign_metric":{"veil_knowledge":6}}},
+    {"id":"c01_stage_07_witness","name":"Le Témoin des Cendres","zone":"ashlands_witness_crater","type":"boss","objective":"Affronter le Témoin des Cendres et décider quoi faire de ce qu'il reste de lui.","completion":{"encounter_cleared":"c01_boss_ash_witness"},"boss_choices":[
+      {"id":"finish","label":"Achever le Témoin","effects":{"campaign_flag":"c01_witness_finished","justice_integrity":-2}},
+      {"id":"stabilize","label":"Tenter de le stabiliser","effects":{"campaign_flag":"c01_witness_stabilized","creature_relations":4,"veil_knowledge":3}},
+      {"id":"memory","label":"Extraire sa mémoire","effects":{"campaign_flag":"c01_witness_memory","veil_knowledge":8,"tension":4}}
+    ]},
+    {"id":"c01_stage_08_return","name":"Ce que nous rapportons","zone":"sanctuary","type":"return","objective":"Revenir au Sanctuaire, enregistrer les découvertes et résoudre les crises ouvertes.","completion":{"zone_discovered":"sanctuary","political_quests_completed_min":2},"reward":{"campaign_flag":"chapter_01_vertical_slice_complete"}}
+  ],
+  "main_quest_bindings": {
+    "c01_embers":["c01_stage_01_departure","c01_stage_02_survivors","c01_stage_03_campfire","c01_stage_05_miniboss"],
+    "c01_first_voices":["c01_stage_04_creature","c01_stage_08_return"],
+    "c01_broken_marker":["c01_stage_06_marker","c01_stage_07_witness"]
+  },
+  "encounters": [
+    {"id":"c01_road_ambush","kind":"combat","purpose":"Premier combat standard : apprendre peur, position et lecture des intentions."},
+    {"id":"c01_miniboss_warden","kind":"miniboss","purpose":"Premier pic de difficulté et première route alternative possible."},
+    {"id":"c01_boss_ash_witness","kind":"chapter_boss","purpose":"Boss narratif : démontrer qu'une apparence monstrueuse ne prouve pas une origine démoniaque."}
+  ],
+  "archive_targets": {
+    "minimum_for_stage": 3,
+    "recommended_in_slice": 8,
+    "full_level_collection": 40,
+    "rule":"Les trois archives obligatoires doivent provenir d'emplacements différents ; les autres restent facultatives et récompensent l'exploration."
+  },
+  "boss": {
+    "id":"c01_boss_ash_witness",
+    "name":"Le Témoin des Cendres",
+    "phases":[
+      {"id":"memory_fragments","name":"Fragments de mémoire","mechanic":"Le boss répète des gestes civils déformés ; attaquer sans observer augmente la Peur."},
+      {"id":"reality_slip","name":"Glissement du réel","mechanic":"Positions et portées changent temporairement ; la Lumière stabilise certaines cases."},
+      {"id":"recognition","name":"Reconnaissance","mechanic":"Sous 25 % de PV, des actions non létales ouvrent les choix de stabilisation ou d'extraction de mémoire."}
+    ],
+    "signature":"Dernier Souvenir du Jour",
+    "signature_effect":"Le décor redevient brièvement celui d'avant la Chute avant de se briser autour du groupe."
+  },
+  "completion_rewards": {
+    "gold": 90,
+    "essence": 12,
+    "supplies": 4,
+    "unlock_chapter": "chapter_02_before_fall",
+    "journal_revelation":"La Chute actuelle n'explique pas toutes les traces du Voile."
+  }
+}
