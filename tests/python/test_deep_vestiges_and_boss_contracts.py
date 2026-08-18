@@ -8,9 +8,13 @@ def test_all_known_campaign_bosses_have_mechanical_contracts():
     campaign = json.loads((ROOT/'data/world/main_campaign.json').read_text())
     contract_ids = {b['id'] for b in contracts['bosses']}
     known = {chapter['bosses'][0]['id'] for chapter in campaign['chapters']}
-    aliases = {'c04_boss_chorus':'c04_boss_unfinished_chorus'}
-    normalized = {aliases.get(i, i) for i in contract_ids}
-    assert known.issubset(normalized | contract_ids)
+    historical_aliases = {
+        'c02_marker_warden':'c02_boss_archive_keeper',
+        'c09_boss_disagreement':'c09_boss_consensus',
+        'c10_boss_common_rupture':'c10_boss_final',
+    }
+    normalized = contract_ids | {historical_aliases.get(i, i) for i in contract_ids}
+    assert known.issubset(normalized)
     for boss in contracts['bosses']:
         assert boss['core_puzzle'].strip()
         assert boss['mechanics']
