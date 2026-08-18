@@ -25,13 +25,16 @@ def test_main_campaign_has_ten_ordered_chapters_with_quests_and_bosses():
     assert chapters[8]["id"] == "chapter_09_veil_nature"
     assert chapters[8]["unlock"] == "chapter_10_final_choice"
     assert chapters[8]["bosses"][0]["id"] == "c09_boss_consensus"
+    assert chapters[9]["id"] == "chapter_10_final_choice"
+    assert chapters[9]["unlock"] == "endings"
+    assert chapters[9]["bosses"][0]["id"] == "c10_boss_final"
 
 
 def test_campaign_is_autoloaded_reset_saved_and_shown_in_journal():
     project = (ROOT / "project.godot").read_text(); game_state = (ROOT / "scripts/core/game_state.gd").read_text(); save = (ROOT / "scripts/core/save_manager.gd").read_text(); journal = (ROOT / "scripts/ui/quest_journal_ui.gd").read_text()
     assert 'CampaignState="*res://scripts/core/campaign_state.gd"' in project
     assert "CampaignState.reset_new_game()" in game_state
-    assert 'SAVE_VERSION := "0.29"' in save
+    assert 'SAVE_VERSION := "0.30"' in save
     assert '"campaign": CampaignState.serialize()' in save
     assert "CampaignState.current_chapter()" in journal
 
