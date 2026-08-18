@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "rank_rule": "Le rang 1 est l'avant de la formation et le rang 4 l'arrière. Un déplacement échange le héros actif avec le rang adjacent et consomme son action.",
   "initial_formation": {
     "malvor": 1,
@@ -14,7 +14,15 @@
       "strike_targets": [1, 2],
       "heavy_from": [1],
       "heavy_targets": [1],
-      "identity": "Briseur de première ligne"
+      "identity": "Briseur de première ligne",
+      "technique": {
+        "id": "malvor_guard_break",
+        "name": "BRISE-GARDE",
+        "from": [1, 2],
+        "targets": [1, 2],
+        "kind": "enemy",
+        "description": "Frappe réduite mais rupture garantie pendant 2 actions."
+      }
     },
     "darius": {
       "preferred_ranks": [1, 2, 3],
@@ -22,7 +30,15 @@
       "strike_targets": [1, 2],
       "heavy_from": [1, 2],
       "heavy_targets": [1],
-      "identity": "Veilleur de ligne"
+      "identity": "Veilleur de ligne",
+      "technique": {
+        "id": "darius_watch_stance",
+        "name": "POSTURE DE VEILLE",
+        "from": [1, 2, 3],
+        "targets": [],
+        "kind": "self",
+        "description": "Garde renforcée et +20 % riposte jusqu'au prochain tour."
+      }
     },
     "aurelien": {
       "preferred_ranks": [2, 3, 4],
@@ -30,7 +46,15 @@
       "strike_targets": [2, 3, 4],
       "heavy_from": [3, 4],
       "heavy_targets": [3, 4],
-      "identity": "Occultiste de seconde ligne"
+      "identity": "Occultiste de seconde ligne",
+      "technique": {
+        "id": "aurelien_veil_mark",
+        "name": "MARQUE DU VOILE",
+        "from": [3, 4],
+        "targets": [2, 3, 4],
+        "kind": "enemy",
+        "description": "Dégâts légers et cible marquée : les deux prochaines attaques alliées gagnent 10 %."
+      }
     },
     "lysandra": {
       "preferred_ranks": [3, 4],
@@ -38,7 +62,15 @@
       "strike_targets": [2, 3, 4],
       "heavy_from": [4],
       "heavy_targets": [3, 4],
-      "identity": "Vestale d'arrière-garde"
+      "identity": "Vestale d'arrière-garde",
+      "technique": {
+        "id": "lysandra_concord_light",
+        "name": "LUEUR DE CONCORDE",
+        "from": [3, 4],
+        "targets": [],
+        "kind": "party",
+        "description": "Soigne l'allié le plus blessé et réduit la Peur de toute la compagnie."
+      }
     }
   },
   "enemy_targeting": {
