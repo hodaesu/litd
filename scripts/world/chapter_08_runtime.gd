@@ -2,16 +2,20 @@ extends Node
 
 signal chapter_eight_changed
 signal record_discovered(entry: Dictionary)
+signal ancient_trace_discovered(entry: Dictionary)
 signal authority_node_activated(node_id: String)
 signal boss_choice_required(boss_id: String)
 signal chapter_eight_completed
 
 const CHAPTER_PATH := "res://data/levels/chapter_08_outer_world.json"
 const WORLD_PATH := "res://data/levels/chapter_08_world.json"
+const ANCIENT_TRACE_PATH := "res://data/levels/chapter_08_ancient_traces.json"
 
 var chapter: Dictionary = {}
 var world: Dictionary = {}
+var ancient_trace_data: Dictionary = {}
 var collected_records: Dictionary = {}
+var collected_ancient_traces: Dictionary = {}
 var authority_nodes: Dictionary = {}
 var boss_choices: Dictionary = {}
 var completed_stages: Dictionary = {}
@@ -20,6 +24,7 @@ var rewards_claimed := false
 func _ready() -> void:
     chapter = _load_json(CHAPTER_PATH)
     world = _load_json(WORLD_PATH)
+    ancient_trace_data = _load_json(ANCIENT_TRACE_PATH)
     reset_new_game()
     AshlandsRuntime.zone_discovered.connect(func(_id): refresh_progress())
     AshlandsRuntime.campfire_used.connect(func(_id): refresh_progress())
@@ -32,6 +37,7 @@ func _load_json(path: String) -> Dictionary:
 
 func reset_new_game() -> void:
     collected_records = {}
+    collected_ancient_traces = {}
     authority_nodes = {}
     boss_choices = {}
     completed_stages = {}
@@ -40,6 +46,8 @@ func reset_new_game() -> void:
 
 func records() -> Array: return world.get("records", [])
 func record_count() -> int: return collected_records.size()
+func ancient_traces() -> Array: return ancient_trace_data.get("traces", [])
+func ancient_trace_count() -> int: return collected_ancient_traces.size()
 
 func get_record(id_value: String) -> Dictionary:
     for value in records():
@@ -47,8 +55,24 @@ func get_record(id_value: String) -> Dictionary:
         if String(entry.get("id", "")) == id_value: return entry
     return {}
 
+func get_ancient_trace(id_value: String) -> Dictionary:
+    for value in ancient_traces():
+        var entry: Dictionary = value
+        if String(entry.get("id", "")) == id_value: return entry
+    return {}
+
+func traces_for_zone(zone_id: String) -> Array:
+    var result: Array = []
+    for value in ancient_traces():
+        var entry: Dictionary = value
+        if String(entry.get("zone", "")) == zone_id: result.append(entry)
+    return result
+
 func is_record_collected(id_value: String) -> bool:
     return collected_records.has(id_value)
+
+func is_ancient_trace_collected(id_value: String) -> bool:
+    return collected_ancient_traces.has(id_value)
 
 func collect_record(id_value: String) -> bool:
     if collected_records.has(id_value): return false
@@ -58,6 +82,21 @@ func collect_record(id_value: String) -> bool:
     record_discovered.emit(entry.duplicate(true))
     GameState.add_log("Monde extérieur — %s" % String(entry.get("title", id_value)))
     refresh_progress()
+    chapter_eight_changed.emit()
+    return true
+
+func collect_ancient_trace(id_value: String) -> bool:
+    if collected_ancient_traces.has(id_value): return false
+    var entry := get_ancient_trace(id_value)
+    if entry.is_empty(): return false
+    collected_ancient_traces[id_value] = entry.duplicate(true)
+    var flag_id := String(entry.get("unlock_flag", ""))
+    if flag_id != "": CampaignState.set_chapter_flag(flag_id)
+    CampaignState.add_metric("veil_knowledge", 2)
+    CampaignState.discovered_revelations["ancient_%s" % id_value] = String(entry.get("text", ""))
+    ancient_trace_discovered.emit(entry.duplicate(true))
+    GameState.add_log("Civilisation ancienne découverte — %s. Un Vestige profond est désormais localisable." % String(entry.get("civilization", id_value)))
+    DeepVestigeRuntime.refresh_unlocks()
     chapter_eight_changed.emit()
     return true
 
@@ -214,10 +253,11 @@ func _try_finish() -> void:
     chapter_eight_completed.emit()
 
 func serialize() -> Dictionary:
-    return {"collected_records":collected_records.duplicate(true),"authority_nodes":authority_nodes.duplicate(true),"boss_choices":boss_choices.duplicate(true),"completed_stages":completed_stages.duplicate(true),"rewards_claimed":rewards_claimed}
+    return {"collected_records":collected_records.duplicate(true),"collected_ancient_traces":collected_ancient_traces.duplicate(true),"authority_nodes":authority_nodes.duplicate(true),"boss_choices":boss_choices.duplicate(true),"completed_stages":completed_stages.duplicate(true),"rewards_claimed":rewards_claimed}
 
 func deserialize(payload: Dictionary) -> void:
     collected_records = payload.get("collected_records", {}).duplicate(true)
+    collected_ancient_traces = payload.get("collected_ancient_traces", {}).duplicate(true)
     authority_nodes = payload.get("authority_nodes", {}).duplicate(true)
     boss_choices = payload.get("boss_choices", {}).duplicate(true)
     completed_stages = payload.get("completed_stages", {}).duplicate(true)
