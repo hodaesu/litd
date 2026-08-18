@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "level_id": "ashlands",
+  "name": "Terres de Cendre",
+  "sanctuary": {
+    "initial_state": {
+      "reputation": 0,
+      "trust": 50,
+      "tension": 20,
+      "prices_modifier": 1.0,
+      "three_awakenings": {"body": 50, "spirit": 50, "city": 50}
+    }
+  },
+  "npcs": [
+    {
+      "id": "nara_vey",
+      "name": "Nara Vey",
+      "role": "Médiatrice de Concorde",
+      "political_profile": ["continuities", "civic_reformers"],
+      "starting_madness": 12,
+      "stance": "Préserver la procédure sans laisser la procédure devenir une excuse pour l'inaction.",
+      "dialogues": {
+        "default": "Une loi qui ne protège personne n'est qu'une habitude écrite.",
+        "high_tension": "Écoute les voix. Elles deviennent plus courtes. Quand les phrases raccourcissent, les ennemis apparaissent vite.",
+        "low_trust": "On peut survivre à une mauvaise décision. Une communauté survit moins bien lorsqu'elle cesse de croire que les décisions ont un sens.",
+        "creature_recruited": "Si elle a choisi de rester, alors notre devoir commence maintenant. Pas notre droit de la posséder."
+      }
+    },
+    {
+      "id": "orren_taal",
+      "name": "Orren Taal",
+      "role": "Ancien Porte-Voix",
+      "political_profile": ["continuities", "concord_unionists"],
+      "starting_madness": 18,
+      "stance": "La Concorde ne doit pas disparaître sous prétexte que ses bâtiments ont brûlé.",
+      "dialogues": {
+        "default": "Je n'étais pas un chef. J'étais celui qu'on pouvait remplacer.",
+        "emergency_power": "Un pouvoir d'exception qui oublie sa date de fin devient un pouvoir tout court.",
+        "city_strengthened": "La Cité n'est pas une salle. C'est le moment où nous acceptons que les autres auront leur mot à dire."
+      }
+    },
+    {
+      "id": "sela_mor",
+      "name": "Sela Mor",
+      "role": "Gardienne du Vivant",
+      "political_profile": ["living_guardians", "city_autonomists"],
+      "starting_madness": 9,
+      "stance": "Même après la Chute, le vivant ne devient pas un stock de ressources sans voix.",
+      "dialogues": {
+        "default": "La forêt ne nous doit rien. Nous lui devons seulement de nous souvenir que nous respirons avec elle.",
+        "creature_killed": "Peut-être fallait-il la tuer. Mais si nous cessons de nous demander si c'était nécessaire, alors la prochaine mort sera plus facile.",
+        "creature_recruited": "Regarde-la longtemps avant de décider ce qu'elle est. Le Voile aime les conclusions rapides."
+      }
+    },
+    {
+      "id": "daros_khem",
+      "name": "Daros Khem",
+      "role": "Coordinateur des défenses",
+      "political_profile": ["body_pragmatists", "concord_unionists"],
+      "starting_madness": 22,
+      "stance": "La survie exige parfois des décisions rapides, mais jamais l'abandon définitif du contrôle.",
+      "dialogues": {
+        "default": "Je préfère une règle imparfaite appliquée aujourd'hui à une règle parfaite écrite sur notre tombe.",
+        "high_tension": "Je peux tenir les portes. Je ne peux pas tenir une communauté qui commence à se battre contre elle-même.",
+        "emergency_power": "Donnez-moi trois jours, trois témoins et une heure exacte de fin. Pas davantage."
+      }
+    },
+    {
+      "id": "meira_saan",
+      "name": "Meira Saan",
+      "role": "Survivante des faubourgs",
+      "political_profile": ["body_pragmatists"],
+      "starting_madness": 38,
+      "stance": "La peur la pousse à vouloir fermer le Sanctuaire aux inconnus, sans être encore devenue irréversible.",
+      "dialogues": {
+        "default": "Je sais qu'ils ne sont pas tous responsables. Je le sais. Mais lorsque je ferme les yeux, je revois son corps… et pendant quelques secondes, je voudrais qu'ils meurent tous.",
+        "refugees_welcomed": "Je ne leur fais pas confiance. Pas encore. Mais je t'ai vu compter les rations deux fois pour que leurs enfants mangent aussi.",
+        "xenophobia_rising": "On nous demande toujours de comprendre. Qui nous comprend, nous ?"
+      }
+    },
+    {
+      "id": "pavel_rin",
+      "name": "Pavel Rin",
+      "role": "Intendant du Sanctuaire",
+      "political_profile": ["body_pragmatists", "civic_reformers"],
+      "starting_madness": 6,
+      "stance": "Transformer les décisions politiques en conséquences matérielles visibles.",
+      "dialogues": {
+        "default": "La morale est plus facile avec trois greniers pleins. Avec un seul, elle demande de savoir compter.",
+        "high_trust": "Les gens donnent davantage quand ils pensent que la distribution n'est pas truquée.",
+        "low_resources": "Je peux partager une miche en huit. Je ne peux pas convaincre les huit qu'ils sont rassasiés."
+      }
+    }
+  ],
+  "quests": [
+    {
+      "id": "ashlands_refugee_gate",
+      "name": "Ceux qui frappent à la porte",
+      "theme": "Réfugiés, ressources et peur",
+      "participants": ["nara_vey", "daros_khem", "meira_saan", "pavel_rin"],
+      "trigger": {"expedition_room_min": 1},
+      "choices": {
+        "welcome": {
+          "label": "Ouvrir les portes et partager les réserves",
+          "effects": {"trust": 8, "tension": 4, "reputation": 5, "supplies": -2, "three_awakenings": {"body": -2, "spirit": 4, "city": 8}},
+          "flags": ["refugees_welcomed"],
+          "consequence": "Le Sanctuaire gagne des bras et des témoignages, mais les réserves diminuent et une partie des survivants proteste."
+        },
+        "quarantine": {
+          "label": "Organiser un accueil surveillé et temporaire",
+          "effects": {"trust": 4, "tension": -1, "reputation": 2, "supplies": -1, "three_awakenings": {"body": 3, "spirit": 1, "city": 4}},
+          "flags": ["refugees_quarantined"],
+          "consequence": "L'accueil est plus lent mais la peur reste contenue. Certains réfugiés vivent mal la surveillance."
+        },
+        "close": {
+          "label": "Fermer les portes",
+          "effects": {"trust": -8, "tension": 8, "reputation": -5, "three_awakenings": {"body": 5, "spirit": -5, "city": -10}},
+          "flags": ["refugees_refused"],
+          "consequence": "Les réserves sont préservées, mais la communauté commence à accepter l'abandon des étrangers comme une réponse normale."
+        }
+      }
+    },
+    {
+      "id": "ashlands_first_blood",
+      "name": "Le Premier Sang",
+      "theme": "Meurtre, Folie et responsabilité",
+      "participants": ["nara_vey", "orren_taal", "meira_saan"],
+      "trigger": {"quest_completed": "ashlands_refugee_gate"},
+      "choices": {
+        "restorative_circle": {
+          "label": "Former un Cercle de Justice provisoire",
+          "effects": {"trust": 7, "tension": -3, "reputation": 4, "three_awakenings": {"body": 0, "spirit": 5, "city": 8}},
+          "flags": ["justice_circle_restored"],
+          "consequence": "La communauté distingue la Folie de l'absence totale de responsabilité et recrée une procédure malgré les ruines."
+        },
+        "protective_detention": {
+          "label": "Isoler le meurtrier jusqu'à pouvoir l'évaluer",
+          "effects": {"trust": 2, "tension": -2, "reputation": 1, "three_awakenings": {"body": 5, "spirit": 1, "city": 1}},
+          "flags": ["protective_detention_used"],
+          "consequence": "La menace immédiate est contenue, mais le Sanctuaire repousse la question de la responsabilité."
+        },
+        "summary_punishment": {
+          "label": "Le livrer à une punition immédiate",
+          "effects": {"trust": -10, "tension": 6, "reputation": -6, "three_awakenings": {"body": 2, "spirit": -8, "city": -12}},
+          "flags": ["summary_punishment_used"],
+          "consequence": "Une partie des survivants applaudit la rapidité. D'autres comprennent que la justice peut désormais être remplacée par la colère."
+        }
+      }
+    },
+    {
+      "id": "ashlands_conscious_creature",
+      "name": "Une place parmi nous",
+      "theme": "Créature consciente, peur et coexistence",
+      "participants": ["sela_mor", "daros_khem", "meira_saan", "nara_vey"],
+      "trigger": {"recruited_creature_min": 1},
+      "choices": {
+        "supervised_sanctuary": {
+          "label": "L'accueillir sous observation au Sanctuaire",
+          "effects": {"trust": 5, "tension": 5, "reputation": 5, "three_awakenings": {"body": 1, "spirit": 7, "city": 7}},
+          "flags": ["creature_sanctuary_trial"],
+          "consequence": "Le Sanctuaire devient un précédent politique : une créature n'est plus seulement un ennemi potentiel, mais un être auquel une place peut être proposée."
+        },
+        "heal_release": {
+          "label": "La soigner puis la laisser repartir",
+          "effects": {"trust": 3, "tension": -1, "reputation": 2, "three_awakenings": {"body": 1, "spirit": 5, "city": 3}},
+          "flags": ["creature_healed_released"],
+          "consequence": "La communauté aide sans posséder. La coexistence reste une possibilité plutôt qu'un fait établi."
+        },
+        "banish": {
+          "label": "Refuser toute présence de créature au Sanctuaire",
+          "effects": {"trust": -3, "tension": 3, "reputation": -2, "three_awakenings": {"body": 3, "spirit": -4, "city": -5}},
+          "flags": ["creatures_banned"],
+          "consequence": "La peur immédiate diminue chez certains survivants, mais l'idée d'une responsabilité individuelle des créatures recule."
+        }
+      }
+    }
+  ],
+  "persistent_rules": {
+    "trust": {"min": 0, "max": 100},
+    "tension": {"min": 0, "max": 100},
+    "reputation": {"min": -100, "max": 100},
+    "three_awakenings": {"min": 0, "max": 100},
+    "price_formula": "clamp(1.15 - trust * 0.003 + tension * 0.002, 0.80, 1.35)",
+    "service_thresholds": {
+      "mediation": {"trust_min": 35},
+      "creature_habitat": {"city_min": 48, "spirit_min": 45},
+      "volunteer_watch": {"body_min": 48, "trust_min": 40},
+      "shared_archive": {"city_min": 55, "trust_min": 55}
+    }
+  }
+}
