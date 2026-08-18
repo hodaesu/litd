@@ -216,7 +216,17 @@ func skill_nodes(creature: Dictionary, branch: String) -> Array:
         return result
     var species_id: String = str(definition.get("id", "creature"))
     var species_name: String = str(definition.get("name", "Créature"))
-    var previous_id: String = str(result[-1].get("id", ""))
+    var first_advanced_level: int = ADVANCED_SKILL_LEVELS[0] if not ADVANCED_SKILL_LEVELS.is_empty() else 1
+    var previous_id: String = ""
+    var previous_level: int = -1
+    for base_node_value in result:
+        var base_node: Dictionary = base_node_value
+        var node_level: int = int(base_node.get("required_level", 1))
+        if node_level < first_advanced_level and node_level >= previous_level:
+            previous_id = str(base_node.get("id", ""))
+            previous_level = node_level
+    if previous_id == "":
+        previous_id = str(result[0].get("id", ""))
     var stats: Array[String] = _advanced_stats(species_id, branch)
     for index in range(ADVANCED_SKILL_LEVELS.size()):
         var stat: String = stats[index]
