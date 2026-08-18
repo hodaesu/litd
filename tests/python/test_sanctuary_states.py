@@ -45,16 +45,19 @@ def test_state_runtime_is_driven_by_politics_resources_and_flags():
         assert contract in runtime
 
 
-def test_sanctuary_state_is_autoloaded_and_visible_on_return():
+def test_sanctuary_state_is_in_quest_journal_not_large_sanctuary_banner():
     project = (ROOT / "project.godot").read_text()
-    ui = (ROOT / "scripts/ui/sanctuary_state_ui.gd").read_text()
+    journal = (ROOT / "scripts/ui/quest_journal_ui.gd").read_text()
     assert 'SanctuaryState="*res://scripts/core/sanctuary_state.gd"' in project
-    assert 'SanctuaryStateUI="*res://scripts/ui/sanctuary_state_ui.gd"' in project
-    assert 'screen_name == "sanctuary"' in ui
-    assert "ÉTAT DU SANCTUAIRE" in ui
-    assert "SanctuaryState.current_visual_cues()" in ui
-    assert "SanctuaryState.current_audio_cues()" in ui
-    assert "SanctuaryState.current_population_cues()" in ui
+    assert 'QuestJournalUI="*res://scripts/ui/quest_journal_ui.gd"' in project
+    assert "SanctuaryStateUI" not in project
+    assert not (ROOT / "scripts/ui/sanctuary_state_ui.gd").exists()
+    assert '"JOURNAL"' in journal
+    assert 'screen_name == "quest_journal"' in journal
+    assert "SANCTUAIRE DU PREMIER VOILE" in journal
+    assert "SanctuaryState.current_visual_cues()" in journal
+    assert "SanctuaryState.current_audio_cues()" in journal
+    assert "SanctuaryState.current_population_cues()" in journal
 
 
 def test_states_cover_requested_player_consequences():
