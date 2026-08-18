@@ -1,0 +1,84 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+EXPECTED_BOSSES = {
+    "c05_boss_silex_general",
+    "c06_boss_boundary",
+    "c09_boss_consensus",
+    "c10_boss_final",
+}
+EXPECTED_EFFECTS = {
+    "push_front_hero_1",
+    "swap_outer_heroes",
+    "rotate_party_right",
+    "invert_pairs",
+}
+
+
+def run(root: Path = ROOT) -> dict:
+    data = json.loads((root / "data/combat_displacement.json").read_text(encoding="utf-8"))
+    scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
+    v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
+    v4 = (root / "scripts/ui/main_v4.gd").read_text(encoding="utf-8")
+    checks: list[dict] = []
+
+    def check(name: str, ok: bool, detail: str = "") -> None:
+        checks.append({"name": name, "ok": bool(ok), "detail": detail})
+
+    check("Main utilise combat v5", 'res://scripts/ui/main_v5.gd' in scene)
+    check("Combat v5 conserve v4 démembrement", 'extends "res://scripts/ui/main_v4.gd"' in v5)
+    check("Combat v4 conserve v3 tactique", 'extends "res://scripts/ui/main_v3.gd"' in v4)
+
+    hero_rules = data.get("hero_forced_movement", {})
+    check("Quatre héros possèdent une règle de coup lourd", set(hero_rules) == {"malvor", "darius", "aurelien", "lysandra"}, str(hero_rules))
+    check("Poussée ennemie branchée", '"push_enemy_1"' in v5 and "_move_enemy_relative(target, 1)" in v5)
+    check("Traction ennemie branchée", '"pull_enemy_1"' in v5 and "_move_enemy_relative(target, -1)" in v5)
+
+    fear = data.get("fear_recoil", {})
+    check("Peur maximale provoque un recul", int(fear.get("threshold", 0)) == 100 and int(fear.get("ranks", 0)) >= 1)
+    check("Recul de Peur limité à une fois par round", bool(fear.get("once_per_round", False)) and "fear_recoil_round" in v5)
+
+    limb_rules = data.get("limb_displacement", {})
+    for part in ["support_leg", "hind_leg", "rear_leg", "anchor_appendage", "support_limb", "anchor_limb"]:
+        check(f"Membre {part} possède un effet de rang", bool(limb_rules.get(part)), str(limb_rules.get(part)))
+    check("Démembrement déclenche le déplacement de membre", "_apply_limb_displacement" in v5 and "part_id" in v5)
+
+    maneuvers = data.get("boss_maneuvers", {})
+    check("Quatre boss à phase positionnelle", set(maneuvers) == EXPECTED_BOSSES, str(sorted(maneuvers)))
+    effects = {str(item.get("effect", "")) for item in maneuvers.values()}
+    check("Quatre familles de désorganisation couvertes", EXPECTED_EFFECTS <= effects, str(sorted(effects)))
+    for boss_id, maneuver in maneuvers.items():
+        check(f"{boss_id} : membre requis", bool(maneuver.get("part_required")), str(maneuver))
+        check(f"{boss_id} : transformation documentée", bool(maneuver.get("lost_part_transform")), str(maneuver))
+        check(f"{boss_id} : cadence positive", int(maneuver.get("cadence", 0)) > 0, str(maneuver.get("cadence")))
+
+    check("Boss vérifie le membre avant manœuvre", "_part_is_available(enemy, required)" in v5)
+    check("Perte du membre journalise PHASE ALTÉRÉE", "PHASE ALTÉRÉE" in v5)
+    check("Manœuvres exécutées avant le tour ennemi", "func enemy_turn()" in v5 and "_apply_boss_formation_maneuvers()" in v5 and "super.enemy_turn()" in v5)
+    check("Permutation externe branchée", '"swap_outer_heroes"' in v5 and "_swap_hero_ranks(1, 4)" in v5)
+    check("Rotation de compagnie branchée", '"rotate_party_right"' in v5 and "_rotate_party_right()" in v5)
+    check("Inversion des paires branchée", '"invert_pairs"' in v5 and "_swap_hero_ranks(1, 2)" in v5 and "_swap_hero_ranks(3, 4)" in v5)
+
+    return {
+        "summary": {"checks": len(checks), "errors": sum(1 for item in checks if not item["ok"])},
+        "checks": checks,
+    }
+
+
+def main() -> int:
+    payload = run(ROOT)
+    out = ROOT / "reports" / "displacement-combat-report.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    for item in payload["checks"]:
+        print(("PASS" if item["ok"] else "FAIL"), "-", item["name"], item["detail"])
+    print(f"RESULT: {payload['summary']['errors']} error(s) — {out}")
+    return 1 if payload["summary"]["errors"] else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
