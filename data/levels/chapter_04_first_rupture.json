@@ -1,0 +1,32 @@
+{
+  "schema_version":1,
+  "chapter_id":"chapter_04_first_rupture",
+  "title":"La Première Rupture",
+  "theme":"L'enquête quitte l'histoire récente et révèle qu'une civilisation ancienne avait déjà rencontré le Voile.",
+  "start_zone":"c04_buried_city",
+  "stages":[
+    {"id":"c04_stage_01_descent","name":"Sous la ville actuelle","zone":"c04_buried_city","type":"exploration","objective":"Descendre dans la Cité sous la Cendre et identifier des structures antérieures à toute histoire connue de la Concorde."},
+    {"id":"c04_stage_02_resonance","name":"La musique qui mesure le monde","zone":"c04_resonance_halls","type":"investigation","objective":"Réactiver trois instruments de résonance ashaï et comparer leurs réponses."},
+    {"id":"c04_stage_03_silences","name":"Les Sept Silences","zone":"c04_seven_silences","type":"investigation","objective":"Reconstituer l'Observatoire des Sept Silences et comprendre ce que les Ashaï tentaient réellement de mesurer."},
+    {"id":"c04_stage_04_camp","name":"Ce que les anciens ne savaient pas","zone":"c04_echo_camp","type":"campfire","objective":"Confronter les interprétations du groupe : science, religion, mémoire collective ou erreur de traduction."},
+    {"id":"c04_stage_05_miniboss","name":"Le Mesureur Sans Visage","zone":"c04_broken_observatory","type":"miniboss","objective":"Neutraliser un ancien dispositif de mesure devenu hostile lorsqu'il détecte des consciences divergentes."},
+    {"id":"c04_stage_06_first_rupture","name":"La première blessure","zone":"c04_broken_observatory","type":"inquiry","objective":"Croiser au moins six fragments issus de trois familles de sources pour établir qu'une rupture locale eut lieu environ 3 700 ans avant la Chute."},
+    {"id":"c04_stage_07_chorus","name":"Le Chœur Inachevé","zone":"c04_chorus_chamber","type":"boss","objective":"Affronter le Chœur Inachevé et décider du sort des consciences qui maintiennent encore la boucle de résonance."},
+    {"id":"c04_stage_08_return","name":"Ce n'était pas une porte","zone":"sanctuary","type":"return","objective":"Ramener les preuves et inscrire dans le journal que le Voile ne se comporte probablement pas comme un lieu extérieur ordinaire."}
+  ],
+  "main_quests":[
+    {"id":"c04_ashai_song","name":"La musique qui mesure le monde"},
+    {"id":"c04_first_rupture","name":"La première blessure"},
+    {"id":"c04_not_a_door","name":"Ce n'était pas une porte"}
+  ],
+  "investigation":{"required_fragments":6,"independent_source_families":3,"contradictions_required":2,"core_revelation":"Les Ashaï de Nhal provoquèrent une rupture locale il y a environ 3 700 ans en tentant d'observer directement la relation entre conscience partagée et matière."},
+  "miniboss":{"id":"c04_faceless_measure","name":"Le Mesureur Sans Visage","signature":"Accord Impossible","truth":"Ce n'est pas une créature : c'est un ancien instrument ashaï qui traite les consciences discordantes comme une erreur de mesure."},
+  "boss":{"id":"c04_boss_unfinished_chorus","name":"Le Chœur Inachevé","type":"entité mémorielle collective","phases":["Voix séparées","Accord forcé","Le souvenir commun"],"signature":"Nous étions plusieurs","truth":"Le Chœur est composé de fragments de consciences ashaï maintenus dans une boucle de résonance depuis la Première Rupture."},
+  "boss_choices":[
+    {"id":"release","label":"Libérer le Chœur","effects":{"veil_knowledge":4,"hope_all":4,"ancient_preservation":-2},"cost":"Perte définitive d'une partie de l'information ashaï."},
+    {"id":"communicate","label":"Tenter de communiquer","effects":{"veil_knowledge":9,"madness_all":5,"ancient_preservation":2},"cost":"Exposition mentale importante, mais accès à des souvenirs incomplets."},
+    {"id":"preserve","label":"Préserver le dispositif","effects":{"veil_knowledge":6,"tension":3,"ancient_preservation":6},"cost":"Les consciences restent enfermées dans leur état actuel."}
+  ],
+  "end_revelation":"Le Projet Seuil n'a pas inventé le Voile : il a reproduit à grande échelle un phénomène que les Ashaï avaient déjà provoqué localement.",
+  "unlock":"chapter_05_great_closure"
+}
