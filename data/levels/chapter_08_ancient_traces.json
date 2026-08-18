@@ -1,0 +1,10 @@
+{
+  "schema_version":1,
+  "chapter_id":"chapter_08_outer_world",
+  "traces":[
+    {"id":"c08_trace_vaor_khal","power":"varkhane","zone":"c08_varkhane_archive","civilization":"Cités de Vaor-Khal","vestige_id":"vestige_vaor_khal_thousand_orders","position":[-24,0,18],"title":"Borne antérieure à l'Empire","text":"Sous les fondations de l'archive impériale se trouve une borne de basalte dont les inscriptions parlent de priorités locales, de voies de famine et d'un Directoire de Crise bien antérieur à Varkhane.","unlock_flag":"c08_ancient_trace_varkhane"},
+    {"id":"c08_trace_lyr_mar","power":"namar","zone":"c08_namar_ledger_vault","civilization":"Navigateurs de Lyr-Mar","vestige_id":"vestige_lyr_mar_reversed_tides","position":[-20,0,-18],"title":"Carte de marée sous la voûte","text":"Une carte gravée dans la fondation ne représente pas une côte réelle mais plusieurs versions du même littoral. Les annotations évoquent les Navigateurs de Lyr-Mar et une cité où les marées revenaient à contre-sens.","unlock_flag":"c08_ancient_trace_namar"},
+    {"id":"c08_trace_sahm_ir","power":"azravel","zone":"c08_azravel_dogma_court","civilization":"Cités de Sahm-Ir","vestige_id":"vestige_sahm_ir_sealed_voices","position":[-24,0,20],"title":"Fondation aux lectures multiples","text":"Derrière une dalle doctrinale apparaît un texte plus ancien où le même symbole possède trois traductions volontairement conservées. Il renvoie aux Cités de Sahm-Ir et à une basilique murée sous la montagne.","unlock_flag":"c08_ancient_trace_azravel"},
+    {"id":"c08_trace_ydris","power":"kor_em","zone":"c08_korem_protocol_archive","civilization":"Ateliers d'Ydris","vestige_id":"vestige_ydris_impossible_causes","position":[18,0,-20],"title":"Plaque du calculateur d'Ydris","text":"Une plaque mécanique réemployée dans les archives de Kor-Em décrit une expérience où annoncer une prédiction modifiait les résultats mesurés. Un poinçon indique l'Observatoire des Causes Impossibles.","unlock_flag":"c08_ancient_trace_korem"}
+  ]
+}
