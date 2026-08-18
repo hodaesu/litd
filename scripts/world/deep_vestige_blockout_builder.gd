@@ -1,17 +1,18 @@
 extends Node3D
 class_name DeepVestigeBlockoutBuilder
 
-const DATA_PATH := "res://data/levels/vestige_ashai_seven_resonances.json"
 const PARTY_SCENE := preload("res://scenes/world/terre_des_cendres/exploration_party_placeholder.tscn")
 const FRAGMENT_SCRIPT := preload("res://scripts/world/deep_vestige_fragment.gd")
 
+@export_file("*.json") var data_path := "res://data/levels/vestige_ashai_seven_resonances.json"
 @export var zone_id := "va01_threshold_gallery"
 @export var spawn_player_placeholder := true
 var data: Dictionary = {}
 var zone: Dictionary = {}
 
 func _ready() -> void:
-    data = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
+    if not FileAccess.file_exists(data_path): return
+    data = JSON.parse_string(FileAccess.get_file_as_string(data_path))
     for value in data.get("zones", []):
         if String(value.get("id", "")) == zone_id:
             zone = value
@@ -32,7 +33,7 @@ func _exits() -> void:
 
 func _encounters() -> void:
     for value in zone.get("encounters", []):
-        var d:Dictionary=value; var t:=EncounterTrigger.new(); t.encounter_id=String(d.get("id","")); t.encounter_type=String(d.get("type","normal")); t.position=_v(d.get("position",[0,0,0]));
+        var d:Dictionary=value; var t:=EncounterTrigger.new(); t.encounter_id=String(d.get("id","")); t.encounter_type=String(d.get("type","normal")); t.position=_v(d.get("position",[0,0,0]))
         if d.has("name"): t.set_meta("miniboss",{"name":d.get("name"),"loot_tier":"major"})
         _area(t,Vector3(8,3,8) if t.encounter_type=="boss" else Vector3(5,2.5,5)); add_child(t)
 
