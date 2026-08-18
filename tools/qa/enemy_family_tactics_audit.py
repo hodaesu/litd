@@ -13,10 +13,12 @@ def run(root: Path = ROOT) -> dict:
     data = json.loads((root / "data/enemy_family_tactics.json").read_text(encoding="utf-8"))
     enemies = json.loads((root / "data/enemies.json").read_text(encoding="utf-8"))
     dismemberment = json.loads((root / "data/combat_dismemberment.json").read_text(encoding="utf-8"))
+    anatomy = json.loads((root / "data/combat_anatomy_v2.json").read_text(encoding="utf-8"))
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
     v6 = (root / "scripts/ui/main_v6.gd").read_text(encoding="utf-8")
     v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
     v12 = (root / "scripts/ui/main_v12.gd").read_text(encoding="utf-8")
+    v13 = (root / "scripts/ui/main_v13.gd").read_text(encoding="utf-8")
     checks: list[dict] = []
 
     def check(name: str, ok: bool, detail: str = "") -> None:
@@ -56,12 +58,20 @@ def run(root: Path = ROOT) -> dict:
         if required:
             check(f"{family_id} : membre requis existe dans l'anatomie", required in known_parts, required)
 
-    check("Main utilise combat v12", 'res://scripts/ui/main_v12.gd' in scene)
+    overrides = data.get("boss_required_part_overrides", {})
+    for boss_id, part_id in overrides.items():
+        boss_parts = {str(part.get("id", "")) for part in anatomy.get("boss_anatomies", {}).get(boss_id, {}).get("parts", [])}
+        check(f"{boss_id} : override de partie existe", str(part_id) in boss_parts, f"{part_id} / {sorted(boss_parts)}")
+    check("Mini-boss : membre offensif cohérent avec profil boss", families.get("elite", {}).get("required_part") == "offensive_limb")
+
+    check("Main utilise combat v13", 'res://scripts/ui/main_v13.gd' in scene)
+    check("Combat v13 conserve v12", 'extends "res://scripts/ui/main_v12.gd"' in v13)
     check("Combat v12 conserve v11", 'extends "res://scripts/ui/main_v11.gd"' in v12)
     check("Combat v6 hérite de v5", 'extends "res://scripts/ui/main_v5.gd"' in v6)
     check("Combat v5 reste disponible sous v6", 'extends "res://scripts/ui/main_v4.gd"' in v5)
     check("Famille déterminée par boss/miniboss/ID", '_family_for_enemy' in v6 and 'is_miniboss' in v6 and 'generic_enemy_ids' in v6)
     check("Boss spécifique prioritaire sur famille générique", 'not _boss_maneuver_for(enemy).is_empty()' in v6)
+    check("Overrides de boss uniques utilisés", '_family_required_part' in v6 and 'boss_required_part_overrides' in v6)
     check("Familles agissent avant le moteur ennemi hérité", 'func enemy_turn()' in v6 and '_apply_enemy_family_maneuvers()' in v6 and 'super.enemy_turn()' in v6)
     check("Humanoïdes et bêtes peuvent pousser", '"push_front_hero_1"' in v6)
     check("Arachnides peuvent tirer l'arrière-garde", '"pull_rear_hero_1"' in v6 and '_move_hero_relative(rear, -1)' in v6)
