@@ -10,7 +10,6 @@ def test_all_known_campaign_bosses_have_mechanical_contracts():
     known = {chapter['bosses'][0]['id'] for chapter in campaign['chapters']}
     historical_aliases = {
         'c02_marker_warden':'c02_boss_archive_keeper',
-        'c09_boss_disagreement':'c09_boss_consensus',
         'c10_boss_common_rupture':'c10_boss_final',
     }
     normalized = contract_ids | {historical_aliases.get(i, i) for i in contract_ids}
@@ -62,7 +61,7 @@ def test_deep_vestige_is_routed_autoloaded_saved_and_reset():
     assert 'DeepVestigeBossRuntime="*res://scripts/world/deep_vestige_boss_runtime_v2.gd"' in project
     assert 'func start_ashai_deep_vestige()' in router
     assert 'func start_deep_vestige(vestige_id: String)' in router
-    assert 'SAVE_VERSION := "0.28"' in save
+    assert 'SAVE_VERSION := "0.29"' in save
     assert '"deep_vestiges": DeepVestigeRuntime.serialize()' in save
     assert 'DeepVestigeRuntime.reset_new_game()' in game
     assert 'DeepVestigeRuntime.index_entries()' in ui
