@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "level_id": "ashlands",
+  "conversations": {
+    "nara_vey": [
+      {"id":"nara_intro","after_expedition":0,"lines":["Une communauté ne commence pas par des murs. Elle commence par la manière dont elle décide qui mérite d'entrer.","Je ne te demande pas d'être juste à chaque instant. Je te demande de rendre tes raisons visibles.","Lorsque les gens comprennent pourquoi une décision a été prise, ils peuvent encore la contester sans détruire ceux qui l'ont prise."]},
+      {"id":"nara_after_refugees","requires_any_flag":["refugees_welcomed","refugees_quarantined","refugees_refused"],"lines":["Les portes ont parlé plus fort que nous aujourd'hui.","Ceux qui étaient d'accord avec toi retiendront ta décision. Ceux qui ne l'étaient pas retiendront surtout la manière dont tu les as regardés.","La Concorde survit moins par les bonnes réponses que par la possibilité de continuer à parler après une mauvaise réponse."]},
+      {"id":"nara_after_justice","requires_any_flag":["justice_circle_restored","protective_detention_used","summary_punishment_used"],"lines":["Le premier meurtre après une catastrophe change toujours davantage que le nombre des morts.","Il nous apprend ce que nous sommes prêts à appeler justice lorsque nous avons peur.","Si nous cessons de distinguer comprendre, protéger et punir, la Folie n'aura même plus besoin de nous mentir."]}
+    ],
+    "orren_taal": [
+      {"id":"orren_intro","after_expedition":0,"lines":["J'ai porté la voix d'une assemblée pendant douze ans. Je n'ai jamais possédé une seule de ses décisions.","C'était précisément le but.","Un bon responsable doit pouvoir rentrer chez lui le lendemain de son mandat sans que le monde s'effondre autour de lui."]},
+      {"id":"orren_power","after_expedition":2,"lines":["Tu entendras bientôt quelqu'un demander davantage de pouvoir au nom de l'urgence.","Ne ris pas de lui. Il aura probablement de bonnes raisons.","Demande seulement qui pourra lui reprendre ce pouvoir lorsqu'il cessera d'être nécessaire."]}
+    ],
+    "sela_mor": [
+      {"id":"sela_intro","after_expedition":0,"lines":["Nous avons toujours cru que le vivant avait une valeur même lorsqu'il ne pouvait pas argumenter devant un Cercle.","Le Voile rend cette idée plus difficile, pas moins vraie.","Si une créature peut avoir peur, apprendre ou choisir de ne pas attaquer, alors notre ignorance n'est pas une preuve de son absence de conscience."]},
+      {"id":"sela_creature","requires_creature":true,"lines":["Regarde comme les autres l'observent.","Certains cherchent déjà une preuve qu'ils avaient raison d'en avoir peur. D'autres cherchent une preuve qu'ils avaient raison de l'aimer.","Nous devrions peut-être commencer par lui demander ce qu'elle veut, même si nous ne savons pas encore comment entendre la réponse."]}
+    ],
+    "daros_khem": [
+      {"id":"daros_intro","after_expedition":0,"lines":["J'ai besoin de gardes, de vivres et de gens capables de dormir quatre heures sans s'effondrer.","Cela ne fait pas de moi un ennemi des principes.","Les principes qui ne savent pas compter les lits, les blessures et les portes deviennent cruels sans le vouloir."]},
+      {"id":"daros_tension","tension_min":55,"lines":["Le danger n'est plus seulement dehors.","Je vois des gens changer de table lorsqu'un étranger s'assoit près d'eux. Je vois des mains rester trop longtemps sur les poignées des couteaux.","Donne-moi des règles claires maintenant, ou quelqu'un inventera les siennes cette nuit."]}
+    ],
+    "meira_saan": [
+      {"id":"meira_intro","after_expedition":0,"lines":["Avant, je pensais que la peur était un défaut de courage.","Maintenant je sais qu'elle peut être une mémoire qui refuse de fermer les yeux.","Je ne veux pas devenir quelqu'un qui hait. Mais parfois la haine ressemble terriblement à la prudence."]},
+      {"id":"meira_refugees","requires_any_flag":["refugees_welcomed","refugees_quarantined"],"lines":["Je les regarde encore comme des inconnus.","Mais l'un d'eux a réparé le toit au-dessus de l'infirmerie. Une femme a donné sa couverture à un enfant qui n'était pas le sien.","C'est agaçant. Les gens compliquent toujours les certitudes qu'on avait préparées pour eux."]},
+      {"id":"meira_rift","requires_flag":"refugees_refused","lines":["Tu as fermé les portes.","Une partie de moi a été soulagée. C'est celle qui m'inquiète le plus.","Si nous recommençons à mesurer la valeur des vies par la distance qui les sépare de nos murs, je sais où cette route mène."]}
+    ],
+    "pavel_rin": [
+      {"id":"pavel_intro","after_expedition":0,"lines":["J'ai vingt-sept sacs de grain. Vingt-six si quelqu'un cesse enfin de prétendre que les souris sont une catégorie de réfugiés.","La politique devient beaucoup plus concrète lorsqu'elle tient dans un grenier.","Dis-moi ce que tu veux protéger. Je te dirai combien de jours nous pouvons nous le permettre."]},
+      {"id":"pavel_low_supplies","supplies_max":4,"lines":["Nous approchons du moment où chaque décision morale aura un poids mesurable en bols vides.","Ce n'est pas une raison pour abandonner la morale.","C'est une raison pour arrêter de la pratiquer comme si les ressources étaient infinies."]}
+    ]
+  },
+  "relationships": [
+    {"a":"nara_vey","b":"daros_khem","state":"respectful_tension","description":"Nara respecte l'efficacité de Daros mais refuse qu'une urgence devienne un argument permanent."},
+    {"a":"nara_vey","b":"orren_taal","state":"mentor","description":"Orren a formé Nara à la médiation et lui rappelle les erreurs institutionnelles de l'ancien monde."},
+    {"a":"meira_saan","b":"sela_mor","state":"hostile_then_evolving","description":"Meira voit d'abord Sela comme naïve; leur relation peut évoluer après des actes concrets de coexistence."},
+    {"a":"pavel_rin","b":"daros_khem","state":"pragmatic_allies","description":"Ils partagent le souci matériel mais Pavel résiste aux solutions qui concentreraient durablement le pouvoir."},
+    {"a":"pavel_rin","b":"nara_vey","state":"bridge","description":"Pavel traduit les principes de Nara en contraintes matérielles et force les compromis à devenir concrets."}
+  ],
+  "social_factions": [
+    {"id":"market_collective","name":"Collectif des Échoppes","type":"marchands","priority":"Maintenir les échanges, éviter la panique et protéger les routes commerciales.","supports":["body_pragmatists","civic_reformers"]},
+    {"id":"healers_circle","name":"Cercle des Soignants","type":"guérisseurs","priority":"Soigner sans distinction d'origine, étudier la Folie sans réduire les malades à leur maladie.","supports":["continuities","living_guardians"]},
+    {"id":"survivor_households","name":"Maisons des Survivants","type":"familles","priority":"Nourrir les proches, retrouver les disparus et obtenir des garanties de sécurité.","supports":["body_pragmatists"]},
+    {"id":"former_guardians","name":"Anciens Gardiens","type":"sécurité","priority":"Préserver la discipline sans recréer une force armée politiquement autonome.","supports":["body_pragmatists","continuities"]},
+    {"id":"makers_union","name":"Union des Ateliers","type":"artisans","priority":"Reconstruire, mutualiser les outils et décider quels ouvrages sont prioritaires.","supports":["civic_reformers","city_autonomists"]},
+    {"id":"keepers_of_memory","name":"Veilleurs de Mémoire","type":"philosophique","priority":"Conserver textes, témoignages et débats pour empêcher la catastrophe de simplifier l'histoire.","supports":["continuities","concord_unionists"]},
+    {"id":"creature_stewards","name":"Veilleurs des Créatures","type":"protection_du_vivant","priority":"Observer, soigner et comprendre les créatures capables de choix sans les réduire à des armes ou propriétés.","supports":["living_guardians","civic_reformers"]}
+  ],
+  "dynamic_events": [
+    {"id":"grain_argument","name":"La dispute des réserves","priority":10,"conditions":{"supplies_max":6},"effects":{"tension":3},"rumor":"On dit que Pavel cache des sacs de grain. Pavel répond qu'il cache surtout son envie de frapper les gens qui ne savent pas compter."},
+    {"id":"xenophobic_whisper","name":"Les voix derrière les portes","priority":20,"conditions":{"tension_min":45,"requires_flag":"refugees_welcomed"},"effects":{"tension":4,"trust":-2},"rumor":"Une rumeur affirme que les nouveaux venus attirent le Voile. Aucun témoin n'est capable d'expliquer comment."},
+    {"id":"refugee_refusal","name":"Le bol refusé","priority":18,"conditions":{"requires_flag":"refugees_welcomed"},"effects":{"tension":2},"rumor":"Un ancien habitant refuse de servir un réfugié à la taverne. Nara demande un Cercle; Meira reste silencieuse trop longtemps."},
+    {"id":"lynching_attempt","name":"La corde dans la cour","priority":30,"conditions":{"tension_min":65,"trust_max":35},"effects":{"tension":8,"trust":-5},"rumor":"Un groupe réclame qu'un suspect soit livré sans jugement. Daros place ses gardes entre la foule et la cellule."},
+    {"id":"creature_debate","name":"Une ombre près du feu","priority":15,"conditions":{"requires_creature":true},"effects":{"tension":3},"rumor":"La présence d'une créature près des foyers divise le Sanctuaire. Certains enfants semblent moins effrayés que leurs parents."},
+    {"id":"scarcity_council","name":"Les cinq derniers jours","priority":25,"conditions":{"supplies_max":3},"effects":{"tension":5,"trust":-2},"rumor":"Pavel annonce publiquement que les réserves ne tiendront pas une semaine au rythme actuel."},
+    {"id":"emergency_power_request","name":"Trois jours de pouvoir","priority":28,"conditions":{"tension_min":55,"expedition_room_min":2},"effects":{"tension":2},"rumor":"Plusieurs gardes proposent de donner à Daros un pouvoir temporaire étendu. Daros exige lui-même qu'une date de fin soit écrite avant d'accepter."}
+  ],
+  "visible_consequences": {
+    "refugees_welcomed":{"population_tags":["refugees_visible","children_in_courtyard"],"inscriptions":["Ici, les portes ont été ouvertes."],"guard_delta":1,"rumors":["Les nouveaux venus travaillent aux réparations."]},
+    "refugees_refused":{"population_tags":["closed_gate_watch"],"inscriptions":["La peur aussi sait écrire des lois."],"guard_delta":2,"rumors":["Des silhouettes ont été vues repartir vers les cendres."]},
+    "justice_circle_restored":{"population_tags":["public_circle_gatherings"],"inscriptions":["Même sans tribunal, nous pouvons refuser la vengeance."],"guard_delta":0,"rumors":["Les témoins parlent de nouveau devant un Cercle."]},
+    "summary_punishment_used":{"population_tags":["silent_courtyard"],"inscriptions":["Quelqu'un a effacé le mot JUSTICE du mur de la cour."],"guard_delta":2,"rumors":["Certains disent que la rapidité est devenue une vertu."]},
+    "creature_sanctuary_trial":{"population_tags":["creature_habitat_visible","curious_children"],"inscriptions":["Comprendre n'est pas posséder."],"guard_delta":1,"rumors":["La créature reconnaîtrait déjà plusieurs visages."]},
+    "creatures_banned":{"population_tags":["creature_warning_marks"],"inscriptions":["Aucune créature au-delà de cette limite."],"guard_delta":1,"rumors":["Les chasseurs se sentent désormais davantage écoutés."]}
+  },
+  "world_memory": {
+    "refugees_welcomed":{"tags":["open_sanctuary_reputation"],"future_effects":["Les communautés déplacées parlent favorablement du Sanctuaire.","Certaines cités peuvent envoyer des délégations de réfugiés plutôt que des soldats."]},
+    "refugees_refused":{"tags":["closed_sanctuary_reputation"],"future_effects":["Les communautés déplacées se méfient du joueur.","Les factions sécuritaires citent le Sanctuaire comme précédent."]},
+    "justice_circle_restored":{"tags":["restorative_justice_precedent"],"future_effects":["Des cités peuvent demander au joueur d'arbitrer des crimes liés à la Folie."]},
+    "summary_punishment_used":{"tags":["summary_justice_precedent"],"future_effects":["Les mouvements autoritaires utilisent cette décision pour légitimer des procédures expéditives."]},
+    "creature_sanctuary_trial":{"tags":["creature_rights_precedent"],"future_effects":["Les Gardiens du Vivant considèrent le Sanctuaire comme un précédent majeur.","Certaines créatures ou groupes protecteurs peuvent chercher le joueur plus tard."]},
+    "creatures_banned":{"tags":["creature_exclusion_precedent"],"future_effects":["Les communautés hostiles aux créatures se montrent plus favorables au joueur."]}
+  }
+}
