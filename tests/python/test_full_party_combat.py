@@ -22,13 +22,13 @@ def test_all_hero_skill_stats_are_consumed():
     assert "max_madness" in report["consumed_stats"]
 
 
-def test_main_scene_routes_through_v12_to_v2_chain():
+def test_main_scene_routes_through_v13_to_v2_chain():
     scene = (ROOT / "scenes/Main.tscn").read_text(encoding="utf-8")
-    assert 'res://scripts/ui/main_v12.gd' in scene
+    assert 'res://scripts/ui/main_v13.gd' in scene
     sources = {}
-    for version in range(2, 13):
+    for version in range(2, 14):
         sources[version] = (ROOT / f"scripts/ui/main_v{version}.gd").read_text(encoding="utf-8")
-    for child in range(12, 3, -1):
+    for child in range(13, 3, -1):
         assert f'extends "res://scripts/ui/main_v{child - 1}.gd"' in sources[child]
     assert 'extends "res://scripts/ui/main_v2.gd"' in sources[3]
     combat = sources[2]
