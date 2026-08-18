@@ -65,6 +65,7 @@ func _prepare_placeholder_enemies() -> void:
                 "c03_threshold_sentinel": _setup_enemy(e,"La Sentinelle du Seuil",96,[7,12],7,"Protocole de Purge")
                 "c04_faceless_measure": _setup_enemy(e,"Le Mesureur Sans Visage",108,[7,13],8,"Accord Impossible")
                 "c05_glass_strategist": _setup_enemy(e,"Le Stratège de Verre",122,[8,14],8,"Doctrine de Contre-Mesure")
+                "c06_shifted_wayfarer": _setup_enemy(e,"L'Arpenteur Décalé",134,[9,14],9,"Un pas trop tôt")
                 "va_miniboss_dissonant_custodian": _setup_enemy(e,"Le Custode Dissonant",132,[9,14],9,"Accord Refusé")
                 "vs_miniboss_doctrine_hound": _setup_enemy(e,"Le Limier de Doctrine",146,[10,15],10,"Chasse à la Répétition")
                 "vn_miniboss_seal_keeper": _setup_enemy(e,"Le Gardien du Sceau Fendu",142,[9,15],10,"Scellement Réactif")
@@ -78,6 +79,7 @@ func _prepare_placeholder_enemies() -> void:
                 "c03_boss_threshold_echo": _setup_enemy(e,"L'Écho du Seuil",148,[8,13],8,"Zéro Seconde")
                 "c04_boss_unfinished_chorus": _setup_enemy(e,"Le Chœur Inachevé",166,[8,13],8,"Nous étions plusieurs")
                 "c05_boss_silex_general": _setup_enemy(e,"Le Général de Silex",188,[9,15],9,"Ordre qui ne finit jamais")
+                "c06_boss_boundary": _setup_enemy(e,"La Frontière qui marche",210,[10,16],10,"Ici n'est plus ici")
                 "vestige_ashai_boss_seventh_voice": _setup_enemy(e,"La Septième Voix",230,[10,16],11,"Le Monde que Nous Accordons"); e["deep_vestige_boss"] = true
                 "vestige_silex_boss_last_strategist": _setup_enemy(e,"Le Dernier Stratège",252,[11,17],12,"Victoire avant la bataille"); e["deep_vestige_boss"] = true
                 "vestige_saan_boss_last_watch": _setup_enemy(e,"La Dernière Veille",248,[10,17],12,"Que personne ne passe"); e["deep_vestige_boss"] = true
@@ -116,6 +118,8 @@ func resolve_defeat() -> void:
 func _roll_loot() -> Dictionary:
     if encounter_id in ["vestige_ashai_boss_seventh_voice","vestige_silex_boss_last_strategist","vestige_saan_boss_last_watch"]:
         return {"gold":80,"essence":18,"equipment_rarity":"rare"}
+    if encounter_id == "c06_boss_boundary":
+        return {"gold":60,"essence":10,"equipment_rarity":"rare"}
     if encounter_type != "miniboss": return {"gold":18,"essence":2,"equipment_rarity":"common"}
     var tier := str(miniboss_data.get("loot_tier","major"))
     var table := AshlandsMinibossDirector.get_loot_table(tier)
