@@ -47,6 +47,9 @@ def run(root: Path = ROOT) -> dict:
     check("Combat v4 hérite de v3", 'extends "res://scripts/ui/main_v3.gd"' in v4)
     check("Legacy désactivé sous anatomie v2", 'anatomy_v2_enabled' in runtime and 'legacy_skipped' in runtime)
     check("Trauma ciblé indépendant par partie", 'anatomy_part_trauma' in anatomy_runtime and 'register_targeted_hit' in anatomy_runtime)
+    check("Runtime réduit réellement les dégâts", 'enemy["damage"]' in runtime or 'enemy["damage"]' in anatomy_runtime)
+    check("Runtime peut réduire la Peur", 'enemy["fear"]' in runtime or 'enemy["fear"]' in anatomy_runtime)
+    check("Boss exposent un hook mécanique", 'boss_dismemberment_changed' in runtime or 'boss_dismemberment_changed' in anatomy_runtime)
     check("Combat v5 exploite le membre perdu pour les rangs", '_apply_limb_displacement' in v5)
     check("Combat v6 exploite le membre perdu par famille", '_apply_family_limb_reaction' in v6 and 'required_part' in v6)
 
