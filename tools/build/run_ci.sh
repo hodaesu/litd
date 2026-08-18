@@ -31,6 +31,9 @@ python -m tools.qa.dismemberment_audit
 echo "==> Audit poussées, tractions et phases de boss"
 python -m tools.qa.displacement_combat_audit
 
+echo "==> Audit familles ennemies et réactions de membres"
+python -m tools.qa.enemy_family_tactics_audit
+
 echo "==> Simulation combat v2, économie et cycles NG+"
 python -m tools.qa.combat_economy_sim_v2
 
