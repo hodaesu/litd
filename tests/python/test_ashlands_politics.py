@@ -38,14 +38,15 @@ def test_political_runtime_is_autoloaded_and_saved():
     project = (ROOT / "project.godot").read_text()
     runtime = (ROOT / "scripts/core/political_state.gd").read_text()
     save = (ROOT / "scripts/core/save_manager.gd").read_text()
+    compact_save = "".join(save.split())
     game_state = (ROOT / "scripts/core/game_state.gd").read_text()
     assert 'PoliticalState="*res://scripts/core/political_state.gd"' in project
     assert "func complete_quest" in runtime
     assert "func price_modifier" in runtime
     assert "func service_unlocked" in runtime
     assert "func get_npc_dialogue" in runtime
-    assert '"politics": PoliticalState.serialize()' in save
-    assert 'PoliticalState.deserialize(payload.get("politics", {}))' in save
+    assert '"politics":PoliticalState.serialize()' in compact_save
+    assert 'PoliticalState.deserialize(payload.get("politics",{}))' in compact_save
     assert "PoliticalState.reset_new_game()" in game_state
 
 
