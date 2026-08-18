@@ -1,0 +1,48 @@
+{
+  "schema_version":1,
+  "chapter_id":"chapter_06_absent",
+  "zones":[
+    {"id":"c06_timeless_garden","name":"Jardin Sans Saison","size_m":[104,82],"entry":[-42,0,0],"exits":[{"to":"c06_echo_shore","position":[45,0,0]}],"signals":["c06_sig_garden_growth","c06_sig_garden_voice"],"nodes":["c06_node_garden_resonance"],"encounters":[{"id":"c06_garden_overlap","type":"normal","position":[8,0,-10]}]},
+    {"id":"c06_echo_shore","name":"Rive des Échos","size_m":[112,84],"entry":[-46,0,0],"exits":[{"to":"c06_timeless_garden","position":[-50,0,0]},{"to":"c06_mute_doors","position":[50,0,0]}],"signals":["c06_sig_shore_reply","c06_sig_shore_saan"],"nodes":["c06_node_shore_resonance"],"encounters":[{"id":"c06_echo_pack","type":"normal","position":[10,0,12]}]},
+    {"id":"c06_mute_doors","name":"Salle des Portes Muettes","size_m":[116,88],"entry":[-48,0,0],"exits":[{"to":"c06_echo_shore","position":[-52,0,0]},{"to":"c06_overlap_hamlet","position":[52,0,0]}],"signals":["c06_sig_doors_register","c06_sig_doors_knock"],"nodes":[],"encounters":[{"id":"c06_shifted_wayfarer","type":"miniboss","name":"L'Arpenteur Décalé","position":[12,0,0]}]},
+    {"id":"c06_overlap_hamlet","name":"Hameau de Chevauchement","size_m":[122,92],"entry":[-52,0,0],"exits":[{"to":"c06_mute_doors","position":[-56,0,0]},{"to":"c06_creature_hollow","position":[56,0,0]}],"signals":["c06_sig_hamlet_table","c06_sig_hamlet_child"],"nodes":["c06_node_hamlet_resonance"],"campfire":true,"campfire_position":[0,0,18],"encounters":[]},
+    {"id":"c06_creature_hollow","name":"Creux des Mémoires Portées","size_m":[120,94],"entry":[-50,0,0],"exits":[{"to":"c06_overlap_hamlet","position":[-54,0,0]},{"to":"c06_saen_contact","position":[54,0,0]}],"signals":["c06_sig_creature_imprint","c06_sig_creature_name"],"nodes":["c06_node_creature_stone","c06_node_creature_pool","c06_node_creature_arch"],"encounters":[{"id":"c06_memory_hunters","type":"normal","position":[6,0,-14]}]},
+    {"id":"c06_saen_contact","name":"Seuil de Saen","size_m":[118,88],"entry":[-48,0,0],"exits":[{"to":"c06_creature_hollow","position":[-52,0,0]},{"to":"c06_walking_boundary","position":[52,0,0]}],"signals":["c06_sig_saen_name","c06_sig_saen_plural"],"nodes":["c06_node_saen_contact"],"encounters":[]},
+    {"id":"c06_walking_boundary","name":"La Frontière qui Marche","size_m":[132,102],"entry":[-56,0,0],"exits":[{"to":"c06_saen_contact","position":[-60,0,0]}],"signals":["c06_sig_boundary_before","c06_sig_boundary_after"],"nodes":["c06_anchor_body","c06_anchor_spirit","c06_anchor_city"],"encounters":[{"id":"c06_boss_boundary","type":"boss","name":"La Frontière qui marche","position":[28,0,0]}]}
+  ],
+  "signals":[
+    {"id":"c06_sig_garden_growth","title":"Anneaux d'un arbre impossible","source_family":"material_anomaly","reliability":"authentic","text":"Le même tronc porte des anneaux de croissance correspondant à plusieurs siècles incompatibles.","supports":["continuity_beyond_closure"]},
+    {"id":"c06_sig_garden_voice","title":"Voix entre les feuilles","source_family":"absent_voice","reliability":"unstable","text":"Une voix répond à une question qui n'a pas encore été posée, puis corrige sa réponse lorsque le groupe reformule.","supports":["conscious_survival"]},
+    {"id":"c06_sig_shore_reply","title":"Réponse de la rive","source_family":"absent_voice","reliability":"responsive","text":"Trois appels espacés reçoivent trois réponses différentes mais cohérentes avec le même interlocuteur.","supports":["conscious_survival","stable_contact"]},
+    {"id":"c06_sig_shore_saan","title":"Mesure de la Dernière Veille","source_family":"saan_record","reliability":"authentic","text":"Un appareil de Saan enregistre après la Grande Fermeture des motifs que ses opérateurs avaient classés comme réponses possibles.","supports":["continuity_beyond_closure","closure_risk"]},
+    {"id":"c06_sig_doors_register","title":"Registre des Portes Muettes","source_family":"saan_record","reliability":"authentic","text":"Plusieurs portes furent maintenues fermées malgré des signaux internes après la fermeture du réseau.","supports":["closure_risk"]},
+    {"id":"c06_sig_doors_knock","title":"Les quatre coups","source_family":"boundary_response","reliability":"repeatable","text":"Quatre coups reviennent uniquement lorsqu'un membre du groupe prononce son propre nom.","supports":["stable_contact"]},
+    {"id":"c06_sig_hamlet_table","title":"La table dressée deux fois","source_family":"civilian_echo","reliability":"partial","text":"La même famille apparaît autour de la même table à deux âges différents, sans se voir elle-même.","supports":["continuity_beyond_closure"]},
+    {"id":"c06_sig_hamlet_child","title":"Comptine sans fin","source_family":"civilian_echo","reliability":"responsive","text":"Une enfant absente modifie une comptine lorsque Sela en change volontairement un vers.","supports":["conscious_survival","stable_contact"]},
+    {"id":"c06_sig_creature_imprint","title":"Mémoire dans la pierre","source_family":"creature_imprint","reliability":"indirect","text":"Une créature réagit à un refuge disparu avant qu'aucun humain du groupe n'en identifie la forme.","supports":["carried_memory"]},
+    {"id":"c06_sig_creature_name","title":"Un nom reconnu","source_family":"creature_imprint","reliability":"indirect","text":"Le rythme cardiaque de la créature change à l'énoncé d'un nom présent dans un registre vieux de plusieurs siècles.","supports":["carried_memory","stable_contact"]},
+    {"id":"c06_sig_saen_name","title":"Je m'appelle Saen","source_family":"absent_voice","reliability":"responsive","text":"L'interlocuteur donne le même nom au cours de séquences séparées et se souvient d'informations échangées auparavant.","supports":["conscious_survival","stable_contact"]},
+    {"id":"c06_sig_saen_plural","title":"Nous n'attendons pas tous au même endroit","source_family":"absent_voice","reliability":"responsive","text":"Saen distingue plusieurs groupes d'Absents et refuse de parler en leur nom collectif.","supports":["conscious_survival","closure_risk"]},
+    {"id":"c06_sig_boundary_before","title":"Avant la limite","source_family":"boundary_response","reliability":"repeatable","text":"La frontière recule devant un ancrage partagé mais avance lorsque le groupe agit comme si elle était un simple ennemi.","supports":["stable_contact","closure_risk"]},
+    {"id":"c06_sig_boundary_after","title":"Après la limite","source_family":"material_anomaly","reliability":"authentic","text":"Des objets déplacés au-delà de la frontière reviennent parfois avec une usure qui ne correspond pas au temps écoulé ici.","supports":["continuity_beyond_closure","closure_risk"]}
+  ],
+  "hypotheses":[
+    {"id":"conscious_survival","title":"Certaines consciences ont survécu à la Grande Fermeture","required_support":4,"independent_sources":2},
+    {"id":"carried_memory","title":"Certaines créatures transportent ou perçoivent des empreintes mémorielles qui ne leur appartiennent pas","required_support":2,"independent_sources":1},
+    {"id":"stable_contact","title":"Un échange stable est possible sans ouvrir complètement une porte","required_support":4,"independent_sources":3},
+    {"id":"closure_risk","title":"Une fermeture totale pourrait condamner des consciences toujours actives","required_support":4,"independent_sources":3},
+    {"id":"continuity_beyond_closure","title":"La continuité des Absents ne suit pas nécessairement notre temps ni notre matière","required_support":4,"independent_sources":3}
+  ],
+  "nodes":[
+    {"id":"c06_node_garden_resonance","zone":"c06_timeless_garden","type":"creature_resonance","position":[14,0,14],"label":"Écouter les racines"},
+    {"id":"c06_node_shore_resonance","zone":"c06_echo_shore","type":"creature_resonance","position":[-4,0,-16],"label":"Observer la rive"},
+    {"id":"c06_node_hamlet_resonance","zone":"c06_overlap_hamlet","type":"creature_resonance","position":[18,0,-8],"label":"Observer les traces"},
+    {"id":"c06_node_creature_stone","zone":"c06_creature_hollow","type":"creature_resonance","position":[-16,0,10],"label":"Présenter la pierre"},
+    {"id":"c06_node_creature_pool","zone":"c06_creature_hollow","type":"creature_resonance","position":[2,0,-14],"label":"Approcher du bassin"},
+    {"id":"c06_node_creature_arch","zone":"c06_creature_hollow","type":"creature_resonance","position":[20,0,8],"label":"Passer sous l'arche"},
+    {"id":"c06_node_saen_contact","zone":"c06_saen_contact","type":"contact","position":[14,0,0],"label":"Répondre à Saen"},
+    {"id":"c06_anchor_body","zone":"c06_walking_boundary","type":"anchor","position":[-8,0,-22],"label":"Ancrage du Corps"},
+    {"id":"c06_anchor_spirit","zone":"c06_walking_boundary","type":"anchor","position":[8,0,22],"label":"Ancrage de l'Esprit"},
+    {"id":"c06_anchor_city","zone":"c06_walking_boundary","type":"anchor","position":[28,0,-18],"label":"Ancrage de la Cité"}
+  ]
+}
