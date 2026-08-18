@@ -67,6 +67,7 @@ func _prepare_placeholder_enemies() -> void:
                 "c05_glass_strategist": _setup_enemy(e,"Le Stratège de Verre",122,[8,14],8,"Doctrine de Contre-Mesure")
                 "c06_shifted_wayfarer": _setup_enemy(e,"L'Arpenteur Décalé",134,[9,14],9,"Un pas trop tôt")
                 "c07_opening_pilgrim": _setup_enemy(e,"Le Pèlerin de l'Ouverture",154,[10,16],10,"Laissez entrer")
+                "c09_fear_echo": _setup_enemy(e,"L'Issue Redoutée",176,[11,17],13,"C'était inévitable")
                 "va_miniboss_dissonant_custodian": _setup_enemy(e,"Le Custode Dissonant",132,[9,14],9,"Accord Refusé")
                 "vs_miniboss_doctrine_hound": _setup_enemy(e,"Le Limier de Doctrine",146,[10,15],10,"Chasse à la Répétition")
                 "vn_miniboss_seal_keeper": _setup_enemy(e,"Le Gardien du Sceau Fendu",142,[9,15],10,"Scellement Réactif")
@@ -88,6 +89,7 @@ func _prepare_placeholder_enemies() -> void:
                 "c07_boss_edras": _setup_enemy(e,"Edras Nhal, l'Ouvert",224,[10,17],10,"Regardez enfin")
                 "c08_boss_varkhane": _setup_enemy(e,"Maréchal du Trône Vide",236,[11,18],11,"Ordre du Trône Vide")
                 "c08_boss_azravel": _setup_enemy(e,"Le Saint de la Faille",244,[11,19],12,"Une seule vérité")
+                "c09_boss_consensus": _setup_enemy(e,"Le Consensus Brisé",272,[12,20],14,"Nous ne voyons pas le même monde")
                 "vestige_ashai_boss_seventh_voice": _setup_enemy(e,"La Septième Voix",230,[10,16],11,"Le Monde que Nous Accordons"); e["deep_vestige_boss"] = true
                 "vestige_silex_boss_last_strategist": _setup_enemy(e,"Le Dernier Stratège",252,[11,17],12,"Victoire avant la bataille"); e["deep_vestige_boss"] = true
                 "vestige_saan_boss_last_watch": _setup_enemy(e,"La Dernière Veille",248,[10,17],12,"Que personne ne passe"); e["deep_vestige_boss"] = true
@@ -130,8 +132,8 @@ func resolve_defeat() -> void:
 func _roll_loot() -> Dictionary:
     if encounter_id in ["vestige_ashai_boss_seventh_voice","vestige_silex_boss_last_strategist","vestige_saan_boss_last_watch","vestige_vaor_boss_command_without_body","vestige_lyrmar_boss_absent_cartographer","vestige_sahmir_boss_single_interpreter","vestige_ydris_boss_living_theorem"]:
         return {"gold":80,"essence":18,"equipment_rarity":"rare"}
-    if encounter_id in ["c06_boss_boundary","c07_boss_edras","c08_boss_varkhane","c08_boss_azravel"]:
-        return {"gold":60,"essence":10,"equipment_rarity":"rare"}
+    if encounter_id in ["c06_boss_boundary","c07_boss_edras","c08_boss_varkhane","c08_boss_azravel","c09_boss_consensus"]:
+        return {"gold":65,"essence":12,"equipment_rarity":"rare"}
     if encounter_type != "miniboss": return {"gold":18,"essence":2,"equipment_rarity":"common"}
     var tier := str(miniboss_data.get("loot_tier","major"))
     var table := AshlandsMinibossDirector.get_loot_table(tier)
