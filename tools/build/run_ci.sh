@@ -34,6 +34,9 @@ python -m tools.qa.displacement_combat_audit
 echo "==> Audit familles ennemies et réactions de membres"
 python -m tools.qa.enemy_family_tactics_audit
 
+echo "==> Audit anatomie avancée, capture, psychologie et Blender"
+python -m tools.qa.anatomy_system_audit
+
 echo "==> Simulation combat v2, économie et cycles NG+"
 python -m tools.qa.combat_economy_sim_v2
 
