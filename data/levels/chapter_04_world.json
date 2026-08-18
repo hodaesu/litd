@@ -1,0 +1,32 @@
+{
+  "schema_version":1,
+  "zones":[
+    {"id":"c04_buried_city","size_m":[120,110],"entry":[-48,0,42],"exits":[{"to":"c04_resonance_halls","position":[48,0,-42]}],"fragments":["c04_frag_city_map","c04_frag_names_wall"]},
+    {"id":"c04_resonance_halls","size_m":[110,110],"entry":[-44,0,40],"exits":[{"to":"c04_seven_silences","position":[44,0,-40]}],"fragments":["c04_frag_tuning_table","c04_frag_shared_voice","c04_frag_broken_scale"]},
+    {"id":"c04_seven_silences","size_m":[120,100],"entry":[-50,0,34],"exits":[{"to":"c04_echo_camp","position":[50,0,-34]}],"fragments":["c04_frag_observer_note","c04_frag_sky_measure"],"encounters":[{"id":"c04_silence_ambush","type":"normal","position":[0,0,2]}]},
+    {"id":"c04_echo_camp","size_m":[90,90],"entry":[-34,0,30],"exits":[{"to":"c04_broken_observatory","position":[34,0,-30]}],"campfire":true,"campfire_position":[0,0,0],"fragments":["c04_frag_camp_translation"]},
+    {"id":"c04_broken_observatory","size_m":[120,110],"entry":[-48,0,42],"exits":[{"to":"c04_chorus_chamber","position":[48,0,-42]}],"encounters":[{"id":"c04_faceless_measure","type":"miniboss","name":"Le Mesureur Sans Visage","position":[0,0,0]}],"fragments":["c04_frag_rupture_log","c04_frag_countermeasure","c04_frag_disagreement"]},
+    {"id":"c04_chorus_chamber","size_m":[90,90],"entry":[-34,0,30],"exits":[],"encounters":[{"id":"c04_boss_unfinished_chorus","type":"boss","position":[0,0,-8]}],"fragments":["c04_frag_final_chorus"]}
+  ],
+  "fragments":[
+    {"id":"c04_frag_city_map","title":"Plan de la Cité de Nhal","source_family":"civic_cartography","reliability":"high","supports":["ashai_civilization","predates_project"]},
+    {"id":"c04_frag_names_wall","title":"Mur des noms accordés","source_family":"civic_memory","reliability":"high","supports":["collective_memory"]},
+    {"id":"c04_frag_tuning_table","title":"Table d'accord des chambres","source_family":"technical_resonance","reliability":"high","supports":["consciousness_measurement","first_rupture"]},
+    {"id":"c04_frag_shared_voice","title":"Instruction : parler à plusieurs","source_family":"technical_resonance","reliability":"partial","supports":["collective_memory","consciousness_measurement"]},
+    {"id":"c04_frag_broken_scale","title":"Échelle de cohérence brisée","source_family":"technical_resonance","reliability":"high","supports":["first_rupture"]},
+    {"id":"c04_frag_observer_note","title":"Note d'une observatrice des Sept Silences","source_family":"scientific_observation","reliability":"high","supports":["not_a_door","first_rupture"]},
+    {"id":"c04_frag_sky_measure","title":"Mesure du ciel intérieur","source_family":"scientific_observation","reliability":"ambiguous","supports":["not_a_door"]},
+    {"id":"c04_frag_camp_translation","title":"Traduction moderne contestée","source_family":"modern_translation","reliability":"partial","supports":["not_a_door"],"contradiction":true},
+    {"id":"c04_frag_rupture_log","title":"Journal de la Première Rupture","source_family":"emergency_record","reliability":"high","supports":["first_rupture","collective_memory"]},
+    {"id":"c04_frag_countermeasure","title":"Procédure de réduction de résonance","source_family":"emergency_record","reliability":"high","supports":["first_rupture","not_a_door"]},
+    {"id":"c04_frag_disagreement","title":"Débat sur la nature du phénomène","source_family":"philosophical_record","reliability":"high","supports":["not_a_door"],"contradiction":true},
+    {"id":"c04_frag_final_chorus","title":"Dernière mémoire du Chœur","source_family":"memory_echo","reliability":"partial","supports":["collective_memory","first_rupture","not_a_door"]}
+  ],
+  "hypotheses":[
+    {"id":"ashai_civilization","title":"Les Ashaï de Nhal formaient une civilisation structurée","required_support":1,"independent_sources":1},
+    {"id":"consciousness_measurement","title":"Ils mesuraient la relation entre conscience et matière","required_support":2,"independent_sources":1},
+    {"id":"first_rupture","title":"Ils provoquèrent une rupture locale il y a environ 3 700 ans","required_support":4,"independent_sources":3},
+    {"id":"not_a_door","title":"Le Voile n'est probablement pas un lieu extérieur ordinaire","required_support":4,"independent_sources":3},
+    {"id":"collective_memory","title":"La mémoire collective participait au phénomène","required_support":3,"independent_sources":2}
+  ]
+}
