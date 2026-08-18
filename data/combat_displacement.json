@@ -23,28 +23,28 @@
   "boss_maneuvers": {
     "c05_boss_silex_general": {
       "name": "Ordre de recul",
-      "part_required": "offensive_limb",
+      "part_required": "command_arm",
       "cadence": 2,
       "effect": "push_front_hero_1",
       "lost_part_transform": "Le Général perd sa capacité à casser la première ligne et doit combattre dans l'ordre déjà établi."
     },
     "c06_boss_boundary": {
       "name": "Translation de frontière",
-      "part_required": "anchor_limb",
+      "part_required": "boundary_anchor",
       "cadence": 2,
       "effect": "swap_outer_heroes",
       "lost_part_transform": "La Frontière ne peut plus échanger brutalement l'avant et l'arrière de la compagnie."
     },
     "c09_boss_consensus": {
       "name": "Permutation des perspectives",
-      "part_required": "anchor_limb",
+      "part_required": "perspective_anchor",
       "cadence": 2,
       "effect": "rotate_party_right",
       "lost_part_transform": "Le Consensus perd sa capacité à imposer une perspective commune par déplacement forcé."
     },
     "c10_boss_final": {
       "name": "Onde de rupture commune",
-      "part_required": "support_limb",
+      "part_required": "common_support",
       "cadence": 2,
       "effect": "invert_pairs",
       "lost_part_transform": "La Rupture Commune ne peut plus casser simultanément les duos de formation ; les synergies peuvent être reconstruites durablement."
