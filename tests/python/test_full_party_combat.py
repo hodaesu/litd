@@ -22,16 +22,17 @@ def test_all_hero_skill_stats_are_consumed():
     assert "max_madness" in report["consumed_stats"]
 
 
-def test_main_scene_routes_through_v4_v3_v2_chain():
+def test_main_scene_routes_through_v5_v4_v3_v2_chain():
     scene = (ROOT / "scenes/Main.tscn").read_text(encoding="utf-8")
+    displacement = (ROOT / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
     dismemberment = (ROOT / "scripts/ui/main_v4.gd").read_text(encoding="utf-8")
     tactical = (ROOT / "scripts/ui/main_v3.gd").read_text(encoding="utf-8")
     combat = (ROOT / "scripts/ui/main_v2.gd").read_text(encoding="utf-8")
-    assert 'res://scripts/ui/main_v4.gd' in scene
+    assert 'res://scripts/ui/main_v5.gd' in scene
+    assert 'extends "res://scripts/ui/main_v4.gd"' in displacement
     assert 'extends "res://scripts/ui/main_v3.gd"' in dismemberment
     assert 'extends "res://scripts/ui/main_v2.gd"' in tactical
     assert "func _active_round_hero()" in combat
     assert "func _finish_party_round()" in combat
-    assert "alive_heroes()[0]" not in combat
-    assert "alive_heroes()[0]" not in tactical
-    assert "alive_heroes()[0]" not in dismemberment
+    for source in [combat, tactical, dismemberment, displacement]:
+        assert "alive_heroes()[0]" not in source
