@@ -82,6 +82,8 @@ func _prepare_placeholder_enemies() -> void:
                 "c05_boss_silex_general": _setup_enemy(e,"Le Général de Silex",188,[9,15],9,"Ordre qui ne finit jamais")
                 "c06_boss_boundary": _setup_enemy(e,"La Frontière qui marche",210,[10,16],10,"Ici n'est plus ici")
                 "c07_boss_edras": _setup_enemy(e,"Edras Nhal, l'Ouvert",224,[10,17],10,"Regardez enfin")
+                "c08_boss_varkhane": _setup_enemy(e,"Maréchal du Trône Vide",236,[11,18],11,"Ordre du Trône Vide")
+                "c08_boss_azravel": _setup_enemy(e,"Le Saint de la Faille",244,[11,19],12,"Une seule vérité")
                 "vestige_ashai_boss_seventh_voice": _setup_enemy(e,"La Septième Voix",230,[10,16],11,"Le Monde que Nous Accordons"); e["deep_vestige_boss"] = true
                 "vestige_silex_boss_last_strategist": _setup_enemy(e,"Le Dernier Stratège",252,[11,17],12,"Victoire avant la bataille"); e["deep_vestige_boss"] = true
                 "vestige_saan_boss_last_watch": _setup_enemy(e,"La Dernière Veille",248,[10,17],12,"Que personne ne passe"); e["deep_vestige_boss"] = true
@@ -120,7 +122,7 @@ func resolve_defeat() -> void:
 func _roll_loot() -> Dictionary:
     if encounter_id in ["vestige_ashai_boss_seventh_voice","vestige_silex_boss_last_strategist","vestige_saan_boss_last_watch"]:
         return {"gold":80,"essence":18,"equipment_rarity":"rare"}
-    if encounter_id in ["c06_boss_boundary","c07_boss_edras"]:
+    if encounter_id in ["c06_boss_boundary","c07_boss_edras","c08_boss_varkhane","c08_boss_azravel"]:
         return {"gold":60,"essence":10,"equipment_rarity":"rare"}
     if encounter_type != "miniboss": return {"gold":18,"essence":2,"equipment_rarity":"common"}
     var tier := str(miniboss_data.get("loot_tier","major"))
