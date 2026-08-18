@@ -21,6 +21,8 @@ func _ready() -> void:
     Chapter01Runtime.boss_choice_required.connect(_on_boss_choice_required)
     Chapter02Runtime.chapter_two_changed.connect(_on_state_changed)
     Chapter02Runtime.final_choice_required.connect(_on_chapter_two_choice_required)
+    Chapter03Runtime.chapter_three_changed.connect(_on_state_changed)
+    Chapter03Runtime.echo_choice_required.connect(_on_chapter_three_choice_required)
     SanctuaryState.sanctuary_state_changed.connect(_on_sanctuary_changed)
     _on_screen_requested(GameState.current_screen)
 
@@ -94,12 +96,16 @@ func _on_screen_requested(screen_name: String) -> void:
         PoliticalState.refresh_unlocks()
         Chapter01Runtime.refresh_progress()
         Chapter02Runtime.refresh_progress()
+        Chapter03Runtime.refresh_progress()
         _render()
 
 func _on_boss_choice_required() -> void:
     GameState.request_screen("quest_journal")
 
 func _on_chapter_two_choice_required() -> void:
+    GameState.request_screen("quest_journal")
+
+func _on_chapter_three_choice_required() -> void:
     GameState.request_screen("quest_journal")
 
 func _on_state_changed() -> void:
@@ -122,7 +128,6 @@ func _render() -> void:
     columns.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     columns.add_theme_constant_override("separation", 16)
     body.add_child(columns)
-
     var quests_panel := PanelContainer.new()
     quests_panel.custom_minimum_size = Vector2(590, 590)
     quests_panel.add_theme_stylebox_override("panel", _style())
@@ -133,17 +138,16 @@ func _render() -> void:
     quest_box.custom_minimum_size = Vector2(550, 0)
     quest_box.add_theme_constant_override("separation", 9)
     quest_scroll.add_child(quest_box)
-
     var chapter := CampaignState.current_chapter()
     quest_box.add_child(_label("QUÊTE PRINCIPALE", 19, GOLD))
     quest_box.add_child(_label("CHAPITRE %d — %s" % [CampaignState.current_chapter_number(), String(chapter.get("title", ""))], 18, TEXT))
     quest_box.add_child(_label(String(chapter.get("premise", "")), 13, MUTED))
-
     if CampaignState.current_chapter_id == "chapter_01_ashlands":
         _render_chapter_one(quest_box)
     elif CampaignState.current_chapter_id == "chapter_02_before_fall":
         _render_chapter_two(quest_box)
-
+    elif CampaignState.current_chapter_id == "chapter_03_threshold":
+        _render_chapter_three(quest_box)
     var main_active := CampaignState.active_main_quests()
     if main_active.is_empty():
         quest_box.add_child(_label("Toutes les quêtes principales de ce chapitre sont terminées.", 14, MUTED))
@@ -152,12 +156,10 @@ func _render() -> void:
             var main_quest: Dictionary = quest_value
             quest_box.add_child(_label("◆ %s" % String(main_quest.get("name", "Quête principale")), 16, TEXT))
             quest_box.add_child(_label(String(main_quest.get("goal", "")), 13, MUTED))
-
     if not CampaignState.discovered_revelations.is_empty():
         quest_box.add_child(_label("RÉVÉLATIONS CONFIRMÉES", 16, GOLD))
         for revelation in CampaignState.discovered_revelations.values():
             quest_box.add_child(_label("• %s" % String(revelation), 13, MUTED))
-
     quest_box.add_child(_label("DÉCISIONS LOCALES", 18, GOLD))
     var available := PoliticalState.available_quests()
     if available.is_empty():
@@ -166,16 +168,6 @@ func _render() -> void:
         var quest: Dictionary = quest_value
         quest_box.add_child(_label("• %s" % String(quest.get("name", "Quête")), 17, TEXT))
         quest_box.add_child(_label(String(quest.get("theme", "")), 13, MUTED))
-
-    var completed := PoliticalState.completed_quests()
-    if not completed.is_empty():
-        quest_box.add_child(_label("DÉCISIONS TERMINÉES", 17, GOLD))
-        for quest_value in completed:
-            var quest: Dictionary = quest_value
-            var quest_id := String(quest.get("id", ""))
-            quest_box.add_child(_label("✓ %s" % String(quest.get("name", "")), 15, TEXT))
-            quest_box.add_child(_label(PoliticalState.completed_consequence(quest_id), 13, MUTED))
-
     var sanctuary_panel := PanelContainer.new()
     sanctuary_panel.custom_minimum_size = Vector2(590, 590)
     sanctuary_panel.add_theme_stylebox_override("panel", _style())
@@ -212,48 +204,63 @@ func _render_chapter_two(parent: VBoxContainer) -> void:
     if not active_stage.is_empty():
         parent.add_child(_label("Objectif actuel : %s" % String(active_stage.get("name", "")), 16, TEXT))
         parent.add_child(_label(String(active_stage.get("objective", "")), 13, MUTED))
-    if GameState.current_screen == "quest_journal" and not AshlandsRuntime.is_zone_discovered("c02_old_road"):
+    if not AshlandsRuntime.is_zone_discovered("c02_old_road"):
         parent.add_child(_button("PARTIR SUR LA ROUTE DES BORNES", func(): AshlandsSceneRouter.start_chapter_02(), Vector2(520, 48)))
     parent.add_child(_label("ENQUÊTE — %d indices · %d sources indépendantes" % [Chapter02Runtime.clue_count(), Chapter02Runtime.independent_source_count()], 15, GOLD))
     for clue_value in Chapter02Runtime.discovered_clues.values():
         var clue: Dictionary = clue_value
         var status := "douteux" if String(clue.get("authenticity", "")) in ["false", "partial"] else "établi"
         parent.add_child(_label("• %s [%s]" % [String(clue.get("title", "Indice")), status], 13, MUTED))
-    if not Chapter02Runtime.confirmed_hypotheses.is_empty():
-        parent.add_child(_label("HYPOTHÈSES CONFIRMÉES", 15, GOLD))
-        for hypothesis_value in Chapter02Runtime.hypotheses():
-            var hypothesis: Dictionary = hypothesis_value
-            var id_value := String(hypothesis.get("id", ""))
-            if bool(Chapter02Runtime.confirmed_hypotheses.get(id_value, false)):
-                parent.add_child(_label("✓ %s" % String(hypothesis.get("title", id_value)), 13, TEXT))
     _add_chapter_two_choice_if_needed(parent)
+
+func _render_chapter_three(parent: VBoxContainer) -> void:
+    parent.add_child(_label("PROGRESSION DU CHAPITRE III — %s" % Chapter03Runtime.progress_text(), 15, GOLD))
+    var active_stage := Chapter03Runtime.active_stage()
+    if not active_stage.is_empty():
+        parent.add_child(_label("Objectif actuel : %s" % String(active_stage.get("name", "")), 16, TEXT))
+        parent.add_child(_label(String(active_stage.get("objective", "")), 13, MUTED))
+    if not AshlandsRuntime.is_zone_discovered("c03_abandoned_relay"):
+        parent.add_child(_button("ENTRER DANS LE RÉSEAU DU SEUIL", func(): AshlandsSceneRouter.start_chapter_03(), Vector2(520, 48)))
+    parent.add_child(_label("DOSSIER DU PROJET SEUIL — %d preuves · %d acteurs reliés · %d sources" % [Chapter03Runtime.evidence_count(), Chapter03Runtime.actor_count_with_evidence(), Chapter03Runtime.independent_source_count()], 15, GOLD))
+    for evidence_value in Chapter03Runtime.collected_evidence.values():
+        var evidence: Dictionary = evidence_value
+        parent.add_child(_label("• %s — %s" % [String(evidence.get("title", "Preuve")), String(evidence.get("source_group", "source"))], 13, MUTED))
+    parent.add_child(_label("RESPONSABILITÉS DOCUMENTÉES", 15, GOLD))
+    for actor_value in Chapter03Runtime.data.get("actors", []):
+        var actor: Dictionary = actor_value
+        var actor_id := String(actor.get("id", ""))
+        var links := int(Chapter03Runtime.actor_links.get(actor_id, 0))
+        parent.add_child(_label("%s — %s · %d source(s)" % [String(actor.get("name", actor_id)), String(actor.get("role_category", "")), links], 13, TEXT if links > 0 else MUTED))
+    _add_chapter_three_choice_if_needed(parent)
 
 func _add_boss_choice_if_needed(parent: VBoxContainer) -> void:
     if Chapter01Runtime.boss_choice != "" or not AshlandsRuntime.is_encounter_cleared("c01_boss_ash_witness"):
         return
     var boss_stage := Chapter01Runtime.stage("c01_stage_07_witness")
     parent.add_child(_label("DÉCISION — LE TÉMOIN DES CENDRES", 16, GOLD))
-    parent.add_child(_label("Le combat est terminé, mais ce qu'il reste du Témoin peut encore être traité de plusieurs manières.", 13, MUTED))
     for choice_value in boss_stage.get("boss_choices", []):
         var choice: Dictionary = choice_value
         var choice_id := String(choice.get("id", ""))
-        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id):
-            Chapter01Runtime.choose_boss_outcome(String(id_value))
-            SaveManager.save_game()
-            _render(), Vector2(520, 48)))
+        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id): Chapter01Runtime.choose_boss_outcome(String(id_value)); SaveManager.save_game(); _render(), Vector2(520, 48)))
 
 func _add_chapter_two_choice_if_needed(parent: VBoxContainer) -> void:
     if Chapter02Runtime.final_choice != "" or not AshlandsRuntime.is_encounter_cleared("c02_marker_warden"):
         return
     parent.add_child(_label("DÉCISION — LES PREUVES DE SAHRA VEL", 16, GOLD))
-    parent.add_child(_label("La question n'est plus seulement ce qui est vrai, mais quand et comment cette vérité doit être rendue publique.", 13, MUTED))
     for choice_value in Chapter02Runtime.slice.get("final_choice", []):
         var choice: Dictionary = choice_value
         var choice_id := String(choice.get("id", ""))
-        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id):
-            Chapter02Runtime.choose_final_outcome(String(id_value))
-            SaveManager.save_game()
-            _render(), Vector2(520, 48)))
+        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id): Chapter02Runtime.choose_final_outcome(String(id_value)); SaveManager.save_game(); _render(), Vector2(520, 48)))
+
+func _add_chapter_three_choice_if_needed(parent: VBoxContainer) -> void:
+    if Chapter03Runtime.echo_choice != "" or not AshlandsRuntime.is_encounter_cleared("c03_boss_threshold_echo"):
+        return
+    parent.add_child(_label("DÉCISION — L'ÉCHO DU SEUIL", 16, GOLD))
+    parent.add_child(_label("Plus la boucle est maintenue, plus elle livre d'informations — et plus elle expose la compagnie à la Folie.", 13, MUTED))
+    for choice_value in Chapter03Runtime.data.get("boss_choices", []):
+        var choice: Dictionary = choice_value
+        var choice_id := String(choice.get("id", ""))
+        parent.add_child(_button(String(choice.get("label", choice_id)), func(id_value = choice_id): Chapter03Runtime.choose_echo_outcome(String(id_value)); SaveManager.save_game(); _render(), Vector2(520, 48)))
 
 func _add_section(parent: VBoxContainer, title: String, entries: Array) -> void:
     if entries.is_empty():
