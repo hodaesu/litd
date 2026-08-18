@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "veil": {
+    "canonical_minimum": "Couche du réel où matière, mémoire, perception et émotion deviennent instables.",
+    "predates_civilizations": true,
+    "is_confirmed_afterlife": false,
+    "is_confirmed_deity": false,
+    "will_status": "unresolved",
+    "emotion_rules": {
+      "fear":"amplifie menace, répétition, fuite et prédation",
+      "madness":"fige la perception dans des interprétations rigides",
+      "hope":"maintient plusieurs futurs possibles",
+      "light":"stabilise la perception commune et la réalité partagée"
+    },
+    "transformation_factors":["exposure","trauma","mental_state","rift_proximity","biology","place_memory","nearby_minds","unknown_variance"],
+    "unresolved_hypotheses":["veil_conscious","veil_reflective","entities_within_veil_are_conscious"]
+  },
+  "creature_origins": [
+    {"id":"natural","name":"Créature naturelle","veil_origin":false},
+    {"id":"transformed_animal","name":"Animal transformé","veil_origin":"indirect"},
+    {"id":"awakened_dead","name":"Mort réveillé","veil_origin":"contact_or_memory"},
+    {"id":"veil_entity","name":"Être du Voile","veil_origin":"unknown_direct"},
+    {"id":"ancient_conscious_species","name":"Ancienne espèce consciente","veil_origin":false},
+    {"id":"destructive_manifestation","name":"Manifestation destructrice","veil_origin":"active_relay","species":false},
+    {"id":"coexistence_capable","name":"Capable de coexistence","veil_origin":"not_an_origin","relationship_status":true}
+  ],
+  "rule": "Aucune origine de créature ne suffit à déterminer sa culpabilité, sa conscience ou sa possibilité de coexistence."
+}
