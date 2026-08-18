@@ -1,0 +1,34 @@
+{
+  "schema_version":1,
+  "vestige_id":"vestige_lyr_mar_reversed_tides",
+  "name":"Cité des Marées Renversées",
+  "civilization":"Navigateurs de Lyr-Mar",
+  "optional":true,
+  "difficulty_tier":"deep_vestige",
+  "recommended_level_offset":5,
+  "entry_zone":"vm01_drowned_quay",
+  "zones":[
+    {"id":"vm01_drowned_quay","name":"Quai des Départs Perdus","size_m":[108,82],"entry":[0,0,31],"exits":[{"to":"vm02_tidal_archive","position":[0,0,-36]}],"fragments":["vm_f01","vm_f02"],"encounters":[{"id":"vm_elite_tidebound_sailors","type":"normal","position":[0,0,-10]}]},
+    {"id":"vm02_tidal_archive","name":"Archive des Courants Possibles","size_m":[112,86],"entry":[0,0,33],"exits":[{"to":"vm03_lighthouse_without_coast","position":[0,0,-38]}],"fragments":["vm_f03","vm_f04"],"puzzle":"Choisir une route imparfaite mais cohérente au lieu de la trajectoire prédite comme optimale."},
+    {"id":"vm03_lighthouse_without_coast","name":"Phare sans Côte","size_m":[104,90],"entry":[0,0,35],"exits":[{"to":"vm04_returning_fleet","position":[0,0,-40]}],"fragments":["vm_f05"],"encounters":[{"id":"vm_miniboss_drowned_pilot","type":"miniboss","name":"Le Pilote Sans Horizon","position":[0,0,-14]}]},
+    {"id":"vm04_returning_fleet","name":"Bassin de la Flotte Revenue","size_m":[116,88],"entry":[0,0,34],"exits":[{"to":"vm05_absent_sea","position":[0,0,-39]}],"fragments":["vm_f06"],"campfire":true,"campfire_position":[-18,0,5]},
+    {"id":"vm05_absent_sea","name":"Mer qui n'est sur aucune carte","size_m":[120,92],"entry":[0,0,36],"exits":[{"to":"vm06_cartographers_chamber","position":[0,0,-42]}],"fragments":["vm_f07","vm_f08"],"puzzle":"Maintenir trois destinations possibles ouvertes jusqu'à la dernière balise au lieu d'en verrouiller une seule."},
+    {"id":"vm06_cartographers_chamber","name":"Chambre des Routes Revenantes","size_m":[128,98],"entry":[0,0,39],"exits":[],"fragments":["vm_f09"],"encounters":[{"id":"vestige_lyrmar_boss_absent_cartographer","type":"boss","name":"La Cartographe des Mers Absentes","position":[0,0,-17]}]}
+  ],
+  "fragments":[
+    {"id":"vm_f01","title":"Le voyage n'est pas une ligne","text":"Une route sûre est une conversation entre vent, équipage, cargaison et destination."},
+    {"id":"vm_f02","title":"Trois ports possibles","text":"Nos instruments montrent trois arrivées. Le capitaine choisit la quatrième."},
+    {"id":"vm_f03","title":"Atlas probabiliste","text":"Chaque route non choisie reste inscrite afin que la mer ne soit jamais réduite à une seule possibilité."},
+    {"id":"vm_f04","title":"Décret d'optimisation","text":"Les écoles centrales exigent que les routes présentant plus de douze pour cent de perte soient retirées des cartes publiques."},
+    {"id":"vm_f05","title":"Le phare sans côte","text":"Le phare continue d'appeler des navires vers un rivage qui a cessé d'exister dans notre monde commun."},
+    {"id":"vm_f06","title":"Journal de retour","text":"Nous sommes revenus au même port après trente-sept jours de navigation vers l'ouest. Personne n'a vu le navire virer."},
+    {"id":"vm_f07","title":"Route parfaite","text":"Une route sans imprévu devient une boucle lorsqu'aucune autre issue n'est encore autorisée à exister."},
+    {"id":"vm_f08","title":"Dernier avertissement des pilotes","text":"Ne supprimez pas les mauvaises cartes. Elles rappellent à la mer qu'elle pourrait être autrement."},
+    {"id":"vm_f09","title":"Les mers absentes","text":"Nous n'avons pas perdu certaines mers. Nous avons peut-être cessé collectivement de leur laisser une route jusqu'à nous."}
+  ],
+  "miniboss":{"id":"vm_miniboss_drowned_pilot","name":"Le Pilote Sans Horizon","signature":"Courant de retour","core_puzzle":"Il prédit la prochaine action dominante du groupe et renvoie cette stratégie contre lui.","counterplay":"Alterner attaque, soutien, garde et environnement afin de rendre sa route prédite incorrecte."},
+  "boss":{"id":"vestige_lyrmar_boss_absent_cartographer","name":"La Cartographe des Mers Absentes","tier":"deep_vestige_boss","signature":"Toutes les routes reviennent","phases":["Carte sûre","Retour impossible","Mer absente"],"environmental_solution":"Conserver trois balises contradictoires actives afin qu'aucune destination unique ne puisse devenir obligatoire.","alternate_resolutions":["briser_la_carte","ouvrir_les_routes","laisser_une_mer_autonome"],"punishes_bruteforce":"La répétition d'une même catégorie d'action transforme celle-ci en route prédite et augmente sa résistance."},
+  "completion_requirements":{"fragments_min":7,"boss":"vestige_lyrmar_boss_absent_cartographer"},
+  "rewards":{"gold":175,"essence":42,"relic":{"id":"relic_lyrmar_open_compass","name":"Compas des Routes Ouvertes","effect":"Une fois par donjon, révèle une seconde issue à un événement ou annule un verrou de route non définitif."},"deep_truth":{"id":"deep_truth_lyr_mar","text":"Lyr-Mar a découvert qu'une prévision collective peut stabiliser une route, puis a transformé cette protection en prison en supprimant méthodiquement les itinéraires jugés trop risqués."}},
+  "replay":{"shortcuts_persist":true,"secret_rooms":2,"all_fragments_required_for_deep_truth":true}
+}
