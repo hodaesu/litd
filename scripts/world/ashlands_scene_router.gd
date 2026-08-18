@@ -9,6 +9,7 @@ const CHAPTER_02_PATH := "res://scenes/world/chapter_02/"
 const CHAPTER_03_PATH := "res://scenes/world/chapter_03/"
 const CHAPTER_04_PATH := "res://scenes/world/chapter_04/"
 const CHAPTER_05_PATH := "res://scenes/world/chapter_05/"
+const CHAPTER_06_PATH := "res://scenes/world/chapter_06/"
 const DEEP_VESTIGE_PATH := "res://scenes/world/deep_vestiges/"
 const MAIN_SCENE := "res://scenes/Main.tscn"
 
@@ -18,6 +19,7 @@ var zone_scene_paths := {
     "c03_abandoned_relay": CHAPTER_03_PATH + "c03_abandoned_relay.tscn", "c03_korem_lab": CHAPTER_03_PATH + "c03_korem_lab.tscn", "c03_diplomatic_post": CHAPTER_03_PATH + "c03_diplomatic_post.tscn", "c03_threshold_complex": CHAPTER_03_PATH + "c03_threshold_complex.tscn", "c03_abort_chamber": CHAPTER_03_PATH + "c03_abort_chamber.tscn", "c03_ritual_core": CHAPTER_03_PATH + "c03_ritual_core.tscn",
     "c04_buried_city": CHAPTER_04_PATH + "c04_buried_city.tscn", "c04_resonance_halls": CHAPTER_04_PATH + "c04_resonance_halls.tscn", "c04_seven_silences": CHAPTER_04_PATH + "c04_seven_silences.tscn", "c04_echo_camp": CHAPTER_04_PATH + "c04_echo_camp.tscn", "c04_broken_observatory": CHAPTER_04_PATH + "c04_broken_observatory.tscn", "c04_chorus_chamber": CHAPTER_04_PATH + "c04_chorus_chamber.tscn",
     "c05_black_glass_crypts": CHAPTER_05_PATH + "c05_black_glass_crypts.tscn", "c05_war_forge": CHAPTER_05_PATH + "c05_war_forge.tscn", "c05_silex_bastion": CHAPTER_05_PATH + "c05_silex_bastion.tscn", "c05_saan_well": CHAPTER_05_PATH + "c05_saan_well.tscn", "c05_last_watch_camp": CHAPTER_05_PATH + "c05_last_watch_camp.tscn", "c05_closure_chamber": CHAPTER_05_PATH + "c05_closure_chamber.tscn", "c05_command_vault": CHAPTER_05_PATH + "c05_command_vault.tscn",
+    "c06_timeless_garden": CHAPTER_06_PATH + "c06_timeless_garden.tscn", "c06_echo_shore": CHAPTER_06_PATH + "c06_echo_shore.tscn", "c06_mute_doors": CHAPTER_06_PATH + "c06_mute_doors.tscn", "c06_overlap_hamlet": CHAPTER_06_PATH + "c06_overlap_hamlet.tscn", "c06_creature_hollow": CHAPTER_06_PATH + "c06_creature_hollow.tscn", "c06_saen_contact": CHAPTER_06_PATH + "c06_saen_contact.tscn", "c06_walking_boundary": CHAPTER_06_PATH + "c06_walking_boundary.tscn",
     "va01_threshold_gallery": DEEP_VESTIGE_PATH + "va01_threshold_gallery.tscn", "va02_singing_well": DEEP_VESTIGE_PATH + "va02_singing_well.tscn", "va03_hall_of_pairs": DEEP_VESTIGE_PATH + "va03_hall_of_pairs.tscn", "va04_silent_cloister": DEEP_VESTIGE_PATH + "va04_silent_cloister.tscn", "va05_memory_organ": DEEP_VESTIGE_PATH + "va05_memory_organ.tscn", "va06_seventh_chamber": DEEP_VESTIGE_PATH + "va06_seventh_chamber.tscn",
     "vs01_gate_of_doctrine": DEEP_VESTIGE_PATH + "vs01_gate_of_doctrine.tscn", "vs02_countermeasure_hall": DEEP_VESTIGE_PATH + "vs02_countermeasure_hall.tscn", "vs03_black_arsenal": DEEP_VESTIGE_PATH + "vs03_black_arsenal.tscn", "vs04_civilian_foundry": DEEP_VESTIGE_PATH + "vs04_civilian_foundry.tscn", "vs05_last_strategy": DEEP_VESTIGE_PATH + "vs05_last_strategy.tscn", "vs06_war_table": DEEP_VESTIGE_PATH + "vs06_war_table.tscn",
     "vn01_outer_cloister": DEEP_VESTIGE_PATH + "vn01_outer_cloister.tscn", "vn02_silent_archive": DEEP_VESTIGE_PATH + "vn02_silent_archive.tscn", "vn03_sealed_dormitory": DEEP_VESTIGE_PATH + "vn03_sealed_dormitory.tscn", "vn04_watchers_well": DEEP_VESTIGE_PATH + "vn04_watchers_well.tscn", "vn05_last_vigil": DEEP_VESTIGE_PATH + "vn05_last_vigil.tscn", "vn06_seal_heart": DEEP_VESTIGE_PATH + "vn06_seal_heart.tscn"
@@ -41,6 +43,7 @@ func start_chapter_02() -> bool: return CampaignState.current_chapter_id == "cha
 func start_chapter_03() -> bool: return CampaignState.current_chapter_id == "chapter_03_threshold" and _start_exp("c03_abandoned_relay")
 func start_chapter_04() -> bool: return CampaignState.current_chapter_id == "chapter_04_first_rupture" and _start_exp("c04_buried_city")
 func start_chapter_05() -> bool: return CampaignState.current_chapter_id == "chapter_05_great_closure" and _start_exp("c05_black_glass_crypts")
+func start_chapter_06() -> bool: return CampaignState.current_chapter_id == "chapter_06_absent" and _start_exp("c06_timeless_garden")
 func start_ashai_deep_vestige() -> bool: return DeepVestigeRuntime.is_unlocked("vestige_ashai_seven_resonances") and _start_exp("va01_threshold_gallery")
 func start_or_silex_deep_vestige() -> bool: return DeepVestigeRuntime.is_unlocked("vestige_or_silex_black_glass") and _start_exp("vs01_gate_of_doctrine")
 func start_saan_deep_vestige() -> bool: return DeepVestigeRuntime.is_unlocked("vestige_saan_last_seal") and _start_exp("vn01_outer_cloister")
