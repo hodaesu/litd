@@ -1,10 +1,13 @@
 {
   "version": 1,
   "level_id": "terre_des_cendres",
-  "total_entries": 22,
+  "total_entries": 40,
   "collections": {
     "echoes_before_fall": {"name": "Échos d'avant la Chute", "total": 12},
-    "broken_world_meditations": {"name": "Méditations du monde brisé", "total": 10}
+    "broken_world_meditations": {"name": "Méditations du monde brisé", "total": 10},
+    "fear_treatises": {"name": "Traités de la Peur", "total": 6},
+    "hope_vigils": {"name": "Veilles de l'Espoir", "total": 6},
+    "broken_city_archives": {"name": "Archives de la Cité brisée", "total": 6}
   },
   "environmental_scenes": [
     {
@@ -306,6 +309,222 @@
       "position": [14, 9, -3],
       "hope_reward": 1,
       "text": "Si tu lis ceci, demande-toi quand tu as parlé pour la dernière fois à quelqu'un sans chercher à lui cacher ta peur.\n\nLa Folie nous ronge d'abord en secret.\n\nElle nous persuade que nos pensées nous rendraient indignes d'être aimés, suivis ou sauvés.\n\nAlors nous nous taisons.\n\nPuis elle parle à notre place.\n\nSonne la cloche.\n\nNon pour chasser les voix.\n\nSonne-la pour rappeler aux vivants qu'ils ne sont pas seuls à les entendre."
+    },
+    {
+      "id": "fear_01_la_sentinelle",
+      "collection": "fear_treatises",
+      "collection_name": "Traités de la Peur",
+      "title": "La sentinelle intérieure",
+      "document_type": "Méditation martiale",
+      "author": "Maître Oren",
+      "fear_theme": "vigilance",
+      "zone_id": "zone_01_faubourg_cendreux",
+      "position": [24, 0, -25],
+      "text": "La Peur n'est pas une lâcheté logée dans le ventre. Elle est une sentinelle.\n\nElle entend parfois un danger avant la raison et réveille le corps avant que l'esprit ait trouvé les mots.\n\nMais une sentinelle ne doit pas gouverner la cité. Écoute son avertissement, remercie-la, puis décide toi-même d'ouvrir ou non la porte."
+    },
+    {
+      "id": "fear_02_peur_empruntee",
+      "collection": "fear_treatises",
+      "collection_name": "Traités de la Peur",
+      "title": "La peur empruntée",
+      "document_type": "Note de survivante",
+      "author": "Nara de la Grue de Fer",
+      "fear_theme": "groupe",
+      "zone_id": "zone_05_ravin_des_pendus",
+      "position": [-24, 1, 20],
+      "text": "Dans un groupe, la Peur voyage sans demander la permission. Un regard trop long vers l'obscurité suffit parfois à tendre quatre épaules.\n\nCela ne signifie pas que la peur du premier était fausse. Cela signifie que les autres l'ont reçue sans connaître son origine.\n\nQuand l'un de nous tremble, demandons d'abord ce qu'il a vu avant de regarder dans la même direction."
+    },
+    {
+      "id": "fear_03_le_courage_apres",
+      "collection": "fear_treatises",
+      "collection_name": "Traités de la Peur",
+      "title": "Le courage vient après",
+      "document_type": "Fragment de discours",
+      "author": "Oratrice Sahm",
+      "fear_theme": "courage",
+      "zone_id": "zone_11_route_des_penitents",
+      "position": [-28, 2, 17],
+      "text": "Nous enseignions autrefois que le courage précédait l'action. La Chute nous a corrigés.\n\nLa Peur vient d'abord. Puis vient le choix de rester, de fuir, de protéger ou d'appeler à l'aide.\n\nLe courage n'est pas l'absence de Peur. Il est ce que nous décidons de faire après l'avoir entendue."
+    },
+    {
+      "id": "fear_04_la_bete_acculée",
+      "collection": "fear_treatises",
+      "collection_name": "Traités de la Peur",
+      "title": "La bête acculée",
+      "document_type": "Observation de terrain",
+      "author": "Éclaireuse Yao",
+      "fear_theme": "creatures",
+      "zone_id": "zone_04_foret_morte",
+      "position": [15, 0, 27],
+      "text": "La créature montrait les dents, mais reculait à chacun de nos pas. Trois novices y virent une invitation au combat.\n\nJ'y vis une demande de distance.\n\nNous avons baissé nos armes et quitté le sentier. Elle ne nous suivit pas.\n\nLa Peur possède souvent le visage de la violence lorsqu'aucune autre langue n'est possible."
+    },
+    {
+      "id": "fear_05_donner_un_nom",
+      "collection": "fear_treatises",
+      "collection_name": "Traités de la Peur",
+      "title": "Donner un nom à la Peur",
+      "document_type": "Exercice de soin",
+      "author": "Sœur Meilin",
+      "fear_theme": "parole",
+      "zone_id": "zone_08_catacombes",
+      "position": [-14, -6, 28],
+      "text": "Ne demandez pas seulement : « As-tu peur ? »\n\nDemandez : « De quoi as-tu peur ? Que crois-tu qu'il va arriver ? De quoi aurais-tu besoin si cela arrivait ? »\n\nUne Peur sans nom remplit tout l'horizon. Une Peur nommée possède des contours. Ce qui possède des contours peut être regardé à plusieurs."
+    },
+    {
+      "id": "fear_06_apres_la_victoire",
+      "collection": "fear_treatises",
+      "collection_name": "Traités de la Peur",
+      "title": "Après la victoire",
+      "document_type": "Confession de combattant",
+      "author": "Dagan du Marteau Calme",
+      "fear_theme": "retour",
+      "zone_id": "zone_13_clocher_boss",
+      "position": [-18, 2, 12],
+      "text": "J'ai vaincu ce qui nous poursuivait. Pourtant, mes mains tremblèrent seulement lorsque le silence revint.\n\nPendant le combat, mon corps savait quoi faire. Après, il continua d'attendre le prochain coup.\n\nNe dites jamais à celui qui a survécu qu'il devrait se sentir en sécurité. Restez près de lui jusqu'à ce que son corps finisse par vous croire."
+    },
+    {
+      "id": "hope_01_un_travail",
+      "collection": "hope_vigils",
+      "collection_name": "Veilles de l'Espoir",
+      "title": "L'Espoir est un travail",
+      "document_type": "Note d'artisan",
+      "author": "Ahn, potier",
+      "hope_theme": "action",
+      "zone_id": "zone_03_moulin_calcine",
+      "position": [18, 0, 12],
+      "text": "On parle de l'Espoir comme d'une lumière qui apparaîtrait d'elle-même. Je n'en ai jamais vu de cette sorte.\n\nL'Espoir que je connais demande de dégager les débris, rallumer le four et préparer un repas pour celui qui n'est pas encore revenu.\n\nL'Espoir n'est pas l'attente d'un monde meilleur. C'est le premier geste accompli comme si ce monde pouvait encore exister."
+    },
+    {
+      "id": "hope_02_graine_sous_cendre",
+      "collection": "hope_vigils",
+      "collection_name": "Veilles de l'Espoir",
+      "title": "La graine sous la cendre",
+      "document_type": "Journal de cultivatrice",
+      "author": "Ilya des jardins du nord",
+      "hope_theme": "patience",
+      "zone_id": "zone_04_foret_morte",
+      "position": [42, 0, 18],
+      "text": "J'ai planté dix graines dans une terre que tous disent morte. Neuf pourriront peut-être. La dixième aussi.\n\nJe ne plante pas parce que je connais l'avenir. Je plante parce que la cendre ne doit pas être la seule à décider de ce que cette terre portera."
+    },
+    {
+      "id": "hope_03_chant_revenu",
+      "collection": "hope_vigils",
+      "collection_name": "Veilles de l'Espoir",
+      "title": "Le chant revenu",
+      "document_type": "Témoignage",
+      "author": "Sœur Meilin",
+      "hope_theme": "art",
+      "zone_id": "zone_06_chapelle_effondree",
+      "position": [5, -2, -25],
+      "text": "Nous n'avions plus chanté depuis neuf jours. Non parce que nous avions oublié les paroles, mais parce que toute musique semblait indécente parmi les morts.\n\nPuis une enfant commença seule. Personne ne lui demanda de se taire.\n\nL'Espoir entra dans la chapelle non comme une victoire, mais comme la permission de respirer encore."
+    },
+    {
+      "id": "hope_04_pont_inacheve",
+      "collection": "hope_vigils",
+      "collection_name": "Veilles de l'Espoir",
+      "title": "Le pont inachevé",
+      "document_type": "Inscription de chantier",
+      "author": "Ouvriers du hameau",
+      "hope_theme": "reconstruction",
+      "zone_id": "zone_10_hameau_deserte",
+      "position": [35, 0, 12],
+      "text": "Nous ignorons si quelqu'un vit encore sur l'autre rive. Nous reconstruisons quand même.\n\nSi personne ne vient, le pont témoignera que nous avons essayé.\n\nSi quelqu'un vient, il n'aura pas à traverser seul."
+    },
+    {
+      "id": "hope_05_sans_certitude",
+      "collection": "hope_vigils",
+      "collection_name": "Veilles de l'Espoir",
+      "title": "Espérer sans certitude",
+      "document_type": "Méditation",
+      "author": "Magistrate Elya",
+      "hope_theme": "incertitude",
+      "zone_id": "zone_12_abbaye",
+      "position": [13, 5, 21],
+      "text": "La certitude promet que tout ira bien. L'Espoir ne promet rien.\n\nIl regarde le risque, compte les absents, mesure ce qui manque et choisit pourtant d'agir.\n\nVoilà pourquoi l'Espoir est plus exigeant que l'optimisme : il demeure responsable de ce qu'il construit, même lorsqu'il peut échouer."
+    },
+    {
+      "id": "hope_06_les_lanternes",
+      "collection": "hope_vigils",
+      "collection_name": "Veilles de l'Espoir",
+      "title": "Les lanternes du clocher",
+      "document_type": "Dernière consigne",
+      "author": "Gardienne du clocher",
+      "hope_theme": "signal",
+      "zone_id": "zone_13_clocher_boss",
+      "position": [0, 8, -5],
+      "text": "Si la cloche ne peut plus sonner, allumez trois lanternes : une pour les vivants, une pour les perdus, une pour ceux qui cherchent encore le chemin.\n\nNe demandez pas qui les verra. Une lumière n'exige pas de savoir qui elle guidera avant d'accepter de brûler."
+    },
+    {
+      "id": "politics_01_presidence_tournante",
+      "collection": "broken_city_archives",
+      "collection_name": "Archives de la Cité brisée",
+      "title": "Procès-verbal de la présidence tournante",
+      "document_type": "Archive politique d'avant la Chute",
+      "author": "Conseil des Trois Éveils",
+      "era": "before_fall",
+      "zone_id": "zone_01_faubourg_cendreux",
+      "position": [35, 0, -10],
+      "text": "La présidence du Conseil est transmise aujourd'hui de la cité de Nacre à la cité de Cendre.\n\nLa présidente sortante remet les sceaux, les comptes et la liste des objections non résolues. Elle ne peut emporter aucune archive dans sa cité d'origine.\n\nLe pouvoir circule afin que nul ne finisse par le confondre avec sa propre personne."
+    },
+    {
+      "id": "politics_02_petition_nouveaux_arrivants",
+      "collection": "broken_city_archives",
+      "collection_name": "Archives de la Cité brisée",
+      "title": "Pétition pour les nouveaux arrivants",
+      "document_type": "Archive politique d'avant la Chute",
+      "author": "Habitants du quartier occidental",
+      "era": "before_fall",
+      "zone_id": "zone_10_hameau_deserte",
+      "position": [-31, 0, -22],
+      "text": "Cent trente-deux personnes venues des îles occidentales résident désormais parmi nous. Elles paient l'impôt, entretiennent les routes et enseignent leurs arts. Pourtant, elles ne peuvent encore siéger à l'assemblée.\n\nNous demandons que la résidence et la participation au bien commun ouvrent les mêmes droits que la naissance.\n\nUne cité appartient à ceux qui la font vivre."
+    },
+    {
+      "id": "politics_03_budget_du_tournoi",
+      "collection": "broken_city_archives",
+      "collection_name": "Archives de la Cité brisée",
+      "title": "Le budget du Tournoi de la Lune Rousse",
+      "document_type": "Débat politique d'avant la Chute",
+      "author": "Assemblée des Terres de Cendre",
+      "era": "before_fall",
+      "zone_id": "zone_02_village_ravage",
+      "position": [44, 0, 20],
+      "text": "Proposition adoptée : réduire d'un cinquième les décorations du prochain tournoi afin d'achever le toit de l'infirmerie.\n\nLes organisateurs rappellent que le tournoi attire les voyageurs qui financent nos commerces. Les soigneurs rappellent qu'une fête prospère davantage lorsqu'on survit jusqu'à la suivante.\n\nLes deux parties participeront au nouveau calcul des dépenses."
+    },
+    {
+      "id": "politics_04_premiere_assemblee",
+      "collection": "broken_city_archives",
+      "collection_name": "Archives de la Cité brisée",
+      "title": "La première assemblée après la nuit",
+      "document_type": "Archive politique d'après la Chute",
+      "author": "Secrétaire Lin",
+      "era": "after_fall",
+      "zone_id": "zone_03_moulin_calcine",
+      "position": [30, 0, -26],
+      "text": "Nous étions vingt-sept. Aucun magistrat n'avait survécu. La boulangère ouvrit la séance parce qu'elle était la seule à posséder encore de l'encre.\n\nNous avons élu trois responsables pour une durée de deux jours : l'un pour l'eau, l'autre pour les blessés, le dernier pour les défenses.\n\nMême au bord de l'anéantissement, personne ne reçut le pouvoir sans limite ni terme."
+    },
+    {
+      "id": "politics_05_debat_des_rations",
+      "collection": "broken_city_archives",
+      "collection_name": "Archives de la Cité brisée",
+      "title": "Le débat des dernières rations",
+      "document_type": "Archive politique d'après la Chute",
+      "author": "Assemblée réfugiée de la chapelle",
+      "era": "after_fall",
+      "zone_id": "zone_06_chapelle_effondree",
+      "position": [31, 0, -15],
+      "text": "Il reste de quoi nourrir quarante personnes pendant trois jours. Nous sommes cinquante-huit.\n\nLa proposition de privilégier les combattants est rejetée : les enfants, soigneurs, cuisiniers et porteurs contribuent également à notre survie.\n\nDécision : ration égale pour tous, supplément attribué selon l'effort du jour et réexaminé publiquement chaque soir. Les responsables mangeront après le dernier servi."
+    },
+    {
+      "id": "politics_06_charte_du_refuge",
+      "collection": "broken_city_archives",
+      "collection_name": "Archives de la Cité brisée",
+      "title": "Brouillon de la Charte du refuge",
+      "document_type": "Archive politique d'après la Chute",
+      "author": "Survivants de l'abbaye",
+      "era": "after_fall",
+      "zone_id": "zone_12_abbaye",
+      "position": [40, 10, 9],
+      "text": "Toute personne atteignant ce refuge sera d'abord accueillie comme survivante, non interrogée comme suspecte.\n\nNul peuple, aucune apparence et aucune origine ne suffisent à déclarer un être ennemi. Les actes seront jugés ; les natures ne le seront pas.\n\nLes décisions urgentes pourront être prises rapidement, mais devront être expliquées dès que le danger immédiat aura cessé.\n\nNous ne sauverons pas les Trois Éveils en abandonnant leurs principes."
     }
   ]
 }
