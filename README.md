@@ -15,6 +15,7 @@ Fondation professionnelle du prototype Godot de **Light in the Dark**.
 - [Chapitre IV — Première Rupture et Ashaï de Nhal](docs/CHAPITRE_04_PREMIERE_RUPTURE.md)
 - [Chapitre V — Or-Silex et la Grande Fermeture](docs/CHAPITRE_05_GRANDE_FERMETURE.md)
 - [Chapitre VI — Les Absents](docs/CHAPITRE_06_LES_ABSENTS.md)
+- [Chapitre VII — Les responsables vivants](docs/CHAPITRE_07_RESPONSABLES_VIVANTS.md)
 - [Histoire fondatrice — Dernière Guerre et Trois Éveils](docs/HISTOIRE_TROIS_EVEILS.md)
 - [La Concorde — droit et justice](docs/CONCORDE_DROIT_JUSTICE.md)
 - [La Concorde avant la Chute — courants politiques](docs/CONCORDE_COURANTS_PRE_CHUTE.md)
