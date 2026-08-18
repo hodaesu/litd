@@ -63,6 +63,7 @@ func start_chapter_02() -> bool:
     if not ExpeditionManager.expedition_active:
         ExpeditionManager.start_expedition()
     AshlandsRuntime.begin_new_expedition()
+    GameState.request_screen("exploration")
     return load_zone("c02_old_road")
 
 func return_to_hub(reason: String = "voluntary") -> void:
