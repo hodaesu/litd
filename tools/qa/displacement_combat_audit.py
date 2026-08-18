@@ -24,6 +24,7 @@ def run(root: Path = ROOT) -> dict:
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
     v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
     v4 = (root / "scripts/ui/main_v4.gd").read_text(encoding="utf-8")
+    bridge = (root / "scripts/world/ashlands_combat_bridge.gd").read_text(encoding="utf-8")
     checks: list[dict] = []
 
     def check(name: str, ok: bool, detail: str = "") -> None:
@@ -55,7 +56,9 @@ def run(root: Path = ROOT) -> dict:
         check(f"{boss_id} : membre requis", bool(maneuver.get("part_required")), str(maneuver))
         check(f"{boss_id} : transformation documentée", bool(maneuver.get("lost_part_transform")), str(maneuver))
         check(f"{boss_id} : cadence positive", int(maneuver.get("cadence", 0)) > 0, str(maneuver.get("cadence")))
+        check(f"{boss_id} : rencontre présente dans le bridge", f'"{boss_id}"' in bridge)
 
+    check("Bridge expose chapter_boss_id", 'e["chapter_boss_id"] = encounter_id' in bridge)
     check("Boss vérifie le membre avant manœuvre", "_part_is_available(enemy, required)" in v5)
     check("Perte du membre journalise PHASE ALTÉRÉE", "PHASE ALTÉRÉE" in v5)
     check("Manœuvres exécutées avant le tour ennemi", "func enemy_turn()" in v5 and "_apply_boss_formation_maneuvers()" in v5 and "super.enemy_turn()" in v5)
