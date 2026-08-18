@@ -16,6 +16,9 @@ python -m tools.qa.audit
 echo "==> Audit transversal campagne et systèmes"
 python -m tools.qa.cross_system_audit
 
+echo "==> Audit progression, économie et NG+"
+python -m tools.qa.balance_audit
+
 if command -v godot >/dev/null 2>&1; then
   echo "==> Smoke test Godot"
   godot --headless --path . --import --quit
