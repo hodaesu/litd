@@ -1,0 +1,34 @@
+{
+  "schema_version":1,
+  "vestige_id":"vestige_vaor_khal_thousand_orders",
+  "name":"Forteresse des Mille Ordres",
+  "civilization":"Cités de Vaor-Khal",
+  "optional":true,
+  "difficulty_tier":"deep_vestige",
+  "recommended_level_offset":5,
+  "entry_zone":"vv01_basalt_road",
+  "zones":[
+    {"id":"vv01_basalt_road","name":"Route des Priorités","size_m":[104,78],"entry":[0,0,30],"exits":[{"to":"vv02_distribution_hall","position":[0,0,-34]}],"fragments":["vv_f01","vv_f02"],"encounters":[{"id":"vv_elite_route_wardens","type":"normal","position":[0,0,-10]}]},
+    {"id":"vv02_distribution_hall","name":"Salle de Répartition","size_m":[110,84],"entry":[0,0,32],"exits":[{"to":"vv03_local_councils","position":[0,0,-36]}],"fragments":["vv_f03"],"puzzle":"Rouvrir trois voies locales en donnant des priorités différentes au lieu d'un ordre unique."},
+    {"id":"vv03_local_councils","name":"Cercle des Routes Locales","size_m":[112,86],"entry":[0,0,33],"exits":[{"to":"vv04_crisis_directorate","position":[0,0,-38]}],"fragments":["vv_f04","vv_f05"],"encounters":[{"id":"vv_miniboss_order_bearer","type":"miniboss","name":"Le Porte-Ordre de Basalte","position":[0,0,-12]}]},
+    {"id":"vv04_crisis_directorate","name":"Directoire de Crise","size_m":[106,82],"entry":[0,0,31],"exits":[{"to":"vv05_unrecognized_road","position":[0,0,-36]}],"fragments":["vv_f06"],"campfire":true,"campfire_position":[-16,0,4]},
+    {"id":"vv05_unrecognized_road","name":"Route des Non-Reconnus","size_m":[116,88],"entry":[0,0,34],"exits":[{"to":"vv06_command_core","position":[0,0,-40]}],"fragments":["vv_f07","vv_f08"],"puzzle":"Suivre un itinéraire que le réseau refuse de reconnaître afin de rétablir une voie effacée."},
+    {"id":"vv06_command_core","name":"Cœur du Commandement","size_m":[124,96],"entry":[0,0,38],"exits":[],"fragments":["vv_f09"],"encounters":[{"id":"vestige_vaor_boss_command_without_body","type":"boss","name":"Le Commandement Sans Corps","position":[0,0,-16]}]}
+  ],
+  "fragments":[
+    {"id":"vv_f01","title":"Les routes appartiennent à ceux qui les empruntent","text":"Une borne ne commande pas. Elle écoute les besoins déclarés par les cités."},
+    {"id":"vv_f02","title":"Priorité de famine","text":"Quand la récolte manque, les caravanes de grain passent avant les cortèges de prestige."},
+    {"id":"vv_f03","title":"Trois ordres incompatibles","text":"Le réseau fonctionne mieux lorsque plusieurs autorités locales peuvent contester une priorité centrale."},
+    {"id":"vv_f04","title":"Création du Directoire","text":"Le Directoire devait durer quatre-vingt-dix jours. Son mandat fut renouvelé cent vingt-sept fois."},
+    {"id":"vv_f05","title":"Route refusée","text":"Une communauté entière disparaît des registres parce qu'elle n'a plus de représentant au Directoire."},
+    {"id":"vv_f06","title":"L'ordre devient le chemin","text":"Les bornes cessent progressivement de distinguer urgence matérielle et autorité administrative."},
+    {"id":"vv_f07","title":"Les non-reconnus","text":"Ils marchent à quelques mètres de nous, mais les routes les traitent comme s'ils n'existaient pas."},
+    {"id":"vv_f08","title":"Dernière objection","text":"Nous avons inventé un outil d'entraide qui ne sait plus aider sans permission."},
+    {"id":"vv_f09","title":"Le commandement sans corps","text":"Lorsque tous attendent l'ordre, l'ordre finit par exister même lorsqu'il n'y a plus personne pour le donner."}
+  ],
+  "miniboss":{"id":"vv_miniboss_order_bearer","name":"Le Porte-Ordre de Basalte","signature":"Priorité absolue","core_puzzle":"Il marque une action comme prioritaire et devient résistant si le groupe continue à la répéter.","counterplay":"Changer volontairement de type d'action et utiliser l'environnement pour invalider son ordre."},
+  "boss":{"id":"vestige_vaor_boss_command_without_body","name":"Le Commandement Sans Corps","tier":"deep_vestige_boss","signature":"Obéissez et le chemin s'ouvrira","phases":["Priorité centrale","Les routes obéissent","Plus personne ne commande"],"environmental_solution":"Activer trois bornes locales avec des priorités différentes pour réduire la légitimité du commandement central.","alternate_resolutions":["dissoudre","décentraliser","conserver_comme_archive"],"punishes_bruteforce":"Trois attaques offensives successives sont interprétées comme une doctrine stable et renforcent sa réduction de dégâts."},
+  "completion_requirements":{"fragments_min":7,"boss":"vestige_vaor_boss_command_without_body"},
+  "rewards":{"gold":170,"essence":42,"relic":{"id":"relic_vaor_route_stone","name":"Borne de Vaor-Khal","effect":"Une fois par donjon, permet d'annuler une pénalité imposée par une priorité, un ordre ou un verrou de déplacement."},"deep_truth":{"id":"deep_truth_vaor_khal","text":"Vaor-Khal n'a pas été détruite par l'absence d'organisation mais par un outil de coordination devenu incapable de reconnaître un besoin qui n'avait pas été autorisé."}},
+  "replay":{"shortcuts_persist":true,"secret_rooms":2,"all_fragments_required_for_deep_truth":true}
+}
