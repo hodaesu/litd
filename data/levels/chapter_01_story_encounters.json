@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_01_ashlands",
+  "zones": {
+    "zone_02_village_ravage": [
+      {"id":"c01_road_ambush","type":"normal","position":[-12,0,4],"name":"Embuscade des survivants","mandatory":true}
+    ],
+    "zone_07_cimetiere": [
+      {"id":"c01_miniboss_warden","type":"miniboss","position":[17,0,9],"name":"Le Gardien du passage","mandatory":true,"miniboss":{"id":"c01_guardian","name":"Le Gardien du passage","archetype":"ritual_guardian","loot_tier":"major"}}
+    ],
+    "zone_13_clocher_boss": [
+      {"id":"c01_boss_ash_witness","type":"boss","position":[0,14,-22],"name":"Le Témoin des Cendres","mandatory":true}
+    ]
+  }
+}
