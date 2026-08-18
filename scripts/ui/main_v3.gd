@@ -84,15 +84,18 @@ func _decorate_tactical_combat() -> void:
     var profile := _profile_for(hero)
     var strike_targets: Array = profile.get("strike_targets", [])
     var heavy_targets: Array = profile.get("heavy_targets", [])
+    var technique := _technique_for(hero)
+    var technique_from: Array = technique.get("from", [])
     var range_label := make_label(
-        "%s · rang %d · Frappe → %s · Lourd → %s" % [
+        "%s · rang %d · Frappe → %s · Lourd → %s · %s depuis %s" % [
             str(profile.get("identity", "Combattant")), rank,
-            _rank_list_text(strike_targets), _rank_list_text(heavy_targets)
+            _rank_list_text(strike_targets), _rank_list_text(heavy_targets),
+            str(technique.get("name", "TECHNIQUE")), _rank_list_text(technique_from)
         ],
         12, MUTED
     )
-    range_label.position = Vector2(385, 535)
-    range_label.size = Vector2(650, 30)
+    range_label.position = Vector2(320, 535)
+    range_label.size = Vector2(760, 30)
     range_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     content.add_child(range_label)
 
@@ -103,6 +106,11 @@ func _decorate_tactical_combat() -> void:
                 button.disabled = not _can_use_attack_from_rank(hero, "strike")
             elif button.text == "COUP LOURD":
                 button.disabled = not _can_use_attack_from_rank(hero, "heavy")
+
+    var technique_button := make_button(str(technique.get("name", "TECHNIQUE")), func(): hero_action("technique"), Vector2(165, 55))
+    technique_button.position = Vector2(135, 575)
+    technique_button.disabled = not _can_use_technique(hero)
+    content.add_child(technique_button)
 
     var forward := make_button("AVANCER", func(): _move_active_hero(-1), Vector2(105, 55))
     forward.position = Vector2(1045, 575)
@@ -125,7 +133,7 @@ func _rank_list_text(values: Array) -> String:
     var parts: Array[String] = []
     for value in values:
         parts.append("R%d" % int(value))
-    return "/".join(parts)
+    return "/".join(parts) if not parts.is_empty() else "—"
 
 func _profile_for(hero: Dictionary) -> Dictionary:
     var profiles: Dictionary = tactical_data.get("hero_profiles", {})
@@ -138,8 +146,12 @@ func _profile_for(hero: Dictionary) -> Dictionary:
         "strike_targets": [1, 2],
         "heavy_from": [1, 2],
         "heavy_targets": [1],
-        "identity": "Combattant polyvalent"
+        "identity": "Combattant polyvalent",
+        "technique": {"id":"generic_guard","name":"TENIR LA LIGNE","from":[1,2,3,4],"targets":[],"kind":"self"}
     }
+
+func _technique_for(hero: Dictionary) -> Dictionary:
+    return _profile_for(hero).get("technique", {})
 
 func _hero_rank(hero: Dictionary) -> int:
     return clampi(int(hero.get("battle_rank", 1)), 1, 4)
@@ -166,6 +178,11 @@ func _can_use_attack_from_rank(hero: Dictionary, action: String) -> bool:
     var allowed: Array = profile.get("heavy_from" if action == "heavy" else "strike_from", [])
     return allowed.has(_hero_rank(hero))
 
+func _can_use_technique(hero: Dictionary) -> bool:
+    var technique := _technique_for(hero)
+    var allowed: Array = technique.get("from", [])
+    return allowed.has(_hero_rank(hero))
+
 func _target_ranks_for(hero: Dictionary, action: String) -> Array:
     var profile := _profile_for(hero)
     return profile.get("heavy_targets" if action == "heavy" else "strike_targets", [])
@@ -179,12 +196,25 @@ func _selected_target_for(hero: Dictionary, action: String) -> Dictionary:
             return selected
     return {}
 
+func _selected_technique_target(hero: Dictionary) -> Dictionary:
+    var technique := _technique_for(hero)
+    var allowed: Array = technique.get("targets", [])
+    selected_enemy = clampi(selected_enemy, 0, maxi(0, GameState.battle_enemies.size() - 1))
+    if not GameState.battle_enemies.is_empty():
+        var selected: Dictionary = GameState.battle_enemies[selected_enemy]
+        if int(selected.get("hp", 0)) > 0 and allowed.has(_enemy_rank(selected)):
+            return selected
+    return {}
+
 func hero_action(action: String) -> void:
     if battle_locked:
         return
     _ensure_tactical_state()
     var hero := _active_round_hero()
-    if not hero.is_empty() and action in ["strike", "heavy"]:
+    if hero.is_empty():
+        super.hero_action(action)
+        return
+    if action in ["strike", "heavy"]:
         if not _can_use_attack_from_rank(hero, action):
             GameState.add_log("%s ne peut pas utiliser cette attaque depuis le rang %d." % [str(hero.get("name", "Héros")), _hero_rank(hero)])
             show_screen("combat")
@@ -193,6 +223,18 @@ func hero_action(action: String) -> void:
             GameState.add_log("La cible choisie est hors de portée pour %s." % str(hero.get("name", "ce héros")))
             show_screen("combat")
             return
+    if action == "technique":
+        if not _can_use_technique(hero):
+            GameState.add_log("%s ne peut pas utiliser sa technique depuis le rang %d." % [str(hero.get("name", "Héros")), _hero_rank(hero)])
+            show_screen("combat")
+            return
+        var technique := _technique_for(hero)
+        if str(technique.get("kind", "")) == "enemy" and _selected_technique_target(hero).is_empty():
+            GameState.add_log("La cible choisie est hors de portée de %s." % str(technique.get("name", "la technique")))
+            show_screen("combat")
+            return
+        _use_tactical_technique(hero)
+        return
     super.hero_action(action)
 
 func _move_active_hero(delta: int) -> void:
@@ -225,6 +267,8 @@ func hero_bonuses(hero: Dictionary) -> Dictionary:
         result["physical_resistance"] = int(result.get("physical_resistance", 0)) + 5
     if _veil_concord_active() and hero_id in ["aurelien", "lysandra"]:
         result["fear_resistance"] = int(result.get("fear_resistance", 0)) + 5
+    if hero_id == "darius" and int(hero.get("tactical_riposte_round", -1)) == round_number:
+        result["riposte_chance"] = int(result.get("riposte_chance", 0)) + 20
     return result
 
 func _hero_heal_action(hero: Dictionary) -> void:
@@ -277,6 +321,7 @@ func _hero_attack_action(hero: Dictionary, action: String) -> void:
         damage = int(round(float(damage) * (1.0 + float(bonuses.get("execute_percent", 0)) / 100.0)))
     if str(hero.get("id", "")) == "aurelien" and _opening_exploit_active() and (int(target.get("broken", 0)) > 0 or bool(target.get("stunned", false))):
         damage = int(round(float(damage) * 1.15))
+    damage = _apply_veil_mark_damage(target, damage)
 
     target["hp"] = maxi(0, int(target.get("hp", 0)) - damage)
     if int(bonuses.get("stun_chance", 0)) > 0 and randi_range(1, 100) <= int(bonuses.get("stun_chance", 0)):
@@ -290,6 +335,59 @@ func _hero_attack_action(hero: Dictionary, action: String) -> void:
     GameState.add_log("%s inflige %d dégâts%s à %s (rang %d)." % [
         str(hero.get("name", "Héros")), damage, " critiques" if critical else "", str(target.get("name", "ennemi")), _enemy_rank(target)
     ])
+
+func _apply_veil_mark_damage(target: Dictionary, damage: int) -> int:
+    var charges := int(target.get("veil_mark_charges", 0))
+    if charges <= 0:
+        return damage
+    target["veil_mark_charges"] = charges - 1
+    return int(round(float(damage) * 1.10))
+
+func _use_tactical_technique(hero: Dictionary) -> void:
+    battle_locked = true
+    var hero_id := str(hero.get("id", ""))
+    match hero_id:
+        "malvor":
+            var target := _selected_technique_target(hero)
+            var damage := _technique_damage(hero, target, 0.85)
+            target["hp"] = maxi(0, int(target.get("hp", 0)) - damage)
+            target["broken"] = 2
+            GameState.add_log("Malvor brise la garde de %s pour %d dégâts." % [str(target.get("name", "la cible")), damage])
+        "darius":
+            hero["guarding"] = true
+            hero["guard_power"] = int(hero_bonuses(hero).get("guard_power", 0)) + 20
+            hero["tactical_riposte_round"] = round_number
+            GameState.add_log("Darius verrouille la ligne et prépare sa riposte.")
+        "aurelien":
+            var target := _selected_technique_target(hero)
+            var damage := _technique_damage(hero, target, 0.75)
+            target["hp"] = maxi(0, int(target.get("hp", 0)) - damage)
+            target["veil_mark_charges"] = 2
+            GameState.add_log("Aurélien marque %s dans le Voile : deux attaques alliées seront renforcées." % str(target.get("name", "la cible")))
+        "lysandra":
+            var heal := int(round(22.0 * (1.0 + float(hero_bonuses(hero).get("healing_power", 0)) / 100.0)))
+            if _veil_concord_active():
+                heal = int(round(float(heal) * 1.15))
+            _heal_most_wounded(heal)
+            for ally_value in GameState.alive_heroes():
+                var ally: Dictionary = ally_value
+                ally["fear"] = maxi(0, int(ally.get("fear", 0)) - 6)
+            GameState.add_log("Lysandra diffuse la Lueur de Concorde : soin %d et Peur -6 à la compagnie." % heal)
+        _:
+            hero["guarding"] = true
+            hero["guard_power"] = int(hero_bonuses(hero).get("guard_power", 0)) + 10
+    _apply_passive_party_heal(hero)
+    _complete_hero_action(hero)
+
+func _technique_damage(hero: Dictionary, target: Dictionary, power: float) -> int:
+    var cls := DataLoader.find_by_id(DataLoader.classes, hero.get("class_id"))
+    var bonuses := hero_bonuses(hero)
+    var base := randi_range(int(cls.damage[0]), int(cls.damage[1])) + int(bonuses.get("damage_bonus", 0))
+    var damage := int(round(float(base) * power))
+    damage = int(round(float(damage) * (1.0 + float(bonuses.get("precision", 0)) / 100.0)))
+    damage = int(round(float(damage) * (1.0 + float(bonuses.get("damage_percent", 0)) / 100.0)))
+    damage = _apply_veil_mark_damage(target, damage)
+    return maxi(1, damage)
 
 func _complete_hero_action(hero: Dictionary) -> void:
     _compact_enemy_ranks()
