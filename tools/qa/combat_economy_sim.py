@@ -97,10 +97,9 @@ def expected_hero_heavy_damage(base_range: list[int], bonuses: dict[str, int]) -
     base += float(bonuses.get("damage_bonus", 0))
     damage = base * 1.35
     damage *= 1.0 + float(bonuses.get("precision", 0)) / 100.0
-    # Expected value of 1.5x criticals.
     damage *= 1.0 + 0.5 * float(bonuses.get("critical_chance", 0)) / 100.0
-    # Deliberately do not apply damage_percent/execute_percent here: the current
-    # combat UI does not consume those stats, and the report must reflect code reality.
+    # damage_percent/execute_percent restent volontairement absents tant que main.gd
+    # ne les consomme pas : le simulateur doit refléter le code réellement jouable.
     return damage
 
 
@@ -236,20 +235,33 @@ def xp_needed(start_level: int, target_level: int) -> int:
 
 def simulate_xp(root: Path, sim: Simulation) -> None:
     ui_source = (root / "scripts/ui/main.gd").read_text(encoding="utf-8")
+    bridge = (root / "scripts/world/ashlands_combat_bridge.gd").read_text(encoding="utf-8")
     match = re.search(r"HeroSkillManager\.grant_xp\(hero_value,\s*(\d+)\)", ui_source)
-    per_victory = int(match.group(1)) if match else 0
+    shared_xp = int(match.group(1)) if match else 0
+    scaled_campaign = "func _campaign_xp_target()" in bridge and "_grant_campaign_xp_bonus()" in bridge
+    campaign_targets = {}
+    if scaled_campaign:
+        for chapter in range(1, 11):
+            base = 90 + chapter * 10
+            campaign_targets[str(chapter)] = {"normal": base, "miniboss": base + 80, "boss": base + 170}
     rows = []
     for target in [16, 32, 48, 50]:
         needed = xp_needed(3, target)
-        victories = math.ceil(needed / per_victory) if per_victory > 0 else None
-        rows.append({"target_level": target, "xp_needed_from_level_3": needed, "victories_at_current_reward": victories})
-    sim.report["xp_pacing"] = {"xp_per_victory": per_victory, "targets": rows}
-    sim.check("XP : récompense de victoire détectée", per_victory > 0, str(per_victory))
-    level_48_victories = next(row["victories_at_current_reward"] for row in rows if row["target_level"] == 48)
+        victories = math.ceil(needed / shared_xp) if shared_xp > 0 else None
+        rows.append({"target_level": target, "xp_needed_from_level_3": needed, "prototype_victories_at_shared_xp": victories})
+    sim.report["xp_pacing"] = {
+        "shared_ui_xp": shared_xp,
+        "campaign_scaled_xp": scaled_campaign,
+        "campaign_targets": campaign_targets,
+        "prototype_only_targets": rows,
+    }
+    sim.check("XP : récompense partagée détectée", shared_xp > 0, str(shared_xp))
+    sim.check("XP : campagne possède une courbe accélérée", scaled_campaign)
+    level_48_victories = next(row["prototype_victories_at_shared_xp"] for row in rows if row["target_level"] == 48)
     sim.warn(
         "Progression XP extrêmement longue jusqu'aux ultimes de niveau 48",
-        bool(level_48_victories and level_48_victories > 300),
-        f"{level_48_victories} victoires théoriques depuis le niveau 3 avec {per_victory} XP/victoire",
+        (not scaled_campaign) and bool(level_48_victories and level_48_victories > 300),
+        f"{level_48_victories} victoires théoriques avec seulement {shared_xp} XP/victoire",
     )
 
 
@@ -293,16 +305,23 @@ def simulate_economy(root: Path, sim: Simulation) -> None:
     generic_gold = int(generic_gold_match.group(1)) if generic_gold_match else 0
     generic_essence = int(generic_essence_match.group(1)) if generic_essence_match else 0
     bridge_has_loot = "_apply_loot(pending_loot)" in bridge and '"gold":65' in bridge
+    bridge_compensates = "_remove_shared_ui_currency_reward()" in bridge and "SHARED_UI_GOLD_REWARD" in bridge and "SHARED_UI_ESSENCE_REWARD" in bridge
+    major_gold = 65 if bridge_compensates else generic_gold + 65
+    major_essence = 12 if bridge_compensates else generic_essence + 12
+    deep_gold = 80 if bridge_compensates else generic_gold + 80
+    deep_essence = 18 if bridge_compensates else generic_essence + 18
     sim.report["economy"] = {
         "generic_victory": {"gold": generic_gold, "essence": generic_essence},
         "campaign_bridge_has_separate_loot": bridge_has_loot,
-        "example_campaign_major_boss_if_both_apply": {"gold": generic_gold + 65, "essence": generic_essence + 12},
-        "example_deep_boss_if_both_apply": {"gold": generic_gold + 80, "essence": generic_essence + 18},
+        "campaign_bridge_removes_shared_reward": bridge_compensates,
+        "effective_campaign_major_boss": {"gold": major_gold, "essence": major_essence},
+        "effective_deep_boss": {"gold": deep_gold, "essence": deep_essence},
     }
+    sim.check("Économie campagne : récompense prototype neutralisée avant le butin routé", (not bridge_has_loot) or bridge_compensates)
     sim.warn(
         "Risque de double récompense sur les combats routés par AshlandsCombatBridge",
-        generic_gold > 0 and generic_essence > 0 and bridge_has_loot,
-        f"finish_victory ajoute +{generic_gold} Or/+{generic_essence} Essence, puis le bridge applique son propre butin",
+        generic_gold > 0 and generic_essence > 0 and bridge_has_loot and not bridge_compensates,
+        f"finish_victory ajoute +{generic_gold} Or/+{generic_essence} Essence et aucun correctif du bridge n'est détecté",
     )
 
     recruits = load_json(root, "data/world/ngplus_boss_recruits.json")
@@ -312,8 +331,8 @@ def simulate_economy(root: Path, sim: Simulation) -> None:
     sim.check("Économie recrutement : coûts Essence positifs", bool(costs) and all(value > 0 for value in costs.values()), str(costs))
     sim.warn(
         "Butin d'un boss profond couvre immédiatement son coût maximal de recrutement",
-        bool(costs) and generic_essence + 18 >= max(costs.values()),
-        f"butin potentiel={generic_essence + 18} Essence, coût max={max(costs.values()) if costs else 0}",
+        bool(costs) and deep_essence >= max(costs.values()),
+        f"butin profond={deep_essence} Essence, coût max={max(costs.values()) if costs else 0}",
     )
 
 
