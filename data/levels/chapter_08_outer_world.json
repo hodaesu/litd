@@ -1,0 +1,61 @@
+{
+  "schema_version":1,
+  "chapter_id":"chapter_08_outer_world",
+  "title":"Le monde extérieur",
+  "theme":"La catastrophe a traversé les frontières. Les peuples ne portent pas la culpabilité des institutions et individus qui ont choisi le Pacte de l'Horizon Fermé.",
+  "moral_question":"Comment poursuivre les responsables au-delà des frontières sans transformer la vérité en haine contre leurs peuples ?",
+  "start_zone":"c08_varkhane_border",
+  "stages":[
+    {"id":"c08_stage_01_varkhane","name":"L'Empire sans centre","type":"exploration","zone":"c08_varkhane_border","objective":"Entrer en Varkhane, rencontrer le capitaine Varek Sorn et distinguer les unités restées fidèles au centre de celles qui ont protégé leurs provinces."},
+    {"id":"c08_stage_02_varkhane_choice","name":"Le Trône Vide","type":"boss","zone":"c08_varkhane_archive","encounter_id":"c08_boss_varkhane","objective":"Rendre visibles les trois sources locales de légitimité, neutraliser le Maréchal du Trône Vide puis décider du futur immédiat de la province."},
+    {"id":"c08_stage_03_namar","name":"Les îles qui se souviennent","type":"negotiation","zone":"c08_namar_refuge_port","objective":"Gagner la confiance de la navigatrice Issel Pell et des refuges flottants sans assimiler les Maisons marchandes à tous les Namari."},
+    {"id":"c08_stage_04_namar_ledger","name":"Ce que les comptes prouvent","type":"investigation","zone":"c08_namar_ledger_vault","objective":"Croiser registres commerciaux, refus de capitaines et opérations de sauvetage pour isoler les financeurs du Projet Seuil."},
+    {"id":"c08_stage_05_azravel","name":"Les temples après Dieu","type":"exploration","zone":"c08_azravel_shelter_temple","objective":"Découvrir comment des croyants, des dissidents et des autorités sacrées ont répondu différemment à la Chute."},
+    {"id":"c08_stage_06_azravel_choice","name":"Le Saint de la Faille","type":"boss","zone":"c08_azravel_dogma_court","encounter_id":"c08_boss_azravel","objective":"Briser l'autorité fabriquée du Saint de la Faille sans traiter ses fidèles comme des ennemis collectifs, puis décider de son sort politique."},
+    {"id":"c08_stage_07_korem","name":"La cité qui conserve tout","type":"investigation","zone":"c08_korem_protocol_archive","objective":"Accéder avec la docteure Keira Om aux copies presque complètes du Projet Seuil et identifier les mécènes réellement impliqués."},
+    {"id":"c08_stage_08_return","name":"Quatre peuples, aucune culpabilité collective","type":"return","zone":"sanctuary","objective":"Ramener des témoins des quatre puissances au Sanctuaire et établir une chaîne de responsabilité transfrontalière sans condamner leurs populations."}
+  ],
+  "main_quest_bindings":{
+    "c08_varkhane":["c08_stage_01_varkhane","c08_stage_02_varkhane_choice"],
+    "c08_namar":["c08_stage_03_namar","c08_stage_04_namar_ledger"],
+    "c08_azravel":["c08_stage_05_azravel","c08_stage_06_azravel_choice"],
+    "c08_korem":["c08_stage_07_korem","c08_stage_08_return"]
+  },
+  "investigation":{
+    "required_records":12,
+    "minimum_per_power":3,
+    "civilian_or_dissident_per_power":1,
+    "independent_source_families":6,
+    "foreign_command_records":4,
+    "rule":"Une puissance ne peut être considérée comme comprise à partir de ses seules archives officielles. Chaque dossier doit inclure au moins une voix civile ou dissidente et plusieurs sources indépendantes."
+  },
+  "foreign_allies":[
+    {"id":"varek_sorn","name":"Capitaine Varek Sorn","power":"varkhane","role":"officier ayant refusé un ordre impérial et organisé la défense locale de réserves civiles"},
+    {"id":"issel_pell","name":"Navigatrice Issel Pell","power":"namar","role":"capitaine de refuge flottant ayant transporté des dissidents sans l'autorisation des grandes Maisons"},
+    {"id":"oren_val","name":"Frère Oren Val","power":"azravel","role":"moine convaincu que le clergé radical a trahi sa foi en transformant la catastrophe en justification de purges"},
+    {"id":"keira_om","name":"Docteure Keira Om","power":"kor_em","role":"chercheuse d'une académie fortifiée qui conserve des copies techniques du Projet Seuil et réclame leur contrôle public"}
+  ],
+  "bosses":[
+    {"id":"c08_boss_varkhane","name":"Maréchal du Trône Vide","hp":236,"phases":["Le centre existe encore","L'ordre sans réponse","Qui commande maintenant ?"],"signature":"Ordre du Trône Vide","truth":"Un commandant vivant qui maintient une fiction d'autorité impériale alors que les provinces survivent précisément parce qu'elles ont cessé d'attendre le centre.","core_puzzle":"Sa résistance dépend de sa légitimité locale. Trois voix — officiers dissidents, assemblée provinciale et civils des réserves — doivent être rendues visibles pour que son commandement cesse d'être traité comme la seule autorité possible.","counterplay":"Activer les trois contre-autorités de l'arène, préserver les civils et refuser ses ordres de cible prioritaire avant de créer une fenêtre de neutralisation."},
+    {"id":"c08_boss_azravel","name":"Le Saint de la Faille","hp":244,"phases":["Le Dogme","Le miracle fabriqué","La Faille publique"],"signature":"Une seule vérité","truth":"Un dignitaire religieux utilise des phénomènes du Voile et des récits falsifiés pour présenter les purges comme une nécessité sacrée.","core_puzzle":"Son pouvoir repose sur trois preuves qu'il maintient hors de portée : registre des refuges, texte hétérodoxe et ordre de purge. Les rendre publiques fait chuter son autorité et sa protection.","counterplay":"Exposer les trois contradictions, empêcher la destruction des preuves et briser son autorité sans attaquer indistinctement les croyants présents."}
+  ],
+  "boss_choices":{
+    "c08_boss_varkhane":[
+      {"id":"overthrow","label":"RENVERSER LE MARÉCHAL","effects":{"foreign_alliances":2,"justice_integrity":1,"tension":-2},"consequence":"Le commandement est dissous immédiatement, mais la transition reste fragile et doit être reconstruite après le départ du groupe."},
+      {"id":"negotiate","label":"NÉGOCIER SA REDDITION","requirements":{"authority_nodes":2},"effects":{"foreign_alliances":4,"justice_integrity":3,"trust":2},"consequence":"Le Maréchal abandonne une partie de ses pouvoirs en échange d'une audience locale et de garanties contre les représailles collectives."},
+      {"id":"local_transition","label":"SOUTENIR LA TRANSITION LOCALE","requirements":{"authority_nodes":3,"records_varkhane":3},"effects":{"foreign_alliances":7,"justice_integrity":4,"trust":3,"tension":1},"consequence":"La province reconnaît une autorité provisoire réunissant officiers dissidents, civils et juristes locaux. La Concorde n'en prend pas le contrôle."}
+    ],
+    "c08_boss_azravel":[
+      {"id":"expose","label":"RÉVÉLER PUBLIQUEMENT SES MENSONGES","requirements":{"authority_nodes":3,"records_azravel":3},"effects":{"foreign_alliances":7,"justice_integrity":5,"trust":3,"tension":3},"consequence":"Les preuves sont lues devant les fidèles. L'autorité du Saint s'effondre sans que la foi elle-même soit déclarée coupable."},
+      {"id":"arrest","label":"ARRÊTER LE SAINT DE LA FAILLE","effects":{"foreign_alliances":3,"justice_integrity":5,"tension":1},"consequence":"Il est remis à un cercle mixte de survivants, religieux dissidents et victimes des purges."},
+      {"id":"schism","label":"SOUTENIR LE SCHISME","requirements":{"authority_nodes":2},"effects":{"foreign_alliances":5,"justice_integrity":1,"tension":7},"consequence":"Le groupe aide les courants religieux opposés aux purges à rompre publiquement avec l'autorité centrale. La guerre de sens s'intensifie."}
+    ]
+  },
+  "unique_rewards":{
+    "relic":{"id":"relic_four_shores_compass","name":"Boussole des Quatre Rives","effect":"Une fois par expédition, révèle l'origine institutionnelle ou civile d'un indice ambigu avant de le classer."},
+    "knowledge":{"id":"knowledge_shared_catastrophe","name":"Catastrophe partagée","effect":"Le journal distingue désormais automatiquement peuple, institution, courant politique et responsabilité individuelle dans les dossiers étrangers."},
+    "service":{"id":"sanctuary_foreign_house","name":"Maison des Délégations","effect":"Des réfugiés, témoins et alliés étrangers peuvent vivre au Sanctuaire et participer aux décisions liées au monde extérieur."}
+  },
+  "end_revelation":"La catastrophe n'a pas puni un peuple : elle a traversé les frontières et les régimes qui l'avaient provoquée. Les mêmes sociétés qui ont produit des commanditaires ont aussi produit des opposants, des sauveteurs et des victimes.",
+  "unlock":"chapter_09_veil_nature"
+}
