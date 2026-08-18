@@ -1,7 +1,7 @@
 extends Node
 
 const SAVE_PATH := "user://light_in_the_dark_save.json"
-const SAVE_VERSION := "0.21"
+const SAVE_VERSION := "0.22"
 
 func save_game() -> bool:
     var payload := {
@@ -17,6 +17,7 @@ func save_game() -> bool:
         "campaign": CampaignState.serialize(),
         "chapter_01": Chapter01Runtime.serialize(),
         "chapter_02": Chapter02Runtime.serialize(),
+        "chapter_03": Chapter03Runtime.serialize(),
         "expedition_room": GameState.expedition_room,
         "ashlands": AshlandsRuntime.serialize(),
         "expedition": ExpeditionManager.serialize(),
@@ -52,10 +53,12 @@ func load_game() -> bool:
     AshlandsRuntime.deserialize(payload.get("ashlands", {}))
     Chapter01Runtime.deserialize(payload.get("chapter_01", {}))
     Chapter02Runtime.deserialize(payload.get("chapter_02", {}))
+    Chapter03Runtime.deserialize(payload.get("chapter_03", {}))
     ExpeditionManager.deserialize(payload.get("expedition", {}))
     AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses", {}))
     AshlandsCombatBridge.deserialize(payload.get("ashlands_combat", {}))
     Chapter01Runtime.refresh_progress()
     Chapter02Runtime.refresh_progress()
+    Chapter03Runtime.refresh_progress()
     GameState.add_log("Sauvegarde chargée.")
     return true
