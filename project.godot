@@ -13,6 +13,7 @@ CampaignState="*res://scripts/core/campaign_state.gd"
 AshlandsRuntime="*res://scripts/world/ashlands_zone_runtime.gd"
 Chapter01Runtime="*res://scripts/world/chapter_01_runtime.gd"
 Chapter02Runtime="*res://scripts/world/chapter_02_runtime.gd"
+Chapter03Runtime="*res://scripts/world/chapter_03_runtime.gd"
 GameState="*res://scripts/core/game_state.gd"
 SanctuaryState="*res://scripts/core/sanctuary_state.gd"
 ContextHUD="*res://scripts/ui/context_hud.gd"
@@ -26,6 +27,7 @@ Chapter01EncounterInjector="*res://scripts/world/chapter_01_encounter_injector.g
 AshlandsCombatBridge="*res://scripts/world/ashlands_combat_bridge.gd"
 Chapter01BossRuntime="*res://scripts/world/chapter_01_boss_runtime.gd"
 Chapter02BossRuntime="*res://scripts/world/chapter_02_boss_runtime.gd"
+Chapter03BossRuntime="*res://scripts/world/chapter_03_boss_runtime.gd"
 AshlandsPlaytestSession="*res://scripts/world/ashlands_playtest_session.gd"
 
 [display]
