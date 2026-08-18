@@ -19,8 +19,11 @@ python -m tools.qa.cross_system_audit
 echo "==> Audit progression, économie et NG+"
 python -m tools.qa.balance_audit
 
-echo "==> Simulation combat, économie et cycles NG+"
-python -m tools.qa.combat_economy_sim
+echo "==> Audit tours complets et effets de talents"
+python -m tools.qa.combat_turn_audit
+
+echo "==> Simulation combat v2, économie et cycles NG+"
+python -m tools.qa.combat_economy_sim_v2
 
 if command -v godot >/dev/null 2>&1; then
   echo "==> Smoke test Godot"
