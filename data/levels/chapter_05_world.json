@@ -1,0 +1,35 @@
+{
+  "schema_version":1,
+  "chapter_id":"chapter_05_great_closure",
+  "zones":[
+    {"id":"c05_black_glass_crypts","size_m":[110,90],"entry":[0,0,32],"exits":[{"to":"c05_war_forge","position":[0,0,-38]}],"fragments":["c05_f01","c05_f02"],"encounters":[]},
+    {"id":"c05_war_forge","size_m":[120,100],"entry":[0,0,38],"exits":[{"to":"c05_black_glass_crypts","position":[0,0,44]},{"to":"c05_silex_bastion","position":[0,0,-44]}],"fragments":["c05_f03","c05_f04","c05_f05"],"encounters":[]},
+    {"id":"c05_silex_bastion","size_m":[118,96],"entry":[0,0,36],"exits":[{"to":"c05_war_forge","position":[0,0,42]},{"to":"c05_saan_well","position":[0,0,-42]}],"fragments":["c05_f06"],"encounters":[{"id":"c05_glass_strategist","type":"miniboss","name":"Le Stratège de Verre","position":[0,0,-8]}]},
+    {"id":"c05_saan_well","size_m":[104,104],"entry":[0,0,38],"exits":[{"to":"c05_silex_bastion","position":[0,0,44]},{"to":"c05_last_watch_camp","position":[0,0,-44]}],"fragments":["c05_f07","c05_f08","c05_f09"],"encounters":[]},
+    {"id":"c05_last_watch_camp","size_m":[90,84],"entry":[0,0,30],"exits":[{"to":"c05_saan_well","position":[0,0,36]},{"to":"c05_closure_chamber","position":[0,0,-36]}],"fragments":["c05_f10"],"campfire":true,"campfire_position":[-6,0,0],"encounters":[]},
+    {"id":"c05_closure_chamber","size_m":[128,104],"entry":[0,0,40],"exits":[{"to":"c05_last_watch_camp","position":[0,0,46]},{"to":"c05_command_vault","position":[0,0,-46]}],"fragments":["c05_f11","c05_f12","c05_f13"],"encounters":[]},
+    {"id":"c05_command_vault","size_m":[130,110],"entry":[0,0,44],"exits":[{"to":"c05_closure_chamber","position":[0,0,50]}],"fragments":["c05_f14"],"encounters":[{"id":"c05_boss_silex_general","type":"boss","name":"Le Général de Silex","position":[0,0,-16]}]}
+  ],
+  "fragments":[
+    {"id":"c05_f01","title":"Tablette de doctrine défensive","source_family":"or_silex_military","category":"military","text":"Toute divergence perceptive doit être traitée comme une brèche potentielle.","supports":["weaponized_reality"]},
+    {"id":"c05_f02","title":"Journal d'un verrier","source_family":"civilian","category":"civilian","text":"Les commandes militaires ont remplacé les fenêtres, les outils et les fours civils.","supports":["weaponized_reality"]},
+    {"id":"c05_f03","title":"Plan d'une lance de rupture","source_family":"or_silex_engineering","category":"technical","text":"L'arme n'attaque pas un corps : elle force localement une seule version du réel.","supports":["weaponized_reality"]},
+    {"id":"c05_f04","title":"Rapport de tir d'essai","source_family":"or_silex_military","category":"military","text":"La cible a disparu sans débris ; les observateurs ne s'accordent pas sur ce qu'ils ont vu.","supports":["weaponized_reality","closure_cost"]},
+    {"id":"c05_f05","title":"Lettre d'un médecin","source_family":"civilian","category":"civilian","text":"Les soldats revenus des essais décrivent des souvenirs incompatibles mais également certains.","supports":["weaponized_reality"]},
+    {"id":"c05_f06","title":"Ordre du Haut Commandement","source_family":"or_silex_command","category":"political","text":"La victoire exige que l'ennemi ne puisse plus définir le champ de bataille.","supports":["weaponized_reality"]},
+    {"id":"c05_f07","title":"Schéma d'un nœud de Saan","source_family":"saan_technical","category":"saan","text":"Le dispositif ne détruit pas la zone instable ; il empêche sa propagation en maintenant une frontière cohérente.","supports":["saan_network"]},
+    {"id":"c05_f08","title":"Serment de la Troisième Veille","source_family":"saan_testimony","category":"saan","text":"Nous fermerons ce qui doit l'être, même si nos noms deviennent ceux de bourreaux.","supports":["saan_network","closure_cost"]},
+    {"id":"c05_f09","title":"Carte du réseau de Saan","source_family":"saan_technical","category":"saan","text":"Sept nœuds principaux entourent les régions contaminées et peuvent être activés ensemble.","supports":["saan_network"]},
+    {"id":"c05_f10","title":"Carnet d'une veilleuse","source_family":"saan_testimony","category":"saan","text":"Nous avons reçu des réponses après la fermeture. Nous avons cessé d'écouter par peur d'ouvrir de nouveau.","supports":["closure_cost","possible_survival"]},
+    {"id":"c05_f11","title":"Registre des populations isolées","source_family":"civilian_records","category":"civilian","text":"Trente-sept communautés se trouvaient encore derrière la ligne lorsque l'ordre final fut donné.","supports":["closure_cost"]},
+    {"id":"c05_f12","title":"Vote de fermeture","source_family":"saan_council","category":"political","text":"Quatre voix pour, trois contre. Le délai estimé avant propagation générale était inférieur à deux heures.","supports":["closure_cost","saan_network"]},
+    {"id":"c05_f13","title":"Message après le silence","source_family":"unknown_signal","category":"anomaly","text":"Nous sommes encore ici. Ne rouvrez pas pour nous.","supports":["possible_survival"],"contradiction":true},
+    {"id":"c05_f14","title":"Directive du Général","source_family":"or_silex_command","category":"military","text":"Aucun ennemi n'est requis. Tant qu'une divergence existe, la guerre continue.","supports":["weaponized_reality"],"contradiction":true}
+  ],
+  "hypotheses":[
+    {"id":"weaponized_reality","title":"Or-Silex a militarisé la cohérence du réel","required_support":5,"independent_sources":3},
+    {"id":"saan_network","title":"Les Veilleurs de Saan ont construit un réseau de confinement","required_support":4,"independent_sources":2},
+    {"id":"closure_cost","title":"La Grande Fermeture a sacrifié volontairement des populations isolées","required_support":4,"independent_sources":3},
+    {"id":"possible_survival","title":"Certaines populations isolées ont peut-être survécu hors de la réalité commune","required_support":2,"independent_sources":2}
+  ]
+}
