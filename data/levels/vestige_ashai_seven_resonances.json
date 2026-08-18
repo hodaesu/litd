@@ -33,7 +33,7 @@
     {"id":"perfect_agreement","name":"Accord parfait","mechanic":"Le boss tente de forcer tous les héros vers le même état de Peur et de Lumière ; l'uniformité le rend invulnérable."},
     {"id":"seventh_voice","name":"La septième voix","mechanic":"Une présence émerge lorsque le groupe est trop synchronisé. Il faut maintenir une cohérence commune sans supprimer les différences entre héros."}
   ],"environmental_solution":"Activer trois des sept piliers dans des rythmes différents mais compatibles afin de créer une fenêtre de réalité stable.","alternate_resolutions":["dissiper","écouter","ancrer"],"punishes_bruteforce":"Chaque séquence de trois attaques offensives consécutives sans variation donne au boss une charge d'Accord Forcé et réduit les dégâts reçus."},
-  "completion_requirements":{"boss_resolved":true,"fragments_min":7},
+  "completion_requirements":{"boss":"vestige_ashai_boss_seventh_voice","fragments_min":7},
   "rewards":{"gold":180,"essence":40,"relic":{"id":"relic_anchor_lantern","name":"Lanterne d'Ancrage Ashaï","effect":"Une fois par donjon, annule un effet majeur de Folie ou stabilise une anomalie environnementale."},"set":{"id":"ashai_resonance_set","name":"Parure des Sept Écoutes","effect":"Bonus croissant lorsque les membres du groupe utilisent des types d'actions différents au cours d'un même round."},"deep_truth":{"id":"deep_truth_ashai","text":"Les Ashaï cherchaient d'abord à comprendre comment plusieurs consciences maintiennent un monde commun. Leur catastrophe vint lorsqu'ils tentèrent de transformer cet accord vivant en stabilité parfaite."}},
   "replay":{"shortcuts_persist":true,"secret_rooms":2,"all_fragments_required_for_deep_truth":true}
 }
