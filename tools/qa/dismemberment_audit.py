@@ -11,6 +11,7 @@ def run(root: Path = ROOT) -> dict:
     data = json.loads((root / "data/combat_dismemberment.json").read_text(encoding="utf-8"))
     runtime = (root / "scripts/core/dismemberment_runtime.gd").read_text(encoding="utf-8")
     v4 = (root / "scripts/ui/main_v4.gd").read_text(encoding="utf-8")
+    v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
     project = (root / "project.godot").read_text(encoding="utf-8")
     checks: list[dict] = []
@@ -40,7 +41,8 @@ def run(root: Path = ROOT) -> dict:
     check("Démembrement : modes de présentation prévus", set(visual.get("presentation_modes", [])) == {"full", "reduced", "off"})
 
     check("Runtime autoloadé", 'DismembermentRuntime="*res://scripts/core/dismemberment_runtime.gd"' in project)
-    check("Main utilise combat v4", 'res://scripts/ui/main_v4.gd' in scene)
+    check("Main utilise combat v5", 'res://scripts/ui/main_v5.gd' in scene)
+    check("Combat v5 conserve v4 démembrement", 'extends "res://scripts/ui/main_v4.gd"' in v5)
     check("Combat v4 hérite de v3", 'extends "res://scripts/ui/main_v3.gd"' in v4)
     check("Coups enregistrent le trauma", 'DismembermentRuntime.register_hit' in v4)
     check("Brise-garde contribue au démembrement", 'malvor_guard_break' in v4)
@@ -49,6 +51,7 @@ def run(root: Path = ROOT) -> dict:
     check("Runtime peut réduire la Peur", 'fear_multiplier' in runtime and 'enemy["fear"]' in runtime)
     check("Perte de soutien peut étourdir", 'enemy["stunned"] = true' in runtime)
     check("Boss exposent un hook mécanique", 'boss_dismemberment_changed' in runtime)
+    check("Combat v5 exploite le membre perdu pour les rangs", '_apply_limb_displacement' in v5)
 
     return {
         "summary": {"checks": len(checks), "errors": sum(1 for item in checks if not item["ok"])},
