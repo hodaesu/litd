@@ -30,15 +30,27 @@ class AshlandsPreBlenderTests(unittest.TestCase):
 
     def test_ashlands_lore_has_complete_collections(self):
         entries = self.lore['entries']
-        self.assertEqual(self.lore['total_entries'], 22)
-        self.assertEqual(len(entries), 22)
-        self.assertEqual(len({entry['id'] for entry in entries}), 22)
+        self.assertEqual(self.lore['total_entries'], 40)
+        self.assertEqual(len(entries), 40)
+        self.assertEqual(len({entry['id'] for entry in entries}), 40)
         counts = {}
         for entry in entries:
             counts[entry['collection']] = counts.get(entry['collection'], 0) + 1
             self.assertTrue(entry['title'])
             self.assertTrue(entry['text'])
-        self.assertEqual(counts, {'echoes_before_fall': 12, 'broken_world_meditations': 10})
+        self.assertEqual(counts, {
+            'echoes_before_fall': 12,
+            'broken_world_meditations': 10,
+            'fear_treatises': 6,
+            'hope_vigils': 6,
+            'broken_city_archives': 6,
+        })
+
+    def test_political_archives_cover_before_and_after_the_fall(self):
+        political = [entry for entry in self.lore['entries'] if entry['collection'] == 'broken_city_archives']
+        self.assertEqual({entry['era'] for entry in political}, {'before_fall', 'after_fall'})
+        self.assertEqual(sum(entry['era'] == 'before_fall' for entry in political), 3)
+        self.assertEqual(sum(entry['era'] == 'after_fall' for entry in political), 3)
 
     def test_ashlands_lore_positions_are_authored_inside_zones(self):
         zones = {zone['id']: zone for zone in self.manifest['zones']}
