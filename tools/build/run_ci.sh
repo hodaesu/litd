@@ -19,6 +19,9 @@ python -m tools.qa.cross_system_audit
 echo "==> Audit progression, économie et NG+"
 python -m tools.qa.balance_audit
 
+echo "==> Simulation combat, économie et cycles NG+"
+python -m tools.qa.combat_economy_sim
+
 if command -v godot >/dev/null 2>&1; then
   echo "==> Smoke test Godot"
   godot --headless --path . --import --quit
