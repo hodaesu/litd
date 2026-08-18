@@ -8,6 +8,10 @@ func _ready() -> void:
     AshlandsCombatBridge.ashlands_combat_started.connect(_on_combat_started)
     AshlandsCombatBridge.ashlands_combat_finished.connect(_on_combat_finished)
 
+func _process(_delta: float) -> void:
+    if active:
+        refresh()
+
 func _on_combat_started(encounter_id: String, _encounter_type: String) -> void:
     active = encounter_id == "c02_marker_warden"
     phase = 1 if active else 0
