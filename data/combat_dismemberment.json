@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "rule": "Le démembrement est un résultat tactique préparé par la rupture, les coups lourds et certaines techniques. Il modifie le combat avant d'être un effet visuel.",
   "mechanics": {
     "normal_threshold": 100,
@@ -21,9 +21,9 @@
   "immune_name_keywords": ["Miroir mort", "Éclat vivant"],
   "profile_keywords": {
     "arachnid": ["Jorōgumo", "Veuve"],
-    "beast": ["Chien", "Loup", "Minotaure"],
-    "aberration": ["Ver", "Sangsue", "Dévoreur", "Mange-Rêves", "Moiré", "Colosse"],
-    "humanoid": ["Goule", "Cultiste", "Chevalier", "Oni", "Tengu", "Yuki-Onna", "Anubis", "Prêtre", "Pèlerin", "Gardien", "Oracle", "Nonne", "Géant", "Semeur"]
+    "beast": ["Chien", "Loup", "Minotaure", "Charognard"],
+    "aberration": ["Ver", "Sangsue", "Dévoreur", "Mange-Rêves", "Moiré", "Colosse", "Masque hurlant"],
+    "humanoid": ["Goule", "Cultiste", "Chevalier", "Gorgone", "Écorcheur", "Oni", "Tengu", "Yuki-Onna", "Anubis", "Prêtre", "Nécrophage", "Porte-Cierge", "Pèlerin", "Gardien", "Oracle", "Enfant de suie", "Porte-Peste", "Nonne", "Géant", "Semeur"]
   },
   "profiles": {
     "humanoid": {
