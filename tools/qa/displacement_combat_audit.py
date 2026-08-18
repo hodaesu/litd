@@ -22,6 +22,7 @@ EXPECTED_EFFECTS = {
 def run(root: Path = ROOT) -> dict:
     data = json.loads((root / "data/combat_displacement.json").read_text(encoding="utf-8"))
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
+    v6 = (root / "scripts/ui/main_v6.gd").read_text(encoding="utf-8")
     v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
     v4 = (root / "scripts/ui/main_v4.gd").read_text(encoding="utf-8")
     bridge = (root / "scripts/world/ashlands_combat_bridge.gd").read_text(encoding="utf-8")
@@ -30,7 +31,8 @@ def run(root: Path = ROOT) -> dict:
     def check(name: str, ok: bool, detail: str = "") -> None:
         checks.append({"name": name, "ok": bool(ok), "detail": detail})
 
-    check("Main utilise combat v5", 'res://scripts/ui/main_v5.gd' in scene)
+    check("Main utilise combat v6", 'res://scripts/ui/main_v6.gd' in scene)
+    check("Combat v6 conserve v5 déplacements", 'extends "res://scripts/ui/main_v5.gd"' in v6)
     check("Combat v5 conserve v4 démembrement", 'extends "res://scripts/ui/main_v4.gd"' in v5)
     check("Combat v4 conserve v3 tactique", 'extends "res://scripts/ui/main_v3.gd"' in v4)
 
@@ -65,6 +67,7 @@ def run(root: Path = ROOT) -> dict:
     check("Permutation externe branchée", '"swap_outer_heroes"' in v5 and "_swap_hero_ranks(1, 4)" in v5)
     check("Rotation de compagnie branchée", '"rotate_party_right"' in v5 and "_rotate_party_right()" in v5)
     check("Inversion des paires branchée", '"invert_pairs"' in v5 and "_swap_hero_ranks(1, 2)" in v5 and "_swap_hero_ranks(3, 4)" in v5)
+    check("Combat v6 applique les familles avant les déplacements v5", "_apply_enemy_family_maneuvers()" in v6 and "super.enemy_turn()" in v6)
 
     return {
         "summary": {"checks": len(checks), "errors": sum(1 for item in checks if not item["ok"])},
