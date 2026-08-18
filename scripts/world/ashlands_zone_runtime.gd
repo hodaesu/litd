@@ -7,6 +7,7 @@ signal campfire_used(zone_id: String)
 signal transition_requested(zone_id: String)
 signal resource_collected(resource_id: String)
 signal encounter_cleared(encounter_id: String)
+signal lore_discovered(entry: Dictionary)
 
 var discovered_zones: Dictionary = {}
 var unlocked_shortcuts: Dictionary = {}
@@ -15,6 +16,7 @@ var cleared_encounters: Dictionary = {}
 var current_zone_id := ""
 var previous_zone_id := ""
 var campfires_used_this_run: Dictionary = {}
+var collected_lore: Dictionary = {}
 
 func enter_zone(zone_id: String) -> void:
     previous_zone_id = current_zone_id
@@ -48,6 +50,26 @@ func mark_resource_collected(resource_id: String) -> void:
 
 func is_resource_collected(resource_id: String) -> bool:
     return bool(collected_resources.get(resource_id, false))
+
+func collect_lore(entry: Dictionary) -> void:
+    var lore_id := str(entry.get("id", ""))
+    if lore_id == "":
+        return
+    collected_lore[lore_id] = true
+    lore_discovered.emit(entry.duplicate(true))
+
+func is_lore_collected(lore_id: String) -> bool:
+    return bool(collected_lore.get(lore_id, false))
+
+func lore_count() -> int:
+    return collected_lore.size()
+
+func lore_collection_count(collection_id: String) -> int:
+    var count := 0
+    for entry in DataLoader.ashlands_lore.get("entries", []):
+        if str(entry.get("collection", "")) == collection_id and is_lore_collected(str(entry.get("id", ""))):
+            count += 1
+    return count
 
 func mark_encounter_cleared(encounter_id: String) -> void:
     if encounter_id == "":
@@ -84,6 +106,7 @@ func reset_world_progression() -> void:
     unlocked_shortcuts.clear()
     collected_resources.clear()
     cleared_encounters.clear()
+    collected_lore.clear()
     campfires_used_this_run.clear()
     current_zone_id = ""
     previous_zone_id = ""
@@ -96,7 +119,8 @@ func serialize() -> Dictionary:
         "cleared_encounters": cleared_encounters,
         "current_zone_id": current_zone_id,
         "previous_zone_id": previous_zone_id,
-        "campfires_used_this_run": campfires_used_this_run
+        "campfires_used_this_run": campfires_used_this_run,
+        "collected_lore": collected_lore
     }
 
 func deserialize(data: Dictionary) -> void:
@@ -107,3 +131,4 @@ func deserialize(data: Dictionary) -> void:
     current_zone_id = str(data.get("current_zone_id", ""))
     previous_zone_id = str(data.get("previous_zone_id", ""))
     campfires_used_this_run = data.get("campfires_used_this_run", {}).duplicate(true)
+    collected_lore = data.get("collected_lore", {}).duplicate(true)

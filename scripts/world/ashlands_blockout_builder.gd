@@ -7,6 +7,7 @@ const BLUEPRINT_PATH := "res://data/levels/ashlands_zone_blueprints.json"
 const PERFORMANCE_PROBE := preload("res://scripts/world/ashlands_performance_probe.gd")
 const AMBIENCE_CONTROLLER := preload("res://scripts/world/ashlands_ambience_controller.gd")
 const PLAYTEST_PANEL := preload("res://scripts/world/ashlands_playtest_panel.gd")
+const LORE_COLLECTIBLE := preload("res://scripts/world/lore_collectible.gd")
 
 @export_file("*.json") var manifest_path := "res://data/levels/terre_des_cendres_blockout_manifest.json"
 @export var zone_id := "zone_01_faubourg_cendreux"
@@ -43,6 +44,8 @@ func build_zone() -> void:
     _build_ash_volumes()
     _build_encounter_slots()
     _build_resource_slots()
+    _build_lore_slots()
+    _build_storytelling_markers()
     _build_shortcut_slots()
     _build_campfire()
     _build_boss_slot()
@@ -244,6 +247,38 @@ func _build_resource_slots() -> void:
         _add_box_area_collision(node, Vector3(1.6, 1.4, 1.6))
         node.sync_from_runtime()
         parent.add_child(node)
+
+func _build_lore_slots() -> void:
+    var parent := Node3D.new()
+    parent.name = "LoreCollectibles"
+    _root().add_child(parent)
+    for lore_entry in DataLoader.ashlands_lore.get("entries", []):
+        if str(lore_entry.get("zone_id", "")) != zone_id:
+            continue
+        var collectible := LORE_COLLECTIBLE.new() as LoreCollectible
+        collectible.name = str(lore_entry.get("id", "lore_fragment"))
+        collectible.position = _array_to_vec3(lore_entry.get("position", [0, 0, 0]))
+        collectible.configure(lore_entry)
+        collectible.set_meta("interaction_prompt", "Lire")
+        collectible.set_meta("lore_collection", lore_entry.get("collection", ""))
+        _add_box_area_collision(collectible, Vector3(1.2, 1.2, 1.2))
+        parent.add_child(collectible)
+
+func _build_storytelling_markers() -> void:
+    var parent := Node3D.new()
+    parent.name = "EnvironmentalStorytelling"
+    _root().add_child(parent)
+    for story in DataLoader.ashlands_lore.get("environmental_scenes", []):
+        if str(story.get("zone_id", "")) != zone_id:
+            continue
+        var marker := Marker3D.new()
+        marker.name = str(story.get("id", "storytelling_marker"))
+        marker.position = _array_to_vec3(story.get("position", [0, 0, 0]))
+        marker.set_meta("production_kind", "environmental_storytelling")
+        marker.set_meta("title", story.get("title", ""))
+        marker.set_meta("description", story.get("description", ""))
+        marker.set_meta("required_props", story.get("required_props", []))
+        parent.add_child(marker)
 
 func _build_shortcut_slots() -> void:
     var parent := Node3D.new()

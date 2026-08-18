@@ -39,5 +39,20 @@ Ce dossier contient les 15 zones de la Terre des Cendres sous forme de fiches de
 14. Clairière des Corbeaux — zone secrète de survie et ressources.
 15. Crypte du Sans-Nom — zone secrète de lore et reliques.
 
+## Archives collectables
+
+Les Terres de Cendre contiennent 22 documents persistants définis dans
+`data/levels/ashlands_lore.json` :
+
+- 12 **Échos d'avant la Chute**, consacrés à la vie quotidienne et aux Trois Éveils ;
+- 10 **Méditations du monde brisé**, consacrées aux dimensions intime,
+  surnaturelle et collective de la Folie ;
+- 3 scènes de narration environnementale destinées à la production 3D.
+
+Chaque document possède un emplacement authored dans l'une des 15 zones. Leur
+découverte est sauvegardée et ouvre un lecteur dans le HUD. Le fragment du
+Pèlerin Sans Visage reste invisible tant qu'aucun membre du groupe n'atteint
+60 points de Folie.
+
 ## Prochaine étape
 Parcourir les 15 implantations authored dans Godot, corriger les largeurs et dénivelés en situation, puis baker les NavigationMesh stabilisés. Les détails artistiques finaux seront peaufinés lors du passage à Blender.

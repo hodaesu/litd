@@ -8,6 +8,7 @@ class_name AshlandsHUD
 func _ready() -> void:
     ExpeditionManager.inventory_changed.connect(_on_inventory_changed)
     AshlandsRuntime.zone_discovered.connect(_on_zone_discovered)
+    AshlandsRuntime.lore_discovered.connect(_on_lore_discovered)
     _refresh()
 
 func _refresh() -> void:
@@ -27,6 +28,55 @@ func _on_inventory_changed(inv: Dictionary) -> void:
 
 func _on_zone_discovered(_zone_id: String) -> void:
     _refresh()
+
+func _on_lore_discovered(entry: Dictionary) -> void:
+    var overlay := ColorRect.new()
+    overlay.name = "LoreReader"
+    overlay.color = Color(0.02, 0.018, 0.025, 0.94)
+    overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+    add_child(overlay)
+
+    var margin := MarginContainer.new()
+    margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    margin.add_theme_constant_override("margin_left", 120)
+    margin.add_theme_constant_override("margin_right", 120)
+    margin.add_theme_constant_override("margin_top", 70)
+    margin.add_theme_constant_override("margin_bottom", 70)
+    overlay.add_child(margin)
+
+    var column := VBoxContainer.new()
+    margin.add_child(column)
+    var collection := Label.new()
+    var collection_id := str(entry.get("collection", ""))
+    var collection_data: Dictionary = DataLoader.ashlands_lore.get("collections", {}).get(collection_id, {})
+    collection.text = "%s  •  %d/%d" % [
+        str(entry.get("collection_name", entry.get("collection", "Archive"))),
+        AshlandsRuntime.lore_collection_count(collection_id),
+        int(collection_data.get("total", 0))
+    ]
+    collection.modulate = Color(0.78, 0.62, 0.32)
+    column.add_child(collection)
+    var title := Label.new()
+    title.text = str(entry.get("title", "Fragment sans titre"))
+    title.add_theme_font_size_override("font_size", 30)
+    column.add_child(title)
+    var source := Label.new()
+    source.text = "%s — %s" % [str(entry.get("document_type", "Texte")), str(entry.get("author", "Auteur inconnu"))]
+    source.modulate = Color(0.72, 0.72, 0.75)
+    column.add_child(source)
+    var body := RichTextLabel.new()
+    body.bbcode_enabled = false
+    body.fit_content = false
+    body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+    body.text = str(entry.get("text", ""))
+    body.add_theme_font_size_override("normal_font_size", 21)
+    column.add_child(body)
+    var close := Button.new()
+    close.text = "REFERMER"
+    close.custom_minimum_size = Vector2(220, 46)
+    close.pressed.connect(overlay.queue_free)
+    column.add_child(close)
 
 func _pretty_zone(id_value: String) -> String:
     if id_value == "":

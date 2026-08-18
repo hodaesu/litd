@@ -2,6 +2,10 @@
 
 Fondation professionnelle du prototype Godot de **Light in the Dark**.
 
+## Documentation
+
+- [Bible du lore — Trois Éveils](docs/LORE_BIBLE.md)
+
 ## Vérifier le projet
 
 ```bash
