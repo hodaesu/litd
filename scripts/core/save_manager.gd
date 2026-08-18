@@ -1,7 +1,7 @@
 extends Node
 
 const SAVE_PATH := "user://light_in_the_dark_save.json"
-const SAVE_VERSION := "0.18"
+const SAVE_VERSION := "0.19"
 
 func save_game() -> bool:
     var payload := {
@@ -14,6 +14,7 @@ func save_game() -> bool:
         "equipment": EquipmentManager.serialize(),
         "creatures": CreatureManager.serialize(),
         "politics": PoliticalState.serialize(),
+        "campaign": CampaignState.serialize(),
         "expedition_room": GameState.expedition_room,
         "ashlands": AshlandsRuntime.serialize(),
         "expedition": ExpeditionManager.serialize(),
@@ -45,6 +46,7 @@ func load_game() -> bool:
     CreatureManager.deserialize(payload.get("creatures", {}))
     GameState.expedition_room = int(payload.get("expedition_room", 0))
     PoliticalState.deserialize(payload.get("politics", {}))
+    CampaignState.deserialize(payload.get("campaign", {}))
     AshlandsRuntime.deserialize(payload.get("ashlands", {}))
     ExpeditionManager.deserialize(payload.get("expedition", {}))
     AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses", {}))
