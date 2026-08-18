@@ -99,7 +99,7 @@ def test_chapter_nine_is_routed_saved_reset_and_contextually_visible():
     assert 'SAVE_VERSION := "0.29"' in save
     assert '"chapter_09": Chapter09Runtime.serialize()' in save
     assert 'Chapter09Runtime.reset_new_game()' in game
-    assert 'DESCENDRE SOUS L\'ARBRE' in ui
+    assert "DESCENDRE SOUS L'ARBRE" in ui
     assert 'INCONNUES MAINTENUES OUVERTES' in ui
     assert 'c09_boss_consensus' in bridge
 
