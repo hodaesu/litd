@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "rule": "Les fins ne sont pas des boutons abstraits. Une orientation finale n'est disponible que si les choix antérieurs ont créé ses conditions politiques, sociales, morales et pratiques.",
-  "metrics": ["trust","tension","reputation","three_awakenings.body","three_awakenings.spirit","three_awakenings.city","creature_relations","absent_contact","foreign_alliances","justice_integrity","veil_knowledge"],
+  "rule": "Les fins ne sont pas des boutons abstraits. Une orientation finale n'est disponible que si les choix antérieurs ont créé ses conditions politiques, sociales, morales et pratiques. Les seuils utilisent l'échelle réellement produite par les systèmes de campagne : les métriques relationnelles progressent par décisions significatives, tandis que confiance et Trois Éveils restent sur une échelle de 0 à 100.",
+  "metrics": ["trust","tension","reputation","three_awakenings.body","three_awakenings.spirit","three_awakenings.city","creature_relations","absent_contact","foreign_alliances","justice_integrity","veil_knowledge","stabilizer_nodes"],
   "endings": [
     {
       "id":"radical_closure",
@@ -17,7 +17,7 @@
       "id":"stable_coexistence",
       "name":"La Concorde des deux rives",
       "principle":"Stabiliser durablement des zones de coexistence avec le Voile.",
-      "requirements":{"spirit_min":65,"city_min":65,"creature_relations_min":60,"trust_min":55,"veil_knowledge_min":75},
+      "requirements":{"spirit_min":65,"city_min":65,"creature_relations_min":6,"trust_min":55,"veil_knowledge_min":75},
       "costs":["le risque du Voile demeure","nécessite institutions et maintenance permanentes"],
       "best_form":"Coexistence surveillée, consentie et réversible.",
       "dark_form":"Normalisation imprudente d'un phénomène encore mal compris."
@@ -35,7 +35,7 @@
       "id":"seek_absent",
       "name":"Ramener les Absents",
       "principle":"Prioriser la recherche et le retour des populations perdues.",
-      "requirements":{"absent_contact_min":70,"spirit_min":70,"city_min":60,"veil_knowledge_min":75},
+      "requirements":{"absent_contact_min":20,"spirit_min":70,"city_min":60,"veil_knowledge_min":75},
       "costs":["retarde la stabilisation générale","peut créer de nouvelles ruptures"],
       "best_form":"Recherche patiente avec consentement des Absents et protection des vivants.",
       "dark_form":"Obsession du retour au détriment des communautés présentes."
@@ -44,7 +44,7 @@
       "id":"restore_concord",
       "name":"La Concorde restaurée",
       "principle":"Reconstruire les institutions de la Concorde en conservant leurs principes fondamentaux.",
-      "requirements":{"city_min":70,"trust_min":65,"justice_integrity_min":65,"foreign_alliances_min":40},
+      "requirements":{"city_min":70,"trust_min":65,"justice_integrity_min":65,"foreign_alliances_min":10},
       "costs":["risque de reproduire des structures conçues pour un monde disparu"],
       "best_form":"Restauration fédérale, humble et adaptable.",
       "dark_form":"Culte du passé incapable d'admettre que certaines règles doivent évoluer."
@@ -53,7 +53,7 @@
       "id":"transform_concord",
       "name":"La Quatrième Veille",
       "principle":"Transformer la Concorde pour intégrer explicitement la vulnérabilité au Voile, les créatures conscientes, les Absents et les peuples étrangers.",
-      "requirements":{"city_min":75,"spirit_min":65,"trust_min":60,"creature_relations_min":50,"foreign_alliances_min":50,"justice_integrity_min":60},
+      "requirements":{"city_min":70,"spirit_min":65,"trust_min":60,"creature_relations_min":5,"foreign_alliances_min":12,"justice_integrity_min":60},
       "costs":["rupture avec certains fidèles de l'ancien ordre","institutions nouvelles encore fragiles"],
       "best_form":"Extension des Trois Éveils sans les renier.",
       "dark_form":"Réforme permanente qui dissout toute continuité et tout repère commun."
