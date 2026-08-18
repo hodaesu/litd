@@ -51,10 +51,10 @@ def test_chapter_five_is_routed_saved_reset_and_visible_in_journal():
     assert 'Chapter05Runtime="*res://scripts/world/chapter_05_runtime.gd"' in project
     assert 'Chapter05BossRuntime="*res://scripts/world/chapter_05_boss_runtime.gd"' in project
     assert 'func start_chapter_05()' in router
-    assert 'SAVE_VERSION := "0.26"' in save
+    assert 'SAVE_VERSION := "0.27"' in save
     assert '"chapter_05": Chapter05Runtime.serialize()' in save
     assert 'Chapter05Runtime.reset_new_game()' in game
-    assert '_stage_header(parent, "CHAPITRE V", Chapter05Runtime)' in journal
+    assert '_stage_header(parent,"CHAPITRE V",Chapter05Runtime)' in journal
     assert 'DOSSIER OR-SILEX / SAAN' in journal
 
 
