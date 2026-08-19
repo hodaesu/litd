@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "design_source": "reactive_world_pass_09",
+  "rule": "Les choix de terrain existent dans l'espace 3D, coûtent de vraies ressources et peuvent faire revenir des personnes plusieurs chapitres plus tard sans étiqueter le choix comme bon ou mauvais.",
+  "encounters": [
+    {
+      "id": "c01_village_survivors",
+      "chapter": 1,
+      "zone_id": "zone_02_village_ravage",
+      "position": [12, 0, 13],
+      "type": "survivor_choice",
+      "name": "Les trois sous la charpente",
+      "actors": ["Mara", "Yoren", "Iven"],
+      "prompt": "Sous les poutres d'une maison écrasée, trois survivants ont tenu jusqu'ici. Mara garde Iven conscient pendant que Yoren tente de filtrer de l'eau grise. Ils peuvent repartir, mais pas sans prendre quelque chose à la compagnie.",
+      "choices": [
+        {
+          "id": "full_aid",
+          "label": "PARTAGER VIVRES, EAU ET MÉDICAMENT",
+          "detail": "Coût : 2 nourriture, 2 eau, 1 médicament.",
+          "cost": {"food": 2, "water": 2, "medicine": 1},
+          "memory_choice": "aid",
+          "memory_label": "donner une part importante des réserves aux trois survivants",
+          "outcome": "aided",
+          "result": "Mara répartit les rations sans remercier tout de suite. Avant de partir, elle grave trois traits sur une plaque de cuivre : « Si nous tenons, cherchez ce signe. »"
+        },
+        {
+          "id": "stabilize",
+          "label": "LES STABILISER SANS PARTAGER LES VIVRES",
+          "detail": "Coût : 2 bandages, 1 médicament.",
+          "cost": {"bandages": 2, "medicine": 1},
+          "memory_choice": "aid",
+          "memory_label": "soigner les trois survivants sans entamer les vivres de marche",
+          "outcome": "stabilized",
+          "result": "Iven peut de nouveau marcher. Le groupe n'a toujours presque rien à manger, mais Yoren affirme connaître un ancien relais sur la route du nord."
+        },
+        {
+          "id": "keep",
+          "label": "CONSERVER LES RÉSERVES",
+          "detail": "Aucun coût. La compagnie poursuit avec ses ressources intactes.",
+          "cost": {},
+          "memory_choice": "keep",
+          "memory_label": "conserver les réserves et laisser les survivants chercher leur propre issue",
+          "outcome": "refused",
+          "result": "Mara ne supplie pas. Elle regarde simplement les sacs de la compagnie, puis Iven. « Alors nous trouverons autre chose. »"
+        }
+      ]
+    },
+    {
+      "id": "c03_survivor_outpost",
+      "chapter": 3,
+      "zone_id": "c03_abandoned_relay",
+      "position": [11, 0, 7],
+      "type": "return",
+      "name": "Le signe aux trois traits",
+      "source_event": "c01_village_survivors",
+      "source_outcomes": ["aided", "stabilized"],
+      "variants": {
+        "aided": {
+          "prompt": "Trois traits sont gravés sur la porte du relais. Mara, Yoren et Iven sont vivants. D'autres voyageurs dorment maintenant derrière des cloisons réparées avec du métal de récupération. Les réserves données autrefois ont acheté assez de temps pour bâtir cet abri.",
+          "reward": {"food": 2, "water": 2, "light": 1},
+          "result": "Mara rend une partie de ce que le relais peut désormais produire. « Ce n'est pas une dette. C'est la preuve que quelque chose a continué après votre départ. »"
+        },
+        "stabilized": {
+          "prompt": "Le relais abandonné porte un signe de trois traits. Yoren a réussi à y conduire Mara et Iven. Leur installation est plus pauvre, mais elle tient. Les soins reçus dans les Cendres ont suffi à leur donner une chance.",
+          "reward": {"bandages": 1, "light": 1},
+          "result": "Iven remet à la compagnie une lampe réparée et un rouleau de bandage. « Vous n'aviez pas tout donné. Mais vous aviez donné ce qui nous manquait pour marcher. »"
+        }
+      },
+      "reevaluation": "survivors_returned_help"
+    },
+    {
+      "id": "c03_survivors_without_aid",
+      "chapter": 3,
+      "zone_id": "c03_abandoned_relay",
+      "position": [-9, 0, 8],
+      "type": "return",
+      "name": "Ceux qui ont trouvé autre chose",
+      "source_event": "c01_village_survivors",
+      "source_outcomes": ["refused"],
+      "prompt": "Mara, Yoren et Iven sont là. Ils ont survécu en démontant un chariot de pèlerins et en suivant une conduite souterraine jusqu'au relais. Leur survie ne transforme pas le choix passé en erreur ou en raison : elle lui donne simplement une suite.",
+      "reward": {},
+      "result": "Mara reconnaît la compagnie. « Vous avez choisi les vôtres. Nous avons choisi les nôtres. Maintenant nous savons tous ce que ce choix voulait dire. »",
+      "reevaluation": "survivors_survived_without_aid"
+    },
+    {
+      "id": "c03_spared_witness_return",
+      "chapter": 3,
+      "zone_id": "c03_diplomatic_post",
+      "position": [-14, 0, -4],
+      "type": "return",
+      "name": "Le Témoin qui n'est pas mort",
+      "requires_boss_outcome": {"encounter_id": "c01_boss_ash_witness", "outcome": "spared"},
+      "prompt": "Une silhouette attend entre deux archives effondrées. Le Témoin des Cendres n'attaque pas. Il a suivi des traces que les vivants ne savent plus lire et désigne un conduit sûr sous le poste diplomatique.",
+      "reward": {"light": 1},
+      "result": "Le Témoin s'éloigne avant qu'une dette puisse être nommée. Son aide ne prouve pas que l'avoir épargné était juste ; elle change seulement ce que ce souvenir signifie aujourd'hui.",
+      "reevaluation": "spared_enemy_helped",
+      "reevaluation_target": "c01_boss_ash_witness"
+    }
+  ]
+}
