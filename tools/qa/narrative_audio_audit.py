@@ -77,7 +77,7 @@ def run(root: Path = ROOT) -> dict:
 
     quest_ids = {str(q.get("id", "")) for q in community.get("quests", []) if isinstance(q, dict)}
     motifs = data.get("quest_motifs", {})
-    required_quest_ids = {"q_iven_korem_archive", "q_yoren_safe_line"}
+    required_quest_ids = {"q_iven_erased_days", "q_yoren_false_exit"}
     check("Quêtes : motifs pour les deux histoires existantes", required_quest_ids <= set(motifs.keys()))
     check("Quêtes : motifs pointent vers des quêtes réelles", set(motifs.keys()) <= quest_ids, str(sorted(set(motifs.keys()) - quest_ids)))
 
@@ -125,7 +125,7 @@ def run(root: Path = ROOT) -> dict:
     check("Main scene : v23 actif", 'res://scripts/ui/main_v23.gd' in scene_main)
     check("Projet : autoload narratif", 'NarrativeAudioDirector="*res://scripts/core/narrative_audio_director.gd"' in project)
 
-    smoke_tokens = ["sanctuary_day", "begin_dialogue", "scripted_silence", "q_iven_korem_archive", "discovery_revelation", "NARRATIVE_AUDIO_SMOKE_OK"]
+    smoke_tokens = ["sanctuary_day", "begin_dialogue", "scripted_silence", "q_iven_erased_days", "q_yoren_false_exit", "discovery_revelation", "NARRATIVE_AUDIO_SMOKE_OK"]
     for token in smoke_tokens:
         check(f"Smoke : {token}", token in smoke)
     check("Smoke : scène", "narrative_audio_smoke_bootstrap.gd" in smoke_scene)
