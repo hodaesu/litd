@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "design_source": "narrative_audio_pass_21",
+  "purpose": "Orchestration audio des dialogues, espaces du Sanctuaire et moments narratifs. L'audio soutient la scène sans dicter une morale au joueur.",
+  "dialogue_ducking_db": {
+    "Music": -10.0,
+    "Ambience": -5.0,
+    "Foley": -4.0,
+    "Combat": -2.0,
+    "Creatures": -2.0,
+    "Psychology": -2.0,
+    "Dialogue": 0.0,
+    "UI": -1.0
+  },
+  "dialogue_attack_seconds": 0.16,
+  "dialogue_release_seconds": 0.30,
+  "screen_contexts": {
+    "sanctuary": {"music":"sanctuary_day","loops":["sanctuary_crowd"],"entry_sfx":"bell_sanctuary"},
+    "expedition": {"music":"sanctuary_day","loops":["sanctuary_crowd"]},
+    "company": {"music":"sanctuary_day","loops":["sanctuary_crowd"]},
+    "market": {"music":"sanctuary_day","loops":["sanctuary_crowd"]},
+    "creatures": {"music":"creature_empathy","loops":["sanctuary_crowd"]},
+    "infirmary": {"music":"sanctuary_day","loops":["sanctuary_crowd"]},
+    "community": {"music":"sanctuary_day","loops":["sanctuary_crowd"]},
+    "tavern": {"music":"tavern","loops":["tavern_roomtone"]},
+    "chapel": {"music":"chapel","loops":["chapel_roomtone"]},
+    "memorial": {"music":"memorial","loops":["memorial_roomtone"]}
+  },
+  "quest_motifs": {
+    "q_iven_korem_archive": "ancient_archive",
+    "q_yoren_safe_line": "discovery_revelation"
+  },
+  "beats": {
+    "rumor": {"dialogue_seconds":1.50,"sfx":"memory_echo"},
+    "revelation": {"silence_seconds":0.62,"music":"discovery_revelation","hold_seconds":1.65,"sfx":"memory_echo"},
+    "choice": {"silence_seconds":0.24,"sfx":"ui_confirm","rule":"neutral_weight_no_moral_answer"},
+    "loss": {"silence_seconds":0.82,"music":"sadness_loss","hold_seconds":1.90},
+    "reunion": {"music":"emotional_reunion","hold_seconds":1.80},
+    "quest_accept": {"sfx":"ui_quest_update","hold_seconds":1.35},
+    "quest_complete": {"silence_seconds":0.38,"sfx":"ui_reward","hold_seconds":1.75}
+  },
+  "silence_default_buses": ["Music", "Ambience"],
+  "rules": [
+    "Dialogue remains clearer than music and ambience.",
+    "Silence is authored as a narrative state, not as missing content.",
+    "A choice cue may underline weight but never identify a morally correct answer.",
+    "Quest motifs recur by quest identity so memory can be musical as well as textual.",
+    "Sanctuary spaces have distinct room tone but remain sparse enough for speech.",
+    "Stock or procedural prototypes are replaceable; cue IDs are the stable contract.",
+    "Combat telegraphs keep priority over narrative ducking when combat is active."
+  ],
+  "history_limit": 48
+}
