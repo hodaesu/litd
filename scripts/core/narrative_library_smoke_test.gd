@@ -4,10 +4,22 @@ var failures: Array[String] = []
 
 func run() -> void:
     _check(not NarrativeLibrary.data.is_empty(), "NarrativeLibrary must load its cross-media data")
+    _check(not NarrativeLibrary.folklore_data.is_empty(), "NarrativeLibrary must load its worldwide folklore atlas")
     _check(NarrativeLibrary.quality_axes().size() >= 10, "NarrativeLibrary must expose the sidequest quality axes")
     var rules := NarrativeLibrary.originality_rules()
     _check(rules.get("forbidden", []).size() >= 5, "Originality rules must explicitly forbid recognizable copying")
     _check(rules.get("required", []).size() >= 5, "Originality rules must require synthesis and distance")
+
+    var folklore_coverage := NarrativeLibrary.folklore_coverage()
+    _check(int(folklore_coverage.get("regions", 0)) >= 28, "Worldwide folklore atlas must cover many distinct cultural regions")
+    _check(int(folklore_coverage.get("reference_clusters", 0)) >= 200, "Worldwide folklore atlas must expose a broad reference corpus")
+    _check(int(folklore_coverage.get("narrative_forms", 0)) >= 25, "Worldwide folklore atlas must include many narrative forms")
+    _check(int(folklore_coverage.get("motif_families", 0)) >= 40, "Worldwide folklore atlas must include many motif families")
+    _check(NarrativeLibrary.folklore_access_level("indigenous_australia") == "community_review_required", "Sensitive Indigenous traditions must require cultural review")
+    _check(NarrativeLibrary.folklore_access_level("indigenous_north_america") == "community_review_required", "North American Indigenous traditions must not be treated as generic public-domain fantasy")
+    var cultural_rules := NarrativeLibrary.folklore_cultural_protocol()
+    _check(cultural_rules.get("access_levels", {}).has("restricted_do_not_adapt"), "Folklore atlas must support a do-not-adapt access level")
+    _check(NarrativeLibrary.folklore_design_rules().size() >= 7, "Folklore atlas must expose extraction rules rather than reusable plots")
 
     GameState.reset_new_game()
     ExpeditionManager.reset_to_full_resupply()
