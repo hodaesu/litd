@@ -191,6 +191,10 @@ func trigger_scene_hook(scene_key: String, context: Dictionary = {}) -> bool:
     var quest_id: String = str(hook.get("quest_id", payload.get("quest_id", "")))
     if quest_id != "":
         payload["quest_id"] = quest_id
+    var required_quest_state: String = str(hook.get("requires_quest_state", ""))
+    if required_quest_state != "" and quest_id != "":
+        if str(CommunityRuntime.quest_states.get(quest_id, "")) != required_quest_state:
+            return false
     if bool(hook.get("motif_from_quest", false)) and quest_id != "":
         payload["motif"] = quest_motif(quest_id)
     var rule: String = str(hook.get("rule", ""))
@@ -269,7 +273,7 @@ func _on_relationship_changed(source_id: String, target_id: String, event_id: St
     var scene_key: String = "relationship:" + event_id
     if scene_hook_definition(scene_key).is_empty():
         return
-    if event_id in ["sanctuary_reconcile", "sanctuary_opening"] and source_id > target_id:
+    if event_id in ["sanctuary_reconcile", "sanctuary_opening"] and source_id.naturalnocasecmp_to(target_id) > 0:
         return
     trigger_scene_hook(scene_key, {"source_id": source_id, "target_id": target_id, "event_id": event_id})
 
