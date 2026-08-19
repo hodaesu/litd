@@ -65,6 +65,7 @@ func run() -> void:
     var food_before: int = int(ExpeditionManager.inventory.get("food", 0))
     var failed := FieldEncounterRuntime.resolve_choice("c01_village_survivors", "full_aid")
     _check(not bool(failed.get("applied", false)), "A resource choice must fail cleanly when the expedition cannot pay its cost")
+    _check(str(failed.get("reason", "")) == "insufficient_resources", "An unaffordable choice must report insufficient_resources")
     _check(not FieldEncounterRuntime.is_resolved("c01_village_survivors"), "An unaffordable choice must not consume the narrative encounter")
     _check(int(ExpeditionManager.inventory.get("food", 0)) == food_before, "An unaffordable choice must not partially consume resources")
 
