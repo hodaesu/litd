@@ -40,6 +40,7 @@ run_checked "Psychologie : Peur, traces durables et manifestations d'Espoir" god
 run_checked "Relations : confiance, admiration, tensions et interposition" godot --headless --path . res://scenes/tests/relationship_smoke.tscn
 run_checked "Mémoire : décisions, convictions et conséquences différées" godot --headless --path . res://scenes/tests/decision_memory_smoke.tscn
 run_checked "Mémoire de terrain : recrutement, retraite, boss et réévaluation" godot --headless --path . res://scenes/tests/field_memory_smoke.tscn
+run_checked "Monde réactif : survivants, ressources et retours différés" godot --headless --path . res://scenes/tests/field_encounter_smoke.tscn
 run_checked "Parcours campagne I→X, fin, postgame et NG+" godot --headless --path . res://scenes/tests/campaign_e2e_smoke.tscn
 run_checked "Opérations joueur : scènes, expédition, équipement, capture et sauvegarde disque" godot --headless --path . res://scenes/tests/runtime_player_smoke.tscn
 run_checked "Parcours UI joueur : Sanctuaire, exploration, combat, récompenses et retour" timeout 90s godot --headless --path . res://scenes/tests/ui_player_journey_smoke.tscn
