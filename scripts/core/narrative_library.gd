@@ -2,13 +2,16 @@ extends Node
 
 const DATA_PATH := "res://data/narrative_library.json"
 const FOLKLORE_PATH := "res://data/global_folklore_atlas.json"
+const DIALOGUE_PATH := "res://data/dialogue_library.json"
 
 var data: Dictionary = {}
 var folklore_data: Dictionary = {}
+var dialogue_data: Dictionary = {}
 
 func _ready() -> void:
     data = _load_dictionary(DATA_PATH)
     folklore_data = _load_dictionary(FOLKLORE_PATH)
+    dialogue_data = _load_dictionary(DIALOGUE_PATH)
 
 func _load_dictionary(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
@@ -121,3 +124,86 @@ func folklore_coverage() -> Dictionary:
         "narrative_forms": folklore_data.get("narrative_forms", []).size(),
         "motif_families": folklore_data.get("motif_families", []).size(),
     }
+
+func dialogue_quality_axes() -> Array[Dictionary]:
+    return _dialogue_dictionary_array("quality_axes")
+
+func dialogue_techniques() -> Array[Dictionary]:
+    return _dialogue_dictionary_array("dialogue_techniques")
+
+func dialogue_technique(technique_id: String) -> Dictionary:
+    for item in dialogue_techniques():
+        if str(item.get("id", "")) == technique_id:
+            return item
+    return {}
+
+func staging_techniques() -> Array[Dictionary]:
+    return _dialogue_dictionary_array("staging_techniques")
+
+func staging_technique(technique_id: String) -> Dictionary:
+    for item in staging_techniques():
+        if str(item.get("id", "")) == technique_id:
+            return item
+    return {}
+
+func dialogue_scene_patterns() -> Array[Dictionary]:
+    return _dialogue_dictionary_array("scene_patterns")
+
+func dialogue_public_domain_corpus() -> Array[Dictionary]:
+    return _dialogue_dictionary_array("public_domain_corpus")
+
+func dialogue_modern_reference_policy() -> Dictionary:
+    var value: Variant = dialogue_data.get("copyrighted_or_modern_reference_only", {})
+    return value.duplicate(true) if value is Dictionary else {}
+
+func dialogue_originality_protocol() -> Dictionary:
+    var value: Variant = dialogue_data.get("rights_and_originality_protocol", {})
+    return value.duplicate(true) if value is Dictionary else {}
+
+func dialogue_voice_fields() -> Array[String]:
+    return _dialogue_string_array("voice_design_fields")
+
+func dialogue_production_checklist() -> Array[String]:
+    return _dialogue_string_array("production_checklist")
+
+func dialogue_anti_patterns() -> Array[String]:
+    return _dialogue_string_array("anti_patterns")
+
+func dialogue_coverage() -> Dictionary:
+    var public_references := 0
+    for family in dialogue_public_domain_corpus():
+        var refs: Variant = family.get("references", [])
+        if refs is Array:
+            public_references += refs.size()
+    var modern: Dictionary = dialogue_modern_reference_policy()
+    var modern_values: Variant = modern.get("references", [])
+    var modern_count := modern_values.size() if modern_values is Array else 0
+    return {
+        "quality_axes": dialogue_quality_axes().size(),
+        "dialogue_techniques": dialogue_techniques().size(),
+        "staging_techniques": staging_techniques().size(),
+        "scene_patterns": dialogue_scene_patterns().size(),
+        "public_domain_families": dialogue_public_domain_corpus().size(),
+        "public_domain_references": public_references,
+        "modern_reference_only": modern_count,
+    }
+
+func _dialogue_dictionary_array(key: String) -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
+    var values: Variant = dialogue_data.get(key, [])
+    var items: Array = values if values is Array else []
+    for value in items:
+        var item: Dictionary = value if value is Dictionary else {}
+        if not item.is_empty():
+            result.append(item.duplicate(true))
+    return result
+
+func _dialogue_string_array(key: String) -> Array[String]:
+    var result: Array[String] = []
+    var values: Variant = dialogue_data.get(key, [])
+    var items: Array = values if values is Array else []
+    for value in items:
+        var text := str(value)
+        if text != "":
+            result.append(text)
+    return result
