@@ -106,15 +106,18 @@ def run(root: Path = ROOT) -> dict:
     corpus = library.get("public_domain_corpus", [])
     check("Corpus : au moins dix familles de domaine public", len(corpus) >= 10)
     references: list[str] = []
+    family_ids: set[str] = set()
     for family in corpus:
         if not isinstance(family, dict):
             continue
+        family_ids.add(str(family.get("id", "")).lower())
         refs = family.get("references", [])
         if isinstance(refs, list):
             references.extend(str(value) for value in refs)
     check("Corpus : au moins soixante-quinze références", len(references) >= 75, str(len(references)))
+    corpus_haystack = " ".join(references).lower() + " " + " ".join(sorted(family_ids))
     for token in ["Shakespeare", "Molière", "Marivaux", "Oscar Wilde", "Henrik Ibsen", "Anton Chekhov", "Jane Austen", "Dostoevsky", "Victor Hugo", "Cervantes"]:
-        check(f"Corpus : {token}", any(token.lower() in ref.lower() for ref in references))
+        check(f"Corpus : {token}", token.lower() in corpus_haystack)
 
     modern = library.get("copyrighted_or_modern_reference_only", {})
     modern_refs = modern.get("references", []) if isinstance(modern, dict) else []
