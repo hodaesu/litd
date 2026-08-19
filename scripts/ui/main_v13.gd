@@ -1,6 +1,24 @@
 extends "res://scripts/ui/main_v12.gd"
 
 # v13 : rend l'Infirmerie du Sanctuaire réellement utilisable pour la convalescence des créatures liées.
+# Les rangs tactiques issus du JSON sont normalisés en int afin que les contrôles de portée restent fiables à l'exécution.
+
+func _profile_for(hero: Dictionary) -> Dictionary:
+    var profile: Dictionary = super._profile_for(hero).duplicate(true)
+    for key_value in ["preferred_ranks", "strike_from", "strike_targets", "heavy_from", "heavy_targets"]:
+        var key := str(key_value)
+        profile[key] = _normalized_rank_array(profile.get(key, []))
+    var technique: Dictionary = profile.get("technique", {}).duplicate(true)
+    technique["from"] = _normalized_rank_array(technique.get("from", []))
+    technique["targets"] = _normalized_rank_array(technique.get("targets", []))
+    profile["technique"] = technique
+    return profile
+
+func _normalized_rank_array(values: Array) -> Array:
+    var result: Array = []
+    for value in values:
+        result.append(int(value))
+    return result
 
 func show_screen(name: String) -> void:
     if name == "infirmary":
