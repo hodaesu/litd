@@ -38,7 +38,7 @@ run_checked "Import strict du projet" godot --headless --path . --import --quit
 run_checked "Smoke test noyau" godot --headless --path . res://scenes/tests/core_smoke.tscn
 run_checked "Psychologie : Peur, traces durables et manifestations d'Espoir" godot --headless --path . res://scenes/tests/psychology_smoke.tscn
 run_checked "Relations : confiance, admiration, tensions et interposition" godot --headless --path . res://scenes/tests/relationship_smoke.tscn
-run_checked "Mémoire : décisions, convictions et conséquences différérées" godot --headless --path . res://scenes/tests/decision_memory_smoke.tscn
+run_checked "Mémoire : décisions, convictions et conséquences différées" godot --headless --path . res://scenes/tests/decision_memory_smoke.tscn
 run_checked "Mémoire de terrain : recrutement, retraite, boss et réévaluation" godot --headless --path . res://scenes/tests/field_memory_smoke.tscn
 run_checked "Monde réactif : survivants, ressources et retours différés" godot --headless --path . res://scenes/tests/field_encounter_smoke.tscn
 run_checked "Sanctuaire vivant : personnes, rumeurs et quêtes émergentes" godot --headless --path . res://scenes/tests/community_network_smoke.tscn
