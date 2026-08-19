@@ -19,6 +19,7 @@ def run(root: Path = ROOT) -> dict:
     v5 = (root / "scripts/ui/main_v5.gd").read_text(encoding="utf-8")
     v12 = (root / "scripts/ui/main_v12.gd").read_text(encoding="utf-8")
     v13 = (root / "scripts/ui/main_v13.gd").read_text(encoding="utf-8")
+    v14 = (root / "scripts/ui/main_v14.gd").read_text(encoding="utf-8")
     checks: list[dict] = []
 
     def check(name: str, ok: bool, detail: str = "") -> None:
@@ -64,7 +65,8 @@ def run(root: Path = ROOT) -> dict:
         check(f"{boss_id} : override de partie existe", str(part_id) in boss_parts, f"{part_id} / {sorted(boss_parts)}")
     check("Mini-boss : membre offensif cohérent avec profil boss", families.get("elite", {}).get("required_part") == "offensive_limb")
 
-    check("Main utilise combat v13", 'res://scripts/ui/main_v13.gd' in scene)
+    check("Main utilise combat v14", 'res://scripts/ui/main_v14.gd' in scene)
+    check("Combat v14 conserve v13", 'extends "res://scripts/ui/main_v13.gd"' in v14)
     check("Combat v13 conserve v12", 'extends "res://scripts/ui/main_v12.gd"' in v13)
     check("Combat v12 conserve v11", 'extends "res://scripts/ui/main_v11.gd"' in v12)
     check("Combat v6 hérite de v5", 'extends "res://scripts/ui/main_v5.gd"' in v6)

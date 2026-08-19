@@ -34,15 +34,15 @@ def run(root: Path = ROOT) -> dict:
     anatomy_runtime = (root / "scripts/core/anatomy_runtime.gd").read_text(encoding="utf-8")
     capture_runtime = (root / "scripts/core/capture_wound_runtime.gd").read_text(encoding="utf-8")
     injury_runtime = (root / "scripts/core/injury_runtime.gd").read_text(encoding="utf-8")
-    ui = {i: (root / f"scripts/ui/main_v{i}.gd").read_text(encoding="utf-8") for i in range(6, 14)}
+    ui = {i: (root / f"scripts/ui/main_v{i}.gd").read_text(encoding="utf-8") for i in range(6, 15)}
     generator = (root / "tools/blender/generate_dismemberment_jobs.py").read_text(encoding="utf-8")
 
     checks: list[dict] = []
     def check(name: str, ok: bool, detail: str = "") -> None:
         checks.append({"name": name, "ok": bool(ok), "detail": detail})
 
-    check("Anatomie : Main utilise v13", 'res://scripts/ui/main_v13.gd' in scene)
-    for child in range(13, 6, -1):
+    check("Anatomie : Main utilise v14", 'res://scripts/ui/main_v14.gd' in scene)
+    for child in range(14, 6, -1):
         check(f"Anatomie : v{child} hérite de v{child-1}", f'extends "res://scripts/ui/main_v{child-1}.gd"' in ui[child])
 
     check("Étape 1 : ciblage anatomique explicite", "select_part" in anatomy_runtime and "cycle_part" in anatomy_runtime and "selected_anatomy_part" in ui[7])
@@ -102,6 +102,8 @@ def run(root: Path = ROOT) -> dict:
     check("Étape 10 : conventions bones/sockets", blender.get("naming", {}).get("bone_prefix") == "BONE_" and blender.get("naming", {}).get("sever_socket_prefix") == "SEVER_")
     check("Étape 10 : animations de réaction", {"injury_react","dismember_react","wounded_rage","panic_flee","phase_altered"} <= set(blender.get("animation_contract", {}).get("required_generic", [])))
     check("Étape 10 : générateur Blender sans Blender", "def build_jobs" in generator and "combat_anatomy_v2.json" in generator)
+
+    check("UI mobile v14 : cibles tactiles garanties", "MOBILE_MIN_TOUCH_HEIGHT" in ui[14] and "MOBILE_MIN_TOUCH_WIDTH" in ui[14])
 
     for autoload in [
         'AnatomyRuntime="*res://scripts/core/anatomy_runtime.gd"',

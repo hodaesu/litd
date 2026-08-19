@@ -16,18 +16,18 @@ REQUIRED_STATS = {
 
 def run(root: Path = ROOT) -> dict:
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
-    versions = {i: (root / f"scripts/ui/main_v{i}.gd").read_text(encoding="utf-8") for i in range(2, 14)}
+    versions = {i: (root / f"scripts/ui/main_v{i}.gd").read_text(encoding="utf-8") for i in range(2, 15)}
     base = (root / "scripts/ui/main.gd").read_text(encoding="utf-8")
     hero_skills = (root / "scripts/core/hero_skill_manager.gd").read_text(encoding="utf-8")
-    sources = [base] + [versions[i] for i in range(2, 14)]
+    sources = [base] + [versions[i] for i in range(2, 15)]
     effective_combat = "\n".join(sources)
 
     checks: list[dict] = []
     def check(name: str, ok: bool, detail: str = "") -> None:
         checks.append({"name": name, "ok": bool(ok), "detail": detail})
 
-    check("Main utilise combat v13", 'res://scripts/ui/main_v13.gd' in scene)
-    for child in range(13, 2, -1):
+    check("Main utilise combat v14", 'res://scripts/ui/main_v14.gd' in scene)
+    for child in range(14, 2, -1):
         parent = child - 1
         check(f"Combat v{child} conserve v{parent}", f'extends "res://scripts/ui/main_v{parent}.gd"' in versions[child])
     check("Combat v3 conserve le moteur v2", 'extends "res://scripts/ui/main_v2.gd"' in versions[3])

@@ -39,5 +39,6 @@ run_checked "Smoke test noyau" godot --headless --path . res://scenes/tests/core
 run_checked "Parcours campagne I→X, fin, postgame et NG+" godot --headless --path . res://scenes/tests/campaign_e2e_smoke.tscn
 run_checked "Opérations joueur : scènes, expédition, équipement, capture et sauvegarde disque" godot --headless --path . res://scenes/tests/runtime_player_smoke.tscn
 run_checked "Parcours UI joueur : Sanctuaire, exploration, combat, récompenses et retour" timeout 90s godot --headless --path . res://scenes/tests/ui_player_journey_smoke.tscn
+run_checked "Mobile tactile : formats iPhone, cibles tactiles et ScreenTouch" timeout 90s godot --headless --path . res://scenes/tests/mobile_touch_smoke.tscn
 
 echo "GODOT_CI_STRICT_OK"
