@@ -42,6 +42,8 @@ jobs:
         run: python -m tools.qa.enemy_family_tactics_audit
       - name: Audit anatomie avancée, capture, psychologie et Blender
         run: python -m tools.qa.anatomy_system_audit
+      - name: Audit bâtiments interactifs du Sanctuaire
+        run: python -m tools.qa.sanctuary_buildings_audit
       - name: Générer les jobs Blender anatomiques
         run: python -m tools.blender.generate_dismemberment_jobs --output reports/dismemberment-jobs.json
       - name: Simulation combat v2, économie et cycles NG+
@@ -58,6 +60,5 @@ jobs:
       image: barichello/godot-ci:4.3
     steps:
       - uses: actions/checkout@v4
-      # Le wrapper exécute notamment: godot --headless --path . --script res://scripts/core/smoke_test.gd
       - name: Compilation stricte et parcours critique Godot
         run: bash tools/build/run_godot_ci.sh
