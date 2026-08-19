@@ -43,7 +43,7 @@ def run(root: Path = ROOT) -> dict:
 
     check("Psychologie : une seule jauge visible", "ProgressBar.new()" in v16 and "PEUR · %s · %d/100" in v16)
     check("Psychologie : Folie devient trace durable", "mental_summary" in v16 and 'psychology["traits"]' in psychology and 'psychology["traumas"]' in psychology)
-    check("Psychologie : Espoir n'est plus incrémenté dans v16", 'hero["hope"] =' not in v16 and 'candidate["hope"] =' in v16)
+    check("Psychologie : Espoir n'est plus incrémenté dans v16", 'hero["hope"] +=' not in v16 and 'candidate["hope"] =' in v16)
     check("Psychologie : manifestations d'Espoir historisées", 'psychology["hope_history"]' in psychology and "feedback_requested.emit" in psychology)
 
     check("Chapelle : coût en or explicite", "PSY_CHAPEL_APPEASE_GOLD: int = 12" in v16 and "GameState.gold -= PSY_CHAPEL_APPEASE_GOLD" in v16)
