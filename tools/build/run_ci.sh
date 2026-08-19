@@ -47,8 +47,10 @@ if command -v godot >/dev/null 2>&1; then
   echo "==> Smoke test Godot"
   godot --headless --path . --import --quit
   godot --headless --path . --script res://scripts/core/smoke_test.gd
+  echo "==> Parcours critique campagne, fin, postgame et NG+"
+  godot --headless --path . --script res://scripts/core/campaign_e2e_smoke_test.gd
 else
-  echo "==> Godot non trouvé : smoke test local ignoré (il reste exécuté dans GitHub Actions)."
+  echo "==> Godot non trouvé : smoke tests locaux ignorés (ils restent exécutés dans GitHub Actions)."
 fi
 
 echo "==> Vérification terminée"
