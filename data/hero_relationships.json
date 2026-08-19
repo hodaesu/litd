@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "design_source": "hero_relationships_pass_06",
+  "rule": "Les liens naissent d'événements importants, restent directionnels et ne deviennent jamais des jauges de HUD.",
+  "metrics": ["trust", "admiration", "mistrust", "resentment"],
+  "thresholds": {
+    "strong_trust": 60,
+    "deep_trust": 80,
+    "admiration": 55,
+    "high_tension": 45,
+    "interpose_fear": 75,
+    "interpose_hp_ratio": 0.35
+  },
+  "combat_bonuses": {
+    "trusted_ally_fear_resistance": 3,
+    "deep_trust_fear_resistance": 2,
+    "admired_ally_precision": 2,
+    "high_tension_precision": -2
+  },
+  "events": {
+    "heal": {"target_to_actor": {"trust": 6, "admiration": 1}, "actor_to_target": {"trust": 1}},
+    "critical_heal": {"target_to_actor": {"trust": 4, "admiration": 4}},
+    "interpose": {"target_to_actor": {"trust": 4, "admiration": 3}, "actor_to_target": {"trust": 1}},
+    "boss_finisher": {"witness_to_actor": {"admiration": 7, "trust": 2}},
+    "desperate_boss_finisher": {"witness_to_actor": {"admiration": 4}},
+    "shared_meal": {"mutual": {"trust": 1, "mistrust": -1}},
+    "sanctuary_reconcile": {"mutual": {"trust": 2, "mistrust": -5, "resentment": -4}},
+    "sanctuary_opening": {"mutual": {"trust": 4, "admiration": 1}}
+  },
+  "fallen_fear": {
+    "trust_60": 6,
+    "trust_80": 4,
+    "admiration_55": 2
+  }
+}
