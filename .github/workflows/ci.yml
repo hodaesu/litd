@@ -48,6 +48,8 @@ jobs:
         run: python -m tools.qa.psychology_social_combat_audit
       - name: Audit relations persistantes entre héros
         run: python -m tools.qa.hero_relationships_audit
+      - name: Audit mémoire des décisions et convictions
+        run: python -m tools.qa.decision_memory_audit
       - name: Audit bâtiments interactifs du Sanctuaire
         run: python -m tools.qa.sanctuary_buildings_audit
       - name: Générer les jobs Blender anatomiques

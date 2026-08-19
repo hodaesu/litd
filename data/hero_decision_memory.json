@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "design_source": "decision_memory_pass_07",
+  "rule": "Les décisions importantes laissent une mémoire interprétée selon les convictions de chaque héros. Les convictions ne sont jamais exposées comme des jauges numériques.",
+  "convictions": ["solidarity", "security", "civic_process", "mercy", "openness", "pragmatism", "autonomy", "justice"],
+  "conviction_labels": {
+    "solidarity": "solidarité",
+    "security": "sécurité",
+    "civic_process": "procédure commune",
+    "mercy": "clémence",
+    "openness": "ouverture",
+    "pragmatism": "pragmatisme",
+    "autonomy": "autonomie",
+    "justice": "justice"
+  },
+  "hero_profiles": {
+    "aurelien": {"solidarity": 1, "security": 0, "civic_process": 0, "mercy": 1, "openness": 2, "pragmatism": 1, "autonomy": 2, "justice": 1},
+    "malvor": {"solidarity": 0, "security": 2, "civic_process": -1, "mercy": -1, "openness": -1, "pragmatism": 2, "autonomy": 1, "justice": 1},
+    "lysandra": {"solidarity": 2, "security": 0, "civic_process": 2, "mercy": 2, "openness": 2, "pragmatism": 0, "autonomy": 1, "justice": 2},
+    "darius": {"solidarity": 1, "security": 2, "civic_process": 1, "mercy": 0, "openness": 0, "pragmatism": 2, "autonomy": 0, "justice": 2}
+  },
+  "stance_thresholds": {
+    "strong_support": 8,
+    "support": 4,
+    "oppose": -4,
+    "strong_oppose": -8
+  },
+  "choice_vectors": {
+    "ashlands_refugee_gate": {
+      "welcome": {"solidarity": 2, "security": -1, "civic_process": 1, "mercy": 1, "openness": 2, "pragmatism": -1, "autonomy": 1, "justice": 1},
+      "quarantine": {"solidarity": 1, "security": 2, "civic_process": 1, "mercy": 0, "openness": 1, "pragmatism": 2, "autonomy": -1, "justice": 1},
+      "close": {"solidarity": -2, "security": 2, "civic_process": -1, "mercy": -1, "openness": -2, "pragmatism": 1, "autonomy": 0, "justice": -1}
+    },
+    "ashlands_first_blood": {
+      "restorative_circle": {"solidarity": 1, "security": 0, "civic_process": 2, "mercy": 1, "openness": 0, "pragmatism": 0, "autonomy": 0, "justice": 2},
+      "protective_detention": {"solidarity": 0, "security": 2, "civic_process": 0, "mercy": 0, "openness": 0, "pragmatism": 2, "autonomy": -1, "justice": 0},
+      "summary_punishment": {"solidarity": -1, "security": 2, "civic_process": -2, "mercy": -2, "openness": -1, "pragmatism": 1, "autonomy": -2, "justice": -2}
+    },
+    "ashlands_conscious_creature": {
+      "supervised_sanctuary": {"solidarity": 1, "security": -1, "civic_process": 1, "mercy": 1, "openness": 2, "pragmatism": 1, "autonomy": 0, "justice": 1},
+      "heal_release": {"solidarity": 1, "security": 0, "civic_process": 0, "mercy": 2, "openness": 1, "pragmatism": 0, "autonomy": 2, "justice": 1},
+      "banish": {"solidarity": -1, "security": 2, "civic_process": -1, "mercy": -1, "openness": -2, "pragmatism": 1, "autonomy": 0, "justice": -1}
+    }
+  },
+  "relationship_effects": {
+    "same_side": {"trust": 2},
+    "strong_same_side": {"admiration": 1},
+    "opposite_side": {"mistrust": 2},
+    "strong_opposition": {"resentment": 1},
+    "reevaluation_convergence": {"trust": 1, "mistrust": -3, "resentment": -2},
+    "reevaluation_divergence": {"mistrust": 1}
+  },
+  "social_reevaluations": {
+    "xenophobic_whisper": [
+      {"quest_id": "ashlands_refugee_gate", "choice_id": "welcome", "score_vector": {"solidarity": 1, "security": -2, "openness": 1, "pragmatism": -1}, "text": "Les rumeurs autour des réfugiés obligent chacun à réexaminer ce que l'ouverture des portes exige réellement."}
+    ],
+    "refugee_refusal": [
+      {"quest_id": "ashlands_refugee_gate", "choice_id": "welcome", "score_vector": {"solidarity": 2, "security": -1, "openness": 1, "justice": 1}, "text": "Le bol refusé transforme une décision abstraite en conflit humain visible."}
+    ],
+    "creature_debate": [
+      {"quest_id": "ashlands_conscious_creature", "choice_id": "supervised_sanctuary", "score_vector": {"solidarity": 1, "security": -1, "mercy": 1, "openness": 1, "pragmatism": -1}, "text": "La présence de la créature près du feu force la compagnie à confronter ses convictions à une coexistence concrète."}
+    ],
+    "lynching_attempt": [
+      {"quest_id": "ashlands_first_blood", "choice_id": "summary_punishment", "score_vector": {"security": -1, "civic_process": -2, "mercy": -1, "justice": -2}, "text": "La corde dans la cour montre jusqu'où une justice expéditive peut devenir un précédent."},
+      {"quest_id": "ashlands_first_blood", "choice_id": "restorative_circle", "score_vector": {"civic_process": 1, "justice": 2, "security": 1}, "text": "La tentative de lynchage rappelle pourquoi une procédure commune avait été reconstruite."}
+    ],
+    "emergency_power_request": [
+      {"quest_id": "ashlands_first_blood", "choice_id": "protective_detention", "score_vector": {"security": 1, "civic_process": 1, "pragmatism": 1, "autonomy": -1}, "text": "La demande de pouvoir d'urgence remet en jeu la frontière entre protection provisoire et habitude autoritaire."}
+    ]
+  },
+  "history_limit": 20
+}
