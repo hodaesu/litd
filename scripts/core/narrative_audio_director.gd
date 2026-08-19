@@ -4,6 +4,7 @@ signal narrative_audio_changed(snapshot: Dictionary)
 signal dialogue_state_changed(active: bool, tag: String)
 signal narrative_beat_started(kind: String, payload: Dictionary)
 signal sanctuary_audio_changed(space_id: String)
+signal scene_audio_triggered(scene_key: String, payload: Dictionary)
 
 const DATA_PATH := "res://data/narrative_audio.json"
 const SILENT_DB: float = -80.0
@@ -40,6 +41,14 @@ func _connect_sources() -> void:
         GameState.new_game_reset.connect(_on_new_game_reset)
     if not CommunityRuntime.quest_changed.is_connected(_on_quest_changed):
         CommunityRuntime.quest_changed.connect(_on_quest_changed)
+    if not Chapter03Runtime.evidence_discovered.is_connected(_on_chapter03_evidence):
+        Chapter03Runtime.evidence_discovered.connect(_on_chapter03_evidence)
+    if not FieldEncounterRuntime.encounter_resolved.is_connected(_on_field_encounter_resolved):
+        FieldEncounterRuntime.encounter_resolved.connect(_on_field_encounter_resolved)
+    if not RelationshipRuntime.relationship_changed.is_connected(_on_relationship_changed):
+        RelationshipRuntime.relationship_changed.connect(_on_relationship_changed)
+    if not RelationshipRuntime.relationship_moment.is_connected(_on_relationship_moment):
+        RelationshipRuntime.relationship_moment.connect(_on_relationship_moment)
     if not AudioDirector.mix_changed.is_connected(_on_audio_mix_changed):
         AudioDirector.mix_changed.connect(_on_audio_mix_changed)
     _connected = true
@@ -153,6 +162,50 @@ func quest_motif(quest_id: String) -> String:
     var motifs: Dictionary = motifs_variant if motifs_variant is Dictionary else {}
     return str(motifs.get(quest_id, ""))
 
+func scene_hook_definition(scene_key: String) -> Dictionary:
+    var hooks_variant: Variant = data.get("scene_hooks", {})
+    var hooks: Dictionary = hooks_variant if hooks_variant is Dictionary else {}
+    var exact_value: Variant = hooks.get(scene_key, {})
+    if exact_value is Dictionary and not exact_value.is_empty():
+        return exact_value.duplicate(true)
+    var separator: int = scene_key.find(":")
+    if separator > 0:
+        var wildcard_key: String = scene_key.substr(0, separator) + ":*"
+        var wildcard_value: Variant = hooks.get(wildcard_key, {})
+        if wildcard_value is Dictionary and not wildcard_value.is_empty():
+            return wildcard_value.duplicate(true)
+    return {}
+
+func trigger_scene_hook(scene_key: String, context: Dictionary = {}) -> bool:
+    var hook: Dictionary = scene_hook_definition(scene_key)
+    if hook.is_empty():
+        return false
+    var beat: String = str(hook.get("beat", ""))
+    if beat == "":
+        return false
+
+    var payload: Dictionary = context.duplicate(true)
+    payload["scene_key"] = scene_key
+    var tag: String = str(hook.get("tag", scene_key))
+    payload["tag"] = tag
+    var quest_id: String = str(hook.get("quest_id", payload.get("quest_id", "")))
+    if quest_id != "":
+        payload["quest_id"] = quest_id
+    if bool(hook.get("motif_from_quest", false)) and quest_id != "":
+        payload["motif"] = quest_motif(quest_id)
+    var rule: String = str(hook.get("rule", ""))
+    if rule != "":
+        payload["rule"] = rule
+
+    scene_audio_triggered.emit(scene_key, payload.duplicate(true))
+    _record_event("scene_hook", payload)
+
+    var spoken_seconds: float = maxf(0.0, float(hook.get("spoken_seconds", 0.0)))
+    if spoken_seconds > 0.0:
+        play_spoken_moment(tag, spoken_seconds)
+    trigger_beat(beat, payload)
+    return true
+
 func snapshot() -> Dictionary:
     return {
         "space_id": current_space_id,
@@ -202,6 +255,27 @@ func _on_quest_changed(quest_id: String, state: String) -> void:
         trigger_beat("quest_accept", {"quest_id": quest_id, "motif": quest_motif(quest_id)})
     elif state == "completed":
         trigger_beat("quest_complete", {"quest_id": quest_id, "motif": quest_motif(quest_id)})
+
+func _on_chapter03_evidence(evidence: Dictionary) -> void:
+    var evidence_id: String = str(evidence.get("id", ""))
+    if evidence_id == "":
+        return
+    trigger_scene_hook("evidence:" + evidence_id, {"evidence_id": evidence_id, "title": str(evidence.get("title", evidence_id))})
+
+func _on_field_encounter_resolved(event_id: String, outcome: String) -> void:
+    trigger_scene_hook("field:%s:%s" % [event_id, outcome], {"event_id": event_id, "outcome": outcome})
+
+func _on_relationship_changed(source_id: String, target_id: String, event_id: String) -> void:
+    var scene_key: String = "relationship:" + event_id
+    if scene_hook_definition(scene_key).is_empty():
+        return
+    if event_id in ["sanctuary_reconcile", "sanctuary_opening"] and source_id > target_id:
+        return
+    trigger_scene_hook(scene_key, {"source_id": source_id, "target_id": target_id, "event_id": event_id})
+
+func _on_relationship_moment(text: String) -> void:
+    if text.begins_with("La chute de "):
+        trigger_scene_hook("relationship:hero_fallen", {"text": text})
 
 func _run_beat_sequence(kind: String, beat: Dictionary, context: Dictionary, generation: int) -> void:
     var silence_seconds: float = maxf(0.0, float(beat.get("silence_seconds", 0.0)))
