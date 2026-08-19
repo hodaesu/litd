@@ -113,6 +113,11 @@ func _test_companion_intervention() -> void:
     if GameState.party.is_empty():
         return
     PsychologyCombatDirector.reset_runtime()
+    for hero_value in GameState.party:
+        var candidate: Dictionary = hero_value
+        candidate["fear"] = 0
+        candidate.erase("guarding")
+        candidate.erase("guard_power")
     var target: Dictionary = GameState.party[0]
     target["hp"] = maxi(1, int(target.get("max_hp", 1)))
     target["fear"] = 80
@@ -130,6 +135,7 @@ func _test_companion_intervention() -> void:
     var before := int(target.get("fear", 0))
     var intervention := PsychologyCombatDirector.companion_intervention(5)
     _check(not intervention.is_empty(), "A protective companion must react to a terrified hero")
+    _check(str(intervention.get("hero_id", "")) == str(target.get("id", "")), "Companion must protect the most fearful hero")
     _check(int(target.get("fear", 0)) < before, "Companion intervention must reduce Fear")
     _check(bool(target.get("guarding", false)), "Protective Oni intervention must guard the terrified hero")
     var repeated := PsychologyCombatDirector.companion_intervention(5)
