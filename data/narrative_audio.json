@@ -34,12 +34,14 @@
     "evidence:ev_korem_redaction": {
       "beat": "revelation",
       "quest_id": "q_iven_erased_days",
+      "requires_quest_state": "active",
       "motif_from_quest": true,
       "tag": "iven_erased_days_revelation"
     },
     "evidence:ev_purge_protocol": {
       "beat": "revelation",
       "quest_id": "q_yoren_false_exit",
+      "requires_quest_state": "active",
       "motif_from_quest": true,
       "tag": "yoren_false_exit_revelation"
     },
@@ -86,7 +88,8 @@
     "Sanctuary spaces have distinct room tone but remain sparse enough for speech.",
     "Stock or procedural prototypes are replaceable; cue IDs are the stable contract.",
     "Combat telegraphs keep priority over narrative ducking when combat is active.",
-    "Scene hooks must reference events that really exist in the playable runtime; absent future scene types stay unbound until their gameplay exists."
+    "Scene hooks must reference events that really exist in the playable runtime; absent future scene types stay unbound until their gameplay exists.",
+    "Quest-specific revelation motifs only play while that story is actually active."
   ],
   "history_limit": 64
 }
