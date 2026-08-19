@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "pass": 8,
+  "system": "field_memory",
+  "level_id": "ashlands",
+  "intent": "Étendre la mémoire persistante au terrain sans créer de nouveaux compteurs visibles.",
+  "implemented": [
+    "Le recrutement réussi d'une créature devient un souvenir direct pour les héros présents.",
+    "Le gain de niveau d'une créature liée peut réévaluer le jugement porté sur son recrutement.",
+    "Les retraites volontaires ou défaites d'expédition peuvent laisser une mémoire de terrain.",
+    "Certains boss narrativement compatibles offrent après la victoire un choix explicite : épargner ou achever.",
+    "Le choix post-boss est obligatoire dans l'interface avant de revenir au flux normal de récompense.",
+    "Les choix de terrain réutilisent les convictions individuelles du pass 07 et peuvent rapprocher ou diviser les témoins.",
+    "Les mémoires conservent le chapitre, la zone et le mode de témoignage direct.",
+    "Une API de décision de ressources est prête pour les rencontres de survivants : aider ou préserver les réserves.",
+    "La Taverne fusionne les souvenirs politiques et de terrain sous une mémoire unique de la compagnie."
+  ],
+  "boss_outcome_rule": "Le choix épargner/achever n'est proposé qu'aux boss pour lesquels les deux issues ont un sens narratif. Les entités abstraites et le boss final ne reçoivent pas artificiellement ce choix.",
+  "witness_rule": "Un héros vivant présent au moment de l'événement reçoit un souvenir direct. Les futurs systèmes de roster pourront distinguer ensuite témoignage direct et récit rapporté.",
+  "delayed_consequences": [
+    "creature_proved_itself",
+    "spared_enemy_helped",
+    "spared_enemy_betrayed"
+  ],
+  "constraints": [
+    "Aucune jauge de mémoire, idéologie ou relation supplémentaire dans le HUD.",
+    "Les décisions ne sont jamais étiquetées bonnes ou mauvaises par le moteur.",
+    "Une conséquence différée ne peut pas être appliquée deux fois au même souvenir.",
+    "Les anciennes sauvegardes restent compatibles : field_memories est créé paresseusement dans les dictionnaires héros."
+  ],
+  "next_step": [
+    "Brancher les rencontres de survivants et sacrifices de ressources directement dans l'exploration 3D.",
+    "Réutiliser spared_enemy_helped/spared_enemy_betrayed lorsque les chapitres ultérieurs font revenir un ennemi épargné.",
+    "Ajouter les souvenirs rapportés aux héros absents lorsque le roster de réserve sera actif."
+  ]
+}
