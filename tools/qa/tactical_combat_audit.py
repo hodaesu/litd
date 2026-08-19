@@ -19,6 +19,7 @@ def run(root: Path = ROOT) -> dict:
     v12 = (root / "scripts/ui/main_v12.gd").read_text(encoding="utf-8")
     v13 = (root / "scripts/ui/main_v13.gd").read_text(encoding="utf-8")
     v14 = (root / "scripts/ui/main_v14.gd").read_text(encoding="utf-8")
+    v15 = (root / "scripts/ui/main_v15.gd").read_text(encoding="utf-8")
     checks: list[dict] = []
 
     def check(name: str, ok: bool, detail: str = "") -> None:
@@ -46,7 +47,8 @@ def run(root: Path = ROOT) -> dict:
     check("Tactique : trois synergies de formation", len(synergies) >= 3, str([item.get("id") for item in synergies]))
     check("Tactique : IDs de synergie uniques", len({item.get("id") for item in synergies}) == len(synergies))
 
-    check("Main utilise combat v14", 'res://scripts/ui/main_v14.gd' in scene)
+    check("Main utilise combat v15", 'res://scripts/ui/main_v15.gd' in scene)
+    check("Combat v15 conserve v14", 'extends "res://scripts/ui/main_v14.gd"' in v15)
     check("Combat v14 conserve v13", 'extends "res://scripts/ui/main_v13.gd"' in v14)
     check("Combat v13 conserve v12", 'extends "res://scripts/ui/main_v12.gd"' in v13)
     check("Combat v12 conserve v11", 'extends "res://scripts/ui/main_v11.gd"' in v12)
@@ -72,6 +74,7 @@ def run(root: Path = ROOT) -> dict:
     check("Tactique v5 peut déplacer les rangs héros", '_move_hero_relative' in v5)
     check("Tactique v6 ajoute les manœuvres de familles", '_apply_enemy_family_maneuvers' in v6 and '_execute_family_effect' in v6)
     check("UI v14 impose des cibles tactiles", 'MOBILE_MIN_TOUCH_HEIGHT' in v14 and 'MOBILE_MIN_TOUCH_WIDTH' in v14)
+    check("UI v15 conserve la couche tactile", 'extends "res://scripts/ui/main_v14.gd"' in v15)
 
     return {"summary": {"checks": len(checks), "errors": sum(1 for item in checks if not item["ok"])}, "checks": checks}
 
