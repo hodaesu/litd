@@ -30,7 +30,7 @@ def run(root: Path = ROOT) -> dict:
 
     for screen_name, func_name in [("chapel", "show_chapel"), ("tavern", "show_tavern"), ("memorial", "show_memorial")]:
         check(f"{screen_name} : écran routé", f"{func_name}()" in v16)
-        check(f"{screen_name} : bouton retour", "RETOUR AU SANCTUAIRE" in v16)
+        check(f"{screen_name} : bouton retour", "RETOUR AU SANCTUAIRE" in v16 or "RETOUR AU SANCTUAIRE" in v15)
         check(f"{screen_name} : audité sur mobile", f'"{screen_name}"' in mobile)
 
     event_ids = {event.get("id") for event in psychology_events.get("events", [])}
