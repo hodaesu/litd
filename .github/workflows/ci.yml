@@ -62,3 +62,5 @@ jobs:
         run: godot --headless --path . --import --quit
       - name: Compiler et lancer le smoke test
         run: godot --headless --path . --script res://scripts/core/smoke_test.gd
+      - name: Parcours critique campagne, fin, postgame et NG+
+        run: godot --headless --path . --script res://scripts/core/campaign_e2e_smoke_test.gd
