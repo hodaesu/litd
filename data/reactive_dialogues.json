@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "design_source": "reactive_dialogue_pass_24",
+  "version": 2,
+  "design_source": "reactive_dialogue_pass_24+voice_production_pass_25",
   "rules": {
     "critical_story_never_depends_on_mortal_hero": true,
     "dead_speakers_forbidden": true,
@@ -9,7 +9,7 @@
     "runtime_text_is_authored_not_generated": true
   },
   "fourth_wall": {
-    "purpose": "Créer de rares fissures inquiétantes où un héros semble percevoir le joueur, sans transformer Light in the Dark en comédie méta.",
+    "purpose": "Créer de rares fissures inquiétantes où un héros semble percevoir une volonté extérieure sans transformer Light in the Dark en comédie méta.",
     "max_per_expedition": 2,
     "minimum_gap_events": 8,
     "default_probability": 0.05,
@@ -19,8 +19,10 @@
     "tone_rules": [
       "rester dark fantasy et inquiétant plutôt que comique",
       "ne jamais expliquer explicitement l'interface ou le code du jeu",
-      "les héros peuvent soupçonner une présence, une volonté ou une répétition sans comprendre le joueur",
+      "faire d'abord douter le joueur de ce que le héros perçoit réellement",
+      "laisser chaque héros interpréter la présence extérieure selon sa personnalité",
       "les répliques directes sont plus rares que les fissures ambiguës",
+      "les répliques abyssales doivent dépendre d'une expérience grave ou d'une longue survie",
       "aucun héros mort ne parle au joueur sauf future scène mémorielle explicitement écrite comme telle"
     ]
   },
@@ -38,21 +40,32 @@
     {"id":"dar_combat_01","event":"combat_start","speaker_id":"darius","text":"Sorties, angles morts, cible la plus mobile. Le reste après.","priority":6},
     {"id":"dar_death_01","event":"companion_death","speaker_id":"darius","text":"On comptera les morts quand on sera assez loin pour ne pas en ajouter un autre.","priority":9},
 
-    {"id":"fw_aur_fissure_01","event":"idle_long","speaker_id":"aurelien","text":"Il y a quelqu'un derrière ce silence. Quelqu'un qui attend que nous avancions.","fourth_wall":true,"meta_level":"fissure","priority":4},
-    {"id":"fw_aur_direct_01","event":"choice_wait","speaker_id":"aurelien","text":"Tu hésites. Je le sens jusque d'ici. Pourtant c'est ma main qui va ouvrir la porte.","fourth_wall":true,"meta_level":"direct","priority":5},
-    {"id":"fw_aur_direct_02","event":"repeated_action","speaker_id":"aurelien","text":"Tu peux choisir plus vite. La peur, elle, ne s'arrête pas pendant que tu réfléchis.","fourth_wall":true,"meta_level":"direct","priority":4},
+    {"id":"fw_aur_fissure_01","event":"idle_long","speaker_id":"aurelien","text":"J'ai parfois l'impression que mes décisions arrivent une seconde avant que je les prenne.","fourth_wall":true,"meta_level":"fissure","priority":4},
+    {"id":"fw_aur_fissure_02","event":"revisit_zone","speaker_id":"aurelien","text":"Ce silence n'est pas vide. Il ressemble à quelqu'un qui attend.","fourth_wall":true,"meta_level":"fissure","priority":4},
+    {"id":"fw_aur_direct_01","event":"choice_wait","speaker_id":"aurelien","text":"J'ai essayé de penser à quelque chose que tu ne pourrais pas entendre. Je n'y suis pas arrivé.","fourth_wall":true,"meta_level":"direct","priority":6},
+    {"id":"fw_aur_direct_02","event":"risk_repeat","speaker_id":"aurelien","text":"Tu connais déjà le prix de ce choix. C'est peut-être pour ça que ta main tarde.","fourth_wall":true,"meta_level":"direct","priority":5},
+    {"id":"fw_aur_abyss_01","event":"many_deaths","speaker_id":"aurelien","text":"Nous appelons ça le destin parce que nous ignorons ton nom.","conditions":{"min_party_deaths":2},"fourth_wall":true,"meta_level":"abyssal","priority":9},
+    {"id":"fw_aur_abyss_02","event":"last_original_survivor","speaker_id":"aurelien","text":"Tous ceux qui étaient là au commencement ont disparu. Sauf toi.","conditions":{"min_party_deaths":3,"max_alive":1},"fourth_wall":true,"meta_level":"abyssal","priority":10},
 
-    {"id":"fw_mal_fissure_01","event":"repeated_action","speaker_id":"malvor","text":"Encore ce geste ? Très bien. Toi tu insistes, moi je saigne.","fourth_wall":true,"meta_level":"fissure","priority":4},
-    {"id":"fw_mal_direct_01","event":"low_hp","speaker_id":"malvor","text":"J'espère que tu sais ce que tu fais. Moi, je n'ai pas de deuxième corps.","conditions":{"hp_ratio_max":0.30},"fourth_wall":true,"meta_level":"direct","priority":7},
-    {"id":"fw_mal_abyss_01","event":"many_deaths","speaker_id":"malvor","text":"Tu nous regardes tomber comme des pièces sur une table. Essaie au moins de retenir nos noms.","conditions":{"min_party_deaths":2},"fourth_wall":true,"meta_level":"abyssal","priority":9},
+    {"id":"fw_mal_fissure_01","event":"repeated_action","speaker_id":"malvor","text":"Encore moi. Je commence à reconnaître tes habitudes.","fourth_wall":true,"meta_level":"fissure","priority":5},
+    {"id":"fw_mal_fissure_02","event":"choice_wait","speaker_id":"malvor","text":"Tu comptes rester silencieux longtemps ? Nous, on est toujours là.","fourth_wall":true,"meta_level":"fissure","priority":4},
+    {"id":"fw_mal_direct_01","event":"low_hp","speaker_id":"malvor","text":"Tu attends quoi ? Que je te facilite la décision en mourant tout seul ?","conditions":{"hp_ratio_max":0.30},"fourth_wall":true,"meta_level":"direct","priority":7},
+    {"id":"fw_mal_direct_02","event":"risk_repeat","speaker_id":"malvor","text":"Facile de choisir qui passe devant quand ce n'est jamais toi.","fourth_wall":true,"meta_level":"direct","priority":6},
+    {"id":"fw_mal_abyss_01","event":"many_deaths","speaker_id":"malvor","text":"Si je meurs ici, ne cherche pas une meilleure façon de faire. Pour moi, il n'y en aura pas d'autre.","conditions":{"min_party_deaths":2},"fourth_wall":true,"meta_level":"abyssal","priority":9},
 
-    {"id":"fw_lys_fissure_01","event":"idle_long","speaker_id":"lysandra","text":"Parfois, quand tout se tait, j'ai l'impression que quelqu'un lit nos hésitations.","fourth_wall":true,"meta_level":"fissure","priority":4},
-    {"id":"fw_lys_direct_01","event":"revelation","speaker_id":"lysandra","text":"Ne détourne pas les yeux maintenant. Tu as voulu savoir jusqu'où cela irait.","fourth_wall":true,"meta_level":"direct","priority":6},
-    {"id":"fw_lys_abyss_01","event":"silence_after_loss","speaker_id":"lysandra","text":"Si tu peux entendre ceci, alors le silence n'est pas vide.","fourth_wall":true,"meta_level":"abyssal","priority":7},
+    {"id":"fw_lys_fissure_01","event":"idle_long","speaker_id":"lysandra","text":"Quand nous hésitons trop longtemps, quelque chose semble attendre avec nous.","fourth_wall":true,"meta_level":"fissure","priority":4},
+    {"id":"fw_lys_fissure_02","event":"revelation","speaker_id":"lysandra","text":"Il y a des moments où je ne sais plus si nous avançons, ou si nous sommes poussés.","fourth_wall":true,"meta_level":"fissure","priority":5},
+    {"id":"fw_lys_direct_01","event":"choice_wait","speaker_id":"lysandra","text":"Tu peux détourner les yeux. Nous, non.","fourth_wall":true,"meta_level":"direct","priority":6},
+    {"id":"fw_lys_direct_02","event":"many_deaths","speaker_id":"lysandra","text":"Nous parlons de ceux que nous avons perdus. Toi… tu les comptes.","conditions":{"min_party_deaths":2},"fourth_wall":true,"meta_level":"direct","priority":8},
+    {"id":"fw_lys_abyss_01","event":"last_original_survivor","speaker_id":"lysandra","text":"Quand je ferme les yeux, le monde disparaît. Quand je les rouvre, tu es toujours là.","conditions":{"min_party_deaths":3,"max_alive":1},"fourth_wall":true,"meta_level":"abyssal","priority":10},
+    {"id":"fw_lys_abyss_02","event":"many_deaths","speaker_id":"lysandra","text":"Je pensais que les morts quittaient ce monde. Maintenant, je me demande seulement qui cesse de les regarder.","conditions":{"min_party_deaths":2},"fourth_wall":true,"meta_level":"abyssal","priority":9},
 
-    {"id":"fw_dar_fissure_01","event":"choice_wait","speaker_id":"darius","text":"Quelqu'un choisit nos pas avec une assurance remarquable pour quelqu'un qui ne risque pas sa peau.","fourth_wall":true,"meta_level":"fissure","priority":5},
-    {"id":"fw_dar_direct_01","event":"revisit_zone","speaker_id":"darius","text":"Tu as déjà vu cet endroit, n'est-ce pas ? Moi non.","fourth_wall":true,"meta_level":"direct","priority":6},
-    {"id":"fw_dar_abyss_01","event":"many_deaths","speaker_id":"darius","text":"Si tu comptes recommencer jusqu'à ce que tout se passe bien, accepte d'abord ceci : nous, nous ne recommençons pas.","conditions":{"min_party_deaths":2},"fourth_wall":true,"meta_level":"abyssal","priority":10},
+    {"id":"fw_dar_fissure_01","event":"choice_wait","speaker_id":"darius","text":"Étrange. Je savais quelle porte nous prendrions avant que l'ordre tombe.","fourth_wall":true,"meta_level":"fissure","priority":5},
+    {"id":"fw_dar_fissure_02","event":"repeated_action","speaker_id":"darius","text":"Même angle. Même risque. Quelqu'un aime les habitudes plus que moi.","fourth_wall":true,"meta_level":"fissure","priority":4},
+    {"id":"fw_dar_direct_01","event":"choice_wait","speaker_id":"darius","text":"Tu réfléchis depuis longtemps. Nous, pendant ce temps, nous sommes toujours ici.","fourth_wall":true,"meta_level":"direct","priority":6},
+    {"id":"fw_dar_direct_02","event":"risk_repeat","speaker_id":"darius","text":"Combien de fois as-tu déjà imaginé notre mort avant de nous envoyer là-dedans ?","fourth_wall":true,"meta_level":"direct","priority":7},
+    {"id":"fw_dar_abyss_01","event":"many_deaths","speaker_id":"darius","text":"Le pire n'est pas que quelqu'un nous dirige. Le pire, c'est qu'il puisse s'arrêter quand il le souhaite.","conditions":{"min_party_deaths":2},"fourth_wall":true,"meta_level":"abyssal","priority":9},
+    {"id":"fw_dar_abyss_02","event":"last_original_survivor","speaker_id":"darius","text":"J'observe les ennemis, les portes, les pièges. Depuis quelque temps, j'observe aussi celui qui décide.","conditions":{"min_party_deaths":3,"max_alive":1},"fourth_wall":true,"meta_level":"abyssal","priority":10},
 
     {"id":"narrative_fallback_discovery","event":"discovery","speaker_id":"narrator","speaker":"Narratrice","text":"La découverte reste là, même si personne ne trouve les mots.","critical_safe":true,"priority":1},
     {"id":"narrative_fallback_death","event":"companion_death","speaker_id":"narrator","speaker":"Narratrice","text":"Un espace vient de s'ouvrir dans la compagnie. Personne ne le remplit tout de suite.","critical_safe":true,"priority":1},

@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "engine": "openvoice_v2",
+  "rule": "Seuls les rendus approuvés après contrôle humain et vérification des droits de la voix de référence entrent ici. Un dialogue sans asset vocal reste jouable en texte.",
+  "assets": []
+}

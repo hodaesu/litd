@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "rule": "Ce fichier d'exemple doit être copié vers local/voice_refs/registry.json. Les références audio et le registre local ne sont jamais commités.",
+  "references": [
+    {
+      "reference_id": "aurelien_voice_reference",
+      "reference_file": "aurelien.wav",
+      "consent_confirmed": false,
+      "original_or_authorized": false,
+      "commercial_game_use": false,
+      "notes": "Passer les trois booléens à true uniquement après autorisation explicite de la personne enregistrée."
+    },
+    {
+      "reference_id": "malvor_voice_reference",
+      "reference_file": "malvor.wav",
+      "consent_confirmed": false,
+      "original_or_authorized": false,
+      "commercial_game_use": false,
+      "notes": "Ne pas utiliser la voix d'un acteur ou d'une personnalité sans autorisation."
+    },
+    {
+      "reference_id": "lysandra_voice_reference",
+      "reference_file": "lysandra.wav",
+      "consent_confirmed": false,
+      "original_or_authorized": false,
+      "commercial_game_use": false,
+      "notes": "La référence doit être une voix originale ou explicitement autorisée pour le jeu."
+    },
+    {
+      "reference_id": "darius_voice_reference",
+      "reference_file": "darius.wav",
+      "consent_confirmed": false,
+      "original_or_authorized": false,
+      "commercial_game_use": false,
+      "notes": "Conserver les preuves d'autorisation hors dépôt avec le registre local."
+    }
+  ]
+}
