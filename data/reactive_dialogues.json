@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "design_source": "reactive_dialogue_pass_24",
+  "rules": {
+    "critical_story_never_depends_on_mortal_hero": true,
+    "dead_speakers_forbidden": true,
+    "hero_death_removes_unique_voice": true,
+    "fallback_order": ["specific_hero", "compatible_hero", "narration", "silence"],
+    "runtime_text_is_authored_not_generated": true
+  },
+  "fourth_wall": {
+    "purpose": "Créer de rares fissures inquiétantes où un héros semble percevoir le joueur, sans transformer Light in the Dark en comédie méta.",
+    "max_per_expedition": 2,
+    "minimum_gap_events": 8,
+    "default_probability": 0.05,
+    "never_for_critical_story_information": true,
+    "never_replace_death_silence": true,
+    "levels": ["fissure", "direct", "abyssal"],
+    "tone_rules": [
+      "rester dark fantasy et inquiétant plutôt que comique",
+      "ne jamais expliquer explicitement l'interface ou le code du jeu",
+      "les héros peuvent soupçonner une présence, une volonté ou une répétition sans comprendre le joueur",
+      "les répliques directes sont plus rares que les fissures ambiguës",
+      "aucun héros mort ne parle au joueur sauf future scène mémorielle explicitement écrite comme telle"
+    ]
+  },
+  "lines": [
+    {"id":"aur_discovery_01","event":"discovery","speaker_id":"aurelien","text":"Ce n'est pas ce qu'on a trouvé qui m'inquiète. C'est ce qui manque autour.","priority":5},
+    {"id":"aur_panic_01","event":"panic","speaker_id":"aurelien","text":"Je sais ce que je vois. Je ne sais plus si je suis le seul à le voir.","conditions":{"fear_min":75},"priority":8},
+    {"id":"aur_death_01","event":"companion_death","speaker_id":"aurelien","text":"Ne dites rien tout de suite. Retenez seulement son nom.","priority":9},
+    {"id":"mal_combat_01","event":"combat_start","speaker_id":"malvor","text":"Assez regardé. Maintenant on paie en chair.","priority":5},
+    {"id":"mal_lowhp_01","event":"low_hp","speaker_id":"malvor","text":"J'ai connu de meilleurs jours. Pas beaucoup, mais de meilleurs.","conditions":{"hp_ratio_max":0.35},"priority":7},
+    {"id":"mal_death_01","event":"companion_death","speaker_id":"malvor","text":"On avance. Pas parce que ça va. Parce qu'il n'y a plus rien à réparer ici.","priority":9},
+    {"id":"lys_discovery_01","event":"discovery","speaker_id":"lysandra","text":"Quelqu'un a voulu que cette trace survive plus longtemps que lui.","priority":5},
+    {"id":"lys_panic_01","event":"panic","speaker_id":"lysandra","text":"Écoutez ma voix. Une chose après l'autre. Le sol. Votre souffle. Mon nom.","conditions":{"fear_min":75},"priority":8},
+    {"id":"lys_death_01","event":"companion_death","speaker_id":"lysandra","text":"Je me souviendrai de la dernière chose qu'il a regardée.","priority":9},
+    {"id":"dar_discovery_01","event":"discovery","speaker_id":"darius","text":"Avant de décider ce que ça signifie, trouvons qui avait intérêt à ce que ça reste ici.","priority":5},
+    {"id":"dar_combat_01","event":"combat_start","speaker_id":"darius","text":"Sorties, angles morts, cible la plus mobile. Le reste après.","priority":6},
+    {"id":"dar_death_01","event":"companion_death","speaker_id":"darius","text":"On comptera les morts quand on sera assez loin pour ne pas en ajouter un autre.","priority":9},
+
+    {"id":"fw_aur_fissure_01","event":"idle_long","speaker_id":"aurelien","text":"Il y a quelqu'un derrière ce silence. Quelqu'un qui attend que nous avancions.","fourth_wall":true,"meta_level":"fissure","priority":4},
+    {"id":"fw_aur_direct_01","event":"choice_wait","speaker_id":"aurelien","text":"Tu hésites. Je le sens jusque d'ici. Pourtant c'est ma main qui va ouvrir la porte.","fourth_wall":true,"meta_level":"direct","priority":5},
+    {"id":"fw_aur_direct_02","event":"repeated_action","speaker_id":"aurelien","text":"Tu peux choisir plus vite. La peur, elle, ne s'arrête pas pendant que tu réfléchis.","fourth_wall":true,"meta_level":"direct","priority":4},
+
+    {"id":"fw_mal_fissure_01","event":"repeated_action","speaker_id":"malvor","text":"Encore ce geste ? Très bien. Toi tu insistes, moi je saigne.","fourth_wall":true,"meta_level":"fissure","priority":4},
+    {"id":"fw_mal_direct_01","event":"low_hp","speaker_id":"malvor","text":"J'espère que tu sais ce que tu fais. Moi, je n'ai pas de deuxième corps.","conditions":{"hp_ratio_max":0.30},"fourth_wall":true,"meta_level":"direct","priority":7},
+    {"id":"fw_mal_abyss_01","event":"many_deaths","speaker_id":"malvor","text":"Tu nous regardes tomber comme des pièces sur une table. Essaie au moins de retenir nos noms.","conditions":{"min_party_deaths":2},"fourth_wall":true,"meta_level":"abyssal","priority":9},
+
+    {"id":"fw_lys_fissure_01","event":"idle_long","speaker_id":"lysandra","text":"Parfois, quand tout se tait, j'ai l'impression que quelqu'un lit nos hésitations.","fourth_wall":true,"meta_level":"fissure","priority":4},
+    {"id":"fw_lys_direct_01","event":"revelation","speaker_id":"lysandra","text":"Ne détourne pas les yeux maintenant. Tu as voulu savoir jusqu'où cela irait.","fourth_wall":true,"meta_level":"direct","priority":6},
+    {"id":"fw_lys_abyss_01","event":"silence_after_loss","speaker_id":"lysandra","text":"Si tu peux entendre ceci, alors le silence n'est pas vide.","fourth_wall":true,"meta_level":"abyssal","priority":7},
+
+    {"id":"fw_dar_fissure_01","event":"choice_wait","speaker_id":"darius","text":"Quelqu'un choisit nos pas avec une assurance remarquable pour quelqu'un qui ne risque pas sa peau.","fourth_wall":true,"meta_level":"fissure","priority":5},
+    {"id":"fw_dar_direct_01","event":"revisit_zone","speaker_id":"darius","text":"Tu as déjà vu cet endroit, n'est-ce pas ? Moi non.","fourth_wall":true,"meta_level":"direct","priority":6},
+    {"id":"fw_dar_abyss_01","event":"many_deaths","speaker_id":"darius","text":"Si tu comptes recommencer jusqu'à ce que tout se passe bien, accepte d'abord ceci : nous, nous ne recommençons pas.","conditions":{"min_party_deaths":2},"fourth_wall":true,"meta_level":"abyssal","priority":10},
+
+    {"id":"narrative_fallback_discovery","event":"discovery","speaker_id":"narrator","speaker":"Narratrice","text":"La découverte reste là, même si personne ne trouve les mots.","critical_safe":true,"priority":1},
+    {"id":"narrative_fallback_death","event":"companion_death","speaker_id":"narrator","speaker":"Narratrice","text":"Un espace vient de s'ouvrir dans la compagnie. Personne ne le remplit tout de suite.","critical_safe":true,"priority":1},
+    {"id":"narrative_fallback_critical","event":"critical_story","speaker_id":"narrator","speaker":"Narratrice","text":"La preuve est consignée. Sa signification n'appartient à aucun survivant en particulier.","critical_safe":true,"priority":10}
+  ]
+}

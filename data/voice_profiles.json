@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "design_source": "reactive_dialogue_pass_24",
+  "rule": "Chaque héros possède une voix d'écriture originale. Aucun profil ne doit imiter un acteur réel ou transformer un héros en fonction narrative indispensable.",
+  "profiles": [
+    {
+      "hero_id": "aurelien",
+      "register": "medium_low",
+      "texture": "calm_worn",
+      "pace": "measured_then_fast_under_fear",
+      "sentence_length": "medium",
+      "vocabulary": ["observation", "seuil", "trace", "doute", "conséquence"],
+      "irony": "low_dry",
+      "silence_relation": "uses_pauses_before_conclusions",
+      "fear_expression": "analytical_control_that_frays",
+      "anger_expression": "quiet_precision",
+      "avoids": ["grandiloquence", "certainty_without_evidence"],
+      "recurring_habits": ["nommer ce qui manque", "poser une question avant d'affirmer"],
+      "fourth_wall_style": "perception_of_an_observer_beyond_the_scene",
+      "fourth_wall_affinity": 3
+    },
+    {
+      "hero_id": "malvor",
+      "register": "low",
+      "texture": "rough_direct",
+      "pace": "short_bursts",
+      "sentence_length": "short",
+      "vocabulary": ["corps", "poids", "coup", "route", "prix"],
+      "irony": "high_dark",
+      "silence_relation": "breaks_tension_with_blunt_lines",
+      "fear_expression": "aggression_then_black_humor",
+      "anger_expression": "immediate_and_concrete",
+      "avoids": ["abstract_philosophy", "long_explanations"],
+      "recurring_habits": ["ramener une idée au corps", "faire une remarque sèche après le danger"],
+      "fourth_wall_style": "bluntly_addresses_the_one_making_him_take_the_risk",
+      "fourth_wall_affinity": 2
+    },
+    {
+      "hero_id": "lysandra",
+      "register": "medium",
+      "texture": "clear_restrained",
+      "pace": "slow_precise",
+      "sentence_length": "medium_long",
+      "vocabulary": ["souffle", "mémoire", "présence", "soin", "nom"],
+      "irony": "very_low",
+      "silence_relation": "comfortable_with_long_silences",
+      "fear_expression": "whispered_attention_to_details",
+      "anger_expression": "controlled_disappointment",
+      "avoids": ["mockery_of_suffering", "heroic_boasting"],
+      "recurring_habits": ["nommer les personnes", "écouter avant de répondre"],
+      "fourth_wall_style": "uncanny_awareness_that_someone_is_listening",
+      "fourth_wall_affinity": 2
+    },
+    {
+      "hero_id": "darius",
+      "register": "medium_low",
+      "texture": "dry_grounded",
+      "pace": "steady",
+      "sentence_length": "short_medium",
+      "vocabulary": ["angle", "sortie", "risque", "ordre", "preuve"],
+      "irony": "medium_dry",
+      "silence_relation": "speaks_when_information_changes_action",
+      "fear_expression": "more_tactical_and_less_patient",
+      "anger_expression": "sharp_questions",
+      "avoids": ["mysticism_as_explanation", "empty_reassurance"],
+      "recurring_habits": ["chercher une sortie", "demander qui paie le risque"],
+      "fourth_wall_style": "treats_the_player_as_an_unseen_commander",
+      "fourth_wall_affinity": 3
+    }
+  ]
+}
