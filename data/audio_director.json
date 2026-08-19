@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "design_source": "adaptive_audio_director_pass_19",
-  "purpose": "Premier directeur audio runtime de Light in the Dark : bus, états exploration/combat/boss, Peur et sélection de cues à partir de MusicLibrary/SfxLibrary.",
+  "purpose": "Directeur audio runtime de Light in the Dark : bus, états exploration/combat/boss, Peur, sélection de cues, lecture SFX réelle et transitions musicales.",
   "bus_order": ["Music", "Ambience", "Foley", "Combat", "Creatures", "Psychology", "Dialogue", "UI"],
   "bus_defaults_db": {
     "Music": -8.0,
@@ -76,5 +76,7 @@
     "play_only_verified_local_paths": true,
     "stock_is_prototype_material": true
   },
+  "prototype_audio_enabled": true,
+  "music_crossfade_seconds": 1.15,
   "history_limit": 48
 }

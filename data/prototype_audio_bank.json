@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "design_source": "audio_runtime_pass_20",
+  "purpose": "Banque audio locale générée procéduralement pour rendre AudioDirector réellement audible avant l'ingestion des masters finaux. Aucun matériau tiers n'est embarqué.",
+  "legal_policy": {
+    "tier": "green",
+    "third_party_material": false,
+    "status": "prototype_only",
+    "rule": "Ces sons techniques peuvent être remplacés par des masters originaux LITD ou des fichiers tiers vérifiés sans changer les cue IDs."
+  },
+  "sample_rate": 16000,
+  "assets": [
+    {"id":"litd_step_ash","kind":"sfx","cues":["footstep_ash"],"generator":"footstep_ash","variants":4,"duration":0.19,"loop":false,"bus":"Foley"},
+    {"id":"litd_step_stone","kind":"sfx","cues":["footstep_stone"],"generator":"footstep_stone","variants":4,"duration":0.16,"loop":false,"bus":"Foley"},
+    {"id":"litd_ui_confirm","kind":"sfx","cues":["ui_confirm"],"generator":"ui_confirm","variants":2,"duration":0.08,"loop":false,"bus":"UI"},
+    {"id":"litd_combat_telegraph","kind":"sfx","cues":["combat_telegraph"],"generator":"combat_telegraph","variants":3,"duration":0.14,"loop":false,"bus":"Combat"},
+    {"id":"litd_heartbeat","kind":"sfx","cues":["fear_heartbeat"],"generator":"heartbeat","variants":2,"duration":0.42,"loop":false,"bus":"Psychology"},
+    {"id":"litd_fear_breath","kind":"sfx","cues":["fear_breath"],"generator":"fear_breath","variants":3,"duration":0.62,"loop":false,"bus":"Psychology"},
+    {"id":"litd_tinnitus","kind":"sfx","cues":["fear_tinnitus"],"generator":"tinnitus","variants":2,"duration":0.35,"loop":false,"bus":"Psychology"},
+    {"id":"litd_panic_sting","kind":"sfx","cues":["panic_sting"],"generator":"panic_sting","variants":3,"duration":0.28,"loop":false,"bus":"Psychology"},
+    {"id":"litd_boss_presence","kind":"sfx","cues":["boss_presence"],"generator":"boss_presence","variants":2,"duration":0.72,"loop":false,"bus":"Creatures"},
+    {"id":"litd_boss_phase","kind":"sfx","cues":["boss_phase_change"],"generator":"boss_phase","variants":3,"duration":0.65,"loop":false,"bus":"Combat"},
+    {"id":"litd_wind_ashlands","kind":"sfx","cues":["wind_ashlands"],"generator":"wind_ashlands","variants":1,"duration":1.8,"loop":true,"bus":"Ambience"},
+    {"id":"litd_music_ashlands","kind":"music","cues":["exploration_ashlands","exploration_ruins"],"generator":"music_ashlands","variants":1,"duration":3.2,"loop":true,"bus":"Music"},
+    {"id":"litd_music_threat","kind":"music","cues":["exploration_threat"],"generator":"music_threat","variants":1,"duration":3.2,"loop":true,"bus":"Music"},
+    {"id":"litd_music_combat","kind":"music","cues":["combat_normal","combat_elite"],"generator":"music_combat","variants":1,"duration":3.0,"loop":true,"bus":"Music"},
+    {"id":"litd_music_boss","kind":"music","cues":["combat_boss"],"generator":"music_boss","variants":1,"duration":3.0,"loop":true,"bus":"Music"},
+    {"id":"litd_music_victory","kind":"music","cues":["victory_costly"],"generator":"music_victory","variants":1,"duration":1.8,"loop":false,"bus":"Music"},
+    {"id":"litd_music_defeat","kind":"music","cues":["defeat_retreat"],"generator":"music_defeat","variants":1,"duration":1.8,"loop":false,"bus":"Music"}
+  ],
+  "external_verified_sources": [
+    {
+      "id": "oga_footsteps_gbox",
+      "title": "Footsteps",
+      "author": "GboxMikeFozzy",
+      "license": "CC0",
+      "source_url": "https://opengameart.org/content/footsteps-0",
+      "checked_on": "2026-08-19",
+      "files": ["01-footstep.ogg","02-footstep.ogg","03-footstep.ogg","04-footstep.ogg","05-footstep.ogg","06-footstep.ogg"],
+      "status": "license_verified_binary_not_vendored"
+    }
+  ]
+}
