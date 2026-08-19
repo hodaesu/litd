@@ -55,6 +55,7 @@ Il ne coupe pas automatiquement Combat ni les télégraphes tactiques.
 - `choice` : bref poids sonore neutre, sans signaler de bonne réponse morale ;
 - `loss` : silence puis `sadness_loss` ;
 - `reunion` : `emotional_reunion` ;
+- `relationship` : ponctuation très discrète d'une scène entre compagnons, sans désigner de gagnant ;
 - `quest_accept` : petit signal de mise à jour + motif propre à la quête ;
 - `quest_complete` : silence court, résolution discrète + retour du motif.
 
@@ -93,10 +94,57 @@ Ces sons sont générés localement et ne contiennent aucun matériau tiers. Ils
 6. Les espaces du Sanctuaire doivent être reconnaissables à l'oreille tout en laissant de la place aux conversations.
 7. Les télégraphes tactiques restent prioritaires sur le spectacle narratif.
 8. Les prototypes procéduraux sont remplaçables sans changer l'API ni les cue IDs.
+9. Un hook sonore ne doit être branché que sur une scène réellement présente dans le runtime jouable ; les futurs types de scènes restent sans liaison tant que leur gameplay n'existe pas.
+
+## Pass 22 — Connexion aux scènes réelles
+
+Le pass 22 ne crée pas une nouvelle couche de narration abstraite. Il relie les beats précédents aux événements qui existent déjà réellement dans le jeu grâce à `scene_hooks` et à `NarrativeAudioDirector.trigger_scene_hook()`.
+
+### Enquête et révélation
+
+Deux preuves réelles du Chapitre III sont maintenant reliées aux histoires émergentes du Sanctuaire :
+
+- `ev_korem_redaction` déclenche la révélation de **Les jours qu'on a effacés** et rappelle le motif `ancient_archive` d'Iven ;
+- `ev_purge_protocol` déclenche la révélation de **La route qui n'était pas une sortie** et rappelle le motif `discovery_revelation` de Yoren.
+
+Le signal `Chapter03Runtime.evidence_discovered` est utilisé directement. La musique n'est donc pas déclenchée parce qu'un texte d'interface est affiché, mais parce que la preuve a réellement été collectée par le runtime.
+
+### Compagnons
+
+`RelationshipRuntime.relationship_changed` pilote désormais les scènes de relation déjà jouables au Sanctuaire :
+
+- `sanctuary_reconcile` : deux compagnons mettent des mots sur leur conflit ;
+- `sanctuary_opening` : deux compagnons restent à parler après le départ des autres.
+
+Ces scènes utilisent le beat `relationship`, volontairement sans résolution triomphante ni gagnant musical. Le dialogue est légèrement mis au premier plan, puis le mix revient à l'ambiance du lieu.
+
+La chute réelle d'un héros, déjà produite par `RelationshipRuntime.on_hero_fallen()`, émet un `relationship_moment`. Quand ce moment commence par la chute du compagnon, le directeur audio déclenche `loss` : silence, puis espace sonore de deuil. Il n'ajoute aucune jauge de relation ou de moralité.
+
+### Retours et retrouvailles
+
+Le retour réel de Mara, Yoren et Iven par `c03_survivor_outpost:returned` déclenche désormais `reunion`. Il s'agit ici d'une vraie retrouvaille de survivants déjà présente dans `FieldEncounterRuntime`, pas d'une scène de famille inventée pour satisfaire le système audio.
+
+Les futures familles séparées pourront utiliser le même contrat lorsqu'elles existeront réellement dans le gameplay : `field:<event_id>:<outcome>` ou un hook plus spécifique. Tant que ces rencontres n'existent pas, aucun faux événement de famille n'est créé.
+
+### Décision politique
+
+Les décisions de la Concorde sont reliées au son à l'endroit exact où le joueur valide un choix dans `PoliticalUI._take_decision()`.
+
+Le hook `political:*` produit le beat `choice` avec la règle `neutral_weight_no_moral_answer`. Le son souligne donc le poids politique d'une décision sans suggérer qu'accueillir, refuser, punir, libérer ou négocier serait la réponse moralement correcte.
+
+### Contrat data-driven
+
+Les hooks sont définis dans `data/narrative_audio.json` sous la forme :
+
+`type:identifiant[:résultat] → beat + motif éventuel + durée de parole + règle de mise en scène`.
+
+Le runtime possède une résolution exacte puis un wildcard par famille, ce qui permet par exemple à toutes les décisions politiques existantes de partager une grammaire sonore neutre sans recopier une entrée par choix.
 
 ## Validation
 
-La passe ajoute un audit Python et un smoke Godot `NARRATIVE_AUDIO_SMOKE_OK` couvrant :
+L'audit Python vérifie maintenant que les hooks pointent vers de vraies données du jeu : preuves du Chapitre III, rencontres de terrain, événements de relation et quêtes politiques. Le smoke Godot `NARRATIVE_AUDIO_SMOKE_OK` couvre en plus les signaux réels de preuve, relation, chute d'un héros, retour des Trois Marques et décision politique.
+
+La validation couvre donc :
 
 - contexte sonore du Sanctuaire ;
 - boucle de Taverne ;
@@ -105,4 +153,9 @@ La passe ajoute un audit Python et un smoke Godot `NARRATIVE_AUDIO_SMOKE_OK` cou
 - silence scénarisé ;
 - motifs des quêtes ;
 - beat de choix sans morale numérique ;
-- révélation avec silence puis transition musicale.
+- révélation avec silence puis transition musicale ;
+- scènes réelles d'enquête ;
+- scènes entre compagnons ;
+- perte d'un héros ;
+- retrouvailles de survivants ;
+- décision politique réellement validée par le joueur.
