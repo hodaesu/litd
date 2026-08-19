@@ -42,6 +42,8 @@ jobs:
         run: python -m tools.qa.enemy_family_tactics_audit
       - name: Audit anatomie avancée, capture, psychologie et Blender
         run: python -m tools.qa.anatomy_system_audit
+      - name: Audit psychologie de combat
+        run: python -m tools.qa.psychology_combat_audit
       - name: Audit bâtiments interactifs du Sanctuaire
         run: python -m tools.qa.sanctuary_buildings_audit
       - name: Générer les jobs Blender anatomiques
