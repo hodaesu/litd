@@ -7,10 +7,18 @@ var _last_companion_intervention: Dictionary = {}
 
 func _ready() -> void:
     _load_data()
+    if not AshlandsCombatBridge.ashlands_combat_started.is_connected(_on_campaign_combat_started):
+        AshlandsCombatBridge.ashlands_combat_started.connect(_on_campaign_combat_started)
 
 func _load_data() -> void:
     var parsed = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
     data = parsed if parsed is Dictionary else {}
+
+func reset_runtime() -> void:
+    _last_companion_intervention.clear()
+
+func _on_campaign_combat_started(_encounter_id: String, _encounter_type: String) -> void:
+    reset_runtime()
 
 func select_enemy_target(enemy: Dictionary, targets: Array, round_number: int) -> Dictionary:
     if targets.is_empty():
