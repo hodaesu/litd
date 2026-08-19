@@ -25,14 +25,14 @@ func run() -> void:
     _check(not CommunityRuntime.sanctuary_population_cues().is_empty(), "Living people must alter sanctuary population cues")
 
     var quest_entries: Array[Dictionary] = CommunityRuntime.quest_entries()
-    _check(_has_quest(quest_entries, "q_iven_korem_archive", "offered"), "Iven's quest must exist only after his survival branch returns")
-    _check(_has_quest(quest_entries, "q_yoren_safe_line", "offered"), "Yoren's route quest must emerge from the same persistent population")
+    _check(_has_quest(quest_entries, "q_iven_erased_days", "offered"), "Iven's narrative quest must exist only after his survival branch returns")
+    _check(_has_quest(quest_entries, "q_yoren_false_exit", "offered"), "Yoren's narrative route quest must emerge from the same persistent population")
 
     var medicine_before: int = int(ExpeditionManager.inventory.get("medicine", 0))
-    _check(CommunityRuntime.accept_quest("q_iven_korem_archive"), "An offered emergent quest must be accept-able")
+    _check(CommunityRuntime.accept_quest("q_iven_erased_days"), "An offered emergent quest must be accept-able")
     _check(Chapter03Runtime.collect_evidence("ev_korem_redaction"), "The existing Kor-Em evidence must remain a real campaign objective")
     await _frames(1)
-    _check(_has_quest(CommunityRuntime.quest_entries(), "q_iven_korem_archive", "completed"), "Existing world evidence must complete the emergent quest")
+    _check(_has_quest(CommunityRuntime.quest_entries(), "q_iven_erased_days", "completed"), "Existing world evidence must complete the emergent quest")
     _check(int(ExpeditionManager.inventory.get("medicine", 0)) == medicine_before + 1, "Quest completion must grant its concrete expedition reward")
 
     var rumor_lines: Array[String] = CommunityRuntime.recent_rumor_lines(6)
@@ -48,7 +48,7 @@ func run() -> void:
     _check(CommunityRuntime.sanctuary_people().is_empty(), "A fresh game must not inherit survivor residents")
     CommunityRuntime.deserialize(snapshot)
     _check(CommunityRuntime.sanctuary_people().size() == 3, "Save restore must recover the exact living sanctuary population")
-    _check(_has_quest(CommunityRuntime.quest_entries(), "q_iven_korem_archive", "completed"), "Save restore must preserve emergent quest history")
+    _check(_has_quest(CommunityRuntime.quest_entries(), "q_iven_erased_days", "completed"), "Save restore must preserve emergent quest history")
 
     GameState.reset_new_game()
     await _frames(1)
