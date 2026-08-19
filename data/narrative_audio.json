@@ -1,7 +1,7 @@
 {
-  "version": 1,
-  "design_source": "narrative_audio_pass_21",
-  "purpose": "Orchestration audio des dialogues, espaces du Sanctuaire et moments narratifs. L'audio soutient la scène sans dicter une morale au joueur.",
+  "version": 2,
+  "design_source": "narrative_audio_pass_21+scene_hooks_pass_22",
+  "purpose": "Orchestration audio des dialogues, espaces du Sanctuaire et moments narratifs. L'audio soutient la scène sans dicter une morale au joueur, et les scènes réelles du jeu déclenchent désormais leurs beats de manière data-driven.",
   "dialogue_ducking_db": {
     "Music": -10.0,
     "Ambience": -5.0,
@@ -30,12 +30,50 @@
     "q_iven_erased_days": "ancient_archive",
     "q_yoren_false_exit": "discovery_revelation"
   },
+  "scene_hooks": {
+    "evidence:ev_korem_redaction": {
+      "beat": "revelation",
+      "quest_id": "q_iven_erased_days",
+      "motif_from_quest": true,
+      "tag": "iven_erased_days_revelation"
+    },
+    "evidence:ev_purge_protocol": {
+      "beat": "revelation",
+      "quest_id": "q_yoren_false_exit",
+      "motif_from_quest": true,
+      "tag": "yoren_false_exit_revelation"
+    },
+    "relationship:sanctuary_reconcile": {
+      "beat": "relationship",
+      "spoken_seconds": 1.60,
+      "tag": "companion_reconciliation"
+    },
+    "relationship:sanctuary_opening": {
+      "beat": "relationship",
+      "spoken_seconds": 1.30,
+      "tag": "companion_opening"
+    },
+    "relationship:hero_fallen": {
+      "beat": "loss",
+      "tag": "hero_fallen"
+    },
+    "field:c03_survivor_outpost:returned": {
+      "beat": "reunion",
+      "tag": "three_marks_return"
+    },
+    "political:*": {
+      "beat": "choice",
+      "tag": "political_choice",
+      "rule": "neutral_weight_no_moral_answer"
+    }
+  },
   "beats": {
     "rumor": {"dialogue_seconds":1.50,"sfx":"memory_echo"},
     "revelation": {"silence_seconds":0.62,"music":"discovery_revelation","hold_seconds":1.65,"sfx":"memory_echo"},
     "choice": {"silence_seconds":0.24,"sfx":"ui_confirm","rule":"neutral_weight_no_moral_answer"},
     "loss": {"silence_seconds":0.82,"music":"sadness_loss","hold_seconds":1.90},
     "reunion": {"music":"emotional_reunion","hold_seconds":1.80},
+    "relationship": {"sfx":"memory_echo","rule":"no_winner_no_moralization"},
     "quest_accept": {"sfx":"ui_quest_update","hold_seconds":1.35},
     "quest_complete": {"silence_seconds":0.38,"sfx":"ui_reward","hold_seconds":1.75}
   },
@@ -47,7 +85,8 @@
     "Quest motifs recur by quest identity so memory can be musical as well as textual.",
     "Sanctuary spaces have distinct room tone but remain sparse enough for speech.",
     "Stock or procedural prototypes are replaceable; cue IDs are the stable contract.",
-    "Combat telegraphs keep priority over narrative ducking when combat is active."
+    "Combat telegraphs keep priority over narrative ducking when combat is active.",
+    "Scene hooks must reference events that really exist in the playable runtime; absent future scene types stay unbound until their gameplay exists."
   ],
-  "history_limit": 48
+  "history_limit": 64
 }
