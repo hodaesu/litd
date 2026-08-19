@@ -37,15 +37,21 @@ func _test_chapel() -> void:
     hero["fear"] = 60
     hero["madness"] = 30
     hero["hope"] = 40
+    var psychology := PsychologyRuntime.ensure_hero(hero)
+    psychology["madness_exposure"] = 30
+    hero["psychology"] = psychology
     main.set("selected_hero_id", str(hero.get("id", "")))
     main.call("show_screen", "chapel")
     await _frames(3)
     var gold_before := GameState.gold
+    var hope_before := int(hero.get("hope", 0))
     _check(await _press_button("APAISER", true), "Chapel must expose a usable appeasement action")
     _check(GameState.gold == gold_before - 12, "Chapel appeasement must cost exactly 12 gold")
     _check(int(hero.get("fear", 0)) == 42, "Chapel must reduce Fear by 18")
-    _check(int(hero.get("madness", 0)) == 26, "Chapel must reduce Madness by 4")
-    _check(int(hero.get("hope", 0)) == 44, "Chapel must raise Hope by 4")
+    _check(int(hero.get("madness", 0)) == 30, "Chapel must not erase legacy Madness numerically")
+    _check(int(PsychologyRuntime.state_for(hero).get("madness_exposure", 0)) == 18, "Chapel must stabilize hidden madness exposure")
+    _check(int(hero.get("hope", 0)) == hope_before, "Chapel must not turn Hope into a numeric resource")
+    _check(not PsychologyRuntime.state_for(hero).get("hope_history", []).is_empty(), "Chapel must record a Hope manifestation")
     _check(await _press_button("RETOUR AU SANCTUAIRE", true), "Chapel must return to Sanctuary")
 
 func _test_tavern() -> void:
@@ -54,34 +60,46 @@ func _test_tavern() -> void:
     _check(await _press_button("ÉCOUTER LES RUMEURS", true), "Tavern must expose rumors")
     _check(_log_contains("rumeur"), "Listening to rumors must create a Tavern log entry")
 
+    var hope_before: Dictionary = {}
+    var history_before: Dictionary = {}
     for hero_value in GameState.party:
         var hero: Dictionary = hero_value
         hero["fear"] = 20
         hero["hope"] = 40
+        hope_before[str(hero.get("id", ""))] = int(hero.get("hope", 0))
+        history_before[str(hero.get("id", ""))] = PsychologyRuntime.state_for(hero).get("hope_history", []).size()
     var supplies_before := GameState.supplies
     _check(await _press_button("REPAS PARTAGÉ · 1 VIVRE", true), "Tavern must expose the shared meal")
     _check(GameState.supplies == supplies_before - 1, "Shared meal must consume one supply")
     for hero_value in GameState.party:
         var hero: Dictionary = hero_value
+        var hero_id := str(hero.get("id", ""))
         _check(int(hero.get("fear", 0)) == 15, "Shared meal must reduce Fear for every living hero")
-        _check(int(hero.get("hope", 0)) == 45, "Shared meal must raise Hope for every living hero")
+        _check(int(hero.get("hope", 0)) == int(hope_before.get(hero_id, 0)), "Shared meal must keep Hope non-numeric")
+        _check(PsychologyRuntime.state_for(hero).get("hope_history", []).size() > int(history_before.get(hero_id, 0)), "Shared meal must record Hope for every living hero")
     _check(await _press_button("RETOUR AU SANCTUAIRE", true), "Tavern must return to Sanctuary")
 
 func _test_memorial() -> void:
     _check(await _press_button("MÉMORIAL\nHéros tombés", true), "Memorial button must open the Memorial")
     _check(GameState.current_screen == "memorial", "Memorial screen must be active")
+    var hope_before: Dictionary = {}
+    var history_before: Dictionary = {}
     for hero_value in GameState.party:
         var hero: Dictionary = hero_value
         hero["fear"] = 10
         hero["hope"] = 30
+        hope_before[str(hero.get("id", ""))] = int(hero.get("hope", 0))
+        history_before[str(hero.get("id", ""))] = PsychologyRuntime.state_for(hero).get("hope_history", []).size()
     var flag := "memorial_honored_%s" % CampaignState.current_chapter_id
     _check(not bool(CampaignState.chapter_flags.get(flag, false)), "Memorial flag must start unset")
     _check(await _press_button("SE RECUEILLIR", true), "Memorial must allow one gathering")
     _check(bool(CampaignState.chapter_flags.get(flag, false)), "Memorial gathering must persist a chapter flag")
     for hero_value in GameState.party:
         var hero: Dictionary = hero_value
-        _check(int(hero.get("fear", 0)) == 8, "Memorial must reduce Fear by 2")
-        _check(int(hero.get("hope", 0)) == 34, "Memorial must raise Hope by 4")
+        var hero_id := str(hero.get("id", ""))
+        _check(int(hero.get("fear", 0)) == 6, "Memorial must reduce Fear by 4 including the Hope relief")
+        _check(int(hero.get("hope", 0)) == int(hope_before.get(hero_id, 0)), "Memorial must keep Hope non-numeric")
+        _check(PsychologyRuntime.state_for(hero).get("hope_history", []).size() > int(history_before.get(hero_id, 0)), "Memorial must record a Hope manifestation")
     _check(_find_button("DÉJÀ HONORÉ CE CHAPITRE", true) != null, "Memorial must visibly lock repeated gathering")
     var locked := _find_button("DÉJÀ HONORÉ CE CHAPITRE", true)
     _check(locked != null and locked.disabled, "Repeated Memorial benefit must be disabled")
