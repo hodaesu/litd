@@ -42,26 +42,36 @@ def test_persistent_social_encounter_families_exist() -> None:
         assert expected <= choices
 
 
-def test_choices_have_real_costs_and_non_reward_branches() -> None:
+def test_choices_have_real_costs_and_alternate_non_costly_branches() -> None:
     field = _data("data/field_encounters.json")
     survival = _data("data/levels/ashlands_survival_rules.json")
     resources = set(survival["expedition_inventory"])
     encounters = {item["id"]: item for item in field["encounters"]}
 
-    for encounter_id in [
+    choice_encounter_ids = [
         "c01_wounded_messenger",
         "c01_separated_family",
         "c01_former_soldier",
         "c01_refugees_low_road",
         "c01_conscious_creature",
-    ]:
+    ]
+    for encounter_id in choice_encounter_ids:
         choices = encounters[encounter_id]["choices"]
         assert any(choice.get("cost") for choice in choices)
-        assert any(choice.get("cost", {}) == {} for choice in choices)
         for choice in choices:
             assert set(choice.get("cost", {})) <= resources
             assert choice.get("memory_choice") in {"aid", "keep"}
             assert choice.get("outcome")
+
+    # Un blessé peut légitimement n'avoir que des options qui mobilisent au moins une
+    # ressource. Les autres dilemmes conservent bien une branche sans dépense matérielle.
+    for encounter_id in [
+        "c01_separated_family",
+        "c01_former_soldier",
+        "c01_refugees_low_road",
+        "c01_conscious_creature",
+    ]:
+        assert any(choice.get("cost", {}) == {} for choice in encounters[encounter_id]["choices"])
 
 
 def test_alternate_outcomes_return_without_binary_morality() -> None:
