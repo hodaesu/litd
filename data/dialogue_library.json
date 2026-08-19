@@ -1,0 +1,256 @@
+{
+  "version": 1,
+  "design_source": "dialogue_and_staging_library_pass_16",
+  "purpose": "Donner à Light in the Dark une bibliothèque de techniques de dialogue, de mise en scène textuelle et de voix de personnage fondée sur l'étude comparative du théâtre, du roman et de l'interprétation, sans copier ni imiter servilement une œuvre ou un auteur.",
+  "research_basis": [
+    {
+      "source": "Folger Shakespeare Library",
+      "focus": ["action scénique implicite dans le dialogue", "caractère construit par la langue en mouvement", "contradictions internes", "rhétorique", "enchaînement des pensées"],
+      "note": "Le dialogue dramatique est traité comme texte à jouer : les mots peuvent commander gestes, déplacements, objets, regards et changements de rapport."
+    },
+    {
+      "source": "Royal Shakespeare Company — Shakespeare Learning Zone",
+      "focus": ["prose et vers comme indice de situation", "rhétorique", "antithèse", "questions-réponses", "noms et statut", "lignes partagées", "rythme"],
+      "note": "Les variations de forme et de rythme deviennent des informations sur le statut, l'émotion, la relation et la tactique."
+    },
+    {
+      "source": "RADA et ressources de répétition théâtrale",
+      "focus": ["analyse de texte", "objectifs", "actions", "écoute", "réponse", "sous-texte", "choix précis", "action physique"],
+      "note": "Une scène doit rester jouable : chaque réplique est liée à ce que le personnage tente de faire à l'autre, et non seulement à ce qu'il veut expliquer au joueur."
+    },
+    {
+      "source": "Project Gutenberg",
+      "focus": ["corpus public-domain de théâtre et de romans", "comparaison de voix", "dialogue comique, tragique, psychologique, social et philosophique"],
+      "note": "Les textes servent à étudier structures, rythme, tours de parole et fonctions. Aucun passage n'est stocké dans cette bibliothèque."
+    },
+    {
+      "source": "Gallica / Bibliothèque nationale de France",
+      "focus": ["théâtre classique français", "Molière", "Marivaux", "Beaumarchais", "archives de mises en scène"],
+      "note": "Le corpus francophone permet d'étudier duel verbal, statut social, détour, aveu, ironie, faux-semblant et mécanique de scène."
+    }
+  ],
+  "rights_and_originality_protocol": {
+    "stored_text_policy": "metadata_and_abstract_techniques_only",
+    "forbidden": [
+      "copier ou paraphraser une réplique reconnaissable, même issue d'un texte de référence",
+      "imiter la voix distinctive d'un auteur vivant ou d'une œuvre encore protégée",
+      "reproduire un échange célèbre avec les mêmes rôles, le même ordre de révélations et les mêmes effets",
+      "transposer un personnage connu en changeant seulement son nom et son univers",
+      "utiliser une traduction moderne comme si son statut de droit était identique à celui de l'œuvre originale",
+      "faire parler tous les personnages avec le même niveau de langue, le même humour et le même rythme"
+    ],
+    "required": [
+      "extraire des techniques abstraites et les recombiner avec les besoins propres de Light in the Dark",
+      "définir pour chaque scène importante qui veut quoi de qui et pourquoi maintenant",
+      "définir ce que chaque personnage sait, croit, cache, refuse ou se trompe à propos",
+      "donner à chaque personnage une empreinte de voix distincte sans caricature sociale ou ethnique",
+      "lier au moins une partie du dialogue à une action, un regard, un déplacement, un silence, un objet ou une réaction",
+      "faire varier le rythme quand le pouvoir, l'émotion, le danger ou l'intimité changent",
+      "réécrire toute scène qui pourrait être reconnue comme dérivée d'un échange célèbre",
+      "vérifier séparément les droits des éditions et traductions si un texte devait un jour être cité en production"
+    ]
+  },
+  "quality_axes": [
+    {"id":"scene_objective","label":"Objectif dramatique","question":"Chaque participant essaie-t-il d'obtenir quelque chose de concret de l'autre ?"},
+    {"id":"voice_specificity","label":"Voix spécifique","question":"Peut-on reconnaître qui parle sans lire le nom du locuteur ?"},
+    {"id":"subtext","label":"Sous-texte","question":"Existe-t-il un écart utile entre ce qui est dit et ce qui est voulu, craint ou caché ?"},
+    {"id":"listening","label":"Écoute et réaction","question":"Les répliques répondent-elles réellement à ce qui vient d'être dit ou fait ?"},
+    {"id":"status","label":"Statut et pouvoir","question":"Le rapport de force est-il audible et peut-il changer pendant la scène ?"},
+    {"id":"rhythm","label":"Rythme","question":"Longueur, silence, interruption et vitesse varient-ils avec la situation ?"},
+    {"id":"staging","label":"Mise en scène","question":"La scène produit-elle des actions et images jouables au lieu de rester une conversation immobile ?"},
+    {"id":"information_economy","label":"Économie d'information","question":"L'exposition est-elle distribuée par conflit, besoin ou découverte plutôt que récitée ?"},
+    {"id":"emotional_contradiction","label":"Contradiction émotionnelle","question":"Les personnages peuvent-ils vouloir deux choses incompatibles ou ressentir autre chose que ce qu'ils montrent ?"},
+    {"id":"turn","label":"Bascule de scène","question":"Quel élément modifie le pouvoir, le savoir ou l'objectif avant la fin ?"},
+    {"id":"performability","label":"Jouabilité","question":"Un acteur dispose-t-il d'actions, d'obstacles, de partenaires et de variations concrètes à jouer ?"},
+    {"id":"world_voice","label":"Voix du monde","question":"Le vocabulaire, les références et les silences viennent-ils de la société de Light in the Dark plutôt que d'un fantasy générique ?"},
+    {"id":"restraint","label":"Retenue","question":"La scène laisse-t-elle au joueur quelque chose à comprendre au lieu de tout verbaliser ?"},
+    {"id":"originality","label":"Distance créative","question":"L'échange est-il impossible à réduire à une scène célèbre avec des noms changés ?"}
+  ],
+  "dialogue_techniques": [
+    {"id":"objective_and_tactic","family":"dramatic_action","use":"Chaque réplique sert une action : convaincre, retarder, tester, protéger, provoquer, détourner, rassurer, accuser, séduire, gagner du temps ou obtenir une information."},
+    {"id":"tactic_shift","family":"dramatic_action","use":"Un personnage change de méthode lorsqu'une tactique échoue ; le changement rend visible sa pensée en mouvement."},
+    {"id":"subtext_gap","family":"subtext","use":"Le contenu littéral et l'intention divergent sans devenir incompréhensibles."},
+    {"id":"truth_inside_lie","family":"subtext","use":"Un mensonge contient un détail sincère qui révèle malgré lui le personnage."},
+    {"id":"self_deception","family":"psychological","use":"Le personnage argumente avec assurance à partir d'une version de lui-même qu'il ne comprend pas complètement."},
+    {"id":"withheld_answer","family":"information","use":"Le refus de répondre devient une action dramatique et non un simple retard artificiel."},
+    {"id":"evasion_by_precision","family":"information","use":"Un personnage répond exactement à la question littérale pour éviter la vraie question."},
+    {"id":"question_control","family":"power","use":"Celui qui impose les questions peut imposer le terrain de la scène ; perdre cette capacité signale un changement de pouvoir."},
+    {"id":"status_register","family":"power","use":"Vocabulaire, longueur, politesse, titres, tutoiement/vouvoiement ou formalisme traduisent un statut sans l'expliquer."},
+    {"id":"status_reversal","family":"power","use":"Le personnage qui dominait verbalement perd soudain l'initiative à cause d'une information, d'un témoin, d'un geste ou d'un refus."},
+    {"id":"interruption","family":"rhythm","use":"Couper une phrase peut marquer urgence, domination, familiarité, panique ou refus d'entendre."},
+    {"id":"overlap_pressure","family":"rhythm","use":"Des réponses qui commencent avant la fin de la pensée précédente créent pression et vitesse ; à utiliser avec parcimonie dans une interface séquentielle."},
+    {"id":"silence_as_reply","family":"rhythm","use":"Un silence a une intention précise et produit une réaction chez l'autre personnage."},
+    {"id":"unfinished_sentence","family":"rhythm","use":"Une phrase abandonnée peut signaler autocensure, choc, mensonge révisé ou pensée remplacée."},
+    {"id":"length_contrast","family":"rhythm","use":"Une longue justification suivie d'une réponse très courte peut déplacer brutalement le centre de gravité de la scène."},
+    {"id":"verbal_acceleration","family":"rhythm","use":"Les tours raccourcissent à mesure que la scène approche d'un point irréversible."},
+    {"id":"shared_line","family":"rhythm","use":"Une pensée semble passer d'un personnage à l'autre, révélant accord, compétition ou intimité."},
+    {"id":"antithesis","family":"rhetoric","use":"Opposer deux images ou idées rend un choix, une contradiction ou une propagande immédiatement sensible."},
+    {"id":"repetition_with_change","family":"rhetoric","use":"Répéter un mot ou une structure tout en modifiant son sens fait entendre l'évolution du rapport de force."},
+    {"id":"rhetorical_triad","family":"rhetoric","use":"Une structure en trois temps donne élan et mémorisation à une persuasion ou une dénonciation."},
+    {"id":"image_argument","family":"rhetoric","use":"Un personnage raisonne par une image liée à son métier, sa culture ou son expérience, ce qui caractérise en même temps qu'il persuade."},
+    {"id":"epigrammatic_turn","family":"wit","use":"Une formulation brève retourne une convention ou révèle une hypocrisie ; elle doit rester motivée par le personnage et la situation."},
+    {"id":"comic_misdirection","family":"wit","use":"La réponse paraît suivre une logique puis bifurque vers une interprétation inattendue mais cohérente avec le personnage."},
+    {"id":"literal_rule_exploit","family":"wit","use":"Un personnage retourne une règle, un serment ou une formule officielle en la prenant au pied de la lettre."},
+    {"id":"callback","family":"cohesion","use":"Une expression ancienne revient avec un sens changé après une expérience, donnant mémoire à la relation."},
+    {"id":"lexical_motif","family":"cohesion","use":"Un petit champ lexical récurrent appartient à un personnage ou une relation et évolue avec eux."},
+    {"id":"voice_syntax","family":"voice","use":"La construction des phrases, et pas seulement le vocabulaire, distingue les personnages : fragments, périodes longues, listes, corrections, détours, impératifs."},
+    {"id":"voice_register_shift","family":"voice","use":"Un personnage change de niveau de langue lorsqu'il cesse de jouer un rôle social, se met en danger ou retrouve une intimité ancienne."},
+    {"id":"profession_metaphor","family":"voice","use":"Les comparaisons et verbes viennent de ce que le personnage sait faire et du monde qu'il fréquente."},
+    {"id":"named_address","family":"relationship","use":"Employer ou éviter le nom, le titre ou le surnom devient un acte relationnel."},
+    {"id":"public_private_double_address","family":"relationship","use":"Une phrase correcte pour le groupe porte un second sens pour une seule personne qui connaît l'histoire cachée."},
+    {"id":"confession_under_resistance","family":"relationship","use":"Un aveu n'arrive pas comme bloc d'information : il lutte contre honte, intérêt, peur ou besoin de contrôle."},
+    {"id":"threat_without_threat_words","family":"relationship","use":"Le danger passe par ce que le personnage sait pouvoir faire, promet de ne pas faire ou décrit calmement."},
+    {"id":"character_specific_exposition","family":"exposition","use":"L'information de monde apparaît parce qu'un personnage la conteste, la corrige, l'utilise ou la déforme."},
+    {"id":"exposition_as_disagreement","family":"exposition","use":"Deux personnes donnent des versions incompatibles d'un même fait ; le joueur apprend en observant le désaccord."},
+    {"id":"dramatic_irony","family":"information","use":"Le joueur sait quelque chose qu'un personnage ignore, transformant une réplique ordinaire en tension ou en douleur."},
+    {"id":"asymmetric_knowledge","family":"information","use":"Chaque participant détient une partie différente de la vérité ; aucun ne peut résumer honnêtement toute la scène."},
+    {"id":"scene_question","family":"structure","use":"La scène porte une question immédiate qui doit changer d'état avant la sortie : acceptera-t-il, avouera-t-elle, qui cédera, qui croit qui ?"},
+    {"id":"scene_turn","family":"structure","use":"Une découverte, un refus, une arrivée ou un geste rend impossible la poursuite de la scène sur les mêmes bases."},
+    {"id":"exit_line_function","family":"structure","use":"La dernière réplique ou action ouvre une conséquence plutôt que résumer la scène."}
+  ],
+  "staging_techniques": [
+    {"id":"implied_stage_action","use":"Le dialogue contient des verbes, objets ou relations spatiales qui donnent naturellement une action à jouer."},
+    {"id":"blocking_as_power","use":"Distance, hauteur, orientation et contrôle d'un passage matérialisent le rapport de force."},
+    {"id":"approach_retreat","use":"S'approcher ou se retirer répond à une tentative verbale ; la relation devient visible sans commentaire."},
+    {"id":"object_business","use":"Un objet concret donne une tâche, une résistance et un sous-texte : réparer, nettoyer, cacher, transmettre, refuser de rendre."},
+    {"id":"threshold_scene","use":"Une porte, un pont, un cercle, un lit, un autel, un feu ou une limite crée une question physique : qui peut entrer, sortir ou franchir ?"},
+    {"id":"entrance_reframe","use":"L'arrivée d'un tiers change instantanément ce que les personnages peuvent dire et comment ils se comportent."},
+    {"id":"exit_under_pressure","use":"Un départ devient une décision dramatique : fuir, punir, protéger, empêcher un aveu ou forcer l'autre à suivre."},
+    {"id":"eavesdropping_geometry","use":"Un personnage entend sans être vu ou est vu sans savoir qu'il est observé ; l'espace crée l'ironie."},
+    {"id":"public_private_shift","use":"Une scène bascule entre parole publique et parole intime quand le groupe se disperse, qu'un témoin arrive ou qu'une porte se ferme."},
+    {"id":"shared_task_dialogue","use":"Les personnages accomplissent ensemble une tâche pendant qu'ils parlent ; le travail empêche le face-à-face statique."},
+    {"id":"refused_contact","use":"Une main non prise, un objet non accepté, un siège laissé vide ou un regard évité vaut parfois davantage qu'une explication."},
+    {"id":"physical_contradiction","use":"Le corps contredit la parole : affirmer être calme tout en verrouillant une porte, prétendre partir tout en restant près d'un objet."},
+    {"id":"spatial_reveal","use":"Un élément caché devient visible parce qu'un personnage déplace un rideau, un corps, une caisse, une lumière ou un document."},
+    {"id":"choral_presence","use":"Des témoins silencieux ou une communauté modifient la manière dont deux personnages peuvent se parler."},
+    {"id":"offstage_pressure","use":"Un bruit, une attente, une foule, une menace ou un événement hors champ comprime la scène sans devoir être montré."},
+    {"id":"pause_with_task","use":"Un silence n'arrête pas la scène : un personnage continue une action physique qui change le sens du temps mort."},
+    {"id":"position_callback","use":"Revenir plus tard au même lieu ou à la même disposition physique fait sentir l'évolution de la relation."},
+    {"id":"interactive_choice_staging","use":"Dans une scène à choix, les options correspondent à des actions ou attitudes plausibles et non à des slogans moraux abstraits."}
+  ],
+  "scene_patterns": [
+    {"id":"negotiation","beats":["position initiale", "test de limite", "contre-offre", "coût révélé", "bascule", "accord, rupture ou dette"]},
+    {"id":"interrogation","beats":["question neutre", "incohérence", "pression", "déplacement de pouvoir", "vérité partielle", "nouvelle incertitude"]},
+    {"id":"confession","beats":["prétexte", "détour", "résistance", "fragment vrai", "réaction inattendue", "conséquence"]},
+    {"id":"reunion","beats":["reconnaissance", "rituel ancien ou maladresse", "preuve du changement", "sujet évité", "fracture ou rapprochement"]},
+    {"id":"argument_between_allies","beats":["objectif commun", "désaccord de méthode", "blessure personnelle", "vérité utile", "choix de coopération ou distance"]},
+    {"id":"enemy_parley","beats":["sécurité mutuelle", "information utile", "test de sincérité", "prix", "menace implicite", "sortie non résolue"]},
+    {"id":"public_hearing","beats":["version officielle", "témoignage", "contre-récit", "pression de la foule", "question décisive", "décision avec trace"]},
+    {"id":"quiet_aftermath","beats":["tâche quotidienne", "détail qui rappelle l'événement", "question simple", "réponse déviée", "petite vérité", "silence ou geste final"]},
+    {"id":"comic_duel","beats":["règle sociale", "interprétation détournée", "surenchère", "renversement", "conséquence réelle sous l'humour"]},
+    {"id":"last_warning","beats":["banalité", "détail impossible", "refus de croire", "preuve concrète", "instruction incomplète", "interruption ou départ"]}
+  ],
+  "public_domain_corpus": [
+    {
+      "id":"ancient_dialogue_and_drama",
+      "focus":["argument", "ironie", "chœur", "stichomythie", "rhétorique", "débat moral"],
+      "references":["Platon — dialogues", "Sophocle — théâtre", "Euripide — théâtre", "Aristophane — comédies", "Plaute — comédies", "Térence — comédies", "Lucien de Samosate — dialogues"]
+    },
+    {
+      "id":"shakespeare",
+      "focus":["pensée en mouvement", "rhétorique active", "statut", "double sens", "action scénique implicite", "rythme", "adresse publique et privée"],
+      "references":["Hamlet", "Macbeth", "King Lear", "Othello", "Julius Caesar", "Much Ado About Nothing", "Twelfth Night", "The Tempest", "Henry IV Part 1", "Richard II", "Measure for Measure"]
+    },
+    {
+      "id":"french_classical_and_comedy",
+      "focus":["duel verbal", "aveu empêché", "rang social", "quiproquo", "hypocrisie", "désir sous convention"],
+      "references":["Molière — Le Misanthrope", "Molière — L'Avare", "Molière — Tartuffe", "Molière — Dom Juan", "Molière — Les Fourberies de Scapin", "Marivaux — Le Jeu de l'amour et du hasard", "Marivaux — La Double Inconstance", "Beaumarchais — Le Barbier de Séville", "Beaumarchais — Le Mariage de Figaro", "Racine — Phèdre", "Corneille — Le Cid"]
+    },
+    {
+      "id":"restoration_and_anglo_irish_wit",
+      "focus":["épigramme", "ironie sociale", "fausse politesse", "attaque sous élégance", "rythme comique"],
+      "references":["William Congreve — The Way of the World", "Richard Brinsley Sheridan — The School for Scandal", "Oliver Goldsmith — She Stoops to Conquer", "Oscar Wilde — The Importance of Being Earnest", "Oscar Wilde — An Ideal Husband", "George Bernard Shaw — Pygmalion", "George Bernard Shaw — Man and Superman"]
+    },
+    {
+      "id":"realist_and_modern_stage_public_domain",
+      "focus":["sous-texte", "silence", "objectif", "vie quotidienne", "friction familiale", "non-dit social"],
+      "references":["Henrik Ibsen — A Doll's House", "Henrik Ibsen — Ghosts", "Henrik Ibsen — Hedda Gabler", "Anton Chekhov — The Three Sisters", "Anton Chekhov — The Cherry Orchard", "Anton Chekhov — The Seagull", "Anton Chekhov — Uncle Vanya", "August Strindberg — Miss Julie", "August Strindberg — The Father", "Susan Glaspell — Trifles", "J. M. Synge — Riders to the Sea"]
+    },
+    {
+      "id":"english_novel_dialogue",
+      "focus":["voix sociale", "ironie", "conversation comme statut", "malentendu", "caractérisation indirecte"],
+      "references":["Jane Austen — Pride and Prejudice", "Jane Austen — Emma", "Jane Austen — Sense and Sensibility", "Charles Dickens — Great Expectations", "Charles Dickens — Bleak House", "George Eliot — Middlemarch", "Thomas Hardy — Tess of the d'Urbervilles", "William Makepeace Thackeray — Vanity Fair", "Laurence Sterne — Tristram Shandy"]
+    },
+    {
+      "id":"russian_novel_dialogue",
+      "focus":["contradiction psychologique", "argument moral", "confession", "polyphonie", "pression familiale et sociale"],
+      "references":["Fyodor Dostoevsky — Crime and Punishment", "Fyodor Dostoevsky — The Brothers Karamazov", "Fyodor Dostoevsky — The Idiot", "Leo Tolstoy — Anna Karenina", "Leo Tolstoy — War and Peace", "Ivan Turgenev — Fathers and Sons", "Nikolai Gogol — Dead Souls", "Nikolai Gogol — The Government Inspector"]
+    },
+    {
+      "id":"french_novel_dialogue",
+      "focus":["classe", "ambition", "séduction", "mensonge social", "conflit familial", "voix populaire et institutionnelle"],
+      "references":["Victor Hugo — Les Misérables", "Alexandre Dumas — Le Comte de Monte-Cristo", "Alexandre Dumas — Les Trois Mousquetaires", "Honoré de Balzac — Le Père Goriot", "Stendhal — Le Rouge et le Noir", "Gustave Flaubert — Madame Bovary", "Émile Zola — Germinal", "Guy de Maupassant — Bel-Ami"]
+    },
+    {
+      "id":"satire_adventure_and_american_voice",
+      "focus":["oralité", "ruse", "narrateur-personnage", "satire", "réplique comme identité"],
+      "references":["Miguel de Cervantes — Don Quixote", "Jonathan Swift — Gulliver's Travels", "Mark Twain — Adventures of Huckleberry Finn", "Mark Twain — The Adventures of Tom Sawyer", "Herman Melville — Moby-Dick", "Louisa May Alcott — Little Women", "Edgar Allan Poe — tales with dialogue"]
+    },
+    {
+      "id":"world_public_domain_reference",
+      "focus":["conversation philosophique", "famille", "devoir", "voix coloniale et postcoloniale ancienne", "modernité", "conflit de génération"],
+      "references":["Rabindranath Tagore — plays and fiction", "Natsume Sōseki — Kokoro and fiction", "Ryūnosuke Akutagawa — short fiction", "Lu Xun — early fiction", "Khalil Gibran — prose and dramatic dialogue", "José Rizal — Noli Me Tangere and El Filibusterismo"]
+    }
+  ],
+  "copyrighted_or_modern_reference_only": {
+    "policy": "Aucun texte, aucune réplique et aucune imitation de voix. Ces noms servent seulement à rappeler des problèmes de craft largement discutés : silence, interruption, vitesse, argument, banalité, menace, musicalité, précision du statut.",
+    "references":[
+      {"name":"Harold Pinter","study_only":["silence chargé", "menace dans le banal", "rapport de pouvoir"]},
+      {"name":"Tom Stoppard","study_only":["argument comme jeu", "vitesse intellectuelle", "motifs et retours"]},
+      {"name":"David Mamet","study_only":["interruption", "fragment", "transaction et statut"]},
+      {"name":"Caryl Churchill","study_only":["compression", "structure de tours", "conversation et pouvoir"]},
+      {"name":"Aaron Sorkin","study_only":["objectif dans l'argument", "enchaînement rapide", "information sous pression"]},
+      {"name":"Martin McDonagh","study_only":["banalité et violence", "humour noir", "bascule tonale"]},
+      {"name":"Quentin Tarantino","study_only":["digression sous menace", "statut verbal", "attente avant action"]},
+      {"name":"Joel et Ethan Coen","study_only":["idiolecte", "malentendu", "décalage entre gravité et langage"]}
+    ]
+  },
+  "voice_design_fields": [
+    "education_and_register",
+    "profession_and_metaphor_pool",
+    "sentence_length_bias",
+    "preferred_verbs",
+    "taboo_words",
+    "politeness_strategy",
+    "humor_mode",
+    "anger_mode",
+    "fear_mode",
+    "lying_mode",
+    "intimacy_shift",
+    "titles_and_names",
+    "silence_behavior",
+    "recurring_images",
+    "things_the_character_never_says_directly"
+  ],
+  "production_checklist": [
+    "Qui veut quoi de qui dans cette scène ?",
+    "Qu'est-ce qui empêche de le demander simplement ?",
+    "Que sait chaque personnage que les autres ignorent ?",
+    "Qu'est-ce que chacun croit à tort ?",
+    "Quelle tactique est utilisée au début et quand change-t-elle ?",
+    "Où le statut change-t-il ?",
+    "Quelle action physique accompagne ou contredit les mots ?",
+    "Quel objet ou élément d'espace pourrait rendre la scène jouable ?",
+    "Quelle information peut être retirée sans perdre la compréhension ?",
+    "Quel silence ou quelle interruption a une fonction précise ?",
+    "La voix de chaque personnage est-elle identifiable sans nom ?",
+    "La scène possède-t-elle une bascule avant sa fin ?",
+    "La dernière réplique ouvre-t-elle une conséquence plutôt que de résumer ?",
+    "Les mots pourraient-ils être attribués indifféremment à n'importe quel héros ? Si oui, réécrire.",
+    "La scène rappelle-t-elle trop clairement une œuvre ou un auteur de référence ? Si oui, reconstruire."
+  ],
+  "anti_patterns": [
+    "deux personnages se racontent des faits qu'ils connaissent déjà pour informer le joueur",
+    "chaque réponse confirme poliment la réplique précédente",
+    "personnages qui nomment exactement leur émotion au moment où ils la ressentent",
+    "tirade explicative sans obstacle ni conséquence",
+    "blague interchangeable placée dans la bouche de n'importe qui",
+    "menace générique sans connaissance précise de l'autre",
+    "choix de dialogue gentil / méchant / sarcastique sans rapport avec la personnalité du héros",
+    "silence utilisé uniquement pour ralentir",
+    "langage pseudo-médiéval uniforme pour tous les milieux sociaux",
+    "exposition de lore plus longue que l'action dramatique qu'elle sert",
+    "PNJ omniscient qui sait exactement ce que le joueur doit faire",
+    "réplique finale qui explique le thème de la scène au lieu de laisser une trace"
+  ]
+}
