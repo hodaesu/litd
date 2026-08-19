@@ -103,7 +103,7 @@ func hero_action(action: String) -> void:
     _complete_hero_action(hero)
 
 func _hero_capture_action(hero: Dictionary) -> void:
-    var living_targets := GameState.alive_enemies()
+    var living_targets: Array = GameState.alive_enemies()
     if living_targets.is_empty():
         finish_victory()
         return
@@ -123,7 +123,7 @@ func _hero_capture_action(hero: Dictionary) -> void:
         show_screen("combat")
 
 func _hero_heal_action(hero: Dictionary) -> void:
-    var wounded := GameState.alive_heroes()
+    var wounded: Array = GameState.alive_heroes()
     if wounded.is_empty():
         return
     wounded.sort_custom(func(left: Dictionary, right: Dictionary):
@@ -141,7 +141,7 @@ func _hero_heal_action(hero: Dictionary) -> void:
     GameState.add_log("%s restaure %d PV à %s." % [str(hero.get("name", "Héros")), amount, str(target.get("name", "allié"))])
 
 func _hero_attack_action(hero: Dictionary, action: String) -> void:
-    var living := GameState.alive_enemies()
+    var living: Array = GameState.alive_enemies()
     if living.is_empty():
         finish_victory()
         return
@@ -191,7 +191,7 @@ func _apply_passive_party_heal(hero: Dictionary) -> void:
         _heal_most_wounded(heal)
 
 func _heal_most_wounded(amount: int) -> void:
-    var wounded := GameState.alive_heroes()
+    var wounded: Array = GameState.alive_heroes()
     if wounded.is_empty() or amount <= 0:
         return
     wounded.sort_custom(func(left: Dictionary, right: Dictionary): return int(left.get("hp", 0)) < int(right.get("hp", 0)))
@@ -210,7 +210,7 @@ func _complete_hero_action(hero: Dictionary) -> void:
     _finish_party_round()
 
 func _finish_party_round() -> void:
-    var companion_targets := GameState.alive_enemies()
+    var companion_targets: Array = GameState.alive_enemies()
     if not companion_targets.is_empty():
         var companion_result := CreatureManager.companion_turn(companion_targets[0])
         if not companion_result.is_empty():
@@ -231,7 +231,7 @@ func enemy_turn() -> void:
             enemy["stunned"] = false
             GameState.add_log("%s est étourdi et perd son tour." % str(enemy.get("name", "Ennemi")))
             continue
-        var targets := GameState.alive_heroes()
+        var targets: Array = GameState.alive_heroes()
         if targets.is_empty():
             finish_defeat()
             return
