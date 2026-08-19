@@ -170,14 +170,14 @@ func dialogue_anti_patterns() -> Array[String]:
     return _dialogue_string_array("anti_patterns")
 
 func dialogue_coverage() -> Dictionary:
-    var public_references := 0
+    var public_references: int = 0
     for family in dialogue_public_domain_corpus():
         var refs: Variant = family.get("references", [])
         if refs is Array:
             public_references += refs.size()
     var modern: Dictionary = dialogue_modern_reference_policy()
     var modern_values: Variant = modern.get("references", [])
-    var modern_count := modern_values.size() if modern_values is Array else 0
+    var modern_count: int = modern_values.size() if modern_values is Array else 0
     return {
         "quality_axes": dialogue_quality_axes().size(),
         "dialogue_techniques": dialogue_techniques().size(),
