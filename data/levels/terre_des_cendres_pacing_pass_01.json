@@ -1,0 +1,89 @@
+{
+  "id": "terre_des_cendres_pacing_pass_01",
+  "version": 1,
+  "status": "pre_blender_pacing_ready",
+  "design_goal": "Transformer l'exploration en rythme intentionnel: exploration -> presage -> decision -> combat -> consequence -> respiration -> nouveau danger.",
+  "principles": {
+    "no_uniform_encounter_chain": true,
+    "telegraph_before_major_threat": true,
+    "meaningful_route_choice": true,
+    "post_combat_consequence_window": true,
+    "breathing_space_is_deliberate": true,
+    "danger_escalates_between_campfires": true,
+    "optional_routes_are_higher_risk_higher_reward": true
+  },
+  "acts": [
+    {
+      "id": "act_1_entrance_and_first_choice",
+      "zones": ["zone_01_faubourg_cendreux", "zone_02_village_ravage"],
+      "purpose": "Installer les regles, faire monter l'inquietude puis proposer le premier choix de route.",
+      "rhythm": ["exploration", "presage", "combat_court", "consequence", "route_choice"],
+      "pressure": "low_to_medium"
+    },
+    {
+      "id": "act_2_first_crescendo",
+      "zones": ["zone_03_moulin_calcine", "zone_04_foret_morte", "zone_05_ravin_des_pendus", "zone_06_chapelle_effondree"],
+      "purpose": "Faire comprendre que quitter la route sure augmente le gain et le danger; culminer avant la chapelle.",
+      "rhythm": ["decision", "exploration_tendue", "presage_fort", "combat", "consequence", "danger_plus_fort", "respiration_campfire"],
+      "pressure": "medium_to_high"
+    },
+    {
+      "id": "act_3_oppressive_middle",
+      "zones": ["zone_07_cimetiere", "zone_08_catacombes", "zone_09_ossuaire"],
+      "purpose": "Creer le milieu le plus oppressant du niveau et faire sentir l'attrition avant une respiration controlee.",
+      "rhythm": ["presage", "exploration_oppressee", "decision_secret", "combat_difficile", "consequence_lourde", "respiration_campfire"],
+      "pressure": "high"
+    },
+    {
+      "id": "act_4_false_relief",
+      "zones": ["zone_10_hameau_deserte"],
+      "purpose": "Offrir une respiration sans securite totale et preparer psychologiquement la montee finale.",
+      "rhythm": ["respiration", "exploration", "lore", "presage_lointain"],
+      "pressure": "medium"
+    },
+    {
+      "id": "act_5_final_ascent",
+      "zones": ["zone_11_route_des_penitents", "zone_12_abbaye", "zone_13_clocher_boss"],
+      "purpose": "Supprimer progressivement les respirations, annoncer le boss et terminer sur un affrontement clairement telegraphie.",
+      "rhythm": ["presage", "combat", "consequence", "dernier_campfire", "exploration_finale", "boss_presage", "boss"],
+      "pressure": "high_to_climax"
+    }
+  ],
+  "optional_routes": {
+    "zone_14_clairiere_des_corbeaux": {
+      "role": "detour_secret_high_risk_high_reward",
+      "entry_feeling": "curiosity_then_dread",
+      "reward_bias": ["rare_resource", "lore", "equipment", "secret_miniboss_opportunity"],
+      "mandatory": false
+    },
+    "zone_15_crypte_du_sans_nom": {
+      "role": "interconnected_secret_dungeon",
+      "entry_feeling": "forbidden_descent",
+      "reward_bias": ["rare_resource", "ancient_lore", "equipment", "secret_miniboss_opportunity"],
+      "mandatory": false
+    }
+  },
+  "encounter_rules": {
+    "major_combat_requires_presage": true,
+    "avoid_back_to_back_major_combats_without_consequence": true,
+    "minor_encounters_can_interrupt_exploration": true,
+    "post_major_combat_seconds_target": [20, 45],
+    "safe_reading_or_lore_window_after_major_combat": true,
+    "route_choice_must_expose_partial_risk_information": true,
+    "boss_never_surprises_player_without_visual_or_audio_warning": true
+  },
+  "campfire_roles": {
+    "zone_03_moulin_calcine": "early_branch_recovery",
+    "zone_06_chapelle_effondree": "end_first_crescendo",
+    "zone_09_ossuaire": "end_oppressive_middle",
+    "zone_12_abbaye": "last_recovery_before_boss"
+  },
+  "next_passes": [
+    "environmental_storytelling",
+    "fear_madness_hope_integration",
+    "audio_vfx_ambience",
+    "camera_and_readability",
+    "performance_budget",
+    "pre_blender_final_validation"
+  ]
+}
