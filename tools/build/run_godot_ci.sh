@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
-ERROR_PATTERN='SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: Failed to create an autoload'
+ERROR_PATTERN='SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed'
 
 run_checked() {
   local label="$1"
@@ -35,7 +35,7 @@ run_checked() {
 }
 
 run_checked "Import strict du projet" godot --headless --path . --import --quit
-run_checked "Smoke test noyau" godot --headless --path . --script res://scripts/core/smoke_test.gd
+run_checked "Smoke test noyau" godot --headless --path . res://scenes/tests/core_smoke.tscn
 run_checked "Parcours campagne I→X, fin, postgame et NG+" godot --headless --path . res://scenes/tests/campaign_e2e_smoke.tscn
 
 echo "GODOT_CI_STRICT_OK"
