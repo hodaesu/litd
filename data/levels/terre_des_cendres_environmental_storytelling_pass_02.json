@@ -1,0 +1,51 @@
+{
+  "id": "terre_des_cendres_environmental_storytelling_pass_02",
+  "version": 1,
+  "status": "pre_blender_storytelling_ready",
+  "goal": "Raconter la chute de la Terre des Cendres par l'espace avant de l'expliquer par du texte.",
+  "rules": {
+    "show_before_tell": true,
+    "no_large_exploration_hud": true,
+    "journal_collects_discovered_texts": true,
+    "each_zone_has_visual_question": true,
+    "each_major_discovery_has_visual_clue_before_text": true,
+    "corpses_are_contextual_not_decorative": true,
+    "repeated_symbols_gain_meaning_over_time": true
+  },
+  "story_layers": ["before_fall", "moment_of_fall", "survival", "madness", "present_day"],
+  "zones": {
+    "zone_01_faubourg_cendreux": {"question":"Pourquoi les habitants ont-ils fui sans emporter leurs biens ?","clues":["portes ouvertes", "repas abandonne", "charrette renversee vers la sortie", "cendres entrees depuis l'exterieur"],"text_role":"premier temoignage civil sur la peur"},
+    "zone_02_village_ravage": {"question":"Les habitants se sont-ils seulement defendus contre un ennemi exterieur ?","clues":["barricades tournees vers l'exterieur et l'interieur", "armes improvisees", "place publique transformee en refuge", "symboles civiques fractures"],"text_role":"vie politique avant et pendant la chute"},
+    "zone_03_moulin_calcine": {"question":"Pourquoi detruire une source de nourriture ?","clues":["grain volontairement brule", "meules bloquees", "reservoirs ouverts", "traces de lutte entre survivants"],"text_role":"peur de la contamination et choix impossibles"},
+    "zone_04_foret_morte": {"question":"La corruption touche-t-elle aussi la nature ?","clues":["arbres morts dans une meme direction", "animaux absents", "rubans votifs noircis", "ancien chemin de procession englouti"],"text_role":"premiere reflexion sur la folie du monde"},
+    "zone_05_ravin_des_pendus": {"question":"Qui a condamne ces morts ?","clues":["cordes d'epoques differentes", "insignes civils abandonnes", "sentier de jugement", "certaines victimes ont tente de se liberer"],"text_role":"justice, peur collective et effondrement politique"},
+    "zone_06_chapelle_effondree": {"question":"Pourquoi des refugies ont-ils choisi de rester ici ?","clues":["couchages autour de l'autel", "objets personnels ranges", "mur de noms", "petit espace preserve des cendres"],"text_role":"espoir comme decision et non comme certitude"},
+    "zone_07_cimetiere": {"question":"Pourquoi les tombes recentes sont-elles differentes des anciennes ?","clues":["rites funeraires successivement simplifies", "tombes collectives", "sepultures ouvertes", "marques de familles melangees"],"text_role":"egalite devant la chute et disparition des institutions"},
+    "zone_08_catacombes": {"question":"Que cherchait-on a proteger sous terre ?","clues":["archives deplacees", "portes condamnees depuis l'interieur", "alcoves transformees en dortoirs", "symboles des Trois Eveils"],"text_role":"fragment ancien sur corps, esprit et politique"},
+    "zone_09_ossuaire": {"question":"Quand les morts ont-ils cesse d'etre des individus ?","clues":["classement ancien soigneux puis amas chaotiques", "etiquettes sans noms", "objets personnels regroupes", "passage menant au feu de camp"],"text_role":"meditation sur memoire et folie"},
+    "zone_10_hameau_deserte": {"question":"Pourquoi cet endroit semble-t-il avoir survecu plus longtemps ?","clues":["potagers tardifs", "reparations artisanales", "table commune", "maisons partagees entre familles"],"text_role":"reconstruction locale et espoir fragile"},
+    "zone_11_route_des_penitents": {"question":"Pourquoi tant de survivants ont-ils marche vers l'abbaye ?","clues":["bagages abandonnes progressivement", "bornes gravees de messages", "petits memorials", "traces de groupes de plus en plus reduits"],"text_role":"peur, culpabilite et recherche d'un sens"},
+    "zone_12_abbaye": {"question":"L'abbaye etait-elle un sanctuaire ou un centre de pouvoir ?","clues":["archives civiques et spirituelles reunies", "salles de soin", "conseil improvise", "defenses ajoutees tardivement"],"text_role":"conflit entre bien commun, autorite et survie"},
+    "zone_13_clocher_boss": {"question":"Qu'est-ce qui a transforme ce lieu d'espoir en point culminant de la catastrophe ?","clues":["cloche fendue", "traces de dernier rassemblement", "architecture deformee autour du foyer de corruption", "objets des zones precedentes reunis ici"],"text_role":"aucun long texte avant le boss; revelation apres victoire"},
+    "zone_14_clairiere_des_corbeaux": {"question":"Pourquoi cet endroit interdit conserve-t-il davantage de traces intactes ?","clues":["offrandes cachees", "observatoire improvise", "corbeaux attires par des objets precis", "marque d'un groupe dissident"],"text_role":"texte rare remettant en cause la version officielle de la chute"},
+    "zone_15_crypte_du_sans_nom": {"question":"Qui a volontairement efface les noms conserves ici ?","clues":["statues decapitees", "inscriptions grattees methodiquement", "archives scellees", "symboles politiques anterieurs a la chute"],"text_role":"fragment majeur sur la civilisation ancienne et ses contradictions"}
+  },
+  "collectible_policy": {
+    "short_inscriptions_max_words": 35,
+    "journal_texts_max_words_target": 180,
+    "mandatory_reading_for_navigation": false,
+    "important_texts_saved_to_quest_journal": true,
+    "duplicate_lore_popup": false
+  },
+  "recurring_visual_motifs": {
+    "three_interlocked_marks":"Trois Eveils: corps, esprit, politique",
+    "broken_circle":"rupture du bien commun",
+    "gold_thread":"espoir entretenu par les survivants",
+    "blackened_hands":"peur et actions commises sous la panique"
+  },
+  "boss_payoff": {
+    "before_boss":"Les indices convergent sans expliquer totalement la catastrophe.",
+    "after_boss":"Une revelation courte recontextualise plusieurs indices deja vus et ouvre la question du role de la Porte et des civilisations exterieures.",
+    "avoid_full_exposition": true
+  }
+}
