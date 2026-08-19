@@ -28,12 +28,12 @@ func play_cue(cue_id: String, context: Dictionary = {}) -> Dictionary:
         player_3d.name = "Sfx3D_%s" % cue_id
         player_3d.bus = bus_name
         player_3d.stream = stream
-        player_3d.global_position = position_value as Vector3
         player_3d.unit_size = maxf(1.0, float(context.get("unit_size", 4.0)))
         player_3d.max_distance = maxf(4.0, float(context.get("max_distance", 28.0)))
         player_3d.max_polyphony = 1
         _apply_variation(player_3d, cue_id, context)
         add_child(player_3d)
+        player_3d.global_position = position_value as Vector3
         player_3d.finished.connect(_on_emitter_finished.bind(player_3d))
         player_3d.play()
         emitter = player_3d
