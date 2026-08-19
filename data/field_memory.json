@@ -1,7 +1,7 @@
 {
-  "version": 1,
-  "design_source": "field_memory_pass_08",
-  "rule": "Les décisions de terrain importantes deviennent des souvenirs individuels persistants, interprétés selon les convictions déjà portées par chaque héros.",
+  "version": 2,
+  "design_source": "reactive_world_pass_09",
+  "rule": "Les décisions de terrain importantes deviennent des souvenirs individuels persistants, interprétés selon les convictions déjà portées par chaque héros, puis réévalués lorsque le monde rend concrètement leurs conséquences.",
   "history_limit": 20,
   "stance_thresholds": {"strong_support": 8, "support": 4, "oppose": -4, "strong_oppose": -8},
   "decision_vectors": {
@@ -31,6 +31,8 @@
   "reevaluations": {
     "creature_proved_itself": {"memory_type": "creature_recruited", "vector": {"security": 1, "openness": 1, "pragmatism": 2}, "text": "La créature a survécu, appris et combattu aux côtés de la compagnie. Les anciennes certitudes deviennent plus difficiles à tenir."},
     "spared_enemy_helped": {"memory_type": "boss_spared", "vector": {"security": 1, "mercy": 1, "pragmatism": 2}, "text": "L'ennemi épargné a rendu ce choix plus concret qu'un principe abstrait."},
-    "spared_enemy_betrayed": {"memory_type": "boss_spared", "vector": {"security": -2, "mercy": -1, "pragmatism": -2}, "text": "La trahison de l'ennemi épargné force chacun à réexaminer la clémence accordée."}
+    "spared_enemy_betrayed": {"memory_type": "boss_spared", "vector": {"security": -2, "mercy": -1, "pragmatism": -2}, "text": "La trahison de l'ennemi épargné force chacun à réexaminer la clémence accordée."},
+    "survivors_returned_help": {"memory_type": "aid_survivors", "vector": {"solidarity": 1, "security": 1, "mercy": 1, "pragmatism": 2}, "text": "Les survivants aidés ont transformé le temps acheté par les réserves en un abri qui aide maintenant d'autres voyageurs. Le choix passé acquiert une conséquence que personne ne pouvait garantir."},
+    "survivors_survived_without_aid": {"memory_type": "keep_resources", "vector": {"solidarity": 1, "security": 1, "mercy": 1, "pragmatism": 1}, "text": "Les survivants laissés derrière ont trouvé leur propre issue. Leur survie ne condamne ni n'absout le choix passé, mais elle oblige chacun à le relire sans imaginer une fin qui n'a pas eu lieu."}
   }
 }

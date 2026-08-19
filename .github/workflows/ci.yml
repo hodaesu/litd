@@ -52,6 +52,8 @@ jobs:
         run: python -m tools.qa.decision_memory_audit
       - name: Audit mémoire des décisions de terrain
         run: python -m tools.qa.field_memory_audit
+      - name: Audit rencontres réactives de terrain
+        run: python -m tools.qa.field_encounter_audit
       - name: Audit bâtiments interactifs du Sanctuaire
         run: python -m tools.qa.sanctuary_buildings_audit
       - name: Générer les jobs Blender anatomiques

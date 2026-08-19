@@ -30,6 +30,7 @@ func save_game() -> bool:
         "expedition_room": GameState.expedition_room,
         "ashlands": AshlandsRuntime.serialize(),
         "expedition": ExpeditionManager.serialize(),
+        "field_encounters": FieldEncounterRuntime.serialize(),
         "ashlands_minibosses": AshlandsMinibossDirector.serialize(),
         "ashlands_combat": AshlandsCombatBridge.serialize()
     }
@@ -45,7 +46,7 @@ func load_game() -> bool:
     for hero_value in GameState.party: HeroSkillManager.prepare_hero(hero_value)
     EquipmentManager.deserialize(payload.get("equipment",{})); CreatureManager.deserialize(payload.get("creatures",{})); GameState.expedition_room = int(payload.get("expedition_room",0)); PoliticalState.deserialize(payload.get("politics",{})); CampaignState.deserialize(payload.get("campaign",{})); AshlandsRuntime.deserialize(payload.get("ashlands",{}))
     Chapter01Runtime.deserialize(payload.get("chapter_01",{})); Chapter02Runtime.deserialize(payload.get("chapter_02",{})); Chapter03Runtime.deserialize(payload.get("chapter_03",{})); Chapter04Runtime.deserialize(payload.get("chapter_04",{})); Chapter05Runtime.deserialize(payload.get("chapter_05",{})); Chapter06Runtime.deserialize(payload.get("chapter_06",{})); Chapter07Runtime.deserialize(payload.get("chapter_07",{})); Chapter08Runtime.deserialize(payload.get("chapter_08",{})); Chapter09Runtime.deserialize(payload.get("chapter_09",{})); Chapter10Runtime.deserialize(payload.get("chapter_10",{})); EndgameState.deserialize(payload.get("endgame",{})); DeepVestigeRuntime.deserialize(payload.get("deep_vestiges",{}))
-    ExpeditionManager.deserialize(payload.get("expedition",{})); AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses",{})); AshlandsCombatBridge.deserialize(payload.get("ashlands_combat",{}))
+    ExpeditionManager.deserialize(payload.get("expedition",{})); FieldEncounterRuntime.deserialize(payload.get("field_encounters",{})); AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses",{})); AshlandsCombatBridge.deserialize(payload.get("ashlands_combat",{}))
     Chapter01Runtime.refresh_progress(); Chapter02Runtime.refresh_progress(); Chapter03Runtime.refresh_progress(); Chapter04Runtime.refresh_progress(); Chapter05Runtime.refresh_progress(); Chapter06Runtime.refresh_progress(); Chapter07Runtime.refresh_progress(); Chapter08Runtime.refresh_progress(); Chapter09Runtime.refresh_progress(); Chapter10Runtime.refresh_progress(); DeepVestigeRuntime.refresh_unlocks()
     if EndgameState.is_postgame_unlocked(): EndgameState.record_current_ending()
     GameState.add_log("Sauvegarde chargée."); return true
