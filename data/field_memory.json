@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "design_source": "field_memory_pass_08",
+  "rule": "Les décisions de terrain importantes deviennent des souvenirs individuels persistants, interprétés selon les convictions déjà portées par chaque héros.",
+  "history_limit": 20,
+  "stance_thresholds": {"strong_support": 8, "support": 4, "oppose": -4, "strong_oppose": -8},
+  "decision_vectors": {
+    "creature_recruited": {"solidarity": 1, "security": -1, "civic_process": 0, "mercy": 1, "openness": 2, "pragmatism": 0, "autonomy": 1, "justice": 1},
+    "boss_spared": {"solidarity": 1, "security": -2, "civic_process": 0, "mercy": 2, "openness": 1, "pragmatism": -1, "autonomy": 2, "justice": 0},
+    "boss_executed": {"solidarity": -1, "security": 2, "civic_process": -1, "mercy": -2, "openness": -1, "pragmatism": 1, "autonomy": -1, "justice": 1},
+    "expedition_retreat": {"solidarity": 1, "security": 1, "civic_process": 0, "mercy": 0, "openness": 0, "pragmatism": 2, "autonomy": 1, "justice": 0},
+    "aid_survivors": {"solidarity": 2, "security": -1, "civic_process": 0, "mercy": 2, "openness": 1, "pragmatism": -1, "autonomy": 0, "justice": 1},
+    "keep_resources": {"solidarity": -2, "security": 2, "civic_process": 0, "mercy": -1, "openness": -1, "pragmatism": 2, "autonomy": 1, "justice": -1}
+  },
+  "relationship_effects": {
+    "same_side": {"trust": 1},
+    "strong_same_side": {"admiration": 1},
+    "opposite_side": {"mistrust": 1},
+    "strong_opposition": {"resentment": 1},
+    "later_convergence": {"trust": 1, "mistrust": -2, "resentment": -1},
+    "later_divergence": {"mistrust": 1}
+  },
+  "boss_outcomes": {
+    "c01_boss_ash_witness": {"name": "Le Témoin des Cendres", "prompt": "Le Témoin est à terre. Il reste assez de conscience pour comprendre ce que vous déciderez."},
+    "c02_marker_warden": {"name": "Sahra Vel — La Veilleuse des Bornes", "prompt": "Sahra Vel ne peut plus combattre. La tuer ou la laisser vivre deviendra un précédent."},
+    "c05_boss_silex_general": {"name": "Le Général de Silex", "prompt": "Le Général est vaincu. Son ordre peut s'achever ici, ou survivre avec lui."},
+    "c07_boss_edras": {"name": "Edras Nhal, l'Ouvert", "prompt": "Edras est à votre merci. La compagnie observe ce que vous faites du pouvoir de vaincre."},
+    "c08_boss_varkhane": {"name": "Maréchal du Trône Vide", "prompt": "Le Maréchal ne peut plus imposer son ordre. Son sort appartient maintenant au groupe."},
+    "c08_boss_azravel": {"name": "Le Saint de la Faille", "prompt": "Le Saint de la Faille est défait mais encore vivant. La décision ne sera pas oubliée."}
+  },
+  "reevaluations": {
+    "creature_proved_itself": {"memory_type": "creature_recruited", "vector": {"security": 1, "openness": 1, "pragmatism": 2}, "text": "La créature a survécu, appris et combattu aux côtés de la compagnie. Les anciennes certitudes deviennent plus difficiles à tenir."},
+    "spared_enemy_helped": {"memory_type": "boss_spared", "vector": {"security": 1, "mercy": 1, "pragmatism": 2}, "text": "L'ennemi épargné a rendu ce choix plus concret qu'un principe abstrait."},
+    "spared_enemy_betrayed": {"memory_type": "boss_spared", "vector": {"security": -2, "mercy": -1, "pragmatism": -2}, "text": "La trahison de l'ennemi épargné force chacun à réexaminer la clémence accordée."}
+  }
+}
