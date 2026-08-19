@@ -4,6 +4,10 @@ extends "res://scripts/ui/main_v16.gd"
 # Les ennemis peuvent exploiter la peur visible, les compagnons peuvent intervenir
 # pour protéger un allié fragile, et les boss obtiennent des réactions contextuelles.
 
+func start_random_battle() -> void:
+    PsychologyCombatDirector.reset_runtime()
+    super.start_random_battle()
+
 func _select_enemy_target(enemy: Dictionary, targets: Array) -> Dictionary:
     var target := PsychologyCombatDirector.select_enemy_target(enemy, targets, round_number)
     if target.is_empty():
@@ -54,9 +58,10 @@ func show_combat() -> void:
 func _highest_threat_for(hero: Dictionary) -> Dictionary:
     var best: Dictionary = {}
     var best_score := -INF
+    var heroes := GameState.alive_heroes()
     for enemy_value in GameState.alive_enemies():
         var enemy: Dictionary = enemy_value
-        var chosen := PsychologyCombatDirector.select_enemy_target(enemy, GameState.alive_heroes(), round_number)
+        var chosen := PsychologyCombatDirector.select_enemy_target(enemy, heroes, round_number)
         if chosen.is_empty() or str(chosen.get("id", "")) != str(hero.get("id", "")):
             continue
         var score := PsychologyCombatDirector.target_score(enemy, hero, round_number)
