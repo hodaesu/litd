@@ -26,7 +26,7 @@ Une intervention ne remplace pas l'attaque normale du compagnon et ne peut se pr
 
 ## Témoin des Cendres
 
-Le boss du chapitre I reçoit une règle psychologique dédiée. Il favorise davantage la cible déjà fragilisée et ajoute une pression supérieure. Sa ligne contextuelle rappelle son identité : il ne cherche pas seulement à faire des dégâts, mais à reproduire devant la cible quelque chose qui ressemble trop à un souvenir.
+Le boss du chapitre I reçoit une règle psychologique dédiée. Il favorise davantage la cible déjà fragilisée et ajoute une pression supérieure. Sa signature de phase II alimente maintenant directement l'historique psychologique des héros, afin que la Peur provoquée par le boss puisse laisser les mêmes traces que les autres sources de terreur.
 
 ## Interface
 
