@@ -64,8 +64,8 @@ func refresh_unlocks() -> void:
         var unlock: Dictionary = vestige.get("unlock", {})
         var chapter_id := String(unlock.get("chapter", ""))
         var flag_id := String(unlock.get("flag", ""))
-        var chapter_reached := CampaignState.chapter_index(CampaignState.current_chapter_id) >= CampaignState.chapter_index(chapter_id)
-        var flag_ok := flag_id == "" or bool(CampaignState.chapter_flags.get(flag_id, false))
+        var chapter_reached: bool = CampaignState.chapter_index(CampaignState.current_chapter_id) >= CampaignState.chapter_index(chapter_id)
+        var flag_ok: bool = flag_id == "" or bool(CampaignState.chapter_flags.get(flag_id, false))
         if chapter_reached and flag_ok and not bool(unlocked.get(id, false)):
             unlocked[id] = true
             vestige_unlocked.emit(id)
