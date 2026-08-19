@@ -30,7 +30,7 @@ func _keep_last_button_with_text(text: String) -> void:
         if button != null and button.text == text and not button.is_queued_for_deletion():
             matches.append(button)
     while matches.size() > 1:
-        var obsolete := matches.pop_front()
+        var obsolete: Button = matches.pop_front()
         obsolete.queue_free()
 
 func _postprocess_mobile_screen() -> void:
