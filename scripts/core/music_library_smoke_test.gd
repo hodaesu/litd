@@ -12,7 +12,8 @@ func run() -> void:
     _check(MusicLibrary.adaptive_score_rules().size() >= 10, "Adaptive score design rules must be substantial")
     _check(MusicLibrary.ingestion_checklist().size() >= 10, "Asset ingestion must archive license and technical evidence")
 
-    for cue_id: String in ["exploration_ashlands", "exploration_ruins", "exploration_threat", "combat_normal", "combat_elite", "combat_boss", "sadness_loss", "memorial", "hope_manifestation", "sanctuary_day", "tavern", "ancient_archive", "fear_panic", "ending_choice"]:
+    for cue_value in ["exploration_ashlands", "exploration_ruins", "exploration_threat", "combat_normal", "combat_elite", "combat_boss", "sadness_loss", "memorial", "hope_manifestation", "sanctuary_day", "tavern", "ancient_archive", "fear_panic", "ending_choice"]:
+        var cue_id: String = str(cue_value)
         _check(not MusicLibrary.cue(cue_id).is_empty(), "Required cue missing: " + cue_id)
 
     _check(not MusicLibrary.tracks_for_cue("exploration_ruins").is_empty(), "Exploration ruins must have green candidates")
@@ -30,7 +31,8 @@ func run() -> void:
     _check(tavern.get("content_id", false) == true, "Tavern Dance must preserve its Content ID warning")
 
     _check(MusicLibrary.source_is_excluded("mixkit"), "Mixkit must be excluded while its music license prohibits video-game use")
-    for item: Dictionary in MusicLibrary.shipping_candidates(true):
+    for item_value in MusicLibrary.shipping_candidates(true):
+        var item: Dictionary = item_value if item_value is Dictionary else {}
         _check(str(item.get("source", "")) != "mixkit", "Excluded sources must never leak into shipping candidates")
         _check(str(item.get("legal_tier", "")) != "red", "Red tracks must never leak into shipping candidates")
 
@@ -53,7 +55,8 @@ func _finish() -> void:
         print("MUSIC_LIBRARY_SMOKE_OK")
         get_tree().quit(0)
         return
-    for failure: String in failures:
+    for failure_value in failures:
+        var failure: String = str(failure_value)
         push_error("MUSIC_LIBRARY_SMOKE: " + failure)
     print("MUSIC_LIBRARY_SMOKE_FAILED: %d" % failures.size())
     get_tree().quit(1)
