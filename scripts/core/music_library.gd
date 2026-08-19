@@ -85,7 +85,8 @@ func content_id_candidates() -> Array[Dictionary]:
     var result: Array[Dictionary] = []
     for value in tracks():
         var item: Dictionary = value if value is Dictionary else {}
-        if item.get("content_id", false) == true:
+        var content_id_value: Variant = item.get("content_id", false)
+        if content_id_value is bool and bool(content_id_value):
             result.append(item.duplicate(true))
     return result
 
@@ -126,7 +127,8 @@ func coverage() -> Dictionary:
                 amber_count += 1
             _:
                 red_count += 1
-        if item.get("content_id", false) == true:
+        var content_id_value: Variant = item.get("content_id", false)
+        if content_id_value is bool and bool(content_id_value):
             content_id_count += 1
         var cue_values_variant: Variant = item.get("cues", [])
         var cue_values: Array = cue_values_variant if cue_values_variant is Array else []
