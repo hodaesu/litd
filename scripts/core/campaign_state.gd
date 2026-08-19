@@ -63,6 +63,14 @@ func current_chapter() -> Dictionary:
 func current_chapter_number() -> int:
     return int(current_chapter().get("number", 1))
 
+func chapter_index(chapter_id: String) -> int:
+    var chapter_list: Array = chapters()
+    for index in range(chapter_list.size()):
+        var chapter: Dictionary = chapter_list[index]
+        if String(chapter.get("id", "")) == chapter_id:
+            return index
+    return -1
+
 func main_quest(quest_id: String) -> Dictionary:
     for chapter_value in chapters():
         for quest_value in chapter_value.get("main_quests", []):
