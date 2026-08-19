@@ -1,0 +1,6 @@
+{
+  "schema": "decision_memory_pass_07",
+  "persistence": "embedded_in_game_state_party",
+  "migration": "missing convictions and decision_memories are prepared at runtime",
+  "hud_meters_added": 0
+}
