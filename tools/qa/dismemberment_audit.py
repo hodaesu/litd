@@ -17,6 +17,7 @@ def run(root: Path = ROOT) -> dict:
     v12 = (root / "scripts/ui/main_v12.gd").read_text(encoding="utf-8")
     v13 = (root / "scripts/ui/main_v13.gd").read_text(encoding="utf-8")
     v14 = (root / "scripts/ui/main_v14.gd").read_text(encoding="utf-8")
+    v15 = (root / "scripts/ui/main_v15.gd").read_text(encoding="utf-8")
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
     project = (root / "project.godot").read_text(encoding="utf-8")
     checks: list[dict] = []
@@ -42,7 +43,8 @@ def run(root: Path = ROOT) -> dict:
 
     check("Runtime legacy autoloadé", 'DismembermentRuntime="*res://scripts/core/dismemberment_runtime.gd"' in project)
     check("Runtime anatomique autoloadé", 'AnatomyRuntime="*res://scripts/core/anatomy_runtime.gd"' in project)
-    check("Main utilise combat v14", 'res://scripts/ui/main_v14.gd' in scene)
+    check("Main utilise combat v15", 'res://scripts/ui/main_v15.gd' in scene)
+    check("Combat v15 conserve v14", 'extends "res://scripts/ui/main_v14.gd"' in v15)
     check("Combat v14 conserve v13", 'extends "res://scripts/ui/main_v13.gd"' in v14)
     check("Combat v13 conserve v12", 'extends "res://scripts/ui/main_v12.gd"' in v13)
     check("Combat v12 conserve v11", 'extends "res://scripts/ui/main_v11.gd"' in v12)
