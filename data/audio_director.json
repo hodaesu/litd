@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "design_source": "adaptive_audio_director_pass_19",
+  "purpose": "Premier directeur audio runtime de Light in the Dark : bus, états exploration/combat/boss, Peur et sélection de cues à partir de MusicLibrary/SfxLibrary.",
+  "bus_order": ["Music", "Ambience", "Foley", "Combat", "Creatures", "Psychology", "Dialogue", "UI"],
+  "bus_defaults_db": {
+    "Music": -8.0,
+    "Ambience": -2.0,
+    "Foley": -3.0,
+    "Combat": -80.0,
+    "Creatures": -8.0,
+    "Psychology": -80.0,
+    "Dialogue": 0.0,
+    "UI": -2.0
+  },
+  "mix_presets": {
+    "exploration": {
+      "Music": -8.0,
+      "Ambience": -1.0,
+      "Foley": -3.0,
+      "Combat": -80.0,
+      "Creatures": -7.0,
+      "Psychology": -80.0,
+      "Dialogue": 0.0,
+      "UI": -2.0
+    },
+    "combat": {
+      "Music": -4.0,
+      "Ambience": -9.0,
+      "Foley": -1.5,
+      "Combat": 0.0,
+      "Creatures": -1.5,
+      "Psychology": -8.0,
+      "Dialogue": 0.0,
+      "UI": -2.0
+    },
+    "boss": {
+      "Music": -2.0,
+      "Ambience": -12.0,
+      "Foley": -2.0,
+      "Combat": 0.0,
+      "Creatures": 0.0,
+      "Psychology": -6.0,
+      "Dialogue": 0.0,
+      "UI": -2.0
+    }
+  },
+  "encounter_music": {
+    "normal": "combat_normal",
+    "miniboss": "combat_elite",
+    "boss": "combat_boss"
+  },
+  "combat_resolution_music": {
+    "victory": "victory_costly",
+    "defeat": "defeat_retreat"
+  },
+  "zone_music_rules": [
+    {"contains": ["archive", "ruin", "relay", "complex", "vestige", "crypt", "vault"], "cue": "exploration_ruins"},
+    {"contains": ["ravage", "threshold", "seuil", "breach", "battlefield", "danger"], "cue": "exploration_threat"}
+  ],
+  "default_exploration_music": "exploration_ashlands",
+  "exploration_sfx": ["wind_ashlands"],
+  "boss_entry_sfx": ["boss_presence"],
+  "boss_phase_sfx": ["boss_phase_change"],
+  "fear_profiles": [
+    {"id": "calm", "min": 0, "max": 24, "psychology_db": -80.0, "music_offset_db": 0.0, "sfx": []},
+    {"id": "uneasy", "min": 25, "max": 49, "psychology_db": -15.0, "music_offset_db": -0.5, "sfx": ["fear_breath"]},
+    {"id": "afraid", "min": 50, "max": 74, "psychology_db": -10.0, "music_offset_db": -1.5, "sfx": ["fear_breath", "fear_heartbeat"]},
+    {"id": "terrified", "min": 75, "max": 99, "psychology_db": -6.0, "music_offset_db": -3.0, "sfx": ["fear_breath", "fear_heartbeat", "fear_tinnitus"]},
+    {"id": "panic", "min": 100, "max": 100, "psychology_db": -3.0, "music_offset_db": -6.0, "sfx": ["fear_heartbeat", "fear_breath", "fear_tinnitus", "panic_sting"]}
+  ],
+  "priority_order": ["combat_telegraph", "Dialogue", "Combat", "Creatures", "Foley", "Psychology", "Ambience", "Music"],
+  "selection_policy": {
+    "music_legal_tiers": ["green"],
+    "sfx_include_amber": false,
+    "play_only_verified_local_paths": true,
+    "stock_is_prototype_material": true
+  },
+  "history_limit": 48
+}

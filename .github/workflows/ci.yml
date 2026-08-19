@@ -64,6 +64,8 @@ jobs:
         run: python -m tools.qa.music_library_audit
       - name: Audit bibliothèque de bruitages et sound design
         run: python -m tools.qa.sfx_library_audit
+      - name: Audit directeur audio adaptatif
+        run: python -m tools.qa.audio_director_audit
       - name: Audit bâtiments interactifs du Sanctuaire
         run: python -m tools.qa.sanctuary_buildings_audit
       - name: Générer les jobs Blender anatomiques
