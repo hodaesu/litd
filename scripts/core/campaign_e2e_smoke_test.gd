@@ -1,8 +1,8 @@
-extends SceneTree
+extends Node
 
 var failures: Array[String] = []
 
-func _initialize() -> void:
+func _ready() -> void:
     call_deferred("_run")
 
 func _check(condition: bool, message: String) -> void:
@@ -10,8 +10,8 @@ func _check(condition: bool, message: String) -> void:
         failures.append(message)
 
 func _run() -> void:
-    await process_frame
-    await process_frame
+    await get_tree().process_frame
+    await get_tree().process_frame
 
     _check(DataLoader.heroes.size() >= 4, "DataLoader heroes not initialized")
     _check(not CampaignState.chapters().is_empty(), "Campaign data not initialized")
@@ -22,7 +22,7 @@ func _run() -> void:
 
     EndgameState.reset_profile_progress()
     GameState.reset_new_game()
-    await process_frame
+    await get_tree().process_frame
 
     _check(CampaignState.current_chapter_id == "chapter_01_ashlands", "New game must start in Chapter I")
     _check(GameState.gold == 120, "New game gold must be 120")
@@ -36,11 +36,11 @@ func _run() -> void:
     _check(main_scene != null, "Main scene must load")
     if main_scene != null:
         var main_instance := main_scene.instantiate()
-        root.add_child(main_instance)
-        await process_frame
+        get_tree().root.add_child(main_instance)
+        await get_tree().process_frame
         _check(is_instance_valid(main_instance), "Main scene must instantiate")
         main_instance.queue_free()
-        await process_frame
+        await get_tree().process_frame
 
     var campaign_order := [
         "chapter_01_ashlands",
@@ -88,7 +88,7 @@ func _run() -> void:
     AshlandsRuntime.mark_encounter_cleared("c10_boss_final")
     ExpeditionManager.return_to_hub("e2e_smoke")
     GameState.request_screen("sanctuary")
-    await process_frame
+    await get_tree().process_frame
     _check(Chapter10Runtime.choose_final_orientation("stable_coexistence"), "Chapter X final orientation must be selectable after the final boss")
     Chapter10Runtime.refresh_progress()
     _check(bool(CampaignState.chapter_flags.get("campaign_complete", false)), "Final orientation must mark the campaign complete")
@@ -115,7 +115,7 @@ func _run() -> void:
     _check(EndgameState.perk_available("legacy_prepared"), "Prepared legacy perk must be purchasable on the guaranteed path")
 
     _check(EndgameState.begin_new_game_plus("legacy_prepared"), "NG+ must start with a valid legacy perk")
-    await process_frame
+    await get_tree().process_frame
     _check(EndgameState.active_cycle == 1, "First NG+ cycle must be cycle 1")
     _check(CampaignState.current_chapter_id == "chapter_01_ashlands", "NG+ must restart the campaign at Chapter I")
     _check(bool(CampaignState.chapter_flags.get("ng_plus_active", false)), "NG+ active flag must be set")
@@ -153,9 +153,9 @@ func _run() -> void:
 func _finish() -> void:
     if failures.is_empty():
         print("CAMPAIGN_E2E_SMOKE_OK")
-        quit(0)
+        get_tree().quit(0)
         return
     for failure in failures:
         push_error("E2E: " + failure)
     print("CAMPAIGN_E2E_SMOKE_FAILED: %d" % failures.size())
-    quit(1)
+    get_tree().quit(1)
