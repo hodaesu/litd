@@ -68,6 +68,8 @@ jobs:
         run: python -m tools.qa.audio_director_audit
       - name: Audit audio audible, 2D/3D et crossfades
         run: python -m tools.qa.audio_runtime_audit
+      - name: Audit audio narratif, dialogues et Sanctuaire
+        run: python -m tools.qa.narrative_audio_audit
       - name: Audit bâtiments interactifs du Sanctuaire
         run: python -m tools.qa.sanctuary_buildings_audit
       - name: Générer les jobs Blender anatomiques

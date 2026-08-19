@@ -1,7 +1,7 @@
 {
-  "version": 1,
-  "design_source": "audio_runtime_pass_20",
-  "purpose": "Banque audio locale générée procéduralement pour rendre AudioDirector réellement audible avant l'ingestion des masters finaux. Aucun matériau tiers n'est embarqué.",
+  "version": 2,
+  "design_source": "audio_runtime_pass_20_narrative_audio_pass_21",
+  "purpose": "Banque audio locale générée procéduralement pour rendre AudioDirector et NarrativeAudioDirector réellement audibles avant l'ingestion des masters finaux. Aucun matériau tiers n'est embarqué.",
   "legal_policy": {
     "tier": "green",
     "third_party_material": false,
@@ -12,7 +12,7 @@
   "assets": [
     {"id":"litd_step_ash","kind":"sfx","cues":["footstep_ash"],"generator":"footstep_ash","variants":4,"duration":0.19,"loop":false,"bus":"Foley"},
     {"id":"litd_step_stone","kind":"sfx","cues":["footstep_stone"],"generator":"footstep_stone","variants":4,"duration":0.16,"loop":false,"bus":"Foley"},
-    {"id":"litd_ui_confirm","kind":"sfx","cues":["ui_confirm"],"generator":"ui_confirm","variants":2,"duration":0.08,"loop":false,"bus":"UI"},
+    {"id":"litd_ui_confirm","kind":"sfx","cues":["ui_confirm","ui_quest_update","ui_reward"],"generator":"ui_confirm","variants":2,"duration":0.08,"loop":false,"bus":"UI"},
     {"id":"litd_combat_telegraph","kind":"sfx","cues":["combat_telegraph"],"generator":"combat_telegraph","variants":3,"duration":0.14,"loop":false,"bus":"Combat"},
     {"id":"litd_heartbeat","kind":"sfx","cues":["fear_heartbeat"],"generator":"heartbeat","variants":2,"duration":0.42,"loop":false,"bus":"Psychology"},
     {"id":"litd_fear_breath","kind":"sfx","cues":["fear_breath"],"generator":"fear_breath","variants":3,"duration":0.62,"loop":false,"bus":"Psychology"},
@@ -21,12 +21,23 @@
     {"id":"litd_boss_presence","kind":"sfx","cues":["boss_presence"],"generator":"boss_presence","variants":2,"duration":0.72,"loop":false,"bus":"Creatures"},
     {"id":"litd_boss_phase","kind":"sfx","cues":["boss_phase_change"],"generator":"boss_phase","variants":3,"duration":0.65,"loop":false,"bus":"Combat"},
     {"id":"litd_wind_ashlands","kind":"sfx","cues":["wind_ashlands"],"generator":"wind_ashlands","variants":1,"duration":1.8,"loop":true,"bus":"Ambience"},
+    {"id":"litd_sanctuary_crowd","kind":"sfx","cues":["sanctuary_crowd"],"generator":"sanctuary_crowd","variants":1,"duration":2.4,"loop":true,"bus":"Ambience"},
+    {"id":"litd_tavern_roomtone","kind":"sfx","cues":["tavern_roomtone"],"generator":"tavern_roomtone","variants":1,"duration":2.4,"loop":true,"bus":"Ambience"},
+    {"id":"litd_chapel_roomtone","kind":"sfx","cues":["chapel_roomtone"],"generator":"chapel_roomtone","variants":1,"duration":2.4,"loop":true,"bus":"Ambience"},
+    {"id":"litd_memorial_roomtone","kind":"sfx","cues":["memorial_roomtone"],"generator":"memorial_roomtone","variants":1,"duration":2.4,"loop":true,"bus":"Ambience"},
+    {"id":"litd_sanctuary_bell","kind":"sfx","cues":["bell_sanctuary"],"generator":"sanctuary_bell","variants":2,"duration":0.95,"loop":false,"bus":"Ambience"},
+    {"id":"litd_memory_echo","kind":"sfx","cues":["memory_echo"],"generator":"memory_echo","variants":3,"duration":0.52,"loop":false,"bus":"Psychology"},
     {"id":"litd_music_ashlands","kind":"music","cues":["exploration_ashlands","exploration_ruins"],"generator":"music_ashlands","variants":1,"duration":3.2,"loop":true,"bus":"Music"},
-    {"id":"litd_music_threat","kind":"music","cues":["exploration_threat"],"generator":"music_threat","variants":1,"duration":3.2,"loop":true,"bus":"Music"},
+    {"id":"litd_music_threat","kind":"music","cues":["exploration_threat","political_tension"],"generator":"music_threat","variants":1,"duration":3.2,"loop":true,"bus":"Music"},
     {"id":"litd_music_combat","kind":"music","cues":["combat_normal","combat_elite"],"generator":"music_combat","variants":1,"duration":3.0,"loop":true,"bus":"Music"},
     {"id":"litd_music_boss","kind":"music","cues":["combat_boss"],"generator":"music_boss","variants":1,"duration":3.0,"loop":true,"bus":"Music"},
     {"id":"litd_music_victory","kind":"music","cues":["victory_costly"],"generator":"music_victory","variants":1,"duration":1.8,"loop":false,"bus":"Music"},
-    {"id":"litd_music_defeat","kind":"music","cues":["defeat_retreat"],"generator":"music_defeat","variants":1,"duration":1.8,"loop":false,"bus":"Music"}
+    {"id":"litd_music_defeat","kind":"music","cues":["defeat_retreat","sadness_loss"],"generator":"music_defeat","variants":1,"duration":1.8,"loop":false,"bus":"Music"},
+    {"id":"litd_music_sanctuary","kind":"music","cues":["sanctuary_day","emotional_reunion","creature_empathy"],"generator":"music_sanctuary","variants":1,"duration":3.4,"loop":true,"bus":"Music"},
+    {"id":"litd_music_tavern","kind":"music","cues":["tavern"],"generator":"music_tavern","variants":1,"duration":3.2,"loop":true,"bus":"Music"},
+    {"id":"litd_music_chapel","kind":"music","cues":["chapel"],"generator":"music_chapel","variants":1,"duration":3.5,"loop":true,"bus":"Music"},
+    {"id":"litd_music_memorial","kind":"music","cues":["memorial"],"generator":"music_memorial","variants":1,"duration":3.6,"loop":true,"bus":"Music"},
+    {"id":"litd_music_revelation","kind":"music","cues":["ancient_archive","discovery_revelation"],"generator":"music_revelation","variants":1,"duration":2.8,"loop":false,"bus":"Music"}
   ],
   "external_verified_sources": [
     {
