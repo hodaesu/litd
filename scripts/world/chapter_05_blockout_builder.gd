@@ -61,7 +61,7 @@ func _build_fragments() -> void:
         var fragment := FRAGMENT_SCRIPT.new() as Chapter05Fragment; fragment.name = String(ids[i]); fragment.position = _fragment_position(i,ids.size()); fragment.configure(String(ids[i])); _area_box(fragment,Vector3(1.6,1.6,1.6)); _root().add_child(fragment)
 
 func _fragment_position(index: int, count: int) -> Vector3:
-    var angle := TAU * float(index) / max(1.0,float(count)); return Vector3(cos(angle)*18.0,0,sin(angle)*18.0)
+    var angle: float = TAU * float(index) / maxf(1.0,float(count)); return Vector3(cos(angle)*18.0,0,sin(angle)*18.0)
 
 func _build_campfire() -> void:
     if not bool(zone.get("campfire",false)): return
