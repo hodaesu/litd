@@ -104,45 +104,57 @@ func _drive_combat_actions() -> void:
         enemy["damage"] = [1, 1]
         enemy["fear"] = 0
 
-    var wounded: Dictionary = GameState.party[2]
-    wounded["hp"] = maxi(1, int(wounded.get("max_hp", 1)) - 20)
-    var wounded_before: int = int(wounded.get("hp", 0))
-    _check(await _press_button("SOIN", true), "First hero must be able to use the real SOIN button")
-    _check(int(wounded.get("hp", 0)) > wounded_before, "SOIN button must actually restore HP")
-
-    _check(await _press_button("GARDE", true), "Second hero must be able to use the real GARDE button")
-    _check(_log_contains("se met en garde"), "GARDE button must execute the guard action")
-
+    # Ordre réel du round : Aurélien, Malvor, Lysandra, Darius.
+    # Chaque action respecte la formation tactique canonique.
     var attack_target: Dictionary = GameState.battle_enemies[0]
     attack_target["hp"] = int(attack_target.get("max_hp", attack_target.get("hp", 1)))
     var attack_before: int = int(attack_target.get("hp", 0))
     _check(await _select_enemy(0), "Player must be able to select an enemy through its combat card")
-    _check(await _press_button("FRAPPE", true), "Third hero must be able to use the real FRAPPE button")
-    _check(int(attack_target.get("hp", 0)) < attack_before, "FRAPPE must damage the enemy selected in the UI")
+    _check(await _press_button("FRAPPE", true), "Aurélien must be able to use FRAPPE from his tactical rank")
+    _check(int(attack_target.get("hp", 0)) < attack_before, "Aurélien's FRAPPE must damage the selected enemy")
+
+    _check(await _press_button("GARDE", true), "Malvor must be able to use the real GARDE button")
+    _check(_log_contains("se met en garde"), "GARDE button must execute the guard action")
+
+    var wounded: Dictionary = GameState.party[3]
+    wounded["hp"] = maxi(1, int(wounded.get("max_hp", 1)) - 20)
+    var wounded_before: int = int(wounded.get("hp", 0))
+    _check(await _press_button("SOIN", true), "Lysandra must be able to use the real SOIN button")
+    _check(int(wounded.get("hp", 0)) > wounded_before, "Lysandra's SOIN must actually restore HP")
 
     attack_target["max_hp"] = maxi(10, int(attack_target.get("max_hp", 10)))
     attack_target["hp"] = 1
     GameState.essence = 100
     _check(_prime_capture_success(attack_target), "Smoke test must be able to deterministically prime one successful capture roll")
     _check(await _select_enemy(0), "Player must be able to reselect the weakened capture target")
-    _check(await _press_button("CAPTURER", true), "Fourth hero must be able to use the real CAPTURER button")
+    _check(await _press_button("CAPTURER", true), "Darius must be able to use the real CAPTURER button")
     _check(CreatureManager.captured_creatures.size() == 1, "UI capture must add one creature to the roster")
     _check(bool(attack_target.get("captured", false)), "UI capture must mark the selected enemy as captured")
     _check(GameState.current_screen == "combat", "Successful partial capture must keep combat active while enemies remain")
 
 func _finish_combat_and_rewards() -> void:
-    var safety: int = 0
-    while GameState.current_screen == "combat" and not GameState.alive_enemies().is_empty() and safety < 6:
-        safety += 1
-        var index: int = _first_living_enemy_index()
-        if index < 0:
-            break
-        var enemy: Dictionary = GameState.battle_enemies[index]
-        enemy["hp"] = 1
-        enemy["damage"] = [1, 1]
-        enemy["fear"] = 0
-        _check(await _select_enemy(index), "Player must be able to select each remaining enemy")
-        _check(await _press_button("FRAPPE", true), "Player must be able to finish combat using attack buttons")
+    # Le round suivant recommence avec Aurélien. Il élimine d'abord l'ennemi arrière
+    # (rang 3), puis Malvor termine l'ennemi de rang 2 : deux frappes légales même
+    # si aucune compaction de formation n'a encore eu lieu.
+    var rear_index: int = _last_living_enemy_index()
+    _check(rear_index >= 0, "A rear enemy must remain after the capture")
+    if rear_index >= 0:
+        var rear_enemy: Dictionary = GameState.battle_enemies[rear_index]
+        rear_enemy["hp"] = 1
+        rear_enemy["damage"] = [1, 1]
+        rear_enemy["fear"] = 0
+        _check(await _select_enemy(rear_index), "Aurélien must be able to select the rear remaining enemy")
+        _check(await _press_button("FRAPPE", true), "Aurélien must be able to finish the rear enemy with FRAPPE")
+
+    var front_index: int = _first_living_enemy_index()
+    _check(front_index >= 0, "A front enemy must remain for Malvor")
+    if front_index >= 0:
+        var front_enemy: Dictionary = GameState.battle_enemies[front_index]
+        front_enemy["hp"] = 1
+        front_enemy["damage"] = [1, 1]
+        front_enemy["fear"] = 0
+        _check(await _select_enemy(front_index), "Malvor must be able to select the final front enemy")
+        _check(await _press_button("FRAPPE", true), "Malvor must be able to finish the final enemy with FRAPPE")
 
     _check(GameState.alive_enemies().is_empty(), "UI combat journey must reach a real victory state")
     _check(GameState.current_screen == "rewards", "Victory must remain on the rewards screen until the player continues")
@@ -296,6 +308,12 @@ func _prime_capture_success(target: Dictionary) -> bool:
 
 func _first_living_enemy_index() -> int:
     for index in range(GameState.battle_enemies.size()):
+        if int(GameState.battle_enemies[index].get("hp", 0)) > 0:
+            return index
+    return -1
+
+func _last_living_enemy_index() -> int:
+    for index in range(GameState.battle_enemies.size() - 1, -1, -1):
         if int(GameState.battle_enemies[index].get("hp", 0)) > 0:
             return index
     return -1
