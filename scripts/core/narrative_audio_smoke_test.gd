@@ -52,8 +52,8 @@ func run() -> void:
     await get_tree().process_frame
     _check(str(NarrativeAudioDirector.snapshot().get("music_cue", "")) == "memorial", "Memorial must have its own cue")
 
-    _check(NarrativeAudioDirector.quest_motif("q_iven_korem_archive") == "ancient_archive", "Iven quest must keep a recurring musical motif")
-    _check(NarrativeAudioDirector.quest_motif("q_yoren_safe_line") == "discovery_revelation", "Yoren quest must keep a recurring musical motif")
+    _check(NarrativeAudioDirector.quest_motif("q_iven_erased_days") == "ancient_archive", "Iven quest must keep a recurring musical motif")
+    _check(NarrativeAudioDirector.quest_motif("q_yoren_false_exit") == "discovery_revelation", "Yoren quest must keep a recurring musical motif")
 
     NarrativeAudioDirector.trigger_beat("choice", {"choice_id": "smoke"})
     await get_tree().create_timer(0.04).timeout
