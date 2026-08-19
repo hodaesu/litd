@@ -1,0 +1,246 @@
+{
+  "version": 1,
+  "design_source": "global_folklore_atlas_pass_15",
+  "purpose": "Élargir la bibliothèque narrative de Light in the Dark avec un atlas mondial de contes, légendes, récits de croyance, cycles héroïques, récits merveilleux et traditions orales, utilisé uniquement comme matériau comparatif abstrait et jamais comme banque d'intrigues à copier.",
+  "research_basis": [
+    "Aarne-Thompson-Uther (ATU), Types of International Folktales, révision 2024",
+    "Stith Thompson, Motif-Index of Folk-Literature",
+    "UNESCO, traditions et expressions orales du patrimoine culturel immatériel",
+    "World Oral Literature Project, collections documentaires de traditions orales",
+    "American Folklife Center / Library of Congress, collections internationales de folklore et narration orale"
+  ],
+  "cultural_protocol": {
+    "core_rule": "Une tradition vivante appartient d'abord aux communautés qui la portent. La bibliothèque sert à étudier des structures narratives, jamais à arracher un récit sacré, restreint ou identitaire à son contexte.",
+    "access_levels": {
+      "public_reference": "Tradition ou récit largement publié pouvant servir de référence comparative, sans reprise de texte ni de séquence distinctive.",
+      "living_sensitive": "Tradition vivante ou spirituelle : n'utiliser que des mécanismes généraux, vérifier le contexte et éviter toute imitation de rituel, prière, invocation, iconographie sacrée ou personnage religieux précis.",
+      "community_review_required": "Tradition autochtone, clanique, initiatique ou susceptible de restrictions : aucune adaptation directe sans source publique fiable et, en production commerciale, relecture culturelle appropriée.",
+      "restricted_do_not_adapt": "Matériau signalé comme secret, initiatique, funéraire restreint, cérémoniel fermé ou dont l'accès dépend d'un statut communautaire : ne pas adapter."
+    },
+    "forbidden": [
+      "fusionner plusieurs peuples autochtones en une culture fictive unique reconnaissable",
+      "transformer un être sacré vivant en monstre de bestiaire sans distance créative",
+      "copier un conte traditionnel scène par scène sous de nouveaux noms",
+      "reprendre des paroles rituelles, prières, chants sacrés ou formules initiatiques",
+      "présenter une variante collectée comme la version authentique unique d'une tradition",
+      "utiliser une histoire dont les conditions d'accès ou de transmission sont restreintes"
+    ],
+    "required": [
+      "préférer motifs, fonctions, tensions et logiques de transformation aux intrigues complètes",
+      "mélanger plusieurs familles éloignées et les reconstruire à partir du lore de Light in the Dark",
+      "conserver la pluralité des variantes et des points de vue",
+      "distinguer mythe, légende, conte, épopée, récit de croyance et adaptation littéraire lorsque cette distinction compte",
+      "documenter l'origine culturelle d'une référence interne afin d'éviter la fausse universalisation",
+      "soumettre tout matériau vivant sensible à un filtre culturel avant production finale"
+    ]
+  },
+  "narrative_forms": [
+    "conte animalier", "conte de trickster", "conte merveilleux", "conte réaliste", "conte religieux", "conte étiologique", "conte cumulatif", "conte de quête", "conte de métamorphose", "conte de revenant", "conte d'épouvante", "légende locale", "légende historique", "légende héroïque", "légende de croyance", "légende urbaine", "récit d'origine", "cycle épique", "chanson narrative", "récit de fondation", "récit de ruse", "récit de tabou", "récit de pacte", "récit de voyage dans l'autre monde", "récit de juste jugement", "récit de mémoire communautaire"
+  ],
+  "motif_families": [
+    "création et origine", "déluge et catastrophe", "quête et retour", "descente dans l'autre monde", "serment et dette", "hospitalité et transgression", "tabou et prix", "métamorphose", "double et identité", "trickster et renversement", "animal auxiliaire", "don dangereux", "objet impossible", "époux ou épouse surnaturelle", "enfant extraordinaire", "héros caché", "roi injuste", "fratrie rivale", "épreuve impossible", "énigme et jugement", "mort trompée", "revenant et mémoire", "lieu hanté", "créature frontière", "pacte et dette", "nom secret", "parole performative", "famine et partage", "voyageur inconnu", "fausse accusation", "preuve matérielle", "promesse brisée", "retour transformé", "sacrifice refusé", "rumeur qui devient réalité sociale", "communauté divisée", "mémoire effacée", "ordre absurde", "générosité testée", "orgueil puni sans morale simpliste"
+  ],
+  "regions": [
+    {
+      "id": "west_africa",
+      "label": "Afrique de l'Ouest",
+      "access": "living_sensitive",
+      "reference_clusters": ["cycles d'Ananse / Anansi akan", "épopée de Sunjata mandingue", "récits de Leuk-le-Lièvre sénégambiens", "contes d'Ijapa la tortue yoruba", "récits de ruse haoussa", "contes peuls et fulani de pasteurs, animaux et voyageurs", "cycles de chasseurs mandingues", "récits de fondation et de parenté dogon publiquement documentés", "contes ewe et fon de tricksters", "récits de griots sur dette, mémoire et légitimité"]
+    },
+    {
+      "id": "central_africa",
+      "label": "Afrique centrale",
+      "access": "living_sensitive",
+      "reference_clusters": ["épopée mvet fang-beti", "récits kongo de Kalulu et figures de ruse", "contes luba de royauté et origine", "récits mongo et ngombe d'animaux et métamorphoses", "légendes de fleuves et forêts du bassin du Congo", "récits initiatiques publiquement documentés sans contenu restreint", "contes de pactes entre humains, animaux et ancêtres", "récits de jumeaux et de fondation"]
+    },
+    {
+      "id": "east_africa_horn",
+      "label": "Afrique de l'Est et Corne de l'Afrique",
+      "access": "living_sensitive",
+      "reference_clusters": ["récits swahili de Sungura le lièvre", "Dhegdheer dans le folklore somali", "contes oromo de sagesse, bétail et justice", "récits éthiopiens d'animaux et de rois", "légendes de la côte swahilie, djinns et villes englouties", "récits maasaï d'origine et de bétail publiquement documentés", "contes kikuyu de fondation et ruse", "récits tigréens et amhariques de juges, saints et voyageurs", "récits de lacs, montagnes et esprits des Grands Lacs"]
+    },
+    {
+      "id": "southern_africa",
+      "label": "Afrique australe",
+      "access": "living_sensitive",
+      "reference_clusters": ["récits /Xam et San publiquement documentés", "Heitsi-Eibib dans les traditions khoekhoe", "contes zoulous d'Unkulunkulu et récits de créatures", "contes xhosa de cannibales, animaux et transformations", "récits sotho-tswana de héros, devinettes et mariage", "légendes shona de lacs, collines et ancêtres", "récits ndebele de fondation et rivalités", "contes de chacal et hyène d'Afrique australe", "récits de pluie, sécheresse et partage"]
+    },
+    {
+      "id": "north_africa_amazigh",
+      "label": "Afrique du Nord et mondes amazighs",
+      "access": "living_sensitive",
+      "reference_clusters": ["contes kabyles merveilleux et domestiques", "récits amazighs de l'ogresse et de l'enfant rusé", "légendes touarègues du désert, de sources et de voyageurs", "contes marocains de djinns, saints et marchés", "récits algériens de pactes, familles et créatures nocturnes", "contes tunisiens de ruse et de justice", "folklore populaire égyptien de fantômes, saints et lieux", "cycles de Si Djeha / Juha au Maghreb", "récits sahariens de mirage, hospitalité et perte"]
+    },
+    {
+      "id": "middle_east_persian_turkic",
+      "label": "Moyen-Orient, mondes persans et turciques",
+      "access": "living_sensitive",
+      "reference_clusters": ["traditions des Mille et Une Nuits et corpus apparentés", "cycles de Juha / Nasreddin Hodja", "épopée d'Antar", "épopée de Bani Hilal", "Shahnameh et cycles de Rostam", "légendes du Simurgh", "récits persans de peri, div et métamorphoses", "Dede Korkut", "Koroghlu / Köroğlu", "contes kurdes de héros, amoureux et montagnes", "récits arabes de djinns, ghûls et lieux désertés", "contes de marchands, juges et serments"]
+    },
+    {
+      "id": "caucasus",
+      "label": "Caucase",
+      "access": "living_sensitive",
+      "reference_clusters": ["sagas des Nart chez plusieurs peuples du Caucase", "cycle géorgien d'Amirani", "épopée arménienne de David de Sassoun", "Dede Korkut dans le Caucase azerbaïdjanais", "contes géorgiens de devises, géants et trois frères", "récits arméniens de dragons, saints et montagnes", "légendes circassiennes de héros et hospitalité", "récits ossètes de dette, banquet et gloire", "légendes de tours, cols et lignages"]
+    },
+    {
+      "id": "central_asia_siberia",
+      "label": "Asie centrale et Sibérie",
+      "access": "living_sensitive",
+      "reference_clusters": ["épopée kirghize de Manas", "cycle d'Alpamysh", "Koroghlu dans ses variantes centrasiatiques", "épopée de Geser / Gesar dans les traditions mongoles et bouriate", "olonkho sakha", "contes kazakhs d'Aldar Kose", "récits ouzbeks de ruse, voyageurs et khans", "contes tadjiks et pamiris", "récits evenki de chasse et transformation", "récits nenets de toundra et esprits", "contes tchouktches de Corbeau", "légendes sibériennes de chamans publiquement documentées sans pratique rituelle"]
+    },
+    {
+      "id": "south_asia",
+      "label": "Asie du Sud",
+      "access": "living_sensitive",
+      "reference_clusters": ["Panchatantra", "Jataka", "Kathasaritsagara", "Vikram et Vetala / Baital Pachisi", "cycles d'Akbar et Birbal", "Tenali Raman", "Gopal Bhar", "Raja Rasalu", "Heer Ranjha", "Sohni Mahiwal", "Mirza Sahiban", "contes bengalis merveilleux et de démons", "contes rajasthanis de rois, bardes et revenants", "récits tamouls d'Annanmar et héros villageois publiquement documentés", "contes télougous et kannada de ruse", "contes du Kerala de yakshi, serpents et maisons", "récits adivasi publics de forêt et parenté, avec revue culturelle"]
+    },
+    {
+      "id": "himalaya_tibet",
+      "label": "Himalaya, Tibet, Népal et Bhoutan",
+      "access": "community_review_required",
+      "reference_clusters": ["cycle épique du roi Gesar dans ses variantes tibétaines", "contes tibétains de juges, démons et voyageurs", "récits népalais de montagnes, serpents et transformations", "contes newar publiquement documentés", "récits bhoutanais de vallées, protecteurs et épreuves", "récits lepcha et himalayens de paysage avec revue culturelle", "contes de yéti comme motif moderne et régional distinct des récits sacrés", "histoires de cols interdits, monastères, dette et hospitalité"]
+    },
+    {
+      "id": "china",
+      "label": "Chine et traditions sinophones",
+      "access": "living_sensitive",
+      "reference_clusters": ["Légende du Serpent blanc", "Les Amants papillons", "Bouvier et Tisserande", "légende de Hua Mulan", "cycles des Huit Immortels", "récits de Nezha dans leurs formes populaires", "récits populaires dérivés du Voyage en Occident", "contes de renards-esprits", "récits de fantômes et lettrés", "légendes de juges incorruptibles comme Bao Zheng", "contes d'enfants prodigieux et de piété familiale", "récits de dragons, rivières et fondation de villes"]
+    },
+    {
+      "id": "japan_ainu_ryukyu",
+      "label": "Japon, Ryūkyū et traditions aïnoues",
+      "access": "living_sensitive",
+      "reference_clusters": ["Momotarō", "Urashima Tarō", "Kaguya-hime", "Issun-bōshi", "Kintarō", "Tsuru no Ongaeshi", "Yuki-onna", "Tanabata dans ses variantes japonaises", "récits de kitsune", "récits de tanuki", "folklore yōkai et kaidan", "récits ryūkyū de fondation et mer avec contexte local", "récits aïnous kamuy publiquement documentés avec revue culturelle", "contes d'objets animés et de dettes surnaturelles"]
+    },
+    {
+      "id": "korea",
+      "label": "Corée",
+      "access": "living_sensitive",
+      "reference_clusters": ["légende de Dangun", "Princess Bari", "Sim Cheong", "Chunhyang", "Heungbu et Nolbu", "Le Soleil et la Lune dans le folklore coréen", "récits de dokkaebi", "récits de gumiho", "légendes de montagnes et tigres", "contes de lettrés, fantômes et examens", "récits chamaniques publics traités comme tradition vivante et non comme décor"]
+    },
+    {
+      "id": "mainland_southeast_asia",
+      "label": "Asie du Sud-Est continentale",
+      "access": "living_sensitive",
+      "reference_clusters": ["Ramakien thaïlandais", "Phra Lak Phra Lam lao", "Reamker khmer", "Khun Chang Khun Phaen", "Mae Nak Phra Khanong", "Sinxay", "récits birmans de nats et héros avec contexte vivant", "Tấm Cám", "Sơn Tinh et Thủy Tinh", "Chử Đồng Tử", "contes khmers de crocodiles, ogres et jugements", "contes lao de nagas et Mékong", "récits thaï de phi, forêts et tabous", "récits vietnamiens de fondation, génies tutélaires et fidélité"]
+    },
+    {
+      "id": "maritime_southeast_asia",
+      "label": "Asie du Sud-Est maritime",
+      "access": "living_sensitive",
+      "reference_clusters": ["cycle de Panji", "Hikayat Hang Tuah", "Sang Kancil", "Malin Kundang", "Sangkuriang", "Timun Mas", "Bawang Merah Bawang Putih", "Nyi Roro Kidul comme tradition spirituelle vivante", "Biag ni Lam-ang", "Hinilawod", "Ibalong", "Bernardo Carpio", "Maria Makiling", "Juan Tamad", "Bakunawa", "récits de crocodiles ancestraux, volcans, mer et maisons longues de Bornéo avec revue culturelle", "contes de Timor et des Moluques de mer, alliance et origine"]
+    },
+    {
+      "id": "oceania",
+      "label": "Océanie : Polynésie, Mélanésie et Micronésie",
+      "access": "community_review_required",
+      "reference_clusters": ["cycles de Māui dans leurs traditions polynésiennes distinctes", "Tāwhaki dans les traditions māories", "Kupe dans les traditions māories", "récits hawaïens de Pele et Hiʻiaka traités comme tradition vivante", "Sina et Tuna dans plusieurs traditions polynésiennes", "récits samoans et tongiens de fondation et navigation", "Dakuwaqa dans le folklore fidjien", "Qat dans certaines traditions mélanésiennes", "récits du Vanuatu de création, tabou et transformation", "récits papous de clans, casoars, crocodiles et origine avec revue communautaire", "légendes micronésiennes de navigateurs, îles déplacées et esprits marins", "récits d'ancêtres voyageurs et d'îles pêchées ou soulevées"]
+    },
+    {
+      "id": "indigenous_australia",
+      "label": "Australie autochtone",
+      "access": "community_review_required",
+      "reference_clusters": ["récits de Dreaming / Songlines uniquement lorsqu'ils sont publiquement accessibles et attribués à une communauté précise", "variantes publiques du Serpent arc-en-ciel sans prétendre à une version pan-australienne", "récits publics de Bunjil dans les contextes kulin", "récits publics de Tiddalik lorsqu'ils sont explicitement autorisés à la diffusion", "récits de paysage, eau, feu, étoiles et ancêtres avec attribution de Country", "archives publiques /Xam comparées uniquement sur mécanismes de relation au paysage, jamais fusionnées", "interdiction d'adapter iconographie Wandjina ou contenu cérémoniel restreint sans autorisation"]
+    },
+    {
+      "id": "celtic_atlantic",
+      "label": "Mondes celtiques et Atlantique européen",
+      "access": "public_reference",
+      "reference_clusters": ["Cycle d'Ulster", "Cycle fenian", "Children of Lir", "Táin Bó Cúailnge comme épopée littéraire-orale", "selkies écossais et nord-atlantiques", "each-uisge", "kelpies", "banshee / bean sí", "Mabinogi gallois", "légendes de Cantre'r Gwaelod", "cycle arthurien dans ses traditions galloises, bretonnes et médiévales", "Ankou breton", "korrigans et fées bretonnes", "brownies et household spirits", "légendes cornouaillaises de géants et mers"]
+    },
+    {
+      "id": "nordic_germanic_alpine",
+      "label": "Europe nordique, germanique et alpine",
+      "access": "public_reference",
+      "reference_clusters": ["mythes eddiques comme corpus comparatif", "sagas islandaises et légendes de revenants", "huldufólk islandais", "trolls norvégiens et suédois", "contes d'Asbjørnsen et Moe", "contes des frères Grimm comme collecte littéraire de traditions", "légendes de Frau Holle / Perchta", "Wild Hunt dans ses variantes européennes", "Nix / Neck / esprits d'eau germaniques", "légendes alpines de dragons et hommes sauvages", "Krampus et Perchten comme traditions vivantes à contextualiser", "légendes de mines, forêts et pactes"]
+    },
+    {
+      "id": "slavic_baltic_finnic",
+      "label": "Mondes slaves, baltes, finnois et caréliens",
+      "access": "public_reference",
+      "reference_clusters": ["Baba Yaga", "Koschei l'Immortel", "Oiseau de feu", "Vasilisa dans ses variantes", "rusalka", "vodyanoy", "domovoi", "légende du dragon du Wawel", "Eglė la reine des serpents", "Lauma / Laumė dans les traditions baltes", "Kalevala et chants runiques caréliens", "Kalevipoeg estonien", "récits finnois de haltija", "légendes de forêts, saunas et frontières", "contes ukrainiens, polonais, tchèques, slovaques et biélorusses de démons domestiques et héros rusés"]
+    },
+    {
+      "id": "balkans_mediterranean",
+      "label": "Balkans et Méditerranée européenne",
+      "access": "public_reference",
+      "reference_clusters": ["Digenis Akritas", "chants albanais des kreshniks", "Marko Kraljević", "Miorita", "strigoi et revenants roumains", "samodiva / vila sud-slaves", "contes grecs modernes de dragons, lamies et trois frères", "légendes italiennes de Befana et esprits domestiques", "contes siciliens collectés par Pitrè", "légendes sardes de créatures et trésors", "folklore maltais de géants et lieux", "contes ibériques de mouras encantadas et trésors", "légendes catalanes et aragonaises de montagnes, saints et démons"]
+    },
+    {
+      "id": "western_southern_europe",
+      "label": "Europe occidentale et ibérique",
+      "access": "public_reference",
+      "reference_clusters": ["Mélusine", "contes de Perrault comme corpus littéraire dérivé du conte", "Jean de l'Ours dans ses variantes franco-ibériques", "légendes de loups-garous", "Dame blanche dans ses variantes locales", "Basajaun dans le folklore basque", "Mari dans la tradition basque traitée avec contexte vivant", "légendes portugaises de mouras encantadas", "Pedro Malasartes dans les traditions ibériques et lusophones", "contes galiciens de Santa Compaña", "légendes de korrigans, fées, lavandières de nuit et revenants", "contes de trésors gardés et pactes diaboliques"]
+    },
+    {
+      "id": "jewish_diaspora",
+      "label": "Traditions juives et diasporiques",
+      "access": "living_sensitive",
+      "reference_clusters": ["légendes du Golem dans leurs développements ashkénazes", "récits de dybbuk", "contes de Chelm", "légendes d'Élie dans le folklore juif", "récits hassidiques de sages et miracles comme tradition religieuse à contextualiser", "contes séfarades", "folklore judéo-arabe et nord-africain", "récits de justes cachés", "contes de jugement rabbinique", "légendes de cimetières, livres et noms sacrés sans reprise de pratique religieuse"]
+    },
+    {
+      "id": "indigenous_north_america",
+      "label": "Peuples autochtones d'Amérique du Nord",
+      "access": "community_review_required",
+      "reference_clusters": ["cycles de Corbeau tlingit, haïda et tsimshian en distinguant les Nations", "cycles de Coyote diné et d'autres Nations sans les fusionner", "Nanabozho / Wenabozho dans les traditions anishinaabe", "Iktómi dans les traditions lakota/dakota", "récits haudenosaunee de création et héros uniquement à partir de versions publiques contextualisées", "récits cherokee de petit peuple, animaux et origine avec sources communautaires", "récits pueblos de paysage et émergence uniquement lorsqu'ils sont publics", "récits salish de transformeurs", "traditions de la Côte Nord-Ouest de créatures marines, cèdres et transformations", "récits inuit, yupik et iñupiat classés séparément", "aucun 'mythe amérindien générique' n'est autorisé"]
+    },
+    {
+      "id": "arctic_circumpolar",
+      "label": "Arctique circumpolaire",
+      "access": "community_review_required",
+      "reference_clusters": ["Sedna dans ses nombreuses variantes inuit avec attribution locale", "Kiviuq / Kiviuk dans certaines traditions inuit", "récits yupik de corbeau et transformations", "récits iñupiat de mer, chasse et tabou publiquement partagés", "récits unangan / aléoutes de mer", "légendes sámi de Stállu et paysage avec contexte vivant", "récits nenets, evenki et tchouktches de toundra", "histoires de lumières, glace, animaux auxiliaires et frontières de saison"]
+    },
+    {
+      "id": "african_american_appalachian",
+      "label": "Traditions afro-américaines, appalachiennes et folk nord-américain",
+      "access": "public_reference",
+      "reference_clusters": ["Brer Rabbit et traditions afro-américaines du trickster", "John Henry", "Stagolee / Stagger Lee comme ballade et légende", "High John the Conqueror", "Jack Tales appalachiens", "légendes de haints et histoires de fantômes du Sud", "Pecos Bill comme tall tale", "Paul Bunyan", "Johnny Appleseed dans la légende populaire", "légendes de sorcières appalachiennes", "Bell Witch", "Jersey Devil", "récits de mineurs, chemins, ponts et maisons hantées"]
+    },
+    {
+      "id": "mesoamerica_central_america",
+      "label": "Mésoamérique et Amérique centrale",
+      "access": "living_sensitive",
+      "reference_clusters": ["Popol Vuh comme corpus maya k'iche' à traiter avec respect", "Héros jumeaux du Popol Vuh", "traditions nahua de Quetzalcoatl comme matériau religieux-historique et non bestiaire", "légendes de fondation de Tenochtitlan", "La Llorona dans ses nombreuses variantes coloniales et contemporaines", "El Cadejo", "El Cipitío", "La Siguanaba", "Sisimite / Sisimito", "récits mayas contemporains de montagnes, grottes et alux avec contexte local", "contes de lapin, coyote et opossum dans plusieurs traditions mésoaméricaines", "légendes de volcans et amoureux transformés", "récits de saints, apparitions et villages issus du syncrétisme colonial"]
+    },
+    {
+      "id": "caribbean",
+      "label": "Caraïbes",
+      "access": "living_sensitive",
+      "reference_clusters": ["Anansi caribéen", "Bouki et Ti Malice en Haïti", "soucouyant", "La Diablesse", "Papa Bois", "Mama Dlo", "duppy jamaïcain", "Rolling Calf", "jumbie dans plusieurs îles", "récits de zombis haïtiens à traiter dans leur contexte historique et religieux plutôt que comme cliché", "légendes de pirates, trésors et navires fantômes", "récits afro-caribéens de pacte, ruse et survie", "contes créoles mêlant héritages africains, européens, indiens et autochtones"]
+    },
+    {
+      "id": "andes_amazonia",
+      "label": "Andes et Amazonie",
+      "access": "community_review_required",
+      "reference_clusters": ["Manco Cápac et Mama Ocllo dans les récits de fondation inca", "frères Ayar", "Inkarrí", "récits quechua de montagnes apu comme tradition vivante", "récits aymara du lac Titicaca et de fondation", "Trentren Vilu et Caicai Vilu dans les traditions mapuche", "Pombero et Jasy Jatere dans le folklore guarani", "récits amazoniens de dauphin transformé dans plusieurs régions", "récits de forêt, jaguar, anaconda et origine chez des peuples précis avec revue communautaire", "légendes de mines, villes englouties et routes coloniales", "aucune fusion d'une 'mythologie amazonienne' générique n'est autorisée"]
+    },
+    {
+      "id": "brazil",
+      "label": "Brésil et folklore lusophone américain",
+      "access": "living_sensitive",
+      "reference_clusters": ["Saci", "Curupira", "Iara", "Boto-cor-de-rosa", "Boitatá", "Cuca", "Mula-sem-cabeça", "Negrinho do Pastoreio", "Vitória-Régia", "Lobisomem dans ses variantes brésiliennes", "Caipora", "Corpo-Seco", "Pisadeira", "récits de villes minières, sertão, fleuves et forêts", "Pedro Malasartes dans ses variantes brésiliennes", "mélanges afro-brésiliens, autochtones et ibériques à documenter au cas par cas"]
+    },
+    {
+      "id": "southern_cone",
+      "label": "Cône Sud",
+      "access": "living_sensitive",
+      "reference_clusters": ["Luz Mala", "Salamanca dans le folklore argentin", "récits de gauchos, payadores et bandits légendaires", "Nahuelito comme légende cryptozoologique moderne", "récits patagoniens de vents, lacs et voyageurs", "traditions chilotes de Caleuche", "Trauco", "Pincoya", "Invunche comme figure à contextualiser", "récits mapuche uniquement avec sources spécifiques et revue culturelle", "légendes uruguayennes et pampéennes de chemins, cimetières et lumières"]
+    },
+    {
+      "id": "contemporary_global_legends",
+      "label": "Légendes contemporaines et folklore urbain mondial",
+      "access": "public_reference",
+      "reference_clusters": ["auto-stoppeur fantôme / vanishing hitchhiker", "passager spectral", "tueur caché dans un véhicule ou une maison", "appel provenant de l'intérieur", "objet maudit transmis", "chaîne de messages et malédiction", "photographie ou enregistrement révélant une présence", "route, tunnel, pont ou station hantés", "créature cryptide locale", "légende de nourriture ou produit contaminé", "rumeur de panique morale", "jeu ou rituel adolescent supposé invoquer une présence", "légende technologique liée à téléphone, écran ou réseau", "disparition répétée dans un lieu ordinaire", "personne que personne d'autre ne se souvient avoir rencontrée"]
+    }
+  ],
+  "design_extraction_rules": [
+    "Ne jamais sélectionner une histoire complète : sélectionner au maximum un motif, une fonction dramatique, une logique de transformation ou une forme de conséquence par tradition-source.",
+    "Pour une quête majeure, combiner au moins trois régions ou familles narratives qui ne partagent pas le même récit-type évident.",
+    "Remplacer toute causalité mythologique empruntée par une causalité propre au lore de Light in the Dark : Chute, Peur, folie événementielle, mémoire, Sanctuaire, politique, créatures, ressources et conséquences de campagne.",
+    "Conserver les ambiguïtés : un motif similaire dans deux cultures n'est pas la preuve d'une origine commune ni d'un sens universel.",
+    "Si un personnage, une créature ou une suite d'événements reste reconnaissable comme dérivé d'un conte précis, réécrire jusqu'à ce que seule la mécanique abstraite subsiste.",
+    "Les traditions classées community_review_required ne doivent jamais fournir directement un boss, un costume, une prière, une quête ou un rituel ; elles peuvent seulement inspirer des questions de structure après revue culturelle.",
+    "Les variantes modernes, littéraires et cinématographiques doivent être distinguées des traditions orales dont elles dérivent."
+  ]
+}
