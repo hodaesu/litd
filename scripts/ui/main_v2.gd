@@ -2,6 +2,9 @@ extends "res://scripts/ui/main.gd"
 
 # Combat v2: chaque héros vivant agit une fois par round, puis le compagnon,
 # puis les ennemis. Cette surcouche conserve toute l'UI/hub du prototype v1.
+# Les hooks de sélection/intervention gardent le comportement historique par défaut
+# et permettent aux couches supérieures d'ajouter une IA psychologique sans dupliquer
+# toute la boucle de combat.
 var round_number: int = 1
 var acted_hero_ids: Dictionary = {}
 var battle_round_key: String = ""
@@ -209,7 +212,19 @@ func _complete_hero_action(hero: Dictionary) -> void:
         return
     _finish_party_round()
 
+func _before_companion_turn() -> void:
+    pass
+
+func _select_enemy_target(_enemy: Dictionary, targets: Array) -> Dictionary:
+    if targets.is_empty():
+        return {}
+    return targets[randi() % targets.size()]
+
+func _after_enemy_attack(_enemy: Dictionary, _target: Dictionary, _damage: int, _fear_gain: int) -> void:
+    pass
+
 func _finish_party_round() -> void:
+    _before_companion_turn()
     var companion_targets: Array = GameState.alive_enemies()
     if not companion_targets.is_empty():
         var companion_result := CreatureManager.companion_turn(companion_targets[0])
@@ -235,7 +250,9 @@ func enemy_turn() -> void:
         if targets.is_empty():
             finish_defeat()
             return
-        var target: Dictionary = targets[randi() % targets.size()]
+        var target: Dictionary = _select_enemy_target(enemy, targets)
+        if target.is_empty():
+            target = targets[randi() % targets.size()]
         var target_bonuses := hero_bonuses(target)
         var creature_bonuses := CreatureManager.party_bonuses()
         for bonus_key_value in creature_bonuses.keys():
@@ -258,6 +275,8 @@ func enemy_turn() -> void:
             var madness_gain := maxi(0, base_madness_gain - madness_reduction)
             var madness_cap := 100 + int(target_bonuses.get("max_madness", 0))
             target["madness"] = mini(madness_cap, int(target.get("madness", 0)) + madness_gain)
+
+        _after_enemy_attack(enemy, target, damage, fear_gain)
 
         var riposte_chance := int(target_bonuses.get("riposte_chance", 0))
         if EquipmentManager.has_effect(str(target.get("id", "")), "steadfast_counter"):
