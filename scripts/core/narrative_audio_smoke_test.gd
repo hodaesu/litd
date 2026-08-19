@@ -67,6 +67,44 @@ func run() -> void:
     _check(str(AudioDirector.active_music_cue) == "discovery_revelation", "Revelation must transition to its music cue after silence")
 
     NarrativeAudioDirector.reset_runtime()
+    GameState.request_screen("sanctuary")
+    await get_tree().process_frame
+
+    var iven_hook: Dictionary = NarrativeAudioDirector.scene_hook_definition("evidence:ev_korem_redaction")
+    _check(str(iven_hook.get("beat", "")) == "revelation", "Iven evidence must be authored as a revelation scene")
+    var political_hook: Dictionary = NarrativeAudioDirector.scene_hook_definition("political:ashlands_refugee_gate:welcome")
+    _check(str(political_hook.get("beat", "")) == "choice", "Political wildcard must resolve to a neutral choice beat")
+
+    Chapter03Runtime.evidence_discovered.emit({"id": "ev_korem_redaction", "title": "Archive Kor-Em censurée"})
+    await get_tree().process_frame
+    var evidence_history: Array[Dictionary] = NarrativeAudioDirector.history()
+    _check(_history_has_scene(evidence_history, "evidence:ev_korem_redaction"), "Real Chapter III evidence must trigger its narrative audio scene")
+    _check(_scene_value(evidence_history, "evidence:ev_korem_redaction", "motif") == "ancient_archive", "Iven revelation must reuse the quest motif")
+
+    RelationshipRuntime.relationship_changed.emit("aurelien", "lysandra", "sanctuary_reconcile")
+    await get_tree().process_frame
+    _check(_history_has_scene(NarrativeAudioDirector.history(), "relationship:sanctuary_reconcile"), "Companion reconciliation must trigger a relationship audio scene")
+
+    RelationshipRuntime.relationship_moment.emit("La chute de Lysandra n'a pas le même poids pour ceux qui l'avaient laissée entrer dans leur vie.")
+    await get_tree().process_frame
+    _check(_history_has_scene(NarrativeAudioDirector.history(), "relationship:hero_fallen"), "Hero loss must trigger the loss beat through the real relationship moment")
+
+    FieldEncounterRuntime.encounter_resolved.emit("c03_survivor_outpost", "returned")
+    await get_tree().process_frame
+    _check(_history_has_scene(NarrativeAudioDirector.history(), "field:c03_survivor_outpost:returned"), "Three Marks return must trigger a reunion beat")
+
+    _check(
+        NarrativeAudioDirector.trigger_scene_hook(
+            "political:ashlands_refugee_gate:welcome",
+            {"quest_id": "ashlands_refugee_gate", "choice_id": "welcome"}
+        ),
+        "A real political choice key must resolve through the wildcard hook"
+    )
+    await get_tree().process_frame
+    _check(_history_has_scene(NarrativeAudioDirector.history(), "political:ashlands_refugee_gate:welcome"), "Political choice must be recorded as a scene hook")
+    _check(_scene_value(NarrativeAudioDirector.history(), "political:ashlands_refugee_gate:welcome", "rule") == "neutral_weight_no_moral_answer", "Political audio must remain morally neutral")
+
+    NarrativeAudioDirector.reset_runtime()
     AudioDirector.reset_runtime()
     await get_tree().process_frame
     _finish()
@@ -76,6 +114,19 @@ func _history_has(entries: Array[Dictionary], kind: String) -> bool:
         if str(entry.get("kind", "")) == kind:
             return true
     return false
+
+func _history_has_scene(entries: Array[Dictionary], scene_key: String) -> bool:
+    for entry: Dictionary in entries:
+        if str(entry.get("kind", "")) == "scene_hook" and str(entry.get("scene_key", "")) == scene_key:
+            return true
+    return false
+
+func _scene_value(entries: Array[Dictionary], scene_key: String, key: String) -> String:
+    for index in range(entries.size() - 1, -1, -1):
+        var entry: Dictionary = entries[index]
+        if str(entry.get("kind", "")) == "scene_hook" and str(entry.get("scene_key", "")) == scene_key:
+            return str(entry.get(key, ""))
+    return ""
 
 func _check(condition: bool, message: String) -> void:
     if not condition:
