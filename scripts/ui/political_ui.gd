@@ -249,5 +249,13 @@ func _add_quest_card(parent: VBoxContainer, quest: Dictionary) -> void:
 
 func _take_decision(quest_id: String, choice_id: String) -> void:
     if PoliticalState.complete_quest(quest_id, choice_id):
+        NarrativeAudioDirector.trigger_scene_hook(
+            "political:%s:%s" % [quest_id, choice_id],
+            {
+                "quest_id": quest_id,
+                "choice_id": choice_id,
+                "consequence": PoliticalState.choice_consequence(quest_id, choice_id)
+            }
+        )
         SaveManager.save_game()
     _render()
