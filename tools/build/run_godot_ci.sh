@@ -38,5 +38,6 @@ run_checked "Import strict du projet" godot --headless --path . --import --quit
 run_checked "Smoke test noyau" godot --headless --path . res://scenes/tests/core_smoke.tscn
 run_checked "Parcours campagne I→X, fin, postgame et NG+" godot --headless --path . res://scenes/tests/campaign_e2e_smoke.tscn
 run_checked "Opérations joueur : scènes, expédition, équipement, capture et sauvegarde disque" godot --headless --path . res://scenes/tests/runtime_player_smoke.tscn
+run_checked "Parcours UI joueur : Sanctuaire, exploration, combat, récompenses et retour" godot --headless --path . res://scenes/tests/ui_player_journey_smoke.tscn
 
 echo "GODOT_CI_STRICT_OK"
