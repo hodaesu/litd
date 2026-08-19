@@ -38,7 +38,7 @@ func _frames(count: int) -> void:
         await get_tree().process_frame
 
 func _load_main_scene() -> void:
-    var error := get_tree().change_scene_to_file(MAIN_SCENE)
+    var error: Error = get_tree().change_scene_to_file(MAIN_SCENE)
     _check(error == OK, "Main scene must accept a real SceneTree change")
     _check(await _wait_for_main_scene(), "Main scene must become the active scene")
     await _frames(3)
@@ -64,14 +64,14 @@ func _launch_real_expedition_from_ui() -> void:
     _check(not get_tree().get_nodes_in_group("player_party").is_empty(), "Exploration scene must contain the player party")
 
 func _enter_combat_from_world_contact() -> void:
-    var scene := get_tree().current_scene
+    var scene: Node = get_tree().current_scene
     _check(scene != null, "Exploration scene missing before encounter")
     if scene == null:
         return
 
-    var trigger := _find_normal_encounter_trigger(scene)
+    var trigger: Node = _find_normal_encounter_trigger(scene)
     _check(trigger != null, "Ashlands scene must expose at least one normal EncounterTrigger")
-    var parties := get_tree().get_nodes_in_group("player_party")
+    var parties: Array[Node] = get_tree().get_nodes_in_group("player_party")
     _check(not parties.is_empty(), "Player party missing before encounter contact")
     if trigger == null or parties.is_empty():
         return
@@ -106,7 +106,7 @@ func _drive_combat_actions() -> void:
 
     var wounded: Dictionary = GameState.party[2]
     wounded["hp"] = maxi(1, int(wounded.get("max_hp", 1)) - 20)
-    var wounded_before := int(wounded.get("hp", 0))
+    var wounded_before: int = int(wounded.get("hp", 0))
     _check(await _press_button("SOIN", true), "First hero must be able to use the real SOIN button")
     _check(int(wounded.get("hp", 0)) > wounded_before, "SOIN button must actually restore HP")
 
@@ -115,7 +115,7 @@ func _drive_combat_actions() -> void:
 
     var attack_target: Dictionary = GameState.battle_enemies[0]
     attack_target["hp"] = int(attack_target.get("max_hp", attack_target.get("hp", 1)))
-    var attack_before := int(attack_target.get("hp", 0))
+    var attack_before: int = int(attack_target.get("hp", 0))
     _check(await _select_enemy(0), "Player must be able to select an enemy through its combat card")
     _check(await _press_button("FRAPPE", true), "Third hero must be able to use the real FRAPPE button")
     _check(int(attack_target.get("hp", 0)) < attack_before, "FRAPPE must damage the enemy selected in the UI")
@@ -131,10 +131,10 @@ func _drive_combat_actions() -> void:
     _check(GameState.current_screen == "combat", "Successful partial capture must keep combat active while enemies remain")
 
 func _finish_combat_and_rewards() -> void:
-    var safety := 0
+    var safety: int = 0
     while GameState.current_screen == "combat" and not GameState.alive_enemies().is_empty() and safety < 6:
         safety += 1
-        var index := _first_living_enemy_index()
+        var index: int = _first_living_enemy_index()
         if index < 0:
             break
         var enemy: Dictionary = GameState.battle_enemies[index]
@@ -163,7 +163,7 @@ func _return_to_sanctuary_from_exploration_menu() -> void:
     Input.parse_input_event(back_event)
     await _frames(3)
 
-    var return_button := _find_button("RETOUR AU SANCTUAIRE", true)
+    var return_button: Button = _find_button("RETOUR AU SANCTUAIRE", true)
     _check(return_button != null, "Back action must reveal the contextual expedition menu")
     if return_button == null:
         return
@@ -177,7 +177,7 @@ func _return_to_sanctuary_from_exploration_menu() -> void:
 
 func _wait_for_main_scene(max_frames: int = 180) -> bool:
     for _index in range(max_frames):
-        var scene := get_tree().current_scene
+        var scene: Node = get_tree().current_scene
         if scene != null and scene.name == "Main":
             return true
         await get_tree().process_frame
@@ -185,7 +185,7 @@ func _wait_for_main_scene(max_frames: int = 180) -> bool:
 
 func _wait_for_combat_main(max_frames: int = 180) -> bool:
     for _index in range(max_frames):
-        var scene := get_tree().current_scene
+        var scene: Node = get_tree().current_scene
         if scene != null and scene.name == "Main" and GameState.current_screen == "combat":
             return true
         await get_tree().process_frame
@@ -193,18 +193,18 @@ func _wait_for_combat_main(max_frames: int = 180) -> bool:
 
 func _wait_for_zone(zone_id: String, max_frames: int = 240) -> bool:
     for _index in range(max_frames):
-        var scene := get_tree().current_scene
+        var scene: Node = get_tree().current_scene
         if scene != null and scene.name != "Main" and AshlandsRuntime.current_zone_id == zone_id:
             return true
         await get_tree().process_frame
     return false
 
 func _find_button(fragment: String, exact: bool) -> Button:
-    var scene := get_tree().current_scene
+    var scene: Node = get_tree().current_scene
     if scene == null:
         return null
     for node_value in scene.find_children("*", "Button", true, false):
-        var button := node_value as Button
+        var button: Button = node_value as Button
         if button == null:
             continue
         if exact and button.text == fragment:
@@ -214,11 +214,11 @@ func _find_button(fragment: String, exact: bool) -> Button:
     return null
 
 func _find_enemy_button(enemy_name: String) -> Button:
-    var scene := get_tree().current_scene
+    var scene: Node = get_tree().current_scene
     if scene == null:
         return null
     for node_value in scene.find_children("*", "Button", true, false):
-        var button := node_value as Button
+        var button: Button = node_value as Button
         if button != null and _node_contains_text(button, enemy_name):
             return button
     return null
@@ -228,13 +228,14 @@ func _node_contains_text(node: Node, fragment: String) -> bool:
         return true
     if node is Button and (node as Button).text.contains(fragment):
         return true
-    for child in node.get_children():
-        if _node_contains_text(child, fragment):
+    for child_value in node.get_children():
+        var child: Node = child_value as Node
+        if child != null and _node_contains_text(child, fragment):
             return true
     return false
 
 func _press_button(fragment: String, exact: bool) -> bool:
-    var button := _find_button(fragment, exact)
+    var button: Button = _find_button(fragment, exact)
     if button == null:
         return false
     _check(not button.disabled, "Button must be enabled before press: %s" % fragment)
@@ -249,7 +250,7 @@ func _select_enemy(index: int) -> bool:
     if index < 0 or index >= GameState.battle_enemies.size():
         return false
     var enemy: Dictionary = GameState.battle_enemies[index]
-    var button := _find_enemy_button(str(enemy.get("name", "")))
+    var button: Button = _find_enemy_button(str(enemy.get("name", "")))
     if button == null:
         return false
     _check(button.is_visible_in_tree(), "Enemy card must be visible before target selection")
@@ -257,7 +258,7 @@ func _select_enemy(index: int) -> bool:
         return false
     button.pressed.emit()
     await _frames(3)
-    var scene := get_tree().current_scene
+    var scene: Node = get_tree().current_scene
     if scene == null or scene.name != "Main":
         return false
     return int(scene.get("selected_enemy")) == index
@@ -265,22 +266,26 @@ func _select_enemy(index: int) -> bool:
 func _find_normal_encounter_trigger(root: Node) -> Node:
     var stack: Array[Node] = [root]
     while not stack.is_empty():
-        var node := stack.pop_back()
+        var node: Node = stack.pop_back() as Node
+        if node == null:
+            continue
         if node.get_script() == ENCOUNTER_TRIGGER_SCRIPT:
             if str(node.get("encounter_type")) == "normal" and bool(node.call("can_start")):
                 return node
-        for child in node.get_children():
-            stack.append(child)
+        for child_value in node.get_children():
+            var child: Node = child_value as Node
+            if child != null:
+                stack.append(child)
     return null
 
 func _prime_capture_success(target: Dictionary) -> bool:
-    var definition := CreatureManager.definition_for_battle_enemy(target)
+    var definition: Dictionary = CreatureManager.definition_for_battle_enemy(target)
     if definition.is_empty():
         return false
-    var chance := CreatureManager.capture_chance(target)
-    var next_attempt := CreatureManager.capture_attempt_counter + 1
-    var encounter_hash := hash(String(definition.get("encounter_id", "")))
-    var enemy_id := int(target.get("id", 0))
+    var chance: int = CreatureManager.capture_chance(target)
+    var next_attempt: int = CreatureManager.capture_attempt_counter + 1
+    var encounter_hash: int = hash(String(definition.get("encounter_id", "")))
+    var enemy_id: int = int(target.get("id", 0))
     for candidate in range(1, 5000):
         var rng := RandomNumberGenerator.new()
         rng.seed = candidate ^ (enemy_id * 73856093) ^ encounter_hash ^ (next_attempt * 19349663)
@@ -296,7 +301,7 @@ func _first_living_enemy_index() -> int:
     return -1
 
 func _log_contains(fragment: String) -> bool:
-    var needle := fragment.to_lower()
+    var needle: String = fragment.to_lower()
     for line_value in GameState.log_lines:
         if str(line_value).to_lower().contains(needle):
             return true
