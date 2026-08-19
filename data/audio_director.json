@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "design_source": "adaptive_audio_director_pass_20",
+  "design_source": "adaptive_audio_director_pass_19",
   "purpose": "Directeur audio runtime de Light in the Dark : bus, états exploration/combat/boss, Peur, sélection de cues, lecture SFX réelle et transitions musicales.",
   "bus_order": ["Music", "Ambience", "Foley", "Combat", "Creatures", "Psychology", "Dialogue", "UI"],
   "bus_defaults_db": {
