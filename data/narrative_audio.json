@@ -27,8 +27,8 @@
     "memorial": {"music":"memorial","loops":["memorial_roomtone"]}
   },
   "quest_motifs": {
-    "q_iven_korem_archive": "ancient_archive",
-    "q_yoren_safe_line": "discovery_revelation"
+    "q_iven_erased_days": "ancient_archive",
+    "q_yoren_false_exit": "discovery_revelation"
   },
   "beats": {
     "rumor": {"dialogue_seconds":1.50,"sfx":"memory_echo"},
