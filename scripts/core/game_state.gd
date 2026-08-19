@@ -2,6 +2,7 @@ extends Node
 
 signal state_changed
 signal screen_requested(screen_name: String)
+signal new_game_reset
 
 const MAX_CHARACTER_LEVEL: int = 50
 
@@ -50,6 +51,7 @@ func reset_new_game() -> void:
     expedition_room = 0
     battle_enemies = []
     log_lines = ["Le Sanctuaire attend."]
+    new_game_reset.emit()
     state_changed.emit()
 
 func request_screen(name: String) -> void:
