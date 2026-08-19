@@ -5,10 +5,12 @@ const CEL_SHADER_PATH := "res://shaders/litd_cel.gdshader"
 
 var contract: Dictionary = {}
 var _cel_shader: Shader
+var _headless_rendering: bool = false
 
 func _ready() -> void:
     contract = _load_json(CONTRACT_PATH)
     _cel_shader = load(CEL_SHADER_PATH) as Shader
+    _headless_rendering = DisplayServer.get_name() == "headless"
     _build_arena()
     _build_darius_proxy()
     _build_ghoul_proxy()
@@ -35,7 +37,17 @@ func _material(color: Color, metallic: float = 0.0, roughness: float = 0.85, rim
     material.set_shader_parameter("rim_tint", 0.7)
     return material
 
-func _box_part(parent: Node3D, part_name: String, size: Vector3, local_position: Vector3, material: Material, rotation_deg: Vector3 = Vector3.ZERO) -> MeshInstance3D:
+func _semantic_part(parent: Node3D, part_name: String, local_position: Vector3, rotation_deg: Vector3) -> Node3D:
+    var marker := Node3D.new()
+    marker.name = part_name
+    marker.position = local_position
+    marker.rotation_degrees = rotation_deg
+    parent.add_child(marker)
+    return marker
+
+func _box_part(parent: Node3D, part_name: String, size: Vector3, local_position: Vector3, material: Material, rotation_deg: Vector3 = Vector3.ZERO) -> Node3D:
+    if _headless_rendering:
+        return _semantic_part(parent, part_name, local_position, rotation_deg)
     var instance := MeshInstance3D.new()
     instance.name = part_name
     var box := BoxMesh.new()
@@ -47,7 +59,9 @@ func _box_part(parent: Node3D, part_name: String, size: Vector3, local_position:
     parent.add_child(instance)
     return instance
 
-func _sphere_part(parent: Node3D, part_name: String, radius: float, local_position: Vector3, material: Material) -> MeshInstance3D:
+func _sphere_part(parent: Node3D, part_name: String, radius: float, local_position: Vector3, material: Material) -> Node3D:
+    if _headless_rendering:
+        return _semantic_part(parent, part_name, local_position, Vector3.ZERO)
     var instance := MeshInstance3D.new()
     instance.name = part_name
     var sphere := SphereMesh.new()
@@ -59,7 +73,9 @@ func _sphere_part(parent: Node3D, part_name: String, radius: float, local_positi
     parent.add_child(instance)
     return instance
 
-func _capsule_part(parent: Node3D, part_name: String, radius: float, height: float, local_position: Vector3, material: Material, rotation_deg: Vector3 = Vector3.ZERO) -> MeshInstance3D:
+func _capsule_part(parent: Node3D, part_name: String, radius: float, height: float, local_position: Vector3, material: Material, rotation_deg: Vector3 = Vector3.ZERO) -> Node3D:
+    if _headless_rendering:
+        return _semantic_part(parent, part_name, local_position, rotation_deg)
     var instance := MeshInstance3D.new()
     instance.name = part_name
     var capsule := CapsuleMesh.new()
