@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "design_source": "terre_des_cendres_psychology_pass_03",
+  "version": 2,
+  "design_source": "terre_des_cendres_psychology_pass_04",
   "core_rule": "La peur se mesure, la folie laisse des traces, l'espoir se manifeste par les actes.",
   "fear_bands": [
     {"id": "calm", "label": "Calme", "min": 0, "max": 24},
@@ -9,35 +9,63 @@
     {"id": "terrified", "label": "Terrifié", "min": 75, "max": 99},
     {"id": "panic", "label": "Panique", "min": 100, "max": 100}
   ],
+  "combat_rules": {
+    "bands": {
+      "calm": {"precision": 0, "damage_percent": 0, "healing_power": 0},
+      "uneasy": {"precision": -2, "damage_percent": 0, "healing_power": 0},
+      "afraid": {"precision": -5, "damage_percent": -5, "healing_power": -5},
+      "terrified": {"precision": -10, "damage_percent": -10, "healing_power": -10},
+      "panic": {"precision": -15, "damage_percent": -15, "healing_power": -15}
+    },
+    "panic": {
+      "fear_after_crisis": 85,
+      "fear_after_resolve": 70,
+      "resolve_charges_max": 1,
+      "default_reaction": "freeze"
+    },
+    "hope_manifestation_resolve_charges": 1
+  },
   "trait_definitions": {
     "judgement_fixation": {
       "label": "Fixation du jugement",
       "kind": "obsession",
+      "fear_penalty_scale": 1.10,
+      "panic_reaction": "freeze",
       "fear_multipliers": {"judgement": 1.15, "memory": 0.90}
     },
     "ash_dissociation": {
       "label": "Dissociation des cendres",
       "kind": "detachment",
+      "fear_penalty_scale": 0.75,
+      "panic_reaction": "retreat",
       "fear_multipliers": {"horror_discovery": 0.82, "ally_critical": 1.20}
     },
     "identity_detachment": {
       "label": "Détachement de l'identité",
       "kind": "detachment",
+      "fear_penalty_scale": 0.85,
+      "panic_reaction": "retreat",
       "fear_multipliers": {"identity": 0.80, "isolation": 1.20}
     },
     "name_obsession": {
       "label": "Obsession des noms",
       "kind": "obsession",
+      "fear_penalty_scale": 1.05,
+      "panic_reaction": "freeze",
       "fear_multipliers": {"identity": 1.18, "memory": 0.88}
     },
     "panic_memory": {
       "label": "Mémoire de panique",
       "kind": "trauma",
+      "fear_penalty_scale": 1.15,
+      "panic_reaction": "retreat",
       "fear_multipliers": {"terrifying_enemy": 1.12, "community": 0.92}
     },
     "mutilation_echo": {
       "label": "Écho de mutilation",
       "kind": "trauma",
+      "fear_penalty_scale": 1.10,
+      "panic_reaction": "freeze",
       "fear_multipliers": {"dismemberment": 1.15, "victory": 0.90}
     }
   },

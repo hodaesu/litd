@@ -78,6 +78,10 @@ func ensure_hero(hero: Dictionary) -> Dictionary:
         psychology["hope_history"] = []
     if not psychology.has("temporary_madness_resistance"):
         psychology["temporary_madness_resistance"] = 0
+    if not psychology.has("resolve_charges"):
+        psychology["resolve_charges"] = 0
+    if not psychology.has("last_panic_round"):
+        psychology["last_panic_round"] = -1
     if not psychology.has("panic_count"):
         psychology["panic_count"] = 0
     hero["psychology"] = psychology
@@ -107,10 +111,77 @@ func mental_summary(hero: Dictionary) -> String:
         parts.append("Trauma : %s" % trait_label(str(traumas[-1])))
     if not traits.is_empty():
         parts.append("Trace : %s" % trait_label(str(traits[-1])))
+    if int(psychology.get("resolve_charges", 0)) > 0:
+        parts.append("Élan d'Espoir prêt")
     return " · ".join(parts) if not parts.is_empty() else "Aucune trace durable"
 
 func trait_label(trait_id: String) -> String:
     return str(data.get("trait_definitions", {}).get(trait_id, {}).get("label", trait_id))
+
+func combat_modifiers(hero: Dictionary) -> Dictionary:
+    var band_id := str(fear_band(hero).get("id", "calm"))
+    var rules: Dictionary = data.get("combat_rules", {}).get("bands", {}).get(band_id, {})
+    var scale := _fear_penalty_scale(hero)
+    var result: Dictionary = {}
+    for key_value in ["precision", "damage_percent", "healing_power"]:
+        var key := str(key_value)
+        var value := int(rules.get(key, 0))
+        result[key] = int(round(float(value) * scale))
+    return result
+
+func combat_status_text(hero: Dictionary) -> String:
+    var modifiers := combat_modifiers(hero)
+    var parts: Array[String] = []
+    var precision := int(modifiers.get("precision", 0))
+    var damage := int(modifiers.get("damage_percent", 0))
+    var healing := int(modifiers.get("healing_power", 0))
+    if precision != 0:
+        parts.append("Précision %d%%" % precision)
+    if damage != 0:
+        parts.append("Dégâts %d%%" % damage)
+    if healing != 0:
+        parts.append("Soins %d%%" % healing)
+    return " · ".join(parts) if not parts.is_empty() else "Aucun malus de Peur"
+
+func resolve_panic_action(hero: Dictionary, round_number: int) -> Dictionary:
+    if hero.is_empty() or int(hero.get("fear", 0)) < FEAR_MAX:
+        return {}
+    var psychology := ensure_hero(hero)
+    if int(psychology.get("last_panic_round", -1)) == round_number:
+        return {}
+    psychology["last_panic_round"] = round_number
+
+    var panic_rules: Dictionary = data.get("combat_rules", {}).get("panic", {})
+    var resolve_charges := int(psychology.get("resolve_charges", 0))
+    if resolve_charges > 0:
+        psychology["resolve_charges"] = resolve_charges - 1
+        hero["fear"] = clampi(int(panic_rules.get("fear_after_resolve", 70)), FEAR_MIN, FEAR_MAX)
+        var hope_history: Array = psychology.get("hope_history", [])
+        hope_history.append({"event_id": "hope_resolve_spent", "fear_after": int(hero.get("fear", 0))})
+        _trim_history(hope_history, HOPE_HISTORY_LIMIT)
+        psychology["hope_history"] = hope_history
+        hero["psychology"] = psychology
+        var resolve_text := "%s refuse de céder : l'Espoir transforme la panique en décision." % str(hero.get("name", "Le héros"))
+        feedback_requested.emit("ESPOIR", resolve_text)
+        return {
+            "kind": "resolve",
+            "consume_action": false,
+            "text": resolve_text,
+            "fear_after": int(hero.get("fear", 0))
+        }
+
+    var reaction := _panic_reaction_for(hero)
+    hero["fear"] = clampi(int(panic_rules.get("fear_after_crisis", 85)), FEAR_MIN, FEAR_MAX)
+    hero["psychology"] = psychology
+    var text := "%s se fige sous la Panique." % str(hero.get("name", "Le héros"))
+    if reaction == "retreat":
+        text = "%s rompt instinctivement la ligne sous la Panique." % str(hero.get("name", "Le héros"))
+    return {
+        "kind": reaction,
+        "consume_action": true,
+        "text": text,
+        "fear_after": int(hero.get("fear", 0))
+    }
 
 func apply_named_event(event_id: String, context: Dictionary = {}, targets: Array = []) -> Dictionary:
     var event: Dictionary = events_by_id.get(event_id, {})
@@ -178,6 +249,9 @@ func _apply_event_to_hero(hero: Dictionary, event: Dictionary, context: Dictiona
             int(psychology.get("temporary_madness_resistance", 0)),
             maxi(0, int(hope.get("temporary_madness_resistance", 0)))
         )
+        var resolve_max := maxi(0, int(data.get("combat_rules", {}).get("panic", {}).get("resolve_charges_max", 1)))
+        var resolve_gain := maxi(0, int(data.get("combat_rules", {}).get("hope_manifestation_resolve_charges", 1)))
+        psychology["resolve_charges"] = mini(resolve_max, int(psychology.get("resolve_charges", 0)) + resolve_gain)
         var hope_history: Array = psychology.get("hope_history", [])
         hope_history.append({"event_id": event_id, "fear_after": int(hero.get("fear", 0))})
         _trim_history(hope_history, HOPE_HISTORY_LIMIT)
@@ -263,6 +337,29 @@ func _trait_fear_multiplier(trait_id: String, tags: Array) -> float:
         if multipliers.has(tag):
             result *= float(multipliers.get(tag, 1.0))
     return result
+
+func _fear_penalty_scale(hero: Dictionary) -> float:
+    var psychology := ensure_hero(hero)
+    var scale := 1.0
+    for trait_value in psychology.get("traits", []):
+        var definition: Dictionary = data.get("trait_definitions", {}).get(str(trait_value), {})
+        scale *= float(definition.get("fear_penalty_scale", 1.0))
+    for trauma_value in psychology.get("traumas", []):
+        var definition: Dictionary = data.get("trait_definitions", {}).get(str(trauma_value), {})
+        scale *= float(definition.get("fear_penalty_scale", 1.0))
+    return clampf(scale, 0.50, 1.60)
+
+func _panic_reaction_for(hero: Dictionary) -> String:
+    var psychology := ensure_hero(hero)
+    var ordered: Array = psychology.get("traumas", []).duplicate()
+    ordered.append_array(psychology.get("traits", []))
+    ordered.reverse()
+    for trait_value in ordered:
+        var definition: Dictionary = data.get("trait_definitions", {}).get(str(trait_value), {})
+        var reaction := str(definition.get("panic_reaction", ""))
+        if reaction in ["freeze", "retreat"]:
+            return reaction
+    return str(data.get("combat_rules", {}).get("panic", {}).get("default_reaction", "freeze"))
 
 func _try_add_trace(hero: Dictionary, event_id: String, trace: Dictionary) -> bool:
     var threshold := clampi(int(trace.get("threshold", FEAR_MAX)), FEAR_MIN, FEAR_MAX)

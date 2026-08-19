@@ -14,6 +14,7 @@ func run() -> void:
     var psychology := PsychologyRuntime.ensure_hero(hero)
     _check(psychology.has("madness_exposure"), "Legacy madness must migrate to hidden exposure")
     _check(psychology.has("hope_history"), "Hope must be represented by event history")
+    _check(psychology.has("resolve_charges"), "Hope must expose a non-stacking resolve charge state")
     _check(PsychologyRuntime.fear_band_label(hero) != "", "Fear must resolve to a visible band")
 
     var legacy_hope := int(hero.get("hope", 0))
@@ -23,6 +24,32 @@ func run() -> void:
     _check(int(hero.get("fear", 0)) == 45, "Shared meal must reduce fear by 5")
     _check(int(hero.get("hope", 0)) == legacy_hope, "Hope must not increase as a numeric resource")
     _check(not PsychologyRuntime.state_for(hero).get("hope_history", []).is_empty(), "Hope manifestation must be recorded")
+    _check(int(PsychologyRuntime.state_for(hero).get("resolve_charges", 0)) == 1, "Hope manifestation must prepare one resolve charge")
+
+    hero["fear"] = 60
+    var afraid_modifiers := PsychologyRuntime.combat_modifiers(hero)
+    _check(int(afraid_modifiers.get("precision", 0)) == -5, "Afraid band must penalize precision")
+    _check(int(afraid_modifiers.get("damage_percent", 0)) == -5, "Afraid band must penalize damage")
+    _check(int(afraid_modifiers.get("healing_power", 0)) == -5, "Afraid band must penalize healing")
+
+    hero["fear"] = 100
+    var resolved := PsychologyRuntime.resolve_panic_action(hero, 1)
+    _check(str(resolved.get("kind", "")) == "resolve", "Prepared Hope must convert Panic into resolve")
+    _check(not bool(resolved.get("consume_action", true)), "Hope resolve must preserve the hero action")
+    _check(int(hero.get("fear", 0)) == 70, "Hope resolve must pull fear down to 70")
+    _check(int(PsychologyRuntime.state_for(hero).get("resolve_charges", 0)) == 0, "Hope resolve charge must be consumed")
+
+    var state := PsychologyRuntime.state_for(hero)
+    var traumas: Array = state.get("traumas", [])
+    if not traumas.has("panic_memory"):
+        traumas.append("panic_memory")
+    state["traumas"] = traumas
+    hero["psychology"] = state
+    hero["fear"] = 100
+    var panic := PsychologyRuntime.resolve_panic_action(hero, 2)
+    _check(str(panic.get("kind", "")) == "retreat", "Panic Memory must favor retreat during a crisis")
+    _check(bool(panic.get("consume_action", false)), "Unresolved Panic must consume the action")
+    _check(int(hero.get("fear", 0)) == 85, "Unresolved Panic must fall back to the crisis threshold")
 
     hero["fear"] = 99
     hero["fear"] = 100

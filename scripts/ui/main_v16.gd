@@ -4,6 +4,8 @@ extends "res://scripts/ui/main_v15.gd"
 # Une seule ressource psychologique reste visible en direct : la Peur.
 # La Folie devient un ensemble de traces durables et l'Espoir un événement positif,
 # jamais une monnaie ni une seconde jauge.
+# Pass 04 : les paliers de Peur ont désormais des conséquences de combat et
+# un événement d'Espoir peut empêcher une crise de Panique une seule fois.
 
 const PSY_CHAPEL_APPEASE_GOLD: int = 12
 const PSY_TAVERN_MEAL_SUPPLIES: int = 1
@@ -34,7 +36,7 @@ func show_combat() -> void:
     var hero := _active_round_hero()
     if hero.is_empty():
         return
-    PsychologyRuntime.ensure_hero(hero)
+    var psychology := PsychologyRuntime.ensure_hero(hero)
     var label := make_label(
         "PEUR · %s · %d/100" % [PsychologyRuntime.fear_band_label(hero), int(hero.get("fear", 0))],
         11,
@@ -54,6 +56,43 @@ func show_combat() -> void:
     meter.size = Vector2(220, 16)
     meter.mouse_filter = Control.MOUSE_FILTER_IGNORE
     content.add_child(meter)
+
+    var consequence_text := PsychologyRuntime.combat_status_text(hero)
+    if int(psychology.get("resolve_charges", 0)) > 0:
+        consequence_text += " · Espoir prêt contre la Panique"
+    var consequence := make_label(consequence_text, 10, GOLD if int(psychology.get("resolve_charges", 0)) > 0 else MUTED)
+    consequence.position = Vector2(475, 136)
+    consequence.size = Vector2(480, 24)
+    consequence.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+    content.add_child(consequence)
+
+func hero_action(action: String) -> void:
+    if battle_locked:
+        return
+    _ensure_round_state()
+    var hero := _active_round_hero()
+    if not hero.is_empty():
+        var crisis := PsychologyRuntime.resolve_panic_action(hero, round_number)
+        if not crisis.is_empty():
+            var kind := str(crisis.get("kind", "freeze"))
+            if kind == "retreat":
+                _ensure_tactical_state()
+                if not _move_hero_relative(hero, 1):
+                    crisis["text"] = "%s ne peut plus reculer et se fige sous la Panique." % str(hero.get("name", "Le héros"))
+            GameState.add_log(str(crisis.get("text", "La Panique brise l'élan du héros.")))
+            if bool(crisis.get("consume_action", false)):
+                battle_locked = true
+                _complete_hero_action(hero)
+                return
+    super.hero_action(action)
+
+func hero_bonuses(hero: Dictionary) -> Dictionary:
+    var result := super.hero_bonuses(hero)
+    var psychology_modifiers := PsychologyRuntime.combat_modifiers(hero)
+    for key_value in psychology_modifiers.keys():
+        var key := str(key_value)
+        result[key] = int(result.get(key, 0)) + int(psychology_modifiers.get(key, 0))
+    return result
 
 func _hero_heal_action(hero: Dictionary) -> void:
     var snapshots: Dictionary = {}
@@ -85,17 +124,29 @@ func _hero_heal_action(hero: Dictionary) -> void:
         )
 
 func enemy_turn() -> void:
-    var fear_before: Dictionary = {}
+    var snapshots: Dictionary = {}
     for hero_value in GameState.party:
         var hero: Dictionary = hero_value
-        fear_before[str(hero.get("id", ""))] = int(hero.get("fear", 0))
+        snapshots[str(hero.get("id", ""))] = {
+            "fear": int(hero.get("fear", 0)),
+            "madness": int(hero.get("madness", 0)),
+            "hope": int(hero.get("hope", 0))
+        }
     super.enemy_turn()
     for hero_value in GameState.party:
         var hero: Dictionary = hero_value
         var hero_id := str(hero.get("id", ""))
+        var before: Dictionary = snapshots.get(hero_id, {})
+        if before.is_empty():
+            continue
+        # Le moteur hérité v2 incrémente encore Folie/Espoir numériquement à certains
+        # seuils. On neutralise ces écritures : v16 traduit désormais la crise via
+        # l'exposition, les traces et la résolution de Panique de PsychologyRuntime.
+        hero["madness"] = int(before.get("madness", hero.get("madness", 0)))
+        hero["hope"] = int(before.get("hope", hero.get("hope", 0)))
         PsychologyRuntime.record_external_fear(
             hero,
-            int(fear_before.get(hero_id, int(hero.get("fear", 0)))),
+            int(before.get("fear", int(hero.get("fear", 0)))),
             "terrifying_enemy",
             {"screen": "combat", "round": round_number}
         )
