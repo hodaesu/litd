@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "design_source": "living_sanctuary_pass_10_13",
+  "rule": "Les personnes rencontrées peuvent survivre, circuler, atteindre le Sanctuaire, faire naître des rumeurs et proposer des quêtes sans produire de jauge morale globale.",
+  "rumor_limit": 24,
+  "collective_memory_limit_per_scope": 18,
+  "people": [
+    {
+      "id": "mara_three_marks",
+      "name": "Mara",
+      "origin": "c01_village_survivors",
+      "default": {"status": "unknown", "location": "unknown", "sanctuary_presence": false, "role": ""},
+      "sanctuary": {
+        "role": "Liaison du relais aux trois traits",
+        "population_cue": "Mara, qui tient le registre des arrivées du relais aux trois traits",
+        "visual_cue": "un registre de ravitaillement marqué de trois traits près de la Taverne"
+      }
+    },
+    {
+      "id": "yoren_three_marks",
+      "name": "Yoren",
+      "origin": "c01_village_survivors",
+      "default": {"status": "unknown", "location": "unknown", "sanctuary_presence": false, "role": ""},
+      "sanctuary": {
+        "role": "Guide des routes d'expédition",
+        "population_cue": "Yoren, qui compare les itinéraires des expéditions avec les voyageurs",
+        "visual_cue": "des cartes de routes corrigées à la main sur une table commune"
+      }
+    },
+    {
+      "id": "iven_three_marks",
+      "name": "Iven",
+      "origin": "c01_village_survivors",
+      "default": {"status": "unknown", "location": "unknown", "sanctuary_presence": false, "role": ""},
+      "sanctuary": {
+        "role": "Éclaireur en formation",
+        "population_cue": "Iven, devenu éclaireur en formation entre deux départs",
+        "visual_cue": "trois marques de cuivre fixées au mur des départs d'expédition"
+      }
+    }
+  ],
+  "encounter_transitions": {
+    "c01_village_survivors": {
+      "aided": {
+        "people": {"mara_three_marks": {"status": "alive", "location": "north_road"}, "yoren_three_marks": {"status": "alive", "location": "north_road"}, "iven_three_marks": {"status": "alive", "location": "north_road"}},
+        "rumor": {"id": "rumor_three_marks_aided", "scope": "ashlands_travellers", "reliability": "direct", "text": "Trois survivants racontent qu'une compagnie a partagé une part dangereusement grande de ses réserves dans le Village Ravagé."},
+        "fact": {"scope": "ashlands_travellers", "id": "three_marks_aided", "text": "Mara, Yoren et Iven ont reçu des vivres, de l'eau et des soins de la compagnie."}
+      },
+      "stabilized": {
+        "people": {"mara_three_marks": {"status": "alive", "location": "north_road"}, "yoren_three_marks": {"status": "alive", "location": "north_road"}, "iven_three_marks": {"status": "alive", "location": "north_road"}},
+        "rumor": {"id": "rumor_three_marks_stabilized", "scope": "ashlands_travellers", "reliability": "direct", "text": "Trois blessés disent avoir été remis debout par une compagnie qui a gardé ses vivres mais donné ses derniers soins."},
+        "fact": {"scope": "ashlands_travellers", "id": "three_marks_stabilized", "text": "Mara, Yoren et Iven ont été stabilisés sans recevoir les vivres de marche."}
+      },
+      "refused": {
+        "people": {"mara_three_marks": {"status": "alive", "location": "unknown_road"}, "yoren_three_marks": {"status": "alive", "location": "unknown_road"}, "iven_three_marks": {"status": "alive", "location": "unknown_road"}},
+        "rumor": {"id": "rumor_three_marks_refused", "scope": "ashlands_travellers", "reliability": "direct", "text": "Mara raconte sans embellir qu'une compagnie a gardé ses réserves et laissé les trois survivants trouver seuls une issue."},
+        "fact": {"scope": "ashlands_travellers", "id": "three_marks_refused", "text": "La compagnie a conservé ses réserves ; les trois survivants ont dû chercher seuls une autre voie."}
+      }
+    },
+    "c03_survivor_outpost": {
+      "returned": {
+        "people": {
+          "mara_three_marks": {"status": "alive", "location": "sanctuary_network", "sanctuary_presence": true, "role": "Liaison du relais aux trois traits"},
+          "yoren_three_marks": {"status": "alive", "location": "sanctuary_network", "sanctuary_presence": true, "role": "Guide des routes d'expédition"},
+          "iven_three_marks": {"status": "alive", "location": "sanctuary_network", "sanctuary_presence": true, "role": "Éclaireur en formation"}
+        },
+        "rumor": {"id": "rumor_three_marks_return", "scope": "sanctuary", "reliability": "confirmed", "text": "Le relais aux trois traits existe désormais vraiment ; ses trois fondateurs passent régulièrement par le Sanctuaire et échangent routes, vivres et nouvelles."},
+        "fact": {"scope": "sanctuary", "id": "three_marks_network", "text": "Le relais de Mara, Yoren et Iven est relié au Sanctuaire."},
+        "offer_quests": ["q_iven_korem_archive", "q_yoren_safe_line"]
+      }
+    },
+    "c03_survivors_without_aid": {
+      "returned": {
+        "people": {
+          "mara_three_marks": {"status": "alive", "location": "independent_relay", "sanctuary_presence": false, "role": ""},
+          "yoren_three_marks": {"status": "alive", "location": "independent_relay", "sanctuary_presence": false, "role": ""},
+          "iven_three_marks": {"status": "alive", "location": "independent_relay", "sanctuary_presence": false, "role": ""}
+        },
+        "rumor": {"id": "rumor_three_marks_independent", "scope": "sanctuary", "reliability": "confirmed", "text": "Les trois du Village Ravagé ont survécu sans l'aide de la compagnie. Leur relais reste indépendant, mais leurs voyageurs atteignent parfois le Sanctuaire."},
+        "fact": {"scope": "sanctuary", "id": "three_marks_independent", "text": "Les trois survivants vivent encore et ont choisi de rester indépendants du Sanctuaire."}
+      }
+    },
+    "c03_spared_witness_return": {
+      "returned": {
+        "rumor": {"id": "rumor_spared_witness_helped", "scope": "sanctuary", "reliability": "witnessed", "text": "On raconte maintenant au Sanctuaire que le Témoin des Cendres, laissé vivant autrefois, a montré un passage sûr à la compagnie au lieu de l'attaquer."},
+        "fact": {"scope": "sanctuary", "id": "spared_witness_helped", "text": "Le Témoin des Cendres épargné a plus tard aidé la compagnie."}
+      }
+    }
+  },
+  "quests": [
+    {
+      "id": "q_iven_korem_archive",
+      "giver": "iven_three_marks",
+      "name": "Les cartes que le relais n'a jamais reçues",
+      "summary": "Iven cherche les relevés d'itinéraires censurés par Kor-Em pour rendre le relais plus sûr.",
+      "objective": {"type": "chapter03_evidence", "id": "ev_korem_redaction", "text": "Retrouver l'archive Kor-Em censurée dans le laboratoire brisé."},
+      "reward": {"medicine": 1, "light": 1},
+      "completion_rumor": {"id": "rumor_iven_archive_complete", "scope": "sanctuary", "reliability": "confirmed", "text": "Iven a recoupé les cartes de Kor-Em avec les routes du relais ; plusieurs départs évitent désormais les zones les plus instables."}
+    },
+    {
+      "id": "q_yoren_safe_line",
+      "giver": "yoren_three_marks",
+      "name": "Une ligne sûre dans le Seuil",
+      "summary": "Yoren veut confirmer une route de repli avant que d'autres voyageurs ne la prennent pour une voie sûre.",
+      "objective": {"type": "zone_discovered", "id": "c03_threshold_complex", "text": "Atteindre le Complexe du Seuil et confirmer physiquement la route."},
+      "reward": {"food": 1, "water": 1},
+      "completion_rumor": {"id": "rumor_yoren_route_complete", "scope": "ashlands_travellers", "reliability": "confirmed", "text": "Une nouvelle ligne de repli circule entre le Sanctuaire et le relais aux trois traits, confirmée par la compagnie elle-même."}
+    }
+  ]
+}
