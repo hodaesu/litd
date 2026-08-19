@@ -17,13 +17,14 @@ def run(root: Path = ROOT) -> dict:
     v6 = (root / "scripts/ui/main_v6.gd").read_text(encoding="utf-8")
     v12 = (root / "scripts/ui/main_v12.gd").read_text(encoding="utf-8")
     v13 = (root / "scripts/ui/main_v13.gd").read_text(encoding="utf-8")
+    v14 = (root / "scripts/ui/main_v14.gd").read_text(encoding="utf-8")
     bridge = (root / "scripts/world/ashlands_combat_bridge.gd").read_text(encoding="utf-8")
     checks: list[dict] = []
     def check(name: str, ok: bool, detail: str = "") -> None:
         checks.append({"name": name, "ok": bool(ok), "detail": detail})
 
-    check("Main utilise combat v13", 'res://scripts/ui/main_v13.gd' in scene)
-    check("Combat v13 conserve les couches antérieures", 'extends "res://scripts/ui/main_v12.gd"' in v13 and 'extends "res://scripts/ui/main_v11.gd"' in v12 and 'extends "res://scripts/ui/main_v5.gd"' in v6)
+    check("Main utilise combat v14", 'res://scripts/ui/main_v14.gd' in scene)
+    check("Combat v14 conserve les couches antérieures", 'extends "res://scripts/ui/main_v13.gd"' in v14 and 'extends "res://scripts/ui/main_v12.gd"' in v13 and 'extends "res://scripts/ui/main_v11.gd"' in v12 and 'extends "res://scripts/ui/main_v5.gd"' in v6)
     hero_rules = data.get("hero_forced_movement", {})
     check("Quatre héros possèdent une règle de coup lourd", set(hero_rules) == {"malvor", "darius", "aurelien", "lysandra"}, str(hero_rules))
     check("Poussée ennemie branchée", '"push_enemy_1"' in v5 and "_move_enemy_relative(target, 1)" in v5)
