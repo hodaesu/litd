@@ -58,6 +58,8 @@ jobs:
         run: python -m tools.qa.community_network_audit
       - name: Audit bibliothèque narrative et quêtes secondaires
         run: python -m tools.qa.narrative_library_audit
+      - name: Audit dialogues, voix et mise en scène
+        run: python -m tools.qa.dialogue_library_audit
       - name: Audit bâtiments interactifs du Sanctuaire
         run: python -m tools.qa.sanctuary_buildings_audit
       - name: Générer les jobs Blender anatomiques
