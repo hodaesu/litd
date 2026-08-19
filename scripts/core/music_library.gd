@@ -17,7 +17,8 @@ func tracks() -> Array[Dictionary]:
     return _dictionary_array("tracks")
 
 func track(track_id: String) -> Dictionary:
-    for item: Dictionary in tracks():
+    for value in tracks():
+        var item: Dictionary = value if value is Dictionary else {}
         if str(item.get("id", "")) == track_id:
             return item.duplicate(true)
     return {}
@@ -26,7 +27,8 @@ func cues() -> Array[Dictionary]:
     return _dictionary_array("cue_families")
 
 func cue(cue_id: String) -> Dictionary:
-    for item: Dictionary in cues():
+    for value in cues():
+        var item: Dictionary = value if value is Dictionary else {}
         if str(item.get("id", "")) == cue_id:
             return item.duplicate(true)
     return {}
@@ -35,7 +37,8 @@ func sources() -> Array[Dictionary]:
     return _dictionary_array("sources")
 
 func source(source_id: String) -> Dictionary:
-    for item: Dictionary in sources():
+    for value in sources():
+        var item: Dictionary = value if value is Dictionary else {}
         if str(item.get("id", "")) == source_id:
             return item.duplicate(true)
     return {}
@@ -55,7 +58,8 @@ func excluded_sources() -> Array[Dictionary]:
 
 func tracks_for_cue(cue_id: String, legal_tiers: Array[String] = ["green"]) -> Array[Dictionary]:
     var result: Array[Dictionary] = []
-    for item: Dictionary in tracks():
+    for value in tracks():
+        var item: Dictionary = value if value is Dictionary else {}
         var tier: String = str(item.get("legal_tier", "red"))
         if not legal_tiers.has(tier):
             continue
@@ -71,27 +75,31 @@ func shipping_candidates(include_amber: bool = false) -> Array[Dictionary]:
     if include_amber:
         tiers.append("amber")
     var result: Array[Dictionary] = []
-    for item: Dictionary in tracks():
+    for value in tracks():
+        var item: Dictionary = value if value is Dictionary else {}
         if tiers.has(str(item.get("legal_tier", "red"))):
             result.append(item.duplicate(true))
     return result
 
 func content_id_candidates() -> Array[Dictionary]:
     var result: Array[Dictionary] = []
-    for item: Dictionary in tracks():
+    for value in tracks():
+        var item: Dictionary = value if value is Dictionary else {}
         if item.get("content_id", false) == true:
             result.append(item.duplicate(true))
     return result
 
 func source_is_excluded(source_id: String) -> bool:
-    for item: Dictionary in excluded_sources():
+    for value in excluded_sources():
+        var item: Dictionary = value if value is Dictionary else {}
         if str(item.get("source", "")) == source_id:
             return true
     return false
 
 func credits_lines() -> Array[String]:
     var result: Array[String] = []
-    for item: Dictionary in tracks():
+    for value in tracks():
+        var item: Dictionary = value if value is Dictionary else {}
         if bool(item.get("attribution_required", false)):
             var line: String = "%s — %s — %s" % [str(item.get("title", "")), str(item.get("artist", "")), str(item.get("license_id", ""))]
             if not result.has(line):
@@ -108,7 +116,8 @@ func coverage() -> Dictionary:
     var red_count: int = 0
     var content_id_count: int = 0
     var mapped_cues: Dictionary = {}
-    for item: Dictionary in tracks():
+    for value in tracks():
+        var item: Dictionary = value if value is Dictionary else {}
         var tier: String = str(item.get("legal_tier", "red"))
         match tier:
             "green":
@@ -121,8 +130,8 @@ func coverage() -> Dictionary:
             content_id_count += 1
         var cue_values_variant: Variant = item.get("cues", [])
         var cue_values: Array = cue_values_variant if cue_values_variant is Array else []
-        for value: Variant in cue_values:
-            mapped_cues[str(value)] = true
+        for cue_value in cue_values:
+            mapped_cues[str(cue_value)] = true
     return {
         "tracks": tracks().size(),
         "cue_families": cues().size(),
@@ -140,7 +149,7 @@ func _dictionary_array(key: String) -> Array[Dictionary]:
     var result: Array[Dictionary] = []
     var values_variant: Variant = data.get(key, [])
     var values: Array = values_variant if values_variant is Array else []
-    for value: Variant in values:
+    for value in values:
         var item: Dictionary = value if value is Dictionary else {}
         if not item.is_empty():
             result.append(item.duplicate(true))
@@ -150,7 +159,7 @@ func _string_array(key: String) -> Array[String]:
     var result: Array[String] = []
     var values_variant: Variant = data.get(key, [])
     var values: Array = values_variant if values_variant is Array else []
-    for value: Variant in values:
+    for value in values:
         var text: String = str(value)
         if text != "":
             result.append(text)
