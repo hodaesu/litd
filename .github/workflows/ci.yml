@@ -60,5 +60,6 @@ jobs:
       image: barichello/godot-ci:4.3
     steps:
       - uses: actions/checkout@v4
+      # Le wrapper lance godot --headless et couvre notamment res://scripts/core/smoke_test.gd via la scène core_smoke.tscn, puis les parcours critiques supplémentaires.
       - name: Compilation stricte et parcours critique Godot
         run: bash tools/build/run_godot_ci.sh
