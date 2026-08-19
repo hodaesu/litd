@@ -129,7 +129,7 @@ func _build_clues() -> void:
         parent.add_child(clue)
 
 func _clue_position(index: int, count: int) -> Vector3:
-    var angle := TAU * float(index) / max(1.0, float(count))
+    var angle: float = TAU * float(index) / maxf(1.0, float(count))
     return Vector3(cos(angle)*18.0, 0.0, sin(angle)*18.0)
 
 func _build_campfire() -> void:
