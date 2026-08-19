@@ -9,11 +9,14 @@ signal movement_state_changed(is_moving: bool, is_running: bool)
 @export var acceleration := 18.0
 @export var gravity := 24.0
 @export var interaction_distance := 2.4
+@export var walk_step_interval := 0.48
+@export var run_step_interval := 0.34
 
 var _last_moving := false
 var _last_running := false
 var _virtual_input := Vector2.ZERO
 var _virtual_run := false
+var _step_elapsed := 0.0
 
 func _ready() -> void:
     add_to_group("player_party")
@@ -41,6 +44,7 @@ func _physics_process(delta: float) -> void:
 
     move_and_slide()
     var moving := Vector2(velocity.x, velocity.z).length() > 0.1
+    _update_footsteps(delta, moving, running)
     if moving != _last_moving or running != _last_running:
         _last_moving = moving
         _last_running = running
@@ -59,6 +63,33 @@ func interact() -> void:
 func _unhandled_input(event: InputEvent) -> void:
     if event.is_action_pressed("interact"):
         interact()
+
+func _update_footsteps(delta: float, moving: bool, running: bool) -> void:
+    if not moving or not is_on_floor():
+        _step_elapsed = 0.0
+        return
+    var interval := maxf(0.12, run_step_interval if running else walk_step_interval)
+    _step_elapsed += delta
+    if _step_elapsed < interval:
+        return
+    _step_elapsed = fmod(_step_elapsed, interval)
+    AudioDirector.request_sfx(
+        _footstep_cue(),
+        {
+            "reason": "party_step",
+            "position_3d": global_position,
+            "running": running,
+            "max_distance": 22.0,
+            "unit_size": 3.0
+        }
+    )
+
+func _footstep_cue() -> String:
+    var zone_id := str(AshlandsRuntime.current_zone_id).to_lower()
+    for token: String in ["chapelle", "catacomb", "crypt", "archive", "relay", "complex", "vault", "sanctuary", "temple"]:
+        if zone_id.contains(token):
+            return "footstep_stone"
+    return "footstep_ash"
 
 func _try_interact() -> void:
     var origin := global_position + Vector3.UP * 1.0
