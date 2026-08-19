@@ -44,7 +44,7 @@ Cette apparition déclenche la conséquence différée `spared_enemy_helped`, d�
 
 `FieldEncounterRuntime` possède l'état global des rencontres, contrôle les coûts, les choix, les retours, les témoins et la sérialisation. `FieldEncounterInjector` place les rencontres compatibles dans le `GeneratedBlockout` lorsque la zone est chargée. `FieldEncounterTrigger` fournit l'`Area3D`, le collider, le blockout visuel et l'interaction. Le contrôleur d'exploration existant appelle déjà `interact()` sur les zones visées : aucun second système d'interaction n'est créé.
 
-Les décisions restent liées à `FieldMemoryRuntime` pour leur interprétation psychologique et relationnelle. La sauvegarde passe en version 0.32 et stocke explicitement l'état global `field_encounters`, tandis que les souvenirs individuels continuent de vivre dans `GameState.party`.
+Les décisions restent liées à `FieldMemoryRuntime` pour leur interprétation psychologique et relationnelle. L'état global `field_encounters` est ajouté de façon rétrocompatible au schéma de sauvegarde 0.31 : les anciennes sauvegardes qui ne possèdent pas cette clé chargent simplement un état de rencontres vide. Les souvenirs individuels continuent de vivre dans `GameState.party`.
 
 ## Interface
 
