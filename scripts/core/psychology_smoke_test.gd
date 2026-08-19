@@ -71,7 +71,75 @@ func run() -> void:
     _check(bool(correct_zone.get("applied", false)), "Zone-filtered events must apply in their canonical zone")
     _check(int(hero.get("fear", 0)) == 6, "Village barricades must add six fear")
 
+    _test_social_targeting_and_pressure()
+    _test_companion_intervention()
     _finish()
+
+func _test_social_targeting_and_pressure() -> void:
+    if GameState.party.size() < 2:
+        return
+    var calm: Dictionary = GameState.party[0]
+    var terrified: Dictionary = GameState.party[1]
+    calm["hp"] = int(calm.get("max_hp", 1))
+    calm["fear"] = 10
+    terrified["hp"] = int(terrified.get("max_hp", 1))
+    terrified["fear"] = 88
+    PsychologyRuntime.ensure_hero(calm)
+    PsychologyRuntime.ensure_hero(terrified)
+
+    var predator := {"name": "Prédateur test", "fear": 8, "damage": [1, 2]}
+    var chosen := PsychologyCombatDirector.select_enemy_target(predator, [calm, terrified], 3)
+    _check(str(chosen.get("id", "")) == str(terrified.get("id", "")), "Fear-aware enemies must prioritize the terrified hero")
+
+    var before := int(terrified.get("fear", 0))
+    var pressure := PsychologyCombatDirector.apply_enemy_pressure(predator, terrified, 3)
+    _check(not pressure.is_empty(), "A fear predator must apply extra psychological pressure to a terrified target")
+    _check(int(terrified.get("fear", 0)) > before, "Psychological pressure must increase Fear")
+    _check(str(pressure.get("line", "")) != "", "Psychological pressure must expose a contextual combat line")
+
+    terrified["fear"] = 80
+    var witness := {
+        "name": "Témoin des Cendres",
+        "fear": 8,
+        "boss": true,
+        "chapter_boss_id": "c01_boss_ash_witness",
+        "damage": [1, 2]
+    }
+    var boss_pressure := PsychologyCombatDirector.apply_enemy_pressure(witness, terrified, 4)
+    _check(int(boss_pressure.get("extra_fear", 0)) >= 5, "The Ash Witness must apply stronger boss pressure")
+    _check(str(boss_pressure.get("line", "")).contains("Témoin"), "The Ash Witness must use its contextual psychology line")
+
+func _test_companion_intervention() -> void:
+    if GameState.party.is_empty():
+        return
+    PsychologyCombatDirector.reset_runtime()
+    for hero_value in GameState.party:
+        var candidate: Dictionary = hero_value
+        candidate["fear"] = 0
+        candidate.erase("guarding")
+        candidate.erase("guard_power")
+    var target: Dictionary = GameState.party[0]
+    target["hp"] = maxi(1, int(target.get("max_hp", 1)))
+    target["fear"] = 80
+    CreatureManager.captured_creatures = [{
+        "instance_id": "smoke-oni",
+        "species_id": "oni",
+        "name": "Oni test",
+        "level": 1,
+        "xp": 0,
+        "skill_points": 0,
+        "unlocked_skills": [],
+        "specialization": ""
+    }]
+    CreatureManager.active_instance_id = "smoke-oni"
+    var before := int(target.get("fear", 0))
+    var intervention := PsychologyCombatDirector.companion_intervention(5)
+    _check(not intervention.is_empty(), "A protective companion must react to a terrified hero")
+    _check(str(intervention.get("hero_id", "")) == str(target.get("id", "")), "Companion must protect the most fearful hero")
+    _check(int(target.get("fear", 0)) < before, "Companion intervention must reduce Fear")
+    _check(bool(target.get("guarding", false)), "Protective Oni intervention must guard the terrified hero")
+    var repeated := PsychologyCombatDirector.companion_intervention(5)
+    _check(repeated.is_empty(), "A companion must intervene at most once in the same round")
 
 func _frames(count: int) -> void:
     for _index in range(count):

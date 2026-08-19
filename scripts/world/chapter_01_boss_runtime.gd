@@ -53,7 +53,14 @@ func _enter_phase_two(boss: Dictionary) -> void:
         GameState.light = maxi(0, GameState.light - 15)
         for hero_value in GameState.alive_heroes():
             var hero: Dictionary = hero_value
-            hero["fear"] = mini(100, int(hero.get("fear", 0)) + 6)
+            var fear_before := int(hero.get("fear", 0))
+            hero["fear"] = mini(100, fear_before + 6)
+            PsychologyRuntime.record_external_fear(
+                hero,
+                fear_before,
+                "ash_witness_memory",
+                {"encounter_id": "c01_boss_ash_witness", "phase": 2}
+            )
         GameState.add_log("Dernier Souvenir du Jour : le monde d'avant réapparaît puis se brise.")
     ash_witness_phase_changed.emit(2)
     _updating = false
