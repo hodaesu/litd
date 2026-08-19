@@ -13,7 +13,19 @@ REQUIRED_SPACE_CUES = {
 REQUIRED_ROOMTONES = {
     "sanctuary_crowd", "tavern_roomtone", "chapel_roomtone", "memorial_roomtone"
 }
-REQUIRED_BEATS = {"rumor", "revelation", "choice", "loss", "reunion", "quest_accept", "quest_complete"}
+REQUIRED_BEATS = {
+    "rumor", "revelation", "choice", "loss", "reunion", "relationship",
+    "quest_accept", "quest_complete"
+}
+REQUIRED_SCENE_HOOKS = {
+    "evidence:ev_korem_redaction",
+    "evidence:ev_purge_protocol",
+    "relationship:sanctuary_reconcile",
+    "relationship:sanctuary_opening",
+    "relationship:hero_fallen",
+    "field:c03_survivor_outpost:returned",
+    "political:*",
+}
 
 
 def run(root: Path = ROOT) -> dict:
@@ -21,6 +33,7 @@ def run(root: Path = ROOT) -> dict:
     prototype_path = root / "data/prototype_audio_bank.json"
     runtime_path = root / "scripts/core/narrative_audio_director.gd"
     main_path = root / "scripts/ui/main_v23.gd"
+    political_ui_path = root / "scripts/ui/political_ui.gd"
     scene_main_path = root / "scenes/Main.tscn"
     smoke_path = root / "scripts/core/narrative_audio_smoke_test.gd"
     smoke_scene_path = root / "scenes/tests/narrative_audio_smoke.tscn"
@@ -29,12 +42,21 @@ def run(root: Path = ROOT) -> dict:
     ci_path = root / ".github/workflows/ci.yml"
     docs_path = root / "docs/design/narrative_audio_pass_21.md"
     community_path = root / "data/community_network.json"
+    chapter03_world_path = root / "data/levels/chapter_03_world.json"
+    field_encounters_path = root / "data/field_encounters.json"
+    relationships_path = root / "data/hero_relationships.json"
+    politics_path = root / "data/levels/ashlands_politics.json"
 
     data = json.loads(data_path.read_text(encoding="utf-8"))
     prototype = json.loads(prototype_path.read_text(encoding="utf-8"))
     community = json.loads(community_path.read_text(encoding="utf-8"))
+    chapter03_world = json.loads(chapter03_world_path.read_text(encoding="utf-8"))
+    field_encounters = json.loads(field_encounters_path.read_text(encoding="utf-8"))
+    relationships = json.loads(relationships_path.read_text(encoding="utf-8"))
+    politics = json.loads(politics_path.read_text(encoding="utf-8"))
     runtime = runtime_path.read_text(encoding="utf-8")
     main = main_path.read_text(encoding="utf-8")
+    political_ui = political_ui_path.read_text(encoding="utf-8")
     scene_main = scene_main_path.read_text(encoding="utf-8")
     smoke = smoke_path.read_text(encoding="utf-8")
     smoke_scene = smoke_scene_path.read_text(encoding="utf-8")
@@ -48,8 +70,8 @@ def run(root: Path = ROOT) -> dict:
     def check(name: str, ok: bool, detail: str = "") -> None:
         checks.append({"name": name, "ok": bool(ok), "detail": detail})
 
-    check("Narrative audio : schéma v1", int(data.get("version", 0)) >= 1)
-    check("Narrative audio : design source", data.get("design_source") == "narrative_audio_pass_21")
+    check("Narrative audio : schéma v2", int(data.get("version", 0)) >= 2)
+    check("Narrative audio : design source pass 22", "scene_hooks_pass_22" in str(data.get("design_source", "")))
 
     ducking = data.get("dialogue_ducking_db", {})
     check("Dialogue : musique fortement duckée", float(ducking.get("Music", 0.0)) <= -8.0)
@@ -72,6 +94,7 @@ def run(root: Path = ROOT) -> dict:
     check("Narration : beats complets", REQUIRED_BEATS <= set(beats.keys()), str(sorted(REQUIRED_BEATS - set(beats.keys()))))
     choice = beats.get("choice", {})
     check("Choix : pas de moralisation audio", choice.get("rule") == "neutral_weight_no_moral_answer")
+    check("Relation : aucun gagnant musical", beats.get("relationship", {}).get("rule") == "no_winner_no_moralization")
     check("Révélation : silence avant musique", float(beats.get("revelation", {}).get("silence_seconds", 0.0)) > 0.0)
     check("Perte : silence avant musique", float(beats.get("loss", {}).get("silence_seconds", 0.0)) > 0.0)
 
@@ -80,6 +103,40 @@ def run(root: Path = ROOT) -> dict:
     required_quest_ids = {"q_iven_erased_days", "q_yoren_false_exit"}
     check("Quêtes : motifs pour les deux histoires existantes", required_quest_ids <= set(motifs.keys()))
     check("Quêtes : motifs pointent vers des quêtes réelles", set(motifs.keys()) <= quest_ids, str(sorted(set(motifs.keys()) - quest_ids)))
+
+    scene_hooks = data.get("scene_hooks", {})
+    check("Scènes réelles : hooks requis", REQUIRED_SCENE_HOOKS <= set(scene_hooks.keys()), str(sorted(REQUIRED_SCENE_HOOKS - set(scene_hooks.keys()))))
+
+    evidence_ids = {
+        str(item.get("id", ""))
+        for item in chapter03_world.get("evidence", [])
+        if isinstance(item, dict)
+    }
+    bound_evidence_ids = {
+        key.split(":", 1)[1]
+        for key in scene_hooks
+        if key.startswith("evidence:")
+    }
+    check("Scènes réelles : preuves Chapitre III existantes", bound_evidence_ids <= evidence_ids, str(sorted(bound_evidence_ids - evidence_ids)))
+
+    field_ids = {
+        str(item.get("id", ""))
+        for item in field_encounters.get("encounters", [])
+        if isinstance(item, dict)
+    }
+    check("Scènes réelles : retour des Trois Marques existant", "c03_survivor_outpost" in field_ids)
+
+    relationship_events = set(relationships.get("events", {}).keys())
+    check("Scènes réelles : réconciliation relationnelle existante", "sanctuary_reconcile" in relationship_events)
+    check("Scènes réelles : ouverture relationnelle existante", "sanctuary_opening" in relationship_events)
+
+    political_ids = {
+        str(item.get("id", ""))
+        for item in politics.get("quests", [])
+        if isinstance(item, dict)
+    }
+    check("Scènes réelles : décisions politiques existantes", {"ashlands_refugee_gate", "ashlands_first_blood", "ashlands_conscious_creature"} <= political_ids)
+    check("Scènes réelles : wildcard politique neutre", scene_hooks.get("political:*", {}).get("rule") == "neutral_weight_no_moral_answer")
 
     assets = prototype.get("assets", [])
     sfx_cues: set[str] = set()
@@ -110,7 +167,13 @@ def run(root: Path = ROOT) -> dict:
         "func scripted_silence(",
         "func trigger_beat(",
         "func quest_motif(",
+        "func scene_hook_definition(",
+        "func trigger_scene_hook(",
         "CommunityRuntime.quest_changed",
+        "Chapter03Runtime.evidence_discovered",
+        "FieldEncounterRuntime.encounter_resolved",
+        "RelationshipRuntime.relationship_changed",
+        "RelationshipRuntime.relationship_moment",
         "GameState.screen_requested",
         "AudioDirector.mix_changed",
         "SfxRuntime.set_loop_cues(",
@@ -122,10 +185,17 @@ def run(root: Path = ROOT) -> dict:
     lower_runtime = runtime.lower()
     check("Runtime : pas de jauge morale", "morality" not in lower_runtime and "moral_score" not in lower_runtime)
     check("Main v23 : rumeur audio", 'trigger_beat("rumor"' in main)
+    check("Politique : choix réel déclenche scène audio", 'trigger_scene_hook(' in political_ui and '"political:%s:%s"' in political_ui)
     check("Main scene : v23 actif", 'res://scripts/ui/main_v23.gd' in scene_main)
     check("Projet : autoload narratif", 'NarrativeAudioDirector="*res://scripts/core/narrative_audio_director.gd"' in project)
 
-    smoke_tokens = ["sanctuary_day", "begin_dialogue", "scripted_silence", "q_iven_erased_days", "q_yoren_false_exit", "discovery_revelation", "NARRATIVE_AUDIO_SMOKE_OK"]
+    smoke_tokens = [
+        "sanctuary_day", "begin_dialogue", "scripted_silence",
+        "q_iven_erased_days", "q_yoren_false_exit", "discovery_revelation",
+        "evidence:ev_korem_redaction", "relationship:sanctuary_reconcile",
+        "relationship:hero_fallen", "field:c03_survivor_outpost:returned",
+        "political:ashlands_refugee_gate:welcome", "NARRATIVE_AUDIO_SMOKE_OK"
+    ]
     for token in smoke_tokens:
         check(f"Smoke : {token}", token in smoke)
     check("Smoke : scène", "narrative_audio_smoke_bootstrap.gd" in smoke_scene)
@@ -133,7 +203,10 @@ def run(root: Path = ROOT) -> dict:
     check("CI : audit narratif audio", "python -m tools.qa.narrative_audio_audit" in ci)
 
     lower_docs = docs.lower()
-    for keyword in ["dialogue", "silence", "sanctuaire", "taverne", "chapelle", "mémorial", "motif", "révélation"]:
+    for keyword in [
+        "dialogue", "silence", "sanctuaire", "taverne", "chapelle", "mémorial",
+        "motif", "révélation", "scènes réelles", "décision politique", "compagnons"
+    ]:
         check(f"Docs : {keyword}", keyword in lower_docs)
 
     return {
