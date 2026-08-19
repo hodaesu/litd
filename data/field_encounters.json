@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "design_source": "reactive_world_pass_09",
+  "version": 2,
+  "design_source": "reactive_world_pass_09+persistent_social_pass_23",
   "rule": "Les choix de terrain existent dans l'espace 3D, coûtent de vraies ressources et peuvent faire revenir des personnes plusieurs chapitres plus tard sans étiqueter le choix comme bon ou mauvais.",
   "encounters": [
     {
@@ -13,88 +13,239 @@
       "actors": ["Mara", "Yoren", "Iven"],
       "prompt": "Sous les poutres d'une maison écrasée, trois survivants ont tenu jusqu'ici. Mara garde Iven conscient pendant que Yoren tente de filtrer de l'eau grise. Ils peuvent repartir, mais pas sans prendre quelque chose à la compagnie.",
       "choices": [
-        {
-          "id": "full_aid",
-          "label": "PARTAGER VIVRES, EAU ET MÉDICAMENT",
-          "detail": "Coût : 2 nourriture, 2 eau, 1 médicament.",
-          "cost": {"food": 2, "water": 2, "medicine": 1},
-          "memory_choice": "aid",
-          "memory_label": "donner une part importante des réserves aux trois survivants",
-          "outcome": "aided",
-          "result": "Mara répartit les rations sans remercier tout de suite. Avant de partir, elle grave trois traits sur une plaque de cuivre : « Si nous tenons, cherchez ce signe. »"
-        },
-        {
-          "id": "stabilize",
-          "label": "LES STABILISER SANS PARTAGER LES VIVRES",
-          "detail": "Coût : 2 bandages, 1 médicament.",
-          "cost": {"bandages": 2, "medicine": 1},
-          "memory_choice": "aid",
-          "memory_label": "soigner les trois survivants sans entamer les vivres de marche",
-          "outcome": "stabilized",
-          "result": "Iven peut de nouveau marcher. Le groupe n'a toujours presque rien à manger, mais Yoren affirme connaître un ancien relais sur la route du nord."
-        },
-        {
-          "id": "keep",
-          "label": "CONSERVER LES RÉSERVES",
-          "detail": "Aucun coût. La compagnie poursuit avec ses ressources intactes.",
-          "cost": {},
-          "memory_choice": "keep",
-          "memory_label": "conserver les réserves et laisser les survivants chercher leur propre issue",
-          "outcome": "refused",
-          "result": "Mara ne supplie pas. Elle regarde simplement les sacs de la compagnie, puis Iven. « Alors nous trouverons autre chose. »"
-        }
+        {"id":"full_aid","label":"PARTAGER VIVRES, EAU ET MÉDICAMENT","detail":"Coût : 2 nourriture, 2 eau, 1 médicament.","cost":{"food":2,"water":2,"medicine":1},"memory_choice":"aid","memory_label":"donner une part importante des réserves aux trois survivants","outcome":"aided","result":"Mara répartit les rations sans remercier tout de suite. Avant de partir, elle grave trois traits sur une plaque de cuivre : « Si nous tenons, cherchez ce signe. »"},
+        {"id":"stabilize","label":"LES STABILISER SANS PARTAGER LES VIVRES","detail":"Coût : 2 bandages, 1 médicament.","cost":{"bandages":2,"medicine":1},"memory_choice":"aid","memory_label":"soigner les trois survivants sans entamer les vivres de marche","outcome":"stabilized","result":"Iven peut de nouveau marcher. Le groupe n'a toujours presque rien à manger, mais Yoren affirme connaître un ancien relais sur la route du nord."},
+        {"id":"keep","label":"CONSERVER LES RÉSERVES","detail":"Aucun coût. La compagnie poursuit avec ses ressources intactes.","cost":{},"memory_choice":"keep","memory_label":"conserver les réserves et laisser les survivants chercher leur propre issue","outcome":"refused","result":"Mara ne supplie pas. Elle regarde simplement les sacs de la compagnie, puis Iven. « Alors nous trouverons autre chose. »"}
       ]
     },
     {
-      "id": "c03_survivor_outpost",
-      "chapter": 3,
-      "zone_id": "c03_abandoned_relay",
-      "position": [11, 0, 7],
-      "type": "return",
-      "name": "Le signe aux trois traits",
-      "source_event": "c01_village_survivors",
-      "source_outcomes": ["aided", "stabilized"],
-      "variants": {
-        "aided": {
-          "prompt": "Trois traits sont gravés sur la porte du relais. Mara, Yoren et Iven sont vivants. D'autres voyageurs dorment maintenant derrière des cloisons réparées avec du métal de récupération. Les réserves données autrefois ont acheté assez de temps pour bâtir cet abri.",
-          "reward": {"food": 2, "water": 2, "light": 1},
-          "result": "Mara rend une partie de ce que le relais peut désormais produire. « Ce n'est pas une dette. C'est la preuve que quelque chose a continué après votre départ. »"
-        },
-        "stabilized": {
-          "prompt": "Le relais abandonné porte un signe de trois traits. Yoren a réussi à y conduire Mara et Iven. Leur installation est plus pauvre, mais elle tient. Les soins reçus dans les Cendres ont suffi à leur donner une chance.",
-          "reward": {"bandages": 1, "light": 1},
-          "result": "Iven remet à la compagnie une lampe réparée et un rouleau de bandage. « Vous n'aviez pas tout donné. Mais vous aviez donné ce qui nous manquait pour marcher. »"
-        }
+      "id":"c01_wounded_messenger",
+      "chapter":1,
+      "zone_id":"zone_03_moulin_calcine",
+      "position":[-8,2,2],
+      "type":"survivor_choice",
+      "name":"Celui qui ne peut plus porter son message",
+      "actors":["Edrin"],
+      "prompt":"Un homme en manteau de courrier est adossé au mécanisme calciné du moulin. Sa jambe est immobilisée avec une latte trop courte. Il transporte encore un tube de cuivre scellé, mais il ne demande pas qu'on lise le message : il demande qu'on décide quoi faire de lui.",
+      "choices":[
+        {"id":"evacuate","label":"DÉTACHER DEUX PORTEURS ET L'ENVOYER AU SANCTUAIRE","detail":"Coût : 1 nourriture, 1 eau, 2 bandages, 1 médicament.","cost":{"food":1,"water":1,"bandages":2,"medicine":1},"memory_choice":"aid","memory_label":"détacher des porteurs et des soins pour évacuer Edrin vers le Sanctuaire","outcome":"evacuated","result":"Deux volontaires fabriquent un brancard avec les pales du moulin. Edrin confie son tube de cuivre à personne : il le garde contre lui pendant qu'on le ramène vers le Sanctuaire."},
+        {"id":"stabilize_local","label":"LE STABILISER ET LUI LAISSER DE QUOI REPARTIR","detail":"Coût : 2 bandages, 1 médicament.","cost":{"bandages":2,"medicine":1},"memory_choice":"aid","memory_label":"stabiliser Edrin sans détourner l'expédition","outcome":"stabilized","result":"La jambe tient mieux. Edrin choisit d'attendre le passage d'un autre groupe plutôt que de ralentir la compagnie. Il promet de conserver le tube fermé jusqu'à pouvoir marcher."},
+        {"id":"mark_shelter","label":"LUI LAISSER DE L'EAU ET MARQUER L'ABRI","detail":"Coût : 1 eau, 1 lumière.","cost":{"water":1,"light":1},"memory_choice":"aid","memory_label":"laisser un point de survie balisé à Edrin","outcome":"marked","result":"La compagnie laisse une lampe basse et une marque visible depuis la route. Edrin acquiesce : ce n'est pas un sauvetage, mais c'est assez pour qu'un prochain passage puisse le trouver."}
+      ]
+    },
+    {
+      "id":"c01_separated_family",
+      "chapter":1,
+      "zone_id":"zone_04_foret_morte",
+      "position":[2,0,19],
+      "type":"survivor_choice",
+      "name":"Le fil rouge dans les arbres morts",
+      "actors":["Sela","Nerin"],
+      "prompt":"Sela serre un morceau de manche d'enfant. Depuis la Chute, elle suit de petits fils rouges noués aux branches : Nerin connaissait leur ancien jeu de piste. Les derniers fils s'arrêtent devant une zone où les cendres ont effacé les traces.",
+      "choices":[
+        {"id":"search","label":"CONSACRER DE LA LUMIÈRE À LA RECHERCHE","detail":"Coût : 1 nourriture, 1 lumière.","cost":{"food":1,"light":1},"memory_choice":"aid","memory_label":"interrompre la route pour chercher l'enfant de Sela","outcome":"searched","result":"La compagnie quadrille les arbres morts. Elle ne retrouve pas Nerin, mais découvre un nouveau fil rouge coincé sous une racine et une direction vers la Chapelle Effondrée."},
+        {"id":"mark_route","label":"BALISER UNE ROUTE SÛRE VERS LA CHAPELLE","detail":"Coût : 1 lumière.","cost":{"light":1},"memory_choice":"aid","memory_label":"laisser à Sela une route balisée pour poursuivre seule la recherche","outcome":"marked","result":"Des marques discrètes relient la forêt à la Chapelle Effondrée. Sela repart sans savoir si son enfant les verra, mais elle a désormais une route qu'elle peut vérifier jusqu'au bout."},
+        {"id":"decline","label":"NE PAS DÉTOURNER L'EXPÉDITION","detail":"Aucun coût.","cost":{},"memory_choice":"keep","memory_label":"ne pas détourner l'expédition pour la recherche de Nerin","outcome":"declined","result":"Sela ne discute pas. Elle reprend seule le fil rouge et disparaît entre les troncs. La compagnie conserve son temps et ses ressources, sans savoir si les deux trajectoires se recroiseront."}
+      ]
+    },
+    {
+      "id":"c01_family_reunion",
+      "chapter":1,
+      "zone_id":"zone_06_chapelle_effondree",
+      "position":[-9,0,4],
+      "type":"return",
+      "name":"Deux bouts du même fil",
+      "source_event":"c01_separated_family",
+      "source_outcomes":["searched","marked"],
+      "variants":{
+        "searched":{"prompt":"Sous une arche brisée, un enfant tient le même fil rouge que Sela. Les traces trouvées dans la forêt l'ont conduit ici par un détour. Sela arrive quelques instants plus tard, épuisée, et s'arrête avant de courir vers lui.","reward":{"light":1},"result":"Nerin tend à sa mère le dernier morceau de fil. La compagnie n'a pas « sauvé une famille » : elle a seulement rendu possible l'instant où deux trajectoires pouvaient enfin se rejoindre."},
+        "marked":{"prompt":"Les balises laissées dans la forêt se poursuivent jusqu'à la Chapelle. Nerin les a vues de l'autre côté et a compris que quelqu'un cherchait à créer un chemin lisible. Sela apparaît au bout de ce même chemin.","reward":{},"result":"Sela et Nerin se retrouvent sans discours. Ils décident de suivre quelque temps les routes de pèlerins plutôt que de gagner immédiatement le Sanctuaire."}
+      }
+    },
+    {
+      "id":"c01_former_soldier",
+      "chapter":1,
+      "zone_id":"zone_05_ravin_des_pendus",
+      "position":[-16,2,1],
+      "type":"survivor_choice",
+      "name":"L'uniforme retourné",
+      "actors":["Tarek"],
+      "prompt":"Un ancien soldat a retourné sa veste pour cacher les insignes de Varkhane. Deux voyageurs le gardent à distance avec des lances de chasse. Tarek affirme qu'il a déserté avant la Chute, mais il connaît encore les codes de marche des unités qui ont traversé le continent.",
+      "choices":[
+        {"id":"escort_sanctuary","label":"L'ENVOYER SOUS ESCORTE AU SANCTUAIRE","detail":"Coût : 1 nourriture, 1 eau.","cost":{"food":1,"water":1},"memory_choice":"aid","memory_label":"faire escorter Tarek au Sanctuaire pour qu'il puisse témoigner sous surveillance","outcome":"escorted","result":"Tarek accepte qu'on lui lie les poignets pour la route. « Je préfère répondre devant des vivants que devant une rumeur. » Les deux voyageurs acceptent de l'accompagner."},
+        {"id":"question_release","label":"L'INTERROGER PUIS LE LAISSER PARTIR","detail":"Aucun coût.","cost":{},"memory_choice":"keep","memory_label":"prendre les informations de Tarek puis le laisser choisir sa route","outcome":"released","result":"Tarek dessine trois symboles militaires dans la poussière et explique lesquels annonçaient un repli, lesquels une prise de position. Puis il part sans demander à rejoindre personne."},
+        {"id":"leave_guarded","label":"LE LAISSER AUX VOYAGEURS QUI LE GARDENT","detail":"Aucun coût.","cost":{},"memory_choice":"keep","memory_label":"laisser le sort de Tarek aux voyageurs qui le retenaient déjà","outcome":"guarded","result":"La compagnie ne prend pas la responsabilité du prisonnier. Les voyageurs promettent seulement de ne pas l'exécuter sans entendre d'autres témoins."}
+      ]
+    },
+    {
+      "id":"c01_conscious_creature",
+      "chapter":1,
+      "zone_id":"zone_06_chapelle_effondree",
+      "position":[20,0,-24],
+      "type":"survivor_choice",
+      "name":"La voix sous le reliquaire",
+      "actors":["Sivra"],
+      "prompt":"Quelque chose est pris sous l'armature métallique d'un ancien reliquaire. La créature ne rugit pas. Elle parle avec des mots courts, appris visiblement auprès des voyageurs : « Fer. Douleur. Je ne chasse pas ici. » Elle se nomme Sivra et refuse d'être appelée bête ou esprit.",
+      "choices":[
+        {"id":"pact","label":"LIBÉRER SIVRA ET NÉGOCIER UN PASSAGE","detail":"Coût : 1 lumière pour découper le scellement sans mettre le feu aux débris.","cost":{"light":1},"memory_choice":"aid","memory_label":"libérer Sivra après avoir négocié des limites claires entre son territoire et les routes humaines","outcome":"pact","result":"Sivra exige qu'aucun sanctuaire ne la revendique et qu'aucun sceau ne soit posé sur elle. En échange, elle promet de signaler les zones où les Cendres « parlent trop fort ». La compagnie accepte ou repart avec un accord qui n'est pas un recrutement."},
+        {"id":"release","label":"LA LIBÉRER SANS EXIGER D'ACCORD","detail":"Coût : 1 lumière.","cost":{"light":1},"memory_choice":"aid","memory_label":"libérer Sivra sans transformer l'aide en dette","outcome":"released","result":"Sivra se relève lentement, touche le métal tordu et s'éloigne. Avant de disparaître, elle dit seulement : « Je saurai votre odeur. Cela n'est pas une menace. »"},
+        {"id":"banish","label":"OUVRIR UNE ISSUE ET LA CHASSER DE LA ROUTE","detail":"Aucun coût.","cost":{},"memory_choice":"keep","memory_label":"refuser tout accord avec Sivra et la chasser hors de la route","outcome":"banished","result":"La compagnie lui laisse une seule direction libre et garde les armes levées. Sivra s'en va sans combattre. Son absence sécurise la chapelle pour l'instant, mais ne dit rien de l'endroit où elle choisira de vivre ensuite."}
+      ]
+    },
+    {
+      "id":"c01_refugees_low_road",
+      "chapter":1,
+      "zone_id":"zone_11_route_des_penitents",
+      "position":[-20,3,6],
+      "type":"survivor_choice",
+      "name":"La caravane qui ne veut plus de destination officielle",
+      "actors":["Nima","la caravane de la ligne basse"],
+      "prompt":"Onze personnes avancent avec deux charrettes et aucun symbole de cité. Nima explique qu'ils ont déjà été renvoyés de deux enceintes qui n'avaient plus de place. Ils demandent une route, pas une promesse : le Sanctuaire, un relais indépendant, ou aucun conseil si la compagnie refuse de répondre à leur place.",
+      "choices":[
+        {"id":"sanctuary_route","label":"LEUR OUVRIR LA ROUTE DU SANCTUAIRE","detail":"Coût : 2 nourriture, 2 eau pour leur permettre d'atteindre la prochaine halte.","cost":{"food":2,"water":2},"memory_choice":"aid","memory_label":"donner à la caravane les moyens d'atteindre le Sanctuaire","outcome":"sanctuary_route","result":"Nima accepte la route mais refuse qu'on parle de « sauvetage ». Le groupe repart avec assez de vivres pour atteindre les premières balises du Sanctuaire."},
+        {"id":"relay_route","label":"LEUR INDIQUER UN RELAIS INDÉPENDANT","detail":"Coût : 1 lumière pour leur laisser une lampe de route et les marques nécessaires.","cost":{"light":1},"memory_choice":"aid","memory_label":"orienter les réfugiés vers un relais indépendant plutôt que vers le Sanctuaire","outcome":"relay_route","result":"Nima préfère l'idée d'un lieu où leur arrivée ne dépend pas d'une place accordée. La caravane suit les marques vers les anciens relais de voyageurs."},
+        {"id":"refuse_route","label":"NE PAS DÉCIDER DE LEUR ROUTE","detail":"Aucun coût.","cost":{},"memory_choice":"keep","memory_label":"refuser de recommander une destination à la caravane","outcome":"refused","result":"Nima ne le prend ni comme une condamnation ni comme une permission. La caravane reprend la route vers l'est, en conservant l'autonomie de son choix et tous ses risques."}
+      ]
+    },
+    {
+      "id":"c03_survivor_outpost",
+      "chapter":3,
+      "zone_id":"c03_abandoned_relay",
+      "position":[11,0,7],
+      "type":"return",
+      "name":"Le signe aux trois traits",
+      "source_event":"c01_village_survivors",
+      "source_outcomes":["aided","stabilized"],
+      "variants":{
+        "aided":{"prompt":"Trois traits sont gravés sur la porte du relais. Mara, Yoren et Iven sont vivants. D'autres voyageurs dorment maintenant derrière des cloisons réparées avec du métal de récupération. Les réserves données autrefois ont acheté assez de temps pour bâtir cet abri.","reward":{"food":2,"water":2,"light":1},"result":"Mara rend une partie de ce que le relais peut désormais produire. « Ce n'est pas une dette. C'est la preuve que quelque chose a continué après votre départ. »"},
+        "stabilized":{"prompt":"Le relais abandonné porte un signe de trois traits. Yoren a réussi à y conduire Mara et Iven. Leur installation est plus pauvre, mais elle tient. Les soins reçus dans les Cendres ont suffi à leur donner une chance.","reward":{"bandages":1,"light":1},"result":"Iven remet à la compagnie une lampe réparée et un rouleau de bandage. « Vous n'aviez pas tout donné. Mais vous aviez donné ce qui nous manquait pour marcher. »"}
       },
-      "reevaluation": "survivors_returned_help"
+      "reevaluation":"survivors_returned_help"
     },
     {
-      "id": "c03_survivors_without_aid",
-      "chapter": 3,
-      "zone_id": "c03_abandoned_relay",
-      "position": [-9, 0, 8],
-      "type": "return",
-      "name": "Ceux qui ont trouvé autre chose",
-      "source_event": "c01_village_survivors",
-      "source_outcomes": ["refused"],
-      "prompt": "Mara, Yoren et Iven sont là. Ils ont survécu en démontant un chariot de pèlerins et en suivant une conduite souterraine jusqu'au relais. Leur survie ne transforme pas le choix passé en erreur ou en raison : elle lui donne simplement une suite.",
-      "reward": {},
-      "result": "Mara reconnaît la compagnie. « Vous avez choisi les vôtres. Nous avons choisi les nôtres. Maintenant nous savons tous ce que ce choix voulait dire. »",
-      "reevaluation": "survivors_survived_without_aid"
+      "id":"c03_survivors_without_aid",
+      "chapter":3,
+      "zone_id":"c03_abandoned_relay",
+      "position":[-9,0,8],
+      "type":"return",
+      "name":"Ceux qui ont trouvé autre chose",
+      "source_event":"c01_village_survivors",
+      "source_outcomes":["refused"],
+      "prompt":"Mara, Yoren et Iven sont là. Ils ont survécu en démontant un chariot de pèlerins et en suivant une conduite souterraine jusqu'au relais. Leur survie ne transforme pas le choix passé en erreur ou en raison : elle lui donne simplement une suite.",
+      "reward":{},
+      "result":"Mara reconnaît la compagnie. « Vous avez choisi les vôtres. Nous avons choisi les nôtres. Maintenant nous savons tous ce que ce choix voulait dire. »",
+      "reevaluation":"survivors_survived_without_aid"
     },
     {
-      "id": "c03_spared_witness_return",
-      "chapter": 3,
-      "zone_id": "c03_diplomatic_post",
-      "position": [-14, 0, -4],
-      "type": "return",
-      "name": "Le Témoin qui n'est pas mort",
-      "requires_boss_outcome": {"encounter_id": "c01_boss_ash_witness", "outcome": "spared"},
-      "prompt": "Une silhouette attend entre deux archives effondrées. Le Témoin des Cendres n'attaque pas. Il a suivi des traces que les vivants ne savent plus lire et désigne un conduit sûr sous le poste diplomatique.",
-      "reward": {"light": 1},
-      "result": "Le Témoin s'éloigne avant qu'une dette puisse être nommée. Son aide ne prouve pas que l'avoir épargné était juste ; elle change seulement ce que ce souvenir signifie aujourd'hui.",
-      "reevaluation": "spared_enemy_helped",
-      "reevaluation_target": "c01_boss_ash_witness"
+      "id":"c03_spared_witness_return",
+      "chapter":3,
+      "zone_id":"c03_diplomatic_post",
+      "position":[-14,0,-4],
+      "type":"return",
+      "name":"Le Témoin qui n'est pas mort",
+      "requires_boss_outcome":{"encounter_id":"c01_boss_ash_witness","outcome":"spared"},
+      "prompt":"Une silhouette attend entre deux archives effondrées. Le Témoin des Cendres n'attaque pas. Il a suivi des traces que les vivants ne savent plus lire et désigne un conduit sûr sous le poste diplomatique.",
+      "reward":{"light":1},
+      "result":"Le Témoin s'éloigne avant qu'une dette puisse être nommée. Son aide ne prouve pas que l'avoir épargné était juste ; elle change seulement ce que ce souvenir signifie aujourd'hui.",
+      "reevaluation":"spared_enemy_helped",
+      "reevaluation_target":"c01_boss_ash_witness"
+    },
+    {
+      "id":"c03_edrin_return",
+      "chapter":3,
+      "zone_id":"c03_korem_lab",
+      "position":[-18,0,12],
+      "type":"return",
+      "name":"Le courrier a marché jusqu'ici",
+      "source_event":"c01_wounded_messenger",
+      "source_outcomes":["stabilized","marked"],
+      "variants":{
+        "stabilized":{"prompt":"Edrin est vivant et marche avec une canne. Il a finalement remis son tube à une archiviste du relais, mais il est revenu jusqu'à Kor-Em pour comprendre pourquoi l'itinéraire qu'il transportait existait avant la Chute.","reward":{"bandages":1},"result":"Edrin ne remercie pas la compagnie d'avoir « choisi juste ». Il constate seulement que les soins reçus ont rendu possible une question qu'il n'aurait pas pu poser autrement."},
+        "marked":{"prompt":"La lampe laissée au moulin a été vue par des récupérateurs. Edrin a survécu grâce à cette chaîne de passages et arrive maintenant au Laboratoire Brisé avec le tube toujours scellé.","reward":{"light":1},"result":"Edrin ouvre enfin le tube devant plusieurs témoins. Il contient un relevé de relais et non un ordre secret : une pièce ordinaire qui devient importante parce qu'elle permet de comparer les dates."}
+      }
+    },
+    {
+      "id":"c03_family_after_reunion",
+      "chapter":3,
+      "zone_id":"c03_abandoned_relay",
+      "position":[-6,0,12],
+      "type":"return",
+      "name":"Le tableau des fils rouges",
+      "source_event":"c01_family_reunion",
+      "source_outcomes":["returned"],
+      "prompt":"Un pan de mur du relais est couvert de cordelettes colorées. Sela et Nerin ont transformé leur ancien jeu de piste en système simple : chaque voyageur peut laisser la couleur et le dernier lieu connu d'une personne recherchée.",
+      "reward":{"water":1},
+      "result":"Nerin explique le tableau sans raconter leur histoire comme une légende. « Ça marche seulement si les gens reviennent dire qu'ils ont trouvé quelqu'un. Sinon les fils deviennent des mensonges. »"
+    },
+    {
+      "id":"c03_family_independent",
+      "chapter":3,
+      "zone_id":"c03_abandoned_relay",
+      "position":[-18,0,-10],
+      "type":"return",
+      "name":"Ils se sont retrouvés sans la compagnie",
+      "source_event":"c01_separated_family",
+      "source_outcomes":["declined"],
+      "prompt":"Deux voyageurs reconnaissent le nom de Sela. Elle et Nerin se sont finalement retrouvés plusieurs jours après le passage de la compagnie, grâce à des charbonniers qui avaient vu le fil rouge. Ils vivent maintenant entre deux relais et refusent de transformer leur histoire en reproche automatique.",
+      "reward":{},
+      "result":"La nouvelle ne blanchit ni ne condamne le choix passé. Elle prouve seulement qu'un monde persistant continue d'agir lorsque la compagnie n'est pas là."
+    },
+    {
+      "id":"c03_former_soldier_return",
+      "chapter":3,
+      "zone_id":"c03_diplomatic_post",
+      "position":[22,0,12],
+      "type":"return",
+      "name":"Les marques que Tarek connaissait encore",
+      "source_event":"c01_former_soldier",
+      "source_outcomes":["escorted","released","guarded"],
+      "variants":{
+        "escorted":{"prompt":"Une copie annotée par Tarek est arrivée depuis le Sanctuaire. Les signes militaires du poste diplomatique ne désignent pas tous des positions défensives : certains indiquent des points prévus pour exploiter le chaos après l'opération.","reward":{"light":1},"result":"Le témoignage de Tarek ne suffit pas à condamner une armée entière. Il permet cependant de distinguer ce qu'un simple soldat pouvait savoir de ce que le commandement avait préparé."},
+        "released":{"prompt":"Trois symboles gravés dans la poussière reprennent exactement ceux que Tarek avait dessinés avant de partir. Il a parcouru cette zone avant la compagnie et laissé une traduction sommaire des marques de marche.","reward":{"light":1},"result":"Tarek n'est pas revenu au Sanctuaire, mais son information a voyagé. Une décision qui l'avait laissé libre produit ici une conséquence sans le transformer en allié permanent."},
+        "guarded":{"prompt":"Les voyageurs qui retenaient Tarek ont finalement recueilli d'autres témoignages et l'ont relâché. Une note laissée au poste indique qu'il refuse encore de porter un uniforme, mais accepte de corriger les cartes militaires lorsqu'elles mettent des civils en danger.","reward":{},"result":"Son sort a été décidé hors de la compagnie. Le monde n'a pas attendu le joueur pour continuer à discuter de sa responsabilité."}
+      }
+    },
+    {
+      "id":"c03_refugee_route_return",
+      "chapter":3,
+      "zone_id":"c03_abandoned_relay",
+      "position":[16,0,-14],
+      "type":"return",
+      "name":"La ligne basse a changé de forme",
+      "source_event":"c01_refugees_low_road",
+      "source_outcomes":["sanctuary_route","relay_route","refused"],
+      "variants":{
+        "sanctuary_route":{"prompt":"Nima circule maintenant entre le Sanctuaire et le relais avec une liste de places disponibles et de gens qui préfèrent rester dehors. Tous ceux de la caravane ne sont pas restés au même endroit.","reward":{"food":1,"water":1},"result":"La route vers le Sanctuaire n'a pas absorbé la caravane dans une seule communauté. Elle a créé des liens, des départs et des retours que Nima tient à laisser volontaires."},
+        "relay_route":{"prompt":"Une partie de la caravane a transformé un ancien dépôt en halte indépendante. Ils commercent avec le relais aux trois traits mais ne dépendent pas du Sanctuaire pour décider qui peut entrer.","reward":{"bandages":1},"result":"Le choix d'une route indépendante a créé un autre point du réseau. Il est plus fragile, mais il appartient à ceux qui y vivent."},
+        "refused":{"prompt":"Des traces de roues rejoignent le relais par le sud. Nima et les siens ont trouvé une ancienne conduite d'eau et survécu sans conseil de la compagnie. Ils échangent désormais des cartes, tout en demandant toujours pourquoi tant de groupes veulent décider d'une destination pour eux.","reward":{},"result":"Ils n'ont pas disparu parce qu'aucune route ne leur a été recommandée. Leur autonomie a simplement eu un coût et produit une autre histoire."}
+      }
+    },
+    {
+      "id":"c03_sivra_return",
+      "chapter":3,
+      "zone_id":"c03_threshold_complex",
+      "position":[-20,0,10],
+      "type":"return",
+      "name":"La voix qui connaît le bruit du Seuil",
+      "source_event":"c01_conscious_creature",
+      "source_outcomes":["pact","released"],
+      "variants":{
+        "pact":{"prompt":"Sivra attend hors du Complexe. Elle n'entre pas. Elle désigne trois dalles et dit : « Là, le monde répond avant qu'on le touche. » L'accord de la Chapelle n'a pas fait d'elle une recrue ; il lui donne seulement une raison de parler maintenant.","reward":{"light":1},"result":"La compagnie reçoit un avertissement, pas une obéissance. Sivra repart vers son territoire dès que le passage dangereux est identifié."},
+        "released":{"prompt":"Sivra reconnaît l'odeur de la compagnie. Elle n'avait promis aucune aide, pourtant elle gratte une marque sur une dalle fissurée avant de s'éloigner. Le geste suffit à révéler un trajet moins exposé aux pulsations du Complexe.","reward":{},"result":"Une aide donnée sans dette produit parfois un retour, parfois non. Cette fois, Sivra a choisi de répondre."}
+      }
+    },
+    {
+      "id":"c03_sivra_banished_trace",
+      "chapter":3,
+      "zone_id":"c03_threshold_complex",
+      "position":[24,0,8],
+      "type":"return",
+      "name":"Le territoire que Sivra a choisi ailleurs",
+      "source_event":"c01_conscious_creature",
+      "source_outcomes":["banished"],
+      "prompt":"Des marques de griffes contournent complètement le Complexe. Sivra a survécu et établi sa route loin des passages humains. Rien n'indique qu'elle prépare une vengeance ; elle a simplement déplacé sa vie hors de la trajectoire de la compagnie.",
+      "reward":{},
+      "result":"L'absence de retour spectaculaire est elle-même une conséquence : certaines relations se terminent par une distance durable plutôt que par une punition ou une récompense."
     }
   ]
 }
