@@ -17,7 +17,9 @@ def test_every_starter_hero_has_original_voice_profile() -> None:
     profile_ids = {str(item["hero_id"]) for item in profiles["profiles"]}
     assert hero_ids <= profile_ids
     assert all("fourth_wall_style" in item for item in profiles["profiles"])
-    assert "acteur" not in json.dumps(profiles, ensure_ascii=False).lower()
+    joined = json.dumps(profiles, ensure_ascii=False).lower()
+    assert "voice of" not in joined
+    assert "voix de " not in joined
 
 
 def test_fourth_wall_is_rare_bounded_and_noncritical() -> None:
