@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "design_source": "psychology_pass_05_social_combat",
+  "targeting": {
+    "fear_weight": 1.0,
+    "low_hp_weight": 28.0,
+    "terrified_bonus": 24.0,
+    "panic_bonus": 45.0,
+    "trauma_bonus": 8.0,
+    "boss_fear_multiplier": 1.35,
+    "high_fear_enemy_multiplier": 1.20
+  },
+  "enemy_pressure": {
+    "minimum_enemy_fear": 5,
+    "terrified_extra_fear": 2,
+    "boss_extra_fear": 3,
+    "panic_edge_threshold": 90,
+    "panic_edge_extra_fear": 2
+  },
+  "companion_roles": {
+    "hungry_ghoul": {
+      "role": "feral_guard",
+      "trigger_fear": 85,
+      "fear_relief": 2,
+      "guard": true,
+      "line": "La Goule se place entre la peur de {hero} et ce qui l'alimente."
+    },
+    "oni": {
+      "role": "protector",
+      "trigger_fear": 70,
+      "fear_relief": 4,
+      "guard": true,
+      "line": "L'Oni se dresse devant {hero}. Sa masse impose un instant de silence."
+    },
+    "jorogumo": {
+      "role": "anchor",
+      "trigger_fear": 65,
+      "fear_relief": 3,
+      "hope_event": "combat_ally_support",
+      "line": "La Jorōgumo tend un fil vers {hero} et l'arrache à l'isolement."
+    }
+  },
+  "enemy_lines": {
+    "predator": [
+      "{enemy} reconnaît la peur de {hero} et resserre sa chasse.",
+      "{enemy} délaisse les autres : {hero} tremble davantage."
+    ],
+    "breaker": [
+      "{enemy} cherche moins la chair de {hero} que le point exact où sa volonté cède.",
+      "{enemy} insiste sur {hero}, comme s'il pouvait voir la fissure avant qu'elle ne s'ouvre."
+    ],
+    "opportunist": [
+      "{enemy} profite de l'hésitation de {hero}."
+    ]
+  },
+  "boss_overrides": {
+    "c01_boss_ash_witness": {
+      "archetype": "breaker",
+      "fear_target_bonus": 30.0,
+      "pressure_bonus": 2,
+      "line": "Le Témoin des Cendres reproduit devant {hero} un geste qui ressemble trop à un souvenir."
+    }
+  }
+}
