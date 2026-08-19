@@ -36,8 +36,8 @@ func _process(_delta: float) -> void:
 
 func _refresh_pilgrim() -> void:
     var boss: Dictionary = GameState.battle_enemies[0]
-    var seals := Chapter07Runtime.pilgrim_seal_count()
-    var reduction := [75,40,0][clampi(seals,0,2)]
+    var seals: int = Chapter07Runtime.pilgrim_seal_count()
+    var reduction: int = int([75,40,0][clampi(seals,0,2)])
     boss["damage_reduction"] = reduction
     var hp := int(boss.get("hp", 0))
     if last_hp >= 0 and hp < last_hp and reduction > 0:
@@ -59,10 +59,10 @@ func _refresh_pilgrim() -> void:
 
 func _refresh_edras() -> void:
     var boss: Dictionary = GameState.battle_enemies[0]
-    var counters := Chapter07Runtime.counter_ritual_count()
+    var counters: int = Chapter07Runtime.counter_ritual_count()
     if counters != last_counter_count:
         last_counter_count = counters
-        boss["damage_reduction"] = [80,55,30,0][clampi(counters,0,3)]
+        boss["damage_reduction"] = int([80,55,30,0][clampi(counters,0,3)])
         if counters < 3:
             GameState.add_log("OUVERTURE NON CONTESTÉE — protection d'Edras %d%%. Les témoignages doivent devenir des contre-rituels." % int(boss["damage_reduction"]))
         else:
