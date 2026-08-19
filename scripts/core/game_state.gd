@@ -61,8 +61,18 @@ func add_log(text: String) -> void:
         log_lines.resize(8)
     state_changed.emit()
 
-func alive_heroes() -> Array:
-    return party.filter(func(h): return int(h.get("hp", 0)) > 0)
+func alive_heroes() -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
+    for hero_value in party:
+        var hero: Dictionary = hero_value
+        if int(hero.get("hp", 0)) > 0:
+            result.append(hero)
+    return result
 
-func alive_enemies() -> Array:
-    return battle_enemies.filter(func(e): return int(e.get("hp", 0)) > 0)
+func alive_enemies() -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
+    for enemy_value in battle_enemies:
+        var enemy: Dictionary = enemy_value
+        if int(enemy.get("hp", 0)) > 0:
+            result.append(enemy)
+    return result

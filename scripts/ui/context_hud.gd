@@ -16,10 +16,19 @@ var _main_content: Control
 func _ready() -> void:
     layer = 40
     GameState.screen_requested.connect(_on_screen_requested)
+    get_tree().node_added.connect(_on_tree_node_added)
     call_deferred("_apply_current_context")
 
 func _on_screen_requested(screen_name: String) -> void:
     call_deferred("_apply_context", screen_name)
+
+func _on_tree_node_added(node: Node) -> void:
+    # Les autoloads sont prêts avant la scène principale. Au lieu de boucler
+    # tant que le Header n'existe pas, on réessaie uniquement lorsqu'il apparaît.
+    if node.name == "Header":
+        _header = node as Control
+        _main_content = null
+        call_deferred("_apply_current_context")
 
 func _apply_current_context() -> void:
     _apply_context(GameState.current_screen)
@@ -50,7 +59,6 @@ func _resolve_main_ui() -> bool:
 
 func _apply_context(screen_name: String) -> void:
     if not _resolve_main_ui():
-        call_deferred("_apply_context", screen_name)
         return
     var visible := hud_is_useful(screen_name)
     _header.visible = visible

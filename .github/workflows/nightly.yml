@@ -55,7 +55,5 @@ jobs:
       image: barichello/godot-ci:4.3
     steps:
       - uses: actions/checkout@v4
-      - name: Importer le projet
-        run: godot --headless --path . --import --quit
-      - name: Smoke test Godot
-        run: godot --headless --path . --script res://scripts/core/smoke_test.gd
+      - name: Compilation stricte et parcours critique Godot
+        run: bash tools/build/run_godot_ci.sh

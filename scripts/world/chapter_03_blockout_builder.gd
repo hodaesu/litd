@@ -94,7 +94,7 @@ func _build_evidence() -> void:
         node.name = String(ids[i]); node.position = _evidence_position(i,ids.size()); node.configure(String(ids[i])); _area(node,Vector3(1.6,1.6,1.6)); parent.add_child(node)
 
 func _evidence_position(index: int, count: int) -> Vector3:
-    var angle := TAU * float(index) / max(1.0,float(count)); return Vector3(cos(angle)*18.0,0,sin(angle)*18.0)
+    var angle: float = TAU * float(index) / maxf(1.0,float(count)); return Vector3(cos(angle)*18.0,0,sin(angle)*18.0)
 
 func _build_campfire() -> void:
     if not bool(zone.get("campfire",false)): return

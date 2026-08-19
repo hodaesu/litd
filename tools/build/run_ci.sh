@@ -44,11 +44,9 @@ echo "==> Simulation combat v2, économie et cycles NG+"
 python -m tools.qa.combat_economy_sim_v2
 
 if command -v godot >/dev/null 2>&1; then
-  echo "==> Smoke test Godot"
-  godot --headless --path . --import --quit
-  godot --headless --path . --script res://scripts/core/smoke_test.gd
+  bash tools/build/run_godot_ci.sh
 else
-  echo "==> Godot non trouvé : smoke test local ignoré (il reste exécuté dans GitHub Actions)."
+  echo "==> Godot non trouvé : smoke tests locaux ignorés (ils restent exécutés dans GitHub Actions)."
 fi
 
 echo "==> Vérification terminée"

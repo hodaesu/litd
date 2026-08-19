@@ -88,8 +88,8 @@ func _render() -> void:
         body.add_child(_button("TRAVERSER VERS VARKHANE", func(): AshlandsSceneRouter.start_chapter_08()))
     body.add_child(_label("DOSSIER TRANSFRONTALIER — %d/16 sources · %d familles indépendantes · %d maillons de commandement" % [Chapter08Runtime.record_count(),Chapter08Runtime.independent_source_family_count(),Chapter08Runtime.foreign_command_count()],14,GOLD))
     for power_id in ["varkhane","namar","azravel","kor_em"]:
-        var display := {"varkhane":"Varkhane","namar":"Namar","azravel":"Azravel","kor_em":"Kor-Em"}[power_id]
-        var understood := "compris" if Chapter08Runtime.power_understood(power_id) else "incomplet"
+        var display: String = String({"varkhane":"Varkhane","namar":"Namar","azravel":"Azravel","kor_em":"Kor-Em"}[power_id])
+        var understood: String = "compris" if Chapter08Runtime.power_understood(power_id) else "incomplet"
         body.add_child(_label("%s — %d sources · %d civiles/dissidentes · %s" % [display,Chapter08Runtime.record_count_for(power_id),Chapter08Runtime.civilian_or_dissident_count_for(power_id),understood],13,TEXT))
     body.add_child(_label("HISTOIRE PROFONDE — %d/4 civilisations localisées" % Chapter08Runtime.ancient_trace_count(),14,GOLD))
     if Chapter08Runtime.collected_ancient_traces.is_empty():

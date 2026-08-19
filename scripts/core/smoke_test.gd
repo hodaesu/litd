@@ -1,6 +1,10 @@
-extends SceneTree
+extends Node
 
-func _initialize() -> void:
+func _ready() -> void:
+    call_deferred("_run")
+
+func _run() -> void:
+    await get_tree().process_frame
     var failures: Array[String] = []
     var required_files := [
         "res://data/classes.json",
@@ -92,8 +96,10 @@ func _initialize() -> void:
 
     if failures.is_empty():
         print("SMOKE_TEST_OK")
-        quit(0)
+        await get_tree().process_frame
+        get_tree().quit(0)
         return
     for failure in failures:
         push_error(failure)
-    quit(1)
+    await get_tree().process_frame
+    get_tree().quit(1)
