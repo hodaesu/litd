@@ -6,7 +6,9 @@ func _ready() -> void:
     call_deferred("_sync_from_political_state")
 
 func _on_politics_changed() -> void:
-    call_deferred("_sync_from_political_state")
+    # Les décisions de Concorde sont sauvegardées immédiatement par PoliticalUI.
+    # La mémoire doit donc être créée avant le retour de complete_quest(), pas au frame suivant.
+    _sync_from_political_state()
 
 func _sync_from_political_state() -> void:
     DecisionMemoryRuntime.prepare_party()
