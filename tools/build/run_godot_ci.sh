@@ -47,6 +47,7 @@ run_checked "Musique : bibliothèque, licences et accompagnement narratif" godot
 run_checked "Bruitages : bibliothèque, licences et sound design" godot --headless --path . res://scenes/tests/sfx_library_smoke.tscn
 run_checked "Audio adaptatif : exploration, combat, Peur et boss" godot --headless --path . res://scenes/tests/audio_director_smoke.tscn
 run_checked "Audio audible : PCM local, SFX 2D/3D, loops et crossfades" godot --headless --path . res://scenes/tests/audio_runtime_smoke.tscn
+run_checked "Audio narratif : dialogues, Sanctuaire, silence et motifs" godot --headless --path . res://scenes/tests/narrative_audio_smoke.tscn
 run_checked "Parcours campagne I→X, fin, postgame et NG+" godot --headless --path . res://scenes/tests/campaign_e2e_smoke.tscn
 run_checked "Opérations joueur : scènes, expédition, équipement, capture et sauvegarde disque" godot --headless --path . res://scenes/tests/runtime_player_smoke.tscn
 run_checked "Parcours UI joueur : Sanctuaire, exploration, combat, récompenses et retour" timeout 90s godot --headless --path . res://scenes/tests/ui_player_journey_smoke.tscn
