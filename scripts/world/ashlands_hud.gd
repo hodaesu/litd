@@ -13,6 +13,11 @@ func _ready() -> void:
     AshlandsRuntime.lore_discovered.connect(_on_lore_discovered)
     _refresh()
 
+func _unhandled_input(event: InputEvent) -> void:
+    if event.is_action_pressed("back"):
+        margin.visible = not margin.visible
+        get_viewport().set_input_as_handled()
+
 func _refresh() -> void:
     zone_label.text = _pretty_zone(AshlandsRuntime.current_zone_id)
     _on_inventory_changed(ExpeditionManager.inventory)

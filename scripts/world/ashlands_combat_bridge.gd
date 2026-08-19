@@ -41,13 +41,18 @@ func _show_combat_after_load() -> void:
     GameState.request_screen("combat")
 
 func _on_screen_requested(screen_name: String) -> void:
-    if not active or _resolving: return
+    if not active:
+        return
     if screen_name == "rewards":
+        # La victoire reste maintenant affichée jusqu'à l'action explicite du joueur.
+        # _resolving sert ici à distinguer une victoire déjà acquise d'un abandon.
         _resolving = true
-        call_deferred("resolve_victory")
     elif screen_name == "sanctuary":
-        _resolving = true
-        call_deferred("resolve_defeat")
+        if _resolving:
+            call_deferred("resolve_victory")
+        else:
+            _resolving = true
+            call_deferred("resolve_defeat")
 
 func _prepare_placeholder_enemies() -> void:
     GameState.battle_enemies = []
@@ -104,6 +109,11 @@ func _prepare_placeholder_enemies() -> void:
 
 func _setup_enemy(enemy: Dictionary, name: String, hp: int, damage: Array, fear: int, signature: String) -> void:
     enemy["name"] = name; enemy["hp"] = hp; enemy["max_hp"] = hp; enemy["damage"] = damage; enemy["fear"] = fear; enemy["signature"] = signature
+
+func preview_loot() -> Dictionary:
+    if not active:
+        return {}
+    return _roll_loot().duplicate(true)
 
 func resolve_victory() -> Dictionary:
     if not active: return {}
