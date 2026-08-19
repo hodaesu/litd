@@ -30,7 +30,7 @@ Les principaux écrans du Sanctuaire ont maintenant un contexte audio propre.
 | Mémorial | `memorial` | `memorial_roomtone` |
 | Créatures | `creature_empathy` | `sanctuary_crowd` |
 
-L'entrée principale du Sanctuaire peut produire `bell_sanctuary`. Les prototypes sont volontairement sobres et remplacables par les masters finaux sans changer les cue IDs.
+L'entrée principale du Sanctuaire peut produire `bell_sanctuary`. Les prototypes sont volontairement sobres et remplaçables par les masters finaux sans changer les cue IDs.
 
 ## Silence scénarisé
 
@@ -64,8 +64,8 @@ Les appels sont volontairement data-driven via `data/narrative_audio.json`.
 
 Les quêtes émergentes existantes reçoivent un motif stable :
 
-- `q_iven_korem_archive` → `ancient_archive` ;
-- `q_yoren_safe_line` → `discovery_revelation`.
+- `q_iven_erased_days` → `ancient_archive` ;
+- `q_yoren_false_exit` → `discovery_revelation`.
 
 Le motif peut donc revenir lorsque l'histoire est acceptée, recontextualisée ou accomplie. Il ne sert pas de jingle de récompense ; il sert de mémoire.
 
