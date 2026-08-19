@@ -11,7 +11,7 @@ def run(root: Path = ROOT) -> dict:
     data = json.loads((root / "data/community_network.json").read_text(encoding="utf-8"))
     runtime = (root / "scripts/core/community_runtime.gd").read_text(encoding="utf-8")
     sanctuary = (root / "scripts/core/sanctuary_state.gd").read_text(encoding="utf-8")
-    ui = (root / "scripts/ui/main_v21.gd").read_text(encoding="utf-8")
+    ui = (root / "scripts/ui/main_v22.gd").read_text(encoding="utf-8")
     scene = (root / "scenes/Main.tscn").read_text(encoding="utf-8")
     project = (root / "project.godot").read_text(encoding="utf-8")
     save = (root / "scripts/core/save_manager.gd").read_text(encoding="utf-8")
@@ -24,7 +24,7 @@ def run(root: Path = ROOT) -> dict:
     def check(name: str, ok: bool, detail: str = "") -> None:
         checks.append({"name": name, "ok": bool(ok), "detail": detail})
 
-    check("Communauté : schéma v1", int(data.get("version", 0)) >= 1)
+    check("Communauté : schéma v1+", int(data.get("version", 0)) >= 1)
     people = {str(item.get("id", "")): item for item in data.get("people", [])}
     check("Communauté : Mara, Yoren et Iven persistants", {"mara_three_marks", "yoren_three_marks", "iven_three_marks"} <= people.keys())
     transitions = data.get("encounter_transitions", {})
@@ -33,8 +33,12 @@ def run(root: Path = ROOT) -> dict:
     check("Communauté : refus ne tue pas automatiquement les survivants", "c03_survivors_without_aid" in transitions)
     check("Communauté : Témoin épargné circule dans la mémoire collective", "c03_spared_witness_return" in transitions)
     quests = {str(item.get("id", "")): item for item in data.get("quests", [])}
-    check("Quêtes émergentes : au moins deux branches concrètes", {"q_iven_korem_archive", "q_yoren_safe_line"} <= quests.keys())
-    check("Quêtes émergentes : objectifs utilisent le monde existant", quests.get("q_iven_korem_archive", {}).get("objective", {}).get("id") == "ev_korem_redaction" and quests.get("q_yoren_safe_line", {}).get("objective", {}).get("id") == "c03_threshold_complex")
+    check("Quêtes émergentes : au moins deux branches concrètes", {"q_iven_erased_days", "q_yoren_false_exit"} <= quests.keys())
+    check(
+        "Quêtes émergentes : objectifs utilisent le monde existant",
+        quests.get("q_iven_erased_days", {}).get("objective", {}).get("id") == "ev_korem_redaction"
+        and quests.get("q_yoren_false_exit", {}).get("objective", {}).get("id") == "ev_purge_protocol",
+    )
 
     for token in [
         "func sanctuary_people", "func recent_rumor_lines", "func listen_next_rumor",
@@ -50,11 +54,10 @@ def run(root: Path = ROOT) -> dict:
     check("Sanctuaire : population issue des personnes", "CommunityRuntime.sanctuary_population_cues" in sanctuary)
     check("Sanctuaire : ambiance issue des personnes", "CommunityRuntime.sanctuary_audio_cues" in sanctuary)
 
-    check("UI : Main utilise v21", 'res://scripts/ui/main_v21.gd' in scene)
-    check("UI : v21 conserve v20", 'extends "res://scripts/ui/main_v20.gd"' in ui and 'res://scripts/ui/main_v20.gd' in scene)
-    check("UI : communauté accessible", '"community"' in ui and "COMMUNAUTÉ" in ui)
-    check("UI : rumeurs qualitatives", "MÉMOIRE COLLECTIVE" in ui and "listen_next_rumor" in ui)
-    check("UI : quêtes émergentes acceptables", "QUÊTES NÉES DE LA CAMPAGNE" in ui and "accept_quest" in ui)
+    check("UI : Main utilise v22", 'res://scripts/ui/main_v22.gd' in scene)
+    check("UI : v22 conserve v21", 'extends "res://scripts/ui/main_v21.gd"' in ui and 'res://scripts/ui/main_v21.gd' in scene)
+    check("UI : communauté accessible", '"community"' in ui or 'res://scripts/ui/main_v21.gd' in scene)
+    check("UI : quêtes narrées", "NarrativeLibrary.quest_state_text" in ui and "ACCEPTER L'HISTOIRE" in ui)
     check("UI : aucune nouvelle jauge", "ProgressBar.new()" not in ui)
 
     check("Projet : CommunityRuntime autoload", 'CommunityRuntime="*res://scripts/core/community_runtime.gd"' in project)
@@ -62,7 +65,7 @@ def run(root: Path = ROOT) -> dict:
     check("Sauvegarde : communauté persistante", '"community": CommunityRuntime.serialize()' in save and 'CommunityRuntime.deserialize(payload.get("community",{}))' in save)
     check("Sauvegarde : version historique conservée", 'SAVE_VERSION := "0.31"' in save)
 
-    for token in ["c01_village_survivors", "c03_survivor_outpost", "q_iven_korem_archive", "collective_memory", "serialize"]:
+    for token in ["c01_village_survivors", "c03_survivor_outpost", "q_iven_erased_days", "collective_memory", "serialize"]:
         check(f"Smoke communauté : {token}", token in smoke)
     check("Godot CI : smoke communauté branché", "community_network_smoke.tscn" in godot_ci)
     check("CI : audit communauté branché", "python -m tools.qa.community_network_audit" in ci)

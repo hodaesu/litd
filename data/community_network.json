@@ -1,7 +1,7 @@
 {
-  "version": 1,
-  "design_source": "living_sanctuary_pass_10_13",
-  "rule": "Les personnes rencontrées peuvent survivre, circuler, atteindre le Sanctuaire, faire naître des rumeurs et proposer des quêtes sans produire de jauge morale globale.",
+  "version": 2,
+  "design_source": "living_sanctuary_pass_10_13+narrative_library_pass_14",
+  "rule": "Les personnes rencontrées peuvent survivre, circuler, atteindre le Sanctuaire, faire naître des rumeurs et proposer des quêtes dont l'écriture vise le même niveau d'exigence que la campagne principale, sans produire de jauge morale globale.",
   "rumor_limit": 24,
   "collective_memory_limit_per_scope": 18,
   "people": [
@@ -66,7 +66,7 @@
         },
         "rumor": {"id": "rumor_three_marks_return", "scope": "sanctuary", "reliability": "confirmed", "text": "Le relais aux trois traits existe désormais vraiment ; ses trois fondateurs passent régulièrement par le Sanctuaire et échangent routes, vivres et nouvelles."},
         "fact": {"scope": "sanctuary", "id": "three_marks_network", "text": "Le relais de Mara, Yoren et Iven est relié au Sanctuaire."},
-        "offer_quests": ["q_iven_korem_archive", "q_yoren_safe_line"]
+        "offer_quests": ["q_iven_erased_days", "q_yoren_false_exit"]
       }
     },
     "c03_survivors_without_aid": {
@@ -89,22 +89,42 @@
   },
   "quests": [
     {
-      "id": "q_iven_korem_archive",
+      "id": "q_iven_erased_days",
       "giver": "iven_three_marks",
-      "name": "Les cartes que le relais n'a jamais reçues",
-      "summary": "Iven cherche les relevés d'itinéraires censurés par Kor-Em pour rendre le relais plus sûr.",
-      "objective": {"type": "chapter03_evidence", "id": "ev_korem_redaction", "text": "Retrouver l'archive Kor-Em censurée dans le laboratoire brisé."},
+      "name": "Les jours qu'on a effacés",
+      "summary": "Iven veut savoir si le relais où il a survécu a continué d'envoyer des voyageurs vers le Projet Seuil après que Kor-Em eut compris que le risque devenait incontrôlable.",
+      "objective": {"type": "chapter03_evidence", "id": "ev_korem_redaction", "text": "Retrouver l'archive Kor-Em censurée dans le Laboratoire Brisé."},
+      "narrative": {
+        "theme": "La responsabilité commence parfois précisément à l'endroit que les archives ont rendu impossible à dater.",
+        "dramatic_question": "Quand les responsables ont-ils compris que le réseau n'était plus maîtrisable, et qui a continué d'y envoyer des gens après cette date ?",
+        "hook": "Iven a comparé les registres du relais aux trois traits avec les copies sauvées par les voyageurs. Trois journées manquent dans toutes les versions. Ce sont justement les journées où plusieurs départs n'ont laissé aucun retour.",
+        "active": "Dans le Laboratoire Brisé, il ne faut pas chercher une carte secrète mais la couture d'une histoire officielle : changements d'encre, folios arrachés, renvois vers des pages qui n'existent plus. Iven ne demande plus seulement où passaient les routes ; il veut savoir à quel moment l'ignorance est devenue responsabilité.",
+        "reframe": "L'archive confirme que des pages ont été retirées après coup et que la date exacte où le risque systémique fut compris a été volontairement rendue incertaine. La preuve la plus importante est donc une absence organisée, pas une confession retrouvée.",
+        "resolution": "Iven recopie les trous autant que les informations. Il refuse d'inventer la date manquante. Le nouveau registre du relais distingue désormais ce qui est certain, ce qui est probable et ce que quelqu'un a voulu rendre impossible à savoir.",
+        "aftermath_seed": "Plus tard, un témoin vivant de Kor-Em pourra contester ou préciser l'une des journées manquantes, transformant cette quête en point d'entrée vers une responsabilité individuelle plutôt qu'une culpabilité abstraite.",
+        "devices": ["recognition", "compromised_witness", "narrative_identity", "offstage_consequence"]
+      },
       "reward": {"medicine": 1, "light": 1},
-      "completion_rumor": {"id": "rumor_iven_archive_complete", "scope": "sanctuary", "reliability": "confirmed", "text": "Iven a recoupé les cartes de Kor-Em avec les routes du relais ; plusieurs départs évitent désormais les zones les plus instables."}
+      "completion_rumor": {"id": "rumor_iven_erased_days_complete", "scope": "sanctuary", "reliability": "confirmed", "text": "Iven tient désormais un registre où les blancs sont conservés au lieu d'être remplis par des certitudes commodes. Les voyageurs savent exactement quelles parties de l'ancienne chronologie restent falsifiées."}
     },
     {
-      "id": "q_yoren_safe_line",
+      "id": "q_yoren_false_exit",
       "giver": "yoren_three_marks",
-      "name": "Une ligne sûre dans le Seuil",
-      "summary": "Yoren veut confirmer une route de repli avant que d'autres voyageurs ne la prennent pour une voie sûre.",
-      "objective": {"type": "zone_discovered", "id": "c03_threshold_complex", "text": "Atteindre le Complexe du Seuil et confirmer physiquement la route."},
+      "name": "La route qui n'était pas une sortie",
+      "summary": "Yoren cherche à vérifier une ancienne ligne de repli vers le Complexe du Seuil avant que le relais n'envoie des voyageurs sur un tracé officiel qui pourrait n'avoir jamais été conçu pour les sauver.",
+      "objective": {"type": "chapter03_evidence", "id": "ev_purge_protocol", "text": "Atteindre le Complexe du Seuil et retrouver le protocole de sécurité lié à cette voie."},
+      "narrative": {
+        "theme": "Une route dessinée par une institution n'est pas nécessairement une route pensée pour ceux qui la suivent.",
+        "dramatic_question": "La ligne indiquée comme repli était-elle réellement destinée à évacuer des personnes, ou à contenir ce que le Projet Seuil ne voulait pas laisser sortir ?",
+        "hook": "Yoren possède deux cartes du même corridor. Sur l'une, la ligne porte le symbole ancien du repli. Sur l'autre, copiée plus tard, le même symbole a été remplacé par une marque de maintenance. Aucun voyageur du relais n'a encore osé vérifier laquelle ment.",
+        "active": "À mesure que la compagnie approche du Complexe, l'architecture contredit l'idée d'une évacuation : angles de contrôle, passages étroits, visibilité parfaite depuis les positions de garde. Yoren attend une preuve avant de condamner une route qui pourrait pourtant sauver des vies.",
+        "reframe": "Le protocole de purge révèle que la Sentinelle devait détruire archives et témoins si le complexe était compromis. La ligne de repli n'était pas une promesse de sortie sûre ; elle appartenait à un dispositif dont la priorité était le confinement de l'information.",
+        "resolution": "Yoren raye la ligne officielle de ses cartes sans la faire disparaître. À côté, il inscrit pourquoi elle ne doit plus être appelée sortie. Le relais perd un raccourci, mais gagne une carte qui ne confond plus autorité et sécurité.",
+        "aftermath_seed": "Une future expédition pourra rencontrer des survivants ayant autrefois suivi cette ligne et découvrir qu'ils ne racontent pas tous le rôle de la Sentinelle de la même façon.",
+        "devices": ["clue_reframe", "social_inversion", "offstage_consequence", "story_as_reward"]
+      },
       "reward": {"food": 1, "water": 1},
-      "completion_rumor": {"id": "rumor_yoren_route_complete", "scope": "ashlands_travellers", "reliability": "confirmed", "text": "Une nouvelle ligne de repli circule entre le Sanctuaire et le relais aux trois traits, confirmée par la compagnie elle-même."}
+      "completion_rumor": {"id": "rumor_yoren_false_exit_complete", "scope": "ashlands_travellers", "reliability": "confirmed", "text": "Les voyageurs du relais ont cessé d'appeler « sortie » l'ancien corridor du Complexe du Seuil. Les cartes indiquent maintenant sa fonction de confinement et la raison de l'éviter."}
     }
   ]
 }
