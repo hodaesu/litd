@@ -1,0 +1,126 @@
+{
+  "version": 1,
+  "design_source": "sound_design_library_pass_18",
+  "purpose": "Catalogue de bruitages et contrat de sound design. Aucun binaire audio n'est considéré intégré avant preuve de licence, hash, ingestion et test Godot.",
+  "license_policy": {
+    "green": "CC0/domaine public clair ou licence commerciale explicite pour jeu sans redevance ni attribution obligatoire.",
+    "amber": "CC BY ou licence de plateforme compatible mais exigeant attribution, preuve ou revue supplémentaire.",
+    "red": "Non-commercial, licence inconnue, editorial-only, identité protégée reconnaissable, voix non vérifiée ou termes incompatibles.",
+    "rule": "Ne jamais se fier au seul mot royalty-free : vérifier l'asset exact le jour du téléchargement."
+  },
+  "source_pools": [
+    {"id":"sonniss_gdc","name":"Sonniss GameAudioGDC","tier":"green","license":"royalty-free commercial; no attribution required","url":"https://sonniss.com/gameaudiogdc/"},
+    {"id":"freesound_cc0","name":"Freesound CC0","tier":"green","license":"CC0 exact assets only","url":"https://freesound.org/help/faq/"},
+    {"id":"freesound_ccby","name":"Freesound CC BY","tier":"amber","license":"CC BY exact asset; attribution required","url":"https://freesound.org/help/faq/"},
+    {"id":"pixabay","name":"Pixabay Sound Effects","tier":"amber","license":"Pixabay Content License; exact asset proof required","url":"https://pixabay.com/service/license-summary/"},
+    {"id":"oga_cc0","name":"OpenGameArt CC0","tier":"green","license":"CC0 exact assets only","url":"https://opengameart.org/"},
+    {"id":"itch_cc0","name":"itch.io CC0 SFX","tier":"green","license":"CC0 pack page required","url":"https://itch.io/game-assets/assets-cc0/free/tag-sound-effects"}
+  ],
+  "candidate_packs": [
+    {"id":"oga_footsteps","name":"Footsteps","creator":"GboxMikeFozzy","source":"oga_cc0","tier":"green","license":"CC0-1.0","url":"https://opengameart.org/content/footsteps-0","covers":["footstep_stone","footstep_indoor"],"local_path":""},
+    {"id":"oga_weapon_impacts","name":"Medieval sound effects - Weapon impacts","creator":"Ben Jaszczak & Brian Nelson","source":"oga_cc0","tier":"green","license":"CC0-1.0","url":"https://opengameart.org/content/medieval-sound-effects-weapon-impacts","covers":["weapon_blade_hit","weapon_blunt_hit","parry","armor_hit","shield_hit"],"local_path":""},
+    {"id":"oga_various","name":"Various Sound Effects","creator":"Spring Spring","source":"oga_cc0","tier":"green","license":"CC0-1.0","url":"https://opengameart.org/content/various-sound-effects-0","covers":["debris_fall","door_wood","item_pickup","ui_hover"],"local_path":""},
+    {"id":"itch_spell_impacts","name":"Basic Spell Impacts","creator":"lentikula","source":"itch_cc0","tier":"green","license":"CC0-1.0","url":"https://lentikula.itch.io/freecc0-basic-spell-impacts-sfx","covers":["magic_fire","magic_ice","magic_water","magic_lightning","ultimate_release"],"local_path":""},
+    {"id":"hzsmith_1","name":"FREE SFX PACK VOL 1","creator":"HZSMITH","source":"itch_cc0","tier":"green","license":"CC0-1.0","url":"https://hzsmith.itch.io/free-sfx-pack-vol-1","covers":["ui_confirm","critical_hit","combat_whoosh"],"local_path":""},
+    {"id":"hzsmith_2","name":"FREE SFX PACK VOL 2","creator":"HZSMITH","source":"itch_cc0","tier":"green","license":"CC0-1.0","url":"https://hzsmith.itch.io/free-sfx-pack-vol-2","covers":["cloth_movement","item_pickup","ui_error"],"local_path":""},
+    {"id":"hzsmith_3","name":"FREE SFX PACK VOL 3","creator":"HZSMITH","source":"itch_cc0","tier":"green","license":"CC0-1.0","url":"https://hzsmith.itch.io/free-sfx-pack-vol-3","covers":["ui_page","ui_map","ui_reward"],"local_path":""},
+    {"id":"hzsmith_4","name":"FREE SFX PACK VOL 4","creator":"HZSMITH","source":"itch_cc0","tier":"green","license":"CC0-1.0","url":"https://hzsmith.itch.io/free-sfx-pack-vol-4","covers":["ui_skill_unlock","ui_quest_update","trap_trigger"],"local_path":""},
+    {"id":"nox_essentials","name":"Essentials Series","creator":"Nox_Sound_Design","source":"itch_cc0","tier":"green","license":"CC0-1.0","url":"https://nox-sound-design.itch.io/essentials-series-sfx-nox-sound","covers":["fear_breath","footstep_stone","cloth_movement","rain_light"],"local_path":""},
+    {"id":"ivokard_mix","name":"Mix of SFX","creator":"Ivokard","source":"itch_cc0","tier":"green","license":"CC0-1.0","url":"https://ivokard.itch.io/mix-of-sfx","covers":["weapon_blade_hit","bell_sanctuary","creature_ghoul"],"local_path":""},
+    {"id":"sonniss_archive","name":"GameAudioGDC free archive","creator":"Sonniss + participating libraries","source":"sonniss_gdc","tier":"green","license":"Sonniss-GDC-Royalty-Free","url":"https://sonniss.com/gameaudiogdc/","covers":["weapons","foley","creatures","ambience","cinematic"],"local_path":""},
+    {"id":"freesound_by_pool","name":"Freesound CC BY exact-asset pool","creator":"various","source":"freesound_ccby","tier":"amber","license":"CC-BY exact asset","url":"https://freesound.org/help/faq/","covers":["rare_foley","specific_ambience"],"local_path":""},
+    {"id":"pixabay_pool","name":"Pixabay exact-asset pool","creator":"various","source":"pixabay","tier":"amber","license":"Pixabay Content License","url":"https://pixabay.com/sound-effects/","covers":["ui","whoosh","impact","ambience"],"local_path":""}
+  ],
+  "cue_domains": {
+    "exploration": ["footstep_ash","footstep_stone","footstep_wood","footstep_mud","footstep_water","footstep_metal"],
+    "foley": ["cloth_movement","leather_gear","armor_light","armor_heavy"],
+    "combat": ["weapon_draw","weapon_blade_hit","weapon_blunt_hit","weapon_pierce","parry","shield_hit","armor_hit","critical_hit","dismemberment","bone_break","blood_gore_low","combat_whoosh","combat_telegraph","ultimate_charge","ultimate_release","magic_fire","magic_ice","magic_water","magic_lightning"],
+    "creature": ["creature_ghoul","creature_oni","creature_jorogumo","creature_conscious"],
+    "boss": ["boss_presence","boss_phase_change"],
+    "psychology": ["fear_heartbeat","fear_breath","fear_tinnitus","panic_sting","hope_manifestation"],
+    "narrative": ["memory_echo","whisper_ambiguous"],
+    "ambience": ["wind_ashlands","ash_storm","fire_camp","fire_structure","rain_light","thunder_distant","cave_drip"],
+    "environment": ["debris_fall","wood_creak","chain_movement","door_wood","door_stone","gate_metal","rubble_shift"],
+    "sanctuary": ["bell_sanctuary","sanctuary_crowd","tavern_roomtone","forge_hammer","forge_bellows","chapel_roomtone","memorial_roomtone"],
+    "interaction": ["chest_open","item_pickup","potion_use","bandage_use","food_use","water_use","rope_use","ladder_use","trap_trigger","camp_setup"],
+    "ui": ["ui_hover","ui_confirm","ui_back","ui_error","ui_page","ui_map","ui_inventory","ui_skill_unlock","ui_reward","ui_quest_update","ui_fear_state","ui_capture"]
+  },
+  "cue_metadata": {
+    "dismemberment": {"spatial":"3d","variants_min":4,"brief":"tactical bone/cloth/body layers; restrained gore"},
+    "combat_telegraph": {"spatial":"2d","variants_min":4,"brief":"must cut through music"},
+    "ultimate_release": {"spatial":"2d","variants_min":3,"brief":"unique signature per hero/tree"},
+    "creature_conscious": {"spatial":"3d","variants_min":4,"brief":"intelligent presence; do not default to generic monster roar"},
+    "fear_heartbeat": {"spatial":"2d","variants_min":3,"brief":"subjective and bounded by fear state"},
+    "fear_tinnitus": {"spatial":"2d","variants_min":2,"brief":"brief subjective cue, never sustained as punishment"},
+    "panic_sting": {"spatial":"2d","variants_min":3,"brief":"short perceptual collapse"},
+    "hope_manifestation": {"spatial":"2d","variants_min":3,"brief":"opens air/clarity; no generic happy jingle"},
+    "whisper_ambiguous": {"spatial":"3d","variants_min":4,"brief":"non-lexical or fully original voice only"},
+    "wind_ashlands": {"spatial":"3d","variants_min":4,"brief":"dry wind and particulate hiss"},
+    "bell_sanctuary": {"spatial":"3d","variants_min":3,"brief":"distinctive original Sanctuary identity"},
+    "ui_error": {"spatial":"2d","variants_min":2,"brief":"restrained rejection; no arcade buzzer"},
+    "ui_reward": {"spatial":"2d","variants_min":2,"brief":"small material cue; no casino feel"}
+  },
+  "layering_presets": [
+    {"id":"blade_on_armor","layers":["combat_whoosh","weapon_blade_hit","armor_hit"],"rule":"attack transient first; material body second"},
+    {"id":"critical_melee","layers":["combat_whoosh","weapon_blade_hit","critical_hit"],"rule":"short emphasis without masking reactions"},
+    {"id":"dismemberment_tactical","layers":["weapon_blade_hit","bone_break","dismemberment","blood_gore_low"],"rule":"only relevant anatomy/material layers; gore stays lower"},
+    {"id":"panic_subjective","layers":["fear_heartbeat","fear_breath","fear_tinnitus","panic_sting"],"rule":"brief layers; never sustain all at once"},
+    {"id":"ashlands_exploration","layers":["wind_ashlands","cloth_movement","footstep_ash"],"rule":"leave acoustic space"},
+    {"id":"boss_phase","layers":["boss_presence","boss_phase_change","debris_fall"],"rule":"spectacle never masks telegraphs"},
+    {"id":"sanctuary_lived_in","layers":["sanctuary_crowd","forge_hammer","fire_camp"],"rule":"local qualitative density, not a wall of loops"}
+  ],
+  "implementation_rules": [
+    "Gameplay readability outranks spectacle: telegraphs, parries, hits and interactions cut through music.",
+    "Use 3D audio for world, creature and foley sources; reserve 2D for UI or subjective reinforcement.",
+    "Frequently repeated cues need variants or bounded pitch/volume variation.",
+    "Footsteps depend on surface and actor weight; equipment foley is layered separately.",
+    "Bosses, ultimates and major creatures need bespoke final identities; stock sounds are source layers only.",
+    "Never use intelligible stock dialogue as lore; narrative voices must be original or explicitly cleared.",
+    "Human pain/effort recordings require provenance review beyond a permissive copyright label.",
+    "Silence is a valid sound-design state after death, revelation and memorial scenes.",
+    "Fear is subjective and should not saturate the whole mix.",
+    "Hope opens space and clarity instead of using a generic positive notification.",
+    "Sanctuary ambience evolves with people and buildings but remains sparse enough for dialogue.",
+    "Creature families share acoustic DNA while conscious creatures retain intelligence in their sound design.",
+    "Dismemberment stays serious and tactical; avoid exaggerated gore comedy.",
+    "UI palette stays world-adjacent: paper, wood, leather, metal, breath and restrained tonal elements.",
+    "Mobile mix is tested on iPhone speaker and headphones.",
+    "Unique signature sounds are required for ultimates and major bosses."
+  ],
+  "ingestion_checklist": [
+    "Open exact asset or pack page on download day.",
+    "Confirm commercial game use is allowed.",
+    "Reject non-commercial restrictions.",
+    "Archive URL, creator, license/version and access date.",
+    "Store license evidence.",
+    "Record original filename and pack.",
+    "Calculate SHA-256 of original file.",
+    "Preserve metadata and provenance.",
+    "Review consent/provenance for human voices.",
+    "Convert only after provenance is stored.",
+    "Document edits for attribution licenses.",
+    "Loop only true ambience.",
+    "Meet minimum variant count.",
+    "Test against dialogue, music and telegraphs in Godot.",
+    "Test on iPhone speaker and headphones.",
+    "Set local_path only when verified audio exists."
+  ],
+  "mix_priorities": {
+    "priority_order": ["critical_dialogue","combat_telegraph","player_action_feedback","enemy_action_feedback","interaction","ui","creature_vocals","foley","ambience","music"],
+    "critical_dialogue_ducking_db": -8,
+    "telegraph_target_peak_dbfs": -6,
+    "ui_target_peak_dbfs": -10,
+    "rule": "No repeated combat layer relies on master limiting for readability."
+  },
+  "naming_convention": {
+    "pattern": "sfx_<domain>_<family>_<material_or_actor>_<variant>.<ext>",
+    "examples": ["sfx_move_footstep_ash_01.ogg","sfx_combat_parry_steel_03.ogg","sfx_creature_ghoul_breath_02.ogg","sfx_ui_journal_page_01.ogg"]
+  },
+  "excluded_license_classes": [
+    {"id":"cc_by_nc","reason":"non-commercial restriction"},
+    {"id":"unknown_license","reason":"no explicit terms"},
+    {"id":"editorial_only","reason":"not game-use clearance"},
+    {"id":"recognizable_franchise","reason":"protected identity risk"},
+    {"id":"unverified_voice","reason":"human voice provenance/consent risk"}
+  ]
+}
