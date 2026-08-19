@@ -72,9 +72,16 @@ func run() -> void:
 
     var iven_hook: Dictionary = NarrativeAudioDirector.scene_hook_definition("evidence:ev_korem_redaction")
     _check(str(iven_hook.get("beat", "")) == "revelation", "Iven evidence must be authored as a revelation scene")
+    _check(str(iven_hook.get("requires_quest_state", "")) == "active", "Quest evidence motif must require the story to be active")
     var political_hook: Dictionary = NarrativeAudioDirector.scene_hook_definition("political:ashlands_refugee_gate:welcome")
     _check(str(political_hook.get("beat", "")) == "choice", "Political wildcard must resolve to a neutral choice beat")
 
+    CommunityRuntime.quest_states["q_iven_erased_days"] = "offered"
+    _check(
+        not NarrativeAudioDirector.trigger_scene_hook("evidence:ev_korem_redaction", {"evidence_id": "ev_korem_redaction"}),
+        "Quest-specific revelation must not play before the story is accepted"
+    )
+    CommunityRuntime.quest_states["q_iven_erased_days"] = "active"
     Chapter03Runtime.evidence_discovered.emit({"id": "ev_korem_redaction", "title": "Archive Kor-Em censurée"})
     await get_tree().process_frame
     var evidence_history: Array[Dictionary] = NarrativeAudioDirector.history()
@@ -104,6 +111,7 @@ func run() -> void:
     _check(_history_has_scene(NarrativeAudioDirector.history(), "political:ashlands_refugee_gate:welcome"), "Political choice must be recorded as a scene hook")
     _check(_scene_value(NarrativeAudioDirector.history(), "political:ashlands_refugee_gate:welcome", "rule") == "neutral_weight_no_moral_answer", "Political audio must remain morally neutral")
 
+    CommunityRuntime.quest_states.erase("q_iven_erased_days")
     NarrativeAudioDirector.reset_runtime()
     AudioDirector.reset_runtime()
     await get_tree().process_frame
