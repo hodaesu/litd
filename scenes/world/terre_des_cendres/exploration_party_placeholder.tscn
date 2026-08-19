@@ -26,9 +26,10 @@ mesh = SubResource("CapsuleMesh_party")
 
 [node name="MobileControls" parent="." instance=ExtResource("3")]
 
-[node name="CameraRig" type="Node3D"]
+[node name="CameraRig" type="Node3D" parent="."]
+top_level = true
 script = ExtResource("2")
-target_path = NodePath("../ExplorationParty")
+target_path = NodePath("..")
 
 [node name="Camera3D" type="Camera3D" parent="CameraRig"]
 projection = 1
@@ -38,4 +39,4 @@ current = true
 [node name="OcclusionManager" type="Node" parent="CameraRig"]
 script = ExtResource("4")
 camera_path = NodePath("../Camera3D")
-target_path = NodePath("../../ExplorationParty")
+target_path = NodePath("../..")
