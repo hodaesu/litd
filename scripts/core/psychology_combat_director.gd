@@ -7,6 +7,9 @@ var _last_companion_intervention: Dictionary = {}
 
 func _ready() -> void:
     _load_data()
+    call_deferred("_connect_combat_signals")
+
+func _connect_combat_signals() -> void:
     if not AshlandsCombatBridge.ashlands_combat_started.is_connected(_on_campaign_combat_started):
         AshlandsCombatBridge.ashlands_combat_started.connect(_on_campaign_combat_started)
 
