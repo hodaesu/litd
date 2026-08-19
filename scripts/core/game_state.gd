@@ -21,6 +21,7 @@ func _ready() -> void:
     reset_new_game()
 
 func reset_new_game() -> void:
+    FieldEncounterRuntime.reset_new_game()
     EquipmentManager.reset_new_game()
     CreatureManager.reset_new_game()
     PoliticalState.reset_new_game()
