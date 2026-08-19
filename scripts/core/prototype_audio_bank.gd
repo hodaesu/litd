@@ -150,6 +150,27 @@ func _build_stream(asset: Dictionary, variant_index: int) -> AudioStreamWAV:
                 sample += filtered_noise * 0.25 * sin(PI * normalized)
             "wind_ashlands":
                 sample = filtered_noise * 0.20 + sin(TAU * 37.0 * t) * 0.025 + sin(TAU * 71.0 * t) * 0.015
+            "sanctuary_crowd":
+                sample = filtered_noise * 0.055
+                sample += 0.022 * sin(TAU * 118.0 * t + 0.7 * sin(TAU * 0.23 * t))
+                sample += 0.012 * sin(TAU * 177.0 * t + 1.4 * sin(TAU * 0.17 * t))
+            "tavern_roomtone":
+                sample = filtered_noise * 0.070
+                var hearth: float = pow(maxf(0.0, sin(TAU * 2.7 * t)), 12.0)
+                sample += hearth * raw_noise * 0.055
+                sample += 0.018 * sin(TAU * 92.0 * t)
+            "chapel_roomtone":
+                sample = filtered_noise * 0.025
+                sample += 0.020 * sin(TAU * 66.0 * t) + 0.010 * sin(TAU * 99.0 * t)
+            "memorial_roomtone":
+                sample = filtered_noise * 0.035
+                sample += 0.014 * sin(TAU * 43.0 * t + 0.35 * sin(TAU * 0.12 * t))
+            "sanctuary_bell":
+                var bell_env: float = exp(-2.9 * t)
+                sample = bell_env * (0.31 * sin(TAU * 523.25 * t) + 0.18 * sin(TAU * 784.88 * t) + 0.09 * sin(TAU * 1046.5 * t))
+            "memory_echo":
+                var echo_env: float = sin(PI * clampf(t / duration, 0.0, 1.0)) * exp(-1.8 * t)
+                sample = echo_env * (0.18 * sin(TAU * 311.0 * t) + 0.11 * sin(TAU * 466.5 * t + 0.5))
             "music_ashlands":
                 sample = _music_sample(t, duration, [55.0, 82.5, 110.0], 0.0)
             "music_threat":
@@ -162,6 +183,16 @@ func _build_stream(asset: Dictionary, variant_index: int) -> AudioStreamWAV:
                 sample = _resolution_sample(t, duration, true)
             "music_defeat":
                 sample = _resolution_sample(t, duration, false)
+            "music_sanctuary":
+                sample = _music_sample(t, duration, [65.4, 98.1, 130.8], 0.0)
+            "music_tavern":
+                sample = _music_sample(t, duration, [73.4, 110.0, 146.8], 0.035)
+            "music_chapel":
+                sample = _music_sample(t, duration, [55.0, 82.5, 123.75], 0.0)
+            "music_memorial":
+                sample = _music_sample(t, duration, [49.0, 73.5, 98.0], 0.0) * 0.82
+            "music_revelation":
+                sample = _music_sample(t, duration, [58.3, 87.45, 116.6, 174.9], 0.025)
             _:
                 sample = 0.0
         var signed_sample: int = int(round(clampf(sample, -1.0, 1.0) * 127.0))
