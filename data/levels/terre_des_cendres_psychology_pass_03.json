@@ -1,0 +1,69 @@
+{
+  "id": "terre_des_cendres_psychology_pass_03",
+  "version": 1,
+  "status": "pre_blender_psychology_ready",
+  "core_rule": "La peur se mesure, la folie laisse des traces, l'espoir se manifeste par les actes.",
+  "ui": {
+    "fear_meter_visible": true,
+    "madness_as_second_live_meter": false,
+    "hope_meter": false,
+    "hope_feedback": "short_event_banner",
+    "psychology_management_should_not_dominate_hud": true
+  },
+  "fear": {
+    "role": "immediate_state",
+    "range": [0, 100],
+    "bands": {
+      "calm": [0, 24],
+      "uneasy": [25, 49],
+      "afraid": [50, 74],
+      "terrified": [75, 99],
+      "panic_threshold": 100
+    },
+    "typical_sources": ["terrifying_enemy", "ally_critical", "ally_death", "dismemberment", "dark_event", "horror_discovery", "ambush", "isolation"],
+    "recovery_sources": ["campfire", "safe_room", "victory", "ally_support", "hope_event", "return_to_sanctuary"],
+    "effects_are_temporary": true
+  },
+  "madness": {
+    "role": "lasting_psychological_consequence",
+    "live_meter_required": false,
+    "internal_exposure_allowed": true,
+    "generated_by": ["repeated_high_fear", "panic", "traumatic_event", "specific_character_vulnerability"],
+    "outcomes": ["trait", "trauma", "crisis", "obsession", "paranoia", "detachment", "hallucination", "recklessness", "protective_compulsion"],
+    "design_rule": "Madness outcomes should change behavior or choices, not merely apply flat stat penalties.",
+    "mixed_traits_allowed": true,
+    "example_mixed_trait": {"id":"protective_obsession","benefit":"stronger_guard_for_bonded_ally","cost":"fear_spike_when_bonded_ally_is_hurt"}
+  },
+  "hope": {
+    "role": "positive_manifestation_not_resource",
+    "meter": false,
+    "triggered_by_actions": true,
+    "typical_triggers": ["save_survivor", "protect_ally", "complete_altruistic_choice", "discover_inspiring_text", "open_persistent_shortcut", "overcome_desperate_fight", "reach_campfire_together", "rebuild_or_restore"],
+    "possible_effects": ["reduce_fear", "temporary_madness_resistance", "mental_recovery", "party_cohesion_bonus", "rare_trauma_transformation"],
+    "feedback_example": {"title":"ESPOIR","text":"Nous ne sommes pas encore perdus.","effects":["fear_reduction", "temporary_madness_resistance"]}
+  },
+  "character_response": {
+    "same_event_same_reaction": false,
+    "modifiers": ["personality_traits", "traumas", "relationships", "past_events", "enemy_family_context", "current_condition"],
+    "goal": "Two characters can experience the same scene differently without requiring extra player micromanagement."
+  },
+  "event_pipeline": ["event", "individual_response", "fear_change", "player_choice_or_combat", "consequence", "possible_madness_trace", "possible_hope_manifestation"],
+  "ashlands_examples": [
+    {"zone":"zone_02_village_ravage","event":"internal_barricades_discovered","fear":"small_party_increase","madness":"none_direct","hope":"none"},
+    {"zone":"zone_05_ravin_des_pendus","event":"judgement_path_discovery","fear":"medium_character_dependent","madness":"trauma_risk_if_already_terrified","hope":"compassionate_interaction_can_reduce_fear"},
+    {"zone":"zone_06_chapelle_effondree","event":"wall_of_survivor_names","fear":"reduce_small","madness":"temporary_resistance","hope":"manifestation_inspiring_memory"},
+    {"zone":"zone_09_ossuaire","event":"loss_of_individual_names","fear":"medium","madness":"identity_or_detachment_trait_risk","hope":"restore_one_name_creates_hope"},
+    {"zone":"zone_10_hameau_deserte","event":"shared_survivor_table","fear":"reduce_medium","madness":"none","hope":"party_cohesion_manifestation"},
+    {"zone":"zone_12_abbaye","event":"last_campfire_before_boss","fear":"reduce_but_not_reset","madness":"stabilize","hope":"reach_together_manifestation"},
+    {"zone":"zone_13_clocher_boss","event":"boss_reveal","fear":"large_character_dependent","madness":"panic_can_leave_trace","hope":"boss_victory_manifestation"}
+  ],
+  "anti_overload_rules": {
+    "maximum_visible_psychology_meter_count": 1,
+    "no_hope_currency": true,
+    "no_constant_madness_number_required_for_player": true,
+    "avoid_popup_for_every_fear_change": true,
+    "surface_only_meaningful_psychological_events": true,
+    "traits_explain_long_term_consequences": true
+  },
+  "next_step": "Implement data-driven psychology events and connect them to exploration/combat state without adding another HUD meter."
+}
