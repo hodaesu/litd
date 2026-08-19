@@ -13,6 +13,7 @@ func _ready() -> void:
     CampaignState.campaign_changed.connect(refresh)
     GameState.state_changed.connect(refresh)
     CreatureManager.creatures_changed.connect(refresh)
+    CommunityRuntime.community_changed.connect(refresh)
     refresh()
 
 func _load_data() -> void:
@@ -60,6 +61,9 @@ func refresh() -> void:
     if resolved != active_layers:
         active_layers = resolved
         sanctuary_state_changed.emit(active_layers.duplicate())
+    else:
+        # Les habitants issus des choix peuvent changer sans modifier les couches politiques.
+        sanctuary_state_changed.emit(active_layers.duplicate())
 
 func layer_definition(layer_id: String) -> Dictionary:
     for layer_value in data.get("layers", []):
@@ -72,6 +76,8 @@ func current_visual_cues() -> Array[String]:
     for layer_id in active_layers:
         for cue in layer_definition(layer_id).get("visual", []):
             if not result.has(String(cue)): result.append(String(cue))
+    for cue in CommunityRuntime.sanctuary_visual_cues():
+        if not result.has(String(cue)): result.append(String(cue))
     return result
 
 func current_audio_cues() -> Array[String]:
@@ -79,6 +85,8 @@ func current_audio_cues() -> Array[String]:
     for layer_id in active_layers:
         for cue in layer_definition(layer_id).get("audio", []):
             if not result.has(String(cue)): result.append(String(cue))
+    for cue in CommunityRuntime.sanctuary_audio_cues():
+        if not result.has(String(cue)): result.append(String(cue))
     return result
 
 func current_population_cues() -> Array[String]:
@@ -86,6 +94,8 @@ func current_population_cues() -> Array[String]:
     for layer_id in active_layers:
         for cue in layer_definition(layer_id).get("population", []):
             if not result.has(String(cue)): result.append(String(cue))
+    for cue in CommunityRuntime.sanctuary_population_cues():
+        if not result.has(String(cue)): result.append(String(cue))
     return result
 
 func gameplay_modifiers() -> Dictionary:
@@ -101,4 +111,8 @@ func gameplay_modifiers() -> Dictionary:
 func summary() -> String:
     var names: Array[String] = []
     for layer_id in active_layers: names.append(String(layer_definition(layer_id).get("name", layer_id)))
-    return " · ".join(names)
+    var base_summary := " · ".join(names)
+    var living_count := CommunityRuntime.sanctuary_people().size()
+    if living_count > 0:
+        base_summary += " · %d présence(s) revenue(s) du terrain" % living_count
+    return base_summary
