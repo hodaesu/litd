@@ -54,6 +54,9 @@ func _run_device_profile() -> void:
 
     _audit_visible_buttons("sanctuary")
     _check(_count_buttons("INFIRMERIE\nSoins et blessures", true) == 1, "Sanctuary must expose exactly one Infirmary button on %s" % active_device_name)
+    _check(_count_buttons("CHAPELLE\nPeur, folie et espoir", true) == 1, "Sanctuary must expose exactly one Chapel button on %s" % active_device_name)
+    _check(_count_buttons("TAVERNE\nRecruter et rumeurs", true) == 1, "Sanctuary must expose exactly one Tavern button on %s" % active_device_name)
+    _check(_count_buttons("MÉMORIAL\nHéros tombés", true) == 1, "Sanctuary must expose exactly one Memorial button on %s" % active_device_name)
     _check(await _touch_button("LA PORTE", false), "Touch must activate La Porte on %s" % active_device_name)
     _check(GameState.current_screen == "expedition", "Touch La Porte must open expedition screen on %s" % active_device_name)
 
@@ -61,7 +64,7 @@ func _run_device_profile() -> void:
     _check(await _touch_button("RETOUR", true), "Touch must return from expedition setup on %s" % active_device_name)
     _check(GameState.current_screen == "sanctuary", "Touch Retour must restore Sanctuary on %s" % active_device_name)
 
-    for screen_name_value in ["company", "market", "creatures", "infirmary"]:
+    for screen_name_value in ["company", "market", "creatures", "infirmary", "chapel", "tavern", "memorial"]:
         var screen_name := str(screen_name_value)
         GameState.request_screen(screen_name)
         await _frames(4)
