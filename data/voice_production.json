@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "design_source": "voice_production_pass_25",
+  "engine": {
+    "id": "openvoice_v2",
+    "mode": "offline_production_only",
+    "language": "FR",
+    "openvoice_repository": "myshell-ai/OpenVoice",
+    "openvoice_pinned_commit": "74a1d147b17a8c3092dd5430504bd83ef6c7eb23",
+    "melotts_repository": "myshell-ai/MeloTTS",
+    "melotts_pinned_commit": "209145371cff8fc3bd60d7be902ea69cbdb7965a",
+    "openvoice_license": "MIT",
+    "melotts_license": "MIT",
+    "checkpoints_folder": "checkpoints_v2",
+    "watermark_message": "@MyShell"
+  },
+  "rules": {
+    "runtime_generation_in_game": false,
+    "authored_text_only": true,
+    "reference_voice_must_be_original_or_authorized": true,
+    "explicit_consent_record_required": true,
+    "celebrity_or_actor_imitation_forbidden": true,
+    "reference_recordings_are_local_only": true,
+    "human_review_required_before_ingest": true,
+    "shipping_audio_requires_sha256": true,
+    "missing_voice_never_blocks_dialogue": true
+  },
+  "paths": {
+    "reference_registry": "local/voice_refs/registry.json",
+    "reference_directory": "local/voice_refs",
+    "render_directory": "build/voice_rendered",
+    "shipping_directory": "assets/audio/voices",
+    "asset_manifest": "data/voice_assets.json"
+  },
+  "default_delivery": {
+    "speed": 1.0,
+    "direction": "retenu, naturel, sans emphase théâtrale"
+  },
+  "event_delivery": {
+    "combat_start": {"speed": 1.04, "direction": "court, concentré, sous tension"},
+    "discovery": {"speed": 0.96, "direction": "observation basse, pensée en train de se former"},
+    "panic": {"speed": 1.08, "direction": "souffle court, contrôle qui se fissure"},
+    "low_hp": {"speed": 0.94, "direction": "douleur contenue, souffle limité"},
+    "companion_death": {"speed": 0.90, "direction": "retenu, presque sans musique dans la voix"},
+    "idle_long": {"speed": 0.92, "direction": "comme si la phrase échappait au personnage"},
+    "choice_wait": {"speed": 0.95, "direction": "adressé à une présence incertaine, sans surjouer"},
+    "repeated_action": {"speed": 1.0, "direction": "constat sec, familiarité inquiétante"},
+    "risk_repeat": {"speed": 0.98, "direction": "accusation calme, personnelle"},
+    "revisit_zone": {"speed": 0.93, "direction": "déjà-vu impossible, doute contenu"},
+    "revelation": {"speed": 0.91, "direction": "phrase posée après un temps de silence"},
+    "many_deaths": {"speed": 0.88, "direction": "fatigue ancienne, aucune emphase"},
+    "last_original_survivor": {"speed": 0.84, "direction": "très calme, presque intime, laisser respirer les silences"}
+  },
+  "meta_delivery": {
+    "fissure": {"speed_multiplier": 0.98, "direction_suffix": "; le personnage n'est pas certain de ce qu'il perçoit"},
+    "direct": {"speed_multiplier": 0.95, "direction_suffix": "; le regard semble viser au-delà de la scène"},
+    "abyssal": {"speed_multiplier": 0.90, "direction_suffix": "; certitude froide, pas d'effet horrifique démonstratif"}
+  },
+  "speaker_overrides": {
+    "aurelien": {"speed_multiplier": 0.97, "reference_filename": "aurelien.wav"},
+    "malvor": {"speed_multiplier": 1.03, "reference_filename": "malvor.wav"},
+    "lysandra": {"speed_multiplier": 0.94, "reference_filename": "lysandra.wav"},
+    "darius": {"speed_multiplier": 1.0, "reference_filename": "darius.wav"}
+  }
+}
