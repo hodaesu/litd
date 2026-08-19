@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "design_source": "visual_vertical_slice_pass_26",
+  "purpose": "Valider dans Godot que le rendu en mouvement respecte la bible graphique approuvée avant de produire le reste du casting 3D.",
+  "reference_priority": [
+    "approved_art_bible",
+    "approved_darius_sheet",
+    "approved_hungry_ghoul_sheet",
+    "existing_repository_concept_art"
+  ],
+  "reference_rules": {
+    "art_bible_is_authoritative": true,
+    "older_assets_must_not_override_approved_direction": true,
+    "approved_art_bible_repo_target": "docs/art/reference/litd_art_bible_master.png",
+    "approved_darius_repo_target": "docs/art/reference/darius_master_sheet.png",
+    "approved_ghoul_repo_target": "docs/art/reference/hungry_ghoul_master_sheet.png",
+    "binary_reference_status": "pending_manual_pc_ingest"
+  },
+  "art_direction": {
+    "identity": "dark_fantasy_chinese_influence_cel_shading",
+    "principles": [
+      "silhouettes fortes et immédiatement lisibles",
+      "détails concentrés sur quelques zones focales, jamais uniformément répartis",
+      "armures, textiles, architectures et accessoires d'influence chinoise intégrés aux formes plutôt qu'ajoutés comme décoration",
+      "personnages sombres mais jamais illisibles",
+      "ombres en aplats propres avec très peu de niveaux",
+      "matières peintes et légèrement usées, sans photoréalisme",
+      "lumière chaude rare contre ambiance froide et cendreuse",
+      "mélancolie, ruines sacrées et espoir visuel discret"
+    ],
+    "forbidden_drift": [
+      "micro_details_sur_toute_la_surface",
+      "armure_fantasy_occidentale_generique",
+      "noirs_bouches_sans_information",
+      "ornement_chinois_pose_comme_simple_decal",
+      "pbr_photorealiste",
+      "glow_neon_envahissant"
+    ],
+    "detail_distribution": {
+      "silhouette": 1.0,
+      "primary_shapes": 0.9,
+      "secondary_shapes": 0.55,
+      "micro_detail": 0.18
+    }
+  },
+  "slice": {
+    "hero_id": "darius",
+    "enemy_id": "enemy_01_goule_affamee",
+    "environment": "ashlands_visual_arena",
+    "target_scene": "res://scenes/visual/visual_vertical_slice_proxy.tscn",
+    "final_scene_target": "res://scenes/visual/visual_vertical_slice.tscn"
+  },
+  "characters": {
+    "darius": {
+      "height_m": 1.96,
+      "role": "visual_meter_reference",
+      "silhouette": "upright_guardian_broad_shield_asymmetric_weapon_side",
+      "mandatory_shapes": ["lamellar_armor", "large_shield", "sword", "lantern", "layered_cloth"],
+      "material_families": ["skin_ashen", "cloth_soot", "iron_tarnished"],
+      "palette_bias": "charcoal_iron_muted_warm_accents",
+      "detail_focus": ["helmet_face_frame", "shield_emblem_or_wear", "lantern", "weapon_hilt"],
+      "keep_simple": ["large_armor_panels", "boots", "rear_cloth_masses"],
+      "animation_minimum": ["idle", "walk", "tactical_step", "attack_light", "attack_heavy", "guard", "hit", "stagger", "death"],
+      "production_notes": [
+        "le bouclier doit rester lisible à la caméra de combat",
+        "les plaques d'armure doivent former de grandes masses, pas une mosaïque de micro-pièces",
+        "la lanterne fournit un accent chaud secondaire et ne doit pas devenir une source néon"
+      ]
+    },
+    "enemy_01_goule_affamee": {
+      "height_m": 1.67,
+      "effective_hunched_height_m": 1.43,
+      "role": "first_enemy_readability_reference",
+      "silhouette": "hunched_emaciated_long_arms_forward_weight",
+      "mandatory_shapes": ["elongated_forearms", "claws", "sunken_torso", "ragged_cloth", "forward_head"],
+      "material_families": ["skin_ashen", "cloth_soot", "bone_old"],
+      "palette_bias": "ashen_skin_soot_cloth_bone_accents",
+      "detail_focus": ["face", "hands_claws", "ribcage_breakup"],
+      "keep_simple": ["legs", "large_skin_areas", "cloth_back"],
+      "animation_minimum": ["idle", "crawl_walk", "lunge", "claw_1", "claw_2", "hit", "stagger", "death"],
+      "production_notes": [
+        "la posture doit être reconnaissable avant les textures",
+        "les bras et les griffes portent la menace principale",
+        "éviter les détails gore fins qui disparaissent à distance de jeu"
+      ]
+    }
+  },
+  "arena": {
+    "size_m": [20.0, 30.0],
+    "playable_clear_zone_m": [12.0, 18.0],
+    "layout": "open_combat_readability_with_ruined_chinese_sacred_frame",
+    "required_props": ["ash_ground", "broken_steps", "two_or_three_pillars", "ruined_wall_or_gate", "torn_banner", "brazier_or_lantern", "debris_clusters"],
+    "background": ["distant_ruins", "mountain_or_cliff_silhouette", "ash_haze"],
+    "clutter_rule": "no_prop_may_break_character_silhouette_inside_core_combat_zone"
+  },
+  "camera": {
+    "projection": "perspective",
+    "fov_degrees": 42.0,
+    "position_m": [8.5, 10.5, 7.2],
+    "look_at_m": [0.0, 0.0, 1.0],
+    "combat_distance_goal": "both_full_bodies_plus_action_space",
+    "validation": ["shield_readable", "ghoul_posture_readable", "attack_telegraphs_clear", "environment_does_not_occlude"]
+  },
+  "lighting": {
+    "world": "cold_low_fill",
+    "key": "cool_moon_or_sky",
+    "accent": "warm_lantern_or_brazier",
+    "rim": "subtle_cool_separation",
+    "rules": [
+      "at least one readable value break between each fighter and the background",
+      "warm accents are focal, not global",
+      "black materials retain midtone structure"
+    ]
+  },
+  "shader": {
+    "godot_path": "res://shaders/litd_cel.gdshader",
+    "outline_path": "res://shaders/litd_outline.gdshader",
+    "shade_steps": 3,
+    "outline": "inverted_hull_optional_per_asset",
+    "mobile_target": "Godot_4_3_gl_compatibility",
+    "material_presets": ["LITD_Skin", "LITD_Cloth", "LITD_Metal", "LITD_Bone", "LITD_Stone", "LITD_Wood"]
+  },
+  "vfx_minimum": ["sword_impact", "ash_step_puff", "subtle_attack_trail", "metal_sparks", "restrained_blood", "lantern_light"],
+  "audio_minimum": ["footstep_ash", "combat_telegraph", "weapon_impact", "ghoul_vocal", "ashlands_wind", "combat_music"],
+  "acceptance": {
+    "all_required": true,
+    "checks": [
+      "darius_matches_approved_sheet_at_game_camera_distance",
+      "ghoul_is_recognizable_from_silhouette_only",
+      "cel_shading_matches_art_bible_values",
+      "dark_materials_keep_readable_form",
+      "chinese_influence_is_structural_not_decorative",
+      "combat_telegraphs_remain_clear",
+      "environment_frames_without_swallowing_fighters",
+      "representative_gameplay_screenshot_belongs_to_same_visual_family_as_art_bible"
+    ]
+  },
+  "pc_handoff": {
+    "before_opening_blender": [
+      "pull_latest_main",
+      "copy_approved_art_bible_to_repo_target",
+      "copy_darius_sheet_to_repo_target",
+      "copy_hungry_ghoul_sheet_to_repo_target",
+      "run_python_vertical_slice_job_generator"
+    ],
+    "blender_sequence": [
+      "build_darius_proxy",
+      "build_ghoul_proxy",
+      "build_arena_proxy",
+      "render_turntable_previews",
+      "record_visual_review",
+      "export_glb_only_after_proxy_review"
+    ],
+    "godot_sequence": [
+      "open_visual_vertical_slice_proxy",
+      "validate_camera_and_shader",
+      "replace_proxies_with_reviewed_glb",
+      "validate_lighting_and_animation",
+      "capture_comparison_screenshots"
+    ]
+  }
+}
