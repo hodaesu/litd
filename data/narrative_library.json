@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "design_source": "cross_media_narrative_library_pass_14",
+  "purpose": "Donner aux quêtes de Light in the Dark une base narrative large, transmédiatique et interculturelle, sans jamais reproduire une intrigue, une scène, un dialogue ou une combinaison distinctive provenant d'une œuvre existante.",
+  "originality_protocol": {
+    "forbidden": [
+      "copier ou paraphraser un dialogue reconnaissable",
+      "reproduire l'ordre distinctif des scènes d'une œuvre unique",
+      "reprendre un personnage avec son nom, son histoire, ses relations et sa fonction dramatique reconnaissables",
+      "rejouer un twist signature avec les mêmes prémisses et la même révélation",
+      "transposer presque littéralement une quête, un contrat, un épisode, un conte ou une pièce"
+    ],
+    "required": [
+      "extraire uniquement des mécanismes abstraits de narration",
+      "mélanger au moins trois familles narratives non adjacentes lorsqu'une quête importante est écrite",
+      "ancrer le résultat dans le lore, les lieux, les personnages et les systèmes propres à Light in the Dark",
+      "faire dépendre le conflit d'un besoin humain ou politique spécifique aux personnages concernés",
+      "effectuer un test de distance : si une œuvre-source précise peut être devinée à partir de la séquence d'événements, réécrire",
+      "ne jamais traiter un matériau religieux, rituel ou culturel vivant comme un simple réservoir exotique ; privilégier les mécanismes généraux et le contexte"
+    ]
+  },
+  "quality_axes": [
+    {"id":"human_stake","label":"Enjeu humain","question":"Qui veut quoi, pourquoi maintenant, et qu'est-ce que l'échec lui coûte personnellement ?"},
+    {"id":"dramatic_question","label":"Question dramatique","question":"Quelle incertitude maintient la quête vivante jusqu'à sa résolution ?"},
+    {"id":"reframing","label":"Recontextualisation","question":"Quelle découverte change le sens de ce que le joueur croyait comprendre ?"},
+    {"id":"playable_story","label":"Narration jouée","question":"Qu'est-ce que le joueur fait pour produire l'histoire au lieu de seulement l'écouter ?"},
+    {"id":"moral_friction","label":"Friction morale","question":"Quels biens, devoirs ou personnes légitimes entrent en conflit sans réponse binaire imposée ?"},
+    {"id":"character_change","label":"Transformation","question":"Qui ressort différent, même légèrement, et pourquoi ?"},
+    {"id":"world_specificity","label":"Spécificité du monde","question":"Pourquoi cette histoire ne pourrait-elle arriver que dans ce lieu et cette société de Light in the Dark ?"},
+    {"id":"aftermath","label":"Après-coup","question":"Quelle trace reste dans un personnage, un lieu, une rumeur, une relation ou le Sanctuaire ?"},
+    {"id":"subtext","label":"Sous-texte","question":"Qu'est-ce qu'un personnage pense, craint ou désire sans le dire directement ?"},
+    {"id":"originality","label":"Distance créative","question":"La quête reste-t-elle méconnaissable comme dérivé d'une œuvre unique ?"}
+  ],
+  "narrative_devices": [
+    {"id":"reversal","family":"tragedy","use":"Une action destinée à améliorer la situation produit l'effet opposé, de façon causale plutôt qu'arbitraire."},
+    {"id":"recognition","family":"tragedy","use":"Une connaissance nouvelle transforme les relations, les responsabilités ou la lecture d'un événement passé."},
+    {"id":"conflicting_duties","family":"tragedy_ethics","use":"Deux obligations défendables deviennent incompatibles."},
+    {"id":"moral_luck","family":"philosophy","use":"Les conséquences d'un choix dépendent en partie de circonstances hors du contrôle du personnage, puis reconfigurent le jugement porté sur lui."},
+    {"id":"existential_choice","family":"philosophy","use":"Le choix révèle ce qu'un personnage décide de devenir lorsque aucune règle ne le décharge entièrement de sa responsabilité."},
+    {"id":"narrative_identity","family":"psychology_philosophy","use":"Un personnage réinterprète son passé et modifie le récit qu'il fait de lui-même."},
+    {"id":"unreliable_self_story","family":"psychological_fiction","use":"Le personnage dit vrai sur les faits mais se trompe sur ses propres motifs, ou inversement."},
+    {"id":"projection","family":"psychological_fiction","use":"La peur ou la culpabilité d'un personnage est attribuée à une personne, une créature ou un groupe extérieur."},
+    {"id":"obsession_spiral","family":"psychological_horror","use":"Une tentative de contrôle réduit progressivement le monde du personnage jusqu'à rendre son objectif destructeur."},
+    {"id":"ambiguous_supernatural","family":"fantastique_gothic","use":"Une expérience peut garder simultanément une lecture rationnelle et une lecture surnaturelle suffisamment crédibles."},
+    {"id":"haunted_place","family":"gothic","use":"Un lieu conserve matériellement les conséquences d'un événement passé et agit comme archive dramatique."},
+    {"id":"clue_reframe","family":"mystery","use":"Un indice ancien reste exact mais change de signification lorsque le contexte est découvert."},
+    {"id":"false_hypothesis","family":"mystery_noir","use":"Le joueur construit une explication plausible mais incomplète avant que les faits n'en révèlent les angles morts."},
+    {"id":"compromised_witness","family":"noir","use":"La meilleure source disponible dit une vérité intéressée, partielle ou honteuse."},
+    {"id":"trickster_inversion","family":"folklore","use":"Un acteur faible renverse un rapport de force par l'interprétation littérale, la ruse ou le détournement d'une règle."},
+    {"id":"taboo_and_cost","family":"folklore","use":"Une interdiction existe pour une raison réelle mais la respecter ou la briser impose chacune un coût."},
+    {"id":"gift_as_test","family":"folklore","use":"Un don apparemment utile révèle ensuite ce que son bénéficiaire valorise ou refuse de sacrifier."},
+    {"id":"return_changed","family":"epic","use":"Le retour dans un lieu connu prouve que le voyage a transformé le héros, le lieu, ou les deux."},
+    {"id":"hubris_to_wisdom","family":"epic","use":"La puissance initiale devient insuffisante face à la mortalité, à la responsabilité ou aux limites du contrôle."},
+    {"id":"choral_perspective","family":"theatre","use":"Plusieurs voix de communauté commentent le même événement sans devenir une vérité officielle unique."},
+    {"id":"subtext_duel","family":"theatre","use":"Une conversation porte officiellement sur un sujet et réellement sur une dette, une peur, un désir ou une menace."},
+    {"id":"offstage_consequence","family":"theatre","use":"Un événement important survient hors du regard direct du joueur et n'est connu que par ses traces et récits contradictoires."},
+    {"id":"jo_ha_kyu","family":"noh","use":"Installer lentement une présence ou un motif, développer et densifier les implications, puis conclure avec une accélération nette."},
+    {"id":"absurd_repetition","family":"theatre_absurd","use":"Une routine répétée devient progressivement inquiétante parce qu'elle expose l'absence de sens ou l'incapacité d'un système à répondre au réel."},
+    {"id":"social_inversion","family":"comedy_satire","use":"Un changement de statut ou de contexte révèle les hypocrisies d'une institution ou d'un groupe."},
+    {"id":"perspective_split","family":"modern_narrative","use":"Deux témoins sincères donnent des versions incompatibles parce qu'ils n'ont ni le même angle ni les mêmes intérêts."},
+    {"id":"fragmented_memory","family":"modern_narrative","use":"Le sens d'un événement émerge par fragments non chronologiques, chacun limité à ce qu'un témoin pouvait réellement savoir."},
+    {"id":"story_as_reward","family":"interactive_quest_design","use":"La révélation, la transformation ou la conséquence doit justifier la quête même si l'or et l'expérience étaient retirés."},
+    {"id":"choice_echo","family":"interactive_quest_design","use":"Un choix revient plus tard sous forme de personne, de lieu, de rumeur ou de contrainte plutôt que comme simple texte de bilan."}
+  ],
+  "corpus_families": [
+    {"id":"ancient_epic_and_myth","focus":["mortalité","gouvernance","retour","hubris","serment","héritage"],"reference_examples":["Épopée de Gilgamesh","Iliade","Odyssée","Mahabharata","Ramayana","Shahnameh","Beowulf","Kalevala","Popol Vuh","Heike monogatari","Mabinogion","Cycle arthurien","Voyage en Occident","Les Mille et Une Nuits"]},
+    {"id":"folklore_worldwide","focus":["ruse","tabou","épreuve","don","métamorphose","conte merveilleux","légende","croyance"],"reference_examples":["ATU tale types","contes de Grimm","contes de Perrault","traditions d'Anansi","Jack Tales appalachiens","contes de tricksters","légendes et récits de croyance","traditions orales internationales"]},
+    {"id":"fantasy_literature","focus":["monde secondaire","quête","langage","pouvoir","mythe réinventé","ambiguïté morale"],"reference_examples":["The Lord of the Rings","Earthsea","Gormenghast","Elric","The Book of the New Sun","The Witcher","A Song of Ice and Fire","Malazan Book of the Fallen","The Broken Earth","Discworld","Realm of the Elderlings","Bas-Lag","The Once and Future King","Jonathan Strange & Mr Norrell"]},
+    {"id":"heroic_dark_fantasy_cinema","focus":["quête visuelle","mythe incarné","monstre empathique","paysage moral","fatalité","merveille sombre"],"reference_examples":["The Lord of the Rings trilogy","Excalibur","Conan the Barbarian","Princess Mononoke","Pan's Labyrinth","The Green Knight","Legend","Willow","Dragonslayer","The Dark Crystal","Tale of Tales","Crouching Tiger, Hidden Dragon"]},
+    {"id":"greek_and_shakespearean_tragedy","focus":["reconnaissance","renversement","faute","devoirs incompatibles","pouvoir","famille"],"reference_examples":["Oedipus Rex","Antigone","Medea","The Oresteia","Hamlet","Macbeth","King Lear","Othello","Julius Caesar"]},
+    {"id":"modern_theatre","focus":["sous-texte","conflit domestique","institution","silence","absurde","distanciation"],"reference_examples":["A Doll's House","Ghosts","Hedda Gabler","The Cherry Orchard","Three Sisters","Mother Courage and Her Children","Waiting for Godot","No Exit","Rhinoceros","Six Characters in Search of an Author","Death of a Salesman","Atsumori and other Noh repertoire"]},
+    {"id":"psychological_and_philosophical_novels","focus":["culpabilité","liberté","identité","obsession","aliénation","auto-illusion"],"reference_examples":["Crime and Punishment","The Brothers Karamazov","Notes from Underground","The Trial","The Castle","The Stranger","The Plague","Nausea","Steppenwolf","The Magic Mountain","Mrs Dalloway","The Sound and the Fury","Beloved","Never Let Me Go","The Remains of the Day"]},
+    {"id":"gothic_horror_fantastique","focus":["ambiguïté","lieu hanté","double","interdit","corps","peur du savoir"],"reference_examples":["Frankenstein","Dracula","The Turn of the Screw","The Haunting of Hill House","We Have Always Lived in the Castle","The Fall of the House of Usher","Orphée","La Belle et la Bête","Meshes of the Afternoon","The Company of Wolves"]},
+    {"id":"mystery_noir_crime","focus":["indice","hypothèse","secret","témoin compromis","culpabilité distribuée","institution"],"reference_examples":["Sherlock Holmes stories","Agatha Christie mysteries","Raymond Chandler novels","Patricia Highsmith novels","The Name of the Rose","Borges detective fictions","film noir traditions"]},
+    {"id":"social_political_historical_fiction","focus":["classe","institution","guerre","révolution","mémoire collective","responsabilité politique"],"reference_examples":["Les Misérables","War and Peace","Germinal","A Tale of Two Cities","Things Fall Apart","The Grapes of Wrath","The Leopard","Midnight's Children","One Hundred Years of Solitude"]},
+    {"id":"modern_world_literature","focus":["mémoire","famille","colonisation","déplacement","silence","identité"],"reference_examples":["Kokoro","The Woman in the Dunes","Snow Country","The Temple of the Golden Pavilion","Palace Walk","Season of Migration to the North","Pedro Páramo","Blindness","The God of Small Things"]},
+    {"id":"cinematic_drama_and_authorship","focus":["point de vue","ellipse","silence","mémoire","geste","temps"],"reference_examples":["films d'Akira Kurosawa","films d'Ingmar Bergman","films d'Andrei Tarkovsky","films de Federico Fellini","films de Guillermo del Toro","cinéma fantastique français","cinéma de conte et de folklore"]},
+    {"id":"interactive_quest_design","focus":["action jouée","choix et conséquence","réapparition","économie d'exposition","histoire comme récompense"],"reference_examples":["The Witcher 3 quest design lessons","narrative RPG quest design","environmental storytelling","branching consequence design"]}
+  ]
+}
