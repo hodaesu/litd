@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "design_source": "prepc_demo_production_pass_29",
+  "milestone": "first_presentable_demo",
+  "definition_of_done": "Une personne extérieure peut lancer une partie, comprendre la boucle Sanctuaire -> expédition -> choix -> combat -> conséquence -> retour, jouer 45 à 65 minutes sans outil de développement et voir une direction visuelle cohérente avec l'Art Bible.",
+  "production_order_after_vertical_slice": [
+    {"order":1,"id":"aurelien","kind":"hero","reason":"valider un corps plus léger, effets occultes et silhouette différente de Darius"},
+    {"order":2,"id":"malvor","kind":"hero","reason":"valider masse, arme lourde et impacts"},
+    {"order":3,"id":"lysandra","kind":"hero","reason":"valider tissus clairs, lumière sacrée et soin"},
+    {"order":4,"id":"enemy_08_oni","kind":"enemy","reason":"valider grande échelle, armure lourde et kanabo"},
+    {"order":5,"id":"jorogumo","kind":"enemy","reason":"valider anatomie non humanoïde et contrôle de fils"},
+    {"order":6,"id":"ange_inverse","kind":"boss","reason":"valider boss non capturable, ailes et mise en scène sacrée brisée"},
+    {"order":7,"id":"ashlands_environment_set","kind":"environment","reason":"étendre la grammaire de l'arène à plusieurs zones sans perdre la lisibilité"},
+    {"order":8,"id":"weapons_relics_set","kind":"props","reason":"décliner les matériaux et sockets validés"},
+    {"order":9,"id":"sanctuary_set","kind":"environment","reason":"construire le second pôle visuel de la boucle de jeu"}
+  ],
+  "phases": [
+    {
+      "id":"P0_prepc_locked",
+      "status":"complete_when_this_pass_merges",
+      "goal":"Tout ce qui peut être décidé sans Blender ou validation visuelle réelle est documenté, structuré et testé.",
+      "deliverables":["combat_choreography","animation_specs","vfx_audio_camera","demo_content","balance_targets","final_ui_contract","demo_roadmap"]
+    },
+    {
+      "id":"P1_vertical_slice_pc",
+      "goal":"Valider Darius + Goule + arène en mouvement.",
+      "requires_pc":true,
+      "deliverables":["reviewed_darius_glb","reviewed_ghoul_glb","reviewed_arena_glb","cel_shader_validation","camera_validation","performance_baseline"],
+      "exit_gate":["art_bible_visual_review_pass","godot_profile_pass_or_documented_mobile_followup","combat_telegraphs_readable"]
+    },
+    {
+      "id":"P2_demo_cast",
+      "goal":"Produire les trois autres héros et les ennemis nécessaires à la démo avec le pipeline validé.",
+      "requires_pc":true,
+      "exit_gate":["four_heroes_playable","demo_enemy_set_playable","capture_ghoul_functional","no_missing_required_animation"]
+    },
+    {
+      "id":"P3_demo_world",
+      "goal":"Assembler Sanctuaire et parcours court des Terres de Cendre.",
+      "requires_pc":true,
+      "exit_gate":["sanctuary_loop_complete","field_choice_persists","boss_route_complete","journal_updates"]
+    },
+    {
+      "id":"P4_demo_polish",
+      "goal":"Audio, VFX, UI, onboarding, sauvegarde, difficulté et accessibilité au niveau démonstration.",
+      "requires_pc":true,
+      "exit_gate":["45_to_65_minute_clean_run","no_progression_blocker","save_load_roundtrip","touch_landscape_pass","audio_mix_pass"]
+    },
+    {
+      "id":"P5_external_demo",
+      "goal":"Version présentable à une personne qui ne connaît pas le projet.",
+      "requires_pc":true,
+      "exit_gate":["fresh_player_can_complete_without_explanation","crash_free_target_session","visual_identity_recognizable","feedback_log_collected"]
+    }
+  ],
+  "demo_required_systems": [
+    "new_game_and_save_load",
+    "sanctuary_navigation",
+    "party_and_equipment",
+    "skill_tree_read_only_or_limited_progression",
+    "expedition_resources",
+    "field_choice",
+    "turn_based_combat",
+    "fear",
+    "capture_optional",
+    "boss_puzzle",
+    "permadeath_safe_narrative",
+    "journal",
+    "community_return_consequence",
+    "audio_director",
+    "contextual_hud"
+  ],
+  "can_wait_until_after_demo": [
+    "full_chapters_2_to_10_content_polish",
+    "all_final_ultimates",
+    "all_armor_variants",
+    "advanced_weather",
+    "large_scale_destruction",
+    "complete_dismemberment_visual_set",
+    "all_optional_deep_vestiges",
+    "final_localization_matrix",
+    "full_voice_dubbing"
+  ],
+  "release_quality_gates": {
+    "stability": {"crashes":0,"progression_blockers":0,"save_corruption":0},
+    "performance": {"iphone_landscape_target_fps":60,"minimum_validation_fps":50},
+    "content": {"main_demo_route_complete":true,"at_least_two_meaningful_outcome_variants":true,"one_optional_capture":true,"one_boss":true},
+    "presentation": {"art_bible_match_required":true,"temporary_debug_ui_visible":false,"placeholder_text_visible":false},
+    "accessibility": {"camera_shake_disable":true,"reduced_motion":true,"text_scale":true,"touch_only_complete":true}
+  }
+}
