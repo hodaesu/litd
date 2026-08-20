@@ -68,6 +68,14 @@ jobs:
         run: python -m tools.qa.visual_vertical_slice_audit
       - name: Vérifier les jobs Blender du vertical slice
         run: python -m tools.blender.generate_visual_vertical_slice_jobs --check
+      - name: Audit runtime et budgets du vertical slice
+        run: python -m tools.qa.visual_slice_runtime_audit
+      - name: Audit exemples de validation 3D
+        run: python -m tools.qa.visual_slice_examples_audit
+      - name: Audit schéma de revue Art Bible
+        run: python -m tools.qa.visual_slice_review_schema_audit
+      - name: Preflight première session PC sans binaires locaux
+        run: python tools/blender/vertical_slice_session.py --preflight --ci
       - name: Audit bibliothèque musicale, licences et cues narratifs
         run: python -m tools.qa.music_library_audit
       - name: Audit bibliothèque de bruitages et sound design

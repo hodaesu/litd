@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "examples": {
+    "darius": {
+      "asset_id": "darius",
+      "triangles_lod0": 50000,
+      "triangles_lod1": 25000,
+      "triangles_lod2": 10000,
+      "materials": 3,
+      "bones": 18,
+      "bone_names": ["root", "hips", "spine", "chest", "neck", "head", "upper_arm.L", "forearm.L", "hand.L", "upper_arm.R", "forearm.R", "hand.R", "thigh.L", "shin.L", "foot.L", "thigh.R", "shin.R", "foot.R"],
+      "skinned_meshes": 2,
+      "max_texture_px": 2048,
+      "sockets": ["SOCKET_weapon_r", "SOCKET_weapon_l", "SOCKET_head", "SOCKET_back", "SOCKET_fx_root"],
+      "animations": ["idle", "walk", "tactical_step", "attack_light", "attack_heavy", "guard", "hit", "stagger", "death"],
+      "up_axis": "Y",
+      "meters_per_unit": 1.0,
+      "negative_scale": false
+    },
+    "arena": {
+      "asset_id": "ashlands_visual_arena",
+      "visible_triangles": 150000,
+      "visible_materials": 14,
+      "max_texture_px": 2048,
+      "up_axis": "Y",
+      "meters_per_unit": 1.0,
+      "negative_scale": false
+    }
+  }
+}

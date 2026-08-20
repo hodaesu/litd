@@ -51,6 +51,7 @@ run_checked "Audio narratif : dialogues, Sanctuaire, silence et motifs" godot --
 run_checked "Dialogues réactifs : mortalité, voix et quatrième mur" godot --headless --path . res://scenes/tests/dialogue_director_smoke.tscn
 run_checked "Voix synthétiques : manifest approuvé et fallback texte" godot --headless --path . res://scenes/tests/voice_runtime_smoke.tscn
 run_checked "Vertical slice visuel : Darius, Goule, shader, caméra et arène proxy" godot --headless --path . res://scenes/tests/visual_vertical_slice_smoke.tscn
+run_checked "Vertical slice runtime : import, animations et mini-combat" godot --headless --path . res://scenes/tests/visual_slice_runtime_smoke.tscn
 run_checked "Parcours campagne I→X, fin, postgame et NG+" godot --headless --path . res://scenes/tests/campaign_e2e_smoke.tscn
 run_checked "Opérations joueur : scènes, expédition, équipement, capture et sauvegarde disque" godot --headless --path . res://scenes/tests/runtime_player_smoke.tscn
 run_checked "Parcours UI joueur : Sanctuaire, exploration, combat, récompenses et retour" timeout 90s godot --headless --path . res://scenes/tests/ui_player_journey_smoke.tscn

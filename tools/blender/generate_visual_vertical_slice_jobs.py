@@ -117,7 +117,7 @@ def build_payload(root: Path = ROOT) -> dict:
     }
 
     return {
-        "version": 1,
+        "version": 2,
         "generator": "tools/blender/generate_visual_vertical_slice_jobs.py",
         "contract": "data/visual_vertical_slice.json",
         "status": "prepared_without_blender",
