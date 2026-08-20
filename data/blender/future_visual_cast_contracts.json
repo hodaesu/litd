@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "status": "contracts_only_until_vertical_slice_accepted",
+  "rule": "No final mesh, texture or animation production may begin from this file until Darius vs Ghoul vertical slice passes visual review.",
+  "assets": [
+    {"asset_id":"aurelien","kind":"hero","source_character_job":"character_aurelien","reference_status":"approved_sheet_expected","pipeline":"same_as_darius_after_validation"},
+    {"asset_id":"malvor","kind":"hero","source_character_job":"character_malvor","reference_status":"approved_sheet_expected","pipeline":"same_as_darius_after_validation"},
+    {"asset_id":"lysandra","kind":"hero","source_character_job":"character_lysandra","reference_status":"approved_sheet_expected","pipeline":"same_as_darius_after_validation"},
+    {"asset_id":"enemy_08_oni","kind":"enemy","source_character_job":"character_enemy_08_oni","reference_status":"approved_sheet_expected","pipeline":"same_as_ghoul_after_validation"},
+    {"asset_id":"jorogumo","kind":"enemy","source_character_job":"resolve_after_live_enemy_registry_check","reference_status":"approved_sheet_expected","pipeline":"same_as_ghoul_after_validation"},
+    {"asset_id":"ange_inverse","kind":"boss","source_character_job":"resolve_after_live_boss_registry_check","reference_status":"approved_sheet_expected","pipeline":"boss_extension_after_validation"}
+  ]
+}
