@@ -1,7 +1,7 @@
 extends CanvasLayer
 
-# Le HUD général est invisible par défaut. Un écran doit être explicitement
-# déclaré comme utile pour afficher les ressources globales.
+# Le CanvasLayer conserve le rendu historique du header et des bannières.
+# La décision de ce qui mérite d'être visible appartient désormais à HUDDirector.
 const HUD_VISIBLE_SCREENS := {
     "combat": true,
     "market": true,
@@ -22,14 +22,16 @@ func _ready() -> void:
     get_tree().node_added.connect(_on_tree_node_added)
     if not PsychologyRuntime.feedback_requested.is_connected(_on_psychology_feedback):
         PsychologyRuntime.feedback_requested.connect(_on_psychology_feedback)
+    if not HUDDirector.event_presented.is_connected(_on_hud_event_presented):
+        HUDDirector.event_presented.connect(_on_hud_event_presented)
+    HUDDirector.set_screen_context(GameState.current_screen)
     call_deferred("_apply_current_context")
 
 func _on_screen_requested(screen_name: String) -> void:
+    HUDDirector.set_screen_context(screen_name)
     call_deferred("_apply_context", screen_name)
 
 func _on_tree_node_added(node: Node) -> void:
-    # Les autoloads sont prêts avant la scène principale. Au lieu de boucler
-    # tant que le Header n'existe pas, on réessaie uniquement lorsqu'il apparaît.
     if node.name == "Header":
         _header = node as Control
         _main_content = null
@@ -50,8 +52,6 @@ func _resolve_main_ui() -> bool:
     var parent := _header.get_parent()
     if parent == null:
         return false
-    # Dans l'UI principale, le contenu est le Control plein écran frère du Header.
-    # On évite le fond ColorRect et les conteneurs du header lui-même.
     for child in parent.get_children():
         if child == _header:
             continue
@@ -67,26 +67,59 @@ func _apply_context(screen_name: String) -> void:
         return
     var visible := hud_is_useful(screen_name)
     _header.visible = visible
-    # Quand le HUD disparaît, le décor reprend réellement tout l'écran :
-    # aucune bande vide n'est conservée dans le hub ou l'exploration.
     _main_content.offset_top = HEADER_HEIGHT if visible else 0.0
 
 func show_temporarily() -> void:
-    # Hook prévu pour une interaction contextuelle ponctuelle sans changer d'écran.
     if _resolve_main_ui():
         _header.visible = true
         _main_content.offset_top = HEADER_HEIGHT
 
 func restore_context() -> void:
+    HUDDirector.set_screen_context(GameState.current_screen)
     _apply_context(GameState.current_screen)
 
 func _on_psychology_feedback(title: String, text: String) -> void:
+    _psychology_feedback_generation += 1
+    var payload := {
+        "title": title,
+        "text": text,
+        "renderer": "psychology_banner",
+        "context_active": true,
+    }
+    HUDDirector.route_event(
+        "psychology_feedback_%d" % _psychology_feedback_generation,
+        "ACTIONABLE",
+        HUDDirector.LEVEL_CONTEXT,
+        payload,
+        2.2
+    )
+
+func _on_hud_event_presented(item: Dictionary) -> void:
+    var payload: Dictionary = item.get("payload", {})
+    var renderer := str(payload.get("renderer", ""))
+    if renderer != "psychology_banner" and not bool(payload.get("use_context_banner", false)):
+        return
+    var title := str(payload.get("title", ""))
+    var text := str(payload.get("text", ""))
+    if title.is_empty() and text.is_empty():
+        return
+    _show_context_banner(title, text, float(item.get("ttl_seconds", 2.2)))
+
+func _show_context_banner(title: String, text: String, ttl_seconds: float) -> void:
     _ensure_psychology_banner()
     _psychology_feedback_generation += 1
     var generation := _psychology_feedback_generation
-    _psychology_banner_label.text = "%s\n%s" % [title, text]
+    _psychology_banner_label.text = "%s\n%s" % [title, text] if not title.is_empty() else text
     _psychology_banner.visible = true
-    await get_tree().create_timer(3.2).timeout
+    var motion := HUDDirector.motion_profile()
+    var appearance_seconds := float(motion.get("appearance_seconds", 0.15))
+    if appearance_seconds > 0.0:
+        _psychology_banner.modulate.a = 0.0
+        var tween := create_tween()
+        tween.tween_property(_psychology_banner, "modulate:a", 1.0, appearance_seconds)
+    else:
+        _psychology_banner.modulate.a = 1.0
+    await get_tree().create_timer(maxf(ttl_seconds, 0.1)).timeout
     if generation == _psychology_feedback_generation and is_instance_valid(_psychology_banner):
         _psychology_banner.visible = false
 
