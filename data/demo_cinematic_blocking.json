@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "design_source": "physical_cinematic_direction_pass_32",
+  "purpose": "Préparer les cinématiques et moments mis en scène de la démo avant animation finale, avec blocking, langage non verbal, caméra, lumière, son et retour gameplay.",
+  "scenes": [
+    {
+      "id":"cine_demo_00_departure",
+      "flow_id":"demo_00_sanctuary",
+      "dramatic_objective":"faire sentir une compagnie qui se prépare sans exposition frontale",
+      "power_start":"shared_practical_focus",
+      "power_end":"Darius_temporarily_sets_departure_axis",
+      "blocking":[
+        "Malvor travaille sur l'équipement en bord de cadre, jamais au centre par défaut",
+        "Aurélien consulte une carte ou un objet puis se déplace vers la sortie quand une décision devient concrète",
+        "Lysandra reste orientée vers le groupe mais laisse des espaces de circulation",
+        "Darius entre dans l'axe de départ seulement quand il faut transformer la discussion en action"
+      ],
+      "beats":[
+        {"id":"prepare","action":"individual_tasks_continue","body":"small_functional_actions","camera":"wide_static","reason":"établir les relations par l'espace"},
+        {"id":"decision","action":"tasks_stop_one_by_one","body":"stillness_spreads","camera":"slow_dolly_in","reason":"la décision collective devient le nouveau centre"},
+        {"id":"depart","action":"Darius_clears_then_claims_exit_axis","body":"group_reorients_without_salute_or_pose","camera":"medium_wide_hold","reason":"préparer un retour fluide au contrôle joueur"}
+      ],
+      "lighting":"warm_sanctuary_pool_with_cool_exit",
+      "sound":"practical_foley_first; music may enter only after decision lands",
+      "handoff":"control_returns_facing_exit_with_party_paths_unblocked"
+    },
+    {
+      "id":"cine_demo_01_ash_entry",
+      "flow_id":"demo_01_ash_approach",
+      "dialogue_ids":["demo_darius_ash_01"],
+      "dramatic_objective":"faire sentir que les Cendres conservent une mémoire active avant de l'expliquer",
+      "power_start":"environment_dominates",
+      "power_end":"party_regains_partial_readability",
+      "blocking":[
+        "le groupe entre étiré plutôt qu'en ligne héroïque",
+        "Aurélien repère la trace avant de parler",
+        "Darius se place entre la profondeur inconnue et le groupe sans fermer totalement la vue",
+        "les autres s'arrêtent à des distances différentes selon leur signature corporelle"
+      ],
+      "beats":[
+        {"id":"arrival","body":"movement_slows_before_dialogue","camera":"wide_context","reason":"le monde doit être lu avant les visages"},
+        {"id":"trace","body":"Aurélien gaze_leads; Darius shield_axis tightens","camera":"pan_to_handprint_not_insert_first","reason":"faire découvrir la trace depuis le corps des personnages"},
+        {"id":"line","body":"Darius remains mostly still","camera":"medium_wide_on_group_not_closeup","reason":"la phrase appartient au lieu autant qu'à Darius"},
+        {"id":"resume","body":"party_restarts_asynchronously","camera":"settle_to_game_camera_axis","reason":"continuité gameplay"}
+      ],
+      "lighting":"cold_ash_fill; lantern amber kept small and readable",
+      "sound":"wind precedes image detail; no sting on handprint",
+      "handoff":"return control with handprint still visible in peripheral composition"
+    },
+    {
+      "id":"cine_demo_02_survivor_choice",
+      "flow_id":"demo_02_field_choice",
+      "dialogue_ids":["demo_malvor_survivors_01"],
+      "dramatic_objective":"laisser le poids du choix exister sans commentaire moral automatique",
+      "power_start":"survivors_and_party_share_uncertain_space",
+      "power_end":"decision_has_cost_but_no_authoritative_verdict",
+      "blocking":[
+        "les survivants gardent leur propre espace et ne deviennent pas un demi-cercle face au héros",
+        "celui qui prend la décision ne doit pas automatiquement occuper le centre",
+        "Malvor reste près des ressources ou du sac plutôt que près du visage du décideur",
+        "après le choix, personne ne se rapproche immédiatement pour rassurer"
+      ],
+      "beats":[
+        {"id":"choice_pending","body":"small_glances_between_resources_and_people","camera":"wide_with_both_groups","reason":"montrer simultanément humains et coût matériel"},
+        {"id":"choice_lands","body":"one_or_two_tasks_stop; no collective nod","camera":"hold_without_cut_for_short_silence","reason":"laisser la décision exister"},
+        {"id":"malvor_line","body":"Malvor touches or weighs pack once, not the listener","camera":"medium_on_Malvor_with_resources_in_frame","reason":"le sous-texte passe par l'objet"},
+        {"id":"separation","body":"survivors choose their own exit/path","camera":"do_not_follow_automatically","reason":"préserver leur autonomie"}
+      ],
+      "lighting":"natural_location_motivation; no moral warm/cold coding",
+      "sound":"inventory weight and footsteps matter more than score",
+      "handoff":"player regains control after survivors have a readable autonomous route"
+    },
+    {
+      "id":"cine_demo_03_ghoul_capture_window",
+      "flow_id":"demo_03_ghoul",
+      "dialogue_ids":["demo_darius_ghoul_01"],
+      "dramatic_objective":"rendre lisible que la Goule cherche une sortie plutôt qu'une reddition",
+      "power_start":"party_has_combat_advantage",
+      "power_end":"choice_reopens_without_declaring_domination",
+      "blocking":[
+        "la Goule pivote vers une sortie avant de reculer",
+        "le groupe ne ferme pas automatiquement l'espace quand l'interface de capture devient possible",
+        "Darius garde une ligne de protection mais décale son bouclier pour révéler la trajectoire de fuite",
+        "aucun personnage ne s'approche en posture de maître ou de récompense"
+      ],
+      "beats":[
+        {"id":"combat_break","body":"ghoul_freezes_then_exit_gaze","camera":"brief_wider_frame","reason":"faire apparaître la géographie de fuite"},
+        {"id":"retreat","body":"ghoul front angle breaks from party","camera":"small_truck_reveals_exit","reason":"révéler une intention spatiale, pas embellir"},
+        {"id":"darius_warning","body":"Darius gaze follows exit, not ghoul face","camera":"medium_wide_shared_axis","reason":"lier son analyse à ce qu'il observe"},
+        {"id":"choice","body":"all_hold_tactical_readiness","camera":"return_gameplay_camera","reason":"le joueur doit décider sans cinématique coercitive"}
+      ],
+      "lighting":"keep_ghoul_silhouette_separate_from_exit",
+      "sound":"breath, claw scrape and ash step communicate retreat; music reduces rather than resolves",
+      "handoff":"capture/attack/withdraw options readable immediately"
+    },
+    {
+      "id":"cine_demo_04_witness_recognition",
+      "flow_id":"demo_04_witness",
+      "dialogue_ids":["demo_aurelien_witness_01","demo_malvor_witness_01"],
+      "dramatic_objective":"faire comprendre la répétition du geste avant de récompenser sa reconnaissance mécaniquement",
+      "power_start":"Witness_controls_pattern",
+      "power_end":"party_understands_pattern_without_mastering_it_fully",
+      "blocking":[
+        "le Témoin répète exactement le même axe principal autant que possible",
+        "Aurélien se décale pour comparer le nouveau geste à la trajectoire précédente",
+        "Malvor conserve la ligne de survie pratique plutôt que de venir observer au même endroit",
+        "Darius protège l'espace de lecture sans masquer le geste répétitif"
+      ],
+      "beats":[
+        {"id":"repeat_one","body":"Witness ritual arm path repeats","camera":"same_composition_as_previous_attack","reason":"la caméra elle-même prouve la répétition"},
+        {"id":"recognition","body":"Aurélien stops before speaking","camera":"hold_listener_then_small_dolly","reason":"la pensée doit précéder l'explication"},
+        {"id":"team_reframes","body":"party axes change from recoil to anticipation","camera":"wider tactical read","reason":"montrer la compréhension dans le corps"},
+        {"id":"malvor_line","body":"Malvor checks expected impact point rather than Aurélien","camera":"cut_on_attention_shift","reason":"confirmer que l'information devient action"}
+      ],
+      "lighting":"ritual gesture remains readable against environment; no flash that hides silhouette",
+      "sound":"repeated attack shares recognizable timing motif; recognition window removes one layer rather than adding triumph cue",
+      "handoff":"control returns before next attack with telegraph readable"
+    },
+    {
+      "id":"cine_demo_05_return",
+      "flow_id":"demo_05_return",
+      "dialogue_ids":["demo_lysandra_return_01","demo_darius_return_01","demo_narration_marker","demo_narration_end"],
+      "dramatic_objective":"montrer que revenir au Sanctuaire ne restaure pas l'état précédent",
+      "power_start":"party_expects_home_axis",
+      "power_end":"Sanctuary_is_familiar_but_changed",
+      "blocking":[
+        "le groupe franchit l'entrée avec des espacements différents de la scène de départ",
+        "si une composition a changé par mort ou capture, ne pas combler artificiellement le vide",
+        "Lysandra observe l'absence ou la présence communautaire avant de commenter",
+        "Darius s'arrête légèrement avant son ancien point de départ, sans cérémonial",
+        "la marque des trois traits est découverte par trajectoire, pas par insert imposé d'abord"
+      ],
+      "beats":[
+        {"id":"threshold","body":"party slows at familiar boundary","camera":"echo_departure_wide_with_changed_spacing","reason":"la comparaison visuelle fait partie du récit"},
+        {"id":"marker","body":"one gaze catches copper mark; others receive at different times","camera":"pan_from_reaction_to_marker","reason":"objet découvert par performance"},
+        {"id":"lysandra_line","body":"she shares orientation with absence rather than camera","camera":"medium_wide_with_negative_space","reason":"faire exister ceux qui ne sont pas là"},
+        {"id":"darius_line","body":"Darius stops, loosens shield boundary one degree then reclaims it","camera":"hold_after_line_half_second","reason":"le sous-texte reste dans le corps"},
+        {"id":"handoff","body":"characters resume individual sanctuary paths","camera":"ease_to_gameplay_axis","reason":"le monde continue après la phrase"}
+      ],
+      "lighting":"warm sanctuary remains but does not erase cold exterior residue",
+      "sound":"familiar ambience returns with one changed layer based on consequences",
+      "handoff":"journal/interaction prompts become available only after camera is fully gameplay-readable"
+    }
+  ]
+}
