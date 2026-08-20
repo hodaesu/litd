@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "design_source": "dramatic_voice_direction_pass_31",
+  "overrides": {
+    "fw_dar_direct_02": {
+      "objective": "forcer la présence extérieure à reconnaître le coût humain de ses scénarios",
+      "obstacle": "Darius ne peut ni voir ni contraindre celui qu'il interpelle",
+      "action": "accuser",
+      "subtext": "je refuse d'être seulement une possibilité tactique dans ton esprit",
+      "power_start": "observed_subject",
+      "power_end": "moral_challenger",
+      "preceding_thought": "il a déjà envisagé notre mort avant de nous envoyer ici",
+      "listening_trigger": "l'hésitation de la présence extérieure devient perceptible",
+      "beats": [
+        {"start":0.0,"end":0.34,"intention":"constater le schéma sans colère démonstrative"},
+        {"start":0.34,"end":0.72,"intention":"laisser apparaître la prise de conscience d'être observé","awareness_shift":true},
+        {"start":0.72,"end":1.0,"intention":"retourner l'observation contre celui qui décide"}
+      ],
+      "contradiction": "colère froide contre peur d'être remplaçable",
+      "post_line_state": "Darius attend une réponse qu'il sait peut-être impossible"
+    },
+    "fw_dar_abyss_02": {
+      "objective": "nommer enfin l'observateur sans lui céder l'autorité intérieure",
+      "obstacle": "admettre cette présence peut déstabiliser tout ce que Darius croit comprendre",
+      "action": "confronter",
+      "subtext": "je t'ai vu me regarder aussi longtemps que j'ai regardé le danger",
+      "power_start": "isolated_survivor",
+      "power_end": "mutual_observation",
+      "preceding_thought": "les ennemis changent, les morts s'accumulent, mais cette présence reste",
+      "listening_trigger": "l'absence de tous les premiers compagnons",
+      "beats": [
+        {"start":0.0,"end":0.3,"intention":"rester dans le langage tactique habituel"},
+        {"start":0.3,"end":0.68,"intention":"réaliser que la liste des menaces contient désormais autre chose","awareness_shift":true},
+        {"start":0.68,"end":1.0,"intention":"adresser calmement celui qui décide sans chercher l'effet horrifique"}
+      ],
+      "contradiction": "certitude tactique contre vertige métaphysique",
+      "post_line_state": "vigilance dirigée vers le monde et vers l'observateur"
+    },
+    "fw_aur_direct_01": {
+      "objective": "tester si une pensée privée peut encore lui appartenir",
+      "obstacle": "Aurélien soupçonne que la présence extérieure l'entend avant même qu'il parle",
+      "action": "tester",
+      "subtext": "si même mon silence n'est plus privé, où est ma frontière",
+      "preceding_thought": "je vais essayer de penser quelque chose sans le laisser passer",
+      "listening_trigger": "la sensation que l'observateur attend toujours",
+      "contradiction": "curiosité analytique contre peur intime"
+    },
+    "fw_lys_abyss_01": {
+      "objective": "comprendre si l'observateur est une présence ou une condition du monde",
+      "obstacle": "Lysandra ne peut vérifier son intuition qu'en continuant à lui parler",
+      "action": "observer",
+      "subtext": "j'ai peur que ton regard survive à chacun de nous",
+      "preceding_thought": "même quand tout s'éteint, quelque chose reste attentif",
+      "listening_trigger": "le retour de la perception après le silence",
+      "contradiction": "tendresse pour les vivants contre terreur calme de ce qui demeure"
+    },
+    "demo_darius_ghoul_01": {
+      "objective": "empêcher le groupe de confondre recul et reddition",
+      "obstacle": "la fatigue pousse à lire le comportement de la Goule comme une victoire acquise",
+      "action": "avertir",
+      "subtext": "si vous projetez une intention humaine sur elle, elle vous surprendra",
+      "listener": "party",
+      "preceding_thought": "elle regarde déjà l'issue, pas nos armes",
+      "listening_trigger": "la Goule cesse de charger et mesure une sortie",
+      "contradiction": "contrôle tactique contre compassion qu'il refuse de nommer"
+    },
+    "demo_aurelien_witness_01": {
+      "objective": "faire reconnaître que le geste observé est une répétition et non une nouveauté",
+      "obstacle": "le danger immédiat pousse le groupe à réagir avant de comprendre",
+      "action": "faire_admettre",
+      "subtext": "si nous le nommons correctement, nous pouvons cesser d'en être prisonniers",
+      "preceding_thought": "je connais déjà cette trajectoire",
+      "listening_trigger": "le même geste revient avec les mêmes détails",
+      "contradiction": "fascination intellectuelle contre peur de ce que la répétition signifie"
+    },
+    "demo_lysandra_fear_01": {
+      "objective": "redonner au groupe assez d'espace intérieur pour choisir malgré la peur",
+      "obstacle": "la peur occupe toute l'attention et cherche à devenir la décision elle-même",
+      "action": "ancrer",
+      "subtext": "je suis aussi effrayée, mais je peux encore vous prêter mon calme",
+      "preceding_thought": "ils n'ont pas besoin qu'on nie leur peur; ils ont besoin d'un point fixe",
+      "listening_trigger": "le souffle et les gestes du groupe se désorganisent",
+      "contradiction": "calme offert aux autres contre peur personnelle contenue"
+    },
+    "demo_malvor_survivors_01": {
+      "objective": "empêcher le groupe de transformer une décision coûteuse en formule morale confortable",
+      "obstacle": "les mots peuvent donner l'illusion que le poids matériel a disparu",
+      "action": "désamorcer",
+      "subtext": "je ne condamne pas le choix; je refuse seulement qu'on oublie son prix",
+      "preceding_thought": "le sac est plus léger et tout le monde le sait",
+      "listening_trigger": "quelqu'un cherche déjà à donner un sens propre à la décision",
+      "contradiction": "ironie sèche contre souci réel des autres"
+    }
+  }
+}
