@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "design_source": "prepc_demo_production_pass_29+emotional_voice_direction_pass_30+dramatic_voice_direction_pass_31+physical_cinematic_direction_pass_32",
+  "design_source": "prepc_demo_production_pass_29+emotional_voice_direction_pass_30+dramatic_voice_direction_pass_31+physical_cinematic_direction_pass_32+hud_director_pass_33",
   "status": "static_preparation_complete",
   "contracts": {
     "combat_choreography": "data/visual_slice_choreography.json",
@@ -9,6 +9,7 @@
     "demo_content": "data/demo_content_pack.json",
     "balance_targets": "data/demo_balance_targets.json",
     "final_ui": "data/final_ui_contract.json",
+    "hud_director": "data/hud_director_contract.json",
     "roadmap": "data/demo_roadmap.json",
     "emotional_voice_direction": "data/voice_direction_contract.json",
     "emotional_voice_profiles": "data/emotional_voice_profiles.json",
@@ -37,7 +38,10 @@
     "cinematic_direction_audit": "tools/qa/cinematic_direction_audit.py",
     "cinematic_direction_tests": "tests/test_cinematic_direction.py",
     "staging_plan": "tools/cinematics/build_staging_plan.py",
-    "staging_take_review": "tools/cinematics/staging_take_review.py"
+    "staging_take_review": "tools/cinematics/staging_take_review.py",
+    "hud_director_audit": "tools/qa/hud_director_audit.py",
+    "hud_director_tests": "tests/test_hud_director_contract.py",
+    "hud_director_smoke": "scenes/tests/hud_director_smoke.tscn"
   },
   "pc_only_remaining": [
     "validate_cel_shading_and_materials_in_motion",
@@ -51,7 +55,8 @@
     "validate_proxemics_and_blocking_in_3d_space",
     "validate_camera_motivation_continuity_and_lens_choices_by_eye",
     "validate_gameplay_to_cinematic_handoffs_with_real_controls",
-    "approve_staging_takes_after_visual_review"
+    "approve_staging_takes_after_visual_review",
+    "validate_hud_legibility_clutter_thumb_occlusion_and_contrast_on_real_iphone"
   ],
-  "truth_rule": "Aucune validation nécessitant de voir le jeu, d'écouter une vraie prise, d'observer une animation ou de mesurer un appareil réel n'est marquée comme terminée avant la session PC. La direction vocale, corporelle et cinématographique est préparée statiquement; seules les prises réelles permettent de valider son efficacité."
+  "truth_rule": "Aucune validation nécessitant de voir le jeu, d'écouter une vraie prise, d'observer une animation, de juger l'encombrement du HUD sur téléphone ou de mesurer un appareil réel n'est marquée comme terminée avant la session PC. Les règles de direction vocale, corporelle, cinématographique et de HUD sont préparées statiquement; les prises et appareils réels valident leur efficacité."
 }
