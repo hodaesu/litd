@@ -13,9 +13,15 @@ import tempfile
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.voice.build_voice_direction_registry import build_registry
+
 DIALOGUES_PATH = ROOT / "data/reactive_dialogues.json"
 PROFILES_PATH = ROOT / "data/voice_profiles.json"
 PRODUCTION_PATH = ROOT / "data/voice_production.json"
+DEMO_PATH = ROOT / "data/demo_content_pack.json"
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -54,7 +60,31 @@ def _repo_relative(path: Path) -> str:
     return path.resolve().relative_to(ROOT.resolve()).as_posix()
 
 
-def _delivery_for_line(line: dict[str, Any], production: dict[str, Any]) -> dict[str, Any]:
+def _authored_voice_lines(root: Path) -> list[dict[str, Any]]:
+    reactive = _load_json(root / "data/reactive_dialogues.json")
+    demo = _load_json(root / "data/demo_content_pack.json")
+    lines: list[dict[str, Any]] = []
+    for raw in reactive.get("lines", []):
+        if isinstance(raw, dict):
+            lines.append(dict(raw))
+    for raw in demo.get("dialogue_barks", []):
+        if not isinstance(raw, dict):
+            continue
+        speaker = str(raw.get("speaker", ""))
+        lines.append({
+            "id": str(raw.get("id", "")),
+            "event": str(raw.get("context", "")),
+            "speaker_id": "narrator" if speaker == "narration" else speaker,
+            "text": str(raw.get("text", "")),
+            "priority": 5,
+            "source": "demo_content_pack",
+        })
+    return lines
+
+
+def _delivery_for_line(
+    line: dict[str, Any], production: dict[str, Any], voice_direction: dict[str, Any]
+) -> dict[str, Any]:
     default = dict(production.get("default_delivery", {}))
     event = str(line.get("event", ""))
     event_delivery = dict(production.get("event_delivery", {}).get(event, {}))
@@ -75,16 +105,33 @@ def _delivery_for_line(line: dict[str, Any], production: dict[str, Any]) -> dict
     speaker = dict(production.get("speaker_overrides", {}).get(speaker_id, {}))
     speed *= _as_float(speaker.get("speed_multiplier", 1.0))
 
+    # MeloTTS exposes speed here. Other prosody fields remain listening/human-direction criteria.
+    emotional_speed = _as_float(
+        voice_direction.get("backend_controls", {}).get("melotts_speed_multiplier", 1.0)
+    )
+    speed *= emotional_speed
+    note = str(voice_direction.get("delivery_note", "")).strip()
+    if note:
+        direction += (
+            f"; émotion {voice_direction.get('emotion', 'neutral_grounded')} "
+            f"{voice_direction.get('intensity', 2)}/5 — {note}"
+        )
+
     return {
         "speed": round(max(0.65, min(1.25, speed)), 3),
         "direction": direction,
+        "speed_sources": {
+            "event_and_speaker": "data/voice_production.json",
+            "emotion_multiplier": emotional_speed,
+        },
     }
 
 
 def build_plan(root: Path = ROOT) -> dict[str, Any]:
-    dialogues = _load_json(root / "data/reactive_dialogues.json")
     profiles = _load_json(root / "data/voice_profiles.json")
     production = _load_json(root / "data/voice_production.json")
+    directions = build_registry(root)
+    direction_by_line = {str(item["line_id"]): item for item in directions["entries"]}
     profile_ids = {
         str(item.get("hero_id", ""))
         for item in profiles.get("profiles", [])
@@ -96,9 +143,7 @@ def build_plan(root: Path = ROOT) -> dict[str, Any]:
     overrides = production.get("speaker_overrides", {})
     entries: list[dict[str, Any]] = []
 
-    for raw in dialogues.get("lines", []):
-        if not isinstance(raw, dict):
-            continue
+    for raw in _authored_voice_lines(root):
         speaker_id = str(raw.get("speaker_id", ""))
         line_id = str(raw.get("id", ""))
         text = str(raw.get("text", "")).strip()
@@ -106,10 +151,13 @@ def build_plan(root: Path = ROOT) -> dict[str, Any]:
             continue
         if speaker_id not in profile_ids:
             raise ValueError(f"Dialogue {line_id}: missing voice profile for {speaker_id}")
+        voice_direction = direction_by_line.get(line_id)
+        if voice_direction is None:
+            raise ValueError(f"Dialogue {line_id}: missing emotional voice direction")
 
         speaker_override = dict(overrides.get(speaker_id, {}))
         reference_filename = str(speaker_override.get("reference_filename", f"{speaker_id}.wav"))
-        delivery = _delivery_for_line(raw, production)
+        delivery = _delivery_for_line(raw, production, voice_direction)
         render_path = render_dir / speaker_id / f"{line_id}.wav"
         shipping_path = shipping_dir / speaker_id / f"{line_id}.wav"
         entries.append(
@@ -122,6 +170,17 @@ def build_plan(root: Path = ROOT) -> dict[str, Any]:
                 "fourth_wall": bool(raw.get("fourth_wall", False)),
                 "meta_level": str(raw.get("meta_level", "")),
                 "delivery": delivery,
+                "voice_direction": {
+                    "emotion": voice_direction["emotion"],
+                    "secondary_emotion": voice_direction["secondary_emotion"],
+                    "intensity": voice_direction["intensity"],
+                    "prosody": voice_direction["prosody"],
+                    "stress_words": voice_direction["stress_words"],
+                    "transition": voice_direction["transition"],
+                    "delivery_note": voice_direction["delivery_note"],
+                    "manual_review": voice_direction["manual_review"],
+                    "backend_controls": voice_direction["backend_controls"],
+                },
                 "reference_id": f"{speaker_id}_voice_reference",
                 "reference_filename": reference_filename,
                 "render_path": render_path.as_posix(),
@@ -131,9 +190,15 @@ def build_plan(root: Path = ROOT) -> dict[str, Any]:
         )
 
     return {
-        "version": 1,
+        "version": 2,
         "engine": production["engine"],
         "rules": production["rules"],
+        "emotional_direction": {
+            "enabled": True,
+            "registry_generated_from": "tools/voice/build_voice_direction_registry.py",
+            "direct_backend_control": ["speed"],
+            "all_other_prosody": "human_direction_and_listening_review",
+        },
         "entry_count": len(entries),
         "entries": entries,
     }
@@ -323,10 +388,11 @@ def render(
             )
 
     report = {
-        "version": 1,
+        "version": 2,
         "engine": engine,
         "openvoice_checkout": _git_head(openvoice_root),
         "human_review_required": True,
+        "emotional_direction_review_required": True,
         "entries": report_entries,
     }
     _write_json(report_path, report)
@@ -369,14 +435,15 @@ def ingest(*, report_path: Path, approve_reviewed: bool) -> dict[str, Any]:
                 "engine": "openvoice_v2",
                 "reference_id": str(entry["reference_id"]),
                 "human_reviewed": True,
+                "emotional_direction_reviewed": True,
             }
         )
 
     manifest_path = ROOT / str(production["paths"]["asset_manifest"])
     manifest = {
-        "version": 1,
+        "version": 2,
         "engine": "openvoice_v2",
-        "rule": "Assets ingérés après écoute humaine et validation locale des droits de la voix de référence.",
+        "rule": "Assets ingérés après écoute humaine, validation de la direction émotionnelle et validation locale des droits de la voix de référence.",
         "assets": sorted(assets, key=lambda item: str(item["line_id"])),
     }
     _write_json(manifest_path, manifest)
