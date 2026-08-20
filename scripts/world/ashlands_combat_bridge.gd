@@ -7,6 +7,8 @@ const MAIN_SCENE := "res://scenes/Main.tscn"
 const SHARED_UI_GOLD_REWARD := 28
 const SHARED_UI_ESSENCE_REWARD := 4
 const SHARED_UI_XP_REWARD := 30
+const LEVEL_SCALING_POLICY := preload("res://scripts/core/level_scaling_policy.gd")
+var level_scaling_policy := LEVEL_SCALING_POLICY.new()
 var active := false
 var encounter_id := ""
 var encounter_type := ""
@@ -104,6 +106,7 @@ func _prepare_placeholder_enemies() -> void:
                 "vestige_sahmir_boss_single_interpreter": _setup_enemy(e,"L'Interprète Unique",268,[12,19],14,"Un seul sens"); e["deep_vestige_boss"] = true
                 "vestige_ydris_boss_living_theorem": _setup_enemy(e,"Le Théorème Vivant",270,[13,19],14,"Déjà calculé"); e["deep_vestige_boss"] = true
             e["chapter_boss_id"] = encounter_id
+        level_scaling_policy.apply_campaign_scaling(e, CampaignState.current_chapter_number(), encounter_type)
         EndgameState.apply_enemy_scaling(e)
         GameState.battle_enemies.append(e)
 
