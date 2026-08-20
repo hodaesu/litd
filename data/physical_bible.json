@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "design_source": "physical_cinematic_direction_pass_32",
+  "purpose": "Définir une signature corporelle stable par personnage afin que posture, déplacement, gestes et réactions découlent de l'intention et non d'une pantomime émotionnelle générique.",
+  "rules": {
+    "physical_action_before_emotion_display": true,
+    "movement_must_have_intention": true,
+    "stillness_is_meaningful": true,
+    "equipment_changes_motion": true,
+    "injury_and_fatigue_modify_baseline": true,
+    "culture_and_training_shape_body_language": true,
+    "avoid_constant_idle_gesturing": true,
+    "avoid_stereotyped_ethnic_or_gendered_gestures": true,
+    "mocap_is_reference_not_final_truth": true
+  },
+  "laban_axes": {
+    "space": ["direct", "indirect"],
+    "weight": ["strong", "light"],
+    "time": ["sudden", "sustained"],
+    "flow": ["bound", "free"]
+  },
+  "characters": {
+    "darius": {
+      "center": "sternum_and_shield_side",
+      "neutral_posture": "upright_grounded_guardian",
+      "weight_distribution": "low_stable_slightly_forward_when_protecting",
+      "gesture_scale": "small",
+      "tempo": "sustained",
+      "laban": {"space":"direct","weight":"strong","time":"sustained","flow":"bound"},
+      "stillness_budget": "high",
+      "eye_contact": "direct_but_not_continuous; breaks only to assess environment or conceal attachment",
+      "touch": "rare_functional_protective",
+      "walk": "measured_shorter_stride_under_armor",
+      "run": "economical_forward_drive",
+      "stop": "plants_weight_before_turning_head",
+      "sit": "keeps_exit_and_weapon_side_clear",
+      "turn_signature": "torso_commits_before_head_when_threatening; head_leads_when_listening",
+      "hands": "shield_hand_stable; weapon_hand_reveals_tension_before_face",
+      "equipment_behavior": "shield creates personal boundary and protective axis",
+      "states": {
+        "fear": "reduce gesture count; scan exits; shield closer to body",
+        "anger": "less movement rather than more; consonant physical stops; jaw and grip carry tension",
+        "hope": "chest opens slightly; eye contact held a fraction longer",
+        "fatigue": "weight sinks through hips; shield lowers between threats but rises early",
+        "injury": "protect wound without theatrical clutching; movement path becomes more direct",
+        "altered_perception": "stillness increases first; gaze tests impossible spaces before body follows"
+      }
+    },
+    "aurelien": {
+      "center": "eyes_then_upper_torso",
+      "neutral_posture": "observant_mobile_but_not_restless",
+      "weight_distribution": "balanced_with_small_forward_search",
+      "gesture_scale": "medium_small",
+      "tempo": "variable",
+      "laban": {"space":"indirect","weight":"light","time":"sustained","flow":"bound"},
+      "stillness_budget": "medium",
+      "eye_contact": "alternates between person and evidence; returns to listener on conclusion",
+      "touch": "careful_contextual",
+      "walk": "tracks details and changes line when something catches attention",
+      "run": "quick_decisive_once_choice_is_made",
+      "stop": "head or eyes stop before feet when noticing a clue",
+      "sit": "leans toward object or speaker when thinking",
+      "turn_signature": "gaze_leads_then_shoulders",
+      "hands": "small explanatory shapes; fingers become still when truly alarmed",
+      "equipment_behavior": "tools and objects become anchors for thought, never fidget props",
+      "states": {
+        "fear": "search behavior narrows; hands stop illustrating ideas",
+        "anger": "indirect movement becomes suddenly direct",
+        "hope": "body leans into possibility before words confirm it",
+        "fatigue": "slower visual scanning; shoulders carry cognitive load",
+        "injury": "protective adaptation remains practical, not performative",
+        "altered_perception": "eyes lock on pattern; body lags behind realization"
+      }
+    },
+    "malvor": {
+      "center": "pelvis_and_hands",
+      "neutral_posture": "economical_closed_ready",
+      "weight_distribution": "balanced_back_heel_ready_to_shift",
+      "gesture_scale": "very_small",
+      "tempo": "sustained_with_sudden_functional_actions",
+      "laban": {"space":"direct","weight":"strong","time":"sudden","flow":"bound"},
+      "stillness_budget": "high",
+      "eye_contact": "brief_precise; looks away when care becomes too visible",
+      "touch": "minimal_practical",
+      "walk": "short efficient routes; avoids center unless claiming space",
+      "run": "low wasted motion",
+      "stop": "hard clean stop",
+      "sit": "edge_ready_to_move",
+      "turn_signature": "head_and_shoulders_together",
+      "hands": "tension hides in fingers, straps and equipment checks",
+      "equipment_behavior": "maintenance gestures reveal concern more often than touch",
+      "states": {
+        "fear": "checks routes and gear instead of pacing",
+        "anger": "movements become cleaner and more exact",
+        "hope": "one unnecessary practical gesture disappears",
+        "fatigue": "more weight through one side; fewer corrections",
+        "injury": "compensates silently until function is affected",
+        "altered_perception": "tests reality with object contact and distance"
+      }
+    },
+    "lysandra": {
+      "center": "breath_ribcage_and_gaze",
+      "neutral_posture": "open_attentive_fluid",
+      "weight_distribution": "soft_balanced_mobile",
+      "gesture_scale": "medium",
+      "tempo": "sustained",
+      "laban": {"space":"indirect","weight":"light","time":"sustained","flow":"free"},
+      "stillness_budget": "medium_high_when_listening",
+      "eye_contact": "responsive; releases pressure deliberately when calming others",
+      "touch": "consensual_reassuring_and_sparse",
+      "walk": "continuous curved approaches that preserve others' space",
+      "run": "light but grounded",
+      "stop": "decelerates rather than snaps unless shocked",
+      "sit": "shares orientation with listener rather than squaring up",
+      "turn_signature": "head_and_breath_lead_then_body",
+      "hands": "open gestures, but hands settle completely when offering certainty",
+      "equipment_behavior": "keeps hands available for care or signaling",
+      "states": {
+        "fear": "flow tightens; breath becomes visible before gesture changes",
+        "anger": "curved approach becomes direct and still",
+        "hope": "upper body opens; movement gains gentle forward continuity",
+        "fatigue": "flow remains but amplitude reduces",
+        "injury": "breath pattern reveals pain before posture does",
+        "altered_perception": "listens to empty space with unnerving calm, then reorients to people"
+      }
+    },
+    "hungry_ghoul": {
+      "center": "shoulders_and_forward_head",
+      "neutral_posture": "hunched_forward_weighted_predatory_but_exhausted",
+      "weight_distribution": "front_loaded_with_unstable_recovery",
+      "gesture_scale": "large_in_limbs_small_in_torso",
+      "tempo": "sudden_bursts_between_frozen_assessment",
+      "laban": {"space":"direct","weight":"light","time":"sudden","flow":"free"},
+      "stillness_budget": "high_before_commitment",
+      "eye_contact": "target_and_exit_switching",
+      "touch": "clawing_grappling_only",
+      "walk": "low uneven crawl_walk with long arm reach",
+      "run": "short explosive lunge",
+      "stop": "scrapes momentum then recoils",
+      "turn_signature": "head_snaps_then_shoulders_follow",
+      "hands": "claws read hunger, threat and escape path",
+      "states": {
+        "fear": "body angle turns toward exit before feet move",
+        "anger": "distance closes abruptly without display roar requirement",
+        "fatigue": "limbs hang longer between bursts",
+        "injury": "protects damaged side while keeping escape available",
+        "capture_window": "retreat becomes readable; avoids eye line; threat remains present"
+      }
+    },
+    "ash_witness": {
+      "center": "ritual_axis_through_spine_and_repeating_arm",
+      "neutral_posture": "memory_held_in_body",
+      "weight_distribution": "unnaturally_repeatable",
+      "gesture_scale": "medium_formal",
+      "tempo": "sustained_then_exact_repeat",
+      "laban": {"space":"direct","weight":"strong","time":"sustained","flow":"bound"},
+      "stillness_budget": "very_high",
+      "eye_contact": "incidental; repetition matters more than target fixation",
+      "turn_signature": "same_path_repeats_with_minor_damage_variation",
+      "hands": "one recurring gesture is the visual teaching tool",
+      "states": {
+        "recognition_window": "repetition pauses long enough for player comprehension",
+        "stagger": "pattern breaks visibly rather than simply flinching",
+        "defeat": "ritual axis collapses before body falls"
+      }
+    }
+  }
+}

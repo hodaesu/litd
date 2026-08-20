@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "design_source": "physical_cinematic_direction_pass_32",
+  "purpose": "Donner aux scènes de dialogue et cinématiques une grammaire commune au gameplay, au blocking et à la caméra.",
+  "pipeline": [
+    "dramatic_objective",
+    "power_relationship",
+    "blocking",
+    "beats",
+    "physical_actions_and_reactions",
+    "camera_point_of_view",
+    "shot_plan",
+    "lighting",
+    "sound",
+    "gameplay_handoff"
+  ],
+  "rules": {
+    "blocking_before_shot_list": true,
+    "camera_move_requires_story_reason": true,
+    "camera_does_not_replace_actor_reaction": true,
+    "cut_requires_information_attention_or_power_change": true,
+    "gameplay_and_cinematics_share_visual_language": true,
+    "avoid_orbiting_dialogue_camera": true,
+    "avoid_shot_reverse_shot_as_default": true,
+    "hold_reaction_when_subtext_is_more_important_than_speaker": true,
+    "maintain_screen_direction_unless_disorientation_is_intentional": true,
+    "return_to_gameplay_on_stable_readable_axis": true,
+    "skippable_story_delivery_must_not_hide_critical_game_state": true
+  },
+  "shot_scales": {
+    "extreme_wide":"world_or_isolation",
+    "wide":"blocking_and_relationship",
+    "medium_wide":"body_language_and_equipment",
+    "medium":"dialogue_action",
+    "medium_close":"subtext_and_reaction",
+    "close":"rare_high_value_internal_shift",
+    "insert":"object_or_physical_clue_only_when_story_relevant"
+  },
+  "camera_moves": {
+    "static":"default when actor movement carries scene",
+    "pan":"reassign attention or follow meaningful crossing",
+    "tilt":"reveal vertical information or status change",
+    "dolly_in":"commit to realization, threat or intimacy",
+    "dolly_out":"isolate, reveal consequence or reduce certainty",
+    "truck":"change relationship geometry or reveal occluded information",
+    "handheld_like":"rare instability; never generic drama filter",
+    "cut":"change point of view, information or dramatic beat"
+  },
+  "lens_intent": {
+    "wide_context":"use environment and distance, avoid distortion as spectacle",
+    "neutral_character":"natural perspective for body language",
+    "long_isolation":"compress relationships or observe from emotional distance"
+  },
+  "composition": {
+    "power":"height and frame dominance may express status but must follow blocking",
+    "distance":"negative space can express separation",
+    "occlusion":"use architecture, shield, doorways or foreground only when meaningful",
+    "lines":"Ashlands structures should guide attention without turning every frame into symmetry",
+    "look_room":"preserve until a deliberate discomfort or unseen-presence moment"
+  },
+  "editing": {
+    "default":"cut_on_change_of_thought_or_attention_not_sentence_end",
+    "reaction_priority":"stay on listener when listening changes the scene",
+    "silence":"allow pre-line and post-line holds when a thought lands",
+    "pace":"derive from scene pressure, not a fixed cinematic tempo",
+    "continuity":"track eyeline, prop hand, weapon side, body orientation and travel direction"
+  },
+  "lighting": {
+    "rule":"support readability and dramatic focus without changing established Art Bible family",
+    "warm_cold":"lantern amber versus cold ash fill may articulate belonging versus exposure",
+    "faces":"never sacrifice readable values merely to make scene darker",
+    "motivation":"light sources stay spatially motivated unless an explicit surreal event overrides them"
+  },
+  "sound": {
+    "prelap":"may lead a cut when next space or memory is already affecting character",
+    "silence":"may be authored as an event, not absence of design",
+    "foley":"armor, cloth, breath, grip and steps must support physical acting",
+    "music":"must not tell the player an emotion the performance contradicts without narrative intent"
+  },
+  "gameplay_handoff": {
+    "before_cinematic":"capture player-facing state, party positions and active threats",
+    "during":"lock only controls necessary for readability",
+    "after":"restore control on a readable camera, navigable space and valid gameplay state",
+    "no_teleport_without_motivated_transition": true,
+    "no_hidden_damage_or_resource_change": true
+  },
+  "review_questions": [
+    "Can the scene's relationship be understood muted?",
+    "Does every camera move have a sentence-length reason?",
+    "Would removing half the gestures make the performance stronger?",
+    "Does the listener visibly receive information before replying?",
+    "Do body, voice and camera agree or contradict for a clear subtextual reason?",
+    "Can the player understand where control returns?"
+  ]
+}

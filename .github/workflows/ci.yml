@@ -78,6 +78,12 @@ jobs:
         run: python -m tools.voice.build_voice_performance_plan --check
       - name: Vérifier la revue des prises d'acteur
         run: python -m tools.voice.acting_take_review --check
+      - name: Audit direction corporelle et cinématographique
+        run: python -m tools.qa.cinematic_direction_audit
+      - name: Vérifier le plan de blocking et caméra
+        run: python -m tools.cinematics.build_staging_plan --check
+      - name: Vérifier la grille de revue des prises cinématiques
+        run: python -m tools.cinematics.staging_take_review --check
       - name: Audit vertical slice visuel et handoff Blender
         run: python -m tools.qa.visual_vertical_slice_audit
       - name: Vérifier les jobs Blender du vertical slice

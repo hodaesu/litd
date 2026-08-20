@@ -50,6 +50,7 @@ run_checked "Audio audible : PCM local, SFX 2D/3D, loops et crossfades" godot --
 run_checked "Audio narratif : dialogues, Sanctuaire, silence et motifs" godot --headless --path . res://scenes/tests/narrative_audio_smoke.tscn
 run_checked "Dialogues réactifs : mortalité, voix et quatrième mur" godot --headless --path . res://scenes/tests/dialogue_director_smoke.tscn
 run_checked "Voix synthétiques : manifest approuvé et fallback texte" godot --headless --path . res://scenes/tests/voice_runtime_smoke.tscn
+run_checked "Mise en scène : Physical Bible, proxémie, blocking, caméra et handoff" godot --headless --path . res://scenes/tests/cinematic_direction_smoke.tscn
 run_checked "Vertical slice visuel : Darius, Goule, shader, caméra et arène proxy" godot --headless --path . res://scenes/tests/visual_vertical_slice_smoke.tscn
 run_checked "Vertical slice runtime : import, animations et mini-combat" godot --headless --path . res://scenes/tests/visual_slice_runtime_smoke.tscn
 run_checked "Parcours campagne I→X, fin, postgame et NG+" godot --headless --path . res://scenes/tests/campaign_e2e_smoke.tscn

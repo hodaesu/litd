@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "design_source": "physical_cinematic_direction_pass_32",
+  "purpose": "Transformer intention, relation et état en langage non verbal cohérent sans surjouer l'émotion.",
+  "channels": [
+    "posture", "weight_shift", "distance", "orientation", "gaze", "hands", "touch", "stillness", "breath", "object_use", "entry_exit_path"
+  ],
+  "priority_order": [
+    "dramatic_objective", "relationship", "physical_state", "character_baseline", "emotion", "decorative_motion"
+  ],
+  "rules": {
+    "gesture_requires_action_or_reaction": true,
+    "one_clear_gesture_beats_many_small_gestures": true,
+    "reaction_may_precede_dialogue": true,
+    "gaze_must_have_target_or_avoidance_reason": true,
+    "touch_requires_relationship_and_context": true,
+    "silence_can_be_primary_response": true,
+    "contradiction_between_voice_and_body_is_allowed_when_subtext_motivates_it": true,
+    "body_can_reveal_before_voice": true,
+    "camera_must_not_force_a_microgesture_that_animation_cannot_support": true
+  },
+  "status_signals": {
+    "claim_space": ["stable_center", "direct_orientation", "reduced_reactive_steps"],
+    "yield_space": ["angle_body_away", "clear_path", "step_off_axis"],
+    "challenge": ["hold_axis", "reduce_distance_only_if_safe", "sustain_gaze_then_release"],
+    "protect": ["interpose_body_or_equipment", "track_threat", "keep_protected_person_in_peripheral_space"],
+    "withdraw": ["increase_distance", "reduce_frontal_orientation", "prepare_exit_before_words_end"]
+  },
+  "relationship_signals": {
+    "trusted_companion": {"distance":"close_social", "gaze":"easy_break_and_return", "touch":"rare_allowed", "back_exposure":"sometimes_allowed"},
+    "strained_companion": {"distance":"medium_social", "gaze":"shorter_or_delayed", "touch":"avoid_unless_practical", "back_exposure":"limited"},
+    "authority_to_group": {"distance":"center_or_front_edge", "gaze":"distributes_across_group", "touch":"not_needed", "interruption":"can_hold_silence_before_instruction"},
+    "unknown_person": {"distance":"public_to_social", "gaze":"monitoring", "touch":"none", "back_exposure":"avoid"},
+    "hostile_target": {"distance":"tactical", "gaze":"threat_tracking", "touch":"combat_only", "back_exposure":"never_voluntary"},
+    "unseen_presence": {"distance":"not_applicable", "gaze":"tests_empty_space_or_camera_axis_rarely", "touch":"none", "back_exposure":"contextual"}
+  },
+  "emotion_modifiers": {
+    "fear": {"default":"movement narrows before it accelerates", "avoid":"constant trembling"},
+    "anger": {"default":"movement becomes more direct or more still", "avoid":"large arm gestures by default"},
+    "grief": {"default":"response latency and loss of unused motion", "avoid":"automatic collapse or sobbing posture"},
+    "hope": {"default":"small reopening of orientation and shared space", "avoid":"heroic chest lift"},
+    "shock": {"default":"brief interruption of planned action", "avoid":"repeated backward recoil"},
+    "dissociation": {"default":"body remains functional while timing to others drifts", "avoid":"robot performance"},
+    "tenderness": {"default":"make space for the other person rather than reaching automatically", "avoid":"constant touching"}
+  },
+  "microgesture_policy": {
+    "use_for": ["subtext_turn", "relationship_shift", "concealed_fear", "decision_before_dialogue"],
+    "examples": ["grip_tightens_once", "breath_holds_then_releases", "gaze_misses_exit_then_returns", "hand_stops_mid_task"],
+    "max_concurrent_microgestures": 2,
+    "must_survive_game_camera": true
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "design_source": "physical_cinematic_direction_pass_32",
+  "purpose": "Continuer à apprendre de cours de théâtre, réalisation cinéma et cinematic design sans copier une performance, une scène ou un acteur.",
+  "source_families": {
+    "theatre": ["physical_action", "Laban_effort", "status_and_space", "ensemble_listening"],
+    "film": ["blocking", "actor_direction", "shot_motivation", "editing_on_thought", "reaction_priority"],
+    "games": ["gameplay_cinematic_continuity", "camera_handoff", "performance_capture", "interactive_readability"]
+  },
+  "observation_schema": [
+    "source_type",
+    "lesson_or_scene_label",
+    "dramatic_objective",
+    "physical_action",
+    "status_geometry",
+    "distance_change",
+    "gaze_pattern",
+    "stillness_pattern",
+    "gesture_economy",
+    "camera_reason",
+    "cut_reason",
+    "listener_reaction",
+    "gameplay_handoff_if_any",
+    "abstract_lesson",
+    "litd_original_application"
+  ],
+  "rules": {
+    "store_abstract_observations_only": true,
+    "do_not_store_movie_clips": true,
+    "do_not_store_scene_transcripts": true,
+    "do_not_clone_specific_actor_performance": true,
+    "do_not_copy_signature_blocking_or_shot_sequence": true,
+    "translate_every_lesson_into_original_litd_context": true,
+    "prefer_multiple_sources_before_turning_observation_into_project_rule": true,
+    "human_visual_review_required": true
+  },
+  "study_questions": [
+    "What is the character physically trying to make happen?",
+    "What changes before the line is spoken?",
+    "Who owns the center, exit, object or eye line?",
+    "What does the listener do while not speaking?",
+    "Where does stillness become more expressive than motion?",
+    "Why does the camera move or cut at this exact moment?",
+    "Could the same information be staged with fewer gestures?",
+    "If interactive, how is control returned without confusion?"
+  ],
+  "promotion_rule": "Une observation devient une règle LITD seulement si elle améliore lisibilité, vérité dramatique ou continuité interactive sans contredire la Physical Bible ni l'Art Bible."
+}

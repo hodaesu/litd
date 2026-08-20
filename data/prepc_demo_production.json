@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "design_source": "prepc_demo_production_pass_29+emotional_voice_direction_pass_30+dramatic_voice_direction_pass_31",
+  "design_source": "prepc_demo_production_pass_29+emotional_voice_direction_pass_30+dramatic_voice_direction_pass_31+physical_cinematic_direction_pass_32",
   "status": "static_preparation_complete",
   "contracts": {
     "combat_choreography": "data/visual_slice_choreography.json",
@@ -16,6 +16,12 @@
     "dramatic_voice_direction": "data/voice_acting_contract.json",
     "dramatic_voice_study_protocol": "data/voice_acting_study_protocol.json",
     "dramatic_voice_overrides": "data/dramatic_voice_overrides.json",
+    "physical_bible": "data/physical_bible.json",
+    "nonverbal_language": "data/nonverbal_language_contract.json",
+    "relationship_proxemics": "data/relationship_proxemics.json",
+    "cinematic_grammar": "data/cinematic_grammar.json",
+    "demo_cinematic_blocking": "data/demo_cinematic_blocking.json",
+    "staging_study_protocol": "data/staging_study_protocol.json",
     "master_document": "docs/design/pre_pc_demo_master_plan.md"
   },
   "qa": {
@@ -27,7 +33,11 @@
     "dramatic_voice_direction_audit": "tools/qa/dramatic_voice_direction_audit.py",
     "dramatic_voice_direction_tests": "tests/test_dramatic_voice_direction.py",
     "voice_performance_plan": "tools/voice/build_voice_performance_plan.py",
-    "acting_take_review": "tools/voice/acting_take_review.py"
+    "acting_take_review": "tools/voice/acting_take_review.py",
+    "cinematic_direction_audit": "tools/qa/cinematic_direction_audit.py",
+    "cinematic_direction_tests": "tests/test_cinematic_direction.py",
+    "staging_plan": "tools/cinematics/build_staging_plan.py",
+    "staging_take_review": "tools/cinematics/staging_take_review.py"
   },
   "pc_only_remaining": [
     "validate_cel_shading_and_materials_in_motion",
@@ -36,7 +46,12 @@
     "measure_real_device_performance",
     "approve_or_reject_assets_at_art_review_gate",
     "listen_and_calibrate_authorized_voice_references_and_rendered_takes",
-    "compare_multiple_acting_variants_and_select_truthful_take"
+    "compare_multiple_acting_variants_and_select_truthful_take",
+    "validate_physical_signatures_in_motion",
+    "validate_proxemics_and_blocking_in_3d_space",
+    "validate_camera_motivation_continuity_and_lens_choices_by_eye",
+    "validate_gameplay_to_cinematic_handoffs_with_real_controls",
+    "approve_staging_takes_after_visual_review"
   ],
-  "truth_rule": "Aucune validation nécessitant de voir le jeu, d'écouter une vraie prise ou de mesurer un appareil réel n'est marquée comme terminée avant la session PC. La direction dramatique est préparée; seule l'écoute de prises réelles peut valider son efficacité."
+  "truth_rule": "Aucune validation nécessitant de voir le jeu, d'écouter une vraie prise, d'observer une animation ou de mesurer un appareil réel n'est marquée comme terminée avant la session PC. La direction vocale, corporelle et cinématographique est préparée statiquement; seules les prises réelles permettent de valider son efficacité."
 }
