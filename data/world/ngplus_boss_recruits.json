@@ -5,9 +5,9 @@
   "level_sync": "party_average",
   "capture_rules": {
     "miniboss": {"max_hp_ratio": 0.18, "resistance": 42, "essence_cost": 10},
-    "boss": {"max_hp_ratio": 0.12, "resistance": 55, "essence_cost": 16},
+    "boss": {"max_hp_ratio": 0.12, "resistance": 55, "essence_cost": 15},
     "deep_miniboss": {"max_hp_ratio": 0.15, "resistance": 50, "essence_cost": 14},
-    "deep_boss": {"max_hp_ratio": 0.10, "resistance": 62, "essence_cost": 24}
+    "deep_boss": {"max_hp_ratio": 0.10, "resistance": 62, "essence_cost": 18}
   },
   "recruits": [
     {"id":"recruit_c01_warden","encounter_id":"c01_miniboss_warden","name":"Le Gardien du Passage","rank":"miniboss","archetype":"guardian","signature":"Tu ne passeras pas","base_damage":[4,7],"art":"enemy_30.webp"},
