@@ -41,26 +41,40 @@ func campaign_reference_level(chapter_number: int, encounter_type: String) -> in
         return clampi(DEFAULT_HERO_LEVEL + maxi(0, chapter_number - 1) * 5, 1, MAX_CHARACTER_LEVEL)
     return DEFAULT_HERO_LEVEL
 
+func combat_balance() -> Dictionary:
+    return _load_roguelike_rules().get("combat_balance", {}).duplicate(true)
+
 func apply_campaign_scaling(enemy: Dictionary, chapter_number: int, encounter_type: String, party_value: Array = []) -> Dictionary:
     if enemy.is_empty():
         return enemy
     var target_level := campaign_target_level(party_value)
     var reference_level := campaign_reference_level(chapter_number, encounter_type)
     var level_delta := target_level - reference_level
-    var hp_multiplier := clampf(1.0 + float(level_delta) * 0.05, 0.35, 3.0)
-    var damage_multiplier := clampf(1.0 + float(level_delta) * 0.035, 0.55, 2.25)
-    var fear_multiplier := clampf(1.0 + float(level_delta) * 0.02, 0.65, 1.75)
+    # Courbe volontairement plus douce que le prototype : le niveau suit la compagnie,
+    # mais un héros fort ne doit pas transformer chaque ennemi en sac à PV.
+    var hp_multiplier := clampf(1.0 + float(level_delta) * 0.045, 0.50, 2.75)
+    var damage_multiplier := clampf(1.0 + float(level_delta) * 0.03, 0.65, 2.00)
+    var fear_multiplier := clampf(1.0 + float(level_delta) * 0.018, 0.70, 1.65)
+    var balance := combat_balance()
+    var encounter_hp_multiplier := 1.0
+    var encounter_damage_multiplier := 1.0
+    if encounter_type == "miniboss":
+        encounter_hp_multiplier = float(balance.get("campaign_miniboss_hp_multiplier", 1.20))
+        encounter_damage_multiplier = float(balance.get("campaign_miniboss_damage_multiplier", 1.0))
+    elif encounter_type == "boss":
+        encounter_hp_multiplier = float(balance.get("campaign_boss_hp_multiplier", 1.50))
+        encounter_damage_multiplier = float(balance.get("campaign_boss_damage_multiplier", 1.05))
 
     var base_hp := maxi(1, int(enemy.get("max_hp", enemy.get("hp", 1))))
-    var scaled_hp := maxi(1, int(round(float(base_hp) * hp_multiplier)))
+    var scaled_hp := maxi(1, int(round(float(base_hp) * hp_multiplier * encounter_hp_multiplier)))
     enemy["hp"] = scaled_hp
     enemy["max_hp"] = scaled_hp
 
     var damage_value: Variant = enemy.get("damage", [1, 1])
     if damage_value is Array and (damage_value as Array).size() >= 2:
         var damage: Array = damage_value
-        var low := maxi(1, int(round(float(damage[0]) * damage_multiplier)))
-        var high := maxi(low, int(round(float(damage[1]) * damage_multiplier)))
+        var low := maxi(1, int(round(float(damage[0]) * damage_multiplier * encounter_damage_multiplier)))
+        var high := maxi(low, int(round(float(damage[1]) * damage_multiplier * encounter_damage_multiplier)))
         enemy["damage"] = [low, high]
 
     if enemy.has("fear"):
@@ -69,8 +83,9 @@ func apply_campaign_scaling(enemy: Dictionary, chapter_number: int, encounter_ty
     enemy["level"] = target_level
     enemy["campaign_scaled"] = true
     enemy["campaign_reference_level"] = reference_level
-    enemy["campaign_hp_multiplier"] = hp_multiplier
-    enemy["campaign_damage_multiplier"] = damage_multiplier
+    enemy["campaign_hp_multiplier"] = hp_multiplier * encounter_hp_multiplier
+    enemy["campaign_damage_multiplier"] = damage_multiplier * encounter_damage_multiplier
+    enemy["encounter_hp_multiplier"] = encounter_hp_multiplier
     return enemy
 
 func _load_roguelike_rules() -> Dictionary:
@@ -132,29 +147,42 @@ func apply_dungeon_scaling(enemy: Dictionary, depth: int, room_type: String, ris
     var fixed_level := dungeon_enemy_level(depth, room_type, dungeon_id)
     var reference_level := int(profile.get("template_reference_level", DEFAULT_HERO_LEVEL))
     var level_delta := fixed_level - reference_level
-    var hp_multiplier := maxf(0.25, 1.0 + float(level_delta) * float(profile.get("hp_per_level", 0.07)))
-    var damage_multiplier := maxf(0.25, 1.0 + float(level_delta) * float(profile.get("damage_per_level", 0.045)))
-    var fear_multiplier := maxf(0.25, 1.0 + float(level_delta) * float(profile.get("fear_per_level", 0.025)))
+    var hp_multiplier := maxf(0.25, 1.0 + float(level_delta) * float(profile.get("hp_per_level", 0.06)))
+    var damage_multiplier := maxf(0.25, 1.0 + float(level_delta) * float(profile.get("damage_per_level", 0.04)))
+    var fear_multiplier := maxf(0.25, 1.0 + float(level_delta) * float(profile.get("fear_per_level", 0.02)))
     var danger_multiplier := maxf(0.25, float(risk.get("danger_multiplier", 1.0)))
+    # L'obscurité doit surtout augmenter la létalité et la pression, pas allonger les
+    # combats. Seul un quart de son surplus de danger augmente donc les PV.
+    var danger_hp_multiplier := 1.0 + (danger_multiplier - 1.0) * 0.25
+    var danger_damage_multiplier := 1.0 + (danger_multiplier - 1.0) * 0.75
+    var room_hp_multiplier := 1.0
+    var room_damage_multiplier := 1.0
+    if room_type == "elite":
+        room_hp_multiplier = float(profile.get("elite_hp_multiplier", 1.20))
+        room_damage_multiplier = float(profile.get("elite_damage_multiplier", 1.0))
+    elif room_type == "boss":
+        room_hp_multiplier = float(profile.get("boss_hp_multiplier", 1.55))
+        room_damage_multiplier = float(profile.get("boss_damage_multiplier", 1.05))
 
     var base_hp := maxi(1, int(enemy.get("hp", 1)))
-    var scaled_hp := maxi(1, int(round(float(base_hp) * hp_multiplier * danger_multiplier)))
+    var scaled_hp := maxi(1, int(round(float(base_hp) * hp_multiplier * danger_hp_multiplier * room_hp_multiplier)))
     enemy["hp"] = scaled_hp
     enemy["max_hp"] = scaled_hp
 
     var damage_value: Variant = enemy.get("damage", [1, 1])
     if damage_value is Array and (damage_value as Array).size() >= 2:
         var damage: Array = damage_value
-        var danger_damage_multiplier := 1.0 + (danger_multiplier - 1.0) * 0.65
-        var low := maxi(1, int(round(float(damage[0]) * damage_multiplier * danger_damage_multiplier)))
-        var high := maxi(low, int(round(float(damage[1]) * damage_multiplier * danger_damage_multiplier)))
+        var low := maxi(1, int(round(float(damage[0]) * damage_multiplier * danger_damage_multiplier * room_damage_multiplier)))
+        var high := maxi(low, int(round(float(damage[1]) * damage_multiplier * danger_damage_multiplier * room_damage_multiplier)))
         enemy["damage"] = [low, high]
 
     if enemy.has("fear"):
-        enemy["fear"] = maxi(0, int(round(float(enemy.get("fear", 0)) * fear_multiplier)))
+        enemy["fear"] = maxi(0, int(round(float(enemy.get("fear", 0)) * fear_multiplier * (1.0 + (danger_multiplier - 1.0) * 0.35))))
 
     enemy["level"] = fixed_level
     enemy["dungeon_fixed_level"] = true
     enemy["dungeon_id"] = str(profile.get("id", dungeon_id))
     enemy["dungeon_required_level"] = int(profile.get("required_level", 1))
+    enemy["dungeon_hp_multiplier"] = hp_multiplier * danger_hp_multiplier * room_hp_multiplier
+    enemy["dungeon_damage_multiplier"] = damage_multiplier * danger_damage_multiplier * room_damage_multiplier
     return enemy
