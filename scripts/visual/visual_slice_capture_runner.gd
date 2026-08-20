@@ -1,7 +1,7 @@
 extends SceneTree
 
 const CONTRACT_PATH := "res://data/visual_vertical_slice.json"
-const OUTPUT_DIR := "res://reports/vertical_slice/captures"
+const OUTPUT_RELATIVE := "reports/vertical_slice/captures"
 
 func _initialize() -> void:
     call_deferred("_run_capture")
@@ -21,7 +21,8 @@ func _run_capture() -> void:
     await process_frame
     await process_frame
     await process_frame
-    DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUTPUT_DIR))
+    var output_dir := ProjectSettings.globalize_path("res://") + "/" + OUTPUT_RELATIVE
+    DirAccess.make_dir_recursive_absolute(output_dir)
     var views := ["combat_wide", "darius_readability", "ghoul_readability", "warm_cold_balance", "attack_telegraph"]
     var files: Array[String] = []
     var camera_nodes := instance.find_children("*", "Camera3D", true, false)
@@ -30,6 +31,7 @@ func _run_capture() -> void:
     for index in range(views.size()):
         if camera != null:
             camera.global_transform = base_transform
+            camera.fov = 42.0
             if index == 1:
                 camera.translate_object_local(Vector3(-0.55, 0.0, 0.0))
             elif index == 2:
@@ -45,11 +47,11 @@ func _run_capture() -> void:
             push_error("Unable to capture rendered viewport")
             quit(3)
             return
-        var rel := OUTPUT_DIR + "/" + views[index] + ".png"
-        image.save_png(ProjectSettings.globalize_path(rel))
-        files.append(rel.trim_prefix("res://"))
+        var filename := views[index] + ".png"
+        image.save_png(output_dir + "/" + filename)
+        files.append(OUTPUT_RELATIVE + "/" + filename)
     var manifest := {"version": 1, "scene": scene_path, "views": views, "files": files}
-    var file := FileAccess.open(OUTPUT_DIR + "/manifest.json", FileAccess.WRITE)
+    var file := FileAccess.open(output_dir + "/manifest.json", FileAccess.WRITE)
     file.store_string(JSON.stringify(manifest, "  ") + "\n")
     print("VISUAL_SLICE_CAPTURE_OK")
     quit()
