@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "positioning": "turn_based_dark_fantasy_rpg_roguelike_dungeon_crawler",
+  "inventory_capacity": 20,
+  "capture_limit_per_zone": 2,
+  "capture_hp_ratio": 0.25,
+  "light": {
+    "max": 10,
+    "room_decay": 1,
+    "high_threshold": 7,
+    "low_threshold": 3,
+    "dark_danger_bonus": 0.90,
+    "dark_loot_bonus": 0.75,
+    "dark_essence_bonus": 0.60,
+    "pressure_per_dark_room": 4
+  },
+  "depth": {
+    "min": 3,
+    "max": 5,
+    "rooms_per_depth_min": 4,
+    "rooms_per_depth_max": 6,
+    "danger_bonus_per_depth": 0.04,
+    "loot_bonus_per_depth": 0.03
+  },
+  "room_weights": {
+    "combat": 24,
+    "elite": 8,
+    "ambush": 7,
+    "treasure": 9,
+    "trap": 8,
+    "shrine": 5,
+    "camp": 5,
+    "merchant": 3,
+    "survivor": 3,
+    "creature": 7,
+    "ruins": 6,
+    "puzzle": 4,
+    "altar": 3,
+    "secret": 3,
+    "anomaly": 4,
+    "corpse": 5
+  },
+  "module_keys": {
+    "combat": "ASH_ROOM_COMBAT",
+    "elite": "ASH_ARENA_ELITE",
+    "ambush": "ASH_ROOM_AMBUSH",
+    "treasure": "ASH_ROOM_TREASURE",
+    "trap": "ASH_ROOM_TRAP",
+    "shrine": "ASH_SHRINE_THREE_AWAKENINGS",
+    "camp": "ASH_CAMP",
+    "merchant": "ASH_ROOM_MERCHANT",
+    "survivor": "ASH_ROOM_SURVIVOR",
+    "creature": "ASH_ROOM_CREATURE",
+    "ruins": "ASH_RUINS_LORE",
+    "puzzle": "ASH_ROOM_PUZZLE",
+    "altar": "ASH_ALTAR",
+    "secret": "ASH_SECRET_01",
+    "anomaly": "ASH_ANOMALY",
+    "corpse": "ASH_CORPSE",
+    "start": "ASH_ENTRY",
+    "boss": "ASH_BOSS_ANGEL"
+  },
+  "loot_rarity_weights": {
+    "common": 55,
+    "uncommon": 26,
+    "rare": 12,
+    "epic": 5,
+    "legendary": 2
+  },
+  "affix_counts": {
+    "common": 1,
+    "uncommon": 1,
+    "rare": 2,
+    "epic": 3,
+    "legendary": 3
+  },
+  "affixes": ["crit", "rupture", "stun", "guard", "riposte", "heal", "hope", "madness_resistance", "bleed", "accuracy", "resistance"],
+  "cursed_item_chance": 0.10,
+  "unidentified_relic_chance": 0.12,
+  "bestiary_reveal": {
+    "identity": 1,
+    "stats": 2,
+    "abilities": 4,
+    "mastery": 8
+  },
+  "hazards": ["fire", "blood_pool", "poison_gas", "collapse", "pit", "chains", "light_source", "darkness"],
+  "principles": {
+    "permadeath": true,
+    "guild_persists": true,
+    "knowledge_persists_on_failed_run": true,
+    "horizontal_meta_progression": true,
+    "player_can_dim_light": true,
+    "extraction_is_a_player_choice": true,
+    "angel_is_never_capturable": true
+  }
+}
