@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "design_source": "prepc_demo_production_pass_29",
+  "units": {"time": "seconds", "distance": "meters", "rotation": "degrees"},
+  "global_rules": {
+    "root_motion": "authored_only_for_tactical_step_and_ghoul_lunge",
+    "combat_attacks_return_to_anchor": true,
+    "foot_contact_must_not_slide": true,
+    "impact_marker_required_for_damage_actions": true,
+    "anticipation_marker_required_for_enemy_attacks": true,
+    "death_has_no_loop": true,
+    "silhouette_priority_over_secondary_motion": true
+  },
+  "darius": {
+    "skeleton": "LITD_HUMANOID_STANDARD",
+    "animations": [
+      {"id":"idle","duration_s":2.4,"loop":true,"root_delta_m":[0,0,0],"beats":[{"t":0.0,"event":"settle"},{"t":1.2,"event":"lantern_breath"}],"notes":"Bouclier stable, respiration contenue, lanterne secondaire."},
+      {"id":"walk","duration_s":1.0,"loop":true,"root_delta_m":[0,0,0],"beats":[{"t":0.0,"event":"foot_l"},{"t":0.5,"event":"foot_r"}],"notes":"Pas lourds mais pas patauds; plaques lisibles en grandes masses."},
+      {"id":"tactical_step","duration_s":0.8,"loop":false,"root_delta_m":[0.9,0,0],"beats":[{"t":0.0,"event":"push"},{"t":0.4,"event":"cross"},{"t":0.8,"event":"plant"}],"notes":"Déplacement court, centre de gravité protégé derrière le bouclier."},
+      {"id":"attack_light","duration_s":0.9,"loop":false,"root_delta_m":[0.12,0,0],"beats":[{"t":0.0,"event":"start"},{"t":0.2,"event":"telegraph"},{"t":0.4,"event":"impact"},{"t":0.65,"event":"recovery"},{"t":0.9,"event":"ready"}],"notes":"Arc court, priorité à la lecture de l'épaule, de la lame et du bouclier."},
+      {"id":"attack_heavy","duration_s":1.5,"loop":false,"root_delta_m":[0.24,0,0],"beats":[{"t":0.0,"event":"start"},{"t":0.4,"event":"telegraph"},{"t":0.8,"event":"impact"},{"t":1.05,"event":"follow_through"},{"t":1.5,"event":"ready"}],"notes":"Le poids vient du bassin et de l'ouverture temporaire du bouclier, pas d'une pirouette."},
+      {"id":"guard","duration_s":0.8,"loop":false,"root_delta_m":[0,0,0],"beats":[{"t":0.0,"event":"raise"},{"t":0.3,"event":"guard_active"},{"t":0.8,"event":"guard_hold"}],"notes":"Le bouclier couvre le torse sans cacher totalement le visage ni la lanterne."},
+      {"id":"hit","duration_s":0.55,"loop":false,"root_delta_m":[-0.04,0,0],"beats":[{"t":0.0,"event":"impact"},{"t":0.18,"event":"peak"},{"t":0.55,"event":"ready"}],"notes":"Réaction compacte; ne pas transformer chaque coup en knockback."},
+      {"id":"stagger","duration_s":0.9,"loop":false,"root_delta_m":[-0.12,0,0],"beats":[{"t":0.0,"event":"impact"},{"t":0.32,"event":"loss_of_balance"},{"t":0.9,"event":"ready"}],"notes":"Une jambe cède, le bouclier reste tenu."},
+      {"id":"kneel","duration_s":1.4,"loop":false,"root_delta_m":[0,0,0],"beats":[{"t":0.0,"event":"weaken"},{"t":0.8,"event":"knee_contact"},{"t":1.4,"event":"hold"}],"notes":"Prévu pour scènes de blessure, pas comme mort standard."},
+      {"id":"death","duration_s":2.2,"loop":false,"root_delta_m":[-0.16,0,0],"beats":[{"t":0.0,"event":"fatal_hit"},{"t":0.7,"event":"shield_drop"},{"t":1.45,"event":"ground_contact"},{"t":2.2,"event":"final_pose"}],"notes":"Mort lourde et sobre; aucune théâtralisation héroïque automatique."}
+    ]
+  },
+  "enemy_01_goule_affamee": {
+    "skeleton": "LITD_GHOUL_STANDARD",
+    "animations": [
+      {"id":"idle","duration_s":1.8,"loop":true,"root_delta_m":[0,0,0],"beats":[{"t":0.0,"event":"settle"},{"t":0.9,"event":"head_twitch"}],"notes":"Poids vers l'avant, bras longs menaçants, mouvement irrégulier sans bruit visuel permanent."},
+      {"id":"crawl_walk","duration_s":0.9,"loop":true,"root_delta_m":[0,0,0],"beats":[{"t":0.0,"event":"hand_l"},{"t":0.45,"event":"hand_r"}],"notes":"Locomotion basse, griffes visibles à distance de jeu."},
+      {"id":"lunge","duration_s":1.5,"loop":false,"root_delta_m":[1.35,0,0],"beats":[{"t":0.0,"event":"compress"},{"t":0.6,"event":"release"},{"t":0.9,"event":"impact"},{"t":1.2,"event":"land"},{"t":1.5,"event":"ready"}],"notes":"Le télégraphe doit être lisible par la compression du torse avant tout déplacement."},
+      {"id":"claw_1","duration_s":1.0,"loop":false,"root_delta_m":[0.10,0,0],"beats":[{"t":0.0,"event":"start"},{"t":0.2,"event":"telegraph"},{"t":0.5,"event":"impact"},{"t":1.0,"event":"ready"}],"notes":"Griffe droite; l'épaule et la tête annoncent le côté attaqué."},
+      {"id":"claw_2","duration_s":1.1,"loop":false,"root_delta_m":[0.12,0,0],"beats":[{"t":0.0,"event":"start"},{"t":0.3,"event":"telegraph"},{"t":0.6,"event":"impact"},{"t":1.1,"event":"ready"}],"notes":"Griffe gauche croisée; silhouette distincte de claw_1."},
+      {"id":"hit","duration_s":0.45,"loop":false,"root_delta_m":[-0.06,0,0],"beats":[{"t":0.0,"event":"impact"},{"t":0.45,"event":"ready"}],"notes":"Sec et nerveux."},
+      {"id":"stagger","duration_s":0.8,"loop":false,"root_delta_m":[-0.18,0,0],"beats":[{"t":0.0,"event":"impact"},{"t":0.25,"event":"collapse"},{"t":0.8,"event":"ready"}],"notes":"Les bras touchent presque le sol; la vulnérabilité doit être évidente."},
+      {"id":"death","duration_s":1.9,"loop":false,"root_delta_m":[-0.22,0,0],"beats":[{"t":0.0,"event":"fatal_hit"},{"t":0.55,"event":"fold"},{"t":1.25,"event":"ground_contact"},{"t":1.9,"event":"final_pose"}],"notes":"La forme s'effondre sur elle-même; gore discret, silhouette encore identifiable."}
+    ]
+  },
+  "transition_rules": [
+    {"from":"idle","to":"attack","blend_s":0.08},
+    {"from":"attack","to":"idle","blend_s":0.12},
+    {"from":"idle","to":"guard","blend_s":0.08},
+    {"from":"hit","to":"idle","blend_s":0.10},
+    {"from":"stagger","to":"idle","blend_s":0.14},
+    {"from":"any","to":"death","blend_s":0.04}
+  ],
+  "review_checklist": [
+    "impact marker visually matches contact",
+    "enemy anticipation readable without UI",
+    "no foot sliding at combat camera distance",
+    "weapon and shield arcs stay inside readable frame",
+    "secondary cloth motion never hides the attack silhouette",
+    "death poses remain compatible with corpse placement and collision cleanup"
+  ]
+}
