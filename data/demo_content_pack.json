@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "design_source": "prepc_demo_production_pass_29",
+  "title": "Démo — Les Cendres se souviennent",
+  "target_duration_minutes": [45, 65],
+  "purpose": "Transformer les systèmes déjà présents en une démo courte, cohérente et rejouable sans inventer un canon parallèle.",
+  "content_rules": [
+    "les conséquences ne qualifient jamais automatiquement un choix de bon ou mauvais",
+    "les héros mortels enrichissent l'histoire mais ne portent aucune information indispensable",
+    "les choix de terrain utilisent de vraies ressources",
+    "la Peur est la seule jauge psychologique visible",
+    "Espoir et Folie restent événementiels et non affichés comme ressources",
+    "les textes anciens sont originaux et ne copient aucune œuvre existante"
+  ],
+  "flow": [
+    {"id":"demo_00_sanctuary","name":"Sanctuaire — Avant la sortie","minutes":[6,10],"goals":["présenter la compagnie","préparer ressources et équipement","montrer une interaction de bâtiment","donner l'objectif principal sans exposition massive"]},
+    {"id":"demo_01_ash_approach","name":"Terres de Cendre — Approche","minutes":[8,12],"goals":["exploration sans HUD permanent","premier texte ancien","premier combat court","premier télégraphe de Peur"]},
+    {"id":"demo_02_field_choice","name":"Village ravagé — Choix de terrain","minutes":[8,12],"existing_encounter":"c01_village_survivors","goals":["faire dépenser ou conserver des ressources","créer une mémoire de décision","préparer un retour au Sanctuaire"]},
+    {"id":"demo_03_ghoul","name":"Clairière de cendre — Goule affamée","minutes":[8,12],"creature_id":"hungry_ghoul","goals":["combat lisible","opportunité de capture si les conditions sont réunies","montrer que capturer n'est pas obligatoire"]},
+    {"id":"demo_04_witness","name":"Clocher — Le Témoin des Cendres","minutes":[10,16],"boss_id":"c01_boss_ash_witness","goals":["boss-puzzle court","Peur et mémoire","choix post-combat épargner ou achever lorsque la règle le permet"]},
+    {"id":"demo_05_return","name":"Sanctuaire — Ce qui revient","minutes":[5,8],"goals":["voir une conséquence du choix de terrain","faire entendre une réaction de héros vivant","montrer le journal et une piste de quête secondaire"]}
+  ],
+  "quests": [
+    {
+      "id":"demo_main_ash_memory",
+      "type":"main",
+      "name":"Ce que les Cendres répètent",
+      "summary":"Suivre des traces de mémoire rejouée jusqu'au Témoin des Cendres et comprendre pourquoi certains gestes reviennent sans leurs auteurs.",
+      "objectives":[
+        "quitter le Sanctuaire avec une réserve de Lumière",
+        "observer le premier geste mémoriel dans les Terres de Cendre",
+        "atteindre le clocher sans épuiser toute la Lumière",
+        "identifier une répétition pendant le combat du Témoin",
+        "choisir le sort du Témoin après la victoire"
+      ],
+      "critical_story_carriers":["environment","journal","persistent_npc_or_narration"],
+      "mortal_hero_required": false
+    },
+    {
+      "id":"demo_side_three_marks",
+      "type":"emergent",
+      "name":"Trois traits sur le cuivre",
+      "source_encounter":"c01_village_survivors",
+      "activation_outcomes":["aided","stabilized"],
+      "summary":"Retrouver au Sanctuaire la marque laissée par Mara et découvrir si les trois survivants ont choisi d'y venir ou de poursuivre leur propre route.",
+      "resolution":"qualitative_return_not_reward_meter"
+    },
+    {
+      "id":"demo_side_red_thread",
+      "type":"emergent",
+      "name":"Le fil qui refuse de finir",
+      "source_encounter":"c01_separated_family",
+      "followup_encounter":"c01_family_reunion",
+      "activation_outcomes":["searched","marked"],
+      "summary":"Suivre les traces laissées par Sela et Nerin sans transformer leur histoire en simple objet de collecte."
+    },
+    {
+      "id":"demo_side_sivra_boundary",
+      "type":"optional_teaser",
+      "name":"Une frontière qui parle",
+      "source_encounter":"c01_conscious_creature",
+      "summary":"Découvrir qu'une créature consciente peut négocier, refuser le recrutement et définir ses propres limites."
+    }
+  ],
+  "events": [
+    {"id":"demo_ev_ash_handprint","trigger":"first_ashlands_entry","text":"Sur un mur calciné, une paume est imprimée dans la cendre. Quand le vent passe, la trace se reforme au lieu de disparaître.","effect":"fear_plus_2_if_first_time"},
+    {"id":"demo_ev_lantern_echo","trigger":"after_first_combat","text":"La lanterne de la compagnie vacille une fois. Une seconde lueur répond, loin derrière les ruines, puis s'éteint.","effect":"journal_clue"},
+    {"id":"demo_ev_survivor_silence","trigger":"after_c01_village_survivors","text":"Pendant plusieurs minutes, personne ne commente la décision prise au village. Le silence n'a pas la même forme selon qui marche encore avec la compagnie.","effect":"relationship_or_decision_memory_hook"},
+    {"id":"demo_ev_ghoul_choice","trigger":"hungry_ghoul_below_capture_threshold","text":"La Goule recule au lieu de charger. Elle est encore dangereuse, mais sa fuite devient aussi lisible que sa faim.","effect":"capture_prompt_without_moral_label"},
+    {"id":"demo_ev_witness_repeat","trigger":"boss_repeat_pattern_seen","text":"Le même bras se lève. La même poussière tombe. Cette fois, vous savez que le geste a déjà eu lieu.","effect":"boss_recognition_window"},
+    {"id":"demo_ev_return_marker","trigger":"sanctuary_return_after_field_choice","text":"Près de l'entrée du Sanctuaire, quelqu'un a gravé trois traits sur une plaque de cuivre. Ou peut-être étaient-ils déjà là.","effect":"community_return_check"}
+  ],
+  "ancient_texts": [
+    {"id":"demo_text_body","title":"Règlement du tournoi des Trois Places — fragment","text":"Celui qui entre dans l'arène répond de son corps. Celui qui en sort répond encore de la place laissée à l'autre. La victoire ne suspend aucune dette envers la cité.","theme":"body_and_civic_duty"},
+    {"id":"demo_text_mind","title":"Carnet d'atelier sans signature","text":"Nous apprenons un art pour que l'esprit ne devienne pas seulement l'ombre du poing. Une ville qui sait combattre mais ne sait plus créer prépare déjà sa propre défaite.","theme":"art_and_mind"},
+    {"id":"demo_text_council","title":"Procès-verbal brûlé d'une assemblée","text":"Le vote fut repoussé parce que les absents n'avaient personne pour exposer le prix qu'ils paieraient. On décida de ne pas appeler cela un retard, mais une condition de la décision.","theme":"politics_common_good"},
+    {"id":"demo_text_fear","title":"Note d'un veilleur après la Chute","text":"La peur ne ment pas toujours. Elle dit seulement trop de choses à la fois. J'essaie d'écouter laquelle concerne le danger présent et laquelle appartient encore à hier.","theme":"fear"},
+    {"id":"demo_text_hope","title":"Billet trouvé dans une jarre de riz vide","text":"Nous n'avons plus assez pour demain. Pourtant quelqu'un a réparé le toit de la maison commune. Je ne sais pas si cela sauvera qui que ce soit. Je sais seulement que ce geste refuse de parler comme si tout était fini.","theme":"hope_without_meter"},
+    {"id":"demo_text_madness","title":"Feuillet d'un médecin itinérant","text":"Je me méfie du mot folie quand il sert à rendre une personne plus simple qu'elle ne l'est. Certains entendent encore la porte. D'autres ne supportent plus le silence. Aucun de ces états ne raconte à lui seul ce qu'ils feront demain.","theme":"madness_without_meter"},
+    {"id":"demo_text_border","title":"Stèle de route — transcription partielle","text":"Cette borne n'indique pas qui possède la vallée. Elle indique seulement où finit notre responsabilité de patrouille et où commence celle de ceux qui ont choisi une autre règle.","theme":"political_plurality"},
+    {"id":"demo_text_memory","title":"Fragment d'archive après incendie","text":"Une mémoire publique n'est pas une seule mémoire agrandie. Elle est l'endroit où des versions incompatibles acceptent de ne pas se supprimer avant d'avoir été entendues.","theme":"collective_memory"}
+  ],
+  "dialogue_barks": [
+    {"id":"demo_darius_ash_01","speaker":"darius","context":"first_ashlands_entry","text":"La cendre couvre les traces. Elle n'efface pas ce qui les a faites."},
+    {"id":"demo_darius_guard_01","speaker":"darius","context":"successful_guard","text":"Encore. Cette fois, je l'ai vu venir."},
+    {"id":"demo_aurelien_text_01","speaker":"aurelien","context":"ancient_text_found","text":"Ils écrivaient comme si quelqu'un, un jour, aurait encore le temps de répondre."},
+    {"id":"demo_malvor_survivors_01","speaker":"malvor","context":"after_survivor_choice","text":"On peut appeler ça une décision. Ça ne rend pas le sac plus léger."},
+    {"id":"demo_lysandra_fear_01","speaker":"lysandra","context":"fear_band_increases","text":"N'essayez pas de chasser la peur. Donnez-lui une place assez petite pour qu'elle ne choisisse pas à votre place."},
+    {"id":"demo_darius_ghoul_01","speaker":"darius","context":"ghoul_capture_window","text":"Elle cherche une sortie. Ce n'est pas la même chose que se rendre."},
+    {"id":"demo_aurelien_witness_01","speaker":"aurelien","context":"boss_repeat_pattern_seen","text":"Ce geste n'est pas une attaque nouvelle. C'est quelque chose qui refuse de finir."},
+    {"id":"demo_malvor_witness_01","speaker":"malvor","context":"boss_recognition_window","text":"Alors on arrête de répondre au souvenir comme s'il venait de nous frapper pour la première fois."},
+    {"id":"demo_lysandra_return_01","speaker":"lysandra","context":"sanctuary_return","text":"Le Sanctuaire change aussi quand quelqu'un décide de ne pas y venir."},
+    {"id":"demo_darius_return_01","speaker":"darius","context":"sanctuary_return","text":"Nous sommes revenus. Ce n'est pas encore la même chose que rentrer."},
+    {"id":"demo_narration_marker","speaker":"narration","context":"three_marks_seen","text":"Trois traits. Pas une promesse. Seulement la preuve qu'une trajectoire a croisé la vôtre."},
+    {"id":"demo_narration_end","speaker":"narration","context":"demo_complete","text":"La route suivante n'est pas plus sûre. Elle est seulement devenue lisible."}
+  ],
+  "sanctuary_demo_interactions": [
+    {"building":"Taverne","purpose":"rumeur et réaction de compagnon vivant","required":true},
+    {"building":"Chapelle","purpose":"repos ou préparation psychologique sans effacer automatiquement les conséquences","required":false},
+    {"building":"Mémorial","purpose":"montrer qu'une mort permanente transforme les voix disponibles","required":false},
+    {"building":"Espace des créatures","purpose":"présenter la Goule capturée si elle l'a été, sans la transformer en trophée","required":false},
+    {"building":"Réseau communautaire","purpose":"faire revenir un survivant ou une rumeur selon le choix de terrain","required":true}
+  ],
+  "capture_demo": {
+    "creature_id":"hungry_ghoul",
+    "use_existing_capture_contract":true,
+    "max_hp_ratio_source":"data/capturable_creatures.json",
+    "capture_is_optional":true,
+    "failure_does_not_block_demo":true,
+    "captured_creature_keeps_progression_identity":true
+  },
+  "boss_demo": {
+    "boss_id":"c01_boss_ash_witness",
+    "use_existing_boss_contract":true,
+    "required_mechanics":["gestes_mémoriels","lumière_stabilisatrice","fenêtre_de_reconnaissance"],
+    "must_teach_before_punishing":true,
+    "post_combat_choice":"use_existing_field_memory_spare_finish_contract"
+  },
+  "ending_states": [
+    "survivors_aided_or_stabilized_or_refused",
+    "ghoul_captured_or_not_captured",
+    "ash_witness_spared_or_finished",
+    "party_composition_changed_by_permadeath_or_not"
+  ]
+}
