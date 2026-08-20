@@ -1,7 +1,7 @@
 {
   "version": 1,
   "design_source": "prepc_demo_production_pass_29",
-  "status": "static_preparation_complete_pending_ci_and_merge",
+  "status": "static_preparation_complete",
   "contracts": {
     "combat_choreography": "data/visual_slice_choreography.json",
     "animation_specs": "data/visual_slice_animation_specs.json",
