@@ -7,6 +7,15 @@ func _ready() -> void:
     HUDDirector.set_screen_context("exploration")
     assert(HUDDirector.disclosure_level == HUDDirector.LEVEL_WORLD_ONLY)
 
+    var guidance := HUDDirector.request_world_guidance(
+        "ash_cloister",
+        ["cendre", "lanternes"],
+        {"strength": "subtle"}
+    )
+    assert(str(guidance.get("decision", "")) == "world_cue")
+    assert(str(guidance.get("channel", "")) == "cendre")
+    assert(bool(guidance.get("hud_marker", true)) == false)
+
     var inspection_info := HUDDirector.route_event(
         "hud_smoke_ancient_text",
         "INFORMATION",
