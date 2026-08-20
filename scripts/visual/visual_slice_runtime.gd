@@ -44,8 +44,8 @@ func start_combat() -> void:
     combat_active = true
     _state(darius_controller, "idle")
     _state(ghoul_controller, "idle")
-    _audio_event("combat_music", darius_root)
     _audio_event("ashlands_wind", darius_root)
+    _audio_event("combat_music", darius_root)
     combat_started.emit()
     _emit_hp()
 
@@ -129,6 +129,9 @@ func _damage_darius(amount: int, action_id: String) -> void:
 
 func _finish(winner_id: String) -> void:
     combat_active = false
+    var audio_director := get_node_or_null("/root/AudioDirector")
+    if audio_director != null and audio_director.has_method("finish_combat_context"):
+        audio_director.call("finish_combat_context", winner_id == "darius")
     combat_finished.emit(winner_id)
 
 func _can_act() -> bool:
@@ -163,21 +166,17 @@ func _actor_pos(actor: Node3D) -> Vector3:
 func _audio_event(event_id: String, source: Node3D) -> void:
     var audio_director := get_node_or_null("/root/AudioDirector")
     var sfx_runtime := get_node_or_null("/root/SfxRuntime")
-    if event_id == "combat_music" and audio_director != null:
-        if audio_director.has_method("enter_combat"):
-            audio_director.call("enter_combat")
-        elif audio_director.has_method("set_mode"):
-            audio_director.call("set_mode", "combat")
+    if event_id == "combat_music" and audio_director != null and audio_director.has_method("enter_combat_context"):
+        audio_director.call("enter_combat_context", "visual_slice", "normal")
         return
-    if event_id == "ashlands_wind" and audio_director != null:
-        if audio_director.has_method("enter_exploration"):
-            audio_director.call("enter_exploration")
+    if event_id == "ashlands_wind" and sfx_runtime != null and sfx_runtime.has_method("set_loop_cues"):
+        sfx_runtime.call("set_loop_cues", ["ashlands_wind"])
         return
-    if sfx_runtime != null:
-        if sfx_runtime.has_method("play_cue"):
-            sfx_runtime.call("play_cue", event_id, _actor_pos(source))
-        elif sfx_runtime.has_method("request_sfx"):
-            sfx_runtime.call("request_sfx", event_id, _actor_pos(source))
+    var context := {"position_3d": _actor_pos(source), "source": "visual_slice"}
+    if sfx_runtime != null and sfx_runtime.has_method("play_cue"):
+        sfx_runtime.call("play_cue", event_id, context)
+    elif audio_director != null and audio_director.has_method("request_sfx"):
+        audio_director.call("request_sfx", event_id, context)
 
 func _emit_hp() -> void:
     hp_changed.emit("darius", darius_hp, darius_max_hp)
