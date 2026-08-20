@@ -66,6 +66,9 @@ def build_payload(root: Path = ROOT) -> dict:
             "animations": darius["animation_minimum"],
             "output_blend": "builds/vertical_slice/darius/darius_proxy.blend",
             "output_glb": "builds/vertical_slice/darius/darius_proxy.glb",
+            "final_glb": contract["asset_ingest"]["roots"]["darius"].replace("res://", ""),
+            "review_report": "reports/visual_slice_darius_review.json",
+            "validator_profile": "darius",
             **character_common,
         },
         {
@@ -89,6 +92,9 @@ def build_payload(root: Path = ROOT) -> dict:
             "animations": ghoul["animation_minimum"],
             "output_blend": "builds/vertical_slice/hungry_ghoul/hungry_ghoul_proxy.blend",
             "output_glb": "builds/vertical_slice/hungry_ghoul/hungry_ghoul_proxy.glb",
+            "final_glb": contract["asset_ingest"]["roots"]["enemy_01_goule_affamee"].replace("res://", ""),
+            "review_report": "reports/visual_slice_hungry_ghoul_review.json",
+            "validator_profile": "enemy_01_goule_affamee",
             **character_common,
         },
         {
@@ -103,6 +109,9 @@ def build_payload(root: Path = ROOT) -> dict:
             "materials": ["ash_ground", "stone_ash", "wood_charred", "ember_emissive"],
             "output_blend": "builds/vertical_slice/arena/ashlands_visual_arena_proxy.blend",
             "output_glb": "builds/vertical_slice/arena/ashlands_visual_arena_proxy.glb",
+            "final_glb": contract["asset_ingest"]["roots"]["ashlands_visual_arena"].replace("res://", ""),
+            "review_report": "reports/visual_slice_ashlands_arena_review.json",
+            "validator_profile": "ashlands_visual_arena",
             "review_gate": "game_camera_readability_before_glb_export",
             "art_bible_authoritative": True,
             "proxy_only_until_reviewed": True,
@@ -117,7 +126,7 @@ def build_payload(root: Path = ROOT) -> dict:
     }
 
     return {
-        "version": 1,
+        "version": 2,
         "generator": "tools/blender/generate_visual_vertical_slice_jobs.py",
         "contract": "data/visual_vertical_slice.json",
         "status": "prepared_without_blender",
