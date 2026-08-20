@@ -1,7 +1,7 @@
 extends SceneTree
 
 const CONTRACT_PATH := "res://data/visual_vertical_slice.json"
-const OUTPUT_PATH := "res://reports/vertical_slice/profile.json"
+const OUTPUT_RELATIVE := "reports/vertical_slice/profile.json"
 
 func _initialize() -> void:
     call_deferred("_run_profile")
@@ -48,8 +48,10 @@ func _run_profile() -> void:
         }
     }
     payload["status"] = "pass" if payload["checks"]["fps"]["pass"] and payload["checks"]["draw_calls"]["pass"] else "warn"
-    DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://reports/vertical_slice"))
-    var file := FileAccess.open(OUTPUT_PATH, FileAccess.WRITE)
+    var project_root := ProjectSettings.globalize_path("res://")
+    var output_path := project_root + "/" + OUTPUT_RELATIVE
+    DirAccess.make_dir_recursive_absolute(output_path.get_base_dir())
+    var file := FileAccess.open(output_path, FileAccess.WRITE)
     file.store_string(JSON.stringify(payload, "  ") + "\n")
     print("VISUAL_SLICE_PROFILE_OK")
     quit()
