@@ -7,6 +7,7 @@ signal resource_shortage(resource_id: String)
 signal pressure_applied(amount: int, source: String)
 
 const RULES_PATH := "res://data/levels/ashlands_survival_rules.json"
+const ROGUELIKE_RUNTIME_SCRIPT := preload("res://scripts/core/roguelike_runtime.gd")
 
 var rules: Dictionary = {}
 var inventory: Dictionary = {}
@@ -14,8 +15,12 @@ var craft_resources: Dictionary = {}
 var expedition_active := false
 var expedition_seed := 0
 var zones_entered_this_run: Array[String] = []
+var roguelike_runtime: Node
 
 func _ready() -> void:
+    roguelike_runtime = ROGUELIKE_RUNTIME_SCRIPT.new()
+    roguelike_runtime.name = "RoguelikeRuntime"
+    add_child(roguelike_runtime)
     _load_rules()
     if inventory.is_empty():
         reset_to_full_resupply()
@@ -37,9 +42,14 @@ func start_expedition(seed_value: int = 0) -> void:
     expedition_seed = seed_value if seed_value != 0 else int(Time.get_unix_time_from_system())
     expedition_active = true
     zones_entered_this_run.clear()
+    if roguelike_runtime != null:
+        roguelike_runtime.start_run(expedition_seed)
     expedition_started.emit(expedition_seed)
 
 func return_to_hub(reason: String = "voluntary") -> void:
+    if roguelike_runtime != null and expedition_active:
+        roguelike_runtime.commit_party_deaths(reason)
+        roguelike_runtime.finish_run(reason)
     expedition_active = false
     zones_entered_this_run.clear()
     reset_to_full_resupply()
@@ -55,6 +65,80 @@ func on_zone_entered(zone_id: String) -> Dictionary:
             apply_pressure(5 * result.get("missing", []).size(), "resource_shortage")
         return result
     return {"success": true, "missing": []}
+
+func enter_dungeon_room(room_id: String) -> Dictionary:
+    if roguelike_runtime == null:
+        return {"success": false, "reason": "roguelike_runtime_unavailable"}
+    return roguelike_runtime.enter_room(room_id)
+
+func dungeon_layout() -> Array:
+    if roguelike_runtime == null:
+        return []
+    return roguelike_runtime.active_run.get("dungeon", []).duplicate(true)
+
+func current_risk_profile() -> Dictionary:
+    if roguelike_runtime == null:
+        return {"light": int(inventory.get("light", 0)), "danger_multiplier": 1.0, "loot_multiplier": 1.0}
+    return roguelike_runtime.current_risk_profile()
+
+func deliberately_dim_light(amount: int = 1) -> Dictionary:
+    if roguelike_runtime == null:
+        return current_risk_profile()
+    return roguelike_runtime.dim_light(amount)
+
+func generate_roguelike_loot(depth: int, source: String = "room", seed_salt: int = 0) -> Dictionary:
+    if roguelike_runtime == null:
+        return {}
+    return roguelike_runtime.generate_loot(depth, source, seed_salt)
+
+func add_loot_to_expedition(item: Dictionary) -> bool:
+    return roguelike_runtime != null and roguelike_runtime.add_cargo(item)
+
+func inventory_slots_used() -> int:
+    if roguelike_runtime == null:
+        return 0
+    return roguelike_runtime.inventory_slots_used()
+
+func inventory_capacity() -> int:
+    if roguelike_runtime == null:
+        return 20
+    return roguelike_runtime.inventory_capacity()
+
+func capture_check(enemy: Dictionary, zone_id: String) -> Dictionary:
+    if roguelike_runtime == null:
+        return {"allowed": false, "reason": "roguelike_runtime_unavailable"}
+    return roguelike_runtime.can_capture(enemy, zone_id)
+
+func register_roguelike_capture(enemy: Dictionary, zone_id: String) -> Dictionary:
+    if roguelike_runtime == null:
+        return {"allowed": false, "reason": "roguelike_runtime_unavailable"}
+    return roguelike_runtime.register_capture(enemy, zone_id)
+
+func record_enemy_knowledge(enemy_id: String, killed: bool = false) -> Dictionary:
+    if roguelike_runtime == null:
+        return {}
+    return roguelike_runtime.record_enemy_knowledge(enemy_id, killed)
+
+func archive_expedition_lore(entry_id: String, payload: Dictionary) -> bool:
+    return roguelike_runtime != null and roguelike_runtime.archive_lore(entry_id, payload)
+
+func unlock_horizontal_meta(unlock_id: String, payload: Dictionary = {}) -> bool:
+    return roguelike_runtime != null and roguelike_runtime.unlock_meta(unlock_id, payload)
+
+func ultimate_uses_for_level(level: int) -> int:
+    if roguelike_runtime == null:
+        return 0
+    return roguelike_runtime.ultimate_uses_for_level(level)
+
+func hazard_interactions(hazard_id: String) -> Array:
+    if roguelike_runtime == null:
+        return []
+    return roguelike_runtime.hazard_interactions(hazard_id)
+
+func extraction_summary() -> Dictionary:
+    if roguelike_runtime == null:
+        return {}
+    return roguelike_runtime.extraction_summary()
 
 func can_pay(bundle: Dictionary) -> bool:
     for key in bundle.keys():
@@ -168,7 +252,8 @@ func serialize() -> Dictionary:
         "craft_resources": craft_resources,
         "expedition_active": expedition_active,
         "expedition_seed": expedition_seed,
-        "zones_entered_this_run": zones_entered_this_run
+        "zones_entered_this_run": zones_entered_this_run,
+        "roguelike": roguelike_runtime.serialize() if roguelike_runtime != null else {}
     }
 
 func deserialize(data: Dictionary) -> void:
@@ -177,4 +262,6 @@ func deserialize(data: Dictionary) -> void:
     expedition_active = bool(data.get("expedition_active", false))
     expedition_seed = int(data.get("expedition_seed", 0))
     zones_entered_this_run.assign(data.get("zones_entered_this_run", []))
+    if roguelike_runtime != null:
+        roguelike_runtime.deserialize(data.get("roguelike", {}))
     inventory_changed.emit(inventory.duplicate(true))
