@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "vertical_slice_automation_pass_28",
+  "state_path": "reports/vertical_slice_automation_state.json",
+  "report_dir": "reports/vertical_slice",
+  "approval_gate": {"id": "art_review", "required": true},
+  "lod_ratios": {"lod0": 1.0, "lod1": 0.5, "lod2": 0.2},
+  "turntable_angles": [0,45,90,135,180,225,270,315],
+  "capture_views": ["combat_wide","darius_readability","ghoul_readability","warm_cold_balance","attack_telegraph"],
+  "pipeline": ["preflight","materials","build_darius","build_ghoul","build_arena","auto_rig","validate_assets","generate_lods","optimize_mobile","render_turntables","art_review","publish_godot","capture_godot","profile_godot","final_report"]
+}
