@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "design_source": "hud_director_pass_33",
+  "purpose": "Garder l'écran au service du monde et de la décision : n'afficher une information que lorsqu'elle peut changer ce que le joueur fait maintenant, sinon la différer vers une inspection volontaire ou le journal.",
+  "core_rule": {
+    "world_first": "si une information peut être comprise dans le monde, elle ne doit pas être ajoutée au HUD",
+    "decision_first": "si elle doit apparaître dans le HUD, elle apparaît uniquement lorsqu'elle peut changer une décision du joueur",
+    "no_permanent_minimap": true,
+    "no_permanent_quest_tracker": true,
+    "no_decorative_notification_interruptions": true
+  },
+  "information_levels": {
+    "0": {"id":"world_only","name":"Rien","description":"exploration normale; le monde occupe tout l'écran","examples":["navigation par architecture","cendre","vent","lanternes","sons","traces","lumière"]},
+    "1": {"id":"danger","name":"Danger","description":"une information apparaît parce qu'un seuil urgent vient d'être franchi","examples":["hp critique","Peur franchit un seuil","menace immédiate","ressource vitale faible"]},
+    "2": {"id":"context","name":"Contexte","description":"afficher seulement l'action possible à proximité","examples":["interagir","ouvrir","parler","capturer","franchir"]},
+    "3": {"id":"decision","name":"Décision","description":"au combat, montrer uniquement ce qui sert à décider le tour","examples":["acteur actif","hp","Peur","4 à 6 actions principales","cible","conséquence immédiate"]},
+    "4": {"id":"inspection","name":"Inspection volontaire","description":"détails complets uniquement sur demande","examples":["probabilités","affixes","résistances","historique","états complets","journal"]}
+  },
+  "priorities": {
+    "CRITICAL": {"weight": 400, "interrupts": true, "may_preempt": ["ACTIONABLE","CONTEXT","INFORMATION","DECORATIVE"]},
+    "ACTIONABLE": {"weight": 300, "interrupts": false, "may_preempt": ["CONTEXT","INFORMATION","DECORATIVE"]},
+    "CONTEXT": {"weight": 200, "interrupts": false, "may_preempt": ["INFORMATION","DECORATIVE"]},
+    "INFORMATION": {"weight": 100, "interrupts": false, "defer_when_critical": true},
+    "DECORATIVE": {"weight": 0, "interrupts": false, "never_interrupts": true}
+  },
+  "routing": {
+    "max_simultaneous_presented": 3,
+    "critical_reserves_first_slot": true,
+    "information_during_critical": "journal_silent",
+    "decorative_during_action": "drop",
+    "duplicate_window_seconds": 2.0,
+    "default_ttl_seconds": 2.2,
+    "critical_ttl_seconds": 3.2,
+    "context_ttl_seconds": 1.4
+  },
+  "exploration": {
+    "default_level": 0,
+    "world_navigation_language": ["cendre","vent","lanternes","architecture","sons","traces","lumière"],
+    "floating_waypoints": false,
+    "mini_map": false,
+    "quest_tracker": false,
+    "context_prompt_single_action": true
+  },
+  "combat": {
+    "default_level": 3,
+    "visual_groups_max": 3,
+    "groups": {
+      "bottom_decision": ["active_actor_actions"],
+      "around_characters": ["hp","fear","critical_state","status_summary"],
+      "top_center_events": ["boss_phase","capture_window","critical_fear_change","special_mechanic"]
+    },
+    "actions_visible_max": 6,
+    "status_icons_visible_max": 2,
+    "status_overflow_format": "+N",
+    "status_first_application": "icon_plus_short_label_then_icon_only",
+    "damage_numbers": "small_contextual_optional",
+    "irreversible_action": "select_then_confirm"
+  },
+  "motion": {
+    "appearance_seconds": 0.15,
+    "impulse_once": true,
+    "return_to_stillness": true,
+    "persistent_blinking": false,
+    "repeated_alert_sound": false,
+    "reduced_motion_respected": true
+  },
+  "palette": {
+    "ivory": "text_and_readability",
+    "charcoal": "panels_and_structure",
+    "warm_gold": "selection_and_important_interaction",
+    "ember_red": "immediate_attention_not_moral_badness",
+    "violet": "exceptional_corruption_only",
+    "information_never_color_only": true
+  },
+  "accessibility": {
+    "normal_contrast_ratio_min": 4.5,
+    "large_element_contrast_ratio_min": 3.0,
+    "high_contrast_target": 7.0,
+    "hud_background_opacity_setting": true,
+    "text_scale_setting": true,
+    "simple_sans_serif_option": true,
+    "extra_outline_option": true,
+    "high_contrast_mode": true,
+    "reduced_motion": true,
+    "color_never_only_channel": true
+  },
+  "touch": {
+    "landscape_first": true,
+    "touch_target_min_px": 48,
+    "safe_area_required": true,
+    "essential_information_must_avoid_active_thumb_zone": true,
+    "costly_or_irreversible_actions_require_second_touch": true
+  },
+  "inspection": {
+    "voluntary_only": true,
+    "journal_contains": ["quest_details","ancient_texts","history","decision_memories"],
+    "combat_detail_contains": ["probabilities","affixes","resistances","all_statuses","seed_debug_if_enabled"]
+  },
+  "acceptance": [
+    "exploration normal shows no permanent HUD",
+    "a CRITICAL event suppresses lower-priority interruptions",
+    "INFORMATION discovered during danger is deferred silently to journal",
+    "combat uses at most three visual groups",
+    "no actor shows more than two status icons before overflow aggregation",
+    "HUD motion settles quickly and never loops decorative attention",
+    "touch and accessibility settings preserve every decision without relying on color alone"
+  ]
+}
