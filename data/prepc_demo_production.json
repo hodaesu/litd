@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "design_source": "prepc_demo_production_pass_29",
+  "status": "static_preparation_complete_pending_ci_and_merge",
+  "contracts": {
+    "combat_choreography": "data/visual_slice_choreography.json",
+    "animation_specs": "data/visual_slice_animation_specs.json",
+    "presentation": "data/visual_slice_presentation.json",
+    "demo_content": "data/demo_content_pack.json",
+    "balance_targets": "data/demo_balance_targets.json",
+    "final_ui": "data/final_ui_contract.json",
+    "roadmap": "data/demo_roadmap.json",
+    "master_document": "docs/design/pre_pc_demo_master_plan.md"
+  },
+  "qa": {
+    "audit": "tools/qa/prepc_demo_production_audit.py",
+    "readiness_report": "tools/qa/demo_readiness_report.py",
+    "tests": "tests/test_prepc_demo_production.py"
+  },
+  "pc_only_remaining": [
+    "validate_cel_shading_and_materials_in_motion",
+    "validate_final_model_and_animation_quality",
+    "validate_camera_and_effects_by_eye",
+    "measure_real_device_performance",
+    "approve_or_reject_assets_at_art_review_gate"
+  ],
+  "truth_rule": "Aucune validation nécessitant de voir le jeu ou de mesurer un appareil réel n'est marquée comme terminée avant la session PC."
+}
