@@ -3,14 +3,14 @@ extends Node3D
 
 signal effect_spawned(effect_id: String, world_position: Vector3)
 
-const EFFECT_IDS := PackedStringArray([
+const EFFECT_IDS := [
     "sword_impact",
     "ash_step_puff",
     "subtle_attack_trail",
     "metal_sparks",
     "restrained_blood",
     "lantern_light"
-])
+]
 
 func spawn(effect_id: String, world_position: Vector3, direction: Vector3 = Vector3.UP) -> Node3D:
     if effect_id not in EFFECT_IDS:
