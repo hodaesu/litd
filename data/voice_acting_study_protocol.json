@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "design_source": "dramatic_voice_direction_pass_31",
+  "purpose": "Transformer l'étude de cours de théâtre, d'exercices d'acteur et de scènes filmées en observations réutilisables sans copier les œuvres sources.",
+  "study_axes": [
+    "objective_and_obstacle",
+    "playable_action",
+    "subtext",
+    "active_listening",
+    "pre_line_thought",
+    "silence_as_thought",
+    "breath_change",
+    "status_and_power_shift",
+    "beat_transition",
+    "contradiction_between_spoken_text_and_inner_need",
+    "restraint_under_high_stakes",
+    "post_line_reaction"
+  ],
+  "reference_categories": [
+    {"id":"theatre_objective_action","use":"étudier comment une intention jouable produit une émotion plutôt que demander une émotion abstraite"},
+    {"id":"partner_listening_reaction","use":"étudier comment une réponse change selon ce qui vient réellement d'être reçu"},
+    {"id":"screen_close_mic_restraint","use":"étudier la pensée, les micro-pauses, la respiration et les changements minimes captés par caméra ou micro"},
+    {"id":"calm_threat_and_power","use":"étudier la menace contenue, le contrôle et les déplacements de statut sans hausse automatique de volume"},
+    {"id":"shock_collective_silence","use":"étudier le choc, l'émerveillement ou l'espoir fragile quand le silence porte plus que la parole"}
+  ],
+  "observation_template": {
+    "source_reference": "lien ou référence locale autorisée; ne pas embarquer le média dans le dépôt",
+    "timecode_or_section": "repère uniquement",
+    "objective": "ce que l'interprète semble chercher à obtenir",
+    "obstacle": "ce qui empêche cet objectif",
+    "action": "verbe jouable observé",
+    "listener_change": "ce que l'interprète reçoit réellement avant sa réponse",
+    "beats": "moments où la pensée ou l'action change",
+    "status_shift": "évolution du rapport de pouvoir",
+    "vocal_observation": "rythme, souffle, articulation, volume relatif, silence",
+    "contradiction": "écart entre texte dit et besoin sous-jacent",
+    "litd_transfer": "principe abstrait réécrit pour LITD, sans reprendre la réplique source"
+  },
+  "copyright_and_ethics": {
+    "store_full_clip": false,
+    "store_transcript": false,
+    "store_long_quotes": false,
+    "imitate_specific_actor": false,
+    "extract_transferable_observations_only": true,
+    "authorized_voice_reference_rules_still_apply": true
+  },
+  "calibration_cycle": [
+    "observer une technique ou une scène",
+    "noter uniquement les mécanismes de jeu",
+    "traduire le mécanisme en direction originale LITD",
+    "générer ou enregistrer plusieurs variantes autorisées",
+    "écouter sans afficher d'abord l'étiquette émotionnelle",
+    "noter vérité de l'objectif, écoute, sous-texte, beats, retenue et identité du personnage",
+    "conserver la variante la plus vraie, pas la plus démonstrative",
+    "réviser le contrat si plusieurs prises échouent pour la même raison"
+  ]
+}
