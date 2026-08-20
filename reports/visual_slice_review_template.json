@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "asset_id": "replace_me",
+  "capture_path": "",
+  "art_bible_reference": "docs/art/reference/litd_art_bible_master.png",
+  "reviewer": "",
+  "scores": {
+    "silhouette": 0,
+    "value_readability": 0,
+    "palette_match": 0,
+    "cel_shadow_shapes": 0,
+    "chinese_structural_influence": 0,
+    "combat_telegraph_readability": 0,
+    "environment_density": 0,
+    "warm_cold_light_balance": 0,
+    "material_readability": 0,
+    "art_bible_family_match": 0
+  },
+  "blocking_notes": [],
+  "general_notes": "",
+  "approved": false
+}
