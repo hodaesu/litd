@@ -153,7 +153,7 @@ func resolve_defeat() -> void:
     var finished_id := encounter_id; ashlands_combat_finished.emit(finished_id,false,{}); active = false; _resolving = false; encounter_id = ""; encounter_type = ""; miniboss_data = {}; AshlandsSceneRouter.return_to_hub("defeat")
 
 func _roll_loot() -> Dictionary:
-    if encounter_id in ["vestige_ashai_boss_seventh_voice","vestige_silex_boss_last_strategist","vestige_saan_boss_last_watch","vestige_vaor_boss_command_without_body","vestige_lyrmar_boss_absent_cartographer","vestige_sahmir_boss_single_interpreter","vestige_ydris_boss_living_theorem"]: return {"gold":80,"essence":18,"equipment_rarity":"rare"}
+    if encounter_id in ["vestige_ashai_boss_seventh_voice","vestige_silex_boss_last_strategist","vestige_saan_boss_last_watch","vestige_vaor_boss_command_without_body","vestige_lyrmar_boss_absent_cartographer","vestige_sahmir_boss_single_interpreter","vestige_ydris_boss_living_theorem"]: return {"gold":80,"essence":12,"equipment_rarity":"rare"}
     if encounter_id == "c10_boss_final": return {"gold":0,"essence":0,"equipment_rarity":""}
     if encounter_id in ["c06_boss_boundary","c07_boss_edras","c08_boss_varkhane","c08_boss_azravel","c09_boss_consensus"]: return {"gold":65,"essence":12,"equipment_rarity":"rare"}
     if encounter_type != "miniboss": return {"gold":18,"essence":2,"equipment_rarity":"common"}
