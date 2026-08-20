@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 1,
   "design_source": "prepc_demo_production_pass_29+hud_director_pass_33",
   "hud_director_contract": "data/hud_director_contract.json",
   "art_direction": {
