@@ -70,6 +70,14 @@ jobs:
         run: python tools/voice/build_voice_direction_registry.py --check
       - name: Vérifier le corpus de calibration vocale
         run: python tools/voice/voice_take_review.py --check
+      - name: Audit direction d'acteur vocale
+        run: python -m tools.qa.dramatic_voice_direction_audit
+      - name: Vérifier le registre dramatique vocal
+        run: python -m tools.voice.build_dramatic_voice_registry --check
+      - name: Vérifier le plan complet de performance vocale
+        run: python -m tools.voice.build_voice_performance_plan --check
+      - name: Vérifier la revue des prises d'acteur
+        run: python -m tools.voice.acting_take_review --check
       - name: Audit vertical slice visuel et handoff Blender
         run: python -m tools.qa.visual_vertical_slice_audit
       - name: Vérifier les jobs Blender du vertical slice
