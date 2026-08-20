@@ -13,11 +13,11 @@
     "les textes anciens sont originaux et ne copient aucune œuvre existante"
   ],
   "flow": [
-    {"id":"demo_00_sanctuary","name":"Sanctuaire — Avant la sortie","minutes":[6,10],"goals":["présenter la compagnie","préparer ressources et équipement","montrer une interaction de bâtiment","donner l'objectif principal sans exposition massive"]},
-    {"id":"demo_01_ash_approach","name":"Terres de Cendre — Approche","minutes":[8,12],"goals":["exploration sans HUD permanent","premier texte ancien","premier combat court","premier télégraphe de Peur"]},
-    {"id":"demo_02_field_choice","name":"Village ravagé — Choix de terrain","minutes":[8,12],"existing_encounter":"c01_village_survivors","goals":["faire dépenser ou conserver des ressources","créer une mémoire de décision","préparer un retour au Sanctuaire"]},
-    {"id":"demo_03_ghoul","name":"Clairière de cendre — Goule affamée","minutes":[8,12],"creature_id":"hungry_ghoul","goals":["combat lisible","opportunité de capture si les conditions sont réunies","montrer que capturer n'est pas obligatoire"]},
-    {"id":"demo_04_witness","name":"Clocher — Le Témoin des Cendres","minutes":[10,16],"boss_id":"c01_boss_ash_witness","goals":["boss-puzzle court","Peur et mémoire","choix post-combat épargner ou achever lorsque la règle le permet"]},
+    {"id":"demo_00_sanctuary","name":"Sanctuaire — Avant la sortie","minutes":[6,9],"goals":["présenter la compagnie","préparer ressources et équipement","montrer une interaction de bâtiment","donner l'objectif principal sans exposition massive"]},
+    {"id":"demo_01_ash_approach","name":"Terres de Cendre — Approche","minutes":[8,11],"goals":["exploration sans HUD permanent","premier texte ancien","premier combat court","premier télégraphe de Peur"]},
+    {"id":"demo_02_field_choice","name":"Village ravagé — Choix de terrain","minutes":[8,11],"existing_encounter":"c01_village_survivors","goals":["faire dépenser ou conserver des ressources","créer une mémoire de décision","préparer un retour au Sanctuaire"]},
+    {"id":"demo_03_ghoul","name":"Clairière de cendre — Goule affamée","minutes":[8,11],"creature_id":"hungry_ghoul","goals":["combat lisible","opportunité de capture si les conditions sont réunies","montrer que capturer n'est pas obligatoire"]},
+    {"id":"demo_04_witness","name":"Clocher — Le Témoin des Cendres","minutes":[10,15],"boss_id":"c01_boss_ash_witness","goals":["boss-puzzle court","Peur et mémoire","choix post-combat épargner ou achever lorsque la règle le permet"]},
     {"id":"demo_05_return","name":"Sanctuaire — Ce qui revient","minutes":[5,8],"goals":["voir une conséquence du choix de terrain","faire entendre une réaction de héros vivant","montrer le journal et une piste de quête secondaire"]}
   ],
   "quests": [
