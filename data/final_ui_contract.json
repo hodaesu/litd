@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "design_source": "prepc_demo_production_pass_29",
+  "art_direction": {
+    "background": "parchment_or_translucent_charcoal",
+    "panels": "dark_ink_with_thin_tarnished_gold_lines",
+    "accent": "warm_lantern_gold_not_neon",
+    "danger": "ember_red_reserved_for_immediate_risk",
+    "corruption": "violet_used_sparingly",
+    "typography": "high_contrast_readable_serif_or_humanist_body_with_brush_like_display_only_for_titles",
+    "ornament": "minimal_original_in_world_seals_and_corner_motifs",
+    "rule": "l'influence chinoise vient des proportions, rythmes, cadres et motifs du monde, jamais d'un empilement de caractères décoratifs"
+  },
+  "global_behavior": {
+    "landscape_first": true,
+    "touch_target_min_px": 48,
+    "safe_area_required": true,
+    "contextual_hud": true,
+    "exploration_hud_hidden_by_default": true,
+    "quest_details_in_journal_only": true,
+    "no_social_meters": true,
+    "no_morality_meter": true,
+    "fear_is_only_visible_psychology_meter": true,
+    "hope_meter": false,
+    "madness_meter": false,
+    "animations_must_not_delay_input_more_than": 0.20,
+    "reduced_motion_option": true,
+    "text_scale_options": [1.0,1.15,1.30]
+  },
+  "tokens": {
+    "spacing_px": {"xs":6,"s":10,"m":16,"l":24,"xl":36},
+    "corner_radius_px": {"panel":6,"button":5,"card":4},
+    "line_px": {"fine":1,"focus":2},
+    "opacity": {"panel":0.90,"secondary":0.70,"disabled":0.42},
+    "transition_s": {"fast":0.10,"normal":0.18,"slow":0.28}
+  },
+  "screens": {
+    "combat": {
+      "priority": ["current_actor","targets","skills","fear_state","critical_status","turn_context"],
+      "layout": "bottom_action_strip_plus_actor_cards",
+      "persistent_elements": ["hp","fear","turn_owner"],
+      "context_elements": ["guard","bleed","stun","rupture","capture_window","boss_mechanic"],
+      "forbidden": ["quest_tracker","large_minimap","permanent_tooltip_wall"],
+      "mobile_rule": "selection and confirmation are separate for irreversible or costly actions"
+    },
+    "inventory": {
+      "layout": "left_categories_center_grid_right_detail",
+      "categories": ["weapons","armor","rings","necklaces","consumables","quest_items"],
+      "detail": ["name","rarity","base_values","affixes","seed_identity","equipped_by","comparison"],
+      "actions": ["equip","unequip","compare","move_to_chest","favorite"],
+      "rule": "seed and internal ID may be hidden from normal players but remain available in debug"
+    },
+    "equipment": {
+      "layout": "character_centered_with_slot_ring",
+      "slots": ["weapon","armor","ring_1","ring_2","necklace"],
+      "comparison": "before_after_without_green_arrow_spam",
+      "material_preview": true
+    },
+    "skill_trees": {
+      "layout": "one_tree_at_a_time_three_tabs",
+      "tabs": ["offense","defense","special"],
+      "states": ["acquired","available","locked"],
+      "always_visible": ["hero_level","skill_points","chosen_tree"],
+      "detail_panel": ["description","required_level","cost","prerequisite","ultimate_state"],
+      "purchase_confirmation": true,
+      "exclusive_tree_warning": true
+    },
+    "journal": {
+      "layout": "chapter_index_plus_reading_page",
+      "sections": ["main_quests","side_quests","people","creatures","places","ancient_texts","decision_memories"],
+      "rules": ["no completion percentage for moral or social systems","world facts may remain contradictory when story requires it","critical objective remains readable without specific living hero"]
+    },
+    "sanctuary": {
+      "layout": "location_cards_over_world_view",
+      "locations": ["Taverne","Chapelle","Mémorial","Coffre commun","Espace des créatures","Réseau communautaire"],
+      "badges": "qualitative_notifications_only",
+      "rule": "buildings feel like places, not spreadsheet tabs"
+    },
+    "recruitment": {
+      "layout": "candidate_portrait_or_silhouette_plus_role_and_history",
+      "show": ["role","level","chosen_tree_if_known","wounds","traits","equipment_summary"],
+      "hide": ["global_goodness_score","loyalty_meter"],
+      "confirmation": true
+    },
+    "capture": {
+      "layout": "combat_context_overlay_not_full_screen",
+      "show": ["capture_possible","required_resources","resistance_or_risk","remaining_recruit_slots"],
+      "rules": ["capture never looks like mandatory finishing move","conscious creatures may refuse recruitment","boss Ange never exposes capture action"]
+    },
+    "settings": {
+      "sections": ["audio","display","controls","accessibility","language"],
+      "accessibility": ["camera_shake","reduced_motion","text_scale","contrast_assist","hold_vs_toggle","subtitle_size"]
+    }
+  },
+  "combat_feedback": {
+    "damage_numbers": "small_contextual_optional",
+    "status_icons": "icon_plus_short_label_on_first_application",
+    "fear_feedback": "band_name_and_subtle_audio_visual_change",
+    "boss_mechanics": "environmental_and_animation_cues_first_text_second",
+    "critical_choice": "requires deliberate confirmation"
+  },
+  "art_bible_acceptance": [
+    "interface never becomes brighter than the focal gameplay element",
+    "gold is a structural accent not a reward confetti color",
+    "black panels preserve texture and hierarchy",
+    "ornament density remains lower than information density",
+    "every screen remains usable with touch only on iPhone landscape"
+  ]
+}

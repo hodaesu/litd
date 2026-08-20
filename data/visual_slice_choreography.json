@@ -1,0 +1,134 @@
+{
+  "version": 1,
+  "design_source": "prepc_demo_production_pass_29",
+  "purpose": "Verrouiller le déroulement jouable et la synchronisation de Darius contre la Goule affamée avant l'ouverture de Blender.",
+  "combat_model": {
+    "mode": "turn_based_presentation_locked",
+    "rule": "Le choix tactique est instantané, mais son résultat n'est appliqué qu'au marqueur d'impact de l'animation. L'entrée suivante reste verrouillée jusqu'à la récupération.",
+    "damage_at_impact_marker_only": true,
+    "initiative_is_not_changed_by_animation_duration": true,
+    "input_queue_after_recovery": true,
+    "randomness": "disabled_in_showcase_capture_mode"
+  },
+  "actors": {
+    "darius": {"max_hp": 120, "role": "guardian_readability_meter"},
+    "enemy_01_goule_affamee": {"max_hp": 82, "role": "first_enemy_readability_meter"}
+  },
+  "actions": {
+    "darius_attack_light": {
+      "duration_s": 0.9,
+      "anticipation_s": 0.2,
+      "impact_s": 0.4,
+      "recovery_end_s": 0.9,
+      "damage": 18,
+      "telegraph": "shoulder_and_sword_preload",
+      "camera_profile": "light_attack",
+      "vfx": ["subtle_attack_trail", "sword_impact", "restrained_blood"],
+      "audio": ["combat_telegraph", "weapon_impact"]
+    },
+    "darius_attack_heavy": {
+      "duration_s": 1.5,
+      "anticipation_s": 0.4,
+      "impact_s": 0.8,
+      "recovery_end_s": 1.5,
+      "damage": 28,
+      "stagger_threshold": 25,
+      "telegraph": "shield_opens_then_weighted_sword_arc",
+      "camera_profile": "heavy_attack",
+      "vfx": ["subtle_attack_trail", "sword_impact", "metal_sparks", "restrained_blood"],
+      "audio": ["combat_telegraph", "weapon_impact"]
+    },
+    "darius_guard": {
+      "duration_s": 0.8,
+      "anticipation_s": 0.2,
+      "active_from_s": 0.3,
+      "active_to_s": 0.8,
+      "damage_reduction": 0.55,
+      "camera_profile": "guard",
+      "vfx": ["guard_block"],
+      "audio": ["combat_telegraph"]
+    },
+    "ghoul_claw_1": {
+      "duration_s": 1.0,
+      "anticipation_s": 0.2,
+      "impact_s": 0.5,
+      "recovery_end_s": 1.0,
+      "damage": 14,
+      "telegraph": "right_claw_draws_back_and_head_tracks_target",
+      "camera_profile": "enemy_claw",
+      "vfx": ["ash_step_puff", "restrained_blood"],
+      "audio": ["ghoul_vocal", "weapon_impact"]
+    },
+    "ghoul_claw_2": {
+      "duration_s": 1.1,
+      "anticipation_s": 0.3,
+      "impact_s": 0.6,
+      "recovery_end_s": 1.1,
+      "damage": 16,
+      "telegraph": "left_shoulder_drops_before_cross_body_rake",
+      "camera_profile": "enemy_claw",
+      "vfx": ["ash_step_puff", "restrained_blood"],
+      "audio": ["ghoul_vocal", "weapon_impact"]
+    },
+    "ghoul_lunge": {
+      "duration_s": 1.5,
+      "anticipation_s": 0.6,
+      "travel_from_s": 0.6,
+      "impact_s": 0.9,
+      "recovery_end_s": 1.5,
+      "damage": 22,
+      "telegraph": "torso_compresses_low_arms_spread_then_release",
+      "camera_profile": "enemy_lunge",
+      "vfx": ["ash_step_puff", "restrained_blood"],
+      "audio": ["combat_telegraph", "ghoul_vocal", "weapon_impact"]
+    }
+  },
+  "reactions": {
+    "darius_hit": {"duration_s": 0.55, "control_return_s": 0.55},
+    "darius_stagger": {"duration_s": 0.9, "control_return_s": 0.9},
+    "darius_death": {"duration_s": 2.2, "freeze_last_pose_s": 0.35},
+    "ghoul_hit": {"duration_s": 0.45, "control_return_s": 0.45},
+    "ghoul_stagger": {"duration_s": 0.8, "control_return_s": 0.8},
+    "ghoul_death": {"duration_s": 1.9, "freeze_last_pose_s": 0.25}
+  },
+  "ai": {
+    "normal_mode": {
+      "opening_action": "ghoul_claw_1",
+      "weights": {"ghoul_claw_1": 0.45, "ghoul_claw_2": 0.25, "ghoul_lunge": 0.30},
+      "no_same_action_more_than": 2,
+      "lunge_after_guard_chance": 0.15,
+      "prefer_claw_when_darius_guarding": true
+    },
+    "showcase_capture_mode": {
+      "deterministic": true,
+      "sequence": ["ghoul_claw_1", "ghoul_lunge", "ghoul_claw_2", "ghoul_claw_1"]
+    }
+  },
+  "showcase_script": [
+    {"beat": 1, "player": "darius_attack_light", "enemy": "ghoul_claw_1", "purpose": "lecture attaque légère et réaction simple"},
+    {"beat": 2, "player": "darius_guard", "enemy": "ghoul_lunge", "purpose": "lecture télégraphe long et garde"},
+    {"beat": 3, "player": "darius_attack_heavy", "enemy": "none_due_to_stagger", "purpose": "poids du coup lourd et stagger"},
+    {"beat": 4, "player": "darius_attack_light", "enemy": "ghoul_claw_2", "purpose": "variation de griffe"},
+    {"beat": 5, "player": "darius_attack_light", "enemy": "none_if_ghoul_dead", "purpose": "fin propre du combat"}
+  ],
+  "victory": {
+    "condition": "ghoul_hp_reaches_zero",
+    "post_hit_delay_s": 0.15,
+    "death_animation_must_complete_before_result": true,
+    "result_hold_s": 1.2,
+    "audio_resolution": "combat_finish_victory"
+  },
+  "defeat": {
+    "condition": "darius_hp_reaches_zero",
+    "death_animation_must_complete_before_result": true,
+    "result_hold_s": 1.5,
+    "audio_resolution": "combat_finish_defeat"
+  },
+  "readability_rules": [
+    "un impact ne peut jamais précéder le télégraphe visuel",
+    "aucun VFX ne masque la silhouette du bras ou de l'arme au marqueur d'impact",
+    "la caméra revient au cadrage tactique avant le prochain choix",
+    "les animations n'ajoutent jamais une pénalité tactique cachée",
+    "les actions ennemies majeures doivent rester compréhensibles sans audio"
+  ]
+}

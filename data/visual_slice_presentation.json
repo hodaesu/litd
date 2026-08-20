@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "design_source": "prepc_demo_production_pass_29",
+  "vfx": {
+    "global_rules": [
+      "aucun effet ne masque plus de 25 pour cent de la silhouette d'un combattant",
+      "les particules utilisent des formes simples et lisibles compatibles mobile",
+      "les effets de Peur restent psychologiques et atmosphériques, jamais un filtre plein écran permanent",
+      "les effets sacrés restent rares et chauds, sans dérive néon"
+    ],
+    "effects": {
+      "ash_step_puff": {"duration_s":0.45,"particles":18,"radius_m":0.45,"opacity_max":0.35,"spawn":"foot_contact","priority":"foley"},
+      "subtle_attack_trail": {"duration_s":0.25,"segments_max":6,"opacity_max":0.32,"spawn":"weapon_acceleration","priority":"player_action_feedback"},
+      "sword_impact": {"duration_s":0.18,"flash_s":0.06,"radius_m":0.22,"opacity_max":0.55,"spawn":"impact","priority":"player_action_feedback"},
+      "metal_sparks": {"duration_s":0.35,"particles":14,"radius_m":0.55,"opacity_max":0.65,"spawn":"metal_contact","priority":"player_action_feedback"},
+      "restrained_blood": {"duration_s":0.50,"particles":12,"decal_lifetime_s":8.0,"radius_m":0.45,"opacity_max":0.55,"spawn":"unblocked_flesh_hit","priority":"player_action_feedback"},
+      "lantern_light": {"duration_s":-1,"loop":true,"radius_m":2.2,"intensity_pulse":0.06,"pulse_period_s":3.4,"priority":"ambience"},
+      "guard_block": {"duration_s":0.22,"particles":10,"radius_m":0.38,"opacity_max":0.60,"spawn":"blocked_impact","priority":"player_action_feedback"},
+      "critical_hit": {"duration_s":0.28,"particles":18,"radius_m":0.50,"opacity_max":0.72,"spawn":"critical_impact","priority":"player_action_feedback","rule":"ajoute densité et accent sonore, jamais un énorme flash"},
+      "fear_spike": {"duration_s":0.60,"edge_vignette_max":0.14,"camera_chromatic_shift":0.0,"desaturation_max":0.08,"spawn":"fear_band_change_or_panic","priority":"psychology","rule":"pas de distorsion qui gêne le choix tactique"}
+    }
+  },
+  "audio": {
+    "mix_priority": ["critical_dialogue","combat_telegraph","player_action_feedback","enemy_action_feedback","interaction","ui","creature_vocals","foley","ambience","music"],
+    "rules": [
+      "télégraphe avant impact",
+      "un impact ne joue qu'une seule famille de transient principal",
+      "minimum trois variantes avant répétition immédiate d'un même bruitage final",
+      "la voix de Goule ne doit pas couvrir le télégraphe",
+      "les sons critiques restent compréhensibles avec la musique à niveau nominal"
+    ],
+    "events": {
+      "footstep_ash": {"marker":"foot_contact","variants_min":4,"cooldown_s":0.12,"priority":"foley"},
+      "combat_telegraph": {"marker":"anticipation","variants_min":3,"cooldown_s":0.18,"priority":"combat_telegraph"},
+      "weapon_impact": {"marker":"impact","variants_min":4,"cooldown_s":0.08,"priority":"player_action_feedback"},
+      "guard_impact": {"marker":"blocked_impact","variants_min":3,"cooldown_s":0.08,"priority":"player_action_feedback"},
+      "ghoul_vocal": {"marker":"anticipation_or_recovery","variants_min":5,"cooldown_s":1.2,"priority":"creature_vocals"},
+      "ashlands_wind": {"marker":"combat_start","loop":true,"priority":"ambience"},
+      "combat_music": {"marker":"combat_start","loop":true,"priority":"music"},
+      "fear_sting": {"marker":"fear_band_change","variants_min":2,"cooldown_s":3.0,"priority":"psychology"},
+      "combat_finish_victory": {"marker":"death_animation_complete","variants_min":1,"priority":"player_action_feedback"},
+      "combat_finish_defeat": {"marker":"death_animation_complete","variants_min":1,"priority":"player_action_feedback"}
+    }
+  },
+  "camera": {
+    "base": {"fov_deg":42.0,"must_show":"both_full_bodies_plus_action_space","return_before_next_choice":true},
+    "accessibility": {"camera_shake_scale": [0.0,1.0],"default":0.65,"allow_disable":true,"motion_reduction_profile":true},
+    "profiles": {
+      "light_attack": {"push_in_m":0.22,"fov_delta_deg":-0.8,"move_in_s":0.16,"hold_s":0.10,"return_s":0.24,"shake_m":0.025,"shake_s":0.10},
+      "heavy_attack": {"push_in_m":0.42,"fov_delta_deg":-1.8,"move_in_s":0.28,"hold_s":0.16,"return_s":0.34,"shake_m":0.065,"shake_s":0.18},
+      "guard": {"push_in_m":0.12,"fov_delta_deg":0.0,"move_in_s":0.15,"hold_s":0.25,"return_s":0.20,"shake_m":0.030,"shake_s":0.10},
+      "enemy_claw": {"lead_target_m":0.16,"fov_delta_deg":-0.5,"move_in_s":0.18,"return_s":0.24,"shake_m":0.030,"shake_s":0.10},
+      "enemy_lunge": {"lead_target_m":0.32,"push_out_m":0.18,"fov_delta_deg":1.0,"move_in_s":0.35,"return_s":0.30,"shake_m":0.055,"shake_s":0.16},
+      "critical_hit": {"push_in_m":0.50,"fov_delta_deg":-2.2,"hold_s":0.12,"return_s":0.36,"shake_m":0.080,"shake_s":0.20},
+      "death": {"push_in_m":0.28,"fov_delta_deg":-1.0,"hold_s":0.50,"return_s":0.40,"shake_m":0.0,"shake_s":0.0}
+    },
+    "future_rules": {
+      "boss_phase_change": "reframe arena first, then return to tactical composition before player control",
+      "ultimate": "may temporarily break base framing but must restore target and lane readability before next decision",
+      "no_cinematic_camera_on_routine_hits": true
+    }
+  },
+  "synchronization": [
+    {"event":"darius_light_telegraph","t_s":0.2,"audio":"combat_telegraph","vfx":"subtle_attack_trail","camera":"light_attack"},
+    {"event":"darius_light_impact","t_s":0.4,"audio":"weapon_impact","vfx":"sword_impact","camera":"light_attack"},
+    {"event":"darius_heavy_telegraph","t_s":0.4,"audio":"combat_telegraph","vfx":"subtle_attack_trail","camera":"heavy_attack"},
+    {"event":"darius_heavy_impact","t_s":0.8,"audio":"weapon_impact","vfx":"metal_sparks","camera":"heavy_attack"},
+    {"event":"ghoul_claw_impact","t_s":0.5,"audio":"weapon_impact","vfx":"restrained_blood","camera":"enemy_claw"},
+    {"event":"ghoul_lunge_release","t_s":0.6,"audio":"ghoul_vocal","vfx":"ash_step_puff","camera":"enemy_lunge"},
+    {"event":"ghoul_lunge_impact","t_s":0.9,"audio":"weapon_impact","vfx":"restrained_blood","camera":"enemy_lunge"}
+  ]
+}
