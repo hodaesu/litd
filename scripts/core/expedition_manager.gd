@@ -15,7 +15,7 @@ var craft_resources: Dictionary = {}
 var expedition_active := false
 var expedition_seed := 0
 var zones_entered_this_run: Array[String] = []
-var roguelike_runtime: Node
+var roguelike_runtime
 
 func _ready() -> void:
     roguelike_runtime = ROGUELIKE_RUNTIME_SCRIPT.new()
