@@ -64,6 +64,12 @@ jobs:
         run: python -m tools.qa.dialogue_director_audit
       - name: Audit pipeline vocal OpenVoice V2
         run: python -m tools.qa.voice_pipeline_audit
+      - name: Audit direction vocale émotionnelle
+        run: python -m tools.qa.voice_direction_audit
+      - name: Vérifier le registre de direction vocale
+        run: python tools/voice/build_voice_direction_registry.py --check
+      - name: Vérifier le corpus de calibration vocale
+        run: python tools/voice/voice_take_review.py --check
       - name: Audit vertical slice visuel et handoff Blender
         run: python -m tools.qa.visual_vertical_slice_audit
       - name: Vérifier les jobs Blender du vertical slice

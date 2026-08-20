@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "design_source": "emotional_voice_direction_pass_30",
+  "source_profile": "data/voice_profiles.json",
+  "rule": "Ces profils prolongent les voix d'écriture existantes. Ils sont des baselines de production à affiner après écoute des références autorisées, jamais des imitations de personnes réelles.",
+  "profiles": {
+    "aurelien": {
+      "identity_anchor": "calme usé, analytique, doute formulé avant certitude",
+      "baseline": {"pace":"measured", "register":"medium_low", "energy":"contained", "pause_signature":"pause_before_conclusion", "articulation":"precise_without_rigidity"},
+      "emotion_bias": {"fear_restrained":"l'analyse continue mais les phrases raccourcissent", "anger_cold":"précision plus coupante, volume presque inchangé", "grief":"nommer le manque plutôt que commenter l'émotion", "hope_fragile":"ouvrir légèrement la fin sans devenir rassurant", "dissociation":"le doute devient perceptif mais reste grammaticalement net"},
+      "do_not": ["grandiloquence", "surjouer_la_fragilite", "certitude_sans_preuve", "voix_mystique_generique"],
+      "calibration_status": "provisional_until_authorized_reference_review"
+    },
+    "malvor": {
+      "identity_anchor": "grave, rugueux, direct, humour noir comme soupape",
+      "baseline": {"pace":"short_bursts", "register":"low", "energy":"physical_grounded", "pause_signature":"beat_before_blunt_turn", "articulation":"direct_concrete"},
+      "emotion_bias": {"fear_restrained":"agressivité défensive puis humour noir bref", "anger_explosive":"départ immédiat mais retour rapide au concret", "grief":"phrases courtes, refus de l'emphase", "irony_dark":"retournement sec, pas de sourire vocal", "pain_controlled":"économie de mots, souffle utile"},
+      "do_not": ["longue_philosophie_abstraite", "grogne_permanente", "caricature_de_brute", "ricanement_systematique"],
+      "calibration_status": "provisional_until_authorized_reference_review"
+    },
+    "lysandra": {
+      "identity_anchor": "claire, retenue, attentive aux personnes et au souffle",
+      "baseline": {"pace":"slow_precise", "register":"medium", "energy":"quiet_present", "pause_signature":"comfortable_long_silence", "articulation":"clear_soft"},
+      "emotion_bias": {"fear_restrained":"attention accrue aux détails plutôt que tremblement", "anger_cold":"déception contrôlée avant dureté", "grief":"laisser un silence après le nom ou le souvenir", "tenderness_restrained":"présence chaude mais sans chuchotement automatique", "authority":"calme structurant, jamais autoritaire par volume"},
+      "do_not": ["mockery_of_suffering", "heroic_boasting", "voix_etherique_generique", "chuchotement_constant"],
+      "calibration_status": "provisional_until_authorized_reference_review"
+    },
+    "darius": {
+      "identity_anchor": "sec, ancré, tactique, parle lorsque l'information change l'action",
+      "baseline": {"pace":"steady", "register":"medium_low", "energy":"controlled_ready", "pause_signature":"brief_pause_before_decision", "articulation":"clean_tactical"},
+      "emotion_bias": {"fear_restrained":"plus tactique et moins patient, pas plus bruyant", "anger_cold":"questions courtes et tranchantes", "determination":"accélération minimale, fin ferme", "grief":"retarder l'émotion tant que le danger reste actif", "relief_wary":"relâcher un souffle puis vérifier immédiatement le risque"},
+      "do_not": ["mysticism_as_explanation", "empty_reassurance", "commandant_stereotype", "heroic_trailer_voice"],
+      "calibration_status": "provisional_until_authorized_reference_review"
+    },
+    "narration": {
+      "identity_anchor": "présence sobre, mémoire du monde, jamais omniscience emphatique",
+      "baseline": {"pace":"measured", "register":"unassigned_until_cast", "energy":"low_controlled", "pause_signature":"meaning_led", "articulation":"clear_neutral"},
+      "emotion_bias": {"grief":"constater avant d'interpréter", "hope_fragile":"laisser une possibilité, pas une promesse", "dissociation":"étrangeté par le rythme, pas par un effet de voix"},
+      "do_not": ["bande_annonce", "omniscience_morale", "voix_horrifique_demonstrative"],
+      "calibration_status": "unassigned_voice_cast"
+    }
+  }
+}

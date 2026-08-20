@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "design_source": "emotional_voice_direction_pass_30",
+  "purpose": "Donner à chaque réplique une direction de jeu vocale reproductible sans confondre synthèse vocale et interprétation humaine.",
+  "rules": {
+    "authored_dialogue_only": true,
+    "runtime_generation": false,
+    "preserve_character_identity_over_emotion": true,
+    "emotion_is_not_a_character_replacement": true,
+    "avoid_melodrama_by_default": true,
+    "intensity_5_requires_manual_review": true,
+    "fear_madness_and_grief_must_not_be_caricatured": true,
+    "no_real_actor_imitation": true,
+    "human_listening_review_required": true,
+    "direction_is_project_calibration_not_model_weight_training": true
+  },
+  "backend_capabilities": {
+    "openvoice_v2_melotts": {
+      "directly_controlled": ["speed"],
+      "not_directly_controlled": ["pitch_bias", "pitch_range", "volume_shape", "breath", "articulation", "pause_profile", "stress_words", "ending_cadence", "emotional_transition"],
+      "note": "Les paramètres non contrôlés par MeloTTS restent des consignes de jeu et des critères d'écoute. Ils ne doivent jamais être présentés comme garantis par OpenVoice V2."
+    }
+  },
+  "intensity_scale": {
+    "1": {"name": "sous_texte", "description": "émotion à peine perceptible; la personnalité domine", "speed_strength": 0.25},
+    "2": {"name": "contenue", "description": "émotion lisible mais tenue", "speed_strength": 0.5},
+    "3": {"name": "explicite_controlee", "description": "émotion clairement audible sans perdre la maîtrise", "speed_strength": 0.75},
+    "4": {"name": "forte", "description": "émotion dominante; contrôle partiellement altéré", "speed_strength": 1.0},
+    "5": {"name": "extreme_rare", "description": "rupture exceptionnelle; écoute humaine obligatoire", "speed_strength": 1.0}
+  },
+  "global_delivery": {
+    "default_emotion": "neutral_grounded",
+    "default_intensity": 2,
+    "default_relationship": "party_or_unknown",
+    "default_physical_state": "stable",
+    "default_psychological_state": "grounded",
+    "intelligibility_priority": "high",
+    "pause_rule": "une pause doit porter une pensée, une hésitation ou un changement d'adresse; jamais seulement ralentir artificiellement",
+    "stress_rule": "accentuer peu de mots et seulement ceux qui changent le sens ou l'action",
+    "transition_rule": "une transition émotionnelle doit être motivée par un mot, une information ou une respiration identifiable"
+  },
+  "emotions": {
+    "neutral_grounded": {"family":"neutral","pace":"steady","speed_multiplier":1.0,"pitch_bias":"baseline","pitch_range":"natural_narrow","volume":"medium_low","breath":"free_controlled","articulation":"clear_natural","pause_profile":"thought_led","ending_cadence":"natural_down","tension":"low","anti_caricature":"ne pas rendre la neutralité vide ou robotique"},
+    "fear_restrained": {"family":"fear","pace":"slightly_hesitant","speed_multiplier":1.03,"pitch_bias":"slightly_up","pitch_range":"slightly_wider","volume":"low_to_medium","breath":"shorter_but_controlled","articulation":"precise_with_small_frays","pause_profile":"micro_hesitations_before_threat_words","ending_cadence":"guarded_down","tension":"medium","anti_caricature":"pas de tremblement continu ni de halètement décoratif"},
+    "fear_panic": {"family":"fear","pace":"urgent_irregular","speed_multiplier":1.10,"pitch_bias":"up","pitch_range":"wider","volume":"variable_medium_high","breath":"short_and_interrupted","articulation":"less_even_but_intelligible","pause_profile":"breath_driven","ending_cadence":"unfinished_or_forced_down","tension":"very_high","anti_caricature":"panique rare; préserver les mots importants et éviter le cri permanent"},
+    "anger_cold": {"family":"anger","pace":"measured_tight","speed_multiplier":0.97,"pitch_bias":"slightly_down","pitch_range":"narrow","volume":"medium","breath":"held","articulation":"hard_consonants_precise","pause_profile":"deliberate_before_accusation","ending_cadence":"firm_down","tension":"high_contained","anti_caricature":"ne pas grogner ni surappuyer chaque consonne"},
+    "anger_explosive": {"family":"anger","pace":"fast_attack_then_control","speed_multiplier":1.07,"pitch_bias":"up_then_down","pitch_range":"wide","volume":"high_then_restrained","breath":"forceful","articulation":"sharp","pause_profile":"few_until_release","ending_cadence":"hard_stop","tension":"very_high","anti_caricature":"réserver aux ruptures; éviter le hurlement uniforme"},
+    "despair_calm": {"family":"sadness","pace":"slow_even","speed_multiplier":0.90,"pitch_bias":"slightly_down","pitch_range":"narrow","volume":"low","breath":"long_soft","articulation":"clear_soft_edges","pause_profile":"long_after_irreversible_fact","ending_cadence":"low_down","tension":"low_exhausted","anti_caricature":"pas de sanglot automatique; laisser le vide faire le travail"},
+    "resignation": {"family":"sadness","pace":"measured","speed_multiplier":0.94,"pitch_bias":"down","pitch_range":"narrow","volume":"low_medium","breath":"settled","articulation":"plain","pause_profile":"acceptance_pause","ending_cadence":"settled_down","tension":"low_medium","anti_caricature":"ne pas confondre résignation et absence d'enjeu"},
+    "hope_fragile": {"family":"hope","pace":"slightly_slow_then_open","speed_multiplier":0.97,"pitch_bias":"slightly_up_at_key_word","pitch_range":"natural","volume":"low_medium","breath":"warmer_more_open","articulation":"soft_clear","pause_profile":"small_pause_before_possibility","ending_cadence":"gentle_open_or_down","tension":"low_with_vulnerability","anti_caricature":"aucun ton héroïque ou sourire forcé"},
+    "relief_wary": {"family":"relief","pace":"release_then_check","speed_multiplier":0.96,"pitch_bias":"returns_to_baseline","pitch_range":"natural","volume":"medium_low","breath":"audible_release_once","articulation":"relaxed_but_alert","pause_profile":"release_then_reassessment","ending_cadence":"cautious_down","tension":"falling_not_zero","anti_caricature":"le danger passé ne signifie pas sécurité totale"},
+    "guilt": {"family":"self_conflict","pace":"measured_with_avoidance","speed_multiplier":0.93,"pitch_bias":"slightly_down","pitch_range":"narrow","volume":"low","breath":"held_before_ownership","articulation":"careful","pause_profile":"before_first_person_or_consequence","ending_cadence":"quiet_down","tension":"inward","anti_caricature":"éviter voix cassée systématique ou demande de pardon implicite"},
+    "disgust": {"family":"aversion","pace":"brief_recoil_then_plain","speed_multiplier":1.01,"pitch_bias":"slightly_down","pitch_range":"narrow","volume":"medium_low","breath":"small_recoil","articulation":"clipped","pause_profile":"short_after_observation","ending_cadence":"closed_down","tension":"medium","anti_caricature":"pas de grimace vocale excessive"},
+    "fatigue": {"family":"physical","pace":"slower","speed_multiplier":0.91,"pitch_bias":"down","pitch_range":"reduced","volume":"low_medium","breath":"limited_but_not_gasping","articulation":"economical","pause_profile":"breath_and_effort","ending_cadence":"weighted_down","tension":"variable","anti_caricature":"ne pas avaler les mots au point de perdre l'intelligibilité"},
+    "determination": {"family":"resolve","pace":"steady_forward","speed_multiplier":1.01,"pitch_bias":"baseline_to_down","pitch_range":"controlled","volume":"medium","breath":"supported","articulation":"clean_decisive","pause_profile":"minimal_before_action","ending_cadence":"firm_down","tension":"focused","anti_caricature":"pas de bande-annonce héroïque"},
+    "contempt": {"family":"social_distance","pace":"measured_short","speed_multiplier":0.96,"pitch_bias":"slightly_down","pitch_range":"narrow","volume":"medium_low","breath":"controlled","articulation":"dry","pause_profile":"small_before_dismissal","ending_cadence":"dismissive_down","tension":"cool","anti_caricature":"éviter ricanement et hauteur sociale stéréotypée"},
+    "tenderness_restrained": {"family":"attachment","pace":"slow_present","speed_multiplier":0.94,"pitch_bias":"slightly_warm","pitch_range":"natural_soft","volume":"low","breath":"open_quiet","articulation":"gentle_clear","pause_profile":"space_for_other_person","ending_cadence":"soft_down","tension":"vulnerable","anti_caricature":"pas de mièvrerie ni de chuchotement obligatoire"},
+    "madness_lucid": {"family":"altered_perception","pace":"too_precise_or_slightly_misaligned","speed_multiplier":0.98,"pitch_bias":"baseline","pitch_range":"controlled_with_one_unexpected_shift","volume":"medium_low","breath":"controlled","articulation":"very_clear","pause_profile":"one_pause_where_logic_changes","ending_cadence":"certain_down","tension":"uncanny_contained","anti_caricature":"aucun rire fou, voix démoniaque ou incohérence gratuite"},
+    "dissociation": {"family":"altered_perception","pace":"detached_slow","speed_multiplier":0.92,"pitch_bias":"flat_relative_to_baseline","pitch_range":"reduced","volume":"low_medium","breath":"even_distant","articulation":"clear_but_less_embodied","pause_profile":"delayed_response","ending_cadence":"lightly_unresolved","tension":"hidden","anti_caricature":"ne pas transformer l'état en robot; garder une personne derrière la distance"},
+    "irony_dark": {"family":"irony","pace":"dry_timing","speed_multiplier":0.99,"pitch_bias":"baseline","pitch_range":"small_local_lift","volume":"medium_low","breath":"normal","articulation":"crisp_on_turn_word","pause_profile":"beat_before_reversal","ending_cadence":"dry_down","tension":"contextual","anti_caricature":"pas de clin d'œil vocal au public"},
+    "shock": {"family":"surprise","pace":"brief_freeze_then_short","speed_multiplier":1.02,"pitch_bias":"slightly_up","pitch_range":"brief_widening","volume":"variable","breath":"caught_once","articulation":"short_precise","pause_profile":"initial_freeze","ending_cadence":"incomplete_or_low","tension":"high_brief","anti_caricature":"éviter le souffle théâtral répété"},
+    "grief": {"family":"sadness","pace":"slow_irregular_but_controlled","speed_multiplier":0.89,"pitch_bias":"down","pitch_range":"reduced_with_breaks","volume":"low","breath":"heavier_between_thoughts","articulation":"clear_on_name_and_fact","pause_profile":"silence_after_name_or_loss","ending_cadence":"low_or_unfinished","tension":"deep","anti_caricature":"la retenue est le défaut; sanglot seulement si la scène le justifie explicitement"},
+    "authority": {"family":"social_control","pace":"measured_direct","speed_multiplier":0.98,"pitch_bias":"baseline_to_down","pitch_range":"controlled","volume":"medium_supported","breath":"steady","articulation":"clean_commands","pause_profile":"before_instruction_if_needed","ending_cadence":"decisive_down","tension":"controlled","anti_caricature":"pas de voix de chef générique ou de puissance artificielle"},
+    "threat_calm": {"family":"threat","pace":"slow_deliberate","speed_multiplier":0.93,"pitch_bias":"slightly_down","pitch_range":"narrow","volume":"medium_low","breath":"still","articulation":"precise","pause_profile":"before_consequence","ending_cadence":"quiet_final_down","tension":"high_under_surface","anti_caricature":"ne pas chuchoter automatiquement ni ajouter de growl"},
+    "pain_controlled": {"family":"physical","pace":"slower_with_effort","speed_multiplier":0.94,"pitch_bias":"slightly_up_on_effort","pitch_range":"brief_spikes","volume":"medium_low","breath":"guarded","articulation":"clear_between_efforts","pause_profile":"effort_breaths","ending_cadence":"forced_down","tension":"physical_medium","anti_caricature":"pas de gémissement continu"},
+    "pain_severe": {"family":"physical","pace":"broken_short","speed_multiplier":1.02,"pitch_bias":"up_on_spike","pitch_range":"wide_brief","volume":"variable","breath":"interrupted","articulation":"reduced_but_key_words_clear","pause_profile":"pain_spikes","ending_cadence":"cut_or_forced_down","tension":"physical_high","anti_caricature":"rare, court, priorité à l'intelligibilité"},
+    "curiosity_wary": {"family":"attention","pace":"measured_searching","speed_multiplier":0.98,"pitch_bias":"small_lift_on_question","pitch_range":"natural","volume":"medium_low","breath":"quiet","articulation":"observant_clear","pause_profile":"before_inference","ending_cadence":"open_then_guarded","tension":"low_medium","anti_caricature":"pas d'émerveillement naïf"}
+  },
+  "emotion_defaults_by_event": {
+    "combat_start": {"emotion":"determination","intensity":3},
+    "discovery": {"emotion":"curiosity_wary","intensity":2},
+    "panic": {"emotion":"fear_restrained","intensity":4},
+    "low_hp": {"emotion":"pain_controlled","intensity":3},
+    "companion_death": {"emotion":"grief","intensity":3},
+    "idle_long": {"emotion":"dissociation","intensity":2},
+    "choice_wait": {"emotion":"curiosity_wary","intensity":2},
+    "repeated_action": {"emotion":"irony_dark","intensity":2},
+    "risk_repeat": {"emotion":"anger_cold","intensity":3},
+    "revisit_zone": {"emotion":"dissociation","intensity":2},
+    "revelation": {"emotion":"shock","intensity":2},
+    "many_deaths": {"emotion":"despair_calm","intensity":4},
+    "last_original_survivor": {"emotion":"dissociation","intensity":4},
+    "critical_story": {"emotion":"neutral_grounded","intensity":2}
+  },
+  "meta_level_modifiers": {
+    "fissure": {"secondary_emotion":"curiosity_wary","intensity_delta":0,"delivery_note":"laisser le doute dominer la certitude"},
+    "direct": {"secondary_emotion":"threat_calm","intensity_delta":1,"delivery_note":"adresse plus précise sans vocabulaire de jeu ni effet comique"},
+    "abyssal": {"secondary_emotion":"despair_calm","intensity_delta":1,"delivery_note":"certitude froide; presque aucun effet horrifique démonstratif"}
+  },
+  "context_modifiers": {
+    "relationship": ["trusted_companion", "strained_companion", "authority_to_group", "unknown_person", "hostile_target", "self_address", "unseen_presence", "narration"],
+    "physical_state": ["stable", "tired", "wounded", "critical", "post_exertion", "cold", "breath_limited"],
+    "psychological_state": ["grounded", "afraid", "high_fear", "grieving", "dissociated", "altered_perception", "determined", "exhausted"]
+  },
+  "review_rubric": {
+    "scale": [1,2,3,4,5],
+    "criteria": ["emotion_recognizability", "character_identity_retention", "naturalness", "intelligibility", "restraint", "context_fit"],
+    "passing_average": 4.0,
+    "blocking_criteria": ["character_identity_retention", "intelligibility", "restraint"],
+    "blocking_minimum": 4
+  }
+}

@@ -31,17 +31,24 @@ def test_voice_production_contract_is_offline_and_rights_gated() -> None:
 
 def test_generation_plan_covers_all_mortal_authored_lines() -> None:
     dialogues = _load("data/reactive_dialogues.json")
-    mortal_lines = [
+    demo = _load("data/demo_content_pack.json")
+    reactive_mortal = [
         line
         for line in dialogues["lines"]
         if line.get("speaker_id") not in {"", "narrator"}
     ]
+    demo_mortal = [
+        line
+        for line in demo["dialogue_barks"]
+        if line.get("speaker") not in {"", "narration"}
+    ]
+    expected_ids = {line["id"] for line in reactive_mortal} | {line["id"] for line in demo_mortal}
     plan = build_plan(ROOT)
 
-    assert plan["entry_count"] == len(mortal_lines)
-    assert plan["entry_count"] >= 30
+    assert plan["entry_count"] == len(expected_ids)
+    assert plan["entry_count"] >= 40
     by_id = {entry["line_id"]: entry for entry in plan["entries"]}
-    assert set(by_id) == {line["id"] for line in mortal_lines}
+    assert set(by_id) == expected_ids
 
     for entry in plan["entries"]:
         assert len(entry["text_sha256"]) == 64
@@ -51,6 +58,8 @@ def test_generation_plan_covers_all_mortal_authored_lines() -> None:
         assert entry["reference_id"].endswith("_voice_reference")
         assert 0.65 <= float(entry["delivery"]["speed"]) <= 1.25
         assert entry["delivery"]["direction"]
+        assert entry["voice_direction"]["emotion"]
+        assert entry["voice_direction"]["backend_controls"]["directly_applied"] == ["speed"]
 
 
 def test_fourth_wall_delivery_gets_quieter_not_more_showy() -> None:
