@@ -1,13 +1,13 @@
 {
-  "schema_version": 1,
-  "design_rule": "En Nouveau Cycle+, tout mini-boss ou boss vaincu peut être lié et recruté. Sa version alliée conserve son identité, sa signature et son rôle, mais jamais ses PV de boss bruts : son niveau et sa puissance de compagnon suivent le niveau moyen du groupe.",
+  "schema_version": 2,
+  "design_rule": "En Nouveau Cycle+, tout mini-boss ou boss vaincu peut être lié et recruté. Sa version alliée conserve son identité, sa signature et son rôle, mais jamais ses PV de boss bruts : son niveau et sa puissance de compagnon suivent le niveau moyen du groupe. Le coût en Essence reste supérieur au butin direct de la même catégorie afin que chaque recrutement soit un choix stratégique et non un remboursement automatique.",
   "unlock_cycle_min": 1,
   "level_sync": "party_average",
   "capture_rules": {
-    "miniboss": {"max_hp_ratio": 0.18, "resistance": 42, "essence_cost": 8},
-    "boss": {"max_hp_ratio": 0.12, "resistance": 55, "essence_cost": 12},
-    "deep_miniboss": {"max_hp_ratio": 0.15, "resistance": 50, "essence_cost": 10},
-    "deep_boss": {"max_hp_ratio": 0.10, "resistance": 62, "essence_cost": 15}
+    "miniboss": {"max_hp_ratio": 0.18, "resistance": 42, "essence_cost": 10},
+    "boss": {"max_hp_ratio": 0.12, "resistance": 55, "essence_cost": 16},
+    "deep_miniboss": {"max_hp_ratio": 0.15, "resistance": 50, "essence_cost": 14},
+    "deep_boss": {"max_hp_ratio": 0.10, "resistance": 62, "essence_cost": 24}
   },
   "recruits": [
     {"id":"recruit_c01_warden","encounter_id":"c01_miniboss_warden","name":"Le Gardien du Passage","rank":"miniboss","archetype":"guardian","signature":"Tu ne passeras pas","base_damage":[4,7],"art":"enemy_30.webp"},
