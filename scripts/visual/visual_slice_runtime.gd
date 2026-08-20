@@ -170,7 +170,8 @@ func _audio_event(event_id: String, source: Node3D) -> void:
         audio_director.call("enter_combat_context", "visual_slice", "normal")
         return
     if event_id == "ashlands_wind" and sfx_runtime != null and sfx_runtime.has_method("set_loop_cues"):
-        sfx_runtime.call("set_loop_cues", ["ashlands_wind"])
+        var ambience_cues: Array[String] = ["ashlands_wind"]
+        sfx_runtime.call("set_loop_cues", ambience_cues)
         return
     var context := {"position_3d": _actor_pos(source), "source": "visual_slice"}
     if sfx_runtime != null and sfx_runtime.has_method("play_cue"):
