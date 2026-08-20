@@ -47,11 +47,12 @@ func run() -> void:
 
     AshlandsRuntime.current_zone_id = "c03_abandoned_relay"
     var before_reevaluation := _latest_reevaluation_count(GameState.party[0], "aid_survivors", "c01_village_survivors")
+    var light_before_return := int(ExpeditionManager.inventory.get("light", 0))
     var returned := FieldEncounterRuntime.resolve_return("c03_survivor_outpost")
     _check(bool(returned.get("applied", false)), "The chapter III survivor outpost must resolve when its source outcome is present")
     _check(int(ExpeditionManager.inventory.get("food", 0)) == 8, "The established outpost must be able to return two food")
     _check(int(ExpeditionManager.inventory.get("water", 0)) == 8, "The established outpost must be able to return two water")
-    _check(int(ExpeditionManager.inventory.get("light", 0)) == 7, "The established outpost must be able to return one light")
+    _check(int(ExpeditionManager.inventory.get("light", 0)) == light_before_return + 1, "The established outpost must be able to return one light")
     var after_reevaluation := _latest_reevaluation_count(GameState.party[0], "aid_survivors", "c01_village_survivors")
     _check(after_reevaluation == before_reevaluation + 1, "A survivor return must reframe the original field memory")
 
