@@ -45,21 +45,26 @@ func validate_instance(asset_id: String, instance: Node) -> PackedStringArray:
         reasons.append("instance is null")
         return reasons
     if asset_id in ["darius", "enemy_01_goule_affamee"]:
-        var skeleton := _find_first(instance, "Skeleton3D")
+        var skeleton := _find_first(instance, "Skeleton3D") as Skeleton3D
         if skeleton == null:
             reasons.append("character has no Skeleton3D")
         else:
             var required_bones: Array = contract.get("asset_ingest", {}).get("required_bones", [])
             for bone_name in required_bones:
-                if (skeleton as Skeleton3D).find_bone(str(bone_name)) < 0:
+                if skeleton.find_bone(str(bone_name)) < 0:
                     reasons.append("missing bone: " + str(bone_name))
         var required_sockets: Array = contract.get("asset_ingest", {}).get("required_sockets", [])
         for socket_name in required_sockets:
             if not _has_named_descendant(instance, str(socket_name)):
                 reasons.append("missing socket: " + str(socket_name))
-        var animation_player := _find_first(instance, "AnimationPlayer")
+        var animation_player := _find_first(instance, "AnimationPlayer") as AnimationPlayer
         if animation_player == null:
             reasons.append("character has no AnimationPlayer")
+        else:
+            var required_animations: Array = contract.get("characters", {}).get(asset_id, {}).get("animation_minimum", [])
+            for animation_name in required_animations:
+                if _resolve_clip(animation_player, str(animation_name)).is_empty():
+                    reasons.append("missing animation: " + str(animation_name))
     var meshes := _collect_by_class(instance, "MeshInstance3D")
     if meshes.is_empty():
         reasons.append("asset has no MeshInstance3D")
@@ -75,6 +80,14 @@ func replace_proxy(asset_id: String, proxy: Node, parent: Node) -> Node:
             (instance as Node3D).transform = (proxy as Node3D).transform
         proxy.queue_free()
     return instance
+
+func _resolve_clip(player: AnimationPlayer, state: String) -> StringName:
+    var candidates := [state, "default/" + state, "Animation/" + state]
+    for candidate in candidates:
+        var name := StringName(candidate)
+        if player.has_animation(name):
+            return name
+    return &""
 
 func _find_first(root: Node, class_name_value: String) -> Node:
     if root.is_class(class_name_value):
