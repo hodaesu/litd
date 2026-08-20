@@ -6,6 +6,7 @@ signal event_deferred_to_journal(item: Dictionary)
 signal event_dropped(item: Dictionary)
 signal disclosure_level_changed(level: int)
 signal confirmation_required(action_id: String)
+signal world_guidance_requested(channel: String, target_id: String, payload: Dictionary)
 
 const LEVEL_WORLD_ONLY := 0
 const LEVEL_DANGER := 1
@@ -20,6 +21,16 @@ const PRIORITY_WEIGHTS := {
     "INFORMATION": 100,
     "DECORATIVE": 0,
 }
+
+const WORLD_GUIDANCE_CHANNELS := [
+    "cendre",
+    "vent",
+    "lanternes",
+    "architecture",
+    "sons",
+    "traces",
+    "lumiere",
+]
 
 const MAX_PRESENTED := 3
 const MAX_STATUS_ICONS := 2
@@ -65,6 +76,27 @@ func has_critical_event() -> bool:
         if str(item.get("priority", "")) == "CRITICAL":
             return true
     return false
+
+func request_world_guidance(target_id: String, preferred_channels: Array, payload: Dictionary = {}) -> Dictionary:
+    var selected := ""
+    for channel in preferred_channels:
+        var candidate := str(channel).to_lower()
+        if candidate == "lumière":
+            candidate = "lumiere"
+        if candidate in WORLD_GUIDANCE_CHANNELS:
+            selected = candidate
+            break
+    if selected.is_empty():
+        selected = "lumiere"
+    var result := {
+        "decision": "world_cue",
+        "target_id": target_id,
+        "channel": selected,
+        "hud_marker": false,
+        "payload": payload.duplicate(true),
+    }
+    world_guidance_requested.emit(selected, target_id, payload.duplicate(true))
+    return result
 
 func route_event(
     event_id: String,
