@@ -42,17 +42,19 @@ def blender_commands() -> list[str]:
     jobs = load(JOBS)["jobs"]
     commands: list[str] = []
     for job in jobs:
-        if job["kind"] == "character":
-            source = job["source_character_job"]
+        if job["kind"] == "character_proxy":
+            source = job["source_job_id"]
             commands.append(
                 f"blender --background --python tools/blender/build_character_scene.py -- {source} "
                 f"--output {job['output_blend']}"
             )
-        else:
+        elif job["kind"] == "environment_proxy":
             commands.append(
                 "blender --background --python tools/blender/build_ashlands_scene.py -- "
                 f"--output {job['output_blend']}"
             )
+        else:
+            raise ValueError(f"unsupported vertical slice job kind: {job['kind']}")
     return commands
 
 
