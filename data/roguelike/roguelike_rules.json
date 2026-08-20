@@ -1,10 +1,31 @@
 {
-  "version": 2,
+  "version": 3,
   "positioning": "turn_based_dark_fantasy_rpg_roguelike_dungeon_crawler",
   "inventory_capacity": 20,
   "capture_limit_per_zone": 2,
   "capture_hp_ratio": 0.25,
   "default_dungeon_id": "first_veil_crypts",
+  "combat_balance": {
+    "normal_target_rounds": [2, 4],
+    "elite_target_rounds": [4, 6],
+    "boss_target_rounds": [6, 10],
+    "campaign_miniboss_hp_multiplier": 1.20,
+    "campaign_boss_hp_multiplier": 1.50,
+    "campaign_miniboss_damage_multiplier": 1.00,
+    "campaign_boss_damage_multiplier": 1.05,
+    "stun_chain_resistance": 35,
+    "boss_stun_chain_resistance": 55,
+    "stall_round_start": 5,
+    "stall_healing_decay_per_round": 0.12,
+    "stall_healing_efficiency_floor": 0.50,
+    "class_heal_base": {
+      "vestal": 18,
+      "surgeon": 16,
+      "occultist": 10,
+      "mystic": 8,
+      "default": 6
+    }
+  },
   "dungeons": {
     "first_veil_crypts": {
       "title": "Cryptes du Premier Voile",
@@ -14,29 +35,34 @@
       "elite_bonus_levels": 2,
       "boss_bonus_levels": 4,
       "template_reference_level": 3,
-      "hp_per_level": 0.07,
-      "damage_per_level": 0.045,
-      "fear_per_level": 0.025,
+      "hp_per_level": 0.06,
+      "damage_per_level": 0.04,
+      "fear_per_level": 0.02,
+      "elite_hp_multiplier": 1.20,
+      "boss_hp_multiplier": 1.55,
+      "elite_damage_multiplier": 1.00,
+      "boss_damage_multiplier": 1.05,
       "scaling_rule": "fixed_by_dungeon_and_depth_never_by_hero_level"
     }
   },
   "light": {
     "max": 10,
     "room_decay": 1,
+    "room_decay_interval": 2,
     "high_threshold": 7,
-    "low_threshold": 3,
-    "dark_danger_bonus": 0.90,
-    "dark_loot_bonus": 0.75,
-    "dark_essence_bonus": 0.60,
-    "pressure_per_dark_room": 4
+    "low_threshold": 2,
+    "dark_danger_bonus": 0.45,
+    "dark_loot_bonus": 0.70,
+    "dark_essence_bonus": 0.55,
+    "pressure_per_dark_room": 3
   },
   "depth": {
     "min": 3,
     "max": 5,
     "rooms_per_depth_min": 4,
     "rooms_per_depth_max": 6,
-    "danger_bonus_per_depth": 0.04,
-    "loot_bonus_per_depth": 0.03
+    "danger_bonus_per_depth": 0.035,
+    "loot_bonus_per_depth": 0.07
   },
   "room_weights": {
     "combat": 24,
@@ -77,11 +103,11 @@
     "boss": "ASH_BOSS_ANGEL"
   },
   "loot_rarity_weights": {
-    "common": 55,
-    "uncommon": 26,
-    "rare": 12,
-    "epic": 5,
-    "legendary": 2
+    "common": 60,
+    "uncommon": 27,
+    "rare": 9,
+    "epic": 3,
+    "legendary": 1
   },
   "affix_counts": {
     "common": 1,
@@ -110,6 +136,9 @@
     "angel_is_never_capturable": true,
     "campaign_scales_to_party": true,
     "dungeons_never_scale_to_party": true,
-    "dungeons_have_required_levels": true
+    "dungeons_have_required_levels": true,
+    "darkness_increases_lethality_more_than_durability": true,
+    "combat_healing_cannot_stall_forever": true,
+    "successive_stuns_gain_resistance": true
   }
 }
