@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "design_source": "dramatic_voice_direction_pass_31",
+  "purpose": "Ajouter une direction d'acteur à la direction émotionnelle : l'émotion devient une conséquence d'une action jouée dans une relation, pas une consigne isolée.",
+  "rules": {
+    "emotion_is_consequence_not_primary_objective": true,
+    "every_line_has_playable_objective": true,
+    "every_line_has_obstacle": true,
+    "every_line_has_action_verb": true,
+    "every_line_has_subtext": true,
+    "every_line_has_listener": true,
+    "every_line_has_preceding_thought": true,
+    "every_line_has_listening_trigger": true,
+    "every_line_has_beats": true,
+    "important_lines_have_at_least_two_variants": true,
+    "fourth_wall_awareness_shift_must_be_beated": true,
+    "high_emotion_does_not_imply_high_volume": true,
+    "silence_must_carry_thought": true,
+    "active_listening_precedes_reply": true,
+    "preserve_character_baseline": true,
+    "no_real_actor_imitation": true,
+    "no_copyrighted_dialogue_transcripts_in_calibration": true,
+    "reference_clip_studies_store_observations_only": true,
+    "human_listening_review_required": true,
+    "this_is_project_calibration_not_neural_weight_training": true
+  },
+  "influences": {
+    "objective_action_subtext": "Approches de jeu centrées sur circonstances, objectif, obstacle, action et sous-texte.",
+    "partner_listening": "Jeu fondé sur l'écoute réelle du partenaire et la réaction à ce qui vient d'être reçu.",
+    "screen_restraint": "Jeu caméra/micro : micro-variations, pensée active, silence et retenue plutôt que démonstration permanente.",
+    "litd_translation": "Ces principes sont transformés en métadonnées originales propres à Light in the Dark; aucun dialogue de film n'est copié."
+  },
+  "action_lexicon": [
+    "observer", "tester", "avertir", "protéger", "ancrer", "convaincre", "retenir", "ordonner",
+    "défier", "accuser", "provoquer", "dissimuler", "désamorcer", "négocier", "rassurer", "confronter",
+    "faire_admettre", "obtenir_une_réponse", "gagner_du_temps", "reprendre_le_contrôle", "supporter", "laisser_une_trace"
+  ],
+  "importance": {
+    "demo_barks": true,
+    "intensity_at_least": 4,
+    "fourth_wall_levels": ["direct", "abyssal"]
+  },
+  "variant_templates": {
+    "contained_truth": {
+      "restraint": "high",
+      "volume_rule": "ne pas monter automatiquement le volume",
+      "beat_focus": "faire passer l'objectif avant l'émotion",
+      "speed_multiplier": 0.98
+    },
+    "exposed_fissure": {
+      "restraint": "medium_high",
+      "volume_rule": "laisser une seule fissure audible, puis récupérer",
+      "beat_focus": "autoriser l'émotion cachée à apparaître sur un beat précis",
+      "speed_multiplier": 1.02
+    },
+    "silence_forward": {
+      "restraint": "very_high",
+      "volume_rule": "la pensée et le silence portent la charge principale",
+      "beat_focus": "retarder la réponse sans perdre l'intention",
+      "speed_multiplier": 0.95
+    }
+  },
+  "event_defaults": {
+    "combat_start": {"objective":"mettre le groupe en état d'agir","obstacle":"danger immédiat et informations incomplètes","action":"ordonner","subtext":"si chacun garde une fonction claire, nous pouvons survivre","listener":"party","power_start":"functional_authority","power_end":"functional_authority","preceding_thought":"il faut réduire le chaos avant le premier mouvement","listening_trigger":"le danger devient concret","silence":"aucun silence décoratif avant l'ordre","breath":"appui bref avant l'action","post_line_state":"ready_to_act"},
+    "discovery": {"objective":"comprendre avant que le groupe conclue trop vite","obstacle":"une trace ambiguë pousse à une explication facile","action":"tester","subtext":"je ne veux pas que nous payions une certitude fabriquée","listener":"party","power_start":"peer","power_end":"peer","preceding_thought":"quelque chose ne colle pas","listening_trigger":"un détail contredit l'interprétation évidente","silence":"micro-silence avant l'inférence","breath":"calme et disponible","post_line_state":"watchful"},
+    "panic": {"objective":"retrouver assez de contrôle pour rester utile","obstacle":"la peur accélère la perception et fragmente l'attention","action":"ancrer","subtext":"si je nomme ce qui est réel, je peux encore agir","listener":"self_or_party","power_start":"unstable","power_end":"partially_recovered","preceding_thought":"je suis en train de perdre le fil","listening_trigger":"un stimulus confirme le danger","silence":"un seul arrêt de pensée motivé","breath":"court mais orienté vers la récupération","post_line_state":"fragile_control"},
+    "low_hp": {"objective":"rester opérationnel sans devenir le centre du groupe","obstacle":"douleur et perte de souffle","action":"dissimuler","subtext":"ne changez pas tout le plan pour moi","listener":"party","power_start":"functional","power_end":"functional_but_exposed","preceding_thought":"ils ont vu que je faiblis","listening_trigger":"le corps impose une limite","silence":"pause d'effort seulement","breath":"protégé entre les mots","post_line_state":"wounded_but_present"},
+    "companion_death": {"objective":"empêcher le groupe de se briser immédiatement","obstacle":"la perte exige une réponse que la situation ne permet pas encore","action":"retenir","subtext":"si je m'arrête maintenant, je ne repartirai peut-être pas","listener":"party","power_start":"shared_loss","power_end":"contained_loss","preceding_thought":"il est vraiment parti","listening_trigger":"le silence laissé par l'absent","silence":"laisser un silence après le fait irréversible","breath":"retenu puis relâché une fois","post_line_state":"grief_deferred"},
+    "choice_wait": {"objective":"obtenir enfin une décision ou une réponse","obstacle":"l'interlocuteur ne répond pas","action":"obtenir_une_réponse","subtext":"ton silence agit déjà sur nous","listener":"unseen_or_party","power_start":"waiting","power_end":"challenging","preceding_thought":"ce silence dure trop longtemps","listening_trigger":"absence de réponse","silence":"transformer l'attente en pensée avant de parler","breath":"stable","post_line_state":"watching_for_response"},
+    "repeated_action": {"objective":"faire reconnaître un schéma qui devient dangereux","obstacle":"l'habitude rend le risque invisible","action":"confronter","subtext":"si tu recommences, ce ne sera plus une erreur","listener":"unseen_or_party","power_start":"peer","power_end":"challenging","preceding_thought":"nous avons déjà fait exactement ça","listening_trigger":"répétition identifiable","silence":"beat avant le mot qui révèle la répétition","breath":"sec et contrôlé","post_line_state":"pattern_named"},
+    "risk_repeat": {"objective":"arrêter la répétition d'un choix coûteux","obstacle":"l'autre peut décider sans subir le même risque","action":"accuser","subtext":"je veux que tu sentes le prix avant d'ordonner encore","listener":"unseen_presence","power_start":"subordinate_under_risk","power_end":"moral_challenge","preceding_thought":"il sait déjà ce que cela nous coûte","listening_trigger":"même risque imposé une nouvelle fois","silence":"court silence avant l'accusation personnelle","breath":"tenu","post_line_state":"boundary_drawn"},
+    "many_deaths": {"objective":"forcer l'autre à regarder le coût accumulé","obstacle":"la répétition peut rendre les morts abstraites","action":"faire_admettre","subtext":"je refuse que nos morts deviennent seulement une habitude","listener":"unseen_presence","power_start":"worn_down","power_end":"cold_clarity","preceding_thought":"combien de noms encore avant que cela change quelque chose","listening_trigger":"poids des absents","silence":"long avant la conclusion irréversible","breath":"bas et économisé","post_line_state":"exhausted_clarity"},
+    "last_original_survivor": {"objective":"vérifier que la présence extérieure est réelle sans perdre sa propre maîtrise","obstacle":"la découverte menace la définition même de la situation","action":"tester","subtext":"si tu es encore là après tous les autres, je dois savoir ce que tu es pour moi","listener":"unseen_presence","power_start":"isolated","power_end":"aware_but_not_submissive","preceding_thought":"les autres ont disparu mais cette présence n'a jamais quitté la scène","listening_trigger":"constance impossible de l'observateur","silence":"laisser la prise de conscience naître avant de l'adresser","breath":"presque immobile","post_line_state":"new_awareness"},
+    "default": {"objective":"faire évoluer la situation par une action claire","obstacle":"information, relation ou état interne non résolu","action":"observer","subtext":"je dis moins que ce que je pense","listener":"party_or_unknown","power_start":"peer","power_end":"peer","preceding_thought":"quelque chose vient de changer","listening_trigger":"la situation demande une réponse","silence":"laisser la pensée précéder les mots","breath":"naturel et contrôlé","post_line_state":"present"}
+  },
+  "review_rubric": {
+    "scale": [1, 2, 3, 4, 5],
+    "criteria": [
+      "playable_objective_clarity",
+      "active_listening",
+      "subtext_truth",
+      "beat_transition_truth",
+      "power_status_continuity",
+      "restraint",
+      "character_identity",
+      "naturalness",
+      "intelligibility"
+    ],
+    "approval": {"minimum_average": 4.0, "minimum_each": 3, "important_line_minimum_each": 4}
+  }
+}

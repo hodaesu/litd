@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "design_source": "prepc_demo_production_pass_29+emotional_voice_direction_pass_30",
+  "design_source": "prepc_demo_production_pass_29+emotional_voice_direction_pass_30+dramatic_voice_direction_pass_31",
   "status": "static_preparation_complete",
   "contracts": {
     "combat_choreography": "data/visual_slice_choreography.json",
@@ -13,6 +13,9 @@
     "emotional_voice_direction": "data/voice_direction_contract.json",
     "emotional_voice_profiles": "data/emotional_voice_profiles.json",
     "voice_calibration": "data/voice_emotion_calibration.json",
+    "dramatic_voice_direction": "data/voice_acting_contract.json",
+    "dramatic_voice_study_protocol": "data/voice_acting_study_protocol.json",
+    "dramatic_voice_overrides": "data/dramatic_voice_overrides.json",
     "master_document": "docs/design/pre_pc_demo_master_plan.md"
   },
   "qa": {
@@ -20,7 +23,11 @@
     "readiness_report": "tools/qa/demo_readiness_report.py",
     "tests": "tests/test_prepc_demo_production.py",
     "voice_direction_audit": "tools/qa/voice_direction_audit.py",
-    "voice_direction_tests": "tests/test_voice_direction.py"
+    "voice_direction_tests": "tests/test_voice_direction.py",
+    "dramatic_voice_direction_audit": "tools/qa/dramatic_voice_direction_audit.py",
+    "dramatic_voice_direction_tests": "tests/test_dramatic_voice_direction.py",
+    "voice_performance_plan": "tools/voice/build_voice_performance_plan.py",
+    "acting_take_review": "tools/voice/acting_take_review.py"
   },
   "pc_only_remaining": [
     "validate_cel_shading_and_materials_in_motion",
@@ -28,7 +35,8 @@
     "validate_camera_and_effects_by_eye",
     "measure_real_device_performance",
     "approve_or_reject_assets_at_art_review_gate",
-    "listen_and_calibrate_authorized_voice_references_and_rendered_takes"
+    "listen_and_calibrate_authorized_voice_references_and_rendered_takes",
+    "compare_multiple_acting_variants_and_select_truthful_take"
   ],
-  "truth_rule": "Aucune validation nécessitant de voir le jeu, d'écouter une vraie prise ou de mesurer un appareil réel n'est marquée comme terminée avant la session PC."
+  "truth_rule": "Aucune validation nécessitant de voir le jeu, d'écouter une vraie prise ou de mesurer un appareil réel n'est marquée comme terminée avant la session PC. La direction dramatique est préparée; seule l'écoute de prises réelles peut valider son efficacité."
 }
