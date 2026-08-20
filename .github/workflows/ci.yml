@@ -76,6 +76,14 @@ jobs:
         run: python -m tools.qa.visual_slice_review_schema_audit
       - name: Preflight première session PC sans binaires locaux
         run: python tools/blender/vertical_slice_session.py --preflight --ci
+      - name: Audit automatisation complète du vertical slice
+        run: python -m tools.qa.vertical_slice_automation_audit
+      - name: Vérifier l'orchestrateur du vertical slice
+        run: python tools/blender/build_vertical_slice.py --check
+      - name: Vérifier le lanceur de captures Godot
+        run: python tools/godot/capture_vertical_slice.py --check
+      - name: Vérifier le lanceur de profiling Godot
+        run: python tools/godot/profile_vertical_slice.py --check
       - name: Audit bibliothèque musicale, licences et cues narratifs
         run: python -m tools.qa.music_library_audit
       - name: Audit bibliothèque de bruitages et sound design
