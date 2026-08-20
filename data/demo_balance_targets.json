@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "design_source": "prepc_demo_production_pass_29",
+  "philosophy": "Difficile, lisible, punitif sans être arbitraire. La difficulté doit venir de décisions, de télégraphes et de ressources, pas d'informations cachées ou de dégâts impossibles à anticiper.",
+  "combat_targets": {
+    "standard_encounter_turns": [3,6],
+    "elite_encounter_turns": [5,8],
+    "chapter_boss_turns": [8,14],
+    "party_resource_consumption_per_standard_encounter_percent": [8,20],
+    "party_resource_consumption_per_boss_percent": [25,55],
+    "avoidable_damage_share_goal": 0.70,
+    "telegraphed_major_enemy_actions": 1.0,
+    "routine_one_hit_kill_allowed": false,
+    "permadeath_allowed": true,
+    "permadeath_rule": "une mort peut survenir par accumulation d'erreurs, risque accepté ou événement clairement télégraphié; pas par attaque routinière opaque"
+  },
+  "vertical_slice": {
+    "darius": {"hp":120,"light_damage":18,"heavy_damage":28,"guard_reduction":0.55},
+    "hungry_ghoul": {"hp":82,"claw_1_damage":14,"claw_2_damage":16,"lunge_damage":22},
+    "showcase_expected_hits_to_defeat_ghoul": 4,
+    "showcase_expected_unblocked_hits_to_defeat_darius": [6,9],
+    "guard_goal": "un lunge bloqué doit être nettement préférable à un lunge subi, sans annuler complètement le danger"
+  },
+  "psychology": {
+    "fear_visible_range": [0,100],
+    "fear_bands": {"calme":[0,24],"inquiet":[25,49],"effraye":[50,74],"terrifie":[75,99],"panique":[100,100]},
+    "madness_visible_meter": false,
+    "hope_visible_meter": false,
+    "fear_increase_standard_event": [2,8],
+    "fear_increase_major_event": [8,18],
+    "fear_recovery_minor": [2,6],
+    "rule": "un changement de bande doit être perceptible dans le comportement ou le feedback, pas seulement dans un nombre"
+  },
+  "progression_invariants": {
+    "level_cap": 50,
+    "skill_trees_per_character": 3,
+    "skills_per_tree_target": 15,
+    "tree_choice_exclusive": true,
+    "ultimate_unlock_levels": [16,32,48],
+    "ultimate_uses_per_dungeon": {"16":1,"32":2,"48":3},
+    "ultimate_must_be_signature": true
+  },
+  "equipment_invariants": {
+    "weapon_base_damage_fixed_before_affixes": true,
+    "rarities": {
+      "common":{"affixes":1,"special":0},
+      "uncommon":{"affixes":1,"special":0},
+      "rare":{"affixes":2,"special":0},
+      "epic":{"affixes":3,"special":0},
+      "legendary":{"affixes":2,"special":1}
+    },
+    "accessory_slots": {"rings":2,"necklace":1},
+    "seeded_items_no_reroll_on_load": true,
+    "level_scaling_preserves_item_identity": true
+  },
+  "economy_targets": {
+    "demo_should_force_at_least_one_resource_tradeoff": true,
+    "field_choices_must_use_real_inventory": true,
+    "sanctuary_return_should_not_fully_refund_expended_resources": true,
+    "gold_reward_should_not_make_all_demo_choices_costless": true,
+    "recovery_loop": "une expédition réussie doit améliorer la capacité de repartir, pas effacer tout risque futur"
+  },
+  "capture_targets": {
+    "max_recruits_per_level": 2,
+    "at_least_one_recruitable_family_per_level": true,
+    "boss_ange_capturable": false,
+    "capture_never_required_for_main_story": true,
+    "capture_failure_must_leave_combat_resolvable": true
+  },
+  "difficulty_presets": {
+    "recommended": {"enemy_damage_mult":1.0,"resource_pressure_mult":1.0,"telegraph_duration_mult":1.0,"permadeath":true},
+    "accessible": {"enemy_damage_mult":0.82,"resource_pressure_mult":0.85,"telegraph_duration_mult":1.20,"permadeath":true},
+    "severe": {"enemy_damage_mult":1.18,"resource_pressure_mult":1.15,"telegraph_duration_mult":0.92,"permadeath":true}
+  },
+  "anti_frustration": [
+    "ne jamais réduire la durée d'un télégraphe majeur sous le temps minimum de lecture défini pour l'animation",
+    "ne jamais cacher un coût de ressource au moment du choix",
+    "ne jamais augmenter la difficulté en rendant l'interface volontairement ambiguë",
+    "les échecs de capture, négociation ou quêtes secondaires ne bloquent pas la progression principale",
+    "les boss peuvent demander compréhension et adaptation mais doivent enseigner leur logique avant la sanction maximale"
+  ]
+}
