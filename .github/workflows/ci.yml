@@ -84,6 +84,8 @@ jobs:
         run: python -m tools.cinematics.build_staging_plan --check
       - name: Vérifier la grille de revue des prises cinématiques
         run: python -m tools.cinematics.staging_take_review --check
+      - name: Audit HUD intelligent et divulgation progressive
+        run: python -m tools.qa.hud_director_audit
       - name: Audit vertical slice visuel et handoff Blender
         run: python -m tools.qa.visual_vertical_slice_audit
       - name: Vérifier les jobs Blender du vertical slice

@@ -1,11 +1,12 @@
 {
   "version": 1,
-  "design_source": "prepc_demo_production_pass_29",
+  "design_source": "prepc_demo_production_pass_29+hud_director_pass_33",
+  "hud_director_contract": "data/hud_director_contract.json",
   "art_direction": {
     "background": "parchment_or_translucent_charcoal",
     "panels": "dark_ink_with_thin_tarnished_gold_lines",
     "accent": "warm_lantern_gold_not_neon",
-    "danger": "ember_red_reserved_for_immediate_risk",
+    "danger": "ember_red_reserved_for_immediate_attention_not_moral_badness",
     "corruption": "violet_used_sparingly",
     "typography": "high_contrast_readable_serif_or_humanist_body_with_brush_like_display_only_for_titles",
     "ornament": "minimal_original_in_world_seals_and_corner_motifs",
@@ -18,6 +19,11 @@
     "contextual_hud": true,
     "exploration_hud_hidden_by_default": true,
     "quest_details_in_journal_only": true,
+    "progressive_disclosure_levels": 5,
+    "smart_priority_router": true,
+    "world_guidance_first": true,
+    "no_permanent_minimap": true,
+    "no_permanent_quest_tracker": true,
     "no_social_meters": true,
     "no_morality_meter": true,
     "fear_is_only_visible_psychology_meter": true,
@@ -32,15 +38,32 @@
     "corner_radius_px": {"panel":6,"button":5,"card":4},
     "line_px": {"fine":1,"focus":2},
     "opacity": {"panel":0.90,"secondary":0.70,"disabled":0.42},
-    "transition_s": {"fast":0.10,"normal":0.18,"slow":0.28}
+    "transition_s": {"fast":0.10,"normal":0.18,"slow":0.28,"hud_attention":0.15}
   },
   "screens": {
+    "exploration": {
+      "default_hud_level": 0,
+      "persistent_elements": [],
+      "navigation": "world_integrated",
+      "guidance_channels": ["cendre","vent","lanternes","architecture","sons","traces","lumière"],
+      "context_prompt": "single_current_action_only",
+      "forbidden": ["permanent_minimap","floating_waypoint_chain","quest_tracker"]
+    },
     "combat": {
+      "default_hud_level": 3,
       "priority": ["current_actor","targets","skills","fear_state","critical_status","turn_context"],
-      "layout": "bottom_action_strip_plus_actor_cards",
+      "layout": "three_visual_groups_max",
+      "groups": {
+        "bottom": "decision_and_active_actor_actions",
+        "actor_space": "hp_fear_and_compact_status",
+        "top_center": "decision_changing_events_only"
+      },
+      "actions_visible_max": 6,
+      "status_icons_visible_max": 2,
+      "status_overflow": "+N",
       "persistent_elements": ["hp","fear","turn_owner"],
       "context_elements": ["guard","bleed","stun","rupture","capture_window","boss_mechanic"],
-      "forbidden": ["quest_tracker","large_minimap","permanent_tooltip_wall"],
+      "forbidden": ["quest_tracker","large_minimap","permanent_tooltip_wall","icon_christmas_tree"],
       "mobile_rule": "selection and confirmation are separate for irreversible or costly actions"
     },
     "inventory": {
@@ -66,8 +89,10 @@
       "exclusive_tree_warning": true
     },
     "journal": {
+      "default_hud_level": 4,
       "layout": "chapter_index_plus_reading_page",
       "sections": ["main_quests","side_quests","people","creatures","places","ancient_texts","decision_memories"],
+      "receives_silent_deferred_information": true,
       "rules": ["no completion percentage for moral or social systems","world facts may remain contradictory when story requires it","critical objective remains readable without specific living hero"]
     },
     "sanctuary": {
@@ -89,21 +114,40 @@
     },
     "settings": {
       "sections": ["audio","display","controls","accessibility","language"],
-      "accessibility": ["camera_shake","reduced_motion","text_scale","contrast_assist","hold_vs_toggle","subtitle_size"]
+      "accessibility": ["camera_shake","reduced_motion","text_scale","contrast_assist","hold_vs_toggle","subtitle_size","hud_background_opacity","simple_sans_serif","extra_outlines","high_contrast"]
     }
   },
   "combat_feedback": {
     "damage_numbers": "small_contextual_optional",
-    "status_icons": "icon_plus_short_label_on_first_application",
+    "status_icons": "icon_plus_short_label_on_first_application_then_icon_only",
+    "status_overflow": "two_icons_then_plus_N",
     "fear_feedback": "band_name_and_subtle_audio_visual_change",
     "boss_mechanics": "environmental_and_animation_cues_first_text_second",
-    "critical_choice": "requires deliberate confirmation"
+    "critical_choice": "requires_deliberate_second_confirmation"
+  },
+  "notification_behavior": {
+    "priorities": ["CRITICAL","ACTIONABLE","CONTEXT","INFORMATION","DECORATIVE"],
+    "critical_preempts_lower_priority": true,
+    "information_during_critical": "journal_silent",
+    "decorative_never_interrupts": true,
+    "attention_animation_seconds": 0.15,
+    "persistent_blinking": false,
+    "repeated_alert_sound": false
+  },
+  "accessibility_acceptance": {
+    "normal_contrast_ratio_min": 4.5,
+    "large_element_contrast_ratio_min": 3.0,
+    "high_contrast_target": 7.0,
+    "information_never_color_only": true,
+    "essential_information_avoids_active_thumb_zone": true
   },
   "art_bible_acceptance": [
     "interface never becomes brighter than the focal gameplay element",
     "gold is a structural accent not a reward confetti color",
     "black panels preserve texture and hierarchy",
     "ornament density remains lower than information density",
-    "every screen remains usable with touch only on iPhone landscape"
+    "every screen remains usable with touch only on iPhone landscape",
+    "normal exploration gives the world the whole screen",
+    "HUD information appears because it can change a decision now"
   ]
 }
