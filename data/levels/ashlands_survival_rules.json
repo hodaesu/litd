@@ -1,10 +1,10 @@
 {
-  "version": 1,
+  "version": 2,
   "expedition_inventory": {
     "food": 8,
     "water": 8,
     "bandages": 4,
-    "light": 6,
+    "light": 8,
     "camp_tools": 3,
     "medicine": 2
   },
@@ -26,9 +26,9 @@
     "camp_tools": 1
   },
   "campfire_effects": {
-    "party_heal_ratio": 0.20,
-    "stress_reduction": 12,
-    "light_restore": 1
+    "party_heal_ratio": 0.15,
+    "stress_reduction": 10,
+    "light_restore": 2
   },
   "ash_pressure": {
     "light_cost_on_dense_crossing": 1,
@@ -44,6 +44,7 @@
     "hub_only_full_resupply": true,
     "field_loot_extends_but_never_replaces_resupply": true,
     "zero_resources_increase_risk_not_instant_game_over": true,
-    "campfire_is_not_free_resupply": true
+    "campfire_is_not_free_resupply": true,
+    "campfire_restores_control_but_not_full_health": true
   }
 }
