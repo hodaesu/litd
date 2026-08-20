@@ -38,7 +38,7 @@ run_checked "Import strict du projet" godot --headless --path . --import --quit
 run_checked "Smoke test noyau" godot --headless --path . res://scenes/tests/core_smoke.tscn
 run_checked "Psychologie : Peur, traces durables et manifestations d'Espoir" godot --headless --path . res://scenes/tests/psychology_smoke.tscn
 run_checked "Relations : confiance, admiration, tensions et interposition" godot --headless --path . res://scenes/tests/relationship_smoke.tscn
-run_checked "Mémoire : décisions, convictions et conséquences différérées" godot --headless --path . res://scenes/tests/decision_memory_smoke.tscn
+run_checked "Mémoire : décisions, convictions et conséquences différées" godot --headless --path . res://scenes/tests/decision_memory_smoke.tscn
 run_checked "Mémoire de terrain : recrutement, retraite, boss et réévaluation" godot --headless --path . res://scenes/tests/field_memory_smoke.tscn
 run_checked "Monde réactif : survivants, ressources et retours différés" godot --headless --path . res://scenes/tests/field_encounter_smoke.tscn
 run_checked "Sanctuaire vivant : personnes, rumeurs et quêtes émergentes" godot --headless --path . res://scenes/tests/community_network_smoke.tscn
@@ -51,6 +51,7 @@ run_checked "Audio narratif : dialogues, Sanctuaire, silence et motifs" godot --
 run_checked "Dialogues réactifs : mortalité, voix et quatrième mur" godot --headless --path . res://scenes/tests/dialogue_director_smoke.tscn
 run_checked "Voix synthétiques : manifest approuvé et fallback texte" godot --headless --path . res://scenes/tests/voice_runtime_smoke.tscn
 run_checked "Mise en scène : Physical Bible, proxémie, blocking, caméra et handoff" godot --headless --path . res://scenes/tests/cinematic_direction_smoke.tscn
+run_checked "HUD intelligent : divulgation progressive, priorités, journal silencieux et confirmation tactile" godot --headless --path . res://scenes/tests/hud_director_smoke.tscn
 run_checked "Vertical slice visuel : Darius, Goule, shader, caméra et arène proxy" godot --headless --path . res://scenes/tests/visual_vertical_slice_smoke.tscn
 run_checked "Vertical slice runtime : import, animations et mini-combat" godot --headless --path . res://scenes/tests/visual_slice_runtime_smoke.tscn
 run_checked "Parcours campagne I→X, fin, postgame et NG+" godot --headless --path . res://scenes/tests/campaign_e2e_smoke.tscn
