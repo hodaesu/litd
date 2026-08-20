@@ -68,7 +68,7 @@ def audit(root: Path = ROOT) -> list[str]:
         anticipation = action.get("anticipation_s", 0.0)
         if impact is not None and not (0 <= float(anticipation) < float(impact) <= duration):
             errors.append(f"invalid action timing: {action_id}")
-        if round(duration * 10) != duration * 10:
+        if abs(round(duration * 10) - duration * 10) > 1e-6:
             errors.append(f"action duration must be tenth-second aligned: {action_id}")
 
     visual_min = visual["characters"]
@@ -112,6 +112,10 @@ def audit(root: Path = ROOT) -> list[str]:
             errors.append(f"unknown flow boss: {beat['boss_id']}")
         if beat.get("creature_id") and beat["creature_id"] not in creature_ids:
             errors.append(f"unknown flow creature: {beat['creature_id']}")
+    flow_min = sum(int(beat["minutes"][0]) for beat in content["flow"])
+    flow_max = sum(int(beat["minutes"][1]) for beat in content["flow"])
+    if [flow_min, flow_max] != content["target_duration_minutes"]:
+        errors.append(f"demo flow duration mismatch: {[flow_min, flow_max]} vs {content['target_duration_minutes']}")
     if content["boss_demo"]["boss_id"] not in boss_ids:
         errors.append("demo boss contract does not resolve")
     if content["capture_demo"]["creature_id"] not in creature_ids:
