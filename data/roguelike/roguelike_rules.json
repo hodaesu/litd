@@ -1,9 +1,25 @@
 {
-  "version": 1,
+  "version": 2,
   "positioning": "turn_based_dark_fantasy_rpg_roguelike_dungeon_crawler",
   "inventory_capacity": 20,
   "capture_limit_per_zone": 2,
   "capture_hp_ratio": 0.25,
+  "default_dungeon_id": "first_veil_crypts",
+  "dungeons": {
+    "first_veil_crypts": {
+      "title": "Cryptes du Premier Voile",
+      "required_level": 3,
+      "enemy_base_level": 4,
+      "enemy_level_per_depth": 2,
+      "elite_bonus_levels": 2,
+      "boss_bonus_levels": 4,
+      "template_reference_level": 3,
+      "hp_per_level": 0.07,
+      "damage_per_level": 0.045,
+      "fear_per_level": 0.025,
+      "scaling_rule": "fixed_by_dungeon_and_depth_never_by_hero_level"
+    }
+  },
   "light": {
     "max": 10,
     "room_decay": 1,
@@ -91,6 +107,9 @@
     "horizontal_meta_progression": true,
     "player_can_dim_light": true,
     "extraction_is_a_player_choice": true,
-    "angel_is_never_capturable": true
+    "angel_is_never_capturable": true,
+    "campaign_scales_to_party": true,
+    "dungeons_never_scale_to_party": true,
+    "dungeons_have_required_levels": true
   }
 }
