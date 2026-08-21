@@ -93,6 +93,24 @@ func _run() -> void:
     Chapter10Runtime.refresh_progress()
     _check(bool(CampaignState.chapter_flags.get("campaign_complete", false)), "Final orientation must mark the campaign complete")
     _check(EndgameState.is_postgame_unlocked(), "Campaign completion must unlock postgame")
+    _check(EndgameState.ng_plus_unlocked(), "Campaign completion must immediately unlock NG+ without postgame operations")
+    _check(EndgameState.can_begin_new_game_plus(""), "Player must be allowed to start NG+ immediately without a legacy perk")
+    _check(EndgameState.operation_count() == 0, "Immediate NG+ availability must not depend on postgame operations")
+
+    var chapter_before_continue := CampaignState.current_chapter_id
+    var gold_before_continue := GameState.gold
+    var essence_before_continue := GameState.essence
+    var supplies_before_continue := GameState.supplies
+    var party_size_before_continue := GameState.party.size()
+    _check(EndgameState.choose_continue_postgame(), "Player must be able to choose to continue the finished save")
+    _check(EndgameState.postgame_continuation_selected, "Continue choice must be persisted in endgame state")
+    _check(EndgameState.active_cycle == 0, "Continuing postgame must not start NG+")
+    _check(CampaignState.current_chapter_id == chapter_before_continue, "Continuing postgame must keep the finished campaign state")
+    _check(GameState.gold == gold_before_continue, "Continuing postgame must keep current gold")
+    _check(GameState.essence == essence_before_continue, "Continuing postgame must keep current essence")
+    _check(GameState.supplies == supplies_before_continue, "Continuing postgame must keep current supplies")
+    _check(GameState.party.size() == party_size_before_continue, "Continuing postgame must keep the current party")
+    _check(EndgameState.ng_plus_unlocked(), "Choosing to continue must leave NG+ available for later")
 
     var campaign_snapshot := CampaignState.serialize()
     var chapter_ten_snapshot := Chapter10Runtime.serialize()
@@ -103,6 +121,8 @@ func _run() -> void:
     CampaignState.deserialize(campaign_snapshot)
     Chapter10Runtime.deserialize(chapter_ten_snapshot)
     _check(EndgameState.is_postgame_unlocked(), "In-memory serialization roundtrip must preserve postgame unlock")
+    _check(EndgameState.ng_plus_unlocked(), "Serialization roundtrip must preserve immediate NG+ availability")
+    _check(EndgameState.postgame_continuation_selected, "Serialization roundtrip must preserve the decision to continue postgame")
     _check(Chapter10Runtime.final_orientation == "stable_coexistence", "Chapter X ending must survive serialization roundtrip")
 
     for operation_id in ["postgame_routes", "postgame_hearing", "postgame_memorial"]:
@@ -110,13 +130,14 @@ func _run() -> void:
         _check(EndgameState.complete_operation(operation_id), "Guaranteed postgame operation must complete: %s" % operation_id)
 
     _check(EndgameState.operation_count() >= 3, "Three guaranteed postgame operations must complete")
-    _check(EndgameState.ng_plus_unlocked(), "Three guaranteed postgame operations must unlock NG+")
+    _check(EndgameState.ng_plus_unlocked(), "NG+ must remain available after optional postgame operations")
     _check(EndgameState.legacy_points >= 3, "Guaranteed postgame path must grant at least three legacy points")
     _check(EndgameState.perk_available("legacy_prepared"), "Prepared legacy perk must be purchasable on the guaranteed path")
 
-    _check(EndgameState.begin_new_game_plus("legacy_prepared"), "NG+ must start with a valid legacy perk")
+    _check(EndgameState.begin_new_game_plus("legacy_prepared"), "NG+ must start with a valid optional legacy perk")
     await get_tree().process_frame
     _check(EndgameState.active_cycle == 1, "First NG+ cycle must be cycle 1")
+    _check(not EndgameState.postgame_continuation_selected, "Starting NG+ must leave postgame continuation mode")
     _check(CampaignState.current_chapter_id == "chapter_01_ashlands", "NG+ must restart the campaign at Chapter I")
     _check(bool(CampaignState.chapter_flags.get("ng_plus_active", false)), "NG+ active flag must be set")
     _check(bool(CampaignState.chapter_flags.get("ng_plus_cycle_1", false)), "NG+ cycle flag must be set")
