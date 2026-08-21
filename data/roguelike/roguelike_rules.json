@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "positioning": "turn_based_dark_fantasy_rpg_roguelike_dungeon_crawler",
   "inventory_capacity": 20,
   "capture_limit_per_zone": 2,
@@ -42,7 +42,19 @@
       "boss_hp_multiplier": 1.55,
       "elite_damage_multiplier": 1.00,
       "boss_damage_multiplier": 1.05,
-      "scaling_rule": "fixed_by_dungeon_and_depth_never_by_hero_level"
+      "scaling_rule": "fixed_by_dungeon_and_depth_never_by_hero_level",
+      "first_descent": {
+        "enabled": true,
+        "title_id": "title_never_ascended",
+        "title": "Celui qui n'a pas remonté",
+        "relic_id": "first_veil_shard",
+        "relic_name": "Éclat du Premier Voile",
+        "achievement_id": "first_descent_first_veil",
+        "achievement_name": "Première Descente — Premier Voile",
+        "chronicle_title": "LA PREMIÈRE DESCENTE",
+        "boss_name": "Ange du Premier Voile",
+        "reward_policy": "commemorative_only_no_required_power"
+      }
     }
   },
   "light": {
@@ -139,6 +151,9 @@
     "dungeons_have_required_levels": true,
     "darkness_increases_lethality_more_than_durability": true,
     "combat_healing_cannot_stall_forever": true,
-    "successive_stuns_gain_resistance": true
+    "successive_stuns_gain_resistance": true,
+    "first_descent_is_optional": true,
+    "first_descent_rewards_are_commemorative": true,
+    "first_descent_can_only_be_claimed_once_per_save": true
   }
 }
