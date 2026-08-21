@@ -5,9 +5,17 @@ on:
   workflow_dispatch:
     inputs:
       runs:
-        description: "Nombre d'expéditions Monte Carlo"
+        description: "Nombre d'expéditions Monte Carlo du donjon étalon"
         required: false
         default: "12000"
+      matrix_mode:
+        description: "Profondeur de la matrice globale"
+        required: false
+        type: choice
+        options:
+          - quick
+          - exhaustive
+        default: exhaustive
 
 permissions:
   contents: read
@@ -37,3 +45,30 @@ jobs:
           path: |
             reports/roguelike-telemetry.json
             reports/roguelike-telemetry.csv
+
+  full-balance-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Couvrir niveaux, groupes, campagne, donjons et NG+
+        env:
+          MATRIX_MODE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.matrix_mode || 'quick' }}
+        run: >-
+          python -m tools.qa.balance_matrix_sim
+          --mode "$MATRIX_MODE"
+          --report reports/balance-matrix.json
+          --csv reports/balance-matrix.csv
+          --raw-csv-gz reports/balance-matrix-cells.csv.gz
+          --strict
+      - name: Publier la matrice globale
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-game-balance-matrix
+          path: |
+            reports/balance-matrix.json
+            reports/balance-matrix.csv
+            reports/balance-matrix-cells.csv.gz
