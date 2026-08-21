@@ -1,7 +1,9 @@
 {
   "schema_version": 2,
   "design_rule": "Le postgame montre comment une décision finale devient un travail quotidien. Après la fin, le joueur peut rester dans cette sauvegarde aussi longtemps qu'il le souhaite ou partir immédiatement en Nouveau Cycle+. Les opérations sont optionnelles : elles enrichissent le monde d'après et permettent de gagner des points d'héritage avant un futur NG+, sans jamais en bloquer l'accès.",
-  "operations_required_for_ng_plus": 0,
+  "operations_required_for_ng_plus": 3,
+  "ng_plus_gate_enforced": false,
+  "operations_recommended_for_guaranteed_legacy": 3,
   "operations": [
     {"id":"postgame_routes","name":"Rouvrir les routes sûres","description":"Cartographier les chemins encore stables entre refuges et publier les risques au lieu de promettre une sécurité totale.","cost":{"supplies":0},"reward":{"gold":35,"legacy_points":1},"flag":"postgame_routes_secured"},
     {"id":"postgame_hearing","name":"Poursuivre les audiences","description":"Traiter les dossiers restés ouverts après la crise finale et maintenir le droit de contestation lorsque l'urgence n'est plus une excuse.","cost":{"gold":0},"reward":{"legacy_points":1,"justice_integrity":2},"flag":"postgame_hearings_continued"},
