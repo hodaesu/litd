@@ -18,6 +18,8 @@ var last_award: Dictionary = {}
 
 func _ready() -> void:
     _load_rules()
+    if not GameState.new_game_reset.is_connected(reset_new_game):
+        GameState.new_game_reset.connect(reset_new_game)
 
 func _load_rules() -> void:
     if not FileAccess.file_exists(RULES_PATH):
