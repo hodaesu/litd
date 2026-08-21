@@ -14,7 +14,7 @@ func run() -> void:
         return
 
     runtime.reset_new_game()
-    var started := runtime.start_attempt("first_veil_crypts", 424242, GameState.party)
+    var started: Dictionary = runtime.start_attempt("first_veil_crypts", 424242, GameState.party)
     _check(bool(started.get("eligible", false)), "First attempt must be eligible")
 
     var party_result: Array = GameState.party.duplicate(true)
@@ -22,7 +22,7 @@ func run() -> void:
         party_result[0]["level"] = 5
         party_result[1]["level"] = 4
         party_result[1]["hp"] = 0
-    var award := runtime.finish_attempt(
+    var award: Dictionary = runtime.finish_attempt(
         "boss_defeated",
         {
             "boss_defeated": true,
