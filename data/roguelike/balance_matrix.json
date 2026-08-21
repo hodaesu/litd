@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "seed": 20260821,
   "analytical_cycles": [0, 1, 2, 3, 4],
   "quick": {
@@ -13,6 +13,11 @@
     "minimum_monte_carlo_compositions": 24,
     "monte_carlo_cycles": [0, 1, 2, 3, 4],
     "samples_per_cell": 2
+  },
+  "measurement_contracts": {
+    "matrix_cells": "isolated_encounters_with_full_health_party",
+    "expedition_clear_rate": "measured_only_by_roguelike_telemetry_sim_v2_with_full_attrition",
+    "dungeon_required_level_win_rate": "isolated_battle_guardrail_not_full_expedition_clear_rate"
   },
   "campaign": {
     "encounter_types": ["normal", "miniboss", "boss"],
@@ -31,7 +36,7 @@
     "campaign_level_win_rate_spread_max": 0.30,
     "composition_win_rate_spread_max": 0.20,
     "ngplus_allowed_win_rate_noise": 0.04,
-    "dungeon_required_level_win_rate": [0.20, 0.80],
+    "dungeon_required_level_win_rate": [0.75, 1.00],
     "dungeon_level50_win_rate_min": 0.70
   }
 }
