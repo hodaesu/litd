@@ -11,6 +11,11 @@ var architecture_kit: RefCounted = FIRST_VEIL_ARCHITECTURE_KIT.new()
 var architecture_summary: Dictionary = {}
 
 func _rebuild() -> void:
+    # Le runtime réutilise la même instance de salle pendant les smoke tests et
+    # les changements de pièce. La destruction synchrone évite que le renderer
+    # headless conserve un MeshInstance3D dont le mesh a déjà été libéré.
+    for child in get_children():
+        child.free()
     super._rebuild()
     architecture_summary = {}
     if room_spec.is_empty():
