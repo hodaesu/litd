@@ -57,7 +57,7 @@ jobs:
         env:
           MATRIX_MODE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.matrix_mode || 'quick' }}
         run: >-
-          python -m tools.qa.balance_matrix_sim_v2
+          python -m tools.qa.balance_matrix_sim_v3
           --mode "$MATRIX_MODE"
           --report reports/balance-matrix.json
           --csv reports/balance-matrix.csv
