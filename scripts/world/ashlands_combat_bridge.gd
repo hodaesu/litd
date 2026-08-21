@@ -58,7 +58,9 @@ func _on_screen_requested(screen_name: String) -> void:
 
 func _prepare_placeholder_enemies() -> void:
     GameState.battle_enemies = []
-    var ids: Array[int] = [1,8,10]
+    # Une rencontre normale de campagne doit rester un combat court : deux menaces,
+    # puis un mini-boss intermédiaire et un boss clairement plus long.
+    var ids: Array[int] = [1,8]
     if encounter_type == "miniboss": ids = [30]
     elif encounter_type == "boss": ids = [38]
     for enemy_id in ids:
