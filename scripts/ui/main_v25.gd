@@ -120,9 +120,12 @@ func _start_roguelike_room_battle(room: Dictionary) -> void:
     GameState.battle_enemies = []
     var room_type: String = str(room.get("type", "combat"))
     var depth: int = int(room.get("depth", 1))
-    var ids: Array[int] = [1, 8, 10]
+    # Budget d'attrition : les rencontres ordinaires et élites restent tactiques
+    # sans consommer autant de tours qu'un mini-boss. Les embuscades gardent trois
+    # ennemis pour conserver leur identité de pic de danger, et le boss reste seul.
+    var ids: Array[int] = [1, 8]
     if room_type == "elite":
-        ids = [10, 10, 8]
+        ids = [10, 8]
     elif room_type == "ambush":
         ids = [8, 8, 1]
     elif room_type == "creature":
