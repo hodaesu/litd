@@ -37,10 +37,13 @@ func resolved_room(room: Dictionary, dungeon_layout: Array) -> Dictionary:
     if room_plan.is_empty():
         return {}
     var result: Dictionary = room.duplicate(true)
+    var anchors: Dictionary = _resolved_anchors(room_plan)
     result["proxy"] = room_plan.duplicate(true)
     result["dimensions_m"] = _dimensions(room_plan)
-    result["anchors"] = _resolved_anchors(room_plan)
+    result["anchors"] = anchors
+    result["interaction_points"] = _interaction_points_from_anchors(room, anchors)
     result["ports"] = _resolved_ports(room, room_plan, dungeon_layout)
+    result["global_geometry"] = (plan.get("geometry", {}) as Dictionary).duplicate(true)
     result["blender_module_id"] = str(room_plan.get("module", ""))
     result["production_phase"] = int(room_plan.get("phase", 5))
     return result
@@ -125,10 +128,12 @@ func _port_position(dimensions: Vector3, side: String) -> Vector3:
             return Vector3.ZERO
 
 func interaction_points(room: Dictionary, dungeon_layout: Array) -> Array:
-    var resolved: Dictionary = resolved_room(room, dungeon_layout)
-    if resolved.is_empty():
+    var room_plan: Dictionary = plan_for_room(str(room.get("id", "")))
+    if room_plan.is_empty():
         return []
-    var anchors: Dictionary = resolved.get("anchors", {})
+    return _interaction_points_from_anchors(room, _resolved_anchors(room_plan))
+
+func _interaction_points_from_anchors(room: Dictionary, anchors: Dictionary) -> Array:
     var interactions: Array = room.get("interactions", [])
     var anchor_keys: Array[String] = ["interaction_primary", "interaction_secondary", "interaction_tertiary"]
     var result: Array = []
