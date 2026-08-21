@@ -2,11 +2,12 @@
   "schema_version": 4,
   "name": "Nouveau Cycle+",
   "design_rule": "Après la fin de la campagne, le joueur choisit librement entre continuer son monde actuel et commencer immédiatement un Nouveau Cycle+. Le postgame reste disponible aussi longtemps qu'il le souhaite et sert à préparer des héritages optionnels, jamais à verrouiller le NG+.",
-  "unlock":{"campaign_complete":true,"postgame_operations_min":0},
+  "unlock":{"campaign_complete":true,"postgame_operations_min":3,"runtime_gate":"campaign_complete_only","postgame_operations_gate_enforced":false},
   "difficulty_per_cycle":{"enemy_hp_pct":18,"enemy_damage_pct":12,"enemy_fear_pct":8},
   "max_legacy_perks":1,
   "allow_ng_plus_without_legacy":true,
   "continue_postgame_is_reversible":true,
+  "legacy_preparation_operations_recommended":3,
   "carry_over":["ending_history","legacy_points","legacy_perk_history","epilogue_archive"],
   "reset":["campaign_progress","politics","party_progression","inventory","creatures","sanctuary_resources","chapter_choices"],
   "skill_tree_rules":{
