@@ -2,11 +2,13 @@ extends Node
 
 const FIRST_VEIL := preload("res://scripts/core/first_veil_dungeon_runtime.gd")
 const PROXY_PLAN := preload("res://scripts/core/first_veil_proxy_plan_runtime.gd")
+const ARCHITECTURE_KIT := preload("res://scripts/world/first_veil_architecture_kit.gd")
 const PROXY_ROOM := preload("res://scenes/dungeon/DungeonProxyRoom.tscn")
 
 var failures: Array[String] = []
 var first_veil: RefCounted = FIRST_VEIL.new()
 var proxy_plan: RefCounted = PROXY_PLAN.new()
+var architecture_kit: RefCounted = ARCHITECTURE_KIT.new()
 
 func _ready() -> void:
     call_deferred("run")
@@ -25,6 +27,8 @@ func run() -> void:
     var init_result: Dictionary = first_veil.ensure_run(runtime)
     _check(bool(init_result.get("initialized", false)), "Physical first Veil must initialize")
     _check(proxy_plan.room_count() == 37, "Exact proxy plan must cover all 37 spaces")
+    _check(not architecture_kit.blender_contract().is_empty(), "Architecture kit must expose a Blender handoff contract")
+    _check((architecture_kit.blender_contract().get("required_collections", []) as Array).has("GAMEPLAY_ANCHORS"), "Blender handoff must preserve GAMEPLAY_ANCHORS")
 
     var active: Dictionary = runtime.active_run
     var dungeon: Array = active.get("dungeon", [])
@@ -44,8 +48,13 @@ func run() -> void:
     _check(bool(summary.get("has_explorer", false)), "Proxy room must instantiate a walkable explorer")
     _check(int(summary.get("visible_exit_count", 0)) == 2, "Entry must expose its two physical exits")
     _check(not bool(summary.get("exits_enabled", true)), "Unresolved room exits must remain locked")
+    _check(bool(summary.get("blender_contract_ready", false)), "Dressed proxy must report Blender contract readiness")
+    _check(int(summary.get("architecture_kit_version", 0)) >= 1, "Dressed proxy must report architecture kit version")
     _check(room_node.find_child("GameplayAnchors", true, false) != null, "Gameplay anchors must exist in 3D")
     _check(room_node.find_child("InteractionAnchors", true, false) != null, "Interaction anchors must exist in 3D")
+    _check(room_node.find_child("ArchitectureKit", true, false) != null, "Architectural dressing must be instantiated")
+    _check(room_node.find_child("Pillar_0", true, false) != null, "Architectural kit must add readable crypt pillars")
+    _check(room_node.find_child("Lamp_0", true, false) != null, "Architectural kit must add room lighting fixtures")
     _check(room_node.find_child("Floor", true, false) != null, "Proxy room must have a physical floor")
 
     var puzzle: Dictionary = first_veil.room_by_id(runtime, "p1_puzzle")
@@ -65,6 +74,10 @@ func run() -> void:
     var resolved_boss: Dictionary = proxy_plan.resolved_room(boss, (runtime.active_run as Dictionary).get("dungeon", []))
     _check(resolved_boss.get("dimensions_m", Vector3.ZERO) == Vector3(28.0, 10.0, 22.0), "Boss chamber must be a 28x22x10 meter cathedral proxy")
     _check(str(resolved_boss.get("blender_module_id", "")) == "FV_BOSS_CHAMBER", "Boss room must expose a stable Blender module id")
+    room_node.call("configure", resolved_boss, [], true)
+    await get_tree().process_frame
+    _check(room_node.find_child("BossDais", true, false) != null, "Boss chamber architecture must include a physical dais")
+    _check(room_node.find_child("BossAltar", true, false) != null, "Boss chamber architecture must include a physical altar")
 
     room_node.queue_free()
     _finish()
