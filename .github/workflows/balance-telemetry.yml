@@ -24,7 +24,7 @@ jobs:
         env:
           TELEMETRY_RUNS: ${{ github.event.inputs.runs || '12000' }}
         run: >-
-          python -m tools.qa.roguelike_telemetry_sim
+          python -m tools.qa.roguelike_telemetry_sim_v2
           --runs "$TELEMETRY_RUNS"
           --report reports/roguelike-telemetry.json
           --csv reports/roguelike-telemetry.csv
