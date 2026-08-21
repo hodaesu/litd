@@ -302,7 +302,7 @@ func show_dungeon_room() -> void:
         if exits.is_empty():
             exits_panel.add_child(make_label("Aucune issue utilisable.", 13, MUTED))
         for target_id in exits:
-            var exit_label := first_veil_dungeon.transition_label(runtime, room_id, target_id)
+            var exit_label: String = str(first_veil_dungeon.transition_label(runtime, room_id, target_id))
             exits_panel.add_child(make_button(exit_label, func(id_value = target_id): _enter_roguelike_room(str(id_value)), Vector2(430, 48)))
 
     var map_button := make_button("OUVRIR LA CARTE MACRO", func(): GameState.request_screen("expedition"), Vector2(260, 46))
