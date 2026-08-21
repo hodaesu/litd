@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "dungeon_id": "first_veil_crypts",
+  "style": "funerary_martial_gothic_ashlands",
+  "principles": [
+    "Gameplay anchors and ports never move when proxy meshes are replaced.",
+    "Architecture supports readability before ornament.",
+    "Every room role has a distinct silhouette and landmark family.",
+    "Secret architecture is never instantiated before discovery.",
+    "Lighting communicates depth, danger and usable space without replacing the Light resource system."
+  ],
+  "palette": {
+    "stone": [0.23, 0.22, 0.20, 1.0],
+    "ash": [0.31, 0.29, 0.27, 1.0],
+    "metal": [0.18, 0.19, 0.20, 1.0],
+    "bone": [0.54, 0.50, 0.42, 1.0],
+    "cloth": [0.24, 0.16, 0.14, 1.0],
+    "ritual": [0.35, 0.12, 0.10, 1.0],
+    "cold_light": [0.55, 0.68, 0.82, 1.0],
+    "warm_light": [1.0, 0.58, 0.26, 1.0]
+  },
+  "asset_families": {
+    "wall": ["FV_WALL_PLAIN", "FV_WALL_NICHE", "FV_WALL_CRACKED", "FV_WALL_RELIEF"],
+    "arch": ["FV_ARCH_LOW", "FV_ARCH_HIGH", "FV_ARCH_BROKEN"],
+    "door": ["FV_DOOR_STONE", "FV_DOOR_IRON", "FV_DOOR_RITUAL"],
+    "stair": ["FV_STAIR_DESCENT", "FV_STAIR_BROKEN", "FV_STAIR_SPIRAL_FRAGMENT"],
+    "pillar": ["FV_PILLAR_SQUARE", "FV_PILLAR_OCTAGONAL", "FV_PILLAR_BROKEN"],
+    "tomb": ["FV_SARCOPHAGUS_LOW", "FV_SARCOPHAGUS_HERO", "FV_URN_WALL"],
+    "chain": ["FV_CHAIN_HANGING", "FV_CHAIN_ANCHOR", "FV_CHAIN_BARRIER"],
+    "altar": ["FV_ALTAR_SMALL", "FV_ALTAR_TRIPLE", "FV_ALTAR_BROKEN"],
+    "trap": ["FV_TRAP_PLATE", "FV_TRAP_SPIKE", "FV_TRAP_PIT_EDGE"],
+    "furniture": ["FV_BENCH_STONE", "FV_TABLE_RITUAL", "FV_CHEST_RITUAL", "FV_MERCHANT_STALL"],
+    "light": ["FV_BRAZIER", "FV_WALL_LAMP", "FV_LAMP_DEAD", "FV_VEIL_GLOW"],
+    "debris": ["FV_RUBBLE_SMALL", "FV_RUBBLE_LARGE", "FV_BROKEN_WEAPONS"],
+    "water": ["FV_BASIN_BLACK", "FV_FLOODED_FLOOR"],
+    "boss": ["FV_BOSS_GATE_FRAME", "FV_BOSS_ALTAR", "FV_BOSS_CHAIN_PILLAR"]
+  },
+  "role_recipes": {
+    "entry": {"pillars": 2, "arches": 1, "tombs": 0, "chains": 0, "altars": 0, "traps": 0, "furniture": 1, "lights": 2, "debris": 2},
+    "combat": {"pillars": 2, "arches": 1, "tombs": 2, "chains": 2, "altars": 0, "traps": 0, "furniture": 0, "lights": 2, "debris": 3},
+    "elite": {"pillars": 4, "arches": 2, "tombs": 2, "chains": 3, "altars": 1, "traps": 0, "furniture": 0, "lights": 3, "debris": 2},
+    "hazard": {"pillars": 0, "arches": 1, "tombs": 0, "chains": 1, "altars": 0, "traps": 4, "furniture": 0, "lights": 1, "debris": 2},
+    "loot": {"pillars": 2, "arches": 1, "tombs": 1, "chains": 0, "altars": 1, "traps": 1, "furniture": 2, "lights": 2, "debris": 1},
+    "support": {"pillars": 2, "arches": 1, "tombs": 0, "chains": 0, "altars": 1, "traps": 0, "furniture": 3, "lights": 3, "debris": 1},
+    "puzzle": {"pillars": 2, "arches": 2, "tombs": 0, "chains": 2, "altars": 1, "traps": 1, "furniture": 2, "lights": 2, "debris": 1},
+    "secret": {"pillars": 1, "arches": 1, "tombs": 1, "chains": 1, "altars": 1, "traps": 0, "furniture": 1, "lights": 1, "debris": 0},
+    "preboss": {"pillars": 4, "arches": 2, "tombs": 0, "chains": 3, "altars": 1, "traps": 0, "furniture": 0, "lights": 4, "debris": 1},
+    "boss": {"pillars": 6, "arches": 3, "tombs": 0, "chains": 6, "altars": 1, "traps": 0, "furniture": 0, "lights": 6, "debris": 2}
+  },
+  "depth_tuning": {
+    "0": {"ambient": 0.52, "light_count_multiplier": 1.15, "debris_multiplier": 0.8},
+    "1": {"ambient": 0.46, "light_count_multiplier": 1.0, "debris_multiplier": 1.0},
+    "2": {"ambient": 0.38, "light_count_multiplier": 0.9, "debris_multiplier": 1.15},
+    "3": {"ambient": 0.30, "light_count_multiplier": 0.8, "debris_multiplier": 1.3},
+    "4": {"ambient": 0.22, "light_count_multiplier": 0.7, "debris_multiplier": 1.45}
+  },
+  "blender_contract": {
+    "unit_scale_meters": 1.0,
+    "forward_axis": "-Z",
+    "up_axis": "+Y",
+    "origin": "room_center_floor",
+    "required_collections": ["GEO", "COLLISION", "GAMEPLAY_ANCHORS", "LIGHT_ANCHORS", "FX_ANCHORS"],
+    "required_anchor_prefixes": ["hero_spawn", "combat_center", "enemy_spawn_", "interaction_", "port_", "camera_focus"],
+    "export_format": "glTF 2.0 / .glb",
+    "collision_suffix": "_COL",
+    "lod_suffixes": ["_LOD0", "_LOD1", "_LOD2"],
+    "material_slots": ["stone", "ash", "metal", "bone", "cloth", "ritual"],
+    "do_not_bake_gameplay": ["enemy spawns", "hero spawns", "secret visibility", "exit enabled state", "room event state"]
+  }
+}
