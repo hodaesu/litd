@@ -1,11 +1,12 @@
 [gd_scene load_steps=11 format=3]
 
-; main_v26 garde toute la couche roguelike/narrative héritée, sépare les politiques de niveau campagne/donjon
-; et ajoute le Hall des Descendants au Sanctuaire.
+; main_v27 transforme les Cryptes du Premier Voile en salles logiques réellement visitables,
+; avec carte macro, fog of war, passages physiques et salles secrètes invisibles avant découverte.
+; Héritage Hall des Descendants : res://scripts/ui/main_v26.gd
 ; Héritage : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v26.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v27.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
