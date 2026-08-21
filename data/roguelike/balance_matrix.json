@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "seed": 20260821,
   "analytical_cycles": [0, 1, 2, 3, 4],
   "quick": {
@@ -9,10 +9,11 @@
     "samples_per_cell": 1
   },
   "exhaustive": {
-    "monte_carlo_compositions": 32,
-    "minimum_monte_carlo_compositions": 24,
+    "monte_carlo_compositions": 210,
+    "minimum_monte_carlo_compositions": 210,
     "monte_carlo_cycles": [0, 1, 2, 3, 4],
-    "samples_per_cell": 2
+    "samples_per_cell": 1,
+    "scope": "all_four_class_combinations"
   },
   "measurement_contracts": {
     "matrix_cells": "isolated_encounters_with_full_health_party",
@@ -21,8 +22,8 @@
   },
   "campaign": {
     "encounter_types": ["normal", "miniboss", "boss"],
-    "normal_enemy_ids": [1, 8],
-    "miniboss_enemy_ids": [10],
+    "normal_enemy_ids": [1, 8, 10],
+    "miniboss_enemy_ids": [30],
     "boss_enemy_ids": [38]
   },
   "dungeon": {
