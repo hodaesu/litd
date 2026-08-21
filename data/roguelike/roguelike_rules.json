@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "positioning": "turn_based_dark_fantasy_rpg_roguelike_dungeon_crawler",
   "inventory_capacity": 20,
   "capture_limit_per_zone": 2,
@@ -9,7 +9,7 @@
     "normal_target_rounds": [2, 4],
     "elite_target_rounds": [4, 6],
     "boss_target_rounds": [6, 10],
-    "campaign_miniboss_hp_multiplier": 1.20,
+    "campaign_miniboss_hp_multiplier": 1.65,
     "campaign_boss_hp_multiplier": 1.50,
     "campaign_miniboss_damage_multiplier": 1.00,
     "campaign_boss_damage_multiplier": 1.05,
