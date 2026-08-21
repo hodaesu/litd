@@ -50,6 +50,7 @@ func run() -> void:
     _check(not bool(summary.get("exits_enabled", true)), "Unresolved room exits must remain locked")
     _check(bool(summary.get("blender_contract_ready", false)), "Dressed proxy must report Blender contract readiness")
     _check(int(summary.get("architecture_kit_version", 0)) >= 1, "Dressed proxy must report architecture kit version")
+    _check(bool(summary.get("contextual_interactions", false)), "Dressed proxy must expose contextual interaction support")
     _check(room_node.find_child("GameplayAnchors", true, false) != null, "Gameplay anchors must exist in 3D")
     _check(room_node.find_child("InteractionAnchors", true, false) != null, "Interaction anchors must exist in 3D")
     _check(room_node.find_child("ArchitectureKit", true, false) != null, "Architectural dressing must be instantiated")
@@ -74,7 +75,8 @@ func run() -> void:
     var resolved_boss: Dictionary = proxy_plan.resolved_room(boss, (runtime.active_run as Dictionary).get("dungeon", []))
     _check(resolved_boss.get("dimensions_m", Vector3.ZERO) == Vector3(28.0, 10.0, 22.0), "Boss chamber must be a 28x22x10 meter cathedral proxy")
     _check(str(resolved_boss.get("blender_module_id", "")) == "FV_BOSS_CHAMBER", "Boss room must expose a stable Blender module id")
-    room_node.call("configure", resolved_boss, [], true)
+    var no_boss_exits: Array[String] = []
+    room_node.call("configure", resolved_boss, no_boss_exits, true)
     await get_tree().process_frame
     _check(room_node.find_child("BossDais", true, false) != null, "Boss chamber architecture must include a physical dais")
     _check(room_node.find_child("BossAltar", true, false) != null, "Boss chamber architecture must include a physical altar")
