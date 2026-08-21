@@ -99,7 +99,10 @@ func _check_equipment_capture_and_companion() -> void:
     AshlandsCombatBridge.encounter_type = "normal"
     AshlandsCombatBridge.return_zone_id = AshlandsRuntime.current_zone_id
     AshlandsCombatBridge._prepare_placeholder_enemies()
-    _check(GameState.battle_enemies.size() == 3, "Normal campaign combat must create three placeholder enemies")
+    _check(GameState.battle_enemies.size() == 2, "Normal campaign combat must create two placeholder enemies")
+    if GameState.battle_enemies.size() == 2:
+        _check(int(GameState.battle_enemies[0].get("id", -1)) == 1, "Normal campaign combat must start with enemy id 1")
+        _check(int(GameState.battle_enemies[1].get("id", -1)) == 8, "Normal campaign combat must keep enemy id 8 as the second threat")
     if GameState.battle_enemies.is_empty():
         return
 
