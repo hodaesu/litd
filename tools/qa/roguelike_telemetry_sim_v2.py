@@ -93,6 +93,18 @@ def simulate(root: Path = ROOT, runs: int | None = None, seed: int | None = None
     result.payload["model_version"] = 2
     result.payload["encounter_source"] = "scripts/ui/main_v25.gd"
     result.payload["encounter_groups"] = ROOM_ENCOUNTER_IDS
+
+    targets = legacy._load_json(root / "data/roguelike/balance_targets.json")
+    retreat_low, retreat_high = [float(value) for value in targets.get("retreat_rate", [0.0, 1.0])]
+    retreat_rate = float(result.payload.get("outcomes", {}).get("retreat_rate", 0.0))
+    if retreat_rate < retreat_low or retreat_rate > retreat_high:
+        alert = {
+            "severity": "medium",
+            "code": "retreat_rate",
+            "detail": f"{retreat_rate:.3f} outside [{retreat_low:.2f}, {retreat_high:.2f}]",
+        }
+        result.alerts.append(alert)
+        result.payload["alerts"] = result.alerts
     return result
 
 
