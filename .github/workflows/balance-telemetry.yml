@@ -1,0 +1,38 @@
+name: Balance Telemetry
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: "Nombre d'expéditions Monte Carlo"
+        required: false
+        default: "12000"
+
+permissions:
+  contents: read
+
+jobs:
+  roguelike-telemetry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Simuler les expéditions LITD
+        env:
+          TELEMETRY_RUNS: ${{ github.event.inputs.runs || '12000' }}
+        run: >-
+          python -m tools.qa.roguelike_telemetry_sim
+          --runs "$TELEMETRY_RUNS"
+          --report reports/roguelike-telemetry.json
+          --csv reports/roguelike-telemetry.csv
+      - name: Publier les rapports d'équilibrage
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: roguelike-balance-telemetry
+          path: |
+            reports/roguelike-telemetry.json
+            reports/roguelike-telemetry.csv
