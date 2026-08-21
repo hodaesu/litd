@@ -28,6 +28,7 @@ jobs:
           --runs "$TELEMETRY_RUNS"
           --report reports/roguelike-telemetry.json
           --csv reports/roguelike-telemetry.csv
+          --strict
       - name: Publier les rapports d'équilibrage
         uses: actions/upload-artifact@v4
         if: always()
