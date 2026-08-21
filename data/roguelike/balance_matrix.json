@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "seed": 20260821,
+  "analytical_cycles": [0, 1, 2, 3, 4],
+  "quick": {
+    "monte_carlo_compositions": 10,
+    "minimum_monte_carlo_compositions": 8,
+    "monte_carlo_cycles": [0, 1, 4],
+    "samples_per_cell": 1
+  },
+  "exhaustive": {
+    "monte_carlo_compositions": 32,
+    "minimum_monte_carlo_compositions": 24,
+    "monte_carlo_cycles": [0, 1, 2, 3, 4],
+    "samples_per_cell": 2
+  },
+  "campaign": {
+    "encounter_types": ["normal", "miniboss", "boss"],
+    "normal_enemy_ids": [1, 8],
+    "miniboss_enemy_ids": [10],
+    "boss_enemy_ids": [38]
+  },
+  "dungeon": {
+    "encounters": [
+      {"type": "combat", "depth": "first"},
+      {"type": "elite", "depth": "middle"},
+      {"type": "boss", "depth": "last"}
+    ]
+  },
+  "targets": {
+    "campaign_level_win_rate_spread_max": 0.30,
+    "composition_win_rate_spread_max": 0.20,
+    "ngplus_allowed_win_rate_noise": 0.04,
+    "dungeon_required_level_win_rate": [0.20, 0.80],
+    "dungeon_level50_win_rate_min": 0.70
+  }
+}
