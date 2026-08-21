@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "positioning": "turn_based_dark_fantasy_rpg_roguelike_dungeon_crawler",
   "inventory_capacity": 20,
   "capture_limit_per_zone": 2,
@@ -29,6 +29,16 @@
   "dungeons": {
     "first_veil_crypts": {
       "title": "Cryptes du Premier Voile",
+      "orientation": "vertical_descending",
+      "palier_count": 4,
+      "physical_room_catalog": "res://data/roguelike/first_veil_rooms.json",
+      "map_policy": {
+        "one_node_one_explorable_space": true,
+        "one_connection_one_physical_passage": true,
+        "fog_of_war": true,
+        "secret_rooms_hidden_until_discovered": true,
+        "combat_starts_from_the_physical_room": true
+      },
       "required_level": 3,
       "enemy_base_level": 4,
       "enemy_level_per_depth": 2,
@@ -154,6 +164,11 @@
     "successive_stuns_gain_resistance": true,
     "first_descent_is_optional": true,
     "first_descent_rewards_are_commemorative": true,
-    "first_descent_can_only_be_claimed_once_per_save": true
+    "first_descent_can_only_be_claimed_once_per_save": true,
+    "dungeon_nodes_are_real_explorable_spaces": true,
+    "dungeon_connections_are_real_passages": true,
+    "dungeon_map_uses_fog_of_war": true,
+    "secret_rooms_do_not_exist_on_player_map_before_discovery": true,
+    "physical_room_state_persists_in_save": true
   }
 }
