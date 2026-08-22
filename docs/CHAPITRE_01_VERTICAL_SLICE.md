@@ -100,9 +100,8 @@ Cinq fils secondaires complètent cette progression :
 3. **Le dernier nécessaire** — ressources médicales et respect des dépouilles ;
 4. **Ce qui n’attaque plus** — coexistence, capture ou mise à mort d’une créature ;
 5. **Trois vérités pour une borne** — enquête par sources indépendantes ;
-6. **Des braises pour la nuit** — sécurisation facultative de la route.
 
-Le contenu de test retient cinq quêtes secondaires actives par partie parmi ces six fils afin de permettre une rotation ultérieure sans réécriture de la carte.
+Ces cinq quêtes sont toutes disponibles dans la carte de test ; leurs choix et contraintes préparent des variantes pour les prochaines visites.
 
 ## Contrats de chasse rejouables
 
