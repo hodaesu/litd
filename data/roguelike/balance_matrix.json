@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "seed": 20260821,
   "analytical_cycles": [0, 1, 2, 3, 4],
   "quick": {
@@ -19,11 +19,12 @@
     "matrix_cells": "isolated_encounters_with_full_health_party",
     "expedition_clear_rate": "measured_only_by_roguelike_telemetry_sim_v2_with_full_attrition",
     "dungeon_required_level_win_rate": "isolated_battle_guardrail_not_full_expedition_clear_rate",
-    "campaign_round_hierarchy": "normal_shorter_than_miniboss_shorter_than_boss"
+    "campaign_round_hierarchy": "normal_shorter_than_miniboss_shorter_than_boss",
+    "enemy_group_sizes": "normal_4_elite_2_to_3_miniboss_1_to_2_boss_1"
   },
   "campaign": {
     "encounter_types": ["normal", "miniboss", "boss"],
-    "normal_enemy_ids": [1, 8],
+    "normal_enemy_ids": [1, 8, 1, 8],
     "miniboss_enemy_ids": [30],
     "boss_enemy_ids": [38]
   },
