@@ -22,6 +22,7 @@ func _ready() -> void:
     reset_new_game()
 
 func reset_new_game() -> void:
+    EnemyFearDirector.reset_new_game()
     FieldEncounterRuntime.reset_new_game()
     EquipmentManager.reset_new_game()
     CreatureManager.reset_new_game()
@@ -43,6 +44,7 @@ func reset_new_game() -> void:
     for hero in DataLoader.heroes:
         var prepared_hero: Dictionary = hero.duplicate(true)
         HeroSkillManager.prepare_hero(prepared_hero)
+        EnemyFearDirector.prepare_hero(prepared_hero)
         party.append(prepared_hero)
     gold = 120
     essence = 18
