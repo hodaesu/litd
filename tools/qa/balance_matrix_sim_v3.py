@@ -8,12 +8,12 @@ from tools.qa import balance_matrix_sim_v2 as v2
 
 ROOT = v2.ROOT
 BRIDGE_PATH = v2.BRIDGE_PATH
-NORMAL_ENEMY_IDS = (1, 8)
+NORMAL_ENEMY_IDS = (1, 8, 1, 8)
 
 
 def extract_runtime_campaign_profiles(root: Path = ROOT) -> dict[str, Any]:
     text = (root / BRIDGE_PATH).read_text(encoding="utf-8")
-    miniboss_marker = 'if encounter_type == "miniboss" and not miniboss_data.is_empty():'
+    miniboss_marker = "if is_primary_miniboss:"
     boss_marker = '\n        if encounter_type == "boss":'
     scaling_marker = "level_scaling_policy.apply_campaign_scaling"
 
@@ -100,9 +100,15 @@ def _apply_campaign_duration_guardrails(result: v2.base.MatrixResult, root: Path
 
 
 def _decorate_result(result: v2.base.MatrixResult, root: Path) -> v2.base.MatrixResult:
-    result.payload["model_version"] = 6
+    result.payload["model_version"] = 7
     result.payload["contracts"]["campaign_profile_parser"] = "exact_runtime_blocks"
     result.payload["contracts"]["campaign_normal_enemy_ids"] = list(NORMAL_ENEMY_IDS)
+    result.payload["contracts"]["enemy_group_sizes"] = {
+        "normal": [4, 4],
+        "elite": [2, 3],
+        "miniboss": [1, 2],
+        "boss": [1, 1],
+    }
     result.payload["contracts"]["campaign_duration_hierarchy"] = "normal < miniboss < boss"
     _apply_campaign_duration_guardrails(result, root)
     return result
