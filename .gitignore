@@ -13,6 +13,10 @@ reports/*.xml
 # Local voice references and consent registry
 local/voice_refs/
 
+# Local SFX source library: raw licensed files, working derivatives, receipts and licence snapshots.
+# Only metadata contracts/registries are committed under data/audio/.
+local/audio_library/
+
 # OS / editors
 .DS_Store
 Thumbs.db
