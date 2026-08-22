@@ -29,7 +29,9 @@ def test_every_current_hero_has_45_skill_movements_and_three_branches():
         for branch in ["offense","defense","special"]:
             branch_entries = [x for x in movements if f"_{branch}_" in x["id"]]
             assert len(branch_entries) == 15
-            assert any("ultimate_signature" in x["variants"] for x in branch_entries)
+            ultimates = [x for x in branch_entries if "ultimate_signature" in x["variants"]]
+            assert len(ultimates) == 1
+            assert ultimates[0]["ultimate_uses_by_level"] == {"16": 1, "32": 2, "48": 3}
 
 def test_registry_covers_requested_situations():
     categories = Counter(x["category"] for x in load()["entries"])
