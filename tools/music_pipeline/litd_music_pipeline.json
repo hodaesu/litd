@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "arrangement_id": "arr_01_accord_brise_bwv582",
+  "title": "L'Accord brisé",
+  "tempo_bpm": 52.0,
+  "time_signature": [
+    3,
+    4
+  ],
+  "bars_per_section": 8,
+  "sample_rate": 48000,
+  "render_format": "wav",
+  "source_master_midi": "tools/music_pipeline/inbox/LITD_Arrangement_01_Accord_Brise_BWV582_MASTER.mid",
+  "render_root": "build/music/arr_01_accord_brise_bwv582",
+  "godot_asset_root": "assets/audio/music/adaptive/arr_01_accord_brise_bwv582",
+  "godot_manifest": "data/generated/litd_arrangement_01_stems.json",
+  "tracks": [
+    "OSTINATO",
+    "STRINGS_LOW",
+    "BODY_PERCUSSION",
+    "MIND_MELODY",
+    "COMMON_COUNTERPOINT",
+    "CHOIR",
+    "ASH_CORRUPTION",
+    "WORLD_TEXTURE",
+    "IMPACTS",
+    "TRANSITIONS"
+  ],
+  "sections": [
+    "S00_FOUNDATION",
+    "S01_BODY",
+    "S02_MIND",
+    "S03_COMMON",
+    "S04_ANCIENT_CIVILIZATION",
+    "S05_ASH_ARRIVAL",
+    "S06_FEAR",
+    "S07_COMBAT_I",
+    "S08_COMBAT_II",
+    "S09_HOPE",
+    "S10_BODY_SANCTUARY",
+    "S11_RUPTURE",
+    "S12_MIND_SANCTUARY",
+    "S13_COMMON_SANCTUARY",
+    "S14_FIRST_ACCORD",
+    "S15_FALL",
+    "S16_RECONSTRUCTION",
+    "S17_MADNESS",
+    "S18_ANGEL_FALSE_ACCORD",
+    "S19_RESISTANCE",
+    "S20_TRUE_ACCORD"
+  ],
+  "cue_map": {
+    "exploration_ashlands": "S00_FOUNDATION",
+    "exploration_ruins": "S04_ANCIENT_CIVILIZATION",
+    "exploration_threat": "S06_FEAR",
+    "combat_normal": "S07_COMBAT_I",
+    "combat_elite": "S08_COMBAT_II",
+    "combat_boss": "S18_ANGEL_FALSE_ACCORD"
+  },
+  "runtime_layer_map": {
+    "pulse": [
+      "OSTINATO"
+    ],
+    "percussion": [
+      "BODY_PERCUSSION",
+      "IMPACTS",
+      "TRANSITIONS"
+    ],
+    "strings": [
+      "STRINGS_LOW",
+      "MIND_MELODY",
+      "COMMON_COUNTERPOINT"
+    ],
+    "choir": [
+      "CHOIR"
+    ],
+    "crisis": [
+      "ASH_CORRUPTION",
+      "WORLD_TEXTURE"
+    ]
+  }
+}
