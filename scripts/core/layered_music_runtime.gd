@@ -194,13 +194,23 @@ func _start_layered_cue(cue_id: String, intensity: float) -> void:
         return
     var next_bank: int = 0 if _active_bank != 0 else 1
     var next_players: Array = _banks[next_bank]
+
+    # Build and assign every stream before starting any player. Procedural generation
+    # can take measurable time, so starting a stem inside this loop would desync it.
     for index: int in range(_layer_order.size()):
         var player: AudioStreamPlayer = next_players[index] as AudioStreamPlayer
         player.stop()
         player.stream = _stream_for_layer(cue_id, _layer_order[index], profile)
         player.volume_db = SILENT_DB
-        if player.stream != null:
-            player.play(0.0)
+    for player_value: Variant in next_players:
+        var prepared_player: AudioStreamPlayer = player_value as AudioStreamPlayer
+        if prepared_player != null and prepared_player.stream != null:
+            prepared_player.play(0.0)
+    # Align once more after all play calls so later unmuted layers enter on the same phase.
+    for player_value: Variant in next_players:
+        var aligned_player: AudioStreamPlayer = player_value as AudioStreamPlayer
+        if aligned_player != null and aligned_player.playing:
+            aligned_player.seek(0.0)
 
     var old_bank: int = _active_bank
     _active_bank = next_bank
