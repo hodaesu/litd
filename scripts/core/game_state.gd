@@ -44,6 +44,7 @@ func reset_new_game() -> void:
     for hero in DataLoader.heroes:
         var prepared_hero: Dictionary = hero.duplicate(true)
         HeroSkillManager.prepare_hero(prepared_hero)
+        prepared_hero["player_owned"] = true
         CharacterTraitDirector.prepare_character(prepared_hero, str(prepared_hero.get("id", "")), str(prepared_hero.get("id", "")) == "aurelien")
         EnemyFearDirector.prepare_hero(prepared_hero)
         party.append(prepared_hero)
