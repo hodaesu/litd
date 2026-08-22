@@ -66,8 +66,8 @@ func add_exposure(character: Dictionary, exposure_id: String, amount: int = 1) -
     character["trait_exposure"] = progress
     var evolved: Array = []
     for negative_id: Variant in (character.get("negative_traits", []) as Array).duplicate():
-        var trait: Dictionary = by_id.get(str(negative_id), {})
-        var evolution: Variant = trait.get("evolution", null)
+        var trait_definition: Dictionary = by_id.get(str(negative_id), {})
+        var evolution: Variant = trait_definition.get("evolution", null)
         if not evolution is Dictionary:
             continue
         if str(evolution.get("exposure", "")) != exposure_id:
@@ -115,11 +115,11 @@ func modifiers(character: Dictionary, context: Dictionary = {}) -> Dictionary:
     ids.append_array(character.get("positive_traits", []))
     ids.append_array(character.get("negative_traits", []))
     for trait_id: Variant in ids:
-        var trait: Dictionary = by_id.get(str(trait_id), {})
-        for key: Variant in (trait.get("effects", {}) as Dictionary).keys():
+        var trait_definition: Dictionary = by_id.get(str(trait_id), {})
+        for key: Variant in (trait_definition.get("effects", {}) as Dictionary).keys():
             var effect_key := str(key)
             if _effect_applies(effect_key, context):
-                result[effect_key] = float(result.get(effect_key, 0.0)) + float(trait.get("effects", {}).get(key, 0.0))
+                result[effect_key] = float(result.get(effect_key, 0.0)) + float(trait_definition.get("effects", {}).get(key, 0.0))
     return result
 
 func trait_names(character: Dictionary) -> Dictionary:
@@ -154,8 +154,8 @@ func _draw_ids(source: Array, count: int, rng: RandomNumberGenerator) -> Array:
 func _all_valid(ids: Array, polarity: String) -> bool:
     var seen: Dictionary = {}
     for value: Variant in ids:
-        var trait: Dictionary = by_id.get(str(value), {})
-        if trait.is_empty() or str(trait.get("polarity", "")) != polarity or seen.has(str(value)):
+        var trait_definition: Dictionary = by_id.get(str(value), {})
+        if trait.is_empty() or str(trait_definition.get("polarity", "")) != polarity or seen.has(str(value)):
             return false
         seen[str(value)] = true
     return true
