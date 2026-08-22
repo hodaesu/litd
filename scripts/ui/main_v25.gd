@@ -116,31 +116,67 @@ func _hero_attack_action(hero: Dictionary, action: String) -> void:
         return
     target["stun_recovery_until_round"] = round_number + 1
 
+func _encounter_group_size(encounter_class: String, encounter_key: String) -> int:
+    var balance: Dictionary = level_scaling_policy.combat_balance()
+    var ranges: Dictionary = balance.get("encounter_group_sizes", {})
+    var bounds_value: Variant = ranges.get(encounter_class, [4, 4])
+    if not (bounds_value is Array):
+        return 1
+    var bounds: Array = bounds_value
+    var minimum := maxi(1, int(bounds[0]) if bounds.size() >= 1 else 1)
+    var maximum := maxi(minimum, int(bounds[1]) if bounds.size() >= 2 else minimum)
+    if minimum == maximum:
+        return minimum
+    var run_seed := 0
+    if ExpeditionManager.roguelike_runtime != null:
+        run_seed = int(ExpeditionManager.roguelike_runtime.active_run.get("seed", 0))
+    var signature := "%s:%s:%d" % [encounter_class, encounter_key, run_seed]
+    return minimum + abs(signature.hash()) % (maximum - minimum + 1)
+
 func _start_roguelike_room_battle(room: Dictionary) -> void:
     GameState.battle_enemies = []
     var room_type: String = str(room.get("type", "combat"))
     var depth: int = int(room.get("depth", 1))
-    # Budget d'attrition : les rencontres ordinaires et élites restent tactiques
-    # sans consommer autant de tours qu'un mini-boss. Les embuscades gardent trois
-    # ennemis pour conserver leur identité de pic de danger, et le boss reste seul.
-    var ids: Array[int] = [1, 8]
+    var room_key := str(room.get("id", room.get("room_id", "%s_%d" % [room_type, depth])))
+    var encounter_class := "normal"
     if room_type == "elite":
-        ids = [10, 8]
-    elif room_type == "ambush":
-        ids = [8, 8, 1]
-    elif room_type == "creature":
-        ids = [10]
+        encounter_class = "elite"
+    elif room_type == "miniboss":
+        encounter_class = "miniboss"
     elif room_type == "boss":
-        ids = [38]
+        encounter_class = "boss"
+
+    # Contrat de composition LITD : 4 ennemis simples, 2-3 élites,
+    # 1-2 ennemis autour d'un mini-boss, et un boss toujours seul.
+    var ids: Array[int] = []
+    if room_type == "creature":
+        ids = [10]
+    else:
+        var group_size := _encounter_group_size(encounter_class, room_key)
+        var templates: Array[int] = [1, 8]
+        if encounter_class == "elite":
+            templates = [10, 8]
+        elif encounter_class == "miniboss":
+            templates = [30, 8]
+        elif encounter_class == "boss":
+            templates = [38]
+        for index in range(group_size):
+            ids.append(templates[index % templates.size()])
 
     var risk: Dictionary = ExpeditionManager.current_risk_profile()
     var fixed_level: int = level_scaling_policy.dungeon_enemy_level(depth, room_type)
-    for enemy_id in ids:
+    for enemy_index in range(ids.size()):
+        var enemy_id: int = ids[enemy_index]
         var enemy: Dictionary = DataLoader.find_by_id(DataLoader.enemies, enemy_id).duplicate(true)
         if enemy.is_empty():
             continue
-        level_scaling_policy.apply_dungeon_scaling(enemy, depth, room_type, risk)
+        var scaling_room_type := room_type
+        if room_type == "miniboss" and enemy_index > 0:
+            scaling_room_type = "combat"
+        level_scaling_policy.apply_dungeon_scaling(enemy, depth, scaling_room_type, risk)
         enemy["guarding"] = false
+        if room_type == "miniboss" and enemy_index == 0:
+            enemy["is_miniboss"] = true
         if room_type == "boss":
             enemy["boss"] = true
             enemy["is_boss"] = true
@@ -149,5 +185,5 @@ func _start_roguelike_room_battle(room: Dictionary) -> void:
 
     battle_locked = false
     selected_enemy = 0
-    GameState.add_log("La salle verrouille ses issues. Ennemis de donjon : niveau fixe %d." % fixed_level)
+    GameState.add_log("La salle verrouille ses issues. %d ennemi(s) · niveau fixe %d." % [GameState.battle_enemies.size(), fixed_level])
     GameState.request_screen("combat")
