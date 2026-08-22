@@ -1,0 +1,409 @@
+{
+  "version": 1,
+  "purpose": "Piloter posture, locomotion et animation de combat depuis les états de gameplay sans coder le gameplay dans Blender.",
+  "authority": {
+    "gameplay_timing": "Godot",
+    "visual_motion": "AnimationTree/Blender clips",
+    "damage_events": "Godot markers",
+    "root_motion": "allowlisted only"
+  },
+  "thresholds": {
+    "hp_critical_max": 0.25,
+    "hp_injured_max": 0.6,
+    "fear_tense_min": 35,
+    "fear_terrified_min": 75,
+    "fear_panic_min": 100,
+    "madness_fractured_min": 75,
+    "hope_manifest_min": 70
+  },
+  "priority": [
+    "death",
+    "critical_injury",
+    "panic",
+    "fractured",
+    "terrified",
+    "injured",
+    "despair",
+    "anger",
+    "hope",
+    "tense",
+    "neutral"
+  ],
+  "psychological_states": {
+    "neutral": {
+      "pose": "neutral",
+      "shoulders": 0,
+      "gaze_scan": 0.15,
+      "guard_compaction": 0,
+      "gesture_noise": 0
+    },
+    "tense": {
+      "pose": "fear_tense",
+      "shoulders": 0.35,
+      "gaze_scan": 0.45,
+      "guard_compaction": 0.2,
+      "gesture_noise": 0.15
+    },
+    "terrified": {
+      "pose": "fear_terrified",
+      "shoulders": 0.7,
+      "gaze_scan": 0.85,
+      "guard_compaction": 0.55,
+      "gesture_noise": 0.35
+    },
+    "panic": {
+      "pose": "fear_panic",
+      "shoulders": 0.9,
+      "gaze_scan": 1,
+      "guard_compaction": 0.75,
+      "gesture_noise": 0.65
+    },
+    "fractured": {
+      "pose": "madness_fractured",
+      "shoulders": 0.4,
+      "gaze_scan": 0.9,
+      "guard_compaction": -0.2,
+      "gesture_noise": 1
+    },
+    "anger": {
+      "pose": "anger_forward",
+      "shoulders": 0.2,
+      "gaze_scan": 0.1,
+      "guard_compaction": -0.35,
+      "gesture_noise": 0.3
+    },
+    "despair": {
+      "pose": "despair_collapsed",
+      "shoulders": -0.45,
+      "gaze_scan": 0.05,
+      "guard_compaction": -0.1,
+      "gesture_noise": 0.05
+    },
+    "hope": {
+      "pose": "hope_upright",
+      "shoulders": -0.2,
+      "gaze_scan": 0.2,
+      "guard_compaction": 0.1,
+      "gesture_noise": 0.05
+    }
+  },
+  "physical_states": {
+    "healthy": {
+      "pose": "healthy",
+      "stance_height": 1,
+      "stride": 1,
+      "recovery": 1,
+      "breath": 0.15
+    },
+    "injured": {
+      "pose": "protect_wound",
+      "stance_height": 0.94,
+      "stride": 0.82,
+      "recovery": 1.12,
+      "breath": 0.55
+    },
+    "critical": {
+      "pose": "critical_collapsed",
+      "stance_height": 0.84,
+      "stride": 0.6,
+      "recovery": 1.3,
+      "breath": 1
+    },
+    "mobility_impaired": {
+      "pose": "limp",
+      "stance_height": 0.9,
+      "stride": 0.55,
+      "recovery": 1.25,
+      "breath": 0.7
+    },
+    "dead": {
+      "pose": "death",
+      "stance_height": 0,
+      "stride": 0,
+      "recovery": 1,
+      "breath": 0
+    }
+  },
+  "relation_layers": {
+    "protect": {
+      "pose_additive": "protect_ally",
+      "orientation_bias": 0.35,
+      "spacing_bias": -0.15
+    },
+    "reassure": {
+      "pose_additive": "reassure_ally",
+      "orientation_bias": 0.25,
+      "spacing_bias": -0.1
+    },
+    "avoid": {
+      "pose_additive": "avoid_ally",
+      "orientation_bias": -0.35,
+      "spacing_bias": 0.25
+    },
+    "threaten": {
+      "pose_additive": "threaten_ally",
+      "orientation_bias": 0.65,
+      "spacing_bias": -0.2
+    },
+    "none": {
+      "pose_additive": "none",
+      "orientation_bias": 0,
+      "spacing_bias": 0
+    }
+  },
+  "locomotion": {
+    "idle": {
+      "clip": "idle",
+      "required_markers": [
+        "settle"
+      ]
+    },
+    "walk": {
+      "clip": "walk",
+      "required_markers": [
+        "foot_l",
+        "foot_r"
+      ]
+    },
+    "run": {
+      "clip": "run",
+      "required_markers": [
+        "foot_l",
+        "foot_r"
+      ]
+    },
+    "tactical_step": {
+      "clip": "tactical_step",
+      "required_markers": [
+        "push",
+        "plant"
+      ]
+    },
+    "retreat": {
+      "clip": "retreat",
+      "required_markers": [
+        "push",
+        "plant"
+      ]
+    },
+    "limp_walk": {
+      "clip": "limp_walk",
+      "required_markers": [
+        "support_contact",
+        "injured_swing"
+      ]
+    }
+  },
+  "combat_actions": {
+    "attack_light": {
+      "phases": [
+        "anticipation",
+        "impact",
+        "recovery"
+      ],
+      "required_markers": [
+        "telegraph",
+        "impact",
+        "ready"
+      ]
+    },
+    "attack_heavy": {
+      "phases": [
+        "anticipation",
+        "commit",
+        "impact",
+        "recovery"
+      ],
+      "required_markers": [
+        "telegraph",
+        "impact",
+        "ready"
+      ]
+    },
+    "guard": {
+      "phases": [
+        "raise",
+        "active",
+        "hold"
+      ],
+      "required_markers": [
+        "guard_active"
+      ]
+    },
+    "dodge": {
+      "phases": [
+        "anticipation",
+        "evade",
+        "plant"
+      ],
+      "required_markers": [
+        "invulnerability_start",
+        "invulnerability_end",
+        "plant"
+      ]
+    },
+    "riposte": {
+      "phases": [
+        "read",
+        "counter",
+        "impact",
+        "recover"
+      ],
+      "required_markers": [
+        "counter_window",
+        "impact",
+        "ready"
+      ]
+    },
+    "rank_move": {
+      "phases": [
+        "push",
+        "cross",
+        "plant"
+      ],
+      "required_markers": [
+        "rank_leave",
+        "rank_enter",
+        "plant"
+      ]
+    },
+    "push": {
+      "phases": [
+        "contact",
+        "displace",
+        "recover"
+      ],
+      "required_markers": [
+        "impact",
+        "displacement",
+        "ready"
+      ]
+    },
+    "pull": {
+      "phases": [
+        "hook",
+        "displace",
+        "recover"
+      ],
+      "required_markers": [
+        "contact",
+        "displacement",
+        "ready"
+      ]
+    },
+    "use_item": {
+      "phases": [
+        "reach",
+        "apply",
+        "recover"
+      ],
+      "required_markers": [
+        "consume_item",
+        "ready"
+      ]
+    },
+    "transfer_item": {
+      "phases": [
+        "offer",
+        "handoff",
+        "recover"
+      ],
+      "required_markers": [
+        "transfer_item",
+        "ready"
+      ]
+    },
+    "heal_ally": {
+      "phases": [
+        "approach",
+        "apply",
+        "withdraw"
+      ],
+      "required_markers": [
+        "heal_apply",
+        "ready"
+      ]
+    },
+    "capture": {
+      "phases": [
+        "prepare",
+        "bind",
+        "secure"
+      ],
+      "required_markers": [
+        "capture_check",
+        "capture_commit",
+        "ready"
+      ]
+    },
+    "friendly_fire": {
+      "phases": [
+        "break_focus",
+        "acquire_ally",
+        "impact",
+        "realize"
+      ],
+      "required_markers": [
+        "madness_break",
+        "impact",
+        "ready"
+      ]
+    }
+  },
+  "hit_reactions": {
+    "head": {
+      "light": "hit_head",
+      "heavy": "stagger_head",
+      "critical": "collapse_head"
+    },
+    "torso": {
+      "light": "hit_torso",
+      "heavy": "stagger_torso",
+      "critical": "kneel_torso"
+    },
+    "arm": {
+      "light": "hit_arm",
+      "heavy": "guard_break_arm",
+      "critical": "disable_arm"
+    },
+    "leg": {
+      "light": "hit_leg",
+      "heavy": "stagger_leg",
+      "critical": "collapse_leg"
+    },
+    "default": {
+      "light": "hit",
+      "heavy": "stagger",
+      "critical": "kneel"
+    }
+  },
+  "blender_delivery": {
+    "skeletons": [
+      "LITD_HUMANOID_STANDARD",
+      "LITD_GHOUL_STANDARD"
+    ],
+    "additive_pose_clips": [
+      "fear_tense",
+      "fear_terrified",
+      "fear_panic",
+      "madness_fractured",
+      "anger_forward",
+      "despair_collapsed",
+      "hope_upright",
+      "protect_wound",
+      "limp",
+      "protect_ally",
+      "reassure_ally",
+      "avoid_ally",
+      "threaten_ally"
+    ],
+    "requirements": [
+      "all clips use stable bone names",
+      "additive clips contain no gameplay logic",
+      "impact and foot markers exported",
+      "root motion only on allowlist",
+      "injury side variants mirror only after human review",
+      "neutral silhouette remains readable at combat camera distance"
+    ]
+  }
+}
