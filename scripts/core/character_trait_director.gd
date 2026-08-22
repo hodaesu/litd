@@ -109,6 +109,15 @@ func context_for_enemy(enemy: Dictionary) -> Dictionary:
         "confined": exposure == "confined"
     }
 
+func contextual_modifiers(character: Dictionary, context: Dictionary) -> Dictionary:
+    var all_values := modifiers(character, context)
+    var result: Dictionary = {}
+    for key: Variant in all_values.keys():
+        var effect_key := str(key)
+        if "_vs_" in effect_key or effect_key.ends_with("_arachnid") or effect_key.ends_with("_darkness") or effect_key.ends_with("_undead") or effect_key.ends_with("_blood") or effect_key.ends_with("_fire") or effect_key.ends_with("_confined"):
+            result[effect_key] = all_values[key]
+    return result
+
 func modifiers(character: Dictionary, context: Dictionary = {}) -> Dictionary:
     var result: Dictionary = {}
     var ids: Array = []
