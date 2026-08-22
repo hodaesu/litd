@@ -18,7 +18,7 @@ def test_runtime_profiles_cover_all_campaign_boss_chapters() -> None:
     profiles = extract_runtime_campaign_profiles(ROOT)
     boss_chapters = sorted({int(row["chapter_number"]) for row in profiles["bosses"]})
     assert boss_chapters == list(range(1, 11))
-    assert profiles["normal_enemy_ids"] == [1, 8, 10]
+    assert profiles["normal_enemy_ids"] == [1, 8, 1, 8]
 
 
 def test_runtime_profiles_use_live_boss_stats() -> None:
@@ -42,7 +42,8 @@ def test_runtime_aligned_matrix_reports_live_profile_source() -> None:
         samples_per_cell=1,
         seed=260821,
     )
-    assert result.payload["model_version"] == 4
+    assert result.payload["model_version"] == 5
     assert result.payload["contracts"]["campaign_runtime_profiles_live"] is True
+    assert result.payload["contracts"]["campaign_normal_enemy_ids"] == [1, 8, 1, 8]
     assert result.payload["coverage"]["campaign_runtime_boss_chapters"] == list(range(1, 11))
     assert result.payload["coverage"]["campaign_runtime_boss_profile_count"] >= 10
