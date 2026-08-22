@@ -174,6 +174,8 @@ func _start_roguelike_room_battle(room: Dictionary) -> void:
         if room_type == "miniboss" and enemy_index > 0:
             scaling_room_type = "combat"
         level_scaling_policy.apply_dungeon_scaling(enemy, depth, scaling_room_type, risk)
+        if room_type != "creature":
+            level_scaling_policy.apply_encounter_member_scaling(enemy, encounter_class)
         enemy["guarding"] = false
         if room_type == "miniboss" and enemy_index == 0:
             enemy["is_miniboss"] = true
