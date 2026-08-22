@@ -16,6 +16,7 @@ func _ready() -> void:
     GameState.screen_requested.connect(_on_screen_requested)
     PoliticalState.politics_changed.connect(_on_state_changed)
     CampaignState.campaign_changed.connect(_on_state_changed)
+    BountyContractDirector.bounty_board_changed.connect(_on_state_changed)
     Chapter01Runtime.chapter_one_changed.connect(_on_state_changed); Chapter01Runtime.boss_choice_required.connect(_open_journal)
     Chapter02Runtime.chapter_two_changed.connect(_on_state_changed); Chapter02Runtime.final_choice_required.connect(_open_journal)
     Chapter03Runtime.chapter_three_changed.connect(_on_state_changed); Chapter03Runtime.echo_choice_required.connect(_open_journal)
@@ -72,6 +73,8 @@ func _render() -> void:
         var quest: Dictionary = quest_value; q.add_child(_label("◆ %s" % String(quest.get("name","Quête principale")),16,TEXT)); q.add_child(_label(String(quest.get("goal","")),13,MUTED))
     if not CampaignState.discovered_revelations.is_empty():
         q.add_child(_label("RÉVÉLATIONS CONFIRMÉES",16,GOLD)); for revelation in CampaignState.discovered_revelations.values(): q.add_child(_label("• %s" % String(revelation),13,MUTED))
+    _render_side_quests(q)
+    _render_bounties(q)
     q.add_child(_label("DÉCISIONS LOCALES",18,GOLD))
     for quest_value in PoliticalState.available_quests():
         var quest: Dictionary = quest_value; q.add_child(_label("• %s" % String(quest.get("name","Quête")),17,TEXT)); q.add_child(_label(String(quest.get("theme","")),13,MUTED))
@@ -130,3 +133,40 @@ func _add_c07_choice(parent: VBoxContainer) -> void:
 func _add_section(parent: VBoxContainer, title: String, entries: Array) -> void:
     if entries.is_empty(): return
     parent.add_child(_label(title,15,GOLD)); for entry in entries: parent.add_child(_label("• %s" % String(entry),13,MUTED))
+
+func _render_side_quests(parent: VBoxContainer) -> void:
+    var file := FileAccess.open("res://data/quests.json", FileAccess.READ)
+    if file == null:
+        return
+    var quest_data = JSON.parse_string(file.get_as_text())
+    if typeof(quest_data) != TYPE_DICTIONARY:
+        return
+    parent.add_child(_label("QUÊTES SECONDAIRES — PREMIÈRE CARTE",18,GOLD))
+    for value in quest_data.get("quests", []):
+        var quest: Dictionary = value
+        if String(quest.get("quest_type", "")) != "side":
+            continue
+        parent.add_child(_label("◇ %s" % String(quest.get("name", "Quête")),15,TEXT))
+        parent.add_child(_label(String(quest.get("summary", "")),12,MUTED))
+
+func _render_bounties(parent: VBoxContainer) -> void:
+    if BountyContractDirector.offered_contracts.is_empty() and BountyContractDirector.active_contracts.is_empty():
+        var context := {
+            "dungeon_id": "first_veil_crypts",
+            "enemy_families": ["arachnid", "undead", "ash_mutant"],
+            "elites": ["ash_guardian"],
+            "capturable_families": ["arachnid", "ash_mutant"],
+            "body_parts": ["arm", "leg", "head"]
+        }
+        BountyContractDirector.generate_dungeon_board("first_veil_crypts", 1, context, 101 + BountyContractDirector.completed_dungeon_runs)
+    parent.add_child(_label("CONTRATS DE CHASSE",18,GOLD))
+    parent.add_child(_label("Maximum 2 actifs · renouvelés après les expéditions",12,MUTED))
+    for value in BountyContractDirector.active_contracts:
+        var contract: Dictionary = value
+        parent.add_child(_label("◆ %s — %d/%d" % [String(contract.get("name", "Contrat")), int(contract.get("progress", 0)), int(contract.get("required", 1))],14,TEXT))
+        if String(contract.get("status", "")) == "completed":
+            parent.add_child(_button("RÉCLAMER LA PRIME", func(id = String(contract.get("id", ""))): BountyContractDirector.claim_contract(id); SaveManager.save_game(); _render(), Vector2(300,42)))
+    for value in BountyContractDirector.offered_contracts:
+        var contract: Dictionary = value
+        parent.add_child(_label("○ %s · cible : %s · quantité : %d" % [String(contract.get("name", "Contrat")), String(contract.get("target", "")), int(contract.get("required", 1))],14,TEXT))
+        parent.add_child(_button("ACCEPTER", func(id = String(contract.get("id", ""))): BountyContractDirector.accept_contract(id); SaveManager.save_game(); _render(), Vector2(220,40)))
