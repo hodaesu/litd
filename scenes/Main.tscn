@@ -1,6 +1,7 @@
 [gd_scene load_steps=11 format=3]
 
-; main_v32 ajoute les rangs ennemis, portées de cible, écrans de ligne et déplacements forcés.
+; main_v33 porte la refonte des arbres de compétences sur la pile UI actuelle.
+; Héritage ciblage tactique : rangs ennemis, portées de cible, écrans de ligne et déplacements forcés via res://scripts/ui/main_v32.gd
 ; Héritage restrictions de rang : res://scripts/ui/main_v31.gd
 ; Héritage loadouts combat : res://scripts/ui/main_v30.gd
 ; Héritage exploration 3D : res://scripts/ui/main_v29.gd
@@ -10,7 +11,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v32.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v33.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
