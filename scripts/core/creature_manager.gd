@@ -133,7 +133,8 @@ func _create_creature(definition: Dictionary) -> Dictionary:
         "boss_recruit": bool(definition.get("boss_recruit", false)),
         "boss_rank": str(definition.get("rank", "")),
         "signature": str(definition.get("signature", "")),
-        "source_encounter_id": str(definition.get("encounter_id", ""))
+        "source_encounter_id": str(definition.get("encounter_id", "")),
+        "player_owned": true
     }
     CharacterTraitDirector.prepare_character(creature, str(creature.get("instance_id", "")))
     return creature

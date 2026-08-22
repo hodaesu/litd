@@ -15,4 +15,4 @@ Les phobies progressent lorsque le personnage survit à l'exposition. Exemples :
 - Peur du feu → Marche-feu ;
 - Claustrophobie → Explorateur des profondeurs.
 
-L'évolution retire le trait négatif. Pour respecter la limite de deux traits positifs, elle remplace le trait positif le plus ancien si les deux emplacements sont occupés. L'historique conserve cette transformation.
+L'évolution retire le trait négatif. Si les deux emplacements positifs sont occupés, l’évolution est mise en attente. Le joueur choisit explicitement lequel de ses deux traits positifs supprimer. Aucun trait positif d’un héros ou d’une créature contrôlée n’est retiré automatiquement. L’historique conserve ce choix.

@@ -75,8 +75,14 @@ func add_exposure(character: Dictionary, exposure_id: String, amount: int = 1) -
         if int(progress.get(exposure_id, 0)) < int(evolution.get("threshold", 999)):
             continue
         var positive_id := str(evolution.get("evolves_to", ""))
-        _evolve(character, str(negative_id), positive_id)
-        evolved.append({"from": str(negative_id), "to": positive_id})
+        var positives: Array = character.get("positive_traits", [])
+        if positives.size() >= int(data.get("max_positive", 2)) and bool(character.get("player_owned", false)):
+            if not character.has("pending_trait_evolution"):
+                character["pending_trait_evolution"] = {"from": str(negative_id), "to": positive_id}
+                evolved.append({"from": str(negative_id), "to": positive_id, "pending_choice": true})
+            continue
+        _evolve(character, str(negative_id), positive_id, "")
+        evolved.append({"from": str(negative_id), "to": positive_id, "pending_choice": false})
     return evolved
 
 func record_enemy_encounter(characters: Array, enemies: Array, survived_only := true) -> Array:
@@ -137,16 +143,38 @@ func trait_names(character: Dictionary) -> Dictionary:
         "negative": _names(character.get("negative_traits", []))
     }
 
-func _evolve(character: Dictionary, negative_id: String, positive_id: String) -> void:
+func pending_evolution(character: Dictionary) -> Dictionary:
+    return (character.get("pending_trait_evolution", {}) as Dictionary).duplicate(true)
+
+func has_pending_evolution(character: Dictionary) -> bool:
+    return not pending_evolution(character).is_empty()
+
+func resolve_pending_evolution(character: Dictionary, replace_positive_id: String) -> Dictionary:
+    var pending := pending_evolution(character)
+    if pending.is_empty():
+        return {"ok": false, "reason": "no_pending_evolution"}
+    var positives: Array = character.get("positive_traits", [])
+    if not positives.has(replace_positive_id):
+        return {"ok": false, "reason": "positive_trait_not_owned"}
+    _evolve(character, str(pending.get("from", "")), str(pending.get("to", "")), replace_positive_id)
+    character.erase("pending_trait_evolution")
+    return {"ok": true, "removed": replace_positive_id, "added": str(pending.get("to", ""))}
+
+func _evolve(character: Dictionary, negative_id: String, positive_id: String, replace_positive_id: String) -> void:
     var negatives: Array = character.get("negative_traits", [])
     negatives.erase(negative_id)
     character["negative_traits"] = negatives
     var positives: Array = character.get("positive_traits", [])
     if not positives.has(positive_id):
-        while positives.size() >= int(data.get("max_positive", 2)):
-            var replaced: Variant = positives.pop_front()
-            (character.get("trait_history", []) as Array).append({"replaced": str(replaced), "reason": "evolution"})
-        positives.append(positive_id)
+        if positives.size() >= int(data.get("max_positive", 2)):
+            var removed_id := replace_positive_id
+            if removed_id == "" and not bool(character.get("player_owned", false)):
+                removed_id = str(positives[0])
+            if removed_id != "" and positives.has(removed_id):
+                positives.erase(removed_id)
+                (character.get("trait_history", []) as Array).append({"replaced": removed_id, "reason": "evolution"})
+        if positives.size() < int(data.get("max_positive", 2)):
+            positives.append(positive_id)
     character["positive_traits"] = positives
     (character.get("trait_history", []) as Array).append({"evolved_from": negative_id, "evolved_to": positive_id})
     trait_evolved.emit(character, negative_id, positive_id)

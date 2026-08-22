@@ -37,4 +37,5 @@ def test_evolution_preserves_positive_cap():
     rules = DATA["evolution_rules"]
     assert rules["negative_is_removed"] is True
     assert rules["positive_cap_is_preserved"] is True
-    assert rules["when_positive_slots_full"] == "replace_oldest_positive"
+    assert rules["when_positive_slots_full"] == "ask_player_which_positive_to_replace"
+    assert rules["no_automatic_player_trait_deletion"] is True

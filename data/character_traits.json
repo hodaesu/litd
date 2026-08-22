@@ -20,9 +20,10 @@
     "negative_is_removed": true,
     "evolved_positive_is_added": true,
     "positive_cap_is_preserved": true,
-    "when_positive_slots_full": "replace_oldest_positive",
+    "when_positive_slots_full": "ask_player_which_positive_to_replace",
     "progress_is_persistent_for_heroes": true,
-    "progress_is_persistent_for_captured_enemies": true
+    "progress_is_persistent_for_captured_enemies": true,
+    "no_automatic_player_trait_deletion": true
   },
   "positives": [
     {

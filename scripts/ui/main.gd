@@ -121,6 +121,7 @@ func show_screen(name: String) -> void:
     match name:
         "title": show_title()
         "trait_setup": show_trait_setup()
+        "trait_evolution": show_trait_evolution_choice()
         "sanctuary": show_sanctuary()
         "company": show_company()
         "guild_chest": show_guild_chest()
@@ -244,6 +245,48 @@ func _confirm_starter_traits() -> void:
         if str(hero.get("id", "")) != selected_hero_id and (hero.get("positive_traits", []) as Array).is_empty():
             CharacterTraitDirector.randomize_traits(hero)
     GameState.request_screen("sanctuary")
+
+func show_trait_evolution_choice() -> void:
+    var character := _first_pending_trait_character()
+    if character.is_empty():
+        GameState.request_screen("rewards")
+        return
+    var pending := CharacterTraitDirector.pending_evolution(character)
+    var from_name := str(CharacterTraitDirector.by_id.get(str(pending.get("from", "")), {}).get("name", pending.get("from", "")))
+    var to_name := str(CharacterTraitDirector.by_id.get(str(pending.get("to", "")), {}).get("name", pending.get("to", "")))
+    var box := VBoxContainer.new()
+    box.position = Vector2(290, 105)
+    box.size = Vector2(700, 500)
+    box.add_theme_constant_override("separation", 16)
+    content.add_child(box)
+    box.add_child(make_label("UNE PEUR DEVIENT UNE FORCE", 30, GOLD))
+    box.add_child(make_label("%s a surmonté : %s" % [str(character.get("name", "Le personnage")), from_name], 18, TEXT))
+    box.add_child(make_label("Nouveau trait : %s" % to_name, 20, Color("#d5b26c")))
+    box.add_child(make_label("Les deux emplacements positifs sont occupés. Choisis toi-même le trait à supprimer :", 16, MUTED))
+    for positive_id: Variant in character.get("positive_traits", []):
+        var positive_name := str(CharacterTraitDirector.by_id.get(str(positive_id), {}).get("name", positive_id))
+        box.add_child(make_button("REMPLACER : %s" % positive_name, func(character_ref = character, trait_id = str(positive_id)):
+            _resolve_trait_evolution(character_ref, trait_id), Vector2(650, 58)))
+
+func _first_pending_trait_character() -> Dictionary:
+    for hero_value: Variant in GameState.party:
+        var hero: Dictionary = hero_value
+        if CharacterTraitDirector.has_pending_evolution(hero):
+            return hero
+    for creature_value: Variant in CreatureManager.captured_creatures:
+        var creature: Dictionary = creature_value
+        if CharacterTraitDirector.has_pending_evolution(creature):
+            return creature
+    return {}
+
+func _resolve_trait_evolution(character: Dictionary, replace_positive_id: String) -> void:
+    var result := CharacterTraitDirector.resolve_pending_evolution(character, replace_positive_id)
+    if bool(result.get("ok", false)):
+        GameState.add_log("%s remplace un ancien trait par %s." % [str(character.get("name", "Le personnage")), str(result.get("added", ""))])
+    if _first_pending_trait_character().is_empty():
+        GameState.request_screen("rewards")
+    else:
+        show_screen("trait_evolution")
 
 func show_sanctuary() -> void:
     var bg := full_texture("res://assets/backgrounds/sanctuary.png")
@@ -813,7 +856,10 @@ func finish_victory() -> void:
     var trait_evolutions: Array = CharacterTraitDirector.record_enemy_encounter(GameState.alive_heroes(), GameState.battle_enemies)
     for evolution_value: Variant in trait_evolutions:
         var evolution: Dictionary = evolution_value
-        GameState.add_log("Une peur est maîtrisée : %s." % str(evolution.get("to", "")))
+        if bool(evolution.get("pending_choice", false)):
+            GameState.add_log("Une peur est prête à devenir une force : un trait doit être remplacé.")
+        else:
+            GameState.add_log("Une peur est maîtrisée : %s." % str(evolution.get("to", "")))
     var defeated_boss := false
     for enemy_value: Variant in GameState.battle_enemies:
         var defeated_enemy: Dictionary = enemy_value
@@ -836,7 +882,10 @@ func finish_victory() -> void:
         var hero_index: int = clampi(GameState.expedition_room - 2, 0, DataLoader.heroes.size() - 1)
         EquipmentManager.grant_test_level_bundle(hero_index, "common")
     GameState.add_log("Victoire. La compagnie récupère ses récompenses.")
-    GameState.request_screen("rewards")
+    if _first_pending_trait_character().is_empty():
+        GameState.request_screen("rewards")
+    else:
+        GameState.request_screen("trait_evolution")
 
 func finish_defeat() -> void:
     GameState.add_log("La compagnie est anéantie.")
