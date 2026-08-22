@@ -139,12 +139,12 @@ func _render_side_quests(parent: VBoxContainer) -> void:
     if file == null:
         return
     var quest_data = JSON.parse_string(file.get_as_text())
-    if typeof(quest_data) != TYPE_DICTIONARY:
+    if typeof(quest_data) != TYPE_ARRAY:
         return
     parent.add_child(_label("QUÊTES SECONDAIRES — PREMIÈRE CARTE",18,GOLD))
-    for value in quest_data.get("quests", []):
+    for value in quest_data:
         var quest: Dictionary = value
-        if String(quest.get("quest_type", "")) != "side":
+        if String(quest.get("narrative_role", "")) != "side":
             continue
         parent.add_child(_label("◇ %s" % String(quest.get("name", "Quête")),15,TEXT))
         parent.add_child(_label(String(quest.get("summary", "")),12,MUTED))
