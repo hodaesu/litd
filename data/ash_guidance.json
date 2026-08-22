@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "design_rule": "La cendre indique une direction praticable sans devenir une flèche HUD.",
+  "objective_modes": {
+    "boss": {
+      "far_color": "#85888D",
+      "near_color": "#FF3B1F",
+      "emission_color": "#FF1F0A",
+      "label": "BOSS"
+    },
+    "quest": {
+      "far_color": "#85888D",
+      "near_color": "#45A8FF",
+      "emission_color": "#248BFF",
+      "label": "QUÊTE"
+    }
+  },
+  "distance": {
+    "near_m": 3.0,
+    "far_m": 48.0,
+    "boss_route_curve": 1.35
+  },
+  "particles": {
+    "wisps": 34,
+    "motes": 20,
+    "lifetime_s": 1.8,
+    "base_speed": 2.6,
+    "near_speed_bonus": 2.2,
+    "spawn_height": 0.55,
+    "direction_smoothing": 8.0,
+    "color_smoothing": 5.0,
+    "minimum_direction_distance": 0.25
+  },
+  "accessibility": {
+    "color_is_not_only_signal": true,
+    "near_objective_increases_speed": true,
+    "boss_near_objective_increases_sparks": true,
+    "quest_and_boss_keep_distinct_hues": true
+  }
+}

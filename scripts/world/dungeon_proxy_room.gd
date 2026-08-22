@@ -3,6 +3,7 @@ extends Node3D
 signal exit_reached(target_room_id: String)
 
 const EXPLORER_SCENE := preload("res://scenes/dungeon/DungeonProxyExplorer.tscn")
+const ASH_GUIDANCE_POLICY_SCRIPT := preload("res://scripts/core/ash_guidance_policy.gd")
 
 var room_spec: Dictionary = {}
 var exits_enabled: bool = false
@@ -65,6 +66,42 @@ func _rebuild() -> void:
         explorer.position = anchors.get("hero_spawn", Vector3(0.0, 0.2, -2.0))
         explorer.name = "Explorer"
         add_child(explorer)
+        _configure_boss_guidance(dimensions, ports)
+
+func _configure_boss_guidance(dimensions: Vector3, ports: Array) -> void:
+    if explorer == null or not explorer.has_method("set_boss_guidance_position"):
+        return
+    var proxy: Dictionary = room_spec.get("proxy", {})
+    var role: String = str(proxy.get("role", "generic"))
+    if role == "boss":
+        var anchors: Dictionary = room_spec.get("anchors", {})
+        var boss_anchor: Vector3 = anchors.get("enemy_spawn_center", Vector3(0.0, 0.7, 3.5))
+        explorer.call("set_boss_guidance_position", to_global(boss_anchor), 1.0)
+        return
+
+    var policy: AshGuidancePolicy = ASH_GUIDANCE_POLICY_SCRIPT.new() as AshGuidancePolicy
+    if policy == null:
+        return
+    var room_id: String = str(room_spec.get("id", ""))
+    var route: Dictionary = policy.route_to_boss(room_id, visible_targets)
+    if not bool(route.get("found", false)):
+        if explorer.has_method("clear_ash_guidance"):
+            explorer.call("clear_ash_guidance")
+        return
+    var next_room_id: String = str(route.get("next_room_id", ""))
+    var target_local: Vector3 = Vector3.ZERO
+    var found_port: bool = false
+    for port_value: Variant in ports:
+        if typeof(port_value) != TYPE_DICTIONARY:
+            continue
+        var port: Dictionary = port_value
+        if str(port.get("target_room_id", "")) != next_room_id:
+            continue
+        target_local = _portal_position(str(port.get("side", "north")), dimensions) + Vector3(0.0, 1.0, 0.0)
+        found_port = true
+        break
+    if found_port:
+        explorer.call("set_boss_guidance_position", to_global(target_local), float(route.get("proximity", 0.0)))
 
 func _global_geometry() -> Dictionary:
     return room_spec.get("global_geometry", {})
