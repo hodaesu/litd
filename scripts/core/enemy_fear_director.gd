@@ -73,6 +73,8 @@ func initialize_enemy(enemy: Dictionary, heroes: Array) -> int:
     elif bool(enemy.get("elite", false)):
         multiplier = float(courage.get("elite_multiplier", 0.75))
     var starting := int(round(party_threat(heroes) * multiplier))
+    var trait_modifiers := CharacterTraitDirector.modifiers(enemy)
+    starting -= int(round(float(trait_modifiers.get("fear_resistance", 0.0))))
     starting = clampi(starting, int(courage.get("minimum_starting_fear", 0)), 100)
     enemy["enemy_fear"] = starting
     enemy["enemy_fear_state"] = state_for(starting)
