@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "expedition_inventory": {
     "food": 8,
     "water": 8,
@@ -37,6 +37,13 @@
     "medicine": {"label": "Médecine", "effect": "heal", "heal": 35, "fear_reduction": 6, "target": "ally"},
     "grenades": {"label": "Grenade", "effect": "damage_all", "damage": [12, 18], "target": "all_enemies"}
   },
+  "combat_item_transfer": {
+    "personal_carriers": true,
+    "using_item_on_ally_costs_action": true,
+    "giving_item_to_ally_costs_action": false,
+    "transfer_applies_item_effect": false,
+    "heroes_and_enemies_share_rule": true
+  },
   "ash_pressure": {
     "light_cost_on_dense_crossing": 1,
     "stress_on_unlit_crossing": 4
@@ -55,6 +62,10 @@
     "campfire_restores_control_but_not_full_health": true,
     "combat_items_are_separate_from_skill_loadout": true,
     "position_change_costs_turn": true,
-    "passing_costs_turn": true
+    "passing_costs_turn": true,
+    "using_healing_item_on_ally_costs_action": true,
+    "giving_item_to_ally_is_free_action": true,
+    "item_transfer_never_triggers_item_effect": true,
+    "enemy_item_action_cost_matches_heroes": true
   }
 }
