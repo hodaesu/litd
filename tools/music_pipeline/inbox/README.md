@@ -1,9 +1,9 @@
 # Music pipeline inbox
 
-Place local arrangement-source files here before running the production scripts.
+Arrangement-source files used by the production scripts live here.
 
-Arrangement 01 expects:
+Arrangement 01 is already versioned at:
 
 `LITD_Arrangement_01_Accord_Brise_BWV582_MASTER.mid`
 
-Binary arrangement sources can be kept local while the pipeline/configuration stays versioned. Do not place proprietary sample libraries, commercial VST binaries or third-party recordings in this folder for commit.
+Future source MIDI files that belong to LITD may also be versioned here when appropriate. Do not commit proprietary sample libraries, commercial VST binaries or third-party recordings merely because the underlying composition is public domain.
