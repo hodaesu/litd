@@ -10,6 +10,28 @@ def test_trait_caps_and_starter_tradeoff():
     assert DATA["starter_rules"]["manual_choice"] is True
     assert DATA["starter_rules"]["two_positive_requires_negative"] == 1
 
+def test_catalog_has_between_20_and_30_traits_per_polarity():
+    rules = DATA["catalog_rules"]
+    positives = DATA["positives"]
+    negatives = DATA["negatives"]
+    assert rules["minimum_positive_catalog"] <= len(positives) <= rules["maximum_positive_catalog"]
+    assert rules["minimum_negative_catalog"] <= len(negatives) <= rules["maximum_negative_catalog"]
+    assert len(positives) == 25
+    assert len(negatives) == 25
+
+def test_trait_catalog_is_unique_and_well_formed():
+    all_traits = DATA["positives"] + DATA["negatives"]
+    ids = [trait["id"] for trait in all_traits]
+    names = [trait["name"] for trait in all_traits]
+    assert len(ids) == len(set(ids))
+    assert len(names) == len(set(names))
+    for trait in DATA["positives"]:
+        assert trait["polarity"] == "positive"
+        assert trait["effects"]
+    for trait in DATA["negatives"]:
+        assert trait["polarity"] == "negative"
+        assert trait["effects"]
+
 def test_random_traits_are_saved_not_rerolled():
     rules = DATA["random_rules"]
     assert rules["deterministic_from_character_seed"] is True
