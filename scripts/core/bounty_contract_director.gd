@@ -135,7 +135,7 @@ func claim_contract(contract_id: String) -> Dictionary:
         if String(contract.get("id", "")) != contract_id or String(contract.get("status", "")) != "completed":
             continue
         var reward: Dictionary = contract.get("reward", {}).duplicate(true)
-        var streak_bonus := min(completion_streak, int(data.get("reward_scaling", {}).get("streak_cap", 5)))
+        var streak_bonus: int = mini(completion_streak, int(data.get("reward_scaling", {}).get("streak_cap", 5)))
         reward["gold"] = roundi(int(reward.get("gold", 0)) * (1.0 + streak_bonus * float(data.get("reward_scaling", {}).get("streak_bonus_percent", 10)) / 100.0))
         GameState.gold += int(reward.get("gold", 0))
         GameState.essence += int(reward.get("essence", 0))
