@@ -1,6 +1,7 @@
 [gd_scene load_steps=11 format=3]
 
-; main_v30 ajoute les loadouts de 4 compétences, objets, positions et passage de tour.
+; main_v31 ajoute les restrictions tactiques de rang sur les compétences.
+; Héritage loadouts combat : res://scripts/ui/main_v30.gd
 ; Héritage exploration 3D : res://scripts/ui/main_v29.gd
 ; Héritage blockout 3D : res://scripts/ui/main_v28.gd
 ; Héritage salles physiques/fog of war : res://scripts/ui/main_v27.gd
@@ -8,7 +9,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v30.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v31.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
