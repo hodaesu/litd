@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "purpose": "Scénarios de répétition pour apprendre au directeur musical de LITD à réagir sans sur-réagir.",
+  "scenarios": [
+    {
+      "id": "exploration_calm_ashlands",
+      "context": {"mode":"exploration","space_id":"","dialogue_active":false,"silence_active":false,"zone_id":"ashlands_open","danger_multiplier":1.0,"light":8,"max_party_fear":10,"active_cue":"exploration_ashlands"},
+      "expect": {"cue":"exploration_ashlands","switch_music":true,"intensity_min":0.15,"intensity_max":0.30}
+    },
+    {
+      "id": "exploration_ruins_identity",
+      "context": {"mode":"exploration","space_id":"","dialogue_active":false,"silence_active":false,"zone_id":"first_veil_crypt","danger_multiplier":1.05,"light":5,"max_party_fear":20,"active_cue":"exploration_ruins"},
+      "expect": {"cue":"exploration_ruins","switch_music":true,"intensity_min":0.24,"intensity_max":0.40}
+    },
+    {
+      "id": "exploration_darkness_becomes_threat",
+      "context": {"mode":"exploration","space_id":"","dialogue_active":false,"silence_active":false,"zone_id":"ashlands_open","danger_multiplier":1.5,"light":2,"max_party_fear":60,"active_cue":"exploration_ashlands"},
+      "expect": {"cue":"exploration_threat","switch_music":true,"intensity_min":0.48,"intensity_max":0.65}
+    },
+    {
+      "id": "exploration_threat_hysteresis",
+      "context": {"mode":"exploration","space_id":"","dialogue_active":false,"silence_active":false,"zone_id":"ashlands_open","danger_multiplier":1.2,"light":4,"max_party_fear":20,"active_cue":"exploration_threat"},
+      "expect": {"cue":"exploration_threat","switch_music":true,"intensity_min":0.30,"intensity_max":0.42}
+    },
+    {
+      "id": "combat_normal_control",
+      "context": {"mode":"combat","encounter_type":"normal","party_hp_ratio":0.9,"critical_heroes":0,"max_party_fear":10,"enemy_hp_ratio":1.0,"living_enemies":4,"initial_enemies":4,"boss_phase":0},
+      "expect": {"cue":"combat_normal","switch_music":true,"intensity_min":0.50,"intensity_max":0.60}
+    },
+    {
+      "id": "combat_normal_party_crisis",
+      "context": {"mode":"combat","encounter_type":"normal","party_hp_ratio":0.25,"critical_heroes":2,"max_party_fear":80,"enemy_hp_ratio":0.65,"living_enemies":3,"initial_enemies":4,"boss_phase":0},
+      "expect": {"cue":"combat_normal","switch_music":true,"intensity_min":0.90,"intensity_max":1.00}
+    },
+    {
+      "id": "combat_last_enemy_release",
+      "context": {"mode":"combat","encounter_type":"normal","party_hp_ratio":0.8,"critical_heroes":0,"max_party_fear":15,"enemy_hp_ratio":0.18,"living_enemies":1,"initial_enemies":4,"boss_phase":0},
+      "expect": {"cue":"combat_normal","switch_music":true,"intensity_min":0.40,"intensity_max":0.50}
+    },
+    {
+      "id": "combat_elite",
+      "context": {"mode":"combat","encounter_type":"elite","party_hp_ratio":0.85,"critical_heroes":0,"max_party_fear":20,"enemy_hp_ratio":1.0,"living_enemies":3,"initial_enemies":3,"boss_phase":0},
+      "expect": {"cue":"combat_elite","switch_music":true,"intensity_min":0.66,"intensity_max":0.74}
+    },
+    {
+      "id": "combat_miniboss",
+      "context": {"mode":"combat","encounter_type":"miniboss","party_hp_ratio":0.8,"critical_heroes":0,"max_party_fear":25,"enemy_hp_ratio":1.0,"living_enemies":2,"initial_enemies":2,"boss_phase":0},
+      "expect": {"cue":"combat_elite","switch_music":true,"intensity_min":0.74,"intensity_max":0.82}
+    },
+    {
+      "id": "boss_phase_one",
+      "context": {"mode":"boss","encounter_type":"boss","party_hp_ratio":0.85,"critical_heroes":0,"max_party_fear":25,"enemy_hp_ratio":1.0,"living_enemies":1,"initial_enemies":1,"boss_phase":1},
+      "expect": {"cue":"combat_boss","switch_music":true,"intensity_min":0.80,"intensity_max":0.88}
+    },
+    {
+      "id": "boss_final_phase_crisis",
+      "context": {"mode":"boss","encounter_type":"boss","party_hp_ratio":0.45,"critical_heroes":1,"max_party_fear":78,"enemy_hp_ratio":0.2,"living_enemies":1,"initial_enemies":1,"boss_phase":3},
+      "expect": {"cue":"combat_boss","switch_music":true,"intensity_min":0.95,"intensity_max":1.00}
+    },
+    {
+      "id": "dialogue_never_overridden",
+      "context": {"mode":"exploration","space_id":"","dialogue_active":true,"silence_active":false,"active_cue":"discovery_revelation"},
+      "expect": {"cue":"discovery_revelation","switch_music":false,"intensity_min":0.00,"intensity_max":0.70}
+    },
+    {
+      "id": "scripted_silence_never_overridden",
+      "context": {"mode":"exploration","space_id":"","dialogue_active":false,"silence_active":true,"active_cue":"sadness_loss"},
+      "expect": {"cue":"","switch_music":false,"intensity_min":0.00,"intensity_max":0.01}
+    },
+    {
+      "id": "sanctuary_authored_space_priority",
+      "context": {"mode":"exploration","space_id":"chapel","dialogue_active":false,"silence_active":false,"active_cue":"chapel"},
+      "expect": {"cue":"chapel","switch_music":false,"intensity_min":0.15,"intensity_max":0.22}
+    }
+  ],
+  "narrative_contract": {
+    "revelation": "discovery_revelation",
+    "loss": "sadness_loss",
+    "reunion": "emotional_reunion",
+    "victory": "victory_costly",
+    "defeat": "defeat_retreat",
+    "dialogue_has_priority": true,
+    "scripted_silence_has_priority": true
+  }
+}

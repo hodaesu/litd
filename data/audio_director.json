@@ -1,7 +1,7 @@
 {
-  "version": 2,
+  "version": 3,
   "design_source": "adaptive_audio_director_pass_19",
-  "purpose": "Directeur audio runtime de Light in the Dark : bus, états exploration/combat/boss, Peur, sélection de cues, lecture SFX réelle et transitions musicales.",
+  "purpose": "Directeur audio runtime de Light in the Dark : bus, états exploration/combat/boss, Peur, sélection de cues, lecture SFX réelle, transitions musicales et adaptation contextuelle continue.",
   "bus_order": ["Music", "Ambience", "Foley", "Combat", "Creatures", "Psychology", "Dialogue", "UI"],
   "bus_defaults_db": {
     "Music": -8.0,
@@ -47,6 +47,7 @@
   },
   "encounter_music": {
     "normal": "combat_normal",
+    "elite": "combat_elite",
     "miniboss": "combat_elite",
     "boss": "combat_boss"
   },
@@ -69,6 +70,39 @@
     {"id": "terrified", "min": 75, "max": 99, "psychology_db": -6.0, "music_offset_db": -3.0, "sfx": ["fear_breath", "fear_heartbeat", "fear_tinnitus"]},
     {"id": "panic", "min": 100, "max": 100, "psychology_db": -3.0, "music_offset_db": -6.0, "sfx": ["fear_heartbeat", "fear_breath", "fear_tinnitus", "panic_sting"]}
   ],
+  "adaptive_music": {
+    "combat_cues": {
+      "normal": "combat_normal",
+      "elite": "combat_elite",
+      "miniboss": "combat_elite",
+      "boss": "combat_boss"
+    },
+    "combat_base_intensity": {
+      "normal": 0.55,
+      "elite": 0.70,
+      "miniboss": 0.78,
+      "boss": 0.84
+    },
+    "exploration_threat_enter": 0.55,
+    "exploration_threat_release": 0.34,
+    "ruin_tokens": ["archive", "ruin", "relay", "complex", "vestige", "crypt", "vault", "ossuary", "catacomb"],
+    "cue_min_hold_seconds": 3.2,
+    "resolution_hold_seconds": 4.8,
+    "narrative_min_hold_seconds": 1.0,
+    "mix_reaction_seconds": 0.45,
+    "music_intensity_span_db": 2.4,
+    "ambience_intensity_span_db": 2.0,
+    "rules": [
+      "La musique doit monter par paliers perceptibles mais jamais changer de piste à chaque variation mineure.",
+      "Une ligne de front qui s'effondre, plusieurs héros critiques ou une Peur élevée renforcent l'intensité sans changer arbitrairement de thème.",
+      "Une exploration sombre et dangereuse peut glisser vers exploration_threat avant qu'un combat commence.",
+      "Les ruines conservent leur identité musicale tant que la menace n'impose pas le thème de tension.",
+      "Un dialogue, un silence scénarisé ou un espace narratif authored garde la priorité sur l'adaptation automatique.",
+      "La victoire et la défaite disposent d'un temps de respiration avant le retour à la musique d'exploration.",
+      "Une phase de boss augmente la pression mais conserve le thème signature du boss.",
+      "Le dernier ennemi d'un groupe ordinaire peut relâcher légèrement la pression si le groupe de héros reste en contrôle."
+    ]
+  },
   "priority_order": ["combat_telegraph", "Dialogue", "Combat", "Creatures", "Foley", "Psychology", "Ambience", "Music"],
   "selection_policy": {
     "music_legal_tiers": ["green"],
