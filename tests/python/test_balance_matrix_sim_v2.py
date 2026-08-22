@@ -42,8 +42,9 @@ def test_runtime_aligned_matrix_reports_live_profile_source() -> None:
         samples_per_cell=1,
         seed=260821,
     )
-    assert result.payload["model_version"] == 5
+    assert result.payload["model_version"] == 6
     assert result.payload["contracts"]["campaign_runtime_profiles_live"] is True
     assert result.payload["contracts"]["campaign_normal_enemy_ids"] == [1, 8, 1, 8]
+    assert result.payload["contracts"]["campaign_member_scaling"]["normal"] == {"hp": 0.46, "damage": 0.55}
     assert result.payload["coverage"]["campaign_runtime_boss_chapters"] == list(range(1, 11))
     assert result.payload["coverage"]["campaign_runtime_boss_profile_count"] >= 10
