@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "target_total": 1800,
+  "source_mix_target": {
+    "OWN_RECORDING": 630,
+    "CC0": 900,
+    "CC-BY": 180,
+    "ROYALTY_FREE_NO_REDISTRIBUTION": 90
+  },
+  "principles": [
+    "La quantité ne remplace pas la diversité : deux prises quasi identiques ne comptent pas comme deux besoins couverts.",
+    "Les enregistrements propres et CC0 sont prioritaires.",
+    "CC-BY est réservé aux sons qui apportent une vraie valeur et dont l'attribution est conservée.",
+    "Les bibliothèques privées sans droit de redistribution restent hors du dépôt et ne sont que des matières premières de travail.",
+    "Aucun fichier UNKNOWN, non-commercial ou non vérifié n'entre dans la bibliothèque active.",
+    "Chaque bruitage final répétitif doit disposer d'au moins quatre variantes ; les pas visent huit variantes ou plus par matériau majeur."
+  ],
+  "waves": [
+    {
+      "id": "wave_01_vertical_slice",
+      "target": 300,
+      "priority": ["footsteps", "impacts", "weapons", "creatures", "environment", "armor_gear"],
+      "goal": "Rendre le vertical slice entièrement sonore sans répétitions évidentes."
+    },
+    {
+      "id": "wave_02_first_veil",
+      "target": 450,
+      "cumulative_target": 750,
+      "priority": ["environment", "doors_mechanisms", "body", "magic_psychology", "voices_breaths", "elements_weather"],
+      "goal": "Donner une identité sonore physique aux Cryptes du Premier Voile et à leurs combats."
+    },
+    {
+      "id": "wave_03_campaign_core",
+      "target": 550,
+      "cumulative_target": 1300,
+      "priority": ["footsteps", "weapons", "impacts", "creatures", "environment", "ui"],
+      "goal": "Couvrir la campagne avec suffisamment de familles et de matériaux pour limiter la réutilisation perceptible."
+    },
+    {
+      "id": "wave_04_depth_and_polish",
+      "target": 500,
+      "cumulative_target": 1800,
+      "priority": ["all"],
+      "goal": "Compléter les variantes rares, bosses, psychologie, sanctuaire et situations narratives."
+    }
+  ],
+  "recording_sessions": [
+    {"id":"rec_metal","target":100,"objects":["chaines","outils","plaques","couverts","charnières","grilles"],"categories":["impacts","weapons","armor_gear","doors_mechanisms"]},
+    {"id":"rec_wood_stone","target":110,"objects":["planches","portes","cailloux","gravier","briques","boîtes"],"categories":["footsteps","impacts","environment","doors_mechanisms"]},
+    {"id":"rec_cloth_gear","target":80,"objects":["manteaux","sacs","cuir","sangles","boucles","cordes"],"categories":["armor_gear","body","footsteps"]},
+    {"id":"rec_body_voice","target":120,"objects":["respirations","efforts","chuchotements","mouvements","chutes contrôlées sur surfaces sûres"],"categories":["voices_breaths","body","creatures","magic_psychology"]},
+    {"id":"rec_elements","target":100,"objects":["eau","feu contrôlé","terre","sable","cendres propres simulées","vent"],"categories":["elements_weather","environment","magic_psychology"]},
+    {"id":"rec_misc","target":120,"objects":["mécanismes","verre","papier","objets domestiques","résonances","roomtones"],"categories":["doors_mechanisms","ui","environment","magic_psychology"]}
+  ],
+  "quality_gate": {
+    "reject_clipped_recordings": true,
+    "reject_unusable_noise_floor": true,
+    "reject_duplicate_hashes": true,
+    "reject_unknown_provenance": true,
+    "prefer_24bit_48khz_for_new_recordings": true,
+    "keep_original_untouched": true,
+    "all_processing_happens_on_working_copy": true
+  }
+}
