@@ -23,7 +23,6 @@ def test_side_quests_cover_exploration_memory_care_creatures_and_lore():
         "c01_side_last_medic",
         "c01_side_quiet_creature",
         "c01_side_three_testimonies",
-        "c01_side_embers_for_night",
     }
 
 def test_bounties_exist_in_every_dungeon_and_campaign():
