@@ -47,8 +47,11 @@ def audit(data):
             branch_entries = [x for x in movements if f"_{branch}_" in x["id"]]
             if len(branch_entries) != 15:
                 errors.append(f"{hero['id']} {branch} has {len(branch_entries)} movements")
-            if not any("ultimate_signature" in x.get("variants", []) for x in branch_entries):
-                errors.append(f"{hero['id']} {branch} missing ultimate signature")
+            ultimates = [x for x in branch_entries if "ultimate_signature" in x.get("variants", [])]
+            if len(ultimates) != 1:
+                errors.append(f"{hero['id']} {branch} has {len(ultimates)} ultimate signatures, expected 1")
+            elif ultimates[0].get("ultimate_uses_by_level") != {"16": 1, "32": 2, "48": 3}:
+                errors.append(f"{hero['id']} {branch} invalid ultimate uses")
     for enemy in enemies:
         owner = f"enemy_{int(enemy['id']):02d}"
         if len(by_owner[owner]) < 5:
