@@ -4,15 +4,15 @@ extends "res://scripts/ui/main_v29.gd"
 # Les compétences sont interchangeables uniquement hors combat. Objets, changement
 # de position, capture et passage de tour sont des actions séparées du loadout.
 
-var combat_active_hero_id := ""
+var combat_active_hero_id: String = ""
 var combat_acted_hero_ids: Array[String] = []
-var combat_round_number := 1
-var combat_item_menu := false
-var combat_position_menu := false
-var selected_loadout_slot := 0
+var combat_round_number: int = 1
+var combat_item_menu: bool = false
+var combat_position_menu: bool = false
+var selected_loadout_slot: int = 0
 
 func show_hero_skills() -> void:
-    var hero := _selected_skill_hero()
+    var hero: Dictionary = _selected_skill_hero()
     if hero.is_empty():
         GameState.request_screen("company")
         return
@@ -31,9 +31,9 @@ func show_hero_skills() -> void:
     loadout_row.size = Vector2(1220, 64)
     loadout_row.add_theme_constant_override("separation", 8)
     content.add_child(loadout_row)
-    var loadout := HeroSkillManager.combat_loadout(hero)
+    var loadout: Array[String] = HeroSkillManager.combat_loadout(hero)
     for slot in range(HeroSkillManager.COMBAT_LOADOUT_SIZE):
-        var skill := HeroSkillManager.combat_skill(hero, loadout[slot])
+        var skill: Dictionary = HeroSkillManager.combat_skill(hero, loadout[slot])
         var slot_button := make_button(
             "%d · %s%s" % [slot + 1, str(skill.get("name", "Technique")), "\nÀ REMPLACER" if slot == selected_loadout_slot else ""],
             func(slot_index = slot):
@@ -64,18 +64,18 @@ func show_hero_skills() -> void:
             Vector2(282, 66)
         ))
 
-    var specialization := str(hero.get("specialization", ""))
+    var specialization: String = str(hero.get("specialization", ""))
     for branch in HeroSkillManager.BRANCHES:
-        var branch_title := "%s%s" % [branch.to_upper(), " — CHOISI" if specialization == branch else (" — VERROUILLÉ" if specialization != "" and not HeroSkillManager.multi_tree_enabled() else "")]
+        var branch_title: String = "%s%s" % [branch.to_upper(), " — CHOISI" if specialization == branch else (" — VERROUILLÉ" if specialization != "" and not HeroSkillManager.multi_tree_enabled() else "")]
         list.add_child(make_label(branch_title, 15, GOLD))
         var grid := GridContainer.new()
         grid.columns = 3
         list.add_child(grid)
         for node_value in HeroSkillManager.skill_nodes(hero, branch):
             var node: Dictionary = node_value
-            var node_id := str(node.get("id", ""))
-            var unlocked := hero.get("unlocked_skills", []).has(node_id)
-            var text := "%s\n%s" % [str(node.get("name", "Compétence")), "ACQUISE · ÉQUIPER" if unlocked else str(node.get("description", ""))]
+            var node_id: String = str(node.get("id", ""))
+            var unlocked: bool = (hero.get("unlocked_skills", []) as Array).has(node_id)
+            var text: String = "%s\n%s" % [str(node.get("name", "Compétence")), "ACQUISE · ÉQUIPER" if unlocked else str(node.get("description", ""))]
             var button := make_button(
                 text,
                 func(skill_id = node_id, is_unlocked = unlocked):
@@ -122,7 +122,7 @@ func _render_roguelike_side_panel(active_run: Dictionary, risk: Dictionary) -> v
 
 func show_combat() -> void:
     _ensure_combat_state()
-    var hero := _active_combat_hero()
+    var hero: Dictionary = _active_combat_hero()
     if hero.is_empty():
         finish_defeat()
         return
@@ -151,10 +151,10 @@ func show_combat() -> void:
     heroes_row.size = Vector2(560, 330)
     heroes_row.add_theme_constant_override("separation", -8)
     content.add_child(heroes_row)
-    var ordered_heroes := _heroes_by_position()
+    var ordered_heroes: Array[Dictionary] = _heroes_by_position()
     for hero_value in ordered_heroes:
         var displayed: Dictionary = hero_value
-        var active := str(displayed.get("id", "")) == combat_active_hero_id
+        var active: bool = str(displayed.get("id", "")) == combat_active_hero_id
         var card := VBoxContainer.new()
         card.custom_minimum_size = Vector2(140, 320)
         var art := TextureRect.new()
@@ -196,9 +196,9 @@ func show_combat() -> void:
     loadout_row.size = Vector2(1220, 60)
     loadout_row.add_theme_constant_override("separation", 7)
     content.add_child(loadout_row)
-    var loadout := HeroSkillManager.combat_loadout(hero)
+    var loadout: Array[String] = HeroSkillManager.combat_loadout(hero)
     for slot in range(HeroSkillManager.COMBAT_LOADOUT_SIZE):
-        var skill := HeroSkillManager.combat_skill(hero, loadout[slot])
+        var skill: Dictionary = HeroSkillManager.combat_skill(hero, loadout[slot])
         var skill_button := make_button("%d · %s" % [slot + 1, str(skill.get("name", "Technique"))], func(slot_index = slot): _use_combat_skill(int(slot_index)), Vector2(292, 54))
         skill_button.tooltip_text = str(skill.get("description", ""))
         loadout_row.add_child(skill_button)
@@ -224,7 +224,7 @@ func _render_combat_item_menu() -> void:
     panel.size = Vector2(555, 46)
     panel.add_theme_constant_override("separation", 6)
     content.add_child(panel)
-    var inv := ExpeditionManager.inventory
+    var inv: Dictionary = ExpeditionManager.inventory
     panel.add_child(make_button("BANDAGE ×%d" % int(inv.get("bandages",0)), func(): _use_combat_item("bandages"), Vector2(170,42)))
     panel.add_child(make_button("MÉDECINE ×%d" % int(inv.get("medicine",0)), func(): _use_combat_item("medicine"), Vector2(180,42)))
     panel.add_child(make_button("GRENADE ×%d" % int(inv.get("grenades",0)), func(): _use_combat_item("grenades"), Vector2(180,42)))
@@ -253,7 +253,7 @@ func _ensure_combat_positions() -> void:
     var used: Array[int] = []
     for hero_value in GameState.party:
         var hero: Dictionary = hero_value
-        var desired := clampi(int(hero.get("combat_position", -1)), 0, 3)
+        var desired: int = clampi(int(hero.get("combat_position", -1)), 0, 3)
         if desired < 0 or used.has(desired):
             desired = 0
             while used.has(desired) and desired < 3:
@@ -278,7 +278,7 @@ func _active_combat_hero() -> Dictionary:
 func _select_next_combat_hero() -> void:
     combat_active_hero_id = ""
     for hero in _heroes_by_position():
-        var hero_id := str(hero.get("id", ""))
+        var hero_id: String = str(hero.get("id", ""))
         if int(hero.get("hp",0)) > 0 and not combat_acted_hero_ids.has(hero_id):
             combat_active_hero_id = hero_id
             break
@@ -286,17 +286,17 @@ func _select_next_combat_hero() -> void:
 func _use_combat_skill(slot: int) -> void:
     if battle_locked:
         return
-    var hero := _active_combat_hero()
+    var hero: Dictionary = _active_combat_hero()
     if hero.is_empty():
         finish_defeat(); return
-    var loadout := HeroSkillManager.combat_loadout(hero)
+    var loadout: Array[String] = HeroSkillManager.combat_loadout(hero)
     if slot < 0 or slot >= loadout.size():
         return
-    var skill := HeroSkillManager.combat_skill(hero, loadout[slot])
+    var skill: Dictionary = HeroSkillManager.combat_skill(hero, loadout[slot])
     if skill.is_empty():
         return
     battle_locked = true
-    var effect := str(skill.get("effect", "attack"))
+    var effect: String = str(skill.get("effect", "attack"))
     if effect == "attack":
         _resolve_skill_attack(hero, skill)
     elif effect == "guard":
@@ -309,27 +309,27 @@ func _use_combat_skill(slot: int) -> void:
     _complete_active_hero_turn()
 
 func _resolve_skill_attack(hero: Dictionary, skill: Dictionary) -> void:
-    var living := GameState.alive_enemies()
+    var living: Array[Dictionary] = GameState.alive_enemies()
     if living.is_empty():
         finish_victory(); return
     selected_enemy = clampi(selected_enemy, 0, GameState.battle_enemies.size() - 1)
     var target: Dictionary = GameState.battle_enemies[selected_enemy]
     if int(target.get("hp",0)) <= 0:
         target = living[0]
-    var cls := DataLoader.find_by_id(DataLoader.classes, hero.get("class_id"))
+    var cls: Dictionary = DataLoader.find_by_id(DataLoader.classes, hero.get("class_id"))
     var damage_range: Array = cls.get("damage", [6,10])
-    var base_damage := randi_range(int(damage_range[0]), int(damage_range[1]))
-    var bonuses := hero_bonuses(hero)
-    var damage := int(round(float(base_damage + int(bonuses.get("damage_bonus",0))) * float(skill.get("power",1.0)) * (1.0 + float(bonuses.get("damage_percent",0)) / 100.0)))
+    var base_damage: int = randi_range(int(damage_range[0]), int(damage_range[1]))
+    var bonuses: Dictionary = hero_bonuses(hero)
+    var damage: int = int(round(float(base_damage + int(bonuses.get("damage_bonus",0))) * float(skill.get("power",1.0)) * (1.0 + float(bonuses.get("damage_percent",0)) / 100.0)))
     if int(target.get("broken",0)) > 0:
         damage = int(round(float(damage) * 1.20))
-    var crit_chance := int(bonuses.get("critical_chance",0)) + int(skill.get("critical_bonus",0))
-    var critical := crit_chance > 0 and randi_range(1,100) <= crit_chance
+    var crit_chance: int = int(bonuses.get("critical_chance",0)) + int(skill.get("critical_bonus",0))
+    var critical: bool = crit_chance > 0 and randi_range(1,100) <= crit_chance
     if critical:
         damage = int(round(float(damage) * 1.50))
     target["hp"] = maxi(0, int(target.get("hp",0)) - maxi(1, damage))
-    var status := str(skill.get("status", ""))
-    var status_chance := int(skill.get("status_chance",0))
+    var status: String = str(skill.get("status", ""))
+    var status_chance: int = int(skill.get("status_chance",0))
     if status != "" and randi_range(1,100) <= status_chance:
         if status == "stun": target["stunned"] = true
         elif status == "break": target["broken"] = 2
@@ -337,10 +337,10 @@ func _resolve_skill_attack(hero: Dictionary, skill: Dictionary) -> void:
     GameState.add_log("%s utilise %s : %d dégâts%s à %s." % [hero.name, str(skill.get("name","Technique")), damage, " critiques" if critical else "", target.name])
 
 func _resolve_skill_support(hero: Dictionary, skill: Dictionary) -> void:
-    var target := _most_wounded_hero()
+    var target: Dictionary = _most_wounded_hero()
     if target.is_empty():
         target = hero
-    var heal := int(skill.get("heal",0))
+    var heal: int = int(skill.get("heal",0))
     if heal > 0:
         heal = int(round(float(heal) * (1.0 + float(hero_bonuses(hero).get("healing_power",0)) / 100.0)))
         target["hp"] = mini(int(target.get("max_hp",1)), int(target.get("hp",0)) + heal)
@@ -357,21 +357,21 @@ func _use_combat_item(resource_id: String) -> void:
         return
     battle_locked = true
     ExpeditionManager.consume_bundle({resource_id: 1})
-    var hero := _active_combat_hero()
-    var effect := str(item.get("effect", ""))
+    var hero: Dictionary = _active_combat_hero()
+    var effect: String = str(item.get("effect", ""))
     if effect == "heal":
-        var target := _most_wounded_hero()
+        var target: Dictionary = _most_wounded_hero()
         if target.is_empty(): target = hero
-        var amount := int(item.get("heal",0))
+        var amount: int = int(item.get("heal",0))
         target["hp"] = mini(int(target.get("max_hp",1)), int(target.get("hp",0)) + amount)
         target["fear"] = maxi(0, int(target.get("fear",0)) - int(item.get("fear_reduction",0)))
         GameState.add_log("%s utilise %s sur %s : +%d PV." % [hero.name, str(item.get("label","Objet")), target.name, amount])
     elif effect == "damage_all":
         var damage_range: Array = item.get("damage", [12,18])
-        var total := 0
+        var total: int = 0
         for enemy_value in GameState.alive_enemies():
             var enemy: Dictionary = enemy_value
-            var damage := randi_range(int(damage_range[0]), int(damage_range[1]))
+            var damage: int = randi_range(int(damage_range[0]), int(damage_range[1]))
             enemy["hp"] = maxi(0, int(enemy.get("hp",0)) - damage)
             total += damage
         GameState.add_log("%s lance une grenade : %d dégâts cumulés." % [hero.name, total])
@@ -381,10 +381,10 @@ func _use_combat_item(resource_id: String) -> void:
 func _change_combat_position(delta: int) -> void:
     if battle_locked:
         return
-    var hero := _active_combat_hero()
+    var hero: Dictionary = _active_combat_hero()
     if hero.is_empty(): return
-    var current := int(hero.get("combat_position",0))
-    var target_position := clampi(current + delta, 0, 3)
+    var current: int = int(hero.get("combat_position",0))
+    var target_position: int = clampi(current + delta, 0, 3)
     if target_position == current: return
     for hero_value in GameState.party:
         var other: Dictionary = hero_value
@@ -399,7 +399,7 @@ func _change_combat_position(delta: int) -> void:
 
 func _pass_combat_turn() -> void:
     if battle_locked: return
-    var hero := _active_combat_hero()
+    var hero: Dictionary = _active_combat_hero()
     if hero.is_empty(): return
     GameState.add_log("%s passe son tour." % hero.name)
     battle_locked = true
@@ -407,19 +407,19 @@ func _pass_combat_turn() -> void:
 
 func _combat_capture() -> void:
     if battle_locked: return
-    var living := GameState.alive_enemies()
+    var living: Array[Dictionary] = GameState.alive_enemies()
     if living.is_empty(): finish_victory(); return
     selected_enemy = clampi(selected_enemy, 0, GameState.battle_enemies.size() - 1)
     var target: Dictionary = GameState.battle_enemies[selected_enemy]
     if int(target.get("hp",0)) <= 0: target = living[0]
     if ExpeditionManager.expedition_active:
-        var gate := ExpeditionManager.capture_check(target, _current_roguelike_room_id())
+        var gate: Dictionary = ExpeditionManager.capture_check(target, _current_roguelike_room_id())
         if not bool(gate.get("allowed", false)):
             GameState.add_log(_capture_denial_message(str(gate.get("reason","capture_denied"))))
             show_screen("combat")
             return
     battle_locked = true
-    var result := CreatureManager.attempt_capture(target)
+    var result: Dictionary = CreatureManager.attempt_capture(target)
     GameState.add_log(str(result.get("message","Le sceau échoue.")))
     if bool(result.get("success",false)) and ExpeditionManager.expedition_active:
         ExpeditionManager.register_roguelike_capture(target, _current_roguelike_room_id())
@@ -433,9 +433,9 @@ func _combat_capture() -> void:
 func _complete_active_hero_turn() -> void:
     if GameState.alive_enemies().is_empty():
         finish_victory(); return
-    var hero := _active_combat_hero()
+    var hero: Dictionary = _active_combat_hero()
     if not hero.is_empty():
-        var hero_id := str(hero.get("id",""))
+        var hero_id: String = str(hero.get("id",""))
         if not combat_acted_hero_ids.has(hero_id):
             combat_acted_hero_ids.append(hero_id)
     _select_next_combat_hero()
@@ -443,9 +443,9 @@ func _complete_active_hero_turn() -> void:
         battle_locked = false
         show_screen("combat")
         return
-    var companion_targets := GameState.alive_enemies()
+    var companion_targets: Array[Dictionary] = GameState.alive_enemies()
     if not companion_targets.is_empty():
-        var companion_result := CreatureManager.companion_turn(companion_targets[0])
+        var companion_result: Dictionary = CreatureManager.companion_turn(companion_targets[0])
         if not companion_result.is_empty():
             GameState.add_log("%s inflige %d dégâts." % [str(companion_result.get("name","Le compagnon")), int(companion_result.get("damage",0))])
     if GameState.alive_enemies().is_empty():
@@ -459,13 +459,13 @@ func _complete_active_hero_turn() -> void:
     super.enemy_turn()
 
 func _most_wounded_hero() -> Dictionary:
-    var candidates := GameState.alive_heroes()
+    var candidates: Array[Dictionary] = GameState.alive_heroes()
     if candidates.is_empty(): return {}
     var result: Dictionary = candidates[0]
-    var best_ratio := float(result.get("hp",0)) / maxf(1.0, float(result.get("max_hp",1)))
+    var best_ratio: float = float(result.get("hp",0)) / maxf(1.0, float(result.get("max_hp",1)))
     for hero_value in candidates:
         var hero: Dictionary = hero_value
-        var ratio := float(hero.get("hp",0)) / maxf(1.0, float(hero.get("max_hp",1)))
+        var ratio: float = float(hero.get("hp",0)) / maxf(1.0, float(hero.get("max_hp",1)))
         if ratio < best_ratio:
             result = hero; best_ratio = ratio
     return result
