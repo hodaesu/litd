@@ -142,6 +142,7 @@ func _prepare_placeholder_enemies() -> void:
         if encounter_type == "miniboss" and enemy_index > 0:
             scaling_type = "normal"
         level_scaling_policy.apply_campaign_scaling(e, CampaignState.current_chapter_number(), scaling_type)
+        level_scaling_policy.apply_encounter_member_scaling(e, encounter_class)
         EndgameState.apply_enemy_scaling(e)
         GameState.battle_enemies.append(e)
 
