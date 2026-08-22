@@ -150,11 +150,15 @@ def _live_campaign_pack_factory(root: Path):
             encounter_hp = float(combat_balance.get("campaign_boss_hp_multiplier", 1.50))
             encounter_damage = float(combat_balance.get("campaign_boss_damage_multiplier", 1.05))
 
+        member_scaling = combat_balance.get("encounter_member_scaling", {}).get(encounter_type, {})
+        member_hp = float(member_scaling.get("hp", 1.0))
+        member_damage = float(member_scaling.get("damage", 1.0))
+
         cycle_hp, cycle_damage, cycle_fear = base._ngplus_multipliers(cycle, ngplus)
         pack: list[dict[str, float]] = []
         for template in raw_templates:
-            hp = float(template["hp"]) * hp_multiplier * encounter_hp * cycle_hp
-            damage = ((float(template["damage_min"]) + float(template["damage_max"])) / 2.0) * damage_multiplier * encounter_damage * cycle_damage
+            hp = float(template["hp"]) * hp_multiplier * encounter_hp * member_hp * cycle_hp
+            damage = ((float(template["damage_min"]) + float(template["damage_max"])) / 2.0) * damage_multiplier * encounter_damage * member_damage * cycle_damage
             fear = float(template["fear"]) * fear_multiplier * cycle_fear
             pack.append({"hp": hp, "max_hp": hp, "damage": damage, "fear": fear})
         return pack
@@ -171,10 +175,11 @@ def simulate_matrix(root: Path = ROOT, **kwargs: Any) -> base.MatrixResult:
     finally:
         base._campaign_pack = original
 
-    result.payload["model_version"] = 5
+    result.payload["model_version"] = 6
     result.payload["contracts"]["campaign_runtime_profiles_live"] = True
     result.payload["contracts"]["campaign_profile_source"] = str(BRIDGE_PATH)
     result.payload["contracts"]["campaign_normal_enemy_ids"] = list(NORMAL_ENEMY_IDS)
+    result.payload["contracts"]["campaign_member_scaling"] = rules_member_scaling(root)
     result.payload["campaign_runtime_profiles"] = runtime_profiles
 
     boss_chapters = sorted({int(row["chapter_number"]) for row in runtime_profiles["bosses"]})
@@ -190,6 +195,11 @@ def simulate_matrix(root: Path = ROOT, **kwargs: Any) -> base.MatrixResult:
         result.alerts.append(alert)
         result.payload["alerts"] = result.alerts
     return result
+
+
+def rules_member_scaling(root: Path = ROOT) -> dict[str, Any]:
+    rules = json.loads((root / "data/roguelike/roguelike_rules.json").read_text(encoding="utf-8"))
+    return dict(rules.get("combat_balance", {}).get("encounter_member_scaling", {}))
 
 
 def main() -> int:
