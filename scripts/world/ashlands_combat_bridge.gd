@@ -56,35 +56,65 @@ func _on_screen_requested(screen_name: String) -> void:
             _resolving = true
             call_deferred("resolve_defeat")
 
+func _encounter_group_size(encounter_class: String) -> int:
+    var balance: Dictionary = level_scaling_policy.combat_balance()
+    var ranges: Dictionary = balance.get("encounter_group_sizes", {})
+    var bounds_value: Variant = ranges.get(encounter_class, [4, 4])
+    if not (bounds_value is Array):
+        return 1
+    var bounds: Array = bounds_value
+    var minimum := maxi(1, int(bounds[0]) if bounds.size() >= 1 else 1)
+    var maximum := maxi(minimum, int(bounds[1]) if bounds.size() >= 2 else minimum)
+    if minimum == maximum:
+        return minimum
+    var signature := "%s:%s" % [encounter_class, encounter_id]
+    return minimum + abs(signature.hash()) % (maximum - minimum + 1)
+
 func _prepare_placeholder_enemies() -> void:
     GameState.battle_enemies = []
-    # Une rencontre normale de campagne doit rester un combat court : deux menaces,
-    # puis un mini-boss intermédiaire et un boss clairement plus long.
-    var ids: Array[int] = [1,8]
-    if encounter_type == "miniboss": ids = [30]
-    elif encounter_type == "boss": ids = [38]
-    for enemy_id in ids:
+    var encounter_class := encounter_type if encounter_type in ["elite", "miniboss", "boss"] else "normal"
+    var group_size := _encounter_group_size(encounter_class)
+    var templates: Array[int] = [1, 8]
+    if encounter_class == "elite":
+        templates = [10, 8]
+    elif encounter_class == "miniboss":
+        # Le premier emplacement est toujours le mini-boss ; un éventuel second
+        # emplacement est un soutien normal, jamais un deuxième clone du mini-boss.
+        templates = [30, 8]
+    elif encounter_class == "boss":
+        templates = [38]
+
+    var ids: Array[int] = []
+    for index in range(group_size):
+        ids.append(templates[index % templates.size()])
+
+    for enemy_index in range(ids.size()):
+        var enemy_id: int = ids[enemy_index]
         var e := DataLoader.find_by_id(DataLoader.enemies,enemy_id).duplicate(true)
         if e.is_empty(): continue
         e["max_hp"] = int(e.get("hp",1)); e["guarding"] = false
-        if encounter_type == "miniboss" and not miniboss_data.is_empty():
-            e["name"] = str(miniboss_data.get("name",e.get("name","Mini-boss"))); e["recruitable"] = false; e["is_miniboss"] = true
-            match encounter_id:
-                "c02_broken_curator": _setup_enemy(e,"Le Conservateur Brisé",82,[6,11],6,"Classé à jamais")
-                "c03_threshold_sentinel": _setup_enemy(e,"La Sentinelle du Seuil",96,[7,12],7,"Protocole de Purge")
-                "c04_faceless_measure": _setup_enemy(e,"Le Mesureur Sans Visage",108,[7,13],8,"Accord Impossible")
-                "c05_glass_strategist": _setup_enemy(e,"Le Stratège de Verre",122,[8,14],8,"Doctrine de Contre-Mesure")
-                "c06_shifted_wayfarer": _setup_enemy(e,"L'Arpenteur Décalé",134,[9,14],9,"Un pas trop tôt")
-                "c07_opening_pilgrim": _setup_enemy(e,"Le Pèlerin de l'Ouverture",154,[10,16],10,"Laissez entrer")
-                "c09_fear_echo": _setup_enemy(e,"L'Issue Redoutée",176,[11,17],13,"C'était inévitable")
-                "c10_unpaid_cost": _setup_enemy(e,"Le Coût Oublié",188,[12,19],14,"Quelqu'un paiera")
-                "va_miniboss_dissonant_custodian": _setup_enemy(e,"Le Custode Dissonant",132,[9,14],9,"Accord Refusé")
-                "vs_miniboss_doctrine_hound": _setup_enemy(e,"Le Limier de Doctrine",146,[10,15],10,"Chasse à la Répétition")
-                "vn_miniboss_seal_keeper": _setup_enemy(e,"Le Gardien du Sceau Fendu",142,[9,15],10,"Scellement Réactif")
-                "vv_miniboss_order_bearer": _setup_enemy(e,"Le Porte-Ordre de Basalte",158,[10,16],11,"Priorité absolue")
-                "vm_miniboss_drowned_pilot": _setup_enemy(e,"Le Pilote Sans Horizon",160,[10,17],11,"Courant de retour")
-                "vz_miniboss_stone_cantor": _setup_enemy(e,"Le Chantre de Pierre",162,[10,17],12,"Répétez après moi")
-                "vy_miniboss_causal_auditor": _setup_enemy(e,"L'Auditeur Causal",164,[11,17],12,"Erreur prévue")
+        var is_primary_miniboss := encounter_type == "miniboss" and enemy_index == 0
+        if is_primary_miniboss:
+            e["recruitable"] = false
+            e["is_miniboss"] = true
+            if not miniboss_data.is_empty():
+                e["name"] = str(miniboss_data.get("name",e.get("name","Mini-boss")))
+                match encounter_id:
+                    "c02_broken_curator": _setup_enemy(e,"Le Conservateur Brisé",82,[6,11],6,"Classé à jamais")
+                    "c03_threshold_sentinel": _setup_enemy(e,"La Sentinelle du Seuil",96,[7,12],7,"Protocole de Purge")
+                    "c04_faceless_measure": _setup_enemy(e,"Le Mesureur Sans Visage",108,[7,13],8,"Accord Impossible")
+                    "c05_glass_strategist": _setup_enemy(e,"Le Stratège de Verre",122,[8,14],8,"Doctrine de Contre-Mesure")
+                    "c06_shifted_wayfarer": _setup_enemy(e,"L'Arpenteur Décalé",134,[9,14],9,"Un pas trop tôt")
+                    "c07_opening_pilgrim": _setup_enemy(e,"Le Pèlerin de l'Ouverture",154,[10,16],10,"Laissez entrer")
+                    "c09_fear_echo": _setup_enemy(e,"L'Issue Redoutée",176,[11,17],13,"C'était inévitable")
+                    "c10_unpaid_cost": _setup_enemy(e,"Le Coût Oublié",188,[12,19],14,"Quelqu'un paiera")
+                    "va_miniboss_dissonant_custodian": _setup_enemy(e,"Le Custode Dissonant",132,[9,14],9,"Accord Refusé")
+                    "vs_miniboss_doctrine_hound": _setup_enemy(e,"Le Limier de Doctrine",146,[10,15],10,"Chasse à la Répétition")
+                    "vn_miniboss_seal_keeper": _setup_enemy(e,"Le Gardien du Sceau Fendu",142,[9,15],10,"Scellement Réactif")
+                    "vv_miniboss_order_bearer": _setup_enemy(e,"Le Porte-Ordre de Basalte",158,[10,16],11,"Priorité absolue")
+                    "vm_miniboss_drowned_pilot": _setup_enemy(e,"Le Pilote Sans Horizon",160,[10,17],11,"Courant de retour")
+                    "vz_miniboss_stone_cantor": _setup_enemy(e,"Le Chantre de Pierre",162,[10,17],12,"Répétez après moi")
+                    "vy_miniboss_causal_auditor": _setup_enemy(e,"L'Auditeur Causal",164,[11,17],12,"Erreur prévue")
             e["chapter_miniboss_id"] = encounter_id
         if encounter_type == "boss":
             e["recruitable"] = false; e["is_boss"] = true
@@ -108,7 +138,10 @@ func _prepare_placeholder_enemies() -> void:
                 "vestige_sahmir_boss_single_interpreter": _setup_enemy(e,"L'Interprète Unique",268,[12,19],14,"Un seul sens"); e["deep_vestige_boss"] = true
                 "vestige_ydris_boss_living_theorem": _setup_enemy(e,"Le Théorème Vivant",270,[13,19],14,"Déjà calculé"); e["deep_vestige_boss"] = true
             e["chapter_boss_id"] = encounter_id
-        level_scaling_policy.apply_campaign_scaling(e, CampaignState.current_chapter_number(), encounter_type)
+        var scaling_type := encounter_type
+        if encounter_type == "miniboss" and enemy_index > 0:
+            scaling_type = "normal"
+        level_scaling_policy.apply_campaign_scaling(e, CampaignState.current_chapter_number(), scaling_type)
         EndgameState.apply_enemy_scaling(e)
         GameState.battle_enemies.append(e)
 
