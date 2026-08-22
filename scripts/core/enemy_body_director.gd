@@ -59,6 +59,11 @@ func compose(owner: String, physical_state: String = "healthy", psychological_st
     _append_state_layer(layers, modifiers, "intent", combat_intent)
     return result
 
+func compose_for_enemy(enemy: Dictionary, physical_state: String = "healthy", combat_intent: String = "idle") -> Dictionary:
+    var owner := "enemy_%02d" % int(enemy.get("id", 0))
+    var psychological_state := EnemyFearDirector.body_psychological_state(enemy)
+    return compose(owner, physical_state, psychological_state, combat_intent)
+
 func movement_variant(owner: String, base_action: String, physical_state: String = "healthy", psychological_state: String = "neutral", combat_intent: String = "idle") -> Dictionary:
     var body: Dictionary = compose(owner, physical_state, psychological_state, combat_intent)
     if body.is_empty():
