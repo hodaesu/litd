@@ -1,5 +1,5 @@
 {
-  "version": 7,
+  "version": 8,
   "positioning": "turn_based_dark_fantasy_rpg_roguelike_dungeon_crawler",
   "inventory_capacity": 20,
   "capture_limit_per_zone": 2,
@@ -14,6 +14,12 @@
       "elite": [2, 3],
       "miniboss": [1, 2],
       "boss": [1, 1]
+    },
+    "encounter_member_scaling": {
+      "normal": {"hp": 0.46, "damage": 0.55},
+      "elite": {"hp": 1.00, "damage": 1.00},
+      "miniboss": {"hp": 1.00, "damage": 1.00},
+      "boss": {"hp": 1.00, "damage": 1.00}
     },
     "campaign_miniboss_hp_multiplier": 1.65,
     "campaign_boss_hp_multiplier": 1.50,
@@ -176,6 +182,7 @@
     "dungeon_map_uses_fog_of_war": true,
     "secret_rooms_do_not_exist_on_player_map_before_discovery": true,
     "physical_room_state_persists_in_save": true,
-    "enemy_group_size_contract": "normal_4_elite_2_to_3_miniboss_1_to_2_boss_1"
+    "enemy_group_size_contract": "normal_4_elite_2_to_3_miniboss_1_to_2_boss_1",
+    "normal_four_enemy_groups_use_weaker_members": true
   }
 }
