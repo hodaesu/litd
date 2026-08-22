@@ -20,6 +20,12 @@ var ghoul_controller: VisualSliceAnimationController
 var vfx: VisualSliceVFX
 var darius_root: Node3D
 var ghoul_root: Node3D
+var darius_fear: int = 0
+var darius_madness: int = 0
+var darius_hope: int = 0
+var darius_affliction: String = ""
+var ghoul_fear: int = 0
+var ghoul_madness: int = 0
 
 func _ready() -> void:
     contract = _load_json(CONTRACT_PATH)
@@ -36,6 +42,7 @@ func configure(p_darius_root: Node3D, p_ghoul_root: Node3D, p_vfx: VisualSliceVF
     var characters: Dictionary = contract.get("characters", {})
     darius_controller.configure("darius", darius_root, characters.get("darius", {}).get("animation_minimum", []))
     ghoul_controller.configure("enemy_01_goule_affamee", ghoul_root, characters.get("enemy_01_goule_affamee", {}).get("animation_minimum", []))
+    _sync_body_states()
 
 func start_combat() -> void:
     darius_hp = darius_max_hp
@@ -44,6 +51,7 @@ func start_combat() -> void:
     combat_active = true
     _state(darius_controller, "idle")
     _state(ghoul_controller, "idle")
+    _sync_body_states()
     _audio_event("ashlands_wind", darius_root)
     _audio_event("combat_music", darius_root)
     combat_started.emit()
@@ -103,6 +111,7 @@ func _damage_ghoul(amount: int, action_id: String) -> void:
     _spawn("restrained_blood", hit_pos, Vector3.UP + Vector3.RIGHT)
     _audio_event("weapon_impact", ghoul_root)
     hp_changed.emit("enemy_01_goule_affamee", ghoul_hp, ghoul_max_hp)
+    _sync_body_states()
     action_resolved.emit("darius", action_id)
     if ghoul_hp <= 0:
         _state(ghoul_controller, "death")
@@ -122,10 +131,43 @@ func _damage_darius(amount: int, action_id: String) -> void:
     darius_hp = maxi(0, darius_hp - final_amount)
     _audio_event("weapon_impact", darius_root)
     hp_changed.emit("darius", darius_hp, darius_max_hp)
+    _sync_body_states()
     action_resolved.emit("enemy_01_goule_affamee", action_id)
     if darius_hp <= 0:
         _state(darius_controller, "death")
         _finish("enemy_01_goule_affamee")
+
+func set_actor_psychology(actor_id: String, fear: int, madness: int = 0, hope: int = 0, affliction: String = "") -> void:
+    if actor_id == "darius":
+        darius_fear = clampi(fear, 0, 100)
+        darius_madness = clampi(madness, 0, 100)
+        darius_hope = clampi(hope, 0, 100)
+        darius_affliction = affliction
+    else:
+        ghoul_fear = clampi(fear, 0, 100)
+        ghoul_madness = clampi(madness, 0, 100)
+    _sync_body_states()
+
+func set_actor_hit_reaction(actor_id: String, body_part: String, severity: String = "light") -> Dictionary:
+    var controller: VisualSliceAnimationController = darius_controller if actor_id == "darius" else ghoul_controller
+    return controller.set_hit_reaction(body_part, severity) if controller != null else {}
+
+func body_snapshot(actor_id: String) -> Dictionary:
+    var controller: VisualSliceAnimationController = darius_controller if actor_id == "darius" else ghoul_controller
+    return controller.body_snapshot() if controller != null else {}
+
+func _sync_body_states() -> void:
+    if darius_controller != null:
+        darius_controller.update_body_state({
+            "id":"darius", "hp":darius_hp, "max_hp":darius_max_hp,
+            "fear":darius_fear, "madness":darius_madness, "hope":darius_hope,
+            "affliction":darius_affliction
+        }, {"action":darius_controller.current_state})
+    if ghoul_controller != null:
+        ghoul_controller.update_body_state({
+            "id":"hungry_ghoul", "hp":ghoul_hp, "max_hp":ghoul_max_hp,
+            "fear":ghoul_fear, "madness":ghoul_madness
+        }, {"action":ghoul_controller.current_state})
 
 func _finish(winner_id: String) -> void:
     combat_active = false
