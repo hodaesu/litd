@@ -39,9 +39,14 @@ def test_campaign_normal_pack_and_miniboss_tuning_match_runtime() -> None:
     rules = json.loads((ROOT / "data/roguelike/roguelike_rules.json").read_text(encoding="utf-8"))
     matrix = json.loads((ROOT / "data/roguelike/balance_matrix.json").read_text(encoding="utf-8"))
 
-    assert NORMAL_ENEMY_IDS == (1, 8)
-    assert "var ids: Array[int] = [1,8]" in bridge
-    assert matrix["campaign"]["normal_enemy_ids"] == [1, 8]
+    assert NORMAL_ENEMY_IDS == (1, 8, 1, 8)
+    assert 'var encounter_class := encounter_type if encounter_type in ["elite", "miniboss", "boss"] else "normal"' in bridge
+    assert 'templates: Array[int] = [1, 8]' in bridge
+    assert matrix["campaign"]["normal_enemy_ids"] == [1, 8, 1, 8]
+    assert rules["combat_balance"]["encounter_group_sizes"]["normal"] == [4, 4]
+    assert rules["combat_balance"]["encounter_group_sizes"]["elite"] == [2, 3]
+    assert rules["combat_balance"]["encounter_group_sizes"]["miniboss"] == [1, 2]
+    assert rules["combat_balance"]["encounter_group_sizes"]["boss"] == [1, 1]
     assert rules["combat_balance"]["campaign_miniboss_hp_multiplier"] == 1.65
 
 
