@@ -368,9 +368,9 @@ func show_hero_skills() -> void:
             button.disabled=unlocked or not HeroSkillManager.can_unlock(hero,str(node.id)); grid.add_child(button)
     var back := make_button("RETOUR",func():GameState.request_screen("company"),Vector2(180,45)); back.position=Vector2(24,640); content.add_child(back)
 
-func hero_bonuses(hero: Dictionary, context: Dictionary = {}) -> Dictionary:
+func hero_bonuses(hero: Dictionary) -> Dictionary:
     var result: Dictionary = EquipmentManager.bonuses_for_hero(str(hero.get("id","")))
-    for trait_key: Variant in CharacterTraitDirector.modifiers(hero, context).keys():
+    for trait_key: Variant in CharacterTraitDirector.modifiers(hero).keys():
         result[str(trait_key)] = int(result.get(str(trait_key), 0)) + int(round(float(CharacterTraitDirector.modifiers(hero, context).get(trait_key, 0.0))))
     for key_value in HeroSkillManager.stats_for(hero).keys():
         var key: String=str(key_value); result[key]=int(result.get(key,0))+int(HeroSkillManager.stats_for(hero).get(key,0))
@@ -699,7 +699,9 @@ func hero_action(action: String) -> void:
         var hp_before := int(target.get("hp", 0))
         var power := 1.0 if action == "strike" else 1.35
         var cls: Dictionary = DataLoader.find_by_id(DataLoader.classes, hero.class_id)
-        var bonuses: Dictionary = hero_bonuses(hero, CharacterTraitDirector.context_for_enemy(target))
+        var bonuses: Dictionary = hero_bonuses(hero)
+        for contextual_key: Variant in CharacterTraitDirector.contextual_modifiers(hero, CharacterTraitDirector.context_for_enemy(target)).keys():
+            bonuses[str(contextual_key)] = int(bonuses.get(str(contextual_key), 0)) + int(round(float(CharacterTraitDirector.contextual_modifiers(hero, CharacterTraitDirector.context_for_enemy(target)).get(contextual_key, 0.0))))
         var base_damage: int = randi_range(int(cls.damage[0]), int(cls.damage[1])) + int(bonuses.get("damage_bonus", 0))
         var damage: int = int(base_damage * power)
         damage += int(round(damage * float(bonuses.get("precision", 0)) / 100.0))
@@ -765,7 +767,9 @@ func enemy_turn() -> void:
             finish_defeat()
             return
         var target: Dictionary = targets[randi() % targets.size()]
-        var target_bonuses: Dictionary = hero_bonuses(target, CharacterTraitDirector.context_for_enemy(enemy))
+        var target_bonuses: Dictionary = hero_bonuses(target)
+        for contextual_key: Variant in CharacterTraitDirector.contextual_modifiers(target, CharacterTraitDirector.context_for_enemy(enemy)).keys():
+            target_bonuses[str(contextual_key)] = int(target_bonuses.get(str(contextual_key), 0)) + int(round(float(CharacterTraitDirector.contextual_modifiers(target, CharacterTraitDirector.context_for_enemy(enemy)).get(contextual_key, 0.0))))
         var creature_bonuses: Dictionary = CreatureManager.party_bonuses()
         for bonus_key_value in creature_bonuses.keys():
             var bonus_key: String = str(bonus_key_value)
