@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "design_rule": "La cendre indique une direction praticable sans devenir une flèche HUD. Son émotion peut changer son mouvement, jamais la fiabilité de sa direction.",
   "objective_modes": {
     "boss": {
@@ -30,6 +30,15 @@
     "direction_smoothing": 8.0,
     "color_smoothing": 5.0,
     "minimum_direction_distance": 0.25
+  },
+  "activation": {
+    "request_only": true,
+    "visible_duration_s": 3.5,
+    "keyboard_action": "ash_guidance",
+    "touch_gesture": "double_tap",
+    "touch_zone": "upper_right",
+    "touch_zone_min_x_ratio": 0.55,
+    "touch_zone_max_y_ratio": 0.45
   },
   "emotion": {
     "fear": {
