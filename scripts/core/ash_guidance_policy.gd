@@ -18,7 +18,7 @@ func _load_dictionary(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
         return {}
     var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
-    return parsed if parsed is Dictionary else {}
+    return parsed if typeof(parsed) == TYPE_DICTIONARY else {}
 
 func _load_first_veil_graph() -> void:
     rooms_by_id.clear()
@@ -26,7 +26,7 @@ func _load_first_veil_graph() -> void:
     entry_room_id = ""
     var catalog: Dictionary = _load_dictionary(FIRST_VEIL_PATH)
     for room_value: Variant in catalog.get("rooms", []):
-        if not room_value is Dictionary:
+        if typeof(room_value) != TYPE_DICTIONARY:
             continue
         var room: Dictionary = room_value
         var room_id: String = str(room.get("id", ""))
@@ -47,7 +47,8 @@ func shortest_public_path(from_room_id: String, to_room_id: String, allowed_firs
     if from_room_id == "" or to_room_id == "" or not rooms_by_id.has(from_room_id) or not rooms_by_id.has(to_room_id):
         return result
     if from_room_id == to_room_id:
-        return [from_room_id]
+        result.append(from_room_id)
+        return result
 
     var queue: Array[String] = [from_room_id]
     var parents: Dictionary = {from_room_id: ""}
@@ -112,14 +113,20 @@ func boss_proximity_from_hops(hops_remaining: int) -> float:
     return clampf(pow(linear, curve), 0.0, 1.0)
 
 func color_for(objective_kind: String, proximity: float) -> Color:
-    var mode: Dictionary = (config.get("objective_modes", {}) as Dictionary).get(objective_kind, {})
+    var modes_value: Variant = config.get("objective_modes", {})
+    var modes: Dictionary = modes_value if typeof(modes_value) == TYPE_DICTIONARY else {}
+    var mode_value: Variant = modes.get(objective_kind, {})
+    var mode: Dictionary = mode_value if typeof(mode_value) == TYPE_DICTIONARY else {}
     var far_color: Color = Color.from_string(str(mode.get("far_color", "#85888D")), Color(0.52, 0.53, 0.55))
     var near_fallback: String = "#FF3B1F" if objective_kind == "boss" else "#45A8FF"
     var near_color: Color = Color.from_string(str(mode.get("near_color", near_fallback)), Color.WHITE)
     return far_color.lerp(near_color, clampf(proximity, 0.0, 1.0))
 
 func emission_color_for(objective_kind: String, proximity: float) -> Color:
-    var mode: Dictionary = (config.get("objective_modes", {}) as Dictionary).get(objective_kind, {})
+    var modes_value: Variant = config.get("objective_modes", {})
+    var modes: Dictionary = modes_value if typeof(modes_value) == TYPE_DICTIONARY else {}
+    var mode_value: Variant = modes.get(objective_kind, {})
+    var mode: Dictionary = mode_value if typeof(mode_value) == TYPE_DICTIONARY else {}
     var base: Color = color_for(objective_kind, proximity)
     var emission: Color = Color.from_string(str(mode.get("emission_color", base.to_html())), base)
     return base.lerp(emission, clampf(proximity * 1.15, 0.0, 1.0))
