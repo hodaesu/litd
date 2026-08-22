@@ -1,10 +1,12 @@
 # Traits positifs, négatifs et évolutifs
 
+Le catalogue comprend **25 traits positifs et 25 traits négatifs**. Les tests imposent une fourchette durable de 20 à 30 traits de chaque polarité.
+
 Chaque héros et ennemi possède au plus deux traits positifs et deux traits négatifs. Le tirage est aléatoire mais lié à une graine sauvegardée : recharger la partie ne permet pas de relancer les traits.
 
 Le héros de départ constitue l'exception : ses traits sont choisis avant la partie. Deux traits positifs imposent au moins un trait négatif.
 
-Les traits agissent sur la Peur, la Folie, les dégâts, la précision, la garde, les résistances et les comportements contextuels. Les effets de famille ne s'activent que dans la situation correspondante.
+Les traits couvrent notamment le courage, la témérité, la vigilance, les soins, la résistance mentale, la précision, la mobilité, les résistances environnementales, le soutien du groupe et les faits d’armes. Les défauts couvrent les phobies, la fragilité, l’impulsivité, la maladresse, la vulnérabilité, le pessimisme, l’égoïsme, la maladie, l’épuisement et les handicaps de combat.
 
 Les phobies progressent lorsque le personnage survit à l'exposition. Exemples :
 
