@@ -1,6 +1,6 @@
 extends Node
 
-const RUNNER := preload("res://scripts/core/ui_player_journey_smoke_test.gd")
+const RUNNER := preload("res://scripts/core/ui_roguelike_journey_smoke_test_v3.gd")
 const PROBE := preload("res://scripts/core/ui_player_journey_probe.gd")
 
 func _ready() -> void:

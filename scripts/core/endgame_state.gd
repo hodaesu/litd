@@ -18,6 +18,8 @@ var selected_legacy_perk := ""
 var ending_history: Array = []
 var legacy_perk_history: Array = []
 var epilogue_archive: Array = []
+var postgame_choice_presented := false
+var postgame_continuation_selected := false
 
 func _ready() -> void:
     epilogue_data = _load_json(EPILOGUES_PATH)
@@ -37,6 +39,8 @@ func reset_profile_progress() -> void:
     ending_history = []
     legacy_perk_history = []
     epilogue_archive = []
+    postgame_choice_presented = false
+    postgame_continuation_selected = false
     endgame_changed.emit()
 
 func is_postgame_unlocked() -> bool:
@@ -55,6 +59,22 @@ func record_current_ending() -> void:
     ending_history.append(record)
     epilogue_archive.append({"cycle":active_cycle,"ending_id":ending_id,"sections":current_epilogue().duplicate(true),"vignettes":visible_vignettes().duplicate(true)})
     endgame_changed.emit()
+
+func mark_postgame_choice_presented() -> void:
+    if not is_postgame_unlocked() or postgame_choice_presented:
+        return
+    postgame_choice_presented = true
+    endgame_changed.emit()
+
+func choose_continue_postgame() -> bool:
+    if not is_postgame_unlocked():
+        return false
+    record_current_ending()
+    postgame_choice_presented = true
+    postgame_continuation_selected = true
+    GameState.add_log("Le monde d'après continue — le Nouveau Cycle+ restera disponible depuis le Sanctuaire.")
+    endgame_changed.emit()
+    return true
 
 func current_epilogue() -> Dictionary:
     var ending_id := current_ending_id()
@@ -102,8 +122,9 @@ func complete_operation(operation_id: String) -> bool:
     return true
 
 func ng_plus_unlocked() -> bool:
-    var required := int(postgame_data.get("operations_required_for_ng_plus", 3))
-    return is_postgame_unlocked() and operation_count() >= required
+    # La fin de campagne suffit. Les opérations du monde d'après sont désormais
+    # un choix de préparation/héritage et jamais une porte obligatoire vers NG+.
+    return is_postgame_unlocked()
 
 func perks() -> Array:
     return ng_plus_data.get("perks", [])
@@ -118,20 +139,35 @@ func perk_available(perk_id: String) -> bool:
     var entry := perk(perk_id)
     return ng_plus_unlocked() and not entry.is_empty() and legacy_points >= int(entry.get("cost", 0))
 
-func begin_new_game_plus(perk_id: String) -> bool:
-    if not perk_available(perk_id): return false
+func can_begin_new_game_plus(perk_id: String = "") -> bool:
+    if not ng_plus_unlocked():
+        return false
+    if perk_id == "":
+        return true
+    return perk_available(perk_id)
+
+func begin_new_game_plus(perk_id: String = "") -> bool:
+    if not can_begin_new_game_plus(perk_id): return false
     record_current_ending()
-    var entry := perk(perk_id)
-    legacy_points -= int(entry.get("cost", 0))
+    postgame_choice_presented = true
+    postgame_continuation_selected = false
+
+    var entry: Dictionary = {}
+    if perk_id != "":
+        entry = perk(perk_id)
+        legacy_points -= int(entry.get("cost", 0))
+
     active_cycle += 1
     selected_legacy_perk = perk_id
-    legacy_perk_history.append({"cycle":active_cycle,"perk_id":perk_id})
+    legacy_perk_history.append({"cycle":active_cycle,"perk_id":perk_id if perk_id != "" else "none"})
     completed_operations = {}
     GameState.reset_new_game()
-    _apply_legacy_effects(entry.get("effects", {}))
+    if not entry.is_empty():
+        _apply_legacy_effects(entry.get("effects", {}))
     CampaignState.set_chapter_flag("ng_plus_active")
     CampaignState.set_chapter_flag("ng_plus_cycle_%d" % active_cycle)
-    GameState.add_log("Nouveau Cycle+ %d — %s" % [active_cycle, String(entry.get("name", perk_id))])
+    var legacy_name := String(entry.get("name", "Sans héritage")) if not entry.is_empty() else "Sans héritage"
+    GameState.add_log("Nouveau Cycle+ %d — %s" % [active_cycle, legacy_name])
     new_cycle_started.emit(active_cycle, perk_id)
     endgame_changed.emit()
     return true
@@ -206,7 +242,17 @@ func _apply_legacy_effects(effects: Dictionary) -> void:
     GameState.state_changed.emit()
 
 func serialize() -> Dictionary:
-    return {"completed_operations":completed_operations.duplicate(true),"legacy_points":legacy_points,"active_cycle":active_cycle,"selected_legacy_perk":selected_legacy_perk,"ending_history":ending_history.duplicate(true),"legacy_perk_history":legacy_perk_history.duplicate(true),"epilogue_archive":epilogue_archive.duplicate(true)}
+    return {
+        "completed_operations":completed_operations.duplicate(true),
+        "legacy_points":legacy_points,
+        "active_cycle":active_cycle,
+        "selected_legacy_perk":selected_legacy_perk,
+        "ending_history":ending_history.duplicate(true),
+        "legacy_perk_history":legacy_perk_history.duplicate(true),
+        "epilogue_archive":epilogue_archive.duplicate(true),
+        "postgame_choice_presented":postgame_choice_presented,
+        "postgame_continuation_selected":postgame_continuation_selected
+    }
 
 func deserialize(payload: Dictionary) -> void:
     completed_operations = payload.get("completed_operations", {}).duplicate(true)
@@ -216,4 +262,6 @@ func deserialize(payload: Dictionary) -> void:
     ending_history = payload.get("ending_history", []).duplicate(true)
     legacy_perk_history = payload.get("legacy_perk_history", []).duplicate(true)
     epilogue_archive = payload.get("epilogue_archive", []).duplicate(true)
+    postgame_choice_presented = bool(payload.get("postgame_choice_presented", false))
+    postgame_continuation_selected = bool(payload.get("postgame_continuation_selected", false))
     endgame_changed.emit()

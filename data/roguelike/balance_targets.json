@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "default_runs": 12000,
+  "seed": 20260821,
+  "party_level_offsets": [0, 2, 4, 6, 9],
+  "canonical_party_share": 0.5,
+  "required_level_win_rate": [0.38, 0.60],
+  "required_level_wipe_rate_max": 0.18,
+  "normal_rounds": [2.0, 4.5],
+  "elite_rounds": [3.5, 6.5],
+  "boss_rounds": [5.5, 10.5],
+  "retreat_rate": [0.35, 0.65],
+  "class_win_rate_spread_max": 0.10,
+  "class_survival_rate_spread_max": 0.12,
+  "legendary_loot_rate_max": 0.02,
+  "capture_per_successful_run": [0.10, 1.60],
+  "minimum_class_samples": 250
+}

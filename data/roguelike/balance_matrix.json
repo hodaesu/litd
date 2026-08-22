@@ -1,0 +1,50 @@
+{
+  "version": 5,
+  "seed": 20260821,
+  "analytical_cycles": [0, 1, 2, 3, 4],
+  "quick": {
+    "monte_carlo_compositions": 10,
+    "minimum_monte_carlo_compositions": 8,
+    "monte_carlo_cycles": [0, 1, 4],
+    "samples_per_cell": 1
+  },
+  "exhaustive": {
+    "monte_carlo_compositions": 210,
+    "minimum_monte_carlo_compositions": 210,
+    "monte_carlo_cycles": [0, 1, 2, 3, 4],
+    "samples_per_cell": 1,
+    "scope": "all_four_class_combinations"
+  },
+  "measurement_contracts": {
+    "matrix_cells": "isolated_encounters_with_full_health_party",
+    "expedition_clear_rate": "measured_only_by_roguelike_telemetry_sim_v2_with_full_attrition",
+    "dungeon_required_level_win_rate": "isolated_battle_guardrail_not_full_expedition_clear_rate",
+    "campaign_round_hierarchy": "normal_shorter_than_miniboss_shorter_than_boss",
+    "enemy_group_sizes": "normal_4_elite_2_to_3_miniboss_1_to_2_boss_1"
+  },
+  "campaign": {
+    "encounter_types": ["normal", "miniboss", "boss"],
+    "normal_enemy_ids": [1, 8, 1, 8],
+    "miniboss_enemy_ids": [30],
+    "boss_enemy_ids": [38]
+  },
+  "dungeon": {
+    "encounters": [
+      {"type": "combat", "depth": "first"},
+      {"type": "elite", "depth": "middle"},
+      {"type": "boss", "depth": "last"}
+    ]
+  },
+  "targets": {
+    "campaign_level_win_rate_spread_max": 0.30,
+    "composition_win_rate_spread_max": 0.20,
+    "ngplus_allowed_win_rate_noise": 0.04,
+    "campaign_normal_rounds": [2.0, 4.4],
+    "campaign_miniboss_rounds": [4.0, 5.8],
+    "campaign_boss_rounds": [6.0, 10.0],
+    "campaign_miniboss_normal_round_gap_min": 0.45,
+    "campaign_boss_miniboss_round_gap_min": 1.25,
+    "dungeon_required_level_win_rate": [0.75, 1.00],
+    "dungeon_level50_win_rate_min": 0.70
+  }
+}

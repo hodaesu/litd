@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "dungeon_id": "first_veil_crypts",
+  "units": "meters",
+  "design_contract": {
+    "one_node_one_room": true,
+    "physical_passages": true,
+    "secrets_hidden_until_discovered": true,
+    "stable_gameplay_anchors_for_blender_swap": true
+  },
+  "geometry": {
+    "wall": 0.4,
+    "floor": 0.25,
+    "door": [2.4, 3.2],
+    "corridor": [3.0, 3.5],
+    "palier_drop": 7.5,
+    "player_clearance": 1.9
+  },
+  "connectors": {
+    "standard_corridor": {"length": 5.0, "width": 3.0, "height": 3.5},
+    "stairwell": {"length": 8.0, "width": 3.2, "height": 4.0, "vertical_delta": 7.5},
+    "secret_passage": {"length": 3.5, "width": 1.8, "height": 2.6, "hidden": true},
+    "boss_gate": {"length": 4.0, "width": 4.0, "height": 6.0}
+  },
+  "anchor_profile": {
+    "hero_spawn": [0.0, 0.2, -0.3],
+    "combat_center": [0.0, 0.2, 0.0],
+    "enemy_spawn_left": [-0.22, 0.2, 0.18],
+    "enemy_spawn_center": [0.0, 0.2, 0.22],
+    "enemy_spawn_right": [0.22, 0.2, 0.18],
+    "interaction_primary": [0.0, 0.8, 0.18],
+    "interaction_secondary": [-0.22, 0.8, 0.0],
+    "interaction_tertiary": [0.22, 0.8, 0.0],
+    "camera_focus": [0.0, 0.42, 0.0]
+  },
+  "production_order": [
+    {"phase": 1, "name": "Boucle traversable", "rooms": ["fv_entry", "p1_guard", "p1_trap", "p1_puzzle", "p1_camp", "p2_combat", "p2_trap", "p3_combat", "p3_trap", "p4_elite", "p4_trap", "p4_combat", "p4_gate", "fv_boss"]},
+    {"phase": 2, "name": "Soutien et récompenses", "rooms": ["p1_treasure", "p1_shrine", "p1_merchant", "p2_treasure", "p2_shrine", "p2_camp", "p2_merchant", "p3_treasure", "p3_shrine", "p3_camp", "p3_merchant", "p4_treasure", "p4_shrine", "p4_merchant"]},
+    {"phase": 3, "name": "Élites et énigmes", "rooms": ["p2_puzzle", "p2_elite", "p3_elite", "p3_puzzle", "p4_puzzle"]},
+    {"phase": 4, "name": "Secrets", "rooms": ["p1_secret", "p2_secret", "p3_secret", "p4_secret"]},
+    {"phase": 5, "name": "Blender et polish", "rooms": ["ALL"]}
+  ],
+  "rooms": [
+    {"id":"fv_entry","dimensions":[14,10,6],"shape":"rectangular","port_sides":["north","east","south","west"],"phase":1,"module":"FV_VESTIBULE","role":"entry"},
+    {"id":"p1_guard","dimensions":[16,12,5],"shape":"rectangular","port_sides":["east","south","west","north"],"phase":1,"module":"FV_GUARD_ROOM","role":"combat"},
+    {"id":"p1_trap","dimensions":[18,6,4.5],"shape":"linear","port_sides":["south","west","north","east"],"phase":1,"module":"FV_GALLERY","role":"hazard"},
+    {"id":"p1_treasure","dimensions":[10,9,4.2],"shape":"rectangular","port_sides":["west","north","east","south"],"phase":2,"module":"FV_OFFERING_CHAMBER","role":"loot"},
+    {"id":"p1_shrine","dimensions":[12,10,6],"shape":"apsidal","port_sides":["north","east","south","west"],"phase":2,"module":"FV_CHAPEL","role":"support"},
+    {"id":"p1_camp","dimensions":[11,9,4],"shape":"rectangular","port_sides":["east","south","west","north"],"phase":2,"module":"FV_SHELTER","role":"support"},
+    {"id":"p1_merchant","dimensions":[9,8,4],"shape":"compact","port_sides":["south","west","north","east"],"phase":2,"module":"FV_CELL","role":"support"},
+    {"id":"p1_puzzle","dimensions":[14,11,5],"shape":"rectangular","port_sides":["west","north","east","south"],"phase":1,"module":"FV_MECHANISM_ROOM","role":"puzzle"},
+    {"id":"p1_secret","dimensions":[8,7,4],"shape":"compact","port_sides":["north","east","south","west"],"phase":4,"module":"FV_HIDDEN_VAULT","role":"secret"},
+    {"id":"p2_combat","dimensions":[17,13,5],"shape":"rectangular","port_sides":["east","south","west","north"],"phase":1,"module":"FV_CHAIN_VAULT","role":"combat"},
+    {"id":"p2_puzzle","dimensions":[15,10,5],"shape":"cross","port_sides":["south","west","north","east"],"phase":3,"module":"FV_SEALED_CROSSING","role":"puzzle"},
+    {"id":"p2_elite","dimensions":[19,16,6],"shape":"circular","port_sides":["west","north","east","south"],"phase":3,"module":"FV_ANTECHAMBER","role":"elite"},
+    {"id":"p2_treasure","dimensions":[11,10,4.5],"shape":"rectangular","port_sides":["north","east","south","west"],"phase":2,"module":"FV_TREASURY","role":"loot"},
+    {"id":"p2_shrine","dimensions":[12,11,6],"shape":"apsidal","port_sides":["east","south","west","north"],"phase":2,"module":"FV_VEILED_SHRINE","role":"support"},
+    {"id":"p2_camp","dimensions":[11,9,4],"shape":"rectangular","port_sides":["south","west","north","east"],"phase":2,"module":"FV_REFUGE","role":"support"},
+    {"id":"p2_merchant","dimensions":[14,10,5],"shape":"alcove","port_sides":["west","north","east","south"],"phase":2,"module":"FV_UNDERGROUND_MARKET","role":"support"},
+    {"id":"p2_trap","dimensions":[20,6,4],"shape":"linear","port_sides":["north","east","south","west"],"phase":1,"module":"FV_SPIKE_GALLERY","role":"hazard"},
+    {"id":"p2_secret","dimensions":[9,8,4],"shape":"compact","port_sides":["east","south","west","north"],"phase":4,"module":"FV_HIDDEN_CELLAR","role":"secret"},
+    {"id":"p3_combat","dimensions":[18,14,5],"shape":"rectangular","port_sides":["south","west","north","east"],"phase":1,"module":"FV_ASH_CRYPT","role":"combat"},
+    {"id":"p3_elite","dimensions":[20,16,6],"shape":"monumental","port_sides":["west","north","east","south"],"phase":3,"module":"FV_HERO_TOMB","role":"elite"},
+    {"id":"p3_trap","dimensions":[16,12,8],"shape":"ring","port_sides":["north","east","south","west"],"phase":1,"module":"FV_ASH_PIT","role":"hazard"},
+    {"id":"p3_puzzle","dimensions":[15,13,6],"shape":"semicircle","port_sides":["east","south","west","north"],"phase":3,"module":"FV_CHOIR","role":"puzzle"},
+    {"id":"p3_treasure","dimensions":[11,10,5],"shape":"rectangular","port_sides":["south","west","north","east"],"phase":2,"module":"FV_SEALED_TREASURY","role":"loot"},
+    {"id":"p3_shrine","dimensions":[9,8,5],"shape":"compact","port_sides":["west","north","east","south"],"phase":2,"module":"FV_ORATORY","role":"support"},
+    {"id":"p3_camp","dimensions":[12,10,4.5],"shape":"irregular","port_sides":["north","east","south","west"],"phase":2,"module":"FV_SURVIVOR_CAMP","role":"support"},
+    {"id":"p3_merchant","dimensions":[13,10,4.5],"shape":"alcove","port_sides":["east","south","west","north"],"phase":2,"module":"FV_BONE_MARKET","role":"support"},
+    {"id":"p3_secret","dimensions":[12,9,5],"shape":"rectangular","port_sides":["south","west","north","east"],"phase":4,"module":"FV_HIDDEN_ARCHIVE","role":"secret"},
+    {"id":"p4_elite","dimensions":[20,16,6.5],"shape":"rectangular","port_sides":["west","north","east","south"],"phase":3,"module":"FV_RED_VESTIBULE","role":"elite"},
+    {"id":"p4_trap","dimensions":[24,6,5.5],"shape":"linear","port_sides":["north","east","south","west"],"phase":1,"module":"FV_FINAL_CORRIDOR","role":"hazard"},
+    {"id":"p4_combat","dimensions":[20,14,6],"shape":"hall","port_sides":["east","south","west","north"],"phase":1,"module":"FV_GUARD_HALL","role":"combat"},
+    {"id":"p4_puzzle","dimensions":[16,14,6],"shape":"rectangular","port_sides":["south","west","north","east"],"phase":3,"module":"FV_FLOODED_CHAIN_ROOM","role":"puzzle"},
+    {"id":"p4_treasure","dimensions":[12,10,5],"shape":"rectangular","port_sides":["west","north","east","south"],"phase":2,"module":"FV_FINAL_TREASURY","role":"loot"},
+    {"id":"p4_shrine","dimensions":[13,11,7],"shape":"apsidal","port_sides":["north","east","south","west"],"phase":2,"module":"FV_FRACTURED_SHRINE","role":"support"},
+    {"id":"p4_merchant","dimensions":[12,9,5],"shape":"alcove","port_sides":["east","south","west","north"],"phase":2,"module":"FV_THRESHOLD_MARKET","role":"support"},
+    {"id":"p4_secret","dimensions":[13,10,6],"shape":"irregular","port_sides":["south","west","north","east"],"phase":4,"module":"FV_HIDDEN_FLOODED_ROOM","role":"secret"},
+    {"id":"p4_gate","dimensions":[14,10,8],"shape":"monumental","port_sides":["west","north","east","south"],"phase":1,"module":"FV_BOSS_GATE","role":"preboss"},
+    {"id":"fv_boss","dimensions":[28,22,10],"shape":"cathedral","port_sides":["north","east","south","west"],"phase":1,"module":"FV_BOSS_CHAMBER","role":"boss"}
+  ]
+}

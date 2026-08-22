@@ -2,16 +2,25 @@
   {
     "id": "secret",
     "name": "Le passage oublié",
-    "description": "Découvrir un passage secret dans les Cryptes."
+    "description": "Découvrir un passage secret dans les Cryptes.",
+    "quest_type": "dungeon",
+    "dungeon_id": "first_veil_crypts",
+    "condition": {"type": "visit_room_type", "room_type": "secret"}
   },
   {
     "id": "pilgrim",
     "name": "Voix dans le voile",
-    "description": "Répondre au Pèlerin sans visage."
+    "description": "Suivre une présence anormale jusqu'à une salle où le Voile répond.",
+    "quest_type": "dungeon",
+    "dungeon_id": "first_veil_crypts",
+    "condition": {"type": "visit_room_type", "room_type": "anomaly"}
   },
   {
     "id": "boss",
     "name": "Le Gardien des Cryptes",
-    "description": "Vaincre le Gardien du Premier Voile."
+    "description": "Atteindre le cœur du donjon et vaincre son gardien.",
+    "quest_type": "dungeon",
+    "dungeon_id": "first_veil_crypts",
+    "condition": {"type": "boss_defeated"}
   }
 ]

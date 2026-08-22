@@ -1,6 +1,6 @@
 extends Node
 
-const RUNNER := preload("res://scripts/core/mobile_touch_smoke_test.gd")
+const RUNNER := preload("res://scripts/core/mobile_touch_smoke_test_v2.gd")
 
 func _ready() -> void:
     call_deferred("_start_runner")

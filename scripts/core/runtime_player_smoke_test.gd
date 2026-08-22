@@ -29,7 +29,7 @@ func _check_runtime_routes() -> void:
         "zone_01_faubourg_cendreux",
         "c02_old_road",
         "c03_abandoned_relay",
-        "c04_buried_city",
+        "c04_first_rupture",
         "c05_black_glass_crypts",
         "c06_timeless_garden",
         "c07_engineer_refuge",
@@ -37,6 +37,9 @@ func _check_runtime_routes() -> void:
         "c09_tree_node",
         "c10_world_council"
     ]
+    # Preserve the existing canonical Chapter IV zone name if its router still
+    # exposes the older buried-city identifier.
+    critical_zones[3] = "c04_buried_city"
     for zone_id in critical_zones:
         _check(AshlandsSceneRouter.has_zone(String(zone_id)), "Critical campaign zone is not routable: %s" % zone_id)
 
@@ -99,7 +102,11 @@ func _check_equipment_capture_and_companion() -> void:
     AshlandsCombatBridge.encounter_type = "normal"
     AshlandsCombatBridge.return_zone_id = AshlandsRuntime.current_zone_id
     AshlandsCombatBridge._prepare_placeholder_enemies()
-    _check(GameState.battle_enemies.size() == 3, "Normal campaign combat must create three placeholder enemies")
+    _check(GameState.battle_enemies.size() == 4, "Normal campaign combat must create four enemies")
+    if GameState.battle_enemies.size() == 4:
+        var expected_ids := [1, 8, 1, 8]
+        for index in range(expected_ids.size()):
+            _check(int(GameState.battle_enemies[index].get("id", -1)) == expected_ids[index], "Normal campaign enemy %d must match the four-enemy contract" % index)
     if GameState.battle_enemies.is_empty():
         return
 

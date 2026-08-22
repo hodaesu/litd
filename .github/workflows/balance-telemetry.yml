@@ -1,0 +1,76 @@
+name: Balance Telemetry
+
+on:
+  pull_request:
+  schedule:
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: "Nombre d'expéditions Monte Carlo du donjon étalon"
+        required: false
+        default: "12000"
+      matrix_mode:
+        description: "Profondeur de la matrice globale"
+        required: false
+        type: choice
+        options:
+          - quick
+          - exhaustive
+        default: exhaustive
+
+permissions:
+  contents: read
+
+jobs:
+  roguelike-telemetry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Simuler les expéditions LITD
+        env:
+          TELEMETRY_RUNS: ${{ github.event.inputs.runs || '12000' }}
+        run: >-
+          python -m tools.qa.roguelike_telemetry_sim_v2
+          --runs "$TELEMETRY_RUNS"
+          --report reports/roguelike-telemetry.json
+          --csv reports/roguelike-telemetry.csv
+          --strict
+      - name: Publier les rapports d'équilibrage
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: roguelike-balance-telemetry
+          path: |
+            reports/roguelike-telemetry.json
+            reports/roguelike-telemetry.csv
+
+  full-balance-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Couvrir niveaux, groupes, campagne, donjons et NG+
+        env:
+          MATRIX_MODE: ${{ github.event_name == 'pull_request' && 'quick' || github.event.inputs.matrix_mode || 'exhaustive' }}
+        run: >-
+          python -m tools.qa.balance_matrix_sim_v3
+          --mode "$MATRIX_MODE"
+          --report reports/balance-matrix.json
+          --csv reports/balance-matrix.csv
+          --raw-csv-gz reports/balance-matrix-cells.csv.gz
+          --strict
+      - name: Publier la matrice globale
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-game-balance-matrix
+          path: |
+            reports/balance-matrix.json
+            reports/balance-matrix.csv
+            reports/balance-matrix-cells.csv.gz

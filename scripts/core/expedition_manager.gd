@@ -7,6 +7,8 @@ signal resource_shortage(resource_id: String)
 signal pressure_applied(amount: int, source: String)
 
 const RULES_PATH := "res://data/levels/ashlands_survival_rules.json"
+const ROGUELIKE_RUNTIME_SCRIPT := preload("res://scripts/core/roguelike_runtime.gd")
+const FIRST_DESCENT_RUNTIME_SCRIPT := preload("res://scripts/core/first_descent_runtime.gd")
 
 var rules: Dictionary = {}
 var inventory: Dictionary = {}
@@ -14,8 +16,16 @@ var craft_resources: Dictionary = {}
 var expedition_active := false
 var expedition_seed := 0
 var zones_entered_this_run: Array[String] = []
+var roguelike_runtime
+var first_descent_runtime
 
 func _ready() -> void:
+    roguelike_runtime = ROGUELIKE_RUNTIME_SCRIPT.new()
+    roguelike_runtime.name = "RoguelikeRuntime"
+    add_child(roguelike_runtime)
+    first_descent_runtime = FIRST_DESCENT_RUNTIME_SCRIPT.new()
+    first_descent_runtime.name = "FirstDescentRuntime"
+    add_child(first_descent_runtime)
     _load_rules()
     if inventory.is_empty():
         reset_to_full_resupply()
@@ -28,22 +38,59 @@ func _load_rules() -> void:
     if typeof(parsed) == TYPE_DICTIONARY:
         rules = parsed
 
+func reset_new_game() -> void:
+    expedition_active = false
+    expedition_seed = 0
+    zones_entered_this_run.clear()
+    if roguelike_runtime != null:
+        roguelike_runtime.reset_new_game()
+    if first_descent_runtime != null:
+        first_descent_runtime.reset_new_game()
+    reset_to_full_resupply()
+
 func reset_to_full_resupply() -> void:
     inventory = rules.get("expedition_inventory", {}).duplicate(true)
     craft_resources = {}
     inventory_changed.emit(inventory.duplicate(true))
 
-func start_expedition(seed_value: int = 0) -> void:
+func start_expedition(seed_value: int = 0, dungeon_id: String = "") -> void:
     expedition_seed = seed_value if seed_value != 0 else int(Time.get_unix_time_from_system())
     expedition_active = true
     zones_entered_this_run.clear()
+    if first_descent_runtime != null:
+        first_descent_runtime.start_attempt(dungeon_id, expedition_seed, GameState.party)
+    if roguelike_runtime != null:
+        roguelike_runtime.start_run(expedition_seed)
     expedition_started.emit(expedition_seed)
+    # La tentative est sauvegardée dès l'entrée : recharger après une extraction ou
+    # une défaite ne peut donc pas recréer artificiellement une "première" descente.
+    SaveManager.save_game()
 
-func return_to_hub(reason: String = "voluntary") -> void:
+func return_to_hub(reason: String = "voluntary") -> Dictionary:
+    var first_descent_result: Dictionary = {}
+    if first_descent_runtime != null and expedition_active:
+        var run_state: Dictionary = roguelike_runtime.active_run if roguelike_runtime != null else {}
+        first_descent_result = first_descent_runtime.finish_attempt(
+            reason,
+            run_state,
+            GameState.party,
+            int(inventory.get("light", -1))
+        )
+        if bool(first_descent_result.get("unlocked", false)):
+            var title: Dictionary = first_descent_result.get("title", {})
+            var relic: Dictionary = first_descent_result.get("relic", {})
+            GameState.add_log("PREMIÈRE DESCENTE : %s · relique %s." % [
+                str(title.get("name", "Première Descente")),
+                str(relic.get("name", "Relique"))
+            ])
+    if roguelike_runtime != null and expedition_active:
+        roguelike_runtime.commit_party_deaths(reason)
+        roguelike_runtime.finish_run(reason)
     expedition_active = false
     zones_entered_this_run.clear()
     reset_to_full_resupply()
     expedition_ended.emit(reason)
+    return first_descent_result
 
 func on_zone_entered(zone_id: String) -> Dictionary:
     if not expedition_active:
@@ -55,6 +102,100 @@ func on_zone_entered(zone_id: String) -> Dictionary:
             apply_pressure(5 * result.get("missing", []).size(), "resource_shortage")
         return result
     return {"success": true, "missing": []}
+
+func enter_dungeon_room(room_id: String) -> Dictionary:
+    if roguelike_runtime == null:
+        return {"success": false, "reason": "roguelike_runtime_unavailable"}
+    return roguelike_runtime.enter_room(room_id)
+
+func dungeon_layout() -> Array:
+    if roguelike_runtime == null:
+        return []
+    return roguelike_runtime.active_run.get("dungeon", []).duplicate(true)
+
+func current_risk_profile() -> Dictionary:
+    if roguelike_runtime == null:
+        return {"light": int(inventory.get("light", 0)), "danger_multiplier": 1.0, "loot_multiplier": 1.0}
+    return roguelike_runtime.current_risk_profile()
+
+func deliberately_dim_light(amount: int = 1) -> Dictionary:
+    if roguelike_runtime == null:
+        return current_risk_profile()
+    return roguelike_runtime.dim_light(amount)
+
+func generate_roguelike_loot(depth: int, source: String = "room", seed_salt: int = 0) -> Dictionary:
+    if roguelike_runtime == null:
+        return {}
+    return roguelike_runtime.generate_loot(depth, source, seed_salt)
+
+func add_loot_to_expedition(item: Dictionary) -> bool:
+    return roguelike_runtime != null and roguelike_runtime.add_cargo(item)
+
+func inventory_slots_used() -> int:
+    if roguelike_runtime == null:
+        return 0
+    return roguelike_runtime.inventory_slots_used()
+
+func inventory_capacity() -> int:
+    if roguelike_runtime == null:
+        return 20
+    return roguelike_runtime.inventory_capacity()
+
+func capture_check(enemy: Dictionary, zone_id: String) -> Dictionary:
+    if roguelike_runtime == null:
+        return {"allowed": false, "reason": "roguelike_runtime_unavailable"}
+    return roguelike_runtime.can_capture(enemy, zone_id)
+
+func register_roguelike_capture(enemy: Dictionary, zone_id: String) -> Dictionary:
+    if roguelike_runtime == null:
+        return {"allowed": false, "reason": "roguelike_runtime_unavailable"}
+    return roguelike_runtime.register_capture(enemy, zone_id)
+
+func record_enemy_knowledge(enemy_id: String, killed: bool = false) -> Dictionary:
+    if roguelike_runtime == null:
+        return {}
+    return roguelike_runtime.record_enemy_knowledge(enemy_id, killed)
+
+func archive_expedition_lore(entry_id: String, payload: Dictionary) -> bool:
+    return roguelike_runtime != null and roguelike_runtime.archive_lore(entry_id, payload)
+
+func unlock_horizontal_meta(unlock_id: String, payload: Dictionary = {}) -> bool:
+    return roguelike_runtime != null and roguelike_runtime.unlock_meta(unlock_id, payload)
+
+func ultimate_uses_for_level(level: int) -> int:
+    if roguelike_runtime == null:
+        return 0
+    return roguelike_runtime.ultimate_uses_for_level(level)
+
+func hazard_interactions(hazard_id: String) -> Array:
+    if roguelike_runtime == null:
+        return []
+    return roguelike_runtime.hazard_interactions(hazard_id)
+
+func extraction_summary() -> Dictionary:
+    if roguelike_runtime == null:
+        return {}
+    return roguelike_runtime.extraction_summary()
+
+func first_descent_status(dungeon_id: String = "") -> Dictionary:
+    if first_descent_runtime == null:
+        return {"active": false, "eligible": false, "claimed": false, "attempts": 0}
+    return first_descent_runtime.status(dungeon_id)
+
+func first_descent_collection() -> Dictionary:
+    if first_descent_runtime == null:
+        return {"titles": {}, "relics": {}, "achievements": {}, "claims": {}}
+    return first_descent_runtime.collection()
+
+func first_descent_chronicles() -> Array:
+    if first_descent_runtime == null:
+        return []
+    return first_descent_runtime.chronicle_entries()
+
+func last_first_descent_award() -> Dictionary:
+    if first_descent_runtime == null:
+        return {}
+    return first_descent_runtime.last_award.duplicate(true)
 
 func can_pay(bundle: Dictionary) -> bool:
     for key in bundle.keys():
@@ -168,7 +309,9 @@ func serialize() -> Dictionary:
         "craft_resources": craft_resources,
         "expedition_active": expedition_active,
         "expedition_seed": expedition_seed,
-        "zones_entered_this_run": zones_entered_this_run
+        "zones_entered_this_run": zones_entered_this_run,
+        "roguelike": roguelike_runtime.serialize() if roguelike_runtime != null else {},
+        "first_descent": first_descent_runtime.serialize() if first_descent_runtime != null else {}
     }
 
 func deserialize(data: Dictionary) -> void:
@@ -177,4 +320,8 @@ func deserialize(data: Dictionary) -> void:
     expedition_active = bool(data.get("expedition_active", false))
     expedition_seed = int(data.get("expedition_seed", 0))
     zones_entered_this_run.assign(data.get("zones_entered_this_run", []))
+    if roguelike_runtime != null:
+        roguelike_runtime.deserialize(data.get("roguelike", {}))
+    if first_descent_runtime != null:
+        first_descent_runtime.deserialize(data.get("first_descent", {}))
     inventory_changed.emit(inventory.duplicate(true))
