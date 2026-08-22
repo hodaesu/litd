@@ -27,6 +27,33 @@ Production tracks:
 9. `IMPACTS`
 10. `TRANSITIONS`
 
+## Selected instrument stack
+
+The machine-readable artistic/technical plan lives in `tools/music_pipeline/instrument_stack.json`.
+
+### Free prototype stack
+
+Use **Orchestral Tools SINEplayer** as the main host so the prototype does not depend on many unrelated plugin ecosystems.
+
+Install these free libraries:
+
+- Berlin Free Orchestra — solo cello, celli, basses, orchestral winds, timpani, drums and metals;
+- SINEfactory Gearbox — bass drums, frame drums and body percussion;
+- SINEfactory Manifold — male/female studio vocal ensembles;
+- SINEfactory Lucent — flute color for the Esprit layer;
+- SINEfactory Crucible — organ source for Ash/corruption processing;
+- SINEfactory Dynamo — supplementary percussion.
+
+This covers the complete Arrangement 01 prototype at zero sample-library cost.
+
+### Asian-influenced identity upgrade
+
+After the first complete free render works end-to-end, the preferred single premium extension is **Ethno World 7 Instruments**, hosted by Kontakt Player VST3. It is selected for its broad palette rather than as a generic "Asian preset" source. Priority colors for LITD are shakuhachi/bansuri/hulusi/sheng, koto/pipa/zheng/shamisen/erhu, taiko, gamelan and tuned gongs.
+
+These timbres must be written into the Corps / Esprit / Commun grammar and combined with LITD's European public-domain source material rather than used as stereotype markers.
+
+`UVI World Suite 3` remains the fallback broad world-instrument package if the Kontakt workflow is rejected later.
+
 ## One-time workstation setup
 
 Install:
@@ -35,15 +62,19 @@ Install:
 - REAPER (orchestration, VST instruments, FX and stem rendering)
 - Godot 4.3 editor
 - Python 3.10+
+- Orchestral Tools SINEplayer + the free libraries listed above
 
 If the executables are not on `PATH`, define `MUSESCORE_BIN`, `REAPER_BIN` and/or `GODOT_BIN` with their complete executable paths.
 
 In REAPER, enable the MIDI-import preference that expands a multitrack MIDI file into separate tracks. This is the only MIDI import preference required by the setup ReaScript.
 
-Register these two Lua files once in REAPER's Action List as ReaScripts:
+Register these Lua files once in REAPER's Action List as ReaScripts:
 
+- `tools/music_pipeline/reaper/litd_detect_plugins.lua`
 - `tools/music_pipeline/reaper/litd_setup_project.lua`
 - `tools/music_pipeline/reaper/litd_render_all.lua`
+
+After installing SINEplayer or another selected player, run `litd_detect_plugins.lua`. It enumerates the installed FX and prints the exact REAPER names for SINE/Kontakt/UVI-family plugins. Those exact names can then be used safely in `litd_instrument_map.lua` instead of guessing a VST identifier.
 
 ## Arrangement 01 source
 
@@ -83,7 +114,7 @@ The script automatically:
 - sets `$region_$track` naming;
 - prepares 48 kHz stereo WAV rendering.
 
-The optional `litd_instrument_map.lua` is deliberately empty by default. Fill it with the exact names of instruments/effects you legally own, or use a REAPER track template and leave the map empty.
+`litd_instrument_map.lua` remains empty until the actual workstation plugin names have been detected. This prevents a broken configuration caused by guessed VST display names. The patch/instrument choices themselves are already fixed in `instrument_stack.json`.
 
 ## Render
 
