@@ -53,6 +53,22 @@ func skill_movements(hero_id: String, branch: String = "") -> Array:
             result.append(item)
     return result
 
+func enemy_movements(owner: String) -> Array:
+    return for_owner(owner, "enemy")
+
+func enemy_variant(owner: String, base_action: String, physical_state: String = "healthy", psychological_state: String = "neutral", combat_intent: String = "idle") -> Dictionary:
+    var movement: Dictionary = {}
+    for value: Variant in enemy_movements(owner):
+        var item: Dictionary = value
+        if str(item.get("motion_family", "")) == base_action or str(item.get("trigger", "")) == base_action:
+            movement = item
+            break
+    var body: Dictionary = EnemyBodyDirector.movement_variant(owner, base_action, physical_state, psychological_state, combat_intent)
+    if body.is_empty():
+        return movement.duplicate(true)
+    body["registry_entry"] = movement.duplicate(true)
+    return body
+
 func blender_queue(rig: String = "") -> Array:
     var result: Array = []
     for value: Variant in data.get("entries", []):
