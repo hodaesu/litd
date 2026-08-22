@@ -50,6 +50,10 @@ func set_action(action_id: String, context: Dictionary = {}) -> Dictionary:
     current_action = action_id
     current_context.merge(context, true)
     current_plan = BodyStateDirector.combat_action_plan(current_character, action_id, current_context)
+    var movement_contract: Dictionary = MovementRegistry.for_trigger(action_id)
+    if movement_contract.is_empty():
+        movement_contract = MovementRegistry.movement("global.%s" % action_id)
+    current_plan["movement_contract"] = movement_contract
     current_profile = current_plan.get("profile", BodyStateDirector.evaluate(current_character, current_context))
     _cache_targets()
     _apply_animation_tree_parameters()
