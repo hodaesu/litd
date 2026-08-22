@@ -46,11 +46,12 @@ func run() -> void:
     NarrativeAudioDirector.end_dialogue("layered_music_smoke")
     await get_tree().process_frame
 
+    var before_boss_generation: int = int(LayeredMusicRuntime.snapshot().get("cue_generation", 0))
     LayeredMusicRuntime.sync_cue("combat_boss", 0.84)
     await get_tree().process_frame
     var boss: Dictionary = LayeredMusicRuntime.snapshot()
     _check(str(boss.get("cue", "")) == "combat_boss", "Boss must switch to its own layered cue")
-    _check(int(boss.get("cue_generation", 0)) == generation + 1, "Changing piece must increment cue generation")
+    _check(int(boss.get("cue_generation", 0)) == before_boss_generation + 1, "Changing piece must increment cue generation exactly once")
     _check((boss.get("active_layers", []) as Array) == ["pulse", "percussion", "strings", "choir"], "Boss phase one must already carry four layers")
 
     LayeredMusicRuntime.sync_cue("sanctuary_day", 0.2)
