@@ -239,31 +239,6 @@
         "essence": 8,
         "veil_knowledge": 5
       }
-    },
-    {
-      "id": "c01_side_embers_for_night",
-      "name": "Des braises pour la nuit",
-      "quest_type": "side",
-      "summary": "Rallumer trois foyers de route sans épuiser les réserves du groupe.",
-      "objectives": [
-        {
-          "id": "relight",
-          "event": "interaction",
-          "target": "road_brazier",
-          "count": 3
-        }
-      ],
-      "optional_constraint": {
-        "id": "supplies_saved",
-        "event": "resource_max_spent",
-        "target": "supplies",
-        "count": 1
-      },
-      "reward": {
-        "gold": 30,
-        "light": 12,
-        "route_safety": 4
-      }
     }
   ]
 }
