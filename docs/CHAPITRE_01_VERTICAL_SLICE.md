@@ -88,3 +88,24 @@ Chaque chapitre majeur doit au minimum posséder :
 - une révélation qui ne repose pas sur une source unique ;
 - une progression enregistrée dans le journal ;
 - des embranchements persistants plutôt qu'un simple choix cosmétique.
+
+## Première carte de test — scénario détaillé
+
+**La Route sous la cendre** commence lorsque la compagnie quitte le Sanctuaire pour rouvrir une chaussée ensevelie. Une cloche sonne sous terre, des survivants se cachent dans les ruines et une borne porte des traces du Voile antérieures à la Chute. Le parcours se déroule en trois actes : sécuriser la route, confronter trois sources contradictoires, puis affronter le Témoin des Cendres et décider de son sort.
+
+Cinq fils secondaires complètent cette progression :
+
+1. **La cloche ensevelie** — sauvetage et choix d’usage collectif ;
+2. **Les noms dans la cendre** — mémoire des morts et Mémorial ;
+3. **Le dernier nécessaire** — ressources médicales et respect des dépouilles ;
+4. **Ce qui n’attaque plus** — coexistence, capture ou mise à mort d’une créature ;
+5. **Trois vérités pour une borne** — enquête par sources indépendantes ;
+6. **Des braises pour la nuit** — sécurisation facultative de la route.
+
+Le contenu de test retient cinq quêtes secondaires actives par partie parmi ces six fils afin de permettre une rotation ultérieure sans réécriture de la carte.
+
+## Contrats de chasse rejouables
+
+Chaque donjon possède un tableau de trois primes générées à partir des ennemis réellement présents. Deux contrats peuvent être actifs simultanément. Les familles de contrats couvrent élimination, élite, capture, anatomie, victoire sans perte et chasse sous Peur.
+
+La graine est sauvegardée : recharger ne relance pas le tableau. Les contrats expirent après plusieurs expéditions et leurs récompenses suivent le niveau du donjon, la difficulté et une série de réussites plafonnée. La campagne ajoute deux contrats longs portant sur plusieurs donjons ou un chapitre entier.
