@@ -1,0 +1,1054 @@
+{
+  "schema_version": 1,
+  "purpose": "Empêcher les ennemis de partager une silhouette corporelle générique en composant espèce, morphologie, tempérament, rôle, asymétrie et état.",
+  "rules": {
+    "unique_signature_per_enemy": true,
+    "no_random_per_frame": true,
+    "deterministic_phase_offset": true,
+    "gameplay_authority": "Godot",
+    "animation_authority": "AnimationTree/Blender",
+    "captured_enemy_keeps_signature": true,
+    "bosses_never_use_generic_idle": true,
+    "emotion_modifies_baseline_without_replacing_species_motion": true
+  },
+  "composition_order": [
+    "archetype",
+    "temperament",
+    "tactical_role",
+    "individual_asymmetry",
+    "physical_state",
+    "psychological_state",
+    "combat_intent",
+    "phase_offset"
+  ],
+  "archetypes": {
+    "feral_humanoid": {
+      "rig": "LITD_GHOUL_STANDARD",
+      "center": "shoulders_head",
+      "base_stance": "low_forward",
+      "cadence": "burst_free",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    },
+    "ritual_humanoid": {
+      "rig": "LITD_HUMANOID_STANDARD",
+      "center": "sternum_hands",
+      "base_stance": "upright_bound",
+      "cadence": "measured_ritual",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    },
+    "armored_humanoid": {
+      "rig": "LITD_HUMANOID_HEAVY",
+      "center": "pelvis_chest",
+      "base_stance": "wide_grounded",
+      "cadence": "slow_committed",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    },
+    "serpentine": {
+      "rig": "LITD_SERPENT_STANDARD",
+      "center": "spine_head",
+      "base_stance": "coiled_low",
+      "cadence": "continuous_wave",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    },
+    "skirmisher_humanoid": {
+      "rig": "LITD_HUMANOID_STANDARD",
+      "center": "hips_hands",
+      "base_stance": "offset_ready",
+      "cadence": "sudden_precise",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    },
+    "floating_spectral": {
+      "rig": "LITD_SPECTRAL_STANDARD",
+      "center": "gaze_ribcage",
+      "base_stance": "vertical_unweighted",
+      "cadence": "sustained_drift",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    },
+    "brute_biped": {
+      "rig": "LITD_BRUTE_STANDARD",
+      "center": "pelvis_shoulders",
+      "base_stance": "very_wide_forward",
+      "cadence": "heavy_burst",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    },
+    "agile_avian": {
+      "rig": "LITD_AVIAN_STANDARD",
+      "center": "head_scapulae",
+      "base_stance": "high_light",
+      "cadence": "staccato_glide",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    },
+    "arachnid": {
+      "rig": "LITD_ARACHNID_STANDARD",
+      "center": "abdomen_forelegs",
+      "base_stance": "radial_low",
+      "cadence": "alternating_still_burst",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    },
+    "quadruped": {
+      "rig": "LITD_QUADRUPED_STANDARD",
+      "center": "scapulae_head",
+      "base_stance": "low_sprung",
+      "cadence": "elastic_hunt",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    },
+    "insectoid": {
+      "rig": "LITD_INSECT_STANDARD",
+      "center": "thorax_mandibles",
+      "base_stance": "segmented_low",
+      "cadence": "rapid_segmented",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    },
+    "colossus": {
+      "rig": "LITD_COLOSSUS_STANDARD",
+      "center": "pelvis_spine",
+      "base_stance": "monumental_vertical",
+      "cadence": "very_slow_irreversible",
+      "actions": [
+        "idle",
+        "advance",
+        "retreat",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "hit",
+        "stagger",
+        "death"
+      ],
+      "additive_compatible": true
+    }
+  },
+  "temperaments": {
+    "predatory": {
+      "space": "direct",
+      "weight": "light",
+      "time": "sudden",
+      "flow": "free",
+      "gaze": "target_exit_switch"
+    },
+    "fanatic": {
+      "space": "direct",
+      "weight": "strong",
+      "time": "sustained",
+      "flow": "bound",
+      "gaze": "fixed_devotional"
+    },
+    "disciplined": {
+      "space": "direct",
+      "weight": "strong",
+      "time": "sustained",
+      "flow": "bound",
+      "gaze": "threat_priority"
+    },
+    "erratic": {
+      "space": "indirect",
+      "weight": "light",
+      "time": "sudden",
+      "flow": "free",
+      "gaze": "broken_scan"
+    },
+    "patient": {
+      "space": "indirect",
+      "weight": "light",
+      "time": "sustained",
+      "flow": "bound",
+      "gaze": "long_observation"
+    },
+    "dominant": {
+      "space": "direct",
+      "weight": "strong",
+      "time": "sudden",
+      "flow": "bound",
+      "gaze": "claim_space"
+    },
+    "evasive": {
+      "space": "indirect",
+      "weight": "light",
+      "time": "sudden",
+      "flow": "free",
+      "gaze": "escape_first"
+    },
+    "mournful": {
+      "space": "indirect",
+      "weight": "strong",
+      "time": "sustained",
+      "flow": "bound",
+      "gaze": "lowered_then_lock"
+    },
+    "alien": {
+      "space": "indirect",
+      "weight": "light",
+      "time": "sustained",
+      "flow": "free",
+      "gaze": "nonhuman_focus"
+    },
+    "regal": {
+      "space": "direct",
+      "weight": "strong",
+      "time": "sustained",
+      "flow": "free",
+      "gaze": "unbroken_command"
+    }
+  },
+  "tactical_roles": {
+    "hunter": {
+      "orientation": "target",
+      "spacing": "close",
+      "guard": "low"
+    },
+    "support": {
+      "orientation": "allies",
+      "spacing": "rear",
+      "guard": "protected"
+    },
+    "guardian": {
+      "orientation": "protected_unit",
+      "spacing": "interpose",
+      "guard": "high"
+    },
+    "ambusher": {
+      "orientation": "flank",
+      "spacing": "hidden",
+      "guard": "compressed"
+    },
+    "striker": {
+      "orientation": "weak_target",
+      "spacing": "mid",
+      "guard": "ready"
+    },
+    "controller": {
+      "orientation": "group_center",
+      "spacing": "rear",
+      "guard": "open"
+    },
+    "breaker": {
+      "orientation": "frontline",
+      "spacing": "close",
+      "guard": "committed"
+    },
+    "bruiser": {
+      "orientation": "nearest",
+      "spacing": "close",
+      "guard": "open"
+    },
+    "skirmisher": {
+      "orientation": "flank",
+      "spacing": "mid",
+      "guard": "mobile"
+    },
+    "swarm": {
+      "orientation": "surround",
+      "spacing": "close",
+      "guard": "none"
+    },
+    "scavenger": {
+      "orientation": "wounded",
+      "spacing": "edge",
+      "guard": "evasive"
+    },
+    "wanderer": {
+      "orientation": "exit_then_target",
+      "spacing": "mid",
+      "guard": "uncertain"
+    },
+    "disruptor": {
+      "orientation": "caster",
+      "spacing": "rear",
+      "guard": "unstable"
+    },
+    "drainer": {
+      "orientation": "highest_resource",
+      "spacing": "close",
+      "guard": "latched"
+    },
+    "sentinel": {
+      "orientation": "lane",
+      "spacing": "fixed",
+      "guard": "high"
+    },
+    "oracle": {
+      "orientation": "future_target",
+      "spacing": "rear",
+      "guard": "still"
+    },
+    "harrier": {
+      "orientation": "isolated",
+      "spacing": "mid",
+      "guard": "mobile"
+    },
+    "terror": {
+      "orientation": "gaze_target",
+      "spacing": "mid",
+      "guard": "ritual"
+    },
+    "devourer": {
+      "orientation": "light_source",
+      "spacing": "close",
+      "guard": "none"
+    },
+    "debuffer": {
+      "orientation": "group_center",
+      "spacing": "rear",
+      "guard": "ritual"
+    },
+    "trickster": {
+      "orientation": "misdirection",
+      "spacing": "variable",
+      "guard": "false"
+    },
+    "artillery": {
+      "orientation": "cluster",
+      "spacing": "far",
+      "guard": "anchored"
+    },
+    "tank": {
+      "orientation": "frontline",
+      "spacing": "interpose",
+      "guard": "very_high"
+    },
+    "pack_hunter": {
+      "orientation": "pack_target",
+      "spacing": "flank",
+      "guard": "mobile"
+    },
+    "reflector": {
+      "orientation": "attacker",
+      "spacing": "mid",
+      "guard": "reactive"
+    },
+    "boss": {
+      "orientation": "phase_objective",
+      "spacing": "command",
+      "guard": "signature"
+    }
+  },
+  "state_modifiers": {
+    "fear": {
+      "tense": {
+        "amplitude": 0.9,
+        "guard_compaction": 0.2,
+        "exit_bias": 0.15
+      },
+      "terrified": {
+        "amplitude": 0.78,
+        "guard_compaction": 0.45,
+        "exit_bias": 0.4
+      },
+      "panic": {
+        "amplitude": 1.15,
+        "guard_compaction": 0.7,
+        "exit_bias": 0.8
+      }
+    },
+    "madness": {
+      "fractured": {
+        "tempo_jitter": 0.35,
+        "gesture_breaks": 0.6,
+        "ally_target_risk": true
+      }
+    },
+    "physical": {
+      "injured": {
+        "stride": 0.82,
+        "recovery": 1.12,
+        "protect_wound": true
+      },
+      "critical": {
+        "stance_height": 0.82,
+        "stride": 0.58,
+        "recovery": 1.35
+      },
+      "mobility_impaired": {
+        "stride": 0.5,
+        "side_specific": true
+      }
+    },
+    "intent": {
+      "attack": {
+        "forward_bias": 0.35
+      },
+      "guard": {
+        "stance_width": 0.2
+      },
+      "retreat": {
+        "exit_bias": 0.5
+      },
+      "protect": {
+        "interpose_bias": 0.45
+      },
+      "capture_window": {
+        "threat_amplitude": 0.7,
+        "escape_readability": 0.6
+      }
+    }
+  },
+  "profiles": [
+    {
+      "enemy_id": 1,
+      "owner": "enemy_01",
+      "name": "Goule affamée",
+      "archetype": "feral_humanoid",
+      "temperament": "predatory",
+      "asymmetry": "left_shoulder_low",
+      "tactical_role": "hunter",
+      "tempo_scale": 0.93,
+      "phase_offset": 0,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "feral_humanoid:predatory:left_shoulder_low:hunter"
+    },
+    {
+      "enemy_id": 2,
+      "owner": "enemy_02",
+      "name": "Cultiste fanatisé",
+      "archetype": "ritual_humanoid",
+      "temperament": "fanatic",
+      "asymmetry": "right_hand_raised",
+      "tactical_role": "support",
+      "tempo_scale": 1.04,
+      "phase_offset": 0.173,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "ritual_humanoid:fanatic:right_hand_raised:support"
+    },
+    {
+      "enemy_id": 3,
+      "owner": "enemy_03",
+      "name": "Chevalier déchu",
+      "archetype": "armored_humanoid",
+      "temperament": "disciplined",
+      "asymmetry": "shield_side_closed",
+      "tactical_role": "guardian",
+      "tempo_scale": 0.88,
+      "phase_offset": 0.346,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "armored_humanoid:disciplined:shield_side_closed:guardian"
+    },
+    {
+      "enemy_id": 4,
+      "owner": "enemy_04",
+      "name": "Ver des profondeurs",
+      "archetype": "serpentine",
+      "temperament": "patient",
+      "asymmetry": "coil_clockwise",
+      "tactical_role": "ambusher",
+      "tempo_scale": 1.08,
+      "phase_offset": 0.519,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "serpentine:patient:coil_clockwise:ambusher"
+    },
+    {
+      "enemy_id": 5,
+      "owner": "enemy_05",
+      "name": "Écorcheur",
+      "archetype": "skirmisher_humanoid",
+      "temperament": "erratic",
+      "asymmetry": "left_hip_lead",
+      "tactical_role": "striker",
+      "tempo_scale": 1.16,
+      "phase_offset": 0.692,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "skirmisher_humanoid:erratic:left_hip_lead:striker"
+    },
+    {
+      "enemy_id": 6,
+      "owner": "enemy_06",
+      "name": "Gorgone",
+      "archetype": "serpentine",
+      "temperament": "regal",
+      "asymmetry": "head_offset_right",
+      "tactical_role": "controller",
+      "tempo_scale": 0.97,
+      "phase_offset": 0.865,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "serpentine:regal:head_offset_right:controller"
+    },
+    {
+      "enemy_id": 7,
+      "owner": "enemy_07",
+      "name": "Minotaure",
+      "archetype": "brute_biped",
+      "temperament": "dominant",
+      "asymmetry": "right_shoulder_forward",
+      "tactical_role": "breaker",
+      "tempo_scale": 0.84,
+      "phase_offset": 0.038,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "brute_biped:dominant:right_shoulder_forward:breaker"
+    },
+    {
+      "enemy_id": 8,
+      "owner": "enemy_08",
+      "name": "Oni",
+      "archetype": "brute_biped",
+      "temperament": "fanatic",
+      "asymmetry": "pelvis_left",
+      "tactical_role": "bruiser",
+      "tempo_scale": 1.02,
+      "phase_offset": 0.211,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "brute_biped:fanatic:pelvis_left:bruiser"
+    },
+    {
+      "enemy_id": 9,
+      "owner": "enemy_09",
+      "name": "Tengu",
+      "archetype": "agile_avian",
+      "temperament": "evasive",
+      "asymmetry": "wing_left_open",
+      "tactical_role": "skirmisher",
+      "tempo_scale": 1.21,
+      "phase_offset": 0.384,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "agile_avian:evasive:wing_left_open:skirmisher"
+    },
+    {
+      "enemy_id": 10,
+      "owner": "enemy_10",
+      "name": "Jorōgumo",
+      "archetype": "arachnid",
+      "temperament": "patient",
+      "asymmetry": "foreleg_right_high",
+      "tactical_role": "ambusher",
+      "tempo_scale": 0.96,
+      "phase_offset": 0.557,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "arachnid:patient:foreleg_right_high:ambusher"
+    },
+    {
+      "enemy_id": 11,
+      "owner": "enemy_11",
+      "name": "Yuki-Onna",
+      "archetype": "floating_spectral",
+      "temperament": "mournful",
+      "asymmetry": "spine_arc_left",
+      "tactical_role": "controller",
+      "tempo_scale": 0.79,
+      "phase_offset": 0.73,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "floating_spectral:mournful:spine_arc_left:controller"
+    },
+    {
+      "enemy_id": 12,
+      "owner": "enemy_12",
+      "name": "Anubis",
+      "archetype": "ritual_humanoid",
+      "temperament": "disciplined",
+      "asymmetry": "chin_high",
+      "tactical_role": "guardian",
+      "tempo_scale": 0.91,
+      "phase_offset": 0.903,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "ritual_humanoid:disciplined:chin_high:guardian"
+    },
+    {
+      "enemy_id": 13,
+      "owner": "enemy_13",
+      "name": "Prêtre momifié",
+      "archetype": "ritual_humanoid",
+      "temperament": "mournful",
+      "asymmetry": "left_arm_bound",
+      "tactical_role": "support",
+      "tempo_scale": 0.82,
+      "phase_offset": 0.076,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "ritual_humanoid:mournful:left_arm_bound:support"
+    },
+    {
+      "enemy_id": 14,
+      "owner": "enemy_14",
+      "name": "Scarabée funéraire",
+      "archetype": "insectoid",
+      "temperament": "erratic",
+      "asymmetry": "mandible_right",
+      "tactical_role": "swarm",
+      "tempo_scale": 1.27,
+      "phase_offset": 0.249,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "insectoid:erratic:mandible_right:swarm"
+    },
+    {
+      "enemy_id": 15,
+      "owner": "enemy_15",
+      "name": "Nécrophage",
+      "archetype": "feral_humanoid",
+      "temperament": "evasive",
+      "asymmetry": "ribcage_twist_left",
+      "tactical_role": "scavenger",
+      "tempo_scale": 1.11,
+      "phase_offset": 0.422,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "feral_humanoid:evasive:ribcage_twist_left:scavenger"
+    },
+    {
+      "enemy_id": 16,
+      "owner": "enemy_16",
+      "name": "Porte-Cierge",
+      "archetype": "ritual_humanoid",
+      "temperament": "patient",
+      "asymmetry": "candle_side_high",
+      "tactical_role": "support",
+      "tempo_scale": 0.76,
+      "phase_offset": 0.595,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "ritual_humanoid:patient:candle_side_high:support"
+    },
+    {
+      "enemy_id": 17,
+      "owner": "enemy_17",
+      "name": "Veuve du Voile",
+      "archetype": "arachnid",
+      "temperament": "regal",
+      "asymmetry": "abdomen_left",
+      "tactical_role": "controller",
+      "tempo_scale": 0.89,
+      "phase_offset": 0.768,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "arachnid:regal:abdomen_left:controller"
+    },
+    {
+      "enemy_id": 18,
+      "owner": "enemy_18",
+      "name": "Pèlerin creux",
+      "archetype": "ritual_humanoid",
+      "temperament": "mournful",
+      "asymmetry": "knee_right_soft",
+      "tactical_role": "wanderer",
+      "tempo_scale": 0.86,
+      "phase_offset": 0.941,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "ritual_humanoid:mournful:knee_right_soft:wanderer"
+    },
+    {
+      "enemy_id": 19,
+      "owner": "enemy_19",
+      "name": "Mange-Rêves",
+      "archetype": "floating_spectral",
+      "temperament": "alien",
+      "asymmetry": "head_delay",
+      "tactical_role": "disruptor",
+      "tempo_scale": 1.07,
+      "phase_offset": 0.114,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "floating_spectral:alien:head_delay:disruptor"
+    },
+    {
+      "enemy_id": 20,
+      "owner": "enemy_20",
+      "name": "Chien d’Os",
+      "archetype": "quadruped",
+      "temperament": "predatory",
+      "asymmetry": "rear_left_loaded",
+      "tactical_role": "hunter",
+      "tempo_scale": 1.19,
+      "phase_offset": 0.287,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "quadruped:predatory:rear_left_loaded:hunter"
+    },
+    {
+      "enemy_id": 21,
+      "owner": "enemy_21",
+      "name": "Sangsue royale",
+      "archetype": "serpentine",
+      "temperament": "dominant",
+      "asymmetry": "front_sucker_high",
+      "tactical_role": "drainer",
+      "tempo_scale": 0.94,
+      "phase_offset": 0.46,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "serpentine:dominant:front_sucker_high:drainer"
+    },
+    {
+      "enemy_id": 22,
+      "owner": "enemy_22",
+      "name": "Gardien aveugle",
+      "archetype": "armored_humanoid",
+      "temperament": "patient",
+      "asymmetry": "head_listen_left",
+      "tactical_role": "sentinel",
+      "tempo_scale": 0.73,
+      "phase_offset": 0.633,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "armored_humanoid:patient:head_listen_left:sentinel"
+    },
+    {
+      "enemy_id": 23,
+      "owner": "enemy_23",
+      "name": "Oracle brisé",
+      "archetype": "floating_spectral",
+      "temperament": "erratic",
+      "asymmetry": "torso_split_right",
+      "tactical_role": "oracle",
+      "tempo_scale": 1.03,
+      "phase_offset": 0.806,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "floating_spectral:erratic:torso_split_right:oracle"
+    },
+    {
+      "enemy_id": 24,
+      "owner": "enemy_24",
+      "name": "Enfant de suie",
+      "archetype": "skirmisher_humanoid",
+      "temperament": "evasive",
+      "asymmetry": "feet_inward",
+      "tactical_role": "harrier",
+      "tempo_scale": 1.24,
+      "phase_offset": 0.979,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "skirmisher_humanoid:evasive:feet_inward:harrier"
+    },
+    {
+      "enemy_id": 25,
+      "owner": "enemy_25",
+      "name": "Masque hurlant",
+      "archetype": "floating_spectral",
+      "temperament": "fanatic",
+      "asymmetry": "mask_tilt_left",
+      "tactical_role": "terror",
+      "tempo_scale": 0.99,
+      "phase_offset": 0.152,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "floating_spectral:fanatic:mask_tilt_left:terror"
+    },
+    {
+      "enemy_id": 26,
+      "owner": "enemy_26",
+      "name": "Dévoreur de lumière",
+      "archetype": "brute_biped",
+      "temperament": "alien",
+      "asymmetry": "arms_hanging_offset",
+      "tactical_role": "devourer",
+      "tempo_scale": 0.81,
+      "phase_offset": 0.325,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "brute_biped:alien:arms_hanging_offset:devourer"
+    },
+    {
+      "enemy_id": 27,
+      "owner": "enemy_27",
+      "name": "Porte-Peste",
+      "archetype": "ritual_humanoid",
+      "temperament": "dominant",
+      "asymmetry": "plague_arm_forward",
+      "tactical_role": "debuffer",
+      "tempo_scale": 0.92,
+      "phase_offset": 0.498,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "ritual_humanoid:dominant:plague_arm_forward:debuffer"
+    },
+    {
+      "enemy_id": 28,
+      "owner": "enemy_28",
+      "name": "Moiré",
+      "archetype": "floating_spectral",
+      "temperament": "evasive",
+      "asymmetry": "phase_offset_left",
+      "tactical_role": "trickster",
+      "tempo_scale": 1.13,
+      "phase_offset": 0.671,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "floating_spectral:evasive:phase_offset_left:trickster"
+    },
+    {
+      "enemy_id": 29,
+      "owner": "enemy_29",
+      "name": "Géant des cryptes",
+      "archetype": "colossus",
+      "temperament": "dominant",
+      "asymmetry": "weight_right_leg",
+      "tactical_role": "breaker",
+      "tempo_scale": 0.68,
+      "phase_offset": 0.844,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "colossus:dominant:weight_right_leg:breaker"
+    },
+    {
+      "enemy_id": 30,
+      "owner": "enemy_30",
+      "name": "Nonne renversée",
+      "archetype": "ritual_humanoid",
+      "temperament": "mournful",
+      "asymmetry": "spine_inverted_arc",
+      "tactical_role": "hexer",
+      "tempo_scale": 0.87,
+      "phase_offset": 0.017,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "ritual_humanoid:mournful:spine_inverted_arc:hexer"
+    },
+    {
+      "enemy_id": 31,
+      "owner": "enemy_31",
+      "name": "Éclat vivant",
+      "archetype": "floating_spectral",
+      "temperament": "alien",
+      "asymmetry": "facets_counter_rotate",
+      "tactical_role": "artillery",
+      "tempo_scale": 1.09,
+      "phase_offset": 0.19,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "floating_spectral:alien:facets_counter_rotate:artillery"
+    },
+    {
+      "enemy_id": 32,
+      "owner": "enemy_32",
+      "name": "Charognard cuirassé",
+      "archetype": "insectoid",
+      "temperament": "disciplined",
+      "asymmetry": "carapace_left_high",
+      "tactical_role": "tank",
+      "tempo_scale": 0.78,
+      "phase_offset": 0.363,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "insectoid:disciplined:carapace_left_high:tank"
+    },
+    {
+      "enemy_id": 33,
+      "owner": "enemy_33",
+      "name": "Loup du Voile",
+      "archetype": "quadruped",
+      "temperament": "patient",
+      "asymmetry": "front_right_loaded",
+      "tactical_role": "pack_hunter",
+      "tempo_scale": 1.17,
+      "phase_offset": 0.536,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "quadruped:patient:front_right_loaded:pack_hunter"
+    },
+    {
+      "enemy_id": 34,
+      "owner": "enemy_34",
+      "name": "Semeur de cendres",
+      "archetype": "ritual_humanoid",
+      "temperament": "predatory",
+      "asymmetry": "ash_hand_trailing",
+      "tactical_role": "artillery",
+      "tempo_scale": 0.95,
+      "phase_offset": 0.709,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "ritual_humanoid:predatory:ash_hand_trailing:artillery"
+    },
+    {
+      "enemy_id": 35,
+      "owner": "enemy_35",
+      "name": "Miroir mort",
+      "archetype": "floating_spectral",
+      "temperament": "alien",
+      "asymmetry": "mirror_plane_canted",
+      "tactical_role": "reflector",
+      "tempo_scale": 0.74,
+      "phase_offset": 0.882,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "floating_spectral:alien:mirror_plane_canted:reflector"
+    },
+    {
+      "enemy_id": 36,
+      "owner": "enemy_36",
+      "name": "Prêtre du Néant",
+      "archetype": "ritual_humanoid",
+      "temperament": "fanatic",
+      "asymmetry": "staff_side_closed",
+      "tactical_role": "controller",
+      "tempo_scale": 0.83,
+      "phase_offset": 0.055,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "ritual_humanoid:fanatic:staff_side_closed:controller"
+    },
+    {
+      "enemy_id": 37,
+      "owner": "enemy_37",
+      "name": "Colosse sans nom",
+      "archetype": "colossus",
+      "temperament": "disciplined",
+      "asymmetry": "left_fist_low",
+      "tactical_role": "tank",
+      "tempo_scale": 0.62,
+      "phase_offset": 0.228,
+      "boss": false,
+      "capture_compatible": true,
+      "signature_key": "colossus:disciplined:left_fist_low:tank"
+    },
+    {
+      "enemy_id": 38,
+      "owner": "enemy_38",
+      "name": "Ange inversé",
+      "archetype": "agile_avian",
+      "temperament": "regal",
+      "asymmetry": "wings_asymmetric",
+      "tactical_role": "boss",
+      "tempo_scale": 0.9,
+      "phase_offset": 0.401,
+      "boss": true,
+      "capture_compatible": false,
+      "signature_key": "agile_avian:regal:wings_asymmetric:boss"
+    },
+    {
+      "enemy_id": 39,
+      "owner": "enemy_39",
+      "name": "Mère des Souffrances",
+      "archetype": "colossus",
+      "temperament": "mournful",
+      "asymmetry": "torso_cradled_left",
+      "tactical_role": "boss",
+      "tempo_scale": 0.7,
+      "phase_offset": 0.574,
+      "boss": true,
+      "capture_compatible": false,
+      "signature_key": "colossus:mournful:torso_cradled_left:boss"
+    }
+  ]
+}
