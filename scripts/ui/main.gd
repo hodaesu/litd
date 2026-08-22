@@ -158,7 +158,7 @@ func show_title() -> void:
         starter_positive_traits = []
         starter_negative_traits = []
         trait_setup_message = ""
-        GameState.request_screen("trait_setup"), Vector2(440,58)))
+        GameState.request_screen("sanctuary"), Vector2(440,58)))
     box.add_child(make_button("CONTINUER", func():
         if SaveManager.load_game():
             GameState.request_screen("sanctuary"), Vector2(440,58)))
@@ -278,6 +278,13 @@ func show_sanctuary() -> void:
         b.position = item[2]
         b.modulate = Color(1,1,1,0.92)
         content.add_child(b)
+    var starter_traits := make_button("CARACTÉRISTIQUES DU HÉROS", func():
+        starter_positive_traits = []
+        starter_negative_traits = []
+        trait_setup_message = ""
+        GameState.request_screen("trait_setup"), Vector2(290,46))
+    starter_traits.position = Vector2(780,20)
+    content.add_child(starter_traits)
     var save := make_button("SAUVEGARDER", func(): SaveManager.save_game(), Vector2(170,46))
     save.position = Vector2(1080,20)
     content.add_child(save)
