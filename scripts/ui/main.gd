@@ -5,6 +5,9 @@ var content: Control
 var selected_enemy := 0
 var battle_locked := false
 var selected_hero_id: String = "aurelien"
+var starter_positive_traits: Array = []
+var starter_negative_traits: Array = []
+var trait_setup_message := ""
 
 const GOLD := Color("#d5b26c")
 const PANEL := Color(0.025, 0.027, 0.035, 0.94)
@@ -117,6 +120,7 @@ func show_screen(name: String) -> void:
     clear_content()
     match name:
         "title": show_title()
+        "trait_setup": show_trait_setup()
         "sanctuary": show_sanctuary()
         "company": show_company()
         "guild_chest": show_guild_chest()
@@ -150,11 +154,96 @@ func show_title() -> void:
     box.add_child(sub)
     box.add_child(make_button("NOUVELLE PARTIE", func():
         GameState.reset_new_game()
-        GameState.request_screen("sanctuary"), Vector2(440,58)))
+        selected_hero_id = "aurelien"
+        starter_positive_traits = []
+        starter_negative_traits = []
+        trait_setup_message = ""
+        GameState.request_screen("trait_setup"), Vector2(440,58)))
     box.add_child(make_button("CONTINUER", func():
         if SaveManager.load_game():
             GameState.request_screen("sanctuary"), Vector2(440,58)))
     box.add_child(make_button("QUITTER", func(): get_tree().quit(), Vector2(440,58)))
+
+func show_trait_setup() -> void:
+    var title := make_label("CARACTÉRISTIQUES DU HÉROS DE DÉPART", 27, GOLD)
+    title.position = Vector2(28, 12)
+    content.add_child(title)
+    var hero_row := HBoxContainer.new()
+    hero_row.position = Vector2(28, 52)
+    hero_row.size = Vector2(1220, 48)
+    content.add_child(hero_row)
+    for hero_value: Variant in GameState.party:
+        var hero: Dictionary = hero_value
+        hero_row.add_child(make_button(str(hero.get("name", "Héros")), func(hero_id = str(hero.get("id", ""))):
+            selected_hero_id = hero_id
+            starter_positive_traits = []
+            starter_negative_traits = []
+            trait_setup_message = ""
+            show_screen("trait_setup"), Vector2(210, 42)))
+    var columns := HBoxContainer.new()
+    columns.position = Vector2(28, 112)
+    columns.size = Vector2(1220, 455)
+    columns.add_theme_constant_override("separation", 18)
+    content.add_child(columns)
+    columns.add_child(_trait_choice_column("POSITIVES · MAXIMUM 2", CharacterTraitDirector.data.get("positives", []), true))
+    columns.add_child(_trait_choice_column("NÉGATIVES · MAXIMUM 2", CharacterTraitDirector.data.get("negatives", []), false))
+    var chosen := make_label("Choix : %s / %s" % [
+        ", ".join(CharacterTraitDirector.trait_names({"positive_traits": starter_positive_traits, "negative_traits": []}).get("positive", [])),
+        ", ".join(CharacterTraitDirector.trait_names({"positive_traits": [], "negative_traits": starter_negative_traits}).get("negative", []))
+    ], 14, TEXT)
+    chosen.position = Vector2(28, 580)
+    chosen.size = Vector2(930, 45)
+    content.add_child(chosen)
+    if trait_setup_message != "":
+        var warning := make_label(trait_setup_message, 14, Color("#d4773d"))
+        warning.position = Vector2(28, 618)
+        content.add_child(warning)
+    var confirm := make_button("VALIDER ET COMMENCER", func(): _confirm_starter_traits(), Vector2(280, 52))
+    confirm.position = Vector2(960, 590)
+    content.add_child(confirm)
+
+func _trait_choice_column(title_text: String, traits: Array, positive: bool) -> VBoxContainer:
+    var column := VBoxContainer.new()
+    column.custom_minimum_size = Vector2(590, 455)
+    column.add_child(make_label(title_text, 18, GOLD))
+    var grid := GridContainer.new()
+    grid.columns = 2
+    column.add_child(grid)
+    var selected: Array = starter_positive_traits if positive else starter_negative_traits
+    for value: Variant in traits:
+        var trait: Dictionary = value
+        var trait_id := str(trait.get("id", ""))
+        var prefix := "✓ " if selected.has(trait_id) else ""
+        grid.add_child(make_button(prefix + str(trait.get("name", trait_id)), func(id_value = trait_id, is_positive = positive):
+            _toggle_starter_trait(id_value, is_positive), Vector2(285, 36)))
+    return column
+
+func _toggle_starter_trait(trait_id: String, positive: bool) -> void:
+    var selected: Array = starter_positive_traits if positive else starter_negative_traits
+    if selected.has(trait_id):
+        selected.erase(trait_id)
+    elif selected.size() < 2:
+        selected.append(trait_id)
+    else:
+        trait_setup_message = "Maximum deux caractéristiques par catégorie."
+    show_screen("trait_setup")
+
+func _confirm_starter_traits() -> void:
+    var starter: Dictionary = {}
+    for hero_value: Variant in GameState.party:
+        if str((hero_value as Dictionary).get("id", "")) == selected_hero_id:
+            starter = hero_value
+            break
+    var result := CharacterTraitDirector.set_starter_traits(starter, starter_positive_traits, starter_negative_traits)
+    if not bool(result.get("ok", false)):
+        trait_setup_message = "Deux caractéristiques positives imposent au moins une caractéristique négative."
+        show_screen("trait_setup")
+        return
+    for hero_value: Variant in GameState.party:
+        var hero: Dictionary = hero_value
+        if str(hero.get("id", "")) != selected_hero_id and (hero.get("positive_traits", []) as Array).is_empty():
+            CharacterTraitDirector.randomize_traits(hero)
+    GameState.request_screen("sanctuary")
 
 func show_sanctuary() -> void:
     var bg := full_texture("res://assets/backgrounds/sanctuary.png")
@@ -226,6 +315,8 @@ func show_company() -> void:
         var cls = DataLoader.find_by_id(DataLoader.classes, hero.class_id)
         card.add_child(make_label("%s — %s" % [cls.name, cls.role], 13, MUTED))
         card.add_child(make_label("PV %d/%d   Peur %d   Folie %d" % [hero.hp,hero.max_hp,hero.fear,hero.madness], 13))
+        var trait_labels := CharacterTraitDirector.trait_names(hero)
+        card.add_child(make_label("+ %s\n− %s" % [", ".join(trait_labels.get("positive", [])), ", ".join(trait_labels.get("negative", []))], 11, MUTED))
         card.add_child(make_button("ARBRES DE COMPÉTENCES", func(hero_id = str(hero.id)):
             selected_hero_id = hero_id
             GameState.request_screen("hero_skills"), Vector2(220, 42)))
@@ -277,8 +368,10 @@ func show_hero_skills() -> void:
             button.disabled=unlocked or not HeroSkillManager.can_unlock(hero,str(node.id)); grid.add_child(button)
     var back := make_button("RETOUR",func():GameState.request_screen("company"),Vector2(180,45)); back.position=Vector2(24,640); content.add_child(back)
 
-func hero_bonuses(hero: Dictionary) -> Dictionary:
+func hero_bonuses(hero: Dictionary, context: Dictionary = {}) -> Dictionary:
     var result: Dictionary = EquipmentManager.bonuses_for_hero(str(hero.get("id","")))
+    for trait_key: Variant in CharacterTraitDirector.modifiers(hero, context).keys():
+        result[str(trait_key)] = int(result.get(str(trait_key), 0)) + int(round(float(CharacterTraitDirector.modifiers(hero, context).get(trait_key, 0.0))))
     for key_value in HeroSkillManager.stats_for(hero).keys():
         var key: String=str(key_value); result[key]=int(result.get(key,0))+int(HeroSkillManager.stats_for(hero).get(key,0))
     return result
@@ -459,6 +552,7 @@ func start_random_battle() -> void:
         var e := DataLoader.find_by_id(DataLoader.enemies, enemy_id).duplicate(true)
         e["max_hp"] = e.hp
         e["guarding"] = false
+        CharacterTraitDirector.prepare_character(e, "%s:%d:%d" % [str(e.get("id", "")), GameState.expedition_room, GameState.battle_enemies.size()])
         EnemyFearDirector.initialize_enemy(e, GameState.party)
         GameState.battle_enemies.append(e)
     battle_locked = false
@@ -513,6 +607,8 @@ func show_combat() -> void:
         art.modulate = Color(1,1,1,1.0 if e.hp > 0 else 0.25)
         v.add_child(art)
         v.add_child(make_label("%s\nPV %d/%d" % [e.name,e.hp,e.max_hp], 12, GOLD if i == selected_enemy else TEXT))
+        var enemy_traits := CharacterTraitDirector.trait_names(e)
+        v.add_child(make_label("+%s · −%s" % [", ".join(enemy_traits.get("positive", [])), ", ".join(enemy_traits.get("negative", []))], 9, MUTED))
         var fear_gauge := EnemyFearGauge.new()
         v.add_child(fear_gauge)
         fear_gauge.bind_enemy(e)
@@ -603,7 +699,7 @@ func hero_action(action: String) -> void:
         var hp_before := int(target.get("hp", 0))
         var power := 1.0 if action == "strike" else 1.35
         var cls: Dictionary = DataLoader.find_by_id(DataLoader.classes, hero.class_id)
-        var bonuses: Dictionary = hero_bonuses(hero)
+        var bonuses: Dictionary = hero_bonuses(hero, CharacterTraitDirector.context_for_enemy(target))
         var base_damage: int = randi_range(int(cls.damage[0]), int(cls.damage[1])) + int(bonuses.get("damage_bonus", 0))
         var damage: int = int(base_damage * power)
         damage += int(round(damage * float(bonuses.get("precision", 0)) / 100.0))
@@ -669,7 +765,7 @@ func enemy_turn() -> void:
             finish_defeat()
             return
         var target: Dictionary = targets[randi() % targets.size()]
-        var target_bonuses: Dictionary = hero_bonuses(target)
+        var target_bonuses: Dictionary = hero_bonuses(target, CharacterTraitDirector.context_for_enemy(enemy))
         var creature_bonuses: Dictionary = CreatureManager.party_bonuses()
         for bonus_key_value in creature_bonuses.keys():
             var bonus_key: String = str(bonus_key_value)
@@ -680,6 +776,8 @@ func enemy_turn() -> void:
             GameState.add_log("%s hésite sous l’effet de la Peur et manque sa cible." % enemy.name)
             continue
         damage = maxi(1, int(round(float(damage) * float(enemy_fear_modifiers.get("damage_multiplier", 1.0)))))
+        var enemy_trait_modifiers := CharacterTraitDirector.modifiers(enemy, CharacterTraitDirector.context_for_enemy(target))
+        damage = maxi(1, int(round(float(damage) * (1.0 + float(enemy_trait_modifiers.get("damage_bonus", 0.0)) / 100.0))))
         damage = maxi(1, int(round(damage * (1.0 - float(target_bonuses.get("physical_resistance", 0)) / 100.0))))
         if target.get("guarding",false):
             var guard_reduction: float = clampf(0.5 + float(target.get("guard_power", 0)) / 100.0, 0.5, 0.85)
@@ -701,6 +799,10 @@ func enemy_turn() -> void:
     show_screen("combat")
 
 func finish_victory() -> void:
+    var trait_evolutions := CharacterTraitDirector.record_enemy_encounter(GameState.alive_heroes(), GameState.battle_enemies)
+    for evolution_value: Variant in trait_evolutions:
+        var evolution: Dictionary = evolution_value
+        GameState.add_log("Une peur est maîtrisée : %s." % str(evolution.get("to", "")))
     var defeated_boss := false
     for enemy_value: Variant in GameState.battle_enemies:
         var defeated_enemy: Dictionary = enemy_value
