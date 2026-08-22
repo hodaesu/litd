@@ -2,7 +2,7 @@
 
 Automated production pipeline for the adaptive score of **Light in the Dark**.
 
-Arrangement 01 is built around the public-domain composition *Passacaglia in C minor, BWV 582* by J. S. Bach. This repository stores the automation and metadata only; proprietary VST/sample-library content must stay outside Git.
+Arrangement 01 is built around the public-domain composition *Passacaglia in C minor, BWV 582* by J. S. Bach. The master MIDI, automation and metadata are versioned here; proprietary VST/sample-library content must stay outside Git.
 
 ## Production contract
 
@@ -47,11 +47,11 @@ Register these two Lua files once in REAPER's Action List as ReaScripts:
 
 ## Arrangement 01 source
 
-Put the master MIDI at:
+The master MIDI is already included at:
 
 `tools/music_pipeline/inbox/LITD_Arrangement_01_Accord_Brise_BWV582_MASTER.mid`
 
-The repository intentionally does not require this binary file for CI configuration validation.
+No manual copy is needed after checking out this branch/PR.
 
 ## Prepare
 
@@ -63,6 +63,8 @@ python tools/music_pipeline/build_music.py prepare
 ```
 
 `prepare` creates the render/output directories and writes `litd_generated_settings.lua` with absolute local paths for REAPER.
+
+On Windows, `tools/music_pipeline/LITD_MUSIC_PREPARE.cmd` performs this preparation with a double-click.
 
 ## REAPER project creation
 
@@ -99,6 +101,8 @@ The complete Arrangement 01 render contains **210 files**.
 python tools/music_pipeline/build_music.py validate-renders
 python tools/music_pipeline/build_music.py finalize
 ```
+
+On Windows, `tools/music_pipeline/LITD_MUSIC_FINALIZE.cmd` performs finalization with a double-click.
 
 `finalize`:
 
