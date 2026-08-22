@@ -50,6 +50,8 @@ func _connect_sources() -> void:
         NarrativeAudioDirector.dialogue_state_changed.connect(_on_dialogue_state_changed)
     if not NarrativeAudioDirector.narrative_beat_started.is_connected(_on_narrative_beat_started):
         NarrativeAudioDirector.narrative_beat_started.connect(_on_narrative_beat_started)
+    if not NarrativeAudioDirector.narrative_audio_changed.is_connected(_on_narrative_audio_changed):
+        NarrativeAudioDirector.narrative_audio_changed.connect(_on_narrative_audio_changed)
     if not AshlandsCombatBridge.ashlands_combat_started.is_connected(_on_combat_started):
         AshlandsCombatBridge.ashlands_combat_started.connect(_on_combat_started)
     if not AshlandsCombatBridge.ashlands_combat_finished.is_connected(_on_combat_finished):
@@ -257,6 +259,7 @@ func _music_switch_allowed() -> bool:
 
 func _apply_adaptive_mix() -> void:
     if dialogue_active or silence_active or NarrativeAudioDirector.current_space_id != "":
+        _cancel_adaptive_mix()
         return
     var music_base: float = float(AudioDirector.bus_levels_db.get("Music", -8.0))
     var ambience_base: float = float(AudioDirector.bus_levels_db.get("Ambience", -2.0))
@@ -277,6 +280,13 @@ func _apply_adaptive_mix() -> void:
     var seconds: float = _seconds("mix_reaction_seconds", 0.45)
     _tween_bus("Music", music_target, seconds)
     _tween_bus("Ambience", ambience_target, seconds)
+
+func _cancel_adaptive_mix() -> void:
+    if _mix_tween != null and _mix_tween.is_valid():
+        _mix_tween.kill()
+    _mix_tween = null
+    _last_music_target_db = 999.0
+    _last_ambience_target_db = 999.0
 
 func _tween_bus(bus_name: String, target_db: float, seconds: float) -> void:
     var index: int = AudioServer.get_bus_index(bus_name)
@@ -305,8 +315,18 @@ func _on_audio_mix_changed(_levels: Dictionary) -> void:
 func _on_dialogue_state_changed(active: bool, _tag: String) -> void:
     dialogue_active = active
     silence_active = NarrativeAudioDirector.silence_active
-    if not active:
+    if active:
+        _cancel_adaptive_mix()
+    else:
         call_deferred("refresh", "dialogue_end")
+
+func _on_narrative_audio_changed(snapshot_value: Dictionary) -> void:
+    dialogue_active = bool(snapshot_value.get("dialogue_active", NarrativeAudioDirector.dialogue_depth > 0))
+    silence_active = bool(snapshot_value.get("silence_active", NarrativeAudioDirector.silence_active))
+    if dialogue_active or silence_active or str(snapshot_value.get("space_id", "")) != "":
+        _cancel_adaptive_mix()
+        return
+    call_deferred("refresh", "narrative_release")
 
 func _on_narrative_beat_started(kind: String, _payload: Dictionary) -> void:
     var beats_variant: Variant = NarrativeAudioDirector.data.get("beats", {})
@@ -352,8 +372,7 @@ func _on_new_game_reset() -> void:
     resolution_hold_until_msec = 0
     cue_hold_until_msec = 0
     _hold_generation += 1
-    _last_music_target_db = 999.0
-    _last_ambience_target_db = 999.0
+    _cancel_adaptive_mix()
     call_deferred("refresh", "new_game")
 
 func _seconds(key: String, fallback: float) -> float:
