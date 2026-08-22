@@ -60,5 +60,7 @@ func _run_device_profile() -> void:
     await _frames(5)
     _check(GameState.current_screen == "combat", "Prototype combat must render for touch audit on %s" % active_device_name)
     await _audit_visible_buttons("combat")
-    _check(await _touch_button("GARDE", true), "Touch must activate GARDE in combat on %s" % active_device_name)
-    _check(_log_contains("se met en garde"), "Combat touch must execute GARDE on %s" % active_device_name)
+    # Garde est désormais la compétence équipée du slot 3 et son bouton affiche
+    # aussi ses rangs autorisés. Le test tactile cible donc le libellé visible actuel.
+    _check(await _touch_button("3 · Garde", false), "Touch must activate equipped Guard in combat on %s" % active_device_name)
+    _check(_log_contains("se met en garde"), "Combat touch must execute equipped Guard on %s" % active_device_name)
