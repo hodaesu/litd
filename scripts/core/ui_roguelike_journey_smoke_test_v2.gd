@@ -50,8 +50,35 @@ func _exercise_capture_and_victory() -> void:
                 enemy["hp"] = 0
         _check(final_index >= 0, "At least one enemy must remain when capture does not finish the room")
         if final_index >= 0:
-            _check(await _select_enemy(final_index), "Player must select the final enemy")
-            _check(await _press_button("FRAPPE", true), "Visible strike must finish the combat")
+            # Le smoke place explicitement la cible finale en E1 : il vérifie ainsi
+            # la nouvelle Frappe de mêlée dans une configuration tactiquement valide.
+            var final_target: Dictionary = GameState.battle_enemies[final_index]
+            var final_uid: String = str(final_target.get("combat_uid", ""))
+            final_target["combat_position"] = 0
+            var parked_rank: int = 1
+            for index in range(GameState.battle_enemies.size()):
+                if index == final_index:
+                    continue
+                var parked: Dictionary = GameState.battle_enemies[index]
+                parked["combat_position"] = mini(3, parked_rank)
+                parked_rank += 1
+
+            # main_v32 trie le tableau selon E1–E4 lors du rendu. On reconstruit donc
+            # le HUD puis on retrouve la même cible via son UID avant de cliquer.
+            var scene: Node = get_tree().current_scene
+            if scene != null:
+                scene.call("show_screen", "combat")
+                await _frames(4)
+            final_index = -1
+            for index in range(GameState.battle_enemies.size()):
+                var candidate: Dictionary = GameState.battle_enemies[index]
+                if str(candidate.get("combat_uid", "")) == final_uid:
+                    final_index = index
+                    break
+            _check(final_index >= 0, "Repositioned final target must survive tactical HUD sorting")
+            if final_index >= 0:
+                _check(await _select_enemy(final_index), "Player must select the final enemy")
+                _check(await _press_button("1 · Frappe", false), "Visible equipped strike must finish the combat")
 
     _check(GameState.current_screen == "rewards", "Roguelike victory must open the room reward screen")
     _check(_find_button("EXTRAIRE", false) != null, "Room rewards must offer explicit extraction")

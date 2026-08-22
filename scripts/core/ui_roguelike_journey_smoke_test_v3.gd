@@ -74,7 +74,7 @@ func _reach_combat_room() -> void:
 
     _check(GameState.current_screen == "combat", "Physical route must eventually start combat from inside a room")
     if GameState.current_screen == "combat":
-        _check(_find_button("FRAPPE", true) != null, "Dungeon combat must reuse tactical combat actions")
+        _check(_find_button("1 · Frappe", false) != null, "Dungeon combat must expose the first equipped tactical skill")
         _check(_find_button("CAPTURER", true) != null, "Dungeon combat must expose capture")
         _check(GameState.battle_enemies.size() >= 1, "Combat room must create enemies")
 
