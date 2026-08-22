@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 signal interaction_focus_changed(interaction_id: String, label: String)
 signal interaction_requested(interaction_id: String, label: String)
+signal ash_guidance_requested(source: String)
 
 const ASH_GUIDANCE_TRAIL_SCRIPT := preload("res://scripts/world/ash_guidance_trail.gd")
 
@@ -13,6 +14,8 @@ const ASH_GUIDANCE_TRAIL_SCRIPT := preload("res://scripts/world/ash_guidance_tra
 @export var acceleration: float = 18.0
 @export var gravity: float = 18.0
 @export var interaction_radius: float = 2.4
+@export_range(0.0, 1.0) var ash_touch_zone_min_x_ratio: float = 0.55
+@export_range(0.0, 1.0) var ash_touch_zone_max_y_ratio: float = 0.45
 
 @onready var camera: Camera3D = $Camera3D
 
@@ -29,6 +32,7 @@ func _ready() -> void:
         ash_guidance.name = "AshGuidanceTrail"
         add_child(ash_guidance)
         call_deferred("_sync_ash_environment_from_parent")
+    set_process_unhandled_input(true)
 
 func _physics_process(delta: float) -> void:
     var input_vector: Vector2 = _movement_input()
@@ -42,6 +46,31 @@ func _physics_process(delta: float) -> void:
     move_and_slide()
     _update_camera(delta)
     _update_interaction_focus()
+
+func _unhandled_input(event: InputEvent) -> void:
+    if event.is_action_pressed("ash_guidance"):
+        request_ash_guidance("input_action")
+        get_viewport().set_input_as_handled()
+        return
+    if event is InputEventScreenTouch:
+        var touch := event as InputEventScreenTouch
+        if touch.pressed and touch.double_tap and _is_in_ash_touch_zone(touch.position):
+            request_ash_guidance("touch_double_tap")
+            get_viewport().set_input_as_handled()
+
+func _is_in_ash_touch_zone(screen_position: Vector2) -> bool:
+    var screen_size: Vector2 = get_viewport().get_visible_rect().size
+    if screen_size.x <= 0.0 or screen_size.y <= 0.0:
+        return false
+    return screen_position.x >= screen_size.x * ash_touch_zone_min_x_ratio and screen_position.y <= screen_size.y * ash_touch_zone_max_y_ratio
+
+func request_ash_guidance(source: String = "code") -> bool:
+    if ash_guidance == null:
+        return false
+    var shown: bool = ash_guidance.request_guidance()
+    if shown:
+        ash_guidance_requested.emit(source)
+    return shown
 
 func set_boss_guidance_position(world_position: Vector3, route_proximity: float = -1.0) -> void:
     if ash_guidance != null:
