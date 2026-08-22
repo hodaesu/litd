@@ -28,6 +28,10 @@ func run() -> void:
         _check(intensity >= float(expect.get("intensity_min", 0.0)) - 0.0001, "%s intensity too low: %.3f" % [scenario_id, intensity])
         _check(intensity <= float(expect.get("intensity_max", 1.0)) + 0.0001, "%s intensity too high: %.3f" % [scenario_id, intensity])
 
+        var expected_layers: Array[String] = _string_array(expect.get("layers", []))
+        var actual_layers: Array[String] = LayeredMusicRuntime.preview_layer_ids(str(decision.get("cue", "")), intensity, [])
+        _check(actual_layers == expected_layers, "%s layers: %s expected %s" % [scenario_id, str(actual_layers), str(expected_layers)])
+
     var narrative_variant: Variant = payload.get("narrative_contract", {})
     var narrative: Dictionary = narrative_variant if narrative_variant is Dictionary else {}
     var beats_variant: Variant = NarrativeAudioDirector.data.get("beats", {})
@@ -37,6 +41,7 @@ func run() -> void:
     _check(str((beats.get("reunion", {}) as Dictionary).get("music", "")) == str(narrative.get("reunion", "")), "Reunion must retain its musical cue")
     _check(str((AudioDirector.data.get("combat_resolution_music", {}) as Dictionary).get("victory", "")) == str(narrative.get("victory", "")), "Victory must retain a costly-resolution cue")
     _check(str((AudioDirector.data.get("combat_resolution_music", {}) as Dictionary).get("defeat", "")) == str(narrative.get("defeat", "")), "Defeat must retain a retreat cue")
+    _check(bool(narrative.get("layered_stems_must_yield", false)), "Narrative contract must require layered stems to yield")
 
     _finish()
 
@@ -45,6 +50,13 @@ func _load_dictionary(path: String) -> Dictionary:
         return {}
     var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
     return parsed if parsed is Dictionary else {}
+
+func _string_array(value: Variant) -> Array[String]:
+    var result: Array[String] = []
+    var values: Array = value if value is Array else []
+    for item: Variant in values:
+        result.append(str(item))
+    return result
 
 func _check(condition: bool, message: String) -> void:
     if not condition:
