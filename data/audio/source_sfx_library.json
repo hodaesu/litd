@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "purpose": "Contrat de sonothèque source LITD : 1 000 à 3 000 sons bruts légaux servant de matière première au sound design, jamais considérés comme assets finaux par défaut.",
+  "target_source_count": 1800,
+  "acceptable_source_count": [1000, 3000],
+  "local_root": "local/audio_library",
+  "repository_policy": {
+    "raw_sources_are_local_only": true,
+    "working_derivatives_are_local_only": true,
+    "game_ready_assets_may_be_vendored_only_after_license_audit": true,
+    "metadata_and_lineage_are_committed": true,
+    "never_vendor_private_royalty_free_source_files": true
+  },
+  "license_policy": {
+    "green": ["OWN_RECORDING", "CC0", "CC-BY"],
+    "private_only": ["ROYALTY_FREE_NO_REDISTRIBUTION"],
+    "blocked": ["CC-BY-NC", "NON_COMMERCIAL", "EDITORIAL_ONLY", "UNKNOWN", "UNVERIFIED"],
+    "cc_by_requires_attribution": true,
+    "license_snapshot_required": true,
+    "source_url_required_for_external_sources": true,
+    "commercial_use_required": true,
+    "derivative_work_permission_required": true
+  },
+  "stages": [
+    {"id": "source", "path": "local/audio_library/01_SOURCE", "description": "Fichiers bruts immuables + hash SHA-256."},
+    {"id": "working", "path": "local/audio_library/02_WORKING", "description": "Nettoyage, découpe, pitch, EQ, layering et essais."},
+    {"id": "rendered", "path": "local/audio_library/03_RENDERED", "description": "Rendus LITD issus d'une ou plusieurs sources, encore en revue."},
+    {"id": "game_ready", "path": "assets/audio/sfx", "description": "Variantes finales auditées et utilisables par Godot."},
+    {"id": "licenses", "path": "local/audio_library/04_LICENSES", "description": "Copies locales des licences, reçus et preuves de provenance."}
+  ],
+  "categories": {
+    "footsteps": {"target": 220, "tags": ["ash", "stone", "wood", "mud", "metal", "cloth", "gravel", "water", "barefoot", "armor"]},
+    "impacts": {"target": 220, "tags": ["metal", "wood", "stone", "bone", "flesh", "shield", "heavy", "light", "debris"]},
+    "weapons": {"target": 220, "tags": ["sword", "axe", "spear", "bow", "staff", "blade", "swing", "whoosh", "block", "parry"]},
+    "armor_gear": {"target": 120, "tags": ["chain", "plate", "leather", "cloth", "buckle", "bag", "inventory", "equip"]},
+    "body": {"target": 120, "tags": ["fall", "body_hit", "bone", "flesh", "grab", "struggle", "movement"]},
+    "creatures": {"target": 160, "tags": ["growl", "breath", "hiss", "roar", "click", "movement", "death", "pain"]},
+    "environment": {"target": 220, "tags": ["wind", "ruins", "crypt", "cave", "forest", "roomtone", "crowd", "dust", "ash"]},
+    "doors_mechanisms": {"target": 100, "tags": ["door", "gate", "lock", "lever", "chain", "gear", "stone_mechanism", "chest"]},
+    "elements_weather": {"target": 120, "tags": ["fire", "water", "rain", "thunder", "wind", "embers", "ice", "steam"]},
+    "ui": {"target": 80, "tags": ["confirm", "cancel", "hover", "inventory", "skill", "warning", "notification"]},
+    "magic_psychology": {"target": 120, "tags": ["hope", "fear", "madness", "essence", "ritual", "telegraph", "impact", "whisper"]},
+    "voices_breaths": {"target": 100, "tags": ["breath", "effort", "pain", "whisper", "panic", "exhaustion", "grunt"]}
+  },
+  "record_schema": {
+    "required": ["id", "category", "source_type", "license", "status", "original_filename", "sha256"],
+    "external_required": ["source_url", "author", "license_evidence"],
+    "fields": ["id", "category", "subcategory", "tags", "source_type", "provider", "author", "source_url", "license", "license_evidence", "commercial_use", "derivatives_allowed", "redistribution_allowed", "original_filename", "sha256", "duration_seconds", "sample_rate", "channels", "recorded_on", "ingested_on", "status", "notes"]
+  },
+  "derivative_schema": {
+    "required": ["id", "source_ids", "recipe", "status"],
+    "recipe_operations": ["trim", "denoise", "normalize", "eq", "compress", "limit", "pitch", "time_stretch", "reverse", "distortion", "reverb", "layer", "fade", "stereo", "mono"],
+    "lineage_required": true,
+    "minimum_variants_per_repeating_cue": 4,
+    "recommended_variants_per_footstep_material": 8
+  }
+}
