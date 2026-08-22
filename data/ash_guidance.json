@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "design_rule": "La cendre indique une direction praticable sans devenir une flèche HUD.",
+  "version": 2,
+  "design_rule": "La cendre indique une direction praticable sans devenir une flèche HUD. Son émotion peut changer son mouvement, jamais la fiabilité de sa direction.",
   "objective_modes": {
     "boss": {
       "far_color": "#85888D",
@@ -31,10 +31,64 @@
     "color_smoothing": 5.0,
     "minimum_direction_distance": 0.25
   },
+  "emotion": {
+    "fear": {
+      "enter": 0.48,
+      "exit": 0.38,
+      "max_spread_bonus_deg": 34.0,
+      "max_side_bias": 0.28,
+      "angular_velocity_multiplier": 1.55,
+      "mote_bonus": 10,
+      "hesitation_hz": 1.65
+    },
+    "major_danger": {
+      "enter": 0.72,
+      "exit": 0.60,
+      "speed_bonus": 3.0,
+      "burst_speed_bonus": 2.4,
+      "burst_mote_bonus": 18,
+      "burst_hz": 0.82,
+      "forward_spread_reduction_deg": 10.0,
+      "lifetime_multiplier": 0.78
+    },
+    "safe": {
+      "enter": 0.68,
+      "exit": 0.55,
+      "speed_multiplier": 0.68,
+      "spread_multiplier": 0.58,
+      "angular_velocity_multiplier": 0.42,
+      "lifetime_multiplier": 1.22,
+      "mote_multiplier": 0.72
+    },
+    "danger_from_boss_proximity": 0.88,
+    "risk_multiplier_span": 1.25,
+    "direction_fidelity_min": 0.78,
+    "context_smoothing": 4.0
+  },
+  "environment_context": {
+    "danger_floor_by_role": {
+      "boss": 1.0,
+      "preboss": 0.88,
+      "elite": 0.76,
+      "hazard": 0.68,
+      "combat": 0.54,
+      "puzzle": 0.24,
+      "generic": 0.18
+    },
+    "safety_by_room_type": {
+      "camp": 1.0,
+      "sanctuary": 0.92,
+      "merchant": 0.72,
+      "start": 0.58,
+      "treasure": 0.36
+    }
+  },
   "accessibility": {
     "color_is_not_only_signal": true,
     "near_objective_increases_speed": true,
     "boss_near_objective_increases_sparks": true,
-    "quest_and_boss_keep_distinct_hues": true
+    "quest_and_boss_keep_distinct_hues": true,
+    "emotion_never_reverses_direction": true,
+    "fear_changes_motion_not_destination": true
   }
 }
