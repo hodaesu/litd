@@ -42,6 +42,9 @@ func _test_trail_runtime() -> void:
     await get_tree().process_frame
 
     trail.guide_to_world_position(Vector3(0.0, 0.0, -12.0), "boss", -1.0, 0.82)
+    var hidden_snapshot: Dictionary = trail.snapshot()
+    _expect(not bool(hidden_snapshot.get("wisps_emitting", true)), "Définir un objectif ne doit pas afficher la cendre automatiquement")
+    _expect(trail.request_guidance(20.0), "Une demande explicite doit révéler un objectif valide")
     trail._process(1.0)
     var boss_snapshot: Dictionary = trail.snapshot()
     _expect(str(boss_snapshot.get("objective_kind", "")) == "boss", "Le runtime doit mémoriser le mode boss")
@@ -49,6 +52,8 @@ func _test_trail_runtime() -> void:
     _expect(float(boss_snapshot.get("proximity", 0.0)) > 0.75, "La proximité de route doit piloter l'intensité du boss")
 
     trail.guide_to_world_position(Vector3(3.0, 0.0, 0.0), "quest", 48.0)
+    _expect(not bool(trail.snapshot().get("wisps_emitting", true)), "Changer d’objectif doit masquer la cendre jusqu’à la prochaine demande")
+    trail.request_guidance(20.0)
     trail.set_emotional_context(0.0, 0.0, 0.0)
     trail._process(1.0)
     var quest_snapshot: Dictionary = trail.snapshot()
@@ -77,6 +82,10 @@ func _test_trail_runtime() -> void:
     _expect(str(safe.get("emotion", "")) == "safe", "Un lieu sûr doit apaiser le mouvement de la cendre")
     _expect(float(safe.get("safety", 0.0)) > 0.90, "Le contexte sûr doit atteindre le directeur de cendres")
     _expect((safe.get("direction", Vector3.ZERO) as Vector3).dot(stable_direction) > 0.99, "Le calme ne doit pas détourner le guidage")
+
+    trail._process(21.0)
+    var expired: Dictionary = trail.snapshot()
+    _expect(not bool(expired.get("wisps_emitting", true)), "La cendre doit disparaître automatiquement à la fin de sa durée")
 
     trail.clear_emotional_overrides()
     trail.clear_guidance()
