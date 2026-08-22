@@ -3,20 +3,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 QUESTS = json.loads((ROOT / "data" / "quests.json").read_text(encoding="utf-8"))
+SCENARIO = json.loads((ROOT / "data" / "levels" / "chapter_01_first_map_scenario.json").read_text(encoding="utf-8"))
 BOUNTIES = json.loads((ROOT / "data" / "bounty_contracts.json").read_text(encoding="utf-8"))
 
 def test_first_map_has_scenario_main_quest_and_five_side_quests():
-    assert QUESTS["map_id"] == "c01_ashlands_first_route"
-    assert len(QUESTS["scenario"]["acts"]) == 3
-    quests = QUESTS["quests"]
-    assert len([q for q in quests if q["quest_type"] == "main"]) == 1
-    side = [q for q in quests if q["quest_type"] == "side"]
+    assert SCENARIO["map_id"] == "c01_ashlands_first_route"
+    assert len(SCENARIO["scenario"]["acts"]) == 3
+    quests = QUESTS
+    assert all(q["quest_type"] == "dungeon" for q in quests)
+    assert len([q for q in quests if q["narrative_role"] == "main"]) == 1
+    side = [q for q in quests if q["narrative_role"] == "side"]
     assert len(side) == 5
     assert len({q["id"] for q in quests}) == len(quests)
     assert all(q["objectives"] and q.get("reward") for q in quests)
 
 def test_side_quests_cover_exploration_memory_care_creatures_and_lore():
-    side_ids = {q["id"] for q in QUESTS["quests"] if q["quest_type"] == "side"}
+    side_ids = {q["id"] for q in QUESTS if q["narrative_role"] == "side"}
     assert side_ids == {
         "c01_side_buried_bell",
         "c01_side_names_in_ash",
