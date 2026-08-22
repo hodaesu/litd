@@ -1,0 +1,373 @@
+{
+  "schema_version": 1,
+  "max_positive": 2,
+  "max_negative": 2,
+  "starter_rules": {
+    "manual_choice": true,
+    "two_positive_requires_negative": 1,
+    "can_choose_zero_positive": true,
+    "can_choose_zero_negative": true
+  },
+  "random_rules": {
+    "minimum_positive": 1,
+    "maximum_positive": 2,
+    "minimum_negative": 0,
+    "maximum_negative": 2,
+    "deterministic_from_character_seed": true,
+    "no_reroll_after_save": true
+  },
+  "evolution_rules": {
+    "negative_is_removed": true,
+    "evolved_positive_is_added": true,
+    "positive_cap_is_preserved": true,
+    "when_positive_slots_full": "replace_oldest_positive",
+    "progress_is_persistent_for_heroes": true,
+    "progress_is_persistent_for_captured_enemies": true
+  },
+  "positives": [
+    {
+      "id": "courage",
+      "name": "Courage",
+      "polarity": "positive",
+      "description": "Courage",
+      "effects": {
+        "fear_resistance": 12
+      }
+    },
+    {
+      "id": "temerity",
+      "name": "Témérité",
+      "polarity": "positive",
+      "description": "Témérité",
+      "effects": {
+        "damage_bonus": 9,
+        "guard_power": -4
+      }
+    },
+    {
+      "id": "steadfast",
+      "name": "Inébranlable",
+      "polarity": "positive",
+      "description": "Inébranlable",
+      "effects": {
+        "panic_resistance": 18
+      }
+    },
+    {
+      "id": "precise",
+      "name": "Précis",
+      "polarity": "positive",
+      "description": "Précis",
+      "effects": {
+        "precision": 8
+      }
+    },
+    {
+      "id": "protective",
+      "name": "Protecteur",
+      "polarity": "positive",
+      "description": "Protecteur",
+      "effects": {
+        "guard_power": 10
+      }
+    },
+    {
+      "id": "resourceful",
+      "name": "Débrouillard",
+      "polarity": "positive",
+      "description": "Débrouillard",
+      "effects": {
+        "item_efficiency": 12
+      }
+    },
+    {
+      "id": "hopeful",
+      "name": "Porte-espoir",
+      "polarity": "positive",
+      "description": "Porte-espoir",
+      "effects": {
+        "hope_gain": 10
+      }
+    },
+    {
+      "id": "survivor",
+      "name": "Survivant",
+      "polarity": "positive",
+      "description": "Survivant",
+      "effects": {
+        "critical_survival": 12
+      }
+    },
+    {
+      "id": "disciplined",
+      "name": "Discipliné",
+      "polarity": "positive",
+      "description": "Discipliné",
+      "effects": {
+        "accuracy": 7,
+        "madness_resistance": 5
+      }
+    },
+    {
+      "id": "swift",
+      "name": "Vif",
+      "polarity": "positive",
+      "description": "Vif",
+      "effects": {
+        "dodge_chance": 8
+      }
+    },
+    {
+      "id": "empathetic",
+      "name": "Empathique",
+      "polarity": "positive",
+      "description": "Empathique",
+      "effects": {
+        "party_fear_relief": 3
+      }
+    },
+    {
+      "id": "relentless",
+      "name": "Implacable",
+      "polarity": "positive",
+      "description": "Implacable",
+      "effects": {
+        "damage_vs_wounded": 12
+      }
+    },
+    {
+      "id": "arachnid_fighter",
+      "name": "Combattant d’arachnides",
+      "polarity": "positive",
+      "description": "Combattant d’arachnides",
+      "effects": {
+        "damage_vs_arachnid": 15,
+        "fear_resistance_arachnid": 25
+      }
+    },
+    {
+      "id": "night_hardened",
+      "name": "Aguerri des ténèbres",
+      "polarity": "positive",
+      "description": "Aguerri des ténèbres",
+      "effects": {
+        "accuracy_darkness": 10,
+        "fear_resistance_darkness": 25
+      }
+    },
+    {
+      "id": "undead_hunter",
+      "name": "Chasseur de morts-vivants",
+      "polarity": "positive",
+      "description": "Chasseur de morts-vivants",
+      "effects": {
+        "damage_vs_undead": 15,
+        "fear_resistance_undead": 25
+      }
+    },
+    {
+      "id": "blood_hardened",
+      "name": "Endurci au sang",
+      "polarity": "positive",
+      "description": "Endurci au sang",
+      "effects": {
+        "bleed_resistance": 15,
+        "fear_resistance_blood": 25
+      }
+    },
+    {
+      "id": "firewalker",
+      "name": "Marche-feu",
+      "polarity": "positive",
+      "description": "Marche-feu",
+      "effects": {
+        "fire_resistance": 15,
+        "fear_resistance_fire": 25
+      }
+    },
+    {
+      "id": "delver",
+      "name": "Explorateur des profondeurs",
+      "polarity": "positive",
+      "description": "Explorateur des profondeurs",
+      "effects": {
+        "fear_resistance_confined": 25,
+        "trap_awareness": 10
+      }
+    }
+  ],
+  "negatives": [
+    {
+      "id": "arachnophobia",
+      "name": "Arachnophobie",
+      "polarity": "negative",
+      "description": "Arachnophobie",
+      "effects": {
+        "fear_gain_arachnid": 14,
+        "accuracy_vs_arachnid": -10
+      },
+      "evolution": {
+        "exposure": "arachnid",
+        "threshold": 12,
+        "evolves_to": "arachnid_fighter"
+      }
+    },
+    {
+      "id": "nyctophobia",
+      "name": "Peur du noir",
+      "polarity": "negative",
+      "description": "Peur du noir",
+      "effects": {
+        "fear_gain_darkness": 12,
+        "accuracy_darkness": -8
+      },
+      "evolution": {
+        "exposure": "darkness",
+        "threshold": 15,
+        "evolves_to": "night_hardened"
+      }
+    },
+    {
+      "id": "necrophobia",
+      "name": "Peur des morts",
+      "polarity": "negative",
+      "description": "Peur des morts",
+      "effects": {
+        "fear_gain_undead": 12,
+        "damage_vs_undead": -8
+      },
+      "evolution": {
+        "exposure": "undead",
+        "threshold": 15,
+        "evolves_to": "undead_hunter"
+      }
+    },
+    {
+      "id": "hemophobia",
+      "name": "Peur du sang",
+      "polarity": "negative",
+      "description": "Peur du sang",
+      "effects": {
+        "fear_gain_blood": 10,
+        "bleed_resistance": -10
+      },
+      "evolution": {
+        "exposure": "blood",
+        "threshold": 20,
+        "evolves_to": "blood_hardened"
+      }
+    },
+    {
+      "id": "pyrophobia",
+      "name": "Peur du feu",
+      "polarity": "negative",
+      "description": "Peur du feu",
+      "effects": {
+        "fear_gain_fire": 14,
+        "fire_resistance": -12
+      },
+      "evolution": {
+        "exposure": "fire",
+        "threshold": 12,
+        "evolves_to": "firewalker"
+      }
+    },
+    {
+      "id": "claustrophobia",
+      "name": "Claustrophobie",
+      "polarity": "negative",
+      "description": "Claustrophobie",
+      "effects": {
+        "fear_gain_confined": 10,
+        "dodge_chance": -5
+      },
+      "evolution": {
+        "exposure": "confined",
+        "threshold": 20,
+        "evolves_to": "delver"
+      }
+    },
+    {
+      "id": "fragile",
+      "name": "Fragile",
+      "polarity": "negative",
+      "description": "Fragile",
+      "effects": {
+        "max_hp_percent": -8
+      },
+      "evolution": null
+    },
+    {
+      "id": "impulsive",
+      "name": "Impulsif",
+      "polarity": "negative",
+      "description": "Impulsif",
+      "effects": {
+        "accuracy": -7,
+        "damage_bonus": 5
+      },
+      "evolution": null
+    },
+    {
+      "id": "cowardly",
+      "name": "Couard",
+      "polarity": "negative",
+      "description": "Couard",
+      "effects": {
+        "panic_resistance": -15,
+        "retreat_bias": 15
+      },
+      "evolution": null
+    },
+    {
+      "id": "distrustful",
+      "name": "Méfiant",
+      "polarity": "negative",
+      "description": "Méfiant",
+      "effects": {
+        "creature_synergy": -10
+      },
+      "evolution": null
+    },
+    {
+      "id": "superstitious",
+      "name": "Superstitieux",
+      "polarity": "negative",
+      "description": "Superstitieux",
+      "effects": {
+        "madness_resistance": -8,
+        "ritual_power": 5
+      },
+      "evolution": null
+    },
+    {
+      "id": "slow_recovery",
+      "name": "Récupération lente",
+      "polarity": "negative",
+      "description": "Récupération lente",
+      "effects": {
+        "recovery_speed": -12
+      },
+      "evolution": null
+    }
+  ],
+  "exposure_sources": {
+    "arachnid": "Combattre ou survivre à une rencontre avec des arachnides",
+    "darkness": "Traverser des salles dans l’obscurité",
+    "undead": "Combattre des morts-vivants",
+    "blood": "Voir des saignements ou mutilations",
+    "fire": "Subir ou traverser un danger de feu",
+    "confined": "Terminer une salle étroite ou souterraine"
+  },
+  "enemy_family_map": {
+    "4": "confined",
+    "10": "arachnid",
+    "14": "arachnid",
+    "15": "undead",
+    "17": "arachnid",
+    "20": "undead",
+    "29": "confined",
+    "32": "arachnid",
+    "33": "undead"
+  }
+}
