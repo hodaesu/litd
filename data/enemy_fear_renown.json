@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "scale": {
+    "min": 0,
+    "max": 100
+  },
+  "thresholds": {
+    "calm": 0,
+    "wary": 25,
+    "shaken": 50,
+    "terrified": 75,
+    "panic": 100
+  },
+  "renown_weights": {
+    "dungeon_survived": 5,
+    "boss_defeated": 12,
+    "enemy_defeated": 0.35,
+    "critical_hit": 0.6,
+    "ultimate_used": 2,
+    "heroic_rescue": 4,
+    "perfect_dungeon": 8,
+    "level": 0.45
+  },
+  "encounter_events": {
+    "hero_damage": {
+      "flat": 2,
+      "hp_ratio": 24
+    },
+    "critical_hit": {
+      "fear": 7
+    },
+    "ally_killed": {
+      "fear": 14
+    },
+    "boss_wounded": {
+      "fear": 5
+    },
+    "ultimate_witnessed": {
+      "fear": 18
+    },
+    "dismemberment_witnessed": {
+      "fear": 12
+    },
+    "hero_survives_lethal": {
+      "fear": 10
+    },
+    "hero_falls": {
+      "fear": -10
+    },
+    "enemy_lands_heavy_hit": {
+      "fear": -4
+    }
+  },
+  "party_reputation": {
+    "strongest_weight": 1,
+    "other_heroes_weight": 0.35,
+    "max_starting_fear": 70
+  },
+  "courage": {
+    "boss_multiplier": 0.55,
+    "elite_multiplier": 0.75,
+    "default_multiplier": 1,
+    "minimum_starting_fear": 0
+  },
+  "gameplay": {
+    "wary": {
+      "accuracy_multiplier": 0.97,
+      "damage_multiplier": 1,
+      "retreat_bias": 0.05
+    },
+    "shaken": {
+      "accuracy_multiplier": 0.9,
+      "damage_multiplier": 0.95,
+      "retreat_bias": 0.18
+    },
+    "terrified": {
+      "accuracy_multiplier": 0.78,
+      "damage_multiplier": 0.85,
+      "retreat_bias": 0.4
+    },
+    "panic": {
+      "accuracy_multiplier": 0.65,
+      "damage_multiplier": 0.7,
+      "retreat_bias": 0.75,
+      "panic_action_chance": 0.45
+    }
+  },
+  "rules": {
+    "persistent_hero_renown": true,
+    "enemy_fear_is_per_encounter": true,
+    "dungeon_difficulty_never_scales_from_renown": true,
+    "reputation_cannot_change_enemy_base_stats": true,
+    "bosses_resist_but_are_not_immune": true,
+    "only_witnessed_deeds_change_combat_fear": true
+  }
+}
