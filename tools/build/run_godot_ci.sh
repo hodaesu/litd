@@ -46,6 +46,7 @@ run_checked "Narration : bibliothèque transmédiatique, dialogues et mise en sc
 run_checked "Musique : bibliothèque, licences et accompagnement narratif" godot --headless --path . res://scenes/tests/music_library_smoke.tscn
 run_checked "Bruitages : bibliothèque, licences et sound design" godot --headless --path . res://scenes/tests/sfx_library_smoke.tscn
 run_checked "Audio adaptatif : exploration, combat, Peur et boss" godot --headless --path . res://scenes/tests/audio_director_smoke.tscn
+run_checked "Entraînement musical adaptatif : tension, crise, boss et priorité narrative" godot --headless --path . res://scenes/tests/adaptive_music_smoke.tscn
 run_checked "Audio audible : PCM local, SFX 2D/3D, loops et crossfades" godot --headless --path . res://scenes/tests/audio_runtime_smoke.tscn
 run_checked "Audio narratif : dialogues, Sanctuaire, silence et motifs" godot --headless --path . res://scenes/tests/narrative_audio_smoke.tscn
 run_checked "Dialogues réactifs : mortalité, voix et quatrième mur" godot --headless --path . res://scenes/tests/dialogue_director_smoke.tscn
