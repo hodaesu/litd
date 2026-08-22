@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def test_ash_guidance_color_contract():
     config = json.loads((ROOT / "data" / "ash_guidance.json").read_text(encoding="utf-8"))
-    assert config["version"] >= 2
+    assert config["version"] >= 3
     assert config["objective_modes"]["boss"]["far_color"] == "#85888D"
     assert config["objective_modes"]["boss"]["near_color"] == "#FF3B1F"
     assert config["objective_modes"]["quest"]["far_color"] == "#85888D"
@@ -104,3 +104,26 @@ def test_dungeon_environment_maps_major_danger_and_safe_rooms():
     assert danger["elite"] >= 0.70
     assert safety["camp"] == 1.0
     assert safety["sanctuary"] >= 0.90
+
+
+def test_ash_guidance_is_request_only_and_timed():
+    config = json.loads((ROOT / "data" / "ash_guidance.json").read_text(encoding="utf-8"))
+    activation = config["activation"]
+    assert activation["request_only"] is True
+    assert activation["visible_duration_s"] > 0.0
+    trail = (ROOT / "scripts" / "world" / "ash_guidance_trail.gd").read_text(encoding="utf-8")
+    assert "func request_guidance" in trail
+    assert "reveal_time_remaining" in trail
+    assert "_set_emitting(false)" in trail
+    assert "_set_emitting(is_guidance_revealed())" in trail
+
+
+def test_ash_guidance_can_be_requested_by_key_or_touch_double_tap():
+    explorer = (ROOT / "scripts" / "world" / "dungeon_proxy_explorer.gd").read_text(encoding="utf-8")
+    project = (ROOT / "project.godot").read_text(encoding="utf-8")
+    assert 'event.is_action_pressed("ash_guidance")' in explorer
+    assert "touch.double_tap" in explorer
+    assert "_is_in_ash_touch_zone" in explorer
+    assert "ash_touch_zone_min_x_ratio" in explorer
+    assert "ash_touch_zone_max_y_ratio" in explorer
+    assert "ash_guidance=" in project

@@ -35,11 +35,15 @@ var _mote_process: ParticleProcessMaterial = null
 var _wisp_material: StandardMaterial3D = null
 var _mote_material: StandardMaterial3D = null
 var _emotion_time: float = 0.0
+var reveal_time_remaining: float = 0.0
+var reveal_duration_s: float = 3.5
 
 func _ready() -> void:
     _policy = POLICY_SCRIPT.new() as AshGuidancePolicy
     _config = _policy.config if _policy != null else {}
     _build_particle_layers()
+    var activation: Dictionary = _config.get("activation", {})
+    reveal_duration_s = maxf(0.1, float(activation.get("visible_duration_s", 3.5)))
     set_process(true)
     _set_emitting(false)
 
@@ -49,7 +53,7 @@ func guide_to_node(node: Node3D, kind: String, distance_override: float = -1.0, 
     objective_kind = _sanitize_kind(kind)
     max_distance_m = distance_override
     proximity_override = route_proximity
-    _set_emitting(target_node != null and objective_kind != "")
+    _set_emitting(false)
     guidance_changed.emit(snapshot())
 
 func guide_to_world_position(world_position: Vector3, kind: String, distance_override: float = -1.0, route_proximity: float = -1.0) -> void:
@@ -59,8 +63,25 @@ func guide_to_world_position(world_position: Vector3, kind: String, distance_ove
     objective_kind = _sanitize_kind(kind)
     max_distance_m = distance_override
     proximity_override = route_proximity
-    _set_emitting(objective_kind != "")
+    _set_emitting(false)
     guidance_changed.emit(snapshot())
+
+func request_guidance(duration_override: float = -1.0) -> bool:
+    if objective_kind == "" or (target_node == null and not has_position_target):
+        hide_guidance()
+        return false
+    reveal_time_remaining = duration_override if duration_override > 0.0 else reveal_duration_s
+    _set_emitting(true)
+    guidance_changed.emit(snapshot())
+    return true
+
+func hide_guidance() -> void:
+    reveal_time_remaining = 0.0
+    _set_emitting(false)
+    guidance_changed.emit(snapshot())
+
+func is_guidance_revealed() -> bool:
+    return reveal_time_remaining > 0.0
 
 func set_environment_context(danger_floor: float, safety: float) -> void:
     environment_danger_floor = clampf(danger_floor, 0.0, 1.0)
@@ -90,6 +111,7 @@ func clear_guidance() -> void:
     objective_kind = ""
     proximity_override = -1.0
     current_proximity = 0.0
+    reveal_time_remaining = 0.0
     _set_emitting(false)
     guidance_changed.emit(snapshot())
 
@@ -104,6 +126,14 @@ func _process(delta: float) -> void:
         return
     if target_node != null and not is_instance_valid(target_node):
         clear_guidance()
+        return
+    if reveal_time_remaining <= 0.0:
+        _set_emitting(false)
+        return
+    reveal_time_remaining = maxf(0.0, reveal_time_remaining - delta)
+    if reveal_time_remaining <= 0.0:
+        _set_emitting(false)
+        guidance_changed.emit(snapshot())
         return
 
     var target: Vector3 = target_node.global_position if target_node != null else target_world_position
@@ -124,7 +154,7 @@ func _process(delta: float) -> void:
     current_proximity = lerpf(current_proximity, raw_proximity, clampf(delta * float(particle_rules.get("color_smoothing", 5.0)), 0.0, 1.0))
     _update_emotional_state(delta)
     _apply_visual_state()
-    _set_emitting(true)
+    _set_emitting(is_guidance_revealed())
 
 func _update_emotional_state(delta: float) -> void:
     var emotion_rules: Dictionary = _config.get("emotion", {})
@@ -402,5 +432,8 @@ func snapshot() -> Dictionary:
         "environment_safety": environment_safety,
         "wisps_emitting": _wisps != null and _wisps.emitting,
         "motes_emitting": _motes != null and _motes.emitting,
-        "mote_count": _motes.amount if _motes != null else 0
+        "mote_count": _motes.amount if _motes != null else 0,
+        "revealed": is_guidance_revealed(),
+        "reveal_time_remaining": reveal_time_remaining,
+        "reveal_duration_s": reveal_duration_s
     }
