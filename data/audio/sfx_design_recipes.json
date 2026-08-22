@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "purpose": "Recettes de départ pour transformer les sources légales en bruitages LITD originaux tout en conservant la lignée des fichiers utilisés.",
+  "recipes": {
+    "heavy_melee_impact": {
+      "source_roles": ["metal_or_stone_attack", "wood_or_body_transient", "low_frequency_layer"],
+      "operations": [
+        {"op":"trim"},
+        {"op":"pitch","range_semitones":[-7,-2]},
+        {"op":"eq","notes":"retirer le grave boueux, renforcer l'impact utile"},
+        {"op":"layer","offset_ms":[0,25]},
+        {"op":"compress"},
+        {"op":"reverb","preset":"room_or_crypt_short"},
+        {"op":"limit"}
+      ],
+      "recommended_variants": 6
+    },
+    "creature_voice": {
+      "source_roles": ["human_breath_or_voice", "organic_texture", "mechanical_or_animal_texture_optional"],
+      "operations": [
+        {"op":"pitch","range_semitones":[-12,5]},
+        {"op":"time_stretch","range":[0.65,1.45]},
+        {"op":"layer"},
+        {"op":"distortion","amount":"light_to_medium"},
+        {"op":"eq"},
+        {"op":"reverb","preset":"space_context"}
+      ],
+      "recommended_variants": 8
+    },
+    "footstep_material": {
+      "source_roles": ["primary_step", "surface_detail_optional", "gear_detail_optional"],
+      "operations": [
+        {"op":"trim"},
+        {"op":"eq"},
+        {"op":"pitch","range_semitones":[-1.5,1.5]},
+        {"op":"layer","optional":true},
+        {"op":"normalize"}
+      ],
+      "recommended_variants": 10,
+      "runtime_rule": "random_no_immediate_repeat"
+    },
+    "fear_psychology": {
+      "source_roles": ["breath_or_whisper", "tonal_resonance", "texture"],
+      "operations": [
+        {"op":"time_stretch"},
+        {"op":"reverse","optional":true},
+        {"op":"pitch"},
+        {"op":"layer"},
+        {"op":"reverb"},
+        {"op":"stereo"}
+      ],
+      "recommended_variants": 5
+    },
+    "ui_dark_tactile": {
+      "source_roles": ["small_mechanical_transient", "soft_tonal_layer_optional"],
+      "operations": [
+        {"op":"trim"},
+        {"op":"eq"},
+        {"op":"pitch"},
+        {"op":"layer","optional":true},
+        {"op":"limit"}
+      ],
+      "recommended_variants": 4
+    }
+  }
+}
