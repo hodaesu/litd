@@ -66,6 +66,14 @@ func set_environment_context(danger_floor: float, safety: float) -> void:
     environment_danger_floor = clampf(danger_floor, 0.0, 1.0)
     environment_safety = clampf(safety, 0.0, 1.0)
 
+func configure_environment_for_room(role: String, room_type: String) -> void:
+    var environment_rules: Dictionary = _config.get("environment_context", {})
+    var danger_by_role: Dictionary = environment_rules.get("danger_floor_by_role", {})
+    var safety_by_type: Dictionary = environment_rules.get("safety_by_room_type", {})
+    var danger_floor: float = float(danger_by_role.get(role, danger_by_role.get("generic", 0.18)))
+    var safety: float = float(safety_by_type.get(room_type, 0.0))
+    set_environment_context(danger_floor, safety)
+
 func set_emotional_context(fear: float = -1.0, danger: float = -1.0, safety: float = -1.0) -> void:
     fear_override = clampf(fear, 0.0, 1.0) if fear >= 0.0 else -1.0
     danger_override = clampf(danger, 0.0, 1.0) if danger >= 0.0 else -1.0
