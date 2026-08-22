@@ -28,6 +28,7 @@ func reset_new_game() -> void:
     CreatureManager.reset_new_game()
     PoliticalState.reset_new_game()
     CampaignState.reset_new_game()
+    BountyContractDirector.reset_new_game()
     AshlandsRuntime.reset_world_progression()
     Chapter01Runtime.reset_new_game()
     Chapter02Runtime.reset_new_game()

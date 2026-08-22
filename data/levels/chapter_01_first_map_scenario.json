@@ -1,0 +1,42 @@
+{
+  "schema_version": 2,
+  "map_id": "c01_ashlands_first_route",
+  "map_name": "La Route sous la cendre",
+  "scenario": {
+    "premise": "À la première sortie du Sanctuaire, la compagnie suit une ancienne route ensevelie. Des appels étouffés, une borne impossible et les gestes répétés d’un ancien citoyen révèlent que la Chute n’explique pas tout.",
+    "opening": "La cendre tombe à contre-vent. Une cloche sonne sous terre alors qu’aucun clocher ne tient encore debout.",
+    "acts": [
+      {
+        "id": "arrival",
+        "name": "La route effacée",
+        "goal": "Retrouver la chaussée, secourir les survivants et établir un feu de camp."
+      },
+      {
+        "id": "investigation",
+        "name": "Les voix derrière les murs",
+        "goal": "Explorer les ruines, observer les créatures et réunir trois traces indépendantes."
+      },
+      {
+        "id": "witness",
+        "name": "Le Témoin des Cendres",
+        "goal": "Franchir le passage, affronter le Témoin puis décider de son sort."
+      }
+    ],
+    "ending": "Au retour, les preuves montrent que certaines blessures du Voile précèdent la catastrophe. Le Chapitre II s’ouvre."
+  },
+  "quest_ids": [
+    "c01_main_road",
+    "c01_side_buried_bell",
+    "c01_side_names_in_ash",
+    "c01_side_last_medic",
+    "c01_side_quiet_creature",
+    "c01_side_three_testimonies"
+  ],
+  "side_quest_ids": [
+    "c01_side_buried_bell",
+    "c01_side_names_in_ash",
+    "c01_side_last_medic",
+    "c01_side_quiet_creature",
+    "c01_side_three_testimonies"
+  ]
+}

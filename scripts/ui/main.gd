@@ -863,6 +863,13 @@ func finish_victory() -> void:
     var defeated_boss := false
     for enemy_value: Variant in GameState.battle_enemies:
         var defeated_enemy: Dictionary = enemy_value
+        if int(defeated_enemy.get("hp", 0)) <= 0:
+            var family_id := String(defeated_enemy.get("family", defeated_enemy.get("family_id", "any")))
+            BountyContractDirector.record_event("enemy_defeated", family_id)
+            if bool(defeated_enemy.get("elite", false)):
+                BountyContractDirector.record_event("elite_defeated", String(defeated_enemy.get("id", family_id)))
+            if int(defeated_enemy.get("fear", 0)) >= 50:
+                BountyContractDirector.record_event("enemy_defeated_under_fear", family_id)
         if bool(defeated_enemy.get("boss", false)) and int(defeated_enemy.get("hp", 0)) <= 0:
             defeated_boss = true
     for hero_value: Variant in GameState.alive_heroes():
@@ -875,6 +882,9 @@ func finish_victory() -> void:
     if GameState.expedition_room > GameState.expedition_rooms:
         for hero_value: Variant in GameState.alive_heroes():
             EnemyFearDirector.record_deed(hero_value, "dungeon_survived")
+        BountyContractDirector.record_event("dungeon_completed_no_hero_death", "first_veil_crypts")
+        BountyContractDirector.record_event("dungeon_completed", "first_veil_crypts")
+        BountyContractDirector.close_dungeon_run(true)
     CreatureManager.grant_active_xp(30)
     for hero_value in GameState.party:
         HeroSkillManager.grant_xp(hero_value, 30)

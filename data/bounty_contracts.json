@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "rules": {
+    "enabled_in_every_dungeon": true,
+    "enabled_across_campaign": true,
+    "board_size": 3,
+    "max_active": 2,
+    "refresh": "after_dungeon_or_campaign_day",
+    "deterministic_seed": true,
+    "no_reload_reroll": true,
+    "expiry_runs": 3,
+    "target_must_exist_in_dungeon": true,
+    "bosses_excluded_unless_named_contract": true
+  },
+  "archetypes": [
+    {
+      "id": "slayer",
+      "name": "Mise à prix",
+      "event": "enemy_defeated",
+      "target_source": "enemy_family",
+      "counts": [
+        4,
+        6,
+        8
+      ],
+      "weight": 30
+    },
+    {
+      "id": "elite",
+      "name": "La tête du meneur",
+      "event": "elite_defeated",
+      "target_source": "dungeon_elites",
+      "counts": [
+        1
+      ],
+      "weight": 18
+    },
+    {
+      "id": "clean_hunt",
+      "name": "Chasse sans perte",
+      "event": "dungeon_completed_no_hero_death",
+      "target_source": "dungeon",
+      "counts": [
+        1
+      ],
+      "weight": 14
+    },
+    {
+      "id": "anatomist",
+      "name": "Preuve du chasseur",
+      "event": "body_part_disabled",
+      "target_source": "enemy_anatomy",
+      "counts": [
+        2,
+        3
+      ],
+      "weight": 15
+    },
+    {
+      "id": "captor",
+      "name": "Recherché vivant",
+      "event": "enemy_captured",
+      "target_source": "capturable_enemy_family",
+      "counts": [
+        1
+      ],
+      "weight": 10
+    },
+    {
+      "id": "fearless",
+      "name": "Face à la terreur",
+      "event": "enemy_defeated_under_fear",
+      "target_source": "enemy_family",
+      "counts": [
+        2,
+        3
+      ],
+      "weight": 13
+    }
+  ],
+  "reward_scaling": {
+    "base_gold": 25,
+    "gold_per_dungeon_tier": 12,
+    "base_essence": 2,
+    "essence_per_difficulty": 1,
+    "renown_per_contract": 3,
+    "streak_bonus_percent": 10,
+    "streak_cap": 5
+  },
+  "campaign_bounties": {
+    "unlock_after_dungeons": 1,
+    "board_size": 2,
+    "expiry_chapters": 1,
+    "archetypes": [
+      {
+        "id": "campaign_family_hunt",
+        "name": "Fléau de la campagne",
+        "event": "enemy_family_defeated",
+        "counts": [
+          12,
+          18
+        ],
+        "reward_multiplier": 2
+      },
+      {
+        "id": "campaign_veteran",
+        "name": "Le nom qui traverse les ruines",
+        "event": "dungeon_completed",
+        "counts": [
+          3
+        ],
+        "reward_multiplier": 2.2
+      },
+      {
+        "id": "campaign_capture",
+        "name": "Bestiaire vivant",
+        "event": "enemy_captured",
+        "counts": [
+          2
+        ],
+        "reward_multiplier": 2.4
+      }
+    ]
+  }
+}
