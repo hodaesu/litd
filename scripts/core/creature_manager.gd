@@ -117,7 +117,7 @@ func _create_creature(definition: Dictionary) -> Dictionary:
     var instance_seed: int = capture_seed ^ (creature_instance_counter * 83492791)
     var adaptive := bool(definition.get("level_sync", false))
     var starting_level := BossRecruitmentState.party_reference_level() if adaptive else 1
-    return {
+    var creature := {
         "instance_id": "%s-%08x-%04d" % [str(definition.get("id", "creature")), instance_seed & 0x7fffffff, creature_instance_counter],
         "species_id": str(definition.get("id", "")),
         "enemy_id": int(definition.get("enemy_id", -1)),
@@ -135,6 +135,8 @@ func _create_creature(definition: Dictionary) -> Dictionary:
         "signature": str(definition.get("signature", "")),
         "source_encounter_id": str(definition.get("encounter_id", ""))
     }
+    CharacterTraitDirector.prepare_character(creature, str(creature.get("instance_id", "")))
+    return creature
 
 func get_creature(instance_id: String) -> Dictionary:
     for creature in captured_creatures:
