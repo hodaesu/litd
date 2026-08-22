@@ -28,6 +28,7 @@ func _ready() -> void:
     if ash_guidance != null:
         ash_guidance.name = "AshGuidanceTrail"
         add_child(ash_guidance)
+        call_deferred("_sync_ash_environment_from_parent")
 
 func _physics_process(delta: float) -> void:
     var input_vector: Vector2 = _movement_input()
@@ -58,12 +59,49 @@ func set_quest_guidance_target(target: Node3D, max_distance_m: float = -1.0) -> 
     if ash_guidance != null:
         ash_guidance.guide_to_node(target, "quest", max_distance_m)
 
+func set_ash_environment_context(danger_floor: float, safety: float) -> void:
+    if ash_guidance != null:
+        ash_guidance.set_environment_context(danger_floor, safety)
+
+func set_ash_emotional_context(fear: float = -1.0, danger: float = -1.0, safety: float = -1.0) -> void:
+    if ash_guidance != null:
+        ash_guidance.set_emotional_context(fear, danger, safety)
+
+func clear_ash_emotional_overrides() -> void:
+    if ash_guidance != null:
+        ash_guidance.clear_emotional_overrides()
+
 func clear_ash_guidance() -> void:
     if ash_guidance != null:
         ash_guidance.clear_guidance()
 
 func guidance_snapshot() -> Dictionary:
     return ash_guidance.snapshot() if ash_guidance != null else {}
+
+func _sync_ash_environment_from_parent() -> void:
+    if ash_guidance == null:
+        return
+    var room_node: Node = get_parent()
+    if room_node == null:
+        return
+    var room_spec_value: Variant = _property_value(room_node, "room_spec", {})
+    if not room_spec_value is Dictionary:
+        return
+    var room_spec: Dictionary = room_spec_value
+    var proxy_value: Variant = room_spec.get("proxy", {})
+    var proxy: Dictionary = proxy_value if proxy_value is Dictionary else {}
+    var role: String = str(proxy.get("role", room_spec.get("room_role", "generic")))
+    var room_type: String = str(room_spec.get("type", ""))
+    ash_guidance.configure_environment_for_room(role, room_type)
+
+func _property_value(object: Object, property_name: String, fallback: Variant) -> Variant:
+    for property_value: Variant in object.get_property_list():
+        if not property_value is Dictionary:
+            continue
+        var property: Dictionary = property_value
+        if str(property.get("name", "")) == property_name:
+            return object.get(property_name)
+    return fallback
 
 func _movement_input() -> Vector2:
     var x_axis: float = 0.0
