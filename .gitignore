@@ -26,3 +26,6 @@ __pycache__/
 
 # Local nested Git placeholder
 LITD/
+# Local SFX source library: raw licensed files, working derivatives, receipts and licence snapshots.
+# Only metadata contracts/registries are committed under data/audio/.
+local/audio_library/
