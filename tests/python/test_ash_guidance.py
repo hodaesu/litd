@@ -127,3 +127,21 @@ def test_ash_guidance_can_be_requested_by_key_or_touch_double_tap():
     assert "ash_touch_zone_min_x_ratio" in explorer
     assert "ash_touch_zone_max_y_ratio" in explorer
     assert "ash_guidance=" in project
+
+
+def test_live_objectives_prioritize_tracked_quest_then_boss_fallback():
+    explorer = (ROOT / "scripts" / "world" / "dungeon_proxy_explorer.gd").read_text(encoding="utf-8")
+    assert "quest_guidance_candidate" in explorer
+    assert "boss_guidance_candidate" in explorer
+    assert "_apply_candidate(quest_guidance_candidate, \"quest\")" in explorer
+    assert "_apply_candidate(boss_guidance_candidate, \"boss\")" in explorer
+    assert "complete_or_untrack_quest" in explorer
+    assert "invalidate_boss_route" in explorer
+
+
+def test_request_recalculates_and_reports_when_no_path_exists():
+    explorer = (ROOT / "scripts" / "world" / "dungeon_proxy_explorer.gd").read_text(encoding="utf-8")
+    assert '_apply_preferred_guidance()' in explorer
+    assert 'ash_guidance_unavailable.emit()' in explorer
+    assert "La cendre ne trouve aucun chemin praticable." in explorer
+    assert "ash_unavailable_feedback_cooldown" in explorer
