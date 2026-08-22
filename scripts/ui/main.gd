@@ -211,10 +211,10 @@ func _trait_choice_column(title_text: String, traits: Array, positive: bool) -> 
     column.add_child(grid)
     var selected: Array = starter_positive_traits if positive else starter_negative_traits
     for value: Variant in traits:
-        var trait: Dictionary = value
-        var trait_id := str(trait.get("id", ""))
+        var trait_definition: Dictionary = value
+        var trait_id := str(trait_definition.get("id", ""))
         var prefix := "✓ " if selected.has(trait_id) else ""
-        grid.add_child(make_button(prefix + str(trait.get("name", trait_id)), func(id_value = trait_id, is_positive = positive):
+        grid.add_child(make_button(prefix + str(trait_definition.get("name", trait_id)), func(id_value = trait_id, is_positive = positive):
             _toggle_starter_trait(id_value, is_positive), Vector2(285, 36)))
     return column
 
@@ -776,7 +776,7 @@ func enemy_turn() -> void:
             GameState.add_log("%s hésite sous l’effet de la Peur et manque sa cible." % enemy.name)
             continue
         damage = maxi(1, int(round(float(damage) * float(enemy_fear_modifiers.get("damage_multiplier", 1.0)))))
-        var enemy_trait_modifiers := CharacterTraitDirector.modifiers(enemy, CharacterTraitDirector.context_for_enemy(target))
+        var enemy_trait_modifiers: Dictionary = CharacterTraitDirector.modifiers(enemy, CharacterTraitDirector.context_for_enemy(target))
         damage = maxi(1, int(round(float(damage) * (1.0 + float(enemy_trait_modifiers.get("damage_bonus", 0.0)) / 100.0))))
         damage = maxi(1, int(round(damage * (1.0 - float(target_bonuses.get("physical_resistance", 0)) / 100.0))))
         if target.get("guarding",false):
@@ -799,7 +799,7 @@ func enemy_turn() -> void:
     show_screen("combat")
 
 func finish_victory() -> void:
-    var trait_evolutions := CharacterTraitDirector.record_enemy_encounter(GameState.alive_heroes(), GameState.battle_enemies)
+    var trait_evolutions: Array = CharacterTraitDirector.record_enemy_encounter(GameState.alive_heroes(), GameState.battle_enemies)
     for evolution_value: Variant in trait_evolutions:
         var evolution: Dictionary = evolution_value
         GameState.add_log("Une peur est maîtrisée : %s." % str(evolution.get("to", "")))
