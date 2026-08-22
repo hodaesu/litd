@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "project": "Light in the Dark",
+  "strategy": "Use one free core player for the prototype, then add one world-instrument library only where it materially strengthens LITD's Asian-influenced identity.",
+  "prototype": {
+    "cost_target": "free",
+    "player": "Orchestral Tools SINEplayer",
+    "libraries": [
+      "Berlin Free Orchestra",
+      "SINEfactory Gearbox",
+      "SINEfactory Manifold",
+      "SINEfactory Lucent",
+      "SINEfactory Crucible",
+      "SINEfactory Dynamo"
+    ],
+    "track_plan": {
+      "OSTINATO": ["Berlin Free Orchestra / Solo cello / sustained or legato", "Berlin Free Orchestra / Celli a5 / sustains for reinforcement"],
+      "STRINGS_LOW": ["Berlin Free Orchestra / Basses a4 / sustains", "Berlin Free Orchestra / Celli a5 / sustains"],
+      "BODY_PERCUSSION": ["SINEfactory Gearbox / bassdrums", "SINEfactory Gearbox / framedrums", "SINEfactory Gearbox / body percussion", "Berlin Free Orchestra / drums"],
+      "MIND_MELODY": ["SINEfactory Lucent / flute", "Berlin Free Orchestra / solo flute / legato"],
+      "COMMON_COUNTERPOINT": ["Berlin Free Orchestra / solo clarinet / legato", "Berlin Free Orchestra / violas a5 / sustains"],
+      "CHOIR": ["SINEfactory Manifold / male and female ooh-ah-oh ensembles"],
+      "ASH_CORRUPTION": ["SINEfactory Crucible / pipe organ as source", "REAPER stock FX for pitch, delay, filtering and degradation"],
+      "WORLD_TEXTURE": ["Original LITD field recordings and synthesized textures only; do not depend on redistributable third-party raw samples"],
+      "IMPACTS": ["Berlin Free Orchestra / unpitched metals", "Berlin Free Orchestra / drums", "SINEfactory Gearbox / bassdrums"],
+      "TRANSITIONS": ["Berlin Free Orchestra / timpani", "Berlin Free Orchestra / unpitched metals", "SINEfactory Dynamo where useful"]
+    }
+  },
+  "identity_upgrade": {
+    "priority": "after the first complete free render is working",
+    "library": "Ethno World 7 Instruments",
+    "host": "Kontakt Player VST3",
+    "reason": "One library covers many Asian instruments and percussion needed by LITD without forcing a collection of unrelated plugins.",
+    "preferred_palette": {
+      "MIND_MELODY": ["Shakuhachi", "Bansuri", "Hulusi", "Sheng"],
+      "COMMON_COUNTERPOINT": ["Koto", "Pipa", "Zheng", "Shamisen", "Erhu", "Jinghu"],
+      "BODY_PERCUSSION": ["Taiko", "Mongolian framedrum", "Mongolian Hengereg drum", "Gamelan", "tuned Thai gongs"],
+      "WORLD_TEXTURE": ["Gamelan metals used as resampled musical texture only inside final mixed LITD works"],
+      "SANCTUARY_COLOR": ["Koto", "Pipa", "Sheng", "Shakuhachi", "gongs"]
+    },
+    "art_direction_rule": "Do not use an instrument merely as a stereotype marker. Write it into the Corps/Esprit/Commun grammar and combine it with the European public-domain source material so the result belongs to LITD."
+  },
+  "fallback_paid_alternative": {
+    "library": "UVI World Suite 3",
+    "reason": "Broad single-package world palette if the Kontakt-based workflow is rejected later."
+  },
+  "licensing": {
+    "rule": "Sample libraries stay installed locally and are never committed or redistributed. Only newly rendered LITD musical works/stems may enter the game repository when the relevant library license permits use in music/audio productions.",
+    "provenance_required": true
+  }
+}
