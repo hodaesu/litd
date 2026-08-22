@@ -155,7 +155,7 @@ func _all_valid(ids: Array, polarity: String) -> bool:
     var seen: Dictionary = {}
     for value: Variant in ids:
         var trait_definition: Dictionary = by_id.get(str(value), {})
-        if trait.is_empty() or str(trait_definition.get("polarity", "")) != polarity or seen.has(str(value)):
+        if trait_definition.is_empty() or str(trait_definition.get("polarity", "")) != polarity or seen.has(str(value)):
             return false
         seen[str(value)] = true
     return true
