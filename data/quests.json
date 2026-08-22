@@ -1,244 +1,265 @@
-{
-  "schema_version": 2,
-  "map_id": "c01_ashlands_first_route",
-  "map_name": "La Route sous la cendre",
-  "scenario": {
-    "premise": "À la première sortie du Sanctuaire, la compagnie suit une ancienne route ensevelie. Des appels étouffés, une borne impossible et les gestes répétés d’un ancien citoyen révèlent que la Chute n’explique pas tout.",
-    "opening": "La cendre tombe à contre-vent. Une cloche sonne sous terre alors qu’aucun clocher ne tient encore debout.",
-    "acts": [
+[
+  {
+    "id": "c01_main_road",
+    "name": "Sous les cendres",
+    "quest_type": "dungeon",
+    "summary": "Rouvrir la première route entre le Sanctuaire et les ruines.",
+    "objectives": [
       {
-        "id": "arrival",
-        "name": "La route effacée",
-        "goal": "Retrouver la chaussée, secourir les survivants et établir un feu de camp."
+        "id": "find_road",
+        "event": "zone_discovered",
+        "target": "c01_ash_road",
+        "count": 1
       },
       {
-        "id": "investigation",
-        "name": "Les voix derrière les murs",
-        "goal": "Explorer les ruines, observer les créatures et réunir trois traces indépendantes."
+        "id": "rescue_survivors",
+        "event": "encounter_cleared",
+        "target": "c01_survivor_ambush",
+        "count": 1
       },
       {
-        "id": "witness",
-        "name": "Le Témoin des Cendres",
-        "goal": "Franchir le passage, affronter le Témoin puis décider de son sort."
+        "id": "use_camp",
+        "event": "campfire_used",
+        "target": "c01_first_camp",
+        "count": 1
+      },
+      {
+        "id": "defeat_witness",
+        "event": "encounter_cleared",
+        "target": "c01_boss_ash_witness",
+        "count": 1
       }
     ],
-    "ending": "Au retour, les preuves montrent que certaines blessures du Voile précèdent la catastrophe. Le Chapitre II s’ouvre."
-  },
-  "quests": [
-    {
-      "id": "c01_main_road",
-      "name": "Sous les cendres",
-      "quest_type": "main",
-      "summary": "Rouvrir la première route entre le Sanctuaire et les ruines.",
-      "objectives": [
-        {
-          "id": "find_road",
-          "event": "zone_discovered",
-          "target": "c01_ash_road",
-          "count": 1
-        },
-        {
-          "id": "rescue_survivors",
-          "event": "encounter_cleared",
-          "target": "c01_survivor_ambush",
-          "count": 1
-        },
-        {
-          "id": "use_camp",
-          "event": "campfire_used",
-          "target": "c01_first_camp",
-          "count": 1
-        },
-        {
-          "id": "defeat_witness",
-          "event": "encounter_cleared",
-          "target": "c01_boss_ash_witness",
-          "count": 1
-        }
-      ],
-      "reward": {
-        "gold": 80,
-        "essence": 10,
-        "hope": 8
-      }
+    "reward": {
+      "gold": 80,
+      "essence": 10,
+      "hope": 8
     },
-    {
-      "id": "c01_side_buried_bell",
-      "name": "La cloche ensevelie",
-      "quest_type": "side",
-      "summary": "Retrouver la cloche entendue sous la route et libérer les survivants qui s’y abritent.",
-      "objectives": [
-        {
-          "id": "locate_bell",
-          "event": "zone_discovered",
-          "target": "c01_buried_belfry",
-          "count": 1
-        },
-        {
-          "id": "clear_rubble",
-          "event": "interaction",
-          "target": "raise_buried_bell",
-          "count": 1
-        }
-      ],
-      "choices": [
-        {
-          "id": "return_bell",
-          "label": "Rendre la cloche au Sanctuaire",
-          "effect": {
-            "trust": 4
-          }
-        },
-        {
-          "id": "leave_warning",
-          "label": "La laisser avertir les voyageurs",
-          "effect": {
-            "route_safety": 5
-          }
-        }
-      ],
-      "reward": {
-        "gold": 35,
-        "supplies": 2
-      }
-    },
-    {
-      "id": "c01_side_names_in_ash",
-      "name": "Les noms dans la cendre",
-      "quest_type": "side",
-      "summary": "Recueillir cinq plaques de citoyens et restituer leurs noms au Mémorial.",
-      "objectives": [
-        {
-          "id": "collect_names",
-          "event": "collect",
-          "target": "citizen_nameplate",
-          "count": 5
-        },
-        {
-          "id": "memorial",
-          "event": "interaction",
-          "target": "sanctuary_memorial",
-          "count": 1
-        }
-      ],
-      "reward": {
-        "gold": 25,
-        "hope": 10,
-        "reputation": 3
-      }
-    },
-    {
-      "id": "c01_side_last_medic",
-      "name": "Le dernier nécessaire",
-      "quest_type": "side",
-      "summary": "Retrouver le nécessaire d’une soigneuse disparue sans profaner sa dépouille.",
-      "objectives": [
-        {
-          "id": "find_satchel",
-          "event": "collect",
-          "target": "medic_satchel",
-          "count": 1
-        },
-        {
-          "id": "return_satchel",
-          "event": "interaction",
-          "target": "sanctuary_infirmary",
-          "count": 1
-        }
-      ],
-      "optional_constraint": {
-        "id": "body_untouched",
-        "event": "choice_avoided",
-        "target": "loot_medic_body"
-      },
-      "reward": {
-        "gold": 20,
-        "supplies": 3,
-        "infirmary_stock": 1
-      }
-    },
-    {
-      "id": "c01_side_quiet_creature",
-      "name": "Ce qui n’attaque plus",
-      "quest_type": "side",
-      "summary": "Observer une créature terrorisée et choisir entre coexistence, capture ou mise à mort.",
-      "objectives": [
-        {
-          "id": "observe",
-          "event": "interaction",
-          "target": "observe_ash_creature",
-          "count": 1
-        },
-        {
-          "id": "resolve",
-          "event": "choice",
-          "target": "ash_creature_outcome",
-          "count": 1
-        }
-      ],
-      "choices": [
-        {
-          "id": "coexist",
-          "label": "Établir une coexistence",
-          "effect": {
-            "creature_relations": 5
-          }
-        },
-        {
-          "id": "capture",
-          "label": "Lier la créature",
-          "effect": {
-            "captured_creature": 1
-          }
-        },
-        {
-          "id": "kill",
-          "label": "Écarter le danger",
-          "effect": {
-            "route_safety": 3,
-            "creature_relations": -3
-          }
-        }
-      ],
-      "reward": {
-        "essence": 6
-      }
-    },
-    {
-      "id": "c01_side_three_testimonies",
-      "name": "Trois vérités pour une borne",
-      "quest_type": "side",
-      "summary": "Comparer trois témoignages incompatibles sur la borne antérieure à la Chute.",
-      "objectives": [
-        {
-          "id": "archive",
-          "event": "collect",
-          "target": "marker_archive",
-          "count": 1
-        },
-        {
-          "id": "survivor",
-          "event": "dialogue",
-          "target": "marker_survivor",
-          "count": 1
-        },
-        {
-          "id": "echo",
-          "event": "interaction",
-          "target": "marker_echo",
-          "count": 1
-        },
-        {
-          "id": "compare",
-          "event": "interaction",
-          "target": "camp_compare_testimonies",
-          "count": 1
-        }
-      ],
-      "reward": {
-        "essence": 8,
-        "veil_knowledge": 5
-      }
+    "narrative_role": "main",
+    "dungeon_id": "first_veil_crypts",
+    "description": "Rouvrir la première route entre le Sanctuaire et les ruines.",
+    "condition": {
+      "type": "zone_discovered",
+      "target": "c01_ash_road",
+      "count": 1
     }
-  ]
-}
+  },
+  {
+    "id": "c01_side_buried_bell",
+    "name": "La cloche ensevelie",
+    "quest_type": "dungeon",
+    "summary": "Retrouver la cloche entendue sous la route et libérer les survivants qui s’y abritent.",
+    "objectives": [
+      {
+        "id": "locate_bell",
+        "event": "zone_discovered",
+        "target": "c01_buried_belfry",
+        "count": 1
+      },
+      {
+        "id": "clear_rubble",
+        "event": "interaction",
+        "target": "raise_buried_bell",
+        "count": 1
+      }
+    ],
+    "choices": [
+      {
+        "id": "return_bell",
+        "label": "Rendre la cloche au Sanctuaire",
+        "effect": {
+          "trust": 4
+        }
+      },
+      {
+        "id": "leave_warning",
+        "label": "La laisser avertir les voyageurs",
+        "effect": {
+          "route_safety": 5
+        }
+      }
+    ],
+    "reward": {
+      "gold": 35,
+      "supplies": 2
+    },
+    "narrative_role": "side",
+    "dungeon_id": "first_veil_crypts",
+    "description": "Retrouver la cloche entendue sous la route et libérer les survivants qui s’y abritent.",
+    "condition": {
+      "type": "zone_discovered",
+      "target": "c01_buried_belfry",
+      "count": 1
+    }
+  },
+  {
+    "id": "c01_side_names_in_ash",
+    "name": "Les noms dans la cendre",
+    "quest_type": "dungeon",
+    "summary": "Recueillir cinq plaques de citoyens et restituer leurs noms au Mémorial.",
+    "objectives": [
+      {
+        "id": "collect_names",
+        "event": "collect",
+        "target": "citizen_nameplate",
+        "count": 5
+      },
+      {
+        "id": "memorial",
+        "event": "interaction",
+        "target": "sanctuary_memorial",
+        "count": 1
+      }
+    ],
+    "reward": {
+      "gold": 25,
+      "hope": 10,
+      "reputation": 3
+    },
+    "narrative_role": "side",
+    "dungeon_id": "first_veil_crypts",
+    "description": "Recueillir cinq plaques de citoyens et restituer leurs noms au Mémorial.",
+    "condition": {
+      "type": "collect",
+      "target": "citizen_nameplate",
+      "count": 5
+    }
+  },
+  {
+    "id": "c01_side_last_medic",
+    "name": "Le dernier nécessaire",
+    "quest_type": "dungeon",
+    "summary": "Retrouver le nécessaire d’une soigneuse disparue sans profaner sa dépouille.",
+    "objectives": [
+      {
+        "id": "find_satchel",
+        "event": "collect",
+        "target": "medic_satchel",
+        "count": 1
+      },
+      {
+        "id": "return_satchel",
+        "event": "interaction",
+        "target": "sanctuary_infirmary",
+        "count": 1
+      }
+    ],
+    "optional_constraint": {
+      "id": "body_untouched",
+      "event": "choice_avoided",
+      "target": "loot_medic_body"
+    },
+    "reward": {
+      "gold": 20,
+      "supplies": 3,
+      "infirmary_stock": 1
+    },
+    "narrative_role": "side",
+    "dungeon_id": "first_veil_crypts",
+    "description": "Retrouver le nécessaire d’une soigneuse disparue sans profaner sa dépouille.",
+    "condition": {
+      "type": "collect",
+      "target": "medic_satchel",
+      "count": 1
+    }
+  },
+  {
+    "id": "c01_side_quiet_creature",
+    "name": "Ce qui n’attaque plus",
+    "quest_type": "dungeon",
+    "summary": "Observer une créature terrorisée et choisir entre coexistence, capture ou mise à mort.",
+    "objectives": [
+      {
+        "id": "observe",
+        "event": "interaction",
+        "target": "observe_ash_creature",
+        "count": 1
+      },
+      {
+        "id": "resolve",
+        "event": "choice",
+        "target": "ash_creature_outcome",
+        "count": 1
+      }
+    ],
+    "choices": [
+      {
+        "id": "coexist",
+        "label": "Établir une coexistence",
+        "effect": {
+          "creature_relations": 5
+        }
+      },
+      {
+        "id": "capture",
+        "label": "Lier la créature",
+        "effect": {
+          "captured_creature": 1
+        }
+      },
+      {
+        "id": "kill",
+        "label": "Écarter le danger",
+        "effect": {
+          "route_safety": 3,
+          "creature_relations": -3
+        }
+      }
+    ],
+    "reward": {
+      "essence": 6
+    },
+    "narrative_role": "side",
+    "dungeon_id": "first_veil_crypts",
+    "description": "Observer une créature terrorisée et choisir entre coexistence, capture ou mise à mort.",
+    "condition": {
+      "type": "interaction",
+      "target": "observe_ash_creature",
+      "count": 1
+    }
+  },
+  {
+    "id": "c01_side_three_testimonies",
+    "name": "Trois vérités pour une borne",
+    "quest_type": "dungeon",
+    "summary": "Comparer trois témoignages incompatibles sur la borne antérieure à la Chute.",
+    "objectives": [
+      {
+        "id": "archive",
+        "event": "collect",
+        "target": "marker_archive",
+        "count": 1
+      },
+      {
+        "id": "survivor",
+        "event": "dialogue",
+        "target": "marker_survivor",
+        "count": 1
+      },
+      {
+        "id": "echo",
+        "event": "interaction",
+        "target": "marker_echo",
+        "count": 1
+      },
+      {
+        "id": "compare",
+        "event": "interaction",
+        "target": "camp_compare_testimonies",
+        "count": 1
+      }
+    ],
+    "reward": {
+      "essence": 8,
+      "veil_knowledge": 5
+    },
+    "narrative_role": "side",
+    "dungeon_id": "first_veil_crypts",
+    "description": "Comparer trois témoignages incompatibles sur la borne antérieure à la Chute.",
+    "condition": {
+      "type": "collect",
+      "target": "marker_archive",
+      "count": 1
+    }
+  }
+]
