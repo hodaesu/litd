@@ -99,6 +99,16 @@ func record_enemy_encounter(characters: Array, enemies: Array, survived_only := 
             results.append_array(add_exposure(character, str(exposure), int(exposures[exposure])))
     return results
 
+func context_for_enemy(enemy: Dictionary) -> Dictionary:
+    var exposure := str(data.get("enemy_family_map", {}).get(str(enemy.get("id", "")), ""))
+    return {
+        "family": exposure if exposure in ["arachnid", "undead"] else "",
+        "darkness": false,
+        "blood": bool(enemy.get("bleeding", 0)),
+        "fire": bool(enemy.get("burning", false)),
+        "confined": exposure == "confined"
+    }
+
 func modifiers(character: Dictionary, context: Dictionary = {}) -> Dictionary:
     var result: Dictionary = {}
     var ids: Array = []
