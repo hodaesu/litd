@@ -14,7 +14,7 @@ from tools.qa import balance_matrix_sim as base
 
 ROOT = Path(__file__).resolve().parents[2]
 BRIDGE_PATH = Path("scripts/world/ashlands_combat_bridge.gd")
-NORMAL_ENEMY_IDS = [1, 8, 10]
+NORMAL_ENEMY_IDS = [1, 8, 1, 8]
 
 _SETUP_RE = re.compile(
     r'"(?P<id>[^"]+)"\s*:\s*_setup_enemy\(e,"(?P<name>[^"]+)",'
@@ -53,8 +53,8 @@ def _extract_setup_profiles(block: str) -> list[dict[str, Any]]:
 
 def extract_runtime_campaign_profiles(root: Path = ROOT) -> dict[str, Any]:
     text = (root / BRIDGE_PATH).read_text(encoding="utf-8")
-    miniboss_marker = 'if encounter_type == "miniboss"'
-    boss_marker = 'if encounter_type == "boss"'
+    miniboss_marker = "if is_primary_miniboss:"
+    boss_marker = '\n        if encounter_type == "boss":'
     scaling_marker = "level_scaling_policy.apply_campaign_scaling"
     miniboss_start = text.index(miniboss_marker)
     boss_start = text.index(boss_marker, miniboss_start + len(miniboss_marker))
@@ -171,9 +171,10 @@ def simulate_matrix(root: Path = ROOT, **kwargs: Any) -> base.MatrixResult:
     finally:
         base._campaign_pack = original
 
-    result.payload["model_version"] = 4
+    result.payload["model_version"] = 5
     result.payload["contracts"]["campaign_runtime_profiles_live"] = True
     result.payload["contracts"]["campaign_profile_source"] = str(BRIDGE_PATH)
+    result.payload["contracts"]["campaign_normal_enemy_ids"] = list(NORMAL_ENEMY_IDS)
     result.payload["campaign_runtime_profiles"] = runtime_profiles
 
     boss_chapters = sorted({int(row["chapter_number"]) for row in runtime_profiles["bosses"]})
