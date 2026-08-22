@@ -459,6 +459,7 @@ func start_random_battle() -> void:
         var e := DataLoader.find_by_id(DataLoader.enemies, enemy_id).duplicate(true)
         e["max_hp"] = e.hp
         e["guarding"] = false
+        EnemyFearDirector.initialize_enemy(e, GameState.party)
         GameState.battle_enemies.append(e)
     battle_locked = false
     selected_enemy = 0
@@ -512,6 +513,9 @@ func show_combat() -> void:
         art.modulate = Color(1,1,1,1.0 if e.hp > 0 else 0.25)
         v.add_child(art)
         v.add_child(make_label("%s\nPV %d/%d" % [e.name,e.hp,e.max_hp], 12, GOLD if i == selected_enemy else TEXT))
+        var fear_gauge := EnemyFearGauge.new()
+        v.add_child(fear_gauge)
+        fear_gauge.bind_enemy(e)
         b.add_child(v)
         b.pressed.connect(func(index=i):
             selected_enemy = index
@@ -596,6 +600,7 @@ func hero_action(action: String) -> void:
         var target: Dictionary = GameState.battle_enemies[selected_enemy]
         if target.hp <= 0:
             target = living[0]
+        var hp_before := int(target.get("hp", 0))
         var power := 1.0 if action == "strike" else 1.35
         var cls: Dictionary = DataLoader.find_by_id(DataLoader.classes, hero.class_id)
         var bonuses: Dictionary = hero_bonuses(hero)
@@ -627,6 +632,13 @@ func hero_action(action: String) -> void:
                 var healed: Dictionary = wounded[0]
                 healed["hp"] = mini(int(healed.get("max_hp", 1)), int(healed.get("hp", 0)) + 4)
         GameState.add_log("%s inflige %d dégâts%s à %s." % [hero.name, damage, " critiques" if critical else "", target.name])
+        EnemyFearDirector.apply_event(target, "hero_damage", {"damage": damage})
+        if critical:
+            EnemyFearDirector.record_deed(hero, "critical_hit")
+            EnemyFearDirector.apply_witness_event(GameState.alive_enemies(), "critical_hit", {"hero_id": str(hero.get("id", ""))})
+        if hp_before > 0 and int(target.get("hp", 0)) <= 0:
+            EnemyFearDirector.record_deed(hero, "enemy_defeated", 1, str(target.get("id", "")))
+            EnemyFearDirector.apply_witness_event(GameState.alive_enemies(), "ally_killed", {"hero_id": str(hero.get("id", "")), "enemy_id": int(target.get("id", 0))})
     var companion_targets: Array = GameState.alive_enemies()
     if not companion_targets.is_empty():
         var companion_result: Dictionary = CreatureManager.companion_turn(companion_targets[0])
@@ -649,6 +661,9 @@ func enemy_turn() -> void:
             enemy["stunned"] = false
             GameState.add_log("%s est étourdi et perd son tour." % enemy.name)
             continue
+        if EnemyFearDirector.should_panic(enemy, GameState.expedition_room):
+            GameState.add_log("%s panique et perd son action." % enemy.name)
+            continue
         var targets: Array = GameState.alive_heroes()
         if targets.is_empty():
             finish_defeat()
@@ -660,6 +675,8 @@ func enemy_turn() -> void:
             var bonus_key: String = str(bonus_key_value)
             target_bonuses[bonus_key] = int(target_bonuses.get(bonus_key, 0)) + int(creature_bonuses.get(bonus_key, 0))
         var damage: int = randi_range(int(enemy.damage[0]), int(enemy.damage[1]))
+        var enemy_fear_modifiers := EnemyFearDirector.combat_modifiers(enemy)
+        damage = maxi(1, int(round(float(damage) * float(enemy_fear_modifiers.get("damage_multiplier", 1.0)))))
         damage = maxi(1, int(round(damage * (1.0 - float(target_bonuses.get("physical_resistance", 0)) / 100.0))))
         if target.get("guarding",false):
             var guard_reduction: float = clampf(0.5 + float(target.get("guard_power", 0)) / 100.0, 0.5, 0.85)
@@ -675,10 +692,21 @@ func enemy_turn() -> void:
             enemy.hp = max(0, int(enemy.hp) - 4)
             GameState.add_log("%s riposte contre %s." % [target.name, enemy.name])
         GameState.add_log("%s frappe %s pour %d dégâts." % [enemy.name,target.name,damage])
+        if damage >= int(enemy.damage[1]):
+            EnemyFearDirector.apply_event(enemy, "enemy_lands_heavy_hit")
     battle_locked = false
     show_screen("combat")
 
 func finish_victory() -> void:
+    var defeated_boss := false
+    for enemy_value: Variant in GameState.battle_enemies:
+        var defeated_enemy: Dictionary = enemy_value
+        if bool(defeated_enemy.get("boss", false)) and int(defeated_enemy.get("hp", 0)) <= 0:
+            defeated_boss = true
+    for hero_value: Variant in GameState.alive_heroes():
+        var surviving_hero: Dictionary = hero_value
+        if defeated_boss:
+            EnemyFearDirector.record_deed(surviving_hero, "boss_defeated")
     GameState.gold += 28
     GameState.essence += 4
     GameState.expedition_room += 1
@@ -715,6 +743,8 @@ func show_rewards() -> void:
         reward_lines.append(EquipmentManager.describe_item(reward, hero_level))
     box.add_child(make_label("\n".join(reward_lines), 18))
     if GameState.expedition_room > GameState.expedition_rooms:
+        for hero_value: Variant in GameState.alive_heroes():
+            EnemyFearDirector.record_deed(hero_value, "dungeon_survived")
         box.add_child(make_label("Les Cryptes du Premier Voile sont terminées.", 18, MUTED))
         box.add_child(make_button("RETOUR AU SANCTUAIRE", func():
             SaveManager.save_game()
