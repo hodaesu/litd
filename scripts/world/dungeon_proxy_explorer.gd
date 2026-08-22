@@ -3,6 +3,7 @@ extends CharacterBody3D
 signal interaction_focus_changed(interaction_id: String, label: String)
 signal interaction_requested(interaction_id: String, label: String)
 signal ash_guidance_requested(source: String)
+signal ash_guidance_unavailable
 
 const ASH_GUIDANCE_TRAIL_SCRIPT := preload("res://scripts/world/ash_guidance_trail.gd")
 
@@ -24,6 +25,10 @@ var focused_interaction_label: String = ""
 var interact_was_pressed: bool = false
 var base_camera_position := Vector3(0.0, 6.4, 7.4)
 var ash_guidance: AshGuidanceTrail = null
+var boss_guidance_candidate: Dictionary = {}
+var quest_guidance_candidate: Dictionary = {}
+var tracked_quest_id: String = ""
+var ash_unavailable_feedback_cooldown: float = 0.0
 
 func _ready() -> void:
     add_to_group("player_party")
@@ -35,6 +40,7 @@ func _ready() -> void:
     set_process_unhandled_input(true)
 
 func _physics_process(delta: float) -> void:
+    ash_unavailable_feedback_cooldown = maxf(0.0, ash_unavailable_feedback_cooldown - delta)
     var input_vector: Vector2 = _movement_input()
     var desired: Vector3 = Vector3(input_vector.x, 0.0, input_vector.y).normalized() * move_speed
     velocity.x = move_toward(velocity.x, desired.x, acceleration * delta)
@@ -67,26 +73,76 @@ func _is_in_ash_touch_zone(screen_position: Vector2) -> bool:
 func request_ash_guidance(source: String = "code") -> bool:
     if ash_guidance == null:
         return false
+    _apply_preferred_guidance()
     var shown: bool = ash_guidance.request_guidance()
     if shown:
         ash_guidance_requested.emit(source)
+    else:
+        ash_guidance_unavailable.emit()
+        if ash_unavailable_feedback_cooldown <= 0.0:
+            GameState.add_log("La cendre ne trouve aucun chemin praticable.")
+            ash_unavailable_feedback_cooldown = 1.5
     return shown
 
 func set_boss_guidance_position(world_position: Vector3, route_proximity: float = -1.0) -> void:
-    if ash_guidance != null:
-        ash_guidance.guide_to_world_position(world_position, "boss", -1.0, route_proximity)
+    boss_guidance_candidate = {"mode": "position", "position": world_position, "route_proximity": route_proximity}
+    _apply_preferred_guidance()
 
 func set_boss_guidance_target(target: Node3D, route_proximity: float = -1.0) -> void:
-    if ash_guidance != null:
-        ash_guidance.guide_to_node(target, "boss", -1.0, route_proximity)
+    boss_guidance_candidate = {"mode": "node", "target": target, "route_proximity": route_proximity}
+    _apply_preferred_guidance()
 
-func set_quest_guidance_position(world_position: Vector3, max_distance_m: float = -1.0) -> void:
-    if ash_guidance != null:
-        ash_guidance.guide_to_world_position(world_position, "quest", max_distance_m)
+func set_quest_guidance_position(world_position: Vector3, max_distance_m: float = -1.0, quest_id: String = "") -> void:
+    tracked_quest_id = quest_id
+    quest_guidance_candidate = {"mode": "position", "position": world_position, "max_distance_m": max_distance_m}
+    _apply_preferred_guidance()
 
-func set_quest_guidance_target(target: Node3D, max_distance_m: float = -1.0) -> void:
-    if ash_guidance != null:
-        ash_guidance.guide_to_node(target, "quest", max_distance_m)
+func set_quest_guidance_target(target: Node3D, max_distance_m: float = -1.0, quest_id: String = "") -> void:
+    tracked_quest_id = quest_id
+    quest_guidance_candidate = {"mode": "node", "target": target, "max_distance_m": max_distance_m}
+    _apply_preferred_guidance()
+
+func complete_or_untrack_quest(quest_id: String = "") -> void:
+    if quest_id != "" and tracked_quest_id != "" and quest_id != tracked_quest_id:
+        return
+    tracked_quest_id = ""
+    quest_guidance_candidate.clear()
+    _apply_preferred_guidance()
+
+func invalidate_boss_route() -> void:
+    boss_guidance_candidate.clear()
+    _apply_preferred_guidance()
+
+func _apply_preferred_guidance() -> void:
+    if ash_guidance == null:
+        return
+    if _apply_candidate(quest_guidance_candidate, "quest"):
+        return
+    if _apply_candidate(boss_guidance_candidate, "boss"):
+        return
+    ash_guidance.clear_guidance()
+
+func _apply_candidate(candidate: Dictionary, kind: String) -> bool:
+    if candidate.is_empty():
+        return false
+    var mode: String = str(candidate.get("mode", ""))
+    if mode == "node":
+        var target_value: Variant = candidate.get("target")
+        if target_value is Node3D and is_instance_valid(target_value):
+            var target := target_value as Node3D
+            var distance: float = float(candidate.get("max_distance_m", -1.0))
+            var proximity: float = float(candidate.get("route_proximity", -1.0))
+            ash_guidance.guide_to_node(target, kind, distance, proximity)
+            return true
+        candidate.clear()
+        return false
+    if mode == "position":
+        var distance: float = float(candidate.get("max_distance_m", -1.0))
+        var proximity: float = float(candidate.get("route_proximity", -1.0))
+        ash_guidance.guide_to_world_position(candidate.get("position", Vector3.ZERO), kind, distance, proximity)
+        return true
+    candidate.clear()
+    return false
 
 func set_ash_environment_context(danger_floor: float, safety: float) -> void:
     if ash_guidance != null:
@@ -101,6 +157,9 @@ func clear_ash_emotional_overrides() -> void:
         ash_guidance.clear_emotional_overrides()
 
 func clear_ash_guidance() -> void:
+    tracked_quest_id = ""
+    quest_guidance_candidate.clear()
+    boss_guidance_candidate.clear()
     if ash_guidance != null:
         ash_guidance.clear_guidance()
 
