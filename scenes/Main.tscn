@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3]
 
 ; main_v33 porte la refonte des arbres de compétences sur la pile UI actuelle.
-; Héritage ciblage tactique : res://scripts/ui/main_v32.gd
+; Héritage ciblage tactique : rangs ennemis, portées de cible, écrans de ligne et déplacements forcés via res://scripts/ui/main_v32.gd
 ; Héritage restrictions de rang : res://scripts/ui/main_v31.gd
 ; Héritage loadouts combat : res://scripts/ui/main_v30.gd
 ; Héritage exploration 3D : res://scripts/ui/main_v29.gd
