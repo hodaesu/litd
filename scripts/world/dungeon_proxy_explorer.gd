@@ -3,6 +3,8 @@ extends CharacterBody3D
 signal interaction_focus_changed(interaction_id: String, label: String)
 signal interaction_requested(interaction_id: String, label: String)
 
+const ASH_GUIDANCE_TRAIL_SCRIPT := preload("res://scripts/world/ash_guidance_trail.gd")
+
 # Contrôleur de blockout : AZERTY/QWERTY/flèches, caméra lisible et interactions
 # de proximité. Les animations définitives du groupe remplaceront ce corps sans
 # changer le contrat avec les salles.
@@ -18,6 +20,14 @@ var focused_interaction_id: String = ""
 var focused_interaction_label: String = ""
 var interact_was_pressed: bool = false
 var base_camera_position := Vector3(0.0, 6.4, 7.4)
+var ash_guidance: AshGuidanceTrail = null
+
+func _ready() -> void:
+    add_to_group("player_party")
+    ash_guidance = ASH_GUIDANCE_TRAIL_SCRIPT.new() as AshGuidanceTrail
+    if ash_guidance != null:
+        ash_guidance.name = "AshGuidanceTrail"
+        add_child(ash_guidance)
 
 func _physics_process(delta: float) -> void:
     var input_vector: Vector2 = _movement_input()
@@ -31,6 +41,29 @@ func _physics_process(delta: float) -> void:
     move_and_slide()
     _update_camera(delta)
     _update_interaction_focus()
+
+func set_boss_guidance_position(world_position: Vector3, route_proximity: float = -1.0) -> void:
+    if ash_guidance != null:
+        ash_guidance.guide_to_world_position(world_position, "boss", -1.0, route_proximity)
+
+func set_boss_guidance_target(target: Node3D, route_proximity: float = -1.0) -> void:
+    if ash_guidance != null:
+        ash_guidance.guide_to_node(target, "boss", -1.0, route_proximity)
+
+func set_quest_guidance_position(world_position: Vector3, max_distance_m: float = -1.0) -> void:
+    if ash_guidance != null:
+        ash_guidance.guide_to_world_position(world_position, "quest", max_distance_m)
+
+func set_quest_guidance_target(target: Node3D, max_distance_m: float = -1.0) -> void:
+    if ash_guidance != null:
+        ash_guidance.guide_to_node(target, "quest", max_distance_m)
+
+func clear_ash_guidance() -> void:
+    if ash_guidance != null:
+        ash_guidance.clear_guidance()
+
+func guidance_snapshot() -> Dictionary:
+    return ash_guidance.snapshot() if ash_guidance != null else {}
 
 func _movement_input() -> Vector2:
     var x_axis: float = 0.0
