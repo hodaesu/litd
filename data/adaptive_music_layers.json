@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "purpose": "Orchestration verticale synchronisée de LITD : le thème de base continue, tandis que des stems additionnels entrent et sortent selon l'intensité sans redémarrer le morceau.",
+  "sample_rate": 12000,
+  "crossfade_seconds": 0.62,
+  "layer_reaction_seconds": 0.42,
+  "silent_db": -80.0,
+  "layer_order": ["pulse", "percussion", "strings", "choir", "crisis"],
+  "rules": [
+    "Le morceau de base joué par AudioDirector est le bed musical et ne redémarre pas lors d'une simple variation d'intensité.",
+    "Tous les stems d'un cue supporté démarrent ensemble et continuent à tourner même lorsqu'ils sont muets afin de rester synchronisés.",
+    "Les seuils d'entrée et de sortie sont différents afin d'éviter le pompage musical autour d'une valeur limite.",
+    "Dialogue, silence scénarisé et espace narratif authored rendent les stems muets sans casser leur phase.",
+    "Un changement de cue crossfade deux banques de stems pour accompagner le crossfade du morceau de base.",
+    "Les prototypes procéduraux servent uniquement à valider la logique; les masters finaux pourront fournir de vrais stems exportés avec les mêmes IDs."
+  ],
+  "profiles": {
+    "exploration_ashlands": {
+      "duration_seconds": 3.2,
+      "tempo_hz": 0.75,
+      "frequencies": [55.0, 82.5, 110.0],
+      "layers": {
+        "pulse": {"enter": 0.28, "exit": 0.20, "db": -23.0},
+        "percussion": {"enter": 0.48, "exit": 0.38, "db": -24.0},
+        "strings": {"enter": 0.62, "exit": 0.52, "db": -22.0},
+        "choir": {"enter": 0.82, "exit": 0.72, "db": -25.0},
+        "crisis": {"enter": 0.96, "exit": 0.88, "db": -24.0}
+      }
+    },
+    "exploration_ruins": {
+      "duration_seconds": 3.2,
+      "tempo_hz": 0.70,
+      "frequencies": [49.0, 73.5, 98.0],
+      "layers": {
+        "pulse": {"enter": 0.25, "exit": 0.18, "db": -24.0},
+        "percussion": {"enter": 0.46, "exit": 0.36, "db": -25.0},
+        "strings": {"enter": 0.58, "exit": 0.48, "db": -21.0},
+        "choir": {"enter": 0.78, "exit": 0.68, "db": -24.0},
+        "crisis": {"enter": 0.94, "exit": 0.86, "db": -23.0}
+      }
+    },
+    "exploration_threat": {
+      "duration_seconds": 3.2,
+      "tempo_hz": 1.45,
+      "frequencies": [48.0, 72.0, 96.0, 144.0],
+      "layers": {
+        "pulse": {"enter": 0.18, "exit": 0.12, "db": -20.0},
+        "percussion": {"enter": 0.38, "exit": 0.29, "db": -21.0},
+        "strings": {"enter": 0.56, "exit": 0.47, "db": -20.0},
+        "choir": {"enter": 0.76, "exit": 0.66, "db": -23.0},
+        "crisis": {"enter": 0.91, "exit": 0.83, "db": -19.0}
+      }
+    },
+    "combat_normal": {
+      "duration_seconds": 3.0,
+      "tempo_hz": 2.0,
+      "frequencies": [65.0, 97.5, 130.0, 195.0],
+      "layers": {
+        "pulse": {"enter": 0.18, "exit": 0.12, "db": -18.0},
+        "percussion": {"enter": 0.40, "exit": 0.31, "db": -17.0},
+        "strings": {"enter": 0.60, "exit": 0.51, "db": -19.0},
+        "choir": {"enter": 0.75, "exit": 0.67, "db": -22.0},
+        "crisis": {"enter": 0.90, "exit": 0.83, "db": -15.5}
+      }
+    },
+    "combat_elite": {
+      "duration_seconds": 3.0,
+      "tempo_hz": 2.15,
+      "frequencies": [55.0, 82.5, 110.0, 165.0],
+      "layers": {
+        "pulse": {"enter": 0.12, "exit": 0.08, "db": -17.0},
+        "percussion": {"enter": 0.30, "exit": 0.23, "db": -16.0},
+        "strings": {"enter": 0.48, "exit": 0.40, "db": -18.0},
+        "choir": {"enter": 0.68, "exit": 0.59, "db": -20.0},
+        "crisis": {"enter": 0.90, "exit": 0.82, "db": -14.5}
+      }
+    },
+    "combat_boss": {
+      "duration_seconds": 3.0,
+      "tempo_hz": 1.85,
+      "frequencies": [43.0, 64.5, 86.0, 129.0],
+      "layers": {
+        "pulse": {"enter": 0.08, "exit": 0.04, "db": -15.5},
+        "percussion": {"enter": 0.22, "exit": 0.16, "db": -14.5},
+        "strings": {"enter": 0.40, "exit": 0.33, "db": -16.0},
+        "choir": {"enter": 0.62, "exit": 0.54, "db": -17.0},
+        "crisis": {"enter": 0.88, "exit": 0.80, "db": -12.5}
+      }
+    }
+  }
+}
