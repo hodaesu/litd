@@ -44,6 +44,32 @@ func campaign_reference_level(chapter_number: int, encounter_type: String) -> in
 func combat_balance() -> Dictionary:
     return _load_roguelike_rules().get("combat_balance", {}).duplicate(true)
 
+func apply_encounter_member_scaling(enemy: Dictionary, encounter_class: String) -> Dictionary:
+    if enemy.is_empty():
+        return enemy
+    var scaling: Dictionary = combat_balance().get("encounter_member_scaling", {}).get(encounter_class, {})
+    var hp_multiplier := maxf(0.10, float(scaling.get("hp", 1.0)))
+    var damage_multiplier := maxf(0.10, float(scaling.get("damage", 1.0)))
+    if is_equal_approx(hp_multiplier, 1.0) and is_equal_approx(damage_multiplier, 1.0):
+        return enemy
+
+    var base_hp := maxi(1, int(enemy.get("max_hp", enemy.get("hp", 1))))
+    var scaled_hp := maxi(1, int(round(float(base_hp) * hp_multiplier)))
+    enemy["hp"] = scaled_hp
+    enemy["max_hp"] = scaled_hp
+
+    var damage_value: Variant = enemy.get("damage", [1, 1])
+    if damage_value is Array and (damage_value as Array).size() >= 2:
+        var damage: Array = damage_value
+        var low := maxi(1, int(round(float(damage[0]) * damage_multiplier)))
+        var high := maxi(low, int(round(float(damage[1]) * damage_multiplier)))
+        enemy["damage"] = [low, high]
+
+    enemy["encounter_member_class"] = encounter_class
+    enemy["encounter_member_hp_multiplier"] = hp_multiplier
+    enemy["encounter_member_damage_multiplier"] = damage_multiplier
+    return enemy
+
 func apply_campaign_scaling(enemy: Dictionary, chapter_number: int, encounter_type: String, party_value: Array = []) -> Dictionary:
     if enemy.is_empty():
         return enemy
