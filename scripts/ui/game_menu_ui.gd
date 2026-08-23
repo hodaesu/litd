@@ -109,6 +109,10 @@ func _tab_title() -> String:
 func _render_inventory() -> void:
     content.add_child(_hero_selector())
     content.add_child(_label("Objets transportés : %d · Coffre de Guilde : %d" % [EquipmentManager.items.size(), EquipmentManager.guild_stash.size()], 15, MUTED))
+    content.add_child(_label("CONSOMMABLES — 10 maximum par pile", 18, GOLD))
+    for stack: Dictionary in CombatLoadoutManager.inventory_stacks:
+        var consumable := CombatLoadoutManager.definition(String(stack.get("item_id", "")))
+        content.add_child(_label("• %s ×%d/10" % [String(consumable.get("name", "Objet")), int(stack.get("quantity", 0))], 14, TEXT))
     if EquipmentManager.items.is_empty():
         content.add_child(_label("L’inventaire transporté est vide.", 16, TEXT))
     for value: Variant in EquipmentManager.items:
@@ -258,24 +262,30 @@ func _render_hero_combat_items(hero: Dictionary) -> void:
     content.add_child(_label("EMPLACEMENTS RAPIDES", 18, GOLD))
     for category in [CombatLoadoutManager.HEAL_SLOT, CombatLoadoutManager.GRENADE_SLOT]:
         var equipped := CombatLoadoutManager.equipped(hero_id, category)
+        var equipped_stack := CombatLoadoutManager.equipped_stack(hero_id, category)
         var title := "SOIN" if category == CombatLoadoutManager.HEAL_SLOT else "GRENADE"
-        content.add_child(_label("%s · %s" % [title, String(equipped.get("name", "Vide"))], 15, TEXT))
+        var equipped_name := String(equipped.get("name", "Vide"))
+        var equipped_quantity := int(equipped_stack.get("quantity", 0))
+        content.add_child(_label("%s · %s ×%d/5" % [title, equipped_name, equipped_quantity], 15, TEXT))
         for item: Dictionary in CombatLoadoutManager.definitions_for(category):
             var item_id := String(item.get("id", ""))
-            var count := int(CombatLoadoutManager.inventory.get(item_id, 0))
+            var count := CombatLoadoutManager.inventory_count(item_id)
             var row := HBoxContainer.new()
-            var description := _label("%s ×%d — %s" % [String(item.get("name", "Objet")), count, String(item.get("description", ""))], 14, MUTED)
-            description.custom_minimum_size = Vector2(880, 44)
+            var description := _label("%s · réserve ×%d — %s" % [String(item.get("name", "Objet")), count, String(item.get("description", ""))], 14, MUTED)
+            description.custom_minimum_size = Vector2(760, 44)
             row.add_child(description)
-            var button := _button("ÉQUIPER", func(id = item_id): _equip_combat_item(id), Vector2(190, 40))
-            button.disabled = count <= 0
-            row.add_child(button)
+            var one_button := _button("×1", func(id = item_id): _equip_combat_item(id, 1), Vector2(100, 40))
+            one_button.disabled = count <= 0
+            row.add_child(one_button)
+            var max_button := _button("MAX ×5", func(id = item_id): _equip_combat_item(id, 5), Vector2(150, 40))
+            max_button.disabled = count <= 0
+            row.add_child(max_button)
             content.add_child(row)
 
-func _equip_combat_item(item_id: String) -> void:
+func _equip_combat_item(item_id: String, quantity: int) -> void:
     var hero := _selected_hero()
-    if CombatLoadoutManager.equip(String(hero.get("id", "")), item_id):
-        GameState.add_log("%s prépare un nouvel objet de combat." % String(hero.get("name", "Le héros")))
+    if CombatLoadoutManager.equip(String(hero.get("id", "")), item_id, quantity):
+        GameState.add_log("%s prépare une pile de consommables." % String(hero.get("name", "Le héros")))
     _render()
 
 func _render_hero_skills(hero: Dictionary) -> void:

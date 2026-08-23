@@ -68,3 +68,24 @@ def test_healing_and_grenade_loadouts_are_real_and_persistent():
     assert 'CombatLoadoutManager.deserialize(payload.get("combat_loadouts",{}))' in save
     assert "CombatLoadoutManager.reset_new_game()" in state
     assert "CombatLoadoutManager.equip" in MENU
+
+
+def test_consumables_have_distinct_inventory_and_hero_stack_limits():
+    loadouts = (ROOT / "scripts" / "core" / "combat_loadout_manager.gd").read_text(encoding="utf-8")
+    assert "const HERO_STACK_LIMIT := 5" in loadouts
+    assert "const INVENTORY_STACK_LIMIT := 10" in loadouts
+    assert "inventory_stacks" in loadouts
+    assert "func add_to_inventory" in loadouts
+    assert "func inventory_count" in loadouts
+    assert "mini(HERO_STACK_LIMIT" in loadouts
+    assert "mini(INVENTORY_STACK_LIMIT" in loadouts
+    assert "×%d/10" in MENU
+    assert "×%d/5" in MENU
+    assert "MAX ×5" in MENU
+
+def test_consumable_assignment_transfers_and_consumption_decrements_stack():
+    loadouts = (ROOT / "scripts" / "core" / "combat_loadout_manager.gd").read_text(encoding="utf-8")
+    assert "_remove_from_inventory(item_id, quantity)" in loadouts
+    assert "add_to_inventory(previous_id, previous_quantity)" in loadouts
+    assert 'stack["quantity"] = int(stack.get("quantity", 0)) - 1' in loadouts
+    assert '"inventory_stacks":inventory_stacks.duplicate(true)' in loadouts
