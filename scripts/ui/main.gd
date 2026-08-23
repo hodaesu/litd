@@ -656,7 +656,9 @@ func show_combat() -> void:
         art.custom_minimum_size = Vector2(135,320)
         art.modulate = Color(1,1,1, 1.0 if h.hp > 0 else 0.35)
         card.add_child(art)
+        CombatBodyPresentation.bind_visual(art, h, false, i)
         card.add_child(make_label("%s\nPV %d/%d" % [h.name,h.hp,h.max_hp], 13, GOLD))
+        card.add_child(make_label(CombatBodyPresentation.state_label(h, false), 9, MUTED))
         hero_button.add_child(card)
         CombatantInspectionUI.bind_combatant(hero_button, h, false)
         heroes_row.add_child(hero_button)
@@ -680,7 +682,9 @@ func show_combat() -> void:
         art.custom_minimum_size = Vector2(150,310)
         art.modulate = Color(1,1,1,1.0 if e.hp > 0 else 0.25)
         v.add_child(art)
+        CombatBodyPresentation.bind_visual(art, e, true, i)
         v.add_child(make_label("%s\nPV %d/%d" % [e.name,e.hp,e.max_hp], 12, GOLD if i == selected_enemy else TEXT))
+        v.add_child(make_label(CombatBodyPresentation.state_label(e, true), 9, MUTED))
         var enemy_traits := CharacterTraitDirector.trait_names(e)
         v.add_child(make_label("+%s · −%s" % [", ".join(enemy_traits.get("positive", [])), ", ".join(enemy_traits.get("negative", []))], 9, MUTED))
         var fear_gauge := EnemyFearGauge.new()
@@ -730,6 +734,7 @@ func hero_action(action: String) -> void:
     if hero.is_empty():
         finish_defeat()
         return
+    CombatBodyPresentation.stage_action(hero, false, action)
     if action == "capture":
         var living_targets: Array = GameState.alive_enemies()
         if living_targets.is_empty():
@@ -792,6 +797,9 @@ func hero_action(action: String) -> void:
         if EquipmentManager.has_effect(str(hero.get("id", "")), "void_echo"):
             damage += int(round(damage * 0.20))
         target.hp = max(0, target.hp - damage)
+        CombatBodyPresentation.stage_hit(target, true, "torso", "heavy" if action == "heavy" else "light")
+        if int(target.get("hp", 0)) <= 0:
+            CombatBodyPresentation.stage_death(target, true)
         if int(bonuses.get("stun_chance", 0)) > 0 and randi_range(1, 100) <= int(bonuses.get("stun_chance", 0)):
             target["stunned"] = true
         if int(bonuses.get("bleed_chance", 0)) > 0 and randi_range(1, 100) <= int(bonuses.get("bleed_chance", 0)):
@@ -862,7 +870,11 @@ func enemy_turn() -> void:
             var guard_reduction: float = clampf(0.5 + float(target.get("guard_power", 0)) / 100.0, 0.5, 0.85)
             damage = maxi(1, int(round(damage * (1.0 - guard_reduction))))
             target["guarding"] = false
+        CombatBodyPresentation.stage_action(enemy, true, "strike")
         target.hp = max(0, target.hp - damage)
+        CombatBodyPresentation.stage_hit(target, false, "torso", "heavy" if damage >= int(enemy.damage[1]) else "light")
+        if int(target.get("hp", 0)) <= 0:
+            CombatBodyPresentation.stage_death(target, false)
         var fear_gain: int = maxi(0, int(enemy.fear) - int(target_bonuses.get("fear_resistance", 0)))
         target.fear = min(100, target.fear + fear_gain)
         var riposte_chance: int = int(target_bonuses.get("riposte_chance", 0))
