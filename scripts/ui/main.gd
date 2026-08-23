@@ -940,7 +940,9 @@ func enemy_turn() -> void:
         if targets.is_empty():
             finish_defeat()
             return
-        var target: Dictionary = targets[randi() % targets.size()]
+        var enemy_action: Dictionary = EnemyCombatDirector.choose_action(enemy, targets)
+        var target_index: int = clampi(int(enemy_action.get("target_index", 0)), 0, targets.size() - 1)
+        var target: Dictionary = targets[target_index]
         var target_bonuses: Dictionary = hero_bonuses(target)
         for contextual_key: Variant in CharacterTraitDirector.contextual_modifiers(target, CharacterTraitDirector.context_for_enemy(enemy)).keys():
             target_bonuses[str(contextual_key)] = int(target_bonuses.get(str(contextual_key), 0)) + int(round(float(CharacterTraitDirector.contextual_modifiers(target, CharacterTraitDirector.context_for_enemy(enemy)).get(contextual_key, 0.0))))
@@ -948,7 +950,8 @@ func enemy_turn() -> void:
         for bonus_key_value in creature_bonuses.keys():
             var bonus_key: String = str(bonus_key_value)
             target_bonuses[bonus_key] = int(target_bonuses.get(bonus_key, 0)) + int(creature_bonuses.get(bonus_key, 0))
-        var damage: int = randi_range(int(enemy.damage[0]), int(enemy.damage[1]))
+        var damage: int = int(round(float(randi_range(int(enemy.damage[0]), int(enemy.damage[1]))) * float(enemy_action.get("power", 1.0))))
+        damage = maxi(1, damage)
         var enemy_fear_modifiers := EnemyFearDirector.combat_modifiers(enemy)
         if randf() > float(enemy_fear_modifiers.get("accuracy_multiplier", 1.0)):
             GameState.add_log("%s hésite sous l’effet de la Peur et manque sa cible." % enemy.name)
@@ -961,7 +964,7 @@ func enemy_turn() -> void:
             var guard_reduction: float = clampf(0.5 + float(target.get("guard_power", 0)) / 100.0, 0.5, 0.85)
             damage = maxi(1, int(round(damage * (1.0 - guard_reduction))))
             target["guarding"] = false
-        CombatBodyPresentation.stage_action(enemy, true, "strike")
+        CombatBodyPresentation.stage_action(enemy, true, String(enemy_action.get("id", "strike")))
         await get_tree().create_timer(0.16).timeout
         target.hp = max(0, target.hp - damage)
         CombatBodyPresentation.stage_hit(target, false, "torso", "heavy" if damage >= int(enemy.damage[1]) else "light")
@@ -976,7 +979,9 @@ func enemy_turn() -> void:
         if riposte_chance > 0 and randi_range(1, 100) <= riposte_chance:
             enemy.hp = max(0, int(enemy.hp) - 4)
             GameState.add_log("%s riposte contre %s." % [target.name, enemy.name])
-        GameState.add_log("%s frappe %s pour %d dégâts." % [enemy.name,target.name,damage])
+        GameState.add_log("%s utilise %s sur %s pour %d dégâts." % [enemy.name, String(enemy_action.get("name", "une attaque")), target.name, damage])
+        for secondary_message: String in EnemyCombatDirector.apply_secondary(enemy_action, enemy, target, targets):
+            GameState.add_log(secondary_message)
         if damage >= int(enemy.damage[1]):
             EnemyFearDirector.apply_event(enemy, "enemy_lands_heavy_hit")
     battle_locked = false
