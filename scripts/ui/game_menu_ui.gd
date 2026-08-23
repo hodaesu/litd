@@ -174,11 +174,13 @@ func _render_journal() -> void:
         for value: Variant in parsed:
             var quest: Dictionary = value
             var giver := NarrativeLibrary.quest_giver_for(quest)
-            content.add_child(_label("◇ %s" % String(quest.get("name", "Quête")), 15, TEXT))
-            var giver_button := _button("RENCONTRER %s — %s" % [String(giver.get("name", "Donneur inconnu")).to_upper(), String(giver.get("role", ""))], func(g = giver, q = quest): QuestGiverPresentation.open_dialogue(g, q, "offered"), Vector2(520, 40))
-            QuestGiverPresentation.bind_card(giver_button, giver, "offered")
+            var quest_id := String(quest.get("id", ""))
+            var quest_status := SideQuestRuntime.status(quest_id)
+            content.add_child(_label("%s %s — %s" % ["◆" if quest_status == "active" else ("✓" if quest_status == "completed" else "◇"), String(quest.get("name", "Quête")), quest_status.capitalize()], 15, TEXT))
+            var giver_button := _button("RENCONTRER %s — %s" % [String(giver.get("name", "Donneur inconnu")).to_upper(), String(giver.get("role", ""))], func(g = giver, q = quest, s = quest_status): QuestGiverPresentation.open_dialogue(g, q, s), Vector2(520, 40))
+            QuestGiverPresentation.bind_card(giver_button, giver, quest_status)
             content.add_child(giver_button)
-            content.add_child(_label(NarrativeLibrary.quest_state_text(quest, "offered"), 13, MUTED))
+            content.add_child(_label(NarrativeLibrary.quest_state_text(quest, quest_status), 13, MUTED))
     content.add_child(_label("CONTRATS DE CHASSE", 18, GOLD))
     for value: Variant in BountyContractDirector.active_contracts:
         var contract: Dictionary = value
