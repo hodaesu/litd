@@ -3,10 +3,10 @@ extends Node
 signal presets_changed
 
 const MAX_PRESETS := 6
-var presets: Array[Dictionary] = []
+var presets: Array = []
 
 func warnings(party: Array) -> Array[Dictionary]:
-    var result: Array[Dictionary] = []
+    var result: Array = []
     if GameState.supplies < 4:
         result.append(_warning("supplies", "Vivres faibles : la compagnie peut partir, mais le retour sera plus risqué."))
     if SideQuestRuntime.tracked_quest_id == "":
