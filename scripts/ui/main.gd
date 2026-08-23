@@ -698,16 +698,34 @@ func show_combat() -> void:
         CombatantInspectionUI.bind_combatant(b, e, true)
         enemies_row.add_child(b)
 
-    var action_panel := HBoxContainer.new()
-    action_panel.position = Vector2(310,575)
-    action_panel.size = Vector2(700,70)
-    action_panel.add_theme_constant_override("separation", 10)
+    var action_panel := VBoxContainer.new()
+    action_panel.position = Vector2(245,555)
+    action_panel.size = Vector2(850,120)
+    action_panel.add_theme_constant_override("separation", 6)
     content.add_child(action_panel)
-    action_panel.add_child(make_button("FRAPPE", func(): hero_action("strike"), Vector2(150,55)))
-    action_panel.add_child(make_button("COUP LOURD", func(): hero_action("heavy"), Vector2(170,55)))
-    action_panel.add_child(make_button("SOIN", func(): hero_action("heal"), Vector2(140,55)))
-    action_panel.add_child(make_button("GARDE", func(): hero_action("guard"), Vector2(140,55)))
-    action_panel.add_child(make_button("CAPTURER", func(): hero_action("capture"), Vector2(150,55)))
+    var acting_hero: Dictionary = GameState.alive_heroes()[0] if not GameState.alive_heroes().is_empty() else {}
+    var skill_row := HBoxContainer.new()
+    skill_row.add_theme_constant_override("separation", 6)
+    action_panel.add_child(skill_row)
+    if not acting_hero.is_empty():
+        var equipped_skills: Array[String] = HeroSkillManager.combat_loadout(acting_hero)
+        for slot in range(4):
+            var skill_id: String = equipped_skills[slot] if slot < equipped_skills.size() else ""
+            var skill: Dictionary = HeroSkillManager.combat_skill(acting_hero, skill_id)
+            var label: String = str(skill.get("name", "EMPLACEMENT VIDE")).to_upper()
+            var skill_button := make_button(label, func(slot_index = slot): _use_skill_slot(slot_index), Vector2(200, 48))
+            skill_button.disabled = skill.is_empty()
+            skill_row.add_child(skill_button)
+    var item_row := HBoxContainer.new()
+    item_row.add_theme_constant_override("separation", 6)
+    action_panel.add_child(item_row)
+    if not acting_hero.is_empty():
+        var hero_id: String = str(acting_hero.get("id", ""))
+        var heal_stack: Dictionary = CombatLoadoutManager.equipped_stack(hero_id, CombatLoadoutManager.HEAL_SLOT)
+        var grenade_stack: Dictionary = CombatLoadoutManager.equipped_stack(hero_id, CombatLoadoutManager.GRENADE_SLOT)
+        item_row.add_child(make_button("SOIN ×%d" % int(heal_stack.get("quantity", 0)), func(): _use_combat_item(CombatLoadoutManager.HEAL_SLOT), Vector2(190, 42)))
+        item_row.add_child(make_button("GRENADE ×%d" % int(grenade_stack.get("quantity", 0)), func(): _use_combat_item(CombatLoadoutManager.GRENADE_SLOT), Vector2(210, 42)))
+    item_row.add_child(make_button("CAPTURER", func(): hero_action("capture"), Vector2(180, 42)))
 
     var log := VBoxContainer.new()
     log.position = Vector2(20,15)
@@ -726,7 +744,7 @@ func show_combat() -> void:
     for line in GameState.log_lines.slice(0,4):
         log.add_child(make_label("• "+line, 13, MUTED))
 
-func hero_action(action: String) -> void:
+func hero_action(action: String, skill: Dictionary = {}) -> void:
     if battle_locked:
         return
     battle_locked = true
@@ -759,14 +777,14 @@ func hero_action(action: String) -> void:
     elif action == "heal":
         var target: Dictionary = GameState.party[mini(2, GameState.party.size() - 1)]
         var bonuses: Dictionary = hero_bonuses(hero)
-        var amount: int = int(round(18.0 * (1.0 + float(bonuses.get("healing_power", 0)) / 100.0)))
+        var amount: int = int(round(float(skill.get("heal", 18)) * (1.0 + float(bonuses.get("healing_power", 0)) / 100.0)))
         target.hp = min(target.max_hp, target.hp + amount)
         var target_bonuses: Dictionary = hero_bonuses(target)
         target.hope = mini(100 + int(target_bonuses.get("max_hope", 0)), int(target.get("hope", 0)) + 2)
         GameState.add_log("%s restaure %d PV à %s." % [hero.name,amount,target.name])
     elif action == "guard":
         hero["guarding"] = true
-        hero["guard_power"] = int(hero_bonuses(hero).get("guard_power", 0))
+        hero["guard_power"] = int(hero_bonuses(hero).get("guard_power", 0)) + int(skill.get("guard_bonus", 0))
         GameState.add_log("%s se met en garde." % hero.name)
     else:
         var living: Array = GameState.alive_enemies()
@@ -778,7 +796,7 @@ func hero_action(action: String) -> void:
         if target.hp <= 0:
             target = living[0]
         var hp_before := int(target.get("hp", 0))
-        var power := 1.0 if action == "strike" else 1.35
+        var power: float = float(skill.get("power", 1.0 if action == "strike" else 1.35))
         var cls: Dictionary = DataLoader.find_by_id(DataLoader.classes, hero.class_id)
         var bonuses: Dictionary = hero_bonuses(hero)
         for contextual_key: Variant in CharacterTraitDirector.contextual_modifiers(hero, CharacterTraitDirector.context_for_enemy(target)).keys():
@@ -786,7 +804,7 @@ func hero_action(action: String) -> void:
         var base_damage: int = randi_range(int(cls.damage[0]), int(cls.damage[1])) + int(bonuses.get("damage_bonus", 0))
         var damage: int = int(base_damage * power)
         damage += int(round(damage * float(bonuses.get("precision", 0)) / 100.0))
-        var critical_chance: int = int(bonuses.get("critical_chance", 0))
+        var critical_chance: int = int(bonuses.get("critical_chance", 0)) + int(skill.get("critical_chance", 0))
         var critical: bool = critical_chance > 0 and randi_range(1, 100) <= critical_chance
         if critical:
             damage = int(round(damage * 1.5))
@@ -807,6 +825,10 @@ func hero_action(action: String) -> void:
             target["bleeding"] = maxi(2, int(bonuses.get("bleed_chance", 0)) / 2)
         if int(bonuses.get("break_chance", 0)) > 0 and randi_range(1, 100) <= int(bonuses.get("break_chance", 0)):
             target["broken"] = 2
+        var skill_status: String = str(skill.get("status", ""))
+        var skill_status_chance: int = int(skill.get("status_chance", 0))
+        if skill_status != "" and randi_range(1, 100) <= skill_status_chance:
+            target[skill_status] = true if skill_status in ["stunned", "weakened"] else 2
         if EquipmentManager.has_effect(str(hero.get("id", "")), "radiant_mercy"):
             var wounded: Array = GameState.alive_heroes()
             wounded.sort_custom(func(left: Dictionary, right: Dictionary): return int(left.get("hp", 0)) < int(right.get("hp", 0)))
