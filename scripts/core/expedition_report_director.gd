@@ -2,7 +2,7 @@ extends Node
 
 signal report_changed
 var current: Dictionary = {}
-var history: Array[Dictionary] = []
+var history: Array = []
 
 func begin_expedition(dungeon_id: String) -> void:
     current = {
