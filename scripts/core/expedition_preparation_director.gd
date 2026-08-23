@@ -14,7 +14,7 @@ func warnings(party: Array) -> Array[Dictionary]:
     var healer_present := false
     for hero_value: Variant in party:
         var hero: Dictionary = hero_value
-        healer_present = healer_present or PersistentInjuryRuntime.character_can_treat_party(hero)
+        healer_present = healer_present or PersistentInjuryRuntime.has_healing_capability(hero)
         var hero_id := String(hero.get("id", ""))
         var equipment: Dictionary = EquipmentManager.equipped_by_hero.get(hero_id, {})
         if String(equipment.get("weapon", "")) == "":
