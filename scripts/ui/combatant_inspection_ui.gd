@@ -10,7 +10,6 @@ var preview_content: VBoxContainer
 var detail_overlay: Control
 var detail_content: VBoxContainer
 var detail_open := false
-var _paused_before_detail := false
 
 func _ready() -> void:
     layer = 75
@@ -47,8 +46,6 @@ func open_detail(combatant: Dictionary, enemy: bool) -> void:
     detail_open = true
     preview_panel.visible = false
     detail_overlay.visible = true
-    _paused_before_detail = get_tree().paused
-    get_tree().paused = true
     HUDDirector.set_disclosure_level(HUDDirector.LEVEL_INSPECTION)
     _clear(detail_content)
     detail_content.add_child(_label(_title(combatant, enemy), 25, GOLD))
@@ -66,7 +63,6 @@ func close_detail() -> void:
         return
     detail_open = false
     detail_overlay.visible = false
-    get_tree().paused = _paused_before_detail
     HUDDirector.set_screen_context(GameState.current_screen)
 
 func _unhandled_input(event: InputEvent) -> void:
