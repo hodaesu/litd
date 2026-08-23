@@ -34,6 +34,8 @@ func _ready() -> void:
     _ensure_buses()
     _ensure_music_players()
     _apply_current_mix()
+    if not GameSettings.settings_changed.is_connected(_apply_current_mix):
+        GameSettings.settings_changed.connect(_apply_current_mix)
     call_deferred("_connect_sources")
     call_deferred("refresh_from_game_state")
 
@@ -502,6 +504,21 @@ func _apply_bus_levels(levels: Dictionary) -> void:
     for key_value: Variant in levels.keys():
         var bus_name: String = str(key_value)
         var db: float = clampf(float(levels.get(key_value, 0.0)), SILENT_DB, 6.0)
+        var range_multiplier := AccessibilityDirector.dynamic_range_multiplier()
+        if db > SILENT_DB:
+            db *= range_multiplier
+        var user_volume := 1.0
+        if bus_name == "Music":
+            user_volume = GameSettings.music_volume
+        elif bus_name == "Ambience":
+            user_volume = GameSettings.ambience_volume
+        elif bus_name == "Dialogue":
+            user_volume = GameSettings.voice_volume
+        elif bus_name == "UI":
+            user_volume = GameSettings.ui_volume
+        elif bus_name in ["Foley", "Combat", "Creatures", "Psychology"]:
+            user_volume = GameSettings.sfx_volume
+        db = SILENT_DB if user_volume <= 0.001 else clampf(db + linear_to_db(user_volume), SILENT_DB, 6.0)
         var bus_index: int = AudioServer.get_bus_index(bus_name)
         if bus_index < 0:
             continue
