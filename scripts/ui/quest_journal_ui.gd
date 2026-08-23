@@ -146,8 +146,13 @@ func _render_side_quests(parent: VBoxContainer) -> void:
         var quest: Dictionary = value
         if String(quest.get("narrative_role", "")) != "side":
             continue
+        var giver := NarrativeLibrary.quest_giver_for(quest)
         parent.add_child(_label("◇ %s" % String(quest.get("name", "Quête")),15,TEXT))
-        parent.add_child(_label(String(quest.get("summary", "")),12,MUTED))
+        parent.add_child(_label("Donnée par %s — %s · %s" % [String(giver.get("name", "Inconnu")), String(giver.get("role", "")), String(giver.get("location", ""))],12,GOLD))
+        parent.add_child(_label(NarrativeLibrary.quest_state_text(quest, "offered"),12,MUTED))
+        for objective_value: Variant in quest.get("objectives", []):
+            var objective: Dictionary = objective_value
+            parent.add_child(_label("  □ " + NarrativeLibrary.quest_objective_text(objective),11,MUTED))
 
 func _render_bounties(parent: VBoxContainer) -> void:
     if BountyContractDirector.offered_contracts.is_empty() and BountyContractDirector.active_contracts.is_empty():
@@ -160,6 +165,9 @@ func _render_bounties(parent: VBoxContainer) -> void:
         }
         BountyContractDirector.generate_dungeon_board("first_veil_crypts", 1, context, 101 + BountyContractDirector.completed_dungeon_runs)
     parent.add_child(_label("CONTRATS DE CHASSE",18,GOLD))
+    var bounty_giver := NarrativeLibrary.quest_giver("vara_kesh")
+    parent.add_child(_label("%s — %s · %s" % [String(bounty_giver.get("name", "Vara Kesh")), String(bounty_giver.get("role", "Maîtresse des primes")), String(bounty_giver.get("location", "Table des chasseurs"))],12,GOLD))
+    parent.add_child(_label("« Une prime n’est pas une invitation au massacre. C’est une dette précise envers ceux qui ne peuvent plus emprunter la route. »",12,MUTED))
     parent.add_child(_label("Maximum 2 actifs · renouvelés après les expéditions",12,MUTED))
     for value in BountyContractDirector.active_contracts:
         var contract: Dictionary = value

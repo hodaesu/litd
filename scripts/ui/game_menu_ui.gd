@@ -173,8 +173,10 @@ func _render_journal() -> void:
     if parsed is Array:
         for value: Variant in parsed:
             var quest: Dictionary = value
+            var giver := NarrativeLibrary.quest_giver_for(quest)
             content.add_child(_label("◇ %s" % String(quest.get("name", "Quête")), 15, TEXT))
-            content.add_child(_label(String(quest.get("description", quest.get("summary", ""))), 13, MUTED))
+            content.add_child(_label("%s — %s" % [String(giver.get("name", "Donneur inconnu")), String(giver.get("role", ""))], 12, GOLD))
+            content.add_child(_label(NarrativeLibrary.quest_state_text(quest, "offered"), 13, MUTED))
     content.add_child(_label("CONTRATS DE CHASSE", 18, GOLD))
     for value: Variant in BountyContractDirector.active_contracts:
         var contract: Dictionary = value

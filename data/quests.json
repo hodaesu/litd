@@ -9,25 +9,29 @@
         "id": "find_road",
         "event": "zone_discovered",
         "target": "c01_ash_road",
-        "count": 1
+        "count": 1,
+        "journal_text": "Atteindre la Route des Cendres et confirmer qu’elle demeure praticable."
       },
       {
         "id": "rescue_survivors",
         "event": "encounter_cleared",
         "target": "c01_survivor_ambush",
-        "count": 1
+        "count": 1,
+        "journal_text": "Libérer les survivants encerclés sans abandonner les blessés."
       },
       {
         "id": "use_camp",
         "event": "campfire_used",
         "target": "c01_first_camp",
-        "count": 1
+        "count": 1,
+        "journal_text": "Sécuriser le premier camp pour créer un point de retour."
       },
       {
         "id": "defeat_witness",
         "event": "encounter_cleared",
         "target": "c01_boss_ash_witness",
-        "count": 1
+        "count": 1,
+        "journal_text": "Affronter le Témoin des Cendres et décider quoi rapporter de cette rencontre."
       }
     ],
     "reward": {
@@ -42,6 +46,28 @@
       "type": "zone_discovered",
       "target": "c01_ash_road",
       "count": 1
+    },
+    "quest_giver_id": "sorya_hen",
+    "narrative": {
+      "theme": "reconstruction et responsabilité",
+      "hook": "La route n’est pas perdue. Elle est seulement tenue par ceux qui pensent que nous avons renoncé à sortir.",
+      "offer_lines": [
+        "Sorya déroule une carte dont les bords ont été recousus avec du fil rouge.",
+        "« Ouvrez la voie jusqu’au vieux camp. Si vous trouvez des vivants, ils passent avant les ruines. Et si le Témoin garde encore la route… revenez avec la vérité, pas seulement avec sa tête. »"
+      ],
+      "player_accept": "Nous rouvrirons la route et ramènerons ceux qui respirent encore.",
+      "player_decline": "Alors je garderai la porte fermée un jour de plus. Mais chaque jour coûte quelqu’un.",
+      "progress_lines": [
+        "La route a reconnu vos pas. Ne la confondez pas avec une route sûre.",
+        "Les survivants parlent d’une présence qui observe sans poursuivre. C’est pire qu’une bête affamée."
+      ],
+      "completion_lines": [
+        "Sorya efface d’un doigt la croix qui condamnait la voie.",
+        "« Une route n’est pas une ligne sur une carte. C’est la promesse que quelqu’un reviendra par elle. Aujourd’hui, cette promesse tient. »"
+      ],
+      "failure_line": "La cendre a repris la route. Sorya ne reproche rien ; elle ajoute seulement de nouveaux noms au bord de sa carte.",
+      "active": "La route n’est pas perdue. Elle est seulement tenue par ceux qui pensent que nous avons renoncé à sortir.",
+      "resolution": "« Une route n’est pas une ligne sur une carte. C’est la promesse que quelqu’un reviendra par elle. Aujourd’hui, cette promesse tient. »"
     }
   },
   {
@@ -54,13 +80,15 @@
         "id": "locate_bell",
         "event": "zone_discovered",
         "target": "c01_buried_belfry",
-        "count": 1
+        "count": 1,
+        "journal_text": "Suivre les vibrations jusqu’au beffroi enseveli."
       },
       {
         "id": "clear_rubble",
         "event": "interaction",
         "target": "raise_buried_bell",
-        "count": 1
+        "count": 1,
+        "journal_text": "Dégager la cloche et les personnes abritées sous les gravats."
       }
     ],
     "choices": [
@@ -90,6 +118,28 @@
       "type": "zone_discovered",
       "target": "c01_buried_belfry",
       "count": 1
+    },
+    "quest_giver_id": "ilyan_orme",
+    "narrative": {
+      "theme": "mémoire, choix et reconstruction",
+      "hook": "Sous la route, une cloche sonne sans air et sans main. Ilyan affirme qu’elle appelle encore une assemblée.",
+      "offer_lines": [
+        "Ilyan pose votre paume contre une poutre fendue. Une vibration presque imperceptible remonte dans l’os.",
+        "« Elle était faite pour rassembler, jamais pour alarmer. Si elle sonne sous terre, quelqu’un frappe peut-être encore contre son bronze. Dégagez-la. Ensuite, décidez où sa voix doit porter. »"
+      ],
+      "player_accept": "Nous suivrons la vibration et dégagerons le beffroi.",
+      "player_decline": "Je comprends. Les sons enterrés demandent parfois plus de courage que les cris.",
+      "progress_lines": [
+        "La vibration est plus nette. Entre deux coups, vous croyez entendre des réponses humaines.",
+        "Les gravats portent des marques récentes : quelqu’un a essayé de creuser depuis l’intérieur."
+      ],
+      "completion_lines": [
+        "Ilyan écoute votre décision sans vous interrompre.",
+        "« Une cloche appartient à ceux qu’elle rassemble. Qu’elle veille ici ou sur la route, ne la laissez jamais devenir la voix d’un seul. »"
+      ],
+      "failure_line": "La vibration cesse avant votre retour. Ilyan garde la main posée sur la table longtemps après le silence.",
+      "active": "Sous la route, une cloche sonne sans air et sans main. Ilyan affirme qu’elle appelle encore une assemblée.",
+      "resolution": "« Une cloche appartient à ceux qu’elle rassemble. Qu’elle veille ici ou sur la route, ne la laissez jamais devenir la voix d’un seul. »"
     }
   },
   {
@@ -102,13 +152,15 @@
         "id": "collect_names",
         "event": "collect",
         "target": "citizen_nameplate",
-        "count": 5
+        "count": 5,
+        "journal_text": "Retrouver cinq plaques nominatives encore lisibles."
       },
       {
         "id": "memorial",
         "event": "interaction",
         "target": "sanctuary_memorial",
-        "count": 1
+        "count": 1,
+        "journal_text": "Confier les noms à Naïma dans la Cour du Mémorial."
       }
     ],
     "reward": {
@@ -123,6 +175,28 @@
       "type": "collect",
       "target": "citizen_nameplate",
       "count": 5
+    },
+    "quest_giver_id": "naima_sol",
+    "narrative": {
+      "theme": "mémoire, choix et reconstruction",
+      "hook": "Les morts sans nom disparaissent deux fois. Naïma cherche cinq plaques avant que la cendre n’efface leurs dernières lettres.",
+      "offer_lines": [
+        "Naïma aligne cinq espaces vides sur le mur du Mémorial.",
+        "« Ne cherchez pas des héros. Cherchez des personnes : un prénom, un métier, une maladresse dont quelqu’un se souvient. Rapportez leurs plaques et je rendrai leurs noms à la cité. »"
+      ],
+      "player_accept": "Nous rapporterons les cinq plaques sans choisir quels morts méritent mémoire.",
+      "player_decline": "Ils attendent depuis la Chute. Ils peuvent attendre encore, mais ils ne devraient pas.",
+      "progress_lines": [
+        "La première plaque porte des traces de peinture bleue : son propriétaire pratiquait peut-être l’art des étoffes.",
+        "Chaque nom retrouvé rend les autres absences plus visibles."
+      ],
+      "completion_lines": [
+        "Naïma prononce les cinq noms, puis invite les présents à les répéter.",
+        "« Maintenant, même si le métal disparaît, ils existent dans plusieurs mémoires. C’est ainsi qu’une ville recommence. »"
+      ],
+      "failure_line": "Les espaces restent vides. Naïma refuse de les combler par des noms supposés.",
+      "active": "Les morts sans nom disparaissent deux fois. Naïma cherche cinq plaques avant que la cendre n’efface leurs dernières lettres.",
+      "resolution": "« Maintenant, même si le métal disparaît, ils existent dans plusieurs mémoires. C’est ainsi qu’une ville recommence. »"
     }
   },
   {
@@ -135,13 +209,15 @@
         "id": "find_satchel",
         "event": "collect",
         "target": "medic_satchel",
-        "count": 1
+        "count": 1,
+        "journal_text": "Retrouver la sacoche médicale de Sada Rhel."
       },
       {
         "id": "return_satchel",
         "event": "interaction",
         "target": "sanctuary_infirmary",
-        "count": 1
+        "count": 1,
+        "journal_text": "Rapporter le nécessaire à Tarek sans avoir fouillé la dépouille."
       }
     ],
     "optional_constraint": {
@@ -161,6 +237,28 @@
       "type": "collect",
       "target": "medic_satchel",
       "count": 1
+    },
+    "quest_giver_id": "tarek_vann",
+    "narrative": {
+      "theme": "mémoire, choix et reconstruction",
+      "hook": "Une soigneuse est morte sur la route avec le dernier nécessaire stérile de l’ancienne infirmerie.",
+      "offer_lines": [
+        "Tarek ferme un registre taché de désinfectant et de cendre.",
+        "« Elle s’appelait Sada Rhel. Son nécessaire peut sauver des vivants, mais son corps n’est pas un coffre. Prenez la sacoche. Laissez-lui ses effets, ses lettres et la position qu’elle a choisie pour mourir. »"
+      ],
+      "player_accept": "Nous récupérerons le nécessaire sans profaner Sada Rhel.",
+      "player_decline": "Alors je continuerai avec des linges bouillis. Ce n’est pas assez, mais c’est propre.",
+      "progress_lines": [
+        "La sacoche est intacte. À côté, Sada serre encore une lettre cachetée contre elle.",
+        "Le matériel porte des annotations : elle améliorait ses instruments jusque dans ses derniers jours."
+      ],
+      "completion_lines": [
+        "Tarek inventorie chaque outil, puis inscrit le nom de Sada sur l’armoire restaurée.",
+        "« Ces instruments ne sont pas son héritage. Son héritage, c’est la règle qui les accompagne : soigner sans dépouiller. »"
+      ],
+      "failure_line": "Le nécessaire revient incomplet ou souillé. Tarek sauve ce qu’il peut et ne pose aucune question dont il connaît déjà la réponse.",
+      "active": "Une soigneuse est morte sur la route avec le dernier nécessaire stérile de l’ancienne infirmerie.",
+      "resolution": "« Ces instruments ne sont pas son héritage. Son héritage, c’est la règle qui les accompagne : soigner sans dépouiller. »"
     }
   },
   {
@@ -173,13 +271,15 @@
         "id": "observe",
         "event": "interaction",
         "target": "observe_ash_creature",
-        "count": 1
+        "count": 1,
+        "journal_text": "Observer la créature sans l’attaquer et identifier ce qu’elle protège."
       },
       {
         "id": "resolve",
         "event": "choice",
         "target": "ash_creature_outcome",
-        "count": 1
+        "count": 1,
+        "journal_text": "Choisir la coexistence, la capture ou la mise à mort en connaissance de cause."
       }
     ],
     "choices": [
@@ -216,6 +316,28 @@
       "type": "interaction",
       "target": "observe_ash_creature",
       "count": 1
+    },
+    "quest_giver_id": "eno_kesh",
+    "narrative": {
+      "theme": "mémoire, choix et reconstruction",
+      "hook": "Une créature des cendres a cessé d’attaquer. Eno veut savoir si elle choisit la paix ou si la Peur l’a simplement brisée.",
+      "offer_lines": [
+        "Eno vous montre trois dessins du même animal : menaçant, recroquevillé, puis attentif à une main ouverte.",
+        "« Ne confondez pas immobilité et consentement. Observez sa respiration, sa distance, ce qu’elle protège. Ensuite seulement : partez, liez-la ou tuez-la. Votre choix dira aussi quel genre de survivants nous devenons. »"
+      ],
+      "player_accept": "Nous l’observerons avant de décider de son sort.",
+      "player_decline": "Alors quelqu’un décidera sans regarder. C’est ainsi que naissent les monstres commodes.",
+      "progress_lines": [
+        "La créature détourne ses parties vulnérables mais ne prépare aucune charge.",
+        "Elle protège une cavité derrière elle. Vous entendez un second souffle, plus faible."
+      ],
+      "completion_lines": [
+        "Eno consigne votre décision, puis ajoute une colonne intitulée « Ce que nous ignorions ».",
+        "« Je ne cherchais pas la bonne réponse. Je voulais une décision capable d’admettre son prix. »"
+      ],
+      "failure_line": "La rencontre ne laisse aucune observation exploitable. Eno barre la page plutôt que d’inventer un comportement.",
+      "active": "Une créature des cendres a cessé d’attaquer. Eno veut savoir si elle choisit la paix ou si la Peur l’a simplement brisée.",
+      "resolution": "« Je ne cherchais pas la bonne réponse. Je voulais une décision capable d’admettre son prix. »"
     }
   },
   {
@@ -228,25 +350,29 @@
         "id": "archive",
         "event": "collect",
         "target": "marker_archive",
-        "count": 1
+        "count": 1,
+        "journal_text": "Retrouver la version officielle conservée dans les archives."
       },
       {
         "id": "survivor",
         "event": "dialogue",
         "target": "marker_survivor",
-        "count": 1
+        "count": 1,
+        "journal_text": "Écouter le témoignage du survivant sans orienter ses réponses."
       },
       {
         "id": "echo",
         "event": "interaction",
         "target": "marker_echo",
-        "count": 1
+        "count": 1,
+        "journal_text": "Recueillir l’écho mémoriel contenu dans la borne."
       },
       {
         "id": "compare",
         "event": "interaction",
         "target": "camp_compare_testimonies",
-        "count": 1
+        "count": 1,
+        "journal_text": "Comparer les trois sources au camp et noter leurs contradictions."
       }
     ],
     "reward": {
@@ -260,6 +386,29 @@
       "type": "collect",
       "target": "marker_archive",
       "count": 1
+    },
+    "quest_giver_id": "meira_sen",
+    "narrative": {
+      "theme": "mémoire, choix et reconstruction",
+      "hook": "Une borne ancienne raconte trois histoires incompatibles. Meira soupçonne que chacune protège une part différente de la vérité.",
+      "offer_lines": [
+        "Meira dépose devant vous une copie d’archive, le récit d’un survivant et un éclat de pierre qui murmure.",
+        "« L’archive dit frontière. Le survivant dit lieu de tournoi. L’écho dit serrure. Trouvez les trois sources et comparez-les au camp, loin de ceux qui ont intérêt à conclure trop vite. »"
+      ],
+      "player_accept": "Nous recueillerons les trois témoignages sans en privilégier un.",
+      "player_decline": "Une seule version est plus confortable. C’est précisément pour cela qu’elle est dangereuse.",
+      "progress_lines": [
+        "L’archive a été corrigée après la Chute : le mot « rencontre » a été remplacé par « contrôle ».",
+        "Le survivant se souvient des couleurs et des chants, mais pas des gardes mentionnés par le registre.",
+        "L’écho ne décrit pas la borne : il répète la peur de ceux qui l’ont fermée."
+      ],
+      "completion_lines": [
+        "Meira superpose les trois récits. Aucun ne gagne ; une quatrième forme apparaît entre eux.",
+        "« Voilà notre première preuve honnête : la borne changeait de fonction selon celui qui la regardait. La politique commence souvent par prétendre le contraire. »"
+      ],
+      "failure_line": "Une source manque. Meira classe le dossier parmi les hypothèses et interdit qu’on le cite comme vérité.",
+      "active": "Une borne ancienne raconte trois histoires incompatibles. Meira soupçonne que chacune protège une part différente de la vérité.",
+      "resolution": "« Voilà notre première preuve honnête : la borne changeait de fonction selon celui qui la regardait. La politique commence souvent par prétendre le contraire. »"
     }
   }
 ]
