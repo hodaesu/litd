@@ -735,6 +735,7 @@ func hero_action(action: String) -> void:
         finish_defeat()
         return
     CombatBodyPresentation.stage_action(hero, false, action)
+    await get_tree().create_timer(0.18).timeout
     if action == "capture":
         var living_targets: Array = GameState.alive_enemies()
         if living_targets.is_empty():
@@ -871,10 +872,12 @@ func enemy_turn() -> void:
             damage = maxi(1, int(round(damage * (1.0 - guard_reduction))))
             target["guarding"] = false
         CombatBodyPresentation.stage_action(enemy, true, "strike")
+        await get_tree().create_timer(0.16).timeout
         target.hp = max(0, target.hp - damage)
         CombatBodyPresentation.stage_hit(target, false, "torso", "heavy" if damage >= int(enemy.damage[1]) else "light")
         if int(target.get("hp", 0)) <= 0:
             CombatBodyPresentation.stage_death(target, false)
+        await get_tree().create_timer(0.12).timeout
         var fear_gain: int = maxi(0, int(enemy.fear) - int(target_bonuses.get("fear_resistance", 0)))
         target.fear = min(100, target.fear + fear_gain)
         var riposte_chance: int = int(target_bonuses.get("riposte_chance", 0))
