@@ -226,3 +226,30 @@ func _effect_applies(effect_key: String, context: Dictionary) -> bool:
 
 func _stable_seed(text: String) -> int:
     return abs(text.hash()) + 1
+
+func has_positive_trait(character: Dictionary, trait_id: String) -> bool:
+    return (character.get("positive_traits", []) as Array).has(trait_id)
+
+func adapt_single_injury_debuffs(character: Dictionary, injury_id: String, debuffs: Dictionary, equipment_context: Dictionary = {}) -> Dictionary:
+    var result: Dictionary = debuffs.duplicate(true)
+    if has_positive_trait(character, "pain_endurance"):
+        for key: Variant in result.keys():
+            if float(result[key]) < 0.0:
+                result[key] = float(result[key]) * 0.75
+    var weapon_hands := int(equipment_context.get("weapon_hands", 1))
+    if has_positive_trait(character, "ambidextrous") and injury_id in ["arm_injury", "arm_lost"] and weapon_hands == 1:
+        result["damage_bonus"] = 0.0
+        if injury_id == "arm_injury":
+            result["guard_power"] = 0.0
+    if has_positive_trait(character, "alternate_support") and injury_id in ["sprain", "fracture_leg"]:
+        result["dodge_chance"] = minf(0.0, float(result.get("dodge_chance", 0.0)) + 8.0)
+        result["movement_speed"] = minf(0.0, float(result.get("movement_speed", 0.0)) + 10.0)
+    if has_positive_trait(character, "ground_fighter") and injury_id == "fracture_leg":
+        result["guard_power"] = float(result.get("guard_power", 0.0)) + 8.0
+        result["ground_action_access"] = 1.0
+    if weapon_hands >= 2 and injury_id in ["arm_injury", "arm_lost"]:
+        result["two_handed_locked"] = 1.0
+    return result
+
+func adapt_injury_debuffs(character: Dictionary, debuffs: Dictionary, equipment_context: Dictionary = {}) -> Dictionary:
+    return debuffs.duplicate(true)

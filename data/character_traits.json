@@ -55,15 +55,6 @@
       }
     },
     {
-      "id": "precise",
-      "name": "Précis",
-      "polarity": "positive",
-      "description": "Précis",
-      "effects": {
-        "precision": 8
-      }
-    },
-    {
       "id": "protective",
       "name": "Protecteur",
       "polarity": "positive",
@@ -107,15 +98,6 @@
       "effects": {
         "accuracy": 7,
         "madness_resistance": 5
-      }
-    },
-    {
-      "id": "swift",
-      "name": "Vif",
-      "polarity": "positive",
-      "description": "Vif",
-      "effects": {
-        "dodge_chance": 8
       }
     },
     {
@@ -197,15 +179,6 @@
       }
     },
     {
-      "id": "vigilant",
-      "name": "Vigilant",
-      "polarity": "positive",
-      "description": "Repère plus vite les pièges et les embuscades.",
-      "effects": {
-        "trap_awareness": 12
-      }
-    },
-    {
       "id": "stoic",
       "name": "Stoïque",
       "polarity": "positive",
@@ -233,24 +206,6 @@
       }
     },
     {
-      "id": "iron_lungs",
-      "name": "Souffle d’acier",
-      "polarity": "positive",
-      "description": "Supporte mieux les gaz et les poisons.",
-      "effects": {
-        "poison_resistance": 12
-      }
-    },
-    {
-      "id": "lucky",
-      "name": "Chanceux",
-      "polarity": "positive",
-      "description": "Transforme plus souvent une ouverture en coup critique.",
-      "effects": {
-        "critical_chance": 5
-      }
-    },
-    {
       "id": "inspiring",
       "name": "Inspirant",
       "polarity": "positive",
@@ -259,6 +214,72 @@
         "party_fear_relief": 2,
         "hope_gain": 6
       }
+    },
+    {
+      "id": "ambidextrous",
+      "name": "Ambidextre",
+      "polarity": "positive",
+      "description": "Combat sans pénalité avec l’autre bras si le bras dominant est inutilisable. Ne permet jamais d’utiliser une arme à deux mains avec un seul bras.",
+      "effects": {
+        "ignore_one_handed_arm_penalty": 1
+      },
+      "contexts": [
+        "arm_injured",
+        "arm_lost",
+        "one_handed_weapon"
+      ]
+    },
+    {
+      "id": "alternate_support",
+      "name": "Appui alterné",
+      "polarity": "positive",
+      "description": "Compense partiellement une blessure à une jambe et conserve un changement de rang ralenti.",
+      "effects": {
+        "leg_injury_dodge_recovery": 8,
+        "leg_injury_movement_recovery": 10
+      },
+      "contexts": [
+        "leg_injured"
+      ]
+    },
+    {
+      "id": "pain_endurance",
+      "name": "Endurance à la douleur",
+      "polarity": "positive",
+      "description": "Réduit les malus immédiats des blessures sans les soigner ni empêcher leur aggravation.",
+      "effects": {
+        "persistent_injury_debuff_reduction_percent": 25
+      },
+      "contexts": [
+        "injured"
+      ]
+    },
+    {
+      "id": "improviser",
+      "name": "Improvisateur",
+      "polarity": "positive",
+      "description": "Conserve une attaque minimale lorsque son arme ou son bras armé devient inutilisable.",
+      "effects": {
+        "unarmed_fallback_damage_percent": 65
+      },
+      "contexts": [
+        "weapon_disabled",
+        "arm_injured"
+      ]
+    },
+    {
+      "id": "ground_fighter",
+      "name": "Combat au sol",
+      "polarity": "positive",
+      "description": "Conserve une garde, une attaque et un repli limités après une chute ou avec une jambe inutilisable.",
+      "effects": {
+        "ground_guard_recovery": 8,
+        "ground_action_access": 1
+      },
+      "contexts": [
+        "knocked_down",
+        "leg_critical"
+      ]
     }
   ],
   "negatives": [
