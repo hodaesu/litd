@@ -435,6 +435,10 @@ func hero_bonuses(hero: Dictionary) -> Dictionary:
     var result: Dictionary = EquipmentManager.bonuses_for_hero(str(hero.get("id","")))
     for trait_key: Variant in CharacterTraitDirector.modifiers(hero).keys():
         result[str(trait_key)] = int(result.get(str(trait_key), 0)) + int(round(float(CharacterTraitDirector.modifiers(hero).get(trait_key, 0.0))))
+    var injury_context := {"weapon_hands": int(hero.get("equipped_weapon_hands", 1))}
+    var injury_debuffs := PersistentInjuryRuntime.active_debuffs(hero, injury_context)
+    for injury_key: Variant in injury_debuffs.keys():
+        result[String(injury_key)] = int(result.get(String(injury_key), 0)) + int(round(float(injury_debuffs[injury_key])))
     for key_value in HeroSkillManager.stats_for(hero).keys():
         var key: String=str(key_value); result[key]=int(result.get(key,0))+int(HeroSkillManager.stats_for(hero).get(key,0))
     return result
