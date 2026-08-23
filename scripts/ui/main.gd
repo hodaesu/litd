@@ -744,6 +744,71 @@ func show_combat() -> void:
     for line in GameState.log_lines.slice(0,4):
         log.add_child(make_label("• "+line, 13, MUTED))
 
+func _use_skill_slot(slot: int) -> void:
+    if battle_locked:
+        return
+    var living_heroes: Array = GameState.alive_heroes()
+    if living_heroes.is_empty():
+        finish_defeat()
+        return
+    var hero: Dictionary = living_heroes[0]
+    var equipped_skills: Array[String] = HeroSkillManager.combat_loadout(hero)
+    if slot < 0 or slot >= equipped_skills.size():
+        return
+    var skill: Dictionary = HeroSkillManager.combat_skill(hero, equipped_skills[slot])
+    if skill.is_empty():
+        return
+    var effect: String = str(skill.get("effect", "attack"))
+    match effect:
+        "heal", "support":
+            hero_action("heal", skill)
+        "guard":
+            hero_action("guard", skill)
+        _:
+            hero_action("heavy" if float(skill.get("power", 1.0)) > 1.2 else "strike", skill)
+
+func _use_combat_item(category: String) -> void:
+    if battle_locked:
+        return
+    var living_heroes: Array = GameState.alive_heroes()
+    if living_heroes.is_empty():
+        finish_defeat()
+        return
+    var hero: Dictionary = living_heroes[0]
+    var item: Dictionary = CombatLoadoutManager.consume(str(hero.get("id", "")), category)
+    if item.is_empty():
+        GameState.add_log("Aucun consommable préparé dans cet emplacement.")
+        show_screen("combat")
+        return
+    battle_locked = true
+    CombatBodyPresentation.stage_action(hero, false, "use_item")
+    await get_tree().create_timer(0.18).timeout
+    if category == CombatLoadoutManager.HEAL_SLOT:
+        var wounded: Array = GameState.alive_heroes()
+        wounded.sort_custom(func(left: Dictionary, right: Dictionary): return float(left.get("hp", 0)) / maxf(1.0, float(left.get("max_hp", 1))) < float(right.get("hp", 0)) / maxf(1.0, float(right.get("max_hp", 1))))
+        var target: Dictionary = wounded[0]
+        var amount: int = int(item.get("heal", 0))
+        target["hp"] = mini(int(target.get("max_hp", 1)), int(target.get("hp", 0)) + amount)
+        GameState.add_log("%s utilise %s sur %s : +%d PV." % [hero.get("name", "Le héros"), item.get("name", "un soin"), target.get("name", "un allié"), amount])
+    else:
+        var damage: int = int(item.get("damage", 0))
+        var status: String = str(item.get("status", ""))
+        for enemy_value: Variant in GameState.alive_enemies():
+            var enemy: Dictionary = enemy_value
+            enemy["hp"] = maxi(0, int(enemy.get("hp", 0)) - damage)
+            if status == "burn":
+                enemy["burning"] = 2
+            elif status == "accuracy_down":
+                enemy["accuracy_down"] = 2
+            CombatBodyPresentation.stage_hit(enemy, true, "torso", "heavy")
+            if int(enemy.get("hp", 0)) <= 0:
+                CombatBodyPresentation.stage_death(enemy, true)
+        GameState.add_log("%s lance %s : %d dégâts à tous les ennemis." % [hero.get("name", "Le héros"), item.get("name", "une grenade"), damage])
+    if GameState.alive_enemies().is_empty():
+        finish_victory()
+        return
+    enemy_turn()
+
 func hero_action(action: String, skill: Dictionary = {}) -> void:
     if battle_locked:
         return
