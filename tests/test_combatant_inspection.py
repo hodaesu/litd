@@ -37,7 +37,7 @@ def test_preview_and_detail_show_stats_afflictions_and_skills():
     assert "HeroSkillManager.known_combat_skills" in INSPECTION
     assert 'combatant.get("skills", combatant.get("abilities", []))' in INSPECTION
 
-def test_detailed_inspection_pauses_and_restores_combat():
-    assert "get_tree().paused = true" in INSPECTION
-    assert "get_tree().paused = _paused_before_detail" in INSPECTION
+def test_detailed_inspection_keeps_combat_running():
+    assert "get_tree().paused = true" not in INSPECTION
+    assert "_paused_before_detail" not in INSPECTION
     assert "HUDDirector.set_screen_context(GameState.current_screen)" in INSPECTION
