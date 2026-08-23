@@ -348,17 +348,28 @@ func _equip_skill(skill_id: String) -> void:
     _render()
 
 func _render_bestiary() -> void:
-    content.add_child(_label("Les informations restent partielles tant que la famille n’a pas été assez affrontée.", 14, MUTED))
+    content.add_child(_label("Le codex révèle progressivement nom, vitalité, dégâts, intention et particularités.", 14, MUTED))
     var captured_ids: Array[String] = []
     for creature_value: Variant in CreatureManager.captured_creatures:
         captured_ids.append(String((creature_value as Dictionary).get("source_enemy_id", (creature_value as Dictionary).get("id", ""))))
     for enemy_value: Variant in DataLoader.enemies:
         var enemy: Dictionary = enemy_value
-        var known: bool = EnemyFearDirector.enemy_known(enemy) if EnemyFearDirector.has_method("enemy_known") else true
-        var title: String = String(enemy.get("name", "Créature inconnue")) if known else "Silhouette inconnue"
-        content.add_child(_label("◆ %s%s" % [title, " · CAPTURÉE" if captured_ids.has(String(enemy.get("id", ""))) else ""], 16, GOLD if known else MUTED))
-        if known:
-            content.add_child(_label("PV %d · dégâts %d–%d · Peur infligée %d · %s" % [int(enemy.get("hp", 0)), int(enemy.get("damage", [0, 0])[0]), int(enemy.get("damage", [0, 0])[1]), int(enemy.get("fear", 0)), EnemyCombatDirector.intent_preview(enemy)], 13, TEXT))
+        var enemy_id := String(enemy.get("id", ""))
+        var knowledge := CampaignMemoryDirector.knowledge(enemy_id)
+        var title := String(enemy.get("name", "Créature")) if knowledge >= 1 else "Silhouette inconnue"
+        content.add_child(_label("◆ %s · CONNAISSANCE %d/5%s" % [title, knowledge, " · CAPTURÉE" if captured_ids.has(enemy_id) else ""], 16, GOLD if knowledge >= 1 else MUTED))
+        var facts: Array[String] = []
+        if knowledge >= 2:
+            facts.append("PV %d" % int(enemy.get("hp", 0)))
+        if knowledge >= 3:
+            facts.append("dégâts %d–%d · Peur %d" % [int(enemy.get("damage", [0, 0])[0]), int(enemy.get("damage", [0, 0])[1]), int(enemy.get("fear", 0))])
+        if knowledge >= 4:
+            facts.append(EnemyCombatDirector.intent_preview(enemy))
+        if knowledge >= 5:
+            var traits := CharacterTraitDirector.trait_names(enemy)
+            facts.append("traits +%s / −%s" % [", ".join(traits.get("positive", [])), ", ".join(traits.get("negative", []))])
+        if not facts.is_empty():
+            content.add_child(_label(" · ".join(facts), 13, TEXT))
 
 func _render_records() -> void:
     content.add_child(_label("CONTRATS DE CHASSE ACTIFS", 18, GOLD))
