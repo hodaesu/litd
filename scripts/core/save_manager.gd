@@ -21,7 +21,7 @@ func save_game(slot: int = active_slot) -> bool:
     last_status = "Sauvegarde en cours…"
     var payload := _build_payload()
     var body := JSON.stringify(payload)
-    var envelope := {"checksum":body.sha256_text(),"payload":payload}
+    var envelope := {"checksum":body.sha256_text(),"body":body}
     var encoded := JSON.stringify(envelope)
     var success := _atomic_write(_path(slot), encoded)
     if success and slot == 0:
@@ -44,12 +44,14 @@ func autosave(reason: String = "") -> bool:
 func load_game(slot: int = active_slot) -> bool:
     slot = _valid_slot(slot)
     var recovered := false
-    var payload := _read_payload(_path(slot))
+    # Slot 0 mirrors the legacy path. Prefer that freshly written raw payload so
+    # a stale slot/backup left by an interrupted run can never shadow it.
+    var payload: Dictionary = _read_payload(SAVE_PATH) if slot == 0 else {}
+    if payload.is_empty():
+        payload = _read_payload(_path(slot))
     if payload.is_empty():
         payload = _read_payload(_backup_path(slot))
         recovered = not payload.is_empty()
-    if payload.is_empty() and slot == 0:
-        payload = _read_payload(SAVE_PATH)
     if payload.is_empty():
         last_status = "Sauvegarde absente ou irrécupérable."
         save_finished.emit(slot, false, false)
@@ -178,12 +180,18 @@ func _read_payload(path: String) -> Dictionary:
     var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
     if parsed is not Dictionary:
         return {}
-    if parsed.has("payload"):
-        var payload: Dictionary = parsed.get("payload", {})
-        var body := JSON.stringify(payload)
+    if parsed.has("body"):
+        # Hash the exact serialized bytes kept in the envelope. Re-stringifying a
+        # parsed Dictionary is not stable because JSON key order may change.
+        var body := String(parsed.get("body", ""))
         if String(parsed.get("checksum", "")) != body.sha256_text():
             return {}
-        return payload
+        var payload_value: Variant = JSON.parse_string(body)
+        return payload_value if payload_value is Dictionary else {}
+    if parsed.has("payload"):
+        # Compatibility with envelopes produced during development of save slots.
+        var old_payload: Variant = parsed.get("payload", {})
+        return old_payload if old_payload is Dictionary else {}
     return parsed
 
 func _valid_slot(slot: int) -> int:
