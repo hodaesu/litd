@@ -152,3 +152,18 @@ func _next_severity(severity: String) -> String:
         "minor": return "serious"
         "serious": return "critical"
     return severity
+
+func treat_all_at_infirmary(party: Array) -> Dictionary:
+    var treated := 0
+    var stabilized := 0
+    for value: Variant in party:
+        var patient: Dictionary = value
+        prepare_character(patient)
+        for injury_value: Variant in (patient.get("persistent_injuries", []) as Array).duplicate():
+            var result := treat_injury(patient, String((injury_value as Dictionary).get("id", "")), party, true)
+            if bool(result.get("ok", false)):
+                if bool(result.get("permanent", false)):
+                    stabilized += 1
+                else:
+                    treated += 1
+    return {"ok": true, "treated": treated, "stabilized": stabilized}
