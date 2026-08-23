@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const UI_SECTIONS := preload("res://scripts/ui/ui_section_registry.gd")
+
 const GOLD := Color("#d5b26c")
 const TEXT := Color("#e5dccb")
 const MUTED := Color("#a49884")
@@ -85,8 +87,8 @@ func _build() -> void:
     tabs.add_theme_constant_override("h_separation", 8)
     tabs.add_theme_constant_override("v_separation", 6)
     shell.add_child(tabs)
-    for entry: Array in [["inventory","INVENTAIRE"],["map","CARTE"],["journal","JOURNAL"],["characters","PERSONNAGES"],["preparation","PRÉPARATION"],["bestiary","BESTIAIRE"],["records","PRIMES"],["chronicle","CHRONIQUE"],["reports","BILANS"],["help","AIDE"],["saves","SAUVEGARDES"],["options","OPTIONS"]]:
-        tabs.add_child(_button(String(entry[1]), func(id = String(entry[0])): active_tab = id; _render(), Vector2(190, 40)))
+    for entry: Dictionary in UI_SECTIONS.entries():
+        tabs.add_child(_button(String(entry.get("label", "")), func(id = String(entry.get("id", ""))): active_tab = id; _render(), Vector2(190, 40)))
     var scroll := ScrollContainer.new()
     scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
     shell.add_child(scroll)
@@ -114,7 +116,7 @@ func _render() -> void:
         "options": _render_options()
 
 func _tab_title() -> String:
-    return {"inventory":"INVENTAIRE","map":"CARTE","journal":"JOURNAL DE QUÊTES","characters":"PERSONNAGES ET COMPÉTENCES","preparation":"PRÉPARATION D’EXPÉDITION","bestiary":"BESTIAIRE","records":"CONTRATS ET FAITS D’ARMES","chronicle":"MÉMOIRE DE LA CAMPAGNE","reports":"BILANS D’EXPÉDITION","help":"TUTORIEL ET GLOSSAIRE","saves":"SAUVEGARDES","options":"OPTIONS ET RÉGLAGES"}.get(active_tab, "MENU")
+    return UI_SECTIONS.title(active_tab)
 
 func _render_inventory() -> void:
     content.add_child(_hero_selector())
