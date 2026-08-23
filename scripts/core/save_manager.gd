@@ -22,7 +22,10 @@ func save_game(slot: int = active_slot) -> bool:
     var payload := _build_payload()
     var body := JSON.stringify(payload)
     var envelope := {"checksum":body.sha256_text(),"payload":payload}
-    var success := _atomic_write(_path(slot), JSON.stringify(envelope))
+    var encoded := JSON.stringify(envelope)
+    var success := _atomic_write(_path(slot), encoded)
+    if success and slot == 0:
+        success = _atomic_write(SAVE_PATH, encoded)
     if success:
         active_slot = slot if slot >= 0 else active_slot
         last_status = "Sauvegarde terminée."
