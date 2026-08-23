@@ -73,13 +73,15 @@ func all_slots_metadata() -> Array[Dictionary]:
     var result: Array[Dictionary] = []
     for slot in range(SLOT_COUNT):
         var metadata := slot_metadata(slot)
+        var empty := metadata.is_empty()
         metadata["slot"] = slot
-        metadata["empty"] = metadata.is_empty() or metadata.size() == 2
+        metadata["empty"] = empty
         result.append(metadata)
     var autosave_metadata := slot_metadata(AUTOSAVE_SLOT)
+    var autosave_empty := autosave_metadata.is_empty()
     autosave_metadata["slot"] = AUTOSAVE_SLOT
     autosave_metadata["autosave"] = true
-    autosave_metadata["empty"] = autosave_metadata.is_empty() or autosave_metadata.size() == 3
+    autosave_metadata["empty"] = autosave_empty
     result.append(autosave_metadata)
     return result
 
