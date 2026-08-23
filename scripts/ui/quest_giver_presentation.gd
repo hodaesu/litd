@@ -45,10 +45,31 @@ func open_dialogue(giver: Dictionary, quest: Dictionary, state: String = "offere
         else:
             for line: String in lines:
                 dialogue_body.add_child(_label(line, 15, TEXT))
-        if state == "offered":
+        if state in ["offered", "refused"]:
             var narrative := NarrativeLibrary.quest_narrative(quest)
-            dialogue_body.add_child(_label("Votre réponse : « %s »" % String(narrative.get("player_accept", "")), 14, GOLD))
-            dialogue_body.add_child(_label("Refus : « %s »" % String(narrative.get("player_decline", "")), 13, MUTED))
+            var quest_id := String(quest.get("id", ""))
+            var accept := Button.new()
+            accept.text = "ACCEPTER — " + String(narrative.get("player_accept", "Accepter"))
+            accept.custom_minimum_size = Vector2(740, 46)
+            accept.pressed.connect(func():
+                if SideQuestRuntime.accept(quest_id):
+                    open_dialogue(giver, quest, "active")
+            )
+            dialogue_body.add_child(accept)
+            var refuse := Button.new()
+            refuse.text = "REFUSER — " + String(narrative.get("player_decline", "Refuser"))
+            refuse.custom_minimum_size = Vector2(740, 42)
+            refuse.pressed.connect(func():
+                SideQuestRuntime.refuse(quest_id)
+                close_dialogue()
+            )
+            dialogue_body.add_child(refuse)
+        elif state == "active":
+            var track := Button.new()
+            track.text = "SUIVRE CETTE QUÊTE PAR LES CENDRES"
+            track.custom_minimum_size = Vector2(740, 44)
+            track.pressed.connect(func(): SideQuestRuntime.track(String(quest.get("id", ""))))
+            dialogue_body.add_child(track)
     overlay.visible = true
     _stage_dialogue_entrance(giver)
 
