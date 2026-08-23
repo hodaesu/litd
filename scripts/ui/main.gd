@@ -642,7 +642,12 @@ func show_combat() -> void:
     content.add_child(heroes_row)
     for i in range(GameState.party.size()):
         var h = GameState.party[i]
+        var hero_button := Button.new()
+        hero_button.flat = true
+        hero_button.custom_minimum_size = Vector2(135,390)
+        hero_button.tooltip_text = "Survol : aperçu · Clic/toucher/validation : inspection"
         var card := VBoxContainer.new()
+        card.mouse_filter = Control.MOUSE_FILTER_IGNORE
         card.custom_minimum_size = Vector2(135,390)
         var art := TextureRect.new()
         art.texture = load(hero_art(h))
@@ -652,7 +657,9 @@ func show_combat() -> void:
         art.modulate = Color(1,1,1, 1.0 if h.hp > 0 else 0.35)
         card.add_child(art)
         card.add_child(make_label("%s\nPV %d/%d" % [h.name,h.hp,h.max_hp], 13, GOLD))
-        heroes_row.add_child(card)
+        hero_button.add_child(card)
+        CombatantInspectionUI.bind_combatant(hero_button, h, false)
+        heroes_row.add_child(hero_button)
 
     var enemies_row := HBoxContainer.new()
     enemies_row.position = Vector2(675,170)
@@ -680,10 +687,11 @@ func show_combat() -> void:
         v.add_child(fear_gauge)
         fear_gauge.bind_enemy(e)
         b.add_child(v)
+        b.tooltip_text = "Survol : aperçu · Clic/toucher/validation : inspection"
         b.pressed.connect(func(index=i):
             selected_enemy = index
-            show_screen("combat")
         )
+        CombatantInspectionUI.bind_combatant(b, e, true)
         enemies_row.add_child(b)
 
     var action_panel := HBoxContainer.new()
