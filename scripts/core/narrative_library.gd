@@ -3,21 +3,58 @@ extends Node
 const DATA_PATH := "res://data/narrative_library.json"
 const FOLKLORE_PATH := "res://data/global_folklore_atlas.json"
 const DIALOGUE_PATH := "res://data/dialogue_library.json"
+const QUEST_GIVERS_PATH := "res://data/quest_givers.json"
 
 var data: Dictionary = {}
 var folklore_data: Dictionary = {}
 var dialogue_data: Dictionary = {}
+var quest_giver_data: Dictionary = {}
 
 func _ready() -> void:
     data = _load_dictionary(DATA_PATH)
     folklore_data = _load_dictionary(FOLKLORE_PATH)
     dialogue_data = _load_dictionary(DIALOGUE_PATH)
+    quest_giver_data = _load_dictionary(QUEST_GIVERS_PATH)
 
 func _load_dictionary(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
         return {}
     var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
     return parsed if parsed is Dictionary else {}
+
+
+func quest_giver(giver_id: String) -> Dictionary:
+    for value: Variant in quest_giver_data.get("quest_givers", []):
+        var giver: Dictionary = value if value is Dictionary else {}
+        if str(giver.get("id", "")) == giver_id:
+            return giver.duplicate(true)
+    return {}
+
+func quest_giver_for(quest: Dictionary) -> Dictionary:
+    return quest_giver(str(quest.get("quest_giver_id", "")))
+
+func quest_dialogue_lines(quest: Dictionary, state: String) -> Array[String]:
+    var narrative := quest_narrative(quest)
+    var key := {
+        "offered":"offer_lines",
+        "active":"progress_lines",
+        "completed":"completion_lines"
+    }.get(state, "")
+    var result: Array[String] = []
+    var values: Variant = narrative.get(key, [])
+    if values is Array:
+        for value: Variant in values:
+            var line := str(value)
+            if line != "":
+                result.append(line)
+    elif state == "failed":
+        var failure := str(narrative.get("failure_line", ""))
+        if failure != "":
+            result.append(failure)
+    return result
+
+func quest_objective_text(objective: Dictionary) -> String:
+    return str(objective.get("journal_text", objective.get("id", "Objectif")))
 
 func quality_axes() -> Array[Dictionary]:
     var result: Array[Dictionary] = []
