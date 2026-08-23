@@ -138,6 +138,7 @@ func record_event(event_id: String, target_id: String = "", amount: int = 1) -> 
         bounty_progressed.emit(String(contract.get("id", "")))
         if int(contract["progress"]) >= int(contract.get("required", 1)):
             contract["status"] = "completed"
+            ExpeditionReportDirector.record_update("bounty_updates", "Prime accomplie : " + String(contract.get("name", "Contrat")))
             bounty_completed.emit(String(contract.get("id", "")))
     bounty_board_changed.emit()
 
@@ -153,6 +154,7 @@ func claim_contract(contract_id: String) -> Dictionary:
         GameState.essence += int(reward.get("essence", 0))
         completion_streak += 1
         contract["status"] = "claimed"
+        CampaignMemoryDirector.record_decision("bounty_" + contract_id, "Prime réclamée : " + String(contract.get("name", "Contrat")), "Récompense : " + JSON.stringify(reward))
         completed_contracts.append(contract.duplicate(true))
         active_contracts.erase(value)
         bounty_board_changed.emit()
