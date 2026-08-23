@@ -1,7 +1,7 @@
 extends Node
 
 const SAVE_PATH := "user://light_in_the_dark_save.json"
-const SAVE_VERSION := "0.32"
+const SAVE_VERSION := "0.31"
 
 func save_game() -> bool:
     var payload := {
