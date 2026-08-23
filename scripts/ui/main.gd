@@ -725,7 +725,7 @@ func show_combat() -> void:
         var grenade_stack: Dictionary = CombatLoadoutManager.equipped_stack(hero_id, CombatLoadoutManager.GRENADE_SLOT)
         item_row.add_child(make_button("SOIN ×%d" % int(heal_stack.get("quantity", 0)), func(): _use_combat_item(CombatLoadoutManager.HEAL_SLOT), Vector2(190, 42)))
         item_row.add_child(make_button("GRENADE ×%d" % int(grenade_stack.get("quantity", 0)), func(): _use_combat_item(CombatLoadoutManager.GRENADE_SLOT), Vector2(210, 42)))
-    item_row.add_child(make_button("CAPTURER", func(): hero_action("capture"), Vector2(180, 42)))
+    action_panel.add_child(make_button("CAPTURER", func(): hero_action("capture"), Vector2(180, 42)))
 
     var log := VBoxContainer.new()
     log.position = Vector2(20,15)
@@ -761,11 +761,11 @@ func _use_skill_slot(slot: int) -> void:
     var effect: String = str(skill.get("effect", "attack"))
     match effect:
         "heal", "support":
-            hero_action("heal", skill)
+            _hero_action_with_skill("heal", skill)
         "guard":
-            hero_action("guard", skill)
+            _hero_action_with_skill("guard", skill)
         _:
-            hero_action("heavy" if float(skill.get("power", 1.0)) > 1.2 else "strike", skill)
+            _hero_action_with_skill("heavy" if float(skill.get("power", 1.0)) > 1.2 else "strike", skill)
 
 func _use_combat_item(category: String) -> void:
     if battle_locked:
@@ -809,7 +809,10 @@ func _use_combat_item(category: String) -> void:
         return
     enemy_turn()
 
-func hero_action(action: String, skill: Dictionary = {}) -> void:
+func hero_action(action: String) -> void:
+    _hero_action_with_skill(action, {})
+
+func _hero_action_with_skill(action: String, skill: Dictionary) -> void:
     if battle_locked:
         return
     battle_locked = true
