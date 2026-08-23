@@ -67,7 +67,7 @@ func slot_metadata(slot: int) -> Dictionary:
     var payload := _read_payload(_path(_valid_slot(slot)))
     if payload.is_empty():
         payload = _read_payload(_backup_path(_valid_slot(slot)))
-    return payload.get("metadata", {}).duplicate(true)
+    return payload.get("metadata",{}).duplicate(true)
 
 func all_slots_metadata() -> Array[Dictionary]:
     var result: Array[Dictionary] = []
@@ -126,21 +126,21 @@ func _apply_payload(payload: Dictionary) -> void:
     for hero_value: Variant in GameState.party:
         var hero: Dictionary = hero_value
         HeroSkillManager.prepare_hero(hero); EnemyFearDirector.prepare_hero(hero); PersistentInjuryRuntime.prepare_character(hero)
-    EquipmentManager.deserialize(payload.get("equipment", {})); CombatLoadoutManager.deserialize(payload.get("combat_loadouts", {}))
+    EquipmentManager.deserialize(payload.get("equipment",{})); CombatLoadoutManager.deserialize(payload.get("combat_loadouts",{}))
     CreatureManager.deserialize(payload.get("creatures",{})); GameState.expedition_room = int(payload.get("expedition_room",0))
-    PoliticalState.deserialize(payload.get("politics",{})); CampaignState.deserialize(payload.get("campaign", {}))
-    SideQuestRuntime.deserialize(payload.get("side_quests", {})); BountyContractDirector.deserialize(payload.get("bounty_contracts", {}))
-    EnemyFearDirector.deserialize(payload.get("hero_renown", {})); AshlandsRuntime.deserialize(payload.get("ashlands", {}))
-    Chapter01Runtime.deserialize(payload.get("chapter_01", {})); Chapter02Runtime.deserialize(payload.get("chapter_02", {}))
-    Chapter03Runtime.deserialize(payload.get("chapter_03", {})); Chapter04Runtime.deserialize(payload.get("chapter_04", {}))
-    Chapter05Runtime.deserialize(payload.get("chapter_05", {})); Chapter06Runtime.deserialize(payload.get("chapter_06", {}))
-    Chapter07Runtime.deserialize(payload.get("chapter_07", {})); Chapter08Runtime.deserialize(payload.get("chapter_08", {}))
-    Chapter09Runtime.deserialize(payload.get("chapter_09", {})); Chapter10Runtime.deserialize(payload.get("chapter_10", {}))
-    EndgameState.deserialize(payload.get("endgame",{})); DeepVestigeRuntime.deserialize(payload.get("deep_vestiges", {}))
-    ExpeditionManager.deserialize(payload.get("expedition", {})); FieldEncounterRuntime.deserialize(payload.get("field_encounters",{}))
-    CommunityRuntime.deserialize(payload.get("community",{})); AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses", {}))
-    AshlandsCombatBridge.deserialize(payload.get("ashlands_combat", {})); CampaignMemoryDirector.deserialize(payload.get("campaign_memory", {}))
-    ExpeditionReportDirector.deserialize(payload.get("expedition_reports", {})); ExpeditionPreparationDirector.deserialize(payload.get("preparation_presets", {}))
+    PoliticalState.deserialize(payload.get("politics",{})); CampaignState.deserialize(payload.get("campaign",{}))
+    SideQuestRuntime.deserialize(payload.get("side_quests",{})); BountyContractDirector.deserialize(payload.get("bounty_contracts",{}))
+    EnemyFearDirector.deserialize(payload.get("hero_renown",{})); AshlandsRuntime.deserialize(payload.get("ashlands",{}))
+    Chapter01Runtime.deserialize(payload.get("chapter_01",{})); Chapter02Runtime.deserialize(payload.get("chapter_02",{}))
+    Chapter03Runtime.deserialize(payload.get("chapter_03",{})); Chapter04Runtime.deserialize(payload.get("chapter_04",{}))
+    Chapter05Runtime.deserialize(payload.get("chapter_05",{})); Chapter06Runtime.deserialize(payload.get("chapter_06",{}))
+    Chapter07Runtime.deserialize(payload.get("chapter_07",{})); Chapter08Runtime.deserialize(payload.get("chapter_08",{}))
+    Chapter09Runtime.deserialize(payload.get("chapter_09",{})); Chapter10Runtime.deserialize(payload.get("chapter_10",{}))
+    EndgameState.deserialize(payload.get("endgame",{})); DeepVestigeRuntime.deserialize(payload.get("deep_vestiges",{}))
+    ExpeditionManager.deserialize(payload.get("expedition",{})); FieldEncounterRuntime.deserialize(payload.get("field_encounters",{}))
+    CommunityRuntime.deserialize(payload.get("community",{})); AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses",{}))
+    AshlandsCombatBridge.deserialize(payload.get("ashlands_combat",{})); CampaignMemoryDirector.deserialize(payload.get("campaign_memory",{}))
+    ExpeditionReportDirector.deserialize(payload.get("expedition_reports",{})); ExpeditionPreparationDirector.deserialize(payload.get("preparation_presets",{}))
     Chapter01Runtime.refresh_progress(); Chapter02Runtime.refresh_progress(); Chapter03Runtime.refresh_progress(); Chapter04Runtime.refresh_progress()
     Chapter05Runtime.refresh_progress(); Chapter06Runtime.refresh_progress(); Chapter07Runtime.refresh_progress(); Chapter08Runtime.refresh_progress()
     Chapter09Runtime.refresh_progress(); Chapter10Runtime.refresh_progress(); DeepVestigeRuntime.refresh_unlocks()
@@ -150,9 +150,9 @@ func _migrate(payload: Dictionary) -> Dictionary:
     var version := String(payload.get("version", "0.31"))
     if version != SAVE_VERSION:
         return {}
-    payload["campaign_memory"] = payload.get("campaign_memory", {})
-    payload["expedition_reports"] = payload.get("expedition_reports", {})
-    payload["preparation_presets"] = payload.get("preparation_presets", {})
+    payload["campaign_memory"] = payload.get("campaign_memory",{})
+    payload["expedition_reports"] = payload.get("expedition_reports",{})
+    payload["preparation_presets"] = payload.get("preparation_presets",{})
     return payload
 
 func _atomic_write(path: String, text: String) -> bool:
