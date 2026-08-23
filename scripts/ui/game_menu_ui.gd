@@ -7,6 +7,7 @@ const BACK := Color(0.01, 0.012, 0.018, 0.97)
 const PANEL := Color(0.035, 0.038, 0.050, 0.98)
 
 var overlay: Control
+var launcher: Button
 var content: VBoxContainer
 var active_tab := "inventory"
 var selected_hero_id := ""
@@ -17,9 +18,13 @@ func _ready() -> void:
     process_mode = Node.PROCESS_MODE_ALWAYS
     _build()
     GameState.new_game_reset.connect(_on_new_game)
+    GameState.screen_requested.connect(_on_screen_requested)
     EquipmentManager.inventory_changed.connect(func(_items: Array): _refresh_if("inventory"))
     GameState.state_changed.connect(func(): _refresh_if(active_tab))
     GameSettings.settings_changed.connect(func(): _refresh_if("options"))
+
+func _on_screen_requested(screen_name: String) -> void:
+    launcher.visible = screen_name != "title" and not overlay.visible
 
 func _on_new_game() -> void:
     selected_hero_id = String(GameState.party[0].get("id", "")) if not GameState.party.is_empty() else ""
@@ -39,14 +44,20 @@ func open_menu(tab := "") -> void:
     if selected_hero_id == "" and not GameState.party.is_empty():
         selected_hero_id = String(GameState.party[0].get("id", ""))
     overlay.visible = true
+    launcher.visible = false
     get_tree().paused = true
     _render()
 
 func close_menu() -> void:
     overlay.visible = false
+    launcher.visible = GameState.current_screen != "title"
     get_tree().paused = false
 
 func _build() -> void:
+    launcher = _button("MENU", open_menu, Vector2(120, 42))
+    launcher.position = Vector2(1136, 82)
+    launcher.visible = false
+    add_child(launcher)
     overlay = Control.new()
     overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     overlay.visible = false
