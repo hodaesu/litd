@@ -344,7 +344,7 @@ func _party_healer_treatment() -> void:
     if bool(result.get("ok", false)):
         GameState.add_log("Le soigneur traite %d blessure(s) et stabilise %d mutilation(s)." % [int(result.get("treated", 0)), int(result.get("stabilized", 0))])
     else:
-        GameState.add_log("Aucun médecin ou guérisseur apte dans l’équipe.")
+        GameState.add_log("Aucun personnage apte ne possède de capacité de soin.")
 
 func show_company() -> void:
     var bg := full_texture("res://assets/backgrounds/forgotten_city.webp")

@@ -4,7 +4,7 @@ LITD ne propose aucun sélecteur de difficulté. La campagne adapte ses rencontr
 
 Les blessures des héros persistent après le combat, le donjon, le repos et le rechargement d’une sauvegarde. Leurs malus restent actifs jusqu’à un véritable traitement. Une blessure non stabilisée peut passer de légère à grave puis critique lors de nouvelles expéditions.
 
-Un Chirurgien ou une Vestale encore apte peut traiter toutes les blessures de l’équipe sans retour à l’Infirmerie. Sans soigneur, l’Infirmerie reste nécessaire. Une mutilation peut être stabilisée, mais le membre ne repousse pas.
+Tout personnage encore apte possédant une capacité de soin peut traiter toutes les blessures de l’équipe sans retour à l’Infirmerie, indépendamment de sa classe. Cela inclut les héros et les créatures capturées ayant débloqué un véritable soin. Sans capacité de soin disponible, l’Infirmerie reste nécessaire. Une mutilation peut être stabilisée, mais le membre ne repousse pas.
 
 Aucun personnage ne devient définitivement aveugle. Les atteintes visuelles éventuelles restent temporaires et ne créent ni état de cécité permanente ni trait associé.
 

@@ -22,13 +22,19 @@ def test_injuries_persist_until_real_treatment():
     assert rules["can_worsen_when_untreated"] is True
     assert INJURIES["treatment"]["field_stabilization_removes_debuff"] is False
 
-def test_healer_treats_every_injury_without_infirmary():
-    assert RULES["persistent_injuries"]["healer_can_treat_every_injury_in_party"] is True
-    assert set(RULES["medical_roles"]) == {"surgeon", "vestal"}
+def test_any_character_with_healing_capability_treats_every_injury():
+    rules = RULES["persistent_injuries"]
+    assert rules["healer_can_treat_every_injury_in_party"] is True
+    assert rules["healing_eligibility"] == "any_living_character_with_healing_capability"
+    assert rules["creatures_with_healing_capability_can_treat"] is True
     runtime = (ROOT / "scripts" / "core" / "persistent_injury_runtime.gd").read_text(encoding="utf-8")
-    assert "func has_party_healer" in runtime
+    assert "func has_healing_capability" in runtime
+    assert "HeroSkillManager.known_combat_skills" in runtime
+    assert "CreatureManager.skill_nodes" in runtime
+    assert 'String(skill.get("effect", "")) == "heal"' in runtime
+    assert 'String(node.get("stat", "")) in ["healing_power", "party_heal"]' in runtime
+    assert "MEDICAL_CLASSES" not in runtime
     assert "func treat_all_party_injuries" in runtime
-    assert "healer_or_infirmary_required" in runtime
     assert "func treat_all_at_infirmary" in runtime
 
 def test_no_permanent_blindness_system():
