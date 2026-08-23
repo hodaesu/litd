@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "id": "predator_lunge",
+      "name": "Bond du prédateur",
+      "archetypes": [
+        "beast",
+        "spider"
+      ],
+      "weight": 4,
+      "power": 1.25,
+      "target": "weakest",
+      "status": "bleeding",
+      "status_chance": 30,
+      "requires": {
+        "fear_max": 69
+      }
+    },
+    {
+      "id": "web_snare",
+      "name": "Entrave de toile",
+      "archetypes": [
+        "spider"
+      ],
+      "weight": 3,
+      "power": 0.75,
+      "target": "fastest",
+      "status": "snared",
+      "status_chance": 70
+    },
+    {
+      "id": "desperate_flail",
+      "name": "Ruade désespérée",
+      "archetypes": [
+        "any"
+      ],
+      "weight": 6,
+      "power": 0.85,
+      "target": "nearest",
+      "status": "none",
+      "status_chance": 0,
+      "requires": {
+        "fear_min": 50
+      }
+    },
+    {
+      "id": "fanatic_guard",
+      "name": "Serment brisé",
+      "archetypes": [
+        "humanoid",
+        "undead"
+      ],
+      "weight": 3,
+      "power": 0.65,
+      "target": "highest_hope",
+      "self_status": "guarding",
+      "requires": {
+        "hp_percent_max": 45
+      }
+    },
+    {
+      "id": "veil_scream",
+      "name": "Cri du Voile",
+      "archetypes": [
+        "veil",
+        "boss"
+      ],
+      "weight": 3,
+      "power": 0.55,
+      "target": "all",
+      "fear_damage": 8,
+      "status": "despair",
+      "status_chance": 25
+    },
+    {
+      "id": "bone_cleave",
+      "name": "Fauchage d’os",
+      "archetypes": [
+        "humanoid",
+        "undead",
+        "boss"
+      ],
+      "weight": 5,
+      "power": 1.35,
+      "target": "guarding",
+      "status": "broken",
+      "status_chance": 25
+    },
+    {
+      "id": "ash_spit",
+      "name": "Crachat de cendre",
+      "archetypes": [
+        "beast",
+        "veil"
+      ],
+      "weight": 3,
+      "power": 0.8,
+      "target": "highest_precision",
+      "status": "accuracy_down",
+      "status_chance": 55
+    },
+    {
+      "id": "basic_attack",
+      "name": "Attaque",
+      "archetypes": [
+        "any"
+      ],
+      "weight": 8,
+      "power": 1,
+      "target": "random",
+      "status": "none",
+      "status_chance": 0
+    }
+  ],
+  "archetype_rules": [
+    {
+      "contains": [
+        "jorōgumo",
+        "araignée",
+        "spider"
+      ],
+      "archetype": "spider"
+    },
+    {
+      "contains": [
+        "goule",
+        "mort",
+        "chevalier déchu"
+      ],
+      "archetype": "undead"
+    },
+    {
+      "contains": [
+        "cultiste",
+        "oni",
+        "tengu",
+        "minotaure",
+        "écorcheur"
+      ],
+      "archetype": "humanoid"
+    },
+    {
+      "contains": [
+        "ver",
+        "gorgone",
+        "hound",
+        "bête"
+      ],
+      "archetype": "beast"
+    },
+    {
+      "contains": [
+        "ange",
+        "témoin",
+        "voile"
+      ],
+      "archetype": "veil"
+    }
+  ]
+}
