@@ -17,6 +17,7 @@ func _ready() -> void:
     PoliticalState.politics_changed.connect(_on_state_changed)
     CampaignState.campaign_changed.connect(_on_state_changed)
     BountyContractDirector.bounty_board_changed.connect(_on_state_changed)
+    SideQuestRuntime.quests_changed.connect(_on_state_changed)
     Chapter01Runtime.chapter_one_changed.connect(_on_state_changed); Chapter01Runtime.boss_choice_required.connect(_open_journal)
     Chapter02Runtime.chapter_two_changed.connect(_on_state_changed); Chapter02Runtime.final_choice_required.connect(_open_journal)
     Chapter03Runtime.chapter_three_changed.connect(_on_state_changed); Chapter03Runtime.echo_choice_required.connect(_open_journal)
