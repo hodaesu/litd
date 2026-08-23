@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "difficulty": {
+    "mode_count": 1,
+    "id": "litd",
+    "name": "Light in the Dark",
+    "player_selectable": false,
+    "story_scales_to_company_level": true,
+    "farming_required_for_story": false
+  },
+  "vision": {
+    "permanent_blindness": false,
+    "eye_injuries_are_temporary": true
+  },
+  "persistent_injuries": {
+    "persist_after_combat": true,
+    "persist_after_dungeon": true,
+    "persist_after_sleep": true,
+    "removed_only_by_treatment": true,
+    "can_worsen_when_untreated": true,
+    "infirmary_required_without_healer": true,
+    "healer_can_treat_every_injury_in_party": true
+  },
+  "medical_roles": [
+    "surgeon",
+    "vestal"
+  ],
+  "two_handed_rule": {
+    "requires_two_functional_arms": true,
+    "ambidextrous_does_not_bypass": true
+  }
+}
