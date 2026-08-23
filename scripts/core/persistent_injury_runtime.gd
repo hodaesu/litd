@@ -55,10 +55,11 @@ func active_debuffs(character: Dictionary, equipment_context: Dictionary = {}) -
     for value: Variant in character.get("persistent_injuries", []):
         var injury: Dictionary = value
         var injury_definition := definition(String(injury.get("id", "")))
-        var debuffs: Dictionary = injury_definition.get("debuffs", {})
+        var raw_debuffs: Dictionary = injury_definition.get("debuffs", {})
+        var debuffs := CharacterTraitDirector.adapt_single_injury_debuffs(character, String(injury.get("id", "")), raw_debuffs, equipment_context)
         for key: Variant in debuffs.keys():
             result[String(key)] = float(result.get(String(key), 0.0)) + float(debuffs[key])
-    return CharacterTraitDirector.adapt_injury_debuffs(character, result, equipment_context)
+    return result
 
 func has_party_healer(party: Array) -> bool:
     for value: Variant in party:
