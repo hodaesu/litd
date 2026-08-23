@@ -74,6 +74,8 @@ func refuse(quest_id: String) -> bool:
     if status(quest_id) != "offered":
         return false
     states[quest_id]["state"] = "refused"
+    CampaignMemoryDirector.record_decision("refuse_" + quest_id, "Quête refusée : " + String(quest(quest_id).get("name", quest_id)), "La demande reste sans réponse.", quest_id)
+    ExpeditionReportDirector.record_update("quest_updates", "Quête refusée : " + String(quest(quest_id).get("name", quest_id)))
     GameState.add_log("Quête refusée : %s." % String(quest(quest_id).get("name", quest_id)))
     quest_state_changed.emit(quest_id, "refused")
     quests_changed.emit()
@@ -83,6 +85,8 @@ func fail(quest_id: String) -> bool:
     if status(quest_id) != "active":
         return false
     states[quest_id]["state"] = "failed"
+    CampaignMemoryDirector.record_decision("fail_" + quest_id, "Quête échouée : " + String(quest(quest_id).get("name", quest_id)), "L’échec devient une conséquence persistante.", quest_id)
+    ExpeditionReportDirector.record_update("quest_updates", "Quête échouée : " + String(quest(quest_id).get("name", quest_id)))
     if tracked_quest_id == quest_id:
         tracked_quest_id = ""
     quest_state_changed.emit(quest_id, "failed")
@@ -171,6 +175,7 @@ func _complete(quest_id: String) -> void:
     if not bool(states[quest_id].get("reward_claimed", false)):
         _apply_reward(quest(quest_id).get("reward", {}), bool(states[quest_id].get("optional_success", true)))
         states[quest_id]["reward_claimed"] = true
+    ExpeditionReportDirector.record_update("quest_updates", "Quête accomplie : " + String(quest(quest_id).get("name", quest_id)))
     GameState.add_log("Quête accomplie : %s." % String(quest(quest_id).get("name", quest_id)))
     quest_state_changed.emit(quest_id, "completed")
     if tracked_quest_id == quest_id:
@@ -210,10 +215,14 @@ func _apply_choice(quest_definition: Dictionary, choice_id: String) -> void:
             else:
                 CampaignState.add_metric(key, amount)
         CampaignState.set_chapter_flag("%s_%s" % [String(quest_definition.get("id", "quest")), choice_id])
+        CampaignMemoryDirector.record_decision(choice_id, String(choice.get("label", choice_id)), "Effets : " + JSON.stringify(effect), String(quest_definition.get("id", "")))
+        ExpeditionReportDirector.record_update("quest_updates", "Décision : " + String(choice.get("label", choice_id)))
         return
 
 func _apply_sanctuary_consequence(quest_id: String) -> void:
     CampaignState.set_chapter_flag("%s_completed" % quest_id)
+    CampaignMemoryDirector.record_sanctuary_change(quest_id, "Conséquence visible de la quête : " + String(quest(quest_id).get("name", quest_id)))
+    ExpeditionReportDirector.record_update("sanctuary_consequences", String(quest(quest_id).get("name", quest_id)))
     match quest_id:
         "c01_side_buried_bell":
             CampaignState.set_chapter_flag("sanctuary_bell_or_road_warning_active")
