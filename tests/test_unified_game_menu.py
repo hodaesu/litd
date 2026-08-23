@@ -45,3 +45,26 @@ def test_options_are_applied_and_saved():
     assert "AudioServer.set_bus_volume_db" in SETTINGS
     assert "DisplayServer.window_set_mode" in SETTINGS
     assert "save_settings()" in SETTINGS
+
+
+def test_character_sheet_is_expandable_and_has_preparation_panels():
+    for panel in ["STATS ET ÉTATS", "ÉQUIPEMENT", "SOINS ET GRENADES", "COMPÉTENCES"]:
+        assert panel in MENU
+    for renderer in ["_render_hero_stats", "_render_hero_equipment", "_render_hero_combat_items", "_render_hero_skills"]:
+        assert f"func {renderer}" in MENU
+    assert "EquipmentManager.equipped_by_hero" in MENU
+    assert "EquipmentManager.bonuses_for_hero" in MENU
+    assert 'hero.get("buffs", [])' in MENU
+    assert 'hero.get("debuffs", [])' in MENU
+
+def test_healing_and_grenade_loadouts_are_real_and_persistent():
+    loadouts = (ROOT / "scripts" / "core" / "combat_loadout_manager.gd").read_text(encoding="utf-8")
+    save = (ROOT / "scripts" / "core" / "save_manager.gd").read_text(encoding="utf-8")
+    state = (ROOT / "scripts" / "core" / "game_state.gd").read_text(encoding="utf-8")
+    assert 'CombatLoadoutManager="*res://scripts/core/combat_loadout_manager.gd"' in PROJECT
+    assert 'const HEAL_SLOT := "healing"' in loadouts
+    assert 'const GRENADE_SLOT := "grenade"' in loadouts
+    assert '"combat_loadouts": CombatLoadoutManager.serialize()' in save
+    assert 'CombatLoadoutManager.deserialize(payload.get("combat_loadouts",{}))' in save
+    assert "CombatLoadoutManager.reset_new_game()" in state
+    assert "CombatLoadoutManager.equip" in MENU

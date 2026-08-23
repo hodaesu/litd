@@ -12,6 +12,7 @@ var content: VBoxContainer
 var active_tab := "inventory"
 var selected_hero_id := ""
 var selected_skill_slot := 0
+var character_panel := "stats"
 
 func _ready() -> void:
     layer = 80
@@ -19,7 +20,8 @@ func _ready() -> void:
     _build()
     GameState.new_game_reset.connect(_on_new_game)
     GameState.screen_requested.connect(_on_screen_requested)
-    EquipmentManager.inventory_changed.connect(func(_items: Array): _refresh_if("inventory"))
+    EquipmentManager.inventory_changed.connect(func(_items: Array): _refresh_if(active_tab))
+    CombatLoadoutManager.loadout_changed.connect(func(_hero_id: String): _refresh_if("characters"))
     GameState.state_changed.connect(func(): _refresh_if(active_tab))
     GameSettings.settings_changed.connect(func(): _refresh_if("options"))
 
@@ -175,23 +177,108 @@ func _render_journal() -> void:
         content.add_child(_label("• %s — %d/%d" % [String(contract.get("name", "Contrat")), int(contract.get("progress", 0)), int(contract.get("required", 1))], 14, TEXT))
 
 func _render_characters() -> void:
+    content.add_child(_label("Sélectionne un héros pour déployer sa fiche de préparation.", 14, MUTED))
     content.add_child(_hero_selector())
     var hero := _selected_hero()
     if hero.is_empty():
         content.add_child(_label("Aucun personnage sélectionné.", 16, MUTED))
         return
     var class_definition := DataLoader.find_by_id(DataLoader.classes, String(hero.get("class_id", "")))
-    content.add_child(_label("%s · %s · niveau %d" % [String(hero.get("name", "Héros")), String(class_definition.get("name", "")), int(hero.get("level", 1))], 19, TEXT))
-    content.add_child(_label("PV %d/%d · Peur %d · Folie %d · Espoir %d" % [int(hero.get("hp", 0)), int(hero.get("max_hp", 0)), int(hero.get("fear", 0)), int(hero.get("madness", 0)), int(hero.get("hope", 0))], 14, MUTED))
+    content.add_child(_label("▼ %s · %s · niveau %d" % [String(hero.get("name", "Héros")), String(class_definition.get("name", "")), int(hero.get("level", 1))], 19, TEXT))
+    var navigation := HBoxContainer.new()
+    navigation.add_child(_button(("▶ " if character_panel == "stats" else "") + "STATS ET ÉTATS", func(): character_panel = "stats"; _render(), Vector2(280, 42)))
+    navigation.add_child(_button(("▶ " if character_panel == "equipment" else "") + "ÉQUIPEMENT", func(): character_panel = "equipment"; _render(), Vector2(250, 42)))
+    navigation.add_child(_button(("▶ " if character_panel == "items" else "") + "SOINS ET GRENADES", func(): character_panel = "items"; _render(), Vector2(300, 42)))
+    navigation.add_child(_button(("▶ " if character_panel == "skills" else "") + "COMPÉTENCES", func(): character_panel = "skills"; _render(), Vector2(260, 42)))
+    content.add_child(navigation)
+    match character_panel:
+        "equipment": _render_hero_equipment(hero)
+        "items": _render_hero_combat_items(hero)
+        "skills": _render_hero_skills(hero)
+        _: _render_hero_stats(hero)
+
+func _render_hero_stats(hero: Dictionary) -> void:
+    var hero_id := String(hero.get("id", ""))
+    var equipment_bonuses := EquipmentManager.bonuses_for_hero(hero_id)
+    content.add_child(_label("STATISTIQUES", 18, GOLD))
+    content.add_child(_label("PV %d/%d · Peur %d · Folie %d · Espoir %d" % [int(hero.get("hp", 0)), int(hero.get("max_hp", 0)), int(hero.get("fear", 0)), int(hero.get("madness", 0)), int(hero.get("hope", 0))], 15, TEXT))
+    var stat_parts: Array[String] = []
+    for entry: Array in [["damage","DGT"],["precision","PRÉ"],["critical_chance","CRIT"],["dodge","ESQUIVE"],["physical_resistance","PROT"],["speed","VIT"]]:
+        var key := String(entry[0])
+        stat_parts.append("%s %d" % [String(entry[1]), int(hero.get(key, 0)) + int(equipment_bonuses.get(key, equipment_bonuses.get(key + "_bonus", 0)))])
+    content.add_child(_label(" · ".join(stat_parts), 14, MUTED))
     var trait_names := CharacterTraitDirector.trait_names(hero)
-    content.add_child(_label("Traits + %s · − %s" % [", ".join(trait_names.get("positive", [])), ", ".join(trait_names.get("negative", []))], 13, MUTED))
+    var buffs: Array[String] = []
+    for value: Variant in trait_names.get("positive", []):
+        buffs.append(String(value))
+    for value: Variant in hero.get("buffs", []):
+        buffs.append(_effect_name(value))
+    var debuffs: Array[String] = []
+    for value: Variant in trait_names.get("negative", []):
+        debuffs.append(String(value))
+    for value: Variant in hero.get("debuffs", []):
+        debuffs.append(_effect_name(value))
+    content.add_child(_label("BUFFS", 17, GOLD))
+    content.add_child(_label("• " + "\n• ".join(buffs) if not buffs.is_empty() else "Aucun bonus actif.", 14, TEXT if not buffs.is_empty() else MUTED))
+    content.add_child(_label("DEBUFFS ET BLESSURES", 17, GOLD))
+    content.add_child(_label("• " + "\n• ".join(debuffs) if not debuffs.is_empty() else "Aucun malus temporaire.", 14, TEXT if not debuffs.is_empty() else MUTED))
     var injuries: Array = hero.get("persistent_injuries", [])
-    if not injuries.is_empty():
-        content.add_child(_label("BLESSURES", 17, GOLD))
-        for injury_value: Variant in injuries:
-            var injury: Dictionary = injury_value
-            var injury_definition := PersistentInjuryRuntime.definition(String(injury.get("id", "")))
-            content.add_child(_label("• %s — %s" % [String(injury_definition.get("name", injury.get("id", ""))), String(injury.get("severity", ""))], 14, TEXT))
+    for injury_value: Variant in injuries:
+        var injury: Dictionary = injury_value
+        var definition := PersistentInjuryRuntime.definition(String(injury.get("id", "")))
+        content.add_child(_label("• %s — %s" % [String(definition.get("name", injury.get("id", ""))), String(injury.get("severity", ""))], 14, TEXT))
+
+func _render_hero_equipment(hero: Dictionary) -> void:
+    var hero_id := String(hero.get("id", ""))
+    var equipped: Dictionary = EquipmentManager.equipped_by_hero.get(hero_id, {})
+    content.add_child(_label("ÉQUIPEMENT PORTÉ", 18, GOLD))
+    for entry: Array in [["weapon","ARME"],["armor","ARMURE"],["ring_1","ANNEAU 1"],["ring_2","ANNEAU 2"],["necklace","COLLIER"]]:
+        var slot_id := String(entry[0])
+        var item := EquipmentManager.get_instance(String(equipped.get(slot_id, "")))
+        content.add_child(_label("%s · %s" % [String(entry[1]), EquipmentManager.describe_item(item, int(hero.get("level", 1))) if not item.is_empty() else "Vide"], 14, TEXT))
+    content.add_child(_label("ÉQUIPEMENT COMPATIBLE DISPONIBLE", 17, GOLD))
+    var found := false
+    for value: Variant in EquipmentManager.items:
+        var item: Dictionary = value
+        var item_class := String(item.get("class_id", ""))
+        if item_class != "" and item_class != String(hero.get("class_id", "")):
+            continue
+        found = true
+        var row := HBoxContainer.new()
+        var description := _label(EquipmentManager.describe_item(item, int(hero.get("level", 1))), 13, MUTED)
+        description.custom_minimum_size = Vector2(880, 42)
+        row.add_child(description)
+        row.add_child(_button("ÉQUIPER", func(instance_id = String(item.get("instance_id", ""))): _equip_item(instance_id), Vector2(190, 40)))
+        content.add_child(row)
+    if not found:
+        content.add_child(_label("Aucun équipement compatible dans l’inventaire.", 14, MUTED))
+
+func _render_hero_combat_items(hero: Dictionary) -> void:
+    var hero_id := String(hero.get("id", ""))
+    content.add_child(_label("EMPLACEMENTS RAPIDES", 18, GOLD))
+    for category in [CombatLoadoutManager.HEAL_SLOT, CombatLoadoutManager.GRENADE_SLOT]:
+        var equipped := CombatLoadoutManager.equipped(hero_id, category)
+        var title := "SOIN" if category == CombatLoadoutManager.HEAL_SLOT else "GRENADE"
+        content.add_child(_label("%s · %s" % [title, String(equipped.get("name", "Vide"))], 15, TEXT))
+        for item: Dictionary in CombatLoadoutManager.definitions_for(category):
+            var item_id := String(item.get("id", ""))
+            var count := int(CombatLoadoutManager.inventory.get(item_id, 0))
+            var row := HBoxContainer.new()
+            var description := _label("%s ×%d — %s" % [String(item.get("name", "Objet")), count, String(item.get("description", ""))], 14, MUTED)
+            description.custom_minimum_size = Vector2(880, 44)
+            row.add_child(description)
+            var button := _button("ÉQUIPER", func(id = item_id): _equip_combat_item(id), Vector2(190, 40))
+            button.disabled = count <= 0
+            row.add_child(button)
+            content.add_child(row)
+
+func _equip_combat_item(item_id: String) -> void:
+    var hero := _selected_hero()
+    if CombatLoadoutManager.equip(String(hero.get("id", "")), item_id):
+        GameState.add_log("%s prépare un nouvel objet de combat." % String(hero.get("name", "Le héros")))
+    _render()
+
+func _render_hero_skills(hero: Dictionary) -> void:
     content.add_child(_label("COMPÉTENCES ÉQUIPÉES — sélectionne un emplacement", 18, GOLD))
     var slots := HBoxContainer.new()
     var loadout := HeroSkillManager.combat_loadout(hero)
@@ -209,6 +296,11 @@ func _render_characters() -> void:
         row.add_child(description)
         row.add_child(_button("PLACER EN %d" % (selected_skill_slot + 1), func(skill_id = String(skill.get("id", ""))): _equip_skill(skill_id), Vector2(230, 40)))
         content.add_child(row)
+
+func _effect_name(value: Variant) -> String:
+    if value is Dictionary:
+        return String(value.get("name", value.get("id", "Effet")))
+    return String(value)
 
 func _equip_skill(skill_id: String) -> void:
     var hero := _selected_hero()
