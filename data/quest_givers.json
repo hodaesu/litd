@@ -9,7 +9,29 @@
       "personality": "Directe, protectrice et peu impressionnée par les titres.",
       "history": "Ancienne arbitre des tournois de passage, elle entretient seule les cartes des voies encore praticables.",
       "voice": "Grave, mesurée, avec de longues pauses avant les décisions.",
-      "quests": ["c01_main_road"]
+      "quests": [
+        "c01_main_road"
+      ],
+      "body_profile": {
+        "posture": "ancrée et frontale",
+        "stance_height": 1,
+        "lean": -0.01,
+        "gesture": "désigne les routes du plat de la main",
+        "tempo": 0.82,
+        "stillness": 0.85,
+        "orientation": "directe",
+        "distance": "formelle",
+        "asymmetry": "poids sur la jambe arrière, main proche de la carte"
+      },
+      "staging": {
+        "idle": "respiration discrète et micro-geste propre au métier",
+        "offered": "se tourne vers le joueur et présente l’objet ou le document central",
+        "active": "garde sa tâche en cours tout en demandant un progrès précis",
+        "completed": "relâche brièvement la tension sans perdre sa signature corporelle",
+        "failed": "réduit les gestes et laisse le silence porter la conséquence",
+        "camera": "plan taille, léger trois-quarts respectant son orientation",
+        "blender_status": "proxy_godot"
+      }
     },
     {
       "id": "ilyan_orme",
@@ -20,7 +42,29 @@
       "personality": "Patient, superstitieux et attentif aux vibrations plus qu’aux paroles.",
       "history": "Il fabriquait les cloches civiques qui annonçaient les assemblées, les tournois et les dangers sans distinction.",
       "voice": "Douce, presque murmurée ; il touche souvent le bois ou la pierre pour en sentir la réponse.",
-      "quests": ["c01_side_buried_bell"]
+      "quests": [
+        "c01_side_buried_bell"
+      ],
+      "body_profile": {
+        "posture": "inclinée vers les vibrations",
+        "stance_height": 0.96,
+        "lean": 0.035,
+        "gesture": "pose les doigts sur le bois avant de répondre",
+        "tempo": 0.68,
+        "stillness": 0.92,
+        "orientation": "oblique",
+        "distance": "proche",
+        "asymmetry": "épaule gauche abaissée, tête tournée vers la source du son"
+      },
+      "staging": {
+        "idle": "respiration discrète et micro-geste propre au métier",
+        "offered": "se tourne vers le joueur et présente l’objet ou le document central",
+        "active": "garde sa tâche en cours tout en demandant un progrès précis",
+        "completed": "relâche brièvement la tension sans perdre sa signature corporelle",
+        "failed": "réduit les gestes et laisse le silence porter la conséquence",
+        "camera": "plan taille, léger trois-quarts respectant son orientation",
+        "blender_status": "proxy_godot"
+      }
     },
     {
       "id": "naima_sol",
@@ -31,7 +75,29 @@
       "personality": "Chaleureuse, inflexible sur la dignité des morts.",
       "history": "Elle reconstitue les registres détruits et refuse que les survivants soient réduits à des nombres.",
       "voice": "Claire et calme, avec une émotion contenue lorsqu’elle prononce un nom retrouvé.",
-      "quests": ["c01_side_names_in_ash"]
+      "quests": [
+        "c01_side_names_in_ash"
+      ],
+      "body_profile": {
+        "posture": "droite et accueillante",
+        "stance_height": 1.03,
+        "lean": -0.015,
+        "gesture": "ouvre les paumes lorsqu’elle prononce un nom",
+        "tempo": 0.76,
+        "stillness": 0.78,
+        "orientation": "directe",
+        "distance": "respectueuse",
+        "asymmetry": "une main reste près du registre du Mémorial"
+      },
+      "staging": {
+        "idle": "respiration discrète et micro-geste propre au métier",
+        "offered": "se tourne vers le joueur et présente l’objet ou le document central",
+        "active": "garde sa tâche en cours tout en demandant un progrès précis",
+        "completed": "relâche brièvement la tension sans perdre sa signature corporelle",
+        "failed": "réduit les gestes et laisse le silence porter la conséquence",
+        "camera": "plan taille, léger trois-quarts respectant son orientation",
+        "blender_status": "proxy_godot"
+      }
     },
     {
       "id": "tarek_vann",
@@ -42,7 +108,29 @@
       "personality": "Pragmatique, compatissant et sévère envers les pillards.",
       "history": "Il a survécu en soignant indistinctement citoyens, soldats étrangers et créatures capturées.",
       "voice": "Rapide et précise ; son ton devient froid dès que la dignité d’un blessé est menacée.",
-      "quests": ["c01_side_last_medic"]
+      "quests": [
+        "c01_side_last_medic"
+      ],
+      "body_profile": {
+        "posture": "penchée vers la tâche",
+        "stance_height": 0.98,
+        "lean": -0.035,
+        "gesture": "compte, vérifie et range pendant qu’il parle",
+        "tempo": 1.18,
+        "stillness": 0.35,
+        "orientation": "alternée",
+        "distance": "fonctionnelle",
+        "asymmetry": "manche retroussée d’un côté, sacoche portée bas"
+      },
+      "staging": {
+        "idle": "respiration discrète et micro-geste propre au métier",
+        "offered": "se tourne vers le joueur et présente l’objet ou le document central",
+        "active": "garde sa tâche en cours tout en demandant un progrès précis",
+        "completed": "relâche brièvement la tension sans perdre sa signature corporelle",
+        "failed": "réduit les gestes et laisse le silence porter la conséquence",
+        "camera": "plan taille, léger trois-quarts respectant son orientation",
+        "blender_status": "proxy_godot"
+      }
     },
     {
       "id": "eno_kesh",
@@ -53,7 +141,29 @@
       "personality": "Curieux, prudent et hostile aux certitudes faciles.",
       "history": "Ancien peintre animalier, il étudie désormais comment la Peur transforme les êtres du Voile.",
       "voice": "Basse et enthousiaste, puis soudain silencieuse lorsqu’il observe un comportement nouveau.",
-      "quests": ["c01_side_quiet_creature"]
+      "quests": [
+        "c01_side_quiet_creature"
+      ],
+      "body_profile": {
+        "posture": "basse et observatrice",
+        "stance_height": 0.9,
+        "lean": 0.045,
+        "gesture": "imite brièvement le mouvement qu’il décrit",
+        "tempo": 0.92,
+        "stillness": 0.52,
+        "orientation": "latérale",
+        "distance": "prudente",
+        "asymmetry": "buste tourné vers l’enclos, regard revenant au joueur"
+      },
+      "staging": {
+        "idle": "respiration discrète et micro-geste propre au métier",
+        "offered": "se tourne vers le joueur et présente l’objet ou le document central",
+        "active": "garde sa tâche en cours tout en demandant un progrès précis",
+        "completed": "relâche brièvement la tension sans perdre sa signature corporelle",
+        "failed": "réduit les gestes et laisse le silence porter la conséquence",
+        "camera": "plan taille, léger trois-quarts respectant son orientation",
+        "blender_status": "proxy_godot"
+      }
     },
     {
       "id": "meira_sen",
@@ -64,7 +174,29 @@
       "personality": "Ironique, méthodique et incapable d’accepter une version trop parfaite.",
       "history": "Elle compare les archives officielles, les souvenirs populaires et les échos du Voile pour repérer les mensonges collectifs.",
       "voice": "Précise, vive, avec un humour sec lorsqu’une preuve contredit l’autorité.",
-      "quests": ["c01_side_three_testimonies"]
+      "quests": [
+        "c01_side_three_testimonies"
+      ],
+      "body_profile": {
+        "posture": "angulaire et interrogative",
+        "stance_height": 1.01,
+        "lean": 0.025,
+        "gesture": "superpose des documents et souligne leurs écarts",
+        "tempo": 1.12,
+        "stillness": 0.28,
+        "orientation": "oblique",
+        "distance": "intellectuelle",
+        "asymmetry": "menton décalé, coude toujours appuyé sur une archive"
+      },
+      "staging": {
+        "idle": "respiration discrète et micro-geste propre au métier",
+        "offered": "se tourne vers le joueur et présente l’objet ou le document central",
+        "active": "garde sa tâche en cours tout en demandant un progrès précis",
+        "completed": "relâche brièvement la tension sans perdre sa signature corporelle",
+        "failed": "réduit les gestes et laisse le silence porter la conséquence",
+        "camera": "plan taille, léger trois-quarts respectant son orientation",
+        "blender_status": "proxy_godot"
+      }
     },
     {
       "id": "vara_kesh",
@@ -75,7 +207,29 @@
       "personality": "Exigeante, équitable et méfiante envers les récits héroïques invérifiables.",
       "history": "Elle transforme les besoins des communautés en contrats de chasse et tient le registre des faits d’armes confirmés.",
       "voice": "Brève et ferme ; chaque contrat est énoncé comme un engagement réciproque.",
-      "quests": ["bounty_contracts"]
+      "quests": [
+        "bounty_contracts"
+      ],
+      "body_profile": {
+        "posture": "large et immobile",
+        "stance_height": 1.02,
+        "lean": -0.02,
+        "gesture": "fait glisser le contrat sans emphase",
+        "tempo": 0.74,
+        "stillness": 0.95,
+        "orientation": "directe",
+        "distance": "contractuelle",
+        "asymmetry": "une main sur le registre, l’autre libre pour sceller"
+      },
+      "staging": {
+        "idle": "respiration discrète et micro-geste propre au métier",
+        "offered": "se tourne vers le joueur et présente l’objet ou le document central",
+        "active": "garde sa tâche en cours tout en demandant un progrès précis",
+        "completed": "relâche brièvement la tension sans perdre sa signature corporelle",
+        "failed": "réduit les gestes et laisse le silence porter la conséquence",
+        "camera": "plan taille, léger trois-quarts respectant son orientation",
+        "blender_status": "proxy_godot"
+      }
     }
   ]
 }
