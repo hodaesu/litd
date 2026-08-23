@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "quest_givers": [
+    {
+      "id": "sorya_hen",
+      "role": "cartographer",
+      "silhouette": "upright, stitched map coat",
+      "props": [
+        "map_roll",
+        "red_thread",
+        "charcoal"
+      ],
+      "postures": {
+        "offered": "map extended, guarded hope",
+        "active": "finger traces route",
+        "completed": "shoulders release",
+        "failed": "writes a new name"
+      },
+      "expressions": [
+        "measure",
+        "concern",
+        "relief",
+        "contained_grief"
+      ]
+    },
+    {
+      "id": "ilyan_orme",
+      "role": "bell keeper",
+      "silhouette": "broad apron, vibration-sensitive hands",
+      "props": [
+        "bronze_fragment",
+        "wooden_mallet"
+      ],
+      "postures": {
+        "offered": "palm on timber",
+        "active": "listening side-on",
+        "completed": "open hands",
+        "failed": "hand remains on table"
+      },
+      "expressions": [
+        "listen",
+        "doubt",
+        "recognition",
+        "silence"
+      ]
+    },
+    {
+      "id": "naima_sol",
+      "role": "memorial keeper",
+      "silhouette": "layered tablets and ink cords",
+      "props": [
+        "nameplates",
+        "ink_brush",
+        "ledger"
+      ],
+      "postures": {
+        "offered": "holds empty tablet",
+        "active": "counts recovered names",
+        "completed": "places tablet upright",
+        "failed": "covers unfinished line"
+      },
+      "expressions": [
+        "attention",
+        "resolve",
+        "gratitude",
+        "mourning"
+      ]
+    },
+    {
+      "id": "tarek_voss",
+      "role": "scavenger mediator",
+      "silhouette": "asymmetrical salvage harness",
+      "props": [
+        "broken_mask",
+        "trade_tokens"
+      ],
+      "postures": {
+        "offered": "weight back, palms visible",
+        "active": "watches exits",
+        "completed": "offers token",
+        "failed": "turns mask inward"
+      },
+      "expressions": [
+        "mistrust",
+        "calculation",
+        "respect",
+        "bitterness"
+      ]
+    },
+    {
+      "id": "eliane_roche",
+      "role": "field healer",
+      "silhouette": "medical satchels, rolled sleeves",
+      "props": [
+        "bandage_roll",
+        "bone_needle",
+        "lamp"
+      ],
+      "postures": {
+        "offered": "kneels near patient",
+        "active": "checks supplies",
+        "completed": "stands slowly",
+        "failed": "cleans unused tools"
+      },
+      "expressions": [
+        "clinical_focus",
+        "urgency",
+        "relief",
+        "fatigue"
+      ]
+    }
+  ],
+  "shared_clips": [
+    "idle_context",
+    "offer",
+    "accept_response",
+    "refuse_response",
+    "progress_1",
+    "progress_2",
+    "complete",
+    "failure",
+    "point_route",
+    "give_reward"
+  ],
+  "interaction_rules": {
+    "pause_game": false,
+    "camera": "soft framing only",
+    "cinders": "may point to giver only on explicit player request",
+    "variation": "gesture timing and weight shift derive from saved personality seed"
+  }
+}
