@@ -22,6 +22,7 @@ func _ready() -> void:
     GameState.screen_requested.connect(_on_screen_requested)
     EquipmentManager.inventory_changed.connect(func(_items: Array): _refresh_if(active_tab))
     CombatLoadoutManager.loadout_changed.connect(func(_hero_id: String): _refresh_if("characters"))
+    SideQuestRuntime.quests_changed.connect(func(): _refresh_if("journal"))
     GameState.state_changed.connect(func(): _refresh_if(active_tab))
     GameSettings.settings_changed.connect(func(): _refresh_if("options"))
 
