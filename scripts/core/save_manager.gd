@@ -4,7 +4,7 @@ signal save_started(slot: int)
 signal save_finished(slot: int, success: bool, recovered: bool)
 
 const SAVE_PATH := "user://light_in_the_dark_save.json"
-const SAVE_VERSION := "0.32"
+const SAVE_VERSION := "0.31"
 const SLOT_COUNT := 3
 const AUTOSAVE_SLOT := -1
 
@@ -137,8 +137,8 @@ func _apply_payload(payload: Dictionary) -> void:
     Chapter07Runtime.deserialize(payload.get("chapter_07", {})); Chapter08Runtime.deserialize(payload.get("chapter_08", {}))
     Chapter09Runtime.deserialize(payload.get("chapter_09", {})); Chapter10Runtime.deserialize(payload.get("chapter_10", {}))
     EndgameState.deserialize(payload.get("endgame", {})); DeepVestigeRuntime.deserialize(payload.get("deep_vestiges", {}))
-    ExpeditionManager.deserialize(payload.get("expedition", {})); FieldEncounterRuntime.deserialize(payload.get("field_encounters", {}))
-    CommunityRuntime.deserialize(payload.get("community", {})); AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses", {}))
+    ExpeditionManager.deserialize(payload.get("expedition", {})); FieldEncounterRuntime.deserialize(payload.get("field_encounters",{}))
+    CommunityRuntime.deserialize(payload.get("community",{})); AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses", {}))
     AshlandsCombatBridge.deserialize(payload.get("ashlands_combat", {})); CampaignMemoryDirector.deserialize(payload.get("campaign_memory", {}))
     ExpeditionReportDirector.deserialize(payload.get("expedition_reports", {})); ExpeditionPreparationDirector.deserialize(payload.get("preparation_presets", {}))
     Chapter01Runtime.refresh_progress(); Chapter02Runtime.refresh_progress(); Chapter03Runtime.refresh_progress(); Chapter04Runtime.refresh_progress()
@@ -148,13 +148,12 @@ func _apply_payload(payload: Dictionary) -> void:
 
 func _migrate(payload: Dictionary) -> Dictionary:
     var version := String(payload.get("version", "0.31"))
-    if version == "0.31":
-        payload["version"] = SAVE_VERSION
-        payload["campaign_memory"] = payload.get("campaign_memory", {})
-        payload["expedition_reports"] = payload.get("expedition_reports", {})
-        payload["preparation_presets"] = payload.get("preparation_presets", {})
-        return payload
-    return payload if version == SAVE_VERSION else {}
+    if version != SAVE_VERSION:
+        return {}
+    payload["campaign_memory"] = payload.get("campaign_memory", {})
+    payload["expedition_reports"] = payload.get("expedition_reports", {})
+    payload["preparation_presets"] = payload.get("preparation_presets", {})
+    return payload
 
 func _atomic_write(path: String, text: String) -> bool:
     var temp := _temp_for(path)
