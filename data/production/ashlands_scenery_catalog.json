@@ -1,0 +1,454 @@
+{
+  "version": 1,
+  "modules": [
+    {
+      "id": "wall_straight",
+      "variants": 6,
+      "size": [
+        4,
+        0.5,
+        3
+      ],
+      "material": "ashstone",
+      "poly_budget_lod0": 1800,
+      "collision": "box",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/wall_straight_v##_lod#.glb"
+    },
+    {
+      "id": "wall_corner",
+      "variants": 4,
+      "size": [
+        4,
+        4,
+        3
+      ],
+      "material": "ashstone",
+      "poly_budget_lod0": 2400,
+      "collision": "convex",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/wall_corner_v##_lod#.glb"
+    },
+    {
+      "id": "wall_broken",
+      "variants": 6,
+      "size": [
+        4,
+        0.8,
+        3
+      ],
+      "material": "burnt_masonry",
+      "poly_budget_lod0": 3000,
+      "collision": "convex",
+      "lods": 3,
+      "interactive": false,
+      "destructible": true,
+      "export": "environment/wall_broken_v##_lod#.glb"
+    },
+    {
+      "id": "floor_square",
+      "variants": 5,
+      "size": [
+        4,
+        4,
+        0.25
+      ],
+      "material": "burnt_masonry",
+      "poly_budget_lod0": 1400,
+      "collision": "mesh_simple",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/floor_square_v##_lod#.glb"
+    },
+    {
+      "id": "floor_rubble",
+      "variants": 5,
+      "size": [
+        4,
+        4,
+        0.6
+      ],
+      "material": "rubble",
+      "poly_budget_lod0": 2600,
+      "collision": "mesh_simple",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/floor_rubble_v##_lod#.glb"
+    },
+    {
+      "id": "archway",
+      "variants": 4,
+      "size": [
+        4,
+        1,
+        4
+      ],
+      "material": "ashstone_iron",
+      "poly_budget_lod0": 3800,
+      "collision": "convex",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/archway_v##_lod#.glb"
+    },
+    {
+      "id": "door_wood",
+      "variants": 4,
+      "size": [
+        2,
+        0.25,
+        3
+      ],
+      "material": "charred_wood",
+      "poly_budget_lod0": 2200,
+      "collision": "box",
+      "lods": 3,
+      "interactive": true,
+      "destructible": true,
+      "export": "environment/door_wood_v##_lod#.glb"
+    },
+    {
+      "id": "door_iron",
+      "variants": 3,
+      "size": [
+        2,
+        0.2,
+        3
+      ],
+      "material": "black_iron",
+      "poly_budget_lod0": 3000,
+      "collision": "box",
+      "lods": 3,
+      "interactive": true,
+      "destructible": false,
+      "export": "environment/door_iron_v##_lod#.glb"
+    },
+    {
+      "id": "stairs",
+      "variants": 3,
+      "size": [
+        4,
+        6,
+        3
+      ],
+      "material": "ashstone",
+      "poly_budget_lod0": 3200,
+      "collision": "mesh_simple",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/stairs_v##_lod#.glb"
+    },
+    {
+      "id": "bridge",
+      "variants": 3,
+      "size": [
+        3,
+        10,
+        0.5
+      ],
+      "material": "wood_rope",
+      "poly_budget_lod0": 4200,
+      "collision": "mesh_simple",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/bridge_v##_lod#.glb"
+    },
+    {
+      "id": "quarry_lift",
+      "variants": 2,
+      "size": [
+        4,
+        4,
+        5
+      ],
+      "material": "wood_iron",
+      "poly_budget_lod0": 6500,
+      "collision": "mesh_simple",
+      "lods": 3,
+      "interactive": true,
+      "destructible": false,
+      "export": "environment/quarry_lift_v##_lod#.glb"
+    },
+    {
+      "id": "crypt_pillar",
+      "variants": 5,
+      "size": [
+        1.2,
+        1.2,
+        5
+      ],
+      "material": "bone_stone",
+      "poly_budget_lod0": 2800,
+      "collision": "capsule",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/crypt_pillar_v##_lod#.glb"
+    },
+    {
+      "id": "charred_tree",
+      "variants": 6,
+      "size": [
+        2,
+        2,
+        7
+      ],
+      "material": "charred_wood",
+      "poly_budget_lod0": 3200,
+      "collision": "capsule",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/charred_tree_v##_lod#.glb"
+    },
+    {
+      "id": "dead_bush",
+      "variants": 6,
+      "size": [
+        1.5,
+        1.5,
+        1
+      ],
+      "material": "charred_wood",
+      "poly_budget_lod0": 900,
+      "collision": "none",
+      "lods": 3,
+      "interactive": false,
+      "destructible": true,
+      "export": "environment/dead_bush_v##_lod#.glb"
+    },
+    {
+      "id": "chest",
+      "variants": 3,
+      "size": [
+        1.4,
+        0.8,
+        0.9
+      ],
+      "material": "iron_wood",
+      "poly_budget_lod0": 2800,
+      "collision": "box",
+      "lods": 3,
+      "interactive": true,
+      "destructible": false,
+      "export": "environment/chest_v##_lod#.glb"
+    },
+    {
+      "id": "altar",
+      "variants": 3,
+      "size": [
+        2,
+        2,
+        2.4
+      ],
+      "material": "bone_stone",
+      "poly_budget_lod0": 4500,
+      "collision": "mesh_simple",
+      "lods": 3,
+      "interactive": true,
+      "destructible": false,
+      "export": "environment/altar_v##_lod#.glb"
+    },
+    {
+      "id": "campfire",
+      "variants": 3,
+      "size": [
+        2,
+        2,
+        1
+      ],
+      "material": "stone_ember",
+      "poly_budget_lod0": 1800,
+      "collision": "cylinder",
+      "lods": 3,
+      "interactive": true,
+      "destructible": false,
+      "export": "environment/campfire_v##_lod#.glb"
+    },
+    {
+      "id": "nameplate",
+      "variants": 8,
+      "size": [
+        0.3,
+        0.05,
+        0.18
+      ],
+      "material": "bronze",
+      "poly_budget_lod0": 450,
+      "collision": "box",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/nameplate_v##_lod#.glb"
+    },
+    {
+      "id": "buried_bell",
+      "variants": 2,
+      "size": [
+        2.5,
+        2.5,
+        2.2
+      ],
+      "material": "bronze",
+      "poly_budget_lod0": 5200,
+      "collision": "convex",
+      "lods": 3,
+      "interactive": true,
+      "destructible": false,
+      "export": "environment/buried_bell_v##_lod#.glb"
+    },
+    {
+      "id": "memorial_wall",
+      "variants": 4,
+      "size": [
+        6,
+        1,
+        4
+      ],
+      "material": "stone_bronze",
+      "poly_budget_lod0": 4800,
+      "collision": "box",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/memorial_wall_v##_lod#.glb"
+    },
+    {
+      "id": "medical_cache",
+      "variants": 3,
+      "size": [
+        1.2,
+        0.8,
+        1
+      ],
+      "material": "wood_cloth",
+      "poly_budget_lod0": 2100,
+      "collision": "box",
+      "lods": 3,
+      "interactive": true,
+      "destructible": false,
+      "export": "environment/medical_cache_v##_lod#.glb"
+    },
+    {
+      "id": "lantern",
+      "variants": 5,
+      "size": [
+        0.4,
+        0.4,
+        0.8
+      ],
+      "material": "iron_glass",
+      "poly_budget_lod0": 1200,
+      "collision": "box",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/lantern_v##_lod#.glb"
+    },
+    {
+      "id": "quest_marker_proxy",
+      "variants": 1,
+      "size": [
+        0.5,
+        0.5,
+        1
+      ],
+      "material": "debug",
+      "poly_budget_lod0": 100,
+      "collision": "none",
+      "lods": 3,
+      "interactive": false,
+      "destructible": false,
+      "export": "environment/quest_marker_proxy_v##_lod#.glb"
+    }
+  ],
+  "materials": [
+    {
+      "id": "ashstone",
+      "channels": [
+        "base_color",
+        "normal",
+        "roughness",
+        "ao"
+      ],
+      "texel_density": 512
+    },
+    {
+      "id": "burnt_masonry",
+      "channels": [
+        "base_color",
+        "normal",
+        "roughness",
+        "ao"
+      ],
+      "texel_density": 512
+    },
+    {
+      "id": "charred_wood",
+      "channels": [
+        "base_color",
+        "normal",
+        "roughness",
+        "ao"
+      ],
+      "texel_density": 512
+    },
+    {
+      "id": "black_iron",
+      "channels": [
+        "base_color",
+        "normal",
+        "roughness",
+        "metallic"
+      ],
+      "texel_density": 512
+    },
+    {
+      "id": "bronze",
+      "channels": [
+        "base_color",
+        "normal",
+        "roughness",
+        "metallic"
+      ],
+      "texel_density": 1024
+    },
+    {
+      "id": "bone_stone",
+      "channels": [
+        "base_color",
+        "normal",
+        "roughness",
+        "ao"
+      ],
+      "texel_density": 512
+    }
+  ],
+  "placement": {
+    "grid": 0.5,
+    "door_clearance": 1.2,
+    "combat_clearance": 6,
+    "giver_safe_radius": 7,
+    "cover_spacing": 3.5,
+    "secret_distance_from_main": 8,
+    "seed_saved": true
+  },
+  "streaming": {
+    "cell_size": 32,
+    "lod_distances": [
+      18,
+      38,
+      70
+    ],
+    "occlusion": true,
+    "max_visible_props": 180
+  }
+}

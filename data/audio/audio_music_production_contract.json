@@ -1,0 +1,235 @@
+{
+  "version": 1,
+  "legal": {
+    "composition": "public domain only or original",
+    "recording": "new LITD recording/arrangement only",
+    "modern_recordings": "forbidden without licence"
+  },
+  "languages": [
+    {
+      "id": "body",
+      "palette": [
+        "frame_drums",
+        "low_strings",
+        "breath",
+        "wood"
+      ],
+      "function": "movement, danger, physical resolve"
+    },
+    {
+      "id": "spirit",
+      "palette": [
+        "flute",
+        "bowed_metal",
+        "voice_without_words",
+        "glass"
+      ],
+      "function": "fear, memory, hope"
+    },
+    {
+      "id": "common_good",
+      "palette": [
+        "plucked_strings",
+        "bells",
+        "small_ensemble",
+        "communal_rhythm"
+      ],
+      "function": "politics, sanctuary, reconstruction"
+    }
+  ],
+  "music_states": [
+    {
+      "id": "exploration",
+      "layers": [
+        "body_pulse",
+        "spirit_air"
+      ],
+      "crossfade_ms": 2500
+    },
+    {
+      "id": "combat",
+      "layers": [
+        "body_drums",
+        "spirit_dissonance"
+      ],
+      "crossfade_ms": 900
+    },
+    {
+      "id": "enemy_fear",
+      "layers": [
+        "body_gap",
+        "unstable_breath"
+      ],
+      "crossfade_ms": 450
+    },
+    {
+      "id": "safe_place",
+      "layers": [
+        "common_good_seed",
+        "spirit_resolution"
+      ],
+      "crossfade_ms": 3000
+    },
+    {
+      "id": "sanctuary_restored",
+      "layers": [
+        "body",
+        "spirit",
+        "common_good"
+      ],
+      "crossfade_ms": 4000
+    },
+    {
+      "id": "angel",
+      "layers": [
+        "perfect_unison",
+        "suppressed_human_variation"
+      ],
+      "crossfade_ms": 1800
+    }
+  ],
+  "sfx_events": [
+    {
+      "id": "footstep_ash",
+      "variations": 8,
+      "spatial": "3d",
+      "linked_markers": [
+        "foot_l",
+        "foot_r"
+      ]
+    },
+    {
+      "id": "footstep_stone",
+      "variations": 8,
+      "spatial": "3d",
+      "linked_markers": [
+        "foot_l",
+        "foot_r"
+      ]
+    },
+    {
+      "id": "weapon_impact_light",
+      "variations": 10,
+      "spatial": "3d",
+      "linked_markers": [
+        "impact"
+      ]
+    },
+    {
+      "id": "weapon_impact_heavy",
+      "variations": 10,
+      "spatial": "3d",
+      "linked_markers": [
+        "impact"
+      ]
+    },
+    {
+      "id": "guard",
+      "variations": 6,
+      "spatial": "3d",
+      "linked_markers": [
+        "impact"
+      ]
+    },
+    {
+      "id": "heal",
+      "variations": 5,
+      "spatial": "3d",
+      "linked_markers": [
+        "commit"
+      ]
+    },
+    {
+      "id": "grenade_throw",
+      "variations": 4,
+      "spatial": "3d",
+      "linked_markers": [
+        "commit"
+      ]
+    },
+    {
+      "id": "grenade_blast",
+      "variations": 6,
+      "spatial": "3d",
+      "linked_markers": [
+        "impact"
+      ]
+    },
+    {
+      "id": "cinders_request",
+      "variations": 4,
+      "spatial": "2d",
+      "linked_markers": []
+    },
+    {
+      "id": "cinders_trail",
+      "variations": 6,
+      "spatial": "3d",
+      "linked_markers": []
+    },
+    {
+      "id": "enemy_fear",
+      "variations": 8,
+      "spatial": "3d",
+      "linked_markers": []
+    },
+    {
+      "id": "enemy_panic",
+      "variations": 8,
+      "spatial": "3d",
+      "linked_markers": []
+    },
+    {
+      "id": "quest_offer",
+      "variations": 3,
+      "spatial": "2d",
+      "linked_markers": []
+    },
+    {
+      "id": "quest_complete",
+      "variations": 3,
+      "spatial": "2d",
+      "linked_markers": []
+    }
+  ],
+  "deep_listening": {
+    "cost": "time_and_alert_risk",
+    "reveals": [
+      "partial_family",
+      "approximate_size",
+      "agitation"
+    ],
+    "never_reveals": [
+      "exact_count_without_mastery",
+      "exact_stats",
+      "boss_identity_without_knowledge"
+    ],
+    "modifiers": [
+      "noise",
+      "captured_creature_instinct",
+      "bestiary",
+      "mimicry",
+      "fear",
+      "madness",
+      "hope"
+    ]
+  },
+  "mix": {
+    "sample_rate": 48000,
+    "loudness_target_lufs": -16,
+    "true_peak_db": -1,
+    "buses": [
+      "Master",
+      "Music",
+      "Ambience",
+      "SFX",
+      "Voice",
+      "UI"
+    ],
+    "ducking": {
+      "voice_over_music_db": -4,
+      "critical_ui_over_sfx_db": -2
+    }
+  },
+  "naming": "aud_<category>_<event>_v###.wav"
+}

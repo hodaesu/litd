@@ -83,7 +83,7 @@ func _build() -> void:
     var tabs := HBoxContainer.new()
     tabs.add_theme_constant_override("separation", 8)
     shell.add_child(tabs)
-    for entry: Array in [["inventory","INVENTAIRE"],["map","CARTE"],["journal","JOURNAL"],["characters","PERSONNAGES"],["options","OPTIONS"]]:
+    for entry: Array in [["inventory","INVENTAIRE"],["map","CARTE"],["journal","JOURNAL"],["characters","PERSONNAGES"],["bestiary","BESTIAIRE"],["records","PRIMES"],["options","OPTIONS"]]:
         tabs.add_child(_button(String(entry[1]), func(id = String(entry[0])): active_tab = id; _render(), Vector2(220, 46)))
     var scroll := ScrollContainer.new()
     scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -102,10 +102,12 @@ func _render() -> void:
         "map": _render_map()
         "journal": _render_journal()
         "characters": _render_characters()
+        "bestiary": _render_bestiary()
+        "records": _render_records()
         "options": _render_options()
 
 func _tab_title() -> String:
-    return {"inventory":"INVENTAIRE","map":"CARTE","journal":"JOURNAL DE QUÊTES","characters":"PERSONNAGES ET COMPÉTENCES","options":"OPTIONS ET RÉGLAGES"}.get(active_tab, "MENU")
+    return {"inventory":"INVENTAIRE","map":"CARTE","journal":"JOURNAL DE QUÊTES","characters":"PERSONNAGES ET COMPÉTENCES","bestiary":"BESTIAIRE","records":"CONTRATS ET FAITS D’ARMES","options":"OPTIONS ET RÉGLAGES"}.get(active_tab, "MENU")
 
 func _render_inventory() -> void:
     content.add_child(_hero_selector())
@@ -256,13 +258,26 @@ func _render_hero_equipment(hero: Dictionary) -> void:
             continue
         found = true
         var row := HBoxContainer.new()
-        var description := _label(EquipmentManager.describe_item(item, int(hero.get("level", 1))), 13, MUTED)
+        var description := _label(_equipment_comparison(hero, item), 13, MUTED)
         description.custom_minimum_size = Vector2(880, 42)
         row.add_child(description)
         row.add_child(_button("ÉQUIPER", func(instance_id = String(item.get("instance_id", ""))): _equip_item(instance_id), Vector2(190, 40)))
         content.add_child(row)
     if not found:
         content.add_child(_label("Aucun équipement compatible dans l’inventaire.", 14, MUTED))
+
+func _equipment_comparison(hero: Dictionary, candidate: Dictionary) -> String:
+    var base := EquipmentManager.describe_item(candidate, int(hero.get("level", 1)))
+    var hero_id := String(hero.get("id", ""))
+    var equipped: Dictionary = EquipmentManager.equipped_by_hero.get(hero_id, {})
+    var slot := String(candidate.get("slot", candidate.get("type", "")))
+    var current := EquipmentManager.get_instance(String(equipped.get(slot, "")))
+    if current.is_empty():
+        return base + "\nComparaison : emplacement vide"
+    var current_power := int(current.get("base_value", current.get("damage", current.get("armor", 0))))
+    var candidate_power := int(candidate.get("base_value", candidate.get("damage", candidate.get("armor", 0))))
+    var delta := candidate_power - current_power
+    return base + "\nComparaison : %s%d puissance de base" % ["+" if delta >= 0 else "", delta]
 
 func _render_hero_combat_items(hero: Dictionary) -> void:
     var hero_id := String(hero.get("id", ""))
@@ -325,6 +340,35 @@ func _equip_skill(skill_id: String) -> void:
         GameState.add_log("%s équipe une nouvelle compétence." % String(hero.get("name", "Le héros")))
     _render()
 
+func _render_bestiary() -> void:
+    content.add_child(_label("Les informations restent partielles tant que la famille n’a pas été assez affrontée.", 14, MUTED))
+    var captured_ids: Array[String] = []
+    for creature_value: Variant in CreatureManager.captured_creatures:
+        captured_ids.append(String((creature_value as Dictionary).get("source_enemy_id", (creature_value as Dictionary).get("id", ""))))
+    for enemy_value: Variant in DataLoader.enemies:
+        var enemy: Dictionary = enemy_value
+        var known: bool = EnemyFearDirector.enemy_known(enemy) if EnemyFearDirector.has_method("enemy_known") else true
+        var title: String = String(enemy.get("name", "Créature inconnue")) if known else "Silhouette inconnue"
+        content.add_child(_label("◆ %s%s" % [title, " · CAPTURÉE" if captured_ids.has(String(enemy.get("id", ""))) else ""], 16, GOLD if known else MUTED))
+        if known:
+            content.add_child(_label("PV %d · dégâts %d–%d · Peur infligée %d · %s" % [int(enemy.get("hp", 0)), int(enemy.get("damage", [0, 0])[0]), int(enemy.get("damage", [0, 0])[1]), int(enemy.get("fear", 0)), EnemyCombatDirector.intent_preview(enemy)], 13, TEXT))
+
+func _render_records() -> void:
+    content.add_child(_label("CONTRATS DE CHASSE ACTIFS", 18, GOLD))
+    if BountyContractDirector.active_contracts.is_empty():
+        content.add_child(_label("Aucun contrat actif. De nouvelles primes apparaissent avant chaque expédition.", 14, MUTED))
+    for contract_value: Variant in BountyContractDirector.active_contracts:
+        var contract: Dictionary = contract_value
+        content.add_child(_label("• %s — %d/%d · %s" % [String(contract.get("name", "Prime")), int(contract.get("progress", 0)), int(contract.get("required", 1)), String(contract.get("dungeon_id", "campagne")).replace("_", " ").capitalize()], 15, TEXT))
+    content.add_child(_label("FAITS D’ARMES DE LA COMPAGNIE", 18, GOLD))
+    for hero_value: Variant in GameState.party:
+        var hero: Dictionary = hero_value
+        var deeds: Dictionary = hero.get("deeds", hero.get("enemy_fear_deeds", {}))
+        var parts: Array[String] = []
+        for deed_key: Variant in deeds.keys():
+            parts.append("%s ×%d" % [String(deed_key).replace("_", " "), int(deeds[deed_key])])
+        content.add_child(_label("◆ %s — %s" % [String(hero.get("name", "Héros")), ", ".join(parts) if not parts.is_empty() else "aucun fait d’armes enregistré"], 14, TEXT if not parts.is_empty() else MUTED))
+
 func _render_options() -> void:
     content.add_child(_slider_row("Volume général", GameSettings.master_volume, GameSettings.set_master_volume))
     content.add_child(_slider_row("Musique", GameSettings.music_volume, GameSettings.set_music_volume))
@@ -332,6 +376,9 @@ func _render_options() -> void:
     content.add_child(_toggle_row("Plein écran", GameSettings.fullscreen, GameSettings.set_fullscreen))
     content.add_child(_toggle_row("Sous-titres", GameSettings.subtitles, GameSettings.set_subtitles))
     content.add_child(_toggle_row("Secousses de caméra", GameSettings.screen_shake, GameSettings.set_screen_shake))
+    content.add_child(_slider_row("Taille du texte", GameSettings.text_scale, GameSettings.set_text_scale))
+    content.add_child(_toggle_row("Contraste renforcé", GameSettings.high_contrast, GameSettings.set_high_contrast))
+    content.add_child(_toggle_row("Réduire les flashs", GameSettings.reduce_flashes, GameSettings.set_reduce_flashes))
     content.add_child(_label("Les réglages sont appliqués et sauvegardés automatiquement.", 14, MUTED))
     content.add_child(_button("SAUVEGARDER LA PARTIE", func(): SaveManager.save_game(), Vector2(300, 46)))
     content.add_child(_button("RETOUR AU SANCTUAIRE", func(): close_menu(); GameState.request_screen("sanctuary"), Vector2(300, 46)))

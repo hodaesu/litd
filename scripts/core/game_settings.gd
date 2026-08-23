@@ -11,6 +11,10 @@ var fullscreen := false
 var subtitles := true
 var screen_shake := true
 var ui_scale := 1.0
+var text_scale := 1.0
+var high_contrast := false
+var reduce_flashes := false
+var color_assist := "none"
 
 func _ready() -> void:
     load_settings()
@@ -42,6 +46,22 @@ func set_screen_shake(value: bool) -> void:
 
 func set_ui_scale(value: float) -> void:
     ui_scale = clampf(value, 0.8, 1.4)
+    save_settings()
+
+func set_text_scale(value: float) -> void:
+    text_scale = clampf(value, 0.9, 1.5)
+    save_settings()
+
+func set_high_contrast(value: bool) -> void:
+    high_contrast = value
+    save_settings()
+
+func set_reduce_flashes(value: bool) -> void:
+    reduce_flashes = value
+    save_settings()
+
+func set_color_assist(value: String) -> void:
+    color_assist = value if value in ["none", "deuteranopia", "protanopia", "tritanopia"] else "none"
     save_settings()
 
 func apply() -> void:
@@ -79,6 +99,10 @@ func load_settings() -> bool:
     subtitles = bool(parsed.get("subtitles", subtitles))
     screen_shake = bool(parsed.get("screen_shake", screen_shake))
     ui_scale = float(parsed.get("ui_scale", ui_scale))
+    text_scale = float(parsed.get("text_scale", text_scale))
+    high_contrast = bool(parsed.get("high_contrast", high_contrast))
+    reduce_flashes = bool(parsed.get("reduce_flashes", reduce_flashes))
+    color_assist = String(parsed.get("color_assist", color_assist))
     return true
 
 func serialize() -> Dictionary:
@@ -89,5 +113,9 @@ func serialize() -> Dictionary:
         "fullscreen": fullscreen,
         "subtitles": subtitles,
         "screen_shake": screen_shake,
-        "ui_scale": ui_scale
+        "ui_scale": ui_scale,
+        "text_scale": text_scale,
+        "high_contrast": high_contrast,
+        "reduce_flashes": reduce_flashes,
+        "color_assist": color_assist
     }

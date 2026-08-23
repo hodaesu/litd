@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "generated_for": "pre-PC handoff",
+  "workstreams": [
+    {
+      "id": 1,
+      "name": "first_map",
+      "status": "complete_pre_pc",
+      "evidence": [
+        "data/levels/ashlands_first_map_production.json",
+        "data/production/ashlands_scenery_catalog.json"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "quests",
+      "status": "complete_pre_pc",
+      "evidence": [
+        "scripts/core/side_quest_runtime.gd",
+        "scripts/ui/quest_giver_presentation.gd",
+        "data/quests.json"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "combat",
+      "status": "complete_pre_pc",
+      "evidence": [
+        "scripts/core/hero_skill_manager.gd",
+        "scripts/core/combat_loadout_manager.gd",
+        "scripts/core/enemy_combat_director.gd",
+        "data/enemy_combat_profiles.json"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "characters_for_blender",
+      "status": "contract_complete",
+      "evidence": [
+        "data/production/character_blender_contract.json"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "enemies_for_blender",
+      "status": "contract_complete",
+      "evidence": [
+        "data/levels/ashlands_first_map_production.json",
+        "data/enemy_combat_profiles.json"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "scenery_production",
+      "status": "contract_complete",
+      "evidence": [
+        "data/production/ashlands_scenery_catalog.json"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "interface",
+      "status": "complete_pre_pc",
+      "evidence": [
+        "scripts/ui/game_menu_ui.gd",
+        "scripts/core/game_settings.gd"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "narrative",
+      "status": "chapter_01_complete",
+      "evidence": [
+        "data/quests.json",
+        "data/narrative/chapter_01_extended_narrative.json",
+        "data/production/quest_giver_blender_contract.json"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "audio_music",
+      "status": "production_contract_complete",
+      "evidence": [
+        "data/audio/audio_music_production_contract.json"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "tests",
+      "status": "automated_complete",
+      "evidence": [
+        "tests/test_first_map_gameplay_completion.py",
+        "tests/test_complete_pre_pc_workstreams.py"
+      ]
+    }
+  ],
+  "must_wait_for_pc": [
+    {
+      "task": "Create and retouch final models in Blender",
+      "reason": "requires Blender and visual judgement"
+    },
+    {
+      "task": "Tune animation contacts deformation and collision",
+      "reason": "requires final rigs and realtime rendering"
+    },
+    {
+      "task": "Record listen arrange and approve audio",
+      "reason": "requires audio tools and monitoring"
+    },
+    {
+      "task": "Validate keyboard mouse controller and touch hardware",
+      "reason": "requires physical devices"
+    },
+    {
+      "task": "Profile and build Windows executable",
+      "reason": "requires target PC and export templates"
+    }
+  ],
+  "constraints": [
+    "single difficulty only",
+    "combat inspection never pauses combat",
+    "game menu pauses exploration",
+    "persistent injuries remain until treated",
+    "any character with healing ability can treat all injuries outside combat",
+    "mutilations never regenerate",
+    "no permanent blindness",
+    "Ambidextrous never enables two-handed weapons with one arm",
+    "hero consumable stacks max 5",
+    "general inventory consumable stacks max 10",
+    "cinders appear only on explicit input request"
+  ]
+}
