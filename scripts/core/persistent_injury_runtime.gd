@@ -4,7 +4,6 @@ signal injuries_changed(character: Dictionary)
 signal injury_treated(character: Dictionary, injury_id: String)
 
 const DATA_PATH := "res://data/persistent_injuries.json"
-const MEDICAL_CLASSES := ["surgeon", "vestal"]
 
 var data: Dictionary = {}
 
@@ -61,12 +60,38 @@ func active_debuffs(character: Dictionary, equipment_context: Dictionary = {}) -
             result[String(key)] = float(result.get(String(key), 0.0)) + float(debuffs[key])
     return result
 
-func has_party_healer(party: Array) -> bool:
+func has_healing_capability(character: Dictionary) -> bool:
+    if bool(character.get("can_treat_injuries", false)):
+        return true
+    if character.has("class_id"):
+        for skill_value: Variant in HeroSkillManager.known_combat_skills(character):
+            var skill: Dictionary = skill_value
+            if String(skill.get("effect", "")) == "heal":
+                return true
+            if String(skill.get("effect", "")) == "support" and int(skill.get("heal", 0)) > 0:
+                return true
+    var unlocked: Array = character.get("unlocked_skills", [])
+    if character.has("species_id") and not unlocked.is_empty():
+        for branch_value: Variant in ["offense", "defense", "special"]:
+            for node_value: Variant in CreatureManager.skill_nodes(character, String(branch_value)):
+                var node: Dictionary = node_value
+                if unlocked.has(String(node.get("id", ""))) and String(node.get("stat", "")) in ["healing_power", "party_heal"]:
+                    return true
+    return false
+
+func available_healer(party: Array) -> Dictionary:
     for value: Variant in party:
         var member: Dictionary = value
-        if int(member.get("hp", 0)) > 0 and String(member.get("class_id", "")) in MEDICAL_CLASSES:
-            return true
-    return false
+        if int(member.get("hp", 1)) > 0 and has_healing_capability(member):
+            return member
+    for creature_value: Variant in CreatureManager.captured_creatures:
+        var creature: Dictionary = creature_value
+        if not bool(creature.get("anatomy_recovery_locked", false)) and has_healing_capability(creature):
+            return creature
+    return {}
+
+func has_party_healer(party: Array) -> bool:
+    return not available_healer(party).is_empty()
 
 func treat_injury(patient: Dictionary, injury_id: String, party: Array, at_infirmary := false) -> Dictionary:
     prepare_character(patient)
@@ -92,13 +117,9 @@ func treat_injury(patient: Dictionary, injury_id: String, party: Array, at_infir
 func treat_all_party_injuries(party: Array, healer: Dictionary = {}) -> Dictionary:
     var selected_healer := healer
     if selected_healer.is_empty():
-        for value: Variant in party:
-            var candidate: Dictionary = value
-            if int(candidate.get("hp", 0)) > 0 and String(candidate.get("class_id", "")) in MEDICAL_CLASSES:
-                selected_healer = candidate
-                break
-    if selected_healer.is_empty() or String(selected_healer.get("class_id", "")) not in MEDICAL_CLASSES:
-        return {"ok": false, "reason": "no_living_healer"}
+        selected_healer = available_healer(party)
+    if selected_healer.is_empty() or not has_healing_capability(selected_healer):
+        return {"ok": false, "reason": "no_healing_capability"}
     var treated := 0
     var stabilized := 0
     for value: Variant in party:
