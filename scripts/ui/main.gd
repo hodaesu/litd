@@ -311,6 +311,9 @@ func show_sanctuary() -> void:
                 GameState.request_screen("company")
             elif a == "expedition":
                 GameState.request_screen("expedition")
+            elif a == "infirmary":
+                var infirmary_result := PersistentInjuryRuntime.treat_all_at_infirmary(GameState.party)
+                GameState.add_log("Infirmerie : %d blessure(s) soignée(s), %d mutilation(s) stabilisée(s)." % [int(infirmary_result.get("treated", 0)), int(infirmary_result.get("stabilized", 0))])
             elif a == "market":
                 GameState.request_screen("market")
             elif a == "creatures":
@@ -335,6 +338,13 @@ func show_sanctuary() -> void:
 func hero_art(hero: Dictionary) -> String:
     var c := DataLoader.find_by_id(DataLoader.classes, hero.get("class_id"))
     return "res://assets/heroes/%s" % c.get("art","inquisitor.webp")
+
+func _party_healer_treatment() -> void:
+    var result := PersistentInjuryRuntime.treat_all_party_injuries(GameState.party)
+    if bool(result.get("ok", false)):
+        GameState.add_log("Le soigneur traite %d blessure(s) et stabilise %d mutilation(s)." % [int(result.get("treated", 0)), int(result.get("stabilized", 0))])
+    else:
+        GameState.add_log("Aucun médecin ou guérisseur apte dans l’équipe.")
 
 func show_company() -> void:
     var bg := full_texture("res://assets/backgrounds/forgotten_city.webp")
@@ -374,6 +384,9 @@ func show_company() -> void:
     var back := make_button("RETOUR AU SANCTUAIRE", func(): GameState.request_screen("sanctuary"), Vector2(280,48))
     back.position = Vector2(24,630)
     content.add_child(back)
+    var heal := make_button("SOINS DE L’ÉQUIPE", func(): _party_healer_treatment(); show_company(), Vector2(260,48))
+    heal.position = Vector2(600,630)
+    content.add_child(heal)
     var chest := make_button("COFFRE COMMUN", func(): GameState.request_screen("guild_chest"), Vector2(240,48))
     chest.position = Vector2(330,630)
     content.add_child(chest)
@@ -885,6 +898,10 @@ func finish_victory() -> void:
         BountyContractDirector.record_event("dungeon_completed_no_hero_death", "first_veil_crypts")
         BountyContractDirector.record_event("dungeon_completed", "first_veil_crypts")
         BountyContractDirector.close_dungeon_run(true)
+        var worsened_injuries := PersistentInjuryRuntime.close_expedition(GameState.party)
+        for worsening_value: Variant in worsened_injuries:
+            var worsening: Dictionary = worsening_value
+            GameState.add_log("Une blessure non soignée s’aggrave : %s." % String(worsening.get("injury_id", "blessure")))
     CreatureManager.grant_active_xp(30)
     for hero_value in GameState.party:
         HeroSkillManager.grant_xp(hero_value, 30)
