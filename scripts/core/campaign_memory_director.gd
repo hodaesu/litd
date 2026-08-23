@@ -2,11 +2,11 @@ extends Node
 
 signal memory_changed
 
-var expeditions: Array[Dictionary] = []
-var memorial: Array[Dictionary] = []
-var decisions: Array[Dictionary] = []
-var notable_enemies: Array[Dictionary] = []
-var sanctuary_evolution: Array[Dictionary] = []
+var expeditions: Array = []
+var memorial: Array = []
+var decisions: Array = []
+var notable_enemies: Array = []
+var sanctuary_evolution: Array = []
 var codex_knowledge: Dictionary = {}
 
 func reset_new_game() -> void:
