@@ -128,7 +128,7 @@ func _apply_payload(payload: Dictionary) -> void:
         HeroSkillManager.prepare_hero(hero); EnemyFearDirector.prepare_hero(hero); PersistentInjuryRuntime.prepare_character(hero)
     EquipmentManager.deserialize(payload.get("equipment", {})); CombatLoadoutManager.deserialize(payload.get("combat_loadouts", {}))
     CreatureManager.deserialize(payload.get("creatures",{})); GameState.expedition_room = int(payload.get("expedition_room",0))
-    PoliticalState.deserialize(payload.get("politics", {})); CampaignState.deserialize(payload.get("campaign", {}))
+    PoliticalState.deserialize(payload.get("politics",{})); CampaignState.deserialize(payload.get("campaign", {}))
     SideQuestRuntime.deserialize(payload.get("side_quests", {})); BountyContractDirector.deserialize(payload.get("bounty_contracts", {}))
     EnemyFearDirector.deserialize(payload.get("hero_renown", {})); AshlandsRuntime.deserialize(payload.get("ashlands", {}))
     Chapter01Runtime.deserialize(payload.get("chapter_01", {})); Chapter02Runtime.deserialize(payload.get("chapter_02", {}))
