@@ -102,7 +102,7 @@ func make_button(text: String, callback: Callable, min_size := Vector2(190, 52))
 func make_label(text: String, size := 18, color := TEXT) -> Label:
     var l := Label.new()
     l.text = text
-    l.add_theme_font_size_override("font_size", size)
+    l.add_theme_font_size_override("font_size", int(round(float(size) * GameSettings.text_scale)))
     l.add_theme_color_override("font_color", color)
     l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     return l
@@ -611,6 +611,8 @@ func show_expedition() -> void:
     box.add_child(make_button("RETOUR", func(): GameState.request_screen("sanctuary"), Vector2(480,52)))
 
 func start_random_battle() -> void:
+    if ExpeditionReportDirector.current.is_empty():
+        ExpeditionReportDirector.begin_expedition("first_veil_crypts")
     GameState.battle_enemies = []
     var ids := [1,8,10]
     if GameState.expedition_room >= GameState.expedition_rooms:
@@ -715,6 +717,9 @@ func show_combat() -> void:
             var label: String = str(skill.get("name", "EMPLACEMENT VIDE")).to_upper()
             var skill_button := make_button(label, func(slot_index = slot): _use_skill_slot(slot_index), Vector2(200, 48))
             skill_button.disabled = skill.is_empty()
+            if not skill.is_empty() and not GameState.alive_enemies().is_empty():
+                var preview_target: Dictionary = GameState.battle_enemies[clampi(selected_enemy, 0, GameState.battle_enemies.size() - 1)]
+                skill_button.tooltip_text = CombatPreviewDirector.describe(CombatPreviewDirector.preview(acting_hero, skill, preview_target))
             skill_row.add_child(skill_button)
     var item_row := HBoxContainer.new()
     item_row.add_theme_constant_override("separation", 6)
@@ -743,6 +748,15 @@ func show_combat() -> void:
         ))
     for line in GameState.log_lines.slice(0,4):
         log.add_child(make_label("• "+line, 13, MUTED))
+
+    var timeline := VBoxContainer.new()
+    timeline.position = Vector2(510, 8)
+    timeline.size = Vector2(740, 145)
+    content.add_child(timeline)
+    timeline.add_child(make_label("ORDRE ET INTENTIONS PARTIELLES", 15, GOLD))
+    var timeline_lines: Array[String] = ActionTimelineDirector.preview_lines(GameState.alive_heroes(), GameState.alive_enemies())
+    for timeline_line: String in timeline_lines.slice(0, 6):
+        timeline.add_child(make_label("• " + timeline_line, 11, MUTED))
 
 func _use_skill_slot(slot: int) -> void:
     if battle_locked:
@@ -781,6 +795,7 @@ func _use_combat_item(category: String) -> void:
         show_screen("combat")
         return
     battle_locked = true
+    ExpeditionReportDirector.record_consumable(hero, item)
     CombatBodyPresentation.stage_action(hero, false, "use_item")
     await get_tree().create_timer(0.18).timeout
     if category == CombatLoadoutManager.HEAL_SLOT:
@@ -998,6 +1013,7 @@ func finish_victory() -> void:
     var defeated_boss := false
     for enemy_value: Variant in GameState.battle_enemies:
         var defeated_enemy: Dictionary = enemy_value
+        CampaignMemoryDirector.learn_enemy(defeated_enemy)
         if int(defeated_enemy.get("hp", 0)) <= 0:
             var family_id := String(defeated_enemy.get("family", defeated_enemy.get("family_id", "any")))
             BountyContractDirector.record_event("enemy_defeated", family_id)
@@ -1024,6 +1040,9 @@ func finish_victory() -> void:
         for worsening_value: Variant in worsened_injuries:
             var worsening: Dictionary = worsening_value
             GameState.add_log("Une blessure non soignée s’aggrave : %s." % String(worsening.get("injury_id", "blessure")))
+        var expedition_report := ExpeditionReportDirector.finish_expedition(true)
+        CampaignMemoryDirector.record_expedition(expedition_report)
+        SaveManager.autosave("fin d’expédition")
     CreatureManager.grant_active_xp(30)
     for hero_value in GameState.party:
         HeroSkillManager.grant_xp(hero_value, 30)
@@ -1037,6 +1056,13 @@ func finish_victory() -> void:
         GameState.request_screen("trait_evolution")
 
 func finish_defeat() -> void:
+    for hero_value: Variant in GameState.party:
+        var fallen_hero: Dictionary = hero_value
+        if int(fallen_hero.get("hp", 0)) <= 0:
+            CampaignMemoryDirector.record_death(fallen_hero, "Tombé en expédition", AshlandsRuntime.current_zone_id)
+    var expedition_report := ExpeditionReportDirector.finish_expedition(false)
+    CampaignMemoryDirector.record_expedition(expedition_report)
+    SaveManager.autosave("défaite")
     GameState.add_log("La compagnie est anéantie.")
     GameState.request_screen("sanctuary")
 
