@@ -1,0 +1,243 @@
+{
+  "version": 1,
+  "coordinate_system": {
+    "unit": "meter",
+    "up": "Y",
+    "forward": "-Z"
+  },
+  "shared_rig": {
+    "name": "rig_litd_humanoid_v1",
+    "required_bones": [
+      "root",
+      "pelvis",
+      "spine_01",
+      "spine_02",
+      "chest",
+      "neck",
+      "head",
+      "clavicle_l",
+      "upperarm_l",
+      "forearm_l",
+      "hand_l",
+      "clavicle_r",
+      "upperarm_r",
+      "forearm_r",
+      "hand_r",
+      "thigh_l",
+      "shin_l",
+      "foot_l",
+      "toe_l",
+      "thigh_r",
+      "shin_r",
+      "foot_r",
+      "toe_r"
+    ],
+    "facial": [
+      "jaw",
+      "brow_l",
+      "brow_r",
+      "lid_l",
+      "lid_r",
+      "mouth_corner_l",
+      "mouth_corner_r"
+    ],
+    "sockets": [
+      "weapon_l",
+      "weapon_r",
+      "back",
+      "belt_l",
+      "belt_r"
+    ],
+    "mutilation_detach": [
+      "head",
+      "arm_l",
+      "arm_r",
+      "leg_l",
+      "leg_r"
+    ]
+  },
+  "silhouette_families": [
+    {
+      "id": "frontliner",
+      "proportions": "large shoulders, grounded stance",
+      "classes": [
+        "guardian",
+        "inquisitor",
+        "warrior"
+      ]
+    },
+    {
+      "id": "mobile",
+      "proportions": "light frame, long readable limbs",
+      "classes": [
+        "ranger",
+        "rogue",
+        "monk"
+      ]
+    },
+    {
+      "id": "support",
+      "proportions": "open chest silhouette, visible satchels",
+      "classes": [
+        "surgeon",
+        "vestal",
+        "healer"
+      ]
+    },
+    {
+      "id": "occult",
+      "proportions": "asymmetrical layers, protected hands",
+      "classes": [
+        "occultist",
+        "seer"
+      ]
+    }
+  ],
+  "layering": [
+    "body",
+    "underclothes",
+    "class_garment",
+    "armor_soft",
+    "armor_hard",
+    "belt_pouches",
+    "weapon",
+    "injury_overlay",
+    "blood_dirt"
+  ],
+  "body_states": [
+    "healthy",
+    "injured_arm",
+    "injured_leg",
+    "ribs",
+    "concussion",
+    "critical",
+    "burned",
+    "infected",
+    "amputated_arm_l",
+    "amputated_arm_r",
+    "amputated_leg_l",
+    "amputated_leg_r"
+  ],
+  "psychological_overlays": [
+    "calm",
+    "fear",
+    "terror",
+    "panic",
+    "madness",
+    "anger",
+    "despair",
+    "hope",
+    "safe_release"
+  ],
+  "posture_variation": {
+    "seed_saved": true,
+    "axes": [
+      "spine_curve",
+      "shoulder_height",
+      "head_lead",
+      "stance_width",
+      "weight_bias",
+      "hand_tension",
+      "idle_rhythm"
+    ],
+    "minimum_presets_per_character": 4,
+    "personality_modifiers": [
+      "disciplined",
+      "aggressive",
+      "prudent",
+      "unstable"
+    ],
+    "rule": "No two visible party members may share the same posture preset and idle phase."
+  },
+  "animation_contract": {
+    "locomotion": [
+      "idle",
+      "walk",
+      "run",
+      "tactical_step",
+      "retreat",
+      "limp_l",
+      "limp_r",
+      "crawl",
+      "stairs_up",
+      "stairs_down",
+      "narrow_passage",
+      "vault",
+      "climb_short"
+    ],
+    "equipment": [
+      "draw_1h",
+      "sheathe_1h",
+      "draw_2h",
+      "sheathe_2h",
+      "swap_weapon",
+      "reload",
+      "use_item",
+      "throw_grenade"
+    ],
+    "combat": [
+      "attack_light",
+      "attack_heavy",
+      "guard",
+      "parry_left",
+      "parry_right",
+      "dodge_left",
+      "dodge_right",
+      "riposte",
+      "push",
+      "pull",
+      "rank_forward",
+      "rank_back",
+      "capture",
+      "heal_ally"
+    ],
+    "reactions": [
+      "hit_head",
+      "hit_torso",
+      "hit_arm_l",
+      "hit_arm_r",
+      "hit_leg_l",
+      "hit_leg_r",
+      "stagger",
+      "kneel",
+      "fall_front",
+      "fall_back",
+      "death"
+    ],
+    "social": [
+      "greet",
+      "refuse",
+      "accept",
+      "reassure",
+      "protect",
+      "avoid",
+      "threaten",
+      "grieve",
+      "camp_rest",
+      "eat"
+    ],
+    "markers": [
+      "anticipation_start",
+      "commit",
+      "impact",
+      "recovery_start",
+      "recovery_end",
+      "foot_l",
+      "foot_r"
+    ],
+    "gameplay_authority": "Godot controls damage, range, targets, cost and logical impact."
+  },
+  "weapon_rules": {
+    "one_handed_missing_arm": "allowed only with usable arm",
+    "ambidextrous": "removes off-hand penalty after arm loss",
+    "two_handed_missing_arm": "forbidden regardless of Ambidextrous"
+  },
+  "export": {
+    "format": "glb",
+    "fps": 30,
+    "separate_clips": true,
+    "apply_transforms": true,
+    "root_motion": false,
+    "naming": "chr_<id>_<clip>_v###.glb"
+  }
+}
