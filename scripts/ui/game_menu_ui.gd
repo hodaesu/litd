@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const UI_SECTIONS := preload("res://scripts/ui/ui_section_registry.gd")
+
 const GOLD := Color("#d5b26c")
 const TEXT := Color("#e5dccb")
 const MUTED := Color("#a49884")
@@ -80,11 +82,13 @@ func _build() -> void:
     title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     header.add_child(title)
     header.add_child(_button("FERMER", close_menu, Vector2(140, 44)))
-    var tabs := HBoxContainer.new()
-    tabs.add_theme_constant_override("separation", 8)
+    var tabs := GridContainer.new()
+    tabs.columns = 6
+    tabs.add_theme_constant_override("h_separation", 8)
+    tabs.add_theme_constant_override("v_separation", 6)
     shell.add_child(tabs)
-    for entry: Array in [["inventory","INVENTAIRE"],["map","CARTE"],["journal","JOURNAL"],["characters","PERSONNAGES"],["bestiary","BESTIAIRE"],["records","PRIMES"],["options","OPTIONS"]]:
-        tabs.add_child(_button(String(entry[1]), func(id = String(entry[0])): active_tab = id; _render(), Vector2(220, 46)))
+    for entry: Dictionary in UI_SECTIONS.entries():
+        tabs.add_child(_button(String(entry.get("label", "")), func(id = String(entry.get("id", ""))): active_tab = id; _render(), Vector2(190, 40)))
     var scroll := ScrollContainer.new()
     scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
     shell.add_child(scroll)
@@ -102,12 +106,17 @@ func _render() -> void:
         "map": _render_map()
         "journal": _render_journal()
         "characters": _render_characters()
+        "preparation": _render_preparation()
         "bestiary": _render_bestiary()
         "records": _render_records()
+        "chronicle": _render_chronicle()
+        "reports": _render_reports()
+        "help": _render_help()
+        "saves": _render_saves()
         "options": _render_options()
 
 func _tab_title() -> String:
-    return {"inventory":"INVENTAIRE","map":"CARTE","journal":"JOURNAL DE QUÊTES","characters":"PERSONNAGES ET COMPÉTENCES","bestiary":"BESTIAIRE","records":"CONTRATS ET FAITS D’ARMES","options":"OPTIONS ET RÉGLAGES"}.get(active_tab, "MENU")
+    return UI_SECTIONS.title(active_tab)
 
 func _render_inventory() -> void:
     content.add_child(_hero_selector())
@@ -225,12 +234,12 @@ func _render_hero_stats(hero: Dictionary) -> void:
     for value: Variant in trait_names.get("positive", []):
         buffs.append(String(value))
     for value: Variant in hero.get("buffs", []):
-        buffs.append(_effect_name(value))
+        buffs.append(EffectTooltipFormatter.describe(value, hero))
     var debuffs: Array[String] = []
     for value: Variant in trait_names.get("negative", []):
         debuffs.append(String(value))
     for value: Variant in hero.get("debuffs", []):
-        debuffs.append(_effect_name(value))
+        debuffs.append(EffectTooltipFormatter.describe(value, hero))
     content.add_child(_label("BUFFS", 17, GOLD))
     content.add_child(_label("• " + "\n• ".join(buffs) if not buffs.is_empty() else "Aucun bonus actif.", 14, TEXT if not buffs.is_empty() else MUTED))
     content.add_child(_label("DEBUFFS ET BLESSURES", 17, GOLD))
@@ -341,17 +350,28 @@ func _equip_skill(skill_id: String) -> void:
     _render()
 
 func _render_bestiary() -> void:
-    content.add_child(_label("Les informations restent partielles tant que la famille n’a pas été assez affrontée.", 14, MUTED))
+    content.add_child(_label("Le codex révèle progressivement nom, vitalité, dégâts, intention et particularités.", 14, MUTED))
     var captured_ids: Array[String] = []
     for creature_value: Variant in CreatureManager.captured_creatures:
         captured_ids.append(String((creature_value as Dictionary).get("source_enemy_id", (creature_value as Dictionary).get("id", ""))))
     for enemy_value: Variant in DataLoader.enemies:
         var enemy: Dictionary = enemy_value
-        var known: bool = EnemyFearDirector.enemy_known(enemy) if EnemyFearDirector.has_method("enemy_known") else true
-        var title: String = String(enemy.get("name", "Créature inconnue")) if known else "Silhouette inconnue"
-        content.add_child(_label("◆ %s%s" % [title, " · CAPTURÉE" if captured_ids.has(String(enemy.get("id", ""))) else ""], 16, GOLD if known else MUTED))
-        if known:
-            content.add_child(_label("PV %d · dégâts %d–%d · Peur infligée %d · %s" % [int(enemy.get("hp", 0)), int(enemy.get("damage", [0, 0])[0]), int(enemy.get("damage", [0, 0])[1]), int(enemy.get("fear", 0)), EnemyCombatDirector.intent_preview(enemy)], 13, TEXT))
+        var enemy_id := String(enemy.get("id", ""))
+        var knowledge := CampaignMemoryDirector.knowledge(enemy_id)
+        var title := String(enemy.get("name", "Créature")) if knowledge >= 1 else "Silhouette inconnue"
+        content.add_child(_label("◆ %s · CONNAISSANCE %d/5%s" % [title, knowledge, " · CAPTURÉE" if captured_ids.has(enemy_id) else ""], 16, GOLD if knowledge >= 1 else MUTED))
+        var facts: Array[String] = []
+        if knowledge >= 2:
+            facts.append("PV %d" % int(enemy.get("hp", 0)))
+        if knowledge >= 3:
+            facts.append("dégâts %d–%d · Peur %d" % [int(enemy.get("damage", [0, 0])[0]), int(enemy.get("damage", [0, 0])[1]), int(enemy.get("fear", 0))])
+        if knowledge >= 4:
+            facts.append(EnemyCombatDirector.intent_preview(enemy))
+        if knowledge >= 5:
+            var traits := CharacterTraitDirector.trait_names(enemy)
+            facts.append("traits +%s / −%s" % [", ".join(traits.get("positive", [])), ", ".join(traits.get("negative", []))])
+        if not facts.is_empty():
+            content.add_child(_label(" · ".join(facts), 13, TEXT))
 
 func _render_records() -> void:
     content.add_child(_label("CONTRATS DE CHASSE ACTIFS", 18, GOLD))
@@ -369,19 +389,106 @@ func _render_records() -> void:
             parts.append("%s ×%d" % [String(deed_key).replace("_", " "), int(deeds[deed_key])])
         content.add_child(_label("◆ %s — %s" % [String(hero.get("name", "Héros")), ", ".join(parts) if not parts.is_empty() else "aucun fait d’armes enregistré"], 14, TEXT if not parts.is_empty() else MUTED))
 
+func _render_preparation() -> void:
+    content.add_child(_label("Les alertes informent sans jamais interdire le départ.", 14, MUTED))
+    var warnings := ExpeditionPreparationDirector.warnings(GameState.party)
+    if warnings.is_empty():
+        content.add_child(_label("✓ La compagnie est prête.", 16, GOLD))
+    for warning_value: Variant in warnings:
+        var warning: Dictionary = warning_value
+        content.add_child(_label("⚠ " + String(warning.get("text", "")), 14, TEXT))
+    content.add_child(_button("ENREGISTRER LA FORMATION ACTUELLE", func(): ExpeditionPreparationDirector.save_preset("Formation %d" % (ExpeditionPreparationDirector.presets.size() + 1), GameState.party); _render(), Vector2(420, 42)))
+    for index in range(ExpeditionPreparationDirector.presets.size()):
+        var preset: Dictionary = ExpeditionPreparationDirector.presets[index]
+        content.add_child(_button("APPLIQUER · %s" % String(preset.get("name", "Formation")), func(preset_index = index): ExpeditionPreparationDirector.apply_preset(preset_index, GameState.party); _render(), Vector2(420, 42)))
+
+func _render_chronicle() -> void:
+    content.add_child(_label("MÉMORIAL", 18, GOLD))
+    if CampaignMemoryDirector.memorial.is_empty():
+        content.add_child(_label("Aucun nom n’est encore gravé.", 14, MUTED))
+    for entry_value: Variant in CampaignMemoryDirector.memorial:
+        var entry: Dictionary = entry_value
+        content.add_child(_label("◆ %s — %s · %s" % [String(entry.get("name", "")), String(entry.get("cause", "")), String(entry.get("zone", ""))], 14, TEXT))
+    content.add_child(_label("DÉCISIONS ET CONSÉQUENCES", 18, GOLD))
+    for decision_value: Variant in CampaignMemoryDirector.decisions:
+        var decision: Dictionary = decision_value
+        content.add_child(_label("• %s → %s" % [String(decision.get("label", "")), String(decision.get("consequence", ""))], 14, TEXT))
+    content.add_child(_label("ADVERSAIRES NOTABLES", 18, GOLD))
+    for enemy_value: Variant in CampaignMemoryDirector.notable_enemies:
+        var enemy: Dictionary = enemy_value
+        content.add_child(_label("• %s — %s · Peur %d" % [String(enemy.get("name", "")), String(enemy.get("outcome", "")), int(enemy.get("fear", 0))], 14, TEXT))
+    content.add_child(_label("ÉVOLUTION DU SANCTUAIRE", 18, GOLD))
+    for change_value: Variant in CampaignMemoryDirector.sanctuary_evolution:
+        content.add_child(_label("• " + String((change_value as Dictionary).get("description", "")), 14, TEXT))
+
+func _render_reports() -> void:
+    if ExpeditionReportDirector.history.is_empty():
+        content.add_child(_label("Aucune expédition terminée.", 14, MUTED))
+        return
+    for report_value: Variant in ExpeditionReportDirector.history.slice(0, 20):
+        var report: Dictionary = report_value
+        content.add_child(_label("◆ %s · %s · %s" % [String(report.get("dungeon_id", "")), "VICTOIRE" if bool(report.get("success", false)) else "ÉCHEC", String(report.get("ended_at", ""))], 16, GOLD if bool(report.get("success", false)) else TEXT))
+        content.add_child(_label("Consommables %d · Butins %d · Peur ennemie créée %d · Quêtes %d · Primes %d" % [(report.get("consumables", []) as Array).size(), (report.get("loot", []) as Array).size(), int(report.get("enemy_fear_created", 0)), (report.get("quest_updates", []) as Array).size(), (report.get("bounty_updates", []) as Array).size()], 13, MUTED))
+
+func _render_help() -> void:
+    var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/help_codex.json"))
+    if parsed is not Dictionary:
+        content.add_child(_label("Aide indisponible.", 14, MUTED))
+        return
+    for topic_value: Variant in parsed.get("topics", []):
+        var topic: Dictionary = topic_value
+        content.add_child(_label("◆ %s · %s" % [String(topic.get("title", "")), String(topic.get("category", "")).capitalize()], 16, GOLD))
+        content.add_child(_label(String(topic.get("text", "")), 14, TEXT))
+
+func _render_saves() -> void:
+    content.add_child(_label(SaveManager.last_status, 14, MUTED))
+    for metadata_value: Variant in SaveManager.all_slots_metadata():
+        var metadata: Dictionary = metadata_value
+        var slot := int(metadata.get("slot", 0))
+        var slot_name := "AUTOSAVE" if slot == SaveManager.AUTOSAVE_SLOT else "EMPLACEMENT %d" % (slot + 1)
+        var description := "Vide" if bool(metadata.get("empty", true)) else "Chapitre %d · %s · %s" % [int(metadata.get("chapter", 1)), String(metadata.get("zone", "Sanctuaire")), String(metadata.get("timestamp", ""))]
+        var row := HBoxContainer.new()
+        var label := _label("%s — %s" % [slot_name, description], 14, TEXT)
+        label.custom_minimum_size = Vector2(690, 42)
+        row.add_child(label)
+        var save_button := _button("SAUVER", func(target_slot = slot): SaveManager.save_game(target_slot); _render(), Vector2(140, 40))
+        save_button.disabled = slot == SaveManager.AUTOSAVE_SLOT
+        row.add_child(save_button)
+        var load_button := _button("CHARGER", func(target_slot = slot): SaveManager.load_game(target_slot); _render(), Vector2(140, 40))
+        load_button.disabled = bool(metadata.get("empty", true))
+        row.add_child(load_button)
+        content.add_child(row)
+
 func _render_options() -> void:
     content.add_child(_slider_row("Volume général", GameSettings.master_volume, GameSettings.set_master_volume))
     content.add_child(_slider_row("Musique", GameSettings.music_volume, GameSettings.set_music_volume))
     content.add_child(_slider_row("Effets sonores", GameSettings.sfx_volume, GameSettings.set_sfx_volume))
+    content.add_child(_slider_row("Voix et dialogues", GameSettings.voice_volume, GameSettings.set_voice_volume))
+    content.add_child(_slider_row("Ambiance", GameSettings.ambience_volume, GameSettings.set_ambience_volume))
+    content.add_child(_slider_row("Interface", GameSettings.ui_volume, GameSettings.set_ui_volume))
     content.add_child(_toggle_row("Plein écran", GameSettings.fullscreen, GameSettings.set_fullscreen))
     content.add_child(_toggle_row("Sous-titres", GameSettings.subtitles, GameSettings.set_subtitles))
     content.add_child(_toggle_row("Secousses de caméra", GameSettings.screen_shake, GameSettings.set_screen_shake))
     content.add_child(_slider_row("Taille du texte", GameSettings.text_scale, GameSettings.set_text_scale))
     content.add_child(_toggle_row("Contraste renforcé", GameSettings.high_contrast, GameSettings.set_high_contrast))
     content.add_child(_toggle_row("Réduire les flashs", GameSettings.reduce_flashes, GameSettings.set_reduce_flashes))
+    content.add_child(_toggle_row("Sortie mono", GameSettings.mono_output, GameSettings.set_mono_output))
+    content.add_child(_slider_row("Vitesse des animations", GameSettings.animation_speed, GameSettings.set_animation_speed))
+    content.add_child(_choice_row("Plage dynamique", ["night","medium","wide"], GameSettings.dynamic_range, GameSettings.set_dynamic_range))
+    content.add_child(_choice_row("Assistance couleurs", ["none","deuteranopia","protanopia","tritanopia"], GameSettings.color_assist, GameSettings.set_color_assist))
     content.add_child(_label("Les réglages sont appliqués et sauvegardés automatiquement.", 14, MUTED))
     content.add_child(_button("SAUVEGARDER LA PARTIE", func(): SaveManager.save_game(), Vector2(300, 46)))
     content.add_child(_button("RETOUR AU SANCTUAIRE", func(): close_menu(); GameState.request_screen("sanctuary"), Vector2(300, 46)))
+
+func _choice_row(title: String, values: Array[String], current: String, callback: Callable) -> HBoxContainer:
+    var row := HBoxContainer.new()
+    var label := _label(title, 16, TEXT)
+    label.custom_minimum_size = Vector2(330, 44)
+    row.add_child(label)
+    for value: String in values:
+        var prefix := "✓ " if value == current else ""
+        row.add_child(_button(prefix + value.replace("_", " ").capitalize(), func(selected = value): callback.call(selected), Vector2(170, 40)))
+    return row
 
 func _slider_row(title: String, value: float, callback: Callable) -> HBoxContainer:
     var row := HBoxContainer.new()
@@ -459,7 +566,7 @@ func _button(text: String, callback: Callable, size := Vector2(180, 44)) -> Butt
 func _label(text: String, size := 15, color := TEXT) -> Label:
     var label := Label.new()
     label.text = text
-    label.add_theme_font_size_override("font_size", size)
+    label.add_theme_font_size_override("font_size", int(round(float(size) * GameSettings.text_scale)))
     label.add_theme_color_override("font_color", color)
     label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     return label

@@ -57,7 +57,19 @@ func generate_campaign_board(chapter_id: String, campaign_tier: int, context: Di
             contract["scope"] = "campaign"
             contract["reward_multiplier"] = float(archetype.get("reward_multiplier", 2.0))
             candidates.append(contract)
-    return _deterministic_pick(candidates, int(data.get("campaign_bounties", {}).get("board_size", 2)), seed_value)
+    board_seed = seed_value
+    var campaign_offers := _deterministic_pick(candidates, int(data.get("campaign_bounties", {}).get("board_size", 2)), seed_value)
+    for offer_value: Variant in campaign_offers:
+        var offer: Dictionary = offer_value
+        var already_present := false
+        for existing_value: Variant in offered_contracts:
+            if String((existing_value as Dictionary).get("id", "")) == String(offer.get("id", "")):
+                already_present = true
+                break
+        if not already_present:
+            offered_contracts.append(offer)
+    bounty_board_changed.emit()
+    return campaign_offers.duplicate(true)
 
 func _targets_for(archetype: Dictionary, context: Dictionary) -> Array:
     match String(archetype.get("target_source", "")):
@@ -126,6 +138,7 @@ func record_event(event_id: String, target_id: String = "", amount: int = 1) -> 
         bounty_progressed.emit(String(contract.get("id", "")))
         if int(contract["progress"]) >= int(contract.get("required", 1)):
             contract["status"] = "completed"
+            ExpeditionReportDirector.record_update("bounty_updates", "Prime accomplie : " + String(contract.get("name", "Contrat")))
             bounty_completed.emit(String(contract.get("id", "")))
     bounty_board_changed.emit()
 
@@ -141,6 +154,7 @@ func claim_contract(contract_id: String) -> Dictionary:
         GameState.essence += int(reward.get("essence", 0))
         completion_streak += 1
         contract["status"] = "claimed"
+        CampaignMemoryDirector.record_decision("bounty_" + contract_id, "Prime réclamée : " + String(contract.get("name", "Contrat")), "Récompense : " + JSON.stringify(reward))
         completed_contracts.append(contract.duplicate(true))
         active_contracts.erase(value)
         bounty_board_changed.emit()

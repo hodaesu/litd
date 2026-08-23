@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "topics": [
+    {
+      "id": "first_steps",
+      "title": "Premiers pas",
+      "category": "tutorial",
+      "text": "Compose la compagnie, prépare quatre compétences et les consommables, puis choisis une expédition. Les avertissements de préparation informent sans interdire le départ."
+    },
+    {
+      "id": "fear",
+      "title": "Peur",
+      "category": "psychology",
+      "text": "La Peur altère précision, posture et décisions. Les faits d’armes des héros peuvent aussi effrayer les ennemis."
+    },
+    {
+      "id": "madness",
+      "title": "Folie",
+      "category": "psychology",
+      "text": "La Folie déforme les réactions et peut provoquer des comportements dangereux, y compris contre un allié."
+    },
+    {
+      "id": "hope",
+      "title": "Espoir",
+      "category": "psychology",
+      "text": "L’Espoir soutient la posture, les relations et la résistance psychologique de la compagnie."
+    },
+    {
+      "id": "ranks",
+      "title": "Rangs R1–R4",
+      "category": "combat",
+      "text": "La position détermine portée, cibles et compétences disponibles. Poussée et traction changent les rangs."
+    },
+    {
+      "id": "injuries",
+      "title": "Blessures persistantes",
+      "category": "survival",
+      "text": "Une blessure continue d’appliquer ses malus jusqu’à un véritable traitement. Tout personnage possédant une capacité de soin peut traiter l’équipe hors combat."
+    },
+    {
+      "id": "mutilations",
+      "title": "Mutilations",
+      "category": "survival",
+      "text": "Une mutilation peut être stabilisée mais jamais régénérée. Ambidextre évite la pénalité de changement de main, sans permettre une arme à deux mains avec un seul bras."
+    },
+    {
+      "id": "traits",
+      "title": "Caractéristiques",
+      "category": "characters",
+      "text": "Chaque personnage possède au maximum deux traits positifs et deux négatifs. Certaines phobies évoluent après des expositions auxquelles le personnage survit."
+    },
+    {
+      "id": "cinders",
+      "title": "Guidage par les cendres",
+      "category": "exploration",
+      "text": "La cendre n’apparaît que sur demande : touche dédiée ou double appui tactile. Elle suit le passage praticable et ne traverse jamais les murs."
+    },
+    {
+      "id": "inspection",
+      "title": "Inspection en temps réel",
+      "category": "combat",
+      "text": "Survole ou sélectionne un héros ou ennemi pour inspecter statistiques, afflictions et capacités. Le combat ne se met pas en pause."
+    },
+    {
+      "id": "controls",
+      "title": "Commandes",
+      "category": "controls",
+      "text": "I ou MENU ouvre le menu général hors combat. G demande les cendres. Les commandes clavier et manette restent remappables sur PC."
+    },
+    {
+      "id": "save",
+      "title": "Sauvegardes",
+      "category": "system",
+      "text": "Trois emplacements manuels et un autosave sécurisé sont disponibles. Une copie de secours permet la récupération après corruption."
+    }
+  ]
+}
