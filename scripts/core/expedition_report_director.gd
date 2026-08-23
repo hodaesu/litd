@@ -73,7 +73,7 @@ func reset_new_game() -> void:
 
 func _ensure_current() -> void:
     if current.is_empty():
-        begin_expedition(String(ExpeditionManager.current_expedition.get("dungeon_id", "unknown")) if "current_expedition" in ExpeditionManager else "unknown")
+        begin_expedition("unknown")
 
 func _injuries_snapshot() -> Dictionary:
     var result: Dictionary = {}
