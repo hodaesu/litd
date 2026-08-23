@@ -25,6 +25,7 @@ func reset_new_game() -> void:
     EnemyFearDirector.reset_new_game()
     FieldEncounterRuntime.reset_new_game()
     EquipmentManager.reset_new_game()
+    CombatLoadoutManager.reset_new_game()
     CreatureManager.reset_new_game()
     PoliticalState.reset_new_game()
     CampaignState.reset_new_game()
