@@ -117,10 +117,10 @@ func _apply_posture(art: Control, profile: Dictionary, enemy: bool, formation_in
     var physical := String(profile.get("physical_state", "healthy"))
     var stance := clampf(float(parameters.get("stance_height", 1.0)), 0.72, 1.08)
     var compaction := clampf(float(parameters.get("guard_compaction", 0.0)), 0.0, 1.0)
-    var signature_seed := abs(String(profile.get("signature_key", profile.get("character_id", formation_index))).hash())
-    var width_variant := 0.94 + float(signature_seed % 11) * 0.01
-    var lean_variant := (float(signature_seed % 9) - 4.0) * 0.006
-    var lean := lean_variant
+    var signature_seed: int = absi(String(profile.get("signature_key", profile.get("character_id", formation_index))).hash())
+    var width_variant: float = 0.94 + float(signature_seed % 11) * 0.01
+    var lean_variant: float = (float(signature_seed % 9) - 4.0) * 0.006
+    var lean: float = lean_variant
     if psyche in ["tense", "terrified", "panic"]:
         lean += (-0.035 if enemy else 0.035) * (1.0 + compaction * 0.5)
     elif psyche == "anger":
