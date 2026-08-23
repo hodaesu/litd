@@ -35,11 +35,11 @@ func quest_giver_for(quest: Dictionary) -> Dictionary:
 
 func quest_dialogue_lines(quest: Dictionary, state: String) -> Array[String]:
     var narrative := quest_narrative(quest)
-    var key := {
+    var key: String = str({
         "offered":"offer_lines",
         "active":"progress_lines",
         "completed":"completion_lines"
-    }.get(state, "")
+    }.get(state, ""))
     var result: Array[String] = []
     var values: Variant = narrative.get(key, [])
     if values is Array:
