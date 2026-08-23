@@ -1,0 +1,344 @@
+{
+  "id": "ashlands_first_map",
+  "version": 1,
+  "units": "meters",
+  "zones": [
+    {
+      "id": "refuge_gate",
+      "size": [
+        42,
+        28
+      ],
+      "traversal_seconds": 55,
+      "giver": "maela",
+      "quests": [
+        "ashes_beneath_the_threshold"
+      ],
+      "encounters": [],
+      "chests": 1,
+      "secrets": 1
+    },
+    {
+      "id": "charred_hamlet",
+      "size": [
+        80,
+        62
+      ],
+      "traversal_seconds": 150,
+      "giver": "orven",
+      "quests": [
+        "the_names_in_the_embers"
+      ],
+      "encounters": [
+        "scavenger_patrol",
+        "ash_spiders"
+      ],
+      "chests": 2,
+      "secrets": 2
+    },
+    {
+      "id": "black_orchard",
+      "size": [
+        96,
+        70
+      ],
+      "traversal_seconds": 180,
+      "giver": "sister_elianor",
+      "quests": [
+        "roots_that_remember"
+      ],
+      "encounters": [
+        "ash_spiders",
+        "veil_hounds"
+      ],
+      "chests": 2,
+      "secrets": 2
+    },
+    {
+      "id": "collapsed_quarry",
+      "size": [
+        110,
+        76
+      ],
+      "traversal_seconds": 210,
+      "giver": "brenn",
+      "quests": [
+        "the_last_lantern"
+      ],
+      "encounters": [
+        "broken_miners",
+        "quarry_elite"
+      ],
+      "chests": 3,
+      "secrets": 2
+    },
+    {
+      "id": "first_veil_crypt",
+      "size": [
+        125,
+        90
+      ],
+      "traversal_seconds": 260,
+      "giver": "keeper_sorel",
+      "quests": [
+        "a_debt_of_bones"
+      ],
+      "encounters": [
+        "undead_guard",
+        "veil_boss"
+      ],
+      "chests": 3,
+      "secrets": 3
+    }
+  ],
+  "routes": {
+    "main": [
+      "refuge_gate",
+      "charred_hamlet",
+      "black_orchard",
+      "collapsed_quarry",
+      "first_veil_crypt"
+    ],
+    "shortcuts": [
+      [
+        "charred_hamlet",
+        "collapsed_quarry"
+      ],
+      [
+        "black_orchard",
+        "first_veil_crypt"
+      ]
+    ],
+    "blocked": [
+      {
+        "edge": [
+          "charred_hamlet",
+          "collapsed_quarry"
+        ],
+        "requires": "quarry_lift_restored"
+      },
+      {
+        "edge": [
+          "black_orchard",
+          "first_veil_crypt"
+        ],
+        "requires": "root_seal_broken"
+      }
+    ],
+    "expedition_variants": [
+      "rain_of_ash",
+      "refugees",
+      "veil_surge"
+    ]
+  },
+  "assets": [
+    {
+      "id": "mod_wall_ashstone",
+      "variants": 4,
+      "size": [
+        4,
+        0.5,
+        3
+      ],
+      "material": "ashstone",
+      "lods": 3,
+      "poly_budget": 1800,
+      "collision": "box",
+      "destructible": false,
+      "interactive": false,
+      "export": "environment/mod_wall_ashstone_v##_lod#.glb"
+    },
+    {
+      "id": "mod_floor_ruin",
+      "variants": 5,
+      "size": [
+        4,
+        4,
+        0.25
+      ],
+      "material": "burnt_masonry",
+      "lods": 3,
+      "poly_budget": 1400,
+      "collision": "mesh_simple",
+      "destructible": false,
+      "interactive": false,
+      "export": "environment/mod_floor_ruin_v##_lod#.glb"
+    },
+    {
+      "id": "prop_charred_tree",
+      "variants": 6,
+      "size": [
+        2,
+        2,
+        7
+      ],
+      "material": "charred_wood",
+      "lods": 3,
+      "poly_budget": 3200,
+      "collision": "capsule",
+      "destructible": true,
+      "interactive": false,
+      "export": "environment/prop_charred_tree_v##_lod#.glb"
+    },
+    {
+      "id": "prop_quest_altar",
+      "variants": 2,
+      "size": [
+        2,
+        2,
+        2.4
+      ],
+      "material": "bone_stone",
+      "lods": 2,
+      "poly_budget": 4500,
+      "collision": "mesh_simple",
+      "destructible": false,
+      "interactive": true,
+      "export": "environment/prop_quest_altar_v##_lod#.glb"
+    },
+    {
+      "id": "prop_chest",
+      "variants": 3,
+      "size": [
+        1.4,
+        0.8,
+        0.9
+      ],
+      "material": "iron_wood",
+      "lods": 2,
+      "poly_budget": 2800,
+      "collision": "box",
+      "destructible": false,
+      "interactive": true,
+      "export": "environment/prop_chest_v##_lod#.glb"
+    }
+  ],
+  "enemy_profiles": [
+    {
+      "family": "ash_spider",
+      "morph_variants": 4,
+      "elite_variant": true,
+      "rig": "rig_quadruped_small",
+      "mutilation_parts": [
+        "abdomen",
+        "leg_l",
+        "leg_r"
+      ],
+      "animations": [
+        "idle",
+        "skitter",
+        "bite",
+        "web",
+        "fear",
+        "panic",
+        "hit",
+        "death"
+      ]
+    },
+    {
+      "family": "veil_hound",
+      "morph_variants": 3,
+      "elite_variant": true,
+      "rig": "rig_quadruped",
+      "mutilation_parts": [
+        "head",
+        "foreleg",
+        "hindleg",
+        "tail"
+      ],
+      "animations": [
+        "idle",
+        "walk",
+        "run",
+        "bite",
+        "pounce",
+        "fear",
+        "panic",
+        "hit",
+        "death"
+      ]
+    },
+    {
+      "family": "broken_humanoid",
+      "morph_variants": 6,
+      "elite_variant": true,
+      "rig": "rig_humanoid",
+      "mutilation_parts": [
+        "head",
+        "arm_l",
+        "arm_r",
+        "leg_l",
+        "leg_r"
+      ],
+      "animations": [
+        "idle",
+        "walk",
+        "attack_light",
+        "attack_heavy",
+        "guard",
+        "fear",
+        "panic",
+        "hit",
+        "kneel",
+        "death"
+      ]
+    },
+    {
+      "family": "first_veil_boss",
+      "morph_variants": 1,
+      "elite_variant": false,
+      "rig": "rig_boss_first_veil",
+      "mutilation_parts": [
+        "mask",
+        "arm_l",
+        "arm_r"
+      ],
+      "animations": [
+        "idle",
+        "walk",
+        "cleave",
+        "veil_burst",
+        "summon",
+        "stagger",
+        "phase_change",
+        "death"
+      ]
+    }
+  ],
+  "placement_rules": {
+    "cover_spacing_min": 3.5,
+    "chest_dead_end_bias": 0.7,
+    "secret_off_main_route_min": 8,
+    "combat_entry_clearance": 6,
+    "quest_giver_safe_radius": 7,
+    "decor_seed_saved": true
+  },
+  "audio_events": [
+    "amb_zone",
+    "amb_veil_surge",
+    "footstep_ash",
+    "footstep_stone",
+    "weapon_light",
+    "weapon_heavy",
+    "guard",
+    "dodge",
+    "heal_use",
+    "grenade_throw",
+    "grenade_blast",
+    "enemy_fear",
+    "enemy_panic",
+    "quest_offer",
+    "quest_accept",
+    "quest_complete",
+    "cinders_guidance"
+  ],
+  "import": {
+    "format": "glb",
+    "scale": 1,
+    "up_axis": "Y",
+    "forward_axis": "-Z",
+    "apply_transforms": true,
+    "animation_fps": 30,
+    "root_motion": "disabled_until_validation"
+  }
+}
