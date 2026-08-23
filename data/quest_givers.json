@@ -1,0 +1,81 @@
+{
+  "quest_givers": [
+    {
+      "id": "sorya_hen",
+      "name": "Sorya Hen",
+      "role": "Gardienne des routes",
+      "location": "Porte orientale du Sanctuaire",
+      "portrait": "sorya_hen",
+      "personality": "Directe, protectrice et peu impressionnée par les titres.",
+      "history": "Ancienne arbitre des tournois de passage, elle entretient seule les cartes des voies encore praticables.",
+      "voice": "Grave, mesurée, avec de longues pauses avant les décisions.",
+      "quests": ["c01_main_road"]
+    },
+    {
+      "id": "ilyan_orme",
+      "name": "Ilyan Orme",
+      "role": "Fondeur de cloches",
+      "location": "Atelier effondré du Sanctuaire",
+      "portrait": "ilyan_orme",
+      "personality": "Patient, superstitieux et attentif aux vibrations plus qu’aux paroles.",
+      "history": "Il fabriquait les cloches civiques qui annonçaient les assemblées, les tournois et les dangers sans distinction.",
+      "voice": "Douce, presque murmurée ; il touche souvent le bois ou la pierre pour en sentir la réponse.",
+      "quests": ["c01_side_buried_bell"]
+    },
+    {
+      "id": "naima_sol",
+      "name": "Naïma Sol",
+      "role": "Gardienne du Mémorial",
+      "location": "Cour des noms",
+      "portrait": "naima_sol",
+      "personality": "Chaleureuse, inflexible sur la dignité des morts.",
+      "history": "Elle reconstitue les registres détruits et refuse que les survivants soient réduits à des nombres.",
+      "voice": "Claire et calme, avec une émotion contenue lorsqu’elle prononce un nom retrouvé.",
+      "quests": ["c01_side_names_in_ash"]
+    },
+    {
+      "id": "tarek_vann",
+      "name": "Tarek Vann",
+      "role": "Médecin itinérant",
+      "location": "Infirmerie du Sanctuaire",
+      "portrait": "tarek_vann",
+      "personality": "Pragmatique, compatissant et sévère envers les pillards.",
+      "history": "Il a survécu en soignant indistinctement citoyens, soldats étrangers et créatures capturées.",
+      "voice": "Rapide et précise ; son ton devient froid dès que la dignité d’un blessé est menacée.",
+      "quests": ["c01_side_last_medic"]
+    },
+    {
+      "id": "eno_kesh",
+      "name": "Eno Kesh",
+      "role": "Observateur du vivant",
+      "location": "Enclos des créatures",
+      "portrait": "eno_kesh",
+      "personality": "Curieux, prudent et hostile aux certitudes faciles.",
+      "history": "Ancien peintre animalier, il étudie désormais comment la Peur transforme les êtres du Voile.",
+      "voice": "Basse et enthousiaste, puis soudain silencieuse lorsqu’il observe un comportement nouveau.",
+      "quests": ["c01_side_quiet_creature"]
+    },
+    {
+      "id": "meira_sen",
+      "name": "Meira Sen",
+      "role": "Archiviste des contradictions",
+      "location": "Salle des cartes brûlées",
+      "portrait": "meira_sen",
+      "personality": "Ironique, méthodique et incapable d’accepter une version trop parfaite.",
+      "history": "Elle compare les archives officielles, les souvenirs populaires et les échos du Voile pour repérer les mensonges collectifs.",
+      "voice": "Précise, vive, avec un humour sec lorsqu’une preuve contredit l’autorité.",
+      "quests": ["c01_side_three_testimonies"]
+    },
+    {
+      "id": "vara_kesh",
+      "name": "Vara Kesh",
+      "role": "Maîtresse des primes",
+      "location": "Table des chasseurs",
+      "portrait": "vara_kesh",
+      "personality": "Exigeante, équitable et méfiante envers les récits héroïques invérifiables.",
+      "history": "Elle transforme les besoins des communautés en contrats de chasse et tient le registre des faits d’armes confirmés.",
+      "voice": "Brève et ferme ; chaque contrat est énoncé comme un engagement réciproque.",
+      "quests": ["bounty_contracts"]
+    }
+  ]
+}
