@@ -8,6 +8,9 @@ signal transition_requested(zone_id: String)
 signal resource_collected(resource_id: String)
 signal encounter_cleared(encounter_id: String)
 signal lore_discovered(entry: Dictionary)
+signal interaction_recorded(target_id: String)
+signal dialogue_recorded(target_id: String)
+signal choice_recorded(target_id: String, choice_id: String)
 
 var discovered_zones: Dictionary = {}
 var unlocked_shortcuts: Dictionary = {}
@@ -47,6 +50,18 @@ func mark_resource_collected(resource_id: String) -> void:
         return
     collected_resources[resource_id] = true
     resource_collected.emit(resource_id)
+
+func record_interaction(target_id: String) -> void:
+    if target_id != "":
+        interaction_recorded.emit(target_id)
+
+func record_dialogue(target_id: String) -> void:
+    if target_id != "":
+        dialogue_recorded.emit(target_id)
+
+func record_choice(target_id: String, choice_id: String) -> void:
+    if target_id != "" and choice_id != "":
+        choice_recorded.emit(target_id, choice_id)
 
 func is_resource_collected(resource_id: String) -> bool:
     return bool(collected_resources.get(resource_id, false))
