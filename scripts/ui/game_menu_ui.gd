@@ -175,7 +175,9 @@ func _render_journal() -> void:
             var quest: Dictionary = value
             var giver := NarrativeLibrary.quest_giver_for(quest)
             content.add_child(_label("◇ %s" % String(quest.get("name", "Quête")), 15, TEXT))
-            content.add_child(_label("%s — %s" % [String(giver.get("name", "Donneur inconnu")), String(giver.get("role", ""))], 12, GOLD))
+            var giver_button := _button("RENCONTRER %s — %s" % [String(giver.get("name", "Donneur inconnu")).to_upper(), String(giver.get("role", ""))], func(g = giver, q = quest): QuestGiverPresentation.open_dialogue(g, q, "offered"), Vector2(520, 40))
+            QuestGiverPresentation.bind_card(giver_button, giver, "offered")
+            content.add_child(giver_button)
             content.add_child(_label(NarrativeLibrary.quest_state_text(quest, "offered"), 13, MUTED))
     content.add_child(_label("CONTRATS DE CHASSE", 18, GOLD))
     for value: Variant in BountyContractDirector.active_contracts:
