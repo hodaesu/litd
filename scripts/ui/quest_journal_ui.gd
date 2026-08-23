@@ -148,7 +148,10 @@ func _render_side_quests(parent: VBoxContainer) -> void:
             continue
         var giver := NarrativeLibrary.quest_giver_for(quest)
         parent.add_child(_label("◇ %s" % String(quest.get("name", "Quête")),15,TEXT))
-        parent.add_child(_label("Donnée par %s — %s · %s" % [String(giver.get("name", "Inconnu")), String(giver.get("role", "")), String(giver.get("location", ""))],12,GOLD))
+        var giver_button := _button("RENCONTRER %s — %s" % [String(giver.get("name", "Inconnu")).to_upper(), String(giver.get("role", ""))], func(g = giver, q = quest): QuestGiverPresentation.open_dialogue(g, q, "offered"), Vector2(520, 42))
+        QuestGiverPresentation.bind_card(giver_button, giver, "offered")
+        parent.add_child(giver_button)
+        parent.add_child(_label(String(giver.get("location", "")),12,GOLD))
         parent.add_child(_label(NarrativeLibrary.quest_state_text(quest, "offered"),12,MUTED))
         for objective_value: Variant in quest.get("objectives", []):
             var objective: Dictionary = objective_value
@@ -166,8 +169,11 @@ func _render_bounties(parent: VBoxContainer) -> void:
         BountyContractDirector.generate_dungeon_board("first_veil_crypts", 1, context, 101 + BountyContractDirector.completed_dungeon_runs)
     parent.add_child(_label("CONTRATS DE CHASSE",18,GOLD))
     var bounty_giver := NarrativeLibrary.quest_giver("vara_kesh")
-    parent.add_child(_label("%s — %s · %s" % [String(bounty_giver.get("name", "Vara Kesh")), String(bounty_giver.get("role", "Maîtresse des primes")), String(bounty_giver.get("location", "Table des chasseurs"))],12,GOLD))
-    parent.add_child(_label("« Une prime n’est pas une invitation au massacre. C’est une dette précise envers ceux qui ne peuvent plus emprunter la route. »",12,MUTED))
+    var bounty_dialogue := {"name":"Contrats de chasse","narrative":{"offer_lines":["Vara maintient une main sur le registre et fait glisser les contrats disponibles.","« Une prime n’est pas une invitation au massacre. C’est une dette précise envers ceux qui ne peuvent plus emprunter la route. »"],"player_accept":"Montre-nous les contrats dont la route a besoin.","player_decline":"Nous ne prendrons aucun engagement aujourd’hui."}}
+    var bounty_button := _button("RENCONTRER %s — %s" % [String(bounty_giver.get("name", "Vara Kesh")).to_upper(), String(bounty_giver.get("role", "Maîtresse des primes"))], func(): QuestGiverPresentation.open_dialogue(bounty_giver, bounty_dialogue, "offered"), Vector2(520,42))
+    QuestGiverPresentation.bind_card(bounty_button, bounty_giver, "offered")
+    parent.add_child(bounty_button)
+    parent.add_child(_label(String(bounty_giver.get("location", "Table des chasseurs")),12,GOLD))
     parent.add_child(_label("Maximum 2 actifs · renouvelés après les expéditions",12,MUTED))
     for value in BountyContractDirector.active_contracts:
         var contract: Dictionary = value
