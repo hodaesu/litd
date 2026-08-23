@@ -57,7 +57,19 @@ func generate_campaign_board(chapter_id: String, campaign_tier: int, context: Di
             contract["scope"] = "campaign"
             contract["reward_multiplier"] = float(archetype.get("reward_multiplier", 2.0))
             candidates.append(contract)
-    return _deterministic_pick(candidates, int(data.get("campaign_bounties", {}).get("board_size", 2)), seed_value)
+    board_seed = seed_value
+    var campaign_offers := _deterministic_pick(candidates, int(data.get("campaign_bounties", {}).get("board_size", 2)), seed_value)
+    for offer_value: Variant in campaign_offers:
+        var offer: Dictionary = offer_value
+        var already_present := false
+        for existing_value: Variant in offered_contracts:
+            if String((existing_value as Dictionary).get("id", "")) == String(offer.get("id", "")):
+                already_present = true
+                break
+        if not already_present:
+            offered_contracts.append(offer)
+    bounty_board_changed.emit()
+    return campaign_offers.duplicate(true)
 
 func _targets_for(archetype: Dictionary, context: Dictionary) -> Array:
     match String(archetype.get("target_source", "")):
