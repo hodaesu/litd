@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "environmental_sequences": [
+    {
+      "id": "gate_departure",
+      "zone": "c01_refuge_gate",
+      "beats": [
+        "The gate opens only enough for one body.",
+        "Fresh ash preserves the last returning footprints.",
+        "A child’s ribbon is tied to the route marker."
+      ],
+      "reactions": {
+        "fear_high": "No one volunteers to walk first.",
+        "hope_high": "A hero reties the ribbon so it remains visible."
+      }
+    },
+    {
+      "id": "buried_belfry",
+      "zone": "c01_buried_belfry",
+      "beats": [
+        "The bell is heard through bones before ears.",
+        "Scratches inside the rubble answer every strike.",
+        "The rescued refuse to ring it until all names are counted."
+      ],
+      "choice_echoes": [
+        "return_bell",
+        "leave_warning"
+      ]
+    },
+    {
+      "id": "name_field",
+      "zone": "c01_ash_road",
+      "beats": [
+        "Bronze nameplates shine where rain uncovered them.",
+        "One plate bears no family name.",
+        "Enemies have arranged three plates around a cold fire."
+      ]
+    },
+    {
+      "id": "quarry_lift",
+      "zone": "c01_collapsed_quarry",
+      "beats": [
+        "The lift rope was cut from above.",
+        "Medical wrappings mark a survivor route.",
+        "Restoring the lift opens a permanent shortcut."
+      ]
+    },
+    {
+      "id": "veil_crypt",
+      "zone": "c01_first_veil_crypt",
+      "beats": [
+        "Tournament poses are carved beside civic oaths.",
+        "The bodies were buried with tools, not weapons.",
+        "The Témoin repeats a promise using several dead voices."
+      ]
+    }
+  ],
+  "camp_conversations": [
+    {
+      "id": "injury_arm",
+      "trigger": "ally_arm_injury",
+      "lines": [
+        "Keep the weapon side clear. I can bind the rest while we walk.",
+        "Ambidextrous or not, a two-handed weapon still needs two arms."
+      ]
+    },
+    {
+      "id": "injury_persistent",
+      "trigger": "untreated_injury",
+      "lines": [
+        "Rest hid the pain; it did not heal it.",
+        "We leave it untreated, it follows us into every room."
+      ]
+    },
+    {
+      "id": "enemy_fear",
+      "trigger": "enemy_panicked",
+      "lines": [
+        "They know our names now.",
+        "That fear will save us once and provoke them the next time."
+      ]
+    },
+    {
+      "id": "quest_refused",
+      "trigger": "quest_refused",
+      "lines": [
+        "Saying no is still a decision the Sanctuary must live with.",
+        "We may find the cost of that refusal further down the road."
+      ]
+    },
+    {
+      "id": "healer_present",
+      "trigger": "party_healer",
+      "lines": [
+        "Give me time and clean hands. We do not need the Infirmary for this.",
+        "I can treat every wound. A lost limb is another matter."
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "id": "tournament_charter",
+      "title": "Charte des trois disciplines",
+      "theme": "body_mind_common_good",
+      "text": "Every citizen cultivates a body capable of restraint, a mind capable of creation, and a voice answerable to the common good."
+    },
+    {
+      "id": "after_fall_council",
+      "title": "Minutes of the last open council",
+      "theme": "politics_after_fall",
+      "text": "The gate was not opened by ignorance alone, but by powers that preferred victory elsewhere to responsibility here."
+    },
+    {
+      "id": "fear_fragment",
+      "title": "On useful fear",
+      "theme": "fear",
+      "text": "Fear is a witness. Listen to it, but never let it pass sentence."
+    },
+    {
+      "id": "madness_fragment",
+      "title": "The mirror without a crowd",
+      "theme": "madness",
+      "text": "Madness begins when every contradiction is mistaken for an enemy voice."
+    },
+    {
+      "id": "hope_fragment",
+      "title": "Hope as maintenance",
+      "theme": "hope",
+      "text": "Hope is not certainty. It is the work repeated before certainty exists."
+    }
+  ],
+  "reaction_dimensions": [
+    "trait",
+    "injury",
+    "fear",
+    "madness",
+    "hope",
+    "relationship",
+    "quest_choice",
+    "ally_death",
+    "captured_creature"
+  ],
+  "localization": [
+    "fr",
+    "en_placeholder"
+  ]
+}
