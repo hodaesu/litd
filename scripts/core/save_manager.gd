@@ -127,7 +127,7 @@ func _apply_payload(payload: Dictionary) -> void:
         var hero: Dictionary = hero_value
         HeroSkillManager.prepare_hero(hero); EnemyFearDirector.prepare_hero(hero); PersistentInjuryRuntime.prepare_character(hero)
     EquipmentManager.deserialize(payload.get("equipment", {})); CombatLoadoutManager.deserialize(payload.get("combat_loadouts", {}))
-    CreatureManager.deserialize(payload.get("creatures", {})); GameState.expedition_room = int(payload.get("expedition_room", 0))
+    CreatureManager.deserialize(payload.get("creatures",{})); GameState.expedition_room = int(payload.get("expedition_room",0))
     PoliticalState.deserialize(payload.get("politics", {})); CampaignState.deserialize(payload.get("campaign", {}))
     SideQuestRuntime.deserialize(payload.get("side_quests", {})); BountyContractDirector.deserialize(payload.get("bounty_contracts", {}))
     EnemyFearDirector.deserialize(payload.get("hero_renown", {})); AshlandsRuntime.deserialize(payload.get("ashlands", {}))
@@ -136,7 +136,7 @@ func _apply_payload(payload: Dictionary) -> void:
     Chapter05Runtime.deserialize(payload.get("chapter_05", {})); Chapter06Runtime.deserialize(payload.get("chapter_06", {}))
     Chapter07Runtime.deserialize(payload.get("chapter_07", {})); Chapter08Runtime.deserialize(payload.get("chapter_08", {}))
     Chapter09Runtime.deserialize(payload.get("chapter_09", {})); Chapter10Runtime.deserialize(payload.get("chapter_10", {}))
-    EndgameState.deserialize(payload.get("endgame", {})); DeepVestigeRuntime.deserialize(payload.get("deep_vestiges", {}))
+    EndgameState.deserialize(payload.get("endgame",{})); DeepVestigeRuntime.deserialize(payload.get("deep_vestiges", {}))
     ExpeditionManager.deserialize(payload.get("expedition", {})); FieldEncounterRuntime.deserialize(payload.get("field_encounters",{}))
     CommunityRuntime.deserialize(payload.get("community",{})); AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses", {}))
     AshlandsCombatBridge.deserialize(payload.get("ashlands_combat", {})); CampaignMemoryDirector.deserialize(payload.get("campaign_memory", {}))
