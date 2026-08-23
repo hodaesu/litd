@@ -108,7 +108,7 @@ func equip(hero_id: String, item_id: String, requested_quantity: int = HERO_STAC
         add_to_inventory(previous_id, previous_quantity)
     elif previous_id != "":
         add_to_inventory(previous_id, previous_quantity)
-    var quantity := mini(HERO_STACK_LIMIT, maxi(1, requested_quantity), inventory_count(item_id))
+    var quantity := mini(HERO_STACK_LIMIT, mini(maxi(1, requested_quantity), inventory_count(item_id)))
     if quantity <= 0:
         slots[category] = previous
         if previous_id != "":
