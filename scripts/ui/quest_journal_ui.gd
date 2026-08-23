@@ -147,15 +147,22 @@ func _render_side_quests(parent: VBoxContainer) -> void:
         if String(quest.get("narrative_role", "")) != "side":
             continue
         var giver := NarrativeLibrary.quest_giver_for(quest)
-        parent.add_child(_label("◇ %s" % String(quest.get("name", "Quête")),15,TEXT))
-        var giver_button := _button("RENCONTRER %s — %s" % [String(giver.get("name", "Inconnu")).to_upper(), String(giver.get("role", ""))], func(g = giver, q = quest): QuestGiverPresentation.open_dialogue(g, q, "offered"), Vector2(520, 42))
-        QuestGiverPresentation.bind_card(giver_button, giver, "offered")
+        var quest_id := String(quest.get("id", ""))
+        var quest_status := SideQuestRuntime.status(quest_id)
+        var state_data := SideQuestRuntime.state(quest_id)
+        var progress: Dictionary = state_data.get("progress", {})
+        parent.add_child(_label("%s %s — %s" % ["◆" if quest_status == "active" else ("✓" if quest_status == "completed" else "◇"), String(quest.get("name", "Quête")), quest_status.capitalize()],15,TEXT))
+        var giver_button := _button("RENCONTRER %s — %s" % [String(giver.get("name", "Inconnu")).to_upper(), String(giver.get("role", ""))], func(g = giver, q = quest, s = quest_status): QuestGiverPresentation.open_dialogue(g, q, s), Vector2(520, 42))
+        QuestGiverPresentation.bind_card(giver_button, giver, quest_status)
         parent.add_child(giver_button)
         parent.add_child(_label(String(giver.get("location", "")),12,GOLD))
-        parent.add_child(_label(NarrativeLibrary.quest_state_text(quest, "offered"),12,MUTED))
+        parent.add_child(_label(NarrativeLibrary.quest_state_text(quest, quest_status),12,MUTED))
         for objective_value: Variant in quest.get("objectives", []):
             var objective: Dictionary = objective_value
-            parent.add_child(_label("  □ " + NarrativeLibrary.quest_objective_text(objective),11,MUTED))
+            var objective_id := String(objective.get("id", ""))
+            var current := int(progress.get(objective_id, 0))
+            var required := int(objective.get("count", 1))
+            parent.add_child(_label("  %s %s — %d/%d" % ["✓" if current >= required else "□", NarrativeLibrary.quest_objective_text(objective), current, required],11,MUTED))
 
 func _render_bounties(parent: VBoxContainer) -> void:
     if BountyContractDirector.offered_contracts.is_empty() and BountyContractDirector.active_contracts.is_empty():
