@@ -33,6 +33,7 @@ func reset_new_game() -> void:
     BountyContractDirector.reset_new_game()
     ExpeditionReportDirector.reset_new_game()
     ExpeditionPreparationDirector.reset_new_game()
+    ExplorationDirector.reset_new_game()
     CampaignMemoryDirector.reset_new_game()
     AshlandsRuntime.reset_world_progression()
     Chapter01Runtime.reset_new_game()
