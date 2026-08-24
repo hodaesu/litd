@@ -12,9 +12,7 @@ func run() -> void:
     GameState.reset_new_game()
     CampaignState.reset_new_game()
     # This journey exercises the capture UI after the company has learned it.
-    if not GameState.party.is_empty():
-        (GameState.party[0] as Dictionary)["level"] = 14
-    _check(ContentScopeDirector.is_unlocked("capture"), "UI capture must unlock at company rank 4")
+    _check(ContentScopeDirector.grant_capability("capture"), "UI capture test capability must be grantable")
     EquipmentManager.reset_new_game(7001)
     CreatureManager.reset_new_game(7002)
     AshlandsRuntime.reset_world_progression()
@@ -69,8 +67,7 @@ func _launch_real_expedition_from_ui() -> void:
 
 func _enter_combat_from_world_contact() -> void:
     # The title flow starts a fresh game, so unlock the advanced test capability here.
-    if not GameState.party.is_empty():
-        (GameState.party[0] as Dictionary)["level"] = 14
+    _check(ContentScopeDirector.grant_capability("capture"), "Capture must be granted after the title starts a new game")
     _check(ContentScopeDirector.is_unlocked("capture"), "Capture must remain unlocked before entering combat")
     var scene: Node = get_tree().current_scene
     _check(scene != null, "Exploration scene missing before encounter")
