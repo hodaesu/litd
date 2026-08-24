@@ -697,6 +697,7 @@ func show_combat() -> void:
         v.add_child(art)
         CombatBodyPresentation.bind_visual(art, e, true, i)
         v.add_child(make_label("%s\nPV %d/%d" % [e.name,e.hp,e.max_hp], 12, GOLD if i == selected_enemy else TEXT))
+        v.add_child(make_enemy_health_bar(e))
         v.add_child(make_label(CombatBodyPresentation.state_label(e, true), 9, MUTED))
         var enemy_traits := CharacterTraitDirector.trait_names(e)
         v.add_child(make_label("+%s · −%s" % [", ".join(enemy_traits.get("positive", [])), ", ".join(enemy_traits.get("negative", []))], 9, MUTED))
@@ -1110,3 +1111,45 @@ func show_rewards() -> void:
 func _unhandled_input(event: InputEvent) -> void:
     if event.is_action_pressed("back") and GameState.current_screen != "title":
         GameState.request_screen("sanctuary")
+
+
+func make_enemy_health_bar(enemy: Dictionary) -> VBoxContainer:
+    var container := VBoxContainer.new()
+    container.add_theme_constant_override("separation", 2)
+    var bar := ProgressBar.new()
+    bar.custom_minimum_size = Vector2(142, 10)
+    bar.max_value = maxi(1, int(enemy.get("max_hp", 1)))
+    bar.value = clampi(int(enemy.get("hp", 0)), 0, int(bar.max_value))
+    bar.show_percentage = false
+
+    var background := StyleBoxFlat.new()
+    background.bg_color = Color(0.09, 0.08, 0.09, 0.92)
+    background.corner_radius_top_left = 3
+    background.corner_radius_top_right = 3
+    background.corner_radius_bottom_left = 3
+    background.corner_radius_bottom_right = 3
+    bar.add_theme_stylebox_override("background", background)
+
+    var readiness: Dictionary = CreatureManager.capture_readiness(enemy)
+    var fill := StyleBoxFlat.new()
+    fill.bg_color = Color(0.54, 0.12, 0.10)
+    if bool(readiness.get("ready", false)):
+        fill.bg_color = Color(0.42, 0.78, 0.66)
+    elif str(readiness.get("state", "")) == "no_essence":
+        fill.bg_color = Color(0.66, 0.52, 0.25)
+    fill.corner_radius_top_left = 3
+    fill.corner_radius_top_right = 3
+    fill.corner_radius_bottom_left = 3
+    fill.corner_radius_bottom_right = 3
+    bar.add_theme_stylebox_override("fill", fill)
+    container.add_child(bar)
+
+    if bool(readiness.get("ready", false)):
+        var indicator := make_label("◇ CAPTURABLE", 10, Color(0.64, 0.94, 0.82))
+        indicator.tooltip_text = "Cette créature est assez affaiblie. Utilisez CAPTURER pour tenter le lien."
+        container.add_child(indicator)
+    elif str(readiness.get("state", "")) == "no_essence":
+        var blocked := make_label("◇ CAPTURABLE · ESSENCE %d" % int(readiness.get("essence_cost", 0)), 9, Color(0.82, 0.68, 0.38))
+        blocked.tooltip_text = "Le seuil est atteint, mais la compagnie ne possède pas assez d’Essence."
+        container.add_child(blocked)
+    return container
