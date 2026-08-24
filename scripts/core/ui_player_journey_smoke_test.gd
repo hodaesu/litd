@@ -130,6 +130,8 @@ func _drive_combat_actions() -> void:
     attack_target["max_hp"] = maxi(10, int(attack_target.get("max_hp", 10)))
     attack_target["hp"] = 1
     GameState.essence = 100
+    _check(ContentScopeDirector.grant_capability("capture"), "Capture milestone must be restorable during combat")
+    _check(ContentScopeDirector.is_unlocked("capture"), "Capture capability must be active immediately before the action")
     _check(_prime_capture_success(attack_target), "Smoke test must be able to deterministically prime one successful capture roll")
     _check(await _select_enemy(0), "Player must be able to reselect the weakened capture target")
     _check(await _press_button("CAPTURER", true), "Darius must be able to use the real CAPTURER button")
