@@ -22,6 +22,7 @@ func _ready() -> void:
     reset_new_game()
 
 func reset_new_game() -> void:
+    ContentScopeDirector.reset_new_game()
     EnemyFearDirector.reset_new_game()
     FieldEncounterRuntime.reset_new_game()
     EquipmentManager.reset_new_game()
