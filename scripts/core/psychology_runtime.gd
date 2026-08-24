@@ -138,16 +138,21 @@ func trait_label(trait_id: String) -> String:
 func combat_modifiers(hero: Dictionary) -> Dictionary:
     var fear_band_id := str(fear_band(hero).get("id", "calm"))
     var fear_rules: Dictionary = data.get("combat_rules", {}).get("bands", {}).get(fear_band_id, {})
+    var fear_scale := _fear_penalty_scale(hero)
+    var result: Dictionary = {}
+    for key_value: Variant in ["precision", "damage_percent", "healing_power"]:
+        var key := str(key_value)
+        result[key] = int(round(float(fear_rules.get(key, 0)) * fear_scale))
+    result["fear_posture"] = fear_band_id
+    return result
+
+func hope_combat_modifiers(hero: Dictionary) -> Dictionary:
     var hope_band_id := str(hope_band(hero).get("id", "dormant"))
     var hope_rules: Dictionary = data.get("combat_rules", {}).get("hope_bands", {}).get(hope_band_id, {})
-    var fear_scale := _fear_penalty_scale(hero)
     var result: Dictionary = {}
     for key_value: Variant in ["precision", "damage_percent", "healing_power", "fear_resistance", "guard_power"]:
         var key := str(key_value)
-        var fear_value := int(round(float(fear_rules.get(key, 0)) * fear_scale))
-        var hope_value := int(hope_rules.get(key, 0))
-        result[key] = fear_value + hope_value
-    result["fear_posture"] = fear_band_id
+        result[key] = int(hope_rules.get(key, 0))
     result["hope_posture"] = hope_band_id
     return result
 
