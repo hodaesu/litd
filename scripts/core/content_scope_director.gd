@@ -8,6 +8,7 @@ const DATA_PATH := "res://data/content_scope.json"
 var scope: Dictionary = {}
 var discovered_contexts: Dictionary = {}
 var announced_capabilities: Dictionary = {}
+var granted_capabilities: Dictionary = {}
 
 func _ready() -> void:
     reload()
@@ -19,6 +20,7 @@ func reload() -> void:
 func reset_new_game() -> void:
     discovered_contexts.clear()
     announced_capabilities.clear()
+    granted_capabilities.clear()
 
 func is_world_rule_active(rule_id: String) -> bool:
     return rule_id in scope.get("categories", {}).get("world_rules", {}).get("systems", [])
@@ -39,11 +41,22 @@ func is_unlocked(capability_id: String, chapter: int = -1, rank: int = -1) -> bo
     var definition: Dictionary = _capability(capability_id)
     if definition.is_empty():
         return false
+    if bool(granted_capabilities.get(capability_id, false)):
+        return true
     var current_chapter := CampaignState.current_chapter_number() if chapter < 0 else chapter
     var current_rank := company_rank() if rank < 0 else rank
     var chapter_met := current_chapter >= int(definition.get("campaign_chapter", 999))
     var rank_met := current_rank >= int(definition.get("company_rank", 999))
     return chapter_met and rank_met if str(definition.get("logic", "or")) == "and" else chapter_met or rank_met
+
+func grant_capability(capability_id: String) -> bool:
+    if _capability(capability_id).is_empty():
+        return false
+    granted_capabilities[capability_id] = true
+    if not announced_capabilities.has(capability_id):
+        announced_capabilities[capability_id] = true
+        capability_unlocked.emit(capability_id)
+    return true
 
 func feature_state(feature_id: String) -> String:
     if is_world_rule_active(feature_id):
@@ -94,11 +107,16 @@ func max_primary_choices() -> int:
     return int(scope.get("base_expedition", {}).get("max_primary_choices_per_screen", 4))
 
 func serialize() -> Dictionary:
-    return {"discovered_contexts": discovered_contexts.duplicate(true), "announced_capabilities": announced_capabilities.duplicate(true)}
+    return {
+        "discovered_contexts": discovered_contexts.duplicate(true),
+        "announced_capabilities": announced_capabilities.duplicate(true),
+        "granted_capabilities": granted_capabilities.duplicate(true)
+    }
 
 func deserialize(payload: Dictionary) -> void:
     discovered_contexts = payload.get("discovered_contexts", {}).duplicate(true)
     announced_capabilities = payload.get("announced_capabilities", {}).duplicate(true)
+    granted_capabilities = payload.get("granted_capabilities", {}).duplicate(true)
     refresh_unlock_announcements()
 
 func _capability(capability_id: String) -> Dictionary:
