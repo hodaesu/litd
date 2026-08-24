@@ -331,9 +331,24 @@ func execute_retreat(method: String, current_room: String = "") -> Dictionary:
     var pursued := pursuit_roll <= int(plan.get("pursuit_risk", 0))
     var result := plan.duplicate(true)
     result["pursued"] = pursued
+    result["retention"] = ExpeditionManager.apply_extraction_retention(float(plan.get("keep_ratio", 1.0)))
     result["result"] = ExpeditionManager.return_to_hub("retreat_" + method)
     retreat_resolved.emit(result.duplicate(true))
     return result
+
+func camp_recovery() -> Dictionary:
+    emit_noise(20.0, "campfire", AshlandsRuntime.current_zone_id)
+    var healer := PersistentInjuryRuntime.available_healer(GameState.party)
+    var treatment: Dictionary = {}
+    if not healer.is_empty():
+        treatment = PersistentInjuryRuntime.treat_all_party_injuries(GameState.party, healer)
+    else:
+        for hero_value: Variant in GameState.party:
+            var hero: Dictionary = hero_value
+            for injury_value: Variant in hero.get("persistent_injuries", []):
+                var injury: Dictionary = injury_value
+                PersistentInjuryRuntime.stabilize_in_field(hero, str(injury.get("id", "")))
+    return {"healer": healer.get("id", ""), "treatment": treatment, "noise": noise_level}
 
 func push_or_return_summary() -> Dictionary:
     var living := 0
@@ -422,6 +437,14 @@ func _apply_trap_failure(failure: Dictionary) -> Dictionary:
         result["noise_result"] = emit_noise(float(failure.get("noise", 0)), "trap")
     if failure.has("pressure"):
         ExpeditionManager.apply_pressure(int(failure.get("pressure", 0)), "trap")
+    if failure.has("injury"):
+        var target := _hero_by_id(str(roles.get("vanguard", roles.get("scout", ""))))
+        if target.is_empty() and not GameState.alive_heroes().is_empty():
+            target = GameState.alive_heroes()[0]
+        if not target.is_empty():
+            var body_part := str(failure.get("injury", "torso"))
+            var injury_id := {"leg": "sprain", "arm": "arm_injury", "head": "head_trauma", "torso": "deep_wound"}.get(body_part, "deep_wound")
+            result["injury_result"] = PersistentInjuryRuntime.apply_injury(target, str(injury_id), "serious")
     return result
 
 func _solution_available(solution: String, context: Dictionary) -> bool:
