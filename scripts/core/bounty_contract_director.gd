@@ -34,6 +34,8 @@ func reset_new_game() -> void:
     bounty_board_changed.emit()
 
 func generate_dungeon_board(dungeon_id: String, dungeon_tier: int, context: Dictionary, seed_value: int) -> Array:
+    if not ContentScopeDirector.is_unlocked("bounties"):
+        return []
     board_seed = seed_value
     var candidates: Array = []
     for value in data.get("archetypes", []):
@@ -48,6 +50,8 @@ func generate_dungeon_board(dungeon_id: String, dungeon_tier: int, context: Dict
     return offered_contracts.duplicate(true)
 
 func generate_campaign_board(chapter_id: String, campaign_tier: int, context: Dictionary, seed_value: int) -> Array:
+    if not ContentScopeDirector.is_unlocked("bounties"):
+        return []
     var candidates: Array = []
     for value in data.get("campaign_bounties", {}).get("archetypes", []):
         var archetype: Dictionary = value
@@ -114,6 +118,8 @@ func _deterministic_pick(candidates: Array, count: int, seed_value: int) -> Arra
     return result
 
 func accept_contract(contract_id: String) -> bool:
+    if not ContentScopeDirector.is_unlocked("bounties"):
+        return false
     if active_contracts.size() >= int(data.get("rules", {}).get("max_active", 2)):
         return false
     for value in offered_contracts:
