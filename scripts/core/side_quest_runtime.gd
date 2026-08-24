@@ -66,6 +66,7 @@ func accept(quest_id: String) -> bool:
     if tracked_quest_id == "":
         track(quest_id)
     GameState.add_log("Quête acceptée : %s." % String(quest(quest_id).get("name", quest_id)))
+    HUDDirector.notify_quest("Quête acceptée : %s" % String(quest(quest_id).get("name", quest_id)))
     quest_state_changed.emit(quest_id, "active")
     quests_changed.emit()
     return true
@@ -77,6 +78,7 @@ func refuse(quest_id: String) -> bool:
     CampaignMemoryDirector.record_decision("refuse_" + quest_id, "Quête refusée : " + String(quest(quest_id).get("name", quest_id)), "La demande reste sans réponse.", quest_id)
     ExpeditionReportDirector.record_update("quest_updates", "Quête refusée : " + String(quest(quest_id).get("name", quest_id)))
     GameState.add_log("Quête refusée : %s." % String(quest(quest_id).get("name", quest_id)))
+    HUDDirector.notify_quest("Quête refusée : %s" % String(quest(quest_id).get("name", quest_id)))
     quest_state_changed.emit(quest_id, "refused")
     quests_changed.emit()
     return true
@@ -89,6 +91,7 @@ func fail(quest_id: String) -> bool:
     ExpeditionReportDirector.record_update("quest_updates", "Quête échouée : " + String(quest(quest_id).get("name", quest_id)))
     if tracked_quest_id == quest_id:
         tracked_quest_id = ""
+    HUDDirector.notify_quest("Quête échouée : %s" % String(quest(quest_id).get("name", quest_id)))
     quest_state_changed.emit(quest_id, "failed")
     quests_changed.emit()
     return true
@@ -156,6 +159,7 @@ func _advance(quest_id: String, objective: Dictionary, amount: int) -> void:
     progress[objective_id] = mini(required, int(progress.get(objective_id, 0)) + maxi(0, amount))
     states[quest_id]["progress"] = progress
     quest_objective_changed.emit(quest_id, objective_id, int(progress[objective_id]), required)
+    HUDDirector.notify_quest(String(quest(quest_id).get("name", quest_id)), "%d/%d" % [int(progress[objective_id]), required])
     if _all_objectives_complete(quest_id):
         _complete(quest_id)
     elif tracked_quest_id == quest_id:
@@ -177,6 +181,7 @@ func _complete(quest_id: String) -> void:
         states[quest_id]["reward_claimed"] = true
     ExpeditionReportDirector.record_update("quest_updates", "Quête accomplie : " + String(quest(quest_id).get("name", quest_id)))
     GameState.add_log("Quête accomplie : %s." % String(quest(quest_id).get("name", quest_id)))
+    HUDDirector.notify_quest("Quête accomplie : %s" % String(quest(quest_id).get("name", quest_id)))
     quest_state_changed.emit(quest_id, "completed")
     if tracked_quest_id == quest_id:
         tracked_quest_id = ""

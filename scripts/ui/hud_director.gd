@@ -7,6 +7,8 @@ signal event_dropped(item: Dictionary)
 signal disclosure_level_changed(level: int)
 signal confirmation_required(action_id: String)
 signal world_guidance_requested(channel: String, target_id: String, payload: Dictionary)
+signal exploration_overlay_requested(channel: String, payload: Dictionary, ttl_seconds: float)
+signal exploration_overlay_cleared
 
 const LEVEL_WORLD_ONLY := 0
 const LEVEL_DANGER := 1
@@ -32,6 +34,16 @@ const WORLD_GUIDANCE_CHANNELS := [
     "lumiere",
 ]
 
+const EXPLORATION_CHANNELS := ["status", "interaction", "selection", "notification", "quest", "danger"]
+const EXPLORATION_DEFAULT_TTL := {
+    "status": 3.0,
+    "interaction": 1.0,
+    "selection": 3.0,
+    "notification": 2.2,
+    "quest": 2.8,
+    "danger": 3.2,
+}
+
 const MAX_PRESENTED := 3
 const MAX_STATUS_ICONS := 2
 const DUPLICATE_WINDOW_SECONDS := 2.0
@@ -56,6 +68,46 @@ func set_screen_context(screen_name: String) -> void:
             set_disclosure_level(LEVEL_INSPECTION)
         _:
             set_disclosure_level(LEVEL_WORLD_ONLY)
+
+func exploration_hud_is_hidden() -> bool:
+    return current_screen not in ["combat", "inventory", "equipment", "skill_trees", "journal", "settings", "inspection"]
+
+func request_exploration_overlay(channel: String, payload: Dictionary = {}, ttl_seconds: float = -1.0) -> Dictionary:
+    var normalized := channel.to_lower()
+    if normalized not in EXPLORATION_CHANNELS:
+        return {"decision": "reject_unknown_channel", "channel": normalized}
+    if not exploration_hud_is_hidden():
+        return {"decision": "reject_wrong_context", "channel": normalized}
+    var ttl := ttl_seconds if ttl_seconds > 0.0 else float(EXPLORATION_DEFAULT_TTL.get(normalized, 2.2))
+    var result := {
+        "decision": "show_transient",
+        "channel": normalized,
+        "payload": payload.duplicate(true),
+        "ttl_seconds": ttl,
+    }
+    exploration_overlay_requested.emit(normalized, payload.duplicate(true), ttl)
+    return result
+
+func clear_exploration_overlay() -> void:
+    exploration_overlay_cleared.emit()
+
+func request_party_status() -> Dictionary:
+    return request_exploration_overlay("status", {"party": GameState.party.duplicate(true)}, 3.0)
+
+func notify_interaction(action_text: String, target_name: String = "") -> Dictionary:
+    return request_exploration_overlay("interaction", {"action": action_text, "target": target_name}, 1.0)
+
+func notify_selection(character: Dictionary) -> Dictionary:
+    return request_exploration_overlay("selection", {"character": character.duplicate(true)}, 3.0)
+
+func notify_pickup(item_name: String, quantity: int = 1) -> Dictionary:
+    return request_exploration_overlay("notification", {"text": "%s ×%d" % [item_name, quantity]}, 2.2)
+
+func notify_quest(text: String, progress: String = "") -> Dictionary:
+    return request_exploration_overlay("quest", {"text": text, "progress": progress}, 2.8)
+
+func notify_danger(text: String) -> Dictionary:
+    return request_exploration_overlay("danger", {"text": text}, 3.2)
 
 func set_disclosure_level(level: int) -> void:
     var next_level := clampi(level, LEVEL_WORLD_ONLY, LEVEL_INSPECTION)
