@@ -188,7 +188,7 @@ func _on_exploration_overlay_requested(channel: String, payload: Dictionary, ttl
     await get_tree().create_timer(maxf(ttl_seconds, 0.1)).timeout
     if generation != _exploration_overlay_generation or not is_instance_valid(_exploration_overlay):
         return
-    if bool(GameSettings.reduced_flashes):
+    if bool(GameSettings.reduce_flashes):
         _exploration_overlay.visible = false
         return
     var fade := create_tween()
