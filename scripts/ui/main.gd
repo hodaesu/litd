@@ -301,9 +301,10 @@ func show_sanctuary() -> void:
         ["TAVERNE\nRecruter et rumeurs", "tavern", Vector2(980,180)],
         ["MARCHÉ NOIR\nÉquipement", "market", Vector2(185,360)],
         ["LA PORTE\nPartir en expédition", "expedition", Vector2(555,350)],
-        ["BESTIAIRE\nCréatures liées", "creatures", Vector2(910,360)],
         ["MÉMORIAL\nHéros tombés", "memorial", Vector2(250,535)],
     ]
+    if ContentScopeDirector.is_unlocked("capture"):
+        buttons.append(["BESTIAIRE\nCréatures liées", "creatures", Vector2(910,360)])
     for item in buttons:
         var action = item[1]
         var b := make_button(item[0], func(a=action):
@@ -740,7 +741,8 @@ func show_combat() -> void:
         var grenade_stack: Dictionary = CombatLoadoutManager.equipped_stack(hero_id, CombatLoadoutManager.GRENADE_SLOT)
         item_row.add_child(make_button("SOIN ×%d" % int(heal_stack.get("quantity", 0)), func(): _use_combat_item(CombatLoadoutManager.HEAL_SLOT), Vector2(190, 42)))
         item_row.add_child(make_button("GRENADE ×%d" % int(grenade_stack.get("quantity", 0)), func(): _use_combat_item(CombatLoadoutManager.GRENADE_SLOT), Vector2(210, 42)))
-    action_panel.add_child(make_button("CAPTURER", func(): hero_action("capture"), Vector2(180, 42)))
+    if ContentScopeDirector.is_unlocked("capture"):
+        action_panel.add_child(make_button("CAPTURER", func(): hero_action("capture"), Vector2(180, 42)))
 
     var log := VBoxContainer.new()
     log.position = Vector2(20,15)
