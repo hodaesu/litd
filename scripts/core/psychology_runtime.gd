@@ -102,6 +102,23 @@ func fear_band(hero: Dictionary) -> Dictionary:
 func fear_band_label(hero: Dictionary) -> String:
     return str(fear_band(hero).get("label", "Inconnu"))
 
+func hope_band(hero: Dictionary) -> Dictionary:
+    var hope := clampi(int(hero.get("hope", 0)), 0, 100)
+    for band_value: Variant in data.get("hope_bands", []):
+        var band: Dictionary = band_value
+        if hope >= int(band.get("min", 0)) and hope <= int(band.get("max", 100)):
+            return band
+    return {"id": "dormant", "label": "Calme", "min": 0, "max": 100}
+
+func hope_band_label(hero: Dictionary) -> String:
+    return str(hope_band(hero).get("label", "Calme"))
+
+func psychological_posture_label(hero: Dictionary) -> String:
+    var fear_posture := fear_band(hero)
+    if str(fear_posture.get("id", "calm")) != "calm":
+        return str(fear_posture.get("label", "Inquiet"))
+    return hope_band_label(hero)
+
 func mental_summary(hero: Dictionary) -> String:
     var psychology := ensure_hero(hero)
     var traumas: Array = psychology.get("traumas", [])
@@ -119,14 +136,24 @@ func trait_label(trait_id: String) -> String:
     return str(data.get("trait_definitions", {}).get(trait_id, {}).get("label", trait_id))
 
 func combat_modifiers(hero: Dictionary) -> Dictionary:
-    var band_id := str(fear_band(hero).get("id", "calm"))
-    var rules: Dictionary = data.get("combat_rules", {}).get("bands", {}).get(band_id, {})
-    var scale := _fear_penalty_scale(hero)
+    var fear_band_id := str(fear_band(hero).get("id", "calm"))
+    var fear_rules: Dictionary = data.get("combat_rules", {}).get("bands", {}).get(fear_band_id, {})
+    var fear_scale := _fear_penalty_scale(hero)
     var result: Dictionary = {}
-    for key_value in ["precision", "damage_percent", "healing_power"]:
+    for key_value: Variant in ["precision", "damage_percent", "healing_power"]:
         var key := str(key_value)
-        var value := int(rules.get(key, 0))
-        result[key] = int(round(float(value) * scale))
+        result[key] = int(round(float(fear_rules.get(key, 0)) * fear_scale))
+    result["fear_posture"] = fear_band_id
+    return result
+
+func hope_combat_modifiers(hero: Dictionary) -> Dictionary:
+    var hope_band_id := str(hope_band(hero).get("id", "dormant"))
+    var hope_rules: Dictionary = data.get("combat_rules", {}).get("hope_bands", {}).get(hope_band_id, {})
+    var result: Dictionary = {}
+    for key_value: Variant in ["precision", "damage_percent", "healing_power", "fear_resistance", "guard_power"]:
+        var key := str(key_value)
+        result[key] = int(hope_rules.get(key, 0))
+    result["hope_posture"] = hope_band_id
     return result
 
 func combat_status_text(hero: Dictionary) -> String:

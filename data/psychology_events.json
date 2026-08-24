@@ -3,19 +3,64 @@
   "design_source": "terre_des_cendres_psychology_pass_04",
   "core_rule": "La peur se mesure, la folie laisse des traces, l'espoir se manifeste par les actes.",
   "fear_bands": [
-    {"id": "calm", "label": "Calme", "min": 0, "max": 24},
-    {"id": "uneasy", "label": "Inquiet", "min": 25, "max": 49},
-    {"id": "afraid", "label": "Effrayé", "min": 50, "max": 74},
-    {"id": "terrified", "label": "Terrifié", "min": 75, "max": 99},
-    {"id": "panic", "label": "Panique", "min": 100, "max": 100}
+    {
+      "id": "calm",
+      "label": "Calme",
+      "min": 0,
+      "max": 24
+    },
+    {
+      "id": "uneasy",
+      "label": "Inquiet",
+      "min": 25,
+      "max": 49
+    },
+    {
+      "id": "afraid",
+      "label": "Effrayé",
+      "min": 50,
+      "max": 74
+    },
+    {
+      "id": "terrified",
+      "label": "Terrifié",
+      "min": 75,
+      "max": 99
+    },
+    {
+      "id": "panic",
+      "label": "Panique",
+      "min": 100,
+      "max": 100
+    }
   ],
   "combat_rules": {
     "bands": {
-      "calm": {"precision": 0, "damage_percent": 0, "healing_power": 0},
-      "uneasy": {"precision": -2, "damage_percent": 0, "healing_power": 0},
-      "afraid": {"precision": -5, "damage_percent": -5, "healing_power": -5},
-      "terrified": {"precision": -10, "damage_percent": -10, "healing_power": -10},
-      "panic": {"precision": -15, "damage_percent": -15, "healing_power": -15}
+      "calm": {
+        "precision": 0,
+        "damage_percent": 0,
+        "healing_power": 0
+      },
+      "uneasy": {
+        "precision": -2,
+        "damage_percent": 0,
+        "healing_power": 0
+      },
+      "afraid": {
+        "precision": -5,
+        "damage_percent": -5,
+        "healing_power": -5
+      },
+      "terrified": {
+        "precision": -10,
+        "damage_percent": -10,
+        "healing_power": -10
+      },
+      "panic": {
+        "precision": -15,
+        "damage_percent": -15,
+        "healing_power": -15
+      }
     },
     "panic": {
       "fear_after_crisis": 85,
@@ -23,81 +68,151 @@
       "resolve_charges_max": 1,
       "default_reaction": "freeze"
     },
-    "hope_manifestation_resolve_charges": 1
+    "hope_manifestation_resolve_charges": 1,
+    "hope_bands": {
+      "dormant": {
+        "precision": 0,
+        "damage_percent": 0,
+        "healing_power": 0,
+        "fear_resistance": 0,
+        "guard_power": 0
+      },
+      "resolved": {
+        "precision": 1,
+        "damage_percent": 0,
+        "healing_power": 2,
+        "fear_resistance": 3,
+        "guard_power": 0
+      },
+      "inspired": {
+        "precision": 4,
+        "damage_percent": 4,
+        "healing_power": 6,
+        "fear_resistance": 8,
+        "guard_power": 4
+      },
+      "exalted": {
+        "precision": 7,
+        "damage_percent": 7,
+        "healing_power": 10,
+        "fear_resistance": 12,
+        "guard_power": 7
+      }
+    }
   },
   "trait_definitions": {
     "judgement_fixation": {
       "label": "Fixation du jugement",
       "kind": "obsession",
-      "fear_penalty_scale": 1.10,
+      "fear_penalty_scale": 1.1,
       "panic_reaction": "freeze",
-      "fear_multipliers": {"judgement": 1.15, "memory": 0.90}
+      "fear_multipliers": {
+        "judgement": 1.15,
+        "memory": 0.9
+      }
     },
     "ash_dissociation": {
       "label": "Dissociation des cendres",
       "kind": "detachment",
       "fear_penalty_scale": 0.75,
       "panic_reaction": "retreat",
-      "fear_multipliers": {"horror_discovery": 0.82, "ally_critical": 1.20}
+      "fear_multipliers": {
+        "horror_discovery": 0.82,
+        "ally_critical": 1.2
+      }
     },
     "identity_detachment": {
       "label": "Détachement de l'identité",
       "kind": "detachment",
       "fear_penalty_scale": 0.85,
       "panic_reaction": "retreat",
-      "fear_multipliers": {"identity": 0.80, "isolation": 1.20}
+      "fear_multipliers": {
+        "identity": 0.8,
+        "isolation": 1.2
+      }
     },
     "name_obsession": {
       "label": "Obsession des noms",
       "kind": "obsession",
       "fear_penalty_scale": 1.05,
       "panic_reaction": "freeze",
-      "fear_multipliers": {"identity": 1.18, "memory": 0.88}
+      "fear_multipliers": {
+        "identity": 1.18,
+        "memory": 0.88
+      }
     },
     "panic_memory": {
       "label": "Mémoire de panique",
       "kind": "trauma",
       "fear_penalty_scale": 1.15,
       "panic_reaction": "retreat",
-      "fear_multipliers": {"terrifying_enemy": 1.12, "community": 0.92}
+      "fear_multipliers": {
+        "terrifying_enemy": 1.12,
+        "community": 0.92
+      }
     },
     "mutilation_echo": {
       "label": "Écho de mutilation",
       "kind": "trauma",
-      "fear_penalty_scale": 1.10,
+      "fear_penalty_scale": 1.1,
       "panic_reaction": "freeze",
-      "fear_multipliers": {"dismemberment": 1.15, "victory": 0.90}
+      "fear_multipliers": {
+        "dismemberment": 1.15,
+        "victory": 0.9
+      }
     }
   },
   "events": [
     {
       "id": "ashlands_village_internal_barricades",
       "trigger": "zone_discovered",
-      "filter": {"zone_id": "zone_02_village_ravage"},
+      "filter": {
+        "zone_id": "zone_02_village_ravage"
+      },
       "scope": "party",
       "fear_delta": 6,
-      "tags": ["horror_discovery", "human_loss"],
+      "tags": [
+        "horror_discovery",
+        "human_loss"
+      ],
       "log": "Les barricades tournées vers l'intérieur révèlent que la peur était déjà entrée dans le village.",
       "once_per_campaign": true
     },
     {
       "id": "ashlands_judgement_path",
       "trigger": "zone_discovered",
-      "filter": {"zone_id": "zone_05_ravin_des_pendus"},
+      "filter": {
+        "zone_id": "zone_05_ravin_des_pendus"
+      },
       "scope": "party",
       "fear_delta": 10,
-      "tags": ["horror_discovery", "judgement"],
-      "trace": {"threshold": 75, "chance": 0.40, "pool": ["judgement_fixation", "ash_dissociation"]},
+      "tags": [
+        "horror_discovery",
+        "judgement"
+      ],
+      "trace": {
+        "threshold": 75,
+        "chance": 0.4,
+        "pool": [
+          "judgement_fixation",
+          "ash_dissociation"
+        ]
+      },
       "log": "Le chemin des jugements n'effraie pas chacun de la même manière.",
       "once_per_campaign": true
     },
     {
       "id": "ashlands_survivor_names_wall",
       "trigger": "zone_discovered",
-      "filter": {"zone_id": "zone_06_chapelle_effondree"},
+      "filter": {
+        "zone_id": "zone_06_chapelle_effondree"
+      },
       "scope": "party",
       "fear_delta": -4,
-      "tags": ["memory", "community"],
+      "tags": [
+        "memory",
+        "community"
+      ],
       "hope": {
         "title": "ESPOIR",
         "text": "Des noms ont survécu à ceux qui voulaient les effacer.",
@@ -109,21 +224,38 @@
     {
       "id": "ashlands_ossuary_lost_names",
       "trigger": "zone_discovered",
-      "filter": {"zone_id": "zone_09_ossuaire"},
+      "filter": {
+        "zone_id": "zone_09_ossuaire"
+      },
       "scope": "party",
       "fear_delta": 10,
-      "tags": ["horror_discovery", "identity"],
-      "trace": {"threshold": 70, "chance": 0.45, "pool": ["identity_detachment", "name_obsession"]},
+      "tags": [
+        "horror_discovery",
+        "identity"
+      ],
+      "trace": {
+        "threshold": 70,
+        "chance": 0.45,
+        "pool": [
+          "identity_detachment",
+          "name_obsession"
+        ]
+      },
       "log": "Dans l'ossuaire, l'effacement des noms atteint certains plus profondément que les os.",
       "once_per_campaign": true
     },
     {
       "id": "ashlands_shared_survivor_table",
       "trigger": "zone_discovered",
-      "filter": {"zone_id": "zone_10_hameau_deserte"},
+      "filter": {
+        "zone_id": "zone_10_hameau_deserte"
+      },
       "scope": "party",
       "fear_delta": -6,
-      "tags": ["memory", "community"],
+      "tags": [
+        "memory",
+        "community"
+      ],
       "hope": {
         "title": "ESPOIR",
         "text": "Quelqu'un avait encore préparé une place pour les autres.",
@@ -135,11 +267,16 @@
     {
       "id": "ashlands_last_campfire_before_boss",
       "trigger": "campfire_used",
-      "filter": {"zone_id": "zone_12_abbaye"},
+      "filter": {
+        "zone_id": "zone_12_abbaye"
+      },
       "scope": "party",
       "fear_delta": -8,
       "stabilize_exposure": 8,
-      "tags": ["campfire", "community"],
+      "tags": [
+        "campfire",
+        "community"
+      ],
       "hope": {
         "title": "ESPOIR",
         "text": "Ils arrivent ensemble jusqu'au dernier feu avant le clocher.",
@@ -150,20 +287,38 @@
     {
       "id": "ashlands_regular_campfire",
       "trigger": "campfire_used",
-      "filter": {"exclude_zone_ids": ["zone_12_abbaye"]},
+      "filter": {
+        "exclude_zone_ids": [
+          "zone_12_abbaye"
+        ]
+      },
       "scope": "party",
       "fear_delta": -6,
       "stabilize_exposure": 3,
-      "tags": ["campfire"]
+      "tags": [
+        "campfire"
+      ]
     },
     {
       "id": "ashlands_boss_reveal",
       "trigger": "combat_started",
-      "filter": {"zone_id": "zone_13_clocher_boss", "encounter_type": "boss"},
+      "filter": {
+        "zone_id": "zone_13_clocher_boss",
+        "encounter_type": "boss"
+      },
       "scope": "party",
       "fear_delta": 18,
-      "tags": ["terrifying_enemy", "boss_reveal"],
-      "trace": {"threshold": 100, "chance": 0.75, "pool": ["panic_memory"]},
+      "tags": [
+        "terrifying_enemy",
+        "boss_reveal"
+      ],
+      "trace": {
+        "threshold": 100,
+        "chance": 0.75,
+        "pool": [
+          "panic_memory"
+        ]
+      },
       "log": "La révélation du boss pousse les plus fragiles au bord de la panique."
     },
     {
@@ -171,7 +326,10 @@
       "trigger": "shortcut_unlocked",
       "scope": "party",
       "fear_delta": -2,
-      "tags": ["progress", "community"],
+      "tags": [
+        "progress",
+        "community"
+      ],
       "hope": {
         "title": "ESPOIR",
         "text": "Une route restera ouverte même si cette expédition échoue.",
@@ -182,10 +340,15 @@
     {
       "id": "ashlands_inspiring_text",
       "trigger": "lore_discovered",
-      "filter": {"collection": "hope_vigils"},
+      "filter": {
+        "collection": "hope_vigils"
+      },
       "scope": "party",
       "fear_delta": -2,
-      "tags": ["memory", "hope_text"],
+      "tags": [
+        "memory",
+        "hope_text"
+      ],
       "hope": {
         "title": "ESPOIR",
         "text": "Un texte ancien rappelle que l'espoir était déjà un acte, pas une promesse.",
@@ -196,10 +359,16 @@
     {
       "id": "ashlands_boss_victory",
       "trigger": "combat_finished",
-      "filter": {"encounter_type": "boss", "victory": true},
+      "filter": {
+        "encounter_type": "boss",
+        "victory": true
+      },
       "scope": "party",
       "fear_delta": -6,
-      "tags": ["victory", "community"],
+      "tags": [
+        "victory",
+        "community"
+      ],
       "hope": {
         "title": "ESPOIR",
         "text": "Ils ont tenu là où tout leur disait de céder.",
@@ -212,15 +381,28 @@
       "trigger": "manual",
       "scope": "party",
       "fear_delta": 5,
-      "tags": ["dismemberment", "horror_discovery"],
-      "trace": {"threshold": 75, "chance": 0.30, "pool": ["mutilation_echo", "ash_dissociation"]}
+      "tags": [
+        "dismemberment",
+        "horror_discovery"
+      ],
+      "trace": {
+        "threshold": 75,
+        "chance": 0.3,
+        "pool": [
+          "mutilation_echo",
+          "ash_dissociation"
+        ]
+      }
     },
     {
       "id": "combat_ally_support",
       "trigger": "manual",
       "scope": "targets",
       "fear_delta": -2,
-      "tags": ["ally_support", "community"],
+      "tags": [
+        "ally_support",
+        "community"
+      ],
       "hope": {
         "title": "ESPOIR",
         "text": "Un geste de soutien suffit parfois à empêcher la peur de décider seule.",
@@ -234,7 +416,10 @@
       "scope": "targets",
       "fear_delta": -18,
       "stabilize_exposure": 12,
-      "tags": ["sanctuary", "care"],
+      "tags": [
+        "sanctuary",
+        "care"
+      ],
       "hope": {
         "title": "ESPOIR",
         "text": "L'apaisement ne supprime pas les traces ; il rend de nouveau possible le choix.",
@@ -246,7 +431,10 @@
       "trigger": "manual",
       "scope": "targets",
       "fear_delta": -5,
-      "tags": ["sanctuary", "community"],
+      "tags": [
+        "sanctuary",
+        "community"
+      ],
       "hope": {
         "title": "ESPOIR",
         "text": "La compagnie partage plus qu'un repas : elle se rappelle qu'elle n'est pas seule.",
@@ -258,13 +446,43 @@
       "trigger": "manual",
       "scope": "targets",
       "fear_delta": -2,
-      "tags": ["sanctuary", "memory", "community"],
+      "tags": [
+        "sanctuary",
+        "memory",
+        "community"
+      ],
       "hope": {
         "title": "ESPOIR",
         "text": "Se souvenir n'efface pas l'absence, mais empêche qu'elle soit totale.",
         "fear_relief": 2,
         "temporary_madness_resistance": 6
       }
+    }
+  ],
+  "hope_bands": [
+    {
+      "id": "dormant",
+      "label": "Calme",
+      "min": 0,
+      "max": 39
+    },
+    {
+      "id": "resolved",
+      "label": "Résolu",
+      "min": 40,
+      "max": 69
+    },
+    {
+      "id": "inspired",
+      "label": "Inspiré",
+      "min": 70,
+      "max": 89
+    },
+    {
+      "id": "exalted",
+      "label": "Exalté",
+      "min": 90,
+      "max": 100
     }
   ]
 }

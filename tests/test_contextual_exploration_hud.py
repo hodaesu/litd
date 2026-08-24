@@ -52,3 +52,23 @@ def test_cinders_remain_world_guidance_without_hud_marker():
 def test_quest_updates_use_contextual_overlay():
     quests = read("scripts/core/side_quest_runtime.gd")
     assert "HUDDirector.notify_quest" in quests
+
+
+def test_fear_and_hope_are_postures_not_visible_gauges():
+    context = read("scripts/ui/context_hud.gd")
+    psychology = read("scripts/core/psychology_runtime.gd")
+    assert "Peur %d" not in context
+    assert "psychological_posture_label" in context
+    assert "fear_band_label" in psychology
+    assert "hope_band_label" in psychology
+
+
+def test_fear_penalizes_and_hope_rewards_combat():
+    psychology = read("scripts/core/psychology_runtime.gd")
+    combat_ui = read("scripts/ui/main.gd")
+    data = read("data/psychology_events.json")
+    assert '"hope_bands"' in data
+    assert '"precision": -' in data
+    assert '"precision": 4' in data
+    assert "PsychologyRuntime.combat_modifiers(hero)" in combat_ui
+    assert 'result["damage_bonus"]' in combat_ui
