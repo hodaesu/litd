@@ -11,8 +11,10 @@ signal retreat_resolved(result: Dictionary)
 signal discovery_recorded(discovery: Dictionary)
 
 const DATA_PATH := "res://data/exploration_systems.json"
+const CONTENT_PATH := "res://data/levels/ashlands_living_exploration.json"
 
 var rules: Dictionary = {}
+var zone_content: Dictionary = {}
 var roles: Dictionary = {}
 var traps: Dictionary = {}
 var patrols: Dictionary = {}
@@ -31,6 +33,8 @@ func _ready() -> void:
 func _load_rules() -> void:
     var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
     rules = parsed if parsed is Dictionary else {}
+    var content_parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(CONTENT_PATH))
+    zone_content = content_parsed.get("zones", {}) if content_parsed is Dictionary else {}
 
 func reset_new_game() -> void:
     roles.clear()
@@ -244,10 +248,13 @@ func advance_patrols() -> Array:
 
 func enter_room(room_id: String) -> Dictionary:
     depth += 1
+    var first_visit := not rooms.has(room_id)
     var room: Dictionary = rooms.get(room_id, {"id": room_id, "visits": 0, "state": "quiet", "changes": []})
     room["visits"] = int(room.get("visits", 0)) + 1
     room["last_visit_depth"] = depth
     rooms[room_id] = room
+    if first_visit:
+        _seed_room_content(room_id)
     advance_patrols()
     room_state_changed.emit(room_id, room.duplicate(true))
     return room.duplicate(true)
@@ -433,6 +440,23 @@ func deserialize(payload: Dictionary) -> void:
     light_level = float(payload.get("light_level", 1.0))
     depth = int(payload.get("depth", 0))
     last_retreat_plan = payload.get("last_retreat_plan", {}).duplicate(true)
+
+func _seed_room_content(room_id: String) -> void:
+    var content: Dictionary = zone_content.get(room_id, {})
+    var landmark: Dictionary = content.get("landmark", {})
+    if not landmark.is_empty():
+        remember_landmark(str(landmark.get("id", "")), room_id, landmark.get("cues", {}))
+    for trap_value: Variant in content.get("traps", []):
+        var trap: Dictionary = trap_value
+        register_trap(str(trap.get("id", "")), str(trap.get("type", "")), room_id, trap)
+    for patrol_value: Variant in content.get("patrols", []):
+        var patrol: Dictionary = patrol_value
+        register_patrol(
+            str(patrol.get("id", "")),
+            str(patrol.get("family_id", "")),
+            patrol.get("route", [room_id]),
+            patrol
+        )
 
 func _role_for_perception(kind: String) -> String:
     if kind == "pursuit":
