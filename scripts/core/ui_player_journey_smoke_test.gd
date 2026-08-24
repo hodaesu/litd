@@ -135,6 +135,7 @@ func _drive_combat_actions() -> void:
     _check(_prime_capture_success(attack_target), "Smoke test must be able to deterministically prime one successful capture roll")
     _check(await _select_enemy(0), "Player must be able to reselect the weakened capture target")
     _check(await _press_button("CAPTURER", true), "Darius must be able to use the real CAPTURER button")
+    await _frames(16)
     _check(CreatureManager.captured_creatures.size() == 1, "UI capture must add one creature to the roster")
     _check(bool(attack_target.get("captured", false)), "UI capture must mark the selected enemy as captured")
     _check(GameState.current_screen == "combat", "Successful partial capture must keep combat active while enemies remain")
