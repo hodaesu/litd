@@ -114,6 +114,7 @@ func _try_advance_chapter() -> void:
     if unlock != "" and unlock != "endings" and not get_chapter(unlock).is_empty():
         chapter_flags["completed_%s" % current_chapter_id] = true
         current_chapter_id = unlock
+        ContentScopeDirector.refresh_unlock_announcements()
 
 func add_metric(metric_id: String, amount: int) -> void:
     if not metrics.has(metric_id):

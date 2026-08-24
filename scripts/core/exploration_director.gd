@@ -63,12 +63,14 @@ func begin_expedition() -> void:
 
 func auto_assign_roles() -> Dictionary:
     var available: Array = GameState.alive_heroes().duplicate()
-    var preferred: Array[String] = ["scout", "vanguard", "rearguard", "guide"]
-    var healer := PersistentInjuryRuntime.available_healer(available)
-    if not healer.is_empty():
-        assign_role("field_healer", str(healer.get("id", "")))
-        available.erase(healer)
-        preferred = ["scout", "vanguard", "rearguard"]
+    var preferred: Array[String] = ["scout"]
+    if ContentScopeDirector.is_unlocked("specialized_exploration_roles"):
+        preferred = ["scout", "vanguard", "rearguard", "guide"]
+        var healer := PersistentInjuryRuntime.available_healer(available)
+        if not healer.is_empty():
+            assign_role("field_healer", str(healer.get("id", "")))
+            available.erase(healer)
+            preferred = ["scout", "vanguard", "rearguard"]
     for role_id: String in preferred:
         if available.is_empty():
             break
@@ -77,6 +79,8 @@ func auto_assign_roles() -> Dictionary:
     return roles.duplicate(true)
 
 func assign_role(role_id: String, hero_id: String) -> Dictionary:
+    if role_id != "scout" and not ContentScopeDirector.is_unlocked("specialized_exploration_roles"):
+        return {"success": false, "reason": "capability_locked_hidden"}
     if not rules.get("roles", {}).has(role_id):
         return {"success": false, "reason": "unknown_role"}
     if _hero_by_id(hero_id).is_empty():
@@ -161,6 +165,8 @@ func resolve_trap(trap_id: String, action_id: String) -> Dictionary:
         return {"success": false, "reason": "unknown_trap"}
     if action_id not in trap.get("actions", []):
         return {"success": false, "reason": "invalid_action"}
+    if action_id == "remote_trigger" and not ContentScopeDirector.is_unlocked("trap_weaponization"):
+        return {"success": false, "reason": "capability_locked_hidden"}
     var difficulty := int(trap.get("difficulty", 40))
     var score := role_score("scout")
     if action_id in ["avoid", "bypass", "abandon"]:
@@ -301,6 +307,8 @@ func remember_landmark(landmark_id: String, room_id: String, cues: Dictionary) -
     return landmark.duplicate(true)
 
 func place_marker(marker_type: String, room_id: String, purpose: String = "") -> Dictionary:
+    if not ContentScopeDirector.is_unlocked("player_markers"):
+        return {"success": false, "reason": "capability_locked_hidden"}
     if marker_type not in rules.get("marker_types", []):
         return {"success": false, "reason": "unknown_marker"}
     var maximum := int(rules.get("max_markers", 8))
@@ -339,6 +347,7 @@ func retreat_options(current_room: String = "") -> Array:
     return options
 
 func plan_retreat(method: String, current_room: String = "") -> Dictionary:
+    ContentScopeDirector.record_context_event("first_retreat_plan")
     for option_value: Variant in retreat_options(current_room):
         var option: Dictionary = option_value
         if str(option.get("method", "")) == method:

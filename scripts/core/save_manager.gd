@@ -122,7 +122,8 @@ func _build_payload() -> Dictionary:
         "community": CommunityRuntime.serialize(), "ashlands_minibosses": AshlandsMinibossDirector.serialize(),
         "ashlands_combat": AshlandsCombatBridge.serialize(), "campaign_memory": CampaignMemoryDirector.serialize(),
         "expedition_reports": ExpeditionReportDirector.serialize(), "preparation_presets": ExpeditionPreparationDirector.serialize(),
-        "living_exploration": ExplorationDirector.serialize()
+        "living_exploration": ExplorationDirector.serialize(),
+        "progression_scope": ContentScopeDirector.serialize()
     }
 
 func _apply_payload(payload: Dictionary) -> void:
@@ -148,6 +149,7 @@ func _apply_payload(payload: Dictionary) -> void:
     AshlandsCombatBridge.deserialize(payload.get("ashlands_combat",{})); CampaignMemoryDirector.deserialize(payload.get("campaign_memory",{}))
     ExpeditionReportDirector.deserialize(payload.get("expedition_reports",{})); ExpeditionPreparationDirector.deserialize(payload.get("preparation_presets",{}))
     ExplorationDirector.deserialize(payload.get("living_exploration",{}))
+    ContentScopeDirector.deserialize(payload.get("progression_scope",{}))
     Chapter01Runtime.refresh_progress(); Chapter02Runtime.refresh_progress(); Chapter03Runtime.refresh_progress(); Chapter04Runtime.refresh_progress()
     Chapter05Runtime.refresh_progress(); Chapter06Runtime.refresh_progress(); Chapter07Runtime.refresh_progress(); Chapter08Runtime.refresh_progress()
     Chapter09Runtime.refresh_progress(); Chapter10Runtime.refresh_progress(); DeepVestigeRuntime.refresh_unlocks()
@@ -161,6 +163,7 @@ func _migrate(payload: Dictionary) -> Dictionary:
     payload["expedition_reports"] = payload.get("expedition_reports",{})
     payload["preparation_presets"] = payload.get("preparation_presets",{})
     payload["living_exploration"] = payload.get("living_exploration",{})
+    payload["progression_scope"] = payload.get("progression_scope",{})
     return payload
 
 func _atomic_write(path: String, text: String) -> bool:

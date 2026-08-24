@@ -11,6 +11,8 @@ func run() -> void:
     EndgameState.reset_profile_progress()
     GameState.reset_new_game()
     CampaignState.reset_new_game()
+    # This journey exercises the capture UI after the company has learned it.
+    _check(ContentScopeDirector.grant_capability("capture"), "UI capture test capability must be grantable")
     EquipmentManager.reset_new_game(7001)
     CreatureManager.reset_new_game(7002)
     AshlandsRuntime.reset_world_progression()
@@ -64,6 +66,9 @@ func _launch_real_expedition_from_ui() -> void:
     _check(not get_tree().get_nodes_in_group("player_party").is_empty(), "Exploration scene must contain the player party")
 
 func _enter_combat_from_world_contact() -> void:
+    # The title flow starts a fresh game, so unlock the advanced test capability here.
+    _check(ContentScopeDirector.grant_capability("capture"), "Capture must be granted after the title starts a new game")
+    _check(ContentScopeDirector.is_unlocked("capture"), "Capture must remain unlocked before entering combat")
     var scene: Node = get_tree().current_scene
     _check(scene != null, "Exploration scene missing before encounter")
     if scene == null:
@@ -125,9 +130,12 @@ func _drive_combat_actions() -> void:
     attack_target["max_hp"] = maxi(10, int(attack_target.get("max_hp", 10)))
     attack_target["hp"] = 1
     GameState.essence = 100
+    _check(ContentScopeDirector.grant_capability("capture"), "Capture milestone must be restorable during combat")
+    _check(ContentScopeDirector.is_unlocked("capture"), "Capture capability must be active immediately before the action")
     _check(_prime_capture_success(attack_target), "Smoke test must be able to deterministically prime one successful capture roll")
     _check(await _select_enemy(0), "Player must be able to reselect the weakened capture target")
     _check(await _press_button("CAPTURER", true), "Darius must be able to use the real CAPTURER button")
+    await _frames(16)
     _check(CreatureManager.captured_creatures.size() == 1, "UI capture must add one creature to the roster")
     _check(bool(attack_target.get("captured", false)), "UI capture must mark the selected enemy as captured")
     _check(GameState.current_screen == "combat", "Successful partial capture must keep combat active while enemies remain")

@@ -166,6 +166,8 @@ func _render_side_quests(parent: VBoxContainer) -> void:
             parent.add_child(_label("  %s %s — %d/%d" % ["✓" if current >= required else "□", NarrativeLibrary.quest_objective_text(objective), current, required],11,MUTED))
 
 func _render_bounties(parent: VBoxContainer) -> void:
+    if not ContentScopeDirector.is_unlocked("bounties"):
+        return
     if BountyContractDirector.offered_contracts.is_empty() and BountyContractDirector.active_contracts.is_empty():
         var context := {
             "dungeon_id": "first_veil_crypts",

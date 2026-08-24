@@ -1,0 +1,167 @@
+{
+  "version": 2,
+  "design_goal": "Le monde possède ses règles dès la première minute; le joueur débloque progressivement de nouveaux moyens de les comprendre et de les influencer.",
+  "core_loop": "préparer quatre survivants -> explorer -> combattre -> choisir de continuer ou rentrer -> assumer les conséquences -> repartir",
+  "categories": {
+    "world_rules": {
+      "activation": "new_game",
+      "never_locked": true,
+      "systems": [
+        "persistent_injuries",
+        "untreated_injury_aggravation",
+        "infirmary",
+        "field_healing",
+        "all_healing_characters_can_treat",
+        "mutilations",
+        "fear_hope_postures",
+        "madness_afflictions",
+        "positive_negative_traits",
+        "permadeath",
+        "decision_consequences",
+        "physical_retreat",
+        "ash_guidance_on_request",
+        "inventory_equipment",
+        "enemy_senses",
+        "enemy_reactions",
+        "enemy_fear_of_renown",
+        "patrols",
+        "reactive_rooms"
+      ]
+    },
+    "contextual_discoveries": {
+      "activation": "first_relevant_event",
+      "systems": {
+        "persistent_injury_explanation": "first_persistent_injury",
+        "infirmary_explanation": "first_return_with_injury",
+        "party_healer_alternative": "first_injury_with_healer",
+        "injury_aggravation_explanation": "first_injury_aggravation",
+        "mutilation_adaptation_explanation": "first_mutilation",
+        "enemy_fear_explanation": "first_enemy_fear_reaction",
+        "madness_explanation": "first_madness_event",
+        "retreat_consequences_explanation": "first_retreat_plan"
+      }
+    },
+    "unlockable_capabilities": {
+      "capture": {
+        "campaign_chapter": 4,
+        "company_rank": 4,
+        "logic": "or",
+        "hidden_until_unlocked": true
+      },
+      "specialized_exploration_roles": {
+        "campaign_chapter": 2,
+        "company_rank": 3,
+        "logic": "or",
+        "hidden_until_unlocked": true
+      },
+      "bounties": {
+        "campaign_chapter": 2,
+        "company_rank": 2,
+        "logic": "or",
+        "hidden_until_unlocked": true
+      },
+      "targeted_farming": {
+        "campaign_chapter": 5,
+        "company_rank": 5,
+        "logic": "or",
+        "hidden_until_unlocked": true,
+        "required_for_story": false
+      },
+      "advanced_skill_branches": {
+        "campaign_chapter": 2,
+        "company_rank": 2,
+        "logic": "or",
+        "hidden_until_unlocked": true
+      },
+      "trap_weaponization": {
+        "campaign_chapter": 3,
+        "company_rank": 3,
+        "logic": "or",
+        "hidden_until_unlocked": true
+      },
+      "player_markers": {
+        "campaign_chapter": 5,
+        "company_rank": 5,
+        "logic": "or",
+        "hidden_until_unlocked": true
+      },
+      "advanced_relationship_actions": {
+        "campaign_chapter": 3,
+        "company_rank": 4,
+        "logic": "or",
+        "hidden_until_unlocked": true
+      },
+      "advanced_dungeon_manipulation": {
+        "campaign_chapter": 5,
+        "company_rank": 5,
+        "logic": "or",
+        "hidden_until_unlocked": true
+      },
+      "extended_codex": {
+        "campaign_chapter": 3,
+        "company_rank": 3,
+        "logic": "or",
+        "hidden_until_unlocked": true
+      },
+      "sanctuary_upgrades": {
+        "campaign_chapter": 2,
+        "company_rank": 2,
+        "logic": "or",
+        "hidden_until_unlocked": true
+      }
+    }
+  },
+  "base_expedition": {
+    "visible_decisions": [
+      "scouting",
+      "traps",
+      "noise_light",
+      "physical_retreat"
+    ],
+    "base_exploration_role": "scout",
+    "all_world_hazards_can_exist": true,
+    "tutorial_style": "contextual",
+    "max_primary_choices_per_screen": 4,
+    "exploration_hud_default": "hidden"
+  },
+  "progression": {
+    "company_rank_level_thresholds": [
+      1,
+      4,
+      8,
+      14,
+      22,
+      32
+    ],
+    "campaign_unlock_prevents_grind_gate": true,
+    "hero_level_controls_personal_skills": true,
+    "campaign_controls_new_player_capabilities": true,
+    "locked_features_are_hidden_not_greyed": true
+  },
+  "skills": {
+    "combat_loadout_size": 4,
+    "preserve_full_design_catalog": true,
+    "hero_authored_per_tree_target": [
+      8,
+      10
+    ],
+    "enemy_family_ability_target": [
+      4,
+      8
+    ],
+    "enemy_variation_source": "ai_orientation_and_body_state"
+  },
+  "psychology": {
+    "fear_hope": "temporary_posture",
+    "madness": "durable_dangerous_disorder",
+    "traits": "persistent_identity",
+    "relationships": "directed_social_reactions",
+    "feats": "memory_and_reputation_without_new_stat_layer",
+    "fear_hope_numeric_gauges_visible": false
+  },
+  "farming": {
+    "required_for_main_story": false,
+    "creates_required_parallel_economy": false,
+    "presentation": "optional_expert_depth"
+  }
+}

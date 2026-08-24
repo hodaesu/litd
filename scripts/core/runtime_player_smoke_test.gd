@@ -110,6 +110,11 @@ func _check_equipment_capture_and_companion() -> void:
     if GameState.battle_enemies.is_empty():
         return
 
+    # The production game hides capture until chapter 4 or company rank 4.
+    # Raise the company rank here so this smoke validates the unlocked capability.
+    _check(ContentScopeDirector.grant_capability("capture"), "Capture test capability must be grantable")
+    _check(ContentScopeDirector.is_unlocked("capture"), "Granted capture capability must be active")
+
     var capture_target: Dictionary = GameState.battle_enemies[0]
     capture_target["max_hp"] = maxi(10, int(capture_target.get("max_hp", capture_target.get("hp", 10))))
     capture_target["hp"] = 1

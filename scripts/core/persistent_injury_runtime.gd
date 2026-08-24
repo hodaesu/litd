@@ -24,6 +24,9 @@ func definition(injury_id: String) -> Dictionary:
 
 func apply_injury(character: Dictionary, injury_id: String, severity: String = "minor") -> Dictionary:
     prepare_character(character)
+    ContentScopeDirector.record_context_event("first_persistent_injury")
+    if ContentScopeDirector.is_world_rule_active("all_healing_characters_can_treat") and has_party_healer(GameState.party):
+        ContentScopeDirector.record_context_event("first_injury_with_healer")
     var injury_definition := definition(injury_id)
     if injury_definition.is_empty():
         return {}
@@ -162,6 +165,7 @@ func close_expedition(party: Array) -> Array:
                     injury["severity"] = next
                     injury["untreated_runs"] = 0
                     worsened.append({"character_id": String(character.get("id", "")), "injury_id": String(injury.get("id", "")), "severity": next})
+                    ContentScopeDirector.record_context_event("first_injury_aggravation")
         injuries_changed.emit(character)
     return worsened
 
@@ -175,6 +179,7 @@ func _next_severity(severity: String) -> String:
     return severity
 
 func treat_all_at_infirmary(party: Array) -> Dictionary:
+    ContentScopeDirector.record_context_event("first_return_with_injury")
     var treated := 0
     var stabilized := 0
     for value: Variant in party:

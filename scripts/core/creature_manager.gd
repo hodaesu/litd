@@ -72,6 +72,8 @@ func capture_chance(enemy: Dictionary) -> int:
     return clampi(base_chance, 5, 90)
 
 func attempt_capture(enemy: Dictionary) -> Dictionary:
+    if not ContentScopeDirector.is_unlocked("capture"):
+        return {"success": false, "consumed": false, "message": "La compagnie ne connaît pas encore le rite permettant de créer ce lien."}
     var definition: Dictionary = definition_for_battle_enemy(enemy)
     var is_special := bool(definition.get("boss_recruit", false))
     if (bool(enemy.get("boss", false)) or bool(enemy.get("is_boss", false)) or bool(enemy.get("is_miniboss", false))) and not is_special:
