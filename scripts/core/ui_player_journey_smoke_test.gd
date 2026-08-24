@@ -68,6 +68,10 @@ func _launch_real_expedition_from_ui() -> void:
     _check(not get_tree().get_nodes_in_group("player_party").is_empty(), "Exploration scene must contain the player party")
 
 func _enter_combat_from_world_contact() -> void:
+    # The title flow starts a fresh game, so unlock the advanced test capability here.
+    if not GameState.party.is_empty():
+        (GameState.party[0] as Dictionary)["level"] = 14
+    _check(ContentScopeDirector.is_unlocked("capture"), "Capture must remain unlocked before entering combat")
     var scene: Node = get_tree().current_scene
     _check(scene != null, "Exploration scene missing before encounter")
     if scene == null:
