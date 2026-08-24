@@ -28,6 +28,7 @@ func enter_zone(zone_id: String) -> void:
         discovered_zones[zone_id] = true
         zone_discovered.emit(zone_id)
     ExpeditionManager.on_zone_entered(zone_id)
+    ExplorationDirector.enter_room(zone_id)
 
 func request_zone_transition(zone_id: String) -> void:
     transition_requested.emit(zone_id)
@@ -106,6 +107,7 @@ func can_spawn_normal_miniboss(zone_data: Dictionary, alternate_route_available:
 
 func use_campfire(zone_id: String) -> void:
     campfires_used_this_run[zone_id] = true
+    ExplorationDirector.camp_recovery()
     campfire_used.emit(zone_id)
 
 func was_campfire_used_this_run(zone_id: String) -> bool:
@@ -115,6 +117,7 @@ func begin_new_expedition() -> void:
     campfires_used_this_run.clear()
     current_zone_id = ""
     previous_zone_id = ""
+    ExplorationDirector.begin_expedition()
 
 func reset_world_progression() -> void:
     discovered_zones.clear()
