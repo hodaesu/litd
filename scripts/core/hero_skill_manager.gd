@@ -4,6 +4,8 @@ const LEVELS: Array[int] = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 35, 39, 44,
 const COSTS: Array[int] = [1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5]
 const BRANCHES: Array[String] = ["offense", "defense", "special"]
 const COMBAT_LOADOUT_SIZE := 4
+const FULL_CATALOG_NODES_PER_BRANCH := 15
+const PRODUCTION_NODES_PER_BRANCH := 10
 const BASE_COMBAT_SKILLS: Array[Dictionary] = [
     {"id":"basic_strike","name":"Frappe","description":"Attaque fiable.","effect":"attack","power":1.00,"target":"enemy"},
     {"id":"heavy_blow","name":"Coup lourd","description":"Attaque plus lente mais plus puissante.","effect":"attack","power":1.35,"target":"enemy"},
@@ -44,12 +46,39 @@ func skill_nodes(hero: Dictionary, branch: String) -> Array:
     var hero_id: String = str(hero.get("id", "hero"))
     var previous: String = ""
     var stats: Array[String] = _stats(hero_id, branch)
-    for index in range(15):
+    for index in range(FULL_CATALOG_NODES_PER_BRANCH):
         var skill_id: String = "%s_%s_%02d" % [hero_id, branch, index + 1]
         var stat: String = stats[index % stats.size()]
         var value: int = _value(stat, index, hero_id, branch)
-        result.append({"id":skill_id,"name":_skill_name(hero_id,branch,index),"description":"+%d %s"%[value,stat.replace("_"," ")],"stat":stat,"value":value,"cost":COSTS[index],"required_level":LEVELS[index],"requires":previous})
+        result.append({
+            "id": skill_id,
+            "name": _skill_name(hero_id, branch, index),
+            "description": "+%d %s" % [value, stat.replace("_", " ")],
+            "stat": stat,
+            "value": value,
+            "cost": COSTS[index],
+            "required_level": LEVELS[index],
+            "requires": previous,
+            "production_state": "active" if index < PRODUCTION_NODES_PER_BRANCH else "reserve",
+            "available_in_current_release": index < PRODUCTION_NODES_PER_BRANCH
+        })
         previous = skill_id
+    return result
+
+func production_skill_nodes(hero: Dictionary, branch: String) -> Array:
+    var result: Array = []
+    for node_value: Variant in skill_nodes(hero, branch):
+        var node: Dictionary = node_value
+        if bool(node.get("available_in_current_release", false)):
+            result.append(node)
+    return result
+
+func reserve_skill_nodes(hero: Dictionary, branch: String) -> Array:
+    var result: Array = []
+    for node_value: Variant in skill_nodes(hero, branch):
+        var node: Dictionary = node_value
+        if not bool(node.get("available_in_current_release", false)):
+            result.append(node)
     return result
 
 func can_unlock(hero: Dictionary, skill_id: String) -> bool:
@@ -58,7 +87,8 @@ func can_unlock(hero: Dictionary, skill_id: String) -> bool:
     if branch == "": return false
     if not multi_tree_enabled() and specialization != "" and specialization != branch: return false
     var node: Dictionary = _node(hero, skill_id)
-    if node.is_empty() or hero.get("unlocked_skills", []).has(skill_id): return false
+    if node.is_empty() or not bool(node.get("available_in_current_release", false)): return false
+    if hero.get("unlocked_skills", []).has(skill_id): return false
     if int(hero.get("level",1)) < int(node.required_level) or int(hero.get("skill_points",0)) < int(node.cost): return false
     return str(node.requires) == "" or hero.get("unlocked_skills", []).has(str(node.requires))
 
