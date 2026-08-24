@@ -11,6 +11,10 @@ func run() -> void:
     EndgameState.reset_profile_progress()
     GameState.reset_new_game()
     CampaignState.reset_new_game()
+    # This journey exercises the capture UI after the company has learned it.
+    if not GameState.party.is_empty():
+        (GameState.party[0] as Dictionary)["level"] = 14
+    _check(ContentScopeDirector.is_unlocked("capture"), "UI capture must unlock at company rank 4")
     EquipmentManager.reset_new_game(7001)
     CreatureManager.reset_new_game(7002)
     AshlandsRuntime.reset_world_progression()
