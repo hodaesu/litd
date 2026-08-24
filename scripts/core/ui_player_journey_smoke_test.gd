@@ -136,6 +136,13 @@ func _drive_combat_actions() -> void:
     _check(await _select_enemy(0), "Player must be able to reselect the weakened capture target")
     _check(await _press_button("CAPTURER", true), "Darius must be able to use the real CAPTURER button")
     await _frames(16)
+    print("UI_CAPTURE_DEBUG unlocked=%s state=%s log=%s creatures=%d target=%s" % [
+        ContentScopeDirector.is_unlocked("capture"),
+        ContentScopeDirector.feature_state("capture"),
+        str(GameState.log_lines),
+        CreatureManager.captured_creatures.size(),
+        str(attack_target)
+    ])
     _check(CreatureManager.captured_creatures.size() == 1, "UI capture must add one creature to the roster")
     _check(bool(attack_target.get("captured", false)), "UI capture must mark the selected enemy as captured")
     _check(GameState.current_screen == "combat", "Successful partial capture must keep combat active while enemies remain")
