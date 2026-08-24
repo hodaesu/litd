@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "design_goal": "préparer quatre survivants -> explorer -> combattre -> choisir de continuer ou rentrer -> assumer les conséquences -> repartir",
+  "pillars": [
+    {
+      "id": "scarred_company",
+      "label": "Compagnie marquée par ses expéditions"
+    },
+    {
+      "id": "embodied_psychology",
+      "label": "Peur, Espoir et Folie visibles dans le corps"
+    },
+    {
+      "id": "world_reading",
+      "label": "Exploration sans HUD guidée par le monde et les cendres"
+    },
+    {
+      "id": "brutal_position_combat",
+      "label": "Combat tactique brutal par positions"
+    }
+  ],
+  "tiers": {
+    "core": {
+      "label": "Noyau première version",
+      "features": [
+        "combat_positions",
+        "contextual_skills",
+        "persistent_injuries",
+        "mutilations",
+        "fear_hope_postures",
+        "madness",
+        "traits",
+        "quests",
+        "ash_guidance",
+        "hudless_exploration",
+        "scouting",
+        "traps",
+        "noise_light",
+        "physical_retreat",
+        "sanctuary_core"
+      ]
+    },
+    "progressive": {
+      "label": "Déblocage campagne",
+      "features": [
+        "capture",
+        "advanced_relationships",
+        "exploration_roles",
+        "reactive_dungeons",
+        "advanced_skill_branches",
+        "mobile_factions",
+        "complex_obstacles"
+      ]
+    },
+    "optional": {
+      "label": "Profondeur facultative",
+      "features": [
+        "farming",
+        "repeatable_bounties",
+        "collection",
+        "player_markers",
+        "extended_codex",
+        "campaign_chronicle",
+        "optimization"
+      ]
+    }
+  },
+  "first_map": {
+    "visible_features": [
+      "scouting",
+      "traps",
+      "noise_light",
+      "physical_retreat"
+    ],
+    "background_features": [
+      "persistent_injuries",
+      "fear_hope_postures",
+      "madness",
+      "traits",
+      "quests"
+    ],
+    "deferred_features": [
+      "capture",
+      "advanced_relationships",
+      "exploration_roles",
+      "reactive_dungeons",
+      "mobile_factions",
+      "complex_obstacles",
+      "player_markers",
+      "farming",
+      "repeatable_bounties",
+      "extended_codex",
+      "campaign_chronicle"
+    ],
+    "max_simultaneous_exploration_decisions": 4,
+    "active_player_roles": [
+      "scout"
+    ],
+    "allowed_trap_types": [
+      "pressure_plate",
+      "unstable_ceiling",
+      "alarm_wire",
+      "burning_ash"
+    ],
+    "show_advanced_systems_in_menu": false
+  },
+  "skills": {
+    "hero_authored_per_tree_target": [
+      8,
+      10
+    ],
+    "equipped": 4,
+    "ultimate_per_chosen_tree": 1,
+    "preserve_full_design_catalog": true,
+    "enemy_family_ability_target": [
+      4,
+      8
+    ],
+    "enemy_full_player_style_trees": false,
+    "enemy_variation_source": "ai_orientation_and_body_state"
+  },
+  "psychology": {
+    "fear_hope": "temporary_posture",
+    "madness": "durable_dangerous_disorder",
+    "traits": "persistent_identity",
+    "relationships": "directed_social_reactions",
+    "feats": "memory_and_reputation_without_new_stat_layer",
+    "fear_hope_numeric_gauges_visible": false
+  },
+  "sanctuary": {
+    "primary_buildings": [
+      "infirmary",
+      "guild",
+      "forge_market",
+      "chapel",
+      "tavern",
+      "memorial"
+    ],
+    "secondary_functions_embedded": true,
+    "separate_management_game": false
+  },
+  "farming": {
+    "required_for_main_story": false,
+    "creates_required_parallel_economy": false,
+    "entry_points": [
+      "targeted_loot",
+      "repeatable_bounties"
+    ],
+    "presentation": "optional_expert_depth"
+  },
+  "presentation": {
+    "max_primary_choices_per_screen": 4,
+    "advanced_systems_run_in_background": true,
+    "reveal_only_when_relevant": true,
+    "exploration_hud_default": "hidden"
+  }
+}
