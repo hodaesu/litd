@@ -210,7 +210,7 @@ func _format_exploration_overlay(channel: String, payload: Dictionary) -> String
                 var hero: Dictionary = hero_value
                 var hp := int(hero.get("hp", 0))
                 var max_hp := maxi(1, int(hero.get("max_hp", 1)))
-                var line := "%s  %d/%d PV · Peur %d" % [hero.get("name", "Héros"), hp, max_hp, int(hero.get("fear", 0))]
+                var line := "%s  %d/%d PV · %s" % [hero.get("name", "Héros"), hp, max_hp, PsychologyRuntime.psychological_posture_label(hero)]
                 var injuries: Array = hero.get("persistent_injuries", hero.get("injuries", []))
                 if not injuries.is_empty():
                     line += " · Blessé"
@@ -223,11 +223,11 @@ func _format_exploration_overlay(channel: String, payload: Dictionary) -> String
             var character: Dictionary = payload.get("character", {})
             if character.is_empty():
                 return ""
-            return "%s  %d/%d PV · Peur %d" % [
+            return "%s  %d/%d PV · %s" % [
                 character.get("name", "Personnage"),
                 int(character.get("hp", 0)),
                 maxi(1, int(character.get("max_hp", 1))),
-                int(character.get("fear", 0))
+                PsychologyRuntime.psychological_posture_label(character)
             ]
         "quest":
             var progress := str(payload.get("progress", ""))
