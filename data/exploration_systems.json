@@ -1,0 +1,291 @@
+{
+  "version": 1,
+  "roles": {
+    "scout": {
+      "label": "Éclaireur",
+      "perception": 18,
+      "trap_detection": 20,
+      "ambush_resistance": 5
+    },
+    "vanguard": {
+      "label": "Ouvreur de marche",
+      "ambush_resistance": 20,
+      "trap_resistance": 8
+    },
+    "rearguard": {
+      "label": "Gardien arrière",
+      "pursuit_detection": 22,
+      "ambush_resistance": 10
+    },
+    "carrier": {
+      "label": "Porteur",
+      "cargo_bonus": 5,
+      "noise": 8
+    },
+    "guide": {
+      "label": "Guide",
+      "navigation": 22,
+      "retreat_speed": 12
+    },
+    "field_healer": {
+      "label": "Soigneur de terrain",
+      "stabilization": 25,
+      "camp_healing": 15
+    }
+  },
+  "posture_modifiers": {
+    "Calme": 0,
+    "Résolu": 4,
+    "Inspiré": 8,
+    "Exalté": 12,
+    "Inquiet": -3,
+    "Effrayé": -8,
+    "Terrifié": -14,
+    "Panique": -25
+  },
+  "injury_penalties": {
+    "leg": -18,
+    "arm": -7,
+    "head": -15,
+    "torso": -8
+  },
+  "traps": {
+    "pressure_plate": {
+      "label": "Dalle de pression",
+      "difficulty": 42,
+      "cues": [
+        "jointures trop régulières",
+        "poussière interrompue"
+      ],
+      "actions": [
+        "avoid",
+        "disarm",
+        "remote_trigger",
+        "bypass"
+      ],
+      "failure": {
+        "injury": "leg",
+        "noise": 18
+      }
+    },
+    "unstable_ceiling": {
+      "label": "Plafond instable",
+      "difficulty": 38,
+      "cues": [
+        "poussière qui tombe",
+        "craquement de pierre"
+      ],
+      "actions": [
+        "avoid",
+        "shore",
+        "remote_trigger",
+        "bypass"
+      ],
+      "failure": {
+        "injury": "head",
+        "noise": 30
+      }
+    },
+    "pit": {
+      "label": "Fosse dissimulée",
+      "difficulty": 48,
+      "cues": [
+        "courant d’air bas",
+        "dalles creuses"
+      ],
+      "actions": [
+        "avoid",
+        "probe",
+        "bridge",
+        "bypass"
+      ],
+      "failure": {
+        "injury": "leg",
+        "noise": 24
+      }
+    },
+    "alarm_wire": {
+      "label": "Fil d’alarme",
+      "difficulty": 34,
+      "cues": [
+        "reflet métallique",
+        "clochette étouffée"
+      ],
+      "actions": [
+        "avoid",
+        "disarm",
+        "remote_trigger"
+      ],
+      "failure": {
+        "noise": 55,
+        "reinforcement": 1
+      }
+    },
+    "toxic_mist": {
+      "label": "Brume toxique",
+      "difficulty": 30,
+      "cues": [
+        "goût métallique",
+        "insectes morts"
+      ],
+      "actions": [
+        "mask",
+        "ventilate",
+        "rush",
+        "bypass"
+      ],
+      "failure": {
+        "injury": "torso",
+        "pressure": 8
+      }
+    },
+    "burning_ash": {
+      "label": "Cendres brûlantes",
+      "difficulty": 36,
+      "cues": [
+        "chaleur sous les bottes",
+        "lueur sous la croûte"
+      ],
+      "actions": [
+        "protect",
+        "cool",
+        "rush",
+        "bypass"
+      ],
+      "failure": {
+        "injury": "leg",
+        "pressure": 5
+      }
+    },
+    "cell_mechanism": {
+      "label": "Mécanisme des cellules",
+      "difficulty": 45,
+      "cues": [
+        "chaînes sous tension",
+        "verrous reliés"
+      ],
+      "actions": [
+        "inspect",
+        "jam",
+        "remote_trigger",
+        "bypass"
+      ],
+      "failure": {
+        "reinforcement": 2
+      }
+    },
+    "sacrificial_seal": {
+      "label": "Sceau sacrificiel",
+      "difficulty": 60,
+      "cues": [
+        "rainures convergentes",
+        "cendre consacrée"
+      ],
+      "actions": [
+        "translate",
+        "purify",
+        "destroy",
+        "abandon"
+      ],
+      "failure": {
+        "pressure": 12
+      }
+    }
+  },
+  "obstacles": {
+    "sealed_door": {
+      "solutions": [
+        "key",
+        "force",
+        "mechanism",
+        "secret_path"
+      ]
+    },
+    "chasm": {
+      "solutions": [
+        "bridge",
+        "rope",
+        "jump",
+        "detour"
+      ]
+    },
+    "toxic_room": {
+      "solutions": [
+        "mask",
+        "ventilate",
+        "heal_through",
+        "rush"
+      ]
+    },
+    "collapse": {
+      "solutions": [
+        "clear",
+        "detour",
+        "climb"
+      ]
+    },
+    "ancient_altar": {
+      "solutions": [
+        "translate",
+        "sacrifice",
+        "destroy",
+        "abandon"
+      ]
+    },
+    "territorial_creature": {
+      "solutions": [
+        "fight",
+        "feed",
+        "intimidate",
+        "capture"
+      ]
+    },
+    "survivors": {
+      "solutions": [
+        "negotiate",
+        "help",
+        "threaten",
+        "avoid"
+      ]
+    }
+  },
+  "marker_types": [
+    "chalk",
+    "tied_cloth",
+    "carved_sign",
+    "small_lantern",
+    "stone_pile",
+    "consecrated_ash"
+  ],
+  "max_markers": 8,
+  "retreat": {
+    "normal_exit": {
+      "keep_ratio": 1,
+      "pursuit_risk": 0
+    },
+    "shortcut": {
+      "keep_ratio": 1,
+      "pursuit_risk": 12
+    },
+    "emergency": {
+      "keep_ratio": 0.75,
+      "pursuit_risk": 28
+    },
+    "rout": {
+      "keep_ratio": 0.5,
+      "pursuit_risk": 55
+    }
+  },
+  "discovery_types": [
+    "bestiary",
+    "fall_truth",
+    "political_testimony",
+    "shortcut",
+    "boss_knowledge",
+    "technique",
+    "relationship",
+    "phobia_progress",
+    "survivor",
+    "sanctuary_change"
+  ]
+}
