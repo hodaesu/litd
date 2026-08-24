@@ -32,6 +32,9 @@ func show_preview(combatant: Dictionary, enemy: bool) -> void:
     _clear(preview_content)
     preview_content.add_child(_label(_title(combatant, enemy), 17, GOLD))
     preview_content.add_child(_label(_stat_line(combatant, enemy), 13, TEXT))
+    var capture_summary := _capture_summary(combatant) if enemy else ""
+    if capture_summary != "":
+        preview_content.add_child(_label(capture_summary, 12, _capture_color(combatant)))
     preview_content.add_child(_label("Afflictions : " + _affliction_summary(combatant, enemy, 3), 12, MUTED))
     preview_content.add_child(_label("Compétences : " + _skill_summary(combatant, enemy, 3), 12, MUTED))
     preview_panel.visible = true
@@ -51,6 +54,10 @@ func open_detail(combatant: Dictionary, enemy: bool) -> void:
     detail_content.add_child(_label(_title(combatant, enemy), 25, GOLD))
     detail_content.add_child(_label("STATISTIQUES", 18, GOLD))
     detail_content.add_child(_label(_stat_line(combatant, enemy), 15, TEXT))
+    var capture_summary := _capture_summary(combatant) if enemy else ""
+    if capture_summary != "":
+        detail_content.add_child(_label("CAPTURE", 18, GOLD))
+        detail_content.add_child(_label(capture_summary, 15, _capture_color(combatant)))
     detail_content.add_child(_label("AFFLICTIONS, BUFFS ET DEBUFFS", 18, GOLD))
     for line in _affliction_lines(combatant, enemy):
         detail_content.add_child(_label("• " + line, 14, TEXT))
@@ -136,6 +143,23 @@ func _stat_line(combatant: Dictionary, enemy: bool) -> String:
         parts.append("FOLIE %d" % int(combatant.get("madness", 0)))
         parts.append("ESPOIR %d" % int(combatant.get("hope", 0)))
     return " · ".join(parts)
+
+func _capture_summary(combatant: Dictionary) -> String:
+    var readiness: Dictionary = CreatureManager.capture_readiness(combatant)
+    var state := str(readiness.get("state", ""))
+    if state not in ["ready", "no_essence"]:
+        return ""
+    var chance := CreatureManager.capture_chance(combatant)
+    var cost := int(readiness.get("essence_cost", 0))
+    if state == "no_essence":
+        return "◇ CAPTURABLE · %d %% de chance · coût %d Essence · Essence insuffisante" % [chance, cost]
+    return "◇ CAPTURABLE · %d %% de chance · coût %d Essence" % [chance, cost]
+
+func _capture_color(combatant: Dictionary) -> Color:
+    var readiness: Dictionary = CreatureManager.capture_readiness(combatant)
+    if str(readiness.get("state", "")) == "no_essence":
+        return Color(0.82, 0.68, 0.38)
+    return Color(0.64, 0.94, 0.82)
 
 func _damage_text(value: Variant) -> String:
     if value is Array and value.size() >= 2:
