@@ -57,6 +57,7 @@ func start_expedition(seed_value: int = 0, dungeon_id: String = "") -> void:
     expedition_seed = seed_value if seed_value != 0 else int(Time.get_unix_time_from_system())
     expedition_active = true
     zones_entered_this_run.clear()
+    ExplorationDirector.begin_expedition()
     if first_descent_runtime != null:
         first_descent_runtime.start_attempt(dungeon_id, expedition_seed, GameState.party)
     if roguelike_runtime != null:
@@ -171,6 +172,18 @@ func hazard_interactions(hazard_id: String) -> Array:
     if roguelike_runtime == null:
         return []
     return roguelike_runtime.hazard_interactions(hazard_id)
+
+func apply_extraction_retention(keep_ratio: float) -> Dictionary:
+    if roguelike_runtime == null:
+        return {"kept": 0, "lost": 0}
+    var ratio := clampf(keep_ratio, 0.0, 1.0)
+    var cargo: Array = roguelike_runtime.active_run.get("cargo", [])
+    var keep_count := clampi(int(ceil(float(cargo.size()) * ratio)), 0, cargo.size())
+    var lost := maxi(0, cargo.size() - keep_count)
+    roguelike_runtime.active_run["cargo"] = cargo.slice(0, keep_count)
+    roguelike_runtime.active_run["gold_found"] = int(round(float(roguelike_runtime.active_run.get("gold_found", 0)) * ratio))
+    roguelike_runtime.active_run["essence_found"] = int(round(float(roguelike_runtime.active_run.get("essence_found", 0)) * ratio))
+    return {"kept": keep_count, "lost": lost, "keep_ratio": ratio}
 
 func extraction_summary() -> Dictionary:
     if roguelike_runtime == null:

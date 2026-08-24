@@ -1,0 +1,291 @@
+{
+  "version": 1,
+  "zones": {
+    "zone_01_faubourg_cendreux": {
+      "landmark": {
+        "id": "gate_broken_sun",
+        "cues": {
+          "architecture": "porte au soleil brisé",
+          "sound": "chaînes dans le vent"
+        }
+      },
+      "traps": [
+        {
+          "id": "z01_alarm",
+          "type": "alarm_wire"
+        }
+      ],
+      "patrols": [
+        {
+          "id": "z01_scavengers",
+          "family_id": "ash_scavenger",
+          "route": [
+            "zone_01_faubourg_cendreux",
+            "zone_02_village_ravage"
+          ]
+        }
+      ]
+    },
+    "zone_02_village_ravage": {
+      "landmark": {
+        "id": "dry_well",
+        "cues": {
+          "architecture": "puits effondré",
+          "light": "reflet de cendre"
+        }
+      },
+      "traps": [
+        {
+          "id": "z02_plate",
+          "type": "pressure_plate"
+        }
+      ],
+      "patrols": [
+        {
+          "id": "z02_hunters",
+          "family_id": "ash_hunter",
+          "route": [
+            "zone_02_village_ravage",
+            "zone_03_moulin_calcine",
+            "zone_04_foret_morte"
+          ]
+        }
+      ]
+    },
+    "zone_03_moulin_calcine": {
+      "landmark": {
+        "id": "charred_wheel",
+        "cues": {
+          "architecture": "grande roue calcinée",
+          "sound": "grincement régulier"
+        }
+      },
+      "traps": [
+        {
+          "id": "z03_ceiling",
+          "type": "unstable_ceiling"
+        }
+      ]
+    },
+    "zone_04_foret_morte": {
+      "landmark": {
+        "id": "split_white_tree",
+        "cues": {
+          "architecture": "arbre blanc fendu",
+          "sound": "corbeaux à l’est"
+        }
+      },
+      "traps": [
+        {
+          "id": "z04_pit",
+          "type": "pit"
+        }
+      ],
+      "patrols": [
+        {
+          "id": "z04_spiders",
+          "family_id": "arachnid",
+          "route": [
+            "zone_04_foret_morte",
+            "zone_14_clairiere_des_corbeaux"
+          ]
+        }
+      ]
+    },
+    "zone_05_ravin_des_pendus": {
+      "landmark": {
+        "id": "three_gallows",
+        "cues": {
+          "architecture": "trois gibets",
+          "sound": "cordes tendues"
+        }
+      },
+      "traps": [
+        {
+          "id": "z05_pit",
+          "type": "pit"
+        }
+      ]
+    },
+    "zone_06_chapelle_effondree": {
+      "landmark": {
+        "id": "fallen_bell",
+        "cues": {
+          "architecture": "cloche brisée",
+          "sound": "bourdonnement grave"
+        }
+      },
+      "traps": [
+        {
+          "id": "z06_seal",
+          "type": "sacrificial_seal"
+        }
+      ]
+    },
+    "zone_07_cimetiere": {
+      "landmark": {
+        "id": "headless_saint",
+        "cues": {
+          "architecture": "saint sans tête",
+          "light": "cierges froids"
+        }
+      },
+      "traps": [
+        {
+          "id": "z07_cells",
+          "type": "cell_mechanism"
+        }
+      ],
+      "patrols": [
+        {
+          "id": "z07_dead",
+          "family_id": "undead",
+          "route": [
+            "zone_07_cimetiere",
+            "zone_08_catacombes"
+          ]
+        }
+      ]
+    },
+    "zone_08_catacombes": {
+      "landmark": {
+        "id": "red_crypt_door",
+        "cues": {
+          "architecture": "porte funéraire rouge",
+          "air": "courant froid"
+        }
+      },
+      "traps": [
+        {
+          "id": "z08_mist",
+          "type": "toxic_mist"
+        }
+      ]
+    },
+    "zone_09_ossuaire": {
+      "landmark": {
+        "id": "bone_spiral",
+        "cues": {
+          "architecture": "spirale d’ossements",
+          "sound": "chuchotements"
+        }
+      },
+      "traps": [
+        {
+          "id": "z09_plate",
+          "type": "pressure_plate"
+        }
+      ]
+    },
+    "zone_10_hameau_deserte": {
+      "landmark": {
+        "id": "blue_shutter_house",
+        "cues": {
+          "architecture": "maison aux volets bleus",
+          "sound": "girouette"
+        }
+      },
+      "traps": [
+        {
+          "id": "z10_alarm",
+          "type": "alarm_wire"
+        }
+      ],
+      "patrols": [
+        {
+          "id": "z10_raiders",
+          "family_id": "ash_raider",
+          "route": [
+            "zone_10_hameau_deserte",
+            "zone_11_route_des_penitents"
+          ]
+        }
+      ]
+    },
+    "zone_11_route_des_penitents": {
+      "landmark": {
+        "id": "kneeling_statues",
+        "cues": {
+          "architecture": "statues agenouillées",
+          "wind": "vent contraire"
+        }
+      },
+      "traps": [
+        {
+          "id": "z11_ash",
+          "type": "burning_ash"
+        }
+      ]
+    },
+    "zone_12_abbaye": {
+      "landmark": {
+        "id": "three_awakening_rosette",
+        "cues": {
+          "architecture": "rosace des Trois Éveils",
+          "light": "rayon doré"
+        }
+      },
+      "traps": [
+        {
+          "id": "z12_seal",
+          "type": "sacrificial_seal"
+        }
+      ],
+      "patrols": [
+        {
+          "id": "z12_guard",
+          "family_id": "abbey_guard",
+          "route": [
+            "zone_12_abbaye",
+            "zone_13_clocher_boss"
+          ],
+          "fear_threshold": 8
+        }
+      ]
+    },
+    "zone_13_clocher_boss": {
+      "landmark": {
+        "id": "black_bell",
+        "cues": {
+          "architecture": "cloche noire",
+          "sound": "battement sans choc"
+        }
+      },
+      "traps": []
+    },
+    "zone_14_clairiere_des_corbeaux": {
+      "landmark": {
+        "id": "crow_stone",
+        "cues": {
+          "architecture": "pierre couverte de corbeaux",
+          "sound": "silence soudain"
+        }
+      },
+      "traps": [
+        {
+          "id": "z14_pit",
+          "type": "pit"
+        }
+      ]
+    },
+    "zone_15_crypte_du_sans_nom": {
+      "landmark": {
+        "id": "nameless_sarcophagus",
+        "cues": {
+          "architecture": "sarcophage sans inscription",
+          "air": "cendre aspirée"
+        }
+      },
+      "traps": [
+        {
+          "id": "z15_cells",
+          "type": "cell_mechanism"
+        },
+        {
+          "id": "z15_seal",
+          "type": "sacrificial_seal"
+        }
+      ]
+    }
+  }
+}

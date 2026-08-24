@@ -121,7 +121,8 @@ func _build_payload() -> Dictionary:
         "ashlands": AshlandsRuntime.serialize(), "expedition": ExpeditionManager.serialize(), "field_encounters": FieldEncounterRuntime.serialize(),
         "community": CommunityRuntime.serialize(), "ashlands_minibosses": AshlandsMinibossDirector.serialize(),
         "ashlands_combat": AshlandsCombatBridge.serialize(), "campaign_memory": CampaignMemoryDirector.serialize(),
-        "expedition_reports": ExpeditionReportDirector.serialize(), "preparation_presets": ExpeditionPreparationDirector.serialize()
+        "expedition_reports": ExpeditionReportDirector.serialize(), "preparation_presets": ExpeditionPreparationDirector.serialize(),
+        "living_exploration": ExplorationDirector.serialize()
     }
 
 func _apply_payload(payload: Dictionary) -> void:
@@ -146,6 +147,7 @@ func _apply_payload(payload: Dictionary) -> void:
     CommunityRuntime.deserialize(payload.get("community",{})); AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses",{}))
     AshlandsCombatBridge.deserialize(payload.get("ashlands_combat",{})); CampaignMemoryDirector.deserialize(payload.get("campaign_memory",{}))
     ExpeditionReportDirector.deserialize(payload.get("expedition_reports",{})); ExpeditionPreparationDirector.deserialize(payload.get("preparation_presets",{}))
+    ExplorationDirector.deserialize(payload.get("living_exploration",{}))
     Chapter01Runtime.refresh_progress(); Chapter02Runtime.refresh_progress(); Chapter03Runtime.refresh_progress(); Chapter04Runtime.refresh_progress()
     Chapter05Runtime.refresh_progress(); Chapter06Runtime.refresh_progress(); Chapter07Runtime.refresh_progress(); Chapter08Runtime.refresh_progress()
     Chapter09Runtime.refresh_progress(); Chapter10Runtime.refresh_progress(); DeepVestigeRuntime.refresh_unlocks()
@@ -158,6 +160,7 @@ func _migrate(payload: Dictionary) -> Dictionary:
     payload["campaign_memory"] = payload.get("campaign_memory",{})
     payload["expedition_reports"] = payload.get("expedition_reports",{})
     payload["preparation_presets"] = payload.get("preparation_presets",{})
+    payload["living_exploration"] = payload.get("living_exploration",{})
     return payload
 
 func _atomic_write(path: String, text: String) -> bool:
