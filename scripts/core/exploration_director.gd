@@ -484,8 +484,8 @@ func _apply_trap_failure(failure: Dictionary) -> Dictionary:
             target = GameState.alive_heroes()[0]
         if not target.is_empty():
             var body_part := str(failure.get("injury", "torso"))
-            var injury_id := {"leg": "sprain", "arm": "arm_injury", "head": "head_trauma", "torso": "deep_wound"}.get(body_part, "deep_wound")
-            result["injury_result"] = PersistentInjuryRuntime.apply_injury(target, str(injury_id), "serious")
+            var injury_id: String = str({"leg": "sprain", "arm": "arm_injury", "head": "head_trauma", "torso": "deep_wound"}.get(body_part, "deep_wound"))
+            result["injury_result"] = PersistentInjuryRuntime.apply_injury(target, injury_id, "serious")
     return result
 
 func _solution_available(solution: String, context: Dictionary) -> bool:
