@@ -6,6 +6,7 @@ extends "res://scripts/core/ui_roguelike_journey_smoke_test_v2.gd"
 
 func _drive_title_and_departure() -> void:
     _check(await _press_button("NOUVELLE PARTIE", true), "Player must start a new game through the UI")
+    _check(ContentScopeDirector.grant_capability("capture"), "Advanced roguelike journey must unlock capture explicitly")
     _check(GameState.current_screen == "sanctuary", "New Game must open the Sanctuary")
     _check(await _press_button("LA PORTE", false), "La Porte must be usable")
     _check(GameState.current_screen == "expedition", "La Porte must open the expedition screen")
