@@ -46,6 +46,8 @@ func reset_new_game() -> void:
     last_retreat_plan.clear()
 
 func begin_expedition() -> void:
+    if roles.is_empty():
+        auto_assign_roles()
     traps.clear()
     patrols.clear()
     rooms.clear()
@@ -54,6 +56,21 @@ func begin_expedition() -> void:
     light_level = 1.0
     depth = 0
     last_retreat_plan.clear()
+
+func auto_assign_roles() -> Dictionary:
+    var available: Array = GameState.alive_heroes().duplicate()
+    var preferred: Array[String] = ["scout", "vanguard", "rearguard", "guide"]
+    var healer := PersistentInjuryRuntime.available_healer(available)
+    if not healer.is_empty():
+        assign_role("field_healer", str(healer.get("id", "")))
+        available.erase(healer)
+        preferred = ["scout", "vanguard", "rearguard"]
+    for role_id: String in preferred:
+        if available.is_empty():
+            break
+        var hero: Dictionary = available.pop_front()
+        assign_role(role_id, str(hero.get("id", "")))
+    return roles.duplicate(true)
 
 func assign_role(role_id: String, hero_id: String) -> Dictionary:
     if not rules.get("roles", {}).has(role_id):
