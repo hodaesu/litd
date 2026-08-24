@@ -6,7 +6,10 @@ ROOT = Path(__file__).resolve().parents[2]
 def test_every_playable_hero_has_three_fifteen_skill_trees():
     manager = (ROOT / "scripts/core/hero_skill_manager.gd").read_text()
     assert 'const BRANCHES: Array[String] = ["offense", "defense", "special"]' in manager
-    assert "for index in range(15)" in manager
+    assert "FULL_CATALOG_NODES_PER_BRANCH := 15" in manager
+    assert "for index in range(FULL_CATALOG_NODES_PER_BRANCH)" in manager
+    assert "PRODUCTION_NODES_PER_BRANCH := 10" in manager
+    assert "func reserve_skill_nodes" in manager
     for hero_id in ("aurelien", "malvor", "lysandra", "darius"):
         assert f'"{hero_id}"' in manager
 

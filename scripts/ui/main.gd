@@ -416,7 +416,7 @@ func show_hero_skills() -> void:
     for hero_value in GameState.party:
         if str(hero_value.id) == selected_hero_id: hero = hero_value
     if hero.is_empty(): GameState.request_screen("company"); return
-    var title := make_label("%s — 45 COMPÉTENCES · %d POINT(S)" % [hero.name, int(hero.skill_points)], 24, GOLD)
+    var title := make_label("%s — 30 EN PRODUCTION · 45 AU CATALOGUE · %d POINT(S)" % [hero.name, int(hero.skill_points)], 24, GOLD)
     title.position = Vector2(24, 15); content.add_child(title)
     var scroll := ScrollContainer.new(); scroll.position = Vector2(24,55); scroll.size = Vector2(1230,570); content.add_child(scroll)
     var list := VBoxContainer.new(); list.custom_minimum_size = Vector2(1190,0); scroll.add_child(list)
@@ -425,7 +425,7 @@ func show_hero_skills() -> void:
         var label := make_label("%s%s" % [branch.to_upper(), " — CHOISI" if specialization==branch else (" — VERROUILLÉ" if specialization!="" else "")],16,GOLD)
         list.add_child(label)
         var grid := GridContainer.new(); grid.columns=3; list.add_child(grid)
-        for node_value in HeroSkillManager.skill_nodes(hero,branch):
+        for node_value in HeroSkillManager.production_skill_nodes(hero,branch):
             var node: Dictionary=node_value; var unlocked: bool=hero.unlocked_skills.has(str(node.id))
             var button := make_button("%s\n%s"%[node.name,"ACQUIS" if unlocked else node.description],func(skill_id=str(node.id)):
                 HeroSkillManager.unlock(hero,skill_id); show_hero_skills(),Vector2(380,55))

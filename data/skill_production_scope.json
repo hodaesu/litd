@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "policy": "La première version produit un sous-ensemble complet et équilibrable; les autres concepts restent dans le dépôt sans être exposés au joueur.",
+  "heroes": {
+    "branches": 3,
+    "catalog_nodes_per_branch": 15,
+    "production_nodes_per_branch": 10,
+    "equipped_slots": 4,
+    "reserve_nodes_per_branch": 5,
+    "reserve_policy": "data_and_design_preserved_not_unlockable",
+    "future_activation_requires": "playtest_value_and_production_budget"
+  },
+  "enemies": {
+    "authored_shared_ability_pool": 8,
+    "family_runtime_target": [
+      4,
+      8
+    ],
+    "player_style_forty_five_skill_trees": false,
+    "diversity_sources": [
+      "ai_orientation",
+      "fear_posture",
+      "injury_state",
+      "combat_rank",
+      "environment",
+      "family_identity"
+    ]
+  },
+  "rules": {
+    "do_not_delete_reserve": true,
+    "do_not_animate_reserve_yet": true,
+    "reserve_hidden_from_player": true,
+    "no_new_major_system_before_pc_loop_validation": true
+  }
+}

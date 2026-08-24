@@ -21,6 +21,10 @@ func show_hero_skills() -> void:
     title.position = Vector2(24, 8)
     title.size = Vector2(720, 32)
     content.add_child(title)
+    var production_scope := make_label("10 TECHNIQUES PAR ARBRE · 5 CONCEPTS CONSERVÉS EN RÉSERVE", 12, MUTED)
+    production_scope.position = Vector2(520, 14)
+    production_scope.size = Vector2(430, 22)
+    content.add_child(production_scope)
 
     var points := make_label("POINTS DISPONIBLES  ◆ %d" % int(hero.get("skill_points", 0)), 16, TEXT)
     points.position = Vector2(965, 12)
@@ -98,7 +102,7 @@ func show_hero_skills() -> void:
         tab.modulate = _skill_branch_color(branch) if selected_skill_branch == branch else Color(0.62, 0.62, 0.66, 1)
         tabs.add_child(tab)
 
-    var nodes: Array = HeroSkillManager.skill_nodes(hero, selected_skill_branch)
+    var nodes: Array = HeroSkillManager.production_skill_nodes(hero, selected_skill_branch)
     var selected_exists: bool = false
     for node_value in nodes:
         var candidate: Dictionary = node_value
