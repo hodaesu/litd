@@ -41,3 +41,13 @@ def test_detailed_inspection_keeps_combat_running():
     assert "get_tree().paused = true" not in INSPECTION
     assert "_paused_before_detail" not in INSPECTION
     assert "HUDDirector.set_screen_context(GameState.current_screen)" in INSPECTION
+
+
+def test_enemy_preview_and_detail_show_capture_readiness_when_actionable():
+    assert "func _capture_summary(combatant: Dictionary) -> String:" in INSPECTION
+    assert "CreatureManager.capture_readiness(combatant)" in INSPECTION
+    assert "CreatureManager.capture_chance(combatant)" in INSPECTION
+    assert '"◇ CAPTURABLE · %d %% de chance · coût %d Essence"' in INSPECTION
+    assert '"CAPTURE"' in INSPECTION
+    assert '"no_essence"' in INSPECTION
+    assert 'if capture_summary != "":' in INSPECTION
