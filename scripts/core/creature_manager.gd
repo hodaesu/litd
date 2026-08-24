@@ -60,6 +60,44 @@ func is_capturable(enemy: Dictionary) -> bool:
         return false
     return not definition_for_enemy(int(enemy.get("id", -1))).is_empty()
 
+func capture_readiness(enemy: Dictionary) -> Dictionary:
+    var result := {
+        "visible": false,
+        "ready": false,
+        "state": "hidden",
+        "label": "",
+        "essence_cost": 0,
+        "hp_ratio": 1.0,
+        "hp_threshold": 0.0
+    }
+    if not ContentScopeDirector.is_unlocked("capture") or not is_capturable(enemy):
+        return result
+    if int(enemy.get("hp", 0)) <= 0 or bool(enemy.get("captured", false)):
+        return result
+    var definition: Dictionary = definition_for_battle_enemy(enemy)
+    if definition.is_empty():
+        return result
+    var capture: Dictionary = definition.get("capture", {})
+    var max_hp: int = maxi(1, int(enemy.get("max_hp", enemy.get("hp", 1))))
+    var hp_ratio: float = float(enemy.get("hp", max_hp)) / float(max_hp)
+    var hp_threshold: float = float(capture.get("max_hp_ratio", 0.30))
+    var essence_cost: int = int(capture.get("essence_cost", 3))
+    result["visible"] = true
+    result["hp_ratio"] = hp_ratio
+    result["hp_threshold"] = hp_threshold
+    result["essence_cost"] = essence_cost
+    if hp_ratio > hp_threshold:
+        result["state"] = "weaken"
+        result["label"] = "Lien impossible — affaiblir"
+    elif GameState.essence < essence_cost:
+        result["state"] = "no_essence"
+        result["label"] = "Capturable — Essence insuffisante"
+    else:
+        result["ready"] = true
+        result["state"] = "ready"
+        result["label"] = "CAPTURABLE"
+    return result
+
 func capture_chance(enemy: Dictionary) -> int:
     if not is_capturable(enemy):
         return 0
