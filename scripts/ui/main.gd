@@ -441,11 +441,16 @@ func hero_bonuses(hero: Dictionary) -> Dictionary:
         result[String(injury_key)] = int(result.get(String(injury_key), 0)) + int(round(float(injury_debuffs[injury_key])))
     for key_value in HeroSkillManager.stats_for(hero).keys():
         var key: String=str(key_value); result[key]=int(result.get(key,0))+int(HeroSkillManager.stats_for(hero).get(key,0))
-    var psychology_modifiers := PsychologyRuntime.combat_modifiers(hero)
+    var fear_modifiers := PsychologyRuntime.combat_modifiers(hero)
+    var hope_modifiers := PsychologyRuntime.hope_combat_modifiers(hero)
     for psychology_key_value: Variant in ["precision", "healing_power", "fear_resistance", "guard_power"]:
         var psychology_key := str(psychology_key_value)
-        result[psychology_key] = int(result.get(psychology_key, 0)) + int(psychology_modifiers.get(psychology_key, 0))
-    result["damage_bonus"] = int(result.get("damage_bonus", 0)) + int(psychology_modifiers.get("damage_percent", 0))
+        result[psychology_key] = int(result.get(psychology_key, 0)) \
+            + int(fear_modifiers.get(psychology_key, 0)) \
+            + int(hope_modifiers.get(psychology_key, 0))
+    result["damage_bonus"] = int(result.get("damage_bonus", 0)) \
+        + int(fear_modifiers.get("damage_percent", 0)) \
+        + int(hope_modifiers.get("damage_percent", 0))
     return result
 
 func show_creatures() -> void:
