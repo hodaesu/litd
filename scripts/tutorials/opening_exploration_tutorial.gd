@@ -38,14 +38,15 @@ func _process(_delta: float) -> void:
     if not _running or _party == null or stage_index >= stages.size():
         return
     var stage: Dictionary = stages[stage_index]
-    if str(stage.get("completion", "")) == "party_moved" and _party.global_position.distance_to(_move_origin) >= 1.25:
+    if str(stage.get("completion", "")) == "party_started_moving" and _party.global_position.distance_to(_move_origin) >= 1.25:
         _advance()
 
 
 func _unhandled_input(event: InputEvent) -> void:
     if not _running or stage_index >= stages.size():
         return
-    var completion := str((stages[stage_index] as Dictionary).get("completion", ""))
+    var stage: Dictionary = stages[stage_index]
+    var completion := str(stage.get("completion", ""))
     if completion == "interaction_requested" and event.is_action_pressed("interact"):
         _advance()
     elif completion == "ash_guidance_requested" and event.is_action_pressed("ash_guidance"):
@@ -70,7 +71,12 @@ func _build_ui() -> void:
 
 func _show_stage() -> void:
     var stage: Dictionary = stages[stage_index]
-    instruction.text = str(stage.get("prompt", ""))
+    var key := "prompt_keyboard"
+    if DisplayServer.is_touchscreen_available():
+        key = "prompt_touch"
+    elif Input.get_connected_joypads().size() > 0:
+        key = "prompt_gamepad"
+    instruction.text = str(stage.get(key, stage.get("prompt_keyboard", "")))
     panel.modulate.a = 0.0
     var tween := create_tween()
     tween.tween_property(panel, "modulate:a", 1.0, 0.22)
@@ -89,7 +95,7 @@ func _finish() -> void:
     CampaignState.set_chapter_flag(COMPLETE_FLAG, true)
     var tween := create_tween()
     tween.tween_property(panel, "modulate:a", 0.0, 0.35)
-    tween.tween_callback(queue_free)
+    tween.tween_callback(Callable(self, "queue_free"))
 
 
 func _read_json(path: String) -> Dictionary:
