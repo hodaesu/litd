@@ -56,15 +56,43 @@ def build_scene(output: Path, export_glb: Path, report: Path) -> dict:
     ash = _material(bpy, "M_Ash", (0.34, 0.35, 0.38, 1.0))
 
     districts = [
-        ("CosmopolitanQuarter", (-22, 2.5, 12), (9, 2.5, 9), stone),
-        ("ArtsSquare", (-7, 1.5, 0), (7, 1.5, 6), civic),
-        ("MartialArena", (11, 1.0, -12), (8, 1.0, 7), stone),
-        ("CivicAssembly", (26, 2.0, -25), (8, 2.0, 6), civic),
-        ("ThreeAwakenings", (12, 5.0, -44), (7, 5.0, 5), civic),
-        ("GateTower", (-17, 8.0, -65), (5, 8.0, 5), gate),
+        ("LivingAlley", (-30, 2.5, 18), (15, 2.5, 6), stone),
+        ("RooftopReveal", (-10, 7.0, 0), (15, 0.4, 14), stone),
+        ("MartialTournament", (7, 0.5, -14), (9, 0.5, 9), civic),
+        ("HouseOfArts", (27, 2.0, -29), (14, 2.0, 9), civic),
+        ("CivicAssembly", (46, 2.0, -53), (10, 2.0, 8), civic),
+        ("ForeignSea", (0, -1.0, -105), (70, 0.2, 40), ash),
+        ("VeilGate", (-15, 12.0, -119), (10, 10, 0.5), gate),
     ]
     for item in districts:
         _cube(bpy, *item)
+
+    # Named production proxies make every required story action reviewable.
+    for index in range(10):
+        _cube(bpy, f"Citizen_{index:02d}", (-37 + index * 2.6, 0.9, 16 + index % 3), (0.3, 0.9, 0.3), civic)
+    for index in range(4):
+        child = _cube(bpy, f"ChildPlaying_{index:02d}", (-25.5 + index * 1.4, 0.55, 12 + index % 2), (0.22, 0.55, 0.22), civic)
+        child["animation_intent"] = "run_chase_laugh"
+    for name, position in [("Fighter_A", (5.5, 1.0, -14)), ("Fighter_B", (8.5, 1.0, -14)), ("Referee", (7, 1.0, -10.5))]:
+        _cube(bpy, name, position, (0.3, 1.0, 0.3), stone)
+    for index, practice in enumerate(("Painting", "Sculpture", "Dance", "Ceramics", "Calligraphy", "Woodcraft")):
+        artist = _cube(bpy, f"Artist_{practice}", (19 + index * 3, 1.0, -25 - index % 2 * 3), (0.3, 1.0, 0.3), civic)
+        artist["art_practice"] = practice.lower()
+    for index in range(4):
+        musician = _cube(bpy, f"Musician_{index:02d}", (31 + index * 2, 1.0, -34), (0.3, 1.0, 0.3), stone)
+        musician["audio_event"] = "diegetic_music"
+        musician["animation_intent"] = "perform_opening_theme"
+    for index in range(12):
+        debater = _cube(bpy, f"Debater_{index:02d}", (41 + index % 6 * 2, 1.0, -51 - index // 6 * 4), (0.3, 1.0, 0.3), civic)
+        debater["animation_intent"] = "listen_argument_respond"
+    for index in range(9):
+        ship = _cube(bpy, f"ForeignShip_{index:02d}", (-34 + index * 8, 0.0, -91 - index % 3 * 9), (2.5, 0.5, 5.5), stone)
+        ship["origin"] = "other_continents_alliance"
+    for index in range(4):
+        hero = _cube(bpy, f"Hero_{index + 1}", (-2.1 + index * 1.4, 1.0, 4 + index % 2), (0.32, 1.0, 0.32), stone)
+        hero["formation_slot"] = index
+        if index == 2:
+            hero["animation_intent"] = "approach_kneel_close_bird_eyes"
 
     bpy.ops.mesh.primitive_uv_sphere_add(segments=24, ring_count=12, location=(-38, 18, 28))
     bird = bpy.context.object
@@ -121,7 +149,7 @@ def build_scene(output: Path, export_glb: Path, report: Path) -> dict:
         export_lights=False,
     )
     payload = {
-        "version": 1,
+        "version": 2,
         "cinematic_id": contract["id"],
         "blend": str(output),
         "glb": str(export_glb),
@@ -130,6 +158,9 @@ def build_scene(output: Path, export_glb: Path, report: Path) -> dict:
         "fps": scene.render.fps,
         "shots": shot_frames,
         "proxy_only": True,
+        "authored_sequence_complete": True,
+        "diegetic_music_proxy": True,
+        "four_hero_handoff_proxy": True,
         "human_visual_review_required": True,
     }
     report.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

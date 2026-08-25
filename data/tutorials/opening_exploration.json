@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "id": "tutorial_first_exploration",
+  "presentation": "contextual_non_blocking",
+  "hud_rule": "aucun HUD permanent en exploration",
+  "stages": [
+    {
+      "id": "move",
+      "prompt_keyboard": "Avancez dans les ruines — ZQSD ou touches directionnelles",
+      "prompt_gamepad": "Avancez avec le stick gauche",
+      "prompt_touch": "Avancez avec la commande tactile",
+      "completion": "party_started_moving"
+    },
+    {
+      "id": "interact",
+      "prompt_keyboard": "Approchez-vous d’un élément puis appuyez sur E pour interagir",
+      "prompt_gamepad": "Approchez-vous puis utilisez le bouton d’interaction",
+      "prompt_touch": "Approchez-vous puis touchez la commande contextuelle",
+      "completion": "interaction_requested"
+    },
+    {
+      "id": "ash_guidance",
+      "prompt_keyboard": "Si vous vous perdez, appuyez sur G pour demander les cendres",
+      "prompt_gamepad": "Utilisez la commande de guidage pour demander les cendres",
+      "prompt_touch": "Effectuez un double appui pour demander les cendres",
+      "completion": "ash_guidance_requested"
+    }
+  ],
+  "rules": {
+    "combat_not_paused": true,
+    "exploration_not_paused": true,
+    "prompt_fades_when_understood": true,
+    "tutorial_can_be_replayed_from_codex": true,
+    "tutorial_can_be_skipped": true,
+    "world_rules_remain_active": true
+  }
+}

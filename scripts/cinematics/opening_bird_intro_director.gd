@@ -9,10 +9,13 @@ signal intro_finished(skipped: bool)
 const CONTRACT_PATH := "res://data/cinematics/opening_bird_intro.json"
 const INTRO_FLAG := "opening_bird_intro_seen"
 const CAMERA_NAME := "OpeningBirdPOV"
+const CITY_PROXY := preload("res://scripts/cinematics/opening_city_proxy_builder.gd")
+const OPENING_TUTORIAL := preload("res://scripts/tutorials/opening_exploration_tutorial.gd")
 
 var contract: Dictionary = {}
 var party: Node3D
 var exploration_camera: Camera3D
+var city_proxy: OpeningCityProxyBuilder
 var bird_rig: Node3D
 var bird_camera: Camera3D
 var overlay: CanvasLayer
@@ -51,8 +54,11 @@ func _begin_if_needed() -> void:
 
 func _build_runtime() -> void:
     _party_target = party.global_position
-    party.global_position = _party_target + Vector3(0.0, 0.0, 12.0)
+    party.visible = false
     _set_party_controls(false)
+    city_proxy = CITY_PROXY.new()
+    add_child(city_proxy)
+    city_proxy.build()
 
     bird_rig = Node3D.new()
     bird_rig.name = CAMERA_NAME
@@ -97,14 +103,17 @@ func _play() -> void:
         var waypoint: Dictionary = waypoints[index]
         var beat_id := str(waypoint.get("id", "flight"))
         beat_started.emit(beat_id)
+        if beat_id == "shockwave":
+            city_proxy.begin_fall()
+        elif beat_id == "collision":
+            city_proxy.hide_old_city()
         var duration := float(waypoint.get("duration", 2.0))
         if beat_id in ["shockwave", "collision", "fall"] and not AccessibilityDirector.allows_screen_shake():
             duration *= 1.25
         await _move_camera(_waypoint_transform(waypoint), duration)
 
-    if not _running:
-        return
-    await _last_breath_and_handoff()
+    if _running:
+        await _last_breath_and_handoff()
 
 
 func _move_camera(target: Transform3D, duration: float) -> void:
@@ -127,9 +136,17 @@ func _last_breath_and_handoff() -> void:
     approach.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
     approach.set_trans(Tween.TRANS_SINE)
     approach.set_ease(Tween.EASE_OUT)
-    approach.tween_property(party, "global_position", _party_target, 3.2)
+    approach.tween_property(city_proxy.hero_group, "global_position", _party_target + Vector3(0.0, 0.0, 4.5), 3.2)
     await approach.finished
-    await get_tree().create_timer(0.65, true).timeout
+
+    if is_instance_valid(city_proxy.approach_hero):
+        beat_started.emit("hero_kneels")
+        var compassion := create_tween()
+        compassion.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+        compassion.set_trans(Tween.TRANS_SINE)
+        compassion.set_ease(Tween.EASE_OUT)
+        compassion.tween_property(city_proxy.approach_hero, "position:z", -2.2, 1.15)
+        await compassion.finished
 
     beat_started.emit("compassion_choice")
     camera_handoff_started.emit()
@@ -159,16 +176,29 @@ func _complete(skipped: bool) -> void:
     _running = false
     CampaignState.set_chapter_flag(INTRO_FLAG, true)
     party.global_position = _party_target
+    party.visible = true
     _set_party_controls(true)
     if is_instance_valid(exploration_camera):
         exploration_camera.make_current()
     HUDDirector.set_screen_context("exploration")
+    if is_instance_valid(city_proxy):
+        city_proxy.queue_free()
     if is_instance_valid(overlay):
         overlay.queue_free()
     if is_instance_valid(bird_rig):
         bird_rig.queue_free()
+    _start_tutorial()
     intro_finished.emit(skipped)
     queue_free()
+
+
+func _start_tutorial() -> void:
+    if bool(CampaignState.chapter_flags.get("opening_tutorial_complete", false)):
+        return
+    var tutorial := OPENING_TUTORIAL.new()
+    tutorial.name = "OpeningExplorationTutorial"
+    get_tree().current_scene.add_child(tutorial)
+    tutorial.begin(party)
 
 
 func _input(event: InputEvent) -> void:
