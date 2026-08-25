@@ -223,5 +223,5 @@ func _vec3(value: Variant) -> Vector3:
 func _read_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
         return {}
-    var parsed := JSON.parse_string(FileAccess.get_file_as_string(path))
+    var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
     return parsed if typeof(parsed) == TYPE_DICTIONARY else {}
