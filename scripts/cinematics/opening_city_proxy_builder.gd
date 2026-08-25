@@ -25,8 +25,8 @@ func begin_fall() -> void:
 
 func hide_old_city() -> void:
     for child: Node in get_children():
-        if child != hero_group:
-            child.visible = false
+        if child != hero_group and child is Node3D:
+            (child as Node3D).visible = false
 
 
 func _build_street() -> void:
