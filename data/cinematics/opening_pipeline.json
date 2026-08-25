@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "id": "opening_bird_intro_pipeline",
+  "source_contract": "data/cinematics/opening_bird_intro.json",
+  "output_root": "local/cinematics/opening_bird_intro",
+  "godot_asset_root": "assets/3d/cinematics/opening_bird_intro",
+  "reports_root": "local/reports/opening_bird_intro",
+  "tools": {
+    "python": "python",
+    "blender": "blender",
+    "godot": "godot",
+    "musescore": "MuseScore4",
+    "reaper": "reaper"
+  },
+  "assets": {
+    "environment": ["prefall_city_proxy", "gate_tower", "three_awakenings_sanctuary"],
+    "characters": ["bird_witness", "party_approach"],
+    "animations": ["bird_flight", "bird_shockwave", "bird_collision", "bird_fall", "bird_last_breath", "hero_approach", "hero_kneel", "hero_close_eyes", "party_reform"],
+    "effects": ["gate_opening", "shockwave", "ash_transition", "eyelid_occlusion"]
+  },
+  "audio": {
+    "sample_rate": 48000,
+    "channels": 2,
+    "events": ["city_life", "arts_square", "arena", "assembly", "warning_bells", "gate_silence", "shockwave", "wing_distress", "impact", "bird_breath", "ash_wind"],
+    "stems": ["music", "ambience", "foley", "impact", "bird", "voices"],
+    "reaper_project": "local/cinematics/opening_bird_intro/audio/opening_bird_intro.rpp",
+    "musescore_score": "local/cinematics/opening_bird_intro/music/opening_bird_intro.musicxml",
+    "final_mix": "assets/audio/cinematics/opening_bird_intro_mix.wav"
+  },
+  "quality_gates": [
+    {"id":"storyboard_review","human_required":true},
+    {"id":"animatic_review","human_required":true},
+    {"id":"blender_visual_review","human_required":true},
+    {"id":"audio_listening_review","human_required":true},
+    {"id":"godot_handoff_review","human_required":true}
+  ],
+  "rules": {
+    "never_publish_without_human_approval": true,
+    "resume_after_interruption": true,
+    "do_not_overwrite_approved_assets": true,
+    "godot_is_gameplay_authority": true,
+    "same_scene_handoff_required": true
+  }
+}
