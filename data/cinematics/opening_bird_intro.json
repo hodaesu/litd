@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "id": "cine_opening_bird_fall",
+  "title": "Le Dernier Vol",
+  "purpose": "Présenter sans exposition frontale la civilisation du continent, la Porte, la Chute et transmettre le regard du témoin au joueur sans chargement.",
+  "chronology": {
+    "event": "manifestation tardive de la Chute dans la première cité traversée",
+    "heroes_arrive_delay": "quelques minutes après l'impact",
+    "rule": "L'oiseau et l'arrivée des héros appartiennent à une continuité réelle, jamais à une ellipse de plusieurs années."
+  },
+  "point_of_view": {
+    "camera": "first_person_bird",
+    "continuous_until_occlusion": true,
+    "bird_presence_cues": ["wing_edge", "shadow", "breath", "wingbeats", "reflection", "citizens_looking_up"],
+    "comfort": {
+      "wide_turns": true,
+      "roll_degrees_max": 7,
+      "impact_roll_degrees_max": 24,
+      "no_permanent_bobbing": true,
+      "reduced_motion_path": true
+    }
+  },
+  "lore_route": [
+    {"id":"cosmopolitan_quarter","meaning":"peuples et architectures multiples cohabitent","world_action":"marché, langues, vêtements et entraide visibles"},
+    {"id":"arts_square","meaning":"l'art forme l'esprit","world_action":"musique, peinture, sculpture, danse et artisanat pratiqués"},
+    {"id":"martial_arena","meaning":"les cités remplacent la guerre par des tournois codifiés","world_action":"combat arbitré, salut, juges et public sans armée"},
+    {"id":"civic_assembly","meaning":"la politique recherche le bien commun","world_action":"citoyens débattent dans une assemblée ouverte"},
+    {"id":"three_awakenings","meaning":"corps, esprit et cité structurent la civilisation","world_action":"sanctuaire tripartite lisible dans l'architecture"},
+    {"id":"foreign_warning","meaning":"l'extérieur prépare l'invasion","world_action":"réfugiés, navires, remparts et cloches d'alerte"},
+    {"id":"gate_tower","meaning":"l'orgueil des envahisseurs provoque la catastrophe","world_action":"la Porte s'ouvre et désaccorde l'espace"}
+  ],
+  "runtime_waypoints": [
+    {"id":"takeoff","position":[-38.0,18.0,28.0],"look_at":[-12.0,4.0,8.0],"duration":2.5},
+    {"id":"cosmopolitan_quarter","position":[-24.0,14.0,15.0],"look_at":[-6.0,2.0,2.0],"duration":4.0},
+    {"id":"arts_square","position":[-10.0,9.0,4.0],"look_at":[3.0,1.5,-8.0],"duration":4.0},
+    {"id":"martial_arena","position":[8.0,7.0,-8.0],"look_at":[19.0,1.0,-16.0],"duration":4.0},
+    {"id":"civic_assembly","position":[24.0,11.0,-18.0],"look_at":[30.0,3.0,-31.0],"duration":4.0},
+    {"id":"three_awakenings","position":[34.0,16.0,-34.0],"look_at":[12.0,7.0,-45.0],"duration":4.5},
+    {"id":"foreign_warning","position":[15.0,20.0,-49.0],"look_at":[-4.0,10.0,-58.0],"duration":3.5},
+    {"id":"gate_tower","position":[-8.0,24.0,-58.0],"look_at":[-17.0,13.0,-65.0],"duration":3.0},
+    {"id":"shockwave","position":[-18.0,19.0,-54.0],"look_at":[-3.0,1.0,-23.0],"duration":1.6},
+    {"id":"collision","position":[-7.0,8.0,-38.0],"look_at":[1.0,0.8,-20.0],"duration":1.3},
+    {"id":"fall","position":[-1.0,0.32,-21.0],"look_at":[0.0,1.2,4.0],"duration":1.7}
+  ],
+  "beats": [
+    {"id":"living_world","camera":"stable_flight","story":"la cité est comprise par ses actions, sans narration explicative"},
+    {"id":"warnings","camera":"flight_narrows","story":"la vie continue mais les regards et les cloches réorientent l'attention"},
+    {"id":"gate_opens","camera":"brief_stillness_then_escape","story":"le son disparaît avant l'onde"},
+    {"id":"shockwave","camera":"controlled_instability","story":"l'oiseau perd le contrôle sans rendre l'image illisible"},
+    {"id":"impact","camera":"grounded_first_person","story":"aucune coupe; le témoin reste vivant"},
+    {"id":"last_breath","camera":"eyelid_occlusions","story":"respiration de l'oiseau et vent commencent à se confondre"},
+    {"id":"heroes_approach","camera":"grounded_hold","story":"postures, distances et réactions présentent le groupe avant les mots"},
+    {"id":"compassion_choice","camera":"hero_hand_occludes_frame","story":"le héros qui approche dépend de son comportement et de son état"},
+    {"id":"handoff","camera":"occlusion_match_to_exploration","story":"la caméra devient celle du joueur sans changement de scène"}
+  ],
+  "approach_selection": {
+    "priority": ["healing_capability", "high_mercy", "high_hope_posture", "pragmatic_if_no_compassionate_actor"],
+    "variants": {
+      "compassionate":"s'agenouille, ralentit et ferme doucement les paupières",
+      "healer":"vérifie le souffle puis comprend qu'il est trop tard",
+      "pragmatic":"vérifie brièvement l'état avant de signaler la route",
+      "fearful":"reste en retrait et laisse un autre héros approcher"
+    }
+  },
+  "handoff": {
+    "mask_event":"hero_hand_full_occlusion",
+    "switch_event":"opening_camera_to_exploration_camera",
+    "load_screen":false,
+    "same_scene_required":true,
+    "party_controls_enabled_after_switch":true,
+    "hud_state":"exploration_hidden",
+    "audio_bridge":"bird_last_exhale_to_ash_wind",
+    "first_objective_after_control":"observer les ruines et avancer"
+  },
+  "accessibility": {
+    "skippable":true,
+    "skip_requires_confirmation":true,
+    "subtitles_available":true,
+    "subtitle_text_scale":true,
+    "reduced_camera_motion":true,
+    "replay_from_journal":true
+  },
+  "production_placeholders": {
+    "city_proxy_allowed":true,
+    "final_city_required":true,
+    "bird_body_required_parts":["wing_l_edge","wing_r_edge","shadow_proxy","eyelid_mask"],
+    "hero_animation_clips":["approach_cautious","kneel_bird","check_breath","close_eyes","stand_reform"],
+    "audio_events":["city_life","arts_square","arena","assembly","warning_bells","gate_silence","shockwave","wing_distress","impact","bird_breath","ash_wind"]
+  }
+}

@@ -8,6 +8,7 @@ const PERFORMANCE_PROBE := preload("res://scripts/world/ashlands_performance_pro
 const AMBIENCE_CONTROLLER := preload("res://scripts/world/ashlands_ambience_controller.gd")
 const PLAYTEST_PANEL := preload("res://scripts/world/ashlands_playtest_panel.gd")
 const LORE_COLLECTIBLE := preload("res://scripts/world/lore_collectible.gd")
+const OPENING_BIRD_INTRO := preload("res://scripts/cinematics/opening_bird_intro_director.gd")
 
 @export_file("*.json") var manifest_path := "res://data/levels/terre_des_cendres_blockout_manifest.json"
 @export var zone_id := "zone_01_faubourg_cendreux"
@@ -53,6 +54,7 @@ func build_zone() -> void:
         _build_player_placeholder()
     if spawn_hud:
         _build_hud()
+    _build_opening_intro()
     if OS.is_debug_build():
         _build_playtest_panel()
 
@@ -324,6 +326,15 @@ func _build_hud() -> void:
     var hud := HUD_SCENE.instantiate()
     hud.name = "AshlandsHUDRuntime"
     add_child(hud)
+
+func _build_opening_intro() -> void:
+    if zone_id != "zone_01_faubourg_cendreux":
+        return
+    if bool(CampaignState.chapter_flags.get("opening_bird_intro_seen", false)):
+        return
+    var intro := OPENING_BIRD_INTRO.new()
+    intro.name = "OpeningBirdIntroRuntime"
+    add_child(intro)
 
 func _build_playtest_panel() -> void:
     var panel := PLAYTEST_PANEL.new()
