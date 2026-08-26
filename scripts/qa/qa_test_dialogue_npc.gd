@@ -28,6 +28,7 @@ func _ready() -> void:
 func interact() -> void:
     AshlandsRuntime.record_interaction(interaction_id)
     AshlandsRuntime.record_dialogue(interaction_id)
+    QATestRoomState.mark("dialogue")
     QuestGiverPresentation.open_dialogue(giver, {}, "offered")
     HUDDirector.notify_interaction("Parler", str(giver.get("name", "Personnage")))
 
