@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "decision": "pending_pc_test",
+  "same_machine_required": true,
+  "same_assets_required": true,
+  "same_resolution_required": true,
+  "engines": {
+    "godot": {
+      "room": "res://scenes/qa/qa_validation_room.tscn",
+      "results": {}
+    },
+    "unreal": {
+      "project": "unreal/LITDValidation/LITDValidation.uproject",
+      "results": {}
+    }
+  },
+  "metrics": [
+    {
+      "id": "startup_seconds",
+      "unit": "seconds",
+      "lower_is_better": true
+    },
+    {
+      "id": "average_fps",
+      "unit": "fps",
+      "lower_is_better": false
+    },
+    {
+      "id": "one_percent_low_fps",
+      "unit": "fps",
+      "lower_is_better": false
+    },
+    {
+      "id": "ram_peak_mb",
+      "unit": "MB",
+      "lower_is_better": true
+    },
+    {
+      "id": "vram_peak_mb",
+      "unit": "MB",
+      "lower_is_better": true
+    },
+    {
+      "id": "packaged_build_mb",
+      "unit": "MB",
+      "lower_is_better": true
+    },
+    {
+      "id": "initial_asset_import_seconds",
+      "unit": "seconds",
+      "lower_is_better": true
+    },
+    {
+      "id": "interaction_iteration_minutes",
+      "unit": "minutes",
+      "lower_is_better": true
+    },
+    {
+      "id": "lighting_readability",
+      "unit": "score_1_5",
+      "lower_is_better": false
+    },
+    {
+      "id": "animation_workflow",
+      "unit": "score_1_5",
+      "lower_is_better": false
+    },
+    {
+      "id": "ash_effect_quality",
+      "unit": "score_1_5",
+      "lower_is_better": false
+    },
+    {
+      "id": "controller_and_touch_workflow",
+      "unit": "score_1_5",
+      "lower_is_better": false
+    }
+  ],
+  "migration_gate": {
+    "required": "Unreal must show a clear production advantage, not merely prettier default lighting.",
+    "blockers": [
+      "Godot vertical slice incomplete",
+      "Unreal prototype not compiled on target PC",
+      "same Blender assets not tested in both engines"
+    ],
+    "no_full_migration_before_gate": true
+  }
+}
