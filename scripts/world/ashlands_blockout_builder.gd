@@ -9,6 +9,7 @@ const AMBIENCE_CONTROLLER := preload("res://scripts/world/ashlands_ambience_cont
 const PLAYTEST_PANEL := preload("res://scripts/world/ashlands_playtest_panel.gd")
 const LORE_COLLECTIBLE := preload("res://scripts/world/lore_collectible.gd")
 const OPENING_BIRD_INTRO := preload("res://scripts/cinematics/opening_bird_intro_director.gd")
+const FIRST_ACCORD_DUNGEON_MAP := preload("res://scripts/world/first_accord_dungeon_map_builder.gd")
 
 @export_file("*.json") var manifest_path := "res://data/levels/terre_des_cendres_blockout_manifest.json"
 @export var zone_id := "zone_01_faubourg_cendreux"
@@ -86,6 +87,8 @@ func _find_zone(id_value: String) -> Dictionary:
     return {}
 
 func _build_floor() -> void:
+    if zone_id == "zone_16_salles_du_premier_accord":
+        return
     var size: Array = zone_data.get("size_m", [100, 100])
     var width := float(size[0])
     var depth := float(size[1])
@@ -108,6 +111,8 @@ func _build_floor() -> void:
     body.add_child(collision)
 
 func _build_boundaries() -> void:
+    if zone_id == "zone_16_salles_du_premier_accord":
+        return
     var size: Array = zone_data.get("size_m", [100, 100])
     var w := float(size[0])
     var d := float(size[1])
@@ -119,6 +124,9 @@ func _build_boundaries() -> void:
     _build_wall(Vector3(w * 0.5, height * 0.5, 0), Vector3(thickness, height, d), "EastBoundary")
 
 func _build_layout_profile() -> void:
+    if zone_id == "zone_16_salles_du_premier_accord":
+        FIRST_ACCORD_DUNGEON_MAP.generate(_root())
+        return
     AshlandsLayoutGenerator.generate(_root(), zone_id, zone_data)
 
 func _build_wall(pos: Vector3, size: Vector3, node_name: String) -> void:
