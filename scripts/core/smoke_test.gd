@@ -66,8 +66,8 @@ func _run() -> void:
         failures.append("Invalid Ashlands manifest JSON")
     else:
         var zones: Array = manifest.get("zones", [])
-        if zones.size() != 15:
-            failures.append("Ashlands must contain exactly 15 zones")
+        if zones.size() != 16:
+            failures.append("Ashlands must contain exactly 16 zones")
         for zone in zones:
             var id_value := str(zone.get("id", ""))
             var filename := id_value + ".tscn"

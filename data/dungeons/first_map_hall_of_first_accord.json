@@ -1,0 +1,134 @@
+{
+  "version": 1,
+  "id": "dungeon_first_map_hall_of_first_accord",
+  "zone_id": "zone_16_salles_du_premier_accord",
+  "title": "Les Salles du Premier Accord",
+  "category": "optional_ancient_civilization_dungeon",
+  "available_from": "first_map",
+  "required_for_campaign": false,
+  "entrance": {
+    "from_zone": "zone_01_faubourg_cendreux",
+    "visible": true,
+    "position": [
+      -35,
+      0,
+      -34
+    ],
+    "presentation": "Un escalier monumental, fendu mais encore éclairé par des cendres immobiles.",
+    "warning": "Donjon dangereux — la progression de campagne ne nécessite pas son exploration.",
+    "ash_guidance": "only_on_request"
+  },
+  "narrative_purpose": "Montrer que le continent possédait des institutions souterraines avant la Chute et présenter les donjons optionnels dangereux dès la première carte.",
+  "floors": [
+    {
+      "id": "threshold",
+      "name": "Le Seuil des Serments",
+      "rooms": [
+        "vestibule",
+        "gallery_of_names",
+        "broken_guardroom"
+      ],
+      "hazards": [
+        "pressure_plate",
+        "unstable_ceiling"
+      ],
+      "encounters": 2,
+      "reward_tier": "common",
+      "retreat_exit": true,
+      "tutorial": "Le joueur apprend qu'il peut quitter un donjon avec ce qu'il a déjà obtenu."
+    },
+    {
+      "id": "civic_depths",
+      "name": "Les Chambres du Désaccord",
+      "rooms": [
+        "debate_chamber",
+        "sealed_archive",
+        "collapsed_passage"
+      ],
+      "hazards": [
+        "alarm_wire",
+        "toxic_mist"
+      ],
+      "encounters": 3,
+      "reward_tier": "uncommon",
+      "retreat_exit": true,
+      "choice": "continuer vers le cœur ou emprunter le raccourci de retour"
+    },
+    {
+      "id": "accord_heart",
+      "name": "Le Cœur du Premier Accord",
+      "rooms": [
+        "three_pillars_hall",
+        "memory_vault",
+        "warden_sanctum"
+      ],
+      "hazards": [
+        "sacrificial_seal",
+        "burning_ash"
+      ],
+      "encounters": 2,
+      "reward_tier": "rare",
+      "retreat_exit": true,
+      "miniboss": "c01_ancient_accord_warden"
+    }
+  ],
+  "miniboss": {
+    "id": "c01_ancient_accord_warden",
+    "name": "Le Gardien du Premier Accord",
+    "capturable": false,
+    "purpose": "Faire comprendre qu'un donjon facultatif peut être plus dangereux que la route de campagne.",
+    "abilities": [
+      "Sentence interrompue",
+      "Garde des Trois Piliers",
+      "Écho du Désaccord",
+      "Scellement civique"
+    ],
+    "non_required_victory": true
+  },
+  "discoveries": [
+    {
+      "id": "first_accord_tablet",
+      "type": "political_testimony",
+      "text": "Avant la Chute, même les désaccords les plus graves devaient laisser une porte ouverte au retour."
+    },
+    {
+      "id": "three_practices_relief",
+      "type": "fall_truth",
+      "text": "Le corps, l'art et la décision commune étaient enseignés comme trois responsabilités inséparables."
+    },
+    {
+      "id": "warden_protocol",
+      "type": "boss_knowledge",
+      "text": "Le gardien ne protégeait pas un trésor, mais la possibilité de reprendre un débat interrompu."
+    }
+  ],
+  "rewards": {
+    "first_room_guarantee": [
+      "bandages",
+      "gold"
+    ],
+    "completion": {
+      "gold": 45,
+      "essence": 3,
+      "equipment_rarity_min": "uncommon",
+      "campaign_flag": "c01_first_optional_dungeon_cleared"
+    },
+    "anti_farm": "Les récompenses uniques ne sont accordées qu'une fois; les retours ultérieurs suivent les tables normales."
+  },
+  "rules": {
+    "difficulty_mode_selection": false,
+    "world_difficulty": "single_demanding",
+    "campaign_scaling": true,
+    "retreat_physical": true,
+    "death_and_injuries_persist": true,
+    "hud_in_exploration": "hidden",
+    "entry_confirmation": true,
+    "minimum_information": [
+      "danger",
+      "distance_to_known_exit",
+      "party_injuries",
+      "supplies"
+    ],
+    "completion_required": false
+  }
+}

@@ -2,9 +2,9 @@
   "version": 1,
   "generator": "tools/blender/run_full_pipeline.py",
   "summary": {
-    "total_jobs": 100,
+    "total_jobs": 101,
     "materials": 1,
-    "environments": 15,
+    "environments": 16,
     "characters": 52,
     "props": 32
   },
@@ -305,6 +305,25 @@
       "outputs": [
         "assets/3d/ashlands/zones/zone_15_crypte_du_sans_nom/ashlands_15_nameless_crypt.blend",
         "assets/3d/ashlands/zones/zone_15_crypte_du_sans_nom/ashlands_15_nameless_crypt.glb"
+      ]
+    },
+    {
+      "stage": "environments",
+      "job_id": "ashlands_16_ancient_accord_halls",
+      "depends_on": [
+        "material_library"
+      ],
+      "command": [
+        "tools/blender/build_ashlands_scene.py",
+        "ashlands_16_ancient_accord_halls",
+        "--output",
+        "assets/3d/ashlands/zones/zone_16_salles_du_premier_accord/ashlands_16_ancient_accord_halls.blend",
+        "--export-glb",
+        "assets/3d/ashlands/zones/zone_16_salles_du_premier_accord/ashlands_16_ancient_accord_halls.glb"
+      ],
+      "outputs": [
+        "assets/3d/ashlands/zones/zone_16_salles_du_premier_accord/ashlands_16_ancient_accord_halls.blend",
+        "assets/3d/ashlands/zones/zone_16_salles_du_premier_accord/ashlands_16_ancient_accord_halls.glb"
       ]
     },
     {

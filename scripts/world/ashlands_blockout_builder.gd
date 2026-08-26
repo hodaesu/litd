@@ -197,6 +197,13 @@ func _build_entry_and_exits() -> void:
         gate.secret = bool(exit_data.get("secret", false))
         gate.teleporter = bool(exit_data.get("teleporter", false))
         gate.required_obsidian_points = 1 if gate.teleporter else 0
+        gate.dungeon = bool(exit_data.get("dungeon", false))
+        gate.optional_content = bool(exit_data.get("optional", false))
+        gate.dangerous_entry = gate.dungeon and gate.optional_content
+        if gate.dangerous_entry:
+            gate.dungeon_title = "Les Salles du Premier Accord"
+            gate.danger_warning = "Donjon dangereux et facultatif. Vos blessures et pertes persisteront. Appuyez de nouveau pour entrer."
+            gate.set_meta("interaction_prompt", "Entrer dans le donjon")
         _add_box_area_collision(gate, Vector3(3.0, 2.5, 3.0))
         exits.add_child(gate)
         i += 1

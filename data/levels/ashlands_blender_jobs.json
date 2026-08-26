@@ -572,6 +572,44 @@
         "mobile_budget_validated",
         "materials_readable_in_ash_fog"
       ]
+    },
+    {
+      "job_id": "ashlands_16_ancient_accord_halls",
+      "zone_id": "zone_16_salles_du_premier_accord",
+      "priority": "P2",
+      "kit_id": "ancient_accord_halls",
+      "layout_profile": "ancient_civic_dungeon",
+      "landmark": "three_pillars_memory_vault",
+      "zone_size_m": [
+        100,
+        120
+      ],
+      "deliverables": {
+        "buildings": 0,
+        "walls_or_blockers": 20,
+        "platforms": 6,
+        "landmarks": 1,
+        "lod_policy": "LOD0_LOD1_LOD2",
+        "collision_policy": "keep_blockout_until_approved"
+      },
+      "gameplay_sockets": {
+        "encounters": 7,
+        "resources": 8,
+        "ash_volumes": 3,
+        "shortcuts": 1,
+        "campfire": false,
+        "boss": "c01_ancient_accord_warden"
+      },
+      "output": "assets/3d/ashlands/zones/zone_16_salles_du_premier_accord",
+      "approval_gates": [
+        "silhouette_matches_blockout",
+        "critical_path_clear",
+        "miniboss_bypass_clear",
+        "camera_occlusion_validated",
+        "navigation_rebaked",
+        "mobile_budget_validated",
+        "materials_readable_in_ash_fog"
+      ]
     }
   ]
 }
