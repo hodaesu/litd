@@ -1,7 +1,7 @@
 @echo off
 setlocal
 cd /d "%~dp0\..\.."
-python tools\workstation\pc_preflight.py --repo "%CD%" --run-tests
+python tools\workstation\pc_preflight.py --repo "%CD%" --run-tests --minimum-free-gb 150
 if errorlevel 1 (
   echo.
   echo Verification incomplete. Consultez local\reports\pc_preflight.json
