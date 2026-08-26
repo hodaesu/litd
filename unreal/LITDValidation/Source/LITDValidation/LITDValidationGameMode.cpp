@@ -6,7 +6,8 @@
 #include "LITDValidationEnemy.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
-#include "GameFramework/PlayerStart.h"
+#include "GameFramework/PlayerController.h"
+#include "Kismet/GameplayStatics.h"
 #include "HAL/PlatformFileManager.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
@@ -22,6 +23,13 @@ void ALITDValidationGameMode::BeginPlay()
     Super::BeginPlay();
     InitializeChecks();
     SpawnValidationContent();
+    APlayerController* Controller = World ? World->GetFirstPlayerController() : nullptr;
+    if (Controller && !Controller->GetPawn())
+    {
+        ALITDValidationCharacter* Character = World->SpawnActor<ALITDValidationCharacter>(
+            FVector(1100, 0, 100), FRotator(0, 180, 0));
+        Controller->Possess(Character);
+    }
     PresentMessage(TEXT("Salle Unreal générée. E/manette : interagir · clic/gâchette : attaquer · G : cendres."));
 }
 
@@ -149,19 +157,10 @@ void ALITDValidationGameMode::RegisterEnemyDefeated()
 
 void ALITDValidationGameMode::ResetValidation()
 {
-    InitializeChecks();
-    InventorySummary.Reset();
-    DefeatedEnemies = 0;
-    for (TWeakObjectPtr<ALITDValidationEnemy> Enemy : Enemies)
+    if (UWorld* World = GetWorld())
     {
-        if (Enemy.IsValid())
-        {
-            Enemy->Destroy();
-        }
+        UGameplayStatics::OpenLevel(this, FName(*World->GetName()), false);
     }
-    Enemies.Reset();
-    SpawnValidationContent();
-    PresentMessage(TEXT("Salle réinitialisée."));
 }
 
 int32 ALITDValidationGameMode::CompletedCount() const
