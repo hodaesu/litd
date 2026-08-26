@@ -12,13 +12,13 @@ class VisualReviewQueueTests(unittest.TestCase):
         cls.queue = build_queue()
 
     def test_queue_covers_all_godot_assets(self):
-        self.assertEqual(self.queue["review_count"], 99)
-        self.assertEqual(len(self.queue["reviews"]), 99)
-        self.assertEqual(len({review["job_id"] for review in self.queue["reviews"]}), 99)
+        self.assertEqual(self.queue["review_count"], 100)
+        self.assertEqual(len(self.queue["reviews"]), 100)
+        self.assertEqual(len({review["job_id"] for review in self.queue["reviews"]}), 100)
 
     def test_environment_reviews_use_four_isometric_views(self):
         reviews = [review for review in self.queue["reviews"] if review["category"] == "environments"]
-        self.assertEqual(len(reviews), 15)
+        self.assertEqual(len(reviews), 16)
         for review in reviews:
             self.assertEqual(review["preview"]["type"], "isometric_quadrants")
             self.assertEqual(review["preview"]["angles_degrees"], [45, 135, 225, 315])
@@ -68,7 +68,7 @@ class ApprovalTests(unittest.TestCase):
         self.assertEqual(record["status"], "approved")
         self.assertEqual(record["history"][0]["note"], "validé")
         self.assertEqual(build_summary(decisions, self.queue), {
-            "total": 99, "approved": 1, "changes_requested": 0, "pending": 98,
+            "total": 100, "approved": 1, "changes_requested": 0, "pending": 99,
         })
 
     def test_incomplete_gate_map_is_rejected(self):
