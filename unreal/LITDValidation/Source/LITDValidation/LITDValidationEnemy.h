@@ -4,6 +4,9 @@
 #include "GameFramework/Actor.h"
 #include "LITDValidationEnemy.generated.h"
 
+class UStaticMeshComponent;
+class UMaterialInstanceDynamic;
+
 UCLASS()
 class LITDVALIDATION_API ALITDValidationEnemy : public AActor
 {
