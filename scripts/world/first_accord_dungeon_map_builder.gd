@@ -54,8 +54,11 @@ static func _build_room(parent: Node3D, room_data: Dictionary) -> void:
     _box(room, "NorthWallRight", Vector3((door_gap + side_width) * 0.25, wall_height * 0.5, -size.z * 0.5), Vector3(side_width, wall_height, 0.8), true, "architecture/dungeon_wall")
     _box(room, "SouthWallLeft", Vector3(-(door_gap + side_width) * 0.25, wall_height * 0.5, size.z * 0.5), Vector3(side_width, wall_height, 0.8), true, "architecture/dungeon_wall")
     _box(room, "SouthWallRight", Vector3((door_gap + side_width) * 0.25, wall_height * 0.5, size.z * 0.5), Vector3(side_width, wall_height, 0.8), true, "architecture/dungeon_wall")
-    _box(room, "WestWall", Vector3(-size.x * 0.5, wall_height * 0.5, 0.0), Vector3(0.8, wall_height, size.z), true, "architecture/dungeon_wall")
-    _box(room, "EastWall", Vector3(size.x * 0.5, wall_height * 0.5, 0.0), Vector3(0.8, wall_height, size.z), true, "architecture/dungeon_wall")
+    var side_depth := max(1.0, (size.z - door_gap) * 0.5)
+    _box(room, "WestWallNorth", Vector3(-size.x * 0.5, wall_height * 0.5, -(door_gap + side_depth) * 0.25), Vector3(0.8, wall_height, side_depth), true, "architecture/dungeon_wall")
+    _box(room, "WestWallSouth", Vector3(-size.x * 0.5, wall_height * 0.5, (door_gap + side_depth) * 0.25), Vector3(0.8, wall_height, side_depth), true, "architecture/dungeon_wall")
+    _box(room, "EastWallNorth", Vector3(size.x * 0.5, wall_height * 0.5, -(door_gap + side_depth) * 0.25), Vector3(0.8, wall_height, side_depth), true, "architecture/dungeon_wall")
+    _box(room, "EastWallSouth", Vector3(size.x * 0.5, wall_height * 0.5, (door_gap + side_depth) * 0.25), Vector3(0.8, wall_height, side_depth), true, "architecture/dungeon_wall")
 
 static func _build_connections(root: Node3D, connections: Array) -> void:
     var connections_root := Node3D.new()
@@ -80,7 +83,16 @@ static func _build_connections(root: Node3D, connections: Array) -> void:
             marker.position = point
             marker.set_meta("route_index", index)
             corridor.add_child(marker)
-            _box(corridor, "Path_%02d" % [index + 1], point + Vector3(0.0, -0.22, 0.0), Vector3(width, 0.45, width), true, "architecture/dungeon_path")
+            if index > 0:
+                _build_path_tiles(corridor, _vec3(points[index - 1]), point, width, index)
+
+static func _build_path_tiles(parent: Node3D, start: Vector3, finish: Vector3, width: float, segment_index: int) -> void:
+    var distance := start.distance_to(finish)
+    var tile_count := maxi(1, int(ceil(distance / 1.5)))
+    for tile_index in tile_count + 1:
+        var ratio := float(tile_index) / float(tile_count)
+        var point := start.lerp(finish, ratio)
+        _box(parent, "Path_%02d_%02d" % [segment_index, tile_index], point + Vector3(0.0, -0.22, 0.0), Vector3(width, 0.45, width), true, "architecture/dungeon_path")
 
 static func _build_gameplay_markers(root: Node3D, root_name: String, entries: Array, role: String) -> void:
     var marker_root := Node3D.new()
