@@ -29,3 +29,12 @@ LITD/
 # Local SFX source library: raw licensed files, working derivatives, receipts and licence snapshots.
 # Only metadata contracts/registries are committed under data/audio/.
 local/audio_library/
+local/backups/
+local/reports/
+local/blender/
+local/music_pipeline/
+unreal/LITDValidation/Binaries/
+unreal/LITDValidation/DerivedDataCache/
+unreal/LITDValidation/Intermediate/
+unreal/LITDValidation/Saved/
+unreal/LITDValidation/.vs/
