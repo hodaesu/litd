@@ -5,6 +5,10 @@
 #include "LITDValidationStation.h"
 #include "LITDValidationEnemy.h"
 #include "DrawDebugHelpers.h"
+#include "Engine/DirectionalLight.h"
+#include "Engine/SkyLight.h"
+#include "Components/DirectionalLightComponent.h"
+#include "Components/SkyLightComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
@@ -57,6 +61,18 @@ void ALITDValidationGameMode::SpawnValidationContent()
         return;
     }
     World->SpawnActor<ALITDValidationRoom>(FVector::ZeroVector, FRotator::ZeroRotator);
+    ADirectionalLight* Sun = World->SpawnActor<ADirectionalLight>(FVector(0, 0, 600), FRotator(-55, -35, 0));
+    if (Sun && Sun->GetDirectionalLightComponent())
+    {
+        Sun->GetDirectionalLightComponent()->SetIntensity(4.0f);
+        Sun->GetDirectionalLightComponent()->SetLightColor(FLinearColor(1.0f, 0.82f, 0.68f));
+    }
+    ASkyLight* Sky = World->SpawnActor<ASkyLight>(FVector::ZeroVector, FRotator::ZeroRotator);
+    if (Sky && Sky->GetLightComponent())
+    {
+        Sky->GetLightComponent()->SetIntensity(0.7f);
+        Sky->GetLightComponent()->SetMobility(EComponentMobility::Movable);
+    }
 
     struct FStationSpec
     {
