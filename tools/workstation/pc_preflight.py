@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import platform
 import shutil
 import subprocess
 import sys
@@ -15,6 +16,9 @@ TOOLS = {
     "blender": ["blender"],
     "musescore": ["musescore4", "MuseScore4.exe", "mscore"],
     "reaper": ["reaper", "reaper.exe"],
+    "git_lfs": ["git-lfs", "git-lfs.exe"],
+    "unreal_editor": ["UnrealEditor.exe"],
+    "visual_studio": ["devenv.exe", "vswhere.exe"],
 }
 
 WINDOWS_HINTS = {
@@ -22,13 +26,14 @@ WINDOWS_HINTS = {
     "blender": [r"C:\Program Files\Blender Foundation\Blender 4.3\blender.exe"],
     "musescore": [r"C:\Program Files\MuseScore 4\bin\MuseScore4.exe"],
     "reaper": [r"C:\Program Files\REAPER (x64)\reaper.exe"],
+    "visual_studio": [r"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe"],
 }
 
 REQUIRED_FILES = [
     "project.godot",
     "tools/music_pipeline/build_music.py",
     "tools/audio/source_sfx_library.py",
-    "tools/production/validate_preblender.py",
+    "tools/qa/validate_blender_handoff.py",
 ]
 
 def resolve_tool(name):
@@ -39,7 +44,46 @@ def resolve_tool(name):
     for candidate in WINDOWS_HINTS.get(name, []):
         if Path(candidate).exists():
             return candidate
+    if name == "unreal_editor" and os.name == "nt":
+        epic = Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Epic Games"
+        for candidate in sorted(epic.glob("UE_*/Engine/Binaries/Win64/UnrealEditor.exe"), reverse=True):
+            if candidate.exists():
+                return str(candidate)
     return None
+
+def hardware_snapshot(root):
+    usage = shutil.disk_usage(root)
+    result = {
+        "os": platform.platform(),
+        "processor": platform.processor() or os.environ.get("PROCESSOR_IDENTIFIER") or "unknown",
+        "logical_cpu_count": os.cpu_count(),
+        "ram_gb": None,
+        "gpu": [],
+        "disk_free_gb": round(usage.free / (1024 ** 3), 1),
+        "disk_total_gb": round(usage.total / (1024 ** 3), 1),
+    }
+    if os.name == "nt":
+        ps = (
+            "$c=Get-CimInstance Win32_ComputerSystem;"
+            "$g=Get-CimInstance Win32_VideoController | Select-Object Name,AdapterRAM;"
+            "[pscustomobject]@{Ram=$c.TotalPhysicalMemory;Gpu=$g}|ConvertTo-Json -Compress -Depth 4"
+        )
+        try:
+            run = subprocess.run(["powershell", "-NoProfile", "-Command", ps], capture_output=True, text=True, timeout=30)
+            data = json.loads(run.stdout)
+            result["ram_gb"] = round(int(data["Ram"]) / (1024 ** 3), 1)
+            gpu = data.get("Gpu") or []
+            result["gpu"] = gpu if isinstance(gpu, list) else [gpu]
+        except (OSError, ValueError, KeyError, subprocess.SubprocessError):
+            pass
+    else:
+        try:
+            pages = os.sysconf("SC_PHYS_PAGES")
+            page_size = os.sysconf("SC_PAGE_SIZE")
+            result["ram_gb"] = round(pages * page_size / (1024 ** 3), 1)
+        except (AttributeError, ValueError):
+            pass
+    return result
 
 def version(executable):
     if not executable:
@@ -58,6 +102,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", default=".")
     parser.add_argument("--run-tests", action="store_true")
+    parser.add_argument("--minimum-free-gb", type=float, default=150.0)
     args = parser.parse_args()
     root = Path(args.repo).resolve()
 
@@ -96,7 +141,12 @@ def main():
                 "stderr": run.stderr[-4000:],
             })
 
+    hardware = hardware_snapshot(root)
+    godot_version = tools["godot"].get("version") or ""
+    godot_compatible = "4.3" in godot_version
     ready = all(item["found"] for item in tools.values()) and all(files.values())
+    ready = ready and godot_compatible
+    ready = ready and hardware["disk_free_gb"] >= args.minimum_free_gb
     if checks:
         ready = ready and all(item["returncode"] == 0 for item in checks)
 
@@ -104,6 +154,9 @@ def main():
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "repo": str(root),
         "ready": ready,
+        "hardware": hardware,
+        "minimum_free_gb": args.minimum_free_gb,
+        "godot_43_compatible": godot_compatible,
         "tools": tools,
         "required_files": files,
         "local_directories": local_dirs,
@@ -114,6 +167,7 @@ def main():
             "audio render and listening review",
             "Blender mesh rig animation and GLB deformation review",
             "Windows and mobile performance profiling",
+            "Unreal installation through Epic Games Launcher (5.8 target)",
         ],
     }
     target = root / "local/reports/pc_preflight.json"
