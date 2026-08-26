@@ -21,6 +21,8 @@ func interact() -> void:
     opened = true
     set_meta("opened", true)
     AshlandsRuntime.record_interaction(interaction_id)
+    QATestRoomState.mark("chest")
+    QATestRoomState.mark("loot", not item.is_empty())
     var item_name := str(item.get("name", "Objet d'essai"))
     HUDDirector.notify_pickup(item_name, 1)
     GameState.add_log("Coffre d'essai ouvert : %s." % item_name)
