@@ -576,7 +576,7 @@
     {
       "job_id": "ashlands_16_ancient_accord_halls",
       "zone_id": "zone_16_salles_du_premier_accord",
-      "priority": "P0",
+      "priority": "P2",
       "kit_id": "ancient_accord_halls",
       "layout_profile": "ancient_civic_dungeon",
       "landmark": "three_pillars_memory_vault",
