@@ -36,7 +36,7 @@ void ALITDValidationHUD::DrawHUD()
     for (const TPair<FName, FString>& Label : Labels)
     {
         const bool bPassed = Checks.FindRef(Label.Key);
-        DrawLine((bPassed ? TEXT("✓ ") : TEXT("◇ ")) + Label.Value, X, Y,
+        DrawLine(FString(bPassed ? TEXT("✓ ") : TEXT("◇ ")) + Label.Value, X, Y,
             bPassed ? FLinearColor(0.45f, 0.82f, 0.58f) : FLinearColor(0.75f, 0.72f, 0.67f), 0.85f);
     }
 
