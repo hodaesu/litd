@@ -2,7 +2,7 @@
   "version": 1,
   "coordinate_system": {
     "unit": "meter",
-    "scale": 1.0,
+    "scale": 1,
     "up_axis": "+Y",
     "forward_axis": "-Z",
     "origin": "ground_contact_center",
@@ -15,11 +15,24 @@
     "collision_naming": "COL_{asset}",
     "socket_naming": "SOCKET_{purpose}",
     "material_naming": "M_{family}_{surface}",
-    "lod_suffixes": ["LOD0", "LOD1", "LOD2"],
+    "lod_suffixes": [
+      "LOD0",
+      "LOD1",
+      "LOD2"
+    ],
     "required_uv_sets": 1,
     "max_materials_per_modular_mesh": 3,
-    "texture_sizes": [512, 1024, 2048],
-    "texture_channels": ["base_color", "normal", "orm", "emission_optional"]
+    "texture_sizes": [
+      512,
+      1024,
+      2048
+    ],
+    "texture_channels": [
+      "base_color",
+      "normal",
+      "orm",
+      "emission_optional"
+    ]
   },
   "runtime_contract": {
     "preserve_blockout_collision_until_approved": true,
@@ -27,20 +40,47 @@
     "occludable_architecture": true,
     "mobile_renderer": "gl_compatibility",
     "hero_height_m": 1.8,
-    "door_clearance_m": [1.4, 2.4],
+    "door_clearance_m": [
+      1.4,
+      2.4
+    ],
     "minimum_corridor_width_m": 2.2,
     "minimum_stair_width_m": 1.8,
     "maximum_step_height_m": 0.45
   },
   "asset_slots": {
-    "architecture/building": {"folder": "assets/3d/ashlands/architecture", "required_lods": 3},
-    "architecture/wall": {"folder": "assets/3d/ashlands/architecture", "required_lods": 3},
-    "architecture/platform": {"folder": "assets/3d/ashlands/architecture", "required_lods": 2},
-    "architecture/landmark": {"folder": "assets/3d/ashlands/landmarks", "required_lods": 3},
-    "nature/blocker": {"folder": "assets/3d/ashlands/nature", "required_lods": 3},
-    "gameplay/campfire": {"folder": "assets/3d/ashlands/gameplay", "required_lods": 2},
-    "gameplay/resource": {"folder": "assets/3d/ashlands/gameplay", "required_lods": 2},
-    "gameplay/shortcut": {"folder": "assets/3d/ashlands/gameplay", "required_lods": 2}
+    "architecture/building": {
+      "folder": "assets/3d/ashlands/architecture",
+      "required_lods": 3
+    },
+    "architecture/wall": {
+      "folder": "assets/3d/ashlands/architecture",
+      "required_lods": 3
+    },
+    "architecture/platform": {
+      "folder": "assets/3d/ashlands/architecture",
+      "required_lods": 2
+    },
+    "architecture/landmark": {
+      "folder": "assets/3d/ashlands/landmarks",
+      "required_lods": 3
+    },
+    "nature/blocker": {
+      "folder": "assets/3d/ashlands/nature",
+      "required_lods": 3
+    },
+    "gameplay/campfire": {
+      "folder": "assets/3d/ashlands/gameplay",
+      "required_lods": 2
+    },
+    "gameplay/resource": {
+      "folder": "assets/3d/ashlands/gameplay",
+      "required_lods": 2
+    },
+    "gameplay/shortcut": {
+      "folder": "assets/3d/ashlands/gameplay",
+      "required_lods": 2
+    }
   },
   "zone_kits": {
     "zone_01_faubourg_cendreux": "faubourg_ruins",
@@ -57,7 +97,8 @@
     "zone_12_abbaye": "ruined_abbey",
     "zone_13_clocher_boss": "boss_bell_tower",
     "zone_14_clairiere_des_corbeaux": "crow_clearing",
-    "zone_15_crypte_du_sans_nom": "nameless_crypt"
+    "zone_15_crypte_du_sans_nom": "nameless_crypt",
+    "zone_16_salles_du_premier_accord": "ancient_accord_halls"
   },
   "approval_gates": [
     "silhouette_matches_blockout",
