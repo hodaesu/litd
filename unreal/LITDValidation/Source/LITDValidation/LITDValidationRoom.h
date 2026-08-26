@@ -4,6 +4,8 @@
 #include "GameFramework/Actor.h"
 #include "LITDValidationRoom.generated.h"
 
+class UStaticMeshComponent;
+
 UCLASS()
 class LITDVALIDATION_API ALITDValidationRoom : public AActor
 {
