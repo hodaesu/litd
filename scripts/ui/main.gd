@@ -143,8 +143,8 @@ func show_title() -> void:
     content.add_child(shade)
     var box := VBoxContainer.new()
     box.set_anchors_preset(Control.PRESET_CENTER)
-    box.position = Vector2(-220,-180)
-    box.size = Vector2(440,360)
+    box.position = Vector2(-220,-215)
+    box.size = Vector2(440,430)
     box.add_theme_constant_override("separation", 15)
     content.add_child(box)
     var title := make_label("LIGHT IN THE DARK", 42, GOLD)
@@ -163,6 +163,8 @@ func show_title() -> void:
     box.add_child(make_button("CONTINUER", func():
         if SaveManager.load_game():
             GameState.request_screen("sanctuary"), Vector2(440,58)))
+    if OS.is_debug_build():
+        box.add_child(make_button("SALLE DE VALIDATION", func(): AshlandsSceneRouter.start_qa_validation_room(), Vector2(440,58)))
     box.add_child(make_button("QUITTER", func(): get_tree().quit(), Vector2(440,58)))
 
 func show_trait_setup() -> void:

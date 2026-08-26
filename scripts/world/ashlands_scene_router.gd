@@ -17,8 +17,10 @@ const CHAPTER_10_PATH := "res://scenes/world/chapter_10/"
 const DEEP_VESTIGE_PATH := "res://scenes/world/deep_vestiges/"
 const GENERIC_DEEP_VESTIGE_SCENE := DEEP_VESTIGE_PATH + "generic_deep_vestige.tscn"
 const MAIN_SCENE := "res://scenes/Main.tscn"
+const QA_VALIDATION_SCENE := "res://scenes/qa/qa_validation_room.tscn"
 
 var zone_scene_paths := {
+    "qa_validation_room": QA_VALIDATION_SCENE,
     "zone_01_faubourg_cendreux": BASE_PATH + "zone_01_faubourg_cendreux.tscn", "zone_02_village_ravage": BASE_PATH + "zone_02_village_ravage.tscn", "zone_03_moulin_calcine": BASE_PATH + "zone_03_moulin_calcine.tscn", "zone_04_foret_morte": BASE_PATH + "zone_04_foret_morte.tscn", "zone_05_ravin_des_pendus": BASE_PATH + "zone_05_ravin_des_pendus.tscn", "zone_06_chapelle_effondree": BASE_PATH + "zone_06_chapelle_effondree.tscn", "zone_07_cimetiere": BASE_PATH + "zone_07_cimetiere_blockout.tscn", "zone_08_catacombes": BASE_PATH + "zone_08_catacombes.tscn", "zone_09_ossuaire": BASE_PATH + "zone_09_ossuaire.tscn", "zone_10_hameau_deserte": BASE_PATH + "zone_10_hameau_deserte.tscn", "zone_11_route_des_penitents": BASE_PATH + "zone_11_route_des_penitents.tscn", "zone_12_abbaye": BASE_PATH + "zone_12_abbaye.tscn", "zone_13_clocher_boss": BASE_PATH + "zone_13_clocher_boss.tscn", "zone_14_clairiere_des_corbeaux": BASE_PATH + "zone_14_clairiere_des_corbeaux.tscn", "zone_15_crypte_du_sans_nom": BASE_PATH + "zone_15_crypte_du_sans_nom.tscn", "zone_16_salles_du_premier_accord": BASE_PATH + "zone_16_salles_du_premier_accord.tscn",
     "c02_old_road": CHAPTER_02_PATH + "c02_old_road.tscn", "c02_watchpost": CHAPTER_02_PATH + "c02_watchpost.tscn", "c02_quarry_camp": CHAPTER_02_PATH + "c02_quarry_camp.tscn", "c02_buried_archive": CHAPTER_02_PATH + "c02_buried_archive.tscn", "c02_resonance_station": CHAPTER_02_PATH + "c02_resonance_station.tscn",
     "c03_abandoned_relay": CHAPTER_03_PATH + "c03_abandoned_relay.tscn", "c03_korem_lab": CHAPTER_03_PATH + "c03_korem_lab.tscn", "c03_diplomatic_post": CHAPTER_03_PATH + "c03_diplomatic_post.tscn", "c03_threshold_complex": CHAPTER_03_PATH + "c03_threshold_complex.tscn", "c03_abort_chamber": CHAPTER_03_PATH + "c03_abort_chamber.tscn", "c03_ritual_core": CHAPTER_03_PATH + "c03_ritual_core.tscn",
@@ -56,6 +58,14 @@ func load_zone(zone_id: String) -> bool:
 func _start_exp(start_zone: String) -> bool:
     if not ExpeditionManager.expedition_active: ExpeditionManager.start_expedition()
     AshlandsRuntime.begin_new_expedition(); GameState.request_screen("exploration"); return load_zone(start_zone)
+func start_qa_validation_room() -> bool:
+    GameState.reset_new_game()
+    QATestRoomState.reset_session()
+    if not ExpeditionManager.expedition_active:
+        ExpeditionManager.start_expedition()
+    AshlandsRuntime.begin_new_expedition()
+    return load_zone("qa_validation_room")
+
 func start_ashlands() -> bool:
     if not ExpeditionManager.expedition_active: ExpeditionManager.start_expedition()
     AshlandsRuntime.begin_new_expedition(); AshlandsMinibossDirector.roll_for_expedition(ExpeditionManager.expedition_seed); return load_zone("zone_01_faubourg_cendreux")

@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "id": "qa_validation_room",
+  "production_build_visibility": "debug_only",
+  "campaign_state_isolation": true,
+  "stations": [
+    {
+      "id": "movement",
+      "kind": "free_roam",
+      "tests": [
+        "keyboard",
+        "controller",
+        "touch",
+        "walk",
+        "sprint",
+        "camera",
+        "collision",
+        "occlusion"
+      ]
+    },
+    {
+      "id": "dialogue",
+      "kind": "npc",
+      "target": "IlyanDialogueTest",
+      "tests": [
+        "proximity_prompt",
+        "interaction",
+        "dialogue_overlay",
+        "posture",
+        "close",
+        "non_pausing_presentation"
+      ]
+    },
+    {
+      "id": "loot",
+      "kind": "chest",
+      "target": "LootChestTest",
+      "tests": [
+        "proximity_prompt",
+        "open_once",
+        "generated_uncommon_equipment",
+        "inventory_notification",
+        "duplicate_prevention"
+      ]
+    },
+    {
+      "id": "combat",
+      "kind": "encounter",
+      "target": "CombatTestTrigger",
+      "tests": [
+        "four_enemies",
+        "skill_slots",
+        "target_preview",
+        "timeline",
+        "enemy_inspection",
+        "healing_item",
+        "grenade",
+        "fear_posture",
+        "hope_posture",
+        "madness",
+        "persistent_injury_debuff",
+        "capture_indicator",
+        "capture_attempt",
+        "victory_loot",
+        "return_to_same_room"
+      ]
+    },
+    {
+      "id": "systems",
+      "kind": "qa_panel",
+      "tests": [
+        "inject_psychology",
+        "inject_persistent_injury",
+        "ash_guidance_on_request",
+        "qa_save_roundtrip",
+        "full_room_reset"
+      ]
+    }
+  ],
+  "pass_condition": "11 checklist checks plus manual controller and touch verification",
+  "excluded": [
+    "campaign_progression",
+    "normal_save_slots",
+    "production_menu",
+    "permanent_world_progress"
+  ]
+}

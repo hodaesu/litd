@@ -102,6 +102,7 @@ Chapter09BossRuntime="*res://scripts/world/chapter_09_boss_runtime.gd"
 Chapter10BossRuntime="*res://scripts/world/chapter_10_boss_runtime.gd"
 DeepVestigeBossRuntime="*res://scripts/world/deep_vestige_boss_runtime_v2.gd"
 AshlandsPlaytestSession="*res://scripts/world/ashlands_playtest_session.gd"
+QATestRoomState="*res://scripts/qa/qa_test_room_state.gd"
 
 [display]
 window/size/viewport_width=1280

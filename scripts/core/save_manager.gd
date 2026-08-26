@@ -7,6 +7,7 @@ const SAVE_PATH := "user://light_in_the_dark_save.json"
 const SAVE_VERSION := "0.31"
 const SLOT_COUNT := 3
 const AUTOSAVE_SLOT := -1
+const QA_SNAPSHOT_PATH := "user://litd_qa_snapshot.json"
 
 var active_slot := 0
 var last_status := ""
@@ -34,6 +35,30 @@ func save_game(slot: int = active_slot) -> bool:
         last_status = "Échec de la sauvegarde."
     save_finished.emit(slot, success, false)
     return success
+
+func save_qa_snapshot() -> bool:
+    var payload := _build_payload()
+    payload["qa_snapshot"] = true
+    var body := JSON.stringify(payload)
+    var envelope := {"checksum": body.sha256_text(), "body": body}
+    return _atomic_write(QA_SNAPSHOT_PATH, JSON.stringify(envelope))
+
+func load_qa_snapshot() -> bool:
+    var payload := _read_payload(QA_SNAPSHOT_PATH)
+    if payload.is_empty() or not bool(payload.get("qa_snapshot", false)):
+        return false
+    payload = _migrate(payload)
+    if payload.is_empty():
+        return false
+    _apply_payload(payload)
+    return true
+
+func delete_qa_snapshot() -> bool:
+    var removed := false
+    for path: String in [QA_SNAPSHOT_PATH, _backup_for(QA_SNAPSHOT_PATH), _temp_for(QA_SNAPSHOT_PATH)]:
+        if FileAccess.file_exists(path):
+            removed = DirAccess.remove_absolute(ProjectSettings.globalize_path(path)) == OK or removed
+    return removed
 
 func autosave(reason: String = "") -> bool:
     var success := save_game(AUTOSAVE_SLOT)

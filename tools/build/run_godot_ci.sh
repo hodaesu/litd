@@ -70,4 +70,6 @@ run_checked "Parcours UI joueur : Sanctuaire, exploration, combat, récompenses 
 run_checked "Bâtiments du Sanctuaire : Chapelle, Taverne et Mémorial" timeout 60s godot --headless --path . res://scenes/tests/sanctuary_buildings_smoke.tscn
 run_checked "Mobile tactile : formats iPhone, cibles tactiles et ScreenTouch" timeout 90s godot --headless --path . res://scenes/tests/mobile_touch_smoke.tscn
 
+run_checked "Salle QA intégrée : déplacement, dialogue, coffre, butin, états, blessure, cendres et snapshot" timeout 90s godot --headless --path . res://scenes/tests/qa_validation_room_smoke.tscn
+
 echo "GODOT_CI_STRICT_OK"
