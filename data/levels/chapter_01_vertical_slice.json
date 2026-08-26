@@ -6,51 +6,241 @@
   "start_zone": "zone_01_faubourg_cendreux",
   "return_zone": "sanctuary",
   "stages": [
-    {"id":"c01_stage_01_departure","name":"La route sous la cendre","zone":"zone_01_faubourg_cendreux","type":"exploration","objective":"Quitter le Sanctuaire et sécuriser la première route.","completion":{"zone_discovered":"zone_01_faubourg_cendreux"}},
-    {"id":"c01_stage_02_survivors","name":"Des voix dans la poussière","zone":"zone_02_village_ravage","type":"rescue","objective":"Atteindre les survivants isolés du village ravagé et nettoyer l'accès.","completion":{"encounter_cleared":"c01_road_ambush"},"reward":{"supplies":2,"campaign_flag":"c01_survivors_reached"}},
-    {"id":"c01_stage_03_campfire","name":"Une lumière pour la nuit","zone":"zone_03_moulin_calcine","type":"campfire","objective":"Utiliser le feu de camp du moulin calciné et choisir comment préparer la suite.","completion":{"campfire_used":"zone_03_moulin_calcine"},"reward":{"light":8,"campaign_flag":"c01_first_camp"}},
-    {"id":"c01_stage_04_creature","name":"Ce qui n'attaque plus","zone":"zone_04_foret_morte","type":"creature","objective":"Observer une créature apaisable dans la forêt morte et décider de son sort.","completion":{"creature_recruited_min":1},"optional_alternative":{"flag_any":["creature_healed_released","creature_sanctuary_trial"]},"reward":{"campaign_metric":{"creature_relations":6}}},
-    {"id":"c01_stage_05_miniboss","name":"Le Gardien du passage","zone":"zone_07_cimetiere","type":"miniboss","objective":"Vaincre le Gardien du passage au cimetière pour sécuriser la route profonde.","completion":{"encounter_cleared":"c01_miniboss_warden"},"reward":{"gold":35,"essence":4}},
-    {"id":"c01_stage_06_marker","name":"La borne qui ne devrait pas être là","zone":"zone_10_hameau_deserte","type":"investigation","objective":"Atteindre le hameau déserté et avoir retrouvé au moins trois archives liées aux traces antérieures à la Chute.","completion":{"zone_discovered":"zone_10_hameau_deserte","lore_min":3},"reward":{"campaign_flag":"c01_old_veil_trace","campaign_metric":{"veil_knowledge":6}}},
-    {"id":"c01_stage_07_witness","name":"Le Témoin des Cendres","zone":"zone_13_clocher_boss","type":"boss","objective":"Affronter le Témoin des Cendres au clocher et décider quoi faire de ce qu'il reste de lui.","completion":{"encounter_cleared":"c01_boss_ash_witness"},"boss_choices":[
-      {"id":"finish","label":"Achever le Témoin","effects":{"campaign_flag":"c01_witness_finished","justice_integrity":-2}},
-      {"id":"stabilize","label":"Tenter de le stabiliser","effects":{"campaign_flag":"c01_witness_stabilized","creature_relations":4,"veil_knowledge":3}},
-      {"id":"memory","label":"Extraire sa mémoire","effects":{"campaign_flag":"c01_witness_memory","veil_knowledge":8,"tension":4}}
-    ]},
-    {"id":"c01_stage_08_return","name":"Ce que nous rapportons","zone":"sanctuary","type":"return","objective":"Revenir au Sanctuaire, enregistrer les découvertes et résoudre au moins deux crises ouvertes.","completion":{"zone_discovered":"sanctuary","political_quests_completed_min":2},"reward":{"campaign_flag":"chapter_01_vertical_slice_complete"}}
+    {
+      "id": "c01_stage_01_departure",
+      "name": "La route sous la cendre",
+      "zone": "zone_01_faubourg_cendreux",
+      "type": "exploration",
+      "objective": "Quitter le Sanctuaire et sécuriser la première route.",
+      "completion": {
+        "zone_discovered": "zone_01_faubourg_cendreux"
+      }
+    },
+    {
+      "id": "c01_stage_02_survivors",
+      "name": "Des voix dans la poussière",
+      "zone": "zone_02_village_ravage",
+      "type": "rescue",
+      "objective": "Atteindre les survivants isolés du village ravagé et nettoyer l'accès.",
+      "completion": {
+        "encounter_cleared": "c01_road_ambush"
+      },
+      "reward": {
+        "supplies": 2,
+        "campaign_flag": "c01_survivors_reached"
+      }
+    },
+    {
+      "id": "c01_stage_03_campfire",
+      "name": "Une lumière pour la nuit",
+      "zone": "zone_03_moulin_calcine",
+      "type": "campfire",
+      "objective": "Utiliser le feu de camp du moulin calciné et choisir comment préparer la suite.",
+      "completion": {
+        "campfire_used": "zone_03_moulin_calcine"
+      },
+      "reward": {
+        "light": 8,
+        "campaign_flag": "c01_first_camp"
+      }
+    },
+    {
+      "id": "c01_stage_04_creature",
+      "name": "Ce qui n'attaque plus",
+      "zone": "zone_04_foret_morte",
+      "type": "creature",
+      "objective": "Observer une créature apaisable dans la forêt morte et décider de son sort.",
+      "completion": {
+        "creature_recruited_min": 1
+      },
+      "optional_alternative": {
+        "flag_any": [
+          "creature_healed_released",
+          "creature_sanctuary_trial"
+        ]
+      },
+      "reward": {
+        "campaign_metric": {
+          "creature_relations": 6
+        }
+      }
+    },
+    {
+      "id": "c01_stage_05_miniboss",
+      "name": "Le Gardien du passage",
+      "zone": "zone_07_cimetiere",
+      "type": "miniboss",
+      "objective": "Vaincre le Gardien du passage au cimetière pour sécuriser la route profonde.",
+      "completion": {
+        "encounter_cleared": "c01_miniboss_warden"
+      },
+      "reward": {
+        "gold": 35,
+        "essence": 4
+      }
+    },
+    {
+      "id": "c01_stage_06_marker",
+      "name": "La borne qui ne devrait pas être là",
+      "zone": "zone_10_hameau_deserte",
+      "type": "investigation",
+      "objective": "Atteindre le hameau déserté et avoir retrouvé au moins trois archives liées aux traces antérieures à la Chute.",
+      "completion": {
+        "zone_discovered": "zone_10_hameau_deserte",
+        "lore_min": 3
+      },
+      "reward": {
+        "campaign_flag": "c01_old_veil_trace",
+        "campaign_metric": {
+          "veil_knowledge": 6
+        }
+      }
+    },
+    {
+      "id": "c01_stage_07_witness",
+      "name": "Le Témoin des Cendres",
+      "zone": "zone_13_clocher_boss",
+      "type": "boss",
+      "objective": "Affronter le Témoin des Cendres au clocher et décider quoi faire de ce qu'il reste de lui.",
+      "completion": {
+        "encounter_cleared": "c01_boss_ash_witness"
+      },
+      "boss_choices": [
+        {
+          "id": "finish",
+          "label": "Achever le Témoin",
+          "effects": {
+            "campaign_flag": "c01_witness_finished",
+            "justice_integrity": -2
+          }
+        },
+        {
+          "id": "stabilize",
+          "label": "Tenter de le stabiliser",
+          "effects": {
+            "campaign_flag": "c01_witness_stabilized",
+            "creature_relations": 4,
+            "veil_knowledge": 3
+          }
+        },
+        {
+          "id": "memory",
+          "label": "Extraire sa mémoire",
+          "effects": {
+            "campaign_flag": "c01_witness_memory",
+            "veil_knowledge": 8,
+            "tension": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "c01_stage_08_return",
+      "name": "Ce que nous rapportons",
+      "zone": "sanctuary",
+      "type": "return",
+      "objective": "Revenir au Sanctuaire, enregistrer les découvertes et résoudre au moins deux crises ouvertes.",
+      "completion": {
+        "zone_discovered": "sanctuary",
+        "political_quests_completed_min": 2
+      },
+      "reward": {
+        "campaign_flag": "chapter_01_vertical_slice_complete"
+      }
+    }
   ],
   "main_quest_bindings": {
-    "c01_embers":["c01_stage_01_departure","c01_stage_02_survivors","c01_stage_03_campfire","c01_stage_05_miniboss"],
-    "c01_first_voices":["c01_stage_04_creature","c01_stage_08_return"],
-    "c01_broken_marker":["c01_stage_06_marker","c01_stage_07_witness"]
+    "c01_embers": [
+      "c01_stage_01_departure",
+      "c01_stage_02_survivors",
+      "c01_stage_03_campfire",
+      "c01_stage_05_miniboss"
+    ],
+    "c01_first_voices": [
+      "c01_stage_04_creature",
+      "c01_stage_08_return"
+    ],
+    "c01_broken_marker": [
+      "c01_stage_06_marker",
+      "c01_stage_07_witness"
+    ]
   },
   "encounters": [
-    {"id":"c01_road_ambush","zone":"zone_02_village_ravage","kind":"combat","purpose":"Premier combat standard : apprendre peur, position et lecture des intentions."},
-    {"id":"c01_miniboss_warden","zone":"zone_07_cimetiere","kind":"miniboss","name":"Le Gardien du passage","purpose":"Premier pic de difficulté et verrou narratif de la route profonde."},
-    {"id":"c01_boss_ash_witness","zone":"zone_13_clocher_boss","kind":"chapter_boss","name":"Le Témoin des Cendres","purpose":"Boss narratif : démontrer qu'une apparence monstrueuse ne prouve pas une origine démoniaque."}
+    {
+      "id": "c01_road_ambush",
+      "zone": "zone_02_village_ravage",
+      "kind": "combat",
+      "purpose": "Premier combat standard : apprendre peur, position et lecture des intentions."
+    },
+    {
+      "id": "c01_ancient_accord_warden",
+      "zone": "zone_16_salles_du_premier_accord",
+      "kind": "optional_dungeon_miniboss",
+      "name": "Le Gardien du Premier Accord",
+      "purpose": "Présenter un défi de donjon plus dangereux que la route principale sans bloquer la campagne."
+    },
+    {
+      "id": "c01_miniboss_warden",
+      "zone": "zone_07_cimetiere",
+      "kind": "miniboss",
+      "name": "Le Gardien du passage",
+      "purpose": "Premier pic de difficulté et verrou narratif de la route profonde."
+    },
+    {
+      "id": "c01_boss_ash_witness",
+      "zone": "zone_13_clocher_boss",
+      "kind": "chapter_boss",
+      "name": "Le Témoin des Cendres",
+      "purpose": "Boss narratif : démontrer qu'une apparence monstrueuse ne prouve pas une origine démoniaque."
+    }
   ],
   "archive_targets": {
     "minimum_for_stage": 3,
     "recommended_in_slice": 8,
     "full_level_collection": 40,
-    "rule":"Les trois archives obligatoires doivent provenir d'emplacements différents ; les autres restent facultatives et récompensent l'exploration."
+    "rule": "Les trois archives obligatoires doivent provenir d'emplacements différents ; les autres restent facultatives et récompensent l'exploration."
   },
   "boss": {
-    "id":"c01_boss_ash_witness",
-    "name":"Le Témoin des Cendres",
-    "phases":[
-      {"id":"memory_fragments","name":"Fragments de mémoire","mechanic":"Le boss répète des gestes civils déformés ; attaquer sans observer augmente la Peur."},
-      {"id":"reality_slip","name":"Glissement du réel","mechanic":"Positions et portées changent temporairement ; la Lumière stabilise certaines cases."},
-      {"id":"recognition","name":"Reconnaissance","mechanic":"Sous 25 % de PV, des actions non létales ouvrent les choix de stabilisation ou d'extraction de mémoire."}
+    "id": "c01_boss_ash_witness",
+    "name": "Le Témoin des Cendres",
+    "phases": [
+      {
+        "id": "memory_fragments",
+        "name": "Fragments de mémoire",
+        "mechanic": "Le boss répète des gestes civils déformés ; attaquer sans observer augmente la Peur."
+      },
+      {
+        "id": "reality_slip",
+        "name": "Glissement du réel",
+        "mechanic": "Positions et portées changent temporairement ; la Lumière stabilise certaines cases."
+      },
+      {
+        "id": "recognition",
+        "name": "Reconnaissance",
+        "mechanic": "Sous 25 % de PV, des actions non létales ouvrent les choix de stabilisation ou d'extraction de mémoire."
+      }
     ],
-    "signature":"Dernier Souvenir du Jour",
-    "signature_effect":"Le décor redevient brièvement celui d'avant la Chute avant de se briser autour du groupe."
+    "signature": "Dernier Souvenir du Jour",
+    "signature_effect": "Le décor redevient brièvement celui d'avant la Chute avant de se briser autour du groupe."
   },
   "completion_rewards": {
     "gold": 90,
     "essence": 12,
     "supplies": 4,
     "unlock_chapter": "chapter_02_before_fall",
-    "journal_revelation":"La Chute actuelle n'explique pas toutes les traces du Voile."
+    "journal_revelation": "La Chute actuelle n'explique pas toutes les traces du Voile."
+  },
+  "optional_dungeon": {
+    "id": "dungeon_first_map_hall_of_first_accord",
+    "zone": "zone_16_salles_du_premier_accord",
+    "available_from": "zone_01_faubourg_cendreux",
+    "required": false,
+    "teaches": [
+      "optional_dungeons",
+      "danger_warning",
+      "physical_retreat",
+      "continue_or_return"
+    ],
+    "completion_flag": "c01_first_optional_dungeon_cleared"
   }
 }
