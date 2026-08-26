@@ -81,8 +81,8 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         self.assertIn('_build_storytelling_markers()', builder)
         self.assertIn('environmental_storytelling', builder)
 
-    def test_exactly_fifteen_zones(self):
-        self.assertEqual(len(self.manifest['zones']), 15)
+    def test_all_authored_zones_are_registered(self):
+        self.assertEqual(len(self.manifest['zones']), 16)
 
     def test_zone_ids_are_unique(self):
         ids = [z['id'] for z in self.manifest['zones']]
@@ -258,7 +258,7 @@ class AshlandsPreBlenderTests(unittest.TestCase):
         from tools.blender.generate_ashlands_jobs import build_plan
         self.assertEqual(self.blender_jobs, build_plan())
         jobs = self.blender_jobs['jobs']
-        self.assertEqual(len(jobs), 15)
+        self.assertEqual(len(jobs), 16)
         self.assertEqual({job['zone_id'] for job in jobs}, {zone['id'] for zone in self.manifest['zones']})
         self.assertEqual(self.blender_jobs['export_format'], 'glb')
         for job in jobs:
