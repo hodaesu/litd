@@ -41,9 +41,9 @@ class PipelineSelectionTests(unittest.TestCase):
     def setUpClass(cls):
         cls.manifest = load_manifest()
 
-    def test_all_stages_select_100_jobs(self):
+    def test_all_stages_select_101_jobs(self):
         jobs = select_jobs(self.manifest, normalize_request({}))
-        self.assertEqual(len(jobs), 100)
+        self.assertEqual(len(jobs), 101)
 
     def test_specific_character_automatically_adds_material_dependency(self):
         request = normalize_request({"stages": ["characters"], "job_ids": ["character_aurelien"]})
