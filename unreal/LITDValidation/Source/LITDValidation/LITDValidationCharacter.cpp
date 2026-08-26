@@ -12,6 +12,8 @@ ALITDValidationCharacter::ALITDValidationCharacter()
 {
     PrimaryActorTick.bCanEverTick = true;
     GetCharacterMovement()->MaxWalkSpeed = 450.0f;
+    GetCharacterMovement()->bOrientRotationToMovement = true;
+    GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
     bUseControllerRotationYaw = false;
 
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
