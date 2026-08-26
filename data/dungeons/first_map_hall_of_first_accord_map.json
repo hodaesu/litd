@@ -1,0 +1,658 @@
+{
+  "version": 1,
+  "id": "first_accord_authored_map",
+  "zone_id": "zone_16_salles_du_premier_accord",
+  "units": "metres",
+  "coordinate_system": "godot_y_up",
+  "design_rules": {
+    "critical_path_readable_without_hud": true,
+    "ash_guidance": "only_on_request",
+    "all_floors_have_physical_retreat": true,
+    "mandatory_rooms": 7,
+    "optional_rooms": 2,
+    "secret_rooms": 1,
+    "estimated_first_clear_minutes": 35
+  },
+  "floors": [
+    {
+      "id": "threshold",
+      "name": "Le Seuil des Serments",
+      "elevation": -6,
+      "entry_room": "vestibule",
+      "descent_room": "gallery_of_names",
+      "rooms": [
+        {
+          "id": "vestibule",
+          "name": "Vestibule fendu",
+          "center": [
+            0,
+            -6,
+            48
+          ],
+          "size": [
+            20,
+            1,
+            14
+          ],
+          "kind": "entry",
+          "safe_observation": true
+        },
+        {
+          "id": "gallery_of_names",
+          "name": "Galerie des Noms",
+          "center": [
+            -18,
+            -7,
+            28
+          ],
+          "size": [
+            24,
+            1,
+            18
+          ],
+          "kind": "critical",
+          "encounter": "accord_scavengers_01"
+        },
+        {
+          "id": "broken_guardroom",
+          "name": "Corps de garde brisé",
+          "center": [
+            20,
+            -7,
+            29
+          ],
+          "size": [
+            20,
+            1,
+            16
+          ],
+          "kind": "optional",
+          "encounter": "accord_guard_remnants",
+          "reward": "first_room_guarantee"
+        }
+      ]
+    },
+    {
+      "id": "civic_depths",
+      "name": "Les Chambres du Désaccord",
+      "elevation": -10,
+      "entry_room": "debate_chamber",
+      "descent_room": "collapsed_passage",
+      "rooms": [
+        {
+          "id": "debate_chamber",
+          "name": "Chambre du Débat",
+          "center": [
+            -16,
+            -9,
+            4
+          ],
+          "size": [
+            28,
+            1,
+            22
+          ],
+          "kind": "critical",
+          "encounter": "echoes_of_dissent"
+        },
+        {
+          "id": "sealed_archive",
+          "name": "Archives scellées",
+          "center": [
+            21,
+            -10,
+            3
+          ],
+          "size": [
+            22,
+            1,
+            18
+          ],
+          "kind": "secret",
+          "lock": "three_civic_seals",
+          "reward": "archive_cache"
+        },
+        {
+          "id": "collapsed_passage",
+          "name": "Passage effondré",
+          "center": [
+            5,
+            -11,
+            -18
+          ],
+          "size": [
+            26,
+            1,
+            16
+          ],
+          "kind": "critical",
+          "encounter": "accord_scavengers_02"
+        }
+      ]
+    },
+    {
+      "id": "accord_heart",
+      "name": "Le Cœur du Premier Accord",
+      "elevation": -14,
+      "entry_room": "three_pillars_hall",
+      "descent_room": "warden_sanctum",
+      "rooms": [
+        {
+          "id": "three_pillars_hall",
+          "name": "Salle des Trois Piliers",
+          "center": [
+            -17,
+            -13,
+            -34
+          ],
+          "size": [
+            26,
+            1,
+            20
+          ],
+          "kind": "critical",
+          "encounter": "three_pillars_trial"
+        },
+        {
+          "id": "memory_vault",
+          "name": "Voûte de la Mémoire",
+          "center": [
+            20,
+            -14,
+            -34
+          ],
+          "size": [
+            20,
+            1,
+            18
+          ],
+          "kind": "optional",
+          "reward": "memory_vault_cache"
+        },
+        {
+          "id": "warden_sanctum",
+          "name": "Sanctuaire du Gardien",
+          "center": [
+            0,
+            -15,
+            -51
+          ],
+          "size": [
+            32,
+            1,
+            16
+          ],
+          "kind": "boss",
+          "encounter": "c01_ancient_accord_warden"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c01",
+      "from": "vestibule",
+      "to": "gallery_of_names",
+      "kind": "stairs",
+      "waypoints": [
+        [
+          0,
+          -6,
+          41
+        ],
+        [
+          -8,
+          -6.5,
+          36
+        ],
+        [
+          -18,
+          -7,
+          34
+        ]
+      ],
+      "width": 4
+    },
+    {
+      "id": "c02",
+      "from": "vestibule",
+      "to": "broken_guardroom",
+      "kind": "corridor",
+      "waypoints": [
+        [
+          6,
+          -6,
+          43
+        ],
+        [
+          14,
+          -6.5,
+          38
+        ],
+        [
+          20,
+          -7,
+          35
+        ]
+      ],
+      "width": 3
+    },
+    {
+      "id": "c03",
+      "from": "broken_guardroom",
+      "to": "gallery_of_names",
+      "kind": "one_way_unlock",
+      "waypoints": [
+        [
+          13,
+          -7,
+          27
+        ],
+        [
+          0,
+          -7,
+          24
+        ],
+        [
+          -7,
+          -7,
+          27
+        ]
+      ],
+      "width": 3,
+      "shortcut_id": "shortcut_threshold_loop"
+    },
+    {
+      "id": "c04",
+      "from": "gallery_of_names",
+      "to": "debate_chamber",
+      "kind": "descending_gallery",
+      "waypoints": [
+        [
+          -18,
+          -7,
+          19
+        ],
+        [
+          -20,
+          -8,
+          13
+        ],
+        [
+          -16,
+          -9,
+          10
+        ]
+      ],
+      "width": 4
+    },
+    {
+      "id": "c05",
+      "from": "debate_chamber",
+      "to": "sealed_archive",
+      "kind": "sealed_door",
+      "waypoints": [
+        [
+          -2,
+          -9,
+          4
+        ],
+        [
+          9,
+          -9.5,
+          3
+        ],
+        [
+          15,
+          -10,
+          3
+        ]
+      ],
+      "width": 3,
+      "requires": "three_civic_seals"
+    },
+    {
+      "id": "c06",
+      "from": "debate_chamber",
+      "to": "collapsed_passage",
+      "kind": "main_corridor",
+      "waypoints": [
+        [
+          -9,
+          -9,
+          -7
+        ],
+        [
+          -3,
+          -10,
+          -12
+        ],
+        [
+          5,
+          -11,
+          -13
+        ]
+      ],
+      "width": 4
+    },
+    {
+      "id": "c07",
+      "from": "sealed_archive",
+      "to": "collapsed_passage",
+      "kind": "secret_service_tunnel",
+      "waypoints": [
+        [
+          20,
+          -10,
+          -6
+        ],
+        [
+          16,
+          -10.5,
+          -13
+        ],
+        [
+          11,
+          -11,
+          -18
+        ]
+      ],
+      "width": 2,
+      "hidden": true
+    },
+    {
+      "id": "c08",
+      "from": "collapsed_passage",
+      "to": "three_pillars_hall",
+      "kind": "broken_stairs",
+      "waypoints": [
+        [
+          0,
+          -11,
+          -26
+        ],
+        [
+          -8,
+          -12,
+          -29
+        ],
+        [
+          -17,
+          -13,
+          -29
+        ]
+      ],
+      "width": 4
+    },
+    {
+      "id": "c09",
+      "from": "three_pillars_hall",
+      "to": "memory_vault",
+      "kind": "trial_bridge",
+      "waypoints": [
+        [
+          -4,
+          -13,
+          -34
+        ],
+        [
+          7,
+          -13.5,
+          -34
+        ],
+        [
+          14,
+          -14,
+          -34
+        ]
+      ],
+      "width": 3
+    },
+    {
+      "id": "c10",
+      "from": "three_pillars_hall",
+      "to": "warden_sanctum",
+      "kind": "processional_stairs",
+      "waypoints": [
+        [
+          -12,
+          -13,
+          -42
+        ],
+        [
+          -7,
+          -14,
+          -47
+        ],
+        [
+          0,
+          -15,
+          -47
+        ]
+      ],
+      "width": 5
+    },
+    {
+      "id": "c11",
+      "from": "memory_vault",
+      "to": "warden_sanctum",
+      "kind": "guardian_gallery",
+      "waypoints": [
+        [
+          15,
+          -14,
+          -41
+        ],
+        [
+          9,
+          -14.5,
+          -47
+        ],
+        [
+          6,
+          -15,
+          -50
+        ]
+      ],
+      "width": 3
+    },
+    {
+      "id": "c12",
+      "from": "collapsed_passage",
+      "to": "vestibule",
+      "kind": "retreat_lift",
+      "waypoints": [
+        [
+          13,
+          -11,
+          -15
+        ],
+        [
+          30,
+          -9,
+          5
+        ],
+        [
+          29,
+          -7,
+          31
+        ],
+        [
+          8,
+          -6,
+          44
+        ]
+      ],
+      "width": 3,
+      "shortcut_id": "shortcut_accord_depths_to_entry",
+      "locked_from": "collapsed_passage"
+    }
+  ],
+  "hazards": [
+    {
+      "id": "trap_pressure_oaths",
+      "room": "gallery_of_names",
+      "type": "pressure_plate",
+      "position": [
+        -12,
+        -7,
+        31
+      ],
+      "solutions": [
+        "detect",
+        "disarm",
+        "trigger_at_range",
+        "bypass"
+      ]
+    },
+    {
+      "id": "trap_ceiling_guardroom",
+      "room": "broken_guardroom",
+      "type": "unstable_ceiling",
+      "position": [
+        20,
+        -7,
+        29
+      ],
+      "solutions": [
+        "detect",
+        "brace",
+        "rapid_crossing"
+      ]
+    },
+    {
+      "id": "trap_alarm_debate",
+      "room": "debate_chamber",
+      "type": "alarm_wire",
+      "position": [
+        -9,
+        -9,
+        2
+      ],
+      "solutions": [
+        "detect",
+        "disarm",
+        "cut_power"
+      ]
+    },
+    {
+      "id": "hazard_toxic_archive",
+      "room": "sealed_archive",
+      "type": "toxic_mist",
+      "position": [
+        21,
+        -10,
+        3
+      ],
+      "solutions": [
+        "ventilate",
+        "protect",
+        "rapid_search"
+      ]
+    },
+    {
+      "id": "hazard_burning_ash",
+      "room": "three_pillars_hall",
+      "type": "burning_ash",
+      "position": [
+        -17,
+        -13,
+        -34
+      ],
+      "solutions": [
+        "read_pattern",
+        "extinguish",
+        "endure"
+      ]
+    },
+    {
+      "id": "seal_sacrificial",
+      "room": "warden_sanctum",
+      "type": "sacrificial_seal",
+      "position": [
+        0,
+        -15,
+        -46
+      ],
+      "solutions": [
+        "translate",
+        "break",
+        "pay_essence"
+      ]
+    }
+  ],
+  "retreat_points": [
+    {
+      "floor": "threshold",
+      "room": "vestibule",
+      "position": [
+        0,
+        -6,
+        53
+      ],
+      "destination": "zone_01_faubourg_cendreux"
+    },
+    {
+      "floor": "civic_depths",
+      "room": "collapsed_passage",
+      "position": [
+        13,
+        -11,
+        -15
+      ],
+      "requires_shortcut": "shortcut_accord_depths_to_entry"
+    },
+    {
+      "floor": "accord_heart",
+      "room": "three_pillars_hall",
+      "position": [
+        -26,
+        -13,
+        -31
+      ],
+      "destination_room": "collapsed_passage"
+    }
+  ],
+  "discoveries": [
+    {
+      "id": "first_accord_tablet",
+      "room": "gallery_of_names",
+      "position": [
+        -24,
+        -7,
+        25
+      ]
+    },
+    {
+      "id": "three_practices_relief",
+      "room": "three_pillars_hall",
+      "position": [
+        -17,
+        -13,
+        -40
+      ]
+    },
+    {
+      "id": "warden_protocol",
+      "room": "memory_vault",
+      "position": [
+        22,
+        -14,
+        -35
+      ]
+    }
+  ],
+  "ash_routes": {
+    "objective_order": [
+      "vestibule",
+      "gallery_of_names",
+      "debate_chamber",
+      "collapsed_passage",
+      "three_pillars_hall",
+      "warden_sanctum"
+    ],
+    "never_points_through_walls": true,
+    "uses_connection_waypoints": true,
+    "unavailable_message": "Les cendres retombent : aucun passage praticable n'est actuellement connu."
+  }
+}
