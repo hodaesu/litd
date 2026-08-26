@@ -3,6 +3,7 @@ class_name ZoneTransitionGate
 
 signal transition_requested(from_zone: String, to_zone: String, gate_id: String)
 signal transition_blocked(reason: String)
+signal dangerous_dungeon_confirmation_requested(title: String, warning: String)
 
 @export var gate_id := ""
 @export var from_zone := ""
@@ -11,6 +12,13 @@ signal transition_blocked(reason: String)
 @export var requires_shortcut := ""
 @export var teleporter := false
 @export var required_obsidian_points := 0
+@export var dungeon := false
+@export var optional_content := false
+@export var dangerous_entry := false
+@export var dungeon_title := ""
+@export_multiline var danger_warning := ""
+
+var _danger_confirmation_until := 0
 
 func can_transition() -> bool:
     if requires_shortcut != "" and not AshlandsRuntime.is_shortcut_unlocked(requires_shortcut):
@@ -26,6 +34,12 @@ func can_transition() -> bool:
     return true
 
 func request_transition() -> bool:
+    if dangerous_entry and Time.get_ticks_msec() > _danger_confirmation_until:
+        _danger_confirmation_until = Time.get_ticks_msec() + 5000
+        dangerous_dungeon_confirmation_requested.emit(dungeon_title, danger_warning)
+        transition_blocked.emit("dangerous_dungeon_confirmation")
+        return false
+    _danger_confirmation_until = 0
     if not can_transition():
         return false
     if teleporter and required_obsidian_points > 0:
