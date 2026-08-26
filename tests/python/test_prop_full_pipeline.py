@@ -37,10 +37,10 @@ class FullPipelineTests(unittest.TestCase):
     def test_pipeline_covers_all_production_domains(self):
         plan = build_pipeline_plan()
         self.assertEqual(plan["summary"], {
-            "total_jobs": 100, "materials": 1, "environments": 15, "characters": 52, "props": 32,
+            "total_jobs": 101, "materials": 1, "environments": 16, "characters": 52, "props": 32,
         })
-        self.assertEqual(len(plan["stages"]), 100)
-        self.assertEqual(len({job["job_id"] for job in plan["stages"]}), 100)
+        self.assertEqual(len(plan["stages"]), 101)
+        self.assertEqual(len({job["job_id"] for job in plan["stages"]}), 101)
 
     def test_non_material_jobs_depend_on_library(self):
         plan = build_pipeline_plan()
