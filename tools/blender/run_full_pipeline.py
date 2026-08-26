@@ -23,7 +23,8 @@ def build_pipeline_plan(root: Path = ROOT) -> dict:
         "command": ["tools/blender/build_material_library.py", "--output", material_output],
         "outputs": [material_output],
     })
-    for job in _load(root / "data/levels/ashlands_blender_jobs.json"):
+    environment_jobs = _load(root / "data/levels/ashlands_blender_jobs.json")
+    for job in environment_jobs:
         blend = f"{job['output']}/{job['job_id']}.blend"
         glb = f"{job['output']}/{job['job_id']}.glb"
         stages.append({
@@ -52,7 +53,7 @@ def build_pipeline_plan(root: Path = ROOT) -> dict:
         "version": 1, "generator": "tools/blender/run_full_pipeline.py",
         "summary": {
             "total_jobs": len(stages),
-            "materials": 1, "environments": 15, "characters": 52, "props": len(prop_jobs),
+            "materials": 1, "environments": len(environment_jobs), "characters": 52, "props": len(prop_jobs),
         },
         "stages": stages,
     }
