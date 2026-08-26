@@ -4,6 +4,8 @@
 #include "GameFramework/Actor.h"
 #include "LITDValidationStation.generated.h"
 
+class UStaticMeshComponent;
+
 UENUM()
 enum class ELITDValidationStationType : uint8
 {
