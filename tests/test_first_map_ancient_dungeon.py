@@ -43,3 +43,12 @@ def test_dungeon_scene_and_router_are_registered() -> None:
     assert scene.exists()
     router = (ROOT / "scripts/world/ashlands_scene_router.gd").read_text(encoding="utf-8")
     assert '"zone_16_salles_du_premier_accord"' in router
+
+def test_dangerous_entry_requires_a_second_confirmation() -> None:
+    gate = (ROOT / "scripts/world/zone_transition_gate.gd").read_text(encoding="utf-8")
+    builder = (ROOT / "scripts/world/ashlands_blockout_builder.gd").read_text(encoding="utf-8")
+    assert "dangerous_dungeon_confirmation_requested" in gate
+    assert '"dangerous_dungeon_confirmation"' in gate
+    assert "_danger_confirmation_until" in gate
+    assert "gate.dangerous_entry = gate.dungeon and gate.optional_content" in builder
+    assert "Vos blessures et pertes persisteront" in builder
