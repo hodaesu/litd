@@ -23,6 +23,7 @@ void ALITDValidationGameMode::BeginPlay()
     Super::BeginPlay();
     InitializeChecks();
     SpawnValidationContent();
+    UWorld* World = GetWorld();
     APlayerController* Controller = World ? World->GetFirstPlayerController() : nullptr;
     if (Controller && !Controller->GetPawn())
     {
