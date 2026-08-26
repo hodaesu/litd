@@ -2,7 +2,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Materials/MaterialInstanceDynamic.h"
-#include "UObject/ConstructorHelpers.h"
+
 
 ALITDValidationRoom::ALITDValidationRoom()
 {
@@ -40,10 +40,10 @@ void ALITDValidationRoom::Rebuild()
 UStaticMeshComponent* ALITDValidationRoom::AddBlock(
     const FName Name, const FVector& Location, const FVector& Scale, const FLinearColor& Color)
 {
-    static ConstructorHelpers::FObjectFinder<UStaticMesh> Cube(TEXT("/Engine/BasicShapes/Cube.Cube"));
+    UStaticMesh* Cube = LoadObject<UStaticMesh>(nullptr, TEXT("/Engine/BasicShapes/Cube.Cube"));
     UStaticMeshComponent* Component = NewObject<UStaticMeshComponent>(this, Name);
     Component->SetupAttachment(RootComponent);
-    Component->SetStaticMesh(Cube.Object);
+    Component->SetStaticMesh(Cube);
     Component->SetRelativeLocation(Location);
     Component->SetRelativeScale3D(Scale);
     Component->SetCollisionProfileName(TEXT("BlockAll"));
