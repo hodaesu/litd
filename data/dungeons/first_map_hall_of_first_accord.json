@@ -130,5 +130,26 @@
       "supplies"
     ],
     "completion_required": false
+  },
+  "authored_map": {
+    "path": "res://data/dungeons/first_map_hall_of_first_accord_map.json",
+    "floors": 3,
+    "rooms": 9,
+    "connections": 12,
+    "hazards": 6,
+    "retreat_points": 3,
+    "critical_path": [
+      "vestibule",
+      "gallery_of_names",
+      "debate_chamber",
+      "collapsed_passage",
+      "three_pillars_hall",
+      "warden_sanctum"
+    ],
+    "optional_branches": [
+      "broken_guardroom",
+      "memory_vault"
+    ],
+    "secret_room": "sealed_archive"
   }
 }
