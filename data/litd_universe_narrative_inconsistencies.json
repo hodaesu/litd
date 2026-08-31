@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "scope": "LITD Universe narrative inconsistency registry",
   "status": "active",
   "severity_levels": ["BLOCKING","MAJOR","MINOR","OPEN_QUESTION"],
@@ -13,26 +13,12 @@
     {
       "id": "LITD2-DEATH-RETRY-CAUSALITY",
       "severity": "MAJOR",
-      "status": "UNRESOLVED",
-      "problem": "The protagonist's corpse proves failed attempts physically happened, yet the next attempt restarts from the same historical operation start while the game explicitly rejects time travel and does not define a mechanism that restores the operation's prior state.",
-      "conflict": [
-        "Failed attempts leave persistent physical corpses and consequences.",
-        "Death does not advance history.",
-        "The next attempt restarts at the same historical operation start.",
-        "The protagonist is reconstructed, not sent back in time."
-      ],
-      "impact": "Core LITD2 roguelite loop can become narrative magic if retry chronology is not diegetically defined.",
-      "resolution_options": [
-        "Define each run as a broader operation window containing multiple canonical assaults/attempts; reconstruction occurs quickly and the objective remains unresolved until one assault succeeds.",
-        "Define failed attempts as distinct attacks on the same objective rather than literal restoration of the same moment; procedural variation represents changed battlefield conditions.",
-        "Introduce a tightly limited Remanence causality mechanism, but only if bounded without becoming a time-loop or universal narrative correction tool."
-      ],
-      "recommended_resolution": "Prefer canonical repeated assaults within one historical operation window. Avoid time rewind.",
+      "status": "RESOLVED",
+      "problem": "Persistent corpses proved failed attempts physically happened while retry structure previously implied restoration of the same operation start without time travel.",
+      "resolution": "A run is now a historical operation window containing multiple real attempts. Time continues during reconstruction, local conditions may evolve, corpses persist, and the historical milestone remains unresolved until the objective is actually achieved. No time rewind occurs.",
       "files": [
         "docs/LITD2_MORT_REMANENCE_ET_CORPS_PERSISTANTS.md",
-        "docs/LITD2_RUNS_AFFINITES_ET_NUIT_DE_SARN.md",
-        "docs/LITD2_NAISSANCE_DE_LA_CONCORDE.md",
-        "data/litd2_death_loop.json"
+        "docs/LITD2_REMANENCE_CANON.md"
       ]
     },
     {
@@ -46,25 +32,16 @@
         "LITD2_RUNS_AFFINITES_ET_NUIT_DE_SARN.md supersedes older structures."
       ],
       "impact": "Direct contradiction about the ending of LITD2.",
-      "resolution_options": [
-        "Update LORE_BIBLE.md so Sarn is the playable ending and First Pact is historical epilogue/postgame only."
-      ],
       "recommended_resolution": "Update the global lore bible; no redesign needed.",
       "files": ["docs/LORE_BIBLE.md"]
     },
     {
       "id": "LITD2-POTION-BODY-REPAIR-MECHANISM",
       "severity": "OPEN_QUESTION",
-      "status": "UNRESOLVED",
-      "problem": "Potions uniquely and instantly cure all traumas including fractures, infection, head trauma and burns, while fountains and healing abilities restore only HP. The physical mechanism is not yet defined.",
-      "impact": "If left unexplained, the potion can feel like an arbitrary systemic exception and undermine the anti-narrative-magic rule.",
-      "resolution_options": [
-        "Tie potions to a specific Remanence-compatible regenerative compound that only works on the reconstructed body's active template.",
-        "Define potions as a field-trigger for accelerated reconstruction of damaged tissue with strict resource and biological limits.",
-        "Reduce potion wording from literal full anatomical repair to stabilization/removal of gameplay trauma states, if desired."
-      ],
-      "recommended_resolution": "Define a concrete Remanence-compatible biological mechanism and its limits before the artifact's lore is finalized.",
-      "files": ["docs/LITD2_VIE_TRAUMAS_ET_POTIONS.md","data/litd2_health_trauma_system.json"]
+      "status": "RESOLVED",
+      "problem": "Potions uniquely and instantly cure all traumas while fountains and healing abilities restore only HP.",
+      "resolution": "Potions are Remanence-compatible compounds that locally force the living reconstructed body toward its biological reference state. They are scarce, subject-specific, cannot resurrect, cannot become universal medicine and cannot freely regenerate any loss beyond defined system limits.",
+      "files": ["docs/LITD2_REMANENCE_CANON.md","docs/LITD2_VIE_TRAUMAS_ET_POTIONS.md"]
     },
     {
       "id": "LITD1-VEIL-RULE-BOUNDARIES",
@@ -72,10 +49,6 @@
       "status": "UNRESOLVED",
       "problem": "LITD1 has a strong operational model for the Veil, but several effects can alter paths, probability, perception, memory and material outcomes. Their hard boundaries are not yet consolidated in one canonical ruleset.",
       "impact": "Future writers could accidentally use the Veil to justify coincidence, route change, resurrection or revelation.",
-      "resolution_options": [
-        "Create a canonical Veil constraints document defining what each force can and cannot do, required conditions, scale, persistence and costs.",
-        "Separate observed effects from hypotheses and explicitly prohibit causal retroactive rewriting of established history unless a future canon decision deliberately introduces it."
-      ],
       "recommended_resolution": "Create one authoritative Veil limits document before expanding late-game supernatural content.",
       "files": ["docs/CHAPITRE_09_NATURE_DU_VOILE.md","docs/LORE_BIBLE.md"]
     },
@@ -85,26 +58,16 @@
       "status": "UNRESOLVED",
       "problem": "Several ancient civilizations each provide a highly specific lens on the Veil. This is not contradictory, but repeated use risks making ancient history feel constructed solely to deliver the next required revelation.",
       "impact": "Narrative contrivance risk rather than a current lore contradiction.",
-      "resolution_options": [
-        "Give each ancient civilization independent history, needs and consequences beyond its Veil discovery.",
-        "Ensure some civilizations misunderstood the Veil, had irrelevant achievements, or left evidence that does not conveniently help the main plot.",
-        "Establish historical contact, inheritance or independent discovery chains where appropriate instead of seven isolated perfect research lenses."
-      ],
       "recommended_resolution": "Keep the seven-lens structure but deepen non-Veil history and imperfect/failed interpretations.",
       "files": ["docs/CHAPITRE_04_PREMIERE_RUPTURE.md","docs/CHAPITRE_05_GRANDE_FERMETURE.md","docs/CHAPITRE_08_MONDE_EXTERIEUR.md","docs/CHAPITRE_09_NATURE_DU_VOILE.md"]
     },
     {
       "id": "LITD2-REMANENCE-ORIGIN-LIMITS",
       "severity": "OPEN_QUESTION",
-      "status": "UNRESOLVED",
-      "problem": "The Remanence artifact's exact origin, energy/resource source, reconstruction limits, acquisition event, memory preservation mechanism and relation to pre-Gate Veil phenomena remain undefined.",
-      "impact": "This artifact explains the protagonist's repeated deaths and therefore cannot remain a vague mystery indefinitely without becoming a catch-all device.",
-      "resolution_options": [
-        "Define an internal writer-facing truth even if the player learns it gradually.",
-        "Lock reconstruction prerequisites, time required, range, material/energy source, memory fidelity, failure modes, and why the technology is not reproducible at societal scale."
-      ],
-      "recommended_resolution": "Resolve immediately after retry chronology, since both systems depend on the same causal foundation.",
-      "files": ["docs/LITD2_MORT_REMANENCE_ET_CORPS_PERSISTANTS.md","docs/LITD2_NAISSANCE_DE_LA_CONCORDE.md"]
+      "status": "RESOLVED",
+      "problem": "The Remanence artifact's origin-facing rules, reconstruction prerequisites, memory continuity, matter source, time delay, limits and non-industrializability were previously undefined.",
+      "resolution": "Writer-facing canon now defines continuous imprint, matter-based reconstruction at compatible anchors, measurable reconstruction time, single active continuity, non-retroactive binding, non-industrializability, strict prohibitions and a limited relation to the same class of phenomena later associated with the Veil without opening a Gate or rewriting history.",
+      "files": ["docs/LITD2_REMANENCE_CANON.md","docs/LITD2_MORT_REMANENCE_ET_CORPS_PERSISTANTS.md"]
     }
   ]
 }
