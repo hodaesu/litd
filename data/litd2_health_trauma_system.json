@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "scope": "LITD2 health trauma and field healing",
+  "core_rule": "HP and trauma are independent systems.",
+  "health": {
+    "represents": "general vital state",
+    "death_at_zero": true,
+    "trauma_threshold_required": false
+  },
+  "trauma": {
+    "can_occur_at_high_hp": true,
+    "persists_until_true_treatment": true,
+    "ordinary_rest_cures": false,
+    "can_aggravate_if_untreated": true,
+    "drivers": [
+      "body_zone",
+      "damage_type",
+      "impact_force",
+      "equilibrium_state",
+      "repeat_hits_same_zone",
+      "enemy_or_attack_properties"
+    ],
+    "families": [
+      {
+        "id": "sprain",
+        "name": "Entorse",
+        "primary_effect": "mobility and dodge penalty"
+      },
+      {
+        "id": "fracture",
+        "name": "Fracture",
+        "primary_effect": "strong limb-dependent penalty and aggravation risk"
+      },
+      {
+        "id": "deep_wound",
+        "name": "Plaie profonde",
+        "primary_effect": "effort can reactivate HP loss or bleeding"
+      },
+      {
+        "id": "head_trauma",
+        "name": "Traumatisme crânien",
+        "primary_effect": "perception targeting or information-reading penalty without deliberate input lag"
+      },
+      {
+        "id": "cracked_ribs",
+        "name": "Côtes fêlées",
+        "primary_effect": "guard effort and physical recovery penalty"
+      },
+      {
+        "id": "injured_arm",
+        "name": "Bras blessé",
+        "primary_effect": "weapon attack or parry penalty depending on affected arm"
+      },
+      {
+        "id": "infection",
+        "name": "Infection",
+        "primary_effect": "secondary persistent degradation such as max HP or recovery penalty"
+      },
+      {
+        "id": "burn",
+        "name": "Brûlure",
+        "primary_effect": "sensitivity recovery and some healing penalties"
+      }
+    ]
+  },
+  "potion": {
+    "usable_at_any_hp_percentage": true,
+    "universal_field_trauma_cure": true,
+    "example_valid_state": "75% HP + sprain -> potion use is valid and tactically rational",
+    "hp_restoration": "not yet numerically locked",
+    "design_rule": "Potion value comes from restoring body condition as well as HP, not only filling the health bar."
+  },
+  "other_healing": {
+    "hp_heal_automatically_removes_trauma": false,
+    "stabilization_is_true_cure": false,
+    "examples": [
+      "splint can stabilize fracture",
+      "bandage can suppress or reduce deep-wound bleeding",
+      "analgesic can temporarily reduce penalties",
+      "protected rest can slow aggravation"
+    ]
+  },
+  "body_system_integration": {
+    "uses_same_body_zones_as_gore": true,
+    "feeds_persistent_corpse_state": true,
+    "injury_progression": "normal impact -> persistent trauma -> severe fracture/lesion -> possible mutilation when attack and target rules permit"
+  },
+  "death_interaction": {
+    "dead_body_keeps_injuries": true,
+    "reconstructed_body_is_not_the_old_corpse": true,
+    "death_is_not_a_rational_healing_method": "Run loss equipment abandonment and evolving corpse risk remain substantial costs."
+  },
+  "locked_rules": [
+    "HP and trauma are separate.",
+    "Trauma can occur while HP remains high.",
+    "Persistent injury families from LITD1 carry into LITD2.",
+    "Untreated trauma can worsen.",
+    "A potion may be used regardless of current HP percentage.",
+    "The potion is the universal field cure for trauma.",
+    "HP healing does not automatically cure trauma.",
+    "Stabilization is not the same as cure.",
+    "Trauma state feeds gore body-zone and persistent-corpse systems."
+  ]
+}
