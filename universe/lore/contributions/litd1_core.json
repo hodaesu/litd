@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "project_id": "litd1",
+  "canon_version": "1.0.0",
+  "claims": [
+    {"id": "litd1.affirms.era", "fact_id": "world.era.advanced_medieval", "operation": "affirm", "value": "advanced_medieval"},
+    {"id": "litd1.affirms.no_firearms", "fact_id": "world.technology.no_firearms", "operation": "affirm", "value": false},
+    {"id": "litd1.affirms.three_awakenings", "fact_id": "concord.doctrine.three_awakenings", "operation": "affirm", "value": ["body", "spirit", "city"]},
+    {"id": "litd1.affirms.fall", "fact_id": "fall.cause.project_threshold", "operation": "affirm", "value": "project_threshold_by_closed_horizon_pact"},
+    {"id": "litd1.affirms.initial_mystery", "fact_id": "litd1.knowledge.initial_fall", "operation": "affirm", "value": "unknown"}
+  ],
+  "entities": [
+    {"id": "place.concord", "kind": "continent", "name": "Continent de la Concorde"},
+    {"id": "organization.closed_horizon_pact", "kind": "organization", "name": "Pacte de l'Horizon Fermé"},
+    {"id": "phenomenon.veil", "kind": "phenomenon", "name": "Voile"}
+  ],
+  "events": [
+    {"id": "litd1.event.project_threshold", "timeline_anchor": "event.project_threshold", "after": ["era.before_fall"], "before": ["event.fall"]},
+    {"id": "litd1.event.campaign_start", "timeline_anchor": "era.after_fall", "after": ["event.fall"], "before": []}
+  ],
+  "sources": [
+    "docs/LORE_BIBLE.md",
+    "docs/LORE_MONDE_VOILE_ET_CHUTE.md",
+    "docs/CAMPAGNE_PRINCIPALE.md"
+  ]
+}
