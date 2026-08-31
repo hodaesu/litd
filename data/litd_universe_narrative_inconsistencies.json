@@ -1,8 +1,8 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "scope": "LITD Universe narrative inconsistency registry",
   "status": "active",
-  "severity_levels": ["BLOCKING","MAJOR","MINOR","OPEN_QUESTION"],
+  "severity_levels": ["BLOCKING", "MAJOR", "MINOR", "OPEN_QUESTION"],
   "rules": {
     "blocking_or_major_requires_resolution_before_validation": true,
     "must_signal_user": true,
@@ -14,60 +14,38 @@
       "id": "LITD2-DEATH-RETRY-CAUSALITY",
       "severity": "MAJOR",
       "status": "RESOLVED",
-      "problem": "Persistent corpses proved failed attempts physically happened while retry structure previously implied restoration of the same operation start without time travel.",
-      "resolution": "A run is now a historical operation window containing multiple real attempts. Time continues during reconstruction, local conditions may evolve, corpses persist, and the historical milestone remains unresolved until the objective is actually achieved. No time rewind occurs.",
-      "files": [
-        "docs/LITD2_MORT_REMANENCE_ET_CORPS_PERSISTANTS.md",
-        "docs/LITD2_REMANENCE_CANON.md"
-      ]
+      "resolution": "A run is a historical operation window containing multiple real attempts. Time continues, corpses and local consequences persist, and no rewind occurs."
     },
     {
       "id": "LITD2-SARN-PACT-END-CONTRADICTION",
       "severity": "BLOCKING",
-      "status": "UNRESOLVED",
-      "problem": "The global lore bible says LITD2 can end with ratification of the First Pact, while current priority canon locks the Night of Sarn as the playable ending and places the Pact in epilogue/postgame history.",
-      "conflict": [
-        "LORE_BIBLE.md: LITD2 arc may end with First Pact ratification.",
-        "LITD2_NAISSANCE_DE_LA_CONCORDE.md: Night of Sarn is playable ending; First Pact belongs to epilogue/postgame.",
-        "LITD2_RUNS_AFFINITES_ET_NUIT_DE_SARN.md supersedes older structures."
-      ],
-      "impact": "Direct contradiction about the ending of LITD2.",
-      "recommended_resolution": "Update the global lore bible; no redesign needed.",
-      "files": ["docs/LORE_BIBLE.md"]
+      "status": "RESOLVED",
+      "resolution": "LORE_BIBLE.md now locks the Night of Sarn as the playable finale of LITD2. The Long Assemblies and First Pact occur afterward and belong to historical epilogue/codex or explicitly post-campaign content."
     },
     {
       "id": "LITD2-POTION-BODY-REPAIR-MECHANISM",
       "severity": "OPEN_QUESTION",
       "status": "RESOLVED",
-      "problem": "Potions uniquely and instantly cure all traumas while fountains and healing abilities restore only HP.",
-      "resolution": "Potions are Remanence-compatible compounds that locally force the living reconstructed body toward its biological reference state. They are scarce, subject-specific, cannot resurrect, cannot become universal medicine and cannot freely regenerate any loss beyond defined system limits.",
-      "files": ["docs/LITD2_REMANENCE_CANON.md","docs/LITD2_VIE_TRAUMAS_ET_POTIONS.md"]
+      "resolution": "Potions are scarce Remanence-compatible compounds acting on the living reconstructed body's biological reference state; they cannot resurrect or become universal medicine."
     },
     {
       "id": "LITD1-VEIL-RULE-BOUNDARIES",
       "severity": "OPEN_QUESTION",
-      "status": "UNRESOLVED",
-      "problem": "LITD1 has a strong operational model for the Veil, but several effects can alter paths, probability, perception, memory and material outcomes. Their hard boundaries are not yet consolidated in one canonical ruleset.",
-      "impact": "Future writers could accidentally use the Veil to justify coincidence, route change, resurrection or revelation.",
-      "recommended_resolution": "Create one authoritative Veil limits document before expanding late-game supernatural content.",
-      "files": ["docs/CHAPITRE_09_NATURE_DU_VOILE.md","docs/LORE_BIBLE.md"]
+      "status": "RESOLVED",
+      "resolution": "LITD_UNIVERSE_LIMITES_DU_VOILE.md now defines hard prohibitions, required conditions, scale, memory/perception constraints, corpse rules and an anti-contrivance test for every major supernatural event."
     },
     {
       "id": "LITD1-ANCIENT-CIVILIZATIONS-CONVENIENCE-RISK",
       "severity": "MINOR",
       "status": "UNRESOLVED",
       "problem": "Several ancient civilizations each provide a highly specific lens on the Veil. This is not contradictory, but repeated use risks making ancient history feel constructed solely to deliver the next required revelation.",
-      "impact": "Narrative contrivance risk rather than a current lore contradiction.",
-      "recommended_resolution": "Keep the seven-lens structure but deepen non-Veil history and imperfect/failed interpretations.",
-      "files": ["docs/CHAPITRE_04_PREMIERE_RUPTURE.md","docs/CHAPITRE_05_GRANDE_FERMETURE.md","docs/CHAPITRE_08_MONDE_EXTERIEUR.md","docs/CHAPITRE_09_NATURE_DU_VOILE.md"]
+      "recommended_resolution": "Deepen each civilization's independent history, failed theories, irrelevant achievements and contact/inheritance chains so they do not exist only as revelation dispensers."
     },
     {
       "id": "LITD2-REMANENCE-ORIGIN-LIMITS",
       "severity": "OPEN_QUESTION",
       "status": "RESOLVED",
-      "problem": "The Remanence artifact's origin-facing rules, reconstruction prerequisites, memory continuity, matter source, time delay, limits and non-industrializability were previously undefined.",
-      "resolution": "Writer-facing canon now defines continuous imprint, matter-based reconstruction at compatible anchors, measurable reconstruction time, single active continuity, non-retroactive binding, non-industrializability, strict prohibitions and a limited relation to the same class of phenomena later associated with the Veil without opening a Gate or rewriting history.",
-      "files": ["docs/LITD2_REMANENCE_CANON.md","docs/LITD2_MORT_REMANENCE_ET_CORPS_PERSISTANTS.md"]
+      "resolution": "Writer-facing canon defines continuous imprint, matter-based reconstruction, compatible anchors, measurable delay, single active continuity, non-retroactive binding, non-industrializability and strict prohibitions."
     }
   ]
 }
