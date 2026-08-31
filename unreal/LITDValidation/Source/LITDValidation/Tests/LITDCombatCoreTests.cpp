@@ -6,7 +6,7 @@
 #include "Combat/LITDGoreComponent.h"
 #include "Combat/LITDFinisherComponent.h"
 #include "Combat/LITDDefenseResolverComponent.h"
-#include "Combat/LITDCombatStyleData.h"
+#include "Combat/LITDWeaponCombatData.h"
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLITDAnimationIndependentTimingTest,
     "LITD.Combat.Core.AnimationIndependentTiming",
@@ -34,19 +34,24 @@ bool FLITDAnimationIndependentTimingTest::RunTest(const FString& Parameters)
     return true;
 }
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLITDCombatStyleStanceTest,
-    "LITD.Combat.Core.StyleStanceEntry",
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLITDWeaponProfileInputTest,
+    "LITD.Combat.Core.WeaponProfileInputs",
     EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
 
-bool FLITDCombatStyleStanceTest::RunTest(const FString& Parameters)
+bool FLITDWeaponProfileInputTest::RunTest(const FString& Parameters)
 {
-    ULITDCombatStyleData* Style = NewObject<ULITDCombatStyleData>();
-    FLITDStyleEntryAction Entry;
-    Entry.Stance = ELITDCombatStance::Left;
-    Entry.Input = ELITDCombatInput::Heavy;
-    Entry.ActionId = FName("Sabre.Left.Heavy.01");
-    Style->EntryActions.Add(Entry);
-    TestEqual(TEXT("Weapon/unarmed style resolves action from stance + input"), Style->ResolveEntryActionId(ELITDCombatStance::Left, ELITDCombatInput::Heavy), FName("Sabre.Left.Heavy.01"));
+    ULITDWeaponCombatData* Weapon = NewObject<ULITDWeaponCombatData>();
+    Weapon->LightActionId = FName("Sabre.Light.01");
+    Weapon->HeavyActionId = FName("Sabre.Heavy.01");
+    Weapon->ParryActionId = FName("Sabre.Parry");
+    Weapon->DodgeActionId = FName("Dodge.Standard");
+    Weapon->SkillAttackActionId = FName("Skill.FlameSlash");
+
+    TestEqual(TEXT("Light input resolves through equipped weapon"), Weapon->ResolveDefaultActionId(ELITDCombatInput::Light), FName("Sabre.Light.01"));
+    TestEqual(TEXT("Heavy input resolves through equipped weapon"), Weapon->ResolveDefaultActionId(ELITDCombatInput::Heavy), FName("Sabre.Heavy.01"));
+    TestEqual(TEXT("Parry remains a core input"), Weapon->ResolveDefaultActionId(ELITDCombatInput::Parry), FName("Sabre.Parry"));
+    TestEqual(TEXT("Dodge remains a core input"), Weapon->ResolveDefaultActionId(ELITDCombatInput::Dodge), FName("Dodge.Standard"));
+    TestEqual(TEXT("Skill attack remains a core input"), Weapon->ResolveDefaultActionId(ELITDCombatInput::SkillAttack), FName("Skill.FlameSlash"));
     return true;
 }
 
