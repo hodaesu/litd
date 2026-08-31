@@ -1,5 +1,5 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "scope": "LITD Universe narrative inconsistency registry",
   "status": "active",
   "severity_levels": ["BLOCKING", "MAJOR", "MINOR", "OPEN_QUESTION"],
@@ -37,9 +37,19 @@
     {
       "id": "LITD1-ANCIENT-CIVILIZATIONS-CONVENIENCE-RISK",
       "severity": "MINOR",
-      "status": "UNRESOLVED",
-      "problem": "Several ancient civilizations each provide a highly specific lens on the Veil. This is not contradictory, but repeated use risks making ancient history feel constructed solely to deliver the next required revelation.",
-      "recommended_resolution": "Deepen each civilization's independent history, failed theories, irrelevant achievements and contact/inheritance chains so they do not exist only as revelation dispensers."
+      "status": "RESOLVED",
+      "problem": "Several ancient civilizations risked appearing to exist only to deliver one useful Veil revelation each.",
+      "resolution": "Each of the seven civilizations now has a multi-century independent history, geography, economy, political institutions, social conflicts, arts, beliefs, technologies, non-supernatural historical errors, neighbors/exchange logic, decline and non-Veil legacy. Their Veil contact occurs only as a late consequence of pre-existing social and political contradictions. Their periods overlap and some knowledge circulates through trade, migration and inheritance rather than forming a neat revelation sequence.",
+      "files": [
+        "docs/civilisations/README.md",
+        "docs/civilisations/ASHAI_DE_NHAL.md",
+        "docs/civilisations/ROYAUMES_OR_SILEX.md",
+        "docs/civilisations/VEILLEURS_DE_SAAN.md",
+        "docs/civilisations/CITES_VAOR_KHAL.md",
+        "docs/civilisations/NAVIGATEURS_LYR_MAR.md",
+        "docs/civilisations/CITES_SAHM_IR.md",
+        "docs/civilisations/ATELIERS_YDRIS.md"
+      ]
     },
     {
       "id": "LITD2-REMANENCE-ORIGIN-LIMITS",
