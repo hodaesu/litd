@@ -1,6 +1,6 @@
 {
-  "schema_version": 3,
-  "scope": "LITD2 health trauma potions fountains and healing",
+  "schema_version": 4,
+  "scope": "LITD2 health trauma potions fountains healing and Remanence-linked potion capacity progression",
   "core_rule": "HP and trauma are separate systems; only potions cure trauma.",
   "health": {
     "represents": "general vital state",
@@ -32,14 +32,34 @@
     ]
   },
   "potion": {
-    "starting_count_per_run": 3,
+    "starting_capacity_at_game_start": 3,
+    "starting_count_per_run": "equals current persistent potion capacity",
+    "capacity_persists_between_runs": true,
+    "capacity_can_increase_during_campaign": true,
+    "capacity_progression_source": "major discoveries and understanding of the Remanence resurrection artifact and its precursor civilization",
+    "capacity_not_generic_currency_purchase": true,
+    "not_every_lore_fragment_increases_capacity": true,
+    "final_capacity_cap": "not yet locked",
     "usable_at_any_hp_percentage": true,
     "usable_at_full_hp_when_trauma_active": true,
     "restores_hp": true,
     "cures_all_active_trauma": true,
     "exclusive_trauma_cure": true,
-    "hp_restoration": "not yet numerically locked",
-    "additional_potion_sources": "not yet locked"
+    "hp_restoration": "not yet numerically locked"
+  },
+  "artifact_discovery_progression": {
+    "purpose": "Tie survival progression to exploration and the central Remanence mystery.",
+    "possible_discovery_sources": [
+      "precursor_civilization_archives",
+      "inscriptions_and_schematics",
+      "artifact_components_or_related_devices",
+      "observations_of_player_reconstruction",
+      "experiments_with_researchers",
+      "traces_of_previous_users_or_replication_attempts",
+      "anomaly_and_persistent_corpse_data"
+    ],
+    "major_breakthrough_effect": "may permanently increase potion capacity for future runs",
+    "narrative_requirement": "Every capacity increase must reveal or clarify something meaningful about the artifact rather than act as an abstract stat upgrade."
   },
   "fountain": {
     "guaranteed_per_level": 1,
@@ -52,7 +72,7 @@
     "may_exist": true,
     "restores_hp": true,
     "cures_trauma": false,
-    "rule": "Any spell skill regeneration or ordinary heal restores HP only unless explicitly changed by future canon; it never cures persistent trauma."
+    "rule": "Any spell skill regeneration or ordinary heal restores HP only; it never cures persistent trauma."
   },
   "non_potion_stabilization": {
     "may_exist": true,
@@ -63,7 +83,8 @@
     "75% HP + sprain -> potion restores HP and cures sprain.",
     "50% HP + sprain -> fountain restores HP but sprain remains.",
     "35% HP + fracture -> healing spell restores HP but fracture remains.",
-    "100% HP + active trauma -> potion remains usable and cures trauma."
+    "100% HP + active trauma -> potion remains usable and cures trauma.",
+    "Campaign begins with potion capacity 3; a major Remanence breakthrough can permanently increase future-run capacity."
   ],
   "body_system_integration": {
     "uses_same_body_zones_as_gore": true,
@@ -81,7 +102,9 @@
     "Untreated trauma can worsen.",
     "Only potions cure trauma.",
     "Potions restore HP and cure all active trauma.",
-    "A run starts with three potions.",
+    "The campaign starts with capacity for three potions per run.",
+    "Potion capacity can permanently increase through major Remanence artifact discoveries.",
+    "Potion capacity progression is tied to lore and understanding rather than generic currency purchases.",
     "One healing fountain is guaranteed per level.",
     "Fountains heal HP only.",
     "Healing spells skills regeneration and ordinary HP heals do not cure trauma.",
