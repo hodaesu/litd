@@ -13,7 +13,8 @@ Cette bibliothèque sert de **réservoir de mouvements** pour le prototype Unrea
 - **40 mouvements mains nues**
 - **72 mouvements armes blanches**
 - **48 sortilèges / mouvements de magie**
-- **160 entrées au total**
+- **60 animations / mouvements du build Politique**
+- **220 entrées au total**
 
 ## Principe
 
@@ -49,10 +50,28 @@ Chaque sort possède un geste de lancement identifiable : le geste doit annoncer
 
 Références de direction : `Doctor Strange` pour la géométrie gestuelle et spatiale, `Dragon's Dogma` pour la préparation et l'échelle, `Final Fantasy XVI` pour l'intégration des capacités magiques au combat d'action, `Hogwarts Legacy` pour le langage visuel distinct et les réactions ennemies, `Control` pour la télékinésie directionnelle, `Elden Ring` pour les incantations à engagement élevé.
 
+## Politique
+
+Politique possède son propre langage d'animation afin de rester **un build offensif complet**, et non un build support.
+
+Familles V1 :
+- **Autorité** — posture verticale, gestes minimaux, pression physique et interruption ;
+- **Condamnation** — désignation, marques, accumulation et mise en état `Condamné` ;
+- **Commandements** — gestes vectoriels immédiats : pousser, attirer, faire tomber, interrompre ;
+- **Lois** — gestes géométriques plus larges qui imposent une règle temporaire à l'arène ;
+- **Sentences** — gestes très courts et définitifs convertissant Condamnation/Autorité en dégâts ;
+- **Tyrannie** — version dangereuse, plus brutale et plus coercitive de la même grammaire.
+
+Politique utilise les cinq entrées : `Light`, `Heavy`, `Parry`, `Dodge` et `SkillAttack`. Une arme reste visible dans la gestuelle : elle peut servir de pointe de désignation, de ligne de sentence ou d'équivalent de marteau de magistrat sans devenir une nouvelle commande.
+
+Références de direction : `Dune` pour la présence et l'autorité vocale, `Control` pour les forces directionnelles, cinéma de samouraïs et de cour pour la retenue gestuelle, `Sekiro`/`Sifu` pour les réponses défensives nettes, imagerie judiciaire et rituelle pour les Lois et Sentences. Les gestes sont recomposés pour LITD 2 et ne reproduisent pas une chorégraphie existante.
+
+Voir `POLITICS_ANIMATION_BIBLE.md` pour les règles détaillées.
+
 ## Colonnes CSV
 
 - `id` : identifiant stable.
-- `domain` : `unarmed`, `weapon` ou `magic`.
+- `domain` : `unarmed`, `weapon`, `magic` ou `politics`.
 - `family_or_school` : famille corporelle/arme ou école magique.
 - `name` : nom technique interne.
 - `input` : une des cinq commandes autorisées.
