@@ -1,6 +1,6 @@
 #include "Combat/LITDCombatRuntimeComponent.h"
 #include "Combat/LITDCombatActionData.h"
-#include "Combat/LITDCombatStyleData.h"
+#include "Combat/LITDWeaponCombatData.h"
 
 ULITDCombatRuntimeComponent::ULITDCombatRuntimeComponent()
 {
@@ -85,9 +85,9 @@ bool ULITDCombatRuntimeComponent::IsWindowOpen(const FName WindowName) const
 
 ULITDCombatActionData* ULITDCombatRuntimeComponent::FindActionById(const FName ActionId) const
 {
-    if (CombatStyle)
+    if (EquippedWeaponProfile)
     {
-        for (ULITDCombatActionData* Action : CombatStyle->Actions)
+        for (ULITDCombatActionData* Action : EquippedWeaponProfile->Actions)
         {
             if (Action && Action->ActionId == ActionId)
             {
@@ -95,6 +95,7 @@ ULITDCombatActionData* ULITDCombatRuntimeComponent::FindActionById(const FName A
             }
         }
     }
+
     for (ULITDCombatActionData* Action : ActionRegistry)
     {
         if (Action && Action->ActionId == ActionId)
@@ -107,14 +108,18 @@ ULITDCombatActionData* ULITDCombatRuntimeComponent::FindActionById(const FName A
 
 ULITDCombatActionData* ULITDCombatRuntimeComponent::FindDefaultAction(const ELITDCombatInput Input) const
 {
-    if (CombatStyle)
+    if (EquippedWeaponProfile)
     {
-        const FName StyleAction = CombatStyle->ResolveEntryActionId(CurrentStance, Input);
-        if (!StyleAction.IsNone())
+        const FName WeaponAction = EquippedWeaponProfile->ResolveDefaultActionId(Input);
+        if (!WeaponAction.IsNone())
         {
-            return FindActionById(StyleAction);
+            if (ULITDCombatActionData* Resolved = FindActionById(WeaponAction))
+            {
+                return Resolved;
+            }
         }
     }
+
     for (ULITDCombatActionData* Action : ActionRegistry)
     {
         if (Action && Action->Input == Input)
@@ -154,7 +159,6 @@ bool ULITDCombatRuntimeComponent::StartAction(ULITDCombatActionData* Action)
     }
 
     CurrentAction = Action;
-    CurrentStance = Action->ResultStance;
     ActionElapsedSeconds = 0.0f;
     const ELITDCombatActionPhase OldPhase = CurrentPhase;
     CurrentPhase = ELITDCombatActionPhase::Startup;
