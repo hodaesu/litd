@@ -1,35 +1,56 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "scope": "LITD Universe shared canon",
-  "litd2_period": "Final phase of the Last War through the First Concord Pact",
+  "litd2_period": "Final years of the Last War through the Night of Sarn; post-Sarn institutions belong to epilogue and later history",
   "eras": [
     {
       "id": "last_war",
       "name": "Dernière Guerre",
       "relative_period": "more than 1000 years before LITD1",
       "description": "Several decades of continent-wide conflict sustained by dynasties, oligarchies, warlords and political manipulation.",
-      "litd2_use": "World state at the beginning of LITD2."
+      "litd2_use": "The full playable game takes place in its final years through successive historical runs."
+    },
+    {
+      "id": "battle_runs",
+      "name": "Batailles et opérations de la fin de guerre",
+      "relative_period": "final years before Sarn",
+      "description": "Each run is a battle, rescue, extraction, escort, infiltration, ceasefire operation or other event that contributes to the collapse of the war and the emergence of the three paths.",
+      "litd2_use": "Core roguelite loop."
     },
     {
       "id": "obedience_break",
       "name": "Rupture de l'obéissance",
-      "relative_period": "final years of the Last War",
-      "description": "Soldiers, workers, cities and communities increasingly refuse to maintain the war. The Night of Sarn belongs to this phase.",
-      "litd2_use": "First major act and catalyst for Sahra, Ilyan and Tala."
+      "relative_period": "late Last War",
+      "description": "Soldiers, workers, cities and communities increasingly refuse to maintain the war. Sahra, Ilyan and Tala each become involved through different networks.",
+      "litd2_use": "Escalating world-state across runs."
+    },
+    {
+      "id": "three_paths_emerge",
+      "name": "Émergence des trois voies",
+      "relative_period": "before Sarn",
+      "description": "Corps, Esprit and Politique/Bien commun gradually become recognizable ideas through war experience, local assemblies, schools, rescue networks and the three founders' evolving doctrines.",
+      "litd2_use": "Narrative counterpart of in-run awakening choices and founder affinities."
+    },
+    {
+      "id": "night_of_sarn",
+      "name": "Nuit de Sarn",
+      "relative_period": "end of LITD2 playable story",
+      "description": "A major attempt to end the war is sabotaged. Sahra, Ilyan, Tala, civilians and refusal networks converge. The three paths are explicitly understood together for the first time.",
+      "litd2_use": "Final playable run and narrative climax."
     },
     {
       "id": "long_assemblies",
       "name": "Longues Assemblées",
-      "relative_period": "immediately after the Last War",
-      "description": "Rotating assemblies across the continent debate reconstruction, responsibility, rights, memory and the principles that progressively become the Three Awakenings.",
-      "litd2_use": "Main political and cultural development phase."
+      "relative_period": "after Sarn and the collapse of the Last War",
+      "description": "Rotating assemblies across the continent transform the lessons and convergence of Sarn into durable political, educational and social institutions.",
+      "litd2_use": "Epilogue, postgame lore and bridge to the mature Concorde."
     },
     {
       "id": "first_concord_pact",
       "name": "Premier Pacte de Concorde",
-      "relative_period": "end of LITD2 main story",
+      "relative_period": "post-Sarn",
       "description": "A first group of cities accepts common limits on war and power while keeping local autonomy.",
-      "litd2_use": "Recommended narrative ending."
+      "litd2_use": "Historical epilogue rather than the main playable ending."
     },
     {
       "id": "first_transmission",
@@ -46,6 +67,44 @@
       "litd2_use": "Future legacy shown in epilogue or historical codex."
     }
   ],
+  "litd2_run_structure": {
+    "time_loop": false,
+    "principle": "A run is a historical operation inside the final years of the Last War, not a reset of time.",
+    "world_progression": "The war, routes, factions, refugees, refusal networks and founder doctrines evolve between runs.",
+    "procedural_rule": "Procedural generation may vary route, rooms, encounters and complications but never rewrite major historical facts.",
+    "final_run": "Night of Sarn",
+    "finale_rule": "Sarn is the playable climax where the three paths converge explicitly; it is not their sole origin.",
+    "post_sarn": "Long Assemblies and the First Concord Pact occur after the playable finale and can be shown through epilogue/postgame content."
+  },
+  "founder_affinity": {
+    "system_name": "Résonance des Fondateurs",
+    "persistent": true,
+    "exclusive": false,
+    "max_all_three": true,
+    "founders": {
+      "sahra_khen": {
+        "primary_path": "Corps",
+        "affinity_sources": ["Corps awakening choices", "mastered defense", "controlled use of force", "restraint", "refusal to equate strength with political legitimacy"]
+      },
+      "ilyan_sorei": {
+        "primary_path": "Esprit",
+        "affinity_sources": ["Esprit awakening choices", "curiosity", "archive recovery", "protection of knowledge and art", "observation", "responsible use of Light and perception"]
+      },
+      "tala_veyr": {
+        "primary_path": "Politique",
+        "affinity_sources": ["Politique awakening choices", "civilian and prisoner decisions", "resource-sharing choices", "listening to opposition", "disobedience to unjust authority", "responsible use of power"]
+      }
+    },
+    "design_rules": [
+      "Affinity represents trust, shared experience and mutual understanding rather than romance or morality.",
+      "Pure and hybrid builds are both valid affinity paths.",
+      "Repeated same-path farming has diminishing returns within a run.",
+      "Dual affinities unlock founder-pair scenes and composed-awakening context.",
+      "Balanced affinity unlocks additional convergence scenes but is not required to finish the game.",
+      "Affinity rewards are primarily horizontal: dialogue, events, lore, route variants and awakening variants rather than permanent stat inflation.",
+      "No affinity can permanently lock another path."
+    ]
+  },
   "founding_principles": [
     "No war of conquest between signatory cities.",
     "Martial victory grants no automatic political or territorial right.",
@@ -70,7 +129,7 @@
     "Corps": "At least one physical or martial discipline, with emphasis on effort, fear, restraint and limits.",
     "Esprit": "At least one artistic or perceptual practice; supernatural Light techniques remain optional rather than defining the Awakening.",
     "Cite": "History, argumentation, listening, propaganda recognition, institutions, mediation and real civic participation.",
-    "development_rule": "The triple curriculum emerges progressively after LITD2 and is not yet universal at the start of the game."
+    "development_rule": "At the end of LITD2 the three principles are clearly understood together, but the universal triple curriculum is built only across later generations."
   },
   "institutional_evolution": [
     {
@@ -150,14 +209,14 @@
       "type": "archive",
       "name": "Liste des sauvés de Sarn",
       "surface": "Names from many peoples and former enemy cities written together.",
-      "reveal": "The Night of Sarn was a wartime rescue and refusal event, not a supernatural revelation of the Three Awakenings."
+      "reveal": "Sarn crystallized ideas and refusal networks built across years of war rather than receiving a supernatural revelation from nowhere."
     },
     {
       "id": "mutiny_memorial",
       "type": "monument",
       "name": "Stèle des soldats sans bannière",
       "surface": "Memorial honoring soldiers who stopped obeying orders during the Last War.",
-      "reveal": "The war ended through widespread refusal and civic action, not one final victorious army."
+      "reveal": "The war ended through widespread refusal and civic action rather than one victorious army."
     },
     {
       "id": "pre_concord_coin",
@@ -170,15 +229,15 @@
       "id": "early_three_names",
       "type": "text",
       "name": "Tablette des trois noms",
-      "surface": "An early document lists Corps, Esprit and Bien commun rather than Corps, Esprit and La Cité.",
-      "reveal": "The third Awakening's vocabulary was still evolving during LITD2."
+      "surface": "An early post-Sarn document lists Corps, Esprit and Bien commun rather than Corps, Esprit and La Cité.",
+      "reveal": "The third Awakening's vocabulary continued to evolve after LITD2."
     },
     {
       "id": "early_school_ruin",
       "type": "ruin",
       "name": "École des deux pratiques",
       "surface": "A school teaches martial discipline and art but lacks a formal civic curriculum.",
-      "reveal": "The famous universal Three Awakenings education system took generations to become standard."
+      "reveal": "The universal Three Awakenings education system took generations to become standard even after the three principles were recognized together."
     },
     {
       "id": "first_tournament_rules",
@@ -192,14 +251,16 @@
       "type": "architectural_fragment",
       "name": "Plan des trois espaces",
       "surface": "A simple memorial plan with a court, gallery and seatless circle.",
-      "reveal": "Sanctuaries began as neutral places of shared memory, not religious temples."
+      "reveal": "Sanctuaries began after Sarn as neutral places of shared memory, not religious temples."
     }
   ],
   "canon_constraints": [
     "The Concorde is not a centralized empire.",
     "The Three Founders are major synthesizers, not sole inventors.",
-    "The Night of Sarn is a catalyst, not the sole founding event.",
-    "The Last War and Long Assemblies remain the primary historical origin of the Three Awakenings.",
+    "The Night of Sarn is the final playable run and the crystallization of the Three Awakenings together, not their sole origin.",
+    "The playable runs are battles and operations from the final years of the Last War.",
+    "Founder affinities persist across runs and are fed by Corps, Esprit and Politique choices without becoming exclusive morality tracks.",
+    "Long Assemblies and the First Concord Pact continue after Sarn and belong to epilogue/postgame history.",
     "The mature Concorde is not secretly decadent before the Fall.",
     "The Fall remains caused by the external conspiracy and opening of the Gate in the Veil.",
     "Every new LITD2 origin detail should have at least one possible trace or distortion in LITD1."
