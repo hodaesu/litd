@@ -6,7 +6,7 @@
 #include "LITDCombatRuntimeComponent.generated.h"
 
 class ULITDCombatActionData;
-class ULITDCombatStyleData;
+class ULITDWeaponCombatData;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLITDActionEvent, ULITDCombatActionData*, Action);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FLITDWindowEvent, FName, WindowName, bool, bOpen);
@@ -21,14 +21,13 @@ class LITDVALIDATION_API ULITDCombatRuntimeComponent : public UActorComponent
 public:
     ULITDCombatRuntimeComponent();
 
+    /** Global actions, including skill attacks and fallback defensive actions. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
     TArray<TObjectPtr<ULITDCombatActionData>> ActionRegistry;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat|Style")
-    TObjectPtr<ULITDCombatStyleData> CombatStyle = nullptr;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat|Style")
-    ELITDCombatStance CurrentStance = ELITDCombatStance::Forward;
+    /** Equipped weapon supplies its own light/heavy moveset and may override parry/dodge/skill attack. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat|Weapon")
+    TObjectPtr<ULITDWeaponCombatData> EquippedWeaponProfile = nullptr;
 
     UPROPERTY(BlueprintAssignable, Category="Combat")
     FLITDActionEvent OnActionStarted;
