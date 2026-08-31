@@ -2,42 +2,55 @@
 
 > Statut : canon narratif et systémique prioritaire pour la mort du joueur dans LITD 2
 > Portée : défaite, recommencement de run, chronologie, corps persistants, récupération d'équipement et continuité avec LITD 1
-> Priorité : ce document remplace toute formulation antérieure laissant entendre qu'une mort fait avancer la guerre, fait perdre une quête secondaire ou reprend la partie depuis un checkpoint.
-> Complément : les règles détaillées d'évolution des cadavres sont définies dans `LITD2_EVOLUTION_CORPS_PERSISTANTS.md`.
+> Priorité : ce document remplace toute formulation antérieure laissant entendre qu'une mort fait avancer la guerre, fait perdre une quête secondaire, reprend la partie depuis un checkpoint ou réinitialise littéralement le temps.
+> Complément : les règles détaillées d'évolution des cadavres sont définies dans `LITD2_EVOLUTION_CORPS_PERSISTANTS.md` et le fonctionnement canonique de la Rémanence dans `LITD2_REMANENCE_CANON.md`.
 
 ## 1. Règle fondamentale
 
-Dans LITD 2, **mourir fait recommencer la run entière**.
+Dans LITD 2, **mourir termine la tentative en cours et oblige le joueur à reprendre l'opération depuis son point d'engagement**, sans checkpoint intermédiaire.
 
-Le joueur ne réapparaît pas à un checkpoint, à la dernière salle, au dernier combat ou à un point de sauvegarde intermédiaire. La tentative est terminée et la prochaine tentative recommence depuis le **point de départ historique de cette run**.
+Mais le temps ne revient jamais en arrière.
+
+Une run représente désormais une **fenêtre d'opération historique** : un siège, une évacuation, une percée, un corridor, une mission de récupération ou toute autre crise qui peut connaître plusieurs tentatives réelles avant d'être résolue.
 
 Formule canonique :
 
-**Départ de run → progression → mort → corps persistant → reconstruction / retour → nouvelle tentative depuis le début de la run.**
+**départ d'opération → progression → mort réelle → corps persistant → délai de reconstruction → retour dans la même fenêtre d'opération → nouvelle tentative réelle → résolution historique**.
 
-## 2. La mort ne fait pas avancer la guerre
+La nouvelle tentative n'est donc pas la répétition exacte du même instant.
 
-Une mort de gameplay ne valide aucun événement historique.
+## 2. La mort ne valide pas le jalon historique
 
-Elle ne peut pas faire tomber une ville hors écran, faire gagner ou perdre définitivement une bataille, supprimer une quête secondaire, tuer automatiquement un PNJ narratif, fermer une route narrative importante ou faire passer le jeu à la période suivante.
+Une mort de gameplay ne valide aucun résultat historique majeur.
 
-La chronologie avance uniquement lorsqu'un **jalon historique est effectivement accompli** ou lorsque le joueur choisit explicitement de quitter une période après en avoir rempli les conditions.
+Elle ne peut pas faire tomber automatiquement une ville, supprimer une quête importante, tuer hors écran un PNJ essentiel, fermer arbitrairement une route narrative ou faire passer le jeu à la période suivante.
 
-Le jeu ne punit donc jamais l'apprentissage mécanique par une perte de contenu narratif.
+En revanche, **le monde local continue d'exister pendant la reconstruction**.
+
+Entre deux tentatives :
+
+- des ennemis peuvent se déplacer ;
+- certains corps peuvent être pillés ou enterrés ;
+- certains chemins peuvent changer ;
+- des ressources locales peuvent disparaître ;
+- certaines positions tactiques peuvent évoluer ;
+- des conséquences secondaires compatibles avec la fenêtre d'opération peuvent apparaître.
+
+Le jalon historique ne se résout que lorsque l'objectif majeur est effectivement atteint ou lorsqu'une règle narrative explicite prévue à l'avance le fixe.
 
 ## 3. Les quêtes secondaires restent disponibles
 
-Une quête secondaire découverte n'expire jamais simplement parce que le joueur est mort.
+Une quête secondaire importante découverte n'expire jamais simplement parce que le joueur est mort.
 
-Les conséquences permanentes viennent de **décisions volontaires du joueur**, pas de sa mort.
+Les conséquences permanentes viennent de **décisions volontaires du joueur** ou de conséquences déjà prévues et logiquement causées dans le monde, pas d'une punition mécanique arbitraire de la mort.
 
-Un objet narratif unique ou une quête importante ne peut jamais être supprimé par le système de corps persistants.
+Un objet narratif unique ou une quête importante ne peut jamais être supprimé sans solution de continuité prévue.
 
 ## 4. Le corps reste dans le monde
 
 Chaque mort produit un **corps persistant du protagoniste**.
 
-La reconstruction du joueur ne téléporte pas et n'efface pas son ancien cadavre.
+La reconstruction ne téléporte pas et n'efface pas l'ancien cadavre.
 
 Le corps peut conserver :
 
@@ -53,11 +66,11 @@ Le corps peut conserver :
 
 ## 5. Retrouver son propre cadavre
 
-Lors d'une tentative suivante de la même opération, le joueur peut retrouver son ancien corps.
+Lors d'une tentative ultérieure dans la même fenêtre d'opération, le joueur peut retrouver son ancien corps.
 
 Le corps est rattaché à un **ancrage historique de zone** plutôt qu'à une coordonnée procédurale exacte : secteur, type de salle, embranchement, objectif local ou nœud de rencontre.
 
-La géométrie peut donc changer alors que la fiction reste cohérente.
+La géométrie peut donc varier alors que la fiction reste cohérente : le quartier, la route, le fort ou le front sont les mêmes, mais le détail des passages accessibles peut changer.
 
 ## 6. Le cadavre évolue
 
@@ -67,7 +80,8 @@ Entre deux tentatives, il peut évoluer selon :
 
 - le lieu de la mort ;
 - la cause de la mort ;
-- le nombre de tentatives écoulées ;
+- le temps réellement écoulé ;
+- le nombre de tentatives ;
 - la faction contrôlant la zone ;
 - la présence de civils ;
 - les anomalies surnaturelles locales ;
@@ -117,7 +131,7 @@ Ainsi, retrouver son corps peut créer une nouvelle histoire plutôt qu'une simp
 
 ## 9. Plusieurs morts dans la même opération
 
-Le joueur peut laisser plusieurs cadavres avant de réussir une run.
+Le joueur peut laisser plusieurs cadavres avant de réussir une opération.
 
 Chaque mort conserve un historique logique.
 
@@ -127,15 +141,20 @@ Pour les performances, tous les cadavres ne doivent pas nécessairement être af
 
 ## 10. Relation avec le Vestige / la Rémanence
 
-La piste privilégiée reste un protagoniste reconstruit grâce à un phénomène ou vestige ancien lié à une civilisation antérieure et au Voile.
+Le protagoniste est reconstruit grâce à un Vestige ancien lié à une civilisation antérieure.
 
-L'origine exacte reste à développer.
+Règles verrouillées :
 
-Une règle est cependant verrouillée :
+- la reconstruction produit un nouveau corps ;
+- l'ancien corps reste mort ;
+- il n'y a aucun voyage temporel ;
+- le Vestige utilise une empreinte continue du protagoniste ;
+- la matière nécessaire doit être disponible à un ancrage compatible ;
+- la reconstruction prend du temps ;
+- le procédé ne fonctionne pas rétroactivement sur n'importe quel mort ;
+- le système ne peut pas être industrialisé avec les connaissances de LITD 2.
 
-**la reconstruction produit un nouveau corps sans faire disparaître l'ancien.**
-
-Le personnage a réellement été tué. Il ne voyage pas dans le temps et ne se réveille pas après une simple inconscience.
+Le détail canonique est défini dans `LITD2_REMANENCE_CANON.md`.
 
 ## 11. Les fondateurs réagissent aux cadavres
 
@@ -163,7 +182,8 @@ Persistent après une mort :
 - codex et connaissances ;
 - informations sur les ennemis ;
 - progression méta prévue ;
-- cadavres et historique de leur évolution.
+- cadavres et historique de leur évolution ;
+- conséquences locales compatibles avec le temps écoulé.
 
 Sont reconstruits pour la nouvelle tentative :
 
@@ -175,25 +195,32 @@ Sont reconstruits pour la nouvelle tentative :
 
 ## 13. Nuit de Sarn
 
-La Nuit de Sarn suit exactement les mêmes règles.
+La Nuit de Sarn suit les mêmes règles.
 
-Une mort fait recommencer **toute la run de Sarn**. Le cadavre laissé lors de cette tentative peut lui aussi persister et évoluer lors d'une nouvelle tentative.
+Une mort met fin à la tentative et oblige à reprendre l'opération de Sarn depuis son point d'engagement, après un délai de reconstruction réel.
 
-## 14. Protections contre la frustration
+Sarn ne remonte pas dans le temps.
+
+Les cadavres précédents peuvent persister et certaines conditions locales peuvent évoluer, mais les grands événements historiques de la Nuit de Sarn ne sont fixés qu'au moment où la run finale est effectivement résolue.
+
+## 14. Protections contre la frustration et la magie scénaristique
 
 1. Aucun checkpoint après une mort.
 2. Toute mort termine la tentative.
-3. La mort ne fait pas avancer l'Histoire.
-4. La mort ne supprime pas les quêtes importantes.
-5. Chaque mort laisse un corps persistant.
-6. Le corps peut évoluer entre les tentatives.
-7. Un équipement pillé important reste récupérable d'une autre manière.
-8. Un objet narratif unique ne peut pas être perdu définitivement.
-9. Une réanimation ne peut pas bloquer définitivement le chemin obligatoire.
-10. Les Échos de soi les plus dangereux sont facultatifs ou contournables.
-11. Une nouvelle run reconstruit son build temporaire au lieu de restaurer celui du cadavre.
-12. L'évolution d'un cadavre ne peut jamais rendre une sauvegarde irréparable.
+3. Le temps ne remonte jamais.
+4. La mort ne valide pas automatiquement le jalon historique.
+5. Le monde local peut évoluer logiquement pendant la reconstruction.
+6. La mort ne supprime pas arbitrairement les quêtes importantes.
+7. Chaque mort laisse un corps persistant.
+8. Le corps peut évoluer entre les tentatives.
+9. Un équipement pillé important reste récupérable d'une autre manière.
+10. Un objet narratif unique ne peut pas être perdu définitivement sans continuité prévue.
+11. Une réanimation ne peut pas bloquer définitivement le chemin obligatoire.
+12. Les Échos de soi les plus dangereux sont facultatifs ou contournables.
+13. Une nouvelle tentative reconstruit son build temporaire au lieu de restaurer celui du cadavre.
+14. L'évolution d'un cadavre ne peut jamais rendre une sauvegarde irréparable.
+15. La Rémanence ne peut jamais être invoquée pour annuler une conséquence déjà établie.
 
 ## 15. Formule directrice
 
-**La mort efface la tentative, pas l'Histoire. Le corps reste — et parfois, il continue sa propre histoire.**
+**La mort efface la tentative, pas ce qui s'est réellement passé. Le temps continue, le corps reste, et le joueur revient assez vite pour tenter encore d'influencer une opération qui n'est pas terminée.**
