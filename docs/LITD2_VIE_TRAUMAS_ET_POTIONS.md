@@ -1,7 +1,7 @@
 # LITD 2 — Vie, traumatismes persistants et soins
 
 > Statut : canon systémique de référence
-> Portée : PV, blessures localisées, persistance des traumatismes, potions, fontaines de soin et éventuels sorts de soin
+> Portée : PV, blessures localisées, persistance des traumatismes, potions, fontaines de soin, éventuels sorts de soin et progression de capacité liée à l'artefact de Rémanence
 > Continuité : reprend le principe de blessures persistantes de LITD 1 en l'adaptant au combat action de LITD 2.
 
 ## 1. Deux systèmes distincts : Vie et Traumatismes
@@ -116,7 +116,7 @@ La séparation entre PV et traumatismes reste donc pertinente pendant toute la r
 
 ## 6. Potions
 
-Le joueur commence une run avec **3 potions de soin**.
+Au début du jeu, le joueur commence chaque run avec une capacité de **3 potions de soin**.
 
 Une potion :
 
@@ -127,15 +127,53 @@ Une potion :
 
 Exemple canonique :
 
-**75 % de Vie + Entorse → le joueur peut dépenser une de ses 3 potions pour supprimer immédiatement l'Entorse, même si les PV manquants ne justifieraient pas à eux seuls le soin.**
+**75 % de Vie + Entorse → le joueur peut dépenser une potion pour supprimer immédiatement l'Entorse, même si les PV manquants ne justifieraient pas à eux seuls le soin.**
 
 C'est un choix tactique majeur : la potion est une ressource rare parce qu'elle est le seul moyen de remettre complètement le corps en état pendant la run.
 
 La quantité exacte de PV restaurés par une potion reste à équilibrer séparément.
 
-Le moyen éventuel d'obtenir des potions supplémentaires pendant une run reste à définir séparément ; la règle verrouillée ici concerne le **stock de départ de 3**.
+## 7. Progression du nombre de potions — comprendre l'artefact
 
-## 7. Fontaines de soin
+Le nombre de potions disponibles au départ d'une run **peut augmenter durablement au fil de l'aventure**.
+
+Cette progression n'est pas achetée comme une amélioration abstraite et ne dépend pas simplement d'un niveau de personnage.
+
+Elle est liée à la découverte d'informations sur **l'artefact / phénomène de Rémanence qui reconstruit le protagoniste après sa mort**.
+
+Le joueur peut trouver au cours des runs :
+
+- fragments d'archives d'une civilisation antérieure ;
+- inscriptions et schémas incomplets ;
+- composants ou dispositifs associés à l'artefact ;
+- observations de ses propres reconstructions ;
+- expériences menées avec des personnages capables de l'étudier ;
+- traces d'anciens utilisateurs ou tentatives de reproduction ;
+- données issues d'anomalies ou de corps persistants.
+
+Certaines découvertes sont de simples éléments de lore. D'autres constituent des **percées de compréhension**.
+
+Une percée peut améliorer la manière dont le protagoniste prépare, stabilise ou emporte les potions compatibles avec son corps reconstruit et donc **augmenter de façon permanente la capacité de potions au départ des runs suivantes**.
+
+Le principe est :
+
+**début du jeu = 3 potions → découverte sur la Rémanence → nouvelle compréhension → capacité maximale augmentée → runs futures avec davantage de potions.**
+
+Le nombre maximal définitif de potions n'est pas encore verrouillé : il devra être équilibré pour que les blessures restent dangereuses jusqu'à la fin du jeu.
+
+### Règles de progression
+
+1. Le joueur commence le jeu avec **3 potions par run**.
+2. L'augmentation de capacité est **persistante entre les runs**.
+3. Elle provient de découvertes importantes concernant l'artefact de Rémanence et l'ancienne civilisation qui lui est liée.
+4. Toutes les informations sur l'artefact ne donnent pas automatiquement un emplacement supplémentaire : seules certaines percées majeures le font.
+5. La progression doit aussi faire avancer le mystère narratif de l'artefact ; chaque augmentation de capacité raconte quelque chose sur son fonctionnement.
+6. La capacité ne doit pas pouvoir être augmentée simplement en dépensant une monnaie générique.
+7. Le plafond final sera fixé après équilibrage des blessures, de la durée des runs et de la fréquence des fontaines.
+
+Cette mécanique transforme donc une amélioration de survie en **récompense d'exploration et de compréhension du lore**.
+
+## 8. Fontaines de soin
 
 Chaque niveau contient **une fontaine de soin**.
 
@@ -152,7 +190,7 @@ Exemple :
 
 **40 % de Vie + Fracture de la jambe → fontaine → Vie restaurée, mais la fracture continue à réduire la mobilité jusqu'à l'utilisation d'une potion.**
 
-## 8. Sorts et compétences de soin
+## 9. Sorts et compétences de soin
 
 S'il existe des sorts, Éveils ou compétences restaurant la Vie, ils suivent la règle suivante :
 
@@ -169,7 +207,7 @@ Ils ne peuvent jamais :
 
 Cela évite qu'un build disposant d'un soin magique rende les potions et les blessures persistantes inutiles.
 
-## 9. Stabilisation sans potion
+## 10. Stabilisation sans potion
 
 Certains effets peuvent éventuellement empêcher temporairement l'aggravation d'une blessure sans la guérir.
 
@@ -181,7 +219,7 @@ Exemples possibles :
 
 Ils peuvent réduire un malus ou empêcher une aggravation, mais **seule une potion supprime réellement le traumatisme**.
 
-## 10. Relation avec Corps
+## 11. Relation avec Corps
 
 Le Corps reste particulièrement sensible aux traumatismes puisque sa puissance vient de la maîtrise physique.
 
@@ -191,7 +229,7 @@ Le Corps reste particulièrement sensible aux traumatismes puisque sa puissance 
 
 Un joueur Corps peut donc disposer de beaucoup de PV grâce à une fontaine ou un autre soin tout en restant physiquement diminué par une fracture.
 
-## 11. Gore, zones corporelles et corps persistants
+## 12. Gore, zones corporelles et corps persistants
 
 Le système de traumatismes partage ses informations avec le gore et le démembrement :
 
@@ -209,12 +247,13 @@ Si le joueur meurt avant d'utiliser une potion, l'état physique exact est enreg
 
 Le nouveau corps produit par la Rémanence est distinct de l'ancien cadavre.
 
-## 12. Interface
+## 13. Interface
 
 L'interface affiche séparément :
 
 - barre de Vie ;
-- nombre de potions restantes, sur une base de départ de 3 ;
+- nombre de potions restantes ;
+- **capacité maximale actuelle de potions**, initialement 3 et augmentable via les découvertes sur la Rémanence ;
 - traumatismes actifs ;
 - zone touchée ;
 - gravité ;
@@ -223,7 +262,9 @@ L'interface affiche séparément :
 
 Une fontaine ou un sort de soin doit clairement indiquer qu'il restaure les **PV uniquement**, tandis que l'interface de potion doit indiquer **PV + guérison complète des traumatismes**.
 
-## 13. Règles verrouillées
+Lorsqu'une découverte augmente la capacité de potions, le jeu doit l'associer explicitement à une nouvelle compréhension de l'artefact plutôt qu'à une notification abstraite de progression.
+
+## 14. Règles verrouillées
 
 1. PV et traumatismes sont deux systèmes distincts.
 2. Un traumatisme peut apparaître avec beaucoup de PV restants.
@@ -232,15 +273,17 @@ Une fontaine ou un sort de soin doit clairement indiquer qu'il restaure les **PV
 5. Certaines blessures peuvent s'aggraver avant leur guérison.
 6. **Seules les potions guérissent les traumatismes et blessures persistantes.**
 7. Une potion restaure des PV et guérit tous les traumatismes actifs.
-8. Le joueur commence une run avec **3 potions**.
-9. Une potion peut être utilisée indépendamment du pourcentage de Vie restant, y compris à 100 % si un traumatisme est actif.
-10. Chaque niveau garantit **une fontaine de soin**.
-11. Une fontaine restaure uniquement les PV et ne soigne jamais les traumatismes.
-12. Les éventuels sorts, compétences, régénérations ou autres soins ordinaires restaurent uniquement les PV et ne soignent jamais les traumatismes.
-13. Un personnage à 75 % de Vie peut rationnellement utiliser une potion uniquement pour supprimer une entorse gênante.
-14. Les traumatismes alimentent le système de zones corporelles, gore/démembrement et corps persistants.
-15. Les quantités exactes de PV restaurées par potion et fontaine restent à équilibrer séparément.
+8. Le joueur commence le jeu avec une capacité de **3 potions par run**.
+9. **La capacité de potions peut augmenter durablement au fil de l'aventure grâce à des découvertes majeures sur l'artefact de Rémanence.**
+10. Cette augmentation est une progression de connaissance/lore, pas un achat générique.
+11. Une potion peut être utilisée indépendamment du pourcentage de Vie restant, y compris à 100 % si un traumatisme est actif.
+12. Chaque niveau garantit **une fontaine de soin**.
+13. Une fontaine restaure uniquement les PV et ne soigne jamais les traumatismes.
+14. Les éventuels sorts, compétences, régénérations ou autres soins ordinaires restaurent uniquement les PV et ne soignent jamais les traumatismes.
+15. Un personnage à 75 % de Vie peut rationnellement utiliser une potion uniquement pour supprimer une entorse gênante.
+16. Les traumatismes alimentent le système de zones corporelles, gore/démembrement et corps persistants.
+17. Les quantités exactes de PV restaurées par potion et fontaine, ainsi que le plafond final de potions, restent à équilibrer séparément.
 
-## 14. Formule directrice
+## 15. Formule directrice
 
-**Les fontaines et les sorts rendent la Vie. La potion remet le corps entier en état.**
+**Les fontaines et les sorts rendent la Vie. La potion remet le corps entier en état. Comprendre la Rémanence permet d'en emporter davantage.**
