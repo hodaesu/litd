@@ -176,7 +176,9 @@ Les fichiers de référence prioritaires sont :
 - `docs/LITD2_NAISSANCE_DE_LA_CONCORDE.md` ;
 - `docs/LITD_UNIVERSE_TROIS_FONDATEURS_CANON.md` ;
 - `docs/CONCORDE_MONDE_POLITIQUE.md` ;
-- `docs/CONCORDE_COURANTS_PRE_CHUTE.md`.
+- `docs/CONCORDE_COURANTS_PRE_CHUTE.md` ;
+- `data/lore_concorde_origins.json` ;
+- `data/lore_founders_legacy.json`.
 
 Un nouvel élément ne doit jamais contredire silencieusement ces bases. En cas de conflit :
 
