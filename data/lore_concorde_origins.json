@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "scope": "LITD Universe shared canon",
   "litd2_period": "Final phase of the Last War through the First Concord Pact",
   "eras": [
@@ -58,17 +58,85 @@
     "War responsibility is individual rather than hereditary or ethnic.",
     "The Pact must remain publicly revisable by future generations."
   ],
+  "social_development": {
+    "citizenship": "Belonging gradually shifts from bloodline and wartime allegiance toward residence, participation and protection under a city's institutions. Local models remain diverse.",
+    "war_displacement": "Refugees are not systematically returned to supposedly natural ethnic territories. Mixed neighborhoods and families become part of the future cosmopolitan Concorde.",
+    "former_soldiers": "Disarmament is paired with integration into road protection, rescue, reconstruction, civic guarding and martial schools rather than collective exclusion.",
+    "war_accountability": "Responsibility is investigated individually. Collective vengeance against descendants, peoples or former enemy cities is rejected as a founding principle.",
+    "slavery_and_debt": "The early Pact does not solve every economic abuse immediately, but the reconstruction period progressively rejects hereditary captivity and severe debt practices that reproduce wartime domination.",
+    "public_memory": "Archives, witness lists and memorials record both victims and acts of refusal; memory is meant to preserve vigilance rather than inherited hatred."
+  },
   "education": {
     "Corps": "At least one physical or martial discipline, with emphasis on effort, fear, restraint and limits.",
     "Esprit": "At least one artistic or perceptual practice; supernatural Light techniques remain optional rather than defining the Awakening.",
     "Cite": "History, argumentation, listening, propaganda recognition, institutions, mediation and real civic participation.",
     "development_rule": "The triple curriculum emerges progressively after LITD2 and is not yet universal at the start of the game."
   },
+  "institutional_evolution": [
+    {
+      "early": "temporary rotating wartime and reconstruction assemblies",
+      "mature": "city Circles and Council of the Concorde",
+      "principle": "no permanent capital owns the common institutions"
+    },
+    {
+      "early": "local negotiators and respected witnesses",
+      "mature": "Médiateurs de Concorde",
+      "principle": "conflict should be heard and documented before coercion"
+    },
+    {
+      "early": "public reading of proposed clauses and objections",
+      "mature": "formal civic review and Veilleurs du Pacte",
+      "principle": "law itself remains contestable"
+    },
+    {
+      "early": "mixed civilian protection groups and disobedient former soldiers",
+      "mature": "Gardiens civiques",
+      "principle": "security prioritizes protection, disarmament and de-escalation"
+    },
+    {
+      "early": "emergency powers negotiated case by case",
+      "mature": "automatic expiry and strict incompatibilities",
+      "principle": "exceptional authority must contain its own end"
+    }
+  ],
+  "economy": {
+    "start_of_litd2": "Different city currencies, weights, debts and tolls reflect a fragmented wartime continent.",
+    "reconstruction": "Trade corridors reopen under shared protection; granaries and emergency stores are temporarily pooled during crises.",
+    "gold_standard": "Merchants and assemblies gradually use a common weight of gold for inter-city accounting while local coins persist.",
+    "litd1_result": "Centuries of normalization reduce the common monetary language simply to 'or'.",
+    "core_tension": "The Concorde regulates vital-resource hoarding without abolishing merchants, guilds, workshops or private exchange."
+  },
+  "religion_and_culture": {
+    "awakening_status": "The Three Awakenings are not a religion.",
+    "religious_plurality": "Older religions, ancestor traditions, animisms, philosophies and non-belief survive under common protections.",
+    "shared_culture": "Common schools, routes, tournaments, festivals and civic practices create a continental culture without erasing local languages or customs.",
+    "aesthetic_rule": "The mature civilization has a strong Asian visual and philosophical influence but is multiethnic and multi-people."
+  },
   "city_continuity": {
     "early_litd2_cities": ["Orsaï", "Namaris", "Seyda", "Sarn"],
     "late_concord_major_cities": ["Jian-Lu", "Sorye", "Dhor-Khal", "Lhaor", "Tessen", "Orun-Saï"],
     "rule": "A thousand years of reconstruction, migration and economic change separate these urban maps; do not assume a one-to-one city identity without explicit evidence."
   },
+  "rituals_and_shared_practices": [
+    {
+      "name": "Lecture des noms",
+      "origin": "Postwar witness lists",
+      "mature_form": "Public reading of selected names from many former camps during remembrance ceremonies",
+      "purpose": "Remember victims without dividing them by former enemy identity"
+    },
+    {
+      "name": "Salut sans bannière",
+      "origin": "Meetings between disobedient soldiers from opposing armies",
+      "mature_form": "Martial greeting used before some inter-city duels",
+      "purpose": "Affirm that the fighter represents a discipline before a state or bloodline"
+    },
+    {
+      "name": "Place vide",
+      "origin": "Tala Veyr's civic experiments",
+      "mature_form": "Empty seat or open position in important deliberative spaces",
+      "purpose": "Material reminder that opposition must remain possible"
+    }
+  ],
   "litd1_trace_hooks": [
     {
       "id": "first_pact_fragment",
