@@ -1,195 +1,163 @@
-# LITD 2 — Vie, traumatismes persistants et potions
+# LITD 2 — Vie, traumatismes persistants et soins
 
 > Statut : canon systémique de référence
-> Portée : PV, blessures localisées, persistance des traumatismes, soins de terrain et interaction avec la boucle roguelite
+> Portée : PV, blessures localisées, persistance des traumatismes, soins et interaction avec la boucle roguelite
 > Continuité : reprend le principe de blessures persistantes de LITD 1 en l'adaptant au combat action de LITD 2.
 
-## 1. Deux états distincts : Vie et Traumatismes
+## 1. Vie et Traumatismes sont distincts avant le soin
 
-LITD 2 sépare strictement :
+LITD 2 suit simultanément :
 
-- **les PV / la Vie** — état vital général du corps ;
-- **les Traumatismes** — blessures localisées produisant leurs propres conséquences mécaniques.
+- **les PV / la Vie** — état vital général du personnage ;
+- **les Traumatismes** — blessures localisées produisant leurs propres malus.
 
-Ces deux systèmes sont liés mais ne sont pas proportionnels.
+Un traumatisme n'est pas simplement un seuil de PV.
 
-Un personnage peut être à **75 % de Vie** et souffrir d'une **entorse** suffisamment gênante pour justifier l'utilisation immédiate d'une potion.
+Un personnage peut donc être à **75 % de Vie** tout en souffrant d'une **entorse**, d'une fracture ou d'une autre blessure suffisamment gênante pour vouloir se soigner immédiatement.
 
-Inversement, un personnage peut être à faible Vie sans posséder de traumatisme majeur si les dégâts reçus n'ont pas provoqué de blessure localisée.
+Formule :
 
-Formule directrice :
+**Les PV indiquent combien le personnage peut encore encaisser. Les traumatismes indiquent dans quel état son corps continue à se battre.**
 
-**Les PV disent combien le personnage peut encore encaisser. Les traumatismes disent dans quel état son corps continue à se battre.**
-
-## 2. Les traumatismes ne sont pas de simples seuils de PV
+## 2. Apparition des traumatismes
 
 Un traumatisme peut apparaître à n'importe quel niveau de Vie.
 
-Sa probabilité et sa nature dépendent principalement de :
+Sa probabilité et sa nature dépendent notamment de :
 
 - la zone corporelle touchée ;
 - le type de dégâts ;
 - la puissance de l'impact ;
 - l'état d'Équilibre ;
-- la répétition d'impacts sur une même zone ;
-- certains états ou vulnérabilités ;
-- la nature de l'ennemi ou de l'attaque.
+- la répétition des impacts sur une même zone ;
+- la nature de l'attaque ou de l'ennemi.
 
 Un coup violent à la cheville peut donc provoquer une entorse alors que le joueur possède encore l'essentiel de ses PV.
 
-Un coup lourd sur un bras déjà blessé peut transformer une blessure légère en fracture.
-
-Le système doit éviter une règle simpliste du type « sous 50 % de PV = blessé ».
+Un nouveau coup sur une zone déjà blessée peut aggraver le traumatisme.
 
 ## 3. Familles de traumatismes héritées de LITD 1
 
 LITD 2 conserve les grandes familles de blessures persistantes de LITD 1.
 
 ### Entorse
-
-Effet principal : mobilité et esquive pénalisées.
-
-Adaptation action-RPG : réduction de la distance ou de la qualité de récupération d'Esquive, sans introduire de délai artificiel dans les commandes.
+Mobilité et esquive pénalisées.
 
 ### Fracture
-
-Effet principal : pénalité forte liée au membre touché et risque d'aggravation.
+Pénalité forte dépendant du membre touché et risque d'aggravation.
 
 Exemples :
-- fracture du bras → attaques lourdes, parade ou certaines armes pénalisées ;
-- fracture de la jambe → mobilité, esquive et stabilité réduites.
+- bras fracturé → certaines attaques, parades ou armes pénalisées ;
+- jambe fracturée → mobilité, esquive et stabilité réduites.
 
 ### Plaie profonde
-
-Effet principal : perte de Vie liée à l'effort ou saignement réactivable.
-
-Les actions exigeantes peuvent raviver la plaie tant qu'elle n'est pas soignée.
+Saignement ou perte de Vie pouvant être ravivés par l'effort.
 
 ### Traumatisme crânien
-
-Effet principal : perception et précision altérées.
-
-Le système doit éviter de rendre les contrôles volontairement mauvais. La pénalité doit plutôt agir sur ciblage, lecture de certaines informations, stabilité ou vulnérabilité aux phénomènes perceptifs.
+Perception, ciblage, précision ou lecture de certaines informations pénalisés, sans volontairement rendre les commandes molles ou imprécises.
 
 ### Côtes fêlées
-
-Effet principal : effort prolongé, garde et récupération physique pénalisés.
-
-Elles peuvent notamment rendre plus coûteuses ou moins sûres certaines séquences de Corps ou de défense répétée.
+Effort prolongé, garde et récupération physique pénalisés.
 
 ### Bras blessé
-
-Effet principal : attaques, parade ou manipulation de l'arme pénalisées selon le bras touché.
-
-Le système doit tenir compte des armes à une main, à deux mains et des attaques asymétriques lorsque les animations le permettent.
+Attaques, parade ou manipulation de l'arme pénalisées selon le membre touché.
 
 ### Infection
-
-Effet principal : traumatisme secondaire pouvant apparaître lorsqu'une blessure grave reste non traitée suffisamment longtemps.
-
-Elle peut réduire la Vie maximale ou aggraver la récupération jusqu'au traitement.
+Dégradation secondaire possible lorsqu'une blessure reste active suffisamment longtemps.
 
 ### Brûlure
-
-Effet principal : sensibilité accrue, récupération et efficacité de certains soins pénalisées jusqu'au traitement.
-
-Les brûlures importantes peuvent également modifier visuellement le corps persistant en cas de mort.
+Sensibilité accrue et malus physiques jusqu'au prochain véritable soin.
 
 ## 4. Persistance et aggravation
 
-Comme dans LITD 1, les blessures ne disparaissent pas simplement parce qu'un combat est terminé.
+Les blessures ne disparaissent pas simplement parce qu'un combat ou une salle est terminé.
 
 Un traumatisme persiste :
 
-- entre les salles d'une run ;
+- entre les salles ;
 - après un boss ;
-- après un repos ordinaire ;
-- après une extraction ou une réussite si le personnage n'a pas reçu un véritable soin ;
-- jusqu'à ce qu'il soit réellement traité par un système autorisé.
+- après un repos ordinaire ne restaurant pas de PV ;
+- tant qu'aucun **soin de PV** n'est reçu.
 
-Certaines blessures peuvent s'aggraver si elles sont ignorées.
-
-Exemples :
-- entorse sollicitée → entorse grave ou lésion supplémentaire ;
-- fracture sollicitée → aggravation du malus ;
-- plaie profonde non traitée → saignement plus dangereux ;
-- blessure sale persistante → infection.
-
-Le repos peut stabiliser certains états, mais **le repos seul ne supprime pas un traumatisme réel**.
-
-## 5. Potion de LITD 2 : soin universel des traumatismes
-
-La potion de soin de terrain de LITD 2 possède une propriété fondamentale :
-
-**une potion peut guérir les traumatismes actifs du personnage, quel que soit leur type.**
-
-Elle peut donc réparer une entorse, une fracture, une plaie profonde, un traumatisme crânien, des côtes fêlées, un bras blessé, une infection ou une brûlure selon les règles définitives de chaque état.
-
-La potion ne vérifie pas si les PV sont suffisamment bas pour être utilisée.
-
-Le joueur peut donc être à :
-
-**75 % de Vie + Entorse**
-
-et décider immédiatement de consommer une potion uniquement parce que l'entorse compromet sa mobilité.
-
-Cette décision est volontairement importante : utiliser une potion tôt pour supprimer un seul problème peut sauver la run, mais consomme une ressource qui aurait pu devenir encore plus précieuse plus tard.
-
-## 6. Vie restaurée par la potion
-
-La potion peut également restaurer de la Vie, mais **la quantité exacte de PV restaurés n'est pas encore verrouillée**.
-
-Règle d'équilibrage :
-
-- elle ne doit pas être pensée uniquement comme « bouton de remplissage de barre de vie » ;
-- sa valeur vient aussi de sa capacité à remettre le corps en état ;
-- utiliser une potion à 75 % de Vie pour supprimer une entorse doit rester une décision rationnelle ;
-- la rareté des potions doit empêcher leur usage systématique après chaque petit coup.
-
-L'équilibrage des PV restaurés sera fait avec la durée moyenne d'une run, le nombre moyen de traumatismes et la disponibilité réelle des potions.
-
-## 7. Soins de Vie ≠ soins de traumatismes
-
-Les soins ordinaires peuvent restaurer des PV sans effacer automatiquement une blessure structurelle.
+Certaines blessures peuvent s'aggraver lorsqu'elles sont sollicitées avant d'être soignées.
 
 Exemples :
-- un effet de régénération peut rendre de la Vie mais laisser une entorse ;
-- une compétence de soin peut refermer une partie des dégâts mais ne pas réparer une fracture ;
-- une stabilisation peut arrêter temporairement une plaie profonde sans supprimer le traumatisme ;
-- la potion universelle est le soin de terrain fiable permettant de supprimer les traumatismes.
+- entorse sollicitée → entorse aggravée ;
+- fracture à nouveau frappée → malus supérieur ;
+- plaie profonde ignorée → saignement plus dangereux ;
+- blessure persistante → infection possible.
 
-Cette séparation évite qu'une forte régénération rende le système de blessures inutile.
+## 5. Règle fondamentale du soin
 
-## 8. Stabilisation temporaire
+Dans LITD 2 :
 
-Certains objets, compétences ou événements peuvent **stabiliser** un traumatisme sans le guérir.
+**tout soin de PV soigne aussi tous les traumatismes actifs.**
+
+Il n'existe pas de séparation entre un « soin de Vie » et un « soin de traumatisme » lorsqu'un effet restaure réellement des PV.
+
+Si une potion, une compétence, un effet de régénération, une récompense ou un autre système rend effectivement des PV au personnage, il remet également son corps en état et supprime ses traumatismes actifs.
 
 Exemples :
-- attelle → limite l'aggravation d'une fracture ;
-- bandage → suspend ou réduit le saignement d'une plaie profonde ;
-- analgésique → réduit temporairement certains malus ;
-- repos protégé → ralentit l'aggravation.
 
-Comme dans LITD 1, stabiliser n'est pas soigner.
+- 75 % de Vie + Entorse → soin de PV → Entorse guérie ;
+- 40 % de Vie + Fracture + Plaie profonde → soin de PV → les deux traumatismes sont guéris ;
+- 90 % de Vie + Traumatisme crânien → soin de PV → traumatisme guéri.
 
-La potion reste la solution de terrain universelle lorsqu'un vrai rétablissement est nécessaire.
+La quantité de PV rendue et la guérison des traumatismes sont deux conséquences du même acte de soin.
 
-## 9. Relation avec le système de Corps
+## 6. Potion de LITD 2
 
-Le Corps est particulièrement sensible aux traumatismes puisque sa puissance vient de la maîtrise physique.
+La potion est un soin de PV de terrain et, conformément à la règle générale, **elle soigne donc aussi tous les traumatismes actifs**.
 
-Cela crée une tension intéressante :
+Elle peut être utilisée même lorsque le personnage possède encore beaucoup de Vie.
 
-- les builds Corps peuvent être très résistants et capables de contrôler leur effort ;
-- **Dépassement** peut volontairement augmenter le risque de traumatisme ;
-- certaines reliques de Sahra peuvent améliorer la prévention, la stabilisation ou l'exploitation contrôlée d'un corps blessé ;
-- aucune relique ne doit rendre les blessures totalement insignifiantes.
+Exemple canonique :
 
-Un joueur Corps puissant peut donc gagner un combat tout en sortant avec un corps sérieusement endommagé.
+**75 % de Vie + Entorse → le joueur peut consommer une potion pour récupérer des PV et supprimer immédiatement l'Entorse.**
 
-## 10. Interaction avec le gore et les zones corporelles
+Le choix est tactique : le joueur peut sacrifier une potion alors qu'il n'a perdu que 25 % de sa Vie parce que le malus de l'entorse menace davantage sa run que les PV manquants.
 
-Le système de traumatismes utilise les mêmes informations que le système de gore/démembrement :
+La quantité exacte de PV restaurés par une potion reste à équilibrer séparément.
+
+## 7. Soin à Vie pleine
+
+Une potion doit rester utilisable lorsque le personnage est à 100 % de Vie mais souffre encore d'un traumatisme.
+
+Dans ce cas :
+
+- aucun PV supplémentaire n'est nécessaire ;
+- la consommation de la potion déclenche quand même son effet de remise en état ;
+- tous les traumatismes actifs sont guéris.
+
+Cette exception d'usage garantit qu'un joueur ne reste jamais coincé avec une fracture simplement parce que sa barre de Vie a déjà été restaurée par un autre mécanisme.
+
+## 8. Stabilisation sans soin
+
+Certains effets peuvent éventuellement empêcher temporairement l'aggravation d'une blessure sans restaurer de PV.
+
+Exemples possibles :
+- attelle ;
+- bandage ;
+- immobilisation ;
+- analgésique.
+
+Tant qu'ils ne restaurent pas de PV, ils ne sont pas considérés comme un soin complet et ne suppriment pas nécessairement le traumatisme.
+
+Dès qu'un effet restaure réellement des PV, la règle générale s'applique : **tous les traumatismes sont guéris**.
+
+## 9. Relation avec Corps
+
+Le Corps reste particulièrement sensible aux traumatismes puisque sa puissance vient de la maîtrise physique.
+
+- Dépassement peut augmenter le risque de traumatisme ;
+- certaines reliques de Sahra peuvent réduire la probabilité ou l'aggravation des blessures ;
+- une fois un soin de PV utilisé, les traumatismes sont néanmoins tous supprimés comme pour les autres builds.
+
+Le Corps ne possède donc pas une règle de soin différente du reste du jeu.
+
+## 10. Gore, zones corporelles et corps persistants
+
+Le système de traumatismes partage ses informations avec le gore et le démembrement :
 
 - zone corporelle ;
 - puissance ;
@@ -197,51 +165,42 @@ Le système de traumatismes utilise les mêmes informations que le système de g
 - type de dégâts ;
 - état du membre.
 
-Un bras déjà traumatisé doit être plus vulnérable aux conséquences d'un nouveau coup important.
+Progression possible :
 
-Les traumatismes deviennent ainsi un état intermédiaire cohérent entre :
+**impact → traumatisme persistant → aggravation / fracture → éventuelle mutilation.**
 
-**impact normal → blessure persistante → fracture / lésion grave → éventuelle mutilation selon l'attaque et l'ennemi.**
+Si le joueur meurt avant de recevoir un soin, l'état physique exact est enregistré sur son **corps persistant** : entorses pertinentes, fractures, plaies, brûlures, mutilations et cause de mort peuvent influencer l'évolution future du cadavre.
 
-## 11. Mort et nouveau corps
+Le nouveau corps produit par la Rémanence est distinct de l'ancien cadavre.
 
-Lorsqu'une mort termine la run, l'état physique exact du personnage est sauvegardé dans le **corps persistant** laissé sur place : blessures, fractures, brûlures, membres perdus et cause de mort peuvent participer à son évolution future.
+## 11. Interface
 
-Le nouveau corps produit par la Rémanence n'est pas le corps mort transporté jusqu'au départ.
-
-Les traumatismes physiques de l'ancien corps restent donc inscrits sur le cadavre persistant.
-
-Le coût de la mort reste suffisamment élevé — run perdue, équipement abandonné, corps susceptible d'évoluer — pour que mourir ne constitue jamais une méthode rationnelle de soin.
-
-## 12. Interface
-
-L'interface doit afficher séparément :
+L'interface affiche séparément :
 
 - barre de Vie ;
 - traumatismes actifs ;
-- zone du corps touchée ;
+- zone touchée ;
 - gravité ;
 - malus principal ;
-- risque d'aggravation ;
-- possibilité de soin ou stabilisation.
+- risque d'aggravation.
 
-Une silhouette corporelle simple peut permettre de comprendre immédiatement qu'un joueur à 75 % de PV souffre par exemple d'une entorse de la jambe gauche et d'une plaie au bras droit.
+Cette séparation reste importante même si un soin de PV guérit tout, car avant le soin le joueur doit pouvoir comprendre pourquoi il pourrait vouloir consommer une potion alors qu'il possède encore beaucoup de Vie.
 
-## 13. Règles verrouillées
+## 12. Règles verrouillées
 
-1. Vie et traumatismes sont deux systèmes distincts.
-2. Un traumatisme peut apparaître même avec beaucoup de PV restants.
+1. PV et traumatismes sont deux états distincts tant que le personnage n'est pas soigné.
+2. Un traumatisme peut apparaître avec beaucoup de PV restants.
 3. LITD 2 conserve les grandes familles de blessures persistantes de LITD 1.
-4. Les blessures persistent tant qu'elles ne sont pas réellement traitées.
-5. Certaines blessures peuvent s'aggraver si elles restent non traitées.
-6. Une potion peut être utilisée indépendamment du pourcentage de Vie restant.
-7. La potion est le soin universel de terrain des traumatismes.
-8. Un joueur à 75 % de Vie peut rationnellement consommer une potion pour réparer une entorse.
-9. Restaurer des PV ne supprime pas automatiquement un traumatisme.
-10. Stabiliser un traumatisme n'est pas le guérir.
-11. Les traumatismes alimentent directement le système de gore, de zones corporelles et de corps persistants.
+4. Les traumatismes persistent entre les combats tant qu'aucun soin de PV n'est reçu.
+5. Certaines blessures peuvent s'aggraver avant leur guérison.
+6. **Tout soin de PV guérit tous les traumatismes actifs.**
+7. Cette règle vaut pour potions, compétences, régénération et tout autre effet qui restaure réellement des PV.
+8. Une potion peut être utilisée indépendamment du pourcentage de Vie restant.
+9. Une potion peut être utilisée à 100 % de Vie si un traumatisme est actif.
+10. Un personnage à 75 % de Vie peut rationnellement utiliser une potion uniquement pour supprimer une entorse gênante.
+11. Les traumatismes alimentent le système de zones corporelles, gore/démembrement et corps persistants.
 12. La quantité exacte de Vie restaurée par une potion reste à équilibrer séparément.
 
-## 14. Formule directrice
+## 13. Formule directrice
 
-**La Vie mesure ce qu'il reste. Le traumatisme mesure ce qui est cassé. La potion permet au joueur de choisir quand remettre son corps en état.**
+**Les blessures compliquent la run tant que le personnage reste blessé. Dès que sa Vie est soignée, son corps entier est soigné.**
