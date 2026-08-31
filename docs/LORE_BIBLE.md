@@ -27,7 +27,7 @@ La direction artistique conserve :
 
 Avant la Chute, le continent était constitué de cités-États indépendantes et pacifiques. Elles possédaient leurs propres lois, traditions et écoles, mais coopéraient par des routes commerciales protégées, des institutions communes et un Conseil continental.
 
-Cette organisation mature porte le nom de **Concorde**. Elle n'est ni un empire ni un État central unique : les cités restent autonomes et partagent uniquement les règles, protections et institutions nécessaires à leur coexistence.
+Cette organisation mature porte le nom de **Concorde**. Elle n'est ni un empire ni un État central unique : les cités restent autonomes et partagent les règles, protections et institutions nécessaires à leur coexistence.
 
 Les Humains de toutes ethnies, Nains, Elfes, Orcs, Lézardiens, Forestiers et autres peuples pouvaient vivre dans les mêmes cités. Les migrations, unions et communautés mixtes étaient ordinaires.
 
@@ -79,7 +79,7 @@ Chaque citoyen pratiquait également un art : peinture, musique, calligraphie, s
 
 La société considérait qu'un corps puissant sans sensibilité pouvait engendrer la brutalité, tandis qu'un esprit cultivé sans maîtrise de soi demeurait vulnérable à la peur et au désordre.
 
-Les manifestations surnaturelles de Lumière ne définissent jamais à elles seules cet Éveil. Elles sont une branche tardive d'un ensemble beaucoup plus large de pratiques de perception, de création et de connaissance.
+Les manifestations surnaturelles de Lumière ne définissent jamais à elles seules cet Éveil. Elles constituent une branche d'un ensemble plus large de pratiques de perception, de création et de connaissance.
 
 #### La Cité
 
@@ -270,29 +270,98 @@ L'interface indique :
 
 Lorsqu'un niveau contient plus de deux familles, le joueur doit choisir en fonction de la famille, des traits, de la personnalité, des compétences, de l'histoire et de la compatibilité avec le groupe.
 
-## 11. Capacité limitée des Sanctuaires
+## 11. Capacité limitée du Sanctuaire
 
-Les créatures recrutées vivent dans les Sanctuaires et leurs dépendances. La capacité n'est pas infinie : chaque Sanctuaire possède un nombre de places limité selon ses bâtiments, ressources et conditions de vie.
+Le Sanctuaire possède un nombre limité de places pour les créatures recrutées.
 
-Cette limite crée un choix réel. Le joueur ne peut pas accumuler sans fin toutes les créatures rencontrées.
+Chaque pensionnaire occupe une place permanente, même pendant une expédition, car il conserve un habitat, de la nourriture, des soins et un espace de repos.
 
-Un recrutement doit donc tenir compte :
+La capacité augmente grâce à :
 
-- de la place disponible ;
-- des besoins de la créature ;
-- de la compatibilité avec le Sanctuaire ;
-- de la possibilité de la relâcher ou de la confier ailleurs ;
-- de sa relation avec les autres habitants.
+- la rénovation et l'agrandissement ;
+- la construction d'habitats spécialisés ;
+- le sauvetage d'artisans et de soigneurs ;
+- les connaissances acquises sur les familles ;
+- la récupération de matériaux ;
+- certaines avancées liées aux rares Sanctuaires.
 
-## 12. Économie et or
+Les habitats peuvent être spécialisés : quartier commun, enclos protégé, bassin, chambre obscure, cellule de stabilisation ou jardin intérieur.
 
-À l'époque de LITD 1, la monnaie commune est appelée **or**.
+Quand le Sanctuaire est plein, le joueur peut renoncer à une recrue, agrandir un habitat, libérer une créature apaisée ou la confier à une communauté alliée. Une créature confiée ou libérée n'est pas supprimée : elle peut protéger un village, retrouver son territoire ou réapparaître dans l'histoire.
 
-Cette simplicité a une histoire : au début de LITD 2, les cités utilisent encore différentes monnaies, poids et systèmes de dette. Pendant la reconstruction, un poids commun de l'or devient progressivement l'unité de référence des échanges entre cités. Les monnaies locales persistent longtemps, mais l'usage continental finit par simplifier cette unité en « or ».
+> Comprendre une créature ne signifie pas la posséder. Parfois, l'aider consiste à lui trouver une place ailleurs.
 
-Cette continuité permet aux anciennes monnaies de LITD 2 de réapparaître dans LITD 1 comme objets archéologiques ou indices historiques.
+## 12. Économie
 
-## 13. Principe de continuité LITD Universe
+### 12.1 L'Or
+
+La monnaie principale et unique de LITD 1 s'appelle **Or**.
+
+Cette monnaie commune est l'aboutissement d'une longue évolution. Au début de LITD 2, les cités disposent encore de monnaies, poids et systèmes de dette différents. Pendant la reconstruction, les échanges inter-cités utilisent progressivement un poids commun de l'or comme référence. Plus tard, la Concorde mature frappe une monnaie commune au nom du Conseil continental, représentant les Trois Éveils et acceptée indépendamment de la cité, de l'ethnie ou du peuple du porteur.
+
+Après la Chute, l'Or conserve sa valeur parce qu'il est durable, reconnaissable, transportable et associé à l'ancien réseau économique. Le troc subsiste dans les communautés isolées, tandis que l'Or reprend de l'importance à mesure que les routes sont sécurisées.
+
+L'Or sert à :
+
+- acheter armes, armures et consommables ;
+- financer les soins ;
+- réparer et améliorer l'équipement ;
+- agrandir les bâtiments et habitats ;
+- acheter cartes et informations ;
+- financer les expéditions ;
+- former les héros ;
+- développer les routes commerciales ;
+- améliorer le coffre commun de la Guilde.
+
+Épargner ou recruter une créature ne rapporte jamais directement d'Or.
+
+### 12.2 L'Essence
+
+L'Essence est une ressource surnaturelle produite par le contact du Voile avec le monde matériel. Ce n'est pas une monnaie.
+
+Elle peut être récupérée sur les Manifestations destructrices, certains boss, les zones corrompues, les cristallisations du Voile ou par la purification de lieux et d'objets.
+
+Une créature consciente ne peut jamais être sacrifiée pour produire de l'Essence.
+
+L'Essence sert à :
+
+- étudier le Voile et avancer dans l'enquête ;
+- purifier ou stabiliser une corruption ;
+- analyser les créatures et compléter le bestiaire ;
+- améliorer les propriétés surnaturelles des équipements ;
+- activer les défenses lumineuses et dispositifs du Sanctuaire ;
+- protéger temporairement une expédition ;
+- stabiliser certaines reliques ;
+- étudier l'Arbre du Premier Voile.
+
+L'Essence ne permet pas de ressusciter un héros, d'annuler la mort permanente, de forcer une créature à rejoindre le groupe ou de refermer facilement le Voile.
+
+### 12.3 Ressources
+
+| Ressource | Fonction |
+|---|---|
+| Or | Acheter, soigner, réparer, construire et commercer |
+| Matériaux | Fabriquer, réparer et agrandir |
+| Essence | Étudier, purifier, stabiliser et manipuler les effets du Voile |
+| Reliques | Débloquer des pouvoirs, connaissances ou avancées uniques |
+
+> L'Or permet de reconstruire le monde matériel. L'Essence permet de comprendre et contenir ce qui l'a brisé.
+
+## 13. Principe narratif central
+
+Les survivants ne savent pas encore que leur continent a été visé parce que son modèle fonctionnait.
+
+Ils doivent d'abord comprendre ce qui s'est passé. Les révélations sur l'alliance extérieure, l'ouverture volontaire de la Porte et le sort probable des autres continents doivent apparaître progressivement à travers des archives, témoignages, objets étrangers, visions et Sanctuaires rares.
+
+La vérité fondamentale du lore est :
+
+> Le monde ancien n'a pas échoué. Ses survivants doivent découvrir pourquoi on a voulu le détruire, puis décider comment le faire renaître.
+
+La question fondamentale adressée au joueur face aux créatures est :
+
+> Qu'est-elle, que veut-elle, et que deviendrait-elle si nous cessions un instant d'avoir peur d'elle ?
+
+## 14. Principe de continuité LITD Universe
 
 Tout élément canon créé sur la naissance de la Concorde dans LITD 2 doit être vérifié contre LITD 1 et recevoir une trace possible mille ans plus tard : texte, ruine, monnaie, institution, école, proverbe, technique, monument, déformation historique ou objet.
 
