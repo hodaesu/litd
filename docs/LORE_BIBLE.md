@@ -27,9 +27,29 @@ La direction artistique conserve :
 
 Avant la Chute, le continent était constitué de cités-États indépendantes et pacifiques. Elles possédaient leurs propres lois, traditions et écoles, mais coopéraient par des routes commerciales protégées, des institutions communes et un Conseil continental.
 
+Cette organisation mature porte le nom de **Concorde**. Elle n'est ni un empire ni un État central unique : les cités restent autonomes et partagent les règles, protections et institutions nécessaires à leur coexistence.
+
 Les Humains de toutes ethnies, Nains, Elfes, Orcs, Lézardiens, Forestiers et autres peuples pouvaient vivre dans les mêmes cités. Les migrations, unions et communautés mixtes étaient ordinaires.
 
 Cette civilisation n'était pas secrètement décadente et ne traversait aucune dérive annonçant sa destruction. Son système fonctionnait réellement. Elle avait réduit les guerres, favorisé les échanges et créé une prospérité durable.
+
+### 2.0 Origine historique de la Concorde
+
+Environ mille ans avant la Chute, le continent traversa la **Dernière Guerre**, un conflit de plusieurs décennies entretenu par des dynasties, oligarchies, chefs de guerre et pouvoirs utilisant la peur, la haine et la propagande.
+
+La guerre ne prit pas fin par la victoire d'un empire. Elle s'effondra progressivement lorsque soldats, travailleurs, villes et communautés refusèrent d'entretenir le conflit.
+
+La **Nuit de Sarn** appartient aux dernières années de cette rupture collective. Elle est un événement majeur de secours, de désobéissance et de coopération entre anciens ennemis, mais elle ne crée pas à elle seule les Trois Éveils.
+
+Après la guerre commencent les **Longues Assemblées**, réunions tournantes de populations et de communautés différentes. Elles donnent progressivement naissance aux Trois Éveils et au **Premier Pacte de Concorde**.
+
+Sahra Khen, Ilyan Sorei et Tala Veyr deviennent les trois figures les plus célèbres de cette période, mais ils ne sont pas les inventeurs uniques des Éveils : ils synthétisent et transmettent un mouvement collectif beaucoup plus large.
+
+Le déroulé de référence est :
+
+**Dernière Guerre → rupture de l'obéissance → Nuit de Sarn → fin de la guerre sans vainqueur → Longues Assemblées → Trois Éveils → Premier Pacte → transmission sur plusieurs générations → Concorde mature.**
+
+LITD 2 se situe dans cette période fondatrice, environ mille ans avant LITD 1. Son arc principal commence dans les dernières années de la Dernière Guerre et peut s'achever avec la ratification du Premier Pacte de Concorde.
 
 ### 2.1 La doctrine des Trois Éveils
 
@@ -38,6 +58,8 @@ Toute personne cultivait trois dimensions complémentaires :
 1. **Le Corps** — se connaître par l'effort, la discipline et un art martial.
 2. **L'Esprit** — se connaître par la création, la sensibilité et un art.
 3. **La Cité** — comprendre autrui, participer à la vie politique et rechercher le bien commun.
+
+Pendant la période de LITD 2, le troisième Éveil n'a pas encore un nom totalement stabilisé : **Politique**, **Bien commun** et **Vie commune** coexistent avant que **La Cité** devienne la formulation dominante de la Concorde mature.
 
 La maxime fondamentale est :
 
@@ -49,11 +71,15 @@ Dès l'enfance, chaque citoyen pratiquait un art martial : combat à mains nues,
 
 Cette pratique n'avait pas seulement pour but de combattre. Elle développait la respiration, la concentration, le courage, la maîtrise de soi et la connaissance de ses limites.
 
+Ce système n'est pas encore universel au début de LITD 2 : il se construit progressivement pendant les premières générations de la Concorde.
+
 #### L'Esprit
 
 Chaque citoyen pratiquait également un art : peinture, musique, calligraphie, sculpture, danse, poésie, théâtre, céramique, jardinage, architecture ou récit.
 
 La société considérait qu'un corps puissant sans sensibilité pouvait engendrer la brutalité, tandis qu'un esprit cultivé sans maîtrise de soi demeurait vulnérable à la peur et au désordre.
+
+Les manifestations surnaturelles de Lumière ne définissent jamais à elles seules cet Éveil. Elles constituent une branche d'un ensemble plus large de pratiques de perception, de création et de connaissance.
 
 #### La Cité
 
@@ -66,6 +92,8 @@ La politique était définie comme l'art de vivre avec ceux que l'on ne comprend
 Les grands champions étaient aussi reconnus pour leur art. Avant un duel important, un combattant pouvait présenter une peinture, jouer un morceau, tracer une calligraphie ou réciter un poème.
 
 Le combat devenait le prolongement de l'œuvre et révélait l'état intérieur du combattant.
+
+Cette tradition n'existe pas encore sous sa forme mature au début de LITD 2. Elle apparaît progressivement lorsque les premiers tournois inter-cités s'associent aux pratiques de l'Esprit et aux assemblées politiques.
 
 ### 2.3 Les Grands Tournois
 
@@ -80,6 +108,8 @@ Chaque grand rassemblement réunissait :
 - l'Assemblée des Cités, consacrée aux débats et au bien commun.
 
 Tuer volontairement un adversaire lors d'un tournoi était une profanation. Les armes et les règles étaient adaptées pour limiter les morts.
+
+Les Grands Tournois sont l'aboutissement de plusieurs siècles d'évolution. LITD 2 montre leurs ancêtres : rencontres martiales réglementées où gagner n'accorde aucun droit de conquête.
 
 ## 3. La conspiration extérieure
 
@@ -142,6 +172,8 @@ Les Sanctuaires des Trois Éveils existaient avant la Chute. Ils rappelaient à 
 Ils n'appartenaient à aucune religion, cité, école ou peuple.
 
 Les Sanctuaires étaient rares. Ils avaient été construits dans des lieux essentiels à la mémoire commune : naissance de la doctrine, conclusion d'une paix fondatrice, premier Grand Tournoi ou ancienne résistance réunissant plusieurs peuples.
+
+Les premiers modèles apparaissent après la génération fondatrice comme des lieux de mémoire des ruptures de la logique de guerre. Ils ne sont donc pas encore présents sous leur forme classique pendant l'essentiel de LITD 2.
 
 Chaque Sanctuaire comporte symboliquement :
 
@@ -263,9 +295,9 @@ Quand le Sanctuaire est plein, le joueur peut renoncer à une recrue, agrandir u
 
 ### 12.1 L'Or
 
-La monnaie principale et unique s'appelle **Or**.
+La monnaie principale et unique de LITD 1 s'appelle **Or**.
 
-Avant la Chute, les cités-États utilisaient une monnaie commune frappée au nom du Conseil continental. Elle représentait les Trois Éveils et était acceptée indépendamment de la cité, de l'ethnie ou du peuple du porteur.
+Cette monnaie commune est l'aboutissement d'une longue évolution. Au début de LITD 2, les cités disposent encore de monnaies, poids et systèmes de dette différents. Pendant la reconstruction, les échanges inter-cités utilisent progressivement un poids commun de l'or comme référence. Plus tard, la Concorde mature frappe une monnaie commune au nom du Conseil continental, représentant les Trois Éveils et acceptée indépendamment de la cité, de l'ethnie ou du peuple du porteur.
 
 Après la Chute, l'Or conserve sa valeur parce qu'il est durable, reconnaissable, transportable et associé à l'ancien réseau économique. Le troc subsiste dans les communautés isolées, tandis que l'Or reprend de l'importance à mesure que les routes sont sécurisées.
 
@@ -328,3 +360,18 @@ La vérité fondamentale du lore est :
 La question fondamentale adressée au joueur face aux créatures est :
 
 > Qu'est-elle, que veut-elle, et que deviendrait-elle si nous cessions un instant d'avoir peur d'elle ?
+
+## 14. Principe de continuité LITD Universe
+
+Tout élément canon créé sur la naissance de la Concorde dans LITD 2 doit être vérifié contre LITD 1 et recevoir une trace possible mille ans plus tard : texte, ruine, monnaie, institution, école, proverbe, technique, monument, déformation historique ou objet.
+
+Les sources prioritaires pour cette période sont :
+
+- `HISTOIRE_TROIS_EVEILS.md` ;
+- `LITD2_NAISSANCE_DE_LA_CONCORDE.md` ;
+- `LITD_UNIVERSE_TROIS_FONDATEURS_CANON.md` ;
+- `LITD_UNIVERSE_TROIS_FONDATEURS_CONTINUITE.md` ;
+- `CONCORDE_MONDE_POLITIQUE.md` ;
+- `CONCORDE_COURANTS_PRE_CHUTE.md`.
+
+La règle centrale reste : la Concorde est construite par des générations de personnes ordinaires, pas offerte par trois héros isolés.

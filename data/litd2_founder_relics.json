@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "scope": "LITD2 founder affinity relics",
+  "unlock_model": {
+    "source": "founder_affinity",
+    "tiers": ["trace", "enseignement", "heritage", "signature"],
+    "persistent_unlock": true,
+    "auto_equipped": false,
+    "primary_goal": "reinforce school mechanics and playstyle, not passive vertical power"
+  },
+  "founders": {
+    "sahra_khen": {
+      "school": "Corps",
+      "relics": [
+        {"id":"C01","name":"Bande de Respiration d'Orsaï","tier":"trace","core":"perfect defense generates more Souffle and empowers next Corps technique"},
+        {"id":"C02","name":"Garde de la Main Ouverte","tier":"enseignement","core":"nonlethal break/interruption creates a mastery window for the next heavy or Corps skill"},
+        {"id":"C03","name":"Corde des Sept Efforts","tier":"heritage","core":"varied Corps actions build Discipline and mutate the next Corps technique"},
+        {"id":"C04","name":"Premier Souffle de Khen","tier":"signature","core":"temporary Souffle clair after perfect play; powerful Corps techniques trade into Depassement/Trauma risk"}
+      ]
+    },
+    "ilyan_sorei": {
+      "school": "Esprit",
+      "relics": [
+        {"id":"E01","name":"Diapason de Namaris","tier":"trace","core":"different Esprit skills build Resonance and add contextual secondary effects"},
+        {"id":"E02","name":"Prisme d'Étude","tier":"enseignement","core":"perception/Light effects reveal a weakness consumed by a different Esprit family"},
+        {"id":"E03","name":"Cinquième Note Inachevée","tier":"heritage","core":"correct Esprit sequences leave a delayed weaker echo of the final technique"},
+        {"id":"E04","name":"Lentille de l'Écoute","tier":"signature","core":"observing enemy rhythms unlocks a contextual empowered Esprit response"}
+      ]
+    },
+    "tala_veyr": {
+      "school": "Politique",
+      "relics": [
+        {"id":"P01","name":"Jeton du Banc du Refus","tier":"trace","core":"interrupting hostile actions increases Condamnation and Autorite"},
+        {"id":"P02","name":"Sceau de Médiation de Seyda","tier":"enseignement","core":"Condamne targets create an alternating Sentence/Ordre offensive loop"},
+        {"id":"P03","name":"Clause d'Expiration","tier":"heritage","core":"stronger timed Laws refund Autorite on natural expiry and empower next Sentence"},
+        {"id":"P04","name":"Place Vide","tier":"signature","core":"voluntarily leaving a Law slot empty accelerates authority economy and unlocks a deliberated Law"}
+      ]
+    }
+  },
+  "cross_affinity_relics": [
+    {"id":"CE01","name":"Métronome du Souffle","pair":"Corps+Esprit","core":"perfect defense and Esprit timing reinforce each other"},
+    {"id":"CP01","name":"Garde sans Bannière","pair":"Corps+Politique","core":"Equilibre breaks on Condamne targets generate Autorite; Sentences refund Souffle"},
+    {"id":"EP01","name":"Archive Contradictoire","pair":"Esprit+Politique","core":"revealed weaknesses become evidence that accelerates Condamnation and modifies Sentences"}
+  ],
+  "triple_affinity_relics": [
+    {"id":"T01","name":"Les Trois Marques","core":"using the three school cores in sequence mutates the next composed Awakening"}
+  ],
+  "continuity_rule": "Every canonical founder relic must define a later trace, loss, copy, distortion or rediscovery in LITD1."
+}

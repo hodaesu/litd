@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "scope": "LITD Universe philosophy and psychology writing reference library",
+  "canon_rule": "Real-world authors are writer references only and do not exist as named figures inside LITD canon.",
+  "writing_principle": "Do not simplify the idea; simplify its point of entry.",
+  "target_effect": "The player understands what the characters live through while remaining free to think about what it means.",
+  "reference_status": {
+    "PHILO": "historical or contemporary philosophy; question framework, not scientific fact",
+    "PSY_HIST": "historically influential psychology requiring modern caveats",
+    "PSY_EMP": "empirically supported contemporary framework used non-deterministically",
+    "DEBAT": "active or historically important framework with meaningful controversy or limitations"
+  },
+  "families": {
+    "greco_roman": ["Socrates","Plato","Aristotle","Epicurus","Lucretius","Zeno of Citium","Chrysippus","Epictetus","Seneca","Marcus Aurelius","Pyrrho","Sextus Empiricus","Cicero","Plutarch"],
+    "east_asian": ["Confucius","Mencius","Xunzi","Mozi","Laozi","Zhuangzi","Han Feizi","Sunzi","Zhu Xi","Wang Yangming","Dogen","Nishida Kitaro"],
+    "indian_buddhist": ["Early Buddhist traditions","Nagarjuna","Shantideva","Vasubandhu","Buddhaghosa","Dharmakirti","Candrakirti"],
+    "medieval_early_modern": ["Augustine","Thomas Aquinas","Machiavelli","Montaigne","Thomas Hobbes","Baruch Spinoza","John Locke","Blaise Pascal","David Hume","Jean-Jacques Rousseau","Immanuel Kant","Mary Wollstonecraft","Adam Smith","Jeremy Bentham"],
+    "modern_existential_power": ["Hegel","Soren Kierkegaard","Friedrich Nietzsche","Karl Marx","John Stuart Mill","Fyodor Dostoevsky","William James","Henri Bergson","Max Weber","W.E.B. Du Bois","Edmund Husserl","Martin Heidegger","Jean-Paul Sartre","Simone de Beauvoir","Albert Camus","Hannah Arendt","Simone Weil","Maurice Merleau-Ponty","Emmanuel Levinas","Paul Ricoeur","Michel Foucault","Frantz Fanon","Isaiah Berlin","Judith Shklar","Iris Murdoch"],
+    "contemporary_moral_political": ["John Rawls","Robert Nozick","Jurgen Habermas","Alasdair MacIntyre","Charles Taylor","Bernard Williams","Derek Parfit","Martha Nussbaum","Amartya Sen","Elinor Ostrom","Philip Pettit","Miranda Fricker","Iris Marion Young","T.M. Scanlon","Kwame Anthony Appiah"],
+    "psychodynamic_humanistic_existential": ["Sigmund Freud","Carl Jung","Alfred Adler","Erik Erikson","Carl Rogers","Viktor Frankl","Abraham Maslow","Rollo May","Irvin Yalom","Ernest Becker"],
+    "attachment_development": ["John Bowlby","Mary Ainsworth","Mary Main","Donald Winnicott","Urie Bronfenbrenner","Edward Deci","Richard Ryan"],
+    "cognition_memory_identity": ["Frederic Bartlett","Elizabeth Loftus","Endel Tulving","Martin Conway","Dan McAdams","Daniel Kahneman","Amos Tversky","Aaron Beck","Albert Ellis","Antonio Damasio","Lisa Feldman Barrett","Paul Ekman"],
+    "social_psychology": ["Leon Festinger","Solomon Asch","Muzafer Sherif","Henri Tajfel","John Turner","Stanley Milgram","Jerry Burger","John Darley","Bibb Latane","Albert Bandura","Philip Zimbardo","Gordon Allport","Susan Fiske","Daniel Batson","Jonathan Haidt"],
+    "trauma_resilience_moral_injury": ["Judith Herman","George Bonanno","Ronnie Janoff-Bulman","Richard Lazarus","Susan Folkman","Aaron Antonovsky","Jonathan Shay","Brett Litz","Shira Maguen","Edna Foa","Steven Maier","Martin Seligman","Richard Tedeschi","Lawrence Calhoun"],
+    "grief_bereavement": ["Margaret Stroebe","Henk Schut","Dennis Klass","Phyllis Silverman","Steven Nickman","Elisabeth Kubler-Ross","Colin Murray Parkes","Robert Neimeyer"],
+    "hope_agency": ["C. R. Snyder","Edward Deci","Richard Ryan","Albert Bandura","Martin Seligman","Ernst Bloch","Viktor Frankl"]
+  },
+  "litd_theme_index": {
+    "remanence_personal_identity": ["John Locke","David Hume","Derek Parfit","Paul Ricoeur","Early Buddhist traditions","Nagarjuna","Dan McAdams","Martin Conway","Frederic Bartlett","Elizabeth Loftus","Epicurus","Martin Heidegger","Ernest Becker"],
+    "war_obedience_moral_injury": ["Hannah Arendt","Simone Weil","Albert Bandura","Stanley Milgram","Jerry Burger","Henri Tajfel","John Turner","Leon Festinger","Jonathan Shay","Brett Litz","Shira Maguen","Immanuel Kant","Emmanuel Levinas","Mencius","Mozi"],
+    "fear_hope_madness_perception": ["Baruch Spinoza","Epictetus","Seneca","Richard Lazarus","Aaron Beck","Frederic Bartlett","Elizabeth Loftus","Edmund Husserl","Maurice Merleau-Ponty","Michel Foucault","C. R. Snyder"],
+    "power_authority_concorde": ["Thomas Hobbes","Jean-Jacques Rousseau","Immanuel Kant","Hannah Arendt","Judith Shklar","Philip Pettit","John Rawls","Jurgen Habermas","Elinor Ostrom","Miranda Fricker","Iris Marion Young","Michel Foucault","Xunzi","Confucius","Mozi"],
+    "body_mastery_corps": ["Aristotle","Stoic traditions","Dogen","Maurice Merleau-Ponty","Antonio Damasio","Xunzi","Confucius","Sahra Khen as canonical synthesis"],
+    "perception_art_esprit": ["William James","Edmund Husserl","Henri Bergson","Iris Murdoch","Simone Weil","Maurice Merleau-Ponty","Vasubandhu","Dharmakirti","Ilyan Sorei as canonical synthesis"],
+    "politics_common_good": ["Aristotle","Confucius","Mencius","Mozi","Hobbes","Rousseau","Kant","Arendt","Rawls","Habermas","Ostrom","Pettit","Shklar","Fricker","Young","Tala Veyr as canonical synthesis"],
+    "grief_corpses_memory": ["Margaret Stroebe","Henk Schut","Dennis Klass","Phyllis Silverman","Steven Nickman","George Bonanno","Robert Neimeyer","Paul Ricoeur","Frederic Bartlett"],
+    "propaganda_group_identity": ["Henri Tajfel","John Turner","Leon Festinger","Solomon Asch","Muzafer Sherif","Albert Bandura","Susan Fiske","W.E.B. Du Bois","Michel Foucault"],
+    "meaning_absurd_survival": ["Albert Camus","Viktor Frankl","Soren Kierkegaard","Friedrich Nietzsche","Blaise Pascal","Epicurus","C. R. Snyder","Ernst Bloch"]
+  },
+  "mandatory_cautions": [
+    "Never use Kubler-Ross as a universal ordered grief sequence.",
+    "Never equate supernatural Madness with real mental illness or imply mental illness equals violence or evil.",
+    "Freud and Jung are historical/symbolic references, not contemporary empirical consensus.",
+    "Maslow's hierarchy must not be treated as a universal fixed ladder.",
+    "Milgram supports questions about authority but must not become the claim that everyone inevitably obeys.",
+    "Stanford Prison Experiment must not be used as simple proof of situational determinism.",
+    "Post-traumatic growth is possible but never mandatory and never makes trauma beneficial.",
+    "Resilience and trauma responses are heterogeneous.",
+    "Moral injury is a developing construct and must not be written as a single settled diagnosis.",
+    "Memory is reconstructive; sincere witnesses may disagree without one being a liar.",
+    "Psychological averages never determine an individual character's destiny."
+  ],
+  "dialogue_contract": {
+    "layers": ["concrete experience","conflict of meaning","optional deepening"],
+    "must_have": ["immediate character goal","human cost","visible contradiction","natural vocabulary","room for interpretation"],
+    "avoid": ["academic jargon as depth","aphorism spam","characters as doctrine mouthpieces","explaining metaphors immediately","one correct ideology winning every scene","diagnosis replacing characterization"]
+  },
+  "future_research_sources": ["Stanford Encyclopedia of Philosophy","Internet Encyclopedia of Philosophy","American Psychological Association","PubMed","PubMed Central","systematic reviews and meta-analyses","primary historical works with context","replication and methodological criticism for classic psychology studies"]
+}

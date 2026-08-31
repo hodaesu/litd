@@ -1,0 +1,90 @@
+{
+  "schema_version": 2,
+  "scope": "LITD2 death, run persistence and evolving corpse simulation",
+  "death": {
+    "restarts_from_checkpoint": false,
+    "restarts_entire_run": true,
+    "advances_historical_timeline": false,
+    "expires_important_side_quests": false,
+    "creates_persistent_corpse": true
+  },
+  "corpse": {
+    "persists_after_reconstruction": true,
+    "anchor_model": "historical_zone_or_encounter_node",
+    "procedural_reinjection": true,
+    "evolves_between_attempts": true,
+    "evolution_factors": [
+      "death_zone",
+      "cause_of_death",
+      "attempts_elapsed",
+      "local_faction_control",
+      "civilian_presence",
+      "supernatural_anomaly_level",
+      "previous_player_decisions"
+    ],
+    "may_store": [
+      "equipment",
+      "weapon",
+      "cause_of_death",
+      "body_state",
+      "dismemberment_state",
+      "run_awakenings_snapshot",
+      "dominant_path",
+      "light_or_madness_state",
+      "historical_period"
+    ],
+    "possible_states": [
+      "intact",
+      "partially_looted",
+      "heavily_looted",
+      "moved_locally",
+      "buried_or_covered",
+      "displayed_by_enemy",
+      "decomposed",
+      "supernaturally_contaminated",
+      "reanimated_hostile",
+      "self_echo_elite"
+    ],
+    "loot_rule": "Looted equipment is not deleted from the save. Important gear may move to an enemy, merchant, faction cache or recovery event. Unique narrative items can never be permanently lost through corpse evolution.",
+    "reanimation_rule": "A reanimated corpse is the abandoned former body animated by an external or residual phenomenon; it is not the current protagonist and does not invalidate reconstruction.",
+    "self_echo_rule": "Very rarely, a corpse can become an optional elite encounter using a partial reconstruction of the weapon and awakening profile from the run in which it died.",
+    "gore_integration": "Cause of death, severed limbs, decapitation, burns and other body-state data feed directly into persistent corpse presentation and evolution."
+  },
+  "corpse_evolution_frequency": {
+    "ordinary_states": "common",
+    "contextual_states": "occasional",
+    "supernatural_contamination": "rare_and_zone_dependent",
+    "reanimation": "rare",
+    "self_echo_elite": "very_rare_and_memorable"
+  },
+  "persistence": {
+    "kept_after_death": [
+      "known_side_quests",
+      "allowed_founder_affinity_progress",
+      "horizontal_unlocks",
+      "codex_knowledge",
+      "enemy_knowledge",
+      "persistent_corpses",
+      "corpse_evolution_history"
+    ],
+    "rebuilt_each_run": [
+      "temporary_Corps_Esprit_Politique_build",
+      "run_awakenings",
+      "temporary_resources",
+      "allowed_procedural_layout",
+      "nonhistorical_variable_encounters"
+    ]
+  },
+  "safety_rules": [
+    "No unique quest item can be permanently lost through corpse evolution.",
+    "A looted important item must remain recoverable through another route.",
+    "A reanimated corpse cannot permanently block mandatory progression.",
+    "The strongest self-echo encounters are optional or have an alternative path.",
+    "Corpse evolution never advances the historical timeline by itself.",
+    "Corpse evolution never expires an important discovered side quest.",
+    "Corpse evolution can never make a save irrecoverable."
+  ],
+  "history_rule": "Historical progression occurs after successful completion of a milestone or explicit player progression, never because the player died.",
+  "narrative_rule": "Permanent narrative consequences come from voluntary decisions, not mechanical defeat.",
+  "sarn_rule": "Death during the Night of Sarn restarts the entire Sarn run from its beginning under the same canonical rules, and corpses left in Sarn may evolve like corpses from earlier runs."
+}

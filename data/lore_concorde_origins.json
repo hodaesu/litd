@@ -1,0 +1,268 @@
+{
+  "schema_version": 3,
+  "scope": "LITD Universe shared canon",
+  "litd2_period": "Final years of the Last War through the Night of Sarn; post-Sarn institutions belong to epilogue and later history",
+  "eras": [
+    {
+      "id": "last_war",
+      "name": "Dernière Guerre",
+      "relative_period": "more than 1000 years before LITD1",
+      "description": "Several decades of continent-wide conflict sustained by dynasties, oligarchies, warlords and political manipulation.",
+      "litd2_use": "The full playable game takes place in its final years through successive historical runs."
+    },
+    {
+      "id": "battle_runs",
+      "name": "Batailles et opérations de la fin de guerre",
+      "relative_period": "final years before Sarn",
+      "description": "Each run is a battle, rescue, extraction, escort, infiltration, ceasefire operation or other event that contributes to the collapse of the war and the emergence of the three paths.",
+      "litd2_use": "Core roguelite loop."
+    },
+    {
+      "id": "obedience_break",
+      "name": "Rupture de l'obéissance",
+      "relative_period": "late Last War",
+      "description": "Soldiers, workers, cities and communities increasingly refuse to maintain the war. Sahra, Ilyan and Tala each become involved through different networks.",
+      "litd2_use": "Escalating world-state across runs."
+    },
+    {
+      "id": "three_paths_emerge",
+      "name": "Émergence des trois voies",
+      "relative_period": "before Sarn",
+      "description": "Corps, Esprit and Politique/Bien commun gradually become recognizable ideas through war experience, local assemblies, schools, rescue networks and the three founders' evolving doctrines.",
+      "litd2_use": "Narrative counterpart of in-run awakening choices and founder affinities."
+    },
+    {
+      "id": "night_of_sarn",
+      "name": "Nuit de Sarn",
+      "relative_period": "end of LITD2 playable story",
+      "description": "A major attempt to end the war is sabotaged. Sahra, Ilyan, Tala, civilians and refusal networks converge. The three paths are explicitly understood together for the first time.",
+      "litd2_use": "Final playable run and narrative climax."
+    },
+    {
+      "id": "long_assemblies",
+      "name": "Longues Assemblées",
+      "relative_period": "after Sarn and the collapse of the Last War",
+      "description": "Rotating assemblies across the continent transform the lessons and convergence of Sarn into durable political, educational and social institutions.",
+      "litd2_use": "Epilogue, postgame lore and bridge to the mature Concorde."
+    },
+    {
+      "id": "first_concord_pact",
+      "name": "Premier Pacte de Concorde",
+      "relative_period": "post-Sarn",
+      "description": "A first group of cities accepts common limits on war and power while keeping local autonomy.",
+      "litd2_use": "Historical epilogue rather than the main playable ending."
+    },
+    {
+      "id": "first_transmission",
+      "name": "Première génération de transmission",
+      "relative_period": "first decades after LITD2",
+      "description": "Mixed schools, early inter-city tournaments, civic mediation and common memorial places spread.",
+      "litd2_use": "Epilogue."
+    },
+    {
+      "id": "mature_concord",
+      "name": "Concorde mature",
+      "relative_period": "centuries later",
+      "description": "Autonomous city-states cooperate through the Pact, shared institutions, protected routes, Grand Tournaments, Sanctuaries and the Three Awakenings education system.",
+      "litd2_use": "Future legacy shown in epilogue or historical codex."
+    }
+  ],
+  "litd2_run_structure": {
+    "time_loop": false,
+    "principle": "A run is a historical operation inside the final years of the Last War, not a reset of time.",
+    "world_progression": "The war, routes, factions, refugees, refusal networks and founder doctrines evolve between runs.",
+    "procedural_rule": "Procedural generation may vary route, rooms, encounters and complications but never rewrite major historical facts.",
+    "final_run": "Night of Sarn",
+    "finale_rule": "Sarn is the playable climax where the three paths converge explicitly; it is not their sole origin.",
+    "post_sarn": "Long Assemblies and the First Concord Pact occur after the playable finale and can be shown through epilogue/postgame content."
+  },
+  "founder_affinity": {
+    "system_name": "Résonance des Fondateurs",
+    "persistent": true,
+    "exclusive": false,
+    "max_all_three": true,
+    "founders": {
+      "sahra_khen": {
+        "primary_path": "Corps",
+        "affinity_sources": ["Corps awakening choices", "mastered defense", "controlled use of force", "restraint", "refusal to equate strength with political legitimacy"]
+      },
+      "ilyan_sorei": {
+        "primary_path": "Esprit",
+        "affinity_sources": ["Esprit awakening choices", "curiosity", "archive recovery", "protection of knowledge and art", "observation", "responsible use of Light and perception"]
+      },
+      "tala_veyr": {
+        "primary_path": "Politique",
+        "affinity_sources": ["Politique awakening choices", "civilian and prisoner decisions", "resource-sharing choices", "listening to opposition", "disobedience to unjust authority", "responsible use of power"]
+      }
+    },
+    "design_rules": [
+      "Affinity represents trust, shared experience and mutual understanding rather than romance or morality.",
+      "Pure and hybrid builds are both valid affinity paths.",
+      "Repeated same-path farming has diminishing returns within a run.",
+      "Dual affinities unlock founder-pair scenes and composed-awakening context.",
+      "Balanced affinity unlocks additional convergence scenes but is not required to finish the game.",
+      "Affinity rewards are primarily horizontal: dialogue, events, lore, route variants and awakening variants rather than permanent stat inflation.",
+      "No affinity can permanently lock another path."
+    ]
+  },
+  "founding_principles": [
+    "No war of conquest between signatory cities.",
+    "Martial victory grants no automatic political or territorial right.",
+    "Local autonomy remains protected under shared fundamental guarantees.",
+    "Collective punishment based on people, ethnicity or origin is forbidden.",
+    "Inter-city conflict must pass through mediation and arbitration before force.",
+    "Emergency powers must define their own expiration.",
+    "Political authority, justice and total military command cannot be concentrated in one person.",
+    "Major common decisions must leave a public record.",
+    "War responsibility is individual rather than hereditary or ethnic.",
+    "The Pact must remain publicly revisable by future generations."
+  ],
+  "social_development": {
+    "citizenship": "Belonging gradually shifts from bloodline and wartime allegiance toward residence, participation and protection under a city's institutions. Local models remain diverse.",
+    "war_displacement": "Refugees are not systematically returned to supposedly natural ethnic territories. Mixed neighborhoods and families become part of the future cosmopolitan Concorde.",
+    "former_soldiers": "Disarmament is paired with integration into road protection, rescue, reconstruction, civic guarding and martial schools rather than collective exclusion.",
+    "war_accountability": "Responsibility is investigated individually. Collective vengeance against descendants, peoples or former enemy cities is rejected as a founding principle.",
+    "slavery_and_debt": "The early Pact does not solve every economic abuse immediately, but the reconstruction period progressively rejects hereditary captivity and severe debt practices that reproduce wartime domination.",
+    "public_memory": "Archives, witness lists and memorials record both victims and acts of refusal; memory is meant to preserve vigilance rather than inherited hatred."
+  },
+  "education": {
+    "Corps": "At least one physical or martial discipline, with emphasis on effort, fear, restraint and limits.",
+    "Esprit": "At least one artistic or perceptual practice; supernatural Light techniques remain optional rather than defining the Awakening.",
+    "Cite": "History, argumentation, listening, propaganda recognition, institutions, mediation and real civic participation.",
+    "development_rule": "At the end of LITD2 the three principles are clearly understood together, but the universal triple curriculum is built only across later generations."
+  },
+  "institutional_evolution": [
+    {
+      "early": "temporary rotating wartime and reconstruction assemblies",
+      "mature": "city Circles and Council of the Concorde",
+      "principle": "no permanent capital owns the common institutions"
+    },
+    {
+      "early": "local negotiators and respected witnesses",
+      "mature": "Médiateurs de Concorde",
+      "principle": "conflict should be heard and documented before coercion"
+    },
+    {
+      "early": "public reading of proposed clauses and objections",
+      "mature": "formal civic review and Veilleurs du Pacte",
+      "principle": "law itself remains contestable"
+    },
+    {
+      "early": "mixed civilian protection groups and disobedient former soldiers",
+      "mature": "Gardiens civiques",
+      "principle": "security prioritizes protection, disarmament and de-escalation"
+    },
+    {
+      "early": "emergency powers negotiated case by case",
+      "mature": "automatic expiry and strict incompatibilities",
+      "principle": "exceptional authority must contain its own end"
+    }
+  ],
+  "economy": {
+    "start_of_litd2": "Different city currencies, weights, debts and tolls reflect a fragmented wartime continent.",
+    "reconstruction": "Trade corridors reopen under shared protection; granaries and emergency stores are temporarily pooled during crises.",
+    "gold_standard": "Merchants and assemblies gradually use a common weight of gold for inter-city accounting while local coins persist.",
+    "litd1_result": "Centuries of normalization reduce the common monetary language simply to 'or'.",
+    "core_tension": "The Concorde regulates vital-resource hoarding without abolishing merchants, guilds, workshops or private exchange."
+  },
+  "religion_and_culture": {
+    "awakening_status": "The Three Awakenings are not a religion.",
+    "religious_plurality": "Older religions, ancestor traditions, animisms, philosophies and non-belief survive under common protections.",
+    "shared_culture": "Common schools, routes, tournaments, festivals and civic practices create a continental culture without erasing local languages or customs.",
+    "aesthetic_rule": "The mature civilization has a strong Asian visual and philosophical influence but is multiethnic and multi-people."
+  },
+  "city_continuity": {
+    "early_litd2_cities": ["Orsaï", "Namaris", "Seyda", "Sarn"],
+    "late_concord_major_cities": ["Jian-Lu", "Sorye", "Dhor-Khal", "Lhaor", "Tessen", "Orun-Saï"],
+    "rule": "A thousand years of reconstruction, migration and economic change separate these urban maps; do not assume a one-to-one city identity without explicit evidence."
+  },
+  "rituals_and_shared_practices": [
+    {
+      "name": "Lecture des noms",
+      "origin": "Postwar witness lists",
+      "mature_form": "Public reading of selected names from many former camps during remembrance ceremonies",
+      "purpose": "Remember victims without dividing them by former enemy identity"
+    },
+    {
+      "name": "Salut sans bannière",
+      "origin": "Meetings between disobedient soldiers from opposing armies",
+      "mature_form": "Martial greeting used before some inter-city duels",
+      "purpose": "Affirm that the fighter represents a discipline before a state or bloodline"
+    },
+    {
+      "name": "Place vide",
+      "origin": "Tala Veyr's civic experiments",
+      "mature_form": "Empty seat or open position in important deliberative spaces",
+      "purpose": "Material reminder that opposition must remain possible"
+    }
+  ],
+  "litd1_trace_hooks": [
+    {
+      "id": "first_pact_fragment",
+      "type": "text_relic",
+      "name": "Fragment du Premier Pacte",
+      "surface": "Very old clauses limiting conquest and emergency power.",
+      "reveal": "The Concorde began as a short revisable pact rather than a finished constitution."
+    },
+    {
+      "id": "sarn_rescue_list",
+      "type": "archive",
+      "name": "Liste des sauvés de Sarn",
+      "surface": "Names from many peoples and former enemy cities written together.",
+      "reveal": "Sarn crystallized ideas and refusal networks built across years of war rather than receiving a supernatural revelation from nowhere."
+    },
+    {
+      "id": "mutiny_memorial",
+      "type": "monument",
+      "name": "Stèle des soldats sans bannière",
+      "surface": "Memorial honoring soldiers who stopped obeying orders during the Last War.",
+      "reveal": "The war ended through widespread refusal and civic action rather than one victorious army."
+    },
+    {
+      "id": "pre_concord_coin",
+      "type": "object",
+      "name": "Monnaie de cité pré-Concorde",
+      "surface": "Local coin using a non-standard weight.",
+      "reveal": "The common concept of 'or' emerged from later inter-city standardization."
+    },
+    {
+      "id": "early_three_names",
+      "type": "text",
+      "name": "Tablette des trois noms",
+      "surface": "An early post-Sarn document lists Corps, Esprit and Bien commun rather than Corps, Esprit and La Cité.",
+      "reveal": "The third Awakening's vocabulary continued to evolve after LITD2."
+    },
+    {
+      "id": "early_school_ruin",
+      "type": "ruin",
+      "name": "École des deux pratiques",
+      "surface": "A school teaches martial discipline and art but lacks a formal civic curriculum.",
+      "reveal": "The universal Three Awakenings education system took generations to become standard even after the three principles were recognized together."
+    },
+    {
+      "id": "first_tournament_rules",
+      "type": "inscription",
+      "name": "Règles du duel sans conquête",
+      "surface": "Early tournament rules forbid territorial or political claims from victory.",
+      "reveal": "Grand Tournaments evolved from deliberate attempts to separate prestige from political domination."
+    },
+    {
+      "id": "first_sanctuary_plan",
+      "type": "architectural_fragment",
+      "name": "Plan des trois espaces",
+      "surface": "A simple memorial plan with a court, gallery and seatless circle.",
+      "reveal": "Sanctuaries began after Sarn as neutral places of shared memory, not religious temples."
+    }
+  ],
+  "canon_constraints": [
+    "The Concorde is not a centralized empire.",
+    "The Three Founders are major synthesizers, not sole inventors.",
+    "The Night of Sarn is the final playable run and the crystallization of the Three Awakenings together, not their sole origin.",
+    "The playable runs are battles and operations from the final years of the Last War.",
+    "Founder affinities persist across runs and are fed by Corps, Esprit and Politique choices without becoming exclusive morality tracks.",
+    "Long Assemblies and the First Concord Pact continue after Sarn and belong to epilogue/postgame history.",
+    "The mature Concorde is not secretly decadent before the Fall.",
+    "The Fall remains caused by the external conspiracy and opening of the Gate in the Veil.",
+    "Every new LITD2 origin detail should have at least one possible trace or distortion in LITD1."
+  ]
+}
