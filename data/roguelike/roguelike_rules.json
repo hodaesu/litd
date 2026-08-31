@@ -1,10 +1,11 @@
 {
-  "version": 8,
+  "version": 9,
   "positioning": "turn_based_dark_fantasy_rpg_roguelike_dungeon_crawler",
   "inventory_capacity": 20,
   "capture_limit_per_zone": 2,
   "capture_hp_ratio": 0.25,
   "default_dungeon_id": "first_veil_crypts",
+  "dungeon_generation_policy": "handcrafted_rooms_controlled_procedural_graph",
   "combat_balance": {
     "normal_target_rounds": [2, 4],
     "elite_target_rounds": [4, 6],
@@ -182,6 +183,10 @@
     "dungeon_map_uses_fog_of_war": true,
     "secret_rooms_do_not_exist_on_player_map_before_discovery": true,
     "physical_room_state_persists_in_save": true,
+    "campaign_maps_are_authored": true,
+    "campaign_first_visits_preserve_authored_staging": true,
+    "replayable_dungeons_assemble_handcrafted_rooms": true,
+    "procedural_room_geometry_forbidden": true,
     "enemy_group_size_contract": "normal_4_elite_2_to_3_miniboss_1_to_2_boss_1",
     "normal_four_enemy_groups_use_weaker_members": true
   }
