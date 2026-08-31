@@ -4,9 +4,10 @@
     "name": "Le Pèlerin sans visage",
     "text": "Une silhouette demande qui porte réellement la lumière.",
     "choices": [
-      "Répondre avec espoir",
-      "Répondre avec folie"
-    ]
+      "Répondre par ce que vous espérez protéger",
+      "Répondre par l'image imposée par la Folie du Voile"
+    ],
+    "narrative_rule": "La seconde option décrit une exposition surnaturelle au Voile, pas une maladie mentale ni une personnalité."
   },
   {
     "id": "curio",
