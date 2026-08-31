@@ -1,7 +1,7 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "scope": "LITD2 health trauma potions fountains healing and Remanence-linked potion capacity progression",
-  "core_rule": "HP and trauma are separate systems; only potions cure trauma.",
+  "core_rule": "HP and trauma are separate systems; only Remanence-compatible potions remove active gameplay trauma states.",
   "health": {
     "represents": "general vital state",
     "death_at_zero": true,
@@ -12,14 +12,7 @@
     "persists_until_potion": true,
     "ordinary_hp_healing_cures": false,
     "can_aggravate_if_untreated": true,
-    "drivers": [
-      "body_zone",
-      "damage_type",
-      "impact_force",
-      "equilibrium_state",
-      "repeat_hits_same_zone",
-      "enemy_or_attack_properties"
-    ],
+    "drivers": ["body_zone","damage_type","impact_force","equilibrium_state","repeat_hits_same_zone","enemy_or_attack_properties"],
     "families": [
       {"id":"sprain","name":"Entorse","primary_effect":"mobility and dodge penalty"},
       {"id":"fracture","name":"Fracture","primary_effect":"strong limb-dependent penalty and aggravation risk"},
@@ -36,28 +29,28 @@
     "starting_count_per_run": "equals current persistent potion capacity",
     "capacity_persists_between_runs": true,
     "capacity_can_increase_during_campaign": true,
-    "capacity_progression_source": "major discoveries and understanding of the Remanence resurrection artifact and its precursor civilization",
+    "capacity_progression_source": "major discoveries and understanding of the Remanence reconstruction artifact, its precursor civilization and compatible compounds",
     "capacity_not_generic_currency_purchase": true,
     "not_every_lore_fragment_increases_capacity": true,
     "final_capacity_cap": "not yet locked",
     "usable_at_any_hp_percentage": true,
     "usable_at_full_hp_when_trauma_active": true,
     "restores_hp": true,
-    "cures_all_active_trauma": true,
+    "removes_all_active_gameplay_trauma_states": true,
     "exclusive_trauma_cure": true,
-    "hp_restoration": "not yet numerically locked"
+    "hp_restoration": "not yet numerically locked",
+    "mechanism": "The compound interacts with the living reconstructed body's active Remanence reference pattern and accelerates bounded local repair toward that viable biological reference state.",
+    "limits": [
+      "does not resurrect a dead subject",
+      "does not restore the abandoned corpse",
+      "does not create matter from nothing",
+      "does not constitute universal medicine for unrelated people",
+      "does not freely regenerate losses outside the defined Remanence body-system limits"
+    ]
   },
   "artifact_discovery_progression": {
     "purpose": "Tie survival progression to exploration and the central Remanence mystery.",
-    "possible_discovery_sources": [
-      "precursor_civilization_archives",
-      "inscriptions_and_schematics",
-      "artifact_components_or_related_devices",
-      "observations_of_player_reconstruction",
-      "experiments_with_researchers",
-      "traces_of_previous_users_or_replication_attempts",
-      "anomaly_and_persistent_corpse_data"
-    ],
+    "possible_discovery_sources": ["precursor_civilization_archives","inscriptions_and_schematics","artifact_components_or_related_devices","observations_of_player_reconstruction","experiments_with_researchers","traces_of_previous_users_or_replication_attempts","anomaly_and_persistent_corpse_data"],
     "major_breakthrough_effect": "may permanently increase potion capacity for future runs",
     "narrative_requirement": "Every capacity increase must reveal or clarify something meaningful about the artifact rather than act as an abstract stat upgrade."
   },
@@ -72,7 +65,7 @@
     "may_exist": true,
     "restores_hp": true,
     "cures_trauma": false,
-    "rule": "Any spell skill regeneration or ordinary heal restores HP only; it never cures persistent trauma."
+    "rule": "Any spell skill regeneration or ordinary heal restores HP only; it never removes persistent trauma."
   },
   "non_potion_stabilization": {
     "may_exist": true,
@@ -80,10 +73,10 @@
     "rule": "Splints bandages immobilization or analgesics may stabilize or reduce aggravation but cannot remove trauma."
   },
   "examples": [
-    "75% HP + sprain -> potion restores HP and cures sprain.",
+    "75% HP + sprain -> potion restores HP and removes the sprain gameplay trauma state through bounded Remanence-compatible repair.",
     "50% HP + sprain -> fountain restores HP but sprain remains.",
-    "35% HP + fracture -> healing spell restores HP but fracture remains.",
-    "100% HP + active trauma -> potion remains usable and cures trauma.",
+    "35% HP + fracture -> healing skill restores HP but fracture remains.",
+    "100% HP + active trauma -> potion remains usable and removes active trauma.",
     "Campaign begins with potion capacity 3; a major Remanence breakthrough can permanently increase future-run capacity."
   ],
   "body_system_integration": {
@@ -100,8 +93,8 @@
     "Trauma can occur while HP remains high.",
     "Persistent injury families from LITD1 carry into LITD2.",
     "Untreated trauma can worsen.",
-    "Only potions cure trauma.",
-    "Potions restore HP and cure all active trauma.",
+    "Only Remanence-compatible potions remove trauma.",
+    "Potions restore HP and remove all active gameplay trauma states within their bounded repair rules.",
     "The campaign starts with capacity for three potions per run.",
     "Potion capacity can permanently increase through major Remanence artifact discoveries.",
     "Potion capacity progression is tied to lore and understanding rather than generic currency purchases.",
@@ -109,6 +102,7 @@
     "Fountains heal HP only.",
     "Healing spells skills regeneration and ordinary HP heals do not cure trauma.",
     "A potion may be used at full HP when trauma is active.",
-    "Trauma state feeds gore body-zone and persistent-corpse systems."
+    "Trauma state feeds gore body-zone and persistent-corpse systems.",
+    "Remanence is reconstruction, never generic resurrection."
   ]
 }
