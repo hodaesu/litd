@@ -1,16 +1,18 @@
-# LITD Universe — Les trois fondateurs des Éveils
+# LITD Universe — Les trois grandes figures des Éveils
 
-## Statut
+## Statut canonique
 
-Ce document fixe le canon initial des trois grandes figures associées à la naissance des Éveils environ **1000 ans avant LITD 1**.
+Ce document fixe le canon des trois figures que la mémoire de la Concorde appellera plus tard les **Trois Fondateurs** : **Sahra Khen**, **Ilyan Sorei** et **Tala Veyr**.
 
-Ils ne sont pas les inventeurs absolus du Corps, de l'Esprit et de la Politique. Des traditions martiales, artistiques, philosophiques et civiques existaient avant eux. Leur importance vient du fait qu'ils les ont **rassemblées, reformulées et rendues transmissibles à l'échelle d'une civilisation**.
+Ils vivent environ **1000 ans avant LITD 1**, pendant les dernières années de la **Dernière Guerre** puis les **Longues Assemblées** qui suivent sa fin.
 
-Mille ans plus tard, LITD 1 aura largement simplifié cette réalité en parlant des « Trois Fondateurs » comme de trois figures presque mythiques.
+Ils ne sont pas les inventeurs absolus du Corps, de l'Esprit et de la Cité. Des milliers de personnes, de nombreuses traditions martiales, artistiques, philosophiques, médicales et civiques participent à leur naissance. Leur importance vient du fait qu'ils deviennent trois grandes voix capables de **rassembler, formuler et transmettre** trois axes complémentaires à l'échelle du continent.
+
+Mille ans plus tard, LITD 1 a largement simplifié cette réalité : statues, écoles et récits les présentent souvent comme trois êtres ayant créé seuls les Trois Éveils lors d'un unique événement. LITD 2 montre la réalité plus complexe.
 
 ---
 
-# 1. Sahra Khen — fondatrice du Corps
+# 1. Sahra Khen — grande figure du Corps
 
 ## Identité
 
@@ -20,195 +22,169 @@ Mille ans plus tard, LITD 1 aura largement simplifié cette réalité en parlant
 - **Origine :** Orsaï, cité fortifiée des hauts plateaux
 - **Origine sociale :** famille d'artisans du métal devenue famille de soldats par nécessité
 - **Âge lors de la Nuit de Sarn :** environ 36 ans
-- **Rôle initial :** combattante, instructrice, ancienne championne militaire
+- **Rôle initial :** combattante, instructrice et ancienne championne militaire
 
 ## Personnalité
 
-Sahra est austère, attentive et extrêmement concrète. Elle parle peu, supporte mal les discours qui n'ont jamais été confrontés à la peur ou à la douleur, mais refuse progressivement l'idée que la maîtrise martiale doive appartenir uniquement aux soldats.
+Sahra est austère, attentive et extrêmement concrète. Elle parle peu et supporte mal les discours qui n'ont jamais été confrontés à la peur ou à la douleur.
 
-Elle ne croit pas que la violence soit évitable par la seule bonne volonté. Elle estime au contraire que toute société doit apprendre à **contenir la violence avant qu'elle ne devienne guerre**.
+Elle ne croit pas que la violence disparaisse grâce à la seule bonne volonté. Pour elle, toute société doit apprendre à **contenir la violence avant qu'elle ne devienne domination ou guerre**.
 
-Sa contradiction fondamentale est qu'elle veut enseigner la maîtrise de soi avec des méthodes parfois brutales. Elle demande énormément à ses élèves et mettra du temps à comprendre que la discipline peut elle-même devenir une forme de domination.
+Sa contradiction fondamentale est qu'elle veut transmettre la maîtrise de soi avec des méthodes parfois brutales. Elle mettra du temps à comprendre que la discipline peut elle-même devenir une forme de domination.
 
-## Passé
+## Passé dans la Dernière Guerre
 
-Avant les Trois Éveils, Sahra a participé à plusieurs campagnes entre cités. Contrairement à la légende ultérieure, elle a tué et a été récompensée pour cela.
+Sahra a combattu pendant la Dernière Guerre. Contrairement au mythe tardif de la Main Vide, elle a tué et a reçu des honneurs militaires.
 
-Elle devient célèbre après avoir refusé d'achever un adversaire vaincu lors d'un duel servant à décider du contrôle d'une route commerciale. Le refus provoque un scandale à Orsaï mais lui fait comprendre que les duels peuvent remplacer certaines guerres uniquement si les règles empêchent le vainqueur d'humilier ou d'anéantir le vaincu.
+Elle devient connue après avoir refusé d'achever un adversaire vaincu lors d'un duel utilisé pour décider du contrôle d'une route. Cette expérience lui fait comprendre qu'un combat ne peut remplacer une guerre que si sa victoire **n'accorde aucun droit de conquête, d'humiliation ou de domination politique**.
+
+Pendant les dernières années du conflit, elle participe à plusieurs refus d'ordres visant des populations civiles. Elle n'est pas seule : de nombreux soldats commencent alors à rompre avec leurs commandements.
 
 ## Doctrine originelle
 
 Le Corps n'est pas pour Sahra une glorification de la force.
 
-Sa première formulation est :
+Sa formulation la plus connue est :
 
 > « Être capable de frapper ne prouve rien. Savoir quand s'arrêter est le commencement de la maîtrise. »
 
-Les piliers qu'elle pose sont :
+Ses contributions majeures sont :
 
 1. respiration et contrôle de l'effort ;
-2. connaissance du corps ;
+2. connaissance du corps et de ses limites ;
 3. maîtrise de la peur ;
-4. duel comme alternative à la guerre lorsque cela est possible ;
+4. désarmement et immobilisation avant mise à mort lorsque cela est possible ;
 5. responsabilité du combattant envers celui qu'il pourrait tuer ;
-6. apprentissage martial accessible aux civils, pas seulement aux armées.
+6. apprentissage martial accessible aux civils, pas seulement aux armées ;
+7. séparation entre prestige martial et pouvoir politique.
 
 ## Erreur fondatrice
 
-Au début, Sahra pense que les individus les plus disciplinés devraient naturellement exercer davantage d'autorité en temps de crise.
+Au début, Sahra pense que les personnes ayant prouvé leur discipline devraient naturellement exercer davantage d'autorité pendant une crise.
 
-Tala Veyr lui reproche immédiatement de confondre maîtrise personnelle et légitimité politique.
+Tala Veyr lui reproche de confondre maîtrise personnelle et légitimité politique.
 
-Cette dispute deviendra fondamentale dans la séparation entre **Corps** et **Politique**.
+Cette dispute contribue directement à la séparation entre **Corps** et **La Cité**.
 
-## Héritage direct
+## Héritage historique
 
-Sahra développe les premières formes codifiées de ce qui deviendra le **Souffle** et organise des rencontres martiales inter-cités où gagner n'accorde aucun droit de conquête.
+Sahra participe à la codification de plusieurs formes de respiration qui deviendront le **Souffle**. Elle aide également à transformer les anciens duels de prestige en rencontres où la victoire n'accorde aucun droit territorial.
 
-Ces rencontres deviendront plusieurs siècles plus tard les grands tournois utilisés pour régler certains conflits sans guerre ouverte.
+Ces pratiques évolueront plusieurs siècles plus tard vers les **Grands Tournois** de la Concorde.
 
 ## Mémoire dans LITD 1
 
-### La version populaire
+Sahra est souvent appelée **la Main Vide**. Les récits populaires affirment qu'elle n'aurait jamais tué personne. C'est faux : ce mythe apparaît lorsque des écoles pacifistes tardives effacent progressivement son passé militaire.
 
-Sahra Khen est souvent appelée **la Main Vide**. Les récits populaires affirment qu'elle n'aurait jamais tué personne.
+### Traces concrètes
 
-C'est faux.
-
-Cette légende est née plusieurs siècles après sa mort lorsque des écoles pacifistes ont volontairement effacé son passé militaire.
-
-### Traces concrètes dans LITD 1
-
-- **Technique : Premier Souffle de Khen** — forme respiratoire encore enseignée sous plusieurs variantes.
-- **Statues de la Main Vide** — représentations de Sahra sans arme, paume ouverte.
-- **Fragment des Carnets d'Orsaï** — document révélant son service militaire et ses morts, en contradiction avec le mythe.
-- **Proverbe courant :** « La main ouverte a déjà vaincu. » Il lui est attribué, mais aucun texte de son époque ne contient cette phrase exacte.
-- **Ruine : Cour du Premier Duel** — ancien espace rituel dont les règles interdisent au vainqueur de réclamer territoire ou prisonniers.
-
-## Déformation historique utile à LITD 1
-
-Une partie des survivants de LITD 1 peut considérer Sahra comme une sainte pacifiste. D'autres écoles martiales affirment au contraire qu'elle enseignait la domination du plus fort.
-
-Les deux versions sont incomplètes.
+- **Premier Souffle de Khen** — forme respiratoire transmise sous plusieurs variantes.
+- **Statues de la Main Vide** — Sahra sans arme, paume ouverte ; cette iconographie est tardive.
+- **Fragments des Carnets d'Orsaï** — documents révélant son service militaire et ses morts.
+- **Cour du Premier Duel** — espace ancien où une inscription interdit au vainqueur de réclamer territoire ou prisonniers.
+- **Proverbe :** « La main ouverte a déjà vaincu. » — probablement apocryphe.
 
 ---
 
-# 2. Ilyan Sorei — fondateur de l'Esprit
+# 2. Ilyan Sorei — grande figure de l'Esprit
 
 ## Identité
 
 - **Nom :** Ilyan Sorei
 - **Genre :** homme
 - **Éveil associé :** Esprit
-- **Origine :** Namaris, grande cité portuaire et universitaire
+- **Origine :** Namaris, cité portuaire et universitaire ancienne
 - **Origine sociale :** famille de copistes et de musiciens
 - **Âge lors de la Nuit de Sarn :** environ 42 ans
-- **Rôle initial :** musicien, médecin, observateur des phénomènes de perception et de Lumière
+- **Rôle initial :** musicien, médecin et chercheur de la perception
 
 ## Personnalité
 
-Ilyan est chaleureux, curieux, parfois désarmant de calme. Il refuse la séparation rigide entre art et connaissance.
+Ilyan est chaleureux, curieux et souvent calme dans les situations où les autres cherchent une certitude immédiate.
 
-Pour lui, une mélodie, une peinture, une respiration ou une expérience scientifique sont différentes manières de poser la même question : **qu'est-ce qui transforme ce que nous percevons ?**
+Il refuse la séparation rigide entre art et connaissance. Pour lui, une mélodie, une peinture, une respiration ou une expérience médicale sont différentes manières d'observer ce qui transforme notre perception du monde.
 
-Sa grande qualité est sa capacité à voir des liens que personne ne remarque.
+Sa grande qualité est sa capacité à voir des liens que personne ne remarque. Son défaut est le même : il poursuit parfois une recherche après le moment où la prudence aurait dû l'arrêter.
 
-Son grand défaut est exactement le même : il continue parfois une recherche après le moment où la prudence aurait dû l'arrêter.
+## Découverte de la Lumière
 
-## Découverte fondamentale
+Avant Ilyan, plusieurs traditions connaissent déjà des phénomènes lumineux associés à certaines pratiques de concentration, de rythme, d'émotion ou de création.
 
-Avant Ilyan, plusieurs traditions parlent déjà de phénomènes lumineux associés à la concentration, aux émotions extrêmes ou à certaines pratiques artistiques.
+Ilyan est l'un des premiers à les documenter méthodiquement et à démontrer que certains phénomènes peuvent être reproduits et enseignés.
 
-Ilyan est le premier à démontrer méthodiquement que ces phénomènes peuvent être reproduits et enseignés.
+Il ne crée pas la Lumière. Il comprend que **l'attention, le rythme, le geste et l'état intérieur peuvent entrer en résonance avec une force déjà présente dans le monde**.
 
-Il ne « crée » donc pas la Lumière. Il comprend que **l'attention, le rythme, le geste et l'état intérieur peuvent influencer une force déjà présente dans le monde**.
+À l'époque de LITD 2, ces manifestations restent rares : perception accrue, faibles émissions lumineuses, impulsions, sceaux rudimentaires, phénomènes de mémoire et de résonance.
 
-C'est le point de départ de ce qui deviendra, au fil des siècles, la magie de l'Esprit.
+Les phénomènes liés à la future Porte n'appartiennent pas à son enseignement originel.
 
 ## Doctrine originelle
 
-Sa première formulation connue est :
-
 > « L'esprit n'est pas un refuge hors du monde. Il est la manière dont le monde entre en nous — et parfois la manière dont nous lui répondons. »
 
-Ses piliers sont :
+Ses contributions majeures sont :
 
 1. pratique artistique comme discipline de perception ;
 2. observation avant interprétation ;
 3. mémoire et imagination comme forces actives ;
-4. Lumière comme phénomène à comprendre, pas comme divinité ;
-5. transmission publique du savoir autant que possible ;
-6. devoir de prudence face aux phénomènes que l'on ne comprend pas encore.
+4. transmission du savoir autant que possible ;
+5. prudence face aux phénomènes inconnus ;
+6. refus de faire de la Lumière une divinité ;
+7. lien entre sensibilité, création, connaissance et responsabilité.
 
 ## Erreur fondatrice
 
-Ilyan défend la transmission ouverte des connaissances, mais il cache lui-même un accident de recherche ayant grièvement blessé une élève.
+Ilyan défend la transmission ouverte des connaissances mais dissimule un accident de recherche ayant grièvement blessé une élève.
 
-Il justifie ce silence en affirmant qu'une panique publique détruirait des années de recherche.
+Il affirme qu'une panique publique pourrait détruire des années de travail. Lorsqu'elle l'apprend, Tala lui reproche d'exiger de la politique une transparence qu'il n'a pas appliquée à sa propre recherche.
 
-Cette contradiction le poursuivra longtemps et deviendra l'un des premiers grands débats internes de l'Esprit : **quand la connaissance dangereuse doit-elle rester secrète ?**
+Cette affaire devient l'un des premiers débats de l'Esprit sur la responsabilité de celui qui détient une connaissance dangereuse.
 
-## Relation à la future magie
+## Héritage historique
 
-À l'époque de LITD 2, les manifestations de l'Esprit sont encore rares, instables et relativement modestes par rapport aux pouvoirs connus beaucoup plus tard.
+Les écoles inspirées par Ilyan ne deviennent pas immédiatement des académies de magie. Elles mêlent arts, médecine, observation, mémoire, perception et étude des premiers phénomènes de Lumière.
 
-Lumière, perception accrue, impulsions de force, sceaux rudimentaires et phénomènes de mémoire constituent les premiers domaines observés.
-
-Les manifestations liées à la Porte n'appartiennent pas à son enseignement originel.
+La Concorde mature continuera de considérer qu'une personne pratiquant un art sans disposer d'aucun pouvoir surnaturel accomplit pleinement l'Éveil de l'Esprit.
 
 ## Mémoire dans LITD 1
 
-### La version populaire
+Ilyan est appelé **Celui qui entendit la Lumière**. Une tradition tardive raconte qu'une entité lumineuse lui aurait parlé. Les textes les plus anciens montrent au contraire son opposition à toute divinisation de la Lumière.
 
-Ilyan est souvent appelé **Celui qui entendit la Lumière**.
+### Traces concrètes
 
-Une tradition religieuse tardive affirme qu'une entité lumineuse lui aurait parlé.
-
-Les documents de son époque montrent au contraire un homme hostile à l'idée de transformer la Lumière en dieu.
-
-### Traces concrètes dans LITD 1
-
-- **Les Sept Notes de Sorei** — exercice musical devenu texte méditatif ; seules cinq notes sont encore connues avec certitude.
-- **Prisme de Namaris** — instrument optique ancien que certains habitants de LITD 1 prennent à tort pour un artefact lié à la Porte.
-- **Fresques de l'Écoute** — représentations tardives d'Ilyan entouré d'un halo ; les premières versions ne comportaient aucun halo.
-- **Fragment : Lettre à une élève blessée** — preuve de l'accident qu'il avait caché.
-- **Maxime déformée :** « La Lumière parle à qui sait écouter. » La formulation authentique était probablement une métaphore sur l'observation.
-
-## Déformation historique utile à LITD 1
-
-Après l'ouverture de la Porte, certains survivants confondent les enseignements d'Ilyan avec les phénomènes magiques provoqués par la catastrophe.
-
-Des érudits de LITD 1 peuvent donc chercher à déterminer quelles pratiques appartiennent réellement à l'Esprit ancien et lesquelles sont des contaminations beaucoup plus tardives.
+- **Les Sept Notes de Sorei** — exercice musical devenu méditation ; seules cinq notes sont encore certaines.
+- **Prisme de Namaris** — instrument optique parfois pris à tort pour un artefact de la Porte.
+- **Fresques de l'Écoute** — les halos sont des ajouts tardifs.
+- **Lettre à l'élève blessée** — preuve de l'accident qu'il avait caché.
+- **Maxime :** « La Lumière parle à qui sait écouter. » — reformulation religieuse d'une métaphore d'observation.
 
 ---
 
-# 3. Tala Veyr — fondatrice de Politique / Bien commun
+# 3. Tala Veyr — grande figure de Politique, du Bien commun et de La Cité
 
 ## Identité
 
 - **Nom :** Tala Veyr
 - **Genre :** femme
-- **Éveil associé :** Politique / Bien commun
-- **Origine :** Seyda, cité marchande gouvernée par plusieurs grandes maisons
-- **Origine sociale :** fille d'une comptable publique et d'un docker ; aucune origine aristocratique
+- **Éveil associé :** Politique / Bien commun ; plus tard nommé **La Cité**
+- **Origine :** Seyda, ancienne cité marchande gouvernée par plusieurs grandes maisons
+- **Origine sociale :** fille d'une comptable publique et d'un docker
 - **Âge lors de la Nuit de Sarn :** environ 47 ans
 - **Rôle initial :** greffière, médiatrice, négociatrice puis réformatrice civique
 
 ## Personnalité
 
-Tala est patiente jusqu'au moment précis où elle décide qu'une discussion ne mène plus nulle part.
+Tala est patiente jusqu'au moment précis où elle estime qu'une discussion ne mène plus nulle part.
 
-Elle connaît les procédures, les dettes, les habitudes des puissants et surtout la manière dont une loi apparemment neutre peut avantager toujours les mêmes personnes.
+Elle connaît les procédures, les dettes, les habitudes des puissants et la manière dont une règle apparemment neutre peut avantager toujours les mêmes personnes.
 
-Elle n'idéalise pas le peuple davantage que les dirigeants. Pour elle, le Bien commun n'est ni la volonté d'un chef ni la somme instantanée des opinions : c'est **un système où les décisions peuvent être contestées sans que le désaccord mène à la guerre**.
+Elle n'idéalise ni les dirigeants ni le peuple. Pour elle, le Bien commun est **un système où une décision peut être contestée sans que le désaccord se transforme en guerre**.
 
 ## Doctrine originelle
 
-Sa formulation la plus célèbre dans les sources anciennes est :
-
 > « Une paix qui interdit le désaccord n'est qu'une guerre qui attend son heure. »
 
-Ses piliers sont :
+Ses contributions majeures sont :
 
 1. droit de contester une décision ;
 2. médiation avant recours à la force ;
@@ -216,194 +192,185 @@ Ses piliers sont :
 4. séparation entre compétence personnelle et droit de gouverner ;
 5. règles communes applicables également aux puissants ;
 6. pouvoirs d'exception limités dans le temps ;
-7. décisions importantes conservées dans des archives accessibles.
+7. décisions importantes conservées dans des archives accessibles ;
+8. refus de punir collectivement un peuple pour les actes de ses chefs.
 
 ## Le Banc du Refus
 
-Tala introduit dans certaines assemblées une place volontairement laissée vacante : **le Banc du Refus**.
+Tala expérimente dans plusieurs assemblées une place volontairement laissée vide : **le Banc du Refus**.
 
-N'importe quel citoyen reconnu par l'assemblée peut temporairement l'occuper pour exposer publiquement l'argument contre une décision avant son adoption définitive.
+Une personne reconnue par l'assemblée peut l'occuper pour présenter formellement l'argument contre une décision avant son adoption définitive.
 
-Le Banc ne donne pas un droit de veto absolu. Sa fonction est de garantir qu'une décision importante entende formellement son opposition.
-
-Ce symbole deviendra l'une des institutions politiques les plus durables de l'ancien monde.
+Il ne s'agit pas d'un veto. Sa fonction est d'empêcher qu'une institution puisse prétendre n'avoir jamais entendu son opposition.
 
 ## Erreur fondatrice
 
-Lors d'une crise majeure, Tala accepte des pouvoirs d'urgence beaucoup plus larges que ce qu'elle avait elle-même défendu.
+Pendant une crise de l'après-guerre, Tala accepte des pouvoirs d'urgence plus larges que ceux qu'elle défend habituellement. La décision évite probablement une reprise immédiate des combats, mais crée un précédent dangereux.
 
-Elle parvient ainsi à éviter une guerre immédiate, mais crée un précédent dont des gouvernements ultérieurs se serviront pour justifier l'autoritarisme.
-
-Après la crise, elle écrit :
+Elle écrit ensuite :
 
 > « Un pouvoir d'exception n'est tolérable que s'il porte en lui sa propre fin. »
 
-Des siècles plus tard, certains régimes ne conserveront que la première moitié de cette phrase :
+Des siècles plus tard, des groupes autoritaires ne conserveront volontairement que :
 
 > « Un pouvoir d'exception est tolérable. »
 
-Cette mutilation volontaire du texte devient l'une des racines idéologiques de ce qui sera associé à la **Tyrannie**.
+Cette mutilation devient l'une des justifications historiques de la **Tyrannie**. Tyrannie n'est donc jamais l'idéal originel du troisième Éveil.
 
-## Politique et combat dans LITD 2
+## Évolution du nom du troisième Éveil
 
-Les techniques de Politique utilisées en combat ne signifient pas que Tala possédait littéralement tous les pouvoirs modernes du build.
+Pendant LITD 2, plusieurs termes coexistent :
 
-À son époque, Autorité, Condamnation, Commandements et Sentences apparaissent comme la traduction surnaturelle naissante d'une idée centrale : **nommer une règle, désigner celui qui la transgresse et rendre la conséquence réelle**.
+- Politique ;
+- Bien commun ;
+- Vie commune ;
+- parfois simplement les assemblées ou la pratique civique.
 
-Les générations suivantes transformeront ces principes en techniques beaucoup plus puissantes.
+Le terme **La Cité** s'impose progressivement au fil des générations. Il ne désigne pas seulement une ville : il signifie la capacité de vivre avec autrui, de participer aux décisions et de limiter ceux qui exercent le pouvoir.
+
+Le gameplay de LITD 2 peut conserver le nom **Politique** pour le build, tandis que les textes historiques montrent cette évolution du vocabulaire.
 
 ## Mémoire dans LITD 1
 
-### La version officielle tardive
+Tala devient **la Première Législatrice**, souvent présentée comme l'autrice d'un code unique imposé à toutes les cités. C'est faux : elle se méfiait précisément d'une loi uniforme incapable de s'adapter aux communautés locales.
 
-Tala devient souvent **la Première Législatrice**, représentée comme la femme qui aurait donné un code unique à toutes les cités.
+### Traces concrètes
 
-C'est faux : elle se méfiait précisément d'une loi unique imposée partout sans adaptation locale.
-
-### Traces concrètes dans LITD 1
-
-- **Ruines du Banc du Refus** — siège vide encore identifiable dans certains anciens conseils.
-- **Fragments de la Clause de Veyr** — textes affirmant que tout pouvoir d'exception doit définir les conditions de sa propre disparition.
-- **Ordre de la Main de Veyr** — mouvement autoritaire tardif utilisant son nom tout en supprimant la partie de sa doctrine consacrée au droit de contestation.
-- **Tablette brisée du Conseil de Seyda** — permet de reconstituer la citation complète sur le pouvoir d'exception.
-- **Proverbe populaire :** « Même Veyr laissait une chaise à son ennemi. » Référence simplifiée au Banc du Refus.
-
-## Déformation historique utile à LITD 1
-
-Dans LITD 1, Tala peut simultanément être invoquée par des démocrates, des magistrats, des chefs autoritaires et des révolutionnaires.
-
-Chacun affirme défendre son héritage.
-
-Le joueur peut progressivement découvrir qu'aucun de ces groupes ne possède à lui seul la version complète de sa pensée.
+- **Bancs du Refus** — sièges vides encore visibles dans certaines ruines civiques.
+- **Clause de Veyr** — texte sur l'expiration obligatoire des pouvoirs d'urgence.
+- **Ordre de la Main de Veyr** — mouvement autoritaire utilisant son nom contre une partie de sa doctrine.
+- **Tablette brisée du Conseil de Seyda** — permet de reconstituer sa citation complète.
+- **Proverbe :** « Même Veyr laissait une chaise à son ennemi. » — simplification populaire du Banc du Refus.
 
 ---
 
-# 4. L'événement fondateur — La Nuit de Sarn
+# 4. La Nuit de Sarn — catalyseur, pas naissance unique des Éveils
 
 ## Contexte
 
-Environ mille ans avant LITD 1, plusieurs cités sont engagées dans une succession de guerres commerciales, de duels aristocratiques et de représailles.
+La Nuit de Sarn se déroule dans les **dernières années de la Dernière Guerre**, après plusieurs décennies de conflit continental.
 
-La cité neutre de **Sarn** organise une rencontre destinée à éviter une nouvelle guerre.
+Sarn accueille une tentative de trêve locale, d'échange de prisonniers et d'organisation de secours. Des civils, communautés déplacées, représentants politiques, soigneurs et militaires de plusieurs camps y sont réunis.
 
-Sahra Khen y accompagne une délégation comme garante martiale.
+Des responsables qui ont intérêt à prolonger le conflit sabotent la rencontre. Des violences éclatent, plusieurs quartiers brûlent et des unités reçoivent des ordres visant indistinctement combattants et civils.
 
-Ilyan Sorei y présente des travaux sur la Lumière et participe à un échange entre écoles.
+## Les trois trajectoires
 
-Tala Veyr fait partie de l'équipe chargée de rédiger un accord entre les cités.
+Sahra, Ilyan et Tala interviennent sans constituer encore un trio organisé.
 
-## La nuit
+- **Sahra** met en place des corridors de protection et convainc plusieurs soldats de refuser des ordres de massacre.
+- **Ilyan** transforme des écoles en dispensaires, aide à guider des civils à travers les incendies et observe comment peur, rythme et perception affectent les premières manifestations de Lumière.
+- **Tala** négocie des cessez-le-feu de rue, conserve les noms des disparus et oblige plusieurs groupes qui ne reconnaissent plus la même autorité à partager des informations vitales.
 
-Un assassinat politique pendant les négociations provoque une panique générale.
-
-Les délégations s'accusent mutuellement. Des gardes ferment les portes. Des combats éclatent dans plusieurs quartiers. Un incendie menace les archives et les logements proches du lieu de réunion.
-
-Les trois personnages interviennent séparément avant même de réellement se connaître :
-
-- Sahra refuse l'ordre de protéger uniquement les dignitaires et organise des civils pour contenir les combattants ;
-- Ilyan utilise ses connaissances naissantes de Lumière et de perception pour guider des personnes à travers la fumée et retrouver des disparus ;
-- Tala force les représentants rivaux à partager temporairement informations, ressources et commandement afin d'éviter que leurs propres milices ne détruisent la ville.
-
-La crise ne se termine pas par une victoire. Elle se termine parce que suffisamment de gens refusent de continuer à obéir aux mécanismes qui rendaient la guerre automatique.
+La crise se termine parce que suffisamment de personnes **cessent d'obéir à la logique de guerre**, et non grâce à la victoire d'un camp.
 
 ## Conséquence
 
-Après Sarn, les trois figures restent en désaccord sur presque tout mais partagent une conviction :
+Sarn devient un symbole du mouvement de rupture de l'obéissance qui traverse alors le continent.
 
-**aucune discipline seule ne suffit à empêcher une civilisation de se détruire.**
+Mais la Dernière Guerre ne s'arrête pas cette nuit-là.
 
-- un corps puissant sans esprit peut devenir une arme ;
-- un esprit brillant sans responsabilité peut devenir dangereux ;
-- une politique sans maîtrise personnelle ni culture peut devenir pure administration ou tyrannie.
+D'autres mutineries, refus civiques, ouvertures de villes, solidarités entre anciens ennemis et renversements de dirigeants sont nécessaires avant que le conflit cesse réellement.
 
-Ils commencent alors une série de voyages, débats, tournois, expériences et assemblées qui formeront le cœur narratif de LITD 2.
+Dans LITD 1, un récit populaire tardif prétendra que les Trois Éveils furent révélés pendant la Nuit de Sarn. Cette version condense des années de transformations en une légende simple.
 
 ---
 
-# 5. La première formulation des Trois Éveils
+# 5. Les Longues Assemblées et la formulation progressive des Trois Éveils
 
-Le terme « Trois Éveils » n'est pas inventé immédiatement.
+Après la fin de la Dernière Guerre, le continent ne possède ni vainqueur légitime ni modèle politique évident.
 
-Au départ, on parle plutôt des **Trois Disciplines de Sarn** ou des **Trois Voies**.
+Pendant plusieurs années, puis plusieurs décennies, des assemblées tournantes réunissent artisans, paysans, travailleurs, anciens soldats, artistes, juristes, guérisseurs, enseignants, marchands, religieux et représentants de nombreuses communautés.
 
-La formulation qui finira par s'imposer est :
+Sahra, Ilyan et Tala y deviennent trois voix très influentes, mais **ils ne parlent jamais seuls au nom du continent**.
 
-- **Corps : se gouverner soi-même.**
-- **Esprit : comprendre ce qui nous traverse et ce que nous transformons.**
-- **Politique : apprendre à décider ensemble sans transformer le désaccord en guerre.**
+Les débats font progressivement émerger trois questions :
 
-Le mot **Éveil** apparaît plus tard lorsque les trois disciplines commencent à être comprises comme différentes facettes d'un même développement humain et collectif.
+### Corps
+
+Comment apprendre la force, la peur et la maîtrise sans reconstruire une caste guerrière ?
+
+### Esprit
+
+Comment développer la sensibilité, l'imagination et la connaissance sans que le savoir devienne un nouvel instrument de domination ?
+
+### Politique / Bien commun / La Cité
+
+Comment permettre à des personnes différentes de décider ensemble sans transformer le désaccord en déshumanisation ?
+
+Les termes changent selon les régions. Le nom **Trois Éveils** apparaît seulement lorsque plusieurs générations commencent à comprendre ces axes comme trois dimensions d'un même apprentissage humain et collectif.
+
+La formule institutionnelle mature devient :
+
+- **Corps :** connaître et gouverner sa propre force.
+- **Esprit :** cultiver perception, création, connaissance et sensibilité.
+- **La Cité :** comprendre autrui, participer au commun et limiter le pouvoir.
 
 ---
 
-# 6. Relations entre les trois fondateurs
+# 6. Relations entre Sahra, Ilyan et Tala
 
-## Sahra Khen ↔ Tala Veyr
+## Sahra ↔ Tala
 
-Relation la plus conflictuelle.
+C'est la relation la plus conflictuelle. Leur désaccord sur le rapport entre discipline et légitimité politique contribue à empêcher le Corps de devenir une justification du pouvoir du plus fort.
 
-Sahra pense parfois qu'une personne ayant prouvé sa discipline devrait pouvoir prendre le commandement en situation critique.
+## Sahra ↔ Ilyan
 
-Tala considère cette idée extrêmement dangereuse.
+Sahra juge certaines expériences d'Ilyan imprudentes ; Ilyan pense que Sahra veut parfois contrôler avant de comprendre. Ils développent néanmoins des exercices communs de respiration, attention et mouvement, ancêtres de certaines synergies Corps × Esprit.
 
-Elles se respectent néanmoins parce qu'aucune ne cède facilement à la flatterie ou à la peur.
+## Ilyan ↔ Tala
 
-Leur dispute contribue directement à distinguer maîtrise martiale et légitimité politique.
-
-## Sahra Khen ↔ Ilyan Sorei
-
-Sahra se méfie d'abord des expériences d'Ilyan qu'elle juge impossibles à contrôler.
-
-Ilyan considère que Sahra cherche parfois à contrôler ce qu'elle devrait d'abord observer.
-
-Ils finissent par développer ensemble des exercices combinant respiration, attention et mouvement, ancêtres de certaines synergies Corps × Esprit.
-
-## Ilyan Sorei ↔ Tala Veyr
-
-Ils partagent l'idée que connaissance et décisions publiques doivent pouvoir être examinées.
-
-Leur rupture la plus importante survient lorsque Tala apprend qu'Ilyan a caché l'accident de son élève.
-
-Elle lui reproche d'avoir exigé de la politique une transparence qu'il n'avait pas appliquée à sa propre recherche.
-
-Cette dispute devient un événement fondateur de l'éthique de l'Esprit.
+Ils partagent l'idée que connaissance et décision doivent pouvoir être examinées. Leur plus grande rupture vient de l'accident caché d'Ilyan. Cette dispute devient un jalon de l'éthique de la recherche de l'Esprit.
 
 ## Le trio
 
-Ils ne forment jamais une famille harmonieuse ni un cercle d'amis inséparables.
+Ils ne sont ni trois saints ni une famille parfaitement harmonieuse. Ils coopèrent parce que leurs désaccords empêchent chacun de transformer sa discipline en doctrine absolue.
 
-Ils travaillent ensemble parce qu'ils découvrent que leurs désaccords sont précisément ce qui empêche chacun de transformer son Éveil en doctrine absolue.
-
-Cette réalité sera presque complètement effacée dans l'iconographie tardive qui les représentera côte à côte dans une harmonie parfaite.
+La civilisation ne naît pourtant pas uniquement de leurs débats : les Longues Assemblées demeurent le véritable espace collectif de fondation.
 
 ---
 
-# 7. Iconographie des trois fondateurs dans LITD 1
+# 7. Du souvenir historique au mythe des « Trois Fondateurs »
 
-Mille ans plus tard, une représentation standard s'est imposée :
+Au fil des siècles, une iconographie standard simplifie leur histoire :
 
-- Sahra : paume ouverte ;
-- Ilyan : main près de l'oreille ou tenant un prisme ;
-- Tala : main posée sur un siège vide.
+- **Sahra :** paume ouverte ;
+- **Ilyan :** prisme ou main près de l'oreille ;
+- **Tala :** main posée sur un siège vide.
 
-Dans les sanctuaires tardifs, ces trois symboles sont souvent combinés.
+Les images tardives les montrent côte à côte, comme s'ils avaient formulé les Trois Éveils ensemble en une seule journée.
 
-LITD 1 pourra cependant montrer des fresques beaucoup plus anciennes où ils ne possèdent pas encore ces attributs, prouvant que l'iconographie a été construite après leur mort.
+LITD 1 doit permettre au joueur de découvrir des sources plus anciennes montrant :
+
+- d'autres noms oubliés ;
+- des versions différentes des principes ;
+- des débats sans consensus ;
+- une Nuit de Sarn liée à la fin de la guerre plutôt qu'à une révélation mystique ;
+- l'évolution progressive du terme Politique/Bien commun vers La Cité.
+
+Le mythe des Trois Fondateurs n'est donc pas entièrement faux : Sahra, Ilyan et Tala ont réellement eu une influence exceptionnelle. Il est faux lorsqu'il efface les milliers d'autres personnes ayant construit la Concorde.
 
 ---
 
-# 8. Règle de continuité pour toutes les futures créations
+# 8. Règle de continuité pour les futures créations
 
-Toute nouvelle création canon concernant Sahra Khen, Ilyan Sorei ou Tala Veyr doit préciser au moins une trace dans LITD 1.
+Toute nouvelle création canon concernant Sahra Khen, Ilyan Sorei ou Tala Veyr doit préciser :
 
-Les éléments à suivre systématiquement sont :
+1. l'événement réel dans LITD 2 ;
+2. sa place dans la Dernière Guerre, les Longues Assemblées ou la première Concorde ;
+3. sa conséquence immédiate ;
+4. sa transformation institutionnelle au fil des siècles ;
+5. sa trace matérielle ou culturelle dans LITD 1 ;
+6. sa version populaire mille ans plus tard ;
+7. sa déformation politique, religieuse ou philosophique éventuelle ;
+8. la preuve permettant au joueur de rapprocher mythe et vérité.
 
-1. événement réel dans LITD 2 ;
-2. conséquence immédiate ;
-3. transformation institutionnelle au fil des siècles ;
-4. trace matérielle ou culturelle dans LITD 1 ;
-5. version populaire dans LITD 1 ;
-6. éventuelle déformation politique, religieuse ou philosophique ;
-7. preuve permettant au joueur de rapprocher mythe et vérité.
+Aucun changement futur sur les fondateurs ne doit contredire silencieusement `HISTOIRE_TROIS_EVEILS.md`, `LORE_BIBLE.md` ou `LITD2_NAISSANCE_DE_LA_CONCORDE.md`.
 
-Aucun changement futur sur un fondateur ne doit être introduit dans un jeu sans vérification de sa cohérence avec l'autre.
+## Principe final
+
+Les Trois Éveils ne sont pas le cadeau de trois héros à un peuple passif.
+
+Ils sont la forme durable qu'une civilisation donne à une expérience collective : **des générations de personnes différentes ont décidé que la peur et le désaccord ne justifieraient plus l'extermination de l'autre.**
+
+> **Nous ne nous sommes pas éveillés grâce à la guerre. Nous nous sommes éveillés parce que nous avons enfin décidé qu'elle devait cesser.**
