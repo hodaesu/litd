@@ -1,48 +1,51 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
+  "chronology_source": "docs/civilisations/README.md",
   "civilizations": [
     {
       "id": "ashai_nhal",
       "name": "Ashaï de Nhal",
-      "period": "env. -4300 à -3200",
+      "period": "env. -4450 à -3520",
+      "major_event_date": "env. -3700",
       "language": "Nhalique",
       "arts": ["chants polyphoniques", "pierres résonantes", "fresques minérales", "cartographie du ciel et des rêves"],
-      "veil_model": "plusieurs accords superposés du réel",
-      "mistake": "provoquer des états collectifs de conscience pour observer le Voile",
+      "veil_model": "plusieurs consciences peuvent contribuer à stabiliser un monde commun sans que l'accord parfait soit souhaitable",
+      "mistake": "provoquer des états collectifs de conscience pour observer le phénomène jusqu'à confondre concordance et vérité",
       "major_event": "Première Rupture",
       "fate": "dispersion culturelle après l'abandon de la capitale"
     },
     {
       "id": "or_silex",
       "name": "Royaumes d'Or-Silex",
-      "period": "env. -2900 à -2300",
+      "period": "env. -3260 à -2470",
       "language": "Silexien",
       "arts": ["métallurgie noire", "hydraulique souterraine", "tablettes de pierre assemblées", "architecture fortifiée"],
-      "veil_model": "outil capable d'altérer distance, perception et matière",
-      "mistake": "militariser un phénomène incompris",
+      "veil_model": "les divergences perceptives peuvent être amplifiées jusqu'à produire des conséquences matérielles locales",
+      "mistake": "militariser un phénomène incompris et traiter des modèles probabilistes comme des doctrines tactiques sûres",
       "major_event": "catastrophe d'Or-Silex",
-      "fate": "effondrement politique pendant la Grande Fermeture"
+      "fate": "effondrement politique avant et pendant la période qui conduit à la Grande Fermeture"
     },
     {
       "id": "watchers_saan",
       "name": "Veilleurs de Saan",
-      "period": "env. -2400 à -1900",
+      "period": "env. -2910 à -1980",
+      "major_event_date": "env. -2290",
       "language": "traditions plurilingues avec signes de Saan",
       "arts": ["ancrages de réalité", "architecture de confinement", "archives fragmentées", "itinéraires codés"],
-      "veil_model": "phénomène réactif aux consciences et aux émotions",
-      "mistake": "aucune maîtrise totale; leur choix tragique fut de sacrifier lieux et mémoire pour contenir le phénomène",
+      "veil_model": "des frontières de compatibilité entre états peuvent être stabilisées sans transformer le Voile en lieu spatial ordinaire",
+      "mistake": "croire qu'une fermeture suffisamment complète pouvait protéger le monde commun sans exclure durablement certaines consciences et mémoires",
       "major_event": "Grande Fermeture de Saan",
-      "fate": "réseau dissous après la destruction volontaire de ses propres relais"
+      "fate": "réseau dissous après la destruction volontaire de plusieurs relais et la perte de nombreuses communautés"
     }
   ],
   "ancient_sites": [
-    {"id":"city_under_ash","name":"Cité sous la Cendre","origin":"ashai_nhal","anomaly":"chronologie architecturale incohérente"},
-    {"id":"seven_silences","name":"Observatoire des Sept Silences","origin":"ashai_nhal","anomaly":"constellations absentes du ciel actuel"},
-    {"id":"inverted_library","name":"Bibliothèque Renversée","origin":"or_silex","anomaly":"fenêtres donnant sur un horizon inconnu"},
-    {"id":"black_glass_crypts","name":"Cryptes de Verre Noir","origin":"or_silex","anomaly":"sarcophages protégeant les souvenirs des morts"},
-    {"id":"saan_well","name":"Puits de Saan","origin":"watchers_saan","anomaly":"gravité non fiable dans les niveaux inférieurs"},
-    {"id":"seasonless_garden","name":"Jardin Sans Saison","origin":"watchers_saan","anomaly":"plantes de périodes incompatibles vivant ensemble"},
-    {"id":"silent_gates","name":"Salle des Portes Muettes","origin":"watchers_saan","anomaly":"arches marquées de destinations inconnues"}
+    {"id":"city_under_ash","name":"Cité sous la Cendre","origin":"ashai_nhal","anomaly":"des couches architecturales observées semblent incompatibles avec la chronologie attendue; la cause reste à établir"},
+    {"id":"seven_silences","name":"Observatoire des Sept Silences","origin":"ashai_nhal","anomaly":"certaines cartes représentent des constellations absentes du ciel actuel; plusieurs explications restent possibles"},
+    {"id":"inverted_library","name":"Bibliothèque Renversée","origin":"or_silex","anomaly":"certaines ouvertures donnent sur un horizon qui ne correspond pas à la géographie mesurée; observation, pas preuve d'un autre monde"},
+    {"id":"black_glass_crypts","name":"Cryptes de Verre Noir","origin":"or_silex","anomaly":"des sarcophages conservent des traces mémorielles partielles; elles ne sont pas assimilées à des consciences intactes"},
+    {"id":"saan_well","name":"Puits de Saan","origin":"watchers_saan","anomaly":"orientation et poids apparent deviennent localement incohérents dans les niveaux inférieurs"},
+    {"id":"seasonless_garden","name":"Jardin Sans Saison","origin":"watchers_saan","anomaly":"des plantes associées à des conditions saisonnières incompatibles persistent dans une même zone stabilisée"},
+    {"id":"silent_gates","name":"Salle des Portes Muettes","origin":"watchers_saan","anomaly":"des arches portent des noms de destinations inconnues; elles ne sont pas présumées fonctionnelles ni spatiales sans preuve"}
   ],
   "relics": [
     {"id":"anchor_lantern","name":"Lanterne d'Ancrage","true_origin":"watchers_saan"},
@@ -55,14 +58,14 @@
   "ancient_entities": {
     "absents": {
       "name": "Absents",
-      "description": "populations déplacées hors de la réalité partagée durant la Grande Fermeture",
-      "status": "possible_survival",
+      "description": "terme appliqué aux traces et possibles continuités de populations exclues de la réalité commune durant la Grande Fermeture",
+      "status": "possible_survival_not_proven_identity",
       "player_truth_tier": "late"
     }
   },
   "first_veil_tree": {
     "name": "Arbre du Premier Voile",
-    "truth": "pousse sur un ancien nœud de stabilisation de Saan et contribue à maintenir une réalité commune autour du Sanctuaire",
+    "truth": "pousse sur un ancien nœud de stabilisation de Saan et contribue à maintenir une référence commune autour du Sanctuaire",
     "not_true": ["le Voile a créé l'arbre", "l'arbre contrôle le Voile", "les fondateurs de la Concorde connaissaient toute sa fonction"]
   }
 }
