@@ -47,27 +47,47 @@ Chaque run possède donc un sens historique même lorsque son agencement, ses sa
 
 La génération procédurale ne réécrit jamais les grands faits du lore. Elle varie les chemins, combats, rencontres secondaires, ressources et complications à l'intérieur d'un événement historique défini.
 
-## 3. La guerre avance entre les runs
+## 3. Mort, recommencement et progression historique
 
-LITD 2 n'utilise pas une structure où le monde retourne exactement au même point après une défaite.
+Une mort termine immédiatement la tentative en cours.
 
-Entre les runs, la guerre évolue :
+Le joueur **ne repart jamais d'un checkpoint**. La tentative suivante recommence depuis le **début complet de la run**, au même point de départ historique que la tentative précédente.
 
-- certains fronts tombent ;
-- des populations se déplacent ;
-- des routes ferment ou rouvrent ;
-- des armées se divisent ;
-- des refus d'obéir apparaissent ;
-- les trois fondateurs changent d'idées ;
-- des termes comme Corps, Esprit, Bien commun ou Vie commune commencent à circuler ;
-- des personnages sauvés dans une run peuvent réapparaître plus tard ;
-- les conséquences des batailles précédentes modifient les événements disponibles.
+La mort ne fait jamais avancer la guerre. Elle ne peut pas valider une bataille, faire tomber une ville, supprimer une quête secondaire importante, faire mourir un personnage narratif hors écran ni faire passer le jeu à la période historique suivante.
 
-Une run ratée signifie qu'une opération a échoué, qu'une position a été perdue ou qu'une occasion historique n'a pas été saisie. Elle ne signifie pas nécessairement que la chronologie entière est annulée.
+Les jalons historiques avancent uniquement après réussite ou après un choix explicite de progression prévu par le jeu.
 
-La représentation exacte de la mort du personnage jouable devra rester compatible avec cette chronologie : une défaite de gameplay ne doit pas créer un paradoxe obligeant la guerre à recommencer.
+Ainsi :
 
-## 4. Les trois fondateurs sont des rencontres récurrentes, pas des compagnons
+**départ de run → progression → mort → corps persistant → reconstruction / retour → nouvelle tentative depuis le début de la run.**
+
+Les conséquences permanentes viennent des décisions volontaires du joueur, pas de l'échec mécanique.
+
+## 4. Corps persistants
+
+Chaque mort laisse un **cadavre physique du protagoniste** dans le monde.
+
+La reconstruction du joueur ne fait pas disparaître ce corps.
+
+Lors d'une tentative suivante, le cadavre peut être retrouvé. Il conserve au minimum un ancrage logique à la zone ou au nœud historique où la mort a eu lieu, de manière à rester compatible avec la recomposition procédurale de la run.
+
+Le cadavre peut mémoriser ou porter :
+
+- l'équipement de la tentative ;
+- l'arme utilisée ;
+- la cause de mort ;
+- l'état physique du corps ;
+- un instantané des Éveils choisis ;
+- certains états comme Lumière ou Folie ;
+- la période historique concernée.
+
+Il peut être intact, partiellement dépouillé, déplacé localement, recouvert, enterré sommairement, exposé par un ennemi ou contaminé par un phénomène surnaturel.
+
+Une nouvelle tentative reconstruit son propre build de Corps / Esprit / Politique : retrouver un ancien corps ne restaure pas automatiquement le build précédent.
+
+Le système détaillé est fixé dans `docs/LITD2_MORT_REMANENCE_ET_CORPS_PERSISTANTS.md` et `data/litd2_death_loop.json`.
+
+## 5. Les trois fondateurs sont des rencontres récurrentes, pas des compagnons
 
 LITD 2 reste un jeu **solo**.
 
@@ -87,7 +107,7 @@ Ils peuvent exceptionnellement être visibles dans une bataille scénarisée, ma
 
 Leur fonction principale est de devenir des **personnes avec lesquelles le joueur construit une relation intellectuelle, morale et pratique**.
 
-## 5. Le système d'affinité des Trois
+## 6. Le système d'affinité des Trois
 
 LITD 2 possède trois affinités persistantes :
 
@@ -103,7 +123,7 @@ Elle représente la quantité d'expériences partagées, la confiance, la compr�
 
 Un haut niveau d'affinité ne signifie pas que le joueur est toujours d'accord avec le fondateur. Certaines des relations les plus fortes peuvent contenir des désaccords profonds.
 
-## 6. Les choix de build nourrissent l'affinité
+## 7. Les choix de build nourrissent l'affinité
 
 Chaque fois que le joueur choisit un Éveil pendant une run, ce choix contribue aussi à sa relation avec le fondateur correspondant.
 
@@ -144,7 +164,7 @@ Les actes pendant les runs comptent également.
 
 Ainsi, un joueur ne « monte » pas Sahra simplement parce qu'il prend toujours des dégâts Corps. Il construit une relation en montrant ce qu'il fait de cette puissance.
 
-## 7. L'affinité ne doit pas enfermer le build
+## 8. L'affinité ne doit pas enfermer le build
 
 Le système est conçu pour encourager l'expérimentation et non pour enfermer le joueur dans une seule voie.
 
@@ -166,7 +186,7 @@ Le joueur peut donc raconter des trajectoires différentes :
 - rester longtemps équilibré entre les trois ;
 - maximiser progressivement les trois sur une longue partie.
 
-## 8. Récompenses d'affinité : horizontales, jamais de grind obligatoire
+## 9. Récompenses d'affinité : horizontales, jamais de grind obligatoire
 
 L'affinité ne doit pas donner principalement des bonus permanents de dégâts ou de vie.
 
@@ -188,7 +208,7 @@ Elle débloque surtout :
 
 La récompense la plus importante est narrative : le joueur comprend de l'intérieur **comment une personne réelle devient un fondateur mythique mille ans plus tard**.
 
-## 9. Les affinités croisées
+## 10. Les affinités croisées
 
 Les combinaisons de voies créent des relations triangulaires.
 
@@ -216,7 +236,7 @@ Lorsque les trois relations sont suffisamment développées, des **scènes de Co
 
 Elles ne donnent pas encore un « Troisième Éveil » de gameplay définitif : elles montrent les trois protagonistes commencer à comprendre qu'aucune de leurs voies ne suffit seule.
 
-## 10. Les fondateurs changent grâce aux rencontres
+## 11. Les fondateurs changent grâce aux rencontres
 
 Le joueur ne doit pas avoir l'impression de remplir trois jauges chez des personnages immobiles.
 
@@ -230,7 +250,7 @@ Tala commence comme médiatrice et praticienne des institutions davantage que co
 
 Les grands résultats historiques restent canoniques, mais le joueur peut voir des facettes différentes de leur transformation selon ses affinités.
 
-## 11. Progression globale des runs
+## 12. Progression globale des runs
 
 Le jeu est structuré en **périodes de guerre** plutôt qu'en actes linéaires classiques.
 
@@ -270,7 +290,7 @@ Les dernières runs déterminent quels témoins, communautés, archives et rése
 
 La dernière run est la Nuit de Sarn.
 
-## 12. La Nuit de Sarn — dernière run
+## 13. La Nuit de Sarn — dernière run
 
 Sarn réunit des personnes venues d'anciens camps ennemis : soldats en rupture, civils, artistes, guérisseurs, juristes, représentants de cités et réseaux de secours.
 
@@ -287,8 +307,8 @@ Cette run doit synthétiser tout ce que le joueur a appris :
 - Corps / Esprit / Politique ;
 - choix de routes ;
 - lecture des attaques ;
-- conséquences de précédentes runs ;
-- personnages sauvés ou perdus ;
+- conséquences de précédentes runs réussies ;
+- personnages sauvés ou influencés ;
 - affinités avec les trois fondateurs.
 
 Le joueur ne « gagne » pas Sarn en tuant le plus grand nombre d'ennemis.
@@ -297,7 +317,9 @@ Le véritable objectif est d'empêcher le massacre qui permettrait aux pouvoirs 
 
 La victoire militaire et la victoire historique ne sont donc pas exactement la même chose.
 
-## 13. Les affinités transforment la finale sans changer le canon
+Une mort à Sarn termine la tentative et fait recommencer **toute la run de Sarn depuis son début**. Elle ne déclenche pas la suite historique tant que Sarn n'a pas été réellement réussie.
+
+## 14. Les affinités transforment la finale sans changer le canon
 
 La Nuit de Sarn possède un résultat historique commun : les trois axes convergent et la guerre entre dans sa rupture définitive.
 
@@ -331,7 +353,7 @@ Le joueur accède à la version la plus complète de la **Convergence de Sarn** 
 
 Cette scène ne doit pas être obligatoire pour terminer le jeu afin d'éviter qu'un joueur spécialisé soit puni. Elle constitue une révélation supplémentaire et un aboutissement de progression longue.
 
-## 14. Les Trois Éveils à la fin du jeu
+## 15. Les Trois Éveils à la fin du jeu
 
 À l'aube suivant la Nuit de Sarn, les Trois Éveils existent enfin comme **une idée commune clairement formulée**.
 
@@ -347,7 +369,7 @@ Au cours des siècles suivants, le troisième terme se stabilisera davantage sou
 
 Ainsi, LITD 2 se termine exactement au moment où le joueur peut reconnaître la civilisation que LITD 1 décrira mille ans plus tard, sans prétendre que ses institutions matures sont déjà toutes construites.
 
-## 15. Après Sarn
+## 16. Après Sarn
 
 Les **Longues Assemblées** ont lieu après la fin jouable et peuvent apparaître dans l'épilogue, les textes de fin et les contenus postgame.
 
@@ -367,7 +389,7 @@ La chronologie canonique devient donc :
 
 **Dernière Guerre → runs de batailles et de refus → rencontres avec Sahra / Ilyan / Tala → émergence progressive des trois voies → Nuit de Sarn → convergence explicite des Trois Éveils → Longues Assemblées → Premier Pacte → Concorde → près de mille ans de paix → Chute de LITD 1.**
 
-## 16. Le rôle du joueur dans l'Histoire
+## 17. Le rôle du joueur dans l'Histoire
 
 Le joueur ne doit pas remplacer les fondateurs.
 
@@ -388,26 +410,30 @@ Selon ses runs, il peut avoir :
 
 Mille ans plus tard, LITD 1 peut retrouver des traces de certaines de ces personnes et événements, mais la mémoire collective simplifie naturellement l'histoire autour des trois grandes figures.
 
-## 17. Règles de continuité
+## 18. Règles de continuité
 
 1. La Nuit de Sarn est la **finale jouable** de LITD 2.
 2. Les runs précédentes représentent différentes batailles et opérations de la Dernière Guerre.
-3. Les Trois Éveils se forment progressivement pendant le jeu et se cristallisent ensemble à Sarn.
-4. Sarn n'est pas leur origine unique : traditions antérieures, expériences de guerre, populations et nombreux penseurs restent indispensables.
-5. Les Longues Assemblées se poursuivent après Sarn et transforment les trois voies en système politique et éducatif durable.
-6. Le Premier Pacte de Concorde appartient à l'épilogue historique ou au postgame, pas à la fin jouable principale.
-7. Sahra, Ilyan et Tala sont des personnages récurrents, jamais des compagnons permanents.
-8. Les choix Corps / Esprit / Politique alimentent à la fois le build temporaire de la run et les affinités persistantes avec les trois fondateurs.
-9. Les affinités sont cumulables et ne doivent jamais verrouiller définitivement une voie.
-10. Les récompenses d'affinité restent principalement horizontales et narratives.
-11. Le joueur influence la relation et le chemin vers la convergence, mais il ne peut supprimer l'un des Trois Éveils du canon.
-12. Toute nouvelle scène majeure de LITD 2 doit pouvoir laisser une trace, une déformation ou une absence significative dans LITD 1.
+3. Une mort fait recommencer **toute la run**, jamais depuis un checkpoint.
+4. Une mort ne fait jamais avancer la chronologie historique.
+5. Une mort ne fait pas perdre les quêtes secondaires importantes.
+6. Chaque mort laisse un corps persistant dans le monde.
+7. Les Trois Éveils se forment progressivement pendant le jeu et se cristallisent ensemble à Sarn.
+8. Sarn n'est pas leur origine unique : traditions antérieures, expériences de guerre, populations et nombreux penseurs restent indispensables.
+9. Les Longues Assemblées se poursuivent après Sarn et transforment les trois voies en système politique et éducatif durable.
+10. Le Premier Pacte de Concorde appartient à l'épilogue historique ou au postgame, pas à la fin jouable principale.
+11. Sahra, Ilyan et Tala sont des personnages récurrents, jamais des compagnons permanents.
+12. Les choix Corps / Esprit / Politique alimentent à la fois le build temporaire de la run et les affinités persistantes avec les trois fondateurs.
+13. Les affinités sont cumulables et ne doivent jamais verrouiller définitivement une voie.
+14. Les récompenses d'affinité restent principalement horizontales et narratives.
+15. Le joueur influence la relation et le chemin vers la convergence, mais il ne peut supprimer l'un des Trois Éveils du canon.
+16. Toute nouvelle scène majeure de LITD 2 doit pouvoir laisser une trace, une déformation ou une absence significative dans LITD 1.
 
-## 18. Formule directrice
+## 19. Formule directrice
 
 La boucle fondamentale de LITD 2 devient :
 
-**Partir en run → vivre une bataille de la Dernière Guerre → choisir Corps / Esprit / Politique → rencontrer ou influencer un fondateur → faire évoluer l'affinité → voir la guerre et les idées changer → repartir → converger vers Sarn.**
+**Partir en run → vivre une bataille de la Dernière Guerre → choisir Corps / Esprit / Politique → rencontrer ou influencer un fondateur → faire évoluer l'affinité → mourir éventuellement et laisser un corps → recommencer la run depuis le début → réussir → faire avancer l'Histoire → converger vers Sarn.**
 
 Et l'arc général devient :
 
