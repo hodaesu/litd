@@ -8,6 +8,8 @@ Autorisé : analyser des principes généraux, documenter le contexte, comparer 
 
 Interdit : copier une composition reconnaissable, un personnage, une créature, un costume, une arme fictive, un accessoire distinctif, une sculpture, une pose iconique, un motif signature, un texte protégé, une mélodie, une chorégraphie, un effet visuel signature, une texture ou un modèle tiers.
 
+Même lorsqu’une œuvre ou un média est juridiquement réutilisable, LITD applique une règle créative plus stricte : par défaut, tout élément extérieur reste une source d’inspiration et ne doit pas devenir une reproduction visuelle ou sonore servile.
+
 ## 2. LITD_ORIGINAL_REUSABLE
 
 Asset original créé pour LITD et détenu par LITD Universe. Il peut être partagé entre LITD 1, LITD 2 et de futurs jeux si son entrée l’autorise. Cela peut inclure bruitages, ambiances, textures originales, modèles, animations, VFX, musiques, UI ou autres assets internes.
@@ -16,9 +18,13 @@ Asset original créé pour LITD et détenu par LITD Universe. Il peut être part
 
 Asset tiers dont la licence autorise explicitement l’usage prévu. Chaque entrée doit documenter la source, la licence, l’auteur, l’attribution éventuelle, le périmètre commercial, les plateformes et les restrictions.
 
+Ce statut autorise juridiquement la réutilisation mais ne remplace pas la règle créative : pour les œuvres visuelles, personnages, créatures, costumes, architectures distinctives, compositions, symboles et designs, privilégier la transformation et l’originalité LITD plutôt qu’une intégration directe.
+
 ## Audio et bruitages
 
 Un bruitage n’est pas automatiquement libre de réutilisation. Un fichier audio peut être partagé entre jeux uniquement s’il est `LITD_ORIGINAL_REUSABLE` ou `LICENSED_REUSABLE`. Un son extérieur utilisé pour étudier un timbre, une ambiance ou un impact reste `REFERENCE_ONLY`.
+
+Les bruitages, ambiances et autres assets audio originaux créés pour LITD sont les principaux éléments destinés à être réellement mutualisés d’un jeu à l’autre lorsque leur statut le permet.
 
 ## Sécurité de propriété intellectuelle
 
