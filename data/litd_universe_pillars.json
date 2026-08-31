@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "scope": "LITD Universe franchise pillars",
+  "pillars": [
+    {
+      "id": "character_creation",
+      "name": "Création de personnages",
+      "permanent": true,
+      "rule": "The player creates a person who belongs in the world; historical characters remain authored and distinct."
+    },
+    {
+      "id": "systemic_gore",
+      "name": "Gore systémique et conséquences corporelles",
+      "permanent": true,
+      "rule": "Violence must connect to body zones, injuries, trauma, dismemberment, persistent corpses or other meaningful consequences rather than decorative blood alone."
+    },
+    {
+      "id": "accessible_philosophy_psychology",
+      "name": "Philosophie et psychologie accessibles",
+      "permanent": true,
+      "rule": "Complex human themes must be understandable through situations, characters and choices without requiring prior academic knowledge.",
+      "depth_rule": "Immediately understandable, indefinitely deepenable."
+    },
+    {
+      "id": "strong_narrative",
+      "name": "Narration forte",
+      "permanent": true,
+      "rule": "Roguelike or roguelite structure must support a clear plot, memorable characters, mysteries, consequences and emotional progression."
+    },
+    {
+      "id": "cross_game_interconnection",
+      "name": "Interconnexion des jeux",
+      "permanent": true,
+      "rule": "Each game enriches the others through shared history, traces, institutions, objects, myths and contradictions while remaining understandable on its own."
+    }
+  ],
+  "accessibility_layers": [
+    {
+      "level": 1,
+      "name": "Compréhension immédiate",
+      "goal": "Understand who suffers, who wants what, what the danger is and what choice is being asked."
+    },
+    {
+      "level": 2,
+      "name": "Interprétation",
+      "goal": "Understand why characters disagree and which values conflict."
+    },
+    {
+      "level": 3,
+      "name": "Profondeur historique et philosophique",
+      "goal": "Connect events to the Three Awakenings, Concorde, historical memory, ancient texts and other games."
+    }
+  ],
+  "cross_game_rule": {
+    "new_major_content_must_check_global_lore": true,
+    "standalone_main_plot_required": true,
+    "allowed_trace_forms": [
+      "preserved",
+      "transformed",
+      "ritualized",
+      "institutionalized",
+      "forgotten",
+      "mythified",
+      "distorted",
+      "falsified",
+      "fragmentary_or_contradictory"
+    ]
+  },
+  "design_target": "Prefer systems that express several pillars at once."
+}
