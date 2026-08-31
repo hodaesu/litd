@@ -4,15 +4,16 @@
 
 La campagne principale s'arrête au Chapitre X. Le contenu qui suit n'est pas un Chapitre XI : il montre ce que devient le monde après la décision finale et permet ensuite de recommencer la campagne avec une mémoire persistante.
 
-Le postgame suit trois règles :
+Le postgame suit quatre règles :
 
 1. une fin ne devient jamais parfaite après le générique ;
 2. les conséquences politiques, sociales et métaphysiques restent visibles ;
-3. le Nouveau Cycle+ conserve la mémoire d'une partie, pas sa puissance brute.
+3. le Nouveau Cycle+ conserve la mémoire d'une partie, pas sa puissance brute ;
+4. le Nouveau Cycle+ approfondit les règles identitaires du jeu au lieu de les supprimer.
 
 ## Épilogues
 
-`data/world/endgame_epilogues.json` contient un épilogue complet pour chacune des six orientations réussies et chacun des trois états d'échec.
+`data/world/endgame_epilogues.json` contient un épilogue complet pour chacune des orientations réussies et chacun des états d'échec.
 
 Chaque épilogue possède quatre temps : ouverture, conséquences quotidiennes, évolution politique et conclusion. Des vignettes conditionnelles complètent le texte selon les décisions de campagne : Saen, sort d'Edras, coexistence avec les créatures, Cercle de Justice et Maison des Délégations.
 
@@ -45,7 +46,7 @@ Les opérations techniques ou matérielles peuvent consommer de l'Or, de l'Essen
 
 ## Déblocage du Nouveau Cycle+
 
-Le Nouveau Cycle+ devient disponible après trois opérations postgame accomplies.
+Le Nouveau Cycle+ devient disponible dès que la campagne est terminée. Les opérations postgame restent recommandées pour préparer des héritages, mais ne constituent pas une porte obligatoire.
 
 Il conserve :
 
@@ -66,55 +67,47 @@ Il remet à zéro :
 
 Cette règle empêche le NG+ de devenir une simple partie avec des personnages surpuissants qui annuleraient les systèmes de survie et de choix.
 
-## Répartition libre entre les trois arbres
+## Les trois arbres restent exclusifs
 
-À partir du **Premier retour** (`active_cycle >= 1`), le verrou de spécialisation disparaît pour les héros et tous les compagnons.
+L'exclusivité des trois arbres est une règle identitaire de LITD 1 et **ne disparaît jamais en Nouveau Cycle+**.
 
-Le joueur peut donc répartir ses points librement entre :
+Chaque héros, ennemi et créature recrutée possède trois arbres de quinze compétences. Lorsqu'un personnage choisit son arbre, les deux autres restent verrouillés pour ce personnage, quel que soit le numéro du cycle.
 
-- **Offensif** ;
-- **Défensif** ;
-- **Spécial**.
+Le NG+ peut proposer :
 
-Cette liberté s'applique aux héros, aux créatures ordinaires recrutées et aux mini-boss/boss recrutés en NG+.
+- davantage de situations où chaque spécialisation révèle une solution différente ;
+- des variations d'ennemis exploitant mieux leur propre arbre ;
+- de nouveaux Serments, contraintes ou héritages ;
+- des variantes d'équipement et de rencontres ;
+- des informations narratives liées aux cycles précédents.
 
-Le NG+ ne donne cependant aucune compétence gratuitement. Restent obligatoires :
+Il ne transforme jamais les personnages en builds capables de cumuler les trois spécialisations. Une mémoire de cycle enrichit la compréhension du joueur, pas l'ensemble des capacités du personnage.
 
-- le coût en points de compétence ;
-- le niveau requis de chaque nœud ;
-- les prérequis internes de l'arbre : pour acheter un nœud avancé, il faut toujours avoir acquis les nœuds précédents de cette même branche.
+## Recrutement et statut des boss
 
-Le cycle initial conserve le fonctionnement original : la première branche investie devient la spécialisation du personnage ou compagnon et les deux autres arbres sont verrouillés.
+Le Nouveau Cycle+ **ne rend pas tous les boss et mini-boss capturables**.
 
-Dans les écrans de talents du NG+, les trois branches sont signalées **OUVERT NG+** afin de rendre cette règle immédiatement visible.
+Le recrutement par capture appartient au système des créatures ordinaires explicitement éligibles. Les catégories suivantes restent distinctes :
 
-## Recrutement des mini-boss et boss
+- créature capturable ;
+- adversaire épargné ;
+- personne arrêtée ;
+- suspect ou accusé soumis à la justice ;
+- personnage coopérant volontairement ;
+- boss ou entité narrative non recrutables.
 
-À partir du **Premier retour** (`active_cycle >= 1`), tous les mini-boss et boss de la campagne ainsi que ceux des Vestiges profonds peuvent être recrutés avec l'action de combat **CAPTURER**.
+L'action générique **CAPTURER** ne peut donc jamais remplacer une arrestation, un procès, une alliance consentie ou une décision sur le statut d'une personne.
 
-Ils sont identifiés par leur `encounter_id`, et non par les IDs ennemis génériques `30` et `38`. Cela garantit que chaque boss conserve exactement son nom, sa signature et son archétype.
+### Exclusions absolues actuelles
 
-Le recrutement reste exigeant :
+- **l'Ange**, boss explicitement non capturable ;
+- les boss et mini-boss, sauf future décision canonique individuelle et explicite ;
+- les humains et autres personnes conscientes traitées comme responsables moraux ou sujets de justice ;
+- Edras Nhal et les autres responsables vivants ;
+- les fondateurs et figures historiques ;
+- toute entité dont le recrutement effacerait une conséquence canonique.
 
-- un mini-boss doit être descendu sous environ 18 % de ses PV ;
-- un boss de chapitre sous environ 12 % ;
-- un mini-boss de Vestige sous environ 15 % ;
-- un boss de Vestige sous environ 10 %.
-
-Ils demandent également davantage d'Essence et possèdent une résistance supérieure au lien.
-
-Leur version alliée **ne conserve jamais les PV ou multiplicateurs de leur version ennemie**. À la place :
-
-- son niveau est synchronisé avec le **niveau moyen actuel des héros de la compagnie** ;
-- si le groupe progresse, le boss recruté se synchronise automatiquement ;
-- son expérience personnelle ne peut pas le faire dépasser artificiellement le groupe ;
-- ses dégâts utilisent une plage de compagnon propre à son rang puis le scaling normal des créatures ;
-- il conserve sa signature et reçoit trois branches de compétences : offensive, défensive et spéciale ;
-- les nœuds de signature sont générés selon son archétype : gardien, tacticien, soutien, frappeur ou contrôle.
-
-Le cycle initial conserve l'ancienne règle : **aucun boss ou mini-boss n'y est recrutable**.
-
-Les définitions sont centralisées dans `data/world/ngplus_boss_recruits.json` et le runtime dans `scripts/core/ngplus_boss_recruitment.gd`.
+`data/world/ngplus_boss_recruits.json` est donc désactivé par l'audit de cohérence. Toute exception future devra définir le type de relation approprié à l'entité au lieu d'hériter automatiquement du verbe de capture.
 
 ## Héritages
 
@@ -127,6 +120,8 @@ Un seul héritage peut être choisi au début d'un cycle :
 
 Les héritages coûtent des points gagnés par les opérations postgame.
 
+Ils représentent des traces transmises ou des préparations héritées, jamais une preuve que le même personnage se souvient littéralement d'une chronologie réinitialisée. Le NG+ reste une structure de jeu et de mémoire méta ; il ne crée pas de boucle temporelle canonique dans le monde.
+
 ## Difficulté NG+
 
 Pour chaque cycle supplémentaire :
@@ -135,28 +130,27 @@ Pour chaque cycle supplémentaire :
 - dégâts ennemis : +12 % ;
 - Peur infligée : +8 %.
 
-Le multiplicateur s'applique aux ennemis ordinaires, mini-boss, boss de chapitre et boss des Vestiges profonds.
+Le multiplicateur s'applique aux ennemis ordinaires, mini-boss, boss de chapitre et boss des Vestiges profonds sans modifier leur statut narratif.
 
 ## Sauvegarde
 
-Le schéma de sauvegarde reste en **0.31** : la liberté multi-arbre dépend directement du numéro de cycle déjà stocké dans `endgame`, et les informations des boss recrutés sont stockées dans les dictionnaires de créatures existants.
-
 L'état `endgame` conserve les opérations terminées, points d'héritage, numéro de cycle, héritage courant, historique des fins et archives d'épilogues.
+
+Les anciens champs de sauvegarde liés au multi-arbre ou au recrutement généralisé des boss doivent être ignorés ou migrés sans réactiver ces règles obsolètes.
 
 ## Fichiers principaux
 
 - `data/world/endgame_epilogues.json`
 - `data/world/postgame_operations.json`
 - `data/world/new_game_plus.json`
-- `data/world/ngplus_boss_recruits.json`
+- `data/world/ngplus_boss_recruits.json` — catalogue désactivé
 - `scripts/core/endgame_state.gd`
-- `scripts/core/ngplus_boss_recruitment.gd`
 - `scripts/core/hero_skill_manager.gd`
 - `scripts/core/creature_manager.gd`
-- `scripts/ui/ngplus_skill_tree_ui.gd`
 - `scripts/ui/endgame_ui.gd`
 - `scripts/world/ashlands_combat_bridge.gd`
 - `scripts/core/save_manager.gd`
-- `tests/python/test_endgame_postgame_ngplus.py`
-- `tests/python/test_ngplus_boss_recruitment.py`
-- `tests/python/test_ngplus_multitree_skills.py`
+
+## Règle de cohérence
+
+Le NG+ ne possède aucune autorité pour contourner les règles du canon principal. S'il propose une variation qui contredit le statut d'une personne, l'exclusivité d'un arbre, une conséquence narrative ou une limite du Voile, c'est la variation NG+ qui doit être corrigée.
