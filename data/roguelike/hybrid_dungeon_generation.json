@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "principle": "handcrafted_rooms_controlled_procedural_assembly",
+  "generation_boundaries": {
+    "always_authored": [
+      "campaign_overworld",
+      "first_map_tutorial",
+      "sanctuary",
+      "cinematics",
+      "boss_rooms",
+      "major_narrative_rooms",
+      "quest_giver_locations",
+      "unique_hero_missions",
+      "major_puzzles",
+      "navigation_landmarks"
+    ],
+    "variable_only": [
+      "ordinary_room_order",
+      "optional_branches",
+      "shortcuts",
+      "encounter_formations",
+      "patrols",
+      "approved_trap_slots",
+      "loot_slots",
+      "optional_events",
+      "room_state",
+      "lighting_variant"
+    ],
+    "forbidden": [
+      "procedural_room_geometry",
+      "procedural_boss_arena",
+      "procedural_story_blocking",
+      "unvalidated_door_position",
+      "unreadable_navigation_landmark",
+      "unreachable_quest_objective"
+    ]
+  },
+  "room_states": [
+    "intact",
+    "collapsed",
+    "occupied",
+    "trapped",
+    "burned",
+    "veil_tainted",
+    "temporary_refuge"
+  ],
+  "dungeons": {
+    "first_veil_crypts": {
+      "catalog": "res://data/roguelike/first_veil_rooms.json",
+      "campaign_first_visit": "authored_fixed_layout",
+      "campaign_revisit": "hybrid_graph",
+      "bounty_and_farm": "hybrid_graph",
+      "recipe": {
+        "nodes": [
+          {"key": "entry", "types": ["start"], "depth": 1, "immutable": true},
+          {"key": "approach", "types": ["combat", "trap"], "depth": 1},
+          {"key": "choice_left", "types": ["combat", "puzzle", "trap"], "depth": 2},
+          {"key": "choice_right", "types": ["treasure", "sanctuary", "merchant"], "depth": 2},
+          {"key": "convergence", "types": ["combat", "elite"], "depth": 2},
+          {"key": "respite", "types": ["camp", "sanctuary", "merchant"], "depth": 3},
+          {"key": "risk", "types": ["elite", "trap", "puzzle"], "depth": 3},
+          {"key": "reward", "types": ["treasure", "altar"], "depth": 3},
+          {"key": "preboss", "types": ["altar"], "depth": 4, "immutable": true},
+          {"key": "boss", "types": ["boss"], "depth": 4, "immutable": true},
+          {"key": "secret", "types": ["secret"], "depth": 2, "secret": true, "optional_chance": 0.65}
+        ],
+        "edges": [
+          ["entry", "approach"],
+          ["approach", "choice_left"],
+          ["approach", "choice_right"],
+          ["choice_left", "convergence"],
+          ["choice_right", "convergence"],
+          ["convergence", "respite"],
+          ["convergence", "risk"],
+          ["respite", "reward"],
+          ["risk", "reward"],
+          ["reward", "preboss"],
+          ["preboss", "boss"],
+          ["choice_left", "secret"],
+          ["secret", "choice_right"],
+          ["respite", "entry"]
+        ]
+      }
+    }
+  },
+  "validation": {
+    "entry_to_objective_required": true,
+    "physical_retreat_required": true,
+    "ash_route_required": true,
+    "quest_objectives_reachable": true,
+    "unknown_connections_forbidden": true,
+    "duplicate_required_templates_forbidden": true,
+    "secrets_hidden_until_discovered": true
+  }
+}
