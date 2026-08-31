@@ -7,15 +7,16 @@
 
 LITD Universe doit rester reconnaissable d'un jeu à l'autre même lorsque le genre, le moteur, l'époque ou la structure de gameplay changent.
 
-Cette identité repose sur plusieurs piliers qui doivent être présents ou explicitement adaptés dans chaque jeu principal.
+Cette identité repose sur six piliers permanents qui doivent être présents ou explicitement adaptés dans chaque jeu principal.
 
 Les piliers sont :
 
 1. **Création de personnages**
 2. **Gore systémique et conséquences corporelles**
-3. **Philosophie et psychologie dans la narration, accessibles à tous**
-4. **Narration forte**
-5. **Interconnexion des différents jeux**
+3. **Philosophie et psychologie dans la narration**
+4. **Profondeur humaine accessible**
+5. **Narration forte**
+6. **Interconnexion des différents jeux**
 
 Ces piliers ne sont pas des décorations séparées. Ils doivent se renforcer mutuellement.
 
@@ -54,11 +55,11 @@ La violence doit raconter ce qui est arrivé au corps.
 
 LITD 1 et LITD 2 peuvent avoir des rythmes et des techniques différents, mais la violence ne doit jamais être réduite à de simples éclaboussures sans conséquence.
 
-## 4. Philosophie et psychologie accessibles
+## 4. Philosophie et psychologie dans la narration
 
-La philosophie et la psychologie sont des piliers narratifs de LITD Universe.
+La philosophie et la psychologie sont des matières narratives permanentes de LITD Universe.
 
-Elles doivent traiter des thèmes humains réels :
+Elles doivent permettre d'explorer des thèmes humains réels :
 
 - peur ;
 - espoir ;
@@ -77,23 +78,80 @@ Elles doivent traiter des thèmes humains réels :
 - rapport à la mort ;
 - rapport aux autres.
 
-Cependant, LITD ne doit jamais exiger du joueur une formation philosophique, politique ou psychologique préalable.
+Elles doivent être nourries par la bibliothèque transversale `LITD_UNIVERSE_BIBLIOTHEQUE_PHILO_PSYCHO.md` et appliquées avec le guide `LITD_UNIVERSE_GUIDE_ECRITURE_PHILO_PSYCHO.md`.
 
-Règles :
+Les références du monde réel servent aux auteurs et concepteurs ; elles ne deviennent pas automatiquement des noms, doctrines ou citations du canon LITD.
 
-- une idée complexe doit pouvoir être comprise d'abord par une situation, un personnage ou un choix ;
-- les dialogues doivent rester naturels ;
-- le joueur qui veut seulement suivre l'histoire doit comprendre l'enjeu émotionnel et moral ;
-- le joueur qui veut approfondir doit pouvoir trouver des textes, contradictions, archives, symboles et interprétations supplémentaires ;
-- les personnages ne doivent pas devenir des porte-paroles artificiels récitant des essais ;
-- plusieurs perspectives peuvent coexister sans qu'un texte explique immédiatement laquelle est la bonne ;
-- la profondeur vient de l'expérience et des conséquences, pas du vocabulaire compliqué.
+Les personnages doivent rester des personnes avant d'être des véhicules d'idées. Ils peuvent se tromper, évoluer, être contradictoires et défendre des valeurs sincères qui entrent en conflit.
 
-Principe d'écriture :
+## 5. Profondeur humaine accessible
 
-**Compréhensible immédiatement, approfondissable indéfiniment.**
+La **Profondeur humaine accessible** est un pilier distinct de la philosophie et de la psychologie.
 
-## 5. Narration forte
+La philosophie et la psychologie déterminent **ce que LITD peut explorer**. La profondeur humaine accessible détermine **comment le joueur doit pouvoir le vivre et le comprendre**.
+
+Principe absolu :
+
+**On ne simplifie pas l'idée. On simplifie son point d'entrée.**
+
+Une scène peut traiter d'identité personnelle, de responsabilité collective, de deuil, de domination, de mémoire ou de légitimité politique sans exiger du joueur qu'il connaisse le concept théorique correspondant.
+
+Le joueur doit d'abord comprendre :
+
+- ce que vit la personne ;
+- ce qu'elle veut ;
+- ce qu'elle craint ;
+- ce qu'elle risque de perdre ;
+- pourquoi deux personnes raisonnables peuvent ne pas être d'accord.
+
+La complexité doit ensuite rester disponible dans les conséquences, contradictions, textes, archives, symboles et liens avec les autres jeux.
+
+### 5.1 Les trois couches
+
+**Couche 1 — Expérience immédiate**  
+Le joueur comprend la situation humaine sans explication théorique.
+
+**Couche 2 — Conflit de sens**  
+Le joueur comprend les valeurs, croyances ou interprétations qui s'opposent.
+
+**Couche 3 — Approfondissement facultatif**  
+Le joueur peut relier la scène à l'histoire, aux institutions, aux Trois Éveils, à la psychologie, aux textes et aux autres périodes de LITD Universe.
+
+Aucune couche supérieure ne doit être nécessaire pour comprendre la précédente.
+
+### 5.2 Ce que le pilier interdit
+
+LITD doit éviter :
+
+- le jargon utilisé comme substitut à la profondeur ;
+- les dialogues qui ressemblent à des dissertations ;
+- les aphorismes vagues qui semblent profonds sans porter d'idée réelle ;
+- les métaphores empilées qui rendent la situation incompréhensible ;
+- les personnages qui possèdent toujours la « bonne » réponse ;
+- les conflits complexes résolus par une maxime ;
+- les sujets graves réduits à une morale simpliste ;
+- l'ambiguïté sur les faits de base lorsque l'ambiguïté devrait porter sur leur sens.
+
+### 5.3 Test de validation
+
+Une scène majeure de LITD doit idéalement permettre de répondre oui aux quatre questions suivantes :
+
+1. Est-ce que je comprends ce que vit le personnage ?
+2. Est-ce que je comprends ce qu'il veut ou craint ?
+3. Est-ce que le conflit humain est clair ?
+4. Est-ce qu'il reste quelque chose à penser après avoir compris la scène ?
+
+Si les trois premières réponses sont non, la scène est probablement trop obscure.
+
+Si la quatrième est non, la scène est probablement trop simplifiée ou moralisatrice.
+
+### 5.4 Formule directrice du pilier
+
+**« Je comprends parfaitement ce qu'ils vivent. Je ne suis pas certain de ce que j'en pense. »**
+
+C'est l'effet recherché : **clarté humaine, profondeur morale, liberté de jugement**.
+
+## 6. Narration forte
 
 La narration est un pilier distinct de la philosophie.
 
@@ -117,7 +175,7 @@ Dans LITD 2, les runs sont des opérations de la Dernière Guerre menant à la N
 
 Dans LITD 1, les expéditions servent la survie, l'exploration et l'enquête sur la Chute.
 
-## 6. Interconnexion des jeux
+## 7. Interconnexion des jeux
 
 Chaque jeu de LITD Universe doit enrichir les autres.
 
@@ -149,7 +207,7 @@ L'interconnexion ne signifie pas que chaque référence doit être explicitement
 
 Une bonne connexion peut être invisible au premier joueur et évidente pour quelqu'un qui connaît plusieurs jeux.
 
-## 7. Règle de continuité
+## 8. Règle de continuité
 
 Chaque nouveau contenu majeur doit être vérifié contre :
 
@@ -162,7 +220,7 @@ Chaque nouveau contenu majeur doit être vérifié contre :
 7. les systèmes surnaturels ;
 8. les conséquences connues dans les autres jeux.
 
-Lorsqu'un élément de LITD 2 survit jusqu'à LITD 1, il peut être :
+Lorsqu'un élément d'une période survit dans une autre, il peut être :
 
 - préservé ;
 - transformé ;
@@ -176,7 +234,7 @@ Lorsqu'un élément de LITD 2 survit jusqu'à LITD 1, il peut être :
 
 L'interconnexion doit enrichir le mystère, pas supprimer toute ambiguïté historique.
 
-## 8. Interaction entre les piliers
+## 9. Interaction entre les piliers
 
 Les piliers doivent se croiser.
 
@@ -186,18 +244,19 @@ Exemple LITD 2 :
 - son corps subit des traumatismes visibles ;
 - il meurt et laisse un cadavre ;
 - le cadavre peut évoluer ou revenir comme ennemi ;
-- cette expérience nourrit des questions psychologiques sur l'identité et la mort ;
+- cette expérience pose concrètement la question de l'identité ;
+- le joueur comprend immédiatement le malaise de retrouver son propre corps sans recevoir une réponse métaphysique imposée ;
 - Ilyan, Sahra et Tala réagissent différemment ;
 - ces réactions influencent les affinités et la narration ;
 - des traces de ces événements peuvent être retrouvées mille ans plus tard dans LITD 1.
 
-Un seul système touche donc création de personnage, gore, psychologie, narration et interconnexion.
+Un seul système touche donc création de personnage, gore, philosophie/psychologie, profondeur humaine, narration et interconnexion.
 
 C'est le modèle à rechercher.
 
-## 9. Accessibilité narrative
+## 10. Accessibilité narrative
 
-La profondeur de LITD doit être à plusieurs niveaux.
+La profondeur de LITD doit rester stratifiée :
 
 ### Niveau 1 — compréhension immédiate
 Le joueur comprend : qui souffre, qui veut quoi, quel est le danger, quel choix est demandé.
@@ -210,19 +269,22 @@ Le joueur peut relier les événements aux Trois Éveils, à la Concorde, à la 
 
 Aucun niveau supérieur ne doit être obligatoire pour comprendre le niveau précédent.
 
-## 10. Règles verrouillées
+## 11. Règles verrouillées
 
 1. Création de personnages = pilier permanent.
 2. Gore systémique = pilier permanent.
-3. Philosophie et psychologie = piliers narratifs, mais toujours accessibles dans leur compréhension de base.
-4. Narration forte = pilier permanent, même dans une structure roguelike / roguelite.
-5. Interconnexion des jeux = pilier permanent de LITD Universe.
-6. Les nouveaux éléments majeurs doivent être vérifiés contre le lore général.
-7. Les jeux doivent s'enrichir mutuellement sans devenir dépendants les uns des autres pour comprendre leur intrigue principale.
-8. La profondeur doit venir des situations, personnages, choix et conséquences avant de venir des textes explicatifs.
-9. Le gore doit avoir une fonction systémique, narrative ou sensorielle, pas seulement décorative.
-10. Les interconnexions peuvent être directes, fragmentaires, contradictoires ou mythifiées selon l'époque.
+3. Philosophie et psychologie dans la narration = pilier permanent.
+4. Profondeur humaine accessible = pilier permanent et distinct.
+5. Narration forte = pilier permanent, même dans une structure roguelike / roguelite.
+6. Interconnexion des jeux = pilier permanent de LITD Universe.
+7. Les nouveaux éléments majeurs doivent être vérifiés contre le lore général.
+8. Les jeux doivent s'enrichir mutuellement sans devenir dépendants les uns des autres pour comprendre leur intrigue principale.
+9. Les idées complexes doivent être incarnées avant d'être expliquées.
+10. Comprendre la situation ne doit pas obliger le joueur à adopter un jugement moral unique.
+11. Le gore doit avoir une fonction systémique, narrative ou sensorielle, pas seulement décorative.
+12. Les interconnexions peuvent être directes, fragmentaires, contradictoires ou mythifiées selon l'époque.
+13. Les dialogues, écrits et quêtes majeurs doivent respecter `LITD_UNIVERSE_GUIDE_ECRITURE_PHILO_PSYCHO.md`.
 
-## 11. Formule directrice
+## 12. Formule directrice de LITD Universe
 
-**Créer sa personne. Sentir les conséquences dans son corps. Comprendre les êtres humains sans simplifier leurs contradictions. Vivre une histoire forte. Puis découvrir que cette histoire fait partie d'une autre, plus vaste.**
+**Créer sa personne. Sentir les conséquences dans son corps. Comprendre les êtres humains sans simplifier leurs contradictions. Comprendre ce qu'ils vivent sans être forcé de savoir quoi en penser. Vivre une histoire forte. Puis découvrir que cette histoire fait partie d'une autre, plus vaste.**
