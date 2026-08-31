@@ -1,0 +1,61 @@
+{
+  "schema_version": 5,
+  "scope": "LITD Universe narrative inconsistency registry",
+  "status": "active",
+  "severity_levels": ["BLOCKING", "MAJOR", "MINOR", "OPEN_QUESTION"],
+  "rules": {
+    "blocking_or_major_requires_resolution_before_validation": true,
+    "must_signal_user": true,
+    "silent_fix_forbidden": true,
+    "retroactive_contrivance_forbidden": true
+  },
+  "entries": [
+    {
+      "id": "LITD2-DEATH-RETRY-CAUSALITY",
+      "severity": "MAJOR",
+      "status": "RESOLVED",
+      "resolution": "A run is a historical operation window containing multiple real attempts. Time continues, corpses and local consequences persist, and no rewind occurs."
+    },
+    {
+      "id": "LITD2-SARN-PACT-END-CONTRADICTION",
+      "severity": "BLOCKING",
+      "status": "RESOLVED",
+      "resolution": "LORE_BIBLE.md now locks the Night of Sarn as the playable finale of LITD2. The Long Assemblies and First Pact occur afterward and belong to historical epilogue/codex or explicitly post-campaign content."
+    },
+    {
+      "id": "LITD2-POTION-BODY-REPAIR-MECHANISM",
+      "severity": "OPEN_QUESTION",
+      "status": "RESOLVED",
+      "resolution": "Potions are scarce Remanence-compatible compounds acting on the living reconstructed body's biological reference state; they cannot resurrect or become universal medicine."
+    },
+    {
+      "id": "LITD1-VEIL-RULE-BOUNDARIES",
+      "severity": "OPEN_QUESTION",
+      "status": "RESOLVED",
+      "resolution": "LITD_UNIVERSE_LIMITES_DU_VOILE.md now defines hard prohibitions, required conditions, scale, memory/perception constraints, corpse rules and an anti-contrivance test for every major supernatural event."
+    },
+    {
+      "id": "LITD1-ANCIENT-CIVILIZATIONS-CONVENIENCE-RISK",
+      "severity": "MINOR",
+      "status": "RESOLVED",
+      "problem": "Several ancient civilizations risked appearing to exist only to deliver one useful Veil revelation each.",
+      "resolution": "Each of the seven civilizations now has a multi-century independent history, geography, economy, political institutions, social conflicts, arts, beliefs, technologies, non-supernatural historical errors, neighbors/exchange logic, decline and non-Veil legacy. Their Veil contact occurs only as a late consequence of pre-existing social and political contradictions. Their periods overlap and some knowledge circulates through trade, migration and inheritance rather than forming a neat revelation sequence.",
+      "files": [
+        "docs/civilisations/README.md",
+        "docs/civilisations/ASHAI_DE_NHAL.md",
+        "docs/civilisations/ROYAUMES_OR_SILEX.md",
+        "docs/civilisations/VEILLEURS_DE_SAAN.md",
+        "docs/civilisations/CITES_VAOR_KHAL.md",
+        "docs/civilisations/NAVIGATEURS_LYR_MAR.md",
+        "docs/civilisations/CITES_SAHM_IR.md",
+        "docs/civilisations/ATELIERS_YDRIS.md"
+      ]
+    },
+    {
+      "id": "LITD2-REMANENCE-ORIGIN-LIMITS",
+      "severity": "OPEN_QUESTION",
+      "status": "RESOLVED",
+      "resolution": "Writer-facing canon defines continuous imprint, matter-based reconstruction, compatible anchors, measurable delay, single active continuity, non-retroactive binding, non-industrializability and strict prohibitions."
+    }
+  ]
+}
