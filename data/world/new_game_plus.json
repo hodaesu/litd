@@ -1,37 +1,42 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "name": "Nouveau Cycle+",
   "design_rule": "Après la fin de la campagne, le joueur choisit librement entre continuer son monde actuel et commencer immédiatement un Nouveau Cycle+. Le postgame reste disponible aussi longtemps qu'il le souhaite et sert à préparer des héritages optionnels, jamais à verrouiller le NG+.",
-  "unlock":{"campaign_complete":true,"postgame_operations_min":3,"runtime_gate":"campaign_complete_only","postgame_operations_gate_enforced":false},
-  "difficulty_per_cycle":{"enemy_hp_pct":18,"enemy_damage_pct":12,"enemy_fear_pct":8},
-  "max_legacy_perks":1,
-  "allow_ng_plus_without_legacy":true,
-  "continue_postgame_is_reversible":true,
-  "legacy_preparation_operations_recommended":3,
-  "carry_over":["ending_history","legacy_points","legacy_perk_history","epilogue_archive"],
-  "reset":["campaign_progress","politics","party_progression","inventory","creatures","sanctuary_resources","chapter_choices"],
-  "skill_tree_rules":{
-    "multitree_from_cycle":1,
-    "applies_to":["heroes","regular_creature_companions","boss_recruits"],
-    "branches":["offense","defense","special"],
-    "rule":"À partir du premier Nouveau Cycle+, choisir une compétence dans un arbre ne verrouille plus les deux autres. Le joueur peut répartir librement ses points entre les trois arbres.",
-    "still_required":["skill_point_cost","required_level","in_branch_prerequisites"],
-    "normal_cycle_rule":"Pendant le cycle initial, la première compétence choisie fixe toujours la spécialisation et verrouille les deux autres arbres."
+  "unlock": {"campaign_complete":true,"postgame_operations_min":3,"runtime_gate":"campaign_complete_only","postgame_operations_gate_enforced":false},
+  "difficulty_per_cycle": {"enemy_hp_pct":18,"enemy_damage_pct":12,"enemy_fear_pct":8},
+  "max_legacy_perks": 1,
+  "allow_ng_plus_without_legacy": true,
+  "continue_postgame_is_reversible": true,
+  "legacy_preparation_operations_recommended": 3,
+  "carry_over": ["ending_history","legacy_points","legacy_perk_history","epilogue_archive"],
+  "reset": ["campaign_progress","politics","party_progression","inventory","creatures","sanctuary_resources","chapter_choices"],
+  "skill_tree_rules": {
+    "multitree_enabled": false,
+    "applies_to": ["heroes","enemies","captured_creatures"],
+    "canonical_trees_per_character": 3,
+    "canonical_nodes_per_tree": 15,
+    "tree_choice_exclusive_in_all_cycles": true,
+    "rule": "Le Nouveau Cycle+ ne supprime jamais la spécialisation identitaire : choisir un arbre verrouille les deux autres pour ce personnage, comme dans le cycle initial.",
+    "ngplus_depth": "Le NG+ approfondit les variantes, rencontres, héritages et contraintes sans transformer les personnages en builds omniscients capables de cumuler les trois spécialisations.",
+    "still_required": ["skill_point_cost","required_level","in_branch_prerequisites"]
   },
-  "boss_recruitment":{
-    "enabled_from_cycle":1,
-    "includes":["miniboss","boss","deep_miniboss","deep_boss"],
-    "identity_key":"encounter_id",
-    "level_sync":"party_average",
-    "stat_rule":"La version alliée garde son identité, sa signature et son archétype, mais ses dégâts et sa progression sont calculés depuis son niveau de compagnon, jamais depuis ses PV ou multiplicateurs de boss ennemi.",
-    "capture_action":"CAPTURER",
-    "normal_cycle_rule":"Les boss et mini-boss restent non recrutables pendant le cycle initial."
+  "boss_recruitment": {
+    "enabled": false,
+    "reason": "Le système de capture concerne les créatures ordinaires explicitement éligibles. Le statut de boss ou mini-boss ne devient pas une permission de capture en NG+.",
+    "hard_exclusions": [
+      "Ange and all other boss encounters unless a future explicit canon decision individually reclassifies one entity",
+      "human or personhood-bearing antagonists",
+      "suspects, prisoners or justice subjects",
+      "founders and historical figures",
+      "entities whose recruitment would erase a canonical consequence"
+    ],
+    "personhood_rule": "Capture, arrestation, procès, coopération volontaire and creature recruitment are separate narrative systems and must never be collapsed into one CAPTURER action."
   },
-  "perks":[
+  "perks": [
     {"id":"legacy_archivist","name":"Mémoire des archives","cost":2,"description":"Commencer le nouveau cycle avec une partie du savoir méthodologique déjà acquise.","effects":{"veil_knowledge":6}},
     {"id":"legacy_concord","name":"Réflexes de Concorde","cost":2,"description":"Les premiers débats bénéficient de procédures déjà éprouvées dans un autre cycle.","effects":{"trust":4,"city":3}},
     {"id":"legacy_listener","name":"Écouter avant de nommer","cost":2,"description":"Commencer avec un faible capital de relation envers créatures et Absents.","effects":{"creature_relations":1,"absent_contact":2}},
     {"id":"legacy_prepared","name":"Réserves cachées","cost":2,"description":"Une cache préparée par la génération précédente augmente les ressources de départ.","effects":{"gold":60,"supplies":3,"essence":4}}
   ],
-  "cycle_labels":["Premier retour","Deuxième veille","Troisième mémoire","Cycle profond"]
+  "cycle_labels": ["Premier retour","Deuxième veille","Troisième mémoire","Cycle profond"]
 }
