@@ -27,9 +27,29 @@ La direction artistique conserve :
 
 Avant la Chute, le continent était constitué de cités-États indépendantes et pacifiques. Elles possédaient leurs propres lois, traditions et écoles, mais coopéraient par des routes commerciales protégées, des institutions communes et un Conseil continental.
 
+Cette organisation mature porte le nom de **Concorde**. Elle n'est ni un empire ni un État central unique : les cités restent autonomes et partagent uniquement les règles, protections et institutions nécessaires à leur coexistence.
+
 Les Humains de toutes ethnies, Nains, Elfes, Orcs, Lézardiens, Forestiers et autres peuples pouvaient vivre dans les mêmes cités. Les migrations, unions et communautés mixtes étaient ordinaires.
 
 Cette civilisation n'était pas secrètement décadente et ne traversait aucune dérive annonçant sa destruction. Son système fonctionnait réellement. Elle avait réduit les guerres, favorisé les échanges et créé une prospérité durable.
+
+### 2.0 Origine historique de la Concorde
+
+Environ mille ans avant la Chute, le continent traversa la **Dernière Guerre**, un conflit de plusieurs décennies entretenu par des dynasties, oligarchies, chefs de guerre et pouvoirs utilisant la peur, la haine et la propagande.
+
+La guerre ne prit pas fin par la victoire d'un empire. Elle s'effondra progressivement lorsque soldats, travailleurs, villes et communautés refusèrent d'entretenir le conflit.
+
+La **Nuit de Sarn** appartient aux dernières années de cette rupture collective. Elle est un événement majeur de secours, de désobéissance et de coopération entre anciens ennemis, mais elle ne crée pas à elle seule les Trois Éveils.
+
+Après la guerre commencent les **Longues Assemblées**, réunions tournantes de populations et de communautés différentes. Elles donnent progressivement naissance aux Trois Éveils et au **Premier Pacte de Concorde**.
+
+Sahra Khen, Ilyan Sorei et Tala Veyr deviennent les trois figures les plus célèbres de cette période, mais ils ne sont pas les inventeurs uniques des Éveils : ils synthétisent et transmettent un mouvement collectif beaucoup plus large.
+
+Le déroulé de référence est :
+
+**Dernière Guerre → rupture de l'obéissance → Nuit de Sarn → fin de la guerre sans vainqueur → Longues Assemblées → Trois Éveils → Premier Pacte → transmission sur plusieurs générations → Concorde mature.**
+
+LITD 2 se situe dans cette période fondatrice, environ mille ans avant LITD 1. Son arc principal commence dans les dernières années de la Dernière Guerre et peut s'achever avec la ratification du Premier Pacte de Concorde.
 
 ### 2.1 La doctrine des Trois Éveils
 
@@ -38,6 +58,8 @@ Toute personne cultivait trois dimensions complémentaires :
 1. **Le Corps** — se connaître par l'effort, la discipline et un art martial.
 2. **L'Esprit** — se connaître par la création, la sensibilité et un art.
 3. **La Cité** — comprendre autrui, participer à la vie politique et rechercher le bien commun.
+
+Pendant la période de LITD 2, le troisième Éveil n'a pas encore un nom totalement stabilisé : **Politique**, **Bien commun** et **Vie commune** coexistent avant que **La Cité** devienne la formulation dominante de la Concorde mature.
 
 La maxime fondamentale est :
 
@@ -49,11 +71,15 @@ Dès l'enfance, chaque citoyen pratiquait un art martial : combat à mains nues,
 
 Cette pratique n'avait pas seulement pour but de combattre. Elle développait la respiration, la concentration, le courage, la maîtrise de soi et la connaissance de ses limites.
 
+Ce système n'est pas encore universel au début de LITD 2 : il se construit progressivement pendant les premières générations de la Concorde.
+
 #### L'Esprit
 
 Chaque citoyen pratiquait également un art : peinture, musique, calligraphie, sculpture, danse, poésie, théâtre, céramique, jardinage, architecture ou récit.
 
 La société considérait qu'un corps puissant sans sensibilité pouvait engendrer la brutalité, tandis qu'un esprit cultivé sans maîtrise de soi demeurait vulnérable à la peur et au désordre.
+
+Les manifestations surnaturelles de Lumière ne définissent jamais à elles seules cet Éveil. Elles sont une branche tardive d'un ensemble beaucoup plus large de pratiques de perception, de création et de connaissance.
 
 #### La Cité
 
@@ -66,6 +92,8 @@ La politique était définie comme l'art de vivre avec ceux que l'on ne comprend
 Les grands champions étaient aussi reconnus pour leur art. Avant un duel important, un combattant pouvait présenter une peinture, jouer un morceau, tracer une calligraphie ou réciter un poème.
 
 Le combat devenait le prolongement de l'œuvre et révélait l'état intérieur du combattant.
+
+Cette tradition n'existe pas encore sous sa forme mature au début de LITD 2. Elle apparaît progressivement lorsque les premiers tournois inter-cités s'associent aux pratiques de l'Esprit et aux assemblées politiques.
 
 ### 2.3 Les Grands Tournois
 
@@ -80,6 +108,8 @@ Chaque grand rassemblement réunissait :
 - l'Assemblée des Cités, consacrée aux débats et au bien commun.
 
 Tuer volontairement un adversaire lors d'un tournoi était une profanation. Les armes et les règles étaient adaptées pour limiter les morts.
+
+Les Grands Tournois sont l'aboutissement de plusieurs siècles d'évolution. LITD 2 montre leurs ancêtres : rencontres martiales réglementées où gagner n'accorde aucun droit de conquête.
 
 ## 3. La conspiration extérieure
 
@@ -142,6 +172,8 @@ Les Sanctuaires des Trois Éveils existaient avant la Chute. Ils rappelaient à 
 Ils n'appartenaient à aucune religion, cité, école ou peuple.
 
 Les Sanctuaires étaient rares. Ils avaient été construits dans des lieux essentiels à la mémoire commune : naissance de la doctrine, conclusion d'une paix fondatrice, premier Grand Tournoi ou ancienne résistance réunissant plusieurs peuples.
+
+Les premiers modèles apparaissent après la génération fondatrice comme des lieux de mémoire des ruptures de la logique de guerre. Ils ne sont donc pas encore présents sous leur forme classique pendant l'essentiel de LITD 2.
 
 Chaque Sanctuaire comporte symboliquement :
 
@@ -238,93 +270,39 @@ L'interface indique :
 
 Lorsqu'un niveau contient plus de deux familles, le joueur doit choisir en fonction de la famille, des traits, de la personnalité, des compétences, de l'histoire et de la compatibilité avec le groupe.
 
-## 11. Capacité limitée du Sanctuaire
+## 11. Capacité limitée des Sanctuaires
 
-Le Sanctuaire possède un nombre limité de places pour les créatures recrutées.
+Les créatures recrutées vivent dans les Sanctuaires et leurs dépendances. La capacité n'est pas infinie : chaque Sanctuaire possède un nombre de places limité selon ses bâtiments, ressources et conditions de vie.
 
-Chaque pensionnaire occupe une place permanente, même pendant une expédition, car il conserve un habitat, de la nourriture, des soins et un espace de repos.
+Cette limite crée un choix réel. Le joueur ne peut pas accumuler sans fin toutes les créatures rencontrées.
 
-La capacité augmente grâce à :
+Un recrutement doit donc tenir compte :
 
-- la rénovation et l'agrandissement ;
-- la construction d'habitats spécialisés ;
-- le sauvetage d'artisans et de soigneurs ;
-- les connaissances acquises sur les familles ;
-- la récupération de matériaux ;
-- certaines avancées liées aux rares Sanctuaires.
+- de la place disponible ;
+- des besoins de la créature ;
+- de la compatibilité avec le Sanctuaire ;
+- de la possibilité de la relâcher ou de la confier ailleurs ;
+- de sa relation avec les autres habitants.
 
-Les habitats peuvent être spécialisés : quartier commun, enclos protégé, bassin, chambre obscure, cellule de stabilisation ou jardin intérieur.
+## 12. Économie et or
 
-Quand le Sanctuaire est plein, le joueur peut renoncer à une recrue, agrandir un habitat, libérer une créature apaisée ou la confier à une communauté alliée. Une créature confiée ou libérée n'est pas supprimée : elle peut protéger un village, retrouver son territoire ou réapparaître dans l'histoire.
+À l'époque de LITD 1, la monnaie commune est appelée **or**.
 
-> Comprendre une créature ne signifie pas la posséder. Parfois, l'aider consiste à lui trouver une place ailleurs.
+Cette simplicité a une histoire : au début de LITD 2, les cités utilisent encore différentes monnaies, poids et systèmes de dette. Pendant la reconstruction, un poids commun de l'or devient progressivement l'unité de référence des échanges entre cités. Les monnaies locales persistent longtemps, mais l'usage continental finit par simplifier cette unité en « or ».
 
-## 12. Économie
+Cette continuité permet aux anciennes monnaies de LITD 2 de réapparaître dans LITD 1 comme objets archéologiques ou indices historiques.
 
-### 12.1 L'Or
+## 13. Principe de continuité LITD Universe
 
-La monnaie principale et unique s'appelle **Or**.
+Tout élément canon créé sur la naissance de la Concorde dans LITD 2 doit être vérifié contre LITD 1 et recevoir une trace possible mille ans plus tard : texte, ruine, monnaie, institution, école, proverbe, technique, monument, déformation historique ou objet.
 
-Avant la Chute, les cités-États utilisaient une monnaie commune frappée au nom du Conseil continental. Elle représentait les Trois Éveils et était acceptée indépendamment de la cité, de l'ethnie ou du peuple du porteur.
+Les sources prioritaires pour cette période sont :
 
-Après la Chute, l'Or conserve sa valeur parce qu'il est durable, reconnaissable, transportable et associé à l'ancien réseau économique. Le troc subsiste dans les communautés isolées, tandis que l'Or reprend de l'importance à mesure que les routes sont sécurisées.
+- `HISTOIRE_TROIS_EVEILS.md` ;
+- `LITD2_NAISSANCE_DE_LA_CONCORDE.md` ;
+- `LITD_UNIVERSE_TROIS_FONDATEURS_CANON.md` ;
+- `LITD_UNIVERSE_TROIS_FONDATEURS_CONTINUITE.md` ;
+- `CONCORDE_MONDE_POLITIQUE.md` ;
+- `CONCORDE_COURANTS_PRE_CHUTE.md`.
 
-L'Or sert à :
-
-- acheter armes, armures et consommables ;
-- financer les soins ;
-- réparer et améliorer l'équipement ;
-- agrandir les bâtiments et habitats ;
-- acheter cartes et informations ;
-- financer les expéditions ;
-- former les héros ;
-- développer les routes commerciales ;
-- améliorer le coffre commun de la Guilde.
-
-Épargner ou recruter une créature ne rapporte jamais directement d'Or.
-
-### 12.2 L'Essence
-
-L'Essence est une ressource surnaturelle produite par le contact du Voile avec le monde matériel. Ce n'est pas une monnaie.
-
-Elle peut être récupérée sur les Manifestations destructrices, certains boss, les zones corrompues, les cristallisations du Voile ou par la purification de lieux et d'objets.
-
-Une créature consciente ne peut jamais être sacrifiée pour produire de l'Essence.
-
-L'Essence sert à :
-
-- étudier le Voile et avancer dans l'enquête ;
-- purifier ou stabiliser une corruption ;
-- analyser les créatures et compléter le bestiaire ;
-- améliorer les propriétés surnaturelles des équipements ;
-- activer les défenses lumineuses et dispositifs du Sanctuaire ;
-- protéger temporairement une expédition ;
-- stabiliser certaines reliques ;
-- étudier l'Arbre du Premier Voile.
-
-L'Essence ne permet pas de ressusciter un héros, d'annuler la mort permanente, de forcer une créature à rejoindre le groupe ou de refermer facilement le Voile.
-
-### 12.3 Ressources
-
-| Ressource | Fonction |
-|---|---|
-| Or | Acheter, soigner, réparer, construire et commercer |
-| Matériaux | Fabriquer, réparer et agrandir |
-| Essence | Étudier, purifier, stabiliser et manipuler les effets du Voile |
-| Reliques | Débloquer des pouvoirs, connaissances ou avancées uniques |
-
-> L'Or permet de reconstruire le monde matériel. L'Essence permet de comprendre et contenir ce qui l'a brisé.
-
-## 13. Principe narratif central
-
-Les survivants ne savent pas encore que leur continent a été visé parce que son modèle fonctionnait.
-
-Ils doivent d'abord comprendre ce qui s'est passé. Les révélations sur l'alliance extérieure, l'ouverture volontaire de la Porte et le sort probable des autres continents doivent apparaître progressivement à travers des archives, témoignages, objets étrangers, visions et Sanctuaires rares.
-
-La vérité fondamentale du lore est :
-
-> Le monde ancien n'a pas échoué. Ses survivants doivent découvrir pourquoi on a voulu le détruire, puis décider comment le faire renaître.
-
-La question fondamentale adressée au joueur face aux créatures est :
-
-> Qu'est-elle, que veut-elle, et que deviendrait-elle si nous cessions un instant d'avoir peur d'elle ?
+La règle centrale reste : la Concorde est construite par des générations de personnes ordinaires, pas offerte par trois héros isolés.
