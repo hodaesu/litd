@@ -167,7 +167,7 @@ func _has_path(ids: Dictionary, start_id: String, target_id: String) -> bool:
     var pending: Array[String] = [start_id]
     var visited: Array[String] = []
     while not pending.is_empty():
-        var current := pending.pop_front()
+        var current: String = pending.pop_front()
         if current == target_id:
             return true
         if visited.has(current):
