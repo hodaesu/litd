@@ -15,7 +15,7 @@ Son idée centrale est simple :
 
 > Des peuples peuvent partager un monde sans devoir devenir un seul peuple.
 
-## 2. Correction de continuité : la Nuit de Sarn
+## 2. La Nuit de Sarn
 
 La **Nuit de Sarn** reste canonique, mais elle n'est pas l'événement qui crée à lui seul les Trois Éveils.
 
@@ -68,7 +68,7 @@ Ils deviennent donc des fondateurs par synthèse, transmission et influence, pas
 
 ## 4. La Dernière Guerre comme véritable origine politique
 
-La Dernière Guerre a duré plusieurs décennies.
+La Dernière Guerre dure plusieurs décennies.
 
 Elle n'oppose pas simplement deux camps stables. Les alliances changent, des dynasties disparaissent, des cités sont divisées intérieurement et des populations sont déplacées d'une région à l'autre.
 
@@ -136,7 +136,7 @@ Le troisième axe possède plusieurs noms pendant LITD 2 : **Politique**, **Bien
 
 Plus tard, la formulation institutionnelle qui s'impose devient **La Cité**.
 
-Le mot ne désigne pas seulement une ville. Il signifie : la capacité de vivre avec d'autres personnes, de participer à une décision commune, d'entendre un désaccord et de limiter le pouvoir.
+Le mot ne désigne pas seulement une ville. Il signifie la capacité de vivre avec d'autres personnes, de participer à une décision commune, d'entendre un désaccord et de limiter le pouvoir.
 
 Ainsi :
 
@@ -171,27 +171,11 @@ Il signifie la décision de maintenir une communauté politique malgré le désa
 
 La Concorde adulte se développe comme un réseau de cités-États autonomes.
 
-Elle n'a :
-
-- ni empereur ;
-- ni roi continental ;
-- ni capitale permanente ;
-- ni armée appartenant à un chef unique.
+Elle n'a ni empereur, ni roi continental, ni capitale permanente, ni armée appartenant à un chef unique.
 
 Les cités disposent de leurs propres institutions et cultures.
 
-Les organes communs se concentrent progressivement sur ce qui dépasse une cité :
-
-- routes ;
-- grands canaux ;
-- diplomatie ;
-- épidémies ;
-- catastrophes ;
-- commerce inter-cités ;
-- migrations ;
-- certains droits fondamentaux ;
-- protection des grands écosystèmes ;
-- médiation des conflits.
+Les organes communs se concentrent progressivement sur ce qui dépasse une cité : routes, grands canaux, diplomatie, épidémies, catastrophes, commerce inter-cités, migrations, certains droits fondamentaux, protection des grands écosystèmes et médiation des conflits.
 
 Cette structure permet d'expliquer pourquoi, mille ans plus tard, des cités aussi différentes que Jian-Lu, Sorye, Dhor-Khal, Lhaor, Tessen et Orun-Saï peuvent appartenir à la même civilisation sans perdre leur identité.
 
@@ -207,48 +191,17 @@ Une génération plus tard, plusieurs cités commencent à considérer qu'une é
 
 ### Corps
 
-Au moins une discipline physique ou martiale :
-
-- mains nues ;
-- lutte ;
-- sabre ;
-- épée ;
-- lance ;
-- bâton ;
-- arc ;
-- disciplines propres aux différents peuples.
+Au moins une discipline physique ou martiale : mains nues, lutte, sabre, épée, lance, bâton, arc ou discipline propre à un peuple ou une école.
 
 Le but officiel n'est pas de fabriquer des soldats. Il est de connaître la peur, l'effort, la force et la limite.
 
 ### Esprit
 
-Au moins une pratique artistique ou de perception :
-
-- musique ;
-- peinture ;
-- calligraphie ;
-- sculpture ;
-- danse ;
-- poésie ;
-- théâtre ;
-- céramique ;
-- jardinage ;
-- architecture ;
-- récit ;
-- pratiques propres aux différents peuples.
+Au moins une pratique artistique ou de perception : musique, peinture, calligraphie, sculpture, danse, poésie, théâtre, céramique, jardinage, architecture, récit ou pratique propre à un peuple.
 
 ### La Cité
 
-Une formation commune comprenant :
-
-- histoire de la Dernière Guerre ;
-- argumentation ;
-- écoute ;
-- détection de la propagande ;
-- fonctionnement des institutions ;
-- médiation ;
-- droits et responsabilités ;
-- participation à de petites décisions collectives réelles.
+Une formation commune comprenant : histoire de la Dernière Guerre, argumentation, écoute, détection de la propagande, fonctionnement des institutions, médiation, droits, responsabilités et participation à de petites décisions collectives réelles.
 
 Au fil des siècles, cette triple pratique devient si normale qu'à l'époque de LITD 1 presque tout citoyen a reçu une formation martiale, possède une pratique artistique et connaît les bases de la vie politique.
 
@@ -262,13 +215,7 @@ Le défi devient donc : **comment transmettre la force sans transmettre le culte
 
 Sahra Khen joue ici un rôle essentiel.
 
-Ses écoles imposent progressivement plusieurs principes :
-
-- maîtriser une technique avant d'apprendre à l'utiliser en duel ;
-- apprendre à immobiliser et désarmer ;
-- reconnaître le moment où un combat est terminé ;
-- distinguer courage et recherche du danger ;
-- considérer le corps de l'adversaire comme une vie, pas comme une cible abstraite.
+Ses écoles imposent progressivement plusieurs principes : maîtriser une technique avant de l'utiliser en duel, apprendre à immobiliser et désarmer, reconnaître le moment où le combat est terminé, distinguer courage et recherche du danger, considérer le corps de l'adversaire comme une vie plutôt que comme une cible abstraite.
 
 Cette culture explique les Gardiens civiques de la Concorde mature et leur priorité donnée au désarmement et à l'immobilisation.
 
@@ -284,23 +231,11 @@ Le débat porte moins sur « comment obtenir davantage de pouvoir ? » que sur :
 
 > Pourquoi certaines pratiques transforment-elles la perception et parfois la matière ?
 
-Les premières écoles de l'Esprit documentent donc simultanément :
-
-- musique ;
-- mémoire ;
-- médecine ;
-- états de conscience ;
-- phénomènes lumineux ;
-- gestes ;
-- émotions ;
-- illusions perceptives ;
-- phénomènes de résonance.
+Les premières écoles de l'Esprit documentent simultanément musique, mémoire, médecine, états de conscience, phénomènes lumineux, gestes, émotions, illusions perceptives et phénomènes de résonance.
 
 Au fil des siècles, certaines de ces connaissances deviennent des techniques magiques maîtrisées.
 
 La civilisation mature continue cependant d'enseigner qu'un artiste sans pouvoir surnaturel pratique pleinement l'Éveil de l'Esprit.
-
-La magie n'est jamais le critère qui définit la valeur d'un Éveil.
 
 ## 12. De Politique à La Cité
 
@@ -308,15 +243,7 @@ Tala Veyr contribue à empêcher que le troisième Éveil ne devienne une école
 
 Sa position est que la politique appartient à toute personne affectée par une décision.
 
-Les premières pratiques comprennent :
-
-- assemblées de quartier ;
-- médiation ;
-- archives publiques ;
-- rotation des fonctions ;
-- droit de critique ;
-- Banc du Refus ;
-- limitation des pouvoirs d'urgence.
+Les premières pratiques comprennent assemblées de quartier, médiation, archives publiques, rotation des fonctions, droit de critique, Banc du Refus et limitation des pouvoirs d'urgence.
 
 Au fil des siècles, ces expériences donneront naissance aux Porte-Voix, Médiateurs de Concorde, Veilleurs du Pacte, Cercles de Justice et autres institutions connues avant la Chute.
 
@@ -330,24 +257,11 @@ Sahra insiste sur une règle fondamentale :
 
 > gagner le combat ne donne jamais le droit de gouverner l'autre.
 
-Les premiers tournois servent à :
-
-- préserver des traditions martiales ;
-- créer du prestige sans conquête ;
-- offrir un espace de rencontre à d'anciens ennemis ;
-- régler symboliquement certaines rivalités ;
-- accompagner des négociations politiques déjà engagées.
+Les premiers tournois servent à préserver des traditions martiales, créer du prestige sans conquête, offrir un espace de rencontre à d'anciens ennemis, régler symboliquement certaines rivalités et accompagner des négociations politiques déjà engagées.
 
 Ils ne remplacent jamais la justice ni la délibération.
 
-Plus tard, les grands rassemblements ajoutent deux dimensions :
-
-- **Festival de l'Esprit** ;
-- **Assemblée des Cités**.
-
-Le format classique de la Concorde devient alors :
-
-**Arène du Corps + Festival de l'Esprit + Assemblée des Cités.**
+Plus tard, les grands rassemblements ajoutent un **Festival de l'Esprit** et une **Assemblée des Cités**. Le format classique devient : **Arène du Corps + Festival de l'Esprit + Assemblée des Cités**.
 
 C'est de cette tradition que naissent les champions-artistes.
 
@@ -359,15 +273,9 @@ Ils ne sont pas des temples consacrés aux fondateurs.
 
 Ils sont conçus comme des **lieux de mémoire commune** dans des endroits où plusieurs peuples ont réussi à rompre la logique de la guerre.
 
-Les premiers modèles possèdent déjà trois espaces :
-
-- une cour pour l'effort et la maîtrise du Corps ;
-- un lieu consacré à la mémoire, aux œuvres et à l'Esprit ;
-- un cercle sans trône pour la discussion et la Cité.
+Les premiers modèles possèdent déjà trois espaces : une cour pour l'effort et la maîtrise du Corps, un lieu consacré à la mémoire, aux œuvres et à l'Esprit, et un cercle sans trône pour la discussion et la Cité.
 
 Ils deviennent volontairement indépendants des religions, des écoles et des gouvernements locaux.
-
-La rareté des Sanctuaires vient de cette fonction : on n'en construit pas un pour chaque ville, mais seulement lorsqu'un lieu porte une mémoire jugée essentielle à tout le continent.
 
 ## 15. La philosophie du vivant
 
@@ -375,19 +283,13 @@ La maxime tardive **« Je vis parce que d'autres vivent »** n'est pas inventée
 
 Elle naît progressivement de l'expérience de la guerre et de la reconstruction.
 
-Les habitants découvrent concrètement leur interdépendance :
-
-- villes dépendantes des campagnes ;
-- campagnes dépendantes des outils et routes ;
-- réfugiés dépendants de communautés autrefois ennemies ;
-- cultures dépendantes de l'eau, des insectes, des sols et des animaux ;
-- cités dépendantes de ressources traversant plusieurs frontières.
+Les habitants découvrent concrètement leur interdépendance : villes dépendantes des campagnes, campagnes dépendantes des outils et routes, réfugiés dépendants de communautés autrefois ennemies, cultures dépendantes de l'eau, des insectes, des sols et des animaux, cités dépendantes de ressources traversant plusieurs frontières.
 
 Cette conscience sociale devient peu à peu écologique.
 
 Plusieurs siècles seront nécessaires avant les formes juridiques sophistiquées des Gardiens du Vivant, mais leurs racines existent dès la reconstruction.
 
-## 16. Une société cosmopolite née des déplacements de guerre
+## 16. Une société cosmopolite née aussi des déplacements de guerre
 
 La Concorde devient cosmopolite en partie parce que la Dernière Guerre a mélangé brutalement des populations autrefois plus séparées.
 
@@ -395,17 +297,7 @@ La paix refuse de remettre chaque peuple dans une frontière ethnique supposée 
 
 Les réfugiés peuvent rester là où ils ont reconstruit leur vie.
 
-Les cités commencent alors à compter durablement :
-
-- Humains de toutes ethnies ;
-- Nains ;
-- Elfes ;
-- Orcs ;
-- Lézardiens ;
-- Forestiers ;
-- autres peuples et communautés du continent.
-
-Au fil des générations, les quartiers mixtes, unions, écoles communes, langues partagées et traditions croisées deviennent ordinaires.
+Au fil des générations, quartiers mixtes, unions, écoles communes, langues partagées et traditions croisées deviennent ordinaires.
 
 La culture dominante de la Concorde possède une forte esthétique asiatique, mais elle n'est jamais associée à une ethnie unique.
 
@@ -413,17 +305,7 @@ La culture dominante de la Concorde possède une forte esthétique asiatique, ma
 
 Les Trois Éveils ne constituent pas une religion.
 
-Les croyances anciennes survivent.
-
-Des communautés peuvent être :
-
-- religieuses ;
-- agnostiques ;
-- animistes ;
-- polythéistes ;
-- philosophiques ;
-- attachées au culte des ancêtres ;
-- liées à des traditions propres à leur peuple.
+Les croyances anciennes survivent : communautés religieuses, agnostiques, animistes, polythéistes, philosophiques, cultes des ancêtres et traditions propres aux peuples.
 
 Le Pacte protège cette pluralité tant qu'une croyance ne permet pas de retirer aux autres leurs protections communes.
 
@@ -435,100 +317,104 @@ Au début de LITD 2, les régions utilisent encore différentes monnaies, poids,
 
 Cette fragmentation complique la reconstruction.
 
-Les marchands et assemblées mettent progressivement en place un **poids commun de l'or** utilisé pour les échanges entre cités.
+Les marchands et assemblées mettent progressivement en place un **poids commun de l'or** utilisé pour les échanges entre cités. Les monnaies locales continuent d'exister pendant longtemps, mais leur valeur peut être convertie dans ce standard.
 
-Les monnaies locales continuent d'exister pendant longtemps, mais leur valeur peut être convertie dans ce standard.
+Au fil des siècles, la Concorde mature adopte une monnaie commune et le langage courant simplifie cette unité en **or**.
 
-Au fil des siècles, le langage courant simplifie cette unité en **or**.
-
-Cela permet à LITD 1 d'utiliser l'or comme monnaie commune tout en conservant une histoire économique crédible.
-
-Les principes économiques de la Concorde mature comprennent progressivement :
-
-- interdiction de certaines formes de mise en esclavage par dette ;
-- contrôle public des réserves de crise ;
-- responsabilité des cités envers les routes qu'elles utilisent ;
-- mutualisation ponctuelle lors des catastrophes ;
-- guildes, ateliers, maisons marchandes et coopérations locales ;
-- règles contre l'accaparement de ressources vitales en période de crise.
+Les principes économiques de la Concorde se développent progressivement : limitation de la mise en dépendance par dette, réserves de crise, entretien partagé des routes, mutualisation lors des catastrophes, guildes, ateliers, maisons marchandes et règles contre l'accaparement de ressources vitales en période de crise.
 
 ## 19. Technologie et niveau de vie
 
 La civilisation des Trois Éveils reste une civilisation de **Moyen Âge avancé sans armes à feu**.
 
-Elle développe sur plusieurs siècles :
+Elle développe sur plusieurs siècles métallurgie avancée, armures lamellaires, armes blanches, arcs et arbalètes, machines de siège, navigation à voile, hydraulique, canaux, irrigation, médecine, alchimie, dispositifs de levage, architecture monumentale et conservation des textes.
 
-- métallurgie avancée ;
-- armures lamellaires ;
-- armes blanches ;
-- arcs et arbalètes ;
-- machines de siège ;
-- navigation à voile ;
-- hydraulique ;
-- canaux ;
-- systèmes d'irrigation ;
-- médecine ;
-- alchimie ;
-- dispositifs de levage ;
-- architecture monumentale ;
-- conservation et copie des textes.
-
-La paix durable ne provoque donc pas une révolution industrielle. Elle permet surtout l'accumulation et la circulation du savoir.
+La paix durable ne provoque pas une révolution industrielle. Elle permet surtout l'accumulation et la circulation du savoir.
 
 ## 20. Les cités de LITD 2 et celles de LITD 1
 
 Les cités du temps de Sahra, Ilyan et Tala ne sont pas nécessairement les mêmes que les six grandes cités connues à la fin de la Concorde.
 
-En mille ans :
+En mille ans, des villes changent de nom, certaines sont détruites puis reconstruites, plusieurs fusionnent, des ports se déplacent, de nouvelles routes créent de nouveaux centres et des cités déclinent sans catastrophe.
 
-- des villes changent de nom ;
-- certaines sont détruites puis reconstruites ;
-- plusieurs fusionnent ;
-- des ports se déplacent ;
-- de nouvelles routes créent de nouveaux centres ;
-- des cités déclinent sans catastrophe ;
-- des quartiers deviennent des villes indépendantes.
-
-Ainsi :
-
-- **Orsaï**, **Namaris**, **Seyda** et **Sarn** appartiennent à la première période ;
+- **Orsaï**, **Namaris**, **Seyda** et **Sarn** appartiennent à la première période connue de LITD 2.
 - **Jian-Lu**, **Sorye**, **Dhor-Khal**, **Lhaor**, **Tessen** et **Orun-Saï** représentent de grandes puissances urbaines beaucoup plus tardives.
 
-Certaines traditions, familles, bibliothèques ou écoles des premières cités peuvent toutefois être à l'origine d'institutions des secondes.
+Toute continuité directe entre une cité ancienne et une cité tardive doit être explicitement établie avant de devenir canonique.
 
-Cette distance historique doit être visible dans LITD 1 : les habitants eux-mêmes ne connaissent pas toujours précisément la géographie politique d'il y a mille ans.
+## 21. La vie quotidienne de la première Concorde
 
-## 21. Les grandes phases des mille ans de Concorde
+La reconstruction doit être visible dans LITD 2 au niveau des habitants ordinaires.
+
+Les villes ne passent pas directement de la guerre à la prospérité. Les premières décennies connaissent :
+
+- quartiers reconstruits avec des matériaux récupérés ;
+- maisons accueillant plusieurs familles déplacées ;
+- marchés utilisant plusieurs monnaies et systèmes de poids ;
+- anciens soldats travaillant comme gardiens de routes, bâtisseurs ou instructeurs ;
+- orphelins et enfants déplacés intégrés à de nouvelles communautés ;
+- cuisines collectives pendant les pénuries ;
+- archives publiques essayant d'identifier morts et disparus ;
+- ateliers mêlant techniques provenant d'anciens camps ennemis ;
+- lieux religieux partageant parfois les mêmes bâtiments temporaires ;
+- écoles improvisées où l'on enseigne simultanément lecture, soin, défense, art et mémoire de la guerre.
+
+Cette période doit avoir une esthétique propre : **un monde blessé mais en construction**, différent aussi bien du monde de guerre du prologue que de la Concorde monumentale de LITD 1.
+
+## 22. Premières tensions de la Concorde
+
+La nouvelle société n'est pas unanime.
+
+Les grands conflits de la période de LITD 2 portent notamment sur :
+
+- faut-il juger, amnistier ou réintégrer les anciens soldats ?
+- jusqu'où les cités doivent-elles abandonner leur souveraineté ?
+- qui paie la reconstruction des régions les plus détruites ?
+- peut-on conserver des armes lourdes après la guerre ?
+- comment traiter les propriétés abandonnées par les déplacés ?
+- qui possède les terres reconstruites par des réfugiés ?
+- les responsables économiques ayant enrichi les armées sont-ils coupables ?
+- quelles informations dangereuses doivent être publiques ?
+- une majorité peut-elle interdire une croyance qu'elle juge hostile ?
+- jusqu'où doit aller la solidarité entre anciennes cités ennemies ?
+
+Ces désaccords ne sont pas des signes que la Concorde est vouée à l'échec. Ils sont précisément le laboratoire qui produit ses futures institutions.
+
+## 23. Trois pratiques mémorielles fondatrices
+
+### La Lecture des noms
+
+Des listes de morts, disparus et sauvés sont lues publiquement sans séparer les personnes selon leur ancien camp. Cette pratique cherche à empêcher que la mémoire des victimes redevienne un outil de vengeance.
+
+### Le Salut sans bannière
+
+D'anciens combattants de camps opposés mettent au point un salut martial dans lequel aucune bannière n'est présentée. Plusieurs écoles de Corps le conserveront avant certains duels.
+
+### La Place vide
+
+Influencée par les expériences de Tala, certaines assemblées gardent une place physiquement inoccupée tant qu'aucune opposition à une décision n'a été entendue. Cette pratique donnera plus tard plusieurs formes institutionnelles, dont le Banc du Refus.
+
+## 24. Les grandes phases des mille ans de Concorde
 
 ### Phase 0 — Dernière Guerre
 
-Plusieurs décennies de conflit continental.
-
-**LITD 2 commence dans sa phase finale.**
+Plusieurs décennies de conflit continental. **LITD 2 commence dans sa phase finale.**
 
 ### Phase I — Rupture de l'obéissance
 
-Les armées, travailleurs, villes et communautés cessent progressivement d'entretenir la guerre.
-
-La Nuit de Sarn appartient à cette phase.
+Armées, travailleurs, villes et communautés cessent progressivement d'entretenir la guerre. La Nuit de Sarn appartient à cette phase.
 
 ### Phase II — Longues Assemblées
 
-Reconstruction, débats, justice de l'après-guerre et formulation progressive des Trois Éveils.
-
-Cette phase constitue le cœur narratif de LITD 2 après Sarn.
+Reconstruction, débats, justice de l'après-guerre et formulation progressive des Trois Éveils. Cette phase constitue le cœur narratif de LITD 2 après Sarn.
 
 ### Phase III — Premier Pacte de Concorde
 
-Plusieurs cités ratifient une première architecture commune.
-
-**La fin principale de LITD 2 se situe ici.**
+Plusieurs cités ratifient une première architecture commune. **La fin principale de LITD 2 se situe ici.**
 
 ### Phase IV — Première génération de transmission
 
-Écoles mixtes, premiers tournois inter-cités, premières formes de médiation durable et premiers espaces mémoriels.
-
-Un épilogue de LITD 2 peut en montrer les débuts.
+Écoles mixtes, premiers tournois inter-cités, premières formes de médiation durable et premiers espaces mémoriels. Un épilogue de LITD 2 peut en montrer les débuts.
 
 ### Phase V — Institutionnalisation
 
@@ -540,110 +426,66 @@ Routes protégées, institutions communes, Grands Tournois, Sanctuaires, circula
 
 ### Phase VII — Derniers siècles avant la Chute
 
-La Concorde reste politiquement vivante et imparfaite mais fonctionne réellement. Les grandes cités connues dans LITD 1 structurent le continent.
-
-Elle n'est pas secrètement décadente et sa destruction n'est pas la punition d'une faute interne.
+La Concorde reste politiquement vivante et imparfaite mais fonctionne réellement. Elle n'est pas secrètement décadente et sa destruction n'est pas la punition d'une faute interne.
 
 La Chute vient de la conspiration extérieure et de l'ouverture de la Porte dans le Voile.
 
-## 22. Structure narrative recommandée pour LITD 2
+## 25. Structure narrative recommandée pour LITD 2
 
-### Prologue
+### Prologue — La guerre
 
-Le joueur découvre un continent encore en guerre.
+Le joueur découvre un continent encore en guerre et des propagandes qui présentent les adversaires comme irréconciliables.
 
-La propagande de chaque camp présente ses ennemis comme irréconciliables.
+### Acte I — La Nuit de Sarn
 
-### Acte I — Nuit de Sarn
-
-La tentative de trêve tourne à la catastrophe.
-
-Sahra, Ilyan et Tala deviennent des figures visibles d'un réseau de refus et de secours.
+Une tentative de trêve tourne à la catastrophe. Sahra, Ilyan et Tala deviennent des figures visibles d'un réseau beaucoup plus vaste de secours et de refus.
 
 ### Acte II — Les routes du refus
 
 Le joueur traverse des territoires où soldats, travailleurs et communautés commencent à refuser la logique de guerre.
 
-Les runs peuvent représenter :
-
-- extraction de civils ;
-- récupération d'archives ;
-- ouverture de routes ;
-- destruction d'infrastructures militaires dangereuses ;
-- neutralisation de chefs de guerre ;
-- protection de réunions ;
-- enquêtes sur des massacres ;
-- sécurisation de convois ;
-- missions auprès de cités hésitant à rompre avec leur alliance.
+Les expéditions peuvent consister à extraire des civils, récupérer des archives, rouvrir des routes, neutraliser des chefs de guerre, sécuriser des convois, protéger des réunions ou enquêter sur des massacres.
 
 ### Acte III — La guerre sans vainqueur
 
-Les grands pouvoirs perdent leur capacité à imposer la poursuite du conflit.
-
-Le problème devient : comment éviter que la fin de la guerre produise simplement une nouvelle guerre ?
+Les grands pouvoirs perdent la capacité d'imposer la poursuite du conflit. Le problème devient d'empêcher que la fin d'une guerre n'en engendre immédiatement une nouvelle.
 
 ### Acte IV — Les Longues Assemblées
 
-Le joueur protège et parcourt les premiers lieux de discussion.
-
-Les trois axes commencent à se formaliser.
-
-Les désaccords entre Sahra, Ilyan et Tala deviennent aussi importants que leurs accords.
+Le joueur protège et parcourt les premiers lieux de discussion. Les trois axes commencent à se formaliser et les désaccords entre les fondateurs deviennent aussi importants que leurs accords.
 
 ### Acte V — Le Premier Pacte
 
-Une coalition de cités accepte la première version de la Concorde.
-
-La victoire finale n'est pas la destruction d'un grand ennemi unique : c'est le moment où suffisamment de communautés décident qu'aucun dirigeant ne pourra plus légitimement relancer la guerre continentale.
+Une coalition de cités accepte la première version de la Concorde. La victoire n'est pas la destruction d'un ennemi unique : elle est la création d'un système dans lequel aucun dirigeant ne peut légitimement relancer seul une guerre continentale.
 
 ### Épilogue
 
-Quelques images montrent :
+Le jeu peut montrer une école où un enfant apprend à combattre puis à dessiner, une petite assemblée où quelqu'un occupe la Place vide, un tournoi où deux anciens ennemis se saluent, un premier lieu mémoriel à trois espaces, des routes rouvertes et des familles mixtes reconstruisant ensemble.
 
-- une école où un enfant apprend à combattre puis à dessiner ;
-- une petite assemblée où un citoyen occupe le Banc du Refus ;
-- un tournoi où deux anciens peuples ennemis se saluent ;
-- un premier lieu mémoriel possédant trois espaces ;
-- des routes rouvertes ;
-- des familles mixtes reconstruisant ensemble.
+Puis :
 
-Puis le jeu rappelle simplement :
+> **Cette paix durera près de mille ans.**
 
-**Cette paix durera près de mille ans.**
+## 26. Traces obligatoires dans LITD 1
 
-## 23. Traces obligatoires dans LITD 1
-
-La naissance de la Concorde doit être perceptible dans LITD 1 par des éléments concrets :
+La naissance de la Concorde doit rester perceptible mille ans plus tard :
 
 - fragments du Premier Pacte ;
 - anciennes bornes de routes portant des symboles pré-Concorde ;
 - monuments à des mutineries ayant contribué à arrêter la Dernière Guerre ;
 - listes de civils sauvés à Sarn ;
 - premiers règlements de tournoi ;
-- monnaies locales antérieures à l'étalon d'or commun ;
+- monnaies locales antérieures à l'étalon commun ;
 - manuscrits montrant que « La Cité » s'appelait autrefois « Bien commun » ou « Politique » ;
 - ruines d'écoles où les trois disciplines n'étaient pas encore réunies ;
-- témoignages de débats sur l'accueil des réfugiés après la guerre ;
-- versions contradictoires sur le rôle réel des Trois Fondateurs.
+- témoignages sur l'accueil des réfugiés après la guerre ;
+- versions contradictoires du rôle réel des Trois Fondateurs.
 
-Ces traces doivent renforcer un principe : la civilisation de LITD 1 n'a jamais été créée par trois êtres extraordinaires seuls.
-
-Elle a été construite par des générations de personnes ordinaires qui ont décidé de transmettre ce qu'elles avaient appris de la guerre.
-
-## 24. Principe canonique final
+## 27. Principe canonique final
 
 La Concorde n'est pas une utopie naïve.
 
-Elle connaît :
-
-- conflits ;
-- scandales ;
-- corruption ;
-- erreurs ;
-- rivalités ;
-- décisions injustes corrigées tardivement ;
-- tentations de centralisation ;
-- usages abusifs du pouvoir d'urgence.
+Elle connaît conflits, scandales, corruption, erreurs, rivalités, décisions injustes corrigées tardivement, tentations de centralisation et usages abusifs du pouvoir d'urgence.
 
 Mais son succès est réel.
 
