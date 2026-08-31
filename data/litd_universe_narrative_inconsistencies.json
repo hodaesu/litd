@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "scope": "LITD Universe narrative inconsistency registry",
+  "status": "active",
+  "severity_levels": ["BLOCKING","MAJOR","MINOR","OPEN_QUESTION"],
+  "rules": {
+    "blocking_or_major_requires_resolution_before_validation": true,
+    "must_signal_user": true,
+    "silent_fix_forbidden": true,
+    "retroactive_contrivance_forbidden": true
+  },
+  "entries": []
+}
