@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "timeline": {
     "litd2_offset_years_from_litd1": -1000,
     "period": "Fin de la Dernière Guerre puis Longues Assemblées",
@@ -17,42 +17,10 @@
       "litd2_truth_summary": "Ancienne combattante et instructrice qui transforme des traditions martiales dispersées en discipline de maîtrise de soi, de respiration et de limitation volontaire de la violence.",
       "litd1_memory_summary": "La Main Vide, figure pacifiste supposée n'avoir jamais tué et présentée tardivement comme l'unique fondatrice du Corps.",
       "traces": [
-        {
-          "id": "khen_first_breath",
-          "type": "technique",
-          "name": "Premier Souffle de Khen",
-          "discovery_phase": "early",
-          "surface_version": "Forme respiratoire attribuée à Sahra et encore enseignée par plusieurs écoles.",
-          "hidden_truth": "La technique a connu de nombreuses versions et n'était pas à l'origine un art pacifiste mais une méthode de contrôle de l'effort en situation de combat.",
-          "contradictory_evidence": "Comparaison de plusieurs manuscrits d'Orsaï."
-        },
-        {
-          "id": "khen_empty_hand_statue",
-          "type": "monument",
-          "name": "Statue de la Main Vide",
-          "discovery_phase": "early",
-          "surface_version": "Sahra représentée sans arme, paume ouverte.",
-          "hidden_truth": "L'iconographie sans arme apparaît plusieurs siècles après sa mort.",
-          "contradictory_evidence": "Bas-relief ancien la montrant armée pendant une campagne."
-        },
-        {
-          "id": "khen_orsai_notebooks",
-          "type": "text",
-          "name": "Fragments des Carnets d'Orsaï",
-          "discovery_phase": "mid",
-          "surface_version": "Documents militaires attribués à une combattante portant le nom Khen.",
-          "hidden_truth": "Ils prouvent que Sahra a tué avant de développer sa doctrine de maîtrise.",
-          "contradictory_evidence": "Registre militaire et notes personnelles concordantes."
-        },
-        {
-          "id": "khen_first_duel_court",
-          "type": "ruin",
-          "name": "Cour du Premier Duel",
-          "discovery_phase": "mid",
-          "surface_version": "Ancienne arène associée à la résolution pacifique de conflits.",
-          "hidden_truth": "Ses règles originales ne visaient pas à supprimer la violence mais à empêcher qu'un duel se transforme en conquête.",
-          "contradictory_evidence": "Inscription juridique gravée sous les gradins."
-        }
+        {"id":"khen_first_breath","type":"technique","name":"Premier Souffle de Khen","discovery_phase":"early","surface_version":"Forme respiratoire attribuée à Sahra et encore enseignée par plusieurs écoles.","hidden_truth":"La technique a connu de nombreuses versions et n'était pas à l'origine un art pacifiste mais une méthode de contrôle de l'effort en situation de combat.","contradictory_evidence":"Comparaison de plusieurs manuscrits d'Orsaï."},
+        {"id":"khen_empty_hand_statue","type":"monument","name":"Statue de la Main Vide","discovery_phase":"early","surface_version":"Sahra représentée sans arme, paume ouverte.","hidden_truth":"L'iconographie sans arme apparaît plusieurs siècles après sa mort.","contradictory_evidence":"Bas-relief ancien la montrant armée pendant une campagne."},
+        {"id":"khen_orsai_notebooks","type":"text","name":"Fragments des Carnets d'Orsaï","discovery_phase":"mid","surface_version":"Documents militaires attribués à une combattante portant le nom Khen.","hidden_truth":"Ils prouvent que Sahra a tué avant de développer sa doctrine de maîtrise.","contradictory_evidence":"Registre militaire et notes personnelles concordantes."},
+        {"id":"khen_first_duel_court","type":"ruin","name":"Cour du Premier Duel","discovery_phase":"mid","surface_version":"Ancienne arène associée à la résolution pacifique de conflits.","hidden_truth":"Ses règles originales ne visaient pas à supprimer la violence mais à empêcher qu'un duel se transforme en conquête.","contradictory_evidence":"Inscription juridique gravée sous les gradins."}
       ]
     },
     {
@@ -64,42 +32,10 @@
       "litd2_truth_summary": "Musicien, médecin et chercheur qui démontre que concentration, geste, rythme et perception peuvent agir sur des phénomènes de Lumière déjà présents dans le monde.",
       "litd1_memory_summary": "Celui qui entendit la Lumière, parfois considéré comme un prophète ayant reçu une révélation surnaturelle et présenté tardivement comme l'unique fondateur de l'Esprit.",
       "traces": [
-        {
-          "id": "sorei_seven_notes",
-          "type": "art_text",
-          "name": "Les Sept Notes de Sorei",
-          "discovery_phase": "early",
-          "surface_version": "Exercice méditatif dont cinq notes seulement sont reconnues comme authentiques.",
-          "hidden_truth": "Il s'agissait d'abord d'un exercice musical et perceptif, pas d'une prière.",
-          "contradictory_evidence": "Notation musicale antérieure aux versions religieuses."
-        },
-        {
-          "id": "sorei_prism",
-          "type": "relic",
-          "name": "Prisme de Namaris",
-          "discovery_phase": "mid",
-          "surface_version": "Objet parfois classé comme artefact de la Porte.",
-          "hidden_truth": "Instrument optique et perceptif créé des siècles avant l'ouverture de la Porte.",
-          "contradictory_evidence": "Datation et manuel d'utilisation de Namaris."
-        },
-        {
-          "id": "sorei_injured_student_letter",
-          "type": "text",
-          "name": "Lettre à l'élève blessée",
-          "discovery_phase": "late",
-          "surface_version": "Correspondance privée difficilement attribuable.",
-          "hidden_truth": "Ilyan a dissimulé un accident de recherche, contredisant son propre idéal de transmission ouverte.",
-          "contradictory_evidence": "Signature, notes médicales et journal d'atelier."
-        },
-        {
-          "id": "sorei_listening_fresco",
-          "type": "monument",
-          "name": "Fresques de l'Écoute",
-          "discovery_phase": "early",
-          "surface_version": "Ilyan représenté avec un halo et l'oreille tournée vers la Lumière.",
-          "hidden_truth": "Le halo est un ajout religieux tardif absent des premières représentations.",
-          "contradictory_evidence": "Fresque primitive retrouvée sous une couche de peinture postérieure."
-        }
+        {"id":"sorei_seven_notes","type":"art_text","name":"Les Sept Notes de Sorei","discovery_phase":"early","surface_version":"Exercice méditatif dont cinq notes seulement sont reconnues comme authentiques.","hidden_truth":"Il s'agissait d'abord d'un exercice musical et perceptif, pas d'une prière.","contradictory_evidence":"Notation musicale antérieure aux versions religieuses."},
+        {"id":"sorei_prism","type":"relic","name":"Prisme de Namaris","discovery_phase":"mid","surface_version":"Objet parfois classé comme artefact de la Porte.","hidden_truth":"Instrument optique et perceptif créé des siècles avant l'ouverture de la Porte.","contradictory_evidence":"Datation et manuel d'utilisation de Namaris."},
+        {"id":"sorei_injured_student_letter","type":"text","name":"Lettre à l'élève blessée","discovery_phase":"late","surface_version":"Correspondance privée difficilement attribuable.","hidden_truth":"Ilyan a dissimulé un accident de recherche, contredisant son propre idéal de transmission ouverte.","contradictory_evidence":"Signature, notes médicales et journal d'atelier."},
+        {"id":"sorei_listening_fresco","type":"monument","name":"Fresques de l'Écoute","discovery_phase":"early","surface_version":"Ilyan représenté avec un halo et l'oreille tournée vers la Lumière.","hidden_truth":"Le halo est un ajout religieux tardif absent des premières représentations.","contradictory_evidence":"Fresque primitive retrouvée sous une couche de peinture postérieure."}
       ]
     },
     {
@@ -111,44 +47,22 @@
       "litd2_truth_summary": "Greffière et médiatrice qui formule une politique du Bien commun fondée sur la contestation publique, la responsabilité des dirigeants et la limitation des pouvoirs d'exception. Le terme La Cité s'impose plus tard pour désigner cet Éveil.",
       "litd1_memory_summary": "La Première Législatrice, souvent présentée à tort comme l'autrice d'un code unique imposé à toutes les cités et comme l'unique fondatrice de la Cité.",
       "traces": [
-        {
-          "id": "veyr_bench_of_refusal",
-          "type": "institution_ruin",
-          "name": "Banc du Refus",
-          "discovery_phase": "early",
-          "surface_version": "Siège vide présent dans plusieurs anciennes salles de conseil.",
-          "hidden_truth": "Il garantissait formellement l'exposition d'un argument opposé avant certaines décisions importantes.",
-          "contradictory_evidence": "Procédure gravée au revers d'un banc conservé."
-        },
-        {
-          "id": "veyr_emergency_clause",
-          "type": "law_text",
-          "name": "Clause de Veyr",
-          "discovery_phase": "mid",
-          "surface_version": "Texte invoqué pour justifier des pouvoirs extraordinaires en temps de crise.",
-          "hidden_truth": "La formulation complète exige que tout pouvoir d'exception définisse les conditions de sa propre disparition.",
-          "contradictory_evidence": "Tablette brisée du Conseil de Seyda permettant de reconstituer la phrase entière."
-        },
-        {
-          "id": "veyr_hand_order",
-          "type": "faction_legacy",
-          "name": "Ordre de la Main de Veyr",
-          "discovery_phase": "mid",
-          "surface_version": "Mouvement autoritaire affirmant défendre l'autorité nécessaire au Bien commun.",
-          "hidden_truth": "Il utilise une citation amputée de Tala et supprime volontairement son droit de contestation.",
-          "contradictory_evidence": "Version complète des débats de Seyda."
-        },
-        {
-          "id": "veyr_enemy_chair_proverb",
-          "type": "oral_tradition",
-          "name": "Même Veyr laissait une chaise à son ennemi",
-          "discovery_phase": "early",
-          "surface_version": "Proverbe populaire sur la tolérance politique.",
-          "hidden_truth": "Le Banc du Refus n'était pas réservé à un ennemi personnel mais à l'opposition argumentée à une décision.",
-          "contradictory_evidence": "Règlement civique ancien."
-        }
+        {"id":"veyr_bench_of_refusal","type":"institution_ruin","name":"Banc du Refus","discovery_phase":"early","surface_version":"Siège vide présent dans plusieurs anciennes salles de conseil.","hidden_truth":"Il garantissait formellement l'exposition d'un argument opposé avant certaines décisions importantes.","contradictory_evidence":"Procédure gravée au revers d'un banc conservé."},
+        {"id":"veyr_emergency_clause","type":"law_text","name":"Clause de Veyr","discovery_phase":"mid","surface_version":"Texte invoqué pour justifier des pouvoirs extraordinaires en temps de crise.","hidden_truth":"La formulation complète exige que tout pouvoir d'exception définisse les conditions de sa propre disparition.","contradictory_evidence":"Tablette brisée du Conseil de Seyda permettant de reconstituer la phrase entière."},
+        {"id":"veyr_hand_order","type":"faction_legacy","name":"Ordre de la Main de Veyr","discovery_phase":"mid","surface_version":"Mouvement autoritaire affirmant défendre l'autorité nécessaire au Bien commun.","hidden_truth":"Il utilise une citation amputée de Tala et supprime volontairement son droit de contestation.","contradictory_evidence":"Version complète des débats de Seyda."},
+        {"id":"veyr_enemy_chair_proverb","type":"oral_tradition","name":"Même Veyr laissait une chaise à son ennemi","discovery_phase":"early","surface_version":"Proverbe populaire sur la tolérance politique.","hidden_truth":"Le Banc du Refus n'était pas réservé à un ennemi personnel mais à l'opposition argumentée à une décision.","contradictory_evidence":"Règlement civique ancien."}
       ]
     }
+  ],
+  "collective_foundation_traces": [
+    {"id":"first_pact_fragment","type":"text_relic","name":"Fragment du Premier Pacte","litd1_function":"Prouve que la Concorde naît comme pacte court, révisable et sans capitale unique."},
+    {"id":"sarn_saved_list","type":"archive","name":"Liste des sauvés de Sarn","litd1_function":"Mélange les noms d'anciens camps ennemis et révèle que Sarn fut un événement de secours plutôt qu'une révélation mystique."},
+    {"id":"bannerless_soldiers_stele","type":"monument","name":"Stèle des soldats sans bannière","litd1_function":"Conserve la mémoire des militaires qui refusèrent d'obéir et contribuèrent à terminer la Dernière Guerre."},
+    {"id":"long_assemblies_roll","type":"archive","name":"Rouleau des Longues Assemblées","litd1_function":"Contient des centaines de noms et montre que les Trois Fondateurs ne furent pas les seuls auteurs de la Concorde."},
+    {"id":"two_practices_school","type":"ruin","name":"École des deux pratiques","litd1_function":"Montre une époque où l'éducation aux trois dimensions n'était pas encore universelle."},
+    {"id":"preconcord_coin","type":"object","name":"Monnaie pré-Concorde","litd1_function":"Montre la diversité économique antérieure à l'Or commun."},
+    {"id":"three_names_tablet","type":"text","name":"Tablette des trois noms","litd1_function":"Emploie Politique/Bien commun avant que La Cité devienne le nom dominant du troisième Éveil."},
+    {"id":"first_three_spaces_plan","type":"architectural_fragment","name":"Plan des trois espaces","litd1_function":"Montre que les premiers Sanctuaires dérivent de lieux de mémoire civique et non de temples."}
   ],
   "shared_legacy": {
     "late_iconography": {
