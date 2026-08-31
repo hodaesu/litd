@@ -1,8 +1,11 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "timeline": {
     "litd2_offset_years_from_litd1": -1000,
-    "founding_event": "La Nuit de Sarn"
+    "period": "Fin de la Dernière Guerre puis Longues Assemblées",
+    "founding_process": "Dernière Guerre -> rupture collective de l'obéissance -> Longues Assemblées -> formulation progressive des Trois Éveils -> Premier Pacte de Concorde",
+    "catalyst_event": "La Nuit de Sarn",
+    "sarn_role": "Événement majeur des dernières années de la Dernière Guerre qui réunit les trajectoires de Sahra, Ilyan et Tala, sans créer à lui seul les Trois Éveils."
   },
   "founders": [
     {
@@ -10,8 +13,9 @@
       "name": "Sahra Khen",
       "awakening": "Corps",
       "origin_city": "Orsaï",
+      "historical_role": "Figure majeure parmi les nombreux anciens soldats, soigneurs, maîtres et civils qui reformulent le rapport à la force après la Dernière Guerre.",
       "litd2_truth_summary": "Ancienne combattante et instructrice qui transforme des traditions martiales dispersées en discipline de maîtrise de soi, de respiration et de limitation volontaire de la violence.",
-      "litd1_memory_summary": "La Main Vide, figure pacifiste supposée n'avoir jamais tué.",
+      "litd1_memory_summary": "La Main Vide, figure pacifiste supposée n'avoir jamais tué et présentée tardivement comme l'unique fondatrice du Corps.",
       "traces": [
         {
           "id": "khen_first_breath",
@@ -56,8 +60,9 @@
       "name": "Ilyan Sorei",
       "awakening": "Esprit",
       "origin_city": "Namaris",
+      "historical_role": "Figure majeure parmi les artistes, médecins, chercheurs, enseignants et traditions perceptives qui structurent l'Éveil de l'Esprit pendant les Longues Assemblées.",
       "litd2_truth_summary": "Musicien, médecin et chercheur qui démontre que concentration, geste, rythme et perception peuvent agir sur des phénomènes de Lumière déjà présents dans le monde.",
-      "litd1_memory_summary": "Celui qui entendit la Lumière, parfois considéré comme un prophète ayant reçu une révélation surnaturelle.",
+      "litd1_memory_summary": "Celui qui entendit la Lumière, parfois considéré comme un prophète ayant reçu une révélation surnaturelle et présenté tardivement comme l'unique fondateur de l'Esprit.",
       "traces": [
         {
           "id": "sorei_seven_notes",
@@ -100,10 +105,11 @@
     {
       "id": "tala_veyr",
       "name": "Tala Veyr",
-      "awakening": "Politique",
+      "awakening": "Politique / Bien commun / La Cité",
       "origin_city": "Seyda",
-      "litd2_truth_summary": "Greffière et médiatrice qui formule une politique du Bien commun fondée sur la contestation publique, la responsabilité des dirigeants et la limitation des pouvoirs d'exception.",
-      "litd1_memory_summary": "La Première Législatrice, souvent présentée à tort comme l'autrice d'un code unique imposé à toutes les cités.",
+      "historical_role": "Figure majeure parmi les greffiers, médiateurs, travailleurs, juristes et communautés civiques qui structurent le troisième Éveil pendant les Longues Assemblées.",
+      "litd2_truth_summary": "Greffière et médiatrice qui formule une politique du Bien commun fondée sur la contestation publique, la responsabilité des dirigeants et la limitation des pouvoirs d'exception. Le terme La Cité s'impose plus tard pour désigner cet Éveil.",
+      "litd1_memory_summary": "La Première Législatrice, souvent présentée à tort comme l'autrice d'un code unique imposé à toutes les cités et comme l'unique fondatrice de la Cité.",
       "traces": [
         {
           "id": "veyr_bench_of_refusal",
@@ -150,7 +156,7 @@
       "ilyan_sorei": "prisme ou main près de l'oreille",
       "tala_veyr": "main posée sur un siège vide"
     },
-    "historical_distortion": "L'iconographie tardive les représente comme un trio parfaitement uni alors que LITD 2 montre une alliance traversée de désaccords durables.",
-    "litd1_narrative_rule": "Au moins une trace des fondateurs doit apparaître dans les couches culturelles anciennes de LITD 1; les révélations majeures doivent opposer mémoire tardive et preuve historique sans remplacer l'enquête principale sur la Porte."
+    "historical_distortion": "L'iconographie tardive les représente comme un trio parfaitement uni ayant inventé les Trois Éveils lors de la Nuit de Sarn. LITD 2 montre au contraire qu'ils sont trois figures majeures d'un mouvement collectif né de la Dernière Guerre et des Longues Assemblées, avec des désaccords durables.",
+    "litd1_narrative_rule": "Au moins une trace des fondateurs et du processus collectif de fondation doit apparaître dans les couches culturelles anciennes de LITD 1; les révélations majeures doivent opposer mémoire tardive et preuve historique sans remplacer l'enquête principale sur la Porte."
   }
 }
