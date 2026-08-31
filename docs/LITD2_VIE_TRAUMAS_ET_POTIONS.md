@@ -1,10 +1,10 @@
 # LITD 2 — Vie, traumatismes persistants et soins
 
 > Statut : canon systémique de référence
-> Portée : PV, blessures localisées, persistance des traumatismes, soins et interaction avec la boucle roguelite
+> Portée : PV, blessures localisées, persistance des traumatismes, potions, fontaines de soin et éventuels sorts de soin
 > Continuité : reprend le principe de blessures persistantes de LITD 1 en l'adaptant au combat action de LITD 2.
 
-## 1. Vie et Traumatismes sont distincts avant le soin
+## 1. Deux systèmes distincts : Vie et Traumatismes
 
 LITD 2 suit simultanément :
 
@@ -13,7 +13,7 @@ LITD 2 suit simultanément :
 
 Un traumatisme n'est pas simplement un seuil de PV.
 
-Un personnage peut donc être à **75 % de Vie** tout en souffrant d'une **entorse**, d'une fracture ou d'une autre blessure suffisamment gênante pour vouloir se soigner immédiatement.
+Un personnage peut donc être à **75 % de Vie** tout en souffrant d'une **entorse**, d'une fracture ou d'une autre blessure suffisamment gênante pour vouloir utiliser une potion immédiatement.
 
 Formule :
 
@@ -32,7 +32,7 @@ Sa probabilité et sa nature dépendent notamment de :
 - la répétition des impacts sur une même zone ;
 - la nature de l'attaque ou de l'ennemi.
 
-Un coup violent à la cheville peut donc provoquer une entorse alors que le joueur possède encore l'essentiel de ses PV.
+Un coup violent à la cheville peut provoquer une entorse alors que le joueur possède encore l'essentiel de ses PV.
 
 Un nouveau coup sur une zone déjà blessée peut aggraver le traumatisme.
 
@@ -66,7 +66,7 @@ Attaques, parade ou manipulation de l'arme pénalisées selon le membre touché.
 Dégradation secondaire possible lorsqu'une blessure reste active suffisamment longtemps.
 
 ### Brûlure
-Sensibilité accrue et malus physiques jusqu'au prochain véritable soin.
+Sensibilité accrue et malus physiques jusqu'à utilisation d'une potion.
 
 ## 4. Persistance et aggravation
 
@@ -76,8 +76,11 @@ Un traumatisme persiste :
 
 - entre les salles ;
 - après un boss ;
-- après un repos ordinaire ne restaurant pas de PV ;
-- tant qu'aucun **soin de PV** n'est reçu.
+- après un repos ;
+- après l'utilisation d'une fontaine de soin ;
+- après un éventuel sort de soin ;
+- après n'importe quel autre effet ne restaurant que les PV ;
+- jusqu'à l'utilisation d'une **potion**.
 
 Certaines blessures peuvent s'aggraver lorsqu'elles sont sollicitées avant d'être soignées.
 
@@ -87,53 +90,88 @@ Exemples :
 - plaie profonde ignorée → saignement plus dangereux ;
 - blessure persistante → infection possible.
 
-## 5. Règle fondamentale du soin
+## 5. Règle fondamentale : seule la potion soigne les blessures
 
 Dans LITD 2 :
 
-**tout soin de PV soigne aussi tous les traumatismes actifs.**
+**seule la potion guérit les traumatismes et blessures persistantes.**
 
-Il n'existe pas de séparation entre un « soin de Vie » et un « soin de traumatisme » lorsqu'un effet restaure réellement des PV.
+Un soin de PV ordinaire ne supprime jamais un traumatisme.
 
-Si une potion, une compétence, un effet de régénération, une récompense ou un autre système rend effectivement des PV au personnage, il remet également son corps en état et supprime ses traumatismes actifs.
+Cela vaut notamment pour :
+
+- les fontaines ;
+- les éventuels sorts ou compétences de soin ;
+- les effets de régénération ;
+- les récompenses restaurant de la Vie ;
+- tout autre effet explicitement défini comme soin de PV uniquement.
 
 Exemples :
 
-- 75 % de Vie + Entorse → soin de PV → Entorse guérie ;
-- 40 % de Vie + Fracture + Plaie profonde → soin de PV → les deux traumatismes sont guéris ;
-- 90 % de Vie + Traumatisme crânien → soin de PV → traumatisme guéri.
+- 50 % de Vie + Entorse → fontaine → PV restaurés, **Entorse toujours active** ;
+- 35 % de Vie + Fracture → sort de soin → PV restaurés, **Fracture toujours active** ;
+- 75 % de Vie + Entorse → potion → PV restaurés et **Entorse guérie**.
 
-La quantité de PV rendue et la guérison des traumatismes sont deux conséquences du même acte de soin.
+La séparation entre PV et traumatismes reste donc pertinente pendant toute la run.
 
-## 6. Potion de LITD 2
+## 6. Potions
 
-La potion est un soin de PV de terrain et, conformément à la règle générale, **elle soigne donc aussi tous les traumatismes actifs**.
+Le joueur commence une run avec **3 potions de soin**.
 
-Elle peut être utilisée même lorsque le personnage possède encore beaucoup de Vie.
+Une potion :
+
+- restaure des PV ;
+- guérit **tous les traumatismes actifs** ;
+- peut être utilisée quel que soit le pourcentage de Vie restant ;
+- peut être utilisée même à 100 % de Vie si le joueur souffre d'un traumatisme.
 
 Exemple canonique :
 
-**75 % de Vie + Entorse → le joueur peut consommer une potion pour récupérer des PV et supprimer immédiatement l'Entorse.**
+**75 % de Vie + Entorse → le joueur peut dépenser une de ses 3 potions pour supprimer immédiatement l'Entorse, même si les PV manquants ne justifieraient pas à eux seuls le soin.**
 
-Le choix est tactique : le joueur peut sacrifier une potion alors qu'il n'a perdu que 25 % de sa Vie parce que le malus de l'entorse menace davantage sa run que les PV manquants.
+C'est un choix tactique majeur : la potion est une ressource rare parce qu'elle est le seul moyen de remettre complètement le corps en état pendant la run.
 
 La quantité exacte de PV restaurés par une potion reste à équilibrer séparément.
 
-## 7. Soin à Vie pleine
+Le moyen éventuel d'obtenir des potions supplémentaires pendant une run reste à définir séparément ; la règle verrouillée ici concerne le **stock de départ de 3**.
 
-Une potion doit rester utilisable lorsque le personnage est à 100 % de Vie mais souffre encore d'un traumatisme.
+## 7. Fontaines de soin
 
-Dans ce cas :
+Chaque niveau contient **une fontaine de soin**.
 
-- aucun PV supplémentaire n'est nécessaire ;
-- la consommation de la potion déclenche quand même son effet de remise en état ;
-- tous les traumatismes actifs sont guéris.
+Règles :
 
-Cette exception d'usage garantit qu'un joueur ne reste jamais coincé avec une fracture simplement parce que sa barre de Vie a déjà été restaurée par un autre mécanisme.
+- une fontaine restaure uniquement des **PV** ;
+- elle ne soigne aucune entorse, fracture, plaie profonde, brûlure, infection ou autre traumatisme ;
+- la quantité de PV restaurés par la fontaine reste à équilibrer ;
+- son emplacement peut varier à l'intérieur de la génération hybride du niveau, mais le niveau doit garantir la présence d'une fontaine.
 
-## 8. Stabilisation sans soin
+La fontaine crée ainsi une ressource de récupération de Vie qui ne remplace jamais la potion.
 
-Certains effets peuvent éventuellement empêcher temporairement l'aggravation d'une blessure sans restaurer de PV.
+Exemple :
+
+**40 % de Vie + Fracture de la jambe → fontaine → Vie restaurée, mais la fracture continue à réduire la mobilité jusqu'à l'utilisation d'une potion.**
+
+## 8. Sorts et compétences de soin
+
+S'il existe des sorts, Éveils ou compétences restaurant la Vie, ils suivent la règle suivante :
+
+**ils ne restaurent que les PV.**
+
+Ils ne peuvent jamais :
+
+- réparer une fracture ;
+- supprimer une entorse ;
+- fermer définitivement une plaie profonde considérée comme traumatisme ;
+- soigner une infection ;
+- supprimer un traumatisme crânien ;
+- supprimer une brûlure persistante.
+
+Cela évite qu'un build disposant d'un soin magique rende les potions et les blessures persistantes inutiles.
+
+## 9. Stabilisation sans potion
+
+Certains effets peuvent éventuellement empêcher temporairement l'aggravation d'une blessure sans la guérir.
 
 Exemples possibles :
 - attelle ;
@@ -141,21 +179,19 @@ Exemples possibles :
 - immobilisation ;
 - analgésique.
 
-Tant qu'ils ne restaurent pas de PV, ils ne sont pas considérés comme un soin complet et ne suppriment pas nécessairement le traumatisme.
+Ils peuvent réduire un malus ou empêcher une aggravation, mais **seule une potion supprime réellement le traumatisme**.
 
-Dès qu'un effet restaure réellement des PV, la règle générale s'applique : **tous les traumatismes sont guéris**.
-
-## 9. Relation avec Corps
+## 10. Relation avec Corps
 
 Le Corps reste particulièrement sensible aux traumatismes puisque sa puissance vient de la maîtrise physique.
 
 - Dépassement peut augmenter le risque de traumatisme ;
 - certaines reliques de Sahra peuvent réduire la probabilité ou l'aggravation des blessures ;
-- une fois un soin de PV utilisé, les traumatismes sont néanmoins tous supprimés comme pour les autres builds.
+- aucune mécanique Corps ne doit annuler la règle selon laquelle seule la potion guérit complètement un traumatisme.
 
-Le Corps ne possède donc pas une règle de soin différente du reste du jeu.
+Un joueur Corps peut donc disposer de beaucoup de PV grâce à une fontaine ou un autre soin tout en restant physiquement diminué par une fracture.
 
-## 10. Gore, zones corporelles et corps persistants
+## 11. Gore, zones corporelles et corps persistants
 
 Le système de traumatismes partage ses informations avec le gore et le démembrement :
 
@@ -169,38 +205,42 @@ Progression possible :
 
 **impact → traumatisme persistant → aggravation / fracture → éventuelle mutilation.**
 
-Si le joueur meurt avant de recevoir un soin, l'état physique exact est enregistré sur son **corps persistant** : entorses pertinentes, fractures, plaies, brûlures, mutilations et cause de mort peuvent influencer l'évolution future du cadavre.
+Si le joueur meurt avant d'utiliser une potion, l'état physique exact est enregistré sur son **corps persistant** : entorses pertinentes, fractures, plaies, brûlures, mutilations et cause de mort peuvent influencer l'évolution future du cadavre.
 
 Le nouveau corps produit par la Rémanence est distinct de l'ancien cadavre.
 
-## 11. Interface
+## 12. Interface
 
 L'interface affiche séparément :
 
 - barre de Vie ;
+- nombre de potions restantes, sur une base de départ de 3 ;
 - traumatismes actifs ;
 - zone touchée ;
 - gravité ;
 - malus principal ;
 - risque d'aggravation.
 
-Cette séparation reste importante même si un soin de PV guérit tout, car avant le soin le joueur doit pouvoir comprendre pourquoi il pourrait vouloir consommer une potion alors qu'il possède encore beaucoup de Vie.
+Une fontaine ou un sort de soin doit clairement indiquer qu'il restaure les **PV uniquement**, tandis que l'interface de potion doit indiquer **PV + guérison complète des traumatismes**.
 
-## 12. Règles verrouillées
+## 13. Règles verrouillées
 
-1. PV et traumatismes sont deux états distincts tant que le personnage n'est pas soigné.
+1. PV et traumatismes sont deux systèmes distincts.
 2. Un traumatisme peut apparaître avec beaucoup de PV restants.
 3. LITD 2 conserve les grandes familles de blessures persistantes de LITD 1.
-4. Les traumatismes persistent entre les combats tant qu'aucun soin de PV n'est reçu.
+4. Les traumatismes persistent entre les combats jusqu'à l'utilisation d'une potion.
 5. Certaines blessures peuvent s'aggraver avant leur guérison.
-6. **Tout soin de PV guérit tous les traumatismes actifs.**
-7. Cette règle vaut pour potions, compétences, régénération et tout autre effet qui restaure réellement des PV.
-8. Une potion peut être utilisée indépendamment du pourcentage de Vie restant.
-9. Une potion peut être utilisée à 100 % de Vie si un traumatisme est actif.
-10. Un personnage à 75 % de Vie peut rationnellement utiliser une potion uniquement pour supprimer une entorse gênante.
-11. Les traumatismes alimentent le système de zones corporelles, gore/démembrement et corps persistants.
-12. La quantité exacte de Vie restaurée par une potion reste à équilibrer séparément.
+6. **Seules les potions guérissent les traumatismes et blessures persistantes.**
+7. Une potion restaure des PV et guérit tous les traumatismes actifs.
+8. Le joueur commence une run avec **3 potions**.
+9. Une potion peut être utilisée indépendamment du pourcentage de Vie restant, y compris à 100 % si un traumatisme est actif.
+10. Chaque niveau garantit **une fontaine de soin**.
+11. Une fontaine restaure uniquement les PV et ne soigne jamais les traumatismes.
+12. Les éventuels sorts, compétences, régénérations ou autres soins ordinaires restaurent uniquement les PV et ne soignent jamais les traumatismes.
+13. Un personnage à 75 % de Vie peut rationnellement utiliser une potion uniquement pour supprimer une entorse gênante.
+14. Les traumatismes alimentent le système de zones corporelles, gore/démembrement et corps persistants.
+15. Les quantités exactes de PV restaurées par potion et fontaine restent à équilibrer séparément.
 
-## 13. Formule directrice
+## 14. Formule directrice
 
-**Les blessures compliquent la run tant que le personnage reste blessé. Dès que sa Vie est soignée, son corps entier est soigné.**
+**Les fontaines et les sorts rendent la Vie. La potion remet le corps entier en état.**
