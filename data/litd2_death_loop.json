@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "scope": "LITD2 death and run persistence",
+  "death": {
+    "restarts_from_checkpoint": false,
+    "restarts_entire_run": true,
+    "advances_historical_timeline": false,
+    "expires_important_side_quests": false,
+    "creates_persistent_corpse": true
+  },
+  "corpse": {
+    "persists_after_reconstruction": true,
+    "anchor_model": "historical_zone_or_encounter_node",
+    "procedural_reinjection": true,
+    "may_store": [
+      "equipment",
+      "weapon",
+      "cause_of_death",
+      "body_state",
+      "run_awakenings_snapshot",
+      "light_or_madness_state",
+      "historical_period"
+    ],
+    "possible_states": [
+      "intact",
+      "partially_looted",
+      "moved_locally",
+      "buried_or_covered",
+      "displayed_by_enemy",
+      "supernaturally_contaminated"
+    ]
+  },
+  "persistence": {
+    "kept_after_death": [
+      "known_side_quests",
+      "allowed_founder_affinity_progress",
+      "horizontal_unlocks",
+      "codex_knowledge",
+      "enemy_knowledge",
+      "persistent_corpses"
+    ],
+    "rebuilt_each_run": [
+      "temporary_Corps_Esprit_Politique_build",
+      "run_awakenings",
+      "temporary_resources",
+      "allowed_procedural_layout",
+      "nonhistorical_variable_encounters"
+    ]
+  },
+  "history_rule": "Historical progression occurs after successful completion of a milestone or explicit player progression, never because the player died.",
+  "narrative_rule": "Permanent narrative consequences come from voluntary decisions, not mechanical defeat.",
+  "sarn_rule": "Death during the Night of Sarn restarts the entire Sarn run from its beginning under the same canonical rules."
+}
