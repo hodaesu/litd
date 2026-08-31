@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "scope": "LITD Universe character creation pillar",
+  "pillar": true,
+  "core_statement": "LITD Universe owns its history; the player creates the person who crosses it.",
+  "franchise_rules": {
+    "character_creation_is_permanent_pillar": true,
+    "litd1_must_preserve_character_creation": true,
+    "litd2_must_preserve_character_creation": true,
+    "historical_major_npcs_remain_predefined": true,
+    "appearance_identity_not_stat_advantage": true,
+    "creation_must_connect_to_gameplay_and_consequences": true,
+    "future_main_titles_must_explicitly_address_pillar": true
+  },
+  "minimum_visual_creation": [
+    "name",
+    "body_morphology",
+    "face",
+    "skin_tone",
+    "hair_and_relevant_facial_hair",
+    "voice_when_applicable",
+    "lore_compatible_marks_or_scars",
+    "starting_visual_identity_when_equipment_system_allows"
+  ],
+  "narrative_creation_optional_dimensions": [
+    "geographic_or_social_origin",
+    "past",
+    "former_profession_or_training",
+    "initial_relation_to_current_historical_context",
+    "dialogue_variations"
+  ],
+  "litd2": {
+    "player_protagonist_is_created": true,
+    "founders_are_not_player_avatars": [
+      "Sahra Khen",
+      "Ilyan Sorei",
+      "Tala Veyr"
+    ],
+    "creation_locks_awakening_path": false,
+    "persistent_identity_across_campaign": true,
+    "remanence_reconstructs_created_identity": true,
+    "persistent_corpses_keep_created_identity": true,
+    "persistent_corpses_can_keep": [
+      "injuries",
+      "mutilations",
+      "equipment",
+      "weapon",
+      "gore_state",
+      "run_build_snapshot",
+      "later_corpse_transformations"
+    ]
+  },
+  "litd1": {
+    "created_or_customized_playable_characters_remain_structural": true,
+    "must_coexist_with": [
+      "recruitment",
+      "classes_and_archetypes",
+      "three_skill_trees",
+      "equipment",
+      "traits",
+      "persistent_injuries",
+      "permadeath",
+      "hero_and_creature_roster"
+    ],
+    "narrative_major_characters_may_remain_predefined": true,
+    "implementation_must_remain_separate_from_litd2": true
+  },
+  "locked_rules": [
+    "Character creation is a permanent LITD Universe pillar.",
+    "Both LITD1 and LITD2 preserve it.",
+    "Historical founders and major narrative figures remain distinct predefined people.",
+    "LITD2 protagonist is created by the player.",
+    "LITD2 character creation never locks Body Mind or Politics.",
+    "Remanence reconstructs the created identity.",
+    "Persistent corpses preserve the created identity.",
+    "LITD1 preserves created/customized playable characters alongside narrative predefined characters.",
+    "Appearance ethnicity sex and skin tone do not provide intrinsic statistical advantages."
+  ]
+}
