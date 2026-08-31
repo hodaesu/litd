@@ -1,15 +1,16 @@
 {
-  "schema_version":1,
+  "schema_version":2,
+  "chronology_source":"docs/civilisations/README.md",
   "rule":"Chaque monde extérieur possède une histoire profonde antérieure à ses régimes modernes. Aucune civilisation ancienne n'est l'ancêtre moral obligatoire du peuple actuel : continuités, ruptures, réemplois de ruines et réinterprétations doivent rester distincts.",
   "civilizations":[
     {
       "id":"vaor_khal",
       "modern_world":"varkhane",
       "name":"Cités de Vaor-Khal",
-      "period":"environ 2 700 à 2 100 ans avant la Chute",
+      "period":"env. -2870 à -2010",
       "identity":"Réseau de cités de plateaux reliées par des routes de basalte, des bornes de répartition et des assemblées de logisticiens capables de coordonner famines, migrations et travaux sans souverain unique.",
-      "veil_relation":"Les bornes semblaient favoriser certains itinéraires lorsque plusieurs communautés acceptaient la même priorité de passage.",
-      "collapse":"Un Directoire de Crise centralisa progressivement le réseau. Les bornes finirent par traiter les ordres centraux comme plus réels que les besoins locaux, rendant certaines routes presque impraticables aux communautés non reconnues.",
+      "veil_relation":"Des archives rapportent que certaines bornes corrélaient les priorités collectives déclarées avec la stabilité locale de plusieurs itinéraires; le mécanisme exact resta débattu.",
+      "collapse":"Un Directoire de Crise centralisa progressivement le réseau. Les dispositifs finirent par privilégier les priorités reconnues par le centre, tandis que certaines communautés périphériques perdaient concrètement l'accès aux routes les plus stables.",
       "legacy":"Varkhane a réemployé des routes et des symboles de Vaor-Khal sans comprendre leur fonction d'origine. La dynastie impériale n'est pas une continuation juridique de Vaor-Khal.",
       "vestige":"vestige_vaor_khal_thousand_orders",
       "deep_question":"Quand un système conçu pour coordonner l'entraide commence-t-il à fabriquer l'obéissance ?"
@@ -18,10 +19,10 @@
       "id":"lyr_mar",
       "modern_world":"namar",
       "name":"Navigateurs de Lyr-Mar",
-      "period":"environ 2 400 à 1 800 ans avant la Chute",
-      "identity":"Confédération de cités maritimes, phares, chantiers et communautés insulaires qui cartographiaient non seulement les courants mais les routes possibles d'une traversée.",
-      "veil_relation":"Leurs instruments de marée comparaient plusieurs trajectoires probables et semblaient stabiliser celle qu'un équipage choisissait collectivement.",
-      "collapse":"Les grandes écoles de navigation voulurent éliminer les routes dangereuses des cartes. À force de réduire les possibilités, certaines flottes furent enfermées dans des trajets parfaits qui revenaient toujours aux mêmes ports ou à des mers qui n'existaient plus.",
+      "period":"env. -2680 à -1760",
+      "identity":"Confédération de cités maritimes, phares, chantiers et communautés insulaires qui cartographiaient les courants, risques et routes concurrentes d'une traversée.",
+      "veil_relation":"Leurs instruments comparaient plusieurs trajectoires probables; certains journaux suggèrent qu'un choix collectif pouvait contribuer à stabiliser localement une route sans garantir son issue.",
+      "collapse":"Les grandes écoles de navigation voulurent éliminer les routes jugées dangereuses des cartes et des protocoles. La réduction méthodique des alternatives finit par rendre le réseau incapable de répondre à des conditions nouvelles, tandis que des anomalies locales renforçaient cette rigidité.",
       "legacy":"Des fondations de phares et des chambres de marée se trouvent sous plusieurs ports namari. Les Maisons marchandes ont réutilisé certaines pratiques de cartographie sans connaître leur origine.",
       "vestige":"vestige_lyr_mar_reversed_tides",
       "deep_question":"Prévoir toutes les routes protège-t-il les voyageurs, ou finit-il par décider à leur place où ils peuvent aller ?"
@@ -30,10 +31,10 @@
       "id":"sahm_ir",
       "modern_world":"azravel",
       "name":"Cités de Sahm-Ir",
-      "period":"environ 3 100 à 2 500 ans avant la Chute",
-      "identity":"Cités de montagne organisées autour de maisons d'interprétation où plusieurs écoles philosophiques, rituelles et poétiques traduisaient les mêmes symboles de façons concurrentes.",
-      "veil_relation":"Certains rites collectifs stabilisaient des lieux menacés lorsque leurs participants partageaient un symbole sans être obligés de lui donner exactement le même sens.",
-      "collapse":"Une école affirma qu'une interprétation unique rendrait les ancrages plus sûrs. Le langage rituel se rigidifia jusqu'à ce que la contradiction soit traitée par les dispositifs eux-mêmes comme une rupture à supprimer.",
+      "period":"env. -2440 à -1510",
+      "identity":"Fédération de cités de montagne et de vallées organisée autour de lieux d'interprétation où plusieurs traditions philosophiques, rituelles, juridiques et poétiques traduisaient des symboles communs de façons concurrentes.",
+      "veil_relation":"Certains rites collectifs semblaient stabiliser des lieux menacés lorsque leurs participants partageaient un symbole sans lui imposer un sens identique.",
+      "collapse":"Une école imposa progressivement qu'une interprétation unique rendrait les protocoles plus sûrs. La centralisation du sens provoqua exclusions politiques et appauvrissement des pratiques avant que les dispositifs associés au Voile n'amplifient localement ces ruptures.",
       "legacy":"Plusieurs sanctuaires d'Azravel ont été construits sur des fondations de Sahm-Ir. Les autorités modernes ont parfois revendiqué cette antiquité, mais les textes retrouvés montrent une tradition beaucoup plus pluraliste que leur doctrine officielle.",
       "vestige":"vestige_sahm_ir_sealed_voices",
       "deep_question":"Une croyance commune peut-elle protéger sans exiger que chacun donne le même sens au monde ?"
@@ -42,13 +43,13 @@
       "id":"ydris",
       "modern_world":"kor_em",
       "name":"Ateliers d'Ydris",
-      "period":"environ 2 000 à 1 500 ans avant la Chute",
-      "identity":"Réseau d'observatoires, ateliers hydrauliques et écoles de calcul qui construisaient des machines destinées à comparer causes, probabilités et décisions humaines.",
-      "veil_relation":"Leurs calculateurs obtenaient parfois de meilleurs résultats lorsqu'un observateur annonçait publiquement ce qu'il croyait devoir se produire, comme si mesure et attente participaient au phénomène.",
-      "collapse":"Les ateliers cherchèrent un modèle capable de prédire les accidents liés au Voile. Plus leurs prédictions devinrent précises, plus les événements commencèrent à se conformer aux scénarios publiés, rendant impossible de savoir si la machine prévoyait ou produisait certaines issues.",
+      "period":"env. -2190 à -1280",
+      "identity":"Réseau d'observatoires, ateliers hydrauliques et écoles de calcul qui construisaient des méthodes et machines destinées à comparer causes, probabilités et décisions humaines.",
+      "veil_relation":"Certaines séries expérimentales changèrent lorsque des observateurs annoncèrent publiquement leurs prédictions. Les archives n'établissent pas si l'effet venait de l'attente, du protocole, de la sélection des données ou d'une interaction réelle avec le phénomène.",
+      "collapse":"Des institutions commencèrent à gouverner d'après les scénarios jugés les plus probables, ce qui modifia ensuite les conditions qu'elles prétendaient seulement prévoir. Les dernières expériences liées au Voile aggravèrent cette confusion entre prédiction, intervention et résultat.",
       "legacy":"Kor-Em conserve des engrenages, tables de calcul et méthodes d'Ydris sans toujours reconnaître leur provenance. Plusieurs principes du Projet Seuil dérivent indirectement de copies incomplètes de ces travaux.",
       "vestige":"vestige_ydris_impossible_causes",
-      "deep_question":"Que reste-t-il d'une prédiction lorsqu'être certain qu'elle est vraie contribue à la rendre vraie ?"
+      "deep_question":"Que reste-t-il d'une prédiction lorsque les décisions prises en son nom contribuent à produire le monde qu'elle annonce ?"
     }
   ]
 }
