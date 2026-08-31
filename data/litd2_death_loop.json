@@ -1,12 +1,32 @@
 {
-  "schema_version": 2,
-  "scope": "LITD2 death, run persistence and evolving corpse simulation",
+  "schema_version": 3,
+  "scope": "LITD2 death, operation persistence and evolving corpse simulation",
   "death": {
     "restarts_from_checkpoint": false,
-    "restarts_entire_run": true,
-    "advances_historical_timeline": false,
+    "rewinds_time": false,
+    "returns_to_same_operation_window": true,
+    "historical_milestone_resolves_on_death": false,
     "expires_important_side_quests": false,
-    "creates_persistent_corpse": true
+    "creates_persistent_corpse": true,
+    "reconstruction_consumes_real_time": true
+  },
+  "retry_chronology": {
+    "principle": "A run is a historical operation window containing successive real attempts. Death ends the current attempt, not the historical operation and not time itself.",
+    "sequence": "operation start -> real attempt -> death -> persistent corpse -> reconstruction delay -> return during the same unresolved operation window -> later real attempt -> objective resolution",
+    "local_state_can_change_between_attempts": true,
+    "allowed_changes": [
+      "corpse_state",
+      "loot_location",
+      "local_faction_position",
+      "civilian_presence",
+      "patrols_and_nonhistorical_encounters",
+      "damage_or_blockage of local routes when causally justified"
+    ],
+    "forbidden_changes": [
+      "rewriting a failed attempt as if it never happened",
+      "restoring the battlefield to an earlier moment without cause",
+      "advancing to the next historical milestone solely because of death"
+    ]
   },
   "corpse": {
     "persists_after_reconstruction": true,
@@ -16,6 +36,7 @@
     "evolution_factors": [
       "death_zone",
       "cause_of_death",
+      "real_time_elapsed",
       "attempts_elapsed",
       "local_faction_control",
       "civilian_presence",
@@ -47,7 +68,7 @@
     ],
     "loot_rule": "Looted equipment is not deleted from the save. Important gear may move to an enemy, merchant, faction cache or recovery event. Unique narrative items can never be permanently lost through corpse evolution.",
     "reanimation_rule": "A reanimated corpse is the abandoned former body animated by an external or residual phenomenon; it is not the current protagonist and does not invalidate reconstruction.",
-    "self_echo_rule": "Very rarely, a corpse can become an optional elite encounter using a partial reconstruction of the weapon and awakening profile from the run in which it died.",
+    "self_echo_rule": "Very rarely, a corpse can become an optional elite encounter using a partial reconstruction of the weapon and awakening profile from the attempt in which it died.",
     "gore_integration": "Cause of death, severed limbs, decapitation, burns and other body-state data feed directly into persistent corpse presentation and evolution."
   },
   "corpse_evolution_frequency": {
@@ -65,9 +86,10 @@
       "codex_knowledge",
       "enemy_knowledge",
       "persistent_corpses",
-      "corpse_evolution_history"
+      "corpse_evolution_history",
+      "causally persistent local consequences"
     ],
-    "rebuilt_each_run": [
+    "rebuilt_for_each_attempt": [
       "temporary_Corps_Esprit_Politique_build",
       "run_awakenings",
       "temporary_resources",
@@ -80,11 +102,12 @@
     "A looted important item must remain recoverable through another route.",
     "A reanimated corpse cannot permanently block mandatory progression.",
     "The strongest self-echo encounters are optional or have an alternative path.",
-    "Corpse evolution never advances the historical timeline by itself.",
+    "Corpse evolution never resolves a historical milestone by itself.",
     "Corpse evolution never expires an important discovered side quest.",
-    "Corpse evolution can never make a save irrecoverable."
+    "Corpse evolution can never make a save irrecoverable.",
+    "No retry may erase evidence that an earlier failed attempt physically happened."
   ],
   "history_rule": "Historical progression occurs after successful completion of a milestone or explicit player progression, never because the player died.",
-  "narrative_rule": "Permanent narrative consequences come from voluntary decisions, not mechanical defeat.",
-  "sarn_rule": "Death during the Night of Sarn restarts the entire Sarn run from its beginning under the same canonical rules, and corpses left in Sarn may evolve like corpses from earlier runs."
+  "narrative_rule": "Permanent narrative consequences come from voluntary decisions and causally persistent actions; mechanical defeat does not rewrite history.",
+  "sarn_rule": "The Night of Sarn is one historical operation window. A death ends that attempt; reconstruction takes real time and the next attempt returns to the still-unresolved Sarn operation under evolved local conditions. No time rewind occurs."
 }
