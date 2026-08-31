@@ -5,6 +5,8 @@
 #include "Combat/LITDEquilibriumComponent.h"
 #include "Combat/LITDGoreComponent.h"
 #include "Combat/LITDFinisherComponent.h"
+#include "Combat/LITDDefenseResolverComponent.h"
+#include "Combat/LITDCombatStyleData.h"
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLITDAnimationIndependentTimingTest,
     "LITD.Combat.Core.AnimationIndependentTiming",
@@ -16,7 +18,11 @@ bool FLITDAnimationIndependentTimingTest::RunTest(const FString& Parameters)
     Action->StartupSeconds = 0.10f;
     Action->ActiveSeconds = 0.20f;
     Action->RecoverySeconds = 0.30f;
-    Action->Windows.Add({FName("Cancel.Combo"), 0.22f, 0.48f});
+    FLITDCombatWindow ComboWindow;
+    ComboWindow.Name = FName("Cancel.Combo");
+    ComboWindow.StartSeconds = 0.22f;
+    ComboWindow.EndSeconds = 0.48f;
+    Action->Windows.Add(ComboWindow);
 
     const bool BeforePresentationChange = Action->IsWindowOpen(FName("Cancel.Combo"), 0.30f);
     Action->PresentationPlayRate = 2.75f;
@@ -25,6 +31,37 @@ bool FLITDAnimationIndependentTimingTest::RunTest(const FString& Parameters)
     TestTrue(TEXT("Gameplay cancel window is open at authoritative combat time"), BeforePresentationChange);
     TestEqual(TEXT("Changing animation play rate cannot change gameplay timing"), AfterPresentationChange, BeforePresentationChange);
     TestEqual(TEXT("Active phase is derived from gameplay data"), Action->GetPhaseAtTime(0.15f), ELITDCombatActionPhase::Active);
+    return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLITDCombatStyleStanceTest,
+    "LITD.Combat.Core.StyleStanceEntry",
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLITDCombatStyleStanceTest::RunTest(const FString& Parameters)
+{
+    ULITDCombatStyleData* Style = NewObject<ULITDCombatStyleData>();
+    FLITDStyleEntryAction Entry;
+    Entry.Stance = ELITDCombatStance::Left;
+    Entry.Input = ELITDCombatInput::Heavy;
+    Entry.ActionId = FName("Sabre.Left.Heavy.01");
+    Style->EntryActions.Add(Entry);
+    TestEqual(TEXT("Weapon/unarmed style resolves action from stance + input"), Style->ResolveEntryActionId(ELITDCombatStance::Left, ELITDCombatInput::Heavy), FName("Sabre.Left.Heavy.01"));
+    return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLITDDefenseThreatRulesTest,
+    "LITD.Combat.Core.DefenseThreatRules",
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLITDDefenseThreatRulesTest::RunTest(const FString& Parameters)
+{
+    ULITDDefenseResolverComponent* Defense = NewObject<ULITDDefenseResolverComponent>();
+    TestEqual(TEXT("Normal attack can be blocked"), Defense->ResolveThreatFromWindows(ELITDAttackThreatType::Normal, true, false, false, false, false), ELITDDefenseOutcome::Block);
+    TestEqual(TEXT("Grab ignores ordinary block"), Defense->ResolveThreatFromWindows(ELITDAttackThreatType::Grab, true, false, false, false, false), ELITDDefenseOutcome::Hit);
+    TestEqual(TEXT("Grab can be dodged"), Defense->ResolveThreatFromWindows(ELITDAttackThreatType::Grab, false, false, true, false, false), ELITDDefenseOutcome::Dodge);
+    TestEqual(TEXT("Thrust rewards perfect deflection"), Defense->ResolveThreatFromWindows(ELITDAttackThreatType::Thrust, false, true, false, false, false), ELITDDefenseOutcome::PerfectParry);
+    TestEqual(TEXT("Perfect dodge has highest defensive priority"), Defense->ResolveThreatFromWindows(ELITDAttackThreatType::Heavy, false, false, true, true, false), ELITDDefenseOutcome::PerfectDodge);
     return true;
 }
 
@@ -57,7 +94,7 @@ bool FLITDDismembermentThresholdTest::RunTest(const FString& Parameters)
     Gore->BodyParts.Add(Arm);
 
     TestFalse(TEXT("Blunt trauma does not sever a limb"), Gore->ApplyLocalizedDamage(ELITDBodyZone::ArmRight, 55.0f, ELITDDamageNature::Blunt, FVector::ZeroVector, FVector::ZeroVector));
-    TestTrue(TEXT("Slash trauma can sever once threshold is reached"), Gore->ApplyLocalizedDamage(ELITDBodyZone::ArmRight, 1.0f, ELITDDamageNature::Slash, FVector::ZeroVector, FVector::ForwardVector));
+    TestTrue(TEXT("Slash can complete a severable wound once trauma threshold is reached"), Gore->ApplyLocalizedDamage(ELITDBodyZone::ArmRight, 1.0f, ELITDDamageNature::Slash, FVector::ZeroVector, FVector::ForwardVector));
     TestTrue(TEXT("Logical body state records severing"), Gore->IsSevered(ELITDBodyZone::ArmRight));
     return true;
 }

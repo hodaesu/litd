@@ -6,6 +6,7 @@
 #include "LITDCombatRuntimeComponent.generated.h"
 
 class ULITDCombatActionData;
+class ULITDCombatStyleData;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLITDActionEvent, ULITDCombatActionData*, Action);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FLITDWindowEvent, FName, WindowName, bool, bOpen);
@@ -22,6 +23,12 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
     TArray<TObjectPtr<ULITDCombatActionData>> ActionRegistry;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat|Style")
+    TObjectPtr<ULITDCombatStyleData> CombatStyle = nullptr;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat|Style")
+    ELITDCombatStance CurrentStance = ELITDCombatStance::Forward;
 
     UPROPERTY(BlueprintAssignable, Category="Combat")
     FLITDActionEvent OnActionStarted;

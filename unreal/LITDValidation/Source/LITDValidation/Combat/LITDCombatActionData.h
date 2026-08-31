@@ -9,7 +9,7 @@ class UAnimMontage;
 
 /**
  * Authoritative gameplay description of one combat action.
- * Timings and transitions are gameplay data. The montage is presentation only.
+ * Timings, stance result and transitions are gameplay data. The montage is presentation only.
  */
 UCLASS(BlueprintType)
 class LITDVALIDATION_API ULITDCombatActionData : public UPrimaryDataAsset
@@ -22,6 +22,9 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
     ELITDCombatInput Input = ELITDCombatInput::None;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat|Stance")
+    ELITDCombatStance ResultStance = ELITDCombatStance::Forward;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat|Timing", meta=(ClampMin="0.0"))
     float StartupSeconds = 0.10f;

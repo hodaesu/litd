@@ -25,6 +25,16 @@ enum class ELITDCombatInput : uint8
     Finisher
 };
 
+/** Four-position martial grammar used by unarmed and weapon styles. */
+UENUM(BlueprintType)
+enum class ELITDCombatStance : uint8
+{
+    Forward,
+    Left,
+    Right,
+    Back
+};
+
 UENUM(BlueprintType)
 enum class ELITDAttackThreatType : uint8
 {

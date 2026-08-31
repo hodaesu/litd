@@ -1,5 +1,6 @@
 #include "Combat/LITDCombatRuntimeComponent.h"
 #include "Combat/LITDCombatActionData.h"
+#include "Combat/LITDCombatStyleData.h"
 
 ULITDCombatRuntimeComponent::ULITDCombatRuntimeComponent()
 {
@@ -84,6 +85,16 @@ bool ULITDCombatRuntimeComponent::IsWindowOpen(const FName WindowName) const
 
 ULITDCombatActionData* ULITDCombatRuntimeComponent::FindActionById(const FName ActionId) const
 {
+    if (CombatStyle)
+    {
+        for (ULITDCombatActionData* Action : CombatStyle->Actions)
+        {
+            if (Action && Action->ActionId == ActionId)
+            {
+                return Action;
+            }
+        }
+    }
     for (ULITDCombatActionData* Action : ActionRegistry)
     {
         if (Action && Action->ActionId == ActionId)
@@ -96,6 +107,14 @@ ULITDCombatActionData* ULITDCombatRuntimeComponent::FindActionById(const FName A
 
 ULITDCombatActionData* ULITDCombatRuntimeComponent::FindDefaultAction(const ELITDCombatInput Input) const
 {
+    if (CombatStyle)
+    {
+        const FName StyleAction = CombatStyle->ResolveEntryActionId(CurrentStance, Input);
+        if (!StyleAction.IsNone())
+        {
+            return FindActionById(StyleAction);
+        }
+    }
     for (ULITDCombatActionData* Action : ActionRegistry)
     {
         if (Action && Action->Input == Input)
@@ -135,10 +154,16 @@ bool ULITDCombatRuntimeComponent::StartAction(ULITDCombatActionData* Action)
     }
 
     CurrentAction = Action;
+    CurrentStance = Action->ResultStance;
     ActionElapsedSeconds = 0.0f;
+    const ELITDCombatActionPhase OldPhase = CurrentPhase;
     CurrentPhase = ELITDCombatActionPhase::Startup;
     BufferedInput = ELITDCombatInput::None;
     BufferedInputRemaining = 0.0f;
+    if (OldPhase != CurrentPhase)
+    {
+        OnPhaseChanged.Broadcast(OldPhase, CurrentPhase);
+    }
     OnActionStarted.Broadcast(CurrentAction);
     UpdatePhaseAndWindows();
     return true;
@@ -197,6 +222,11 @@ void ULITDCombatRuntimeComponent::FinishCurrentAction()
     OpenWindows.Reset();
     CurrentAction = nullptr;
     ActionElapsedSeconds = 0.0f;
+    const ELITDCombatActionPhase OldPhase = CurrentPhase;
     CurrentPhase = ELITDCombatActionPhase::Idle;
+    if (OldPhase != CurrentPhase)
+    {
+        OnPhaseChanged.Broadcast(OldPhase, CurrentPhase);
+    }
     OnActionEnded.Broadcast(Finished);
 }
