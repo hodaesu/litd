@@ -10,6 +10,7 @@ signal knowledge_updated(enemy_id: String, entry: Dictionary)
 signal cargo_changed(cargo: Array)
 
 const RULES_PATH := "res://data/roguelike/roguelike_rules.json"
+const HYBRID_DUNGEON_GENERATOR_SCRIPT := preload("res://scripts/core/hybrid_dungeon_generator.gd")
 
 var rules: Dictionary = {}
 var active_run: Dictionary = {}
@@ -18,9 +19,11 @@ var bestiary: Dictionary = {}
 var lore_archive: Dictionary = {}
 var horizontal_unlocks: Dictionary = {}
 var run_history: Array = []
+var hybrid_dungeon_generator
 
 func _ready() -> void:
     _load_rules()
+    hybrid_dungeon_generator = HYBRID_DUNGEON_GENERATOR_SCRIPT.new()
 
 func _load_rules() -> void:
     if not FileAccess.file_exists(RULES_PATH):
@@ -60,6 +63,16 @@ func start_run(seed_value: int) -> Dictionary:
     return active_run.duplicate(true)
 
 func generate_dungeon(seed_value: int) -> Array:
+    if hybrid_dungeon_generator == null:
+        hybrid_dungeon_generator = HYBRID_DUNGEON_GENERATOR_SCRIPT.new()
+    var dungeon_id := str(rules.get("default_dungeon_id", "first_veil_crypts"))
+    var hybrid_result: Dictionary = hybrid_dungeon_generator.generate(seed_value, dungeon_id, {"visit_kind": "revisit"})
+    if bool(hybrid_result.get("success", false)):
+        return hybrid_result.get("layout", [])
+    push_warning("RoguelikeRuntime: hybrid generation fallback: %s" % str(hybrid_result.get("reason", "unknown")))
+    return _generate_legacy_dungeon(seed_value)
+
+func _generate_legacy_dungeon(seed_value: int) -> Array:
     var rng: RandomNumberGenerator = RandomNumberGenerator.new()
     rng.seed = seed_value
     var depth_rules: Dictionary = rules.get("depth", {})
