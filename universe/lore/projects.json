@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "projects": [
+    {
+      "id": "litd1",
+      "title": "Light in the Dark",
+      "status": "active",
+      "canon_version": "1.0.0",
+      "contributions": ["universe/lore/contributions/litd1_core.json"]
+    },
+    {
+      "id": "litd2",
+      "title": "Light in the Dark II",
+      "status": "planned",
+      "canon_version": "1.0.0",
+      "contributions": []
+    }
+  ]
+}

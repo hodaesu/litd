@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.0.0",
+  "authority": "LITD Universe",
+  "facts": [
+    {
+      "id": "world.era.advanced_medieval",
+      "subject": "world.technology",
+      "predicate": "historical_era",
+      "value": "advanced_medieval",
+      "status": "fixed",
+      "sources": ["docs/LORE_BIBLE.md"]
+    },
+    {
+      "id": "world.technology.no_firearms",
+      "subject": "world.technology",
+      "predicate": "firearms_exist",
+      "value": false,
+      "status": "fixed",
+      "sources": ["docs/LORE_BIBLE.md"]
+    },
+    {
+      "id": "concord.culture.cosmopolitan",
+      "subject": "concord.culture",
+      "predicate": "social_composition",
+      "value": "cosmopolitan_multi_people",
+      "status": "fixed",
+      "sources": ["docs/LORE_BIBLE.md"]
+    },
+    {
+      "id": "concord.doctrine.three_awakenings",
+      "subject": "concord.doctrine",
+      "predicate": "pillars",
+      "value": ["body", "spirit", "city"],
+      "status": "fixed",
+      "sources": ["docs/LORE_BIBLE.md", "docs/HISTOIRE_TROIS_EVEILS.md"]
+    },
+    {
+      "id": "concord.conflict.grand_tournaments",
+      "subject": "concord.city_states",
+      "predicate": "war_replacement",
+      "value": "grand_martial_tournaments",
+      "status": "fixed",
+      "sources": ["docs/LORE_BIBLE.md", "docs/HISTOIRE_TROIS_EVEILS.md"]
+    },
+    {
+      "id": "fall.cause.project_threshold",
+      "subject": "fall.cause",
+      "predicate": "initiating_operation",
+      "value": "project_threshold_by_closed_horizon_pact",
+      "status": "fixed",
+      "sources": ["docs/LORE_BIBLE.md", "docs/LORE_MONDE_VOILE_ET_CHUTE.md"]
+    },
+    {
+      "id": "fall.responsibility.not_collective",
+      "subject": "fall.responsibility",
+      "predicate": "collective_guilt",
+      "value": false,
+      "status": "fixed",
+      "sources": ["docs/LORE_MONDE_VOILE_ET_CHUTE.md"]
+    },
+    {
+      "id": "veil.nature.minimum_truth",
+      "subject": "veil.nature",
+      "predicate": "minimum_definition",
+      "value": "layer_of_reality_where_matter_memory_perception_and_emotion_are_unstable",
+      "status": "fixed",
+      "sources": ["docs/LORE_MONDE_VOILE_ET_CHUTE.md"]
+    },
+    {
+      "id": "veil.nature.final_answer",
+      "subject": "veil.nature",
+      "predicate": "complete_definition",
+      "value": "intentionally_unresolved",
+      "status": "open",
+      "allowed_operations": ["affirm", "theory", "partial_evidence"],
+      "sources": ["docs/LORE_MONDE_VOILE_ET_CHUTE.md"]
+    },
+    {
+      "id": "litd1.knowledge.initial_fall",
+      "subject": "litd1.survivors",
+      "predicate": "initial_knowledge_of_fall_cause",
+      "value": "unknown",
+      "status": "fixed",
+      "sources": ["docs/LORE_BIBLE.md"]
+    }
+  ],
+  "timeline": [
+    {"id": "era.before_fall", "label": "Avant la Chute", "order": 100},
+    {"id": "event.project_threshold", "label": "Projet Seuil", "order": 200},
+    {"id": "event.fall", "label": "La Chute", "order": 300},
+    {"id": "era.after_fall", "label": "Après la Chute", "order": 400}
+  ]
+}

@@ -8,4 +8,5 @@ Décris précisément le changement.
 - [ ] Les tests Python réussissent
 - [ ] Le smoke test Godot réussit
 - [ ] Aucun asset ou JSON n’est cassé
+- [ ] Tout ajout de lore est déclaré dans `universe/lore/contributions/` et l'audit de continuité réussit
 - [ ] Le journal des versions est mis à jour si nécessaire

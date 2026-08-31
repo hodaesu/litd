@@ -24,6 +24,8 @@ jobs:
         run: python -m tools.qa.audit
       - name: Audit transversal campagne et systèmes
         run: python -m tools.qa.cross_system_audit
+      - name: Audit continuité du lore LITD Universe
+        run: python -m tools.qa.lore_universe_audit --report reports/lore-universe.json
       - name: Audit progression, économie et NG+
         run: python -m tools.qa.balance_audit
       - name: Audit tours complets et effets de talents
