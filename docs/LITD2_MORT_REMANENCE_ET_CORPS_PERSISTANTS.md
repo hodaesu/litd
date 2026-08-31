@@ -3,21 +3,13 @@
 > Statut : canon narratif et systémique prioritaire pour la mort du joueur dans LITD 2
 > Portée : défaite, recommencement de run, chronologie, corps persistants, récupération d'équipement et continuité avec LITD 1
 > Priorité : ce document remplace toute formulation antérieure laissant entendre qu'une mort fait avancer la guerre, fait perdre une quête secondaire ou reprend la partie depuis un checkpoint.
+> Complément : les règles détaillées d'évolution des cadavres sont définies dans `LITD2_EVOLUTION_CORPS_PERSISTANTS.md`.
 
 ## 1. Règle fondamentale
 
 Dans LITD 2, **mourir fait recommencer la run entière**.
 
-Le joueur ne réapparaît pas :
-
-- à un checkpoint ;
-- à la dernière salle ;
-- au dernier combat ;
-- à un point de sauvegarde intermédiaire.
-
-La tentative est terminée.
-
-La prochaine tentative recommence depuis le **point de départ historique de cette run**.
+Le joueur ne réapparaît pas à un checkpoint, à la dernière salle, au dernier combat ou à un point de sauvegarde intermédiaire. La tentative est terminée et la prochaine tentative recommence depuis le **point de départ historique de cette run**.
 
 Formule canonique :
 
@@ -27,205 +19,181 @@ Formule canonique :
 
 Une mort de gameplay ne valide aucun événement historique.
 
-Elle ne peut pas :
+Elle ne peut pas faire tomber une ville hors écran, faire gagner ou perdre définitivement une bataille, supprimer une quête secondaire, tuer automatiquement un PNJ narratif, fermer une route narrative importante ou faire passer le jeu à la période suivante.
 
-- faire tomber une ville hors écran ;
-- faire gagner ou perdre définitivement une bataille ;
-- supprimer une quête secondaire ;
-- tuer automatiquement un PNJ narratif ;
-- fermer une route narrative importante ;
-- faire passer le jeu à la période de guerre suivante.
+La chronologie avance uniquement lorsqu'un **jalon historique est effectivement accompli** ou lorsque le joueur choisit explicitement de quitter une période après en avoir rempli les conditions.
 
-La chronologie avance uniquement lorsqu'un **jalon historique est effectivement accompli** ou lorsque le joueur choisit explicitement de quitter une période après avoir rempli ses conditions.
-
-Une mort représente donc une tentative qui n'a pas produit le résultat historique retenu par la chronologie.
-
-Le jeu ne doit jamais punir l'apprentissage mécanique par une perte de contenu narratif.
+Le jeu ne punit donc jamais l'apprentissage mécanique par une perte de contenu narratif.
 
 ## 3. Les quêtes secondaires restent disponibles
 
 Une quête secondaire découverte n'expire jamais simplement parce que le joueur est mort.
 
-Si une quête a été révélée pendant une tentative puis que le joueur meurt, elle reste connue et peut réapparaître dans une tentative suivante lorsque sa zone ou ses conditions sont à nouveau accessibles.
+Les conséquences permanentes viennent de **décisions volontaires du joueur**, pas de sa mort.
 
-Les pertes narratives permanentes viennent de **décisions volontaires du joueur**, pas de sa mort.
-
-Exemples de conséquences permanentes valides :
-
-- choisir de remettre un prisonnier à une faction plutôt qu'à une autre ;
-- détruire volontairement une archive ;
-- refuser une demande ;
-- prendre parti dans un conflit ;
-- sacrifier une ressource ou une opportunité après un choix explicite.
-
-Exemples de conséquences permanentes interdites :
-
-- perdre une quête parce qu'un boss a tué le joueur ;
-- manquer une scène parce qu'une run a échoué ;
-- voir la guerre se terminer pendant une reconstruction après la mort.
+Un objet narratif unique ou une quête importante ne peut jamais être supprimé par le système de corps persistants.
 
 ## 4. Le corps reste dans le monde
 
 Chaque mort produit un **corps persistant du protagoniste**.
 
-Ce corps appartient au monde physique : la reconstruction du joueur ne téléporte pas son ancien cadavre et ne l'efface pas.
+La reconstruction du joueur ne téléporte pas et n'efface pas son ancien cadavre.
 
 Le corps peut conserver :
 
-- l'équipement porté au moment de la mort ;
-- l'arme utilisée ;
+- équipement et arme ;
 - certains objets de run ;
-- le lieu ou secteur de la mort ;
-- la cause de mort ;
-- les blessures visibles pertinentes ;
-- les Éveils choisis pendant cette tentative ;
-- le niveau de Lumière, Folie ou autres états narrativement utiles ;
-- la date / période historique de la tentative.
-
-Le corps persistant est une signature de LITD Universe et doit rappeler le système de cadavres de LITD 1 sans être une copie mécanique exacte.
+- secteur de mort ;
+- cause de mort ;
+- blessures et démembrements ;
+- snapshot des Éveils de cette tentative ;
+- dominante Corps / Esprit / Politique ou hybride ;
+- états de Lumière, Folie ou autres états utiles ;
+- période historique de la tentative.
 
 ## 5. Retrouver son propre cadavre
 
 Lors d'une tentative suivante de la même opération, le joueur peut retrouver son ancien corps.
 
-Le corps ne doit pas dépendre d'une coordonnée procédurale exacte qui pourrait disparaître lorsque la run est recomposée.
+Le corps est rattaché à un **ancrage historique de zone** plutôt qu'à une coordonnée procédurale exacte : secteur, type de salle, embranchement, objectif local ou nœud de rencontre.
 
-Il est enregistré sur un **ancrage historique de zone** : secteur, type de salle, embranchement, objectif local ou nœud de rencontre.
+La géométrie peut donc changer alors que la fiction reste cohérente.
 
-Lors de la génération suivante, le système réserve un emplacement compatible et y réinjecte le cadavre.
+## 6. Le cadavre évolue
 
-Ainsi, la géométrie précise peut varier alors que la fiction reste cohérente :
+Un corps persistant n'est pas un coffre immobile.
 
-> « Je suis mort dans les souterrains du quartier Est » reste vrai même si le couloir exact n'est pas identique à la tentative précédente.
+Entre deux tentatives, il peut évoluer selon :
 
-## 6. Ce qui peut arriver au cadavre
+- le lieu de la mort ;
+- la cause de la mort ;
+- le nombre de tentatives écoulées ;
+- la faction contrôlant la zone ;
+- la présence de civils ;
+- les anomalies surnaturelles locales ;
+- certaines décisions précédentes.
 
-Le cadavre ne doit pas toujours attendre passivement au même endroit.
-
-Selon la zone et les systèmes de run, il peut être :
+Il peut être retrouvé :
 
 - intact ;
-- partiellement dépouillé ;
-- déplacé de quelques mètres par des combattants ou des créatures ;
-- recouvert ou enterré sommairement par des civils ;
-- utilisé comme avertissement par un groupe ennemi ;
-- contaminé par un phénomène surnaturel ;
-- entouré des traces du combat qui l'a tué.
+- partiellement ou fortement pillé ;
+- déplacé ;
+- recouvert ou enterré ;
+- exposé comme trophée ou avertissement ;
+- décomposé ;
+- contaminé ;
+- réanimé comme ennemi ;
+- très rarement transformé en **Écho de soi**.
 
-Ces variations ne doivent jamais supprimer arbitrairement une quête ou un objet narratif irremplaçable.
+Les règles complètes sont définies dans `LITD2_EVOLUTION_CORPS_PERSISTANTS.md`.
 
-## 7. Récupération de l'équipement
+## 7. Écho de soi
 
-Une partie de l'intérêt de retrouver son corps vient de la récupération.
+Un cadavre exceptionnel peut devenir un ennemi élite facultatif utilisant une partie de l'empreinte de la run où il est mort.
 
-Le principe retenu est :
+Il peut reprendre :
 
-- les éléments méta et les déblocages permanents ne sont jamais perdus ;
-- les Éveils de la run précédente ne sont pas restaurés comme build actif : la nouvelle run reconstruit son propre build ;
-- l'équipement physique abandonné peut être récupéré sur le cadavre selon les règles d'inventaire définitives ;
-- aucun objet indispensable au scénario principal ne peut être perdu définitivement sur un corps inaccessible.
+- l'arme abandonnée ;
+- quelques Éveils caractéristiques ;
+- la dominante Corps / Esprit / Politique ;
+- certaines altérations liées à la cause de mort ;
+- des mutations propres à la zone.
 
-Le corps est donc un risque et une mémoire de la tentative précédente, pas un mécanisme capable de casser une sauvegarde.
+Il ne s'agit pas du protagoniste revenu une seconde fois. Le joueur actuel est la reconstruction issue de la Rémanence ; l'Écho est l'ancien corps animé ou déformé par un phénomène résiduel.
 
-## 8. Plusieurs morts dans une même run historique
+Le vaincre peut permettre de récupérer l'équipement restant et une récompense spéciale liée à la Rémanence.
 
-Le joueur peut mourir plusieurs fois avant de réussir une opération.
+Les Échos les plus dangereux restent facultatifs ou contournables.
 
-Chaque mort peut laisser une trace distincte.
+## 8. Pillage et récupération
 
-Le système doit conserver au minimum les informations logiques de chaque cadavre : lieu, cause, équipement et état.
+Un équipement pillé n'est pas nécessairement détruit.
 
-Pour des raisons de lisibilité et de performance, l'affichage simultané de très nombreux anciens corps pourra être limité ou regroupé visuellement, mais le canon ne doit pas prétendre que les morts précédentes n'ont jamais existé.
+Il peut réapparaître sur un soldat, un pillard, un marchand, dans un coffre de faction, sur un mini-boss ou dans un événement de récupération.
 
-Les cadavres les plus récents, les plus significatifs ou ceux contenant encore un équipement récupérable sont prioritaires pour une représentation physique complète.
+Un objet unique indispensable ne peut jamais être perdu définitivement.
 
-## 9. Relation avec le Vestige / la Rémanence
+Ainsi, retrouver son corps peut créer une nouvelle histoire plutôt qu'une simple récupération automatique.
 
-La piste de conception privilégiée reste celle d'un protagoniste capable d'être reconstruit grâce à un phénomène ou un vestige ancien lié à une civilisation antérieure et au Voile.
+## 9. Plusieurs morts dans la même opération
 
-Cette origine exacte reste à développer et n'est pas entièrement verrouillée par le présent document.
+Le joueur peut laisser plusieurs cadavres avant de réussir une run.
 
-En revanche, une règle est déjà canonique :
+Chaque mort conserve un historique logique.
+
+Une zone peut donc finir par raconter les tentatives du joueur : tombes improvisées, équipement récupéré par des ennemis, anciens corps exposés, cadavre intact près d'un autre réanimé, anomalies provoquées par plusieurs traces de Rémanence.
+
+Pour les performances, tous les cadavres ne doivent pas nécessairement être affichés simultanément avec le même niveau de détail, mais le canon ne prétend jamais que les morts précédentes ont disparu.
+
+## 10. Relation avec le Vestige / la Rémanence
+
+La piste privilégiée reste un protagoniste reconstruit grâce à un phénomène ou vestige ancien lié à une civilisation antérieure et au Voile.
+
+L'origine exacte reste à développer.
+
+Une règle est cependant verrouillée :
 
 **la reconstruction produit un nouveau corps sans faire disparaître l'ancien.**
 
-Il ne s'agit donc ni d'un voyage temporel ni d'un simple réveil après inconscience.
+Le personnage a réellement été tué. Il ne voyage pas dans le temps et ne se réveille pas après une simple inconscience.
 
-Le personnage a réellement été tué.
+## 11. Les fondateurs réagissent aux cadavres
 
-Un nouveau corps revient ensuite à l'existence par le mécanisme de Rémanence encore à définir.
+### Sahra Khen
 
-## 10. Conséquence philosophique
+Elle questionne la valeur d'une chair que le protagoniste sait remplaçable et peut réagir aux mutilations, au Dépassement et à la manière dont il traite ses propres dépouilles.
 
-Le fait que les anciens corps demeurent rend la reconstruction beaucoup plus troublante.
+### Ilyan Sorei
 
-Sahra peut questionner la relation du protagoniste à une chair qu'il sait remplaçable.
+Il étudie la différence entre corps inertes, contaminés et réanimés. Un Écho de soi devient une preuve majeure que la Rémanence conserve plus qu'une simple forme biologique.
 
-Ilyan peut chercher à comprendre où se trouve l'identité lorsque plusieurs corps biologiquement authentiques du même individu existent successivement.
+### Tala Veyr
 
-Tala peut s'interroger sur les conséquences politiques d'un individu que la mort n'écarte pas durablement du pouvoir ou de la guerre.
+Elle observe la réaction de la société : vénération, peur, récupération politique, destruction des corps, désir d'étude ou volonté d'en faire une arme.
 
-Ces interrogations peuvent participer aux affinités avec les trois fondateurs sans transformer le protagoniste en quatrième fondateur.
+Ces situations peuvent nourrir les affinités sans faire du protagoniste un quatrième fondateur.
 
-## 11. Une mort ne réinitialise pas tout
+## 12. Une mort ne réinitialise pas tout
 
-Recommencer la run ne signifie pas effacer toute progression du joueur.
+Persistent après une mort :
 
-Restent persistants selon les systèmes déjà définis ou à préciser :
-
-- connaissance des quêtes déjà découvertes ;
-- affinités Sahra / Ilyan / Tala déjà gagnées hors récompenses explicitement conditionnées à la réussite de la run ;
+- quêtes connues ;
+- progression d'affinité autorisée ;
 - déblocages horizontaux ;
-- entrées de codex et connaissances ;
-- informations apprises sur les ennemis ;
-- progression méta autorisée ;
-- corps laissés par les tentatives précédentes.
+- codex et connaissances ;
+- informations sur les ennemis ;
+- progression méta prévue ;
+- cadavres et historique de leur évolution.
 
-En revanche, la nouvelle tentative recrée :
+Sont reconstruits pour la nouvelle tentative :
 
-- le build temporaire Corps / Esprit / Politique ;
-- les Éveils de run ;
-- une partie des ressources temporaires ;
-- l'agencement procédural autorisé ;
-- les rencontres non historiques variables.
-
-## 12. La guerre avance après la réussite, pas après la mort
-
-Une période historique peut contenir autant de tentatives que nécessaire.
-
-Quand une opération majeure est accomplie, son résultat entre dans la chronologie et peut ouvrir l'opération ou la période suivante.
-
-Le rythme narratif devient donc :
-
-**choisir une opération → tenter la run → mourir éventuellement → recommencer → réussir → enregistrer le fait historique → retour au hub / camp → poursuivre la guerre.**
-
-La guerre semble progresser, mais elle ne vole jamais une partie du jeu au joueur pendant qu'il apprend.
+- build temporaire Corps / Esprit / Politique ;
+- Éveils de run ;
+- ressources temporaires ;
+- agencement procédural autorisé ;
+- rencontres variables non historiques.
 
 ## 13. Nuit de Sarn
 
-La Nuit de Sarn obéit à la même règle.
+La Nuit de Sarn suit exactement les mêmes règles.
 
-Elle est la dernière run de LITD 2, mais une mort à Sarn fait **recommencer Sarn depuis le début**.
+Une mort fait recommencer **toute la run de Sarn**. Le cadavre laissé lors de cette tentative peut lui aussi persister et évoluer lors d'une nouvelle tentative.
 
-Elle ne déclenche pas automatiquement une mauvaise fin permanente, ne détruit pas la sauvegarde et ne fait pas avancer l'Histoire sans le joueur.
+## 14. Protections contre la frustration
 
-La victoire à Sarn reste un événement que le joueur doit réellement accomplir.
-
-## 14. Règles verrouillées
-
-1. Aucun checkpoint intermédiaire après la mort.
-2. Toute mort termine la tentative en cours.
-3. La prochaine tentative reprend au début de la run.
-4. La mort ne fait pas avancer la chronologie historique.
-5. La mort ne fait perdre aucune quête secondaire importante.
-6. Les conséquences narratives permanentes proviennent de décisions volontaires, pas de l'échec mécanique.
-7. Chaque mort laisse un corps persistant dans le monde.
-8. Le corps peut être retrouvé dans une tentative suivante grâce à un ancrage de zone compatible avec la génération procédurale.
-9. Le corps peut conserver équipement, cause de mort et état de la tentative.
-10. La reconstruction ne fait pas disparaître l'ancien corps.
+1. Aucun checkpoint après une mort.
+2. Toute mort termine la tentative.
+3. La mort ne fait pas avancer l'Histoire.
+4. La mort ne supprime pas les quêtes importantes.
+5. Chaque mort laisse un corps persistant.
+6. Le corps peut évoluer entre les tentatives.
+7. Un équipement pillé important reste récupérable d'une autre manière.
+8. Un objet narratif unique ne peut pas être perdu définitivement.
+9. Une réanimation ne peut pas bloquer définitivement le chemin obligatoire.
+10. Les Échos de soi les plus dangereux sont facultatifs ou contournables.
 11. Une nouvelle run reconstruit son build temporaire au lieu de restaurer celui du cadavre.
-12. La Nuit de Sarn suit exactement ces règles.
+12. L'évolution d'un cadavre ne peut jamais rendre une sauvegarde irréparable.
 
 ## 15. Formule directrice
 
-**La mort efface la tentative, pas l'Histoire. Le corps reste. Le joueur repart depuis le début de la run.**
+**La mort efface la tentative, pas l'Histoire. Le corps reste — et parfois, il continue sa propre histoire.**
