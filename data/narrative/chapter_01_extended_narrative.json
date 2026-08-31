@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "environmental_sequences": [
     {
       "id": "gate_departure",
@@ -22,10 +22,7 @@
         "Scratches inside the rubble answer every strike.",
         "The rescued refuse to ring it until all names are counted."
       ],
-      "choice_echoes": [
-        "return_bell",
-        "leave_warning"
-      ]
+      "choice_echoes": ["return_bell","leave_warning"]
     },
     {
       "id": "name_field",
@@ -56,46 +53,11 @@
     }
   ],
   "camp_conversations": [
-    {
-      "id": "injury_arm",
-      "trigger": "ally_arm_injury",
-      "lines": [
-        "Keep the weapon side clear. I can bind the rest while we walk.",
-        "Ambidextrous or not, a two-handed weapon still needs two arms."
-      ]
-    },
-    {
-      "id": "injury_persistent",
-      "trigger": "untreated_injury",
-      "lines": [
-        "Rest hid the pain; it did not heal it.",
-        "We leave it untreated, it follows us into every room."
-      ]
-    },
-    {
-      "id": "enemy_fear",
-      "trigger": "enemy_panicked",
-      "lines": [
-        "They know our names now.",
-        "That fear will save us once and provoke them the next time."
-      ]
-    },
-    {
-      "id": "quest_refused",
-      "trigger": "quest_refused",
-      "lines": [
-        "Saying no is still a decision the Sanctuary must live with.",
-        "We may find the cost of that refusal further down the road."
-      ]
-    },
-    {
-      "id": "healer_present",
-      "trigger": "party_healer",
-      "lines": [
-        "Give me time and clean hands. We do not need the Infirmary for this.",
-        "I can treat every wound. A lost limb is another matter."
-      ]
-    }
+    {"id":"injury_arm","trigger":"ally_arm_injury","lines":["Keep the weapon side clear. I can bind the rest while we walk.","Ambidextrous or not, a two-handed weapon still needs two arms."]},
+    {"id":"injury_persistent","trigger":"untreated_injury","lines":["Rest hid the pain; it did not heal it.","We leave it untreated, it follows us into every room."]},
+    {"id":"enemy_fear","trigger":"enemy_panicked","lines":["They know our names now.","That fear will save us once and provoke them the next time."]},
+    {"id":"quest_refused","trigger":"quest_refused","lines":["Saying no is still a decision the Sanctuary must live with.","We may find the cost of that refusal further down the road."]},
+    {"id":"healer_present","trigger":"party_healer","lines":["Give me time and clean hands. We do not need the Infirmary for this.","I can treat every wound. A lost limb is another matter."]}
   ],
   "documents": [
     {
@@ -108,7 +70,7 @@
       "id": "after_fall_council",
       "title": "Minutes of the last open council",
       "theme": "politics_after_fall",
-      "text": "The gate was not opened by ignorance alone, but by powers that preferred victory elsewhere to responsibility here."
+      "text": "Several delegates insist the disaster was not equally sudden everywhere. Others accuse them of inventing intention where panic and incomplete reports may be enough. The council records the disagreement without deciding it."
     },
     {
       "id": "fear_fragment",
@@ -117,10 +79,10 @@
       "text": "Fear is a witness. Listen to it, but never let it pass sentence."
     },
     {
-      "id": "madness_fragment",
-      "title": "The mirror without a crowd",
-      "theme": "madness",
-      "text": "Madness begins when every contradiction is mistaken for an enemy voice."
+      "id": "veil_folie_fragment",
+      "title": "Notes from an unstable room",
+      "theme": "veil_folie",
+      "text": "Three witnesses heard a fourth voice. None agreed on its words. Exposure records are attached; no conclusion about illness, truth or origin is justified by this note alone."
     },
     {
       "id": "hope_fragment",
@@ -129,19 +91,19 @@
       "text": "Hope is not certainty. It is the work repeated before certainty exists."
     }
   ],
-  "reaction_dimensions": [
-    "trait",
-    "injury",
-    "fear",
-    "madness",
-    "hope",
-    "relationship",
-    "quest_choice",
-    "ally_death",
-    "captured_creature"
-  ],
-  "localization": [
-    "fr",
-    "en_placeholder"
-  ]
+  "revelation_guardrail": {
+    "chapter_1_may_establish": [
+      "the current Fall does not explain every older trace associated with the Veil",
+      "witnesses can disagree about anomalous events",
+      "survivors already suspect several competing explanations"
+    ],
+    "chapter_1_must_not_establish": [
+      "organized foreign responsibility for the Fall",
+      "Project Seuil",
+      "observer participation as a proven Veil mechanism",
+      "the ultimate ontology of the Veil"
+    ]
+  },
+  "reaction_dimensions": ["trait","injury","fear","veil_folie","hope","relationship","quest_choice","ally_death","captured_creature"],
+  "localization": ["fr","en_placeholder"]
 }
