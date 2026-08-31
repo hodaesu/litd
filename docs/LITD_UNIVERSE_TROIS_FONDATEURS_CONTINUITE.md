@@ -1,193 +1,201 @@
-# LITD Universe — Trois fondateurs et continuité entre LITD 2 et LITD 1
+# LITD Universe — Continuité des fondateurs et de la naissance de la Concorde
 
 ## Statut canon
 
-LITD 2 se déroule environ **1000 ans avant LITD 1**, au début de l'émergence des **Trois Éveils** : Corps, Esprit et Politique / Bien commun.
+LITD 2 se déroule environ **1000 ans avant LITD 1**, pendant la fin de la **Dernière Guerre** et les **Longues Assemblées** qui suivent.
 
-Les trois figures fondatrices majeures sont désormais fixées :
+Les Trois Éveils sont issus d'un processus collectif de plusieurs années et de traditions bien plus anciennes. Trois figures deviennent néanmoins particulièrement importantes dans la mémoire historique :
 
-- **Sahra Khen**, fondatrice associée au **Corps**, originaire d'Orsaï ;
-- **Ilyan Sorei**, fondateur associé à l'**Esprit**, originaire de Namaris ;
-- **Tala Veyr**, fondatrice associée à la **Politique / Bien commun**, originaire de Seyda.
+- **Sahra Khen** — Corps ;
+- **Ilyan Sorei** — Esprit ;
+- **Tala Veyr** — Politique / Bien commun, futur Éveil de **La Cité**.
 
-Leur rencontre historique est liée à **la Nuit de Sarn**, crise qui les conduit à comprendre qu'aucune discipline isolée ne peut empêcher une civilisation de se détruire.
+Les générations ultérieures les appellent les « Trois Fondateurs », mais cette expression ne doit jamais faire oublier le rôle des populations, des assemblées, des anciens soldats, des artistes, des travailleurs, des guérisseurs, des juristes, des enseignants et des nombreuses communautés qui ont réellement construit la Concorde.
 
-Ils ne sont pas les inventeurs absolus de leurs domaines : des traditions existaient avant eux. Ils deviennent les « Trois Fondateurs » parce qu'ils cristallisent, relient et rendent transmissibles ces traditions à l'échelle de la civilisation.
+## Chaîne historique obligatoire
 
-Le canon détaillé est défini dans `docs/LITD_UNIVERSE_TROIS_FONDATEURS_CANON.md` et les traces prévues dans LITD 1 sont enregistrées dans `data/lore_founders_legacy.json`.
+Le canon partagé suit désormais cette chaîne :
 
-Sauf mention explicite de « brouillon » ou « hypothèse », tout nouvel élément validé à leur sujet devient partie du **lore général de LITD Universe**.
+**Dernière Guerre → rupture collective de l'obéissance → Nuit de Sarn comme catalyseur → fin de la guerre sans vainqueur → Longues Assemblées → formulation progressive des Trois Éveils → Premier Pacte de Concorde → transmission sur plusieurs générations → Concorde mature → Chute de LITD 1.**
+
+La Nuit de Sarn est donc importante, mais elle ne crée pas à elle seule les Trois Éveils.
 
 ## Règle de continuité obligatoire
 
-Tout élément canon créé pour l'un des trois fondateurs doit laisser au moins une trace identifiable dans LITD 1, mille ans plus tard.
+Tout nouvel élément canon créé dans LITD 2 concernant :
 
-Cette trace peut prendre une ou plusieurs formes :
+- Sahra, Ilyan ou Tala ;
+- la Dernière Guerre ;
+- les Longues Assemblées ;
+- le Premier Pacte ;
+- les premières écoles ;
+- les premiers tournois ;
+- les premiers Sanctuaires ;
+- les premières institutions de la Concorde ;
+
+...doit laisser au moins une trace identifiable dans LITD 1.
+
+Cette trace peut être :
 
 - texte ancien ou fragment de manuscrit ;
-- citation ou proverbe attribué au fondateur ;
+- citation ou proverbe ;
 - statue, bas-relief, fresque ou symbole ;
-- nom d'école martiale, artistique, philosophique ou politique ;
-- sanctuaire, ruine ou bâtiment dérivé de sa tradition ;
-- rite, fête, serment ou coutume ;
-- doctrine politique ou courant philosophique ;
-- technique de combat, sort, loi, sentence ou compétence portant son héritage ;
-- objet, arme, relique ou inscription ;
+- nom d'école ;
+- technique martiale ou magique ;
+- institution ou procédure civique ;
+- sanctuaire, ruine ou bâtiment ;
+- rite ou fête ;
+- doctrine politique ou philosophique ;
+- objet, monnaie, arme, relique ou inscription ;
 - nom de lieu ;
-- faction, ordre, culte ou mouvement opposé à son héritage ;
+- faction ou mouvement se réclamant d'un héritage ancien ;
 - dialogue de survivants ou d'érudits ;
-- contradiction entre plusieurs versions de son histoire.
+- contradiction entre plusieurs versions historiques.
 
-L'objectif n'est pas de transformer LITD 1 en encyclopédie de LITD 2, mais de faire sentir que le monde de LITD 1 repose réellement sur **un millénaire d'histoire**.
+L'objectif n'est pas de transformer LITD 1 en encyclopédie de LITD 2. Le joueur doit sentir que les ruines de LITD 1 reposent sur **un millénaire de décisions, d'institutions et de vies humaines**.
 
 ## Deux couches de vérité
 
-Chaque fondateur doit être documenté sur deux niveaux distincts.
+### Vérité historique — LITD 2
 
-### 1. Vérité historique — LITD 2
+LITD 2 montre directement :
 
-Ce que le joueur de LITD 2 peut voir ou établir directement :
+- la Dernière Guerre encore récente ;
+- les divisions du continent ;
+- les refus d'obéir ;
+- le rôle réel de Sarn ;
+- les populations ordinaires qui participent à la fin du conflit ;
+- les Longues Assemblées ;
+- les hésitations sur la forme des Trois Éveils ;
+- les premières erreurs de Sahra, Ilyan et Tala ;
+- la difficulté de construire une paix sans imposer un nouvel empire ;
+- le Premier Pacte de Concorde.
 
-- personnalité réelle ;
-- origine sociale et géographique ;
-- motivations ;
-- contradictions ;
-- réussites ;
-- erreurs ;
-- relations avec les deux autres fondateurs ;
-- événements historiques auxquels il ou elle participe ;
-- formulation originelle de son Éveil ;
-- écarts entre ses idées et ce qui sera institutionnalisé plus tard.
+### Mémoire tardive — LITD 1
 
-Les fondateurs ne doivent jamais être écrits comme des saints parfaits. Leur importance vient de leurs idées, de leurs décisions et de leurs conséquences, pas d'une infaillibilité morale.
+Mille ans plus tard, LITD 1 montre une mémoire partielle :
 
-### 2. Mémoire tardive — LITD 1
-
-Ce que les habitants de LITD 1 pensent savoir mille ans plus tard :
-
-- version officielle ;
-- version populaire ;
-- versions régionales ;
-- propagande ou récupération politique ;
+- versions officielles ;
+- mythes populaires ;
+- traditions régionales ;
+- propagande ;
+- récupération politique ;
 - légendes religieuses ;
 - erreurs de traduction ;
 - citations apocryphes ;
-- fragments authentiques ;
-- accusations ou réhabilitations tardives ;
-- éléments perdus lors de la catastrophe de la Porte.
+- archives authentiques ;
+- objets mal identifiés ;
+- éléments détruits par la Chute.
 
-La mémoire de LITD 1 peut être fausse sans que le jeu mente au joueur : les sources doivent pouvoir se contredire.
+Les sources de LITD 1 peuvent se contredire. La contradiction fait partie de la profondeur historique du monde.
 
-## Fonction narrative dans LITD 1
+## Mémoire des trois grandes figures
 
-Les trois fondateurs doivent être présents dans LITD 1 de manière progressive.
+### Sahra Khen
 
-### Début de partie
+LITD 1 peut conserver : Premier Souffle de Khen, statues de la Main Vide, Carnets d'Orsaï, Cour du Premier Duel et écoles contradictoires sur sa doctrine.
 
-Leur présence est surtout culturelle : noms, symboles, maximes, ruines, techniques ou coutumes que les personnages considèrent comme anciennes et évidentes.
+La vérité historique montre une ancienne combattante ayant réellement tué et ayant ensuite cherché à empêcher que la maîtrise martiale ne redevienne domination.
 
-Les premières traces prévues sont notamment : le **Premier Souffle de Khen**, les **Sept Notes de Sorei** et le **Banc du Refus** associé à Tala Veyr.
+### Ilyan Sorei
 
-### Milieu de partie
+LITD 1 peut conserver : Sept Notes de Sorei, Prisme de Namaris, Fresques de l'Écoute, Lettre à l'élève blessée et interprétations religieuses tardives.
 
-Le joueur découvre des textes plus anciens qui montrent que les doctrines actuelles ne correspondent pas parfaitement aux idées d'origine.
+La vérité montre un artiste-médecin-chercheur ayant étudié des phénomènes de Lumière sans les considérer comme une divinité.
 
-Sahra n'était pas la pacifiste absolue décrite par la tradition ; Ilyan n'était pas un prophète recevant la parole d'une Lumière divine ; Tala ne souhaitait pas imposer un code unique à toutes les cités.
+### Tala Veyr
 
-### Fin de partie
+LITD 1 peut conserver : Banc du Refus, Clause de Veyr, Tablette de Seyda et Ordre de la Main de Veyr.
 
-Certaines découvertes peuvent révéler comment mille ans d'institutions, de réinterprétations et de conflits ont transformé les Trois Éveils avant même l'ouverture de la Porte.
+La vérité montre une médiatrice opposée à la concentration du pouvoir, dont certains textes seront plus tard mutilés pour justifier la Tyrannie.
 
-Cette révélation ne doit pas détourner l'enquête principale de LITD 1 sur la catastrophe ; elle doit lui donner davantage de profondeur historique.
+## Mémoire du processus collectif
 
-## Héritage par Éveil
+LITD 1 doit également contenir des traces qui empêchent le mythe des Trois Fondateurs d'effacer tous les autres :
 
-### Corps — Sahra Khen
+- **Liste des sauvés de Sarn** — populations de nombreuses origines protégées ensemble ;
+- **Stèle des soldats sans bannière** — hommage à ceux qui refusèrent de poursuivre la guerre ;
+- **Fragments du Premier Pacte** — montrent que la Concorde était initialement courte, révisable et imparfaite ;
+- **archives des Longues Assemblées** — centaines de noms sans lien avec les trois grandes figures ;
+- **premières écoles incomplètes** — certaines n'enseignaient encore que deux dimensions ;
+- **anciens règlements de duel** — victoire sans droit de conquête ;
+- **premières monnaies de cité** — antérieures au standard commun de l'or ;
+- **premiers plans de Sanctuaires** — simples lieux de mémoire avant leur forme classique.
 
-Les créations liées à Sahra peuvent réapparaître dans LITD 1 à travers :
+## Évolution du troisième Éveil
 
-- écoles martiales ;
-- formes de respiration ;
-- techniques nommées ;
-- règles de duel ;
-- statues de la Main Vide ;
-- manuscrits anatomiques ;
-- débats sur la maîtrise de soi contre la domination par la force ;
-- preuves de son passé militaire contredisant son image tardive de sainte pacifiste.
+Le build de LITD 2 peut être nommé **Politique**.
 
-### Esprit — Ilyan Sorei
+Historiquement, plusieurs formulations coexistent : Politique, Bien commun, Vie commune.
 
-L'héritage d'Ilyan peut survivre à travers :
+Au fil des générations, la formulation **La Cité** devient dominante dans la Concorde mature et dans LITD 1.
 
-- arts ;
-- écoles de perception ;
-- premières théories de la Lumière ;
-- musique, poésie ou calligraphie ;
-- rituels de concentration ;
-- textes philosophiques ;
-- Prismes de Namaris ;
-- doctrines ultérieures ayant confondu ses idées avec la magie de la Porte ;
-- documents sur l'accident de recherche qu'il avait caché.
+Cette évolution doit être visible dans les textes anciens plutôt que traitée comme une incohérence.
 
-### Politique / Bien commun — Tala Veyr
+## Règle pour les cités
 
-L'héritage politique doit être particulièrement visible dans la société de LITD 1 :
+Les cités de LITD 2 et celles de la Concorde mature ne doivent pas être automatiquement assimilées.
 
-- institutions anciennes ;
-- Clause de Veyr ;
-- Bancs du Refus ;
-- noms de conseils ;
-- ruines de places civiques ;
-- procédures de médiation ;
-- symboles de citoyenneté ;
-- débats sur le Bien commun ;
-- mouvements autoritaires comme l'Ordre de la Main de Veyr prétendant agir en son nom ;
-- critiques dénonçant cette récupération.
+Première période connue :
+- Orsaï ;
+- Namaris ;
+- Seyda ;
+- Sarn.
 
-**Tyrannie n'est pas l'idéal originel de Tala Veyr.** Elle représente une déformation ou une tentation née de la volonté d'imposer le Bien commun par la force. La mutilation tardive de sa phrase sur le pouvoir d'exception en devient un exemple canonique.
+Fin de la Concorde :
+- Jian-Lu ;
+- Sorye ;
+- Dhor-Khal ;
+- Lhaor ;
+- Tessen ;
+- Orun-Saï.
+
+Un millénaire sépare ces cartes politiques. Des cités peuvent disparaître, fusionner, changer de nom, être reconstruites ou perdre leur importance.
+
+Toute continuité directe entre deux villes doit être explicitement établie avant d'être canonisée.
 
 ## Matrice obligatoire pour chaque nouvelle création
 
-À chaque fois qu'un nouvel élément canon est créé pour Sahra Khen, Ilyan Sorei ou Tala Veyr, documenter autant que possible :
+À chaque nouvel élément de cette période, documenter autant que possible :
 
-1. **Élément historique dans LITD 2** — ce qui s'est réellement passé.
-2. **Effet immédiat** — conséquence pendant la période de LITD 2.
-3. **Institutionnalisation** — comment l'idée évolue au cours des siècles.
-4. **Trace dans LITD 1** — élément concret rencontré par le joueur.
-5. **Version connue en LITD 1** — ce que les survivants croient.
-6. **Déformation éventuelle** — ce qui a été oublié, falsifié ou mythifié.
-7. **Preuve contradictoire** — texte, lieu ou objet pouvant rapprocher le joueur de la vérité.
+1. **Élément historique dans LITD 2** ;
+2. **Contexte** — guerre, Sarn, Longues Assemblées, premier Pacte ou première transmission ;
+3. **Effet immédiat** ;
+4. **Évolution sur plusieurs siècles** ;
+5. **Trace dans LITD 1** ;
+6. **Version connue en LITD 1** ;
+7. **Déformation éventuelle** ;
+8. **Preuve contradictoire ou complémentaire**.
 
 ## Règle de cohérence
 
-Un détail inventé dans LITD 2 ne doit jamais contredire silencieusement LITD 1. En cas de conflit avec un élément déjà canonique :
+Les fichiers de référence prioritaires sont :
 
-- soit le nouvel élément est adapté ;
-- soit la contradiction devient volontairement une erreur historique dans l'univers ;
-- soit le canon existant est modifié explicitement.
+- `docs/HISTOIRE_TROIS_EVEILS.md` ;
+- `docs/LORE_BIBLE.md` ;
+- `docs/LITD2_NAISSANCE_DE_LA_CONCORDE.md` ;
+- `docs/LITD_UNIVERSE_TROIS_FONDATEURS_CANON.md` ;
+- `docs/CONCORDE_MONDE_POLITIQUE.md` ;
+- `docs/CONCORDE_COURANTS_PRE_CHUTE.md`.
 
-LITD 1 et LITD 2 gardent leurs contextes de jeu séparés, mais **leur histoire du monde est commune**.
+Un nouvel élément ne doit jamais contredire silencieusement ces bases. En cas de conflit :
+
+- adapter le nouvel élément ;
+- transformer volontairement la contradiction en erreur historique interne au monde ;
+- ou modifier explicitement le canon concerné.
 
 ## Mystère à préserver
 
-Même si LITD 2 montre directement les fondateurs, LITD 1 ne doit pas disposer d'une archive parfaite de leur vie.
+Même si LITD 2 montre cette époque directement, LITD 1 ne possède pas une archive parfaite de la fondation de la Concorde.
 
-Mille ans, des guerres, des changements politiques et surtout la catastrophe liée à la Porte ont détruit ou déformé une grande partie des sources.
+Mille ans d'histoire, de reconstructions, de changements de langue et d'institutions, puis la Chute, ont détruit ou transformé une grande partie des sources.
 
-Le joueur de LITD 1 pourra donc découvrir que certaines certitudes de son époque sont fausses sans pour autant obtenir une réponse exhaustive à tout.
+Le joueur de LITD 1 peut donc découvrir que certaines certitudes de son époque sont fausses sans pouvoir reconstituer chaque détail.
 
-## État canon actuel des trois fondateurs
+## Principe canonique final
 
-Sont désormais fixés :
+La Concorde n'est pas née parce que trois personnes exceptionnelles ont sauvé seules le monde.
 
-- **Sahra Khen** — femme, Corps, Orsaï, ancienne combattante et instructrice ;
-- **Ilyan Sorei** — homme, Esprit, Namaris, musicien, médecin et chercheur de la perception/Lumière ;
-- **Tala Veyr** — femme, Politique / Bien commun, Seyda, greffière, médiatrice et réformatrice civique ;
-- leur époque : environ **1000 ans avant LITD 1** ;
-- l'événement qui les rapproche : **la Nuit de Sarn** ;
-- leur désaccord fondamental : aucune des trois disciplines ne doit devenir absolue ;
-- leur rôle : ils transforment des traditions anciennes en trois disciplines transmissibles qui structureront la civilisation ;
-- ils ne sont ni parfaits ni unanimement compris ;
-- leur mémoire sera encore présente, mais fortement déformée, dans LITD 1.
+Elle est née parce qu'après des décennies de guerre, **une masse de personnes ordinaires a cessé d'accepter que la peur et l'autorité décident qui devait être considéré comme humain**.
 
-Restent volontairement ouverts à la production future : leurs apparences précises, costumes définitifs, voix, éventuel statut jouable dans LITD 2, détails de leurs familles et chronologie complète de leur vie après la première période des Trois Éveils.
+Sahra, Ilyan et Tala deviennent les symboles les plus durables de cette transformation, mais la civilisation appartient à tous ceux qui l'ont construite.
