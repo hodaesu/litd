@@ -1,7 +1,7 @@
 {
-  "schema_version": 2,
-  "scope": "LITD2 health trauma and healing",
-  "core_rule": "HP and trauma are tracked separately before healing, but any actual HP heal cures all active trauma.",
+  "schema_version": 3,
+  "scope": "LITD2 health trauma potions fountains and healing",
+  "core_rule": "HP and trauma are separate systems; only potions cure trauma.",
   "health": {
     "represents": "general vital state",
     "death_at_zero": true,
@@ -9,8 +9,8 @@
   },
   "trauma": {
     "can_occur_at_high_hp": true,
-    "persists_until_hp_healing": true,
-    "ordinary_non_healing_rest_cures": false,
+    "persists_until_potion": true,
+    "ordinary_hp_healing_cures": false,
     "can_aggravate_if_untreated": true,
     "drivers": [
       "body_zone",
@@ -27,33 +27,44 @@
       {"id":"head_trauma","name":"Traumatisme crânien","primary_effect":"perception targeting or information-reading penalty without deliberate input lag"},
       {"id":"cracked_ribs","name":"Côtes fêlées","primary_effect":"guard effort and physical recovery penalty"},
       {"id":"injured_arm","name":"Bras blessé","primary_effect":"weapon attack or parry penalty depending on affected arm"},
-      {"id":"infection","name":"Infection","primary_effect":"secondary persistent degradation until healing"},
-      {"id":"burn","name":"Brûlure","primary_effect":"physical sensitivity and recovery penalty until healing"}
+      {"id":"infection","name":"Infection","primary_effect":"secondary persistent degradation until potion treatment"},
+      {"id":"burn","name":"Brûlure","primary_effect":"physical sensitivity and recovery penalty until potion treatment"}
     ]
   },
-  "healing": {
-    "any_actual_hp_heal_cures_all_active_trauma": true,
-    "sources": [
-      "potion",
-      "healing_skill",
-      "regeneration_effect",
-      "reward_heal",
-      "other_effect_that_restores_hp"
-    ],
-    "full_hp_with_trauma_rule": "A potion may still be consumed at full HP to trigger complete trauma recovery.",
-    "example": "75% HP + sprain -> any HP heal cures the sprain; potion use is tactically valid even mainly for the trauma."
-  },
   "potion": {
+    "starting_count_per_run": 3,
     "usable_at_any_hp_percentage": true,
     "usable_at_full_hp_when_trauma_active": true,
+    "restores_hp": true,
     "cures_all_active_trauma": true,
-    "hp_restoration": "not yet numerically locked"
+    "exclusive_trauma_cure": true,
+    "hp_restoration": "not yet numerically locked",
+    "additional_potion_sources": "not yet locked"
   },
-  "non_healing_stabilization": {
+  "fountain": {
+    "guaranteed_per_level": 1,
+    "restores_hp": true,
+    "cures_trauma": false,
+    "hp_restoration": "not yet numerically locked",
+    "placement_rule": "May move within the hybrid procedural layout but one fountain is guaranteed in each level."
+  },
+  "healing_spells_and_skills": {
+    "may_exist": true,
+    "restores_hp": true,
+    "cures_trauma": false,
+    "rule": "Any spell skill regeneration or ordinary heal restores HP only unless explicitly changed by future canon; it never cures persistent trauma."
+  },
+  "non_potion_stabilization": {
     "may_exist": true,
     "cures_trauma": false,
-    "rule": "If an effect does not restore HP, it may stabilize or reduce aggravation without counting as complete healing."
+    "rule": "Splints bandages immobilization or analgesics may stabilize or reduce aggravation but cannot remove trauma."
   },
+  "examples": [
+    "75% HP + sprain -> potion restores HP and cures sprain.",
+    "50% HP + sprain -> fountain restores HP but sprain remains.",
+    "35% HP + fracture -> healing spell restores HP but fracture remains.",
+    "100% HP + active trauma -> potion remains usable and cures trauma."
+  ],
   "body_system_integration": {
     "uses_same_body_zones_as_gore": true,
     "feeds_persistent_corpse_state": true,
@@ -64,12 +75,16 @@
     "reconstructed_body_is_not_the_old_corpse": true
   },
   "locked_rules": [
-    "HP and trauma are distinct until healing occurs.",
+    "HP and trauma are separate systems.",
     "Trauma can occur while HP remains high.",
     "Persistent injury families from LITD1 carry into LITD2.",
     "Untreated trauma can worsen.",
-    "Any actual HP healing cures all active trauma.",
-    "A potion may be used regardless of current HP percentage.",
+    "Only potions cure trauma.",
+    "Potions restore HP and cure all active trauma.",
+    "A run starts with three potions.",
+    "One healing fountain is guaranteed per level.",
+    "Fountains heal HP only.",
+    "Healing spells skills regeneration and ordinary HP heals do not cure trauma.",
     "A potion may be used at full HP when trauma is active.",
     "Trauma state feeds gore body-zone and persistent-corpse systems."
   ]
