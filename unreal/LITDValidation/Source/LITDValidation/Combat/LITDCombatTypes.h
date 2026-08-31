@@ -12,27 +12,16 @@ enum class ELITDCombatActionPhase : uint8
     Recovery
 };
 
+/** Deliberately small player-facing combat vocabulary. */
 UENUM(BlueprintType)
 enum class ELITDCombatInput : uint8
 {
     None,
     Light,
     Heavy,
-    Special,
-    Dodge,
     Parry,
-    Jump,
-    Finisher
-};
-
-/** Four-position martial grammar used by unarmed and weapon styles. */
-UENUM(BlueprintType)
-enum class ELITDCombatStance : uint8
-{
-    Forward,
-    Left,
-    Right,
-    Back
+    Dodge,
+    SkillAttack
 };
 
 UENUM(BlueprintType)
