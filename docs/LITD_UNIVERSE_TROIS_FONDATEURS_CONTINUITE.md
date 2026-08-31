@@ -4,13 +4,19 @@
 
 LITD 2 se déroule environ **1000 ans avant LITD 1**, au début de l'émergence des **Trois Éveils** : Corps, Esprit et Politique / Bien commun.
 
-Trois figures fondatrices majeures seront créées pour cette période :
+Les trois figures fondatrices majeures sont désormais fixées :
 
-- un fondateur ou une fondatrice du **Corps** ;
-- un fondateur ou une fondatrice de l'**Esprit** ;
-- un fondateur ou une fondatrice de la **Politique / Bien commun**.
+- **Sahra Khen**, fondatrice associée au **Corps**, originaire d'Orsaï ;
+- **Ilyan Sorei**, fondateur associé à l'**Esprit**, originaire de Namaris ;
+- **Tala Veyr**, fondatrice associée à la **Politique / Bien commun**, originaire de Seyda.
 
-Leur identité précise, leurs noms, leurs cités d'origine, leurs biographies, leurs conflits, leurs erreurs, leurs doctrines et leurs relations seront développés progressivement. Sauf mention explicite de « brouillon » ou « hypothèse », tout élément validé à leur sujet devient partie du **lore général de LITD Universe**.
+Leur rencontre historique est liée à **la Nuit de Sarn**, crise qui les conduit à comprendre qu'aucune discipline isolée ne peut empêcher une civilisation de se détruire.
+
+Ils ne sont pas les inventeurs absolus de leurs domaines : des traditions existaient avant eux. Ils deviennent les « Trois Fondateurs » parce qu'ils cristallisent, relient et rendent transmissibles ces traditions à l'échelle de la civilisation.
+
+Le canon détaillé est défini dans `docs/LITD_UNIVERSE_TROIS_FONDATEURS_CANON.md` et les traces prévues dans LITD 1 sont enregistrées dans `data/lore_founders_legacy.json`.
+
+Sauf mention explicite de « brouillon » ou « hypothèse », tout nouvel élément validé à leur sujet devient partie du **lore général de LITD Universe**.
 
 ## Règle de continuité obligatoire
 
@@ -80,9 +86,13 @@ Les trois fondateurs doivent être présents dans LITD 1 de manière progressive
 
 Leur présence est surtout culturelle : noms, symboles, maximes, ruines, techniques ou coutumes que les personnages considèrent comme anciennes et évidentes.
 
+Les premières traces prévues sont notamment : le **Premier Souffle de Khen**, les **Sept Notes de Sorei** et le **Banc du Refus** associé à Tala Veyr.
+
 ### Milieu de partie
 
 Le joueur découvre des textes plus anciens qui montrent que les doctrines actuelles ne correspondent pas parfaitement aux idées d'origine.
+
+Sahra n'était pas la pacifiste absolue décrite par la tradition ; Ilyan n'était pas un prophète recevant la parole d'une Lumière divine ; Tala ne souhaitait pas imposer un code unique à toutes les cités.
 
 ### Fin de partie
 
@@ -92,21 +102,22 @@ Cette révélation ne doit pas détourner l'enquête principale de LITD 1 sur la
 
 ## Héritage par Éveil
 
-### Corps
+### Corps — Sahra Khen
 
-Les créations liées au fondateur ou à la fondatrice du Corps peuvent réapparaître dans LITD 1 à travers :
+Les créations liées à Sahra peuvent réapparaître dans LITD 1 à travers :
 
 - écoles martiales ;
 - formes de respiration ;
 - techniques nommées ;
 - règles de duel ;
-- statues de maîtres ;
+- statues de la Main Vide ;
 - manuscrits anatomiques ;
-- débats sur la maîtrise de soi contre la domination par la force.
+- débats sur la maîtrise de soi contre la domination par la force ;
+- preuves de son passé militaire contredisant son image tardive de sainte pacifiste.
 
-### Esprit
+### Esprit — Ilyan Sorei
 
-L'héritage du fondateur ou de la fondatrice de l'Esprit peut survivre à travers :
+L'héritage d'Ilyan peut survivre à travers :
 
 - arts ;
 - écoles de perception ;
@@ -114,27 +125,30 @@ L'héritage du fondateur ou de la fondatrice de l'Esprit peut survivre à traver
 - musique, poésie ou calligraphie ;
 - rituels de concentration ;
 - textes philosophiques ;
-- doctrines ultérieures ayant confondu ses idées avec la magie de la Porte.
+- Prismes de Namaris ;
+- doctrines ultérieures ayant confondu ses idées avec la magie de la Porte ;
+- documents sur l'accident de recherche qu'il avait caché.
 
-### Politique / Bien commun
+### Politique / Bien commun — Tala Veyr
 
 L'héritage politique doit être particulièrement visible dans la société de LITD 1 :
 
 - institutions anciennes ;
-- lois et maximes ;
+- Clause de Veyr ;
+- Bancs du Refus ;
 - noms de conseils ;
 - ruines de places civiques ;
 - procédures de médiation ;
 - symboles de citoyenneté ;
 - débats sur le Bien commun ;
-- mouvements autoritaires prétendant agir au nom du fondateur ;
+- mouvements autoritaires comme l'Ordre de la Main de Veyr prétendant agir en son nom ;
 - critiques dénonçant cette récupération.
 
-Cela permet aussi de montrer que **Tyrannie n'est pas l'idéal originel de Politique**, mais une déformation ou une tentation née de la volonté d'imposer le Bien commun par la force.
+**Tyrannie n'est pas l'idéal originel de Tala Veyr.** Elle représente une déformation ou une tentation née de la volonté d'imposer le Bien commun par la force. La mutilation tardive de sa phrase sur le pouvoir d'exception en devient un exemple canonique.
 
 ## Matrice obligatoire pour chaque nouvelle création
 
-À chaque fois qu'un nouvel élément canon est créé pour l'un des trois fondateurs, documenter autant que possible :
+À chaque fois qu'un nouvel élément canon est créé pour Sahra Khen, Ilyan Sorei ou Tala Veyr, documenter autant que possible :
 
 1. **Élément historique dans LITD 2** — ce qui s'est réellement passé.
 2. **Effet immédiat** — conséquence pendant la période de LITD 2.
@@ -162,16 +176,18 @@ Mille ans, des guerres, des changements politiques et surtout la catastrophe li�
 
 Le joueur de LITD 1 pourra donc découvrir que certaines certitudes de son époque sont fausses sans pour autant obtenir une réponse exhaustive à tout.
 
-## État actuel des trois fondateurs
+## État canon actuel des trois fondateurs
 
-À ce stade, sont canoniques :
+Sont désormais fixés :
 
-- leur nombre : **trois figures fondatrices majeures** ;
-- leur association respective à Corps, Esprit et Politique / Bien commun ;
+- **Sahra Khen** — femme, Corps, Orsaï, ancienne combattante et instructrice ;
+- **Ilyan Sorei** — homme, Esprit, Namaris, musicien, médecin et chercheur de la perception/Lumière ;
+- **Tala Veyr** — femme, Politique / Bien commun, Seyda, greffière, médiatrice et réformatrice civique ;
 - leur époque : environ **1000 ans avant LITD 1** ;
-- leur rôle : ils participent à la naissance des Trois Éveils ;
+- l'événement qui les rapproche : **la Nuit de Sarn** ;
+- leur désaccord fondamental : aucune des trois disciplines ne doit devenir absolue ;
+- leur rôle : ils transforment des traditions anciennes en trois disciplines transmissibles qui structureront la civilisation ;
 - ils ne sont ni parfaits ni unanimement compris ;
-- leur héritage structure la civilisation qui se développera ensuite ;
-- leur mémoire sera encore présente, mais déformée, dans LITD 1.
+- leur mémoire sera encore présente, mais fortement déformée, dans LITD 1.
 
-Leurs noms, genres, origines précises, apparences, cités, biographies et relations restent à créer et ne doivent pas être considérés comme fixés avant validation.
+Restent volontairement ouverts à la production future : leurs apparences précises, costumes définitifs, voix, éventuel statut jouable dans LITD 2, détails de leurs familles et chronologie complète de leur vie après la première période des Trois Éveils.
