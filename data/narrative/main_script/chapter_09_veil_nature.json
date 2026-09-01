@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_09_veil_nature",
+  "title": "Ce qu'est réellement le Voile",
+  "human_question": "Que faisons-nous lorsque nous comprenons assez pour agir, mais jamais assez pour être certains ?",
+  "scenes": [
+    {
+      "id":"c09_opening_evidence_table","chapter_id":"chapter_09_veil_nature","type":"chapter_opening","trigger":"chapter_start","purpose":"Annoncer que le chapitre sépare explicitement observations, modèles, hypothèses et inconnues.",
+      "staging":["quatre tables étiquetées OBSERVÉ, REPRODUIT, MODÈLE, INCONNU", "archives ashaï, Saan, étrangères et modernes côte à côte", "aucune table nommée vérité finale"],
+      "beats":[
+        {"kind":"narration","speaker":"Narration","text":"Après des siècles de traces et des mois d'enquête, le danger le plus simple serait de confondre quantité d'informations et certitude."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"À partir d'ici, chaque phrase doit dire quel genre de phrase elle est. Observation. Reproduction. Modèle. Hypothèse. Inconnue."},
+        {"kind":"dialogue","speaker":"Veyra Oss","text":"Tu vas rendre les réponses moins élégantes."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"J'espère."}
+      ],
+      "exit_state":["c09_shared_reality disponible"]
+    },
+    {
+      "id":"c09_shared_reality_experiment","chapter_id":"chapter_09_veil_nature","type":"main_quest","quest_id":"c09_shared_reality","trigger":"multi_group_observation_ready","purpose":"Établir la fonction de la Lumière comme ancrage de référence partagée sans la transformer en détecteur de vérité.",
+      "staging":["même salle observée par humains, créature consciente et instrumentation", "source de Lumière réglable", "aucune question métaphysique posée aux sujets"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Sans Lumière, les descriptions divergent davantage. Avec elle, les participants s'accordent mieux sur position, distance et séquence."},
+        {"kind":"dialogue","speaker":"Veyra Oss","text":"Donc elle impose le vrai."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Non. Elle augmente la stabilité d'une référence commune. Si tous les témoins se trompent de nom, la Lumière ne corrige pas le vocabulaire."},
+        {"kind":"action","text":"Le joueur reproduit le test avec deux intensités et une configuration témoin."},
+        {"kind":"system","text":"Établi : la Lumière stabilise localement une référence partagée ; elle n'est pas un détecteur universel de vérité."}
+      ],
+      "exit_state":["c09_shared_reality partiellement complétée"]
+    },
+    {
+      "id":"c09_saen_comparison","chapter_id":"chapter_09_veil_nature","type":"main_quest","quest_id":"c09_shared_reality","trigger":"saen_contact_compared_with_light","purpose":"Montrer que l'ancrage peut améliorer la communication sans expliquer l'ontologie des Absents.",
+      "staging":["Chambre d'Écoute reliée au nœud", "signal de Saen plus lisible mais toujours incomplet", "mesures de stabilité séparées du contenu des réponses"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Saen","text":"VOUS TENEZ ENSEMBLE MIEUX. JE VOUS TROUVE PLUS FACILE."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"La Lumière t'aide, toi ?"},
+        {"kind":"dialogue","speaker":"Saen","text":"JE NE SAIS PAS. ELLE CHANGE VOUS. PEUT-ÊTRE PASSAGE. PAS DIRE PLUS."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Parfait. Même Saen refuse de nous donner une conclusion qu'il n'a pas."}
+      ],
+      "exit_state":["c09_shared_reality complétée"]
+    },
+    {
+      "id":"c09_fear_protocol","chapter_id":"chapter_09_veil_nature","type":"main_quest","quest_id":"c09_fear_shape","trigger":"unstable_zone_fear_data_ready","purpose":"Établir l'effet de la peur et de la Folie du Voile sur des possibilités déjà instables sans psychologiser la maladie mentale.",
+      "staging":["trois zones instables de géométrie comparable", "mesures de peur et exposition distinctes", "groupes non forcés au danger"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"La peur ordinaire n'est pas une maladie. La Folie du Voile n'est pas un diagnostic psychiatrique. On garde les deux catégories séparées."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Dans ces zones déjà instables, certaines trajectoires deviennent moins accessibles quand les groupes perdent leur référence commune. Rien ne prouve que la peur crée quoi que ce soit de zéro."},
+        {"kind":"dialogue","speaker":"Veyra Oss","text":"Elle pondère les possibles déjà ouverts."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"C'est notre meilleur modèle local. Pas une loi universelle."},
+        {"kind":"system","text":"Établi : peur/Folie du Voile peuvent modifier la stabilité relative de possibilités déjà disponibles dans une rupture locale ; aucun pouvoir de création libre."}
+      ],
+      "exit_state":["c09_fear_shape complétée"]
+    },
+    {
+      "id":"c09_veyra_limit","chapter_id":"chapter_09_veil_nature","type":"character_scene","trigger":"veyra_requests_additional_test","purpose":"Mettre la nouvelle discipline épistémique à l'épreuve d'une expérience intéressante mais non nécessaire.",
+      "staging":["instrument de Kor-Em compatible avec un nœud ancien", "aucune urgence immédiate", "protocole possible mais coût non nul"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Veyra Oss","text":"Une série supplémentaire pourrait distinguer deux modèles. Aucun relais, aucune ouverture, seulement une modulation du nœud."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Et aucun besoin opérationnel. C'est important."},
+        {"kind":"choice","id":"c09_optional_test","prompt":"Autoriser l'essai supplémentaire ?","options":[
+          {"id":"refuse_unneeded_risk","label":"Refuser : l'information ne justifie pas le risque actuel.","response":[{"speaker":"Veyra Oss","text":"Il y a quelques années j'aurais appelé ça de la peur. Aujourd'hui... je peux au moins admettre que la question du prix n'est pas une insulte à la recherche."}],"sets":["c09_test_refused"]},
+          {"id":"approve_bounded","label":"Autoriser une modulation bornée avec arrêt automatique et publication complète.","response":[{"speaker_id":"meira_sen","speaker":"Meira Sen","text":"Alors les limites sont inscrites dans le dispositif, pas seulement dans nos intentions."}],"sets":["c09_test_bounded"]}
+        ]}
+      ],
+      "exit_state":["relation à la recherche risquée enregistrée"]
+    },
+    {
+      "id":"c09_no_final_answer","chapter_id":"chapter_09_veil_nature","type":"main_quest","quest_id":"c09_no_final_answer","trigger":"deep_overlap_limit_reached","purpose":"Atteindre honnêtement la limite d'observation sans fabriquer une origine finale.",
+      "staging":["chevauchement profond", "instruments qui cessent de converger", "plusieurs modèles deviennent également compatibles avec les données"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"À partir d'ici, augmenter l'exposition n'augmente plus clairement l'information. Les modèles divergent plus vite que nos mesures ne les départagent."},
+        {"kind":"dialogue","speaker":"Veyra Oss","text":"Nous pourrions aller plus loin."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Pouvoir n'est pas devoir."},
+        {"kind":"choice","id":"c09_limit_choice","prompt":"Décider où s'arrête l'enquête principale.","options":[
+          {"id":"stop_at_evidence","label":"Arrêter à la limite où les données cessent de départager les modèles.","response":[{"speaker_id":"meira_sen","speaker":"Meira Sen","text":"Alors l'inconnue restera écrite comme inconnue. Pas comme échec, pas comme invitation à remplir le blanc."}],"sets":["c09_limit_respected"]},
+          {"id":"one_passive_observation","label":"Autoriser une dernière observation passive sans modifier le nœud.","response":[{"speaker":"Veyra Oss","text":"D'accord. Pas d'impulsion, pas de synchronisation ajoutée, et nous repartons même si le résultat est frustrant."}],"sets":["c09_limit_passive"]}
+        ]},
+        {"kind":"system","text":"Canon : origine ultime, volonté éventuelle et nature universelle du Voile restent inconnues."}
+      ],
+      "exit_state":["c09_no_final_answer complétée"]
+    },
+    {
+      "id":"c09_boss_broken_consensus","chapter_id":"chapter_09_veil_nature","type":"boss","trigger":"c09_boss_consensus_engaged","purpose":"Résoudre une crise locale de mémoires contradictoires sans prétendre trancher laquelle est ontologiquement vraie.",
+      "staging":["même salle visible sous plusieurs états", "mémoires civiques incompatibles", "habitants locaux menacés par l'instabilité"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Consensus Brisé","text":"NOUS NOUS SOUVENONS DE LA MAISON ENTIÈRE. NOUS NOUS SOUVENONS DE LA MAISON DÉTRUITE. NOUS AVONS HABITÉ LES DEUX."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Ne cherchez pas laquelle est la bonne histoire. Cherchez quel état permet aux vivants de sortir sans détruire les traces des autres."},
+        {"kind":"choice","id":"c09_consensus_resolution","prompt":"Stabiliser la zone.","options":[
+          {"id":"single_anchor","label":"Imposer un ancrage unique pour sécuriser immédiatement la zone.","response":[{"speaker_id":"sela_mor","speaker":"Sela Mor","text":"Ça sauvera les gens ici. Et certaines traces deviendront probablement inaccessibles. On le note comme un coût, pas comme une victoire totale."}],"sets":["c09_consensus_single"]},
+          {"id":"layered_compromise","label":"Construire un compromis qui alterne des fenêtres de stabilité compatibles.","response":[{"speaker":"Veyra Oss","text":"Plus complexe, plus fragile, mais aucune mémoire n'est déclarée fausse uniquement pour simplifier notre architecture."}],"sets":["c09_consensus_compromise"]},
+          {"id":"autonomous_zone","label":"Isoler la zone et laisser ses états coexister hors des routes habitées.","response":[{"speaker_id":"nara_vey","speaker":"Nara Vey","text":"Alors il faudra défendre politiquement le droit de laisser un lieu irrésolu quand personne n'a besoin de le conquérir."}],"sets":["c09_consensus_autonomous"]}
+        ]}
+      ],
+      "exit_state":["c09_boss_resolved", "modèle final du Sanctuaire préparé"]
+    },
+    {
+      "id":"c09_sanctuary_models","chapter_id":"chapter_09_veil_nature","type":"sanctuary_aftermath","trigger":"return_after_c09_boss","purpose":"Transformer les connaissances en options politiques sans présenter une doctrine comme scientifiquement obligatoire.",
+      "staging":["trois cartes de stratégie : fermer, coexister, passages contrôlés", "dossiers Absents et créatures séparés", "coûts inscrits sous chaque option"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"La science nous dit ce que certaines actions risquent de faire. Elle ne décide pas seule quels risques nous avons le droit d'imposer."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Et la politique ne peut pas voter qu'un mécanisme fonctionne autrement parce que le résultat lui plaît davantage."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Parfait. Maintenant mettons les deux contraintes dans la même salle."}
+      ],
+      "exit_state":["orientations finales calculables"]
+    },
+    {
+      "id":"c09_closing_enough_to_act","chapter_id":"chapter_09_veil_nature","type":"chapter_closing","trigger":"chapter_complete","purpose":"Fermer sur une connaissance suffisante pour agir mais insuffisante pour abolir le doute.",
+      "staging":["table INCONNU toujours remplie", "plans du nœud central", "convocations pour une assemblée élargie"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Veyra Oss","text":"Je pensais qu'une réponse finale rendrait la décision facile."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Une réponse finale aurait seulement déplacé la responsabilité sur quelque chose que nous aurions appelé nécessité."},
+        {"kind":"narration","speaker":"Narration","text":"Le Voile reste incomplet dans les cartes et dans les théories. Le monde, lui, exige tout de même une décision. Comprendre assez n'a pas supprimé la responsabilité ; cela l'a rendue impossible à éviter."}
+      ],
+      "exit_state":["chapter_09_complete", "chapter_10_final_choice débloqué"]
+    }
+  ]
+}

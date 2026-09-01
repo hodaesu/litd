@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_03_threshold",
+  "title": "Le Projet Seuil",
+  "human_question": "Comment juger une catastrophe collective sans prétendre que tous ceux qui y ont participé ont voulu la même chose ?",
+  "scenes": [
+    {
+      "id":"c03_opening_six_names","chapter_id":"chapter_03_threshold","type":"chapter_opening","trigger":"chapter_start","purpose":"Transformer l'enquête anonyme en enquête sur des personnes et des institutions distinctes.",
+      "staging":["six dossiers séparés sur une table", "certains noms barrés, d'autres surchargés de notes", "aucun portrait placé au centre"],
+      "beats":[
+        {"kind":"narration","speaker":"Narration","text":"Une catastrophe peut tenir dans une date. Une responsabilité, rarement. Sur la table, six noms commencent à remplacer le confort d'un seul coupable imaginaire."},
+        {"kind":"dialogue","speaker":"Toma Rei","text":"Veyra Oss. Edras Nhal. Sera Val-Khesh. Othmar Sevr. Bram Torgun. Eline Sar. Même projet, fonctions différentes, accès différents, décisions différentes."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Alors on les sépare jusqu'à ce que les faits nous obligent à les remettre ensemble."}
+      ],
+      "exit_state":["c03_six_names disponible"]
+    },
+    {
+      "id":"c03_six_desks","chapter_id":"chapter_03_threshold","type":"main_quest","quest_id":"c03_six_names","trigger":"threshold_desks_reached","purpose":"Individualiser les responsabilités par les traces concrètes de travail.",
+      "staging":["six postes de travail", "systèmes de notation différents", "seuils d'alerte contradictoires", "une demande d'évacuation jamais exécutée"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Eline Sar","text":"Nous étions dans la même salle. Cela ne signifie pas que nous étions dans la même histoire."},
+        {"kind":"dialogue","speaker":"Bram Torgun","text":"Ne transforme pas cette phrase en pardon. Nous sommes restés dans la salle."},
+        {"kind":"action","text":"Le joueur attribue ordres, corrections et seuils d'alerte à chaque poste avant d'ouvrir les dossiers individuels."},
+        {"kind":"dialogue","speaker":"Eline Sar","text":"Sera voulait un avantage militaire. Othmar voulait un levier politique. Edras voulait voir ce qu'il y avait au-delà de nos modèles. Veyra voulait comprendre. Bram construisait. Moi, j'ai continué à rendre la procédure possible."},
+        {"kind":"dialogue","speaker":"Bram Torgun","text":"Et chacun de ces verbes a changé quand les alarmes ont commencé. C'est là qu'il faut nous juger."}
+      ],
+      "exit_state":["six dossiers de responsabilité ouverts", "c03_six_names complétée"]
+    },
+    {
+      "id":"c03_horizon_pact_council","chapter_id":"chapter_03_threshold","type":"main_quest","quest_id":"c03_horizon_pact","trigger":"pact_fragments_assembled","purpose":"Établir l'alliance politique sans attribuer une volonté uniforme aux populations étrangères.",
+      "staging":["copies de traités partiels", "sceaux de factions et non de peuples entiers", "clauses financières contredites par des lettres de dissidents"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Toma Rei","text":"Le Pacte de l'Horizon Fermé existe. Mais regarde les signataires : cabinets militaires, maisons marchandes, autorités religieuses, laboratoire de Kor-Em. Ce n'est pas une assemblée de peuples."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Alors notre langue devra être plus précise que notre colère."},
+        {"kind":"choice","id":"c03_pact_publication","prompt":"Comment publier les noms liés au Pacte ?","options":[
+          {"id":"publish_entities","label":"Publier institutions, signataires et niveaux de preuve.","response":[{"speaker":"Toma Rei","text":"C'est long. C'est exactement pour ça que c'est utile."}],"sets":["c03_pact_precise_publication"]},
+          {"id":"hold_names","label":"Attendre les archives finales avant de publier les noms individuels.","response":[{"speaker":"Nara Vey","text":"Alors nous annoncerons les institutions, pas les personnes. Et nous expliquerons pourquoi."}],"sets":["c03_pact_delayed_names"]}
+        ]}
+      ],
+      "exit_state":["responsabilité étrangère organisée établie", "pas de culpabilité collective"]
+    },
+    {
+      "id":"c03_bram_abort","chapter_id":"chapter_03_threshold","type":"main_quest","quest_id":"c03_last_abort","trigger":"abort_timeline_reconstructed","purpose":"Faire du sabotage tardif de Bram un fait réel qui ne supprime pas sa responsabilité antérieure.",
+      "staging":["horodatages projetés sur le sol", "seuils de sécurité dépassés", "câbles sectionnés après le début de l'emballement"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Bram Torgun","text":"J'ai coupé trois relais. Le quatrième avait déjà basculé. Si tu veux raconter que j'ai sauvé le monde, tu mentiras. Si tu racontes que je n'ai rien tenté, tu mentiras aussi."},
+        {"kind":"dialogue","speaker":"Eline Sar","text":"Son sabotage a réduit la propagation immédiate. Il a aussi détruit une partie des preuves. Nous avons vécu avec les deux conséquences."},
+        {"kind":"choice","id":"c03_bram_record","prompt":"Comment enregistrer l'acte final de Bram ?","options":[
+          {"id":"mitigation_and_responsibility","label":"Consigner à la fois mitigation et responsabilité préalable.","response":[{"speaker":"Bram Torgun","text":"Garde les deux moitiés de la phrase ensemble."}],"sets":["c03_bram_balanced_record"]},
+          {"id":"technical_only","label":"Limiter le rapport public aux effets techniques prouvés.","response":[{"speaker":"Eline Sar","text":"Alors la morale restera pour le jugement. Les mesures, elles, sont assez solides."}],"sets":["c03_bram_technical_record"]}
+        ]}
+      ],
+      "exit_state":["sabotage tardif documenté", "c03_last_abort complétée"]
+    },
+    {
+      "id":"c03_veyra_fragment","chapter_id":"chapter_03_threshold","type":"character_scene","trigger":"veyra_research_fragment_found","purpose":"Établir que Veyra avait identifié une partie du danger et tenta tardivement de limiter l'emballement.",
+      "staging":["notes de Veyra couvertes de corrections", "schéma de stabilisation ajouté après les premiers seuils critiques", "message jamais envoyé"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Eline Sar","text":"Elle a compris avant moi que le système ne se contentait plus de mesurer. Elle a demandé qu'on réduise la synchronisation."},
+        {"kind":"dialogue","speaker":"Bram Torgun","text":"Et elle n'a pas quitté la salle."},
+        {"kind":"dialogue","speaker":"Eline Sar","text":"Non."},
+        {"kind":"silence","text":"Le silence reste sans commentaire."},
+        {"kind":"system","text":"Dossier Veyra : connaissance partielle du danger, mitigation tardive, participation maintenue."}
+      ],
+      "exit_state":["c03_veyra_complexity_logged"]
+    },
+    {
+      "id":"c03_boss_threshold_echo","chapter_id":"chapter_03_threshold","type":"boss","trigger":"c03_boss_threshold_echo_defeated","purpose":"Révéler la procédure sans transformer l'Écho en oracle ou témoin omniscient.",
+      "staging":["mêmes gestes lumineux répétés", "aucune réponse aux questions", "dégradation de la pièce à chaque boucle"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Eline Sar","text":"Ce n'est pas un témoin. C'est une procédure qui continue sans les personnes qui l'ont commencée."},
+        {"kind":"dialogue","speaker":"Bram Torgun","text":"Et même une procédure morte peut tuer quelqu'un qui reste trop près."},
+        {"kind":"choice","id":"c03_echo_handling","prompt":"Traiter l'Écho du Seuil.","options":[
+          {"id":"break_echo","label":"Rompre la boucle maintenant.","response":[{"speaker":"Bram Torgun","text":"On sauve la pièce. On perd peut-être des données. J'accepte ce prix."}],"sets":["c03_echo_broken"]},
+          {"id":"record_once","label":"Enregistrer une boucle complète puis rompre.","response":[{"speaker":"Eline Sar","text":"Une boucle. Pas deux. On n'apprend rien d'une prudence qui cède dès que l'expérience devient intéressante."}],"sets":["c03_echo_recorded"]},
+          {"id":"observe_longer","label":"Observer plus longtemps au prix d'une exposition accrue.","response":[{"speaker":"Bram Torgun","text":"Alors mets une limite avant de commencer. Pas quand tu auras envie de continuer."}],"sets":["c03_echo_extended"]}
+        ]}
+      ],
+      "exit_state":["Projet Seuil comme cause immédiate établi", "motifs antiques identifiés"]
+    },
+    {
+      "id":"c03_sanctuary_naming","chapter_id":"chapter_03_threshold","type":"sanctuary_aftermath","trigger":"return_after_c03_boss","purpose":"Faire du nom Projet Seuil une conclusion publique fondée sur des preuves multiples.",
+      "staging":["mur des preuves", "six dossiers individuels", "carte du Pacte séparée des cartes des populations"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Nous avons assez pour nommer la cause immédiate. Pas assez pour transformer un nom en explication de tout."},
+        {"kind":"dialogue","speaker":"Toma Rei","text":"Projet Seuil : infrastructure, relais, protocole, ouverture. Les symboles plus anciens restent une autre question."},
+        {"kind":"choice","id":"c03_public_formula","prompt":"Quelle formulation le Sanctuaire adopte-t-il publiquement ?","options":[
+          {"id":"threshold_caused_fall","label":"Adopter une formulation directe : le Projet Seuil a provoqué la Chute.","response":[{"speaker":"Nara Vey","text":"Court. Défendable. Et rien de plus que ce que nous savons."}],"sets":["c03_formula_direct"]},
+          {"id":"threshold_immediate_cause","label":"Adopter une formulation précise : le Projet Seuil est la cause immédiate documentée de la Chute.","response":[{"speaker":"Toma Rei","text":"Plus lourd, mais il laisse la place à l'histoire plus ancienne sans la confondre avec ce projet."}],"sets":["c03_formula_precise"]}
+        ]}
+      ],
+      "exit_state":["Projet Seuil nommé publiquement", "chapitre antique préparé"]
+    },
+    {
+      "id":"c03_closing_older_symbols","chapter_id":"chapter_03_threshold","type":"chapter_closing","trigger":"chapter_complete","purpose":"Déplacer la question de qui a ouvert vers ce que les conspirateurs ont reproduit.",
+      "staging":["symbole du protocole superposé à une gravure beaucoup plus ancienne", "six dossiers fermés mais non jugés", "une route vers la Cité sous la Cendre marquée"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Toma Rei","text":"Le projet a un âge. Ce symbole, non. Il apparaît sur une pierre qui précède la Concorde de plusieurs millénaires."},
+        {"kind":"dialogue","speaker":"Bram Torgun","text":"Nous pensions avoir inventé une porte. Peut-être que nous avons seulement trouvé une manière moderne de refaire une vieille erreur."},
+        {"kind":"narration","speaker":"Narration","text":"Les responsables ont des noms. La cause immédiate aussi. Mais sous la faute moderne apparaît désormais une cicatrice plus ancienne, assez vieille pour avoir oublié jusqu'au langage de ceux qui l'ont ouverte."}
+      ],
+      "exit_state":["chapter_03_complete", "chapter_04_first_rupture débloqué"]
+    }
+  ]
+}

@@ -69,8 +69,6 @@ func autosave(reason: String = "") -> bool:
 func load_game(slot: int = active_slot) -> bool:
     slot = _valid_slot(slot)
     var recovered := false
-    # Slot 0 mirrors the legacy path. Prefer that freshly written raw payload so
-    # a stale slot/backup left by an interrupted run can never shadow it.
     var payload: Dictionary = _read_payload(SAVE_PATH) if slot == 0 else {}
     if payload.is_empty():
         payload = _read_payload(_path(slot))
@@ -137,6 +135,8 @@ func _build_payload() -> Dictionary:
         "gold": GameState.gold, "essence": GameState.essence, "light": GameState.light, "supplies": GameState.supplies,
         "party": GameState.party, "equipment": EquipmentManager.serialize(), "combat_loadouts": CombatLoadoutManager.serialize(),
         "creatures": CreatureManager.serialize(), "politics": PoliticalState.serialize(), "campaign": CampaignState.serialize(),
+        "main_narrative_script": MainNarrativeScriptRuntime.serialize(),
+        "base_game_enrichment": BaseGameEnrichmentRuntime.serialize(),
         "side_quests": SideQuestRuntime.serialize(), "bounty_contracts": BountyContractDirector.serialize(),
         "hero_renown": EnemyFearDirector.serialize(), "chapter_01": Chapter01Runtime.serialize(),
         "chapter_02": Chapter02Runtime.serialize(), "chapter_03": Chapter03Runtime.serialize(), "chapter_04": Chapter04Runtime.serialize(),
@@ -161,6 +161,8 @@ func _apply_payload(payload: Dictionary) -> void:
     EquipmentManager.deserialize(payload.get("equipment",{})); CombatLoadoutManager.deserialize(payload.get("combat_loadouts",{}))
     CreatureManager.deserialize(payload.get("creatures",{})); GameState.expedition_room = int(payload.get("expedition_room",0))
     PoliticalState.deserialize(payload.get("politics",{})); CampaignState.deserialize(payload.get("campaign",{}))
+    MainNarrativeScriptRuntime.deserialize(payload.get("main_narrative_script",{}))
+    BaseGameEnrichmentRuntime.deserialize(payload.get("base_game_enrichment",{}))
     SideQuestRuntime.deserialize(payload.get("side_quests",{})); BountyContractDirector.deserialize(payload.get("bounty_contracts",{}))
     EnemyFearDirector.deserialize(payload.get("hero_renown",{})); AshlandsRuntime.deserialize(payload.get("ashlands",{}))
     Chapter01Runtime.deserialize(payload.get("chapter_01",{})); Chapter02Runtime.deserialize(payload.get("chapter_02",{}))
@@ -189,6 +191,8 @@ func _migrate(payload: Dictionary) -> Dictionary:
     payload["preparation_presets"] = payload.get("preparation_presets",{})
     payload["living_exploration"] = payload.get("living_exploration",{})
     payload["progression_scope"] = payload.get("progression_scope",{})
+    payload["main_narrative_script"] = payload.get("main_narrative_script",{})
+    payload["base_game_enrichment"] = payload.get("base_game_enrichment",{})
     return payload
 
 func _atomic_write(path: String, text: String) -> bool:
@@ -212,15 +216,12 @@ func _read_payload(path: String) -> Dictionary:
     if parsed is not Dictionary:
         return {}
     if parsed.has("body"):
-        # Hash the exact serialized bytes kept in the envelope. Re-stringifying a
-        # parsed Dictionary is not stable because JSON key order may change.
         var body := String(parsed.get("body", ""))
         if String(parsed.get("checksum", "")) != body.sha256_text():
             return {}
         var payload_value: Variant = JSON.parse_string(body)
         return payload_value if payload_value is Dictionary else {}
     if parsed.has("payload"):
-        # Compatibility with envelopes produced during development of save slots.
         var old_payload: Variant = parsed.get("payload", {})
         return old_payload if old_payload is Dictionary else {}
     return parsed

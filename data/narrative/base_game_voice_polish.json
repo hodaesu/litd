@@ -1,0 +1,41 @@
+{
+  "schema_version":1,
+  "scope":"LITD1 cycle initial main and enrichment dialogue",
+  "status":"pre_dubbing_ready_v1",
+  "global_rules":{
+    "natural_french_before_literary_beauty":true,
+    "one_primary_intention_per_line":true,
+    "avoid_expository_monologues":true,
+    "avoid_repeated_character_catchphrases":true,
+    "silence_is_allowed":true,
+    "created_player_voice_is_never_authored":true,
+    "target_spoken_line_words":{"preferred_max":28,"hard_review_over":42},
+    "performance_notes":[
+      "Ne pas jouer le dark fantasy comme une gravité permanente : garder fatigue, humour sec, irritation, chaleur et hésitation.",
+      "Une information complexe doit sembler découverte ou défendue dans la scène, jamais récitée pour le joueur.",
+      "Les personnages ont le droit de chercher leurs mots ; conserver certaines ruptures de rythme si elles servent l'émotion.",
+      "Les silences après une mort, un aveu ou une contradiction majeure comptent comme mise en scène et ne doivent pas être systématiquement remplis."
+    ]
+  },
+  "pronunciation":[
+    {"term":"Nara Vey","guide":"NA-ra véï"},{"term":"Sela Mor","guide":"SÉ-la mor"},{"term":"Meira Sen","guide":"MÉÏ-ra sèn"},{"term":"Orren Taal","guide":"O-rèn tâl"},{"term":"Bram Torgun","guide":"bram TOR-goun"},{"term":"Veyra Oss","guide":"VÉÏ-ra oss"},{"term":"Edras Nhal","guide":"É-dras nal"},{"term":"Eline Sar","guide":"É-line sar"},{"term":"Saen","guide":"sa-èn, deux syllabes nettes"},{"term":"Ashaï de Nhal","guide":"a-cha-Ï de nal"},{"term":"Or-Silex","guide":"or si-lèks"},{"term":"Saan","guide":"sa-an, deux voyelles distinctes"},{"term":"Vaor-Khal","guide":"va-or kal"},{"term":"Lyr-Mar","guide":"lir mar"},{"term":"Sahm-Ir","guide":"sam ir"},{"term":"Ydris","guide":"i-dris"}
+  ],
+  "characters":[
+    {"id":"nara_vey","name":"Nara Vey","tempo":"mesuré, légèrement accéléré sous pression","register":"direct, civique, concret","emotional_range":["autorité contenue","doute privé","colère sans éclat","humour administratif sec"],"avoid":["ton de reine","certitude morale permanente","discours solennel à chaque décision"]},
+    {"id":"sela_mor","name":"Sela Mor","tempo":"physique et immédiat, pauses quand elle observe un corps ou une blessure","register":"simple sans être simpliste","emotional_range":["franchise","tendresse brusque","dégoût","fatigue","humour sec"],"avoid":["conscience morale infaillible","colère constante","anti-intellectualisme"]},
+    {"id":"meira_sen","name":"Meira Sen","tempo":"précis, respirations avant les degrés de certitude","register":"analytique avec ironie légère","emotional_range":["curiosité","méfiance","satisfaction discrète","peur de conclure trop vite"],"avoid":["robotique","omnisciente","sarcasme permanent"]},
+    {"id":"orren_taal","name":"Orren Taal","tempo":"efficace, phrases qui vont vers une décision","register":"logistique et concret","emotional_range":["impatience","fierté technique","honte lorsqu'une solution efficace blesse","admiration sincère"],"avoid":["technocrate froid","voix du compromis automatique"]},
+    {"id":"bram_torgun","name":"Bram Torgun","tempo":"court, parfois coupé par l'autocorrection","register":"factuel, manuel, chronologique","emotional_range":["culpabilité","irritation envers les récits faciles","peur","soulagement sans pardon"],"avoid":["repenti larmoyant","héros secret","cynisme total"]},
+    {"id":"veyra_oss","name":"Veyra Oss","tempo":"contrôlé, accélère quand une idée l'emporte","register":"scientifique mais jamais jargon pour le jargon","emotional_range":["fascination","défense intellectuelle","culpabilité contenue","humilité tardive"],"avoid":["scientifique folle","oracle","absence d'émotion"]},
+    {"id":"eline_sar","name":"Eline Sar","tempo":"posé, parfois trop propre quand elle se protège","register":"procédural","emotional_range":["honte","besoin de précision","défensive","lucidité"],"avoid":["simple témoin neutre","exposition pure"]},
+    {"id":"saen","name":"Saen","tempo":"lent, segments courts avec pauses importantes","register":"langage incomplet mais évolutif","emotional_range":["prudence","irritation","curiosité","peur clairement exprimée"],"avoid":["voix mystique omnisciente","syntaxe aléatoirement cassée","représentant automatique de tous les Absents"]}
+  ],
+  "scene_polish_rules":[
+    {"scene_type":"chapter_opening","direction":"Commencer sous-joué ; laisser l'image et le son porter une partie du poids."},
+    {"scene_type":"investigation","direction":"Faire entendre le raisonnement en cours : les personnages ne connaissent pas la conclusion avant de parler."},
+    {"scene_type":"boss","direction":"Éviter la surenchère vocale ; privilégier urgence, peur, effort et décisions concrètes."},
+    {"scene_type":"sanctuary_aftermath","direction":"Redescendre l'intensité. Les personnages parlent après avoir eu le temps de ressentir les conséquences."},
+    {"scene_type":"chapter_closing","direction":"Aucune phrase ne doit ressembler à une morale de chapitre ; finir sur une conséquence, une question ou un déplacement de regard."},
+    {"scene_type":"optional","direction":"Autoriser davantage de quotidien, d'humour sec, de maladresse et de silence que dans la trame principale."}
+  ]
+}
