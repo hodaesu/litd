@@ -1,5 +1,5 @@
 {
-  "schema_version": 7,
+  "schema_version": 8,
   "scope": "LITD Universe narrative inconsistency registry",
   "status": "audited_no_blocking_or_major_open",
   "audit_scope": [
@@ -16,7 +16,8 @@
     "blocking_or_major_requires_resolution_before_validation": true,
     "must_signal_user": true,
     "silent_fix_forbidden": true,
-    "retroactive_contrivance_forbidden": true
+    "retroactive_contrivance_forbidden": true,
+    "intentional_replay_gameplay_exception_must_be_explicit": true
   },
   "summary": {
     "entries_total": 19,
@@ -115,17 +116,21 @@
       "id": "LITD1-NGPLUS-TREE-EXCLUSIVITY",
       "severity": "BLOCKING",
       "status": "RESOLVED",
-      "problem": "NG+ data, runtime and UI reopened all three skill trees even though tree choice is an identity-defining exclusive rule for heroes and creatures.",
-      "resolution": "Tree choice remains exclusive in every cycle. NG+ no longer changes the specialization lock. Runtime managers enforce the rule unconditionally, the NG+ UI no longer relabels locked branches as open and tests now protect the canonical contract.",
-      "files": ["data/world/new_game_plus.json", "docs/EPILOGUES_POSTGAME_NG_PLUS.md", "scripts/core/hero_skill_manager.gd", "scripts/core/creature_manager.gd", "scripts/ui/ngplus_skill_tree_ui.gd", "tests/python/test_ngplus_multitree_skills.py"]
+      "resolution_type": "INTENTIONAL_GAMEPLAY_EXCEPTION",
+      "audit_correction": true,
+      "problem": "The audit initially treated NG+ multi-tree access as a contradiction with the cycle-0 specialization rule. The gameplay contract was clarified: opening all three trees in NG+ is an intentional replay reward.",
+      "resolution": "Cycle 0 keeps exclusive specialization. From the first NG+ cycle, heroes and eligible companions may spend across all three trees while still obeying skill-point costs, level gates and in-branch prerequisites. This is a replay privilege and does not rewrite the reference history of the initial cycle.",
+      "files": ["data/world/new_game_plus.json", "docs/EPILOGUES_POSTGAME_NG_PLUS.md", "scripts/core/hero_skill_manager.gd", "scripts/core/creature_manager.gd", "scripts/ui/ngplus_skill_tree_ui.gd", "tests/python/test_ngplus_multitree_skills.py", "tests/python/test_ngplus_cycle_variants.py"]
     },
     {
       "id": "LITD1-NGPLUS-BOSS-CAPTURE",
       "severity": "MAJOR",
       "status": "RESOLVED",
-      "problem": "NG+ converted all bosses and minibosses, including human antagonists and justice subjects, into generic capturable companions.",
-      "resolution": "Boss/miniboss recruitment is disabled by canon. Generic creature capture is restricted to explicitly eligible ordinary creatures. Arrest, trial, voluntary cooperation and creature recruitment remain separate systems. The compatibility autoload returns no boss definitions, old noncanonical boss recruits are removed when legacy saves load, and tests protect the rule.",
-      "files": ["data/world/new_game_plus.json", "data/world/ngplus_boss_recruits.json", "scripts/core/ngplus_boss_recruitment.gd", "scripts/core/creature_manager.gd", "scripts/ui/ngplus_skill_tree_ui.gd", "tests/python/test_ngplus_boss_recruitment.py"]
+      "resolution_type": "INTENTIONAL_GAMEPLAY_EXCEPTION",
+      "audit_correction": true,
+      "problem": "The audit initially treated NG+ boss/miniboss recruitment as a narrative contradiction. The gameplay contract was clarified: explicitly authored boss companion variants are a deliberate NG+ reward.",
+      "resolution": "Cycle 0 keeps normal boss capture restrictions. From the first NG+ cycle, boss, miniboss and deep variants explicitly listed in ngplus_boss_recruits.json may be recruited through the NG+ system. Their allied form is a replay abstraction with normalized companion stats and does not retroactively change what happened in the reference history. Being a boss alone does not auto-create a recruit entry; the catalogue is explicit.",
+      "files": ["data/world/new_game_plus.json", "data/world/ngplus_boss_recruits.json", "docs/EPILOGUES_POSTGAME_NG_PLUS.md", "scripts/core/ngplus_boss_recruitment.gd", "scripts/core/creature_manager.gd", "scripts/ui/ngplus_skill_tree_ui.gd", "tests/python/test_ngplus_boss_recruitment.py", "tests/python/test_ngplus_cycle_variants.py"]
     },
     {
       "id": "LITD1-MEIRA-IDENTITY",
