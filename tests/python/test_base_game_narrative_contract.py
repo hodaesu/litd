@@ -5,6 +5,8 @@ ROOT = Path(__file__).resolve().parents[2]
 STORY = ROOT / "data/narrative/base_game_story_contract.json"
 NARRATOR = ROOT / "data/narrative/base_game_narrator.json"
 KEY_SCENES = ROOT / "data/narrative/base_game_key_scenes.json"
+CHARACTER_ARCS = ROOT / "data/narrative/base_game_character_arcs.json"
+REVELATIONS = ROOT / "data/narrative/base_game_revelation_matrix.json"
 CAMPAIGN = ROOT / "data/world/main_campaign.json"
 PROJECT = ROOT / "project.godot"
 DIRECTOR = ROOT / "scripts/core/base_game_narrative_director.gd"
@@ -97,15 +99,60 @@ def test_key_scenes_cover_every_chapter_with_action_dialogue_environment_and_aft
                 assert line["text"].strip()
 
 
-def test_runtime_exposes_base_game_narration_and_key_scenes_without_extending_ngplus():
+def test_recurring_character_arcs_have_desire_fear_contradiction_voice_and_limits():
+    data = load(CHARACTER_ARCS)
+    ids = [character["id"] for character in data["characters"]]
+    assert len(ids) == len(set(ids))
+    assert {"nara_vey", "sela_mor", "meira_sen", "bram_torgun", "veyra_oss", "edras_nhal", "saen"}.issubset(set(ids))
+    for character in data["characters"]:
+        assert character["dramatic_role"].strip()
+        assert character["core_desire"].strip()
+        assert character["core_fear"].strip()
+        assert character["contradiction"].strip()
+        assert len(character["voice"]) >= 3
+        assert character["must_not_become"]
+        assert character["knowledge_limits"]
+        assert len(character["arc"]) >= 2
+        chapters = [int(beat["chapter"]) for beat in character["arc"]]
+        assert chapters == sorted(chapters)
+
+
+def test_revelation_matrix_has_ordered_evidence_and_never_establishes_before_clue():
+    data = load(REVELATIONS)
+    ids = [truth["id"] for truth in data["truths"]]
+    assert len(ids) == len(set(ids))
+    assert len(ids) >= 15
+    for truth in data["truths"]:
+        assert 1 <= int(truth["earliest_clue_chapter"]) <= 10
+        assert 1 <= int(truth["established_chapter"]) <= 10
+        assert int(truth["earliest_clue_chapter"]) <= int(truth["established_chapter"])
+        assert truth["statement"].strip()
+        assert truth["required_evidence"]
+        assert truth["must_not_imply"]
+    by_id = {truth["id"]: truth for truth in data["truths"]}
+    assert by_id["project_threshold_immediate_cause"]["established_chapter"] == 3
+    assert by_id["some_absents_respond"]["established_chapter"] == 6
+    assert by_id["light_shared_reference"]["established_chapter"] == 9
+    assert by_id["veil_origin_unknown"]["evidence_level"] == "unknown_by_design"
+    assert by_id["final_choice_collective"]["established_chapter"] == 10
+
+
+def test_runtime_exposes_story_scenes_arcs_and_revelations_without_extending_ngplus():
     project = PROJECT.read_text(encoding="utf-8")
     director = DIRECTOR.read_text(encoding="utf-8")
     assert 'BaseGameNarrativeDirector="*res://scripts/core/base_game_narrative_director.gd"' in project
     assert 'const KEY_SCENES_PATH := "res://data/narrative/base_game_key_scenes.json"' in director
+    assert 'const CHARACTER_ARCS_PATH := "res://data/narrative/base_game_character_arcs.json"' in director
+    assert 'const REVELATION_MATRIX_PATH := "res://data/narrative/base_game_revelation_matrix.json"' in director
     assert 'func current_human_question()' in director
     assert 'func environmental_beats(' in director
     assert 'func key_scenes(' in director
     assert 'func key_scene(' in director
+    assert 'func character_arc(' in director
+    assert 'func character_knowledge(' in director
+    assert 'func revelation(' in director
+    assert 'func revelation_established(' in director
+    assert 'func revelation_can_be_clue(' in director
     assert 'func select_and_log(' in director
     assert 'return EndgameState.active_cycle <= 0' in director
     assert 'select_and_log("closing", _last_chapter_id)' in director
