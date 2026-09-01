@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_06_absent",
+  "title": "Les Absents",
+  "human_question": "Avons-nous des devoirs envers des êtres dont nous ne pouvons même pas définir avec certitude la manière d'exister ?",
+  "scenes": [
+    {
+      "id":"c06_opening_signal","chapter_id":"chapter_06_absent","type":"chapter_opening","trigger":"chapter_start","purpose":"Faire entrer l'incertitude comme contrainte éthique et non comme excuse pour inventer une métaphysique.",
+      "staging":["nœud de Saan restauré", "signal répétitif apparu après des siècles", "liste de noms des populations coupées"],
+      "beats":[
+        {"kind":"narration","speaker":"Narration","text":"Un signal n'est pas une personne. Une réponse n'est pas une théorie. Pourtant, quand un nom oublié semble répondre depuis un lieu impossible à définir, l'incertitude elle-même devient une responsabilité."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"On ne dit pas qu'ils vivent ailleurs. On dit qu'un motif répond à un autre motif avec un délai reproductible."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Et si derrière ce motif il y a quelqu'un, notre prudence ne doit pas devenir une manière élégante de ne jamais l'écouter."}
+      ],
+      "exit_state":["c06_voices_without_bodies disponible"]
+    },
+    {
+      "id":"c06_voices_without_bodies","chapter_id":"chapter_06_absent","type":"main_quest","quest_id":"c06_voices_without_bodies","trigger":"three_signal_sites_compared","purpose":"Établir que certaines réponses sont structurées sans conclure à une forme d'existence précise.",
+      "staging":["trois sites éloignés", "même séquence de questions", "réponses différentes selon le contenu mais stables selon le protocole"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"La répétition ne vient pas d'un mécanisme simple. À la troisième question, la réponse change en fonction de la deuxième."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Donc quelque chose suit la conversation."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Quelque chose suit la structure. Je garderai ce mot tant qu'on n'aura pas mieux."},
+        {"kind":"choice","id":"c06_contact_language","prompt":"Quelle formulation utiliser dans le rapport ?","options":[
+          {"id":"responsive_pattern","label":"« Motif répondant de façon structurée. »","response":[{"speaker":"Meira Sen","text":"Sec. Précis. Suffisant pour continuer."}],"sets":["c06_language_pattern"]},
+          {"id":"possible_conscious_response","label":"« Réponse possiblement consciente, non démontrée. »","response":[{"speaker":"Sela Mor","text":"Alors garde les deux mots : possible et non démontrée. Aucun des deux ne doit disparaître dans la copie publique."}],"sets":["c06_language_conscious_possible"]}
+        ]}
+      ],
+      "exit_state":["c06_voices_without_bodies complétée", "réponses structurées établies"]
+    },
+    {
+      "id":"c06_saen_first_contact","chapter_id":"chapter_06_absent","type":"character_scene","trigger":"saen_pattern_identified","purpose":"Donner à Saen une voix singulière sans le transformer en représentant de tous les Absents.",
+      "staging":["chambre d'écoute sombre", "objets provenant d'un ancien registre de passage", "réponses espacées de plusieurs secondes"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Saen","text":"SAEN. NOM CONSERVÉ. LIEU... MOT FAUX."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"On peut utiliser un autre mot. Est-ce que tu comprends quand je dis ici ?"},
+        {"kind":"dialogue","speaker":"Saen","text":"ICI = VOUS. PAS MOI."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Il corrige notre vocabulaire. C'est une information. Pas une preuve de ce qu'il est."},
+        {"kind":"choice","id":"c06_saen_address","prompt":"Comment poursuivre ?","options":[
+          {"id":"ask_identity","label":"Demander ce que « Saen » désigne aujourd'hui.","response":[{"speaker":"Saen","text":"JE SAIS LE NOM. JE SAIS QUE VOUS ME LE DONNEZ. RESTE... INCOMPLET."}],"sets":["c06_saen_identity_question"]},
+          {"id":"ask_need","label":"Demander ce que Saen veut de cette conversation.","response":[{"speaker":"Saen","text":"NE PAS FERMER. PAS ENCORE. ÉCOUTER D'AUTRES."}],"sets":["c06_saen_need_question"]}
+        ]}
+      ],
+      "exit_state":["saen_contact_stable", "Saen explicitement non représentatif de tous les Absents"]
+    },
+    {
+      "id":"c06_creature_memory","chapter_id":"chapter_06_absent","type":"main_quest","quest_id":"c06_creature_memory","trigger":"captured_creature_reacts_to_ancient_site","purpose":"Relier certaines créatures à des traces de mémoire sans prétendre qu'elles contiennent des personnes intactes.",
+      "staging":["créature immobile devant une fresque", "réaction physiologique mesurable", "trajet répété vers une porte disparue"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Elle connaît ce trajet sans l'avoir appris avec nous."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Ou quelque chose dans son corps répond à ce lieu. Mémoire est un mot utile, mais pas encore un mécanisme."},
+        {"kind":"action","text":"Le joueur peut suivre le trajet sans contrainte, interrompre l'expérience ou proposer un objet ancien comme repère."},
+        {"kind":"system","text":"Établi : certaines créatures présentent des réponses liées à des traces historiques qu'elles n'ont pas vécues de manière ordinaire."}
+      ],
+      "exit_state":["c06_creature_memory complétée"]
+    },
+    {
+      "id":"c06_boundary_tests","chapter_id":"chapter_06_absent","type":"main_quest","quest_id":"c06_absent_choice","trigger":"walking_boundary_reached","purpose":"Tester la Frontière qui marche sans lui attribuer une intention.",
+      "staging":["limite spatiale qui se déplace après chaque stabilisation", "balises détruites sans motif d'attaque", "mesures reproductibles de contre-effets"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Quand on augmente l'ancrage ici, la limite se décale là. Ce n'est pas une preuve qu'elle se défend. C'est une relation de système."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Et si nous la traitons comme un ennemi, nous risquons de choisir des tactiques qui n'ont aucun sens."},
+        {"kind":"choice","id":"c06_boundary_protocol","prompt":"Comment franchir la zone ?","options":[
+          {"id":"force","label":"Forcer le passage avec un ancrage puissant et bref.","response":[{"speaker":"Meira Sen","text":"Alors nous mesurons aussi tout ce que l'ancrage déplace ailleurs. Un passage n'est pas gratuit parce qu'il fonctionne."}],"sets":["c06_boundary_forced"]},
+          {"id":"resonance_test","label":"Tester un protocole de résonance graduelle.","response":[{"speaker":"Sela Mor","text":"Pas de langage de négociation. On ajuste, on observe, on arrête si le coût monte."}],"sets":["c06_boundary_resonance"]},
+          {"id":"withdraw","label":"Renoncer au passage pour protéger le Sanctuaire.","response":[{"speaker":"Saen","text":"VOUS FERMEZ ICI. PAS TOUT. JE COMPRENDS."}],"sets":["c06_boundary_withdrawn"]}
+        ]}
+      ],
+      "exit_state":["protocole de frontière enregistré", "aucune conscience attribuée à la Frontière"]
+    },
+    {
+      "id":"c06_absent_choice","chapter_id":"chapter_06_absent","type":"main_quest","quest_id":"c06_absent_choice","trigger":"stable_contact_window","purpose":"Établir qu'au moins certains Absents répondent et expriment des préférences, sans généraliser.",
+      "staging":["fenêtre de contact limitée", "plusieurs signaux superposés", "Saen demande de ne pas répondre à la place des autres"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Saen","text":"AUTRES. PAS MÊMES. NE PAS DIRE NOUS SI VOUS N'ENTENDEZ QU'UN."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Compris. Alors je te parle à toi."},
+        {"kind":"dialogue","speaker":"Saen","text":"FERMETURE TOTALE = FIN POSSIBLE. PAS CERTAIN. PEUR."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"On peut établir qu'une fermeture totale risque d'interrompre ces contacts et peut-être davantage. Pas qu'elle tuerait tous les Absents. Pas encore."},
+        {"kind":"choice","id":"c06_contact_policy","prompt":"Politique du Sanctuaire envers les contacts futurs.","options":[
+          {"id":"consent_first","label":"Aucun protocole invasif sans réponse favorable de l'interlocuteur.","response":[{"speaker":"Saen","text":"BON. DEMANDER AVANT TIRER."}],"sets":["c06_absent_consent"]},
+          {"id":"research_with_limits","label":"Autoriser des tests non invasifs même sans réponse claire, sous limites publiques.","response":[{"speaker":"Meira Sen","text":"Alors la limite doit être matérielle, mesurable et arrêtée avant l'expérience. Pas une promesse de prudence."}],"sets":["c06_absent_research_limits"]}
+        ]}
+      ],
+      "exit_state":["c06_absent_choice complétée", "certains Absents répondent établi", "fermeture totale reconnue comme risque"]
+    },
+    {
+      "id":"c06_boss_boundary","chapter_id":"chapter_06_absent","type":"boss","trigger":"c06_boss_boundary_resolved","purpose":"Faire de la confrontation finale du chapitre un problème de système et de responsabilité, pas un monstre conscient à vaincre.",
+      "staging":["géométrie locale instable", "balises qui cessent de correspondre", "passage vers une chambre de contact menacée"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"La zone ne nous poursuit pas. Nos actions changent ses conditions, et ces conditions changent ce que nous pouvons faire ensuite."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Ça suffit pour être dangereux. Pas besoin de lui inventer une haine."},
+        {"kind":"action","text":"Le joueur résout la crise selon le protocole choisi plus tôt : force, résonance graduelle ou retrait contrôlé."},
+        {"kind":"system","text":"Aucune ligne ou journal ne décrit la Frontière comme consciente, volontaire ou négociatrice."}
+      ],
+      "exit_state":["c06_boss_resolved", "chambre de contact sécurisée ou abandonnée selon choix"]
+    },
+    {
+      "id":"c06_closing_rights_without_ontology","chapter_id":"chapter_06_absent","type":"chapter_closing","trigger":"chapter_complete","purpose":"Fermer sur l'idée qu'une incertitude métaphysique n'empêche pas toute obligation morale.",
+      "staging":["siège vide dans la Chambre d'Écoute", "registre portant le nom de Saen sans catégorie d'espèce", "liste des questions encore ouvertes"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"On ne sait pas définir ce qu'est Saen. On sait qu'il répond, qu'il corrige, qu'il refuse certaines choses. Est-ce que ça suffit pour lui donner une place dans nos décisions ?"},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Ça suffit pour arrêter de parler comme s'il n'était qu'un phénomène."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Et ça ne suffit pas pour construire une théorie de tous les Absents. Les deux phrases peuvent tenir ensemble."},
+        {"kind":"narration","speaker":"Narration","text":"Le chapitre se ferme sans réponse sur ce que sont les Absents. Il laisse quelque chose de plus difficile : des réponses assez claires pour obliger les vivants à tenir compte d'eux."}
+      ],
+      "exit_state":["chapter_06_complete", "chapter_07_living_responsible débloqué"]
+    }
+  ]
+}
