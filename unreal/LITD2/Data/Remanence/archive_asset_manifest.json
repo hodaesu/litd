@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "game": "LITD2",
+  "system": "RemanenceArchive",
+  "production_pack": "docs/LITD2/REMANENCE_PRODUCTION_PACK.md",
+  "allowed_statuses": ["TODO", "READY", "IMPLEMENTED", "VALIDATED", "BLOCKED"],
+  "rights_rule": "LITD_ORIGINAL_REUSABLE_OR_LICENSED_REUSABLE_ONLY",
+  "assets": [
+    {"asset_id":"TX_REM_ARCHIVE_BG","type":"Texture","canonical_name":"T_RemArchive_Background","required":true,"status":"READY","purpose":"Fond organique noir cendré, sans motif reconnaissable ni bruit excessif.","unreal_path":"/Game/UI/Remanence/Textures/T_RemArchive_Background"},
+    {"asset_id":"TX_REM_ARCHIVE_PAPER","type":"Texture","canonical_name":"T_RemArchive_Paper","required":true,"status":"READY","purpose":"Matière documentaire/parchemin sombre pour le dossier latéral.","unreal_path":"/Game/UI/Remanence/Textures/T_RemArchive_Paper"},
+    {"asset_id":"TX_REM_ARCHIVE_ASH","type":"Texture","canonical_name":"T_RemArchive_Ash","required":false,"status":"READY","purpose":"Masque ou sprite de cendre/poussière fine.","unreal_path":"/Game/UI/Remanence/Textures/T_RemArchive_Ash"},
+    {"asset_id":"TX_REM_ARCHIVE_NODE","type":"Texture","canonical_name":"T_RemArchive_NodeShape","required":true,"status":"READY","purpose":"Forme irrégulière sobre pour nœuds documentaires.","unreal_path":"/Game/UI/Remanence/Textures/T_RemArchive_NodeShape"},
+    {"asset_id":"TX_REM_ARCHIVE_BORDER","type":"Texture","canonical_name":"T_RemArchive_PanelBorder","required":false,"status":"READY","purpose":"Bordure discrète du panneau documentaire.","unreal_path":"/Game/UI/Remanence/Textures/T_RemArchive_PanelBorder"},
+
+    {"asset_id":"MAT_REM_LINE","type":"Material","canonical_name":"M_Remanence_Line","required":true,"status":"READY","purpose":"Fil de mémoire subtil avec mouvement très léger.","unreal_path":"/Game/UI/Remanence/Materials/M_Remanence_Line"},
+    {"asset_id":"MAT_REM_NODE_GLOW","type":"Material","canonical_name":"M_Remanence_NodeGlow","required":true,"status":"READY","purpose":"Halo de catégorie et pulse de sélection.","unreal_path":"/Game/UI/Remanence/Materials/M_Remanence_NodeGlow"},
+    {"asset_id":"MAT_REM_CONTRADICTION","type":"Material","canonical_name":"M_Remanence_Contradiction","required":true,"status":"READY","purpose":"Lien rouge brisé/irrégulier pour contradictions.","unreal_path":"/Game/UI/Remanence/Materials/M_Remanence_Contradiction"},
+    {"asset_id":"MAT_REM_BACKGROUND_FOG","type":"Material","canonical_name":"M_Remanence_BackgroundFog","required":false,"status":"READY","purpose":"Brume très légère d’arrière-plan, faible coût.","unreal_path":"/Game/UI/Remanence/Materials/M_Remanence_BackgroundFog"},
+    {"asset_id":"MAT_REM_RECON_PULSE","type":"Material","canonical_name":"M_Remanence_ReconstructionPulse","required":true,"status":"READY","purpose":"Convergence/pulse court lors de la reconstruction.","unreal_path":"/Game/UI/Remanence/Materials/M_Remanence_ReconstructionPulse"},
+
+    {"asset_id":"UI_REM_MAIN","type":"WidgetBlueprint","canonical_name":"WBP_RemembranceArchive","required":true,"status":"IMPLEMENTED","purpose":"Widget principal, enfant de la classe native d’Archives.","unreal_path":"/Game/UI/Remanence/WBP_RemembranceArchive"},
+    {"asset_id":"UI_REM_SOURCE_ROW","type":"WidgetBlueprint","canonical_name":"WBP_RemSourceRow","required":false,"status":"READY","purpose":"Ligne de source détaillée si la présentation finale en a besoin.","unreal_path":"/Game/UI/Remanence/WBP_RemSourceRow"},
+    {"asset_id":"UI_REM_REVEAL","type":"WidgetBlueprint","canonical_name":"WBP_RemReconstructionReveal","required":false,"status":"READY","purpose":"Couche dédiée à la révélation si elle sort du widget natif.","unreal_path":"/Game/UI/Remanence/WBP_RemReconstructionReveal"},
+
+    {"asset_id":"SFX_REM_OPEN","type":"Sound","canonical_name":"SFX_RemArchive_Open","required":true,"status":"READY","cue_id":"REM_ARCHIVE_OPEN","unreal_path":"/Game/Audio/UI/Remanence/SFX_RemArchive_Open"},
+    {"asset_id":"SFX_REM_SELECT","type":"Sound","canonical_name":"SFX_RemArchive_Select","required":true,"status":"READY","cue_id":"REM_ARCHIVE_SELECT","unreal_path":"/Game/Audio/UI/Remanence/SFX_RemArchive_Select"},
+    {"asset_id":"SFX_REM_CONTRADICTION","type":"Sound","canonical_name":"SFX_RemArchive_Contradiction","required":true,"status":"READY","cue_id":"REM_ARCHIVE_CONTRADICTION","unreal_path":"/Game/Audio/UI/Remanence/SFX_RemArchive_Contradiction"},
+    {"asset_id":"SFX_REM_RECONSTRUCT","type":"Sound","canonical_name":"SFX_RemArchive_Reconstruct","required":true,"status":"READY","cue_id":"REM_ARCHIVE_RECONSTRUCT","unreal_path":"/Game/Audio/UI/Remanence/SFX_RemArchive_Reconstruct"},
+
+    {"asset_id":"NS_REM_ASH","type":"Niagara","canonical_name":"NS_RemAshMotes","required":false,"status":"READY","purpose":"Cendres lentes ; n’utiliser que si le rendu dépasse clairement le procédé Slate actuel.","unreal_path":"/Game/UI/Remanence/FX/NS_RemAshMotes"},
+    {"asset_id":"NS_REM_TRACE_PULSE","type":"Niagara","canonical_name":"NS_RemTracePulse","required":false,"status":"READY","purpose":"Pulse très léger de nouvelle trace.","unreal_path":"/Game/UI/Remanence/FX/NS_RemTracePulse"},
+    {"asset_id":"NS_REM_RECON","type":"Niagara","canonical_name":"NS_RemReconstructionBurst","required":false,"status":"READY","purpose":"Convergence courte de reconstruction, sans feu d’artifice.","unreal_path":"/Game/UI/Remanence/FX/NS_RemReconstructionBurst"},
+
+    {"asset_id":"FONT_REM_TITLE","type":"FontStyle","canonical_name":"Remanence_Title","required":true,"status":"BLOCKED","purpose":"Police de titres. Choix/import soumis à validation de licence.","blocker":"Police définitive et licence non encore sélectionnées."},
+    {"asset_id":"FONT_REM_UI","type":"FontStyle","canonical_name":"Remanence_UI","required":true,"status":"BLOCKED","purpose":"Police sous-titres/états. Choix/import soumis à validation de licence.","blocker":"Police définitive et licence non encore sélectionnées."},
+    {"asset_id":"FONT_REM_BODY","type":"FontStyle","canonical_name":"Remanence_Body","required":true,"status":"BLOCKED","purpose":"Police documentaire longue lecture. Choix/import soumis à validation de licence.","blocker":"Police définitive et licence non encore sélectionnées."}
+  ]
+}
