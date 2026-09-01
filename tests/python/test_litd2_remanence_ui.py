@@ -62,6 +62,35 @@ def test_native_archive_screen_contract_contains_required_interactions() -> None
 
 
 @pytest.mark.data
+def test_archive_final_presentation_has_threads_ash_dossier_and_reveal() -> None:
+    header = HEADER_PATH.read_text(encoding="utf-8")
+    cpp = CPP_PATH.read_text(encoding="utf-8")
+
+    for token in (
+        "ThreadRevealDuration",
+        "DossierTransitionDuration",
+        "KnowledgeRevealDuration",
+        "EntryRevealSeconds",
+        "KnowledgeRevealSeconds",
+        "AshMoteCount",
+        "DrawThread",
+        "CONNAISSANCE RECONSTRUITE",
+        "ArchiveAgeSeconds",
+    ):
+        assert token in header or token in cpp
+
+    # Remanence audio is optional/data-authored: no hard dependency on binary assets.
+    for token in (
+        "OpenSound",
+        "SelectionSound",
+        "ContradictionSound",
+        "ReconstructionSound",
+    ):
+        assert token in header
+    assert "UGameplayStatics::PlaySound2D" in cpp
+
+
+@pytest.mark.data
 def test_archive_has_blueprint_open_close_entry_points() -> None:
     ui_library = UI_LIBRARY_PATH.read_text(encoding="utf-8")
     assert "OpenRemanenceArchive" in ui_library
