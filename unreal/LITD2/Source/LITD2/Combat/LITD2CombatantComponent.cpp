@@ -18,6 +18,8 @@ void ULITD2CombatantComponent::ResetCombatant()
 {
     Health = MaxHealth;
     Stamina = MaxStamina;
+    LockedHealth = 0.0f;
+    TraumaLevel = 0;
     ParryTimeRemaining = 0.0f;
     InvulnerableTimeRemaining = 0.0f;
     bBlocking = false;
@@ -30,14 +32,8 @@ void ULITD2CombatantComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-    if (ParryTimeRemaining > 0.0f)
-    {
-        ParryTimeRemaining = FMath::Max(0.0f, ParryTimeRemaining - DeltaTime);
-    }
-    if (InvulnerableTimeRemaining > 0.0f)
-    {
-        InvulnerableTimeRemaining = FMath::Max(0.0f, InvulnerableTimeRemaining - DeltaTime);
-    }
+    if (ParryTimeRemaining > 0.0f) ParryTimeRemaining = FMath::Max(0.0f, ParryTimeRemaining - DeltaTime);
+    if (InvulnerableTimeRemaining > 0.0f) InvulnerableTimeRemaining = FMath::Max(0.0f, InvulnerableTimeRemaining - DeltaTime);
 
     if (!IsDead() && Stamina < MaxStamina)
     {
@@ -49,10 +45,7 @@ void ULITD2CombatantComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 bool ULITD2CombatantComponent::SpendStamina(float Amount)
 {
     const float Cost = FMath::Max(0.0f, Amount);
-    if (Stamina + KINDA_SMALL_NUMBER < Cost)
-    {
-        return false;
-    }
+    if (Stamina + KINDA_SMALL_NUMBER < Cost) return false;
     Stamina -= Cost;
     OnStaminaChanged.Broadcast(Stamina);
     return true;
@@ -60,10 +53,7 @@ bool ULITD2CombatantComponent::SpendStamina(float Amount)
 
 bool ULITD2CombatantComponent::BeginParry()
 {
-    if (IsDead() || !SpendStamina(8.0f))
-    {
-        return false;
-    }
+    if (IsDead() || !SpendStamina(8.0f)) return false;
     bBlocking = true;
     ParryTimeRemaining = ParryWindowSeconds;
     return true;
@@ -77,15 +67,28 @@ void ULITD2CombatantComponent::EndParry()
 void ULITD2CombatantComponent::SetBlocking(bool bNewBlocking)
 {
     bBlocking = bNewBlocking;
-    if (!bBlocking)
-    {
-        EndParry();
-    }
+    if (!bBlocking) EndParry();
 }
 
 void ULITD2CombatantComponent::StartInvulnerabilityWindow(float DurationSeconds)
 {
     InvulnerableTimeRemaining = FMath::Max(InvulnerableTimeRemaining, FMath::Max(0.0f, DurationSeconds));
+}
+
+int32 ULITD2CombatantComponent::RestoreRecoverableHealth()
+{
+    const float Before = Health;
+    Health = GetRecoverableMaxHealth();
+    OnHealthChanged.Broadcast(Health);
+    return FMath::RoundToInt(Health - Before);
+}
+
+void ULITD2CombatantComponent::ClearTraumaAndRestoreFull()
+{
+    LockedHealth = 0.0f;
+    TraumaLevel = 0;
+    Health = MaxHealth;
+    OnHealthChanged.Broadcast(Health);
 }
 
 ELITD2BodyZone ULITD2CombatantComponent::ResolveBodyZone(FName HitBone) const
@@ -105,10 +108,7 @@ FLITD2DamageResolution ULITD2CombatantComponent::ResolvePipeline(FLITD2DamageEve
     FLITD2DamageResolution Result;
     Result.BodyZone = ResolveBodyZone(Payload.HitBone);
 
-    if (IsInvulnerable())
-    {
-        return Result;
-    }
+    if (IsInvulnerable()) return Result;
 
     if (IsParryWindowActive())
     {
@@ -151,7 +151,15 @@ FLITD2DamageResolution ULITD2CombatantComponent::ResolvePipeline(FLITD2DamageEve
     Result.bDismembermentCandidate = !Payload.bParried && Payload.DismembermentValue >= 0.80f &&
         Result.BodyZone != ELITD2BodyZone::Torso && Result.BodyZone != ELITD2BodyZone::WholeBody;
 
-    Health = FMath::Clamp(Health - Result.AppliedDamage, 0.0f, MaxHealth);
+    Health = FMath::Clamp(Health - Result.AppliedDamage, 0.0f, GetRecoverableMaxHealth());
+
+    if (Result.bTraumaTriggered)
+    {
+        TraumaLevel = FMath::Clamp(FMath::Max(TraumaLevel, Result.TraumaLevel), 0, 3);
+        LockedHealth = FMath::Clamp(LockedHealth + Result.LockedHealthAmount, 0.0f, MaxHealth * 0.45f);
+        Health = FMath::Min(Health, GetRecoverableMaxHealth());
+    }
+
     Result.bKilled = Health <= 0.0f;
     return Result;
 }
@@ -160,7 +168,7 @@ FLITD2DamageResolution ULITD2CombatantComponent::ReceiveDamageEvent(const FLITD2
 {
     FLITD2DamageResolution Resolution = ResolvePipeline(Payload);
 
-    if (bBridgeTraumaToRunDirector && Resolution.bTraumaTriggered)
+    if (bBridgeTraumaToRunDirector && Resolution.AppliedDamage > 0.0f)
     {
         if (const AActor* OwnerActor = GetOwner())
         {
@@ -168,7 +176,14 @@ FLITD2DamageResolution ULITD2CombatantComponent::ReceiveDamageEvent(const FLITD2
             {
                 if (ULITD2RunDirectorSubsystem* RunDirector = GI->GetSubsystem<ULITD2RunDirectorSubsystem>())
                 {
-                    RunDirector->ApplyTrauma(Resolution.TraumaLevel, Resolution.LockedHealthAmount, FMath::RoundToInt(Resolution.AppliedDamage));
+                    if (Resolution.bTraumaTriggered)
+                    {
+                        RunDirector->ApplyTrauma(Resolution.TraumaLevel, Resolution.LockedHealthAmount, FMath::RoundToInt(Resolution.AppliedDamage));
+                    }
+                    else
+                    {
+                        RunDirector->ApplyCombatDamage(FMath::RoundToInt(Resolution.AppliedDamage));
+                    }
                 }
             }
         }
