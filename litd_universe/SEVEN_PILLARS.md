@@ -1,96 +1,85 @@
-# LITD Universe — Les Sept Piliers
+# LITD Universe — Les Sept Piliers immuables
 
-> Statut : **CANON UNIVERSE / OBLIGATOIRE**  
+> Statut : **CANON UNIVERSE / IMMUABLE**  
 > Portée : **LITD 1, LITD 2 et tout futur jeu, récit ou dérivé LITD**.
 
-Les Sept Piliers définissent l'identité profonde de **LITD Universe**. Ils ne prescrivent pas un genre de jeu, une caméra, un système de combat ou une technologie particulière : chaque projet peut les traduire différemment. En revanche, un projet LITD doit faire vivre **les sept** de manière perceptible dans son expérience, son monde, ses choix, ses conséquences, sa narration ou sa mise en scène.
+Les Sept Piliers ci-dessous constituent l'identité fondamentale de **LITD Universe**.
 
-Un pilier ne doit pas être réduit à un simple mot de lore ou à une icône d'interface. Il doit produire du sens, de la tension, des décisions, des conséquences ou une lecture du monde.
+Ils sont **immuables** : leur nombre, leur ordre, leur intitulé et leur statut de piliers ne doivent pas être remplacés, renommés, fusionnés, supprimés ou complétés par un huitième pilier lors du développement d'un jeu.
 
-## 1. CORPS
+Une évolution du gameplay peut changer **la manière dont un pilier est exprimé**, jamais la liste elle-même.
 
-Le corps est la condition matérielle de l'existence.
+La **cohérence narrative** est une règle transversale obligatoire de LITD Universe ; elle n'est pas un huitième pilier et ne remplace aucun des sept.
 
-LITD traite le corps comme quelque chose qui agit, apprend, souffre, vieillit, résiste et peut être brisé. Les arts martiaux, le travail, la maladie, les blessures, la fatigue, la faim, la douleur, la gestuelle et la présence physique appartiennent à ce pilier.
+## 1. CRÉATION DE PERSONNAGES
 
-**Règle :** les actes doivent avoir une réalité physique crédible dans le cadre choisi. La puissance ne doit jamais rendre le corps totalement abstrait ou sans conséquence.
+Les personnages sont au cœur de l'identité de LITD. Leur conception doit leur donner une présence, une personnalité, une histoire, des motivations, des contradictions et une place reconnaissable dans le monde.
 
-## 2. ESPRIT
+Un personnage ne doit pas être réduit à une fonction de gameplay ou à une silhouette.
 
-L'esprit est la capacité à comprendre, créer, interpréter, se souvenir et donner du sens.
+## 2. GORE SYSTÉMIQUE ET CONSÉQUENCES CORPORELLES
 
-Il englobe connaissance, art, mémoire, perception, croyances, apprentissage, imagination, philosophie et lecture du monde. Dans l'ancienne civilisation, pratiquer un art n'était pas un ornement : c'était une manière d'éveiller l'esprit.
+La violence de LITD doit avoir une matérialité et des conséquences corporelles lisibles lorsque le projet s'y prête : blessures, impacts, mutilations, traumatismes, réactions physiques ou autres conséquences cohérentes avec le jeu concerné.
 
-**Règle :** savoir et comprendre doivent pouvoir transformer la manière dont le monde est perçu ou abordé ; l'intelligence n'est pas seulement une statistique.
+Le gore n'est pas une décoration gratuite : il sert la sensation de danger, la vulnérabilité et la crédibilité de la violence.
 
-## 3. POLITIQUE
+## 3. PHILOSOPHIE ET PSYCHOLOGIE DANS LA NARRATION
 
-La politique est la manière dont les êtres humains organisent la vie commune.
+LITD doit interroger les êtres humains, leurs croyances, leurs peurs, leurs espoirs, leurs contradictions, leurs rapports au pouvoir, à la souffrance, au sens, à la communauté et au monde.
 
-Elle couvre autorité, justice, lois, institutions, coopération, conflits d'intérêts, responsabilité, bien commun, tyrannie, diplomatie et conséquences collectives. Dans LITD, la politique n'est ni un décor ni automatiquement synonyme de corruption : elle est une dimension fondamentale de la civilisation.
+La philosophie et la psychologie doivent être intégrées aux personnages, aux situations et aux conséquences plutôt qu'ajoutées sous forme de discours détachés de l'expérience.
 
-**Règle :** les décisions collectives doivent avoir des causes, des bénéficiaires, des victimes et des conséquences. Le pouvoir doit toujours signifier quelque chose.
+## 4. PROFONDEUR HUMAINE ACCESSIBLE
 
-## 4. PEUR
+L'univers peut être profond sans exiger du joueur qu'il maîtrise une encyclopédie pour ressentir ce qui se passe.
 
-La peur naît de ce qui peut être perdu, de ce qui reste inconnu et de ce que l'on ne maîtrise pas.
+Les émotions, conflits, relations et enjeux fondamentaux doivent rester humains et compréhensibles. Plusieurs niveaux de lecture peuvent exister, mais le premier niveau doit fonctionner par lui-même.
 
-Elle doit créer de la tension sans reposer uniquement sur des sursauts ou de l'horreur visuelle. La peur peut venir de l'obscurité, de la rareté, d'une décision irréversible, d'un ennemi incompris, de la mort, de l'échec, d'une vérité ou de la responsabilité envers les autres.
+## 5. NARRATION FORTE
 
-**Règle :** le joueur ou le personnage doit avoir quelque chose de réel à risquer. Une peur sans enjeu n'est pas un pilier LITD.
+Chaque projet LITD doit posséder une intention narrative forte, avec des événements, personnages, lieux et conséquences qui contribuent à une histoire significative.
 
-## 5. ESPOIR
+L'histoire ne doit pas être un simple habillage du gameplay. Le gameplay, le monde et la narration doivent pouvoir se renforcer mutuellement.
 
-L'espoir est la décision de continuer malgré la peur et la ruine.
+## 6. INTERCONNEXION DES DIFFÉRENTS JEUX
 
-Il s'exprime par la reconstruction, la solidarité, la transmission, le soin, la création, la curiosité, la confiance et la possibilité d'un avenir. Il ne supprime pas la noirceur : il lui donne un contrepoids et rend les pertes importantes.
+Les jeux LITD restent des expériences et des systèmes de gameplay distincts, mais ils appartiennent à un même univers.
 
-**Règle :** LITD ne doit jamais être un univers de désespoir total. Même faible, coûteuse ou incertaine, une possibilité de lumière doit exister.
+Des événements, personnages, lieux, idées, traces, œuvres, institutions, conséquences ou découvertes peuvent relier les différents jeux sans exiger qu'ils utilisent les mêmes mécaniques.
 
-## 6. FOLIE
+L'interconnexion doit enrichir chaque œuvre sans rendre un autre jeu obligatoire pour comprendre son récit principal.
 
-La folie représente la rupture possible entre un être, sa perception et le monde qu'il essaie de comprendre.
+## 7. RÉMANENCE DE LA CONNAISSANCE
 
-Elle peut venir du traumatisme, de l'isolement, de l'obsession, du pouvoir, de la culpabilité, de vérités impossibles à intégrer ou d'une société qui s'effondre. Elle doit être traitée avec gravité et nuance, jamais comme une caricature automatique de violence ou comme un simple effet aléatoire.
+La connaissance laisse des traces et peut être retrouvée, comparée, comprise, contestée puis reliée à d'autres connaissances au fil de LITD Universe.
 
-**Règle :** la perte de repères doit avoir une cause, une trajectoire et une conséquence lisible. Elle ne doit pas être une punition arbitraire.
+Le principe de progression canonique est :
 
-## 7. LUMIÈRE
+**Trace → Écho → Mémoire → Concordance**
 
-La lumière est le symbole central qui relie tout LITD Universe.
+- **Trace** : élément incomplet, vestige, témoignage, objet, signe ou information isolée.
+- **Écho** : une seconde manifestation donne du relief ou une nouvelle interprétation à la trace.
+- **Mémoire** : plusieurs éléments permettent de reconstruire une compréhension cohérente d'une personne, d'un événement, d'un lieu, d'une idée ou d'un savoir.
+- **Concordance** : des connaissances issues de sources, époques ou jeux différents se répondent et révèlent une relation plus large dans LITD Universe.
 
-Elle peut être physique, mentale, sociale ou historique : une flamme dans un lieu hostile, une connaissance retrouvée, une personne qui refuse d'abandonner, une institution reconstruite, une vérité révélée. Elle n'existe que parce qu'elle est confrontée à l'obscurité.
-
-**Règle :** chaque œuvre LITD doit mettre en scène une tension significative entre lumière et obscurité. Cette tension n'a pas besoin d'être le même système mécanique d'un jeu à l'autre, mais elle doit être vécue et non simplement nommée.
+Les sources, contradictions, incertitudes et questions non résolues doivent être conservées lorsqu'elles ont du sens. La connaissance n'est pas uniquement du lore à collectionner : elle participe à la découverte progressive de l'univers et peut créer des liens entre les différents jeux.
 
 ---
 
-## Relation entre les piliers
+## Règle d'immuabilité
 
-Les sept ne sont pas indépendants.
+La liste canonique est exactement :
 
-- **Corps** demande : *que peut supporter un être ?*
-- **Esprit** demande : *que peut-il comprendre ?*
-- **Politique** demande : *comment peut-on vivre ensemble ?*
-- **Peur** demande : *qu'avons-nous à perdre ?*
-- **Espoir** demande : *pourquoi continuer ?*
-- **Folie** demande : *que se passe-t-il lorsque le sens se fracture ?*
-- **Lumière** demande : *qu'est-ce qui mérite encore d'être protégé, compris ou reconstruit ?*
+1. **Création de personnages**
+2. **Gore systémique et conséquences corporelles**
+3. **Philosophie et psychologie dans la narration**
+4. **Profondeur humaine accessible**
+5. **Narration forte**
+6. **Interconnexion des différents jeux**
+7. **Rémanence de la connaissance**
 
-La devise de contrôle de l'identité LITD est donc :
+Toute proposition future qui présente une autre notion comme « pilier de LITD Universe » doit être classée comme **principe**, **règle transversale**, **thème**, **mécanique**, **direction artistique** ou **système propre à un jeu**, mais ne doit pas modifier cette liste.
 
-> **Un corps qui peut être brisé. Un esprit qui cherche à comprendre. Une société qui doit choisir. Une peur réelle. Un espoir possible. Une folie qui a un sens. Une lumière qui mérite d'être défendue.**
+## Test obligatoire pour tout projet LITD
 
-## Test obligatoire pour tout futur projet LITD
-
-Avant production, le projet doit pouvoir répondre clairement à sept questions :
-
-1. Où le **Corps** existe-t-il concrètement ?
-2. Comment l'**Esprit** transforme-t-il l'expérience ?
-3. Quelle place la **Politique** ou le collectif occupe-t-il ?
-4. Qu'est-ce qui provoque réellement la **Peur** ?
-5. Qu'est-ce qui rend l'**Espoir** possible ?
-6. Comment la **Folie** ou la fracture du sens peut-elle apparaître sans caricature ?
-7. Que représente la **Lumière**, et contre quelle obscurité lutte-t-elle ?
-
-Si une réponse manque, le concept doit être retravaillé avant d'être considéré comme pleinement LITD.
+Avant production, un projet doit expliquer comment il respecte chacun des sept piliers. Il peut les traduire différemment selon son genre et sa structure, mais aucun pilier ne peut être ignoré ou remplacé.
