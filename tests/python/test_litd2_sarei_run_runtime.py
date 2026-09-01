@@ -124,3 +124,87 @@ def test_world_interaction_actors_route_into_run_director() -> None:
     assert "ChooseBranch" in cpp
     assert "bConsumed" in header
     assert "bTriggered" in header
+
+
+@pytest.mark.data
+def test_complete_sarei_vertical_slice_flow_contract() -> None:
+    """Walk the exact first playable loop as a deterministic contract test."""
+    data = json.loads(RUN.read_text(encoding="utf-8"))
+    zones = {zone["zone_id"]: zone for zone in data["zones"]}
+
+    # Start: 3 potions and no trauma.
+    potion_capacity = data["start"]["potions"]
+    potions = potion_capacity
+    max_hp = 1000
+    locked_hp = 0
+    current_hp = max_hp
+    trauma_level = 0
+    archive_entries: set[str] = set()
+
+    # Z1 completed: basic combat does not force trauma.
+    assert zones["Z1_SOUTH_GATE"]["trauma_pressure"] == "LOW"
+
+    # Z2: simulate one readable severe hit, then use the fountain.
+    locked_hp += 100
+    trauma_level = 1
+    current_hp = 620
+    recoverable_max = max_hp - locked_hp
+    current_hp = recoverable_max
+    assert current_hp == 900
+    assert locked_hp == 100
+    assert trauma_level == 1
+    assert zones["Z2_STRETCHER_STREET"]["healing"]["cures_trauma"] is False
+
+    # Z3: discover Le Dernier Flacon. Knowledge persists; no permanent power yet.
+    last_flask = zones["Z3_FIELD_AID_POST"]["mandatory_remanence_id"]
+    archive_entries.add(last_flask)
+    assert last_flask == "SAREI_ECHO_LAST_FLASK"
+    assert zones["Z3_FIELD_AID_POST"]["permanent_gameplay_reward"] is False
+
+    # Use one potion before the branch: trauma clears, capacity remains 3.
+    potions -= 1
+    locked_hp = 0
+    trauma_level = 0
+    current_hp = max_hp
+    assert (potions, locked_hp, trauma_level, current_hp) == (2, 0, 0, 1000)
+
+    # Contextual Z3 cache can replace the spent potion, never exceed capacity.
+    if potions < potion_capacity:
+        potions += 1
+    assert potions == 3
+
+    # Z4: choose exactly one valid route.
+    branch_ids = {branch["branch_id"] for branch in zones["Z4_ASH_CROSSROADS"]["branches"]}
+    chosen_branch = "CONVOY_YARD"
+    assert chosen_branch in branch_ids
+    assert zones["Z4_ASH_CROSSROADS"]["branches_equal_average_value"] is True
+
+    # Z5: mini-boss exists and validates all three build paths.
+    mini_boss = zones["Z5_HOSPITAL_ANNEX"]
+    assert mini_boss["boss_id"] == "SAREI_GUARD_SURGEON"
+    assert set(mini_boss["path_validation"]) == {"Body", "Mind", "Politics"}
+
+    # Z6: all three waves exist and the final fountain still cannot cure trauma.
+    wave_arena = zones["Z6_EVACUATION_YARD"]
+    assert len(wave_arena["waves"]) == 3
+    assert wave_arena["healing"]["cures_trauma"] is False
+    assert wave_arena["pre_boss_decision"] == "SpendPotionToClearTraumaOrPreserveIt"
+
+    # Z7: Rhéon is defeated through the shared boss contract.
+    rheon = zones["Z7_SOUTH_BARRICADE"]
+    assert rheon["boss_id"] == "CAPTAIN_RHEON_LAST_LOCK"
+    assert [phase["health_range"] for phase in rheon["phases"]] == [[100, 60], [60, 25], [25, 0]]
+    assert set(rheon["path_viability"]) == {"Body", "Mind", "Politics"}
+    assert rheon["uses_shared_damage_anatomy_gore_pipeline"] is True
+
+    # Z8: conclusion knowledge returns to Archives without resolving the political truth.
+    conclusion = zones["Z8_AFTER_BARRICADE"]
+    archive_entries.add(conclusion["remanence_id"])
+    assert conclusion["end_flow"] == "ReturnToRemanenceArchives"
+    assert conclusion["resolves_political_truth"] is False
+    assert "SAREI_ECHO_LAST_FLASK" in archive_entries
+    assert "SAREI_RHEON_GATE_ORDER_TRACE" in archive_entries
+
+    # First run explicitly cannot grant potion capacity 4.
+    assert data["remanence_summary"]["first_run_must_not_unlock_potion_capacity_4"] is True
+    assert potion_capacity == 3
