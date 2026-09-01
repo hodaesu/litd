@@ -10,7 +10,15 @@ public class LITD2 : ModuleRules
         {
             "Core",
             "CoreUObject",
-            "Engine"
+            "Engine",
+            "InputCore",
+            "Json",
+            "UMG",
+            "Slate",
+            "SlateCore"
         });
+
+        RuntimeDependencies.Add("$(ProjectDir)/Data/Remanence/sarei_seed.json");
+        RuntimeDependencies.Add("$(ProjectDir)/Data/Remanence/sarei_ui_layout.json");
     }
 }
