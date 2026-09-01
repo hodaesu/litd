@@ -51,6 +51,12 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Enemy|Incision")
     float IncisionRecoverySeconds = 0.68f;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Enemy|Incision")
+    float IncisionBleedDamagePerSecond = 9.0f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Enemy|Incision")
+    float IncisionBleedDurationSeconds = 5.0f;
+
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Enemy|Grab")
     float GrabDamage = 58.0f;
 
