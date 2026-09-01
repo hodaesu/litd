@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "project_id": "litd_veilleurs",
+  "canon_version": "1.0.0",
+  "claims": [
+    {
+      "id": "veilleurs.affirms.protagonist_count",
+      "fact_id": "veilleurs.protagonists.count",
+      "operation": "affirm",
+      "value": 4
+    },
+    {
+      "id": "veilleurs.affirms.protagonist_identities_open",
+      "fact_id": "veilleurs.protagonists.identities",
+      "operation": "affirm",
+      "value": "unconfirmed"
+    },
+    {
+      "id": "veilleurs.affirms.game_order",
+      "fact_id": "universe.timeline.game_order",
+      "operation": "affirm",
+      "value": ["litd2", "litd_veilleurs", "litd1"]
+    }
+  ],
+  "entities": [],
+  "events": [
+    {
+      "id": "veilleurs.event.campaign",
+      "timeline_anchor": "event.litd_veilleurs",
+      "after": ["event.concord_birth"],
+      "before": ["era.mature_concord", "event.project_threshold", "event.fall"]
+    }
+  ],
+  "sources": [
+    "docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"
+  ]
+}
