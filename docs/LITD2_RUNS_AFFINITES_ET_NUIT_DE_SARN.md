@@ -26,9 +26,9 @@ Les Trois Éveils ne sont donc pas inventés en une nuit : **Sarn est leur crist
 
 ## 2. La run comme morceau d'Histoire
 
-Une run représente une opération autonome au sein de la Dernière Guerre.
+Une run représente une **fenêtre d'opération historique** au sein de la Dernière Guerre.
 
-Elle peut se dérouler sur une nuit, plusieurs jours ou une courte campagne locale selon la région.
+Elle peut se dérouler sur une nuit, plusieurs jours ou une courte campagne locale selon la région. Une même fenêtre peut contenir plusieurs tentatives réelles du protagoniste si celui-ci meurt puis est reconstruit par la Rémanence avant que l'objectif historique ne soit résolu.
 
 Exemples de runs :
 
@@ -47,21 +47,23 @@ Chaque run possède donc un sens historique même lorsque son agencement, ses sa
 
 La génération procédurale ne réécrit jamais les grands faits du lore. Elle varie les chemins, combats, rencontres secondaires, ressources et complications à l'intérieur d'un événement historique défini.
 
-## 3. Mort, recommencement et progression historique
+## 3. Mort, nouvelle tentative et progression historique
 
 Une mort termine immédiatement la tentative en cours.
 
-Le joueur **ne repart jamais d'un checkpoint**. La tentative suivante recommence depuis le **début complet de la run**, au même point de départ historique que la tentative précédente.
+Le joueur **ne repart jamais d'un checkpoint** et le temps ne revient jamais en arrière. Après le délai réel de reconstruction, le protagoniste revient au point d'engagement de l'opération et entreprend une **nouvelle tentative réelle**, plus tard dans la même fenêtre historique.
 
-La mort ne fait jamais avancer la guerre. Elle ne peut pas valider une bataille, faire tomber une ville, supprimer une quête secondaire importante, faire mourir un personnage narratif hors écran ni faire passer le jeu à la période historique suivante.
+Le jalon majeur de la guerre n'est pas validé par la mort. Mourir ne peut pas, à lui seul, faire tomber une ville, supprimer une quête secondaire importante, faire mourir un personnage narratif essentiel hors écran ni faire passer le jeu à la période historique suivante.
 
-Les jalons historiques avancent uniquement après réussite ou après un choix explicite de progression prévu par le jeu.
+En revanche, le monde local continue d'exister pendant la reconstruction : positions ennemies, ressources, cadavres, chemins secondaires et conséquences locales peuvent évoluer lorsque ces changements sont causés et compatibles avec la durée de l'opération.
+
+Les jalons historiques avancent uniquement après réussite de l'objectif majeur ou après une résolution alternative explicitement écrite à l'avance et causée dans le monde.
 
 Ainsi :
 
-**départ de run → progression → mort → corps persistant → reconstruction / retour → nouvelle tentative depuis le début de la run.**
+**départ d'opération → progression → mort réelle → corps persistant → délai de reconstruction → retour dans la même fenêtre d'opération → nouvelle tentative réelle → résolution historique.**
 
-Les conséquences permanentes viennent des décisions volontaires du joueur, pas de l'échec mécanique.
+Les conséquences permanentes viennent des décisions du joueur et des effets logiques du temps écoulé, jamais d'un faux rembobinage ni d'une punition arbitraire de l'échec mécanique.
 
 ## 4. Corps persistants
 
@@ -317,7 +319,7 @@ Le véritable objectif est d'empêcher le massacre qui permettrait aux pouvoirs 
 
 La victoire militaire et la victoire historique ne sont donc pas exactement la même chose.
 
-Une mort à Sarn termine la tentative et fait recommencer **toute la run de Sarn depuis son début**. Elle ne déclenche pas la suite historique tant que Sarn n'a pas été réellement réussie.
+Une mort à Sarn termine la tentative. Après le délai réel de reconstruction, le protagoniste revient au point d'engagement de l'opération de Sarn et entreprend une **nouvelle tentative dans la même nuit historique**, à un moment ultérieur mais avant la résolution du jalon. Les grands faits de Sarn ne sont validés que lorsque l'opération est effectivement résolue ; les cadavres et certaines conséquences locales des tentatives précédentes peuvent, eux, persister.
 
 ## 14. Les affinités transforment la finale sans changer le canon
 
@@ -413,27 +415,28 @@ Mille ans plus tard, LITD 1 peut retrouver des traces de certaines de ces person
 ## 18. Règles de continuité
 
 1. La Nuit de Sarn est la **finale jouable** de LITD 2.
-2. Les runs précédentes représentent différentes batailles et opérations de la Dernière Guerre.
-3. Une mort fait recommencer **toute la run**, jamais depuis un checkpoint.
-4. Une mort ne fait jamais avancer la chronologie historique.
-5. Une mort ne fait pas perdre les quêtes secondaires importantes.
-6. Chaque mort laisse un corps persistant dans le monde.
-7. Les Trois Éveils se forment progressivement pendant le jeu et se cristallisent ensemble à Sarn.
-8. Sarn n'est pas leur origine unique : traditions antérieures, expériences de guerre, populations et nombreux penseurs restent indispensables.
-9. Les Longues Assemblées se poursuivent après Sarn et transforment les trois voies en système politique et éducatif durable.
-10. Le Premier Pacte de Concorde appartient à l'épilogue historique ou au postgame, pas à la fin jouable principale.
-11. Sahra, Ilyan et Tala sont des personnages récurrents, jamais des compagnons permanents.
-12. Les choix Corps / Esprit / Politique alimentent à la fois le build temporaire de la run et les affinités persistantes avec les trois fondateurs.
-13. Les affinités sont cumulables et ne doivent jamais verrouiller définitivement une voie.
-14. Les récompenses d'affinité restent principalement horizontales et narratives.
-15. Le joueur influence la relation et le chemin vers la convergence, mais il ne peut supprimer l'un des Trois Éveils du canon.
-16. Toute nouvelle scène majeure de LITD 2 doit pouvoir laisser une trace, une déformation ou une absence significative dans LITD 1.
+2. Les runs précédentes représentent différentes fenêtres d'opérations de la Dernière Guerre.
+3. Une mort termine toute tentative en cours ; après reconstruction, une nouvelle tentative réelle repart du point d'engagement de l'opération, jamais d'un checkpoint intermédiaire et jamais par retour dans le temps.
+4. Une mort ne valide jamais à elle seule le jalon historique majeur de la run.
+5. Le monde local peut évoluer pendant le délai de reconstruction si ces changements sont causés, proportionnés au temps écoulé et compatibles avec le jalon encore non résolu.
+6. Une mort ne fait pas perdre arbitrairement les quêtes secondaires importantes.
+7. Chaque mort laisse un corps persistant dans le monde.
+8. Les Trois Éveils se forment progressivement pendant le jeu et se cristallisent ensemble à Sarn.
+9. Sarn n'est pas leur origine unique : traditions antérieures, expériences de guerre, populations et nombreux penseurs restent indispensables.
+10. Les Longues Assemblées se poursuivent après Sarn et transforment les trois voies en système politique et éducatif durable.
+11. Le Premier Pacte de Concorde appartient à l'épilogue historique ou au postgame, pas à la fin jouable principale.
+12. Sahra, Ilyan et Tala sont des personnages récurrents, jamais des compagnons permanents.
+13. Les choix Corps / Esprit / Politique alimentent à la fois le build temporaire de la run et les affinités persistantes avec les trois fondateurs.
+14. Les affinités sont cumulables et ne doivent jamais verrouiller définitivement une voie.
+15. Les récompenses d'affinité restent principalement horizontales et narratives.
+16. Le joueur influence la relation et le chemin vers la convergence, mais il ne peut supprimer l'un des Trois Éveils du canon.
+17. Toute nouvelle scène majeure de LITD 2 doit pouvoir laisser une trace, une déformation ou une absence significative dans LITD 1.
 
 ## 19. Formule directrice
 
 La boucle fondamentale de LITD 2 devient :
 
-**Partir en run → vivre une bataille de la Dernière Guerre → choisir Corps / Esprit / Politique → rencontrer ou influencer un fondateur → faire évoluer l'affinité → mourir éventuellement et laisser un corps → recommencer la run depuis le début → réussir → faire avancer l'Histoire → converger vers Sarn.**
+**Partir en run → vivre une opération de la Dernière Guerre → choisir Corps / Esprit / Politique → rencontrer ou influencer un fondateur → faire évoluer l'affinité → mourir éventuellement et laisser un corps → laisser passer le délai réel de reconstruction → revenir dans la même fenêtre d'opération pour une nouvelle tentative réelle → réussir ou atteindre une résolution alternative prévue → faire avancer l'Histoire → converger vers Sarn.**
 
 Et l'arc général devient :
 
