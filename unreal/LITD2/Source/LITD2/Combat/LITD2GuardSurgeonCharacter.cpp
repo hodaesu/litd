@@ -178,6 +178,10 @@ void ALITD2GuardSurgeonCharacter::CommitIncision()
         Payload.bReadableSevereCause = false;
 
         const FLITD2DamageResolution Resolution = Target->ReceiveDamageEvent(Payload);
+        if (Resolution.bWoundTriggered)
+        {
+            Target->ApplyTemporaryBleed(IncisionBleedDamagePerSecond, IncisionBleedDurationSeconds);
+        }
         if (Resolution.bParried)
         {
             RecoveryRemaining = FMath::Max(RecoveryRemaining, IncisionRecoverySeconds * 1.85f);
