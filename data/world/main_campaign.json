@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "campaign_id": "light_in_the_dark_main",
   "title": "Light in the Dark",
   "design_rule": "La campagne révèle le monde par couches : survie, soupçon, responsabilité, histoire profonde, puis choix de reconstruction. Aucune révélation majeure ne doit être donnée par une source unique.",
@@ -19,7 +19,7 @@
         {"id":"c01_boss_ash_witness","name":"Le Témoin des Cendres","type":"boss de chapitre","truth":"Ancien citoyen déformé par une zone de réalité instable, pas un démon venu d'ailleurs.","choice":"Achever, tenter une stabilisation ou risquer une extraction de mémoire."}
       ],
       "sanctuary_reveal":"L'Arbre du Premier Voile réagit à un fragment trouvé dans les ruines.",
-      "key_characters":["Nara Vey","Orren Taal","Sela Mor","Daros Khem","Meira Saan","Pavel Rin"],
+      "key_characters":["Nara Vey","Orren Taal","Sela Mor","Daros Khem","Meira Sen","Pavel Rin"],
       "end_revelation":"La Chute actuelle n'explique pas toutes les traces du Voile.",
       "unlock":"chapter_02_before_fall"
     },
@@ -34,7 +34,7 @@
         {"id":"c02_deleted_pages","name":"Ce que les archives ont perdu","goal":"Comparer plusieurs copies d'un registre effacé.","revelation":"Des étrangers ont acheté ou volé des travaux portant sur les anomalies."},
         {"id":"c02_false_accident","name":"Un accident trop préparé","goal":"Identifier des relais installés avant la Chute.","revelation":"L'ouverture était préparée, mais le responsable reste inconnu."}
       ],
-      "bosses":[{"id":"c02_boss_archive_keeper","name":"Le Conservateur Sans Visage","type":"gardien corrompu","truth":"Une ancienne fonction de protection a été déformée par la Folie collective.","choice":"Détruire le noyau, restaurer sa fonction ou détourner son accès."}],
+      "bosses":[{"id":"c02_boss_archive_keeper","name":"Le Conservateur Sans Visage","type":"gardien corrompu","truth":"Une ancienne fonction de protection a été altérée par une exposition collective au Voile et par les traces de peur et de perception laissées dans le dispositif ; cette Folie du Voile n'est pas une maladie mentale humaine.","choice":"Détruire le noyau, restaurer sa fonction ou détourner son accès."}],
       "sanctuary_reveal":"Premier fragment de carte reliant plusieurs relais étrangers.",
       "key_characters":["Archiviste Toma Rei","Éclaireuse Sana Khel"],
       "end_revelation":"La catastrophe fut provoquée volontairement.",
@@ -51,7 +51,7 @@
         {"id":"c03_horizon_pact","name":"L'Horizon Fermé","goal":"Reconstituer les accords secrets entre puissances étrangères.","revelation":"Varkhane, Namar, Azravel et certains membres de Kor-Em ont soutenu le projet."},
         {"id":"c03_last_abort","name":"Le dernier ordre d'arrêt","goal":"Retrouver la trace du sabotage de Bram Torgun.","revelation":"Certains conspirateurs ont essayé d'arrêter le Projet Seuil trop tard."}
       ],
-      "bosses":[{"id":"c03_boss_threshold_echo","name":"L'Écho du Seuil","type":"manifestation de protocole","truth":"Une répétition autonome des dernières secondes du rituel.","choice":"Rompre l'écho, l'enregistrer ou le laisser se répéter pour obtenir davantage de données au prix de la Folie."}],
+      "bosses":[{"id":"c03_boss_threshold_echo","name":"L'Écho du Seuil","type":"manifestation de protocole","truth":"Une répétition autonome des dernières secondes du rituel.","choice":"Rompre l'écho, l'enregistrer ou le laisser se répéter pour obtenir davantage de données au prix d'une exposition accrue à la Folie du Voile."}],
       "sanctuary_reveal":"Le journal nomme officiellement le Projet Seuil comme origine immédiate de la Chute.",
       "key_characters":["Eline Sar","Bram Torgun"],
       "end_revelation":"Le Projet Seuil a ouvert la catastrophe mais certains symboles du rituel sont beaucoup plus anciens.",
@@ -102,9 +102,9 @@
         {"id":"c06_creature_memory","name":"Ce que les créatures reconnaissent","goal":"Observer des réactions de créatures recrutées à des lieux anciens.","revelation":"Certaines créatures portent des traces de mémoire qui ne sont pas les leurs."},
         {"id":"c06_absent_choice","name":"Ceux qui attendent ailleurs","goal":"Établir un premier contact stable.","revelation":"Une partie des Absents existe encore sous une forme difficile à définir."}
       ],
-      "bosses":[{"id":"c06_boss_boundary","name":"La Frontière qui marche","type":"phénomène vivant","truth":"Une zone de réalité qui se défend contre toute tentative de stabilisation.","choice":"Forcer le passage, négocier par résonance ou renoncer pour protéger le Sanctuaire."}],
-      "sanctuary_reveal":"Les créatures conscientes peuvent devenir des médiatrices naturelles avec certaines zones du Voile.",
-      "key_characters":["Un Absent nommé Saen","Sela Mor","Meira Saan"],
+      "bosses":[{"id":"c06_boss_boundary","name":"La Frontière qui marche","type":"phénomène de frontière réactif, non établi comme conscient","truth":"Une zone de réalité dont certaines tentatives de stabilisation déclenchent des contre-effets reproductibles. Les données ne permettent pas d'affirmer qu'elle se défend, veut quelque chose ou possède une conscience.","choice":"Forcer le passage, tester un protocole de résonance sans attribuer d'intention au phénomène, ou renoncer pour protéger le Sanctuaire."}],
+      "sanctuary_reveal":"Certaines créatures conscientes peuvent fournir des réactions observables utiles pour communiquer avec des zones du Voile ; cela n'établit pas que ces zones elles-mêmes sont conscientes.",
+      "key_characters":["Un Absent nommé Saen","Sela Mor","Meira Sen"],
       "end_revelation":"Une fermeture totale pourrait tuer ou condamner les Absents.",
       "unlock":"chapter_07_living_responsible"
     },
@@ -120,7 +120,7 @@
         {"id":"c07_edras","name":"Celui qui voulait voir","goal":"Empêcher Edras Nhal de provoquer une nouvelle ouverture contrôlée.","revelation":"Il considère encore la catastrophe comme le prix d'une révélation nécessaire."},
         {"id":"c07_judgment","name":"Que signifie juger après la fin du monde ?","goal":"Décider du traitement des responsables capturés.","revelation":"La justice de la Concorde est testée lorsqu'elle doit juger ceux qui ont détruit son monde."}
       ],
-      "bosses":[{"id":"c07_boss_edras","name":"Edras Nhal, l'Ouvert","type":"boss humain/Voile","truth":"Il reste une personne responsable de ses choix malgré les transformations qu'il s'inflige.","choice":"Capturer, tuer ou permettre une expérience limitée sous contrôle."}],
+      "bosses":[{"id":"c07_boss_edras","name":"Edras Nhal, l'Ouvert","type":"boss humain/Voile","truth":"Il reste une personne responsable de ses choix malgré les transformations qu'il s'inflige.","choice":"Le capturer pour jugement, le tuer si aucune capture sûre n'est possible, ou autoriser uniquement une observation instrumentale confinée de phénomènes déjà présents : aucune nouvelle ouverture, aucun sujet vivant exposé, aucun relais du Projet Seuil réactivé, arrêt automatique au premier dépassement des limites de sécurité."}],
       "sanctuary_reveal":"Le traitement des responsables modifie durablement la confiance dans la Concorde.",
       "key_characters":["Bram Torgun","Veyra Oss","Edras Nhal","Eline Sar","Sera Val-Khesh"],
       "end_revelation":"La vérité sur les commanditaires étrangers devient assez solide pour traverser vers leurs terres.",
@@ -155,7 +155,7 @@
       "regions":["Nœud sous l'Arbre", "Réseau de Saan", "Chevauchement profond"],
       "main_quests":[
         {"id":"c09_shared_reality","name":"La réalité que nous partageons","goal":"Comparer les expériences de peuples, créatures et Absents.","revelation":"La Lumière stabilise une réalité commune plutôt qu'elle ne détruit simplement les ténèbres."},
-        {"id":"c09_fear_shape","name":"La peur donne une forme","goal":"Étudier plusieurs zones où la Folie a altéré le réel.","revelation":"Peur et Folie n'inventent pas tout mais orientent ce que le Voile fixe dans la matière."},
+        {"id":"c09_fear_shape","name":"La peur donne une forme","goal":"Étudier plusieurs zones où l'exposition au Voile et la Folie surnaturelle ont altéré les conditions locales du réel.","revelation":"La peur et la Folie du Voile ne créent pas librement des objets ou des événements ; dans des conditions déjà instables, elles peuvent réduire ou orienter certaines possibilités que le Voile fixe localement."},
         {"id":"c09_no_final_answer","name":"Ce que nous ne saurons pas","goal":"Atteindre la limite de ce qui peut être observé sans déclencher une nouvelle catastrophe.","revelation":"L'origine ultime du Voile demeure inconnue et peut rester hors de portée."}
       ],
       "bosses":[{"id":"c09_boss_consensus","name":"Le Consensus Brisé","type":"boss conceptuel","truth":"Une réalité locale formée de mémoires contradictoires de milliers de personnes.","choice":"Imposer un ancrage unique, construire un compromis ou laisser une zone autonome."}],
