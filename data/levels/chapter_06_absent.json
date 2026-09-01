@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "chapter_id": "chapter_06_absent",
   "title": "Les Absents",
   "theme": "La disparition n'est pas nécessairement la mort, et sauver la réalité commune peut condamner ceux qui existent à sa frontière.",
@@ -11,7 +11,7 @@
     {"id":"c06_stage_04_camp","name":"La nuit qui n'arrive pas","type":"campfire","zone":"c06_overlap_hamlet","objective":"Établir un camp dans une zone où deux moments semblent coexister."},
     {"id":"c06_stage_05_wayfarer","name":"L'Arpenteur Décalé","type":"miniboss","zone":"c06_mute_doors","encounter_id":"c06_shifted_wayfarer","objective":"Comprendre quelle position de l'Arpenteur appartient réellement au présent avant de le neutraliser."},
     {"id":"c06_stage_06_saen","name":"Saen","type":"contact","zone":"c06_saen_contact","objective":"Réunir huit signaux issus d'au moins quatre familles et établir un premier échange stable avec une conscience absente."},
-    {"id":"c06_stage_07_boundary","name":"La Frontière qui marche","type":"boss","zone":"c06_walking_boundary","encounter_id":"c06_boss_boundary","objective":"Stabiliser les trois ancrages de l'arène, survivre au déplacement de la frontière puis décider comment traiter le passage."},
+    {"id":"c06_stage_07_boundary","name":"La Frontière qui marche","type":"boss","zone":"c06_walking_boundary","encounter_id":"c06_boss_boundary","objective":"Stabiliser les trois ancrages de l'arène, survivre au déplacement de la frontière puis décider comment traiter le passage sans attribuer d'intention au phénomène."},
     {"id":"c06_stage_08_return","name":"Ceux qui attendent ailleurs","type":"return","zone":"sanctuary","objective":"Ramener la preuve au Sanctuaire et accepter qu'une fermeture totale du Voile pourrait condamner des consciences encore actives."}
   ],
   "main_quest_bindings": {
@@ -42,17 +42,17 @@
   "boss": {
     "id":"c06_boss_boundary",
     "name":"La Frontière qui marche",
-    "type":"phénomène vivant",
+    "type":"phénomène de frontière réactif, non établi comme conscient",
     "hp":210,
-    "phases":["Le Bord","Deux mondes","La limite choisit"],
+    "phases":["Le Bord","Deux mondes","Découplage local"],
     "signature":"Ici n'est plus ici",
-    "truth":"Ce n'est pas une créature au sens ordinaire mais une limite de réalité devenue auto-protectrice.",
-    "core_puzzle":"Ses PV ne représentent que la résistance locale de la frontière. Sans ancrages stabilisés, elle absorbe la majorité des dégâts et déplace le champ de bataille.",
-    "counterplay":"Explorer l'arène, stabiliser les trois ancrages, conserver la Lumière et décider ensuite s'il faut forcer, négocier ou se retirer."
+    "truth":"Ce n'est pas une créature au sens ordinaire mais une limite locale de réalité. Les contre-effets observés lorsque le groupe tente de la stabiliser sont reproductibles, mais rien ne permet d'affirmer que la frontière se défend, choisit, veut ou perçoit quoi que ce soit.",
+    "core_puzzle":"Ses PV représentent la résistance locale du phénomène aux interventions du groupe. Sans ancrages stabilisés, la zone absorbe la majorité des effets et déplace le champ de bataille selon des variations mesurables de cohérence.",
+    "counterplay":"Explorer l'arène, stabiliser les trois ancrages, conserver la Lumière et décider ensuite s'il faut forcer le passage, tester une résonance ou se retirer, sans interpréter automatiquement la réaction du phénomène comme une volonté."
   },
   "boss_choices": [
     {"id":"force","label":"FORCER LE PASSAGE","effects":{"absent_contact":3,"veil_knowledge":3,"tension":5},"consequence":"Un passage temporaire est imposé. Il livre des données mais déstabilise davantage la zone."},
-    {"id":"resonate","label":"NÉGOCIER PAR RÉSONANCE","effects":{"absent_contact":10,"creature_relations":3,"veil_knowledge":5,"tension":2},"consequence":"La frontière cesse brièvement de traiter le groupe comme une intrusion et Saen peut maintenir un échange plus clair."},
+    {"id":"resonate","label":"TESTER LA RÉSONANCE","effects":{"absent_contact":10,"creature_relations":3,"veil_knowledge":5,"tension":2},"consequence":"Un protocole de résonance réduit brièvement l'écart entre les références locales ; Saen peut maintenir un échange plus clair. Cette réaction ne prouve aucune conscience de la frontière."},
     {"id":"withdraw","label":"RENONCER ET PROTÉGER LE SANCTUAIRE","effects":{"absent_contact":2,"justice_integrity":2,"trust":2,"tension":-2},"consequence":"Le groupe refuse de risquer une rupture plus grande. Le contact reste incomplet mais le Sanctuaire n'est pas exposé."}
   ],
   "saen": {
