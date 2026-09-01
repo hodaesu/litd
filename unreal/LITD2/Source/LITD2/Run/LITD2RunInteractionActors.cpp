@@ -1,35 +1,44 @@
 #include "Run/LITD2RunInteractionActors.h"
 
+#include "Combat/LITD2CombatantComponent.h"
 #include "Engine/GameInstance.h"
+#include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
 #include "Run/LITD2RunDirectorSubsystem.h"
 
 namespace
 {
     ULITD2RunDirectorSubsystem* GetRunDirector(const AActor* Actor)
     {
-        if (!Actor || !Actor->GetGameInstance())
-        {
-            return nullptr;
-        }
+        if (!Actor || !Actor->GetGameInstance()) return nullptr;
         return Actor->GetGameInstance()->GetSubsystem<ULITD2RunDirectorSubsystem>();
+    }
+
+    ULITD2CombatantComponent* GetPlayerCombatant(const AActor* Actor)
+    {
+        if (!Actor) return nullptr;
+        if (ACharacter* Player = UGameplayStatics::GetPlayerCharacter(Actor, 0))
+        {
+            return Player->FindComponentByClass<ULITD2CombatantComponent>();
+        }
+        return nullptr;
     }
 }
 
 int32 ALITD2HealingPoint::UseHealingPoint()
 {
-    if (ULITD2RunDirectorSubsystem* Director = GetRunDirector(this))
-    {
-        return Director->UseFountain();
-    }
-    return 0;
+    ULITD2RunDirectorSubsystem* Director = GetRunDirector(this);
+    ULITD2CombatantComponent* Combatant = GetPlayerCombatant(this);
+    if (!Director || !Combatant) return 0;
+
+    const int32 RuntimeHealed = Director->UseFountain();
+    const int32 CombatHealed = Combatant->RestoreRecoverableHealth();
+    return FMath::Min(RuntimeHealed, CombatHealed);
 }
 
 bool ALITD2MedicalCache::TryTakeReplacementPotion()
 {
-    if (bConsumed)
-    {
-        return false;
-    }
+    if (bConsumed) return false;
 
     if (ULITD2RunDirectorSubsystem* Director = GetRunDirector(this))
     {
@@ -44,10 +53,7 @@ bool ALITD2MedicalCache::TryTakeReplacementPotion()
 
 bool ALITD2RemanenceTrigger::TriggerRemanence()
 {
-    if (bTriggered || RemanenceEntryId.IsNone())
-    {
-        return false;
-    }
+    if (bTriggered || RemanenceEntryId.IsNone()) return false;
 
     if (ULITD2RunDirectorSubsystem* Director = GetRunDirector(this))
     {
@@ -62,10 +68,7 @@ bool ALITD2RemanenceTrigger::TriggerRemanence()
 
 bool ALITD2BranchGate::ChooseThisBranch()
 {
-    if (BranchId.IsNone())
-    {
-        return false;
-    }
+    if (BranchId.IsNone()) return false;
 
     if (ULITD2RunDirectorSubsystem* Director = GetRunDirector(this))
     {
