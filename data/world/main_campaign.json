@@ -1,8 +1,11 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "campaign_id": "light_in_the_dark_main",
   "title": "Light in the Dark",
   "design_rule": "La campagne révèle le monde par couches : survie, soupçon, responsabilité, histoire profonde, puis choix de reconstruction. Aucune révélation majeure ne doit être donnée par une source unique.",
+  "story_contract": "res://data/narrative/base_game_story_contract.json",
+  "narrator_contract": "res://data/narrative/base_game_narrator.json",
+  "narrative_priority": "cycle_initial_before_ngplus_expansion",
   "chapters": [
     {
       "id": "chapter_01_ashlands",
