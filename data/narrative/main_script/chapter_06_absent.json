@@ -22,8 +22,8 @@
         {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Donc quelque chose suit la conversation."},
         {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Quelque chose suit la structure. Je garderai ce mot tant qu'on n'aura pas mieux."},
         {"kind":"choice","id":"c06_contact_language","prompt":"Quelle formulation utiliser dans le rapport ?","options":[
-          {"id":"responsive_pattern","label":"« Motif répondant de façon structurée. »","response":[{"speaker":"Meira Sen","text":"Sec. Précis. Suffisant pour continuer."}],"sets":["c06_language_pattern"]},
-          {"id":"possible_conscious_response","label":"« Réponse possiblement consciente, non démontrée. »","response":[{"speaker":"Sela Mor","text":"Alors garde les deux mots : possible et non démontrée. Aucun des deux ne doit disparaître dans la copie publique."}],"sets":["c06_language_conscious_possible"]}
+          {"id":"responsive_pattern","label":"Décrire un motif répondant de façon structurée.","response":[{"speaker":"Meira Sen","text":"Sec. Précis. Suffisant pour continuer."}],"sets":["c06_language_pattern"]},
+          {"id":"possible_conscious_response","label":"Mentionner une réponse possiblement consciente, tout en la marquant comme non démontrée.","response":[{"speaker":"Sela Mor","text":"Alors garde les deux mots : possible et non démontrée. Aucun des deux ne doit disparaître dans la copie publique."}],"sets":["c06_language_conscious_possible"]}
         ]}
       ],
       "exit_state":["c06_voices_without_bodies complétée", "réponses structurées établies"]
