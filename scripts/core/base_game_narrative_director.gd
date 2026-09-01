@@ -4,15 +4,18 @@ signal narration_selected(payload: Dictionary)
 
 const STORY_PATH := "res://data/narrative/base_game_story_contract.json"
 const NARRATOR_PATH := "res://data/narrative/base_game_narrator.json"
+const KEY_SCENES_PATH := "res://data/narrative/base_game_key_scenes.json"
 
 var story_data: Dictionary = {}
 var narrator_data: Dictionary = {}
+var key_scenes_data: Dictionary = {}
 var _used_line_keys: Dictionary = {}
 var _last_chapter_id := ""
 
 func _ready() -> void:
     story_data = _load_dictionary(STORY_PATH)
     narrator_data = _load_dictionary(NARRATOR_PATH)
+    key_scenes_data = _load_dictionary(KEY_SCENES_PATH)
     _last_chapter_id = CampaignState.current_chapter_id
     if not CampaignState.campaign_changed.is_connected(_on_campaign_changed):
         CampaignState.campaign_changed.connect(_on_campaign_changed)
@@ -62,6 +65,21 @@ func choice_echoes(chapter_id: String = "") -> Array:
 
 func transition_hook(chapter_id: String = "") -> String:
     return str(chapter_contract(chapter_id).get("transition_hook", ""))
+
+func key_scenes(chapter_id: String = "") -> Array:
+    var target_id := chapter_id
+    if target_id == "":
+        target_id = CampaignState.current_chapter_id
+    var chapters: Dictionary = key_scenes_data.get("chapters", {})
+    var values: Variant = chapters.get(target_id, [])
+    return values.duplicate(true) if values is Array else []
+
+func key_scene(scene_id: String, chapter_id: String = "") -> Dictionary:
+    for value: Variant in key_scenes(chapter_id):
+        var scene: Dictionary = value if value is Dictionary else {}
+        if str(scene.get("id", "")) == scene_id:
+            return scene.duplicate(true)
+    return {}
 
 func narrator_rules() -> Dictionary:
     var value: Variant = narrator_data.get("style_contract", {})
