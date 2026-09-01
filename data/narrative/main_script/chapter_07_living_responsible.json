@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_07_living_responsible",
+  "title": "Les responsables vivants",
+  "human_question": "À quoi sert la justice quand rien ne peut réparer ce qui a été détruit ?",
+  "scenes": [
+    {
+      "id":"c07_opening_warrants","chapter_id":"chapter_07_living_responsible","type":"chapter_opening","trigger":"chapter_start","purpose":"Passer de l'histoire documentée à la responsabilité de personnes encore vivantes.",
+      "staging":["mandats provisoires sur la table", "dossiers de Bram, Veyra et Edras", "colonne distincte : faits établis / accusations / risques de capture"],
+      "beats":[
+        {"kind":"narration","speaker":"Narration","text":"Les morts peuvent laisser des preuves. Les vivants répondent, mentent, regrettent, se défendent et recommencent parfois. Les retrouver transforme l'enquête en une question que les archives seules ne peuvent trancher."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Pas de chasse à l'homme sans mandat. Pas d'exécution transformée ensuite en procédure. Si nous voulons encore parler de Concorde, elle commence ici."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Et si une capture sûre cesse d'être possible, je préfère une décision honnête à un faux idéal qui tue tout le monde autour."}
+      ],
+      "exit_state":["c07_bram, c07_veyra et c07_edras disponibles"]
+    },
+    {
+      "id":"c07_bram_refuge","chapter_id":"chapter_07_living_responsible","type":"main_quest","quest_id":"c07_bram","trigger":"bram_found","purpose":"Confronter l'acte de mitigation tardive à la responsabilité antérieure.",
+      "staging":["refuge d'ingénieur réparé avec des pièces du Projet Seuil", "plans barrés", "liste de morts conservée sur un mur"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Bram Torgun","text":"J'ai su assez tard pour agir, assez tôt pour comprendre que j'aurais dû agir avant."},
+        {"kind":"choice","id":"c07_bram_first_response","prompt":"Comment conduire la première confrontation ?","options":[
+          {"id":"facts_first","label":"Demander la chronologie exacte avant toute justification.","response":[{"speaker":"Bram Torgun","text":"Bien. 03:14, seuil dépassé. 03:21, Veyra demande de réduire la synchronisation. 03:37, j'accepte encore une nouvelle série. 03:51, je coupe le premier relais."}],"sets":["c07_bram_facts_first"]},
+          {"id":"victims_first","label":"Lui demander pourquoi il est resté après les premières alertes.","response":[{"speaker":"Bram Torgun","text":"Parce que j'avais construit la moitié du système et que j'ai confondu responsabilité avec obligation de rester au poste. Puis orgueil avec responsabilité."}],"sets":["c07_bram_motive_first"]}
+        ]},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Tu viendras au Sanctuaire. Pas comme invité. Pas comme trophée. Comme personne mise en cause avec droit de répondre."},
+        {"kind":"dialogue","speaker":"Bram Torgun","text":"C'est plus que ce que j'attendais. Ce n'est pas plus que ce que je dois."}
+      ],
+      "exit_state":["Bram placé sous garde", "c07_bram complétée"]
+    },
+    {
+      "id":"c07_veyra_monastery","chapter_id":"chapter_07_living_responsible","type":"main_quest","quest_id":"c07_veyra","trigger":"veyra_found","purpose":"Confronter une chercheuse qui avait compris une partie du danger sans l'avoir arrêté assez tôt.",
+      "staging":["monastère fracturé transformé en laboratoire minimal", "aucun relais actif", "notes consacrées aux limites plutôt qu'aux ouvertures"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Veyra Oss","text":"Je ne vais pas te dire que j'ignorais le danger. Ce serait confortable et faux."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Tu avais demandé de réduire la synchronisation."},
+        {"kind":"dialogue","speaker":"Veyra Oss","text":"Oui. Puis j'ai accepté qu'on continue sous une autre configuration. J'ai appelé cela prudence parce que le mot arrêt me paraissait encore disproportionné."},
+        {"kind":"choice","id":"c07_veyra_custody","prompt":"Décider des conditions de retour de Veyra.","options":[
+          {"id":"full_custody","label":"Garde complète jusqu'au jugement.","response":[{"speaker":"Veyra Oss","text":"Je comprends. Mes connaissances ne me donnent aucun droit spécial."}],"sets":["c07_veyra_full_custody"]},
+          {"id":"supervised_expertise","label":"Garde avec consultation technique strictement supervisée.","response":[{"speaker_id":"nara_vey","speaker":"Nara Vey","text":"Ses réponses pourront servir. Jamais ses réponses seules. Et jamais comme autorisation de recommencer une expérience."}],"sets":["c07_veyra_supervised"]}
+        ]}
+      ],
+      "exit_state":["Veyra sous garde", "c07_veyra complétée"]
+    },
+    {
+      "id":"c07_edras_palace","chapter_id":"chapter_07_living_responsible","type":"main_quest","quest_id":"c07_edras","trigger":"edras_lab_reached","purpose":"Montrer qu'Edras reste responsable malgré sa transformation et empêcher toute nouvelle ouverture.",
+      "staging":["palais de relais partiellement réactivé", "Edras relié à des instruments mais pas à un réseau complet", "plusieurs sécurités retirées volontairement"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Edras Nhal","text":"Vous avez traversé un monde détruit par notre ignorance et vous voulez maintenant protéger cette ignorance comme une vertu."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Non. Nous voulons distinguer apprendre de provoquer."},
+        {"kind":"dialogue","speaker":"Edras Nhal","text":"La distinction est souvent inventée après coup par ceux qui ont peur du prix."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Le prix n'est pas une abstraction quand ce sont d'autres corps qui le paient."},
+        {"kind":"action","text":"Le joueur neutralise les relais permettant une nouvelle ouverture avant de poursuivre la confrontation."}
+      ],
+      "exit_state":["réactivation du Projet Seuil impossible localement", "confrontation boss débloquée"]
+    },
+    {
+      "id":"c07_boss_edras","chapter_id":"chapter_07_living_responsible","type":"boss","trigger":"c07_boss_edras_defeated","purpose":"Résoudre la menace immédiate sans effacer la question judiciaire.",
+      "staging":["Edras blessé et transformé", "instruments coupés", "aucune ouverture active possible", "zone encore instable"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Edras Nhal","text":"Tu peux m'arrêter. Tu ne pourras pas arrêter la question."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"La question survivra très bien sans te donner le droit de choisir qui elle détruit."},
+        {"kind":"choice","id":"c07_edras_fate","prompt":"Décider du sort immédiat d'Edras.","options":[
+          {"id":"capture","label":"Le capturer pour un jugement public.","response":[{"speaker":"Edras Nhal","text":"Alors au moins vous aurez le courage de m'écouter avant de me condamner."},{"speaker_id":"nara_vey","speaker":"Nara Vey","text":"Écouter n'est pas promettre de croire."}],"sets":["c07_edras_capture"]},
+          {"id":"kill_if_unsafe","label":"Le tuer si son état rend la capture impossible sans nouvelles victimes.","response":[{"speaker_id":"sela_mor","speaker":"Sela Mor","text":"Alors on écrira pourquoi la capture était impossible. Sa mort ne deviendra pas une preuve de culpabilité supplémentaire."}],"sets":["c07_edras_kill"]},
+          {"id":"confined_observation","label":"Le capturer et autoriser plus tard uniquement une observation instrumentale confinée de phénomènes déjà présents.","response":[{"speaker_id":"meira_sen","speaker":"Meira Sen","text":"Aucune nouvelle ouverture. Aucun sujet vivant exposé. Aucun relais réactivé. Arrêt automatique au premier dépassement. Et son statut de détenu ne change pas."}],"sets":["c07_edras_capture","c07_edras_confined_observation"]}
+        ]}
+      ],
+      "exit_state":["c07_edras complétée", "c07_judgment disponible"]
+    },
+    {
+      "id":"c07_pretrial_conflict","chapter_id":"chapter_07_living_responsible","type":"sanctuary_interlude","trigger":"responsible_actors_returned","purpose":"Montrer que la justice est aussi mise à l'épreuve par les survivants qui veulent des réponses différentes.",
+      "staging":["foule devant le Cercle provisoire", "noms des morts affichés", "garde sans armes lourdes à l'intérieur"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Survivante","text":"Mon fils est mort parce qu'ils ont ouvert cette chose. Pourquoi est-ce qu'Edras a droit à une chaise et à de l'eau ?"},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Parce que si nos règles disparaissent au moment où elles deviennent difficiles, elles n'étaient que des habitudes de temps calme."},
+        {"kind":"dialogue","speaker":"Survivante","text":"Et moi, qu'est-ce que vos règles me rendent ?"},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Rien de ce qu'elles devraient pouvoir te rendre. C'est précisément pourquoi je ne vais pas te mentir en appelant justice une réparation complète."}
+      ],
+      "exit_state":["tension judiciaire active"]
+    },
+    {
+      "id":"c07_public_judgment","chapter_id":"chapter_07_living_responsible","type":"main_quest","quest_id":"c07_judgment","trigger":"public_hearing","purpose":"Définir la justice comme institution de responsabilité, preuve et avenir commun.",
+      "staging":["Cercle provisoire", "témoins séparés des juges", "preuves accessibles au public", "sièges vides pour les absents et morts"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Bram Torgun","text":"Je demande que mon sabotage soit enregistré comme mitigation. Je ne demande pas qu'il efface ce que j'ai fait avant."},
+        {"kind":"dialogue","speaker":"Veyra Oss","text":"J'ai compris une partie du risque. Je l'ai sous-estimé quand arrêter aurait détruit des années de travail et des alliances. Ce calcul est le mien."},
+        {"kind":"dialogue","speaker":"Edras Nhal","text":"Je maintiens qu'une connaissance perdue peut coûter davantage que la catastrophe qui l'a révélée."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Ton droit à défendre cette idée n'est pas le droit de l'expérimenter sur les autres."},
+        {"kind":"choice","id":"c07_judgment_principle","prompt":"Quel principe doit guider la décision du Cercle ?","options":[
+          {"id":"individual_responsibility","label":"Responsabilité individualisée selon actes, connaissance et capacité d'arrêter.","response":[{"speaker":"Veyra Oss","text":"C'est la seule forme de jugement qui ne transforme pas notre groupe en excuse ou en condamnation collective."}],"sets":["c07_justice_individual"]},
+          {"id":"public_safety_plus_due_process","label":"Protéger d'abord le public tout en conservant preuve, défense et révision possibles.","response":[{"speaker_id":"nara_vey","speaker":"Nara Vey","text":"Alors même les mesures de sûreté auront une durée, un motif et une possibilité de contestation."}],"sets":["c07_justice_due_process"]}
+        ]}
+      ],
+      "exit_state":["c07_judgment complétée", "justice_integrity modifiée", "archives étrangères légalement exploitables"]
+    },
+    {
+      "id":"c07_closing_beyond_borders","chapter_id":"chapter_07_living_responsible","type":"chapter_closing","trigger":"chapter_complete","purpose":"Passer de la responsabilité individuelle à celle des institutions étrangères sans collectiviser la culpabilité.",
+      "staging":["copies du Pacte authentifiées au procès", "routes maritimes et terrestres vers quatre régions", "témoignages de dissidents étrangers"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Toma Rei","text":"Le jugement a rendu certaines archives recevables comme preuves publiques. Elles ouvrent des routes vers Varkhane, Namar, Azravel et Kor-Em."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Nous allons entrer chez des gens dont certains gouvernements ont participé à la Chute. Ce n'est pas la même phrase que : nous allons chez nos ennemis."},
+        {"kind":"narration","speaker":"Narration","text":"Les responsables vivants n'ont pas rendu le monde réparable. Leur jugement a rendu autre chose possible : traverser les frontières avec des preuves au lieu d'une vengeance prête à choisir ses coupables."}
+      ],
+      "exit_state":["chapter_07_complete", "chapter_08_outer_world débloqué"]
+    }
+  ]
+}
