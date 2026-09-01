@@ -24,8 +24,8 @@
     },
     {
       "enemy_id": "ALLEY_HARRIER",
-      "native_class": null,
-      "status": "PLANNED",
+      "native_class": "ALITD2AlleyHarrierCharacter",
+      "status": "RUNTIME_READY",
       "role": "FastFlanker"
     },
     {
