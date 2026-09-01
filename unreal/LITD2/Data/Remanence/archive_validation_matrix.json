@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "game": "LITD2",
+  "system": "RemanenceArchive",
+  "status_rule": "A check may be VALIDATED only after an Unreal Editor or playable-build verification.",
+  "checks": [
+    {"check_id":"RES_1080P","group":"Resolution","required":true,"status":"TODO","target":"1920x1080","pass_condition":"All titles, nodes, dossier text and reconstruction prompts remain readable without overlap."},
+    {"check_id":"RES_1440P","group":"Resolution","required":true,"status":"TODO","target":"2560x1440","pass_condition":"Layout scales cleanly and visual density remains balanced."},
+    {"check_id":"RES_4K","group":"Resolution","required":true,"status":"TODO","target":"3840x2160","pass_condition":"No undersized text, excessive empty space or broken material scaling."},
+
+    {"check_id":"NAV_DRAG","group":"Interaction","required":true,"status":"TODO","pass_condition":"Graph drag is smooth, predictable and never drags the dossier panel."},
+    {"check_id":"NAV_ZOOM","group":"Interaction","required":true,"status":"TODO","pass_condition":"Mouse-wheel zoom keeps the pointed graph area stable and usable at min/max zoom."},
+    {"check_id":"NAV_SELECT","group":"Interaction","required":true,"status":"TODO","pass_condition":"Node selection is immediate and the selected state is unmistakable."},
+    {"check_id":"NAV_OPEN_CLOSE","group":"Interaction","required":true,"status":"TODO","pass_condition":"Opening enters Game+UI input and closing reliably restores game-only input."},
+
+    {"check_id":"READ_PANEL","group":"Readability","required":true,"status":"TODO","pass_condition":"Dossier title, category, state, reliability and description are readable at all target resolutions."},
+    {"check_id":"READ_CATEGORIES","group":"Readability","required":true,"status":"TODO","pass_condition":"Category accents are distinguishable without relying on color alone for critical meaning."},
+    {"check_id":"READ_CONTRADICTION","group":"Readability","required":true,"status":"TODO","pass_condition":"Contradictions are immediately recognizable as broken/conflicting connections."},
+    {"check_id":"READ_UNKNOWN","group":"Readability","required":true,"status":"TODO","pass_condition":"Unknown nodes remain enticing but do not reveal hidden title/description content."},
+
+    {"check_id":"FLOW_SAREI","group":"ContentFlow","required":true,"status":"TODO","pass_condition":"The Sarei branch can progress from first trace through evidence discovery to reconstruction."},
+    {"check_id":"FLOW_ALT_EVIDENCE","group":"ContentFlow","required":true,"status":"TODO","pass_condition":"At least one reconstruction succeeds through an alternate evidence path."},
+    {"check_id":"FLOW_RECON_REWARD","group":"ContentFlow","required":true,"status":"TODO","pass_condition":"The reconstruction explains its historical cause before/with the gameplay unlock."},
+    {"check_id":"FLOW_SAVE_LOAD","group":"ContentFlow","required":true,"status":"TODO","pass_condition":"Node states, sources, reconstructions and unlock values survive save/load roundtrip."},
+
+    {"check_id":"AUDIO_OPEN","group":"Audio","required":true,"status":"TODO","pass_condition":"Opening cue is audible but restrained and does not mask dialogue."},
+    {"check_id":"AUDIO_SELECT","group":"Audio","required":true,"status":"TODO","pass_condition":"Repeated selection remains comfortable and non-fatiguing."},
+    {"check_id":"AUDIO_CONTRADICTION","group":"Audio","required":true,"status":"TODO","pass_condition":"Contradiction cue signals tension without reading as an error buzzer."},
+    {"check_id":"AUDIO_RECON","group":"Audio","required":true,"status":"TODO","pass_condition":"Reconstruction cue feels like convergence/understanding, not loot or level-up."},
+
+    {"check_id":"PERF_UI","group":"Performance","required":true,"status":"TODO","pass_condition":"Archive animation, particles and links do not introduce visible hitching on target hardware."},
+    {"check_id":"PERF_FX_COST","group":"Performance","required":true,"status":"TODO","pass_condition":"Optional Niagara/material FX justify their cost; remove any effect that adds cost without clear visual value."},
+
+    {"check_id":"IDENTITY_LITD2","group":"ArtDirection","required":true,"status":"TODO","pass_condition":"The screen reads as solemn, archival, ash-bound and memory-driven rather than generic fantasy UI."},
+    {"check_id":"NO_LITD1_COUPLING","group":"Architecture","required":true,"status":"TODO","pass_condition":"No code, asset or gameplay dependency requires LITD 1/Godot systems."},
+    {"check_id":"RIGHTS_ASSETS","group":"Rights","required":true,"status":"TODO","pass_condition":"Every imported final asset is LITD_ORIGINAL_REUSABLE or documented LICENSED_REUSABLE."}
+  ]
+}
