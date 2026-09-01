@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "screen": "RemanenceArchive",
+  "branch_id": "SAREI_LAST_DOCTORS",
+  "design": {
+    "graph_width_ratio": 0.72,
+    "node_style": "constellation_dossier",
+    "relation_style": "muted_solid_thread",
+    "contradiction_style": "broken_deep_red_thread",
+    "reconstruction_style": "aged_gold_pulse"
+  },
+  "nodes": [
+    {"entry_id": "SAREI_HOSPITAL", "x": 0.28, "y": 0.38},
+    {"entry_id": "THIRD_ARMY", "x": 0.19, "y": 0.67},
+    {"entry_id": "SAREI_UNKNOWN_MEDICAL_LINK", "x": 0.43, "y": 0.53},
+    {"entry_id": "SAREI_ECHO_LAST_FLASK", "x": 0.38, "y": 0.20},
+    {"entry_id": "SAREI_FIELD_POTIONS", "x": 0.48, "y": 0.34},
+    {"entry_id": "SAREI_MEDICAL_STORAGE", "x": 0.58, "y": 0.52},
+    {"entry_id": "SAREI_THIRD_ARMY_CASE", "x": 0.39, "y": 0.76},
+    {"entry_id": "SAREI_RECONSTRUCTED_FIELD_STORAGE", "x": 0.68, "y": 0.35},
+    {"entry_id": "SAREI_ASHARA_PROTOCOL", "x": 0.67, "y": 0.69},
+    {"entry_id": "SAREI_ASHARA_OFFICIAL_ACCOUNT", "x": 0.83, "y": 0.55},
+    {"entry_id": "SAREI_ASHARA_ABANDONED_TESTIMONY", "x": 0.84, "y": 0.82}
+  ]
+}
