@@ -5,7 +5,7 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Kismet/KismetSystemLibrary.h"
+#include "Run/LITD2RunDirectorSubsystem.h"
 
 ALITD2PlayerCombatCharacter::ALITD2PlayerCombatCharacter()
 {
@@ -48,6 +48,7 @@ void ALITD2PlayerCombatCharacter::SetupPlayerInputComponent(UInputComponent* Pla
     PlayerInputComponent->BindAction(TEXT("Dodge"), IE_Pressed, this, &ALITD2PlayerCombatCharacter::Dodge);
     PlayerInputComponent->BindAction(TEXT("Parry"), IE_Pressed, this, &ALITD2PlayerCombatCharacter::StartBlock);
     PlayerInputComponent->BindAction(TEXT("Parry"), IE_Released, this, &ALITD2PlayerCombatCharacter::StopBlock);
+    PlayerInputComponent->BindAction(TEXT("UsePotion"), IE_Pressed, this, &ALITD2PlayerCombatCharacter::UsePotion);
 }
 
 void ALITD2PlayerCombatCharacter::MoveForward(float Value)
@@ -91,10 +92,7 @@ bool ALITD2PlayerCombatCharacter::Dodge()
     if (!Combatant || Combatant->IsDead() || !Combatant->SpendStamina(22.0f)) return false;
 
     FVector Direction = GetLastMovementInputVector();
-    if (Direction.IsNearlyZero())
-    {
-        Direction = GetActorForwardVector();
-    }
+    if (Direction.IsNearlyZero()) Direction = GetActorForwardVector();
     Direction.Z = 0.0f;
     Direction.Normalize();
 
@@ -111,10 +109,24 @@ bool ALITD2PlayerCombatCharacter::BeginParry()
 
 void ALITD2PlayerCombatCharacter::EndParry()
 {
-    if (Combatant)
+    if (Combatant) Combatant->SetBlocking(false);
+}
+
+bool ALITD2PlayerCombatCharacter::UsePotion()
+{
+    if (!Combatant || Combatant->IsDead()) return false;
+    if (UGameInstance* GI = GetGameInstance())
     {
-        Combatant->SetBlocking(false);
+        if (ULITD2RunDirectorSubsystem* RunDirector = GI->GetSubsystem<ULITD2RunDirectorSubsystem>())
+        {
+            if (RunDirector->UsePotion())
+            {
+                Combatant->ClearTraumaAndRestoreFull();
+                return true;
+            }
+        }
     }
+    return false;
 }
 
 void ALITD2PlayerCombatCharacter::StartBlock()
