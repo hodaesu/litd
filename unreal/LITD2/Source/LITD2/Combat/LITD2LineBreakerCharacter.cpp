@@ -50,8 +50,8 @@ void ALITD2LineBreakerCharacter::Tick(float DeltaSeconds)
         if (WindupRemaining <= 0.0f)
         {
             bSevereAttackQueued = false;
-            CommitSevereAttack();
             RecoveryRemaining = SevereRecoverySeconds;
+            CommitSevereAttack();
         }
         return;
     }
@@ -91,8 +91,8 @@ void ALITD2LineBreakerCharacter::CommitSevereAttackFromAnimation()
 
     bSevereAttackQueued = false;
     bAttackUsesAnimationCommit = false;
-    CommitSevereAttack();
     RecoveryRemaining = SevereRecoverySeconds;
+    CommitSevereAttack();
 }
 
 void ALITD2LineBreakerCharacter::CommitSevereAttack()
