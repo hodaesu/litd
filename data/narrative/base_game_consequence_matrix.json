@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "scope": "LITD1 cycle initial only",
+  "rule": "Un choix important doit produire au moins un effet immédiat et un écho perceptible ultérieur. Une conséquence peut changer de forme avec le temps, mais ne peut pas disparaître silencieusement.",
+  "echo_types": ["dialogue", "presence", "absence", "environment", "institution", "resource", "route", "relationship", "rumor", "quest", "assembly", "epilogue"],
+  "consequences": [
+    {
+      "id": "c01_ration_precedent",
+      "source_chapter": 1,
+      "source_choice": "Répartition de la première réserve insuffisante.",
+      "immediate": "Le groupe favorisé obtient un avantage matériel réel ; un autre doit supporter le manque.",
+      "later_echoes": [
+        {"chapter":1,"type":"dialogue","effect":"Nara rappelle explicitement que la distribution est devenue un précédent et non une exception oubliée."},
+        {"chapter":3,"type":"institution","effect":"Les règles de réquisition du Sanctuaire reprennent ou corrigent le principe employé lors de la première pénurie."},
+        {"chapter":10,"type":"assembly","effect":"Un représentant peut citer ce précédent lorsqu'il demande qui supportera le coût matériel de l'orientation finale."}
+      ]
+    },
+    {
+      "id": "c01_witness_treatment",
+      "source_chapter": 1,
+      "source_choice": "Achever, stabiliser ou tenter une extraction de mémoire sur le Témoin des Cendres.",
+      "immediate": "Sécurité, information et coût humain diffèrent selon la décision.",
+      "later_echoes": [
+        {"chapter":4,"type":"dialogue","effect":"Sela compare la manière dont le Témoin fut traité au statut des fragments de conscience ashaï."},
+        {"chapter":6,"type":"institution","effect":"Le protocole de contact avec les Absents comporte une clause différente selon le précédent créé face au Témoin."},
+        {"chapter":10,"type":"epilogue","effect":"La place accordée aux continuités ambiguës dans le monde d'après porte la trace de cette première décision."}
+      ]
+    },
+    {
+      "id": "c02_fragile_evidence_policy",
+      "source_chapter": 2,
+      "source_choice": "Publier immédiatement une preuve fragile ou attendre son recoupement.",
+      "immediate": "Le Sanctuaire gagne soit en transparence rapide, soit en fiabilité méthodique, avec un coût de confiance opposé.",
+      "later_echoes": [
+        {"chapter":3,"type":"rumor","effect":"Les habitants arrivent au Projet Seuil avec plus de soupçon ou plus de prudence selon la manière dont l'enquête précédente a été communiquée."},
+        {"chapter":7,"type":"institution","effect":"Le Cercle de Justice adopte un seuil de publication des accusations inspiré ou corrigé par cette expérience."},
+        {"chapter":9,"type":"dialogue","effect":"Meira évoque cet épisode quand le groupe doit décider ce qui mérite le mot établi."}
+      ]
+    },
+    {
+      "id": "c02_archive_control",
+      "source_chapter": 2,
+      "source_choice": "Centraliser les archives restaurées ou multiplier les copies sous gardes différentes.",
+      "immediate": "La consultation devient plus rapide ou la mémoire plus résistante à une nouvelle suppression.",
+      "later_echoes": [
+        {"chapter":3,"type":"environment","effect":"Les preuves du Projet Seuil sont accessibles depuis un dépôt central ou depuis plusieurs copies annotées différemment."},
+        {"chapter":8,"type":"relationship","effect":"Les archivistes étrangers font davantage confiance à un réseau de copies partagées qu'à un monopole documentaire."},
+        {"chapter":10,"type":"institution","effect":"Le futur statut des archives communes reprend le modèle expérimenté depuis le chapitre II."}
+      ]
+    },
+    {
+      "id": "c03_bram_record",
+      "source_chapter": 3,
+      "source_choice": "Présenter le sabotage tardif de Bram comme circonstance distincte ou l'effacer du récit public par peur de l'excuser.",
+      "immediate": "Le dossier historique devient plus précis ou plus simple politiquement.",
+      "later_echoes": [
+        {"chapter":7,"type":"dialogue","effect":"Bram peut confronter le Sanctuaire à la manière dont son acte final a été conservé ou supprimé sans nier sa responsabilité antérieure."},
+        {"chapter":7,"type":"institution","effect":"Le jugement dispose d'un précédent sur la possibilité de reconnaître une action de mitigation sans prononcer l'innocence."},
+        {"chapter":10,"type":"epilogue","effect":"La mémoire publique de la responsabilité privilégie la chronologie complète ou les catégories plus tranchées construites plus tôt."}
+      ]
+    },
+    {
+      "id": "c03_threshold_echo_risk",
+      "source_chapter": 3,
+      "source_choice": "Rompre l'Écho du Seuil, l'enregistrer ou prolonger l'observation au prix d'une exposition accrue.",
+      "immediate": "Le groupe obtient des données différentes et supporte un niveau de risque différent.",
+      "later_echoes": [
+        {"chapter":4,"type":"quest","effect":"Certaines comparaisons avec les Ashaï sont plus précises si l'Écho a été enregistré, mais les conséquences d'exposition restent visibles."},
+        {"chapter":7,"type":"dialogue","effect":"Edras utilise le choix du joueur comme argument si celui-ci a lui-même prolongé une expérience dangereuse pour apprendre davantage."},
+        {"chapter":9,"type":"institution","effect":"Les limites expérimentales finales sont plus strictes ou plus controversées selon ce précédent."}
+      ]
+    },
+    {
+      "id": "c04_chorus_status",
+      "source_chapter": 4,
+      "source_choice": "Libérer, préserver ou maintenir le contact avec le Chœur Inachevé.",
+      "immediate": "Les fragments ashaï cessent, persistent ou deviennent une source limitée de témoignage.",
+      "later_echoes": [
+        {"chapter":6,"type":"dialogue","effect":"Saen et Meira distinguent explicitement le statut du Chœur de celui d'un Absent capable de dialogue singulier."},
+        {"chapter":9,"type":"quest","effect":"Un Chœur préservé fournit des données supplémentaires mais jamais une vérité finale unique."},
+        {"chapter":10,"type":"assembly","effect":"Le statut accordé aux continuités collectives influence qui peut être représenté sans prétendre parler à la place de fragments incapables de consentement clair."}
+      ]
+    },
+    {
+      "id": "c04_ashai_memory_policy",
+      "source_chapter": 4,
+      "source_choice": "Présenter l'héritage ashaï principalement par sa rupture ou conserver aussi ses réalisations civiques.",
+      "immediate": "Le Sanctuaire reçoit soit un récit d'avertissement simple, soit une histoire plus complexe.",
+      "later_echoes": [
+        {"chapter":8,"type":"dialogue","effect":"Les étrangers comparent la manière dont la Concorde raconte les fautes de ses anciens à la manière dont elle exige d'eux de raconter les leurs."},
+        {"chapter":10,"type":"institution","effect":"La mémoire publique du monde d'après sépare davantage civilisation, régime, individu et erreur historique si cette distinction a été pratiquée tôt."}
+      ]
+    },
+    {
+      "id": "c05_saan_node",
+      "source_chapter": 5,
+      "source_choice": "Réactiver, laisser dormant ou détourner un nœud de Saan.",
+      "immediate": "La stabilité locale, l'accès et les ressources changent.",
+      "later_echoes": [
+        {"chapter":6,"type":"route","effect":"Certaines routes de contact avec les Absents sont ouvertes, plus sûres ou définitivement fermées selon le nœud."},
+        {"chapter":9,"type":"resource","effect":"Le réseau final possède davantage ou moins de stabilisateurs disponibles."},
+        {"chapter":10,"type":"environment","effect":"Le trajet vers le nœud central traverse des infrastructures actives, abandonnées ou surchargées correspondant au choix ancien."}
+      ]
+    },
+    {
+      "id": "c05_general_silex",
+      "source_chapter": 5,
+      "source_choice": "Détruire, désarmer ou employer temporairement le Général de Silex.",
+      "immediate": "Le groupe sacrifie ou exploite une puissance militaire fossilisée.",
+      "later_echoes": [
+        {"chapter":7,"type":"dialogue","effect":"Le débat sur Edras inclut la question de savoir si un outil dangereux peut être utilisé sous contrôle sans reprendre la logique de son créateur."},
+        {"chapter":8,"type":"relationship","effect":"Les militaires étrangers réagissent différemment si le Sanctuaire a lui-même réutilisé une arme de doctrine ancienne."},
+        {"chapter":10,"type":"institution","effect":"Les options finales comportent des garanties différentes contre la militarisation des passages si cette tentation a déjà été acceptée."}
+      ]
+    },
+    {
+      "id": "c06_saen_contact_risk",
+      "source_chapter": 6,
+      "source_choice": "Prendre le risque de maintenir le contact avec Saen ou protéger d'abord le Sanctuaire.",
+      "immediate": "Le contact, l'information et le danger local divergent.",
+      "later_echoes": [
+        {"chapter":7,"type":"dialogue","effect":"Les responsables vivants peuvent être confrontés au fait que des victimes potentiellement continues existent encore."},
+        {"chapter":9,"type":"presence","effect":"Saen peut contribuer comme expérience singulière uniquement si le contact a été suffisamment préservé."},
+        {"chapter":10,"type":"assembly","effect":"Une place liée aux Absents peut être réellement occupée, rester symboliquement vide ou être absente selon ce parcours."}
+      ]
+    },
+    {
+      "id": "c06_boundary_method",
+      "source_chapter": 6,
+      "source_choice": "Forcer la Frontière, tester un protocole reproductible ou renoncer au passage.",
+      "immediate": "Le groupe gagne accès, données ou sécurité à des coûts différents.",
+      "later_echoes": [
+        {"chapter":9,"type":"dialogue","effect":"Meira utilise les résultats pour rappeler la différence entre réaction et intention."},
+        {"chapter":9,"type":"quest","effect":"Les modèles disposent de données supplémentaires ou au contraire d'une limite laissée volontairement non testée."},
+        {"chapter":10,"type":"epilogue","effect":"La politique future envers les zones réactives favorise forçage, test prudent ou non-intervention selon les pratiques développées."}
+      ]
+    },
+    {
+      "id": "c07_edras_status",
+      "source_chapter": 7,
+      "source_choice": "Capturer Edras, le tuer si aucune capture sûre n'est possible ou autoriser une observation instrumentale confinée sans lui donner le contrôle.",
+      "immediate": "La personne, les preuves et le risque expérimental n'ont pas le même devenir.",
+      "later_echoes": [
+        {"chapter":8,"type":"rumor","effect":"Les sociétés étrangères jugent le Sanctuaire aussi sur la manière dont il a traité son ennemi le plus difficile."},
+        {"chapter":9,"type":"presence","effect":"Edras peut être absent, détenu ou consulté sous contrainte institutionnelle ; il n'accède jamais librement au protocole."},
+        {"chapter":10,"type":"epilogue","effect":"L'épilogue montre soit son audience, soit son siège vide, soit les règles nées de l'expérience confinée."}
+      ]
+    },
+    {
+      "id": "c07_public_justice",
+      "source_chapter": 7,
+      "source_choice": "Rendre les audiences publiques, partiellement protégées ou strictement fermées.",
+      "immediate": "Transparence, protection des témoins et confiance évoluent différemment.",
+      "later_echoes": [
+        {"chapter":8,"type":"relationship","effect":"Les dissidents étrangers évaluent si remettre leurs archives au Sanctuaire mettra ou non leurs témoins en danger."},
+        {"chapter":10,"type":"institution","effect":"La forme de l'assemblée finale reprend les garanties apprises pendant les audiences."},
+        {"chapter":10,"type":"epilogue","effect":"Le système judiciaire du monde d'après conserve les compromis et problèmes créés ici."}
+      ]
+    },
+    {
+      "id": "c08_foreign_refuge_policy",
+      "source_chapter": 8,
+      "source_choice": "Accueillir des étrangers au Sanctuaire, limiter leur présence ou privilégier des relations à distance.",
+      "immediate": "Population, ressources, confiance et tensions du Sanctuaire changent.",
+      "later_echoes": [
+        {"chapter":9,"type":"presence","effect":"Les expériences comparatives disposent de témoins étrangers physiquement présents ou seulement d'archives secondaires."},
+        {"chapter":10,"type":"assembly","effect":"Les délégations étrangères disposent d'une place acquise par relation vécue ou d'une relation plus distante."},
+        {"chapter":10,"type":"environment","effect":"Le Sanctuaire contient ou non un quartier, des cuisines, des rites et des objets issus des communautés accueillies."}
+      ]
+    },
+    {
+      "id": "c08_archive_sharing",
+      "source_chapter": 8,
+      "source_choice": "Partager largement, restreindre ou placer sous garde croisée les recherches dangereuses de Kor-Em.",
+      "immediate": "Accès au savoir et risque de réutilisation varient.",
+      "later_echoes": [
+        {"chapter":9,"type":"quest","effect":"La composition du corpus de recherche final dépend des règles d'accès décidées."},
+        {"chapter":10,"type":"institution","effect":"Les options nécessitant une expertise distribuée sont plus ou moins robustes selon la manière dont le savoir a circulé."},
+        {"chapter":10,"type":"epilogue","effect":"Le monde d'après hérite d'une doctrine de savoir public, de secret ou de garde pluraliste."}
+      ]
+    },
+    {
+      "id": "c09_stop_before_threshold",
+      "source_chapter": 9,
+      "source_choice": "Arrêter volontairement une expérience avant le seuil catastrophique malgré une réponse potentielle supplémentaire.",
+      "immediate": "Le groupe renonce à une information possible mais conserve la stabilité et rend la limite publique.",
+      "later_echoes": [
+        {"chapter":10,"type":"dialogue","effect":"Les partisans de différentes fins peuvent invoquer ce précédent : accepter une inconnue peut être une décision active et non une lâcheté."},
+        {"chapter":10,"type":"institution","effect":"Les orientations disponibles prévoient ou non des mécanismes d'arrêt indépendants des experts qui conduisent l'expérience."},
+        {"chapter":10,"type":"epilogue","effect":"Le monde d'après traite l'inconnu comme une limite à gouverner plutôt qu'un vide que toute génération doit forcément franchir."}
+      ]
+    },
+    {
+      "id": "c10_final_orientation",
+      "source_chapter": 10,
+      "source_choice": "Orientation finale réellement rendue possible par les dix chapitres.",
+      "immediate": "Le réseau, les communautés et les institutions subissent les coûts spécifiques de l'orientation choisie.",
+      "later_echoes": [
+        {"chapter":10,"type":"environment","effect":"Le premier après-coup visible est quotidien et matériel, jamais une restauration miraculeuse de tout ce qui a été perdu."},
+        {"chapter":10,"type":"epilogue","effect":"L'épilogue montre bénéfices, coûts et désaccords durables sans déclarer une fin parfaite."}
+      ]
+    }
+  ]
+}
