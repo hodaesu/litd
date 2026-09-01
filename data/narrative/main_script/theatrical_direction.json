@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "scope": "LITD1 cycle initial main narrative",
+  "status": "theatrical_direction_v1",
+  "rules": {
+    "authored_only": true,
+    "no_runtime_improvisation": true,
+    "dialogue_text_unchanged": true,
+    "created_player_has_no_forced_voice_or_body_language": true,
+    "direction_fields": ["emotion", "posture", "gaze", "gesture", "breath", "voice", "subtext", "script_note"],
+    "principles": [
+      "La posture doit raconter ce que le personnage tente de contrôler, pas seulement ce qu'il ressent.",
+      "L'émotion dominante ne remplace jamais le sous-texte : deux personnages peuvent dire la même phrase avec des besoins opposés.",
+      "Les gestes sont rares et lisibles ; éviter les mouvements décoratifs à chaque réplique.",
+      "Le regard sert la relation de pouvoir : regarder quelqu'un, regarder les preuves, regarder le groupe ou éviter un regard sont des décisions de jeu.",
+      "La respiration devient visible sous peur, culpabilité, effort ou retenue ; elle ne doit pas être ajoutée mécaniquement à toutes les lignes.",
+      "Les scènes sombres gardent des variations humaines : fatigue, irritation, chaleur, ironie sèche, maladresse et silence.",
+      "Les didascalies ne doivent jamais révéler une vérité que le personnage ou le joueur ne connaît pas encore."
+    ]
+  },
+  "scene_type_profiles": {
+    "chapter_opening": {"tempo":"retenu, laisser l'espace exister avant la première phrase","blocking":"les personnages commencent occupés par une tâche réelle plutôt qu'alignés face au joueur","intensity":"basse à moyenne"},
+    "main_quest": {"tempo":"naturel, accéléré seulement quand une décision devient urgente","blocking":"les corps restent liés au travail, aux preuves, aux blessés ou au terrain","intensity":"variable"},
+    "character_scene": {"tempo":"plus intime, pauses permises","blocking":"réduire la distance physique sans transformer la scène en confession frontale","intensity":"moyenne"},
+    "sanctuary_choice": {"tempo":"concret et public","blocking":"les regards passent entre les personnes affectées et la personne qui décide","intensity":"moyenne"},
+    "sanctuary_interlude": {"tempo":"retombée après l'action, paroles plus lourdes","blocking":"les personnages ont eu le temps de se repositionner et d'observer les conséquences","intensity":"moyenne"},
+    "sanctuary_aftermath": {"tempo":"lent sans solennité","blocking":"les preuves ou objets restent physiquement présents dans la scène","intensity":"moyenne"},
+    "exploration_scene": {"tempo":"fragmenté par l'observation","blocking":"les personnages se déplacent, touchent peu, regardent beaucoup","intensity":"basse"},
+    "boss": {"tempo":"phrases courtes, souffle et effort audibles","blocking":"personne ne prononce un discours comme s'il était hors du danger","intensity":"haute"},
+    "assembly_scene": {"tempo":"posé, silences politiques assumés","blocking":"les personnages parlent depuis des places institutionnelles, pas comme une foule uniforme","intensity":"moyenne à haute"},
+    "assembly_resolution": {"tempo":"lent et irréversible sans emphase","blocking":"laisser visibles les réactions de ceux qui ne parlent pas","intensity":"haute contenue"},
+    "conditional_resolution": {"tempo":"fatigué, pragmatique","blocking":"aucun triomphalisme ; les personnages passent déjà à la survie concrète","intensity":"moyenne"},
+    "chapter_closing": {"tempo":"retomber, ne pas jouer la morale","blocking":"terminer sur une tâche, un objet ou un déplacement plutôt que sur une pose héroïque","intensity":"basse"}
+  },
+  "actors": {
+    "nara_vey": {
+      "name":"Nara Vey","emotion":"autorité contenue, vigilance, doute rarement montré","posture":"droite sans raideur ; poids légèrement vers l'avant quand elle doit décider","gaze":"regarde d'abord les personnes affectées, puis celui ou celle qui décide","gesture":"mains économes ; utilise registres, cartes et objets concrets plutôt que de grands gestes","breath":"courte inspiration nasale avant une décision difficile ; expire lentement quand elle retient la colère","voice":"basse, nette, jamais royale ; légèrement plus rapide sous pression","subtext":"tenir le groupe sans transformer sa position en droit de domination","script_note":"(Nara reste droite, le poids légèrement vers l'avant. Son regard vérifie d'abord qui paiera la décision. La voix est basse, nette, sans emphase.)"
+    },
+    "sela_mor": {
+      "name":"Sela Mor","emotion":"franchise, compassion physique, irritation devant les abstractions qui oublient les corps","posture":"ancrée, proche des blessés ou du terrain ; s'accroupit ou se penche naturellement plutôt que de parler à distance","gaze":"regard direct quand elle confronte, très attentif aux blessures et signes de fatigue","gesture":"gestes pratiques, mains occupées à examiner, soutenir, nettoyer ou montrer une conséquence concrète","breath":"souffle plus lourd après effort ; silence respiré devant une souffrance qu'elle ne peut réparer","voice":"simple, immédiate, parfois sèche ; chaleur brusque sans sentimentalisme","subtext":"ramener chaque principe vers les corps qui devront en payer le prix","script_note":"(Sela reste ancrée dans le réel de la scène. Ses mains reviennent aux blessures, aux outils ou aux personnes. Sa voix est directe ; la tendresse apparaît surtout dans ce qu'elle fait.)"
+    },
+    "meira_sen": {
+      "name":"Meira Sen","emotion":"curiosité contrôlée, prudence épistémique, peur de conclure trop vite","posture":"légèrement penchée vers les preuves ; se redresse lorsqu'elle trace une limite claire","gaze":"alterne entre interlocuteur et données ; évite de soutenir un regard lorsqu'elle vérifie encore une hypothèse","gesture":"doigt ou stylet sur une mesure précise ; immobilité soudaine lorsqu'un résultat devient inquiétant","breath":"petite pause respiratoire avant les mots de certitude, probabilité ou inconnue","voice":"précise, souple, ironie légère ; jamais robotique","subtext":"protéger la vérité de son propre désir d'avoir raison","script_note":"(Meira garde une partie de son attention sur les preuves. Avant d'affirmer, elle marque une respiration brève. Le corps se redresse seulement lorsqu'elle sait exactement où placer la limite.)"
+    },
+    "orren_taal": {
+      "name":"Orren Taal","emotion":"efficacité, impatience, fierté technique, honte quand l'efficacité blesse","posture":"orientée vers la tâche suivante ; épaules engagées, rarement immobile","gaze":"cherche sorties, structures et contraintes avant de revenir vers les visages","gesture":"montre des routes, poids, points d'appui et mécanismes ; gestes courts de praticien","breath":"souffle bref quand une solution évidente devient moralement coûteuse","voice":"concrète, rapide, plus basse lorsqu'il admet un coût humain","subtext":"faire fonctionner le monde sans se cacher derrière la technique","script_note":"(Orren parle comme quelqu'un qui voit déjà la prochaine opération. Ses gestes dessinent des contraintes concrètes. Quand une solution efficace blesse, son corps ralentit avant sa voix.)"
+    },
+    "bram_torgun": {
+      "name":"Bram Torgun","emotion":"culpabilité contenue, irritation envers les récits simples, peur de se réécrire en héros","posture":"épaules légèrement rentrées ; mains souvent occupées par un outil, un plan ou une pièce pour éviter la pose confessionnelle","gaze":"regarde les faits lorsqu'il donne une chronologie ; relève les yeux seulement lorsqu'il accepte une responsabilité","gesture":"autocorrection visible : arrête un geste, revient sur une pièce, recommence une phrase","breath":"inspiration interrompue avant les aveux ; souffle libéré après une formulation exacte","voice":"courte, factuelle, parfois cassée par l'autocorrection","subtext":"être jugé sur les faits sans obtenir le confort d'un pardon narratif","script_note":"(Bram garde les mains occupées et les épaules un peu fermées. Il regarde les faits avant de regarder les personnes. Lorsqu'il corrige son propre récit, le geste s'arrête en même temps que la phrase.)"
+    },
+    "veyra_oss": {
+      "name":"Veyra Oss","emotion":"fascination intellectuelle, défense, culpabilité tenue à distance, humilité tardive","posture":"très maîtrisée ; se rapproche physiquement d'un dispositif quand une idée la saisit puis se force parfois à reculer","gaze":"intense sur les phénomènes ; plus difficile à soutenir sur les victimes ou les conséquences personnelles","gesture":"mains précises, presque immobiles ; accélération discrète des doigts ou du stylet quand l'idée prend le dessus","breath":"respiration plus haute lorsqu'une possibilité expérimentale devient séduisante","voice":"contrôlée, accélère avec l'enthousiasme puis ralentit lorsqu'elle accepte une limite","subtext":"apprendre à distinguer le désir de comprendre du droit d'exposer les autres","script_note":"(Veyra tient son corps avec une maîtrise presque excessive. Quand une idée l'emporte, elle avance d'un demi-pas avant de s'en rendre compte. Sa voix accélère puis se reprend.)"
+    },
+    "eline_sar": {
+      "name":"Eline Sar","emotion":"honte, besoin de précision, défense procédurale, lucidité","posture":"très composée ; mains jointes ou posées symétriquement lorsqu'elle se protège derrière la procédure","gaze":"regard stable tant qu'elle parle des faits, plus fragile lorsqu'elle doit nommer sa propre part","gesture":"replace les documents, aligne, ordonne ; un léger désordre corporel signale les moments où le contrôle craque","breath":"pause plus longue avant un aveu personnel","voice":"posée, parfois trop propre ; chaleur rare mais réelle","subtext":"ne pas utiliser la précision comme alibi pour disparaître de l'histoire","script_note":"(Eline maintient une symétrie presque administrative dans son corps. Les documents sont alignés avant les mots. Lorsqu'elle parle d'elle-même, cette propreté se fissure légèrement.)"
+    },
+    "saen": {
+      "name":"Saen","emotion":"prudence, curiosité, irritation, peur explicite","posture":"non applicable de façon humaine ; la présence se lit par stabilité, rythme et densité du signal","gaze":"non applicable ; remplacer par direction et persistance du signal vers l'interlocuteur","gesture":"variations lumineuses ou sonores simples, jamais mystiques ni décoratives","breath":"pauses longues équivalentes à une recherche de formulation","voice":"segments courts, lente, chaque mot doit sembler choisi plutôt que cassé au hasard","subtext":"être entendu comme Saen sans être transformé en symbole de tous les Absents","script_note":"(Le signal de Saen se stabilise avant la phrase. Une pause nette sépare les segments ; chaque mot semble choisi avec effort. Rien dans la manifestation ne cherche à paraître sacré.)"
+    },
+    "edras_nhal": {
+      "name":"Edras Nhal","emotion":"conviction intellectuelle, orgueil, colère face aux limites imposées, peur rarement reconnue","posture":"cherche à occuper l'espace même blessé ; torse ouvert, immobilité volontaire qui masque l'effort","gaze":"soutient le regard comme un débat qu'il refuse de perdre","gesture":"désigne les dispositifs et les conséquences à grande échelle ; gestes réduits quand le corps faiblit","breath":"contrôle le souffle jusqu'à ce que l'effort le trahisse","voice":"calme, argumentative ; l'intensité vient de la certitude, pas du volume","subtext":"faire reconnaître que la connaissance justifie encore un droit exceptionnel d'agir","script_note":"(Edras se tient comme s'il refusait que son état physique réduise son autorité. Le regard ne cède pas. Le souffle, lui, finit par révéler l'effort que la voix tente de cacher.)"
+    },
+    "toma_rei": {
+      "name":"Toma Rei","emotion":"curiosité documentaire, excitation retenue, inquiétude quand les motifs convergent","posture":"penché sur cartes et registres, se redresse brusquement lorsqu'un recoupement devient solide","gaze":"circule rapidement entre plusieurs sources","gesture":"déplace physiquement les preuves pour rendre un raisonnement visible","breath":"accélère légèrement lors d'une découverte puis ralentit avant la conclusion","voice":"vive mais soigneuse","subtext":"transformer le foisonnement d'indices en preuve sans brûler les étapes","script_note":"(Toma déplace les preuves pendant qu'il pense. Lorsqu'un recoupement tient enfin, il s'immobilise avant de parler, comme pour vérifier qu'il ne va pas trop loin.)"
+    },
+    "sana_khel": {
+      "name":"Sana Khel","emotion":"méfiance méthodique, vigilance politique, irritation contre les généralisations","posture":"stable, souvent légèrement en retrait pour observer le groupe","gaze":"revient vers celui qui généralise trop vite","gesture":"peu de gestes ; une main levée suffit à arrêter une conclusion prématurée","breath":"calme, volontairement régulière","voice":"sèche sans agressivité, précise","subtext":"empêcher l'enquête de devenir une machine à produire des ennemis collectifs","script_note":"(Sana reste légèrement en retrait jusqu'au moment où une conclusion déborde les preuves. Alors un seul geste suffit à interrompre le mouvement de la scène.)"
+    },
+    "generic_civilian": {
+      "name":"Civil","emotion":"fatigue, peur, colère ou espoir selon la scène","posture":"protéger son espace personnel ; corps marqué par le travail et la survie","gaze":"regard direct quand la décision le concerne","gesture":"gestes simples liés à l'objet ou au besoin concret de la scène","breath":"irrégulière seulement sous menace ou colère","voice":"naturelle, pas de diction théâtrale noble","subtext":"parler depuis une vie concrète, jamais comme porte-parole du thème","script_note":"(La personne parle depuis une fatigue et un besoin concrets. Le corps n'est pas celui d'un figurant immobile : il protège, tient, porte ou attend quelque chose.)"
+    }
+  },
+  "chapter_profiles": {
+    "chapter_01_ashlands":{"emotion":"urgence matérielle et responsabilité naissante","physical_tone":"fatigue, froid, faim, gestes pratiques","note":"Les personnages n'ont pas encore le luxe de jouer l'histoire ; ils essaient d'abord de tenir une journée."},
+    "chapter_02_before_fall":{"emotion":"soupçon qui devient inquiétude documentée","physical_tone":"corps penchés sur cartes, poussière d'archives, tension contenue dans le Sanctuaire","note":"L'excitation de découvrir doit toujours être freinée par le risque d'accuser trop vite."},
+    "chapter_03_threshold":{"emotion":"responsabilité qui prend des visages","physical_tone":"tables, dossiers, chronologies, silences après les aveux","note":"Ne jamais jouer les six responsables comme un bloc ; les distances physiques entre eux comptent."},
+    "chapter_04_first_rupture":{"emotion":"émerveillement archéologique puis humilité","physical_tone":"marche lente, observation des objets ordinaires, respect sans sacralisation","note":"La ville ancienne doit être habitée par les gestes de sa vie quotidienne avant le mystère."},
+    "chapter_05_great_closure":{"emotion":"admiration technique traversée par le coût moral","physical_tone":"routes, charges, cartes, équipements lourds, fatigue logistique","note":"Chaque discussion de stratégie doit garder visibles les personnes qui seront coupées ou exposées."},
+    "chapter_06_absent":{"emotion":"prudence, curiosité et responsabilité devant l'inclassable","physical_tone":"immobilité d'écoute, faibles lumières, gestes réduits pour ne pas contaminer l'observation","note":"Le silence n'est pas mystique : il correspond au temps nécessaire pour comprendre et répondre."},
+    "chapter_07_living_responsible":{"emotion":"colère publique, honte individuelle, exigence de procédure","physical_tone":"gardes, dossiers, chaises, distances de sécurité, corps des survivants face aux accusés","note":"Le procès ne doit pas ressembler à une scène triomphale ; personne n'en sort réparé."},
+    "chapter_08_outer_world":{"emotion":"décentrement, méfiance, rencontres qui cassent les catégories","physical_tone":"voyage, ports, archives étrangères, différences de coutumes et de distances corporelles","note":"Les étrangers ne jouent jamais leur civilisation entière ; chacun parle depuis un mandat, un quartier ou une histoire limitée."},
+    "chapter_09_veil_nature":{"emotion":"concentration scientifique et frustration assumée","physical_tone":"mesures, pauses, recul physique devant les seuils expérimentaux","note":"L'intensité vient du fait d'accepter de ne pas savoir, pas d'une révélation spectaculaire."},
+    "chapter_10_final_choice":{"emotion":"gravité collective sans couronnement du protagoniste","physical_tone":"assemblée, opérateurs épuisés, regards vers les sièges vides et les cartes de conséquences","note":"La fin doit se jouer comme une décision de société puis comme du travail qui recommence le lendemain."}
+  },
+  "scene_overrides": {
+    "c01_opening_refuge":{"emotion":"urgence retenue","blocking":"Nara reste près de la porte et du registre ; Sela ne quitte les brancards qu'au moment où la décision doit être formulée."},
+    "c01_boss_witness":{"emotion":"danger mêlé à reconnaissance d'une ancienne personne","blocking":"Sela s'approche d'abord de l'outil et de l'insigne, pas du visage ; Nara garde une distance de sécurité et surveille les mains du Témoin."},
+    "c03_bram_abort":{"emotion":"culpabilité rendue mesurable","blocking":"Bram suit la chronologie du doigt au sol ; lorsqu'il atteint 03:51, sa main reste immobile sur le point où tout était déjà trop tard."},
+    "c03_veyra_fragment":{"emotion":"absence d'excuse","blocking":"Eline tient la note de Veyra ; Bram ne la regarde pas lorsqu'il dit qu'elle n'a pas quitté la salle. Après le « Non », personne ne bouge pendant un temps complet."},
+    "c04_boss_unfinished_chorus":{"emotion":"peur d'effacer quelque chose qui répond","blocking":"Sela garde un pied vers la sortie ; les figures du Chœur ne convergent jamais complètement vers une forme humaine unique."},
+    "c05_closure_map":{"emotion":"décision impossible rendue concrète","blocking":"La Dernière Veille indique les vallées sauvées puis déplace lentement la main vers les communautés coupées ; Orren cesse de prendre des notes à la question « Ils le savaient ? »."},
+    "c06_saen_first_contact":{"emotion":"premier respect sans certitude","blocking":"Sela parle vers le dispositif sans se rapprocher ; Meira garde les mains hors des commandes pendant les réponses de Saen."},
+    "c06_closing_rights_without_ontology":{"emotion":"acceptation d'une obligation avant une définition","blocking":"Le siège destiné à Saen reste vide ; Nara regarde ce siège avant de poser sa question, puis revient vers Sela et Meira."},
+    "c07_bram_refuge":{"emotion":"culpabilité sans demande de pardon","blocking":"Bram travaille encore sur une pièce pendant la première question ; à 03:37 il pose enfin l'outil."},
+    "c07_veyra_monastery":{"emotion":"maîtrise fragile","blocking":"Veyra reste à distance des anciens relais ; lorsqu'elle dit « le mot arrêt », elle regarde pour la première fois le dispositif derrière elle."},
+    "c07_boss_edras":{"emotion":"conflit d'idées sous fatigue physique réelle","blocking":"Edras reste debout tant qu'il peut ; Nara ne s'approche qu'une fois les instruments réellement coupés."},
+    "c07_pretrial_conflict":{"emotion":"douleur qui refuse la consolation institutionnelle","blocking":"La survivante reste debout ; Nara ne monte sur aucune estrade et ne réduit pas la distance par un geste de consolation qu'elle n'a pas le droit d'imposer."},
+    "c08_varkhane_marshal":{"emotion":"stabilité contre captation du pouvoir","blocking":"Le Maréchal parle depuis les cartes de rationnement ; Varek se place volontairement entre lui et les sacs portant son nom."},
+    "c08_azravel_saint":{"emotion":"rupture publique d'une vérité imposée","blocking":"Les archives sont visibles derrière les deux camps ; les gardes hésitants regardent davantage la foule que le Saint."},
+    "c09_veyra_limit":{"emotion":"ancienne tentation, nouvelle capacité à reculer","blocking":"Veyra fait un demi-pas vers l'instrument en proposant l'expérience, puis s'arrête avant de le toucher."},
+    "c09_no_final_answer":{"emotion":"frustration transformée en discipline","blocking":"Meira retire elle-même un instrument de la zone limite ; Veyra regarde le vide laissé sur la table avant de répondre."},
+    "c10_opening_assembly":{"emotion":"gravité partagée","blocking":"Le protagoniste n'est pas placé au centre géométrique ; les sièges vides et les délégations forment un cercle où aucune place ne domine."},
+    "c10_boss_common_rupture":{"emotion":"effort collectif, aucune révélation divine","blocking":"Les opérateurs restent visibles et vulnérables ; les personnages parlent en travaillant, en tenant des ancrages ou en aidant un blessé."},
+    "c10_final_deliberation":{"emotion":"responsabilité sans triomphe","blocking":"Nara ne regarde pas le protagoniste en continu : elle regarde aussi les délégations et les sièges vides, rappelant que la proposition n'est pas un ordre."},
+    "c10_closing_light":{"emotion":"fatigue, continuité, espoir sans victoire absolue","blocking":"Nara et Sela parlent en rangeant et réparant ; personne ne se place face à la Lumière comme devant un symbole de couronnement."}
+  },
+  "speaker_name_aliases": {
+    "Nara Vey":"nara_vey","Sela Mor":"sela_mor","Meira Sen":"meira_sen","Orren Taal":"orren_taal","Bram Torgun":"bram_torgun","Veyra Oss":"veyra_oss","Eline Sar":"eline_sar","Saen":"saen","Edras Nhal":"edras_nhal","Toma Rei":"toma_rei","Sana Khel":"sana_khel"
+  }
+}
