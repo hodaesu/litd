@@ -68,6 +68,12 @@ public:
     UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Defense")
     void StartInvulnerabilityWindow(float DurationSeconds);
 
+    UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Healing")
+    int32 RestoreRecoverableHealth();
+
+    UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Healing")
+    void ClearTraumaAndRestoreFull();
+
     UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Damage")
     FLITD2DamageResolution ReceiveDamageEvent(const FLITD2DamageEventPayload& Payload);
 
@@ -76,6 +82,15 @@ public:
 
     UFUNCTION(BlueprintPure, Category="LITD2|Combat")
     float GetStamina() const { return Stamina; }
+
+    UFUNCTION(BlueprintPure, Category="LITD2|Combat")
+    float GetRecoverableMaxHealth() const { return FMath::Max(1.0f, MaxHealth - LockedHealth); }
+
+    UFUNCTION(BlueprintPure, Category="LITD2|Combat")
+    float GetLockedHealth() const { return LockedHealth; }
+
+    UFUNCTION(BlueprintPure, Category="LITD2|Combat")
+    int32 GetTraumaLevel() const { return TraumaLevel; }
 
     UFUNCTION(BlueprintPure, Category="LITD2|Combat")
     bool IsDead() const { return Health <= 0.0f; }
@@ -93,6 +108,8 @@ protected:
 private:
     float Health = 1000.0f;
     float Stamina = 100.0f;
+    float LockedHealth = 0.0f;
+    int32 TraumaLevel = 0;
     float ParryTimeRemaining = 0.0f;
     float InvulnerableTimeRemaining = 0.0f;
     bool bBlocking = false;
