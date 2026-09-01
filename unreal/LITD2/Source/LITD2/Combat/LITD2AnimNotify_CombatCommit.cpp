@@ -2,6 +2,7 @@
 
 #include "Combat/LITD2AlleyHarrierCharacter.h"
 #include "Combat/LITD2AshWandererCharacter.h"
+#include "Combat/LITD2GuardSurgeonCharacter.h"
 #include "Combat/LITD2LineBreakerCharacter.h"
 #include "Combat/LITD2PlayerCombatCharacter.h"
 #include "Combat/LITD2SareiCrossbowCharacter.h"
@@ -52,6 +53,27 @@ void ULITD2AnimNotify_CombatCommit::Notify(USkeletalMeshComponent* MeshComp, UAn
                 Harrier->CommitLungeFromAnimation();
             }
             break;
+
+        case ELITD2CombatCommitEvent::GuardSurgeonIncision:
+            if (ALITD2GuardSurgeonCharacter* Surgeon = Cast<ALITD2GuardSurgeonCharacter>(Owner))
+            {
+                Surgeon->CommitIncisionFromAnimation();
+            }
+            break;
+
+        case ELITD2CombatCommitEvent::GuardSurgeonGrab:
+            if (ALITD2GuardSurgeonCharacter* Surgeon = Cast<ALITD2GuardSurgeonCharacter>(Owner))
+            {
+                Surgeon->CommitGrabFromAnimation();
+            }
+            break;
+
+        case ELITD2CombatCommitEvent::GuardSurgeonSevereStrike:
+            if (ALITD2GuardSurgeonCharacter* Surgeon = Cast<ALITD2GuardSurgeonCharacter>(Owner))
+            {
+                Surgeon->CommitSevereStrikeFromAnimation();
+            }
+            break;
     }
 }
 
@@ -64,6 +86,9 @@ FString ULITD2AnimNotify_CombatCommit::GetNotifyName_Implementation() const
         case ELITD2CombatCommitEvent::LineBreakerSevereAttack: return TEXT("LITD2 Line Breaker Impact");
         case ELITD2CombatCommitEvent::SareiCrossbowRelease: return TEXT("LITD2 Crossbow Release");
         case ELITD2CombatCommitEvent::AlleyHarrierLunge: return TEXT("LITD2 Alley Harrier Lunge");
+        case ELITD2CombatCommitEvent::GuardSurgeonIncision: return TEXT("LITD2 Surgeon Incision");
+        case ELITD2CombatCommitEvent::GuardSurgeonGrab: return TEXT("LITD2 Surgeon Grab");
+        case ELITD2CombatCommitEvent::GuardSurgeonSevereStrike: return TEXT("LITD2 Surgeon Severe Strike");
     }
     return TEXT("LITD2 Combat Commit");
 }
