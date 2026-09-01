@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "game": "LITD2",
+  "run_id": "SAREI_FAUBOURGS_01",
+  "title": "Les Faubourgs de Sarei",
+  "status": "PRODUCTION_VERTICAL_SLICE",
+  "target_duration_minutes": [30, 40],
+  "start": {
+    "potions": 3,
+    "oath_selection_required": true,
+    "paths": ["Body", "Mind", "Politics"],
+    "mixed_build_required": false
+  },
+  "rules": {
+    "ordinary_healing_cures_trauma": false,
+    "potion_cures_all_trauma": true,
+    "enemy_potion_drops": false,
+    "trauma_must_be_readable": true,
+    "all_three_paths_boss_viable": true,
+    "remanence_currency": false
+  },
+  "zones": [
+    {
+      "zone_id": "Z0_PREP",
+      "title": "Le seuil de l'opération",
+      "type": "Preparation",
+      "combat": false,
+      "functions": ["OathSelection", "LoadoutConfirm", "PotionReadout", "MinimalBriefing"]
+    },
+    {
+      "zone_id": "Z1_SOUTH_GATE",
+      "title": "Porte Sud : L'approche",
+      "type": "Combat",
+      "combat": true,
+      "encounters": [
+        {"enemy_id": "ASH_WANDERER", "count": 3},
+        {"enemy_id": "ASH_WANDERER", "count": 2, "formation": "paired"}
+      ],
+      "teaches": ["Movement", "Camera", "LightAttack", "HeavyAttack", "Dodge", "Parry", "TelegraphReading"],
+      "trauma_pressure": "LOW",
+      "reward": {"type": "RunPowerChoice", "offer_paths": ["Body", "Mind", "Politics"]}
+    },
+    {
+      "zone_id": "Z2_STRETCHER_STREET",
+      "title": "Rue des Brancardiers : La première vraie erreur",
+      "type": "CombatAndHealing",
+      "combat": true,
+      "encounters": [
+        {"enemy_id": "ASH_WANDERER", "count": 3},
+        {"enemy_id": "SAREI_CROSSBOW", "count": 1, "positioning": "elevated"},
+        {"enemy_id": "LINE_BREAKER", "count": 1}
+      ],
+      "trauma_teaching_attack_enemy": "LINE_BREAKER",
+      "healing": {"type": "Fountain", "restores_hp": true, "cures_trauma": false},
+      "teaches": ["TraumaTelegraph", "LockedMaxHP", "OrdinaryHealingLimit"]
+    },
+    {
+      "zone_id": "Z3_FIELD_AID_POST",
+      "title": "Poste médical périphérique : Le Dernier Flacon",
+      "type": "ExplorationRemanence",
+      "combat": false,
+      "mandatory_remanence_id": "SAREI_ECHO_LAST_FLASK",
+      "healing": {"type": "Fountain", "restores_hp": true, "cures_trauma": false},
+      "medical_cache": {
+        "fixed_location": true,
+        "random_drop": false,
+        "replacement_potion": 1,
+        "condition": "CurrentPotionCountBelowCapacity"
+      },
+      "permanent_gameplay_reward": false
+    },
+    {
+      "zone_id": "Z4_ASH_CROSSROADS",
+      "title": "Carrefour des Cendres : La première bifurcation",
+      "type": "Branch",
+      "combat": true,
+      "branches": [
+        {
+          "branch_id": "CONVOY_YARD",
+          "title": "Cour des Convois",
+          "encounters": [
+            {"enemy_id": "ASH_WANDERER", "count": 2},
+            {"enemy_id": "LINE_BREAKER", "count": 2}
+          ],
+          "focus": ["CloseCombat", "CrowdControl", "DestructibleEnvironment"],
+          "reward_bias": "SurvivalControl"
+        },
+        {
+          "branch_id": "GLASSMAKERS_STREET",
+          "title": "Rue des Verriers",
+          "encounters": [
+            {"enemy_id": "SAREI_CROSSBOW", "count": 2},
+            {"enemy_id": "ASH_WANDERER", "count": 3}
+          ],
+          "focus": ["Mobility", "RangedPressure", "EnvironmentalRisk"],
+          "reward_bias": "OffenseMobility"
+        }
+      ],
+      "branches_equal_average_value": true,
+      "optional_remanence": "SAREI_EVACUATION_ENV_TRACE",
+      "reward": {"type": "RunPowerChoice", "offer_paths": ["Body", "Mind", "Politics"]}
+    },
+    {
+      "zone_id": "Z5_HOSPITAL_ANNEX",
+      "title": "Annexe de l'Hôpital : Le Chirurgien de garde",
+      "type": "MiniBoss",
+      "combat": true,
+      "boss_id": "SAREI_GUARD_SURGEON",
+      "mechanics": ["TargetedBleed", "TelegraphedGrab", "InterruptWindow", "SevereTraumaAttack"],
+      "path_validation": {
+        "Body": ["Interrupt", "Pressure", "Parry", "Break"],
+        "Mind": ["Range", "Timing", "StatePunish"],
+        "Politics": ["Condemnation", "Authority", "OffensiveLaw", "TempoControl"]
+      },
+      "healing": {"type": "Fountain", "restores_hp": true, "cures_trauma": false},
+      "reward": {"type": "MajorRunPowerChoice", "offer_paths": ["Body", "Mind", "Politics"]},
+      "optional_source": "SAREI_HOSPITAL_SECONDARY_NOTE"
+    },
+    {
+      "zone_id": "Z6_EVACUATION_YARD",
+      "title": "Cour d'évacuation : Tenir malgré l'usure",
+      "type": "WaveArena",
+      "combat": true,
+      "waves": [
+        [{"enemy_id": "ASH_WANDERER", "count": 4}, {"enemy_id": "SAREI_CROSSBOW", "count": 1}],
+        [{"enemy_id": "LINE_BREAKER", "count": 2}, {"enemy_id": "ALLEY_HARRIER", "count": 2}],
+        [{"enemy_id": "ASH_WANDERER", "count": 2}, {"enemy_id": "SAREI_CROSSBOW", "count": 1}, {"enemy_id": "ALLEY_HARRIER", "count": 2}, {"enemy_id": "LINE_BREAKER", "count": 1}]
+      ],
+      "arena_features": ["OverturnedStretchers", "Barricades", "Carts", "PartialCover", "Destructibles", "MultipleApproachAxes"],
+      "healing": {"type": "Fountain", "restores_hp": true, "cures_trauma": false},
+      "optional_medical_reserve": {
+        "replacement_potion": 1,
+        "requires_risky_detour": true,
+        "random_drop": false
+      },
+      "pre_boss_decision": "SpendPotionToClearTraumaOrPreserveIt"
+    },
+    {
+      "zone_id": "Z7_SOUTH_BARRICADE",
+      "title": "Barricade de Sarei : Capitaine Rhéon, le Dernier Verrou",
+      "type": "Boss",
+      "combat": true,
+      "boss_id": "CAPTAIN_RHEON_LAST_LOCK",
+      "phases": [
+        {"phase": 1, "name": "Le verrou", "health_range": [100, 60], "focus": ["Guard", "ReadableSweeps", "Push", "TempoPunish"]},
+        {"phase": 2, "name": "La ligne cède", "health_range": [60, 25], "focus": ["Charge", "Break", "TraumaPressure", "HigherAggression"]},
+        {"phase": 3, "name": "Personne ne passe", "health_range": [25, 0], "focus": ["ShortDangerousSequences", "LowDefense", "ClearPunishWindows"]}
+      ],
+      "no_health_sponge": true,
+      "path_viability": {
+        "Body": "CloseMasteryBreakCounter",
+        "Mind": "RangeWindowStateControl",
+        "Politics": "CondemnationAuthorityOffensiveLawTempo"
+      },
+      "uses_shared_damage_anatomy_gore_pipeline": true
+    },
+    {
+      "zone_id": "Z8_AFTER_BARRICADE",
+      "title": "Ce que Rhéon gardait",
+      "type": "ConclusionRemanence",
+      "combat": false,
+      "remanence_id": "SAREI_RHEON_GATE_ORDER_TRACE",
+      "connections": ["SAREI_EVACUATION", "SAREI_WAR_AUTHORITIES", "SAREI_HOSPITAL", "SAREI_ASHARA_PROTOCOL"],
+      "resolves_political_truth": false,
+      "end_flow": "ReturnToRemanenceArchives"
+    }
+  ],
+  "enemy_roster": [
+    {"enemy_id": "ASH_WANDERER", "name": "Errant cendré", "role": "BasicMelee"},
+    {"enemy_id": "SAREI_CROSSBOW", "name": "Arbalétrier de Sarei", "role": "RangedPressure"},
+    {"enemy_id": "LINE_BREAKER", "name": "Briseur de ligne", "role": "HeavyTrauma"},
+    {"enemy_id": "ALLEY_HARRIER", "name": "Harceleur des ruelles", "role": "FastFlanker"},
+    {"enemy_id": "SAREI_GUARD_SURGEON", "name": "Le Chirurgien de garde", "role": "MiniBoss"},
+    {"enemy_id": "CAPTAIN_RHEON_LAST_LOCK", "name": "Capitaine Rhéon, le Dernier Verrou", "role": "Boss"}
+  ],
+  "healing_summary": {
+    "hp_only_points": ["Z2_STRETCHER_STREET", "Z3_FIELD_AID_POST", "Z5_HOSPITAL_ANNEX", "Z6_EVACUATION_YARD"],
+    "start_potions": 3,
+    "enemy_potion_drops": 0,
+    "contextual_replacement_potion_locations": ["Z3_FIELD_AID_POST", "Z6_EVACUATION_YARD"]
+  },
+  "remanence_summary": {
+    "mandatory": ["SAREI_ECHO_LAST_FLASK"],
+    "optional": ["SAREI_EVACUATION_ENV_TRACE", "SAREI_HOSPITAL_SECONDARY_NOTE", "SAREI_RHEON_GATE_ORDER_TRACE"],
+    "deferred_to_later_runs": ["SAREI_SOURCE_VEL_REPORT", "SAREI_THIRD_ARMY_CASE"],
+    "first_run_must_not_unlock_potion_capacity_4": true
+  },
+  "validation": [
+    "CompletePreparationCombatExplorationBossArchiveLoop",
+    "BodySoloBossViable",
+    "MindSoloBossViable",
+    "PoliticsSoloBossViable",
+    "TraumaOnlyFromReadableSevereCauses",
+    "FountainsNeverCureTrauma",
+    "PotionsCureAllTrauma",
+    "NoEnemyPotionDrops",
+    "LastFlaskDiscoveredWithoutDetectiveMode",
+    "NoPrematurePotionCapacityReconstruction",
+    "BossUsesSharedDamageAnatomyGorePipeline",
+    "ArchiveShowsNewKnowledgeOnReturn"
+  ]
+}
