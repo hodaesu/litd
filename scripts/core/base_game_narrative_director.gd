@@ -7,12 +7,14 @@ const NARRATOR_PATH := "res://data/narrative/base_game_narrator.json"
 const KEY_SCENES_PATH := "res://data/narrative/base_game_key_scenes.json"
 const CHARACTER_ARCS_PATH := "res://data/narrative/base_game_character_arcs.json"
 const REVELATION_MATRIX_PATH := "res://data/narrative/base_game_revelation_matrix.json"
+const CONSEQUENCE_MATRIX_PATH := "res://data/narrative/base_game_consequence_matrix.json"
 
 var story_data: Dictionary = {}
 var narrator_data: Dictionary = {}
 var key_scenes_data: Dictionary = {}
 var character_arcs_data: Dictionary = {}
 var revelation_matrix_data: Dictionary = {}
+var consequence_matrix_data: Dictionary = {}
 var _used_line_keys: Dictionary = {}
 var _last_chapter_id := ""
 var _last_completed_main_quest_count := 0
@@ -23,6 +25,7 @@ func _ready() -> void:
     key_scenes_data = _load_dictionary(KEY_SCENES_PATH)
     character_arcs_data = _load_dictionary(CHARACTER_ARCS_PATH)
     revelation_matrix_data = _load_dictionary(REVELATION_MATRIX_PATH)
+    consequence_matrix_data = _load_dictionary(CONSEQUENCE_MATRIX_PATH)
     _last_chapter_id = CampaignState.current_chapter_id
     _last_completed_main_quest_count = _completed_main_quest_count(_last_chapter_id)
     if not CampaignState.campaign_changed.is_connected(_on_campaign_changed):
@@ -128,6 +131,37 @@ func revelation_can_be_clue(truth_id: String, chapter_number: int = -1) -> bool:
     if current_number < 0:
         current_number = CampaignState.current_chapter_number()
     return current_number >= int(truth.get("earliest_clue_chapter", 999))
+
+func consequence(consequence_id: String) -> Dictionary:
+    for value: Variant in consequence_matrix_data.get("consequences", []):
+        var entry: Dictionary = value if value is Dictionary else {}
+        if str(entry.get("id", "")) == consequence_id:
+            return entry.duplicate(true)
+    return {}
+
+func consequences_from_chapter(chapter_number: int) -> Array:
+    var result: Array = []
+    for value: Variant in consequence_matrix_data.get("consequences", []):
+        var entry: Dictionary = value if value is Dictionary else {}
+        if int(entry.get("source_chapter", -1)) == chapter_number:
+            result.append(entry.duplicate(true))
+    return result
+
+func consequence_echoes_for_chapter(chapter_number: int) -> Array:
+    var result: Array = []
+    for value: Variant in consequence_matrix_data.get("consequences", []):
+        var entry: Dictionary = value if value is Dictionary else {}
+        for echo_value: Variant in entry.get("later_echoes", []):
+            var echo: Dictionary = echo_value if echo_value is Dictionary else {}
+            if int(echo.get("chapter", -1)) != chapter_number:
+                continue
+            result.append({
+                "consequence_id": str(entry.get("id", "")),
+                "source_chapter": int(entry.get("source_chapter", -1)),
+                "type": str(echo.get("type", "")),
+                "effect": str(echo.get("effect", ""))
+            })
+    return result
 
 func narrator_rules() -> Dictionary:
     var value: Variant = narrator_data.get("style_contract", {})
