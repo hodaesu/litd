@@ -137,6 +137,7 @@ func _build_payload() -> Dictionary:
         "gold": GameState.gold, "essence": GameState.essence, "light": GameState.light, "supplies": GameState.supplies,
         "party": GameState.party, "equipment": EquipmentManager.serialize(), "combat_loadouts": CombatLoadoutManager.serialize(),
         "creatures": CreatureManager.serialize(), "politics": PoliticalState.serialize(), "campaign": CampaignState.serialize(),
+        "main_narrative_script": MainNarrativeScriptRuntime.serialize(),
         "side_quests": SideQuestRuntime.serialize(), "bounty_contracts": BountyContractDirector.serialize(),
         "hero_renown": EnemyFearDirector.serialize(), "chapter_01": Chapter01Runtime.serialize(),
         "chapter_02": Chapter02Runtime.serialize(), "chapter_03": Chapter03Runtime.serialize(), "chapter_04": Chapter04Runtime.serialize(),
@@ -161,6 +162,7 @@ func _apply_payload(payload: Dictionary) -> void:
     EquipmentManager.deserialize(payload.get("equipment",{})); CombatLoadoutManager.deserialize(payload.get("combat_loadouts",{}))
     CreatureManager.deserialize(payload.get("creatures",{})); GameState.expedition_room = int(payload.get("expedition_room",0))
     PoliticalState.deserialize(payload.get("politics",{})); CampaignState.deserialize(payload.get("campaign",{}))
+    MainNarrativeScriptRuntime.deserialize(payload.get("main_narrative_script",{}))
     SideQuestRuntime.deserialize(payload.get("side_quests",{})); BountyContractDirector.deserialize(payload.get("bounty_contracts",{}))
     EnemyFearDirector.deserialize(payload.get("hero_renown",{})); AshlandsRuntime.deserialize(payload.get("ashlands",{}))
     Chapter01Runtime.deserialize(payload.get("chapter_01",{})); Chapter02Runtime.deserialize(payload.get("chapter_02",{}))
@@ -189,6 +191,7 @@ func _migrate(payload: Dictionary) -> Dictionary:
     payload["preparation_presets"] = payload.get("preparation_presets",{})
     payload["living_exploration"] = payload.get("living_exploration",{})
     payload["progression_scope"] = payload.get("progression_scope",{})
+    payload["main_narrative_script"] = payload.get("main_narrative_script",{})
     return payload
 
 func _atomic_write(path: String, text: String) -> bool:
