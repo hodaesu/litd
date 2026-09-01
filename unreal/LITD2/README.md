@@ -47,16 +47,21 @@ Le projet possède maintenant une première couche de combat native dans `Source
 
 - `LITD2CombatTypes` définit le langage commun des dégâts, zones anatomiques, blessures, traumatismes, parade/blocage et candidat au démembrement ;
 - `LITD2CombatantComponent` gère PV, endurance, régénération, parade, blocage, esquive invulnérable, PV condamnés, trauma, mort et synchronisation avec la run ;
-- `LITD2PlayerCombatCharacter` fournit déplacement troisième personne, caméra, attaque légère/lourde, esquive, parade/blocage et potion ;
-- `LITD2AshWandererCharacter` est le premier Errant cendré relié au combat et au `EncounterDirector` ;
+- `LITD2PlayerCombatCharacter` fournit déplacement troisième personne, caméra, attaque légère/lourde, esquive, parade/blocage, potion et slots de montages d'animation ;
+- `LITD2AshWandererCharacter` est l'Errant cendré de base relié au combat et au `EncounterDirector` ;
+- `LITD2LineBreakerCharacter` est le premier lourd : son coup sévère télégraphié teste un Traumatisme I déterministe quand il est encaissé sans défense ;
 - `LITD2CombatGameMode` utilise le personnage de combat comme pawn par défaut du vertical slice ;
 - `Config/DefaultInput.ini` rend la base immédiatement pilotable au clavier/souris.
 
 La direction détaillée et les critères d'essai en éditeur sont dans `docs/LITD2/COMBAT_VERTICAL_SLICE.md`.
 
-Le trauma reste strictement déterministe : aucune probabilité aléatoire ne peut en créer un. Une cause sévère doit être explicitement signalée et lisible. Les fontaines restaurent uniquement les PV encore récupérables ; les potions suppriment les traumatismes et restaurent complètement le personnage.
+Le trauma reste strictement déterministe : aucune probabilité aléatoire ne peut en créer un. Une cause sévère doit être explicitement signalée, lisible et effectivement encaissée. Esquive et parade l'évitent ; le blocage réduit les dégâts et empêche également le trauma pour les attaques actuellement blocables. Une future attaque imblocable devra être définie explicitement comme telle.
 
-Les assets d'animation, modèles, montages, VFX de gore/démembrement, sons et HUD définitifs restent à produire dans Unreal Editor.
+Les fontaines restaurent uniquement les PV encore récupérables ; les potions suppriment les traumatismes et restaurent complètement le personnage.
+
+Les premiers hooks `UAnimMontage` sont branchés sur les actions du joueur et sur le Briseur de ligne. Les fichiers d'animation/montage `.uasset` restent à produire dans Unreal Editor. Le hit est encore validé par le timer C++ ; l'étape animation suivante doit déplacer les fenêtres d'impact vers des `AnimNotify` afin d'aligner exactement image et gameplay.
+
+Les modèles, VFX de gore/démembrement, sons et HUD définitifs restent également à produire dans Unreal Editor.
 
 ## Feuille de route de production officielle des Archives
 
