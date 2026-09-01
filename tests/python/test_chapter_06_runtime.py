@@ -40,16 +40,26 @@ def test_saen_contact_requires_evidence_but_keeps_ontology_open():
     assert 'stable_contact' in runtime
 
 
-def test_walking_boundary_uses_three_environmental_anchors():
+def test_walking_boundary_uses_three_environmental_anchors_without_claiming_agency():
     data = json.loads((ROOT / 'data/levels/chapter_06_absent.json').read_text())
     world = json.loads((ROOT / 'data/levels/chapter_06_world.json').read_text())
-    boss = (ROOT / 'scripts/world/chapter_06_boss_runtime.gd').read_text()
+    boss_runtime = (ROOT / 'scripts/world/chapter_06_boss_runtime.gd').read_text()
     boundary_nodes = [n for n in world['nodes'] if n['type'] == 'anchor']
     assert len(boundary_nodes) == 3
     assert data['boss']['name'] == 'La Frontière qui marche'
     assert data['boss']['signature'] == "Ici n'est plus ici"
-    assert '[85,60,35,0]' in boss
-    assert 'Chapter06Runtime.anchor_count()' in boss
+    assert 'non établi comme conscient' in data['boss']['type']
+    truth = data['boss']['truth'].lower()
+    assert 'rien ne permet d\'affirmer' in truth
+    assert 'se défend' in truth and 'choisit' in truth and 'veut' in truth
+    assert data['boss']['phases'][-1] == 'Découplage local'
+    resonate = next(choice for choice in data['boss_choices'] if choice['id'] == 'resonate')
+    assert resonate['label'] == 'TESTER LA RÉSONANCE'
+    assert 'ne prouve aucune conscience' in resonate['consequence'].lower()
+    assert '[85,60,35,0]' in boss_runtime
+    assert 'Chapter06Runtime.anchor_count()' in boss_runtime
+    assert 'LA LIMITE CHOISIT' not in boss_runtime
+    assert 'DÉCOUPLAGE LOCAL' in boss_runtime
 
 
 def test_shifted_wayfarer_has_a_real_mechanical_contract():
