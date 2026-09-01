@@ -12,6 +12,9 @@ HEADER_PATH = Path(
 CPP_PATH = Path(
     "unreal/LITD2/Source/LITD2/Remanence/UI/LITD2RemembranceArchiveScreen.cpp"
 )
+UI_LIBRARY_PATH = Path(
+    "unreal/LITD2/Source/LITD2/Remanence/UI/LITD2RemembranceUILibrary.cpp"
+)
 BUILD_PATH = Path("unreal/LITD2/Source/LITD2/LITD2.Build.cs")
 GENERATOR_PATH = Path("unreal/LITD2/Content/Python/build_remanence_ui.py")
 
@@ -56,6 +59,16 @@ def test_native_archive_screen_contract_contains_required_interactions() -> None
     assert "CONTRADICTION DÉTECTÉE" in cpp
     assert "ARCHIVES DE RÉMANENCE" in cpp
     assert "RECONSTRUIRE" in cpp
+
+
+@pytest.mark.data
+def test_archive_has_blueprint_open_close_entry_points() -> None:
+    ui_library = UI_LIBRARY_PATH.read_text(encoding="utf-8")
+    assert "OpenRemanenceArchive" in ui_library
+    assert "CloseRemanenceArchive" in ui_library
+    assert "AddToViewport" in ui_library
+    assert "FInputModeGameAndUI" in ui_library
+    assert "FInputModeGameOnly" in ui_library
 
 
 @pytest.mark.data
