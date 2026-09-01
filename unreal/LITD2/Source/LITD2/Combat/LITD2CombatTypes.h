@@ -89,6 +89,12 @@ struct FLITD2DamageResolution
     float AppliedDamage = 0.0f;
 
     UPROPERTY(BlueprintReadOnly)
+    bool bBlocked = false;
+
+    UPROPERTY(BlueprintReadOnly)
+    bool bParried = false;
+
+    UPROPERTY(BlueprintReadOnly)
     bool bWoundTriggered = false;
 
     UPROPERTY(BlueprintReadOnly)
