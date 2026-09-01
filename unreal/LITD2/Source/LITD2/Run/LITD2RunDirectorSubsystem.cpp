@@ -4,6 +4,7 @@
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
 #include "Remanence/LITD2RemembranceSubsystem.h"
+#include "Run/LITD2EncounterDirectorSubsystem.h"
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonSerializer.h"
 
@@ -18,7 +19,7 @@ namespace
 bool ULITD2RunDirectorSubsystem::StartSareiRun(FName OathId)
 {
     Zones.Reset();
-    if (!LoadRunDefinition(TEXT("Data/Runs/sarei_faubourgs_run.json")))
+    if (OathId.IsNone() || !LoadRunDefinition(TEXT("Data/Runs/sarei_faubourgs_run.json")))
     {
         return false;
     }
@@ -62,8 +63,7 @@ bool ULITD2RunDirectorSubsystem::LoadRunDefinition(const FString& RelativePath)
         return false;
     }
 
-    const TArray<TSharedPtr<FJsonValue>>& JsonZones = Root->GetArrayField(TEXT("zones"));
-    for (const TSharedPtr<FJsonValue>& Value : JsonZones)
+    for (const TSharedPtr<FJsonValue>& Value : Root->GetArrayField(TEXT("zones")))
     {
         const TSharedPtr<FJsonObject> Object = Value.IsValid() ? Value->AsObject() : nullptr;
         if (!Object.IsValid())
@@ -115,13 +115,26 @@ void ULITD2RunDirectorSubsystem::EnterZone(int32 ZoneIndex)
     State.bCurrentZoneObjectiveSatisfied = false;
     const FLITD2RunZoneDefinition& Zone = Zones[ZoneIndex];
 
-    // Preparation and non-combat conclusion zones are explicit but can be completed by UI/level logic.
     if (Zone.ZoneId == TEXT("Z0_PREP"))
     {
         State.bCurrentZoneObjectiveSatisfied = !State.SelectedOathId.IsNone();
     }
 
     OnZoneStarted.Broadcast(Zone.ZoneId, Zone.Title);
+
+    // Z4 waits for the player's route selection. Other combat/boss zones dispatch immediately.
+    if (Zone.ZoneId != TEXT("Z4_ASH_CROSSROADS") &&
+        (Zone.Type == TEXT("Combat") || Zone.Type == TEXT("CombatAndHealing") || Zone.Type == TEXT("MiniBoss") ||
+         Zone.Type == TEXT("WaveArena") || Zone.Type == TEXT("Boss")))
+    {
+        if (UGameInstance* GameInstance = GetGameInstance())
+        {
+            if (ULITD2EncounterDirectorSubsystem* Encounters = GameInstance->GetSubsystem<ULITD2EncounterDirectorSubsystem>())
+            {
+                Encounters->BeginZone(Zone.ZoneId);
+            }
+        }
+    }
 }
 
 bool ULITD2RunDirectorSubsystem::CanCompleteCurrentZone() const
@@ -181,6 +194,14 @@ bool ULITD2RunDirectorSubsystem::ChooseBranch(FName BranchId)
 
     State.SelectedBranchId = BranchId;
     OnBranchChosen.Broadcast(BranchId);
+
+    if (UGameInstance* GameInstance = GetGameInstance())
+    {
+        if (ULITD2EncounterDirectorSubsystem* Encounters = GameInstance->GetSubsystem<ULITD2EncounterDirectorSubsystem>())
+        {
+            return Encounters->BeginZone(TEXT("Z4_ASH_CROSSROADS"), BranchId);
+        }
+    }
     return true;
 }
 
@@ -255,6 +276,11 @@ bool ULITD2RunDirectorSubsystem::DiscoverRemanence(FName EntryId)
             Archives->SetEntryState(EntryId, ELITD2RemembranceDiscoveryState::Trace);
             Archives->SaveArchives();
         }
+    }
+
+    if (Zones.IsValidIndex(State.CurrentZoneIndex) && Zones[State.CurrentZoneIndex].MandatoryRemanenceId == EntryId)
+    {
+        State.bCurrentZoneObjectiveSatisfied = true;
     }
 
     OnRemanenceDiscovered.Broadcast(EntryId);
