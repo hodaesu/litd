@@ -1,7 +1,8 @@
 {
   "schema_version": 2,
   "scope": "LITD1 cycle initial main narrative",
-  "status": "production_script_v1_theatrical_direction_v1",
+  "status": "production_script_v1",
+  "theatrical_status": "theatrical_direction_v1",
   "rule": "Chaque scène principale doit être jouable de bout en bout sans inventer de réplique ni de direction d'acteur au runtime. Le protagoniste créé par le joueur n'a ni voix ni langage corporel imposés : ses interventions restent des intentions de choix, tandis que les PNJ portent les répliques et didascalies authored.",
   "scene_contract": {
     "required": ["id", "chapter_id", "type", "trigger", "purpose", "staging", "beats", "exit_state"],
