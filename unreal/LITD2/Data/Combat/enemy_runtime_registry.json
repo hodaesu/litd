@@ -30,8 +30,8 @@
     },
     {
       "enemy_id": "SAREI_GUARD_SURGEON",
-      "native_class": null,
-      "status": "PLANNED",
+      "native_class": "ALITD2GuardSurgeonCharacter",
+      "status": "RUNTIME_READY",
       "role": "MiniBoss"
     },
     {
