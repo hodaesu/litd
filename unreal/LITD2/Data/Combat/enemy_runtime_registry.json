@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "game": "LITD2",
+  "scope": "SAREI_FAUBOURGS_01",
+  "entries": [
+    {
+      "enemy_id": "ASH_WANDERER",
+      "native_class": "ALITD2AshWandererCharacter",
+      "status": "RUNTIME_READY",
+      "role": "BasicMelee"
+    },
+    {
+      "enemy_id": "LINE_BREAKER",
+      "native_class": "ALITD2LineBreakerCharacter",
+      "status": "RUNTIME_READY",
+      "role": "HeavyTrauma"
+    },
+    {
+      "enemy_id": "SAREI_CROSSBOW",
+      "native_class": "ALITD2SareiCrossbowCharacter",
+      "projectile_class": "ALITD2SareiBoltProjectile",
+      "status": "RUNTIME_READY",
+      "role": "RangedPressure"
+    },
+    {
+      "enemy_id": "ALLEY_HARRIER",
+      "native_class": null,
+      "status": "PLANNED",
+      "role": "FastFlanker"
+    },
+    {
+      "enemy_id": "SAREI_GUARD_SURGEON",
+      "native_class": null,
+      "status": "PLANNED",
+      "role": "MiniBoss"
+    },
+    {
+      "enemy_id": "CAPTAIN_RHEON_LAST_LOCK",
+      "native_class": null,
+      "status": "PLANNED",
+      "role": "Boss"
+    }
+  ]
+}
