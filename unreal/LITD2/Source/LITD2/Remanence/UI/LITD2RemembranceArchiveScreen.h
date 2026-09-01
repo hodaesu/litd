@@ -6,6 +6,7 @@
 #include "LITD2RemembranceArchiveScreen.generated.h"
 
 class ULITD2RemembranceSubsystem;
+class USoundBase;
 
 USTRUCT()
 struct FLITD2ArchiveVisualNode
@@ -41,10 +42,11 @@ struct FLITD2ArchiveVisualReconstruction
 /**
  * Native UMG screen for the LITD 2 Remanence Archives.
  *
- * The widget deliberately owns the interaction and paint contract in C++ so the
- * first playable version does not depend on hand-authored binary .uasset files.
- * A generated WBP child can later override presentation without replacing this
- * navigation, discovery or reconstruction logic.
+ * It owns the first production presentation in C++: documentary constellation,
+ * animated threads, living/irregular nodes, ash-light ambience, sliding dossier,
+ * contradiction feedback and a full knowledge-reconstruction reveal. A generated
+ * WBP child can later replace art assets without replacing this interaction or
+ * persistence contract.
  */
 UCLASS(BlueprintType, Blueprintable)
 class LITD2_API ULITD2RemembranceArchiveScreen : public UUserWidget
@@ -79,9 +81,35 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Remanence|Archive UI", meta=(ClampMin="1.0", ClampMax="5.0"))
     float MaxZoom = 2.25f;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Remanence|Presentation", meta=(ClampMin="0.1", ClampMax="3.0"))
+    float IntroDuration = 1.25f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Remanence|Presentation", meta=(ClampMin="0.1", ClampMax="3.0"))
+    float ThreadRevealDuration = 1.45f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Remanence|Presentation", meta=(ClampMin="0.05", ClampMax="2.0"))
+    float DossierTransitionDuration = 0.32f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Remanence|Presentation", meta=(ClampMin="0.5", ClampMax="5.0"))
+    float KnowledgeRevealDuration = 2.35f;
+
+    // Optional sound assets. Native presentation remains functional when none are assigned.
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Remanence|Audio")
+    TObjectPtr<USoundBase> OpenSound;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Remanence|Audio")
+    TObjectPtr<USoundBase> SelectionSound;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Remanence|Audio")
+    TObjectPtr<USoundBase> ContradictionSound;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Remanence|Audio")
+    TObjectPtr<USoundBase> ReconstructionSound;
+
 protected:
     virtual TSharedRef<SWidget> RebuildWidget() override;
     virtual void NativeConstruct() override;
+    virtual void NativeDestruct() override;
     virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
     virtual int32 NativePaint(
@@ -112,8 +140,14 @@ private:
     bool bDraggingGraph = false;
     FVector2D LastDragLocal = FVector2D::ZeroVector;
 
+    float ArchiveAgeSeconds = 0.0f;
+    float DossierTransitionSeconds = 0.0f;
     float ReconstructionPulseSeconds = 0.0f;
+    float KnowledgeRevealSeconds = 0.0f;
     FName ReconstructionPulseEntryId = NAME_None;
+    FText KnowledgeRevealTitle;
+    FText KnowledgeRevealExplanation;
+    TMap<FName, float> EntryRevealSeconds;
 
     bool LoadSeedJson(const FString& AbsolutePath);
     bool LoadLayoutJson(const FString& AbsolutePath);
@@ -128,4 +162,12 @@ private:
     FLinearColor CategoryColor(const FString& Category) const;
     FString DisplayState(ELITD2RemembranceDiscoveryState State) const;
     FString ReliabilityLabel(const FString& Reliability) const;
+    void PlayUISound(USoundBase* Sound) const;
+    void TriggerDossierTransition();
+
+    UFUNCTION()
+    void HandleEntryChanged(FName EntryId, ELITD2RemembranceDiscoveryState NewState);
+
+    UFUNCTION()
+    void HandleReconstructionCompleted(FName ReconstructionId);
 };
