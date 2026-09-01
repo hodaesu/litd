@@ -129,9 +129,16 @@ void ALITD2AshWandererCharacter::CommitAttack()
 
 void ALITD2AshWandererCharacter::HandleDamageResolved(FLITD2DamageResolution Resolution)
 {
-    if (Resolution.AppliedDamage > 0.0f && HitReactionMontage)
+    if (Resolution.AppliedDamage > 0.0f)
     {
-        PlayAnimMontage(HitReactionMontage);
+        // The basic melee unit is intentionally interruptible by clean pressure.
+        bAttackQueued = false;
+        bAttackUsesAnimationCommit = false;
+        RecoveryRemaining = FMath::Max(RecoveryRemaining, 0.30f);
+        if (HitReactionMontage)
+        {
+            PlayAnimMontage(HitReactionMontage);
+        }
     }
     OnDamagePresentation(Resolution);
 }
