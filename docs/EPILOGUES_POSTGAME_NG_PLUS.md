@@ -1,5 +1,7 @@
 # Épilogues, postgame et Nouveau Cycle+
 
+> **Priorité de production actuelle : cycle initial.** Les mécaniques NG+ déjà validées restent conservées, mais toute nouvelle extension narrative propre au NG+ est gelée jusqu'à validation de `docs/LITD1_NARRATION_CYCLE_INITIAL.md` et des dix chapitres du jeu de base.
+
 ## Principe
 
 La campagne principale s'arrête au Chapitre X. Le contenu qui suit n'est pas un Chapitre XI : il montre ce que devient le monde après la décision finale et permet ensuite de recommencer la campagne avec une couche de rejouabilité volontairement plus libre.
@@ -65,46 +67,28 @@ Le catalogue est explicite : être un boss dans les données du jeu ne suffit pa
 
 L'Ange n'est actuellement pas présent dans ce catalogue et reste donc hors de ce système tant qu'une décision explicite ne le modifie pas.
 
-## Contrat « je veux recommencer »
+## Contrat « je veux recommencer » — infrastructure conservée, développement narratif gelé
 
 Le Nouveau Cycle+ ne doit jamais se résumer à `+PV / +dégâts`.
 
-La règle de production est : **le joueur doit percevoir une différence importante dans les quinze premières minutes d'un NG+**.
+La règle de production reste : **le joueur doit percevoir une différence importante dans les quinze premières minutes d'un NG+**.
 
-Chaque cycle doit modifier au minimum quatre couches :
+L'infrastructure déjà mise en place pour quatre couches est conservée :
 
-1. **Monde** — routes, refuges, patrouilles, quartiers, traces ou zones accessibles changent ;
+1. **Monde** — routes, refuges, patrouilles, quartiers, traces ou zones accessibles peuvent changer ;
 2. **Donjons** — nouvelles compositions de salles authored, secrets plus présents, dangers propres au cycle ;
 3. **Ennemis** — nouveaux comportements et contre-mesures tactiques, pas seulement des statistiques ;
-4. **Narration** — textes, observations et fragments secondaires donnent une nouvelle lecture sans changer les faits déjà établis.
+4. **Narration** — des couches secondaires pourront plus tard donner une nouvelle lecture sans changer les faits établis.
 
-Le système est défini dans `data/world/ngplus_cycle_variants.json` et exécuté par `NgPlusCycleDirector`.
+**La quatrième couche n'est pas développée davantage pendant la passe actuelle.** Le chantier narratif porte exclusivement sur le cycle initial.
 
-## Premier retour — Le monde se décale
+Le système technique déjà présent reste défini dans `data/world/ngplus_cycle_variants.json` et exécuté par `NgPlusCycleDirector`.
 
-Le premier NG+ doit immédiatement produire l'effet : **« Je connais cet endroit… mais ce n'est plus la même partie. »**
+## Profils déjà préparés
 
-Il introduit notamment routes secondaires, traces précédemment invisibles, variations de patrouilles, secrets supplémentaires, dangers de Cendre/Lumière et ennemis capables de punir la garde, devenir plus dangereux blessés ou répandre davantage de Peur.
+Les profils Premier retour, Deuxième veille, Troisième mémoire et Cycle profond restent des infrastructures de replay conservées. Leur enrichissement narratif est reporté.
 
-Les nouveaux textes montrent des couches secondaires du monde. Ils ne remplacent jamais une révélation principale du premier cycle.
-
-## Deuxième veille — Les ennemis apprennent
-
-Le deuxième cycle insiste sur l'adaptation : territoires disputés, refuges fortifiés, routes de contournement, Vestiges rouverts et adversaires qui punissent davantage les habitudes répétées, l'accumulation d'Espoir ou la garde prévisible.
-
-Le joueur ne doit plus pouvoir rejouer mécaniquement la campagne avec exactement les réflexes qui avaient fonctionné auparavant.
-
-## Troisième mémoire — Les couches profondes
-
-Le troisième cycle ouvre davantage de contenu périphérique : quartiers auparavant inaccessibles, archives privées, communautés secondaires et ruines sous les ruines.
-
-Son objectif narratif n'est pas d'ajouter une « vérité secrète supérieure », mais de montrer que les civilisations, responsables et survivants avaient des vies qui débordaient largement leur fonction dans l'intrigue principale.
-
-## Cycle profond — La Concorde des possibles
-
-À partir du quatrième cycle, plusieurs contraintes sont recombinées : zones transformées, frontières instables, coalitions inhabituelles, routes interrompues, Vestiges profonds, dangers supplémentaires et ensemble élargi de mutations ennemies.
-
-Le cycle profond n'a pas besoin d'inventer une nouvelle couche de canon à chaque répétition. Sa valeur vient de la recomposition systémique des règles déjà validées.
+Aucun nouveau fragment de lore, dialogue NG+, révélation secondaire ou variante de scène propre à ces profils ne doit être produit tant que la campagne de base n'est pas validée.
 
 ## Donjons
 
@@ -129,18 +113,17 @@ Le NG+ peut aussi attribuer des comportements déterministes selon l'ennemi et l
 - gagner en agressivité sous 50 % de PV ;
 - punir les schémas tactiques répétitifs.
 
-## Narration
+## Narration NG+
 
-Une nouvelle ligne NG+ ne doit jamais dire : « le passé a changé ».
+Une future ligne NG+ ne devra jamais dire : « le passé a changé ».
 
-Elle peut dire :
+Elle pourra dire qu'une archive n'avait pas été trouvée, qu'une route n'avait pas été empruntée ou qu'un détail donne un autre contexte à un fait connu.
 
-- « cette archive n'avait pas été trouvée » ;
-- « cette route n'avait pas été empruntée » ;
-- « ce groupe n'avait pas été rencontré » ;
-- « ce détail donne un autre contexte à un fait connu ».
+Cette production est **en pause**. La référence active de narration est désormais :
 
-Ainsi, recommencer **approfondit** l'histoire au lieu de l'annuler.
+- `docs/LITD1_NARRATION_CYCLE_INITIAL.md` ;
+- `data/narrative/base_game_story_contract.json` ;
+- `data/narrative/base_game_narrator.json`.
 
 ## Héritages
 
