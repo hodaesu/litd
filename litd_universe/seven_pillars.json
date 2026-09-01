@@ -1,51 +1,57 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "scope": "LITD_UNIVERSE",
-  "status": "CANON_MANDATORY",
+  "status": "CANON_IMMUTABLE",
+  "immutable": true,
   "applies_to": ["LITD_1", "LITD_2", "FUTURE_LITD_PROJECTS"],
-  "rule": "Every LITD project must materially express all seven pillars, although their mechanical implementation may differ by project.",
+  "mutation_policy": {
+    "allow_rename": false,
+    "allow_reorder": false,
+    "allow_remove": false,
+    "allow_merge": false,
+    "allow_add_eighth_pillar": false,
+    "game_specific_expression_may_vary": true,
+    "narrative_coherence_is_transversal_rule_not_pillar": true
+  },
   "pillars": [
     {
-      "id": "BODY",
-      "name_fr": "Corps",
-      "core_question": "Que peut supporter un être ?",
-      "non_negotiable": "Physical action, vulnerability and consequence must matter in the chosen form of the project."
+      "order": 1,
+      "id": "CHARACTER_CREATION",
+      "name_fr": "Création de personnages"
     },
     {
-      "id": "MIND",
-      "name_fr": "Esprit",
-      "core_question": "Que peut-il comprendre ?",
-      "non_negotiable": "Knowledge, art, memory, interpretation or understanding must materially affect how the world is perceived or approached."
+      "order": 2,
+      "id": "SYSTEMIC_GORE_AND_BODILY_CONSEQUENCES",
+      "name_fr": "Gore systémique et conséquences corporelles"
     },
     {
-      "id": "POLITICS",
-      "name_fr": "Politique",
-      "core_question": "Comment peut-on vivre ensemble ?",
-      "non_negotiable": "Collective choices, institutions or power must have causes, beneficiaries, victims and consequences."
+      "order": 3,
+      "id": "PHILOSOPHY_AND_PSYCHOLOGY_IN_NARRATIVE",
+      "name_fr": "Philosophie et psychologie dans la narration"
     },
     {
-      "id": "FEAR",
-      "name_fr": "Peur",
-      "core_question": "Qu'avons-nous à perdre ?",
-      "non_negotiable": "Fear must arise from a real stake, uncertainty, loss or responsibility rather than empty spectacle."
+      "order": 4,
+      "id": "ACCESSIBLE_HUMAN_DEPTH",
+      "name_fr": "Profondeur humaine accessible"
     },
     {
-      "id": "HOPE",
-      "name_fr": "Espoir",
-      "core_question": "Pourquoi continuer ?",
-      "non_negotiable": "The universe must preserve a credible possibility of rebuilding, caring, creating, transmitting or continuing."
+      "order": 5,
+      "id": "STRONG_NARRATIVE",
+      "name_fr": "Narration forte"
     },
     {
-      "id": "MADNESS",
-      "name_fr": "Folie",
-      "core_question": "Que se passe-t-il lorsque le sens se fracture ?",
-      "non_negotiable": "Fracture of perception or meaning must have readable causes and consequences and must not be reduced to arbitrary randomness or caricature."
+      "order": 6,
+      "id": "INTERCONNECTION_BETWEEN_GAMES",
+      "name_fr": "Interconnexion des différents jeux"
     },
     {
-      "id": "LIGHT",
-      "name_fr": "Lumière",
-      "core_question": "Qu'est-ce qui mérite encore d'être protégé, compris ou reconstruit ?",
-      "non_negotiable": "Every LITD work must create a meaningful lived tension between light and darkness, literal or symbolic."
+      "order": 7,
+      "id": "KNOWLEDGE_REMANENCE",
+      "name_fr": "Rémanence de la connaissance",
+      "canonical_progression": ["Trace", "Écho", "Mémoire", "Concordance"],
+      "preserve_sources": true,
+      "preserve_contradictions": true,
+      "preserve_open_questions": true
     }
   ]
 }
