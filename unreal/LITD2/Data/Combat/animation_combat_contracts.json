@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "game": "LITD2",
+  "purpose": "Animation-to-gameplay timing contracts for the Sarei vertical slice",
+  "rules": {
+    "animation_assets_are_binary_and_created_in_unreal_editor": true,
+    "assigned_attack_montage_requires_litd2_combat_commit_notify": true,
+    "unassigned_attack_montage_uses_cpp_fallback": true,
+    "trauma_never_originates_from_animation_randomness": true,
+    "visual_contact_and_gameplay_commit_must_match": true
+  },
+  "notify_class": "ULITD2AnimNotify_CombatCommit",
+  "contracts": [
+    {
+      "actor": "ALITD2PlayerCombatCharacter",
+      "montage_slot": "LightAttackMontage",
+      "commit_event": "PlayerQueuedAttack",
+      "recommended_total_seconds": 0.48,
+      "recommended_commit_seconds": 0.19,
+      "telegraph": "short shoulder/weapon preparation",
+      "recovery": "fast",
+      "cancel_policy": "dodge_or_parry_before_commit_cancels_pending_hit",
+      "root_motion": "limited_or_none_for_vertical_slice"
+    },
+    {
+      "actor": "ALITD2PlayerCombatCharacter",
+      "montage_slot": "HeavyAttackMontage",
+      "commit_event": "PlayerQueuedAttack",
+      "recommended_total_seconds": 0.82,
+      "recommended_commit_seconds": 0.39,
+      "telegraph": "clear weight transfer before contact",
+      "recovery": "medium",
+      "cancel_policy": "dodge_or_parry_before_commit_cancels_pending_hit",
+      "root_motion": "short authored advance allowed"
+    },
+    {
+      "actor": "ALITD2PlayerCombatCharacter",
+      "montage_slot": "DodgeMontage",
+      "commit_event": null,
+      "recommended_total_seconds": 0.52,
+      "gameplay_window": "DodgeInvulnerabilitySeconds=0.22 starts on input",
+      "root_motion": "movement currently supplied by LaunchCharacter"
+    },
+    {
+      "actor": "ALITD2PlayerCombatCharacter",
+      "montage_slot": "ParryMontage",
+      "commit_event": null,
+      "recommended_total_seconds": 0.42,
+      "gameplay_window": "ParryWindowSeconds=0.18 starts on input",
+      "root_motion": "none"
+    },
+    {
+      "actor": "ALITD2AshWandererCharacter",
+      "montage_slot": "AttackMontage",
+      "commit_event": "AshWandererAttack",
+      "recommended_total_seconds": 0.92,
+      "recommended_commit_seconds": 0.48,
+      "telegraph": "readable basic melee windup",
+      "recovery": "0.78 seconds target",
+      "cancel_policy": "clean incoming hit interrupts the queued attack",
+      "root_motion": "none_or_short_step"
+    },
+    {
+      "actor": "ALITD2LineBreakerCharacter",
+      "montage_slot": "SevereAttackMontage",
+      "commit_event": "LineBreakerSevereAttack",
+      "recommended_total_seconds": 2.30,
+      "recommended_commit_seconds": 1.10,
+      "telegraph": "heavy full-body commitment visible from all combat cameras",
+      "recovery": "1.55 seconds target",
+      "cancel_policy": "normal hit reactions do not cancel the severe swing",
+      "root_motion": "small committed step allowed",
+      "trauma_contract": "commit is severe/readable; undefended hit can trigger Trauma I"
+    },
+    {
+      "actor": "ALITD2SareiCrossbowCharacter",
+      "montage_slot": "AimAndFireMontage",
+      "commit_event": "SareiCrossbowRelease",
+      "recommended_total_seconds": 1.55,
+      "recommended_commit_seconds": 0.82,
+      "telegraph": "weapon raise, aim line and audible mechanical tension before release",
+      "recovery": "1.55 seconds target",
+      "cancel_policy": "incoming damage interrupts aim before release",
+      "root_motion": "none",
+      "projectile": "ALITD2SareiBoltProjectile"
+    }
+  ]
+}
