@@ -50,8 +50,8 @@ void ALITD2AshWandererCharacter::Tick(float DeltaSeconds)
         if (WindupRemaining <= 0.0f)
         {
             bAttackQueued = false;
-            CommitAttack();
             RecoveryRemaining = AttackRecoverySeconds;
+            CommitAttack();
         }
         return;
     }
@@ -91,8 +91,8 @@ void ALITD2AshWandererCharacter::CommitAttackFromAnimation()
 
     bAttackQueued = false;
     bAttackUsesAnimationCommit = false;
-    CommitAttack();
     RecoveryRemaining = AttackRecoverySeconds;
+    CommitAttack();
 }
 
 void ALITD2AshWandererCharacter::CommitAttack()
