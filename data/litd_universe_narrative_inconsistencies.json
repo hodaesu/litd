@@ -1,5 +1,5 @@
 {
-  "schema_version": 6,
+  "schema_version": 7,
   "scope": "LITD Universe narrative inconsistency registry",
   "status": "audited_no_blocking_or_major_open",
   "audit_scope": [
@@ -19,9 +19,9 @@
     "retroactive_contrivance_forbidden": true
   },
   "summary": {
-    "entries_total": 18,
+    "entries_total": 19,
     "blocking_total": 3,
-    "major_total": 10,
+    "major_total": 11,
     "minor_total": 2,
     "open_question_total": 3,
     "blocking_open": 0,
@@ -101,7 +101,7 @@
       "status": "RESOLVED",
       "problem": "One source said Veyra Oss sabotaged stabilization while another said she tried too late to limit the catastrophe, reversing the moral meaning of her final act.",
       "resolution": "Veyra's final act is a late mitigation attempt after recognizing part of the danger; it reduces harm but neither absolves her earlier responsibility nor becomes a secret heroic rescue.",
-      "files": ["docs/CHAPITRE_03_PROJET_SEUIL.md", "data/world/external_powers_conspiracy.json"]
+      "files": ["docs/CHAPITRE_03_PROJET_SEUIL.md", "data/world/external_powers_conspiracy.json", "data/levels/chapter_07_living_responsible.json"]
     },
     {
       "id": "LITD1-ANCIENT-CIV-DATE-PROPAGATION",
@@ -139,17 +139,17 @@
       "id": "LITD1-BOUNDARY-AGENCY",
       "severity": "MAJOR",
       "status": "RESOLVED",
-      "problem": "The Walking Boundary was described as a living phenomenon that defended itself, assigning intention and consciousness without evidence.",
-      "resolution": "It is a reactive boundary phenomenon with reproducible counter-effects. Current evidence does not establish intention, desire or consciousness; even resonance testing is framed without anthropomorphic assumptions.",
-      "files": ["data/world/main_campaign.json"]
+      "problem": "The Walking Boundary was described as a living phenomenon that defended or chose by itself, assigning intention and consciousness without evidence.",
+      "resolution": "It is a reactive boundary phenomenon with reproducible counter-effects. Current evidence does not establish intention, desire or consciousness; resonance testing and combat feedback are explicitly non-anthropomorphic.",
+      "files": ["data/world/main_campaign.json", "data/levels/chapter_06_absent.json", "scripts/world/chapter_06_boss_runtime.gd", "tests/python/test_chapter_06_runtime.py"]
     },
     {
       "id": "LITD1-EDRAS-EXPERIMENT-LOOPHOLE",
       "severity": "MAJOR",
       "status": "RESOLVED",
       "problem": "A Chapter VII choice could permit Edras a vague 'limited experiment', creating an easy loophole for another Gate-opening plot device.",
-      "resolution": "Any allowed research is confined to instrumental observation of phenomena already present: no new opening, no living subjects, no Project Seuil relay activation and automatic termination at the first safety-limit breach.",
-      "files": ["data/world/main_campaign.json", "docs/CHAPITRE_07_RESPONSABLES_VIVANTS.md"]
+      "resolution": "Any allowed research is confined to instrumental observation of phenomena already present: no new opening, no living subjects, no Project Seuil relay activation and automatic termination at the first safety-limit breach. Edras controls neither protocol nor abort.",
+      "files": ["data/world/main_campaign.json", "docs/CHAPITRE_07_RESPONSABLES_VIVANTS.md", "data/levels/chapter_07_living_responsible.json", "tests/python/test_chapter_07_runtime.py"]
     },
     {
       "id": "LITD-PSYCHOLOGY-FOLIE-DIAGNOSIS-CONFLATION",
@@ -157,7 +157,7 @@
       "status": "RESOLVED",
       "problem": "Legacy psychology text could blur supernatural Folie, trauma/stress reactions and real mental illness, sometimes linking dangerous behavior too directly to 'madness'.",
       "resolution": "Folie du Voile is explicitly a supernatural exposure state, not a psychiatric diagnosis. Fear and human psychological traces are separate systems; trace labels are non-diagnostic; mental illness cannot be used as shorthand for violence, evil or supernatural perception. Legacy runtime keys containing 'madness' are compatibility identifiers only.",
-      "files": ["data/content_scope.json", "data/psychology_events.json", "data/help_codex.json", "docs/LITD_UNIVERSE_GUIDE_ECRITURE_PHILO_PSYCHO.md"]
+      "files": ["data/content_scope.json", "data/psychology_events.json", "data/help_codex.json", "docs/LITD_UNIVERSE_GUIDE_ECRITURE_PHILO_PSYCHO.md", "tests/python/test_psychology_combat.py"]
     },
     {
       "id": "LITD1-LEGACY-RUNTIME-DIALOGUE",
