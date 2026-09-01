@@ -1,5 +1,6 @@
 #include "Combat/LITD2AnimNotify_CombatCommit.h"
 
+#include "Combat/LITD2AlleyHarrierCharacter.h"
 #include "Combat/LITD2AshWandererCharacter.h"
 #include "Combat/LITD2LineBreakerCharacter.h"
 #include "Combat/LITD2PlayerCombatCharacter.h"
@@ -44,6 +45,13 @@ void ULITD2AnimNotify_CombatCommit::Notify(USkeletalMeshComponent* MeshComp, UAn
                 Crossbow->ReleaseShotFromAnimation();
             }
             break;
+
+        case ELITD2CombatCommitEvent::AlleyHarrierLunge:
+            if (ALITD2AlleyHarrierCharacter* Harrier = Cast<ALITD2AlleyHarrierCharacter>(Owner))
+            {
+                Harrier->CommitLungeFromAnimation();
+            }
+            break;
     }
 }
 
@@ -55,6 +63,7 @@ FString ULITD2AnimNotify_CombatCommit::GetNotifyName_Implementation() const
         case ELITD2CombatCommitEvent::AshWandererAttack: return TEXT("LITD2 Ash Wanderer Hit");
         case ELITD2CombatCommitEvent::LineBreakerSevereAttack: return TEXT("LITD2 Line Breaker Impact");
         case ELITD2CombatCommitEvent::SareiCrossbowRelease: return TEXT("LITD2 Crossbow Release");
+        case ELITD2CombatCommitEvent::AlleyHarrierLunge: return TEXT("LITD2 Alley Harrier Lunge");
     }
     return TEXT("LITD2 Combat Commit");
 }
