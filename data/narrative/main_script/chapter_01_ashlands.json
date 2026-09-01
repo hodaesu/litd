@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_01_ashlands",
+  "title": "Survivre aux Terres de Cendre",
+  "human_question": "Que sommes-nous prêts à devenir pour survivre sans perdre ce qui rend la survie digne d'être vécue ?",
+  "scenes": [
+    {
+      "id": "c01_opening_refuge",
+      "chapter_id": "chapter_01_ashlands",
+      "type": "chapter_opening",
+      "trigger": "chapter_start",
+      "purpose": "Installer l'urgence, le Sanctuaire et la responsabilité immédiate du joueur sans expliquer la Chute.",
+      "staging": ["Porte du Sanctuaire entrouverte", "cendre portée par le vent jusque dans la cour", "brancards contre un mur", "une cloche fendue ne sonne plus"],
+      "beats": [
+        {"kind":"narration","speaker":"Narration","text":"La porte ne s'ouvre que pour laisser passer un corps à la fois. Dehors, les Cendres ont déjà recouvert les traces de ceux qui ne sont pas revenus."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"On a trois équipes dehors et de quoi nourrir deux retours. Si tu veux une journée simple, tu arrives trop tard."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Les blessés peuvent attendre quelques heures. Pas tous. Et pas sans conséquences."},
+        {"kind":"choice","id":"c01_opening_priority","prompt":"Donner la priorité à quoi ?","options":[
+          {"id":"rescue_first","label":"Faire sortir une équipe de secours.","response":[{"speaker":"Nara Vey","text":"Alors on gagne du temps avec des jambes et on paiera en réserves."}],"sets":["c01_priority_rescue"]},
+          {"id":"stabilize_first","label":"Stabiliser les blessés avant de repartir.","response":[{"speaker":"Sela Mor","text":"Je prends les plus graves. Les autres devront comprendre pourquoi on n'est pas partis plus tôt."}],"sets":["c01_priority_healing"]},
+          {"id":"supplies_first","label":"Sécuriser d'abord les vivres.","response":[{"speaker":"Nara Vey","text":"Ce choix sera facile à défendre si tout le monde revient. Beaucoup moins si quelqu'un manque à l'appel."}],"sets":["c01_priority_supplies"]}
+        ]},
+        {"kind":"system","text":"Débloque la première expédition des Terres de Cendre."}
+      ],
+      "exit_state": ["c01_opening_priority enregistré", "c01_embers disponible"]
+    },
+    {
+      "id": "c01_ration_line",
+      "chapter_id": "chapter_01_ashlands",
+      "type": "sanctuary_choice",
+      "trigger": "before_c01_embers_departure",
+      "purpose": "Faire de la survie un précédent politique dès le premier chapitre.",
+      "staging": ["file de bols ébréchés", "registre de portions corrigé plusieurs fois", "un enfant tient deux bols dont un vide"],
+      "beats": [
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"On peut appeler ça une urgence et improviser. Ou écrire une règle. Si on écrit une règle, elle nous suivra après la faim."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Les blessés ont besoin de plus. Les éclaireurs brûleront plus. Les nouveaux arrivants n'ont rien gardé pour demain. Les nombres ne vont pas choisir à notre place."},
+        {"kind":"choice","id":"c01_ration_policy","prompt":"Établir le premier principe de rationnement.","options":[
+          {"id":"medical_need","label":"Priorité aux besoins médicaux.","response":[{"speaker":"Sela Mor","text":"Je peux défendre ce critère. Je ne peux pas promettre qu'il ne fera pas de jaloux."}],"sets":["ration_medical"]},
+          {"id":"risk_exposure","label":"Priorité à ceux qui sortent du Sanctuaire.","response":[{"speaker":"Nara Vey","text":"Alors ceux qui prennent le risque mangent d'abord. Que personne ne prétende plus tard que cette règle est neutre."}],"sets":["ration_risk"]},
+          {"id":"equal_share","label":"Même portion pour tous.","response":[{"speaker":"Sela Mor","text":"Égal n'est pas toujours juste. Mais au moins personne ne pourra dire qu'on a caché le calcul."}],"sets":["ration_equal"]}
+        ]}
+      ],
+      "exit_state": ["politique de rationnement enregistrée", "écho ultérieur au Sanctuaire"]
+    },
+    {
+      "id": "c01_embers_return",
+      "chapter_id": "chapter_01_ashlands",
+      "type": "main_quest",
+      "quest_id": "c01_embers",
+      "trigger": "first_survivors_secured",
+      "purpose": "Montrer que les premières créatures ne sont pas une catégorie unique et que sauver quelqu'un ne résout pas son avenir.",
+      "staging": ["charrette renversée", "deux survivants cachés sous une bâche", "une goule blessée prise dans un piège de chasse"],
+      "beats": [
+        {"kind":"dialogue","speaker":"Survivante","text":"Elle nous suivait depuis le ravin. Elle aurait pu attaquer. Elle ne l'a pas fait."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Une hésitation n'est pas une preuve de bonté. Mais c'est déjà une raison de ne pas inventer ce qu'on ne sait pas."},
+        {"kind":"action","text":"Le joueur peut examiner le piège, les traces de combat et les restes de nourriture avant de décider."},
+        {"kind":"choice","id":"c01_goule_first_contact","prompt":"Que faire de la goule blessée ?","options":[
+          {"id":"stabilize_capture","label":"La stabiliser et tenter une capture.","response":[{"speaker":"Sela Mor","text":"Je peux fermer la plaie. Après ça, son comportement nous apprendra plus que nos peurs."}],"sets":["c01_goule_capture_attempt"]},
+          {"id":"release","label":"Couper le piège et la laisser partir.","response":[{"speaker":"Nara Vey","text":"On prend le risque qu'elle revienne. On prend aussi le risque d'apprendre quelque chose de différent."}],"sets":["c01_goule_released"]},
+          {"id":"kill","label":"L'abattre avant qu'elle ne se libère.","response":[{"speaker":"Nara Vey","text":"Alors on choisit la sécurité. Note aussi ce que ce choix nous empêche désormais de savoir."}],"sets":["c01_goule_killed"]}
+        ]},
+        {"kind":"narration","speaker":"Narration","text":"La route est plus sûre au retour. Le monde, lui, est devenu un peu moins simple."}
+      ],
+      "exit_state": ["c01_embers complétée", "relation initiale aux créatures enregistrée"]
+    },
+    {
+      "id": "c01_first_voices_council",
+      "chapter_id": "chapter_01_ashlands",
+      "type": "main_quest",
+      "quest_id": "c01_first_voices",
+      "trigger": "refuge_crisis_council",
+      "purpose": "Faire comprendre que la reconstruction commence avant que le mystère soit résolu.",
+      "staging": ["table trop petite pour tous les délégués", "deux familles parlent debout", "un couteau saisi après une dispute repose dans un linge"],
+      "beats": [
+        {"kind":"dialogue","speaker":"Réfugié","text":"Il a pris ma ration. Avant la Chute, on aurait eu un juge. Ici vous avez quoi ?"},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Un témoin, un registre et la possibilité de faire pire si on appelle vengeance une procédure."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Et un blessé. Peu importe qui a commencé, si vous continuez il sera mort avant d'avoir une version des faits."},
+        {"kind":"choice","id":"c01_first_judgment","prompt":"Comment traiter le vol et la violence ?","options":[
+          {"id":"public_mediation","label":"Audience publique et restitution.","response":[{"speaker":"Nara Vey","text":"Alors on commence avec une règle que tout le monde peut voir fonctionner — ou échouer."}],"sets":["c01_justice_public"]},
+          {"id":"work_reparation","label":"Réparation par travail et soin du blessé.","response":[{"speaker":"Sela Mor","text":"Qu'il voie chaque jour ce qu'un coup coûte au corps. Ce n'est pas une absolution."}],"sets":["c01_justice_reparation"]},
+          {"id":"expel","label":"Expulsion du Sanctuaire.","response":[{"speaker":"Nara Vey","text":"C'est rapide. Et dans les Cendres, une expulsion peut être une condamnation sans que nous ayons le courage de l'appeler ainsi."}],"sets":["c01_justice_expel"]}
+        ]}
+      ],
+      "exit_state": ["première jurisprudence du Sanctuaire enregistrée", "c01_broken_marker disponible"]
+    },
+    {
+      "id": "c01_three_sources",
+      "chapter_id": "chapter_01_ashlands",
+      "type": "main_quest",
+      "quest_id": "c01_broken_marker",
+      "trigger": "ancient_marker_examined",
+      "purpose": "Enseigner la méthode d'enquête : distinguer observation, témoignage et hypothèse.",
+      "staging": ["borne ancienne sous une couche de cendre moderne", "trois relevés incompatibles", "usure bien antérieure à la Chute"],
+      "beats": [
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Le métal est plus vieux que la catastrophe. Ça, je peux le défendre."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Le témoin dit qu'elle change de forme. Le relevé dit qu'elle change de longueur. L'écho montre autre chose encore. Trois faits ne deviennent pas une théorie parce qu'ils nous dérangent ensemble."},
+        {"kind":"choice","id":"c01_marker_note","prompt":"Que consigner dans le journal principal ?","options":[
+          {"id":"separate_hypotheses","label":"Conserver trois hypothèses séparées.","response":[{"speaker":"Meira Sen","text":"Bien. Nous pourrons les tuer une par une au lieu de défendre la première qui nous a plu."}],"sets":["c01_method_separate"]},
+          {"id":"single_working_model","label":"Choisir un modèle de travail, marqué comme provisoire.","response":[{"speaker":"Meira Sen","text":"Provisoire doit rester écrit en gros. Les catastrophes aiment les hypothèses qui oublient leur étiquette."}],"sets":["c01_method_model"]}
+        ]},
+        {"kind":"narration","speaker":"Narration","text":"La borne ne donne aucune réponse. Son ancienneté suffit pourtant à briser une certitude : tout n'a pas commencé avec la Chute."}
+      ],
+      "exit_state": ["vérité établie : traces antérieures à la Chute", "boss du chapitre débloqué"]
+    },
+    {
+      "id": "c01_boss_witness",
+      "chapter_id": "chapter_01_ashlands",
+      "type": "boss",
+      "trigger": "c01_boss_ash_witness_defeated",
+      "purpose": "Donner un visage humain à la transformation et poser la question de ce que l'on doit à ce qui reste d'une personne.",
+      "staging": ["le Témoin s'effondre près d'outils de maçon", "des voix civiques sortent encore de sa gorge", "un ancien insigne de métier est visible sous les tissus"],
+      "beats": [
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Avant d'être ça, quelqu'un a usé cet outil jusqu'au manche. Je ne sais pas ce qu'il reste de lui. Je sais seulement qu'il y a eu quelqu'un."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Et s'il se relève, cette histoire ne protégera personne. Décide avec les deux faits, pas un seul."},
+        {"kind":"choice","id":"c01_witness_fate","prompt":"Décider du sort du Témoin des Cendres.","options":[
+          {"id":"finish","label":"Mettre fin à son activité définitivement.","response":[{"speaker":"Sela Mor","text":"Alors nous garderons les outils et le nom s'il en reste un. Pas comme trophées."}],"sets":["c01_witness_killed"]},
+          {"id":"stabilize","label":"Tenter une stabilisation risquée.","response":[{"speaker":"Sela Mor","text":"Je peux tenter de calmer le corps. Je ne te promets ni une guérison ni une personne intacte derrière."}],"sets":["c01_witness_stabilized"]},
+          {"id":"memory_extract","label":"Risquer une extraction de mémoire courte.","response":[{"speaker":"Meira Sen","text":"Une mémoire ne sera pas un témoignage parfait. Si on le fait, on consigne les distorsions avec le reste."}],"sets":["c01_witness_memory"]}
+        ]}
+      ],
+      "exit_state": ["c01_boss_resolved", "réaction du Sanctuaire préparée"]
+    },
+    {
+      "id": "c01_sanctuary_after_witness",
+      "chapter_id": "chapter_01_ashlands",
+      "type": "sanctuary_aftermath",
+      "trigger": "return_after_c01_boss",
+      "purpose": "Faire revenir immédiatement les décisions du joueur dans la société du Sanctuaire.",
+      "staging": ["l'insigne du Témoin posé sur une table publique", "des habitants lisent le rapport", "l'Arbre du Premier Voile réagit au fragment rapporté"],
+      "beats": [
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Les gens ont déjà choisi un mot pour ce que tu as fait. Sauvé. Tué. Torturé. Protégé. Tu n'auras pas le contrôle sur tous les mots."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"En revanche, on peut contrôler le registre. Ce que nous avons vu, ce que nous avons supposé, ce que nous avons décidé."},
+        {"kind":"action","text":"Le joueur valide le rapport public et peut décider de publier ou de retenir les détails dangereux sur l'extraction de mémoire."},
+        {"kind":"choice","id":"c01_report_policy","prompt":"Quel niveau de détail publier ?","options":[
+          {"id":"full_public","label":"Publier le rapport complet, risques compris.","response":[{"speaker":"Nara Vey","text":"Alors la confiance dépendra de notre capacité à supporter les questions que nous avons nous-mêmes rendues possibles."}],"sets":["c01_report_full"]},
+          {"id":"technical_redaction","label":"Masquer seulement les instructions reproductibles dangereuses.","response":[{"speaker":"Meira Sen","text":"Cacher une méthode n'oblige pas à cacher le fait qu'elle existe. Je peux défendre cette différence."}],"sets":["c01_report_redacted"]}
+        ]}
+      ],
+      "exit_state": ["réputation de transparence modifiée", "fragment de carte activé"]
+    },
+    {
+      "id": "c01_closing_marker",
+      "chapter_id": "chapter_01_ashlands",
+      "type": "chapter_closing",
+      "trigger": "chapter_complete",
+      "purpose": "Fermer le chapitre sur une question plus grande sans perdre l'ancrage humain.",
+      "staging": ["borne nettoyée partiellement", "carte du Sanctuaire complétée d'un nouveau point", "les bols du rationnement sont empilés pour le lendemain"],
+      "beats": [
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Cette borne était là avant nous, avant la Chute, avant toutes nos explications faciles. Demain je veux voir ce qui d'autre a survécu sous notre récit."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Demain, il faudra aussi nourrir les mêmes gens. N'oublie pas que les grandes vérités ont toujours besoin de quelqu'un pour cuire le repas."},
+        {"kind":"narration","speaker":"Narration","text":"Le Sanctuaire tient encore. Ce soir, cela suffit pour vivre. Cela ne suffit plus pour croire que tout a commencé le jour où le ciel s'est ouvert."}
+      ],
+      "exit_state": ["chapter_01_complete", "chapter_02_before_fall débloqué"]
+    }
+  ]
+}
