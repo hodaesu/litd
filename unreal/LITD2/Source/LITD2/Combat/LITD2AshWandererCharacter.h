@@ -5,6 +5,7 @@
 #include "GameFramework/Character.h"
 #include "LITD2AshWandererCharacter.generated.h"
 
+class UAnimMontage;
 class ULITD2CombatantComponent;
 
 UCLASS(Blueprintable)
@@ -33,6 +34,19 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Enemy|Combat")
     float AttackDamage = 74.0f;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Enemy|Animation")
+    TObjectPtr<UAnimMontage> AttackMontage;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Enemy|Animation")
+    TObjectPtr<UAnimMontage> HitReactionMontage;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Enemy|Animation")
+    TObjectPtr<UAnimMontage> DeathMontage;
+
+    // Called by ULITD2AnimNotify_CombatCommit on the exact contact frame.
+    UFUNCTION(BlueprintCallable, Category="LITD2|Enemy|Animation")
+    void CommitAttackFromAnimation();
+
     UFUNCTION(BlueprintImplementableEvent, Category="LITD2|Enemy|Presentation")
     void OnAttackTelegraphStarted();
 
@@ -56,6 +70,7 @@ private:
     float WindupRemaining = 0.0f;
     float RecoveryRemaining = 0.0f;
     bool bAttackQueued = false;
+    bool bAttackUsesAnimationCommit = false;
 
     void StartAttack();
     void CommitAttack();
