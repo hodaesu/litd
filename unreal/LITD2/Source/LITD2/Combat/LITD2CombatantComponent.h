@@ -65,6 +65,9 @@ public:
     UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Defense")
     void SetBlocking(bool bNewBlocking);
 
+    UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Defense")
+    void StartInvulnerabilityWindow(float DurationSeconds);
+
     UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Damage")
     FLITD2DamageResolution ReceiveDamageEvent(const FLITD2DamageEventPayload& Payload);
 
@@ -80,6 +83,9 @@ public:
     UFUNCTION(BlueprintPure, Category="LITD2|Combat|Defense")
     bool IsParryWindowActive() const { return ParryTimeRemaining > 0.0f; }
 
+    UFUNCTION(BlueprintPure, Category="LITD2|Combat|Defense")
+    bool IsInvulnerable() const { return InvulnerableTimeRemaining > 0.0f; }
+
 protected:
     virtual void BeginPlay() override;
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -88,6 +94,7 @@ private:
     float Health = 1000.0f;
     float Stamina = 100.0f;
     float ParryTimeRemaining = 0.0f;
+    float InvulnerableTimeRemaining = 0.0f;
     bool bBlocking = false;
     bool bDeathBroadcast = false;
 
