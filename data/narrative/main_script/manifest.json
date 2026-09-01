@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "scope": "LITD1 cycle initial main narrative",
+  "status": "production_script_v1",
+  "rule": "Chaque scène principale doit être jouable de bout en bout sans inventer de réplique au runtime. Le protagoniste créé par le joueur n'a pas de voix imposée : ses interventions sont formulées comme intentions de choix, tandis que les PNJ portent les répliques authored.",
+  "scene_contract": {
+    "required": ["id", "chapter_id", "type", "trigger", "purpose", "staging", "beats", "exit_state"],
+    "beat_kinds": ["narration", "dialogue", "action", "choice", "silence", "system"],
+    "choice_rule": "Un choix principal doit produire au moins une réaction immédiate et une conséquence enregistrable.",
+    "knowledge_rule": "Aucune ligne ne peut affirmer une vérité avant son established_chapter dans base_game_revelation_matrix.json.",
+    "player_voice_rule": "Les options de joueur décrivent une intention ou une décision, jamais une personnalité fixe imposée au personnage créé."
+  },
+  "chapters": [
+    {"id":"chapter_01_ashlands","file":"res://data/narrative/main_script/chapter_01_ashlands.json"},
+    {"id":"chapter_02_before_fall","file":"res://data/narrative/main_script/chapter_02_before_fall.json"},
+    {"id":"chapter_03_threshold","file":"res://data/narrative/main_script/chapter_03_threshold.json"},
+    {"id":"chapter_04_first_rupture","file":"res://data/narrative/main_script/chapter_04_first_rupture.json"},
+    {"id":"chapter_05_great_closure","file":"res://data/narrative/main_script/chapter_05_great_closure.json"},
+    {"id":"chapter_06_absent","file":"res://data/narrative/main_script/chapter_06_absent.json"},
+    {"id":"chapter_07_living_responsible","file":"res://data/narrative/main_script/chapter_07_living_responsible.json"},
+    {"id":"chapter_08_outer_world","file":"res://data/narrative/main_script/chapter_08_outer_world.json"},
+    {"id":"chapter_09_veil_nature","file":"res://data/narrative/main_script/chapter_09_veil_nature.json"},
+    {"id":"chapter_10_final_choice","file":"res://data/narrative/main_script/chapter_10_final_choice.json"}
+  ]
+}
