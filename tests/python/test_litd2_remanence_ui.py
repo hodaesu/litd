@@ -6,6 +6,7 @@ import pytest
 
 SEED_PATH = Path("unreal/LITD2/Data/Remanence/sarei_seed.json")
 LAYOUT_PATH = Path("unreal/LITD2/Data/Remanence/sarei_ui_layout.json")
+AUDIO_PATH = Path("unreal/LITD2/Data/Remanence/archive_audio_direction.json")
 HEADER_PATH = Path(
     "unreal/LITD2/Source/LITD2/Remanence/UI/LITD2RemembranceArchiveScreen.h"
 )
@@ -79,7 +80,6 @@ def test_archive_final_presentation_has_threads_ash_dossier_and_reveal() -> None
     ):
         assert token in header or token in cpp
 
-    # Remanence audio is optional/data-authored: no hard dependency on binary assets.
     for token in (
         "OpenSound",
         "SelectionSound",
@@ -88,6 +88,18 @@ def test_archive_final_presentation_has_threads_ash_dossier_and_reveal() -> None
     ):
         assert token in header
     assert "UGameplayStatics::PlaySound2D" in cpp
+
+
+@pytest.mark.data
+def test_archive_audio_direction_matches_runtime_slots_and_rights_policy() -> None:
+    audio = json.loads(AUDIO_PATH.read_text(encoding="utf-8"))
+    assert audio["game"] == "LITD2"
+    assert audio["system"] == "RemanenceArchive"
+    assert audio["rights_rule"] == "LITD_ORIGINAL_REUSABLE_OR_LICENSED_REUSABLE_ONLY"
+
+    slots = {cue["slot"] for cue in audio["cues"]}
+    assert slots == {"OpenSound", "SelectionSound", "ContradictionSound", "ReconstructionSound"}
+    assert all(cue["duration_seconds"][1] <= 2.0 for cue in audio["cues"])
 
 
 @pytest.mark.data
@@ -107,6 +119,7 @@ def test_litd2_module_declares_umg_slate_json_and_stages_archive_data() -> None:
         assert f'"{module}"' in build
     assert "sarei_seed.json" in build
     assert "sarei_ui_layout.json" in build
+    assert "archive_audio_direction.json" in build
 
 
 @pytest.mark.data
