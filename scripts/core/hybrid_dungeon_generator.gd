@@ -16,9 +16,16 @@ func generate(seed_value: int, dungeon_id: String, context: Dictionary = {}) -> 
     var dungeon_rules: Dictionary = policy.get("dungeons", {}).get(dungeon_id, {})
     if dungeon_rules.is_empty():
         return {"success": false, "reason": "unknown_dungeon", "layout": []}
+
+    var ngplus_context: Dictionary = NgPlusCycleDirector.dungeon_context(seed_value, dungeon_id)
+    var ngplus_active := bool(ngplus_context.get("active", false))
     var visit_kind := str(context.get("visit_kind", "revisit"))
-    if visit_kind == "campaign_first_visit":
+    # Le premier passage du cycle initial reste une mise en scène fixe écrite à la main.
+    # En NG+, la première revisite de campagne peut utiliser le graphe contrôlé : c'est
+    # précisément une des différences fortes de rejouabilité, sans générer de géométrie.
+    if visit_kind == "campaign_first_visit" and not ngplus_active:
         return {"success": false, "reason": "authored_fixed_layout_required", "layout": []}
+
     var catalog_path := str(dungeon_rules.get("catalog", ""))
     var catalog := _catalog(catalog_path)
     var templates: Array = catalog.get("rooms", [])
@@ -26,16 +33,24 @@ func generate(seed_value: int, dungeon_id: String, context: Dictionary = {}) -> 
     if templates.is_empty() or recipe.is_empty():
         return {"success": false, "reason": "missing_handcrafted_catalog", "layout": []}
 
+    var effective_seed := int(ngplus_context.get("seed", seed_value)) if ngplus_active else seed_value
     var rng := RandomNumberGenerator.new()
-    rng.seed = seed_value * 104729 + int(dungeon_id.hash())
+    rng.seed = effective_seed * 104729 + int(dungeon_id.hash())
     var selected_by_key: Dictionary = {}
     var used_templates: Array[String] = []
     var layout: Array = []
     var room_states: Array = policy.get("room_states", ["intact"])
+    var secret_bonus := float(ngplus_context.get("secret_chance_bonus", 0.0)) if ngplus_active else 0.0
+    var ngplus_hazards: Array = ngplus_context.get("extra_hazard_pool", []) if ngplus_active else []
+    var ngplus_variant := str(ngplus_context.get("variant_tag", ""))
+    var ngplus_profile := str(ngplus_context.get("profile_id", ""))
+    var ngplus_world_variant := str(ngplus_context.get("world_variant", ""))
 
     for node_value: Variant in recipe.get("nodes", []):
         var node: Dictionary = node_value
         var chance := float(node.get("optional_chance", 1.0))
+        if ngplus_active and chance < 1.0:
+            chance = minf(1.0, chance + secret_bonus)
         if chance < 1.0 and rng.randf() > chance:
             continue
         var template := _pick_template(templates, node.get("types", []), used_templates, rng)
@@ -63,6 +78,21 @@ func generate(seed_value: int, dungeon_id: String, context: Dictionary = {}) -> 
         var hazard_pool: Array = template.get("hazard_pool", [])
         if not hazard_pool.is_empty() and not bool(room["immutable_staging"]):
             room["hazards"].append(_pick_string(hazard_pool, rng, "darkness"))
+
+        if ngplus_active:
+            room["ngplus_cycle"] = EndgameState.active_cycle
+            room["ngplus_profile"] = ngplus_profile
+            room["ngplus_world_variant"] = ngplus_world_variant
+            room["ngplus_variant"] = ngplus_variant
+            if ngplus_variant != "":
+                room["variant"] = "%s:%s" % [str(room["variant"]), ngplus_variant]
+            # Les dangers NG+ enrichissent une salle existante ; ils ne remplacent
+            # jamais une géométrie ou une mise en scène authored.
+            if not bool(room["immutable_staging"]) and not ngplus_hazards.is_empty() and rng.randf() <= 0.35:
+                var extra_hazard := _pick_string(ngplus_hazards, rng, "")
+                if extra_hazard != "" and not room["hazards"].has(extra_hazard):
+                    room["hazards"].append(extra_hazard)
+
         selected_by_key[key] = room
         used_templates.append(str(template.get("id", "")))
         layout.append(room)
@@ -86,7 +116,9 @@ func generate(seed_value: int, dungeon_id: String, context: Dictionary = {}) -> 
         "layout": layout,
         "validation": validation,
         "generation_mode": "handcrafted_rooms_controlled_graph",
-        "seed": seed_value
+        "seed": effective_seed,
+        "source_seed": seed_value,
+        "ngplus": ngplus_context.duplicate(true) if ngplus_active else {"active": false}
     }
 
 func validate_layout(layout: Array) -> Dictionary:
