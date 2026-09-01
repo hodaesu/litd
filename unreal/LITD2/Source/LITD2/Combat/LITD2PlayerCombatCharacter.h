@@ -5,6 +5,7 @@
 #include "Combat/LITD2CombatTypes.h"
 #include "LITD2PlayerCombatCharacter.generated.h"
 
+class UAnimMontage;
 class UCameraComponent;
 class USpringArmComponent;
 class ULITD2CombatantComponent;
@@ -43,6 +44,18 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Combat|Dodge")
     float DodgeInvulnerabilitySeconds = 0.22f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Combat|Animation")
+    TObjectPtr<UAnimMontage> LightAttackMontage;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Combat|Animation")
+    TObjectPtr<UAnimMontage> HeavyAttackMontage;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Combat|Animation")
+    TObjectPtr<UAnimMontage> DodgeMontage;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Combat|Animation")
+    TObjectPtr<UAnimMontage> ParryMontage;
 
     UFUNCTION(BlueprintCallable, Category="LITD2|Combat")
     bool LightAttack();
