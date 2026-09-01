@@ -84,12 +84,119 @@
       "value": "unknown",
       "status": "fixed",
       "sources": ["docs/LORE_BIBLE.md"]
+    },
+    {
+      "id": "universe.timeline.fall_year_zero",
+      "subject": "universe.timeline",
+      "predicate": "year_zero",
+      "value": "event.fall",
+      "status": "fixed",
+      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+    },
+    {
+      "id": "universe.timeline.game_order",
+      "subject": "universe.games",
+      "predicate": "historical_order",
+      "value": ["litd2", "litd_veilleurs", "litd1"],
+      "status": "fixed",
+      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+    },
+    {
+      "id": "history.ashai.first_rupture_date",
+      "subject": "history.ashai.first_rupture",
+      "predicate": "relative_year_approximate",
+      "value": -3700,
+      "status": "fixed",
+      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+    },
+    {
+      "id": "history.concord.birth_date",
+      "subject": "history.concord.birth",
+      "predicate": "relative_year_approximate",
+      "value": -1000,
+      "status": "perspective",
+      "allowed_operations": ["affirm", "partial_evidence"],
+      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+    },
+    {
+      "id": "veilleurs.protagonists.count",
+      "subject": "litd_veilleurs.protagonists",
+      "predicate": "main_protagonist_count",
+      "value": 4,
+      "status": "fixed",
+      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+    },
+    {
+      "id": "veilleurs.protagonists.identities",
+      "subject": "litd_veilleurs.protagonists",
+      "predicate": "identities",
+      "value": "unconfirmed",
+      "status": "open",
+      "allowed_operations": ["affirm", "theory", "partial_evidence"],
+      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+    },
+    {
+      "id": "legendary_seven.members",
+      "subject": "legendary_seven",
+      "predicate": "members",
+      "value": ["hero.aurelien", "hero.effrie", "hero.lya", "hero.mathilde", "hero.marec", "hero.zeje", "hero.anouk"],
+      "status": "fixed",
+      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+    },
+    {
+      "id": "legendary_seven.predestined",
+      "subject": "legendary_seven",
+      "predicate": "predestined_group",
+      "value": false,
+      "status": "fixed",
+      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+    },
+    {
+      "id": "legendary_seven.formation_order",
+      "subject": "legendary_seven",
+      "predicate": "formation_order",
+      "value": ["hero.zeje", "hero.mathilde", "hero.marec", "hero.aurelien", "hero.lya", "hero.effrie", "hero.anouk"],
+      "status": "fixed",
+      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+    },
+    {
+      "id": "universe.design.pillars",
+      "subject": "universe.design",
+      "predicate": "mandatory_validation_pillars",
+      "value": [
+        "character_creation",
+        "systemic_gore_and_bodily_consequences",
+        "philosophy_and_psychology",
+        "accessible_human_depth",
+        "strong_narrative",
+        "interconnection_between_games",
+        "remanence_of_knowledge",
+        "dialogue_and_staging_quality",
+        "simple_deep_readable_gameplay"
+      ],
+      "status": "fixed",
+      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
     }
   ],
   "timeline": [
+    {"id": "event.ashai_first_rupture", "label": "Première Rupture d'Ashaï", "order": 10},
+    {"id": "era.or_silex", "label": "Ère d'Or-Silex", "order": 20},
+    {"id": "event.great_closure", "label": "Grande Fermeture", "order": 30},
+    {"id": "era.last_war", "label": "Dernière Guerre / LITD 2", "order": 40},
+    {"id": "event.night_of_sarn", "label": "Nuit de Sarn", "order": 45},
+    {"id": "event.three_awakenings_birth", "label": "Naissance explicite des Trois Éveils", "order": 50},
+    {"id": "era.long_assemblies", "label": "Longues Assemblées", "order": 60},
+    {"id": "event.first_pact", "label": "Premier Pacte", "order": 70},
+    {"id": "event.concord_birth", "label": "Naissance de la Concorde", "order": 80},
+    {"id": "era.early_concord", "label": "Premiers temps de la Concorde", "order": 90},
+    {"id": "event.litd_veilleurs", "label": "LITD : Les Veilleurs", "order": 95},
     {"id": "era.before_fall", "label": "Avant la Chute", "order": 100},
+    {"id": "era.mature_concord", "label": "Concorde développée", "order": 120},
+    {"id": "era.late_concord", "label": "Derniers temps de la Concorde", "order": 150},
     {"id": "event.project_threshold", "label": "Projet Seuil", "order": 200},
     {"id": "event.fall", "label": "La Chute", "order": 300},
-    {"id": "era.after_fall", "label": "Après la Chute", "order": 400}
+    {"id": "era.after_fall", "label": "Après la Chute", "order": 400},
+    {"id": "event.seven_formation", "label": "Formation progressive des Sept", "order": 420},
+    {"id": "event.common_rupture", "label": "Rupture Commune", "order": 450}
   ]
 }
