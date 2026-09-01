@@ -14,7 +14,14 @@
       "title": "Light in the Dark II",
       "status": "planned",
       "canon_version": "1.0.0",
-      "contributions": []
+      "contributions": ["universe/lore/contributions/litd2_core.json"]
+    },
+    {
+      "id": "litd_veilleurs",
+      "title": "Light in the Dark : Les Veilleurs",
+      "status": "planned",
+      "canon_version": "1.0.0",
+      "contributions": ["universe/lore/contributions/litd_veilleurs_core.json"]
     }
   ]
 }
