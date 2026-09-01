@@ -8,13 +8,13 @@
 
 namespace
 {
-    ULITD2RunDirectorSubsystem* GetRunDirector(const AActor* Actor)
+    ULITD2RunDirectorSubsystem* GetRunDirector(AActor* Actor)
     {
         if (!Actor || !Actor->GetGameInstance()) return nullptr;
         return Actor->GetGameInstance()->GetSubsystem<ULITD2RunDirectorSubsystem>();
     }
 
-    ULITD2CombatantComponent* GetPlayerCombatant(const AActor* Actor)
+    ULITD2CombatantComponent* GetPlayerCombatant(AActor* Actor)
     {
         if (!Actor) return nullptr;
         if (ACharacter* Player = UGameplayStatics::GetPlayerCharacter(Actor, 0))
