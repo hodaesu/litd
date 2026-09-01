@@ -1,0 +1,13 @@
+{
+  "FileVersion": 3,
+  "EngineAssociation": "5.8",
+  "Category": "Games",
+  "Description": "LITD 2 - solo action roguelite Unreal project",
+  "Modules": [
+    {
+      "Name": "LITD2",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ]
+}
