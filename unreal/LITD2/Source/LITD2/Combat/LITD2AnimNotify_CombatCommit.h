@@ -11,7 +11,10 @@ enum class ELITD2CombatCommitEvent : uint8
     AshWandererAttack,
     LineBreakerSevereAttack,
     SareiCrossbowRelease,
-    AlleyHarrierLunge
+    AlleyHarrierLunge,
+    GuardSurgeonIncision,
+    GuardSurgeonGrab,
+    GuardSurgeonSevereStrike
 };
 
 UCLASS(meta=(DisplayName="LITD2 Combat Commit"))
