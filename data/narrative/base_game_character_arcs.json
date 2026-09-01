@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "scope": "LITD1 cycle initial only",
+  "rules": {
+    "character_is_not_lore_terminal": true,
+    "motivation_required_before_exposition": true,
+    "knowledge_is_chapter_bounded": true,
+    "belief_may_be_wrong_without_character_lying": true,
+    "change_requires_shown_pressure_or_new_information": true,
+    "no_character_is_author_mouthpiece": true
+  },
+  "characters": [
+    {
+      "id": "nara_vey",
+      "name": "Nara Vey",
+      "dramatic_role": "Figure civique récurrente du Sanctuaire ; elle matérialise la difficulté de gouverner sans devenir souveraine.",
+      "core_desire": "Que le Sanctuaire reste un lieu où des inconnus peuvent vivre ensemble sans qu'une urgence permanente devienne une excuse à tout.",
+      "core_fear": "Qu'une crise réelle rende l'autorité absolue tellement efficace qu'elle finisse par sembler naturelle.",
+      "contradiction": "Elle croit aux règles communes mais, sous pression, elle est tentée de décider vite et seule pour protéger les autres.",
+      "voice": ["phrases courtes", "questions concrètes", "vocabulaire de précédent, règle, demain, responsabilité", "rarement métaphorique"],
+      "must_not_become": ["dirigeante toujours correcte", "porte-parole de la morale de l'auteur", "future reine du Sanctuaire"],
+      "knowledge_limits": {
+        "chapter_01_ashlands": "Connaît les besoins et tensions du Sanctuaire ; ne connaît pas la cause de la Chute.",
+        "chapter_03_threshold": "Peut travailler à partir des preuves du Projet Seuil, sans comprendre encore le Voile profond.",
+        "chapter_06_absent": "Connaît les protocoles de contact validés, pas la nature métaphysique des Absents.",
+        "chapter_09_veil_nature": "Connaît les limites opérationnelles consolidées, jamais l'origine ultime du Voile.",
+        "chapter_10_final_choice": "Peut organiser la délibération finale ; ne possède aucune autorité naturelle supérieure aux autres représentants."
+      },
+      "arc": [
+        {"chapter":1,"beat":"Accepte que les premières règles de rationnement et de justice deviennent des précédents ; commence à documenter ses propres décisions."},
+        {"chapter":3,"beat":"Découvre que des institutions puissantes ont normalisé des alertes au nom d'un objectif supérieur ; devient plus méfiante envers les pouvoirs d'exception."},
+        {"chapter":5,"beat":"La Grande Fermeture la confronte au cas le plus dur : une décision autoritaire peut réellement sauver des millions."},
+        {"chapter":7,"beat":"Insiste pour que les responsables vivants soient soumis à une procédure définie avant leur verdict, même lorsque le Sanctuaire réclame vengeance."},
+        {"chapter":8,"beat":"Refuse la culpabilité collective des peuples étrangers tout en maintenant la responsabilité des régimes et individus documentés."},
+        {"chapter":10,"beat":"Renonce explicitement à transformer son rôle d'organisatrice en droit de décider seule ; la réussite de son arc est une institution capable de lui résister aussi."
+        }
+      ]
+    },
+    {
+      "id": "sela_mor",
+      "name": "Sela Mor",
+      "dramatic_role": "Ancrage corporel et humain : elle ramène les modèles, doctrines et décisions à ce qu'ils font réellement aux personnes.",
+      "core_desire": "Que personne ne puisse cacher un coût humain derrière un mot propre, un chiffre ou une théorie.",
+      "core_fear": "Que le besoin de comprendre ou gouverner transforme les corps réels en variables acceptables.",
+      "contradiction": "Elle se méfie des abstractions, mais doit apprendre que refuser tout modèle ou toute institution peut aussi abandonner les autres au hasard et à la force.",
+      "voice": ["images physiques simples", "attention aux blessures et gestes", "questions qui demandent qui paie concrètement", "peu de jargon"],
+      "must_not_become": ["conscience morale infaillible", "anti-intellectuelle", "personnage qui clôt tout débat par l'émotion"],
+      "knowledge_limits": {
+        "chapter_01_ashlands": "Connaît les conséquences de terrain, pas le lore caché.",
+        "chapter_04_first_rupture": "Peut observer le coût physique des recherches ashaï sans connaître leur théorie complète.",
+        "chapter_06_absent": "Peut défendre la prudence envers un possible sujet sans prétendre savoir ce qu'est un Absent.",
+        "chapter_10_final_choice": "Peut exiger que chaque option finale annonce clairement qui elle protège et qui elle expose."
+      },
+      "arc": [
+        {"chapter":1,"beat":"Force les premières décisions du Sanctuaire à nommer leurs coûts humains."},
+        {"chapter":4,"beat":"Découvre une civilisation dont la science a aussi produit irrigation, musique et soins ; son scepticisme envers la recherche devient moins global."},
+        {"chapter":5,"beat":"Doit admettre que la Grande Fermeture a sauvé des vies réelles, même si elle refuse d'effacer celles sacrifiées."},
+        {"chapter":6,"beat":"Défend une prudence envers les Absents non parce qu'elle les comprend, mais parce que l'incertitude n'autorise pas automatiquement la violence."},
+        {"chapter":9,"beat":"Accepte qu'un modèle limité peut sauver des corps précisément parce qu'il annonce honnêtement ses limites."},
+        {"chapter":10,"beat":"Devient la voix qui demande à chaque solution finale son coût concret, sans imposer elle-même l'option correcte."}
+      ]
+    },
+    {
+      "id": "meira_sen",
+      "name": "Meira Sen",
+      "dramatic_role": "Archiviste des contradictions ; gardienne de la différence entre preuve, hypothèse et récit commode.",
+      "core_desire": "Construire une mémoire commune qui puisse survivre aux autorités, aux mythes et à la peur sans prétendre être parfaite.",
+      "core_fear": "Qu'une version suffisamment utile ou séduisante devienne vraie par répétition.",
+      "contradiction": "Son exigence de preuve peut devenir une manière de retarder une décision lorsque l'incertitude ne disparaîtra jamais.",
+      "voice": ["précise", "ironique sans cruauté", "nomme le degré de certitude", "aime comparer deux phrases incompatibles"],
+      "must_not_become": ["omnisciente", "sceptique qui nie tout", "machine à révéler le lore"],
+      "knowledge_limits": {
+        "chapter_01_ashlands": "Peut relever des contradictions anciennes ; ne peut conclure ni observer-effect ni responsabilité étrangère.",
+        "chapter_02_before_fall": "Peut établir dissimulation et préparation à partir de sources croisées.",
+        "chapter_06_absent": "Peut établir qu'un protocole reçoit une réponse reproductible ; ne peut définir les Absents.",
+        "chapter_09_veil_nature": "Peut classifier ce qui est reproductible, probable, contradictoire ou inconnu ; l'inconnu reste une catégorie valide."
+      },
+      "arc": [
+        {"chapter":1,"beat":"Refuse de choisir entre trois versions de la borne faute de preuve suffisante."},
+        {"chapter":2,"beat":"Montre qu'un scepticisme sérieux peut aussi conclure : la préparation est désormais démontrée."},
+        {"chapter":6,"beat":"Accepte qu'une relation pratique avec Saen puisse être raisonnable avant une définition métaphysique complète."},
+        {"chapter":8,"beat":"Confronte les archives de la Concorde à celles des puissances étrangères et accepte des corrections qui ne viennent pas de son propre continent."},
+        {"chapter":9,"beat":"Transforme 'nous ne savons pas' d'échec provisoire en résultat épistémique légitime."},
+        {"chapter":10,"beat":"Remet les archives à une institution pluraliste plutôt qu'à une gardienne unique, y compris elle-même."}
+      ]
+    },
+    {
+      "id": "orren_taal",
+      "name": "Orren Taal",
+      "dramatic_role": "Pragmatiste institutionnel confronté au fait qu'une solution techniquement efficace peut être politiquement intolérable.",
+      "core_desire": "Que les systèmes essentiels continuent à fonctionner malgré la pénurie, la peur et l'effondrement.",
+      "core_fear": "Que le Sanctuaire devienne incapable d'agir parce qu'il exige une pureté morale impossible à toute décision réelle.",
+      "contradiction": "Il voit correctement le coût de l'inaction mais sous-estime parfois ce que l'efficacité transforme en habitude institutionnelle.",
+      "voice": ["concret", "logistique", "emploie coût, capacité, délai, seuil", "admet les compromis plutôt que de les embellir"],
+      "must_not_become": ["technocrate sans empathie", "voix automatique du compromis", "homme qui a toujours la solution pratique"],
+      "knowledge_limits": {
+        "chapter_01_ashlands": "Connaît ressources et infrastructures du Sanctuaire.",
+        "chapter_05_great_closure": "Peut évaluer l'efficacité des systèmes Saan et Or-Silex ; ne peut convertir cette efficacité en légitimité morale automatique." 
+      },
+      "arc": [
+        {"chapter":1,"beat":"Défend des décisions rapides pour garder les routes, soins et réserves fonctionnels."},
+        {"chapter":5,"beat":"Découvre la version extrême de son propre raisonnement chez Or-Silex et Saan : systèmes qui sauvent réellement mais peuvent sacrifier ce qu'ils ne savent plus représenter."},
+        {"chapter":7,"beat":"Soutient une procédure judiciaire plus lente après avoir compris qu'une efficacité sans révision peut fossiliser une erreur."},
+        {"chapter":10,"beat":"Juge les options finales par leur maintenabilité, mais accepte qu'une solution viable doive aussi rester contestable et révisable."}
+      ]
+    },
+    {
+      "id": "bram_torgun",
+      "name": "Bram Torgun",
+      "dramatic_role": "Responsable qui a réellement tenté d'arrêter ce qu'il avait contribué à construire.",
+      "core_desire": "Que son sabotage final compte comme un acte réel sans lui servir de mensonge d'innocence.",
+      "core_fear": "Être réduit soit à monstre total, soit à héros repenti ; deux récits lui évitent d'affronter la continuité de ses choix.",
+      "contradiction": "Il veut assumer sa faute mais utilise encore parfois le moment où il a résisté pour détourner son regard des moments où il a obéi.",
+      "voice": ["sèche", "autocorrective", "refuse les excuses trop faciles", "parle en chronologie d'actes"],
+      "must_not_become": ["repenti absous", "héros secret de la Chute", "coupable sans motif ni histoire"],
+      "knowledge_limits": {"chapter_03_threshold":"Connaît son secteur du Projet Seuil et les ordres qu'il a vus, pas toutes les intentions des autres acteurs.","chapter_07_living_responsible":"Peut témoigner de ses actes et de ce qu'il savait ; ne peut parler avec certitude des motivations intérieures de Veyra ou Edras."},
+      "arc": [
+        {"chapter":3,"beat":"Ses traces prouvent un sabotage tardif et une participation antérieure."},
+        {"chapter":7,"beat":"Confronté vivant, il doit raconter ces deux périodes sans choisir celle qui l'arrange."},
+        {"chapter":10,"beat":"S'il a survécu au jugement, sa présence éventuelle dans le monde d'après dépend du statut décidé par l'institution, jamais d'un pardon automatique du protagoniste."}
+      ]
+    },
+    {
+      "id": "veyra_oss",
+      "name": "Veyra Oss",
+      "dramatic_role": "Chercheuse brillante dont la peur du danger n'a pas suffi à la faire renoncer à un projet auquel elle avait lié son identité.",
+      "core_desire": "Comprendre assez profondément les anomalies pour qu'elles cessent d'être un pouvoir détenu par l'ignorance et la superstition.",
+      "core_fear": "Abandonner après des années de travail et découvrir qu'elle a renoncé juste avant une compréhension décisive.",
+      "contradiction": "Elle reconnaît les risques mais transforme progressivement l'investissement intellectuel et politique dans le projet en raison de continuer.",
+      "voice": ["analytique", "capable de dire je ne sais pas", "se défend par les distinctions", "évite la sentimentalité mais pas la culpabilité"],
+      "must_not_become": ["scientifique folle", "héroïne secrète", "oracle du chapitre IX"],
+      "knowledge_limits": {"chapter_03_threshold":"Ses archives montrent des alertes et tentatives de mitigation, pas une compréhension finale du Voile.","chapter_07_living_responsible":"Connaît ses choix et une partie des mécanismes ; son interprétation reste intéressée.","chapter_09_veil_nature":"Peut contribuer au modèle consolidé uniquement avec d'autres sources ; elle n'est jamais la source finale unique."},
+      "arc": [
+        {"chapter":3,"beat":"Les documents établissent qu'elle avait peur d'une partie du risque et a pourtant continué."},
+        {"chapter":7,"beat":"Elle formule elle-même la faute : comprendre assez tôt pour craindre, trop attachée au projet pour renoncer."},
+        {"chapter":9,"beat":"Sa maturité éventuelle consiste à accepter une connaissance définie aussi par ses limites et non par le franchissement de tous les seuils."},
+        {"chapter":10,"beat":"Si elle participe encore, elle ne possède aucun privilège décisionnel lié à son expertise ; ses données sont une contribution parmi d'autres."
+        }
+      ]
+    },
+    {
+      "id": "edras_nhal",
+      "name": "Edras Nhal",
+      "dramatic_role": "Antagoniste humain cohérent : il pense que certaines vérités justifient des risques que d'autres n'ont jamais consentis à prendre.",
+      "core_desire": "Forcer l'humanité à regarder un réel plus vaste qu'elle-même, même si cette connaissance détruit ses catégories anciennes.",
+      "core_fear": "Que la peur transforme une découverte capitale en tabou pour des siècles.",
+      "contradiction": "Il parle de connaissance universelle tout en s'accordant personnellement le droit de choisir le prix payé par autrui.",
+      "voice": ["calme", "argumentée", "ne se décrit jamais comme fou", "transforme le coût en dette envers la connaissance"],
+      "must_not_become": ["méchant délirant", "porte-parole secret du Voile", "boss voulant ouvrir une porte uniquement pour produire le climax"],
+      "knowledge_limits": {"chapter_03_threshold":"Les archives prouvent son rôle sans donner accès à son interprétation actuelle.","chapter_07_living_responsible":"Connaît ses propres recherches mais ne possède aucune preuve de l'origine ultime ou de la volonté du Voile."},
+      "arc": [
+        {"chapter":3,"beat":"Les traces montrent une volonté de poursuivre plus loin que les autres malgré les alertes."},
+        {"chapter":7,"beat":"Il défend encore sa logique ; le conflit vient de la question du consentement et de l'autorité à imposer le risque."},
+        {"chapter":7,"beat":"Toute observation éventuellement autorisée lui retire le contrôle du protocole et interdit ouverture, sujet vivant et relais Seuil ; le scénario ne lui offre aucune porte dérobée."}
+      ]
+    },
+    {
+      "id": "saen",
+      "name": "Saen",
+      "dramatic_role": "Témoin singulier d'une continuité absente, suffisamment humain pour engager une relation mais insuffisant pour définir toute une ontologie.",
+      "core_desire": "Être traité comme interlocuteur sans devoir prétendre comprendre ce qu'il est devenu.",
+      "core_fear": "Que les vivants exigent une définition parfaite avant de reconnaître qu'une action peut lui nuire.",
+      "contradiction": "Il veut préserver sa continuité personnelle mais certains de ses souvenirs ou frontières restent incertains.",
+      "voice": ["simple", "fragments concrets", "dit explicitement quand il ne sait pas", "évite le vocabulaire métaphysique global"],
+      "must_not_become": ["ambassadeur de tous les Absents", "oracle du Voile", "preuve que l'âme existe selon une doctrine précise"],
+      "knowledge_limits": {"chapter_06_absent":"Peut témoigner de sa propre continuité et de souvenirs vérifiables ; ne sait pas définir tous les Absents.","chapter_09_veil_nature":"Peut contredire un modèle par son expérience, pas le remplacer par une vérité universelle."},
+      "arc": [
+        {"chapter":6,"beat":"Premier contact stable : il affirme seulement sa propre continuité vécue."},
+        {"chapter":9,"beat":"Sa présence oblige les modèles à conserver des exceptions et incertitudes plutôt qu'à l'absorber dans une théorie élégante."},
+        {"chapter":10,"beat":"S'il peut participer à la décision finale, son statut est celui d'une voix concernée, pas d'un représentant incontestable de toutes les formes absentes."}
+      ]
+    }
+  ]
+}
