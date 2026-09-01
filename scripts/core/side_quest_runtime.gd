@@ -5,7 +5,10 @@ signal quest_state_changed(quest_id: String, state: String)
 signal quest_objective_changed(quest_id: String, objective_id: String, current: int, required: int)
 signal tracked_quest_changed(quest_id: String, target_id: String)
 
-const PATH := "res://data/quests.json"
+const PATHS := [
+    "res://data/quests.json",
+    "res://data/narrative/base_game_side_stories.json"
+]
 
 var definitions: Dictionary = {}
 var states: Dictionary = {}
@@ -21,15 +24,27 @@ func _ready() -> void:
     AshlandsRuntime.interaction_recorded.connect(func(target: String): record_event("interaction", target))
     AshlandsRuntime.dialogue_recorded.connect(func(target: String): record_event("dialogue", target))
     AshlandsRuntime.choice_recorded.connect(func(target: String, choice_id: String): record_choice(target, choice_id))
+    if not CampaignState.campaign_changed.is_connected(_on_campaign_changed):
+        CampaignState.campaign_changed.connect(_on_campaign_changed)
 
 func _load() -> void:
     definitions.clear()
-    var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PATH))
-    if parsed is not Array:
-        return
-    for value: Variant in parsed:
-        if value is Dictionary:
-            definitions[String(value.get("id", ""))] = value.duplicate(true)
+    for path: String in PATHS:
+        if not FileAccess.file_exists(path):
+            push_error("SideQuestRuntime: missing quest data " + path)
+            continue
+        var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+        if parsed is not Array:
+            push_error("SideQuestRuntime: invalid quest array " + path)
+            continue
+        for value: Variant in parsed:
+            if value is not Dictionary:
+                continue
+            var quest: Dictionary = value
+            var quest_id := String(quest.get("id", ""))
+            if quest_id == "":
+                continue
+            definitions[quest_id] = quest.duplicate(true)
 
 func reset_new_game() -> void:
     states.clear()
@@ -42,13 +57,40 @@ func reset_new_game() -> void:
             var objective: Dictionary = objective_value
             progress[String(objective.get("id", ""))] = 0
         states[quest_id] = {
-            "state":"offered",
-            "progress":progress,
-            "choice":"",
-            "reward_claimed":false,
-            "optional_success":true
+            "state": "offered" if _quest_available(quest) else "locked",
+            "progress": progress,
+            "choice": "",
+            "reward_claimed": false,
+            "optional_success": true
         }
     quests_changed.emit()
+
+func _on_campaign_changed() -> void:
+    var changed := false
+    for quest_id_value: Variant in definitions.keys():
+        var quest_id := String(quest_id_value)
+        if status(quest_id) != "locked":
+            continue
+        if _quest_available(definitions[quest_id]):
+            states[quest_id]["state"] = "offered"
+            quest_state_changed.emit(quest_id, "offered")
+            changed = true
+    if changed:
+        quests_changed.emit()
+
+func _quest_available(quest: Dictionary) -> bool:
+    if EndgameState.active_cycle > 0 and bool(quest.get("cycle_zero_only", true)):
+        return false
+    var available_chapter := int(quest.get("available_chapter", 1))
+    if CampaignState.current_chapter_number() < available_chapter:
+        return false
+    var expires_after := int(quest.get("expires_after_chapter", 999))
+    if CampaignState.current_chapter_number() > expires_after:
+        return false
+    var required_flag := String(quest.get("required_flag", ""))
+    if required_flag != "" and not bool(CampaignState.chapter_flags.get(required_flag, false)):
+        return false
+    return true
 
 func quest(quest_id: String) -> Dictionary:
     return (definitions.get(quest_id, {}) as Dictionary).duplicate(true)
@@ -58,6 +100,17 @@ func state(quest_id: String) -> Dictionary:
 
 func status(quest_id: String) -> String:
     return String(states.get(quest_id, {}).get("state", "locked"))
+
+func offered_quests_for_current_chapter() -> Array:
+    var result: Array = []
+    for quest_id_value: Variant in definitions.keys():
+        var quest_id := String(quest_id_value)
+        if status(quest_id) != "offered":
+            continue
+        var definition := quest(quest_id)
+        if int(definition.get("available_chapter", 1)) <= CampaignState.current_chapter_number():
+            result.append(definition)
+    return result
 
 func accept(quest_id: String) -> bool:
     if status(quest_id) not in ["offered", "refused"]:
@@ -103,7 +156,7 @@ func track(quest_id: String) -> bool:
     var target := current_target(quest_id)
     tracked_quest_changed.emit(quest_id, target)
     if target != "":
-        HUDDirector.request_world_guidance(target, ["cendre"], {"source":"tracked_quest","quest_id":quest_id})
+        HUDDirector.request_world_guidance(target, ["cendre"], {"source":"tracked_quest", "quest_id":quest_id})
     quests_changed.emit()
     return true
 
@@ -217,7 +270,7 @@ func _apply_choice(quest_definition: Dictionary, choice_id: String) -> void:
             if key in ["trust", "tension", "reputation"]:
                 PoliticalState.set(key, int(PoliticalState.get(key)) + amount)
                 PoliticalState.politics_changed.emit()
-            else:
+            elif CampaignState.metrics.has(key):
                 CampaignState.add_metric(key, amount)
         CampaignState.set_chapter_flag("%s_%s" % [String(quest_definition.get("id", "quest")), choice_id])
         CampaignMemoryDirector.record_decision(choice_id, String(choice.get("label", choice_id)), "Effets : " + JSON.stringify(effect), String(quest_definition.get("id", "")))
@@ -229,19 +282,14 @@ func _apply_sanctuary_consequence(quest_id: String) -> void:
     CampaignMemoryDirector.record_sanctuary_change(quest_id, "Conséquence visible de la quête : " + String(quest(quest_id).get("name", quest_id)))
     ExpeditionReportDirector.record_update("sanctuary_consequences", String(quest(quest_id).get("name", quest_id)))
     match quest_id:
-        "c01_side_buried_bell":
-            CampaignState.set_chapter_flag("sanctuary_bell_or_road_warning_active")
-        "c01_side_names_in_ash":
-            CampaignState.set_chapter_flag("memorial_five_names_restored")
-        "c01_side_last_medic":
-            CampaignState.set_chapter_flag("infirmary_tools_restored")
-        "c01_side_quiet_creature":
-            CampaignState.set_chapter_flag("ash_creature_outcome_recorded")
-        "c01_side_three_testimonies":
-            CampaignState.set_chapter_flag("marker_contradictions_archived")
+        "c01_side_buried_bell": CampaignState.set_chapter_flag("sanctuary_bell_or_road_warning_active")
+        "c01_side_names_in_ash": CampaignState.set_chapter_flag("memorial_five_names_restored")
+        "c01_side_last_medic": CampaignState.set_chapter_flag("infirmary_tools_restored")
+        "c01_side_quiet_creature": CampaignState.set_chapter_flag("ash_creature_outcome_recorded")
+        "c01_side_three_testimonies": CampaignState.set_chapter_flag("marker_contradictions_archived")
 
 func serialize() -> Dictionary:
-    return {"states":states.duplicate(true),"tracked_quest_id":tracked_quest_id}
+    return {"states":states.duplicate(true), "tracked_quest_id":tracked_quest_id}
 
 func deserialize(payload: Dictionary) -> void:
     reset_new_game()
@@ -252,4 +300,5 @@ func deserialize(payload: Dictionary) -> void:
             if definitions.has(quest_id) and saved[quest_id_value] is Dictionary:
                 states[quest_id] = saved[quest_id_value].duplicate(true)
     tracked_quest_id = String(payload.get("tracked_quest_id", ""))
+    _on_campaign_changed()
     quests_changed.emit()
