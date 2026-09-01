@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "design_goal": "Le monde possède ses règles dès la première minute; le joueur débloque progressivement de nouveaux moyens de les comprendre et de les influencer.",
   "core_loop": "préparer quatre survivants -> explorer -> combattre -> choisir de continuer ou rentrer -> assumer les conséquences -> repartir",
   "categories": {
@@ -14,7 +14,7 @@
         "all_healing_characters_can_treat",
         "mutilations",
         "fear_hope_postures",
-        "madness_afflictions",
+        "supernatural_veil_folie",
         "positive_negative_traits",
         "permadeath",
         "decision_consequences",
@@ -37,87 +37,32 @@
         "injury_aggravation_explanation": "first_injury_aggravation",
         "mutilation_adaptation_explanation": "first_mutilation",
         "enemy_fear_explanation": "first_enemy_fear_reaction",
-        "madness_explanation": "first_madness_event",
+        "veil_folie_explanation": "first_supernatural_folie_event",
         "retreat_consequences_explanation": "first_retreat_plan"
       }
     },
     "unlockable_capabilities": {
       "capture": {
-        "campaign_chapter": 4,
-        "company_rank": 4,
-        "logic": "or",
-        "hidden_until_unlocked": true
+        "campaign_chapter": 1,
+        "company_rank": 1,
+        "logic": "first_eligible_creature_encounter",
+        "hidden_until_unlocked": false,
+        "canon_note": "The first level may contain a recruitable Goule. Bosses and human/person justice subjects are not automatically capturable."
       },
-      "specialized_exploration_roles": {
-        "campaign_chapter": 2,
-        "company_rank": 3,
-        "logic": "or",
-        "hidden_until_unlocked": true
-      },
-      "bounties": {
-        "campaign_chapter": 2,
-        "company_rank": 2,
-        "logic": "or",
-        "hidden_until_unlocked": true
-      },
-      "targeted_farming": {
-        "campaign_chapter": 5,
-        "company_rank": 5,
-        "logic": "or",
-        "hidden_until_unlocked": true,
-        "required_for_story": false
-      },
-      "advanced_skill_branches": {
-        "campaign_chapter": 2,
-        "company_rank": 2,
-        "logic": "or",
-        "hidden_until_unlocked": true
-      },
-      "trap_weaponization": {
-        "campaign_chapter": 3,
-        "company_rank": 3,
-        "logic": "or",
-        "hidden_until_unlocked": true
-      },
-      "player_markers": {
-        "campaign_chapter": 5,
-        "company_rank": 5,
-        "logic": "or",
-        "hidden_until_unlocked": true
-      },
-      "advanced_relationship_actions": {
-        "campaign_chapter": 3,
-        "company_rank": 4,
-        "logic": "or",
-        "hidden_until_unlocked": true
-      },
-      "advanced_dungeon_manipulation": {
-        "campaign_chapter": 5,
-        "company_rank": 5,
-        "logic": "or",
-        "hidden_until_unlocked": true
-      },
-      "extended_codex": {
-        "campaign_chapter": 3,
-        "company_rank": 3,
-        "logic": "or",
-        "hidden_until_unlocked": true
-      },
-      "sanctuary_upgrades": {
-        "campaign_chapter": 2,
-        "company_rank": 2,
-        "logic": "or",
-        "hidden_until_unlocked": true
-      }
+      "specialized_exploration_roles": {"campaign_chapter":2,"company_rank":3,"logic":"or","hidden_until_unlocked":true},
+      "bounties": {"campaign_chapter":2,"company_rank":2,"logic":"or","hidden_until_unlocked":true},
+      "targeted_farming": {"campaign_chapter":5,"company_rank":5,"logic":"or","hidden_until_unlocked":true,"required_for_story":false},
+      "advanced_skill_branches": {"campaign_chapter":2,"company_rank":2,"logic":"or","hidden_until_unlocked":true},
+      "trap_weaponization": {"campaign_chapter":3,"company_rank":3,"logic":"or","hidden_until_unlocked":true},
+      "player_markers": {"campaign_chapter":5,"company_rank":5,"logic":"or","hidden_until_unlocked":true},
+      "advanced_relationship_actions": {"campaign_chapter":3,"company_rank":4,"logic":"or","hidden_until_unlocked":true},
+      "advanced_dungeon_manipulation": {"campaign_chapter":5,"company_rank":5,"logic":"or","hidden_until_unlocked":true},
+      "extended_codex": {"campaign_chapter":3,"company_rank":3,"logic":"or","hidden_until_unlocked":true},
+      "sanctuary_upgrades": {"campaign_chapter":2,"company_rank":2,"logic":"or","hidden_until_unlocked":true}
     }
   },
   "base_expedition": {
-    "visible_decisions": [
-      "scouting",
-      "traps",
-      "noise_light",
-      "physical_retreat"
-    ],
+    "visible_decisions": ["scouting","traps","noise_light","physical_retreat"],
     "base_exploration_role": "scout",
     "all_world_hazards_can_exist": true,
     "tutorial_style": "contextual",
@@ -125,14 +70,7 @@
     "exploration_hud_default": "hidden"
   },
   "progression": {
-    "company_rank_level_thresholds": [
-      1,
-      4,
-      8,
-      14,
-      22,
-      32
-    ],
+    "company_rank_level_thresholds": [1,4,8,14,22,32],
     "campaign_unlock_prevents_grind_gate": true,
     "hero_level_controls_personal_skills": true,
     "campaign_controls_new_player_capabilities": true,
@@ -141,23 +79,22 @@
   "skills": {
     "combat_loadout_size": 4,
     "preserve_full_design_catalog": true,
-    "hero_authored_per_tree_target": [
-      8,
-      10
-    ],
-    "enemy_family_ability_target": [
-      4,
-      8
-    ],
-    "enemy_variation_source": "ai_orientation_and_body_state"
+    "canonical_nodes_per_tree": 15,
+    "canonical_trees_per_character": 3,
+    "canonical_total_nodes_per_character": 45,
+    "applies_to": ["heroes","enemies","captured_creatures"],
+    "tree_choice_exclusive": true,
+    "production_status_rule": "Incomplete authored/runtime subsets may exist during development, but they must never redefine the canonical 3x15 design.",
+    "enemy_variation_source": "skill_tree_choice_ai_orientation_body_state"
   },
   "psychology": {
     "fear_hope": "temporary_posture",
-    "madness": "durable_dangerous_disorder",
+    "veil_folie": "supernatural_exposure_state_distinct_from_real_mental_illness",
     "traits": "persistent_identity",
     "relationships": "directed_social_reactions",
     "feats": "memory_and_reputation_without_new_stat_layer",
-    "fear_hope_numeric_gauges_visible": false
+    "fear_hope_numeric_gauges_visible": false,
+    "guardrail": "No real mental illness is used as shorthand for violence, evil, supernatural insight or reduced personhood."
   },
   "farming": {
     "required_for_main_story": false,

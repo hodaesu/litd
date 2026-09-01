@@ -1,5 +1,5 @@
 {
-  "schema_version":1,
+  "schema_version":2,
   "chapter_id":"chapter_07_living_responsible",
   "title":"Les responsables vivants",
   "theme":"Comprendre les causes d'un crime ne supprime ni la responsabilité individuelle ni l'obligation de juger sans vengeance.",
@@ -21,10 +21,10 @@
     "c07_edras":["c07_stage_06_pilgrim","c07_stage_07_edras"],
     "c07_judgment":["c07_stage_05_judgment_camp","c07_stage_08_hearing"]
   },
-  "justice_rule":"Aucune décision ne peut reposer sur une seule confession, une seule archive ou le statut politique d'un accusé. Les victimes ont droit à la vérité ; les accusés ont droit à la contestation ; la Folie peut modifier la capacité mais n'efface pas automatiquement les choix antérieurs.",
+  "justice_rule":"Aucune décision ne peut reposer sur une seule confession, une seule archive ou le statut politique d'un accusé. Les victimes ont droit à la vérité ; les accusés ont droit à la contestation ; une exposition à la Folie du Voile peut altérer l'état ou les capacités présents d'une personne mais n'efface pas automatiquement ses choix antérieurs ni ne constitue un diagnostic de maladie mentale.",
   "living_actors":[
     {"id":"bram_torgun","name":"Bram Torgun","prior_role":"Ingénieur des relais","admission":"J'ai construit les chemins. J'ai seulement essayé de les casser quand j'ai compris où ils menaient.","responsibility":"Participation matérielle longue et négligence face aux alertes.","mitigation":"Sabotage tardif ayant réduit l'ampleur immédiate de la Chute.","denial":"Refuse d'être appelé sauveur."},
-    {"id":"veyra_oss","name":"Veyra Oss","prior_role":"Conceptrice scientifique","admission":"J'ai cru qu'une erreur de modèle pouvait être corrigée par un meilleur modèle. J'ai continué après le moment où j'aurais dû arrêter.","responsibility":"Poursuite consciente d'essais devenus manifestement dangereux.","mitigation":"Tentative tardive de réduire la stabilisation et conservation de données utiles aux Absents.","denial":"Refuse l'idée qu'elle ignorait totalement le danger."},
+    {"id":"veyra_oss","name":"Veyra Oss","prior_role":"Conceptrice scientifique","admission":"J'ai cru qu'une erreur de modèle pouvait être corrigée par un meilleur modèle. J'ai continué après le moment où j'aurais dû arrêter.","responsibility":"Poursuite consciente d'essais devenus manifestement dangereux.","mitigation":"Tentative tardive de limiter l'emballement du Projet Seuil et de renforcer ce qui pouvait encore être stabilisé, sans parvenir à empêcher la Chute ; conservation de données ensuite utiles à l'étude des Absents.","denial":"Refuse l'idée qu'elle ignorait totalement le danger."},
     {"id":"edras_nhal","name":"Edras Nhal","prior_role":"Maître rituel","admission":"Je savais que quelque chose répondait. C'était précisément la raison de continuer.","responsibility":"Poursuite volontaire de l'ouverture malgré la certitude de victimes massives.","mitigation":"Aucune mitigation majeure ; sa franchise sur ses intentions ne réduit pas leur gravité.","denial":"Ne considère toujours pas la Chute comme une raison suffisante pour renoncer à comprendre."}
   ],
   "provisional_outcomes":{
@@ -35,16 +35,16 @@
     ],
     "veyra":[
       {"id":"veyra_hearing","label":"AUDIENCE CIVIQUE","effects":{"justice_integrity":3,"trust":2},"meaning":"Ses décisions scientifiques sont confrontées publiquement aux victimes et aux archives."},
-      {"id":"veyra_supervised_research","label":"RECHERCHE SOUS CONTRÔLE","effects":{"veil_knowledge":5,"absent_contact":2,"tension":2},"meaning":"Ses connaissances sont utilisées uniquement sous protocole public et révocable."},
+      {"id":"veyra_supervised_research","label":"RECHERCHE SOUS CONTRÔLE","effects":{"veil_knowledge":5,"absent_contact":2,"tension":2},"meaning":"Ses connaissances sont utilisées sous protocole public, révocable et borné par les limites du Voile : observer et sécuriser des phénomènes déjà présents n'autorise aucune nouvelle ouverture."},
       {"id":"veyra_detain","label":"DÉTENTION PROTECTRICE","effects":{"tension":-1,"trust":-1},"meaning":"Elle est isolée des dispositifs du Voile en attendant l'audience."}
     ]
   },
-  "miniboss":{"id":"c07_opening_pilgrim","name":"Le Pèlerin de l'Ouverture","hp":154,"signature":"Laissez entrer","core_puzzle":"Deux sceaux rituels nourrissent sa protection. L'attaquer sans les neutraliser renforce sa transe et la Folie du groupe.","counterplay":"Désactiver les deux sceaux du Palais de Relais avant ou pendant l'approche puis varier attaque et garde."},
+  "miniboss":{"id":"c07_opening_pilgrim","name":"Le Pèlerin de l'Ouverture","hp":154,"signature":"Laissez entrer","core_puzzle":"Deux sceaux rituels nourrissent sa protection. L'attaquer sans les neutraliser renforce sa transe et l'exposition du groupe à la Folie du Voile.","counterplay":"Désactiver les deux sceaux du Palais de Relais avant ou pendant l'approche puis varier attaque et garde."},
   "boss":{"id":"c07_boss_edras","name":"Edras Nhal, l'Ouvert","hp":224,"phases":["Urgence fabriquée","Le prix de voir","Regardez enfin"],"signature":"Regardez enfin","truth":"Edras est transformé par le Voile mais reste une personne capable d'intention, de stratégie et de responsabilité.","core_puzzle":"Il fabrique de fausses urgences pour pousser le groupe à attaquer au mauvais moment. Trois contre-rituels fondés sur les témoignages de Bram, Veyra et Saen réduisent sa protection et rendent la capture possible.","counterplay":"Stabiliser les trois contre-rituels, préserver la Lumière et refuser les fenêtres d'attaque qu'Edras crée volontairement."},
   "boss_choices":[
     {"id":"capture","label":"CAPTURER EDRAS","effects":{"justice_integrity":8,"trust":4,"tension":2,"veil_knowledge":2},"consequence":"Edras est ramené vivant pour une audience publique. Sa coopération n'est pas présumée."},
-    {"id":"kill","label":"TUER EDRAS","effects":{"justice_integrity":-5,"trust":-2,"tension":-3},"consequence":"La menace immédiate disparaît, mais la Concorde doit répondre du choix d'une exécution sans procès."},
-    {"id":"controlled_trial","label":"AUTORISER UNE EXPÉRIENCE LIMITÉE","requirements":{"anchors":3,"absent_contact_min":8,"justice_integrity_min":45,"bram_and_veyra_resolved":true},"effects":{"veil_knowledge":9,"absent_contact":5,"justice_integrity":1,"tension":6},"consequence":"Une expérience minuscule, réversible et surveillée est autorisée. Edras n'en contrôle ni le protocole ni l'arrêt."}
+    {"id":"kill","label":"TUER EDRAS","effects":{"justice_integrity":-5,"trust":-2,"tension":-3},"consequence":"La menace immédiate disparaît, mais la Concorde doit répondre du choix d'une mise à mort sans audience."},
+    {"id":"controlled_trial","label":"AUTORISER UNE OBSERVATION CONFINÉE","requirements":{"anchors":3,"absent_contact_min":8,"justice_integrity_min":45,"bram_and_veyra_resolved":true},"protocol":{"existing_phenomena_only":true,"new_opening_forbidden":true,"living_subject_exposure_forbidden":true,"threshold_project_relay_reactivation_forbidden":true,"automatic_abort_on_limit_breach":true,"edras_controls_protocol":false,"edras_controls_abort":false},"effects":{"veil_knowledge":9,"absent_contact":5,"justice_integrity":1,"tension":6},"consequence":"Une observation instrumentale confinée d'un phénomène déjà présent est autorisée. Edras n'en contrôle ni le protocole ni l'arrêt ; aucune nouvelle ouverture n'est créée."}
   ],
   "unique_rewards":{
     "relic":{"id":"relic_bram_breaker","name":"Clé de rupture de Bram","effect":"Une fois par donjon, réduit fortement la puissance d'un dispositif ou d'un relais actif."},

@@ -1,147 +1,135 @@
 # Épilogues, postgame et Nouveau Cycle+
 
+> **Priorité de production actuelle : cycle initial.** Les mécaniques NG+ déjà validées restent conservées, mais toute nouvelle extension narrative propre au NG+ est gelée jusqu'à validation de `docs/LITD1_NARRATION_CYCLE_INITIAL.md` et des dix chapitres du jeu de base.
+
 ## Principe
 
-La campagne principale s'arrête au Chapitre X. Le contenu qui suit n'est pas un Chapitre XI : il montre ce que devient le monde après la décision finale et permet ensuite de recommencer la campagne avec une mémoire persistante.
+La campagne principale s'arrête au Chapitre X. Le contenu qui suit n'est pas un Chapitre XI : il montre ce que devient le monde après la décision finale et permet ensuite de recommencer la campagne avec une couche de rejouabilité volontairement plus libre.
 
-Le postgame suit trois règles :
+Le NG+ est **un dispositif de gameplay et de lecture méta**, pas une boucle temporelle canonique. Le cycle initial reste l'histoire de référence. Une variation NG+ ne peut donc pas réécrire un fait établi, ressusciter rétroactivement un mort du cycle initial ou modifier les limites du Voile.
 
-1. une fin ne devient jamais parfaite après le générique ;
-2. les conséquences politiques, sociales et métaphysiques restent visibles ;
-3. le Nouveau Cycle+ conserve la mémoire d'une partie, pas sa puissance brute.
+En revanche, le NG+ a le droit d'accorder au joueur des privilèges de gameplay impossibles pendant le premier cycle. Deux d'entre eux sont désormais explicitement verrouillés :
 
-## Épilogues
+1. **multi-arbres à partir du Premier retour** ;
+2. **recrutement des boss et mini-boss explicitement listés dans le catalogue NG+**.
 
-`data/world/endgame_epilogues.json` contient un épilogue complet pour chacune des six orientations réussies et chacun des trois états d'échec.
+Ces deux systèmes sont des récompenses de rejouabilité et ne doivent plus être requalifiés comme incohérences narratives.
 
-Chaque épilogue possède quatre temps : ouverture, conséquences quotidiennes, évolution politique et conclusion. Des vignettes conditionnelles complètent le texte selon les décisions de campagne : Saen, sort d'Edras, coexistence avec les créatures, Cercle de Justice et Maison des Délégations.
+## Épilogues et Monde d'après
 
-Le joueur peut ainsi obtenir la même grande orientation finale avec des destins secondaires différents.
+Après `campaign_complete`, le Sanctuaire donne accès au **MONDE D'APRÈS** : épilogue, vignettes conditionnelles, Chronique des cycles, opérations de reconstruction et accès au Nouveau Cycle+.
 
-## Monde d'après
+Le joueur peut continuer le postgame aussi longtemps qu'il le souhaite ou commencer immédiatement un NG+. Les opérations postgame préparent des héritages mais ne constituent jamais une porte obligatoire.
 
-Après `campaign_complete`, un accès **MONDE D'APRÈS** apparaît au Sanctuaire.
+Le NG+ conserve :
 
-Le joueur y trouve :
+- historique des fins ;
+- points d'héritage non dépensés ;
+- historique des héritages choisis ;
+- épilogues archivés.
 
-- son épilogue ;
-- les destins conditionnels ;
-- la Chronique des cycles ;
-- huit opérations de reconstruction ;
-- les règles du Nouveau Cycle+.
+Il remet à zéro la campagne, les décisions politiques, la progression des personnages, l'inventaire, les créatures du cycle, les ressources courantes et les choix de chapitre.
 
-Les huit opérations sont :
+## Cycle initial : spécialisation exclusive
 
-- rouvrir les routes sûres ;
-- poursuivre les audiences ;
-- maintenir la Chambre d'Écoute ;
-- étendre les habitats libres ;
-- entretenir les ancrages ;
-- réunir les délégations ;
-- écrire la Chronique des pertes ;
-- former la prochaine veille.
+Pendant la première campagne, chaque héros, ennemi ou créature concernée possède trois arbres de quinze compétences, mais le premier arbre choisi fixe sa spécialisation et verrouille les deux autres.
 
-Les opérations techniques ou matérielles peuvent consommer de l'Or, de l'Essence ou des Vivres. Trois opérations civiques — routes, audiences et Chronique des pertes — restent toujours réalisables même avec des réserves épuisées, afin que le Nouveau Cycle+ ne puisse pas être bloqué par l'économie de fin de partie.
+Cette contrainte donne une identité claire au personnage pendant la découverte initiale du jeu.
 
-## Déblocage du Nouveau Cycle+
+## NG+ : les trois arbres s'ouvrent
 
-Le Nouveau Cycle+ devient disponible après trois opérations postgame accomplies.
+À partir du **Premier retour**, choisir une compétence dans un arbre ne verrouille plus les deux autres. Le joueur peut investir dans les trois arbres d'un même personnage.
 
-Il conserve :
+Les arbres ne sont cependant pas fusionnés :
 
-- l'historique des fins ;
-- les points d'héritage non dépensés ;
-- l'historique des héritages choisis ;
-- les épilogues archivés.
+- les coûts de points restent actifs ;
+- les niveaux requis restent actifs ;
+- les prérequis internes de chaque branche restent actifs ;
+- le joueur doit toujours construire sa progression au lieu de tout obtenir automatiquement.
 
-Il remet à zéro :
+L'effet recherché est volontairement spectaculaire : après avoir appris à vivre avec une spécialisation forte pendant le premier cycle, le joueur découvre que le NG+ lui permet enfin de créer des combinaisons auparavant impossibles.
 
-- la progression de campagne ;
-- les décisions politiques ;
-- les niveaux et compétences des héros ;
-- l'inventaire ;
-- les créatures recrutées ;
-- les ressources du Sanctuaire ;
-- les choix des chapitres.
+## NG+ : recrutement des boss et mini-boss
 
-Cette règle empêche le NG+ de devenir une simple partie avec des personnages surpuissants qui annuleraient les systèmes de survie et de choix.
+À partir du Premier retour, les boss, mini-boss, boss profonds et mini-boss profonds **présents dans `data/world/ngplus_boss_recruits.json`** peuvent devenir des compagnons via le système NG+.
 
-## Répartition libre entre les trois arbres
+Leur version alliée :
 
-À partir du **Premier retour** (`active_cycle >= 1`), le verrou de spécialisation disparaît pour les héros et tous les compagnons.
+- conserve son identité, sa signature et son archétype ;
+- possède sa propre progression de compagnon ;
+- suit le niveau moyen du groupe lorsqu'elle est définie comme adaptative ;
+- n'hérite jamais directement des PV ou multiplicateurs de sa version boss ennemie ;
+- possède des arbres de compétences adaptés au rôle de compagnon.
 
-Le joueur peut donc répartir ses points librement entre :
+Cette mécanique n'affirme pas que l'histoire du cycle initial s'est déroulée autrement. **La version recrutée est un privilège de replay du NG+**.
 
-- **Offensif** ;
-- **Défensif** ;
-- **Spécial**.
+Le catalogue est explicite : être un boss dans les données du jeu ne suffit pas, à lui seul, à créer automatiquement une version recrutable. Une nouvelle entrée doit être conçue et ajoutée au catalogue.
 
-Cette liberté s'applique aux héros, aux créatures ordinaires recrutées et aux mini-boss/boss recrutés en NG+.
+L'Ange n'est actuellement pas présent dans ce catalogue et reste donc hors de ce système tant qu'une décision explicite ne le modifie pas.
 
-Le NG+ ne donne cependant aucune compétence gratuitement. Restent obligatoires :
+## Contrat « je veux recommencer » — infrastructure conservée, développement narratif gelé
 
-- le coût en points de compétence ;
-- le niveau requis de chaque nœud ;
-- les prérequis internes de l'arbre : pour acheter un nœud avancé, il faut toujours avoir acquis les nœuds précédents de cette même branche.
+Le Nouveau Cycle+ ne doit jamais se résumer à `+PV / +dégâts`.
 
-Le cycle initial conserve le fonctionnement original : la première branche investie devient la spécialisation du personnage ou compagnon et les deux autres arbres sont verrouillés.
+La règle de production reste : **le joueur doit percevoir une différence importante dans les quinze premières minutes d'un NG+**.
 
-Dans les écrans de talents du NG+, les trois branches sont signalées **OUVERT NG+** afin de rendre cette règle immédiatement visible.
+L'infrastructure déjà mise en place pour quatre couches est conservée :
 
-## Recrutement des mini-boss et boss
+1. **Monde** — routes, refuges, patrouilles, quartiers, traces ou zones accessibles peuvent changer ;
+2. **Donjons** — nouvelles compositions de salles authored, secrets plus présents, dangers propres au cycle ;
+3. **Ennemis** — nouveaux comportements et contre-mesures tactiques, pas seulement des statistiques ;
+4. **Narration** — des couches secondaires pourront plus tard donner une nouvelle lecture sans changer les faits établis.
 
-À partir du **Premier retour** (`active_cycle >= 1`), tous les mini-boss et boss de la campagne ainsi que ceux des Vestiges profonds peuvent être recrutés avec l'action de combat **CAPTURER**.
+**La quatrième couche n'est pas développée davantage pendant la passe actuelle.** Le chantier narratif porte exclusivement sur le cycle initial.
 
-Ils sont identifiés par leur `encounter_id`, et non par les IDs ennemis génériques `30` et `38`. Cela garantit que chaque boss conserve exactement son nom, sa signature et son archétype.
+Le système technique déjà présent reste défini dans `data/world/ngplus_cycle_variants.json` et exécuté par `NgPlusCycleDirector`.
 
-Le recrutement reste exigeant :
+## Profils déjà préparés
 
-- un mini-boss doit être descendu sous environ 18 % de ses PV ;
-- un boss de chapitre sous environ 12 % ;
-- un mini-boss de Vestige sous environ 15 % ;
-- un boss de Vestige sous environ 10 %.
+Les profils Premier retour, Deuxième veille, Troisième mémoire et Cycle profond restent des infrastructures de replay conservées. Leur enrichissement narratif est reporté.
 
-Ils demandent également davantage d'Essence et possèdent une résistance supérieure au lien.
+Aucun nouveau fragment de lore, dialogue NG+, révélation secondaire ou variante de scène propre à ces profils ne doit être produit tant que la campagne de base n'est pas validée.
 
-Leur version alliée **ne conserve jamais les PV ou multiplicateurs de leur version ennemie**. À la place :
+## Donjons
 
-- son niveau est synchronisé avec le **niveau moyen actuel des héros de la compagnie** ;
-- si le groupe progresse, le boss recruté se synchronise automatiquement ;
-- son expérience personnelle ne peut pas le faire dépasser artificiellement le groupe ;
-- ses dégâts utilisent une plage de compagnon propre à son rang puis le scaling normal des créatures ;
-- il conserve sa signature et reçoit trois branches de compétences : offensive, défensive et spéciale ;
-- les nœuds de signature sont générés selon son archétype : gardien, tacticien, soutien, frappeur ou contrôle.
+Le cycle initial conserve les premières visites mises en scène à la main.
 
-Le cycle initial conserve l'ancienne règle : **aucun boss ou mini-boss n'y est recrutable**.
+En NG+, une première visite de campagne peut utiliser le générateur hybride : celui-ci ne crée jamais une géométrie arbitraire. Il choisit parmi des salles fabriquées et validées à la main, leurs variantes autorisées, leurs connexions et des dangers compatibles.
 
-Les définitions sont centralisées dans `data/world/ngplus_boss_recruits.json` et le runtime dans `scripts/core/ngplus_boss_recruitment.gd`.
+Le profil NG+ modifie la seed, augmente modérément la probabilité des branches optionnelles/secrètes et peut ajouter un danger de cycle à une salle non immuable.
+
+Les arènes ou scènes marquées `immutable_staging` restent intactes.
+
+## Ennemis
+
+L'augmentation statistique reste présente (+18 % PV, +12 % dégâts, +8 % Peur par cycle), mais elle est secondaire.
+
+Le NG+ peut aussi attribuer des comportements déterministes selon l'ennemi et le cycle :
+
+- chasser un personnage en garde ;
+- provoquer une Rupture de garde ;
+- viser celui qui possède le plus d'Espoir ;
+- accentuer la pression de Peur ;
+- gagner en agressivité sous 50 % de PV ;
+- punir les schémas tactiques répétitifs.
+
+## Narration NG+
+
+Une future ligne NG+ ne devra jamais dire : « le passé a changé ».
+
+Elle pourra dire qu'une archive n'avait pas été trouvée, qu'une route n'avait pas été empruntée ou qu'un détail donne un autre contexte à un fait connu.
+
+Cette production est **en pause**. La référence active de narration est désormais :
+
+- `docs/LITD1_NARRATION_CYCLE_INITIAL.md` ;
+- `data/narrative/base_game_story_contract.json` ;
+- `data/narrative/base_game_narrator.json`.
 
 ## Héritages
 
-Un seul héritage peut être choisi au début d'un cycle :
+Un héritage peut être choisi au début du cycle : Mémoire des archives, Réflexes de Concorde, Écouter avant de nommer ou Réserves cachées.
 
-- **Mémoire des archives** : faible avance de connaissance du Voile ;
-- **Réflexes de Concorde** : confiance et Cité légèrement renforcées ;
-- **Écouter avant de nommer** : petit capital initial envers créatures et Absents ;
-- **Réserves cachées** : ressources de départ supplémentaires.
-
-Les héritages coûtent des points gagnés par les opérations postgame.
-
-## Difficulté NG+
-
-Pour chaque cycle supplémentaire :
-
-- PV ennemis : +18 % ;
-- dégâts ennemis : +12 % ;
-- Peur infligée : +8 %.
-
-Le multiplicateur s'applique aux ennemis ordinaires, mini-boss, boss de chapitre et boss des Vestiges profonds.
-
-## Sauvegarde
-
-Le schéma de sauvegarde reste en **0.31** : la liberté multi-arbre dépend directement du numéro de cycle déjà stocké dans `endgame`, et les informations des boss recrutés sont stockées dans les dictionnaires de créatures existants.
-
-L'état `endgame` conserve les opérations terminées, points d'héritage, numéro de cycle, héritage courant, historique des fins et archives d'épilogues.
+Ils représentent une couche de replay/transmission méta, jamais la preuve que le protagoniste voyage littéralement dans le temps.
 
 ## Fichiers principaux
 
@@ -149,14 +137,15 @@ L'état `endgame` conserve les opérations terminées, points d'héritage, numé
 - `data/world/postgame_operations.json`
 - `data/world/new_game_plus.json`
 - `data/world/ngplus_boss_recruits.json`
+- `data/world/ngplus_cycle_variants.json`
 - `scripts/core/endgame_state.gd`
 - `scripts/core/ngplus_boss_recruitment.gd`
+- `scripts/core/ngplus_cycle_director.gd`
 - `scripts/core/hero_skill_manager.gd`
 - `scripts/core/creature_manager.gd`
-- `scripts/ui/ngplus_skill_tree_ui.gd`
-- `scripts/ui/endgame_ui.gd`
-- `scripts/world/ashlands_combat_bridge.gd`
-- `scripts/core/save_manager.gd`
-- `tests/python/test_endgame_postgame_ngplus.py`
-- `tests/python/test_ngplus_boss_recruitment.py`
-- `tests/python/test_ngplus_multitree_skills.py`
+- `scripts/core/hybrid_dungeon_generator.gd`
+- `scripts/core/enemy_combat_director.gd`
+
+## Règle de cohérence
+
+**Le cycle initial définit l'histoire de référence. Le NG+ peut transformer les possibilités de gameplay et la manière de revisiter cette histoire ; il ne peut pas réécrire rétroactivement ce qui s'est réellement produit dans le canon.**

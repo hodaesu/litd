@@ -1,0 +1,351 @@
+{
+  "schema_version": 1,
+  "scope": "LITD1 cycle initial only",
+  "rules": {
+    "minimum_key_scenes_per_chapter": 3,
+    "each_scene_requires_player_action": true,
+    "each_scene_requires_human_conflict": true,
+    "each_scene_requires_environmental_evidence": true,
+    "dialogue_may_not_outpace_chapter_knowledge": true,
+    "scene_must_leave_aftermath": true
+  },
+  "chapters": {
+    "chapter_01_ashlands": [
+      {
+        "id": "c01_scene_ration_line",
+        "function": "Installer la survie comme problème moral et politique.",
+        "player_action": "Répartir une réserve insuffisante entre blessés, éclaireurs et nouveaux réfugiés.",
+        "environment": ["bols réparés de plusieurs familles", "liste de rationnement corrigée à la main", "un enfant remet sa portion à un adulte blessé"],
+        "dialogue": [
+          {"speaker":"Nara Vey","text":"Si nous appelons ça une règle, elle devra encore être défendable demain. Choisis en sachant qu'on s'en souviendra."},
+          {"speaker":"Sela Mor","text":"Les nombres sont propres. La faim ne l'est pas."}
+        ],
+        "aftermath": "La distribution choisie devient un précédent cité lors d'une crise ultérieure du Sanctuaire."
+      },
+      {
+        "id": "c01_scene_three_sources",
+        "function": "Apprendre au joueur à vivre avec une contradiction sans la résoudre trop tôt.",
+        "player_action": "Comparer archive, témoignage et écho autour d'une borne ancienne.",
+        "environment": ["trois relevés incompatibles", "usure matérielle prouvant l'ancienneté", "aucun signe permettant de trancher la fonction originale"],
+        "dialogue": [
+          {"speaker":"Meira Sen","text":"Trois versions. Si l'une d'elles est vraie, ce n'est pas parce qu'elle est la plus jolie."},
+          {"speaker":"Meira Sen","text":"Écrivons ce qui se contredit avant d'inventer ce qui l'explique."}
+        ],
+        "aftermath": "Le journal conserve trois hypothèses séparées au lieu d'une théorie unique."
+      },
+      {
+        "id": "c01_scene_witness_choice",
+        "function": "Relier le premier boss à la question de dignité et de connaissance.",
+        "player_action": "Achever, stabiliser ou risquer une extraction de mémoire sur le Témoin des Cendres.",
+        "environment": ["restes de vêtements civils", "outil de métier encore attaché à la ceinture", "voix déformées répétant un engagement civique"],
+        "dialogue": [
+          {"speaker":"Sela Mor","text":"Avant de décider ce qu'il est devenu, rappelle-toi qu'il a été quelqu'un."},
+          {"speaker":"Nara Vey","text":"Et rappelle-toi aussi que quelqu'un devra porter le coût de notre hésitation s'il frappe encore."}
+        ],
+        "aftermath": "Le choix modifie les discussions sur les créatures, la mémoire et la sécurité au Sanctuaire."
+      }
+    ],
+    "chapter_02_before_fall": [
+      {
+        "id": "c02_scene_instruments",
+        "function": "Faire passer l'enquête du soupçon à la préparation matérielle.",
+        "player_action": "Retrouver et dater trois instruments ayant surveillé les anomalies avant la Chute.",
+        "environment": ["réparations espacées de plusieurs mois", "notes de calibration", "un boîtier vidé de ses relevés mais pas de ses marques d'usage"],
+        "dialogue": [
+          {"speaker":"Archiviste Toma Rei","text":"Un appareil oublié peut être un accident. Trois appareils entretenus pendant des mois deviennent une politique."},
+          {"speaker":"Éclaireuse Sana Khel","text":"Ou un travail. Prouvons d'abord qui les entretenait avant de choisir le mot qui nous arrange."}
+        ],
+        "aftermath": "Le registre de campagne passe de catastrophe imprévisible à surveillance préalable démontrée."
+      },
+      {
+        "id": "c02_scene_deleted_registry",
+        "function": "Montrer qu'une vérité peut être cachée sans encore identifier tous les coupables.",
+        "player_action": "Reconstituer un registre à partir de copies divergentes.",
+        "environment": ["coutures de pages arrachées", "numéros manquants", "traductions partielles dans plusieurs langues"],
+        "dialogue": [
+          {"speaker":"Toma Rei","text":"Celui qui a effacé ceci connaissait la forme du registre. Il ne frappait pas au hasard."},
+          {"speaker":"Sana Khel","text":"Alors cherchons la main. Pas le continent entier."}
+        ],
+        "aftermath": "Le Sanctuaire commence à protéger les copies redondantes plutôt qu'un dépôt central unique."
+      },
+      {
+        "id": "c02_scene_relay",
+        "function": "Établir la préparation volontaire sans dévoiler encore le Projet Seuil complet.",
+        "player_action": "Démonter un relais caché derrière une façade civique.",
+        "environment": ["installation antérieure à l'effondrement", "pièces importées", "accès entretenu depuis l'intérieur"],
+        "dialogue": [
+          {"speaker":"Sana Khel","text":"Quelqu'un a construit ça pour durer et pour ne pas être vu."},
+          {"speaker":"Toma Rei","text":"Nous pouvons désormais dire préparé. Pas encore par qui, ni pour quoi exactement."}
+        ],
+        "aftermath": "Le chapitre se ferme sur une certitude limitée : l'ouverture n'était pas fortuite."
+      }
+    ],
+    "chapter_03_threshold": [
+      {
+        "id": "c03_scene_six_desks",
+        "function": "Détruire l'idée d'une culpabilité uniforme.",
+        "player_action": "Attribuer des notes, ordres et corrections aux six participants.",
+        "environment": ["six méthodes de notation", "seuils d'alerte différents", "une demande d'évacuation à côté d'un ordre de poursuite"],
+        "dialogue": [
+          {"speaker":"Eline Sar","text":"Nous étions dans la même salle. Cela ne signifie pas que nous étions dans la même histoire."},
+          {"speaker":"Bram Torgun","text":"Ne fais pas de cette phrase une excuse. Nous sommes restés dans la salle."}
+        ],
+        "aftermath": "Les dossiers de responsabilité deviennent individuels et conservent les actes contradictoires de chacun."
+      },
+      {
+        "id": "c03_scene_abort_order",
+        "function": "Faire du repentir tardif un fait moralement complexe.",
+        "player_action": "Reconstituer la chronologie entre alertes, poursuite et sabotage final.",
+        "environment": ["horodatages", "seuils dépassés", "dégâts du sabotage visibles sur les relais"],
+        "dialogue": [
+          {"speaker":"Bram Torgun","text":"J'ai cassé ce que j'avais aidé à construire. Fais en sorte que les deux moitiés de cette phrase restent ensemble."}
+        ],
+        "aftermath": "Le joueur peut reconnaître l'effet réel du sabotage sans transformer Bram en innocent."
+      },
+      {
+        "id": "c03_scene_threshold_echo",
+        "function": "Révéler le Projet Seuil sans transformer l'Écho en oracle.",
+        "player_action": "Choisir entre rompre, enregistrer ou observer plus longtemps la répétition du protocole.",
+        "environment": ["mêmes gestes répétés", "aucune réaction à des questions nouvelles", "dégradation croissante de la zone"],
+        "dialogue": [
+          {"speaker":"Eline Sar","text":"Ce n'est pas un témoin. C'est une procédure qui continue sans nous."},
+          {"speaker":"Bram Torgun","text":"Et même une procédure morte peut encore tuer quelqu'un qui reste trop près."}
+        ],
+        "aftermath": "Le Projet Seuil devient cause immédiate documentée ; ses symboles anciens ouvrent la piste suivante."
+      }
+    ],
+    "chapter_04_first_rupture": [
+      {
+        "id": "c04_scene_living_city",
+        "function": "Présenter les Ashaï comme une civilisation avant leur catastrophe.",
+        "player_action": "Remettre en circulation eau et archives d'un quartier pour comprendre sa fonction quotidienne.",
+        "environment": ["canaux civiques", "écoles de musique", "registres de voisinage", "mesures communes entre irrigation et observatoire"],
+        "dialogue": [
+          {"speaker":"Sela Mor","text":"Ils n'ont pas bâti une ville autour de leur erreur. Leur erreur est arrivée dans une ville qui avait déjà une vie."}
+        ],
+        "aftermath": "Le codex Ashaï sépare héritage civil, recherche et rupture."
+      },
+      {
+        "id": "c04_scene_measurement_song",
+        "function": "Faire comprendre la méthode sans magie décorative.",
+        "player_action": "Rejouer une séquence de mesure en comparant son, mémoire consignée et réaction matérielle.",
+        "environment": ["partitions annotées comme tableaux de mesure", "écarts conservés au lieu d'être corrigés", "instruments reliés à des repères physiques"],
+        "dialogue": [
+          {"speaker":"Mémoire de Nhal","text":"Nous chantions pour comparer. Plus tard, certains ont commencé à croire que comparer ne suffisait plus."},
+          {"speaker":"Sela Mor","text":"Tu te souviens de leur raison ?"},
+          {"speaker":"Mémoire de Nhal","text":"Je me souviens de plusieurs raisons. C'est moins confortable."}
+        ],
+        "aftermath": "Le joueur obtient une méthode historique et non une incantation universelle."
+      },
+      {
+        "id": "c04_scene_first_rupture",
+        "function": "Faire de la première rupture une erreur causale, pas un mythe fondateur.",
+        "player_action": "Croiser quatre archives incompatibles jusqu'à isoler les faits communs.",
+        "environment": ["zone physiquement localisée", "archives divergeant sur les motifs", "mêmes effets constatés par des écoles rivales"],
+        "dialogue": [
+          {"speaker":"Mémoire de Nhal","text":"Nous n'avons pas ouvert un ailleurs. Nous avons cessé de pouvoir garantir que le même ici restait le même pour tous."}
+        ],
+        "aftermath": "Le modèle de porte spatiale devient insuffisant sans fournir encore le modèle final du Voile."
+      }
+    ],
+    "chapter_05_great_closure": [
+      {
+        "id": "c05_scene_silex_road",
+        "function": "Relier militarisation et obsession ancienne de standardisation.",
+        "player_action": "Traverser une route militaire où chaque poste applique encore une doctrine automatique.",
+        "environment": ["mesures standardisées", "ordres identiques malgré des situations locales différentes", "ville civile vidée pour maintenir la route"],
+        "dialogue": [
+          {"speaker":"Orren Taal","text":"Ils ont construit un système qui ne pouvait plus admettre qu'une situation soit différente du formulaire prévu."}
+        ],
+        "aftermath": "Le danger d'Or-Silex devient institutionnel avant d'être surnaturel."
+      },
+      {
+        "id": "c05_scene_saan_list",
+        "function": "Mettre les vies condamnées dans la même scène que le succès technique.",
+        "player_action": "Réactiver un nœud de Saan en lisant les dernières listes d'évacuation.",
+        "environment": ["rapport 'stabilisation réussie'", "liste familiale incomplète", "réserves envoyées vers l'intérieur avant fermeture"],
+        "dialogue": [
+          {"speaker":"Dernière Veille de Saan","text":"Le réseau a tenu."},
+          {"speaker":"Orren Taal","text":"Tu le dis comme une victoire."},
+          {"speaker":"Dernière Veille de Saan","text":"Je le dis comme un fait. Les noms sur ce mur sont l'autre fait."}
+        ],
+        "aftermath": "Le joueur ne peut plus traiter fermeture et sacrifice comme deux versions concurrentes : ils sont vrais ensemble."
+      },
+      {
+        "id": "c05_scene_general",
+        "function": "Confronter l'efficacité militaire fossilisée à une situation qui n'est plus sa guerre.",
+        "player_action": "Détruire, désarmer ou utiliser brièvement le Général de Silex.",
+        "environment": ["ordres vieux de millénaires", "cibles actuelles classées selon catégories obsolètes", "aucune capacité d'interpréter le contexte politique présent"],
+        "dialogue": [
+          {"speaker":"Orren Taal","text":"Une arme qui obéit parfaitement à un ordre mort n'est pas fidèle. Elle est seulement incapable d'arrêter."}
+        ],
+        "aftermath": "L'usage temporaire fournit un avantage mais nourrit un débat futur sur les outils qu'une reconstruction accepte d'hériter."
+      }
+    ],
+    "chapter_06_absent": [
+      {
+        "id": "c06_scene_first_reply",
+        "function": "Établir une réponse sans prétendre définir celui qui répond.",
+        "player_action": "Répéter un protocole lumière-son et vérifier la reproductibilité d'une réponse.",
+        "environment": ["délai constant", "réponse absente lorsque le protocole est incomplet", "aucun message hors conditions"],
+        "dialogue": [
+          {"speaker":"Meira Sen","text":"Je ne sais pas ce qui répond. Je sais désormais que quelque chose répond aux mêmes conditions."},
+          {"speaker":"Sela Mor","text":"Alors la prochaine question n'est peut-être pas ce que c'est. C'est ce qu'on risque de lui faire."}
+        ],
+        "aftermath": "Le Sanctuaire crée un protocole de contact qui distingue observation et interprétation."
+      },
+      {
+        "id": "c06_scene_saen",
+        "function": "Donner une voix singulière aux Absents sans créer d'ambassadeur universel.",
+        "player_action": "Maintenir assez longtemps un canal stable pour échanger avec Saen.",
+        "environment": ["phrases interrompues", "souvenirs vérifiables et zones d'incertitude", "incapacité de Saen à décrire tous les autres Absents"],
+        "dialogue": [
+          {"speaker":"Saen","text":"Je peux te dire que je continue. Je ne peux pas te dire ce que nous sommes tous."},
+          {"speaker":"Meira Sen","text":"C'est déjà plus précis que beaucoup de vivants."}
+        ],
+        "aftermath": "Saen devient un témoin particulier, jamais une définition métaphysique."
+      },
+      {
+        "id": "c06_scene_boundary",
+        "function": "Empêcher l'anthropomorphisme de la Frontière qui marche.",
+        "player_action": "Tester, forcer ou abandonner le passage en observant les contre-effets.",
+        "environment": ["mêmes réponses aux mêmes seuils", "aucune réaction aux menaces ou supplications", "effets changeant avec paramètres physiques"],
+        "dialogue": [
+          {"speaker":"Meira Sen","text":"Elle ne nous refuse rien. Elle produit un effet. C'est notre langage qui transforme trop vite un effet en intention."}
+        ],
+        "aftermath": "Les journaux parlent de phénomène réactif et réservent explicitement la question de la conscience."
+      }
+    ],
+    "chapter_07_living_responsible": [
+      {
+        "id": "c07_scene_bram_testimony",
+        "function": "Faire tenir ensemble participation et sabotage tardif.",
+        "player_action": "Confronter Bram à la chronologie complète avant toute décision de statut.",
+        "environment": ["preuves de son sabotage", "ordres antérieurs signés", "messages d'alerte qu'il n'a pas suivis immédiatement"],
+        "dialogue": [
+          {"speaker":"Bram Torgun","text":"J'ai arrêté une partie de la machine. Je ne vais pas te demander d'oublier que j'avais aidé à la mettre en marche."}
+        ],
+        "aftermath": "Son dossier conserve circonstances atténuantes et responsabilité sans les fusionner."
+      },
+      {
+        "id": "c07_scene_veyra_testimony",
+        "function": "Rendre la mitigation tardive moralement réelle sans la romantiser.",
+        "player_action": "Comparer les seuils qu'elle avait compris avec le moment où elle a tenté de limiter l'emballement.",
+        "environment": ["modifications de stabilisation", "notes indiquant qu'elle connaissait déjà certains risques", "correspondance où elle refuse d'abandonner totalement le projet"],
+        "dialogue": [
+          {"speaker":"Veyra Oss","text":"J'ai compris assez tôt pour avoir peur. Pas assez tôt pour accepter de perdre tout ce que nous avions construit. C'est là que ma faute devient la mienne."}
+        ],
+        "aftermath": "Le jugement peut reconnaître son acte final sans le transformer en absolution."
+      },
+      {
+        "id": "c07_scene_edras_judgment",
+        "function": "Faire d'Edras une position cohérente à réfuter ou condamner, pas une folie pratique.",
+        "player_action": "Empêcher toute nouvelle ouverture puis décider capture, dernier recours létal ou observation confinée sans contrôle d'Edras.",
+        "environment": ["dispositif limité à un phénomène déjà présent", "coupures automatiques", "aucun sujet vivant", "aucun relais Seuil activable"],
+        "dialogue": [
+          {"speaker":"Edras Nhal","text":"Vous comptez les morts et vous concluez qu'il fallait détourner les yeux. Moi, je conclus qu'il fallait apprendre assez pour que leur mort ne soit pas seulement une perte."},
+          {"speaker":"Nara Vey","text":"Tu transformes leur mort en permission que personne ne t'a donnée."}
+        ],
+        "aftermath": "La procédure choisie devient un précédent visible de la justice reconstruite."
+      }
+    ],
+    "chapter_08_outer_world": [
+      {
+        "id": "c08_scene_first_foreign_refuge",
+        "function": "Briser immédiatement l'équation peuple étranger = commanditaire.",
+        "player_action": "Entrer dans un refuge où anciens soldats, civils et dissidents partagent les mêmes réserves.",
+        "environment": ["propagande officielle recouverte d'itinéraires de fuite", "uniformes recyclés en couvertures", "noms de morts de plusieurs camps sur le même mur"],
+        "dialogue": [
+          {"speaker":"Capitaine Varek Sorn","text":"Si tu veux juger notre armée, je t'aiderai à ouvrir ses archives. Si tu veux juger chaque enfant né sous son drapeau, tu n'as pas besoin de preuves."}
+        ],
+        "aftermath": "Le journal sépare désormais responsabilité d'État, responsabilité individuelle et appartenance culturelle."
+      },
+      {
+        "id": "c08_scene_namar_accounts",
+        "function": "Montrer qu'un même réseau économique peut financer crime et secours.",
+        "player_action": "Comparer livres de comptes officiels et registres clandestins de passage.",
+        "environment": ["mêmes navires dans deux registres", "profits du Projet Seuil", "paiements pour évacuer des dissidents"],
+        "dialogue": [
+          {"speaker":"Navigatrice Issel Pell","text":"Une route n'a pas de morale. Ceux qui la contrôlent, si."}
+        ],
+        "aftermath": "Le joueur peut négocier réparation, accès aux archives ou protection de témoins au lieu d'un verdict global sur Namar."
+      },
+      {
+        "id": "c08_scene_korem_archive",
+        "function": "Préparer le chapitre IX sans fournir une réponse finale unique.",
+        "player_action": "Choisir quelles copies de recherches dangereuses consulter, publier ou laisser sous garde partagée.",
+        "environment": ["copies presque complètes mais commentées par écoles rivales", "protocoles d'échec", "notes post-Chute contestant les anciennes conclusions"],
+        "dialogue": [
+          {"speaker":"Docteure Keira Om","text":"Conserver n'est pas approuver. Détruire n'est pas comprendre. Nous allons devoir choisir une troisième discipline."}
+        ],
+        "aftermath": "Le chapitre IX commence avec plusieurs corpus indépendants plutôt qu'une archive maîtresse."
+      }
+    ],
+    "chapter_09_veil_nature": [
+      {
+        "id": "c09_scene_shared_light",
+        "function": "Définir la Lumière par une capacité observable et limitée.",
+        "player_action": "Maintenir plusieurs groupes en référence commune pendant une zone instable.",
+        "environment": ["désaccords verbaux persistent", "géométrie locale se stabilise", "aucune vérité de témoignage n'est automatiquement révélée"],
+        "dialogue": [
+          {"speaker":"Nara Vey","text":"Ils continuent de se contredire."},
+          {"speaker":"Veyra Oss","text":"Oui. C'est précisément la preuve que la Lumière ne décide pas lequel a raison. Elle leur rend assez de monde commun pour continuer à parler."}
+        ],
+        "aftermath": "Le codex verrouille Lumière = ancrage de référence, jamais détecteur de vérité."
+      },
+      {
+        "id": "c09_scene_limits_table",
+        "function": "Faire de la connaissance une cartographie de limites plutôt qu'une révélation totale.",
+        "player_action": "Classer expériences en reproductibles, probables, contradictoires et inconnues.",
+        "environment": ["table publique de résultats", "échecs conservés", "expérience arrêtée avant seuil catastrophique"],
+        "dialogue": [
+          {"speaker":"Meira Sen","text":"Une case 'nous ne savons pas' n'est pas un trou dans le travail. C'est parfois la partie la plus honnête du tableau."}
+        ],
+        "aftermath": "Les limites du Voile deviennent utilisables sans origine métaphysique certaine."
+      },
+      {
+        "id": "c09_scene_no_final_answer",
+        "function": "Faire accepter au joueur que l'enquête peut être suffisante sans être totale.",
+        "player_action": "Choisir de ne pas franchir une limite expérimentale uniquement pour obtenir une réponse supplémentaire.",
+        "environment": ["instrument capable d'aller plus loin", "signes mesurés d'emballement", "protocole d'arrêt volontaire"],
+        "dialogue": [
+          {"speaker":"Saen","text":"Tu veux savoir si ce qui m'arrive possède un nom assez grand pour tout expliquer."},
+          {"speaker":"Meira Sen","text":"Non. Je veux savoir ce que nous pouvons faire sans prétendre que le nom nous protège de l'erreur."}
+        ],
+        "aftermath": "Le passage au chapitre X vient d'une décision de gouverner l'incertitude, pas d'une encyclopédie terminée."
+      }
+    ],
+    "chapter_10_final_choice": [
+      {
+        "id": "c10_scene_empty_seats",
+        "function": "Rendre la composition du monde visible avant le choix final.",
+        "player_action": "Installer l'assemblée avec les groupes réellement présents, alliés, sauvés ou absents.",
+        "environment": ["sièges occupés selon les alliances", "places portant les noms de communautés perdues", "objets de différentes cultures utilisés sans uniformisation"],
+        "dialogue": [
+          {"speaker":"Nara Vey","text":"Nous n'allons pas remplir les sièges vides avec nos propres voix. Leur absence fait partie de ce qui doit être décidé."}
+        ],
+        "aftermath": "L'interface finale montre qui participe réellement au choix et pourquoi."
+      },
+      {
+        "id": "c10_scene_conditions_not_doctrines",
+        "function": "Faire comprendre que les fins sont rendues possibles par dix chapitres de préparation.",
+        "player_action": "Présenter les options dont les conditions politiques, techniques et relationnelles ont réellement été construites.",
+        "environment": ["routes réparées ou coupées", "nœuds stabilisés ou perdus", "délégations présentes ou absentes", "archives publiques ou fragmentaires"],
+        "dialogue": [
+          {"speaker":"Sela Mor","text":"Une idée n'est pas encore une solution. Montre-nous qui elle protège, ce qu'elle demande et ce qu'elle laisse derrière."}
+        ],
+        "aftermath": "Aucune option n'apparaît uniquement parce que le joueur choisit une couleur de fin."
+      },
+      {
+        "id": "c10_scene_small_tomorrow",
+        "function": "Terminer sur une conséquence quotidienne plutôt que sur un miracle abstrait.",
+        "player_action": "Après la résolution, traverser une partie du Sanctuaire transformée par les choix de la campagne.",
+        "environment": ["route rouverte ou contrôle maintenu", "registre neuf posé près d'anciens noms", "lampe partagée", "personnes ordinaires reprenant un travail"],
+        "dialogue": [
+          {"speaker":"Narration","text":"Le monde d'après commence petit. Quelqu'un rouvre une route, rallume une lampe, recommence un registre."}
+        ],
+        "aftermath": "La campagne se ferme sur un futur commencé mais non garanti."
+      }
+    ]
+  }
+}

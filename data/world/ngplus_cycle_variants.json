@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "design_rule": "Un Nouveau Cycle+ doit être reconnaissable comme différent avant que l'augmentation de statistiques ne devienne le changement principal. Chaque cycle modifie au minimum le monde exploré, les donjons, le comportement ennemi et la lecture narrative, sans réécrire les faits canoniques du cycle initial.",
+  "canon_boundary": {
+    "initial_cycle_is_reference_history": true,
+    "ngplus_is_replay_gameplay_layer": true,
+    "does_not_create_literal_time_loop": true,
+    "does_not_rewrite_established_history": true,
+    "boss_recruitment_is_replay_privilege": true,
+    "multitree_is_replay_privilege": true
+  },
+  "wow_guarantee": {
+    "visible_difference_within_minutes": 15,
+    "required_layers_per_cycle": ["world", "dungeon", "enemy", "narrative"],
+    "chapter_rule": "Chaque chapitre traversé en NG+ reçoit au moins un signe de monde différent et une variation de rencontre ou de donjon."
+  },
+  "profiles": [
+    {
+      "id": "premier_retour",
+      "cycle_min": 1,
+      "cycle_max": 1,
+      "title": "Premier retour — Le monde se décale",
+      "opening_log": "Quelque chose est familier, mais rien n'est exactement à sa place. Les mêmes ruines racontent déjà une autre lecture.",
+      "world_variants": ["routes_secondaires_ouvertes", "traces_des_choix_precedents", "sanctuaires_deplaces", "patrouilles_inattendues"],
+      "dungeon": {
+        "seed_salt": 1103,
+        "variant_tag": "retour",
+        "extra_hazard_pool": ["cendre_instable", "lumiere_interrompue"],
+        "secret_chance_bonus": 0.12
+      },
+      "enemy_mutators": [
+        {"id":"chasseur_de_garde","name":"Chasseur de garde","behavior":"counter_guard"},
+        {"id":"nerfs_de_cendre","name":"Nerfs de cendre","behavior":"wounded_fury"},
+        {"id":"cri_memoriel","name":"Cri mémoriel","behavior":"fear_burst"}
+      ],
+      "narrative_echoes": {
+        "1": "Les Terres de Cendre sont les mêmes. Pourtant, une borne que personne n'avait remarquée porte déjà les marques d'un passage ancien.",
+        "3": "Les archives ne changent pas les faits. Elles révèlent seulement qu'une preuve secondaire était restée hors du premier regard.",
+        "6": "L'inconnu ne devient pas plus vrai parce qu'il est revu. Il devient seulement plus difficile à réduire à une seule explication.",
+        "10": "Cette fois, le monde connaît déjà la forme de certaines de vos hésitations — pas leur issue."
+      }
+    },
+    {
+      "id": "deuxieme_veille",
+      "cycle_min": 2,
+      "cycle_max": 2,
+      "title": "Deuxième veille — Les ennemis apprennent",
+      "opening_log": "Les chemins ont changé une seconde fois. Les créatures, elles, semblent surtout avoir appris à punir les habitudes qui avaient fonctionné autrefois.",
+      "world_variants": ["territoires_disputes", "refuges_fortifies", "routes_de_contournement", "vestiges_reouverts"],
+      "dungeon": {
+        "seed_salt": 2207,
+        "variant_tag": "veille",
+        "extra_hazard_pool": ["patrouille_croisee", "ancrage_fragile", "obscurite_mobile"],
+        "secret_chance_bonus": 0.18
+      },
+      "enemy_mutators": [
+        {"id":"contre_mesure","name":"Contre-mesure","behavior":"counter_repeat"},
+        {"id":"predateur_d_espoir","name":"Prédateur d'espoir","behavior":"hunt_hope"},
+        {"id":"rupture_preparee","name":"Rupture préparée","behavior":"break_guard"}
+      ],
+      "narrative_echoes": {
+        "1": "Des survivants utilisent maintenant des passages qui n'étaient que des impasses lors du premier voyage. Leur histoire existait déjà ; vous ne l'aviez simplement pas rencontrée.",
+        "5": "Une tablette d'Or-Silex montre une doctrine abandonnée avant la Grande Fermeture. Elle ne répond à aucune énigme principale, mais elle rend leur monde moins propre et plus humain.",
+        "8": "Certains témoignages étrangers contredisent les détails, pas les faits établis. La mémoire du monde gagne en épaisseur sans changer de passé.",
+        "10": "Revenir ne donne pas raison. Cela donne davantage de choses dont il faut répondre."
+      }
+    },
+    {
+      "id": "troisieme_memoire",
+      "cycle_min": 3,
+      "cycle_max": 3,
+      "title": "Troisième mémoire — Les couches profondes",
+      "opening_log": "Les grandes vérités sont connues. Ce cycle ne les remplace pas : il ouvre les couches que l'enquête principale n'avait jamais eu besoin de traverser.",
+      "world_variants": ["quartiers_inaccessibles_ouverts", "archives_privees", "communautes_secondaires", "ruines_sous_les_ruines"],
+      "dungeon": {
+        "seed_salt": 3313,
+        "variant_tag": "memoire",
+        "extra_hazard_pool": ["echo_incomplet", "route_superposee", "salle_effondree"],
+        "secret_chance_bonus": 0.25
+      },
+      "enemy_mutators": [
+        {"id":"memoire_du_duel","name":"Mémoire du duel","behavior":"counter_repeat"},
+        {"id":"refus_de_tomber","name":"Refus de tomber","behavior":"wounded_fury"},
+        {"id":"discordance","name":"Discordance","behavior":"fear_burst"}
+      ],
+      "narrative_echoes": {
+        "2": "Un atelier d'avant la Chute avait consacré des années à un problème banal de canalisation. Cette découverte n'explique rien au Voile — et c'est précisément pour cela qu'elle compte.",
+        "4": "Les Ashaï n'étaient pas une civilisation de laboratoire. Une querelle de succession musicale survit ici mieux que leurs théories les plus célèbres.",
+        "7": "Les responsables avaient des alliés, des opposants et des vies qui ne se résument pas à leur rôle dans la catastrophe. Comprendre n'est pas absoudre.",
+        "9": "Les modèles du Voile se multiplient. Aucun nouveau fragment n'obtient le droit d'effacer les limites déjà établies."
+      }
+    },
+    {
+      "id": "cycle_profond",
+      "cycle_min": 4,
+      "cycle_max": 999,
+      "title": "Cycle profond — La Concorde des possibles",
+      "opening_log": "Le Nouveau Cycle+ cesse de suivre une seule variation fixe. Le monde compose désormais plusieurs contraintes profondes à chaque campagne.",
+      "world_variants": ["frontieres_instables", "coalitions_improbables", "zones_de_survie_transformees", "vestiges_profonds_actifs", "routes_longues_interrompues"],
+      "dungeon": {
+        "seed_salt": 4409,
+        "variant_tag": "profond",
+        "extra_hazard_pool": ["double_patrouille", "lumiere_affamee", "trace_reactive", "passage_fragile"],
+        "secret_chance_bonus": 0.30
+      },
+      "enemy_mutators": [
+        {"id":"contre_mesure_profonde","name":"Contre-mesure profonde","behavior":"counter_repeat"},
+        {"id":"chasseur_de_garde","name":"Chasseur de garde","behavior":"counter_guard"},
+        {"id":"predateur_d_espoir","name":"Prédateur d'espoir","behavior":"hunt_hope"},
+        {"id":"refus_de_tomber","name":"Refus de tomber","behavior":"wounded_fury"},
+        {"id":"cri_memoriel","name":"Cri mémoriel","behavior":"fear_burst"}
+      ],
+      "narrative_echoes": {
+        "1": "Il n'y a plus de version confortable du commencement. Les Terres de Cendre offrent plusieurs routes cohérentes vers la même catastrophe.",
+        "5": "Les ruines profondes ne donnent pas une vérité supérieure. Elles donnent davantage de contextes à une vérité déjà coûteuse.",
+        "9": "Plus les observations s'accumulent, plus une règle devient importante : aucune anomalie n'a le droit de devenir une solution universelle.",
+        "10": "Le monde n'attend pas une fin parfaite. Il attend de voir ce que vous refusez encore de sacrifier."
+      }
+    }
+  ]
+}

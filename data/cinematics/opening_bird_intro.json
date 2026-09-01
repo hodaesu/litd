@@ -1,24 +1,34 @@
 {
-  "version": 1,
+  "version": 2,
   "id": "cine_opening_bird_fall",
   "title": "Le Dernier Vol",
-  "purpose": "Présenter sans exposition frontale la civilisation du continent, la Porte, la Chute et transmettre le regard du témoin au joueur sans chargement.",
+  "purpose": "Présenter sans exposition frontale la civilisation du continent et l'expérience immédiate de la Chute, sans révéler qui l'a provoquée ni établir prématurément la nature du Voile.",
   "chronology": {
     "event": "manifestation tardive de la Chute dans la première cité traversée",
     "heroes_arrive_delay": "quelques minutes après l'impact",
     "rule": "L'oiseau et l'arrivée des héros appartiennent à une continuité réelle, jamais à une ellipse de plusieurs années."
   },
+  "revelation_guardrail": {
+    "player_may_see": [
+      "a functioning pre-Fall city",
+      "warnings that something abnormal is occurring",
+      "distant maritime silhouettes too far away to identify",
+      "a catastrophic horizon distortion followed by the local shockwave"
+    ],
+    "player_must_not_learn_from_opening": [
+      "that foreign powers formed an alliance",
+      "that the distant ships are an invasion fleet",
+      "that the ships caused or coordinated the rupture",
+      "Project Seuil",
+      "the identity of any perpetrator",
+      "a definitive spatial ontology for the Veil"
+    ],
+    "writer_truth_separation": "The opening may be compatible with the hidden canon without visually proving that canon to the player."
+  },
   "point_of_view": {
     "camera": "first_person_bird",
     "continuous_until_occlusion": true,
-    "bird_presence_cues": [
-      "wing_edge",
-      "shadow",
-      "breath",
-      "wingbeats",
-      "reflection",
-      "citizens_looking_up"
-    ],
+    "bird_presence_cues": ["wing_edge","shadow","breath","wingbeats","reflection","citizens_looking_up"],
     "comfort": {
       "wide_turns": true,
       "roll_degrees_max": 7,
@@ -28,385 +38,76 @@
     }
   },
   "lore_route": [
-    {
-      "id": "living_alley",
-      "meaning": "la cité est habitée et sûre avant la Chute",
-      "world_action": "habitants circulent, commerçants travaillent et des enfants jouent dans la ruelle"
-    },
-    {
-      "id": "rooftop_rise",
-      "meaning": "la ville forme un ensemble dense et vivant",
-      "world_action": "l'oiseau remonte au-dessus des toits et révèle les quartiers reliés"
-    },
-    {
-      "id": "martial_tournament",
-      "meaning": "les cités remplacent la guerre par des tournois codifiés",
-      "world_action": "combat arbitré, salut, juges, public et absence d'armée"
-    },
-    {
-      "id": "arts_workshop",
-      "meaning": "chaque citoyen cultive aussi l'esprit par un art",
-      "world_action": "l'oiseau traverse un bâtiment où peinture, sculpture, danse et artisanat coexistent"
-    },
-    {
-      "id": "cinematic_musicians",
-      "meaning": "la musique appartient au monde et non à une bande sonore extérieure",
-      "world_action": "des musiciens jouent réellement le thème entendu pendant la cinématique"
-    },
-    {
-      "id": "political_debate",
-      "meaning": "la politique recherche le bien commun par le débat",
-      "world_action": "citoyens et représentants argumentent dans une assemblée ouverte"
-    },
-    {
-      "id": "foreign_fleet",
-      "meaning": "les autres continents se sont alliés pour envahir",
-      "world_action": "des navires étrangers convergent au large de la cité"
-    },
-    {
-      "id": "veil_gate",
-      "meaning": "l'ouverture de la Porte provoque la catastrophe",
-      "world_action": "la Porte du Voile s'ouvre au-dessus de la mer derrière la flotte"
-    }
+    {"id":"living_alley","meaning":"la cité est habitée et sûre avant la Chute","world_action":"habitants circulent, commerçants travaillent et des enfants jouent dans la ruelle"},
+    {"id":"rooftop_rise","meaning":"la ville forme un ensemble dense et vivant","world_action":"l'oiseau remonte au-dessus des toits et révèle les quartiers reliés"},
+    {"id":"martial_tournament","meaning":"les cités canalisent leurs rivalités dans des rencontres martiales codifiées","world_action":"combat arbitré, salut, juges et public; aucune victoire ne donne à voir un droit de gouverner"},
+    {"id":"arts_workshop","meaning":"la pratique artistique appartient à la vie commune","world_action":"l'oiseau traverse un bâtiment où peinture, sculpture, danse et artisanat coexistent"},
+    {"id":"cinematic_musicians","meaning":"la musique appartient au monde et non à une bande sonore extérieure","world_action":"des musiciens jouent réellement le thème entendu pendant la cinématique"},
+    {"id":"political_debate","meaning":"la politique est une pratique publique de désaccord et de décision commune","world_action":"citoyens et représentants argumentent dans une assemblée ouverte"},
+    {"id":"foreign_fleet","meaning":"des silhouettes maritimes lointaines sont présentes mais leur origine, leur nombre exact et leur intention sont illisibles depuis la cité","world_action":"au large, quelques voiles et silhouettes se confondent avec la brume; aucune bannière ni manœuvre ne permet au joueur de conclure à une invasion"},
+    {"id":"veil_gate","meaning":"une rupture catastrophique devient visible sans révéler sa cause ni prouver que le Voile est littéralement un lieu doté d'une porte spatiale","world_action":"l'horizon marin et le ciel cessent brièvement de s'accorder; la lumière, le son et les distances se déphasent avant l'onde"}
   ],
   "runtime_waypoints": [
-    {
-      "id": "takeoff",
-      "position": [
-        -44,
-        4.2,
-        31
-      ],
-      "look_at": [
-        -34,
-        2,
-        24
-      ],
-      "duration": 2
-    },
-    {
-      "id": "living_alley",
-      "position": [
-        -34,
-        3.4,
-        23
-      ],
-      "look_at": [
-        -24,
-        1.7,
-        15
-      ],
-      "duration": 4.2
-    },
-    {
-      "id": "children_play",
-      "position": [
-        -25,
-        3,
-        15
-      ],
-      "look_at": [
-        -15,
-        1.2,
-        8
-      ],
-      "duration": 3.2
-    },
-    {
-      "id": "rooftop_rise",
-      "position": [
-        -17,
-        12,
-        7
-      ],
-      "look_at": [
-        -2,
-        2,
-        -5
-      ],
-      "duration": 3.4
-    },
-    {
-      "id": "martial_tournament",
-      "position": [
-        -2,
-        9,
-        -7
-      ],
-      "look_at": [
-        7,
-        0.8,
-        -14
-      ],
-      "duration": 5
-    },
-    {
-      "id": "arts_entry",
-      "position": [
-        13,
-        4,
-        -19
-      ],
-      "look_at": [
-        21,
-        2.2,
-        -25
-      ],
-      "duration": 2.2
-    },
-    {
-      "id": "arts_workshop",
-      "position": [
-        22,
-        3.2,
-        -26
-      ],
-      "look_at": [
-        29,
-        2,
-        -31
-      ],
-      "duration": 4.4
-    },
-    {
-      "id": "cinematic_musicians",
-      "position": [
-        30,
-        3,
-        -32
-      ],
-      "look_at": [
-        36,
-        2,
-        -37
-      ],
-      "duration": 4.6
-    },
-    {
-      "id": "arts_exit",
-      "position": [
-        38,
-        7.5,
-        -39
-      ],
-      "look_at": [
-        43,
-        3,
-        -47
-      ],
-      "duration": 2.8
-    },
-    {
-      "id": "political_debate",
-      "position": [
-        44,
-        4.2,
-        -49
-      ],
-      "look_at": [
-        47,
-        1.8,
-        -56
-      ],
-      "duration": 5.2
-    },
-    {
-      "id": "sea_climb",
-      "position": [
-        38,
-        17,
-        -65
-      ],
-      "look_at": [
-        20,
-        6,
-        -82
-      ],
-      "duration": 3.2
-    },
-    {
-      "id": "foreign_fleet",
-      "position": [
-        19,
-        23,
-        -84
-      ],
-      "look_at": [
-        2,
-        4,
-        -103
-      ],
-      "duration": 4.2
-    },
-    {
-      "id": "veil_gate",
-      "position": [
-        -1,
-        26,
-        -102
-      ],
-      "look_at": [
-        -15,
-        12,
-        -119
-      ],
-      "duration": 3.6
-    },
-    {
-      "id": "shockwave",
-      "position": [
-        -8,
-        20,
-        -88
-      ],
-      "look_at": [
-        -1,
-        2,
-        -45
-      ],
-      "duration": 1.5
-    },
-    {
-      "id": "collision",
-      "position": [
-        -5,
-        8,
-        -52
-      ],
-      "look_at": [
-        0,
-        1,
-        -27
-      ],
-      "duration": 1.2
-    },
-    {
-      "id": "fall",
-      "position": [
-        -1,
-        0.32,
-        -21
-      ],
-      "look_at": [
-        0,
-        1.2,
-        4
-      ],
-      "duration": 1.8
-    }
+    {"id":"takeoff","position":[-44,4.2,31],"look_at":[-34,2,24],"duration":2},
+    {"id":"living_alley","position":[-34,3.4,23],"look_at":[-24,1.7,15],"duration":4.2},
+    {"id":"children_play","position":[-25,3,15],"look_at":[-15,1.2,8],"duration":3.2},
+    {"id":"rooftop_rise","position":[-17,12,7],"look_at":[-2,2,-5],"duration":3.4},
+    {"id":"martial_tournament","position":[-2,9,-7],"look_at":[7,0.8,-14],"duration":5},
+    {"id":"arts_entry","position":[13,4,-19],"look_at":[21,2.2,-25],"duration":2.2},
+    {"id":"arts_workshop","position":[22,3.2,-26],"look_at":[29,2,-31],"duration":4.4},
+    {"id":"cinematic_musicians","position":[30,3,-32],"look_at":[36,2,-37],"duration":4.6},
+    {"id":"arts_exit","position":[38,7.5,-39],"look_at":[43,3,-47],"duration":2.8},
+    {"id":"political_debate","position":[44,4.2,-49],"look_at":[47,1.8,-56],"duration":5.2},
+    {"id":"sea_climb","position":[38,17,-65],"look_at":[20,6,-82],"duration":3.2},
+    {"id":"foreign_fleet","position":[19,23,-84],"look_at":[2,4,-103],"duration":3.0},
+    {"id":"veil_gate","position":[-1,26,-102],"look_at":[-15,12,-119],"duration":3.6},
+    {"id":"shockwave","position":[-8,20,-88],"look_at":[-1,2,-45],"duration":1.5},
+    {"id":"collision","position":[-5,8,-52],"look_at":[0,1,-27],"duration":1.2},
+    {"id":"fall","position":[-1,0.32,-21],"look_at":[0,1.2,4],"duration":1.8}
   ],
   "beats": [
-    {
-      "id": "living_world",
-      "camera": "stable_flight",
-      "story": "la cité est comprise par ses actions, sans narration explicative"
-    },
-    {
-      "id": "warnings",
-      "camera": "flight_narrows",
-      "story": "la vie continue mais les regards et les cloches réorientent l'attention"
-    },
-    {
-      "id": "gate_opens",
-      "camera": "brief_stillness_then_escape",
-      "story": "le son disparaît avant l'onde"
-    },
-    {
-      "id": "shockwave",
-      "camera": "controlled_instability",
-      "story": "l'oiseau perd le contrôle sans rendre l'image illisible"
-    },
-    {
-      "id": "impact",
-      "camera": "grounded_first_person",
-      "story": "aucune coupe; le témoin reste vivant"
-    },
-    {
-      "id": "last_breath",
-      "camera": "eyelid_occlusions",
-      "story": "respiration de l'oiseau et vent commencent à se confondre"
-    },
-    {
-      "id": "heroes_approach",
-      "camera": "grounded_hold",
-      "story": "postures, distances et réactions présentent le groupe avant les mots"
-    },
-    {
-      "id": "compassion_choice",
-      "camera": "hero_hand_occludes_frame",
-      "story": "le héros qui approche dépend de son comportement et de son état"
-    },
-    {
-      "id": "handoff",
-      "camera": "occlusion_match_to_exploration",
-      "story": "la caméra devient celle du joueur sans changement de scène"
-    }
+    {"id":"living_world","camera":"stable_flight","story":"la cité est comprise par ses actions, sans narration explicative"},
+    {"id":"warnings","camera":"flight_narrows","story":"la vie continue mais les regards, animaux et cloches réorientent l'attention sans donner d'explication"},
+    {"id":"gate_opens","camera":"brief_stillness_then_escape","story":"le son et la perspective se désaccordent avant l'onde; aucune cause n'est montrée"},
+    {"id":"shockwave","camera":"controlled_instability","story":"l'oiseau perd le contrôle sans rendre l'image illisible"},
+    {"id":"impact","camera":"grounded_first_person","story":"aucune coupe; le témoin reste vivant"},
+    {"id":"last_breath","camera":"eyelid_occlusions","story":"respiration de l'oiseau et vent commencent à se confondre"},
+    {"id":"heroes_approach","camera":"grounded_hold","story":"postures, distances et réactions présentent le groupe avant les mots"},
+    {"id":"compassion_choice","camera":"hero_hand_occludes_frame","story":"le héros qui approche dépend de son comportement et de son état"},
+    {"id":"handoff","camera":"occlusion_match_to_exploration","story":"la caméra devient celle du joueur sans changement de scène"}
   ],
   "approach_selection": {
-    "priority": [
-      "healing_capability",
-      "high_mercy",
-      "high_hope_posture",
-      "pragmatic_if_no_compassionate_actor"
-    ],
+    "priority": ["healing_capability","high_mercy","high_hope_posture","pragmatic_if_no_compassionate_actor"],
     "variants": {
-      "compassionate": "s'agenouille, ralentit et ferme doucement les paupières",
-      "healer": "vérifie le souffle puis comprend qu'il est trop tard",
-      "pragmatic": "vérifie brièvement l'état avant de signaler la route",
-      "fearful": "reste en retrait et laisse un autre héros approcher"
+      "compassionate":"s'agenouille, ralentit et ferme doucement les paupières",
+      "healer":"vérifie le souffle puis comprend qu'il est trop tard",
+      "pragmatic":"vérifie brièvement l'état avant de signaler la route",
+      "fearful":"reste en retrait et laisse un autre héros approcher"
     }
   },
   "handoff": {
-    "mask_event": "hero_hand_full_occlusion",
-    "switch_event": "opening_camera_to_exploration_camera",
-    "load_screen": false,
-    "same_scene_required": true,
-    "party_controls_enabled_after_switch": true,
-    "hud_state": "exploration_hidden",
-    "audio_bridge": "bird_last_exhale_to_ash_wind",
-    "first_objective_after_control": "Avancer dans les ruines — le didacticiel commence au retour de la caméra d'exploration"
+    "mask_event":"hero_hand_full_occlusion",
+    "switch_event":"opening_camera_to_exploration_camera",
+    "load_screen":false,
+    "same_scene_required":true,
+    "party_controls_enabled_after_switch":true,
+    "hud_state":"exploration_hidden",
+    "audio_bridge":"bird_last_exhale_to_ash_wind",
+    "first_objective_after_control":"Avancer dans les ruines — le didacticiel commence au retour de la caméra d'exploration"
   },
   "accessibility": {
-    "skippable": true,
-    "skip_requires_confirmation": true,
-    "subtitles_available": true,
-    "subtitle_text_scale": true,
-    "reduced_camera_motion": true,
-    "replay_from_journal": true
+    "skippable":true,
+    "skip_requires_confirmation":true,
+    "subtitles_available":true,
+    "subtitle_text_scale":true,
+    "reduced_camera_motion":true,
+    "replay_from_journal":true
   },
   "production_placeholders": {
-    "city_proxy_allowed": true,
-    "final_city_required": true,
-    "bird_body_required_parts": [
-      "wing_l_edge",
-      "wing_r_edge",
-      "shadow_proxy",
-      "eyelid_mask"
-    ],
-    "hero_animation_clips": [
-      "approach_cautious",
-      "kneel_bird",
-      "check_breath",
-      "close_eyes",
-      "stand_reform"
-    ],
-    "audio_events": [
-      "alley_crowd",
-      "children_play",
-      "roof_wind",
-      "tournament_crowd",
-      "martial_impacts",
-      "arts_workshop",
-      "diegetic_music",
-      "political_debate",
-      "sea_wind",
-      "foreign_fleet",
-      "gate_silence",
-      "shockwave",
-      "wing_distress",
-      "impact",
-      "bird_breath",
-      "ash_wind"
-    ]
+    "city_proxy_allowed":true,
+    "final_city_required":true,
+    "bird_body_required_parts":["wing_l_edge","wing_r_edge","shadow_proxy","eyelid_mask"],
+    "hero_animation_clips":["approach_cautious","kneel_bird","check_breath","close_eyes","stand_reform"],
+    "audio_events":["alley_crowd","children_play","roof_wind","tournament_crowd","martial_impacts","arts_workshop","diegetic_music","political_debate","sea_wind","distant_sails","gate_silence","shockwave","wing_distress","impact","bird_breath","ash_wind"]
   }
 }

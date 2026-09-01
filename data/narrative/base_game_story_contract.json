@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "scope": "LITD1 cycle initial only",
+  "purpose": "Faire de chaque chapitre une expérience humaine complète avant toute extension narrative du NG+.",
+  "global_rules": {
+    "reference_history": "Le cycle initial est la version de référence de l'histoire de LITD1.",
+    "human_question_required": true,
+    "chapter_reveal_must_be_earned": true,
+    "single_source_major_truth_forbidden": true,
+    "narrator_may_not_reveal_hidden_causality": true,
+    "environment_must_carry_story": true,
+    "choices_must_leave_trace": true,
+    "mystery_is_not_inconsistency": true,
+    "final_choice_must_be_collective": true,
+    "ngplus_narrative_expansion_frozen": true
+  },
+  "chapters": [
+    {
+      "id": "chapter_01_ashlands",
+      "human_question": "Que sommes-nous prêts à devenir pour survivre sans perdre ce qui rend la survie digne d'être vécue ?",
+      "emotional_arc": {"start": "sidération, urgence, méfiance", "turn": "les premiers choix de survie touchent déjà la dignité, la justice et la coexistence", "end": "solidarité fragile, curiosité inquiète"},
+      "player_knowledge_start": ["La Chute a détruit l'ordre ancien.", "Le Sanctuaire tient à peine.", "Le Voile est dangereux mais mal compris."],
+      "player_knowledge_end": ["Toutes les créatures ne sont pas de simples monstres du Voile.", "La manière de survivre transforme déjà la société reconstruite.", "Des traces du Voile sont antérieures à la Chute actuelle."],
+      "forbidden_reveals": ["Projet Seuil", "identité des commanditaires étrangers", "modèle de participation de l'observateur", "nature ultime du Voile", "vérité définitive sur les Absents"],
+      "narrator_function": "Faire sentir le coût concret de la survie et observer les gestes qui recréent une communauté sans expliquer la catastrophe.",
+      "character_pressure": [
+        {"character": "Meira Sen", "pressure": "Refuse une explication parfaite quand les sources se contredisent.", "must_not_become": "porte-parole omnisciente du lore"},
+        {"character": "Nara Vey", "pressure": "Doit arbitrer entre sécurité immédiate et maintien d'un espace commun.", "must_not_become": "chef toujours moralement juste"},
+        {"character": "Sela Mor", "pressure": "Rappelle que les décisions abstraites deviennent des blessures, des morts ou des personnes sauvées.", "must_not_become": "simple conscience morale du groupe"}
+      ],
+      "environmental_beats": [
+        "Une file de bols réparés avec des matériaux différents montre que plusieurs familles partagent désormais les mêmes réserves.",
+        "Des noms sont gravés sur une poutre utilisée pour reconstruire un toit : mémorial et nécessité matérielle occupent le même objet.",
+        "Un enclos improvisé contient une créature nourrie à distance par des survivants qui ne s'accordent pas sur ce qu'elle est.",
+        "Une borne ancienne apparaît sous une structure récente effondrée, preuve visuelle qu'une histoire plus vieille existe sous la catastrophe actuelle."
+      ],
+      "choice_echoes": ["qui reçoit les premières ressources", "traitement des créatures conscientes", "place accordée au deuil", "premiers précédents de justice"],
+      "transition_hook": "Le joueur ne cherche plus seulement comment survivre : il veut savoir pourquoi des traces impossibles existaient déjà avant la Chute."
+    },
+    {
+      "id": "chapter_02_before_fall",
+      "human_question": "Que fait-on d'une vérité qui détruit le récit rassurant d'un accident ?",
+      "emotional_arc": {"start": "soupçon", "turn": "des preuves matérielles montrent une préparation antérieure à la catastrophe", "end": "détermination mêlée de colère"},
+      "player_knowledge_start": ["Des anomalies anciennes existent.", "La catastrophe actuelle n'explique pas tout."],
+      "player_knowledge_end": ["Des anomalies furent mesurées avant la Chute.", "Des travaux ont été achetés, volés ou déplacés par des acteurs étrangers.", "L'ouverture moderne était préparée volontairement."],
+      "forbidden_reveals": ["liste complète et responsabilités exactes des six acteurs", "Pacte de l'Horizon Fermé comme vérité complète", "intention unique attribuée à tous les étrangers", "nature du Voile du chapitre IX"],
+      "narrator_function": "Transformer l'enquête en malaise matériel : registres effacés, appareils déplacés, préparatifs dissimulés. Ne jamais dire qui est coupable avant les preuves.",
+      "character_pressure": [
+        {"character": "Archiviste Toma Rei", "pressure": "Doit accepter que préserver une institution peut parfois exiger de révéler ce qu'elle voulait cacher.", "must_not_become": "archive parlante sans intérêt propre"},
+        {"character": "Éclaireuse Sana Khel", "pressure": "Préfère les preuves physiques aux théories et force l'enquête à rester ancrée dans le terrain.", "must_not_become": "sceptique caricaturale"}
+      ],
+      "environmental_beats": [
+        "Trois instruments identiques portent des réparations de dates différentes, montrant une surveillance prolongée plutôt qu'une expérience unique.",
+        "Des pages arrachées laissent intactes les traces de couture et les numéros de registre, prouvant une suppression organisée.",
+        "Un relais est installé derrière une décoration civique plus récente : quelqu'un voulait qu'il existe sans être vu.",
+        "Des annotations dans plusieurs langues montrent circulation des savoirs sans prouver encore une coalition politique."
+      ],
+      "choice_echoes": ["publier ou retenir certaines preuves fragiles", "protéger des témoins compromis", "restaurer ou détourner des archives dangereuses"],
+      "transition_hook": "L'hypothèse de l'accident devient intenable ; le chapitre suivant doit donner des noms, des institutions et des degrés de responsabilité."
+    },
+    {
+      "id": "chapter_03_threshold",
+      "human_question": "Comment juger une catastrophe collective sans prétendre que tous ceux qui y ont participé ont voulu la même chose ?",
+      "emotional_arc": {"start": "colère et besoin d'un coupable simple", "turn": "les six trajectoires révèlent ambition, obéissance, doute, intérêt, peur et tentative tardive d'arrêt", "end": "responsabilité différenciée, colère plus précise"},
+      "player_knowledge_start": ["L'ouverture moderne fut préparée.", "Des acteurs étrangers ont déplacé des savoirs et construit des relais."],
+      "player_knowledge_end": ["Le Projet Seuil est la cause immédiate de la Chute.", "Les six acteurs n'avaient ni la même intention ni le même degré de connaissance.", "Le Pacte de l'Horizon Fermé a coordonné plusieurs puissances.", "Certains ont tenté d'arrêter ou limiter le projet trop tard."],
+      "forbidden_reveals": ["théorie complète du Voile", "vérité définitive sur les Absents", "équivalence morale entre peuples étrangers et dirigeants", "présenter Bram ou Veyra comme innocents parce qu'ils ont tenté de limiter les dégâts"],
+      "narrator_function": "Faire apparaître la responsabilité dans des gestes concrets : signatures, ordres, silences, retards, corrections et refus. Ne jamais résumer les six personnes en héros ou monstres.",
+      "character_pressure": [
+        {"character": "Bram Torgun", "pressure": "A réellement réduit une partie du désastre mais doit répondre de tout ce qu'il a accepté avant son sabotage.", "must_not_become": "repenti qui efface sa responsabilité"},
+        {"character": "Eline Sar", "pressure": "Montre comment compétence technique, loyauté institutionnelle et peur des conséquences peuvent coexister.", "must_not_become": "technicienne neutre hors morale"}
+      ],
+      "environmental_beats": [
+        "Six postes de travail conservent des méthodes de notation différentes, montrant six trajectoires plutôt qu'un esprit collectif unique.",
+        "Un ordre d'arrêt est physiquement postérieur à plusieurs seuils d'alerte déjà franchis.",
+        "Des cartes d'évacuation côtoient des plans de poursuite du protocole, signe d'une organisation consciente du danger.",
+        "Le même symbole ancien apparaît dans des documents modernes sans que ses auteurs comprennent encore son origine."
+      ],
+      "choice_echoes": ["quelles preuves rendre publiques", "comment qualifier les repentirs tardifs", "quels témoins protéger pour un futur jugement"],
+      "transition_hook": "Le Projet Seuil explique la Chute moderne, mais ses symboles renvoient à une erreur bien plus ancienne."
+    },
+    {
+      "id": "chapter_04_first_rupture",
+      "human_question": "Que devient notre recherche de vérité quand l'outil utilisé pour comprendre le monde commence lui-même à le déranger ?",
+      "emotional_arc": {"start": "fascination historique", "turn": "les Ashaï ont produit une rupture en poussant trop loin une culture de mesure et de concordance", "end": "humilité devant la connaissance"},
+      "player_knowledge_start": ["Le Projet Seuil a repris des symboles plus anciens.", "Le Voile était connu avant la Chute."],
+      "player_knowledge_end": ["Les Ashaï ont provoqué une rupture locale il y a environ 3 700 ans.", "Leurs recherches reliaient perception, mémoire, mesure et matière.", "Le Voile n'est probablement pas un lieu extérieur accessible par une porte ordinaire."],
+      "forbidden_reveals": ["modèle final du chapitre IX présenté comme certain", "intention cosmique du Voile", "Ashaï réduits à une civilisation créée uniquement pour expliquer la rupture"],
+      "narrator_function": "Montrer une civilisation vivante avant son erreur : musique, eau, rivalités de mesure, travaux civiques. La catastrophe doit interrompre une histoire, pas constituer toute cette histoire.",
+      "character_pressure": [
+        {"character": "Mémoire de Nhal", "pressure": "Conserve des fragments cohérents et d'autres incomplets ; son témoignage est précieux sans devenir une preuve parfaite.", "must_not_become": "oracle du passé"},
+        {"character": "Sela Mor", "pressure": "Confronte la beauté de l'héritage ashaï au coût physique de leur dernière expérience.", "must_not_become": "voix anti-science"}
+      ],
+      "environmental_beats": [
+        "Les canaux et observatoires partagent des unités de mesure, révélant que la recherche servait aussi l'irrigation et la vie civique.",
+        "Des partitions musicales sont utilisées comme relevés comparatifs et non comme simples objets mystiques.",
+        "Un quartier populaire contient des instruments domestiques dérivés des mêmes principes que le laboratoire final.",
+        "La zone de rupture coupe une infrastructure plus ancienne au lieu d'être l'unique centre de la cité."
+      ],
+      "choice_echoes": ["préserver ou interrompre certaines expériences antiques", "priorité donnée aux données ou aux fragments de conscience", "manière de présenter l'erreur ashaï au Sanctuaire"],
+      "transition_hook": "Une rupture ancienne a déjà conduit d'autres sociétés à chercher non plus à comprendre, mais à contrôler et fermer."
+    },
+    {
+      "id": "chapter_05_great_closure",
+      "human_question": "Peut-on sauver le plus grand nombre en condamnant volontairement ceux qu'on ne peut plus atteindre ?",
+      "emotional_arc": {"start": "urgence stratégique", "turn": "la Grande Fermeture a réellement sauvé des régions tout en en sacrifiant d'autres", "end": "poids moral d'une décision efficace mais irréparable"},
+      "player_knowledge_start": ["Des ruptures ont précédé la Chute.", "Des civilisations anciennes ont développé des réponses différentes au Voile."],
+      "player_knowledge_end": ["Or-Silex a militarisé des divergences du réel.", "Saan a construit un réseau de confinement efficace.", "La Grande Fermeture a évité une catastrophe plus vaste en isolant des populations."],
+      "forbidden_reveals": ["affirmer que tous les isolés sont morts", "présenter Saan comme moralement irréprochable", "faire de la fermeture totale la solution finale évidente"],
+      "narrator_function": "Refuser le confort du résultat statistique. Montrer simultanément les régions sauvées et les listes de personnes restées derrière les seuils.",
+      "character_pressure": [
+        {"character": "Dernière Veille de Saan", "pressure": "Défend une décision qui a sauvé des millions tout en conservant les noms de ceux qu'elle a condamnés.", "must_not_become": "gardienne stoïque sans culpabilité ni doute"},
+        {"character": "Orren Taal", "pressure": "Doit décider si une solution techniquement efficace est politiquement acceptable pour le présent.", "must_not_become": "pragmatiste sans limites"}
+      ],
+      "environmental_beats": [
+        "Des bornes de fermeture portent à la fois des instructions techniques et des listes de familles attendues qui ne sont jamais arrivées.",
+        "Une route militaire parfaitement entretenue mène vers une ville abandonnée : efficacité logistique et échec humain dans le même cadre.",
+        "Des réserves ont été distribuées vers l'intérieur juste avant le scellement, preuve que certains savaient qui serait isolé.",
+        "Un poste de Saan contient des messages contradictoires entre ordre central et décisions locales de secours."
+      ],
+      "choice_echoes": ["réactiver ou laisser dormant un nœud de fermeture", "priorité au sauvetage ou à la stabilité", "jugement porté sur les responsables de Saan"],
+      "transition_hook": "Si les populations isolées n'ont pas toutes simplement péri, la question de la fermeture devient une question de relation avec les Absents."
+    },
+    {
+      "id": "chapter_06_absent",
+      "human_question": "Avons-nous des devoirs envers des êtres dont nous ne pouvons même pas définir avec certitude la manière d'exister ?",
+      "emotional_arc": {"start": "peur de l'inconnu et projection", "turn": "des réponses cohérentes apparaissent sans fournir une définition complète des Absents", "end": "reconnaissance prudente d'une relation possible"},
+      "player_knowledge_start": ["La Grande Fermeture a isolé des populations.", "Leur mort totale n'est pas établie."],
+      "player_knowledge_end": ["Certaines consciences ou continuités répondent encore.", "Certaines créatures portent des traces mémorielles étrangères à leur propre histoire.", "Une fermeture totale actuelle pourrait condamner des Absents encore existants."],
+      "forbidden_reveals": ["définition métaphysique complète des Absents", "certitude qu'une voix équivaut à une personne intacte", "attribuer conscience ou volonté à la Frontière qui marche", "présenter Saen comme représentant de tous les Absents"],
+      "narrator_function": "Décrire réponses, délais, traces et conséquences sans transformer l'incertitude en poésie omnisciente. Le doute doit rester honnête.",
+      "character_pressure": [
+        {"character": "Saen", "pressure": "Peut témoigner de sa propre continuité mais pas définir tous les Absents ni prouver une théorie universelle.", "must_not_become": "ambassadeur omniscient du Voile"},
+        {"character": "Meira Sen", "pressure": "Doit accepter qu'une relation puisse précéder une définition complète sans abandonner ses exigences de preuve.", "must_not_become": "sceptique convertie par miracle"},
+        {"character": "Sela Mor", "pressure": "Pose la question pratique : que risque-t-on de faire subir à quelqu'un pendant qu'on débat de sa nature ?", "must_not_become": "argument moral qui clôt toute discussion"}
+      ],
+      "environmental_beats": [
+        "Une salle de Saan conserve des objets personnels rangés pour un retour qui n'a jamais eu lieu.",
+        "Des réponses apparaissent uniquement après des séquences reproductibles de lumière et de son, sans message spontané omniscient.",
+        "Une créature reconnaît un trajet ancien mais échoue sur des détails qu'elle n'aurait aucune raison de connaître elle-même.",
+        "La Frontière produit les mêmes contre-effets sous les mêmes conditions, ce qui permet de l'étudier sans lui attribuer d'intention."
+      ],
+      "choice_echoes": ["prendre ou non le risque d'un contact", "protéger le Sanctuaire au détriment d'informations", "statut accordé aux témoignages d'Absents"],
+      "transition_hook": "Comprendre qu'il existe encore des victimes possibles rend inévitable la question de ceux qui ont provoqué la catastrophe et sont toujours vivants."
+    },
+    {
+      "id": "chapter_07_living_responsible",
+      "human_question": "À quoi sert la justice quand rien ne peut réparer ce qui a été détruit ?",
+      "emotional_arc": {"start": "désir de vengeance et besoin de clôture", "turn": "les responsables vivants ont des degrés de faute, des repentirs, des justifications et parfois des actes de limitation tardifs", "end": "justice comme institution pour les vivants plutôt que réparation magique du passé"},
+      "player_knowledge_start": ["Le Projet Seuil est responsable de la Chute.", "Des victimes anciennes et présentes subsistent sous différentes formes."],
+      "player_knowledge_end": ["Bram a réduit une partie de l'ampleur immédiate sans être innocent.", "Veyra avait compris une part du danger et a tenté tardivement de limiter l'emballement.", "Edras assume encore le coût humain comme prix du savoir.", "La manière de juger devient un précédent pour la Concorde reconstruite."],
+      "forbidden_reveals": ["repentir égal innocence", "transformation physique égal perte automatique de responsabilité", "expérience d'Edras ouvrant un nouveau Seuil", "jugement rendu uniquement par le protagoniste sans institution"],
+      "narrator_function": "Rendre les responsables humains avant de les rendre excusables ou condamnables : gestes ordinaires, peur, rationalisations, silences et conséquences de leurs actes.",
+      "character_pressure": [
+        {"character": "Bram Torgun", "pressure": "Veut que son sabotage compte sans pouvoir effacer les années de participation antérieures.", "must_not_become": "héros tardif"},
+        {"character": "Veyra Oss", "pressure": "Veut être jugée sur l'ensemble de son travail, y compris sa tentative de mitigation, pas sur un récit simple de monstre ou de sauveuse.", "must_not_become": "scientifique maudite romantisée"},
+        {"character": "Edras Nhal", "pressure": "Reste intellectuellement cohérent : il accepte le désastre comme coût et oblige le joueur à répondre à une justification, pas à une folie vague.", "must_not_become": "méchant qui veut ouvrir le Voile parce que le scénario exige un boss"}
+      ],
+      "environmental_beats": [
+        "Les refuges des responsables montrent ce qu'ils ont choisi de sauver : données, personnes, outils, correspondances ou rien.",
+        "Les preuves de victimes sont physiquement présentes dans le lieu du jugement, empêchant la discussion de devenir abstraite.",
+        "Des lettres postérieures à la Chute montrent comment chacun s'est raconté sa propre responsabilité.",
+        "Le lieu de justice est improvisé avec des règles affichées avant même de savoir qui sera jugé, montrant que la procédure ne doit pas être fabriquée pour un accusé particulier."
+      ],
+      "choice_echoes": ["capturer, tuer en dernier recours ou juger", "publicité des audiences", "droits accordés aux accusés", "confiance future dans les institutions"],
+      "transition_hook": "Les preuves sont désormais assez solides pour confronter non seulement des individus, mais les sociétés étrangères qui ont soutenu le projet."
+    },
+    {
+      "id": "chapter_08_outer_world",
+      "human_question": "Peut-on condamner un régime sans condamner tous ceux qui ont vécu sous lui ?",
+      "emotional_arc": {"start": "ressentiment envers l'extérieur", "turn": "chaque société révèle responsables, dissidents, profiteurs, victimes et héritiers qui n'ont pas choisi la catastrophe", "end": "colère sans déshumanisation, possibilité d'alliances"},
+      "player_knowledge_start": ["Plusieurs puissances étrangères ont soutenu le Projet Seuil.", "Leurs responsabilités institutionnelles sont documentées."],
+      "player_knowledge_end": ["Les sociétés étrangères étaient traversées de conflits et de refus internes.", "Leurs populations ont également été dévastées.", "Des archives extérieures complètent sans annuler les preuves de la Concorde.", "La culpabilité politique ne se transmet pas biologiquement à un peuple entier."],
+      "forbidden_reveals": ["peuple étranger intrinsèquement coupable", "tous les dissidents secrètement vertueux", "catastrophe comme punition morale", "unification artificielle des quatre cultures"],
+      "narrator_function": "Faire ressentir l'étrangeté réelle des lieux sans exotisme moral. Montrer des cuisines, marchés, rites, ruines, administrations et familles avant les dossiers politiques.",
+      "character_pressure": [
+        {"character": "Capitaine Varek Sorn", "pressure": "Porte une institution militaire impliquée tout en disposant de preuves de refus internes.", "must_not_become": "bon soldat qui absout l'armée"},
+        {"character": "Navigatrice Issel Pell", "pressure": "Montre comment commerce, fuite et secours ont coexisté dans les mêmes routes.", "must_not_become": "guide touristique du monde extérieur"},
+        {"character": "Docteure Keira Om", "pressure": "Possède des copies de savoir dangereux et doit choisir ce qu'une académie a le droit de conserver.", "must_not_become": "machine à exposition scientifique"}
+      ],
+      "environmental_beats": [
+        "Une affiche de propagande officielle est recouverte d'itinéraires de fuite écrits à la main par des habitants.",
+        "Un ancien dépôt militaire sert désormais de cuisine commune à des familles de plusieurs camps.",
+        "Des livres de comptes montrent dans les mêmes pages financement du Projet Seuil et dépenses clandestines pour évacuer des dissidents.",
+        "Les ruines de lieux religieux contiennent à la fois traces de purges et objets de secours distribués par des croyants opposés au pouvoir."
+      ],
+      "choice_echoes": ["alliances avec dissidents ou institutions réformées", "publication d'archives compromettantes", "accueil d'étrangers au Sanctuaire", "réparations ou restitutions"],
+      "transition_hook": "Après avoir élargi les sources à plusieurs peuples, le joueur possède enfin assez de données incompatibles et convergentes pour chercher un modèle du Voile sans le réduire à une seule tradition."
+    },
+    {
+      "id": "chapter_09_veil_nature",
+      "human_question": "Que faisons-nous lorsque nous comprenons assez pour agir, mais jamais assez pour être certains ?",
+      "emotional_arc": {"start": "désir de réponse finale", "turn": "les modèles convergent sur des limites opérationnelles mais échouent à donner une origine ou une intention ultime", "end": "humilité épistémique et responsabilité d'agir malgré l'incertitude"},
+      "player_knowledge_start": ["Le Voile a plusieurs manifestations historiques.", "La Lumière, la peur, la mémoire et les frontières ont des effets observables mais limités."],
+      "player_knowledge_end": ["La Lumière stabilise une référence commune locale.", "Peur et Folie du Voile peuvent orienter des possibilités déjà ouvertes dans des zones instables sans créer arbitrairement le réel.", "Le Voile n'est pas établi comme un lieu, une divinité ou une volonté.", "Son origine ultime reste inconnue."],
+      "forbidden_reveals": ["explication métaphysique totale", "prophétie certaine", "Voile comme volonté malveillante confirmée", "Lumière comme détecteur de vérité", "croyance seule créant la réalité"],
+      "narrator_function": "Aider à distinguer observation, hypothèse et ignorance. À mesure que le chapitre avance, la narration doit devenir plus précise, pas plus mystique.",
+      "character_pressure": [
+        {"character": "Veyra Oss", "pressure": "Doit accepter que comprendre les limites du phénomène ne justifie pas la manière dont elle a cherché à les franchir.", "must_not_become": "scientifique qui obtient finalement raison"},
+        {"character": "Saen", "pressure": "Reste une expérience singulière qui contredit certains modèles sans remplacer la méthode.", "must_not_become": "preuve vivante d'une métaphysique complète"},
+        {"character": "Nara Vey", "pressure": "Ramène chaque modèle à la question politique : quelles décisions peuvent être prises sans prétendre savoir davantage ?", "must_not_become": "porte-parole de la fin choisie par l'auteur"}
+      ],
+      "environmental_beats": [
+        "Plusieurs cartes incompatibles deviennent utiles lorsqu'elles sont superposées comme observations locales plutôt que comme géographie unique.",
+        "Des lampes collectives stabilisent un passage tant que les groupes maintiennent des références partagées, sans révéler quelle interprétation est vraie.",
+        "Des expériences identiques répétées avec journaux publics produisent des limites mesurables et des échecs reproductibles.",
+        "Un dispositif s'arrête volontairement avant la zone d'inconnaissable, matérialisant la décision de ne pas provoquer une catastrophe pour obtenir une réponse."
+      ],
+      "choice_echoes": ["quelle incertitude accepter", "quelles expériences interdire", "quels savoirs partager", "quelle place accorder aux Absents et aux zones autonomes"],
+      "transition_hook": "Le problème final n'est plus de découvrir une vérité cachée, mais de décider collectivement quoi faire avec une connaissance incomplète et des coûts incompatibles."
+    },
+    {
+      "id": "chapter_10_final_choice",
+      "human_question": "Quel monde voulons-nous rendre possible ensemble, sachant qu'aucune solution n'effacera toutes les pertes ?",
+      "emotional_arc": {"start": "poids du choix final porté sur le protagoniste", "turn": "les personnes et communautés façonnées pendant la campagne revendiquent leur place dans la décision", "end": "espoir non garanti, responsabilité partagée"},
+      "player_knowledge_start": ["Aucune solution n'est moralement neutre.", "Les limites opérationnelles du Voile sont assez connues pour agir sans prétendre tout comprendre."],
+      "player_knowledge_end": ["Le futur dépend autant des institutions et relations construites que du mécanisme choisi au nœud final.", "La lumière signifie rendre possible une référence commune, pas supprimer toute obscurité.", "Le monde d'après restera conflictuel, vivant et révisable."],
+      "forbidden_reveals": ["fin parfaite", "option secrètement désignée comme seule bonne fin", "protagoniste décidant seul pour tous", "effacement gratuit des morts ou des conséquences", "Voile définitivement expliqué"],
+      "narrator_function": "Réduire sa présence à mesure que davantage de voix prennent place. Le dernier sens doit venir des personnes, gestes et institutions réunis, pas d'un verdict du narrateur.",
+      "character_pressure": [
+        {"character": "Coalition constituée par les choix du joueur", "pressure": "La composition de l'assemblée doit matérialiser les relations construites pendant dix chapitres.", "must_not_become": "chœur unanime validant le protagoniste"},
+        {"character": "Protagoniste créé", "pressure": "Peut proposer, convaincre, risquer et agir, mais ne devient jamais souverain métaphysique du monde.", "must_not_become": "élu qui décide seul de la réalité"}
+      ],
+      "environmental_beats": [
+        "Le cercle de décision utilise des sièges et symboles provenant de communautés sauvées ou alliées, laissant physiquement visibles les absences de celles perdues.",
+        "Les routes vers le nœud final passent par des infrastructures réparées ou abandonnées selon les décisions antérieures.",
+        "Les mémoriaux ne disparaissent pas lors de la préparation du futur : les morts restent présents dans l'espace commun sans parler à la place des vivants.",
+        "Après la résolution, le premier changement visible est ordinaire — une route rouverte, une lampe partagée, un registre recommencé — plutôt qu'un miracle cosmique."
+      ],
+      "choice_echoes": ["composition de l'assemblée", "institutions de justice", "statut des créatures et Absents", "alliances extérieures", "savoirs interdits ou publics", "état matériel du Sanctuaire"],
+      "transition_hook": "Fin du cycle initial. Toute extension NG+ reste séparée de cette histoire de référence jusqu'à reprise volontaire du chantier NG+."
+    }
+  ]
+}

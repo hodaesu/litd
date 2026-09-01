@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "scope": "LITD1 cycle initial only",
+  "speaker_label": "Narration",
+  "identity": "Voix extradiégétique limitée, non personnifiée et non surnaturelle.",
+  "style_contract": {
+    "purpose": "Donner du rythme, de la matière et de l'humanité sans remplacer les personnages ni résoudre les mystères.",
+    "tone": ["sobre", "sensoriel", "grave sans emphase constante", "humain", "précis lorsque le savoir augmente"],
+    "preferred_structure": "image concrète -> conséquence humaine -> question ou silence",
+    "max_sentences_default": 3,
+    "rules": [
+      "Ne jamais révéler une cause que le joueur n'a pas encore établie.",
+      "Ne jamais connaître l'avenir ni annoncer une prophétie certaine.",
+      "Ne jamais dire au joueur ce qu'il doit penser d'un choix moral.",
+      "Ne jamais transformer une hypothèse sur le Voile en vérité par une formule poétique.",
+      "Décrire d'abord des choses observables : corps, lumière, poussière, gestes, objets, architecture, silence, distance.",
+      "Laisser les personnages porter les arguments philosophiques ; la narration porte surtout le rythme, les traces et l'après-coup.",
+      "Après une mort, parler de la personne et de ce qui manque, jamais d'un score ou d'une punition.",
+      "À mesure que la campagne progresse, devenir plus exacte dans le vocabulaire plutôt que plus omnisciente.",
+      "Au chapitre X, se retirer progressivement pour laisser les voix du monde occuper la scène."
+    ],
+    "forbidden_tics": [
+      "Le destin avait décidé",
+      "Ils ne le savaient pas encore, mais",
+      "Le Voile voulait",
+      "La vérité les attendait",
+      "Tout devait arriver ainsi",
+      "Vous êtes l'élu"
+    ]
+  },
+  "generic_lines": {
+    "expedition_return_with_dead": [
+      "On rapporte toujours moins de choses que l'on en emporte. Parfois, ce qui manque avait un nom.",
+      "Les portes du Sanctuaire s'ouvrent. Ceux qui reviennent entrent d'abord ; les absents entrent avec eux autrement."
+    ],
+    "expedition_return_success": [
+      "La route est la même. Ceux qui la reprennent ne le sont déjà plus tout à fait.",
+      "Une trouvaille n'est pas encore une réponse. Au Sanctuaire, il faudra la comparer à tout ce qui la contredit."
+    ],
+    "major_choice_aftermath": [
+      "La décision est prise. Elle ne disparaît pas avec la fermeture du registre.",
+      "Personne n'applaudit longtemps une décision qui doit encore être vécue demain."
+    ],
+    "permadeath": [
+      "Le corps reste. Les raisons de continuer aussi.",
+      "Il n'y aura pas de seconde version de cette mort. Seulement ceux qui devront vivre après elle."
+    ]
+  },
+  "chapters": {
+    "chapter_01_ashlands": {
+      "opening": [
+        "La cendre entre partout : dans les poumons, dans les réserves, entre deux noms que l'on croyait encore savoir prononcer.",
+        "Le Sanctuaire n'est pas encore une ville. C'est une promesse faite par des gens qui n'ont pas assez de bois, pas assez de nourriture, et encore moins de certitudes."
+      ],
+      "first_major_discovery": [
+        "Sous une construction récente, une pierre plus ancienne attendait déjà. Elle ne dit pas ce qu'elle signifie. Elle dit seulement qu'elle était là avant."
+      ],
+      "return_after_loss": [
+        "On reconstruit un mur avec ce que l'on trouve. Une communauté aussi. La différence est que les personnes ne sont pas des matériaux remplaçables."
+      ],
+      "closing": [
+        "La Chute reste immense. Mais elle n'est plus assez grande pour contenir toute l'histoire du Voile. Quelque chose la précédait."
+      ]
+    },
+    "chapter_02_before_fall": {
+      "opening": [
+        "Les ruines ne gardent pas seulement ce qui a été détruit. Elles gardent parfois ce que quelqu'un avait pris soin de cacher avant la destruction.",
+        "Un accident laisse du désordre. Ici, certains désordres ont été rangés."
+      ],
+      "first_major_discovery": [
+        "Trois instruments. Trois dates de réparation. Des mois de surveillance avant le jour que tout le monde appelait encore imprévisible."
+      ],
+      "return_after_loss": [
+        "Plus l'enquête avance, moins l'ignorance protège. Ceux qui reviennent savent désormais qu'une main humaine peut se cacher derrière une catastrophe."
+      ],
+      "closing": [
+        "Il reste trop de noms inconnus, trop d'ordres manquants. Mais une chose ne tient plus : personne n'a simplement trébuché sur la fin du monde."
+      ]
+    },
+    "chapter_03_threshold": {
+      "opening": [
+        "Un nom donne un visage à la colère. Six noms obligent à regarder six histoires différentes.",
+        "Les signatures sont lisibles. Les intentions le sont moins. Les conséquences, elles, n'ont jamais cessé de l'être."
+      ],
+      "first_major_discovery": [
+        "Sur la même table : un ordre de poursuivre, une demande d'évacuation, un calcul de risque et un ordre d'arrêt arrivé trop tard. Une catastrophe peut être organisée sans être simple."
+      ],
+      "return_after_loss": [
+        "Connaître les responsables n'allège aucun corps porté jusqu'au Sanctuaire. La vérité ne répare pas. Elle change seulement ce que l'on peut encore choisir de faire."
+      ],
+      "closing": [
+        "Le Projet Seuil a un nom, des archives et des responsables. Pourtant ses symboles appartenaient déjà à des morts plus anciens qu'eux."
+      ]
+    },
+    "chapter_04_first_rupture": {
+      "opening": [
+        "Avant d'être des ruines, ces salles ont servi à mesurer l'eau, les saisons, les sons et les désaccords entre témoins.",
+        "Une civilisation ne devient pas une erreur parce que l'une de ses recherches finit mal."
+      ],
+      "first_major_discovery": [
+        "La musique n'était pas une incantation. C'était une méthode de comparaison. Le danger est venu quand mesurer ne suffisait plus et qu'ils ont voulu pousser le phénomène plus loin."
+      ],
+      "return_after_loss": [
+        "Les morts d'il y a des millénaires ne rendent pas ceux d'aujourd'hui moins réels. Ils rappellent seulement que l'intelligence n'immunise personne contre l'erreur."
+      ],
+      "closing": [
+        "Ce qu'ils ont touché n'avait pas besoin d'une porte. Le mot est resté. Le modèle, lui, commence à céder."
+      ]
+    },
+    "chapter_05_great_closure": {
+      "opening": [
+        "Il existe des décisions que l'on peut défendre avec des chiffres et pleurer avec des noms.",
+        "Les bornes de Saan ont tenu. C'est précisément ce qui rend leur prix impossible à éviter."
+      ],
+      "first_major_discovery": [
+        "Une liste d'évacuation s'arrête au milieu d'une famille. Plus loin, le rapport technique conclut : stabilisation réussie. Les deux documents disent vrai."
+      ],
+      "return_after_loss": [
+        "Sauver le plus grand nombre ne transforme pas automatiquement ceux qui restent derrière en coût abstrait. Quelqu'un doit encore se souvenir de leurs noms."
+      ],
+      "closing": [
+        "La Grande Fermeture a empêché pire. Elle a peut-être aussi enfermé quelque chose qui n'était pas mort."
+      ]
+    },
+    "chapter_06_absent": {
+      "opening": [
+        "Une réponse n'est pas toujours une voix. Parfois c'est un délai répété, un objet déplacé de la même manière, une lumière qui cesse de trembler au même signal.",
+        "Le difficile n'est pas seulement de savoir ce qui répond. C'est de décider ce que nous lui devons avant de le savoir complètement."
+      ],
+      "first_major_discovery": [
+        "Le motif se répète. Même séquence, même délai, même réponse. Ce n'est pas encore une définition. C'est assez pour cesser de prétendre qu'il ne se passe rien."
+      ],
+      "return_after_loss": [
+        "Le Sanctuaire sait enterrer un corps. Il ne sait pas encore quel rite offrir à quelqu'un dont il ne peut même pas dire où commence et où finit l'existence."
+      ],
+      "closing": [
+        "Fermer définitivement le réseau serait plus simple si personne n'attendait de l'autre côté. La simplicité vient de disparaître."
+      ]
+    },
+    "chapter_07_living_responsible": {
+      "opening": [
+        "Les ruines ne demandent pas pardon. Les vivants, parfois oui. Parfois non.",
+        "Un tribunal improvisé n'a pas le pouvoir de rendre les morts. Il peut encore décider de ce que les vivants accepteront de devenir en les jugeant."
+      ],
+      "first_major_discovery": [
+        "Bram a essayé d'arrêter. Veyra a essayé de limiter. Ces verbes arrivent après des années pendant lesquelles ni l'un ni l'autre n'est parti."
+      ],
+      "return_after_loss": [
+        "La vengeance promet une fin rapide. La justice demande davantage : des preuves, des règles, du temps, et parfois la présence insupportable de l'accusé."
+      ],
+      "closing": [
+        "Les responsables ont des noms. Leurs peuples aussi. Ce ne sont pas les mêmes choses. Il faut maintenant traverser la mer avec cette distinction intacte."
+      ]
+    },
+    "chapter_08_outer_world": {
+      "opening": [
+        "Au-delà de la Concorde, les maisons ont d'autres toits, les morts d'autres rites, et la faim exactement le même poids.",
+        "Les archives accusent des régimes. Les rues obligent à regarder les gens qui ont vécu dessous."
+      ],
+      "first_major_discovery": [
+        "Dans le même registre, de l'argent finance le Projet Seuil et paie le passage clandestin de ceux qui tentent de le dénoncer. Une société peut porter des crimes et leurs refus dans la même colonne."
+      ],
+      "return_after_loss": [
+        "Il est facile de rentrer avec de nouvelles preuves. Plus difficile de rentrer avec des étrangers dont l'existence rend les anciennes généralités impossibles."
+      ],
+      "closing": [
+        "La catastrophe a traversé les frontières dessinées par ceux qui l'avaient préparée. Les preuves aussi. Pour la première fois, elles viennent de presque tous les côtés."
+      ]
+    },
+    "chapter_09_veil_nature": {
+      "opening": [
+        "Après tant de morts, vouloir enfin une réponse complète ressemble presque à un droit. Le monde ne signe aucun contrat de ce genre.",
+        "Il reste pourtant des choses mesurables : ce qui stabilise, ce qui aggrave, ce qui échoue, et la limite au-delà de laquelle chercher une réponse devient une nouvelle menace."
+      ],
+      "first_major_discovery": [
+        "Les lampes n'indiquent pas qui a raison. Elles permettent seulement à plusieurs personnes de continuer à partager assez de réel pour se contredire encore."
+      ],
+      "return_after_loss": [
+        "L'ignorance peut tuer. La certitude inventée aussi. Entre les deux, il reste la tâche moins glorieuse de savoir exactement ce que l'on sait."
+      ],
+      "closing": [
+        "Le Voile garde son origine. Le monde, lui, n'attendra pas que cette question soit résolue pour demander une décision."
+      ]
+    },
+    "chapter_10_final_choice": {
+      "opening": [
+        "Pendant longtemps, tout semblait conduire ici. En réalité, ce qui compte est ce qui a été conduit avec vous : des survivants, des dettes, des alliances, des absences et des règles que certains acceptent encore de partager.",
+        "Un monde commun ne commence pas quand tout le monde pense la même chose. Il commence quand le désaccord cesse d'autoriser n'importe quoi."
+      ],
+      "first_major_discovery": [
+        "Le cercle n'est pas complet. Certains sièges sont occupés. D'autres portent seulement un nom. C'est avec cette assemblée imparfaite qu'il faut décider."
+      ],
+      "return_after_loss": [
+        "Même à la fin, certaines personnes ne reviennent pas. Aucune victoire ne reçoit le droit de corriger cette phrase."
+      ],
+      "closing": [
+        "La lumière ne gagne pas contre l'obscurité. Elle donne seulement assez de monde commun pour que demain puisse encore être discuté.",
+        "Puis quelqu'un rouvre une route, rallume une lampe, recommence un registre. Le monde d'après commence petit."
+      ]
+    }
+  }
+}

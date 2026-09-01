@@ -1,35 +1,31 @@
 {
-  "version": 1,
-  "policy": "La première version produit un sous-ensemble complet et équilibrable; les autres concepts restent dans le dépôt sans être exposés au joueur.",
+  "version": 2,
+  "policy": "Production may expose a staged subset while development is incomplete, but the canonical design remains three exclusive trees of fifteen nodes for every hero, enemy and capturable creature. A production subset is an implementation status, never a lore/design redefinition.",
+  "canonical_design": {
+    "branches_per_character": 3,
+    "nodes_per_branch": 15,
+    "total_nodes_per_character": 45,
+    "tree_choice_exclusive": true,
+    "applies_to": ["heroes","enemies","captured_creatures"]
+  },
   "heroes": {
-    "branches": 3,
     "catalog_nodes_per_branch": 15,
-    "production_nodes_per_branch": 10,
+    "currently_targeted_runtime_nodes_per_branch": 10,
     "equipped_slots": 4,
-    "reserve_nodes_per_branch": 5,
-    "reserve_policy": "data_and_design_preserved_not_unlockable",
-    "future_activation_requires": "playtest_value_and_production_budget"
+    "remaining_nodes_status": "authored_or_pending_production_not_removed_from_canon",
+    "future_activation_requires": "implementation and playtest completion; no new canon decision required"
   },
   "enemies": {
-    "authored_shared_ability_pool": 8,
-    "family_runtime_target": [
-      4,
-      8
-    ],
-    "player_style_forty_five_skill_trees": false,
-    "diversity_sources": [
-      "ai_orientation",
-      "fear_posture",
-      "injury_state",
-      "combat_rank",
-      "environment",
-      "family_identity"
-    ]
+    "canonical_nodes_per_branch": 15,
+    "canonical_branches": 3,
+    "currently_targeted_runtime_subset": [4,8],
+    "runtime_subset_status": "temporary implementation gap",
+    "diversity_sources": ["chosen_skill_tree","ai_orientation","fear_posture","injury_state","combat_rank","environment","family_identity"]
   },
   "rules": {
-    "do_not_delete_reserve": true,
-    "do_not_animate_reserve_yet": true,
-    "reserve_hidden_from_player": true,
+    "do_not_delete_canonical_nodes": true,
+    "do_not_present_incomplete_runtime_subset_as_final_design": true,
+    "reserve_or_unimplemented_nodes_hidden_until_ready": true,
     "no_new_major_system_before_pc_loop_validation": true
   }
 }

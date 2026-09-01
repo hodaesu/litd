@@ -1,13 +1,113 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "scope": "LITD Universe franchise pillars",
+  "writing_principles": {
+    "philosophy_access": "Compréhensible immédiatement, approfondissable indéfiniment.",
+    "entry_rule": "On ne simplifie pas l'idée. On simplifie son point d'entrée.",
+    "human_depth_target": "Je comprends parfaitement ce qu'ils vivent. Je ne suis pas certain de ce que j'en pense.",
+    "cross_pillar_rule": "Prefer systems and scenes that express several pillars at once while remaining causally and historically coherent."
+  },
   "pillars": [
-    {"id":"character_creation","name":"Création de personnages","permanent":true},
-    {"id":"systemic_gore","name":"Gore systémique et conséquences corporelles","permanent":true},
-    {"id":"philosophy_psychology_narrative","name":"Philosophie et psychologie dans la narration","permanent":true},
-    {"id":"accessible_human_depth","name":"Profondeur humaine accessible","permanent":true,"target_effect":"Je comprends parfaitement ce qu'ils vivent. Je ne suis pas certain de ce que j'en pense."},
-    {"id":"strong_narrative","name":"Narration forte","permanent":true},
-    {"id":"cross_game_interconnection","name":"Interconnexion des jeux","permanent":true}
+    {
+      "id":"character_creation",
+      "name":"Création de personnages",
+      "permanent":true,
+      "rule":"Le monde possède son histoire ; le joueur y crée la personne qui va la traverser.",
+      "requirements":[
+        "creation is structurally integrated into play rather than detached cosmetics",
+        "identity is recognized by systems narrative equipment injuries progression and persistent body consequences",
+        "humans may belong to all ethnicities without intrinsic stat stereotypes",
+        "appearance sex skin and ethnicity never grant intrinsic build bonuses",
+        "optional origins may enrich roleplay but do not permanently lock the build",
+        "major historical figures may remain predefined exceptions"
+      ],
+      "litd1":"Created/customized playable characters are structural to the roster alongside recruitment, classes, three skill trees, equipment, traits, injuries, permadeath and captured creatures.",
+      "litd2":"The protagonist is created by the player and is not Sahra, Ilyan or Tala. Identity remains stable through Remanence reconstruction and old corpses remain recognizable."
+    },
+    {
+      "id":"systemic_gore",
+      "name":"Gore systémique et conséquences corporelles",
+      "permanent":true,
+      "rule":"Violence doit raconter ce qui est arrivé au corps, pas seulement produire un effet décoratif.",
+      "requirements":[
+        "body zones matter",
+        "injury trauma fractures dismemberment and finishers remain readable",
+        "visible body state and corpses preserve consequences",
+        "gore connects to gameplay and narrative systems",
+        "violence is never gratuitous shorthand for depth"
+      ]
+    },
+    {
+      "id":"philosophy_psychology_narrative",
+      "name":"Philosophie et psychologie dans la narration",
+      "permanent":true,
+      "themes":["fear","hope","supernatural_folie","guilt","grief","memory","identity","violence","obedience","power","responsibility","freedom","common_good","body","death","others"],
+      "entry_method":"concrete situation -> character conflict -> choice/consequence -> optional deeper interpretation",
+      "guardrails":[
+        "no essay-speakers or authorial correct answer",
+        "no universal grief stages",
+        "trauma neither inevitably breaks nor strengthens",
+        "post-traumatic growth is optional and never makes trauma good",
+        "resilience varies",
+        "moral injury is treated as a developing construct",
+        "Freud and Jung are historical/symbolic references, not empirical consensus",
+        "Maslow is not a fixed universal ladder",
+        "Milgram does not prove everyone inevitably obeys",
+        "Stanford prison does not justify simple situational determinism",
+        "memory is reconstructive",
+        "supernatural Folie is distinct from real mental illness",
+        "mental illness is never shorthand for violence evil or supernatural insight",
+        "no demographic biological psychology stereotypes"
+      ],
+      "voices": {
+        "Tala":"concrete case -> institution; focuses on arbitrary power and contestability",
+        "Sahra":"body practice limits and consequences; force is not legitimacy",
+        "Ilyan":"perception experience doubt memory and creation; separates observation from interpretation"
+      }
+    },
+    {
+      "id":"accessible_human_depth",
+      "name":"Profondeur humaine accessible",
+      "permanent":true,
+      "target_effect":"Je comprends parfaitement ce qu'ils vivent. Je ne suis pas certain de ce que j'en pense.",
+      "layers":[
+        "concrete immediate experience",
+        "conflict of meaning or values",
+        "optional deepening"
+      ],
+      "validation_questions":[
+        "Do I understand what the character is living?",
+        "Do I understand what they want or fear?",
+        "Is the conflict clear?",
+        "Is there still something meaningful to think about afterward?"
+      ],
+      "anti_false_depth":["jargon","empty aphorism","overexplaining","essay dialogue","perfect moral answer","suffering-as-lesson","character always right","generic interchangeable text"]
+    },
+    {
+      "id":"strong_narrative",
+      "name":"Narration forte",
+      "permanent":true,
+      "requirements":[
+        "clear plot and understandable objectives",
+        "memorable characters with motivated evolution",
+        "mysteries whose revelations are prepared",
+        "consequences persist",
+        "emotional progression",
+        "secondary stories tied to the world",
+        "environmental storytelling",
+        "procedural or roguelike structure never excuses vague history",
+        "runs and deaths obey real chronology"
+      ]
+    },
+    {
+      "id":"cross_game_interconnection",
+      "name":"Interconnexion des jeux",
+      "permanent":true,
+      "rule":"Each game enriches the others while remaining independently understandable.",
+      "connection_modes":["figures","lineages","institutions","texts","laws","schools","techniques","weapons","relics","places","ruins","symbols","songs","rites","myths","historical_errors","propaganda","mistranslation","contradictory_versions"],
+      "past_to_future_trace_rule":"A validated past event should leave an appropriate future trace unless a documented cause explains its absence.",
+      "allowed_trace_transformations":["preserved","transformed","ritualized","institutionalized","forgotten","mythified","distorted","falsified","fragmentary"]
+    }
   ],
   "global_rules": [
     {
@@ -15,43 +115,23 @@
       "name": "Cohérence narrative absolue",
       "mandatory": true,
       "is_pillar": false,
-      "rule": "Nothing happens because the plot needs it. Events must be permitted by established world rules, character knowledge, motivations, chronology and causality.",
+      "rule": "Rien n'arrive parce que le scénario l'exige. Tout arrive parce que le monde, les personnages et les règles déjà établies le permettent.",
       "reference": "docs/LITD_UNIVERSE_REGLE_COHERENCE_NARRATIVE.md",
-      "forbidden": [
-        "deus_ex_machina",
-        "continuity_error",
-        "silent_retcon",
-        "retroactive_contrivance",
-        "impossible_character_knowledge",
-        "unmotivated_character_behavior",
-        "plot_solving_coincidence",
-        "unbounded_supernatural_fix",
-        "consequence_disappearance_without_cause"
-      ],
-      "required_checks": [
-        "chronology",
-        "geography_and_travel_time",
-        "character_knowledge",
-        "character_motivation",
-        "technology",
-        "supernatural_rules",
-        "causality",
-        "short_term_consequences",
-        "long_term_consequences",
-        "cross_game_continuity"
-      ],
+      "forbidden": ["deus_ex_machina","continuity_error","silent_retcon","retroactive_contrivance","impossible_character_knowledge","unmotivated_character_behavior","plot_solving_coincidence","unbounded_supernatural_fix","consequence_disappearance_without_cause"],
+      "required_checks": ["cause","reasonable_causer","world_rules","why_here_now","character_knowledge","immediate_consequences","long_term_consequences","cross_game_period_compatibility","supernatural_limits","coincidence_trigger_vs_artificial_solution"],
       "inconsistency_policy": {
         "must_signal_user": true,
         "silent_fix_forbidden": true,
         "severity": ["BLOCKING","MAJOR","MINOR","OPEN_QUESTION"],
         "resolve_before_validation_if": ["BLOCKING","MAJOR"]
-      }
+      },
+      "final_test":"Si le joueur connaissait toutes les informations disponibles dans le canon, cette explication lui semblerait-elle naturelle plutôt que fabriquée après coup ?"
     }
   ],
   "mandatory_writing_references": [
     "docs/LITD_UNIVERSE_BIBLIOTHEQUE_PHILO_PSYCHO.md",
     "docs/LITD_UNIVERSE_GUIDE_ECRITURE_PHILO_PSYCHO.md",
-    "docs/LITD_UNIVERSE_REGLE_COHERENCE_NARRATIVE.md"
-  ],
-  "design_target": "Prefer systems and scenes that express several pillars at once while remaining causally and historically coherent."
+    "docs/LITD_UNIVERSE_REGLE_COHERENCE_NARRATIVE.md",
+    "docs/LITD_UNIVERSE_LIMITES_DU_VOILE.md"
+  ]
 }

@@ -403,12 +403,12 @@
         "L’écho ne décrit pas la borne : il répète la peur de ceux qui l’ont fermée."
       ],
       "completion_lines": [
-        "Meira superpose les trois récits. Aucun ne gagne ; une quatrième forme apparaît entre eux.",
-        "« Voilà notre première preuve honnête : la borne changeait de fonction selon celui qui la regardait. La politique commence souvent par prétendre le contraire. »"
+        "Meira superpose les trois récits. Aucun ne gagne ; leurs contradictions deviennent enfin visibles au même endroit.",
+        "« Voilà notre première preuve honnête : nous ne savons pas encore ce que cette borne faisait. Nous savons seulement que l’archive, la mémoire et l’écho ne décrivent pas la même chose. Tant que nous n’aurons pas reproduit le phénomène, toute explication restera une hypothèse. »"
       ],
       "failure_line": "Une source manque. Meira classe le dossier parmi les hypothèses et interdit qu’on le cite comme vérité.",
       "active": "Une borne ancienne raconte trois histoires incompatibles. Meira soupçonne que chacune protège une part différente de la vérité.",
-      "resolution": "« Voilà notre première preuve honnête : la borne changeait de fonction selon celui qui la regardait. La politique commence souvent par prétendre le contraire. »"
+      "resolution": "« Nous ne savons pas encore ce que cette borne faisait. Nous savons seulement que nos trois sources se contredisent. Toute explication reste une hypothèse tant que le phénomène n’est pas reproduit. »"
     }
   }
 ]

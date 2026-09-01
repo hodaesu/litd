@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "conspiracy_name": "Pacte de l'Horizon Fermé",
   "operation": "Projet Seuil",
   "powers": [
@@ -9,11 +9,11 @@
     {"id":"kor_em","name":"Ligue de Kor-Em","regime":"confédération de principautés et cités savantes","leader":"direction fragmentée","goal":"appropriation scientifique et technologique","fear":"déclassement stratégique et perte de mécénat"}
   ],
   "actors": [
-    {"id":"veyra_oss","name":"Veyra Oss","role":"conceptrice scientifique","knowledge":"comprend tardivement la réactivité du Voile aux consciences","intent":"recherche et contrôle, pas extermination","late_action":"sabote une partie de la stabilisation","fate":"unknown"},
+    {"id":"veyra_oss","name":"Veyra Oss","role":"conceptrice scientifique","knowledge":"comprend tardivement la réactivité du Voile aux consciences","intent":"recherche et contrôle, pas extermination","late_action":"tente tardivement de limiter l'ouverture et de renforcer la stabilisation après avoir compris que le modèle de contrôle est faux","fate":"unknown"},
     {"id":"edras_nhal","name":"Edras Nhal","role":"maître rituel","knowledge":"sait que le phénomène réagit aux consciences","intent":"révélation métaphysique au prix de victimes","late_action":"poursuit l'ouverture","fate":"unknown"},
     {"id":"sera_val_khesh","name":"Sera Val-Khesh","role":"coordinatrice politique","knowledge":"sait qu'une catastrophe contrôlée est recherchée","intent":"éviter la rupture de l'alliance et affaiblir la Concorde","late_action":"ordonne la poursuite malgré l'instabilité","fate":"unknown"},
     {"id":"othmar_sevr","name":"Othmar Sevr","role":"commanditaire radical","knowledge":"ignore la vraie nature du Voile","intent":"catastrophe démographique et destruction du modèle","late_action":"pousse à dépasser les limites","fate":"unknown"},
-    {"id":"bram_torgun","name":"Bram Torgun","role":"ingénieur","knowledge":"comprend le risque systémique","intent":"arrêter le Projet Seuil","late_action":"détruit un relais secondaire","fate":"unknown"},
+    {"id":"bram_torgun","name":"Bram Torgun","role":"ingénieur","knowledge":"comprend le risque systémique","intent":"arrêter le Projet Seuil","late_action":"détruit un relais secondaire et réduit l'ampleur immédiate de la catastrophe","fate":"unknown"},
     {"id":"eline_sar","name":"Eline Sar","role":"novice dissidente","knowledge":"possède une copie du protocole","intent":"prévenir la Concorde","late_action":"vole et transporte les preuves","fate":"unknown"}
   ],
   "canonical_rule": "Les peuples étrangers ne sont pas collectivement responsables. La responsabilité appartient à des dirigeants, institutions, commanditaires et exécutants précis."

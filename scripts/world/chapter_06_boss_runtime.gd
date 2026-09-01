@@ -22,7 +22,7 @@ func _on_started(encounter_id: String, _type: String) -> void:
     if active_id == "c06_shifted_wayfarer":
         GameState.add_log("L'Arpenteur existe à plusieurs instants. Toutes ses silhouettes ne peuvent pas être blessées.")
     elif active_id == "c06_boss_boundary":
-        GameState.add_log("La Frontière n'est pas un corps. Les ancrages de l'arène déterminent ce qui peut réellement être atteint.")
+        GameState.add_log("La Frontière n'est pas un corps. Les ancrages de l'arène déterminent ce qui peut réellement être atteint ; rien n'établit que le phénomène possède une volonté.")
 
 func _on_finished(_id: String, _victory: bool, _loot: Dictionary) -> void:
     active_id = ""
@@ -65,7 +65,7 @@ func _refresh_boundary() -> void:
         if anchors < 3:
             GameState.add_log("FRONTIÈRE INSTABLE — résistance %d%%. Stabilisez les ancrages hors du combat." % int(boss["damage_reduction"]))
         else:
-            GameState.add_log("TROIS ANCRAGES — la frontière partage enfin assez de réalité avec le groupe pour être affectée.")
+            GameState.add_log("TROIS ANCRAGES — les références locales se recouvrent assez pour que les interventions du groupe produisent un effet mesurable.")
     var hp := int(boss.get("hp", 0))
     if last_hp >= 0 and hp < last_hp:
         var raw_loss := last_hp - hp
@@ -79,7 +79,7 @@ func _refresh_boundary() -> void:
     if ratio <= 0.32 and phase < 3:
         phase = 3
         boss["damage"] = [11,17]
-        GameState.add_log("LA LIMITE CHOISIT — certaines positions du groupe cessent brièvement d'appartenir au même monde.")
+        GameState.add_log("DÉCOUPLAGE LOCAL — certaines positions du groupe cessent brièvement d'appartenir à la même référence spatiale.")
     elif ratio <= 0.66 and phase < 2:
         phase = 2
         boss["damage"] = [10,16]

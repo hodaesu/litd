@@ -1,61 +1,192 @@
 {
-  "schema_version": 5,
+  "schema_version": 8,
   "scope": "LITD Universe narrative inconsistency registry",
-  "status": "active",
+  "status": "audited_no_blocking_or_major_open",
+  "audit_scope": [
+    "LITD1 lore bible and ten-chapter campaign",
+    "LITD1 quests dialogues cinematics codex and runtime narrative data",
+    "LITD1 ancient and foreign civilizations",
+    "LITD1 psychology fear hope and Veil Folie terminology",
+    "LITD1 capture skill-tree postgame and NG+ narrative-system contracts",
+    "LITD2 historical chronology runs Sarn founders Remanence death corpses trauma and potions",
+    "cross-game continuity and franchise pillars"
+  ],
   "severity_levels": ["BLOCKING", "MAJOR", "MINOR", "OPEN_QUESTION"],
   "rules": {
     "blocking_or_major_requires_resolution_before_validation": true,
     "must_signal_user": true,
     "silent_fix_forbidden": true,
-    "retroactive_contrivance_forbidden": true
+    "retroactive_contrivance_forbidden": true,
+    "intentional_replay_gameplay_exception_must_be_explicit": true
+  },
+  "summary": {
+    "entries_total": 19,
+    "blocking_total": 3,
+    "major_total": 11,
+    "minor_total": 2,
+    "open_question_total": 3,
+    "blocking_open": 0,
+    "major_open": 0,
+    "minor_open": 0,
+    "open_question_unresolved": 0,
+    "validation_state": "READY_FOR_REVIEW"
   },
   "entries": [
     {
       "id": "LITD2-DEATH-RETRY-CAUSALITY",
       "severity": "MAJOR",
       "status": "RESOLVED",
-      "resolution": "A run is a historical operation window containing multiple real attempts. Time continues, corpses and local consequences persist, and no rewind occurs."
+      "problem": "Failed attempts were real because corpses persisted, while older text also restarted the same historical instant without time travel.",
+      "resolution": "A run is a historical operation window containing multiple real attempts. Time continues during the measurable Remanence delay; corpses and causally proportionate local consequences persist; no rewind occurs and death never validates the major historical milestone by itself.",
+      "files": ["docs/LITD2_RUNS_AFFINITES_ET_NUIT_DE_SARN.md", "docs/LITD2_MORT_REMANENCE_ET_CORPS_PERSISTANTS.md", "data/litd2_death_loop.json"]
     },
     {
       "id": "LITD2-SARN-PACT-END-CONTRADICTION",
       "severity": "BLOCKING",
       "status": "RESOLVED",
-      "resolution": "LORE_BIBLE.md now locks the Night of Sarn as the playable finale of LITD2. The Long Assemblies and First Pact occur afterward and belong to historical epilogue/codex or explicitly post-campaign content."
+      "problem": "One lore-bible version allowed the First Pact to be LITD2's playable ending although priority canon made the Night of Sarn the finale.",
+      "resolution": "The Night of Sarn is the playable finale. Long Assemblies and the First Pact occur afterward as historical epilogue, codex or explicitly post-campaign material.",
+      "files": ["docs/LORE_BIBLE.md", "docs/LITD2_RUNS_AFFINITES_ET_NUIT_DE_SARN.md"]
     },
     {
       "id": "LITD2-POTION-BODY-REPAIR-MECHANISM",
       "severity": "OPEN_QUESTION",
       "status": "RESOLVED",
-      "resolution": "Potions are scarce Remanence-compatible compounds acting on the living reconstructed body's biological reference state; they cannot resurrect or become universal medicine."
+      "problem": "Potions could instantly remove severe physical trauma while ordinary healing restored HP only, but the exception lacked a physical mechanism.",
+      "resolution": "Potions are scarce Remanence-compatible compounds acting on the living reconstructed body's active biological reference state. They accelerate repair only under strict compatibility conditions, do not resurrect, do not regenerate old corpses and cannot become universal medicine.",
+      "files": ["docs/LITD2_VIE_TRAUMAS_ET_POTIONS.md", "data/litd2_health_trauma_system.json"]
     },
     {
       "id": "LITD1-VEIL-RULE-BOUNDARIES",
       "severity": "OPEN_QUESTION",
       "status": "RESOLVED",
-      "resolution": "LITD_UNIVERSE_LIMITES_DU_VOILE.md now defines hard prohibitions, required conditions, scale, memory/perception constraints, corpse rules and an anti-contrivance test for every major supernatural event."
+      "problem": "The Veil could affect perception, memory, paths, probability and matter without one consolidated hard-limit ruleset, risking its use as a universal plot solver.",
+      "resolution": "The authoritative Veil limits define capabilities, prohibitions, required conditions, scale, persistence, perception and memory rules, corpse constraints and an anti-contrivance test. The Veil cannot freely create arbitrary objects/events or retroactively rewrite established history.",
+      "files": ["docs/LITD_UNIVERSE_LIMITES_DU_VOILE.md", "docs/CHAPITRE_09_NATURE_DU_VOILE.md"]
     },
     {
       "id": "LITD1-ANCIENT-CIVILIZATIONS-CONVENIENCE-RISK",
       "severity": "MINOR",
       "status": "RESOLVED",
-      "problem": "Several ancient civilizations risked appearing to exist only to deliver one useful Veil revelation each.",
-      "resolution": "Each of the seven civilizations now has a multi-century independent history, geography, economy, political institutions, social conflicts, arts, beliefs, technologies, non-supernatural historical errors, neighbors/exchange logic, decline and non-Veil legacy. Their Veil contact occurs only as a late consequence of pre-existing social and political contradictions. Their periods overlap and some knowledge circulates through trade, migration and inheritance rather than forming a neat revelation sequence.",
-      "files": [
-        "docs/civilisations/README.md",
-        "docs/civilisations/ASHAI_DE_NHAL.md",
-        "docs/civilisations/ROYAUMES_OR_SILEX.md",
-        "docs/civilisations/VEILLEURS_DE_SAAN.md",
-        "docs/civilisations/CITES_VAOR_KHAL.md",
-        "docs/civilisations/NAVIGATEURS_LYR_MAR.md",
-        "docs/civilisations/CITES_SAHM_IR.md",
-        "docs/civilisations/ATELIERS_YDRIS.md"
-      ]
+      "problem": "Ancient civilizations risked appearing to exist only to deliver one perfectly useful Veil revelation each.",
+      "resolution": "Each civilization now has independent multi-century history, geography, economy, institutions, conflicts, arts, beliefs, technologies, non-Veil errors, neighbors, decline and non-Veil legacies. Their Veil contact follows pre-existing social contradictions and some knowledge circulates through contact rather than seven isolated perfect discoveries.",
+      "files": ["docs/civilisations/README.md", "docs/civilisations/ASHAI_DE_NHAL.md", "docs/civilisations/ROYAUMES_OR_SILEX.md", "docs/civilisations/VEILLEURS_DE_SAAN.md", "docs/civilisations/CITES_VAOR_KHAL.md", "docs/civilisations/NAVIGATEURS_LYR_MAR.md", "docs/civilisations/CITES_SAHM_IR.md", "docs/civilisations/ATELIERS_YDRIS.md"]
     },
     {
       "id": "LITD2-REMANENCE-ORIGIN-LIMITS",
       "severity": "OPEN_QUESTION",
       "status": "RESOLVED",
-      "resolution": "Writer-facing canon defines continuous imprint, matter-based reconstruction, compatible anchors, measurable delay, single active continuity, non-retroactive binding, non-industrializability and strict prohibitions."
+      "problem": "The artifact drove repeated death and reconstruction without sufficient writer-side limits.",
+      "resolution": "Writer-facing canon now defines continuous imprint, matter-based reconstruction, compatible anchors, measurable delay, single active continuity, memory fidelity boundaries, failure modes, non-retroactive binding and non-industrializability.",
+      "files": ["docs/LITD2_MORT_REMANENCE_ET_CORPS_PERSISTANTS.md", "data/litd2_death_loop.json"]
+    },
+    {
+      "id": "LITD1-OPENING-CONSPIRACY-REVEAL",
+      "severity": "BLOCKING",
+      "status": "RESOLVED",
+      "problem": "The opening cinematic visually established a coordinated foreign invasion and linked it to the Gate before Chapters I-III had investigated responsibility.",
+      "resolution": "The prologue may show the Fall and distant ambiguous signs but cannot establish foreign coordination, Project Seuil or the identity of the perpetrators. Causality remains discoverable through the campaign investigation.",
+      "files": ["data/cinematics/opening_bird_intro.json", "data/cinematics/opening_pipeline.json", "data/world/main_campaign.json"]
+    },
+    {
+      "id": "LITD1-C01-OBSERVER-EFFECT-PREMATURE-REVEAL",
+      "severity": "MAJOR",
+      "status": "RESOLVED",
+      "problem": "Chapter I dialogue concluded that an ancient marker changed function according to its observer, effectively proving a Chapter IX Veil model too early.",
+      "resolution": "Meira Sen now records only the contradiction among archive, survivor memory and echo. The marker's function remains an explicit hypothesis until later reproducible evidence.",
+      "files": ["data/quests.json", "data/narrative/chapter_01_extended_narrative.json"]
+    },
+    {
+      "id": "LITD1-VEYRA-FINAL-ACT-CONTRADICTION",
+      "severity": "MAJOR",
+      "status": "RESOLVED",
+      "problem": "One source said Veyra Oss sabotaged stabilization while another said she tried too late to limit the catastrophe, reversing the moral meaning of her final act.",
+      "resolution": "Veyra's final act is a late mitigation attempt after recognizing part of the danger; it reduces harm but neither absolves her earlier responsibility nor becomes a secret heroic rescue.",
+      "files": ["docs/CHAPITRE_03_PROJET_SEUIL.md", "data/world/external_powers_conspiracy.json", "data/levels/chapter_07_living_responsible.json"]
+    },
+    {
+      "id": "LITD1-ANCIENT-CIV-DATE-PROPAGATION",
+      "severity": "MAJOR",
+      "status": "RESOLVED",
+      "problem": "Runtime ancient-civilization dates lagged behind the newer civilization dossiers by centuries.",
+      "resolution": "Runtime civilization data is synchronized with the canonical dossiers and uncertain supernatural interpretations are labelled at their actual evidence level.",
+      "files": ["data/world/ancient_veil_civilizations.json", "data/world/outer_world_ancient_civilizations.json", "docs/civilisations/README.md"]
+    },
+    {
+      "id": "LITD1-NGPLUS-TREE-EXCLUSIVITY",
+      "severity": "BLOCKING",
+      "status": "RESOLVED",
+      "resolution_type": "INTENTIONAL_GAMEPLAY_EXCEPTION",
+      "audit_correction": true,
+      "problem": "The audit initially treated NG+ multi-tree access as a contradiction with the cycle-0 specialization rule. The gameplay contract was clarified: opening all three trees in NG+ is an intentional replay reward.",
+      "resolution": "Cycle 0 keeps exclusive specialization. From the first NG+ cycle, heroes and eligible companions may spend across all three trees while still obeying skill-point costs, level gates and in-branch prerequisites. This is a replay privilege and does not rewrite the reference history of the initial cycle.",
+      "files": ["data/world/new_game_plus.json", "docs/EPILOGUES_POSTGAME_NG_PLUS.md", "scripts/core/hero_skill_manager.gd", "scripts/core/creature_manager.gd", "scripts/ui/ngplus_skill_tree_ui.gd", "tests/python/test_ngplus_multitree_skills.py", "tests/python/test_ngplus_cycle_variants.py"]
+    },
+    {
+      "id": "LITD1-NGPLUS-BOSS-CAPTURE",
+      "severity": "MAJOR",
+      "status": "RESOLVED",
+      "resolution_type": "INTENTIONAL_GAMEPLAY_EXCEPTION",
+      "audit_correction": true,
+      "problem": "The audit initially treated NG+ boss/miniboss recruitment as a narrative contradiction. The gameplay contract was clarified: explicitly authored boss companion variants are a deliberate NG+ reward.",
+      "resolution": "Cycle 0 keeps normal boss capture restrictions. From the first NG+ cycle, boss, miniboss and deep variants explicitly listed in ngplus_boss_recruits.json may be recruited through the NG+ system. Their allied form is a replay abstraction with normalized companion stats and does not retroactively change what happened in the reference history. Being a boss alone does not auto-create a recruit entry; the catalogue is explicit.",
+      "files": ["data/world/new_game_plus.json", "data/world/ngplus_boss_recruits.json", "docs/EPILOGUES_POSTGAME_NG_PLUS.md", "scripts/core/ngplus_boss_recruitment.gd", "scripts/core/creature_manager.gd", "scripts/ui/ngplus_skill_tree_ui.gd", "tests/python/test_ngplus_boss_recruitment.py", "tests/python/test_ngplus_cycle_variants.py"]
+    },
+    {
+      "id": "LITD1-MEIRA-IDENTITY",
+      "severity": "MINOR",
+      "status": "RESOLVED",
+      "problem": "The same Chapter I/VI researcher appeared as Meira Sen and Meira Saan in different active sources.",
+      "resolution": "The canonical identity is Meira Sen and active campaign/quest references are aligned to that name.",
+      "files": ["data/quests.json", "data/world/main_campaign.json"]
+    },
+    {
+      "id": "LITD1-BOUNDARY-AGENCY",
+      "severity": "MAJOR",
+      "status": "RESOLVED",
+      "problem": "The Walking Boundary was described as a living phenomenon that defended or chose by itself, assigning intention and consciousness without evidence.",
+      "resolution": "It is a reactive boundary phenomenon with reproducible counter-effects. Current evidence does not establish intention, desire or consciousness; resonance testing and combat feedback are explicitly non-anthropomorphic.",
+      "files": ["data/world/main_campaign.json", "data/levels/chapter_06_absent.json", "scripts/world/chapter_06_boss_runtime.gd", "tests/python/test_chapter_06_runtime.py"]
+    },
+    {
+      "id": "LITD1-EDRAS-EXPERIMENT-LOOPHOLE",
+      "severity": "MAJOR",
+      "status": "RESOLVED",
+      "problem": "A Chapter VII choice could permit Edras a vague 'limited experiment', creating an easy loophole for another Gate-opening plot device.",
+      "resolution": "Any allowed research is confined to instrumental observation of phenomena already present: no new opening, no living subjects, no Project Seuil relay activation and automatic termination at the first safety-limit breach. Edras controls neither protocol nor abort.",
+      "files": ["data/world/main_campaign.json", "docs/CHAPITRE_07_RESPONSABLES_VIVANTS.md", "data/levels/chapter_07_living_responsible.json", "tests/python/test_chapter_07_runtime.py"]
+    },
+    {
+      "id": "LITD-PSYCHOLOGY-FOLIE-DIAGNOSIS-CONFLATION",
+      "severity": "MAJOR",
+      "status": "RESOLVED",
+      "problem": "Legacy psychology text could blur supernatural Folie, trauma/stress reactions and real mental illness, sometimes linking dangerous behavior too directly to 'madness'.",
+      "resolution": "Folie du Voile is explicitly a supernatural exposure state, not a psychiatric diagnosis. Fear and human psychological traces are separate systems; trace labels are non-diagnostic; mental illness cannot be used as shorthand for violence, evil or supernatural perception. Legacy runtime keys containing 'madness' are compatibility identifiers only.",
+      "files": ["data/content_scope.json", "data/psychology_events.json", "data/help_codex.json", "docs/LITD_UNIVERSE_GUIDE_ECRITURE_PHILO_PSYCHO.md", "tests/python/test_psychology_combat.py"]
+    },
+    {
+      "id": "LITD1-LEGACY-RUNTIME-DIALOGUE",
+      "severity": "MAJOR",
+      "status": "RESOLVED",
+      "problem": "An actively loaded legacy dialogue introduced stale characters and described the Gate/Veil as an almost literal spatial threshold inconsistent with the later operational model.",
+      "resolution": "The loaded dialogue content is rewritten to current canon and cannot establish a literal place-model for the Veil.",
+      "files": ["data/dialogues.json", "scripts/core/data_loader.gd"]
+    },
+    {
+      "id": "LITD1-LEGACY-ROSTER-CANON-AMBIGUITY",
+      "severity": "MAJOR",
+      "status": "RESOLVED",
+      "problem": "A fixed prototype roster and undefined lineage labels could be mistaken for the canonical replacement of LITD1 character creation.",
+      "resolution": "The roster is explicitly prototype-only. Character creation remains structural canon; legacy names/lineages cannot become canonical without an explicit world integration pass.",
+      "files": ["data/heroes.json", "data/races.json", "data/litd_universe_pillars.json"]
+    },
+    {
+      "id": "LITD1-SKILL-TREE-PROPAGATION",
+      "severity": "MAJOR",
+      "status": "RESOLVED",
+      "problem": "A production-scope file stated that enemies did not use the canonical three trees of fifteen skills, conflicting with the locked progression architecture.",
+      "resolution": "The canonical model remains three trees of fifteen for heroes, enemies and captured creatures. Production subsets may temporarily implement fewer nodes, but must preserve the full authored catalog and cannot redefine canon.",
+      "files": ["data/skill_production_scope.json", "data/content_scope.json", "scripts/core/hero_skill_manager.gd", "scripts/core/creature_manager.gd"]
     }
   ]
 }

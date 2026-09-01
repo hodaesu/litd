@@ -33,7 +33,7 @@ Elle reçoit les mêmes garanties procédurales que Bram : sources croisées, dr
 
 Signature : **Laissez entrer**.
 
-Deux sceaux du Palais de Relais absorbent une grande partie des dégâts dirigés contre lui. Attaquer tant que ces sceaux restent actifs nourrit sa transe et augmente la Folie du groupe. Le contre-jeu consiste à neutraliser les deux sceaux avant de concentrer l'assaut.
+Deux sceaux du Palais de Relais absorbent une grande partie des dégâts dirigés contre lui. Attaquer tant que ces sceaux restent actifs nourrit sa transe et augmente l'exposition du groupe à la **Folie du Voile**. Le contre-jeu consiste à neutraliser les deux sceaux avant de concentrer l'assaut.
 
 ## Boss — Edras Nhal, l'Ouvert
 
@@ -54,8 +54,10 @@ Sans eux, Edras conserve jusqu'à 80 % de résistance. Une fois les trois actifs
 ## Issues
 
 - **Capturer Edras** : privilégie l'audience publique et l'intégrité judiciaire.
-- **Tuer Edras** : supprime la menace mais constitue une exécution sans procès et dégrade l'intégrité de la justice.
-- **Autoriser une expérience limitée** : option conditionnelle. Elle exige les trois contre-rituels, un contact solide avec les Absents, un niveau minimal d'intégrité judiciaire et des statuts déjà définis pour Bram et Veyra. Edras ne contrôle ni le protocole ni son arrêt.
+- **Tuer Edras** : supprime la menace immédiate mais constitue une mise à mort sans audience ; le jeu doit en montrer le coût politique et judiciaire sans transformer automatiquement ce choix en caricature morale.
+- **Autoriser une observation instrumentale confinée** : option conditionnelle. Elle exige les trois contre-rituels, un contact solide avec les Absents, un niveau minimal d'intégrité judiciaire et des statuts déjà définis pour Bram et Veyra. Edras ne contrôle ni le protocole ni son arrêt. Cette option **n'autorise aucune nouvelle ouverture** : elle observe uniquement un phénomène déjà présent, sans sujet vivant exposé, sans réactivation d'un relais du Projet Seuil et avec arrêt automatique au premier dépassement des limites établies.
+
+Cette troisième issue n'est donc jamais une permission de « refaire le Projet Seuil en plus petit ». Si une scène future a besoin d'une nouvelle ouverture pour fonctionner, elle doit être réécrite plutôt que d'utiliser cette option comme échappatoire scénaristique.
 
 ## Sanctuaire
 

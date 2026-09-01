@@ -9,7 +9,10 @@
     "max_hp": 100,
     "fear": 48,
     "madness": 36,
-    "hope": 62
+    "hope": 62,
+    "canon_status": "prototype_nonexclusive_test_roster",
+    "madness_semantics": "supernatural_veil_exposure_state_not_real_mental_illness",
+    "identity_note": "Does not replace the LITD1 character-creation pillar; this entry is a test/recruit template pending lineage reconciliation."
   },
   {
     "id": "malvor",
@@ -21,7 +24,10 @@
     "max_hp": 110,
     "fear": 25,
     "madness": 18,
-    "hope": 55
+    "hope": 55,
+    "canon_status": "prototype_nonexclusive_test_roster",
+    "madness_semantics": "supernatural_veil_exposure_state_not_real_mental_illness",
+    "identity_note": "Does not replace the LITD1 character-creation pillar; this entry is a test/recruit template pending lineage reconciliation."
   },
   {
     "id": "lysandra",
@@ -33,7 +39,10 @@
     "max_hp": 95,
     "fear": 18,
     "madness": 8,
-    "hope": 76
+    "hope": 76,
+    "canon_status": "prototype_nonexclusive_test_roster",
+    "madness_semantics": "supernatural_veil_exposure_state_not_real_mental_illness",
+    "identity_note": "Does not replace the LITD1 character-creation pillar; this entry is a test/recruit template pending lineage reconciliation."
   },
   {
     "id": "darius",
@@ -45,6 +54,9 @@
     "max_hp": 120,
     "fear": 31,
     "madness": 12,
-    "hope": 60
+    "hope": 60,
+    "canon_status": "prototype_nonexclusive_test_roster",
+    "madness_semantics": "supernatural_veil_exposure_state_not_real_mental_illness",
+    "identity_note": "Does not replace the LITD1 character-creation pillar; this entry may serve as a test/recruit template."
   }
 ]

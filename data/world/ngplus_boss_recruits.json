@@ -19,7 +19,6 @@
     {"id":"recruit_c07_pilgrim","encounter_id":"c07_opening_pilgrim","name":"Le Pèlerin de l'Ouverture","rank":"miniboss","archetype":"support","signature":"Laissez entrer","base_damage":[4,8],"art":"enemy_30.webp"},
     {"id":"recruit_c09_fear","encounter_id":"c09_fear_echo","name":"L'Issue Redoutée","rank":"miniboss","archetype":"control","signature":"C'était inévitable","base_damage":[5,8],"art":"enemy_30.webp"},
     {"id":"recruit_c10_cost","encounter_id":"c10_unpaid_cost","name":"Le Coût Oublié","rank":"miniboss","archetype":"guardian","signature":"Quelqu'un paiera","base_damage":[5,8],"art":"enemy_30.webp"},
-
     {"id":"recruit_c01_witness","encounter_id":"c01_boss_ash_witness","name":"Le Témoin des Cendres","rank":"boss","archetype":"support","signature":"Dernier Souvenir du Jour","base_damage":[5,8],"art":"enemy_38.webp"},
     {"id":"recruit_c02_sahra","encounter_id":"c02_marker_warden","name":"Sahra Vel — La Veilleuse des Bornes","rank":"boss","archetype":"tactician","signature":"La Carte qui se Souvient","base_damage":[5,8],"art":"enemy_38.webp"},
     {"id":"recruit_c03_echo","encounter_id":"c03_boss_threshold_echo","name":"L'Écho du Seuil","rank":"boss","archetype":"control","signature":"Zéro Seconde","base_damage":[5,9],"art":"enemy_38.webp"},
@@ -31,7 +30,6 @@
     {"id":"recruit_c08_saint","encounter_id":"c08_boss_azravel","name":"Le Saint de la Faille","rank":"boss","archetype":"control","signature":"Une seule vérité","base_damage":[6,9],"art":"enemy_38.webp"},
     {"id":"recruit_c09_consensus","encounter_id":"c09_boss_consensus","name":"Le Consensus Brisé","rank":"boss","archetype":"support","signature":"Nous ne voyons pas le même monde","base_damage":[6,10],"art":"enemy_38.webp"},
     {"id":"recruit_c10_rupture","encounter_id":"c10_boss_final","name":"La Rupture Commune","rank":"boss","archetype":"guardian","signature":"Ce que nous refusons de sacrifier","base_damage":[6,10],"art":"enemy_38.webp"},
-
     {"id":"recruit_va_custodian","encounter_id":"va_miniboss_dissonant_custodian","name":"Le Custode Dissonant","rank":"deep_miniboss","archetype":"control","signature":"Accord Refusé","base_damage":[5,8],"art":"enemy_30.webp"},
     {"id":"recruit_vs_hound","encounter_id":"vs_miniboss_doctrine_hound","name":"Le Limier de Doctrine","rank":"deep_miniboss","archetype":"striker","signature":"Chasse à la Répétition","base_damage":[5,8],"art":"enemy_30.webp"},
     {"id":"recruit_vn_keeper","encounter_id":"vn_miniboss_seal_keeper","name":"Le Gardien du Sceau Fendu","rank":"deep_miniboss","archetype":"guardian","signature":"Scellement Réactif","base_damage":[5,8],"art":"enemy_30.webp"},
@@ -39,7 +37,6 @@
     {"id":"recruit_vm_pilot","encounter_id":"vm_miniboss_drowned_pilot","name":"Le Pilote Sans Horizon","rank":"deep_miniboss","archetype":"tactician","signature":"Courant de retour","base_damage":[5,9],"art":"enemy_30.webp"},
     {"id":"recruit_vz_cantor","encounter_id":"vz_miniboss_stone_cantor","name":"Le Chantre de Pierre","rank":"deep_miniboss","archetype":"support","signature":"Répétez après moi","base_damage":[5,9],"art":"enemy_30.webp"},
     {"id":"recruit_vy_auditor","encounter_id":"vy_miniboss_causal_auditor","name":"L'Auditeur Causal","rank":"deep_miniboss","archetype":"control","signature":"Erreur prévue","base_damage":[5,9],"art":"enemy_30.webp"},
-
     {"id":"recruit_va_voice","encounter_id":"vestige_ashai_boss_seventh_voice","name":"La Septième Voix","rank":"deep_boss","archetype":"support","signature":"Le Monde que Nous Accordons","base_damage":[6,10],"art":"enemy_38.webp"},
     {"id":"recruit_vs_strategist","encounter_id":"vestige_silex_boss_last_strategist","name":"Le Dernier Stratège","rank":"deep_boss","archetype":"tactician","signature":"Victoire avant la bataille","base_damage":[7,10],"art":"enemy_38.webp"},
     {"id":"recruit_vn_watch","encounter_id":"vestige_saan_boss_last_watch","name":"La Dernière Veille","rank":"deep_boss","archetype":"guardian","signature":"Que personne ne passe","base_damage":[6,10],"art":"enemy_38.webp"},

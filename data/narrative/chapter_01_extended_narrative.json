@@ -1,58 +1,63 @@
 {
-  "version": 1,
+  "version": 3,
+  "language": "fr",
+  "story_contract": "res://data/narrative/base_game_story_contract.json",
+  "chapter_human_question": "Que sommes-nous prêts à devenir pour survivre sans perdre ce qui rend la survie digne d'être vécue ?",
   "environmental_sequences": [
     {
       "id": "gate_departure",
       "zone": "c01_refuge_gate",
       "beats": [
-        "The gate opens only enough for one body.",
-        "Fresh ash preserves the last returning footprints.",
-        "A child’s ribbon is tied to the route marker."
+        "La porte ne s'ouvre que de quoi laisser passer un corps à la fois.",
+        "La cendre fraîche conserve les dernières empreintes de ceux qui sont revenus.",
+        "Un ruban d'enfant est noué à la borne de la route."
       ],
       "reactions": {
-        "fear_high": "No one volunteers to walk first.",
-        "hope_high": "A hero reties the ribbon so it remains visible."
-      }
+        "fear_high": "Personne ne se propose pour marcher le premier.",
+        "hope_high": "Un membre de la compagnie renoue le ruban pour qu'il reste visible."
+      },
+      "human_function": "Faire sentir que partir en expédition est déjà un acte collectif : quelqu'un ouvre, quelqu'un attend, quelqu'un espère le retour."
     },
     {
       "id": "buried_belfry",
       "zone": "c01_buried_belfry",
       "beats": [
-        "The bell is heard through bones before ears.",
-        "Scratches inside the rubble answer every strike.",
-        "The rescued refuse to ring it until all names are counted."
+        "La cloche se ressent d'abord dans les os avant de s'entendre.",
+        "Des griffures sous les gravats répondent à chaque coup porté pour dégager le passage.",
+        "Les survivants refusent de sonner la cloche avant que tous les noms aient été comptés."
       ],
-      "choice_echoes": [
-        "return_bell",
-        "leave_warning"
-      ]
+      "choice_echoes": ["return_bell", "leave_warning"],
+      "human_function": "Opposer la valeur pratique d'un signal à la valeur symbolique d'un rite que les survivants refusent de reprendre trop vite."
     },
     {
       "id": "name_field",
       "zone": "c01_ash_road",
       "beats": [
-        "Bronze nameplates shine where rain uncovered them.",
-        "One plate bears no family name.",
-        "Enemies have arranged three plates around a cold fire."
-      ]
+        "Des plaques de bronze portant des noms brillent là où la pluie a chassé la cendre.",
+        "L'une des plaques ne porte aucun nom de famille.",
+        "Trois plaques ont été disposées par des ennemis autour d'un foyer froid."
+      ],
+      "human_function": "Introduire l'idée que même les êtres combattus peuvent reconnaître ou reproduire un geste de mémoire sans expliquer encore ce qu'ils comprennent."
     },
     {
       "id": "quarry_lift",
       "zone": "c01_collapsed_quarry",
       "beats": [
-        "The lift rope was cut from above.",
-        "Medical wrappings mark a survivor route.",
-        "Restoring the lift opens a permanent shortcut."
-      ]
+        "La corde du monte-charge a été tranchée depuis le haut.",
+        "Des bandes médicales nouées aux pierres indiquent un ancien trajet de survivants.",
+        "Réparer le monte-charge ouvre un raccourci durable pour les prochaines expéditions."
+      ],
+      "human_function": "Faire d'une réparation de niveau une trace concrète des survivants précédents et une amélioration durable du monde."
     },
     {
       "id": "veil_crypt",
       "zone": "c01_first_veil_crypt",
       "beats": [
-        "Tournament poses are carved beside civic oaths.",
-        "The bodies were buried with tools, not weapons.",
-        "The Témoin repeats a promise using several dead voices."
-      ]
+        "Des postures de tournoi sont sculptées à côté de serments civiques.",
+        "Les morts ont été enterrés avec leurs outils plutôt qu'avec des armes.",
+        "Le Témoin répète une promesse avec plusieurs voix mortes sans pouvoir expliquer à qui elles appartenaient."
+      ],
+      "human_function": "Montrer que le monde d'avant associait pratique martiale, travail et vie civique, tout en rendant le Témoin tragique avant d'en faire une énigme."
     }
   ],
   "camp_conversations": [
@@ -60,40 +65,40 @@
       "id": "injury_arm",
       "trigger": "ally_arm_injury",
       "lines": [
-        "Keep the weapon side clear. I can bind the rest while we walk.",
-        "Ambidextrous or not, a two-handed weapon still needs two arms."
+        "Laisse le côté de l'arme dégagé. Je peux bander le reste pendant qu'on marche.",
+        "Ambidextre ou pas, une arme à deux mains demande toujours deux bras."
       ]
     },
     {
       "id": "injury_persistent",
       "trigger": "untreated_injury",
       "lines": [
-        "Rest hid the pain; it did not heal it.",
-        "We leave it untreated, it follows us into every room."
+        "Le repos a caché la douleur. Il ne l'a pas soignée.",
+        "Si on laisse ça comme ça, la blessure entrera avec nous dans chaque salle."
       ]
     },
     {
       "id": "enemy_fear",
       "trigger": "enemy_panicked",
       "lines": [
-        "They know our names now.",
-        "That fear will save us once and provoke them the next time."
+        "Ils ont peur de nous maintenant.",
+        "Cette peur peut nous sauver aujourd'hui et les rendre plus dangereux la prochaine fois."
       ]
     },
     {
       "id": "quest_refused",
       "trigger": "quest_refused",
       "lines": [
-        "Saying no is still a decision the Sanctuary must live with.",
-        "We may find the cost of that refusal further down the road."
+        "Dire non reste une décision avec laquelle le Sanctuaire devra vivre.",
+        "On retrouvera peut-être le prix de ce refus plus loin sur la route."
       ]
     },
     {
       "id": "healer_present",
       "trigger": "party_healer",
       "lines": [
-        "Give me time and clean hands. We do not need the Infirmary for this.",
-        "I can treat every wound. A lost limb is another matter."
+        "Donne-moi du temps et des mains propres. Tout n'exige pas l'Infirmerie.",
+        "Je peux traiter les blessures. Un membre perdu, c'est une autre histoire."
       ]
     }
   ],
@@ -102,46 +107,46 @@
       "id": "tournament_charter",
       "title": "Charte des trois disciplines",
       "theme": "body_mind_common_good",
-      "text": "Every citizen cultivates a body capable of restraint, a mind capable of creation, and a voice answerable to the common good."
+      "text": "Chaque citoyen cultive un corps capable de retenue, un esprit capable de création et une voix responsable devant le bien commun."
     },
     {
       "id": "after_fall_council",
-      "title": "Minutes of the last open council",
+      "title": "Procès-verbal du dernier conseil ouvert",
       "theme": "politics_after_fall",
-      "text": "The gate was not opened by ignorance alone, but by powers that preferred victory elsewhere to responsibility here."
+      "text": "Plusieurs délégués affirment que la catastrophe n'a pas été également soudaine partout. D'autres les accusent d'inventer une intention là où la panique et des rapports incomplets peuvent suffire. Le conseil consigne le désaccord sans le trancher."
     },
     {
       "id": "fear_fragment",
-      "title": "On useful fear",
+      "title": "De la peur utile",
       "theme": "fear",
-      "text": "Fear is a witness. Listen to it, but never let it pass sentence."
+      "text": "La peur est un témoin. Écoute-la, mais ne la laisse jamais rendre le jugement."
     },
     {
-      "id": "madness_fragment",
-      "title": "The mirror without a crowd",
-      "theme": "madness",
-      "text": "Madness begins when every contradiction is mistaken for an enemy voice."
+      "id": "veil_folie_fragment",
+      "title": "Notes d'une salle instable",
+      "theme": "veil_folie",
+      "text": "Trois témoins disent avoir entendu une quatrième voix. Aucun ne s'accorde sur ses paroles. Les relevés d'exposition sont joints ; cette note seule ne permet aucune conclusion sur une maladie, une vérité ou une origine."
     },
     {
       "id": "hope_fragment",
-      "title": "Hope as maintenance",
+      "title": "L'espoir comme entretien",
       "theme": "hope",
-      "text": "Hope is not certainty. It is the work repeated before certainty exists."
+      "text": "L'espoir n'est pas la certitude. C'est le travail que l'on recommence avant que la certitude existe."
     }
   ],
-  "reaction_dimensions": [
-    "trait",
-    "injury",
-    "fear",
-    "madness",
-    "hope",
-    "relationship",
-    "quest_choice",
-    "ally_death",
-    "captured_creature"
-  ],
-  "localization": [
-    "fr",
-    "en_placeholder"
-  ]
+  "revelation_guardrail": {
+    "chapter_1_may_establish": [
+      "la Chute actuelle n'explique pas toutes les traces anciennes associées au Voile",
+      "des témoins sincères peuvent être en désaccord sur un événement anormal",
+      "les survivants possèdent déjà plusieurs explications concurrentes"
+    ],
+    "chapter_1_must_not_establish": [
+      "une responsabilité étrangère organisée dans la Chute",
+      "le Projet Seuil",
+      "la participation de l'observateur comme mécanisme prouvé du Voile",
+      "l'ontologie ultime du Voile"
+    ]
+  },
+  "reaction_dimensions": ["trait", "injury", "fear", "veil_folie", "hope", "relationship", "quest_choice", "ally_death", "captured_creature"],
+  "localization": ["fr"]
 }

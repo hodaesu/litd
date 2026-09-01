@@ -7,16 +7,19 @@
   {
     "id": "marrow_eater",
     "name": "Mangeur de Moelles",
-    "passive": "Réserve sanguine"
+    "passive": "Réserve sanguine",
+    "canon_status": "prototype_lineage_pending_world_reconciliation"
   },
   {
     "id": "deep_shadow",
     "name": "Ombre des Tréfonds",
-    "passive": "Puissance par la folie"
+    "passive": "Résistance aux anomalies de profondeur",
+    "canon_status": "prototype_lineage_pending_world_reconciliation"
   },
   {
     "id": "veilborn",
     "name": "Né du Voile",
-    "passive": "Résistance à la peur"
+    "passive": "Résistance à la peur",
+    "canon_status": "prototype_lineage_pending_world_reconciliation"
   }
 ]
