@@ -1,0 +1,47 @@
+{
+  "status": "production_ready_before_blender_v1",
+  "scope": "LITD1 cycle initial",
+  "engine": "Godot 4.3+",
+  "master_reference_rule": "The approved character model sheet is the visual source of truth. Drawn UV and rig diagrams are reference-only and must be rebuilt on the real mesh.",
+  "heroes": [
+    {"id":"ilyan_orme","display_name":"Ilyan Orme","master_sheet":"approved_model_sheet","signature":"dark layered scout/precision silhouette","primary_weapon":"short bow","secondary_weapon":"dagger"},
+    {"id":"sela_ven","display_name":"Sela Vën","master_sheet":"approved_model_sheet","signature":"light ritual guardian silhouette","primary_weapon":"ritual staff","secondary_weapon":"ceremonial implement"},
+    {"id":"varek_sorn","display_name":"Varek Sorn","master_sheet":"approved_model_sheet","signature":"heavy forge-warrior silhouette","primary_weapon":"war hammer","secondary_weapon":"heavy shield"},
+    {"id":"nara_deilen","display_name":"Nara Deilen","master_sheet":"approved_model_sheet","signature":"political strategist silhouette with war fans","primary_weapon":"war fans","secondary_weapon":"short blade"},
+    {"id":"effrie","display_name":"Èffrie","master_sheet":"approved_model_sheet","height_m":1.80,"signature":"Amazon-inspired leather-and-metal dragon-pact warrior; fire-red hair with gold nuances","primary_weapon":"war spear","secondary_weapon":"short dagger"}
+  ],
+  "shared_pipeline": [
+    "01_anatomical_blockout",
+    "02_clothing_armor_blockout",
+    "03_weapons_accessories",
+    "04_highpoly_detail",
+    "05_game_retopology",
+    "06_uv_unwrap",
+    "07_pbr_bake_and_textures",
+    "08_game_hair",
+    "09_humanoid_rig_and_skinning",
+    "10_facial_expressions",
+    "11_combat_and_locomotion_animation",
+    "12_lod_generation",
+    "13_godot_import_validation"
+  ],
+  "scale_and_pose": {"units":"meters","reference_pose":"A-pose","ground_z":0.0,"forward_axis":"Godot-compatible export convention","realistic_human_proportions":true},
+  "mesh_rules": {"separate_logical_parts":true,"deformation_ready_topology":true,"face_hands_priority":true,"armor_intersection_review":true,"no_fake_uv_from_sheet":true},
+  "materials": {"workflow":"PBR metallic-roughness","required_maps":["base_color","normal","roughness","metallic","ao"],"hero_identity_from_sheet_palette":true},
+  "hair": {"production_goal":"game-ready hair preserving approved silhouette","effrie_rule":"fire-red base with visible gold nuances; preserve braids and large curls from sheet"},
+  "rig": {"type":"humanoid advanced","requirements":["root","pelvis","spine","neck_head","arms_hands_fingers","legs_feet","weapon_sockets","facial_controls_or_blendshapes"],"sheet_rig_is_reference_only":true},
+  "facial_set": ["neutral","anger","focus","pain","fear_or_alert","determination"],
+  "animation_minimum": ["idle","walk","run","turn","hit_reaction","death","combat_ready","primary_attack_set","secondary_attack_set","skill_cast_or_signature","victory_or_recovery"],
+  "lod": {"levels":["LOD0","LOD1","LOD2","LOD3"],"preserve_face_hands_signature_weapon_and_silhouette":true},
+  "godot_handoff": {"format":"glTF/GLB","validate_scale":true,"validate_skeleton":true,"validate_materials":true,"validate_animation_names":true,"validate_lods":true,"validate_weapon_sockets":true},
+  "quality_gates": [
+    "silhouette_matches_master_sheet",
+    "front_back_side proportions agree",
+    "face and hairstyle preserve identity",
+    "armor and clothing remain functional in deformation",
+    "weapons match character identity",
+    "PBR materials distinguish leather metal cloth skin and hair",
+    "no clipping in baseline locomotion and combat poses",
+    "Godot import has correct scale orientation skeleton materials animations and sockets"
+  ]
+}
