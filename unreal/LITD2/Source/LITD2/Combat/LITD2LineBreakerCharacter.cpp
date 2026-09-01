@@ -130,7 +130,8 @@ void ALITD2LineBreakerCharacter::CommitSevereAttack()
 
 void ALITD2LineBreakerCharacter::HandleDamageResolved(FLITD2DamageResolution Resolution)
 {
-    if (Resolution.AppliedDamage > 0.0f && HitReactionMontage)
+    // The heavy trauma swing has commitment/super-armour: normal hit reaction montages must not cancel it.
+    if (Resolution.AppliedDamage > 0.0f && !bSevereAttackQueued && HitReactionMontage)
     {
         PlayAnimMontage(HitReactionMontage);
     }
