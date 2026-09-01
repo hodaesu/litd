@@ -83,6 +83,53 @@
       "cancel_policy": "incoming damage interrupts aim before release",
       "root_motion": "none",
       "projectile": "ALITD2SareiBoltProjectile"
+    },
+    {
+      "actor": "ALITD2AlleyHarrierCharacter",
+      "montage_slot": "LungeMontage",
+      "commit_event": "AlleyHarrierLunge",
+      "recommended_total_seconds": 0.86,
+      "recommended_commit_seconds": 0.34,
+      "telegraph": "short lateral coil before fast lunge",
+      "recovery": "0.72 seconds target",
+      "cancel_policy": "clean incoming hit interrupts lunge before commit",
+      "root_motion": "launch is currently supplied by runtime"
+    },
+    {
+      "actor": "ALITD2GuardSurgeonCharacter",
+      "montage_slot": "IncisionMontage",
+      "commit_event": "GuardSurgeonIncision",
+      "recommended_total_seconds": 0.92,
+      "recommended_commit_seconds": 0.46,
+      "telegraph": "precise hand and shoulder preparation, readable as a cutting action",
+      "recovery": "0.68 seconds target",
+      "cancel_policy": "115 damage during the opening interrupt window cancels the action",
+      "root_motion": "none_or_small_step",
+      "wound_contract": "undefended contact uses BleedValue 0.88 and must resolve as a targeted bleeding wound"
+    },
+    {
+      "actor": "ALITD2GuardSurgeonCharacter",
+      "montage_slot": "GrabMontage",
+      "commit_event": "GuardSurgeonGrab",
+      "recommended_total_seconds": 1.45,
+      "recommended_commit_seconds": 0.82,
+      "telegraph": "open hand/tool posture and clear forward reach before contact",
+      "recovery": "1.05 seconds target",
+      "cancel_policy": "115 damage during the opening interrupt window cancels the action",
+      "root_motion": "short authored reach allowed",
+      "control_contract": "undefended contact briefly locks player movement for 0.45 seconds; block or parry prevents the lock"
+    },
+    {
+      "actor": "ALITD2GuardSurgeonCharacter",
+      "montage_slot": "SevereStrikeMontage",
+      "commit_event": "GuardSurgeonSevereStrike",
+      "recommended_total_seconds": 2.45,
+      "recommended_commit_seconds": 1.25,
+      "telegraph": "large full-body anatomical strike with a long readable preparation",
+      "recovery": "1.60 seconds target",
+      "cancel_policy": "115 damage during the first 0.58 seconds cancels the action; after the interrupt window the commitment is locked",
+      "root_motion": "small committed advance allowed",
+      "trauma_contract": "bReadableSevereCause=true and TraumaValue=0.63; undefended contact can trigger Trauma I"
     }
   ]
 }
