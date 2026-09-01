@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Combat/LITD2CombatTypes.h"
 #include "GameFramework/Character.h"
 #include "LITD2AshWandererCharacter.generated.h"
 
@@ -39,6 +40,12 @@ public:
     void OnAttackCommitted();
 
     UFUNCTION(BlueprintImplementableEvent, Category="LITD2|Enemy|Presentation")
+    void OnParriedPresentation();
+
+    UFUNCTION(BlueprintImplementableEvent, Category="LITD2|Enemy|Presentation")
+    void OnDamagePresentation(FLITD2DamageResolution Resolution);
+
+    UFUNCTION(BlueprintImplementableEvent, Category="LITD2|Enemy|Presentation")
     void OnEnemyDeathPresentation();
 
 protected:
@@ -52,6 +59,9 @@ private:
 
     void StartAttack();
     void CommitAttack();
+
+    UFUNCTION()
+    void HandleDamageResolved(FLITD2DamageResolution Resolution);
 
     UFUNCTION()
     void HandleDeath();
