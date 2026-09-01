@@ -8,10 +8,16 @@ const NARRATOR_PATH := "res://data/narrative/base_game_narrator.json"
 var story_data: Dictionary = {}
 var narrator_data: Dictionary = {}
 var _used_line_keys: Dictionary = {}
+var _last_chapter_id := ""
 
 func _ready() -> void:
     story_data = _load_dictionary(STORY_PATH)
     narrator_data = _load_dictionary(NARRATOR_PATH)
+    _last_chapter_id = CampaignState.current_chapter_id
+    if not CampaignState.campaign_changed.is_connected(_on_campaign_changed):
+        CampaignState.campaign_changed.connect(_on_campaign_changed)
+    if is_cycle_zero_contract():
+        select_and_log("opening", _last_chapter_id)
 
 func _load_dictionary(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
@@ -115,6 +121,26 @@ func select_narration(event_id: String, chapter_id: String = "", allow_repeat: b
     }
     narration_selected.emit(payload.duplicate(true))
     return payload
+
+func select_and_log(event_id: String, chapter_id: String = "", allow_repeat: bool = false) -> Dictionary:
+    if not is_cycle_zero_contract():
+        return {"mode": "silence", "event": event_id, "reason": "cycle_initial_only"}
+    var payload := select_narration(event_id, chapter_id, allow_repeat)
+    if str(payload.get("mode", "")) == "narration":
+        GameState.add_log("%s — %s" % [str(payload.get("speaker", "Narration")), str(payload.get("text", ""))])
+    return payload
+
+func _on_campaign_changed() -> void:
+    if not is_cycle_zero_contract():
+        _last_chapter_id = CampaignState.current_chapter_id
+        return
+    var current_id := CampaignState.current_chapter_id
+    if current_id == _last_chapter_id:
+        return
+    if _last_chapter_id != "":
+        select_and_log("closing", _last_chapter_id)
+    _last_chapter_id = current_id
+    select_and_log("opening", current_id)
 
 func reset_session_memory() -> void:
     _used_line_keys.clear()
