@@ -66,18 +66,12 @@ bool ULITD2RunDirectorSubsystem::LoadRunDefinition(const FString& RelativePath)
     for (const TSharedPtr<FJsonValue>& Value : Root->GetArrayField(TEXT("zones")))
     {
         const TSharedPtr<FJsonObject> Object = Value.IsValid() ? Value->AsObject() : nullptr;
-        if (!Object.IsValid())
-        {
-            continue;
-        }
+        if (!Object.IsValid()) continue;
 
         FString ZoneId;
         FString Title;
         FString Type;
-        if (!ReadString(Object, TEXT("zone_id"), ZoneId) || !ReadString(Object, TEXT("title"), Title) || !ReadString(Object, TEXT("type"), Type))
-        {
-            continue;
-        }
+        if (!ReadString(Object, TEXT("zone_id"), ZoneId) || !ReadString(Object, TEXT("title"), Title) || !ReadString(Object, TEXT("type"), Type)) continue;
 
         FLITD2RunZoneDefinition Zone;
         Zone.ZoneId = FName(*ZoneId);
@@ -85,10 +79,7 @@ bool ULITD2RunDirectorSubsystem::LoadRunDefinition(const FString& RelativePath)
         Zone.Type = Type;
 
         FString BossId;
-        if (ReadString(Object, TEXT("boss_id"), BossId))
-        {
-            Zone.BossId = FName(*BossId);
-        }
+        if (ReadString(Object, TEXT("boss_id"), BossId)) Zone.BossId = FName(*BossId);
 
         FString RemanenceId;
         if (ReadString(Object, TEXT("mandatory_remanence_id"), RemanenceId) || ReadString(Object, TEXT("remanence_id"), RemanenceId))
@@ -115,17 +106,12 @@ void ULITD2RunDirectorSubsystem::EnterZone(int32 ZoneIndex)
     State.bCurrentZoneObjectiveSatisfied = false;
     const FLITD2RunZoneDefinition& Zone = Zones[ZoneIndex];
 
-    if (Zone.ZoneId == TEXT("Z0_PREP"))
-    {
-        State.bCurrentZoneObjectiveSatisfied = !State.SelectedOathId.IsNone();
-    }
+    if (Zone.ZoneId == TEXT("Z0_PREP")) State.bCurrentZoneObjectiveSatisfied = !State.SelectedOathId.IsNone();
 
     OnZoneStarted.Broadcast(Zone.ZoneId, Zone.Title);
 
-    // Z4 waits for the player's route selection. Other combat/boss zones dispatch immediately.
     if (Zone.ZoneId != TEXT("Z4_ASH_CROSSROADS") &&
-        (Zone.Type == TEXT("Combat") || Zone.Type == TEXT("CombatAndHealing") || Zone.Type == TEXT("MiniBoss") ||
-         Zone.Type == TEXT("WaveArena") || Zone.Type == TEXT("Boss")))
+        (Zone.Type == TEXT("Combat") || Zone.Type == TEXT("CombatAndHealing") || Zone.Type == TEXT("MiniBoss") || Zone.Type == TEXT("WaveArena") || Zone.Type == TEXT("Boss")))
     {
         if (UGameInstance* GameInstance = GetGameInstance())
         {
@@ -139,31 +125,17 @@ void ULITD2RunDirectorSubsystem::EnterZone(int32 ZoneIndex)
 
 bool ULITD2RunDirectorSubsystem::CanCompleteCurrentZone() const
 {
-    if (!Zones.IsValidIndex(State.CurrentZoneIndex))
-    {
-        return false;
-    }
+    if (!Zones.IsValidIndex(State.CurrentZoneIndex)) return false;
 
     const FLITD2RunZoneDefinition& Zone = Zones[State.CurrentZoneIndex];
-    if (Zone.ZoneId == TEXT("Z4_ASH_CROSSROADS") && State.SelectedBranchId.IsNone())
-    {
-        return false;
-    }
-
-    if (!Zone.MandatoryRemanenceId.IsNone() && !State.DiscoveredRemanenceIds.Contains(Zone.MandatoryRemanenceId))
-    {
-        return false;
-    }
-
+    if (Zone.ZoneId == TEXT("Z4_ASH_CROSSROADS") && State.SelectedBranchId.IsNone()) return false;
+    if (!Zone.MandatoryRemanenceId.IsNone() && !State.DiscoveredRemanenceIds.Contains(Zone.MandatoryRemanenceId)) return false;
     return State.bCurrentZoneObjectiveSatisfied;
 }
 
 bool ULITD2RunDirectorSubsystem::CompleteCurrentZone()
 {
-    if (!CanCompleteCurrentZone())
-    {
-        return false;
-    }
+    if (!CanCompleteCurrentZone()) return false;
 
     const FLITD2RunZoneDefinition CompletedZone = Zones[State.CurrentZoneIndex];
     OnZoneCompleted.Broadcast(CompletedZone.ZoneId, CompletedZone.Title);
@@ -182,15 +154,8 @@ bool ULITD2RunDirectorSubsystem::CompleteCurrentZone()
 
 bool ULITD2RunDirectorSubsystem::ChooseBranch(FName BranchId)
 {
-    if (!Zones.IsValidIndex(State.CurrentZoneIndex) || Zones[State.CurrentZoneIndex].ZoneId != TEXT("Z4_ASH_CROSSROADS"))
-    {
-        return false;
-    }
-
-    if (BranchId != TEXT("CONVOY_YARD") && BranchId != TEXT("GLASSMAKERS_STREET"))
-    {
-        return false;
-    }
+    if (!Zones.IsValidIndex(State.CurrentZoneIndex) || Zones[State.CurrentZoneIndex].ZoneId != TEXT("Z4_ASH_CROSSROADS")) return false;
+    if (BranchId != TEXT("CONVOY_YARD") && BranchId != TEXT("GLASSMAKERS_STREET")) return false;
 
     State.SelectedBranchId = BranchId;
     OnBranchChosen.Broadcast(BranchId);
@@ -215,12 +180,16 @@ int32 ULITD2RunDirectorSubsystem::GetRecoverableMaxHealth() const
     return FMath::Max(1, State.MaxHealth - State.LockedHealth);
 }
 
+int32 ULITD2RunDirectorSubsystem::ApplyCombatDamage(int32 DamageAmount)
+{
+    const int32 Damage = FMath::Max(0, DamageAmount);
+    State.CurrentHealth = FMath::Clamp(State.CurrentHealth - Damage, 0, GetRecoverableMaxHealth());
+    return State.CurrentHealth;
+}
+
 bool ULITD2RunDirectorSubsystem::ApplyTrauma(int32 Level, int32 LockedHealthAmount, int32 ImmediateDamage)
 {
-    if (Level <= 0 || LockedHealthAmount <= 0)
-    {
-        return false;
-    }
+    if (Level <= 0 || LockedHealthAmount <= 0) return false;
 
     State.TraumaLevel = FMath::Clamp(FMath::Max(State.TraumaLevel, Level), 0, 3);
     State.LockedHealth = FMath::Clamp(State.LockedHealth + LockedHealthAmount, 0, FMath::FloorToInt(State.MaxHealth * 0.45f));
@@ -237,10 +206,7 @@ int32 ULITD2RunDirectorSubsystem::UseFountain()
 
 bool ULITD2RunDirectorSubsystem::UsePotion()
 {
-    if (State.PotionCount <= 0)
-    {
-        return false;
-    }
+    if (State.PotionCount <= 0) return false;
 
     --State.PotionCount;
     State.TraumaLevel = 0;
@@ -251,21 +217,14 @@ bool ULITD2RunDirectorSubsystem::UsePotion()
 
 bool ULITD2RunDirectorSubsystem::GrantContextualReplacementPotion()
 {
-    if (State.PotionCount >= State.PotionCapacity)
-    {
-        return false;
-    }
-
+    if (State.PotionCount >= State.PotionCapacity) return false;
     ++State.PotionCount;
     return true;
 }
 
 bool ULITD2RunDirectorSubsystem::DiscoverRemanence(FName EntryId)
 {
-    if (EntryId.IsNone() || State.DiscoveredRemanenceIds.Contains(EntryId))
-    {
-        return false;
-    }
+    if (EntryId.IsNone() || State.DiscoveredRemanenceIds.Contains(EntryId)) return false;
 
     State.DiscoveredRemanenceIds.Add(EntryId);
 
@@ -289,21 +248,12 @@ bool ULITD2RunDirectorSubsystem::DiscoverRemanence(FName EntryId)
 
 void ULITD2RunDirectorSubsystem::ReportBossHealthPercent(float HealthPercent)
 {
-    if (!Zones.IsValidIndex(State.CurrentZoneIndex) || Zones[State.CurrentZoneIndex].ZoneId != TEXT("Z7_SOUTH_BARRICADE"))
-    {
-        return;
-    }
+    if (!Zones.IsValidIndex(State.CurrentZoneIndex) || Zones[State.CurrentZoneIndex].ZoneId != TEXT("Z7_SOUTH_BARRICADE")) return;
 
     const float Clamped = FMath::Clamp(HealthPercent, 0.0f, 100.0f);
     int32 NewPhase = 1;
-    if (Clamped <= 25.0f)
-    {
-        NewPhase = 3;
-    }
-    else if (Clamped <= 60.0f)
-    {
-        NewPhase = 2;
-    }
+    if (Clamped <= 25.0f) NewPhase = 3;
+    else if (Clamped <= 60.0f) NewPhase = 2;
 
     if (NewPhase != LastBossPhase)
     {
@@ -311,10 +261,7 @@ void ULITD2RunDirectorSubsystem::ReportBossHealthPercent(float HealthPercent)
         OnBossPhaseChanged.Broadcast(NewPhase);
     }
 
-    if (Clamped <= 0.0f)
-    {
-        State.bCurrentZoneObjectiveSatisfied = true;
-    }
+    if (Clamped <= 0.0f) State.bCurrentZoneObjectiveSatisfied = true;
 }
 
 FLITD2RunZoneDefinition ULITD2RunDirectorSubsystem::GetCurrentZone() const
