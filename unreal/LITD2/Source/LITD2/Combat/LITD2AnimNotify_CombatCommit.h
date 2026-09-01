@@ -10,7 +10,8 @@ enum class ELITD2CombatCommitEvent : uint8
     PlayerQueuedAttack,
     AshWandererAttack,
     LineBreakerSevereAttack,
-    SareiCrossbowRelease
+    SareiCrossbowRelease,
+    AlleyHarrierLunge
 };
 
 UCLASS(meta=(DisplayName="LITD2 Combat Commit"))
