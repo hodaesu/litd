@@ -29,9 +29,7 @@ func reset_new_game(seed_value: int = 0) -> void:
     creatures_changed.emit()
 
 func multi_tree_enabled() -> bool:
-    # Compatibility API only. Canonically, choosing one tree always locks the other two,
-    # including for captured creatures in every Nouveau Cycle+.
-    return false
+    return EndgameState.active_cycle >= 1
 
 func definition_for_enemy(enemy_id: int) -> Dictionary:
     for definition_value in DataLoader.capturable_creatures:
@@ -45,12 +43,19 @@ func definition_for_species(species_id: String) -> Dictionary:
         var definition: Dictionary = definition_value
         if str(definition.get("id", "")) == species_id:
             return definition
-    return {}
+    var boss_definition := BossRecruitmentState.definition_for_species(species_id)
+    return boss_definition if not boss_definition.is_empty() else {}
 
 func definition_for_battle_enemy(enemy: Dictionary) -> Dictionary:
+    var boss_definition := BossRecruitmentState.definition_for_enemy(enemy)
+    if not boss_definition.is_empty():
+        return boss_definition
     return definition_for_enemy(int(enemy.get("id", -1)))
 
 func is_capturable(enemy: Dictionary) -> bool:
+    var boss_definition := BossRecruitmentState.definition_for_enemy(enemy)
+    if not boss_definition.is_empty():
+        return true
     if bool(enemy.get("boss", false)) or bool(enemy.get("is_boss", false)) or bool(enemy.get("is_miniboss", false)):
         return false
     return not definition_for_enemy(int(enemy.get("id", -1))).is_empty()
@@ -107,9 +112,10 @@ func capture_chance(enemy: Dictionary) -> int:
 func attempt_capture(enemy: Dictionary) -> Dictionary:
     if not ContentScopeDirector.is_unlocked("capture"):
         return {"success": false, "consumed": false, "message": "La compagnie ne connaît pas encore le rite permettant de créer ce lien."}
-    if bool(enemy.get("boss", false)) or bool(enemy.get("is_boss", false)) or bool(enemy.get("is_miniboss", false)):
-        return {"success": false, "consumed": false, "message": "Les mini-boss et boss ne sont pas capturables."}
     var definition: Dictionary = definition_for_battle_enemy(enemy)
+    var is_special := bool(definition.get("boss_recruit", false))
+    if (bool(enemy.get("boss", false)) or bool(enemy.get("is_boss", false)) or bool(enemy.get("is_miniboss", false))) and not is_special:
+        return {"success": false, "consumed": false, "message": "Les mini-boss et boss ne peuvent être recrutés qu'en Nouveau Cycle+."}
     if definition.is_empty():
         return {"success": false, "consumed": false, "message": "Cette créature ne peut pas être liée."}
     var capture: Dictionary = definition.get("capture", {})
@@ -124,7 +130,8 @@ func attempt_capture(enemy: Dictionary) -> Dictionary:
     GameState.essence -= essence_cost
     capture_attempt_counter += 1
     var rng := RandomNumberGenerator.new()
-    rng.seed = capture_seed ^ (int(enemy.get("id", 0)) * 73856093) ^ (capture_attempt_counter * 19349663)
+    var encounter_hash := hash(String(definition.get("encounter_id", "")))
+    rng.seed = capture_seed ^ (int(enemy.get("id", 0)) * 73856093) ^ encounter_hash ^ (capture_attempt_counter * 19349663)
     var chance: int = capture_chance(enemy)
     var roll: int = rng.randi_range(1, 100)
     if roll > chance:
@@ -148,7 +155,8 @@ func attempt_capture(enemy: Dictionary) -> Dictionary:
 func _create_creature(definition: Dictionary) -> Dictionary:
     creature_instance_counter += 1
     var instance_seed: int = capture_seed ^ (creature_instance_counter * 83492791)
-    var starting_level := 1
+    var adaptive := bool(definition.get("level_sync", false))
+    var starting_level := BossRecruitmentState.party_reference_level() if adaptive else 1
     var creature := {
         "instance_id": "%s-%08x-%04d" % [str(definition.get("id", "creature")), instance_seed & 0x7fffffff, creature_instance_counter],
         "species_id": str(definition.get("id", "")),
@@ -156,11 +164,16 @@ func _create_creature(definition: Dictionary) -> Dictionary:
         "name": str(definition.get("name", "Créature")),
         "level": starting_level,
         "xp": 0,
-        "skill_points": 1,
+        "skill_points": maxi(1, starting_level),
         "unlocked_skills": [],
         "specialization": "",
         "evolution_name": _evolution_name(definition, starting_level),
         "seed": instance_seed,
+        "level_sync": adaptive,
+        "boss_recruit": bool(definition.get("boss_recruit", false)),
+        "boss_rank": str(definition.get("rank", "")),
+        "signature": str(definition.get("signature", "")),
+        "source_encounter_id": str(definition.get("encounter_id", "")),
         "player_owned": true
     }
     CharacterTraitDirector.prepare_character(creature, str(creature.get("instance_id", "")))
@@ -173,26 +186,50 @@ func get_creature(instance_id: String) -> Dictionary:
     return {}
 
 func active_creature() -> Dictionary:
+    sync_adaptive_recruits()
     return get_creature(active_instance_id)
 
 func set_active(instance_id: String) -> bool:
     if get_creature(instance_id).is_empty():
         return false
     active_instance_id = instance_id
+    sync_adaptive_recruits()
     creatures_changed.emit()
     return true
 
 func sync_adaptive_recruits() -> void:
-    # Legacy compatibility hook. Adaptive boss recruits were retired by the canon audit.
-    pass
+    var target_level := BossRecruitmentState.party_reference_level()
+    var changed := false
+    for index in range(captured_creatures.size()):
+        var creature: Dictionary = captured_creatures[index]
+        if not bool(creature.get("level_sync", false)):
+            continue
+        var old_level := int(creature.get("level", 1))
+        if old_level == target_level:
+            continue
+        creature["level"] = target_level
+        if target_level > old_level:
+            creature["skill_points"] = int(creature.get("skill_points", 0)) + (target_level - old_level)
+        creature["xp"] = 0
+        var definition := definition_for_species(str(creature.get("species_id", "")))
+        creature["evolution_name"] = _evolution_name(definition, target_level)
+        captured_creatures[index] = creature
+        changed = true
+    if changed:
+        creatures_changed.emit()
 
 func grant_active_xp(amount: int) -> void:
     if amount <= 0 or active_instance_id == "":
         return
+    sync_adaptive_recruits()
     for index in range(captured_creatures.size()):
         var creature: Dictionary = captured_creatures[index]
         if str(creature.get("instance_id", "")) != active_instance_id:
             continue
+        if bool(creature.get("level_sync", false)):
+            creature["xp"] = 0
+            captured_creatures[index] = creature
+            return
         creature["xp"] = int(creature.get("xp", 0)) + amount
         var leveled: bool = false
         while int(creature.get("level", 1)) < GameState.MAX_CHARACTER_LEVEL:
@@ -289,6 +326,7 @@ func _roman(value: int) -> String:
     return ["I", "II", "III", "IV", "V", "VI", "VII"][clampi(value - 1, 0, 6)]
 
 func can_unlock(instance_id: String, skill_id: String) -> bool:
+    sync_adaptive_recruits()
     var creature: Dictionary = get_creature(instance_id)
     if creature.is_empty() or creature.get("unlocked_skills", []).has(skill_id):
         return false
@@ -299,7 +337,7 @@ func can_unlock(instance_id: String, skill_id: String) -> bool:
     var specialization: String = str(creature.get("specialization", ""))
     if skill_branch == "":
         return false
-    if specialization != "" and specialization != skill_branch:
+    if not multi_tree_enabled() and specialization != "" and specialization != skill_branch:
         return false
     if int(creature.get("skill_points", 0)) < int(node.get("cost", 1)):
         return false
@@ -320,7 +358,7 @@ func unlock_skill(instance_id: String, skill_id: String) -> bool:
         var unlocked: Array = creature.get("unlocked_skills", [])
         unlocked.append(skill_id)
         creature["unlocked_skills"] = unlocked
-        if str(creature.get("specialization", "")) == "":
+        if not multi_tree_enabled() and str(creature.get("specialization", "")) == "":
             creature["specialization"] = skill_branch
         creature["skill_points"] = int(creature.get("skill_points", 0)) - int(node.get("cost", 1))
         captured_creatures[index] = creature
@@ -347,6 +385,7 @@ func _skill_branch(creature: Dictionary, skill_id: String) -> String:
     return ""
 
 func active_stats() -> Dictionary:
+    sync_adaptive_recruits()
     var result: Dictionary = {}
     var creature: Dictionary = get_creature(active_instance_id)
     if creature.is_empty():
@@ -359,6 +398,7 @@ func active_stats() -> Dictionary:
     return result
 
 func companion_turn(target: Dictionary) -> Dictionary:
+    sync_adaptive_recruits()
     var creature: Dictionary = get_creature(active_instance_id)
     if creature.is_empty() or target.is_empty() or int(target.get("hp", 0)) <= 0:
         return {}
@@ -393,7 +433,7 @@ func companion_turn(target: Dictionary) -> Dictionary:
         "name": str(creature.get("evolution_name", creature.get("name", "Compagnon"))),
         "damage": damage,
         "heal": heal,
-        "signature": ""
+        "signature": str(creature.get("signature", ""))
     }
 
 func party_bonuses() -> Dictionary:
@@ -426,17 +466,9 @@ func deserialize(data: Dictionary) -> void:
     var seen: Dictionary = {}
     for creature_value in data.get("captured_creatures", []):
         var creature: Dictionary = creature_value
-        # Retire non-canonical boss recruits created by older NG+ builds.
-        if bool(creature.get("boss_recruit", false)):
-            continue
         var instance_id: String = str(creature.get("instance_id", ""))
         if instance_id == "" or seen.has(instance_id):
             continue
-        creature.erase("level_sync")
-        creature.erase("boss_recruit")
-        creature.erase("boss_rank")
-        creature.erase("signature")
-        creature.erase("source_encounter_id")
         creature["level"] = clampi(int(creature.get("level", 1)), 1, GameState.MAX_CHARACTER_LEVEL)
         creature["xp"] = maxi(0, int(creature.get("xp", 0)))
         creature["skill_points"] = maxi(0, int(creature.get("skill_points", 0)))
@@ -454,4 +486,5 @@ func deserialize(data: Dictionary) -> void:
     capture_seed = int(data.get("capture_seed", DEFAULT_SEED))
     capture_attempt_counter = maxi(0, int(data.get("capture_attempt_counter", 0)))
     creature_instance_counter = maxi(captured_creatures.size(), int(data.get("creature_instance_counter", 0)))
+    sync_adaptive_recruits()
     creatures_changed.emit()
