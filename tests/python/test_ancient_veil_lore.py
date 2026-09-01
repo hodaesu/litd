@@ -13,11 +13,13 @@ def test_three_major_pre_concord_civilizations_exist():
     assert all(item["mistake"] for item in data["civilizations"])
 
 
-def test_ancient_sites_relics_and_absents_are_structured():
+def test_ancient_sites_relics_and_absents_are_structured_without_overclaiming_identity():
     data = json.loads((ROOT / "data/world/ancient_veil_civilizations.json").read_text())
     assert len(data["ancient_sites"]) >= 7
     assert len(data["relics"]) >= 6
-    assert data["ancient_entities"]["absents"]["status"] == "possible_survival"
+    status = data["ancient_entities"]["absents"]["status"]
+    assert status.startswith("possible_survival")
+    assert "not_proven_identity" in status
     assert "stabilisation" in data["first_veil_tree"]["truth"]
 
 
