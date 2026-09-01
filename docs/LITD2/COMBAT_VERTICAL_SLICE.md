@@ -31,9 +31,26 @@ Ces mappings vivent dans `unreal/LITD2/Config/DefaultInput.ini` et pourront êtr
 - esquive directionnelle avec fenêtre d'invulnérabilité courte ;
 - parade à fenêtre courte, puis blocage moins efficace ;
 - utilisation d'une potion synchronisée avec l'état de run ;
-- premiers slots `UAnimMontage` optionnels pour attaque légère, attaque lourde, esquive et parade.
+- slots `UAnimMontage` pour attaque légère, attaque lourde, esquive et parade ;
+- validation des impacts offensifs par `AnimNotify` quand un montage est assigné.
 
 `ALITD2CombatGameMode` utilise ce personnage comme pawn par défaut du projet de vertical slice.
+
+## Synchronisation animation ↔ gameplay
+
+`ULITD2AnimNotify_CombatCommit` est maintenant le point commun entre les montages offensifs et le runtime.
+
+Quand aucun montage n'est assigné, le fallback C++ garde le prototype jouable. Dès qu'un montage offensif est assigné, le coup n'est plus validé par un timer caché : le montage doit contenir le notify correspondant au vrai frame de contact/libération.
+
+Événements actuels :
+
+- `PlayerQueuedAttack` ;
+- `AshWandererAttack` ;
+- `LineBreakerSevereAttack` ;
+- `SareiCrossbowRelease`.
+
+Contrat détaillé : `docs/LITD2/COMBAT_ANIMATION_CONTRACT.md`.  
+Source data-driven : `unreal/LITD2/Data/Combat/animation_combat_contracts.json`.
 
 ## Pipeline de dégâts unifié
 
@@ -57,7 +74,7 @@ Ces mappings vivent dans `unreal/LITD2/Config/DefaultInput.ini` et pourront êtr
 
 Un traumatisme ne peut jamais apparaître via un jet aléatoire. Il exige explicitement `bReadableSevereCause = true`, un `TraumaValue` suffisant et une attaque réellement encaissée.
 
-Une parade ou un blocage réussi marque désormais l'impact comme défendu : l'attaque peut encore infliger les dégâts réduits prévus par le blocage, mais elle ne déclenche ni blessure grave, ni traumatisme, ni démembrement candidat. Les attaques futures explicitement « imblocables » devront le déclarer comme une mécanique propre, jamais contourner cette règle accidentellement.
+Une parade ou un blocage réussi marque l'impact comme défendu : l'attaque peut encore infliger les dégâts réduits prévus par le blocage, mais elle ne déclenche ni blessure grave, ni traumatisme, ni démembrement candidat. Les attaques futures explicitement « imblocables » devront le déclarer comme une mécanique propre, jamais contourner cette règle accidentellement.
 
 Les traumatismes condamnent une portion de PV récupérables. Le composant de combat et le `RunDirector` conservent le même langage d'état.
 
@@ -76,9 +93,9 @@ Il :
 - détecte le joueur ;
 - s'approche ;
 - déclenche un télégraphe avant attaque ;
-- frappe après un windup lisible ;
-- entre en récupération ;
-- subit les attaques du joueur ;
+- utilise `AttackMontage` + `AshWandererAttack` lorsque l'animation est assignée ;
+- reste testable avec son windup C++ si aucun montage n'est assigné ;
+- est interruptible par une pression offensive propre ;
 - réagit à une parade par une récupération prolongée ;
 - expose des hooks Blueprint pour hit reaction, gore/démembrement candidat, télégraphe, parade et mort ;
 - signale sa mort à `ULITD2EncounterDirectorSubsystem` sous l'ID `ASH_WANDERER`.
@@ -87,21 +104,23 @@ L'Errant cendré de base n'inflige volontairement aucun traumatisme.
 
 ## Deuxième ennemi — Briseur de ligne
 
-`ALITD2LineBreakerCharacter` est le premier ennemi conçu pour valider une **attaque traumatique lourde mais entièrement lisible**.
+`ALITD2LineBreakerCharacter` valide une **attaque traumatique lourde mais entièrement lisible**.
 
 Identité de gameplay actuelle :
 
 - déplacement plus lent et silhouette de lourd ;
 - environ 720 PV de tuning initial, sans logique de sac à PV ;
 - portée courte ;
-- windup sévère de **1,10 s** ;
+- télégraphe sévère ciblé à **1,10 s** ;
 - récupération de **1,55 s** ;
 - attaque contondante à 145 dégâts avant défense ;
 - `ImpactForce = 0.92` ;
 - `TraumaValue = 0.58` ;
-- `bReadableSevereCause = true`.
+- `bReadableSevereCause = true` ;
+- `SevereAttackMontage` validé au contact par `LineBreakerSevereAttack` lorsqu'il est assigné ;
+- engagement lourd : les réactions normales de hit ne cassent pas sa frappe sévère.
 
-`TraumaValue = 0.58` est une **valeur de tuning du vertical slice**, pas une constante narrative sacrée. Avec les seuils actuels, un coup sévère non défendu produit **Traumatisme I** et condamne environ **10 % des PV max**.
+`TraumaValue = 0.58` est une valeur de tuning du vertical slice, pas une constante narrative sacrée. Avec les seuils actuels, un coup sévère non défendu produit **Traumatisme I** et condamne environ **10 % des PV max**.
 
 ### Matrice défensive attendue
 
@@ -114,24 +133,29 @@ Identité de gameplay actuelle :
 
 La mort du Briseur est transmise au `EncounterDirector` sous l'ID `LINE_BREAKER`, ce qui le raccorde directement aux rencontres Z2, Z4 et Z6 déjà définies dans Sarei.
 
-## Première branche des animations / montages
+## Troisième ennemi — Arbalétrier de Sarei
 
-Le joueur expose maintenant des slots :
+`ALITD2SareiCrossbowCharacter` introduit la première pression à distance réellement jouable.
 
-- `LightAttackMontage` ;
-- `HeavyAttackMontage` ;
-- `DodgeMontage` ;
-- `ParryMontage`.
+Identité actuelle :
 
-Le Briseur expose :
+- environ 230 PV ;
+- portée d'aggro 1750 unités ;
+- cherche une distance de travail d'environ **560–1050 unités** ;
+- recule si le joueur ferme la distance ;
+- avance s'il est trop loin ;
+- visée lisible d'environ **0,82 s** ;
+- récupération d'environ **1,55 s** ;
+- un coup reçu pendant la visée interrompt le tir ;
+- `AimAndFireMontage` utilise `SareiCrossbowRelease` lorsqu'il est assigné ;
+- le tir crée un vrai `ALITD2SareiBoltProjectile`, pas un dommage hitscan instantané ;
+- la mort est transmise sous l'ID `SAREI_CROSSBOW`.
 
-- `SevereAttackMontage` ;
-- `HitReactionMontage` ;
-- `DeathMontage`.
+Le carreau voyage à grande vitesse et repasse par `ULITD2CombatantComponent` en cas de collision. Son tuning de base inflige 92 dégâts perforants, mais **aucun traumatisme** : sa fonction est de créer de la pression de positionnement, pas de dupliquer le rôle du Briseur.
 
-Le code joue automatiquement ces montages lorsqu'ils sont assignés. Les véritables assets `.uasset` restent à créer/importer dans Unreal Editor.
+Les rencontres Z2, la branche `GLASSMAKERS_STREET` de Z4 et les vagues de Z6 contiennent déjà `SAREI_CROSSBOW` dans le contrat de run.
 
-Pour cette étape, le moment d'impact reste déterminé par le timer C++ de windup afin que le gameplay fonctionne sans asset d'animation. **Le prochain passage animation devra déplacer la validation du hit vers un `AnimNotify`/une fenêtre de montage**, afin que l'image et le moment réel de l'impact deviennent exactement synchronisés.
+Le registre runtime correspondant est `unreal/LITD2/Data/Combat/enemy_runtime_registry.json`.
 
 ## Présentation encore à produire dans Unreal Editor
 
@@ -139,25 +163,29 @@ Restent notamment à fabriquer/importer :
 
 - squelette/mesh définitif du personnage ;
 - locomotion et montages définitifs ;
-- animations propres de l'Errant et du Briseur de ligne ;
-- `AnimNotify` d'ouverture/fermeture des fenêtres de frappe ;
+- animations propres de l'Errant, du Briseur et de l'Arbalétrier ;
+- placement des `LITD2 Combat Commit` aux vrais frames de contact/libération ;
+- mesh/traînée/VFX du carreau d'arbalète ;
 - VFX d'impact et gore ;
 - démembrement visuel et contraintes de squelette ;
-- sons d'armes, impacts, pas et réactions ;
+- sons d'armes, impacts, pas, mécanisme d'arbalète et réactions ;
 - HUD PV/endurance/trauma/potions ;
 - tuning à la manette et migration Enhanced Input si retenue.
 
 ## Critères du prochain test en éditeur
 
 1. le joueur peut se déplacer et orienter la caméra sans conflit ;
-2. attaque légère/lourde touchent un ennemi dans leur volume ;
-3. l'endurance empêche le spam infini ;
-4. l'esquive évite réellement l'attaque lourde du Briseur pendant sa fenêtre ;
-5. une parade annule le coup sévère et prolonge fortement sa récupération ;
-6. un blocage réduit les dégâts du coup sévère sans produire de traumatisme ;
-7. un coup sévère non défendu produit Traumatisme I et condamne environ 10 % des PV max ;
-8. une fontaine restaure uniquement les PV encore récupérables après ce traumatisme ;
-9. une potion efface le traumatisme et restaure le maximum complet ;
-10. la mort du Briseur décrémente correctement une rencontre `LINE_BREAKER` ;
-11. les montages assignés sont joués sans modifier les règles de combat ;
-12. aucun traumatisme ne peut être déclenché aléatoirement.
+2. attaque légère/lourde appliquent leur sweep exactement au notify lorsque leurs montages sont assignés ;
+3. une esquive/parade avant le notify annule un coup joueur encore en attente ;
+4. l'Errant peut être interrompu pendant sa préparation sans rester bloqué dans un état d'attaque ;
+5. le Briseur conserve sa frappe sévère malgré une réaction de hit normale ;
+6. l'esquive évite réellement l'attaque lourde du Briseur pendant sa fenêtre ;
+7. une parade annule le coup sévère et prolonge fortement sa récupération ;
+8. un blocage réduit les dégâts du coup sévère sans produire de traumatisme ;
+9. un coup sévère non défendu produit Traumatisme I et condamne environ 10 % des PV max ;
+10. l'Arbalétrier recule au contact, télégraphie son tir et libère le carreau au notify ;
+11. un carreau peut manquer ou être évité et ne produit jamais de traumatisme de base ;
+12. une fontaine restaure uniquement les PV encore récupérables après un traumatisme ;
+13. une potion efface le traumatisme et restaure le maximum complet ;
+14. les morts `ASH_WANDERER`, `LINE_BREAKER` et `SAREI_CROSSBOW` décrémentent correctement les rencontres ;
+15. aucun traumatisme ne peut être déclenché aléatoirement.
