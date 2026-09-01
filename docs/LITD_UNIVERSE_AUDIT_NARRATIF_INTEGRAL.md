@@ -55,14 +55,18 @@ Chaque élément important a été confronté aux contrôles suivants :
 
 Les problèmes ont été classés `BLOCKING`, `MAJOR`, `MINOR` ou `OPEN_QUESTION`. Aucune validation n'est autorisée lorsqu'un `BLOCKING` ou `MAJOR` reste non résolu.
 
+Une précision importante a été ajoutée pendant la revue : **une exception volontaire de gameplay n'est pas une incohérence si son statut est explicitement défini et si elle n'est pas présentée comme un fait historique littéral**. C'est le cas de certaines récompenses du NG+.
+
 ## 4. Résultat quantifié
 
-Le registre final contient **19 anomalies ou questions de cohérence** :
+Le registre final contient **19 anomalies ou questions auditées** :
 
 - **3 BLOCKING** ;
 - **11 MAJOR** ;
 - **2 MINOR** ;
 - **3 OPEN_QUESTION**.
+
+Deux entrées NG+ conservent leur gravité historique parce qu'elles ont révélé une ambiguïté de contrat pendant l'audit, mais leur résolution est désormais classée **`INTENTIONAL_GAMEPLAY_EXCEPTION`** : l'audit avait pris à tort des mécaniques NG+ voulues pour des violations du cycle initial.
 
 État final :
 
@@ -71,27 +75,19 @@ Le registre final contient **19 anomalies ou questions de cohérence** :
 - `MINOR` ouverts : **0** ;
 - `OPEN_QUESTION` non résolues : **0**.
 
-Toutes les entrées possèdent désormais un problème explicite, une résolution et une liste de fichiers concernés.
-
 ## 5. Corrections structurelles majeures
 
 ### 5.1 LITD 2 — mort, Rémanence et runs
 
-L'ancien modèle pouvait faire coexister des cadavres réels avec un retour au même instant historique. Cette contradiction est supprimée.
+Une run est une **fenêtre d'opération historique réelle**. Une mort produit un corps réel, la Rémanence reconstruit le protagoniste après un délai mesurable, puis une nouvelle tentative a lieu plus tard dans la même fenêtre d'opération. Le temps ne remonte jamais.
 
-Une run est désormais une **fenêtre d'opération historique réelle**. Une mort produit un corps réel, la Rémanence reconstruit le protagoniste après un délai mesurable, puis une nouvelle tentative a lieu plus tard dans la même fenêtre d'opération. Le temps ne remonte jamais.
-
-La mort ne valide pas à elle seule un jalon de guerre. En revanche, les conséquences locales proportionnées au temps écoulé peuvent évoluer.
+La mort ne valide pas à elle seule un jalon de guerre. Les conséquences locales proportionnées au temps écoulé peuvent évoluer.
 
 ### 5.2 LITD 2 — Nuit de Sarn et Premier Pacte
 
 La **Nuit de Sarn** est la finale jouable. Les Longues Assemblées et le Premier Pacte appartiennent à l'après-Sarn, dans l'épilogue historique ou le postgame.
 
-Les Trois Éveils ne sont pas inventés soudainement à Sarn : la nuit les cristallise après un long processus.
-
 ### 5.3 LITD 1 — révélation de la conspiration
-
-La cinématique d'ouverture et certains textes du chapitre I révélaient trop tôt l'implication étrangère et des modèles du Voile normalement établis plus tard.
 
 Le prologue peut montrer la Chute, mais pas en expliquer les auteurs. Le chapitre I montre des indices et contradictions. Le chapitre II établit une préparation volontaire. Le chapitre III documente le Projet Seuil et ses responsables.
 
@@ -99,21 +95,17 @@ La quête **Trois vérités pour une borne** ne conclut plus que l'objet change 
 
 ### 5.4 Veyra Oss
 
-Le canon est unifié : Veyra participe longuement au Projet Seuil, poursuit les essais après des alertes graves, puis tente **tardivement de limiter l'emballement et de renforcer ce qui peut encore être stabilisé**.
-
-Cette mitigation ne l'innocente pas et ne la transforme pas rétroactivement en héroïne secrète.
+Veyra participe longuement au Projet Seuil, poursuit les essais après des alertes graves, puis tente **tardivement de limiter l'emballement et de renforcer ce qui peut encore être stabilisé**. Cette mitigation ne l'innocente pas.
 
 ### 5.5 Voile — limites et anthropomorphisme
 
-Le Voile ne peut pas servir de solution universelle. Il ne crée pas librement n'importe quel objet ou événement, ne réécrit pas l'histoire établie et doit respecter le corpus de limites canonique.
+Le Voile ne peut pas servir de solution universelle. Il ne crée pas librement n'importe quel objet ou événement et ne réécrit pas l'histoire établie.
 
-**La Frontière qui marche** n'est plus décrite comme un phénomène conscient ou auto-protecteur. Elle possède des contre-effets reproductibles, mais aucune donnée ne permet d'affirmer qu'elle choisit, veut, perçoit ou se défend. Même l'option de résonance est un test physique et non une « négociation » avec une volonté supposée.
+**La Frontière qui marche** possède des contre-effets reproductibles, mais aucune donnée ne permet d'affirmer qu'elle choisit, veut, perçoit ou se défend consciemment.
 
 ### 5.6 Edras Nhal
 
-L'ancienne « expérience limitée » créait un trou narratif permettant de refaire le Projet Seuil sous un autre nom.
-
-Elle devient une **observation instrumentale confinée** : phénomène déjà présent uniquement, aucune nouvelle ouverture, aucun sujet vivant exposé, aucun relais du Projet Seuil réactivé, arrêt automatique au premier dépassement et aucun contrôle du protocole par Edras.
+Toute recherche autorisée devient une **observation instrumentale confinée** : phénomène déjà présent uniquement, aucune nouvelle ouverture, aucun sujet vivant exposé, aucun relais du Projet Seuil réactivé, arrêt automatique au premier dépassement et aucun contrôle du protocole par Edras.
 
 ### 5.7 Meira Sen
 
@@ -123,69 +115,89 @@ Elle devient une **observation instrumentale confinée** : phénomène déjà pr
 
 La **Folie du Voile** est un phénomène surnaturel spécifique. Elle n'est ni une maladie mentale réelle ni un diagnostic psychiatrique.
 
-Peur, souvenirs de stress, habitudes de protection et autres traces humaines restent des vécus variables et non des étiquettes diagnostiques automatiques. Le canon interdit explicitement les équivalences maladie mentale = violence, mal, perception surnaturelle ou destin inévitable.
+Peur, souvenirs de stress, habitudes de protection et autres traces humaines restent des vécus variables et non des étiquettes diagnostiques automatiques.
 
-Certaines clés techniques historiques nommées `madness` peuvent subsister temporairement pour compatibilité, mais leur sens canonique est désormais explicitement limité à la Folie du Voile.
+### 5.9 Nouveau Cycle+ — correction de l'audit
 
-### 5.9 Nouveau Cycle+
+L'audit avait initialement traité deux mécaniques du NG+ comme des contradictions. Cette interprétation était incorrecte : **elles font volontairement partie du gameplay de rejouabilité**.
 
-Le NG+ ne change plus deux règles identitaires de LITD 1 :
+Le contrat réel est désormais explicite :
 
-- choisir un arbre verrouille toujours les deux autres, dans **tous les cycles** ;
-- les boss et mini-boss ne deviennent pas des créatures capturables en NG+.
+#### Cycle initial
 
-Capture de créature, arrestation d'une personne, jugement et coopération volontaire sont des systèmes distincts.
+- le premier arbre choisi verrouille les deux autres ;
+- les règles ordinaires de capture s'appliquent ;
+- le cycle initial reste l'histoire de référence.
 
-Le runtime, l'UI, les données et les tests ont été alignés. Les anciennes sauvegardes contenant des `boss_recruit` issus de la règle abandonnée sont nettoyées au chargement au lieu de perpétuer silencieusement la contradiction.
+#### À partir du Premier retour
 
-### 5.10 Civilisations anciennes
+- **les trois arbres s'ouvrent** : le joueur peut répartir ses points entre offense, défense et spécial tout en respectant coûts, niveaux et prérequis internes ;
+- **les boss et mini-boss explicitement présents dans `ngplus_boss_recruits.json` deviennent recrutables** ;
+- leur version de compagnon conserve identité, signature et archétype mais n'hérite pas de la puissance brute de la version boss ;
+- ces privilèges sont des abstractions de replay et ne signifient pas que le cycle initial s'est historiquement déroulé autrement.
 
-Les périodes runtime sont alignées avec les dossiers canoniques. Les sept civilisations possèdent désormais une histoire propre qui ne se résume pas à fournir chacune une révélation parfaitement utile sur le Voile.
+L'Ange n'est pas actuellement dans le catalogue NG+ et reste hors de ce système.
 
-Leurs erreurs, échanges, économies, institutions et déclins existent indépendamment de la fonction qu'elles remplissent dans l'enquête du joueur.
+### 5.10 Nouveau Cycle+ — contrat de rejouabilité « wahou »
+
+Le NG+ ne doit pas être un simple multiplicateur de PV et dégâts.
+
+Une différence forte doit être perceptible **dans les quinze premières minutes** et chaque cycle doit agir sur quatre couches :
+
+1. **monde** — routes, refuges, patrouilles, quartiers ou traces ;
+2. **donjons** — recomposition contrôlée de salles authored, secrets et dangers ;
+3. **ennemis** — contre-mesures et comportements tactiques propres aux cycles ;
+4. **narration** — nouvelles couches de contexte qui approfondissent sans réécrire les faits.
+
+Les profils actuels sont :
+
+- Premier retour — **Le monde se décale** ;
+- Deuxième veille — **Les ennemis apprennent** ;
+- Troisième mémoire — **Les couches profondes** ;
+- Cycle profond — **La Concorde des possibles**.
+
+Le générateur hybride conserve les géométries fabriquées à la main. Le NG+ change leur sélection, les branches optionnelles, les dangers compatibles et la seed ; les scènes marquées immuables restent intactes.
+
+### 5.11 Civilisations anciennes
+
+Les périodes runtime sont alignées avec les dossiers canoniques. Les sept civilisations possèdent une histoire propre qui ne se résume pas à fournir chacune une révélation parfaitement utile sur le Voile.
 
 ## 6. Propagation système ↔ narration
 
-L'audit a également corrigé des divergences où la documentation était bonne mais le jeu aurait pu raconter autre chose :
+L'audit a corrigé des divergences où la documentation était bonne mais le jeu aurait pu raconter autre chose : dialogues legacy, roster prototype ambigu, progression ennemie incomplète, anciennes formulations du chapitre VI, ou données du chapitre VII portant une ancienne version de Veyra et Edras.
 
-- dialogues legacy encore chargés ;
-- roster prototype pouvant être pris pour le roster canonique ;
-- données de compétences réduisant incorrectement le modèle ennemi ;
-- NG+ runtime qui réouvrait les arbres malgré le canon ;
-- capture de boss encore activable dans le code ;
-- textes du chapitre VI attribuant encore une volonté à la Frontière ;
-- données jouables du chapitre VII portant encore l'ancienne version de Veyra et d'Edras.
+Pour le NG+, la propagation fonctionne désormais dans l'autre sens : les tests protègent explicitement les **exceptions de replay voulues** — multi-arbres et catalogue de boss recrutables — afin qu'un futur audit ne les supprime plus par erreur.
 
-La règle est désormais : **une décision de canon n'est pas considérée propagée tant que les sources runtime et les tests qui la représentent ne sont pas alignés.**
+La règle est : **une décision de canon ou de gameplay verrouillée n'est pas considérée propagée tant que documentation, runtime et tests ne sont pas alignés.**
 
 ## 7. Garde-fous ajoutés
 
-`tests/python/test_narrative_consistency_registry.py` protège désormais le registre lui-même :
+`tests/python/test_narrative_consistency_registry.py` protège le registre : total, gravités, IDs, problème/résolution/fichiers et absence de BLOCKING/MAJOR ouverts.
 
-- total des entrées recalculé ;
-- comptage par gravité recalculé ;
-- IDs uniques ;
-- problème, résolution et fichiers obligatoires ;
-- impossibilité de déclarer `READY_FOR_REVIEW` avec un `BLOCKING` ou `MAJOR` non résolu.
+`tests/python/test_ngplus_cycle_variants.py` protège désormais aussi le contrat de rejouabilité :
 
-Les tests NG+, chapitre VI, chapitre VII et psychologie protègent également les corrections correspondantes.
+- NG+ multi-arbres à partir du cycle 1 ;
+- recrutement des boss/miniboss NG+ ;
+- quatre couches de variation ;
+- profils couvrant Premier retour, Deuxième veille, Troisième mémoire et cycles profonds ;
+- branchement du directeur NG+ sur Godot, les donjons et les comportements ennemis ;
+- interdiction de présenter le NG+ comme une boucle temporelle ou une réécriture de l'histoire.
 
 ## 8. Points à surveiller dans les futurs ajouts
 
-Ils ne constituent pas des incohérences ouvertes, mais doivent rester des règles de production :
-
-1. toute nouvelle capacité du Voile doit être comparée aux limites canoniques avant écriture ;
+1. toute nouvelle capacité du Voile doit être comparée aux limites canoniques ;
 2. toute nouvelle capacité de Rémanence doit conserver délai, coût, matière, mémoire et absence de voyage temporel ;
-3. les clés techniques legacy `madness` devront idéalement être renommées lors d'une migration d'ingénierie dédiée, sans changer leur sémantique actuelle ;
-4. les noms et lignées du roster prototype ne deviennent pas canon par simple réutilisation d'asset ;
-5. une nouvelle vérité majeure doit être étayée par plusieurs sources ou par une observation reproductible ;
+3. les clés techniques legacy `madness` devront idéalement être renommées lors d'une migration dédiée ;
+4. les noms et lignées du roster prototype ne deviennent pas canon par réutilisation d'asset ;
+5. une nouvelle vérité majeure doit être étayée ;
 6. un phénomène réactif n'est jamais automatiquement une conscience ;
-7. une exception de gameplay ne doit jamais annuler silencieusement une règle identitaire du canon.
+7. une exception NG+ doit être explicitement définie comme **gameplay de replay** lorsqu'elle dépasse les possibilités du cycle initial ;
+8. une exception NG+ ne peut jamais être utilisée pour réécrire rétroactivement les faits du premier cycle.
 
 ## 9. Conclusion
 
 À l'issue de cette passe, **aucune incohérence narrative `BLOCKING` ou `MAJOR` connue ne reste ouverte dans le corpus audité**.
 
-La branche peut passer en revue et en CI. Cela ne signifie pas que toute future écriture sera automatiquement cohérente : cela signifie que le canon actuel possède désormais des règles explicites, des corrections propagées jusqu'au runtime et des tests capables de détecter plusieurs classes de régression.
+Le NG+ conserve ses deux récompenses de gameplay voulues — multi-arbres et recrutement de boss/miniboss — et possède désormais une architecture destinée à rendre chaque nouveau cycle immédiatement différent par le monde, les donjons, les ennemis et la narration.
 
 La fusion reste une décision séparée et ne doit pas être effectuée automatiquement.
