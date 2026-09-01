@@ -43,6 +43,9 @@ void ALITD2AshWandererCharacter::Tick(float DeltaSeconds)
 
     if (bAttackQueued)
     {
+        // When a montage exists, the hit frame is exclusively owned by the AnimNotify.
+        if (bAttackUsesAnimationCommit) return;
+
         WindupRemaining -= DeltaSeconds;
         if (WindupRemaining <= 0.0f)
         {
@@ -75,9 +78,21 @@ void ALITD2AshWandererCharacter::Tick(float DeltaSeconds)
 void ALITD2AshWandererCharacter::StartAttack()
 {
     if (bAttackQueued || RecoveryRemaining > 0.0f) return;
+
     bAttackQueued = true;
     WindupRemaining = AttackWindupSeconds;
+    bAttackUsesAnimationCommit = AttackMontage && PlayAnimMontage(AttackMontage) > 0.0f;
     OnAttackTelegraphStarted();
+}
+
+void ALITD2AshWandererCharacter::CommitAttackFromAnimation()
+{
+    if (!bAttackQueued || !bAttackUsesAnimationCommit || !Combatant || Combatant->IsDead()) return;
+
+    bAttackQueued = false;
+    bAttackUsesAnimationCommit = false;
+    CommitAttack();
+    RecoveryRemaining = AttackRecoverySeconds;
 }
 
 void ALITD2AshWandererCharacter::CommitAttack()
@@ -114,13 +129,24 @@ void ALITD2AshWandererCharacter::CommitAttack()
 
 void ALITD2AshWandererCharacter::HandleDamageResolved(FLITD2DamageResolution Resolution)
 {
+    if (Resolution.AppliedDamage > 0.0f && HitReactionMontage)
+    {
+        PlayAnimMontage(HitReactionMontage);
+    }
     OnDamagePresentation(Resolution);
 }
 
 void ALITD2AshWandererCharacter::HandleDeath()
 {
+    bAttackQueued = false;
+    bAttackUsesAnimationCommit = false;
     GetCharacterMovement()->DisableMovement();
     SetActorEnableCollision(false);
+
+    if (DeathMontage)
+    {
+        PlayAnimMontage(DeathMontage);
+    }
     OnEnemyDeathPresentation();
 
     if (UGameInstance* GI = GetGameInstance())
