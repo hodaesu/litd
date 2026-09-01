@@ -17,4 +17,4 @@ def test_balance_audit_covers_core_progression_systems():
     assert "Compagnons : l'ascension s'ancre avant son premier palier" in names
     assert "Fins : six orientations canoniques" in names
     assert "Postgame : NG+ impossible à soft-lock économiquement" in names
-    assert "NG+ boss : recrutement générique désactivé par canon" in names
+    assert "NG+ boss : chaque recrutement possède un contrat de boss" in names
