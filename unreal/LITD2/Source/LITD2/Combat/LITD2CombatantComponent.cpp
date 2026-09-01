@@ -128,9 +128,10 @@ FLITD2DamageResolution ULITD2CombatantComponent::ResolvePipeline(FLITD2DamageEve
     }
 
     Result.AppliedDamage = FMath::Max(0.0f, Result.AppliedDamage);
-    Result.bWoundTriggered = !Payload.bParried && (Payload.BleedValue >= 0.35f || Payload.ImpactForce >= 0.65f || Payload.Penetration >= 0.70f);
+    const bool bDefended = Payload.bParried || Payload.bBlocked;
+    Result.bWoundTriggered = !bDefended && (Payload.BleedValue >= 0.35f || Payload.ImpactForce >= 0.65f || Payload.Penetration >= 0.70f);
 
-    if (!Payload.bParried && Payload.bReadableSevereCause && Payload.TraumaValue >= 0.50f)
+    if (!bDefended && Payload.bReadableSevereCause && Payload.TraumaValue >= 0.50f)
     {
         Result.bTraumaTriggered = true;
         if (Payload.TraumaValue >= 0.90f)
@@ -150,7 +151,7 @@ FLITD2DamageResolution ULITD2CombatantComponent::ResolvePipeline(FLITD2DamageEve
         }
     }
 
-    Result.bDismembermentCandidate = !Payload.bParried && Payload.DismembermentValue >= 0.80f &&
+    Result.bDismembermentCandidate = !bDefended && Payload.DismembermentValue >= 0.80f &&
         Result.BodyZone != ELITD2BodyZone::Torso && Result.BodyZone != ELITD2BodyZone::WholeBody;
 
     Health = FMath::Clamp(Health - Result.AppliedDamage, 0.0f, GetRecoverableMaxHealth());
