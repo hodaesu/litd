@@ -46,23 +46,25 @@ Le runtime transmet les Rémanences découvertes au `LITD2RemembranceSubsystem` 
 Le projet possède maintenant une couche de combat native dans `Source/LITD2/Combat/` :
 
 - `LITD2CombatTypes` définit le langage commun des dégâts, zones anatomiques, blessures, traumatismes, parade/blocage et candidat au démembrement ;
-- `LITD2CombatantComponent` gère PV, endurance, régénération, parade, blocage, esquive invulnérable, PV condamnés, trauma, mort et synchronisation avec la run ;
-- `LITD2PlayerCombatCharacter` fournit déplacement troisième personne, caméra, attaque légère/lourde, esquive, parade/blocage, potion et montages d'animation ;
+- `LITD2CombatantComponent` gère PV, endurance, régénération, parade, blocage, esquive invulnérable, PV condamnés, trauma, blessure temporaire de saignement, mort et synchronisation avec la run ;
+- `LITD2PlayerCombatCharacter` fournit déplacement troisième personne, caméra, attaque légère/lourde, esquive, parade/blocage, potion, montages d'animation et verrouillage externe bref pour les saisies télégraphiées ;
 - `LITD2AnimNotify_CombatCommit` synchronise les vrais frames d'impact/libération avec le gameplay lorsque des montages sont assignés ;
 - `LITD2AshWandererCharacter` est l'Errant cendré de base, volontairement interruptible ;
 - `LITD2LineBreakerCharacter` est le premier lourd : son coup sévère télégraphié teste un Traumatisme I déterministe quand il est encaissé sans défense ;
 - `LITD2SareiCrossbowCharacter` est la première menace à distance, avec maintien de distance, visée interruptible et libération synchronisée par notify ;
 - `LITD2SareiBoltProjectile` fournit un vrai carreau physique qui peut manquer ou être esquivé et repasse par le pipeline de dégâts unifié ;
+- `LITD2AlleyHarrierCharacter` fournit le flanker rapide des vagues multidirectionnelles de Z6 ;
+- `LITD2GuardSurgeonCharacter` est le mini-boss Z5 : incision avec saignement temporaire, saisie télégraphiée, fenêtre d'interruption et frappe sévère traumatique ;
 - `LITD2CombatGameMode` utilise le personnage de combat comme pawn par défaut du vertical slice ;
 - `Config/DefaultInput.ini` rend la base immédiatement pilotable au clavier/souris.
 
-La direction détaillée et les critères d'essai en éditeur sont dans `docs/LITD2/COMBAT_VERTICAL_SLICE.md`.
+La direction générale et les critères d'essai en éditeur sont dans `docs/LITD2/COMBAT_VERTICAL_SLICE.md`. Le contrat spécifique du mini-boss est dans `docs/LITD2/GUARD_SURGEON_MINIBOSS.md`.
 
 Le contrat animation ↔ gameplay est dans `docs/LITD2/COMBAT_ANIMATION_CONTRACT.md` et `Data/Combat/animation_combat_contracts.json`. Le registre des classes d'ennemis du slice est dans `Data/Combat/enemy_runtime_registry.json`.
 
 Le trauma reste strictement déterministe : aucune probabilité aléatoire ne peut en créer un. Une cause sévère doit être explicitement signalée, lisible et effectivement encaissée. Esquive et parade l'évitent ; le blocage réduit les dégâts et empêche également le trauma pour les attaques actuellement blocables. Une future attaque imblocable devra être définie explicitement comme telle.
 
-Les fontaines restaurent uniquement les PV encore récupérables ; les potions suppriment les traumatismes et restaurent complètement le personnage.
+Les fontaines restaurent uniquement les PV encore récupérables ; les potions suppriment les traumatismes et restaurent complètement le personnage. Les blessures temporaires comme le saignement restent conceptuellement distinctes du trauma : le runtime ne les transforme jamais en PV condamnés.
 
 Quand aucun montage offensif n'est assigné, le runtime garde un fallback C++ pour permettre les tests sans assets binaires. Dès qu'un montage est assigné, l'impact appartient à `ULITD2AnimNotify_CombatCommit` : un montage offensif sans le notify requis est considéré comme incomplet au lieu d'être silencieusement compensé par un timer.
 
