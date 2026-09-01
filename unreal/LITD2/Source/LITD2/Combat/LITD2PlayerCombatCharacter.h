@@ -59,6 +59,9 @@ public:
     UFUNCTION(BlueprintCallable, Category="LITD2|Combat")
     void EndParry();
 
+    UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Healing")
+    bool UsePotion();
+
 protected:
     virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
