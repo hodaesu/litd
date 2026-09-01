@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "project_id": "litd2",
+  "canon_version": "1.0.0",
+  "claims": [
+    {
+      "id": "litd2.affirms.three_awakenings",
+      "fact_id": "concord.doctrine.three_awakenings",
+      "operation": "affirm",
+      "value": ["body", "spirit", "city"]
+    },
+    {
+      "id": "litd2.affirms.game_order",
+      "fact_id": "universe.timeline.game_order",
+      "operation": "affirm",
+      "value": ["litd2", "litd_veilleurs", "litd1"]
+    }
+  ],
+  "entities": [],
+  "events": [
+    {
+      "id": "litd2.event.last_war",
+      "timeline_anchor": "era.last_war",
+      "after": ["event.great_closure"],
+      "before": ["event.night_of_sarn"]
+    },
+    {
+      "id": "litd2.event.night_of_sarn",
+      "timeline_anchor": "event.night_of_sarn",
+      "after": ["era.last_war"],
+      "before": ["event.three_awakenings_birth"]
+    },
+    {
+      "id": "litd2.event.three_awakenings_birth",
+      "timeline_anchor": "event.three_awakenings_birth",
+      "after": ["event.night_of_sarn"],
+      "before": ["event.concord_birth"]
+    }
+  ],
+  "sources": [
+    "docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md",
+    "docs/HISTOIRE_TROIS_EVEILS.md"
+  ]
+}
