@@ -84,9 +84,9 @@
       "beats":[
         {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Nous avons assez pour nommer la cause immédiate. Pas assez pour transformer un nom en explication de tout."},
         {"kind":"dialogue","speaker":"Toma Rei","text":"Projet Seuil : infrastructure, relais, protocole, ouverture. Les symboles plus anciens restent une autre question."},
-        {"kind":"choice","id":"c03_public_formula","prompt":"Formule officielle du Sanctuaire.","options":[
-          {"id":"threshold_caused_fall","label":"« Le Projet Seuil a provoqué la Chute. »","response":[{"speaker":"Nara Vey","text":"Court. Défendable. Et rien de plus que ce que nous savons."}],"sets":["c03_formula_direct"]},
-          {"id":"threshold_immediate_cause","label":"« Le Projet Seuil est la cause immédiate documentée de la Chute. »","response":[{"speaker":"Toma Rei","text":"Plus lourd, mais il laisse la place à l'histoire plus ancienne sans la confondre avec ce projet."}],"sets":["c03_formula_precise"]}
+        {"kind":"choice","id":"c03_public_formula","prompt":"Quelle formulation le Sanctuaire adopte-t-il publiquement ?","options":[
+          {"id":"threshold_caused_fall","label":"Adopter une formulation directe : le Projet Seuil a provoqué la Chute.","response":[{"speaker":"Nara Vey","text":"Court. Défendable. Et rien de plus que ce que nous savons."}],"sets":["c03_formula_direct"]},
+          {"id":"threshold_immediate_cause","label":"Adopter une formulation précise : le Projet Seuil est la cause immédiate documentée de la Chute.","response":[{"speaker":"Toma Rei","text":"Plus lourd, mais il laisse la place à l'histoire plus ancienne sans la confondre avec ce projet."}],"sets":["c03_formula_precise"]}
         ]}
       ],
       "exit_state":["Projet Seuil nommé publiquement", "chapitre antique préparé"]
