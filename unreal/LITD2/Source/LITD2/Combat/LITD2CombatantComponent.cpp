@@ -19,6 +19,7 @@ void ULITD2CombatantComponent::ResetCombatant()
     Health = MaxHealth;
     Stamina = MaxStamina;
     ParryTimeRemaining = 0.0f;
+    InvulnerableTimeRemaining = 0.0f;
     bBlocking = false;
     bDeathBroadcast = false;
     OnHealthChanged.Broadcast(Health);
@@ -32,6 +33,10 @@ void ULITD2CombatantComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
     if (ParryTimeRemaining > 0.0f)
     {
         ParryTimeRemaining = FMath::Max(0.0f, ParryTimeRemaining - DeltaTime);
+    }
+    if (InvulnerableTimeRemaining > 0.0f)
+    {
+        InvulnerableTimeRemaining = FMath::Max(0.0f, InvulnerableTimeRemaining - DeltaTime);
     }
 
     if (!IsDead() && Stamina < MaxStamina)
@@ -78,6 +83,11 @@ void ULITD2CombatantComponent::SetBlocking(bool bNewBlocking)
     }
 }
 
+void ULITD2CombatantComponent::StartInvulnerabilityWindow(float DurationSeconds)
+{
+    InvulnerableTimeRemaining = FMath::Max(InvulnerableTimeRemaining, FMath::Max(0.0f, DurationSeconds));
+}
+
 ELITD2BodyZone ULITD2CombatantComponent::ResolveBodyZone(FName HitBone) const
 {
     const FString Bone = HitBone.ToString().ToLower();
@@ -95,6 +105,11 @@ FLITD2DamageResolution ULITD2CombatantComponent::ResolvePipeline(FLITD2DamageEve
     FLITD2DamageResolution Result;
     Result.BodyZone = ResolveBodyZone(Payload.HitBone);
 
+    if (IsInvulnerable())
+    {
+        return Result;
+    }
+
     if (IsParryWindowActive())
     {
         Payload.bParried = true;
@@ -111,11 +126,8 @@ FLITD2DamageResolution ULITD2CombatantComponent::ResolvePipeline(FLITD2DamageEve
     }
 
     Result.AppliedDamage = FMath::Max(0.0f, Result.AppliedDamage);
-
-    // Temporary wounds are reactive combat states; they do not persist between operations.
     Result.bWoundTriggered = !Payload.bParried && (Payload.BleedValue >= 0.35f || Payload.ImpactForce >= 0.65f || Payload.Penetration >= 0.70f);
 
-    // Trauma is never a random proc. It requires a readable severe cause and a sufficiently severe event.
     if (!Payload.bParried && Payload.bReadableSevereCause && Payload.TraumaValue >= 0.50f)
     {
         Result.bTraumaTriggered = true;
@@ -136,7 +148,6 @@ FLITD2DamageResolution ULITD2CombatantComponent::ResolvePipeline(FLITD2DamageEve
         }
     }
 
-    // Dismemberment remains a candidate signal; Gore/Anatomy presentation decides the actual visual result.
     Result.bDismembermentCandidate = !Payload.bParried && Payload.DismembermentValue >= 0.80f &&
         Result.BodyZone != ELITD2BodyZone::Torso && Result.BodyZone != ELITD2BodyZone::WholeBody;
 
