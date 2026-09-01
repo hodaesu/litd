@@ -6,6 +6,7 @@ MANIFEST = ROOT / "data/narrative/main_script/manifest.json"
 CAMPAIGN = ROOT / "data/world/main_campaign.json"
 PROJECT = ROOT / "project.godot"
 RUNTIME = ROOT / "scripts/core/main_narrative_script_runtime.gd"
+SAVE_MANAGER = ROOT / "scripts/core/save_manager.gd"
 
 
 def load(path: Path):
@@ -128,6 +129,13 @@ def test_runtime_is_autoloaded_and_can_run_authored_scenes():
     ]:
         assert f"func {function_name}(" in runtime
     assert "EndgameState.active_cycle > 0" in runtime
+
+
+def test_active_main_script_position_is_saved_and_restored():
+    save_manager = SAVE_MANAGER.read_text(encoding="utf-8")
+    assert '"main_narrative_script": MainNarrativeScriptRuntime.serialize()' in save_manager
+    assert 'MainNarrativeScriptRuntime.deserialize(payload.get("main_narrative_script",{}))' in save_manager
+    assert 'payload["main_narrative_script"] = payload.get("main_narrative_script",{})' in save_manager
 
 
 def test_no_known_legacy_english_placeholders_reappear():
