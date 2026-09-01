@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "game": "LITD2",
+  "system": "RemanenceArchive",
+  "rights_rule": "LITD_ORIGINAL_REUSABLE_OR_LICENSED_REUSABLE_ONLY",
+  "mix_rule": "UI cues must remain quieter than dialogue and must never mask readable archive information.",
+  "cues": [
+    {
+      "cue_id": "REM_ARCHIVE_OPEN",
+      "slot": "OpenSound",
+      "duration_seconds": [0.45, 0.85],
+      "role": "A short intake of distant air, dust and restrained metal resonance. The archive feels uncovered, not magically summoned.",
+      "layers": ["dry_air", "fine_dust", "low_metal_resonance"],
+      "avoid": ["menu_click", "heroic_sting", "recognizable_melody", "large_bass_hit"]
+    },
+    {
+      "cue_id": "REM_ARCHIVE_SELECT",
+      "slot": "SelectionSound",
+      "duration_seconds": [0.08, 0.25],
+      "role": "A tactile contact between document, stone and filament. Very short and repeatable without fatigue.",
+      "layers": ["paper_or_fiber_contact", "small_stone_tick", "thin_filament"],
+      "avoid": ["digital_beep", "bright_confirmation_chime", "heavy_impact"]
+    },
+    {
+      "cue_id": "REM_ARCHIVE_CONTRADICTION",
+      "slot": "ContradictionSound",
+      "duration_seconds": [0.22, 0.55],
+      "role": "Two incompatible traces scrape past one another. It signals tension, never a conventional UI error.",
+      "layers": ["split_filament", "dry_tension", "short_unstable_resonance"],
+      "avoid": ["error_buzzer", "alarm", "jump_scare", "long_dissonance"]
+    },
+    {
+      "cue_id": "REM_ARCHIVE_RECONSTRUCT",
+      "slot": "ReconstructionSound",
+      "duration_seconds": [1.10, 1.85],
+      "role": "Several weak memory layers converge, lock into one relationship, then leave a short warm after-resonance.",
+      "layers": ["multiple_thin_filaments", "dust_reverse_whisper", "restrained_warm_resonance"],
+      "avoid": ["loot_fanfare", "level_up_jingle", "orchestral_cadence", "recognizable_melody"]
+    }
+  ]
+}
