@@ -75,6 +75,12 @@ public:
     UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Healing")
     bool UsePotion();
 
+    UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Control")
+    void ApplyExternalMovementLock(float DurationSeconds);
+
+    UFUNCTION(BlueprintPure, Category="LITD2|Combat|Control")
+    bool IsExternallyMovementLocked() const { return bExternalMovementLocked; }
+
     // Called by ULITD2AnimNotify_CombatCommit at the exact hit frame of an attack montage.
     UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Animation")
     bool CommitQueuedAttackFromAnimation();
@@ -90,8 +96,11 @@ private:
     void StartBlock();
     void StopBlock();
     void CancelQueuedAttack();
+    void ReleaseExternalMovementLock();
     bool PerformMeleeTrace(ELITD2AttackKind AttackKind);
 
     bool bAttackCommitPending = false;
+    bool bExternalMovementLocked = false;
     ELITD2AttackKind PendingAttackKind = ELITD2AttackKind::Light;
+    FTimerHandle ExternalMovementLockTimer;
 };
