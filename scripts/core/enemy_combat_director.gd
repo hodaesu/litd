@@ -35,8 +35,12 @@ func choose_action(enemy: Dictionary, heroes: Array) -> Dictionary:
         for _weight in range(maxi(1, int(skill.get("weight", 1)))):
             candidates.append(skill)
     if candidates.is_empty():
-        return {"id":"basic_attack","name":"Attaque","power":1.0,"target":"random"}
+        var fallback := {"id":"basic_attack","name":"Attaque","power":1.0,"target":"random"}
+        fallback = NgPlusCycleDirector.modify_enemy_action(fallback, enemy, heroes)
+        fallback["target_index"] = _target_index(heroes, String(fallback.get("target", "random")))
+        return fallback
     var chosen: Dictionary = candidates[randi() % candidates.size()].duplicate(true)
+    chosen = NgPlusCycleDirector.modify_enemy_action(chosen, enemy, heroes)
     chosen["target_index"] = _target_index(heroes, String(chosen.get("target", "random")))
     return chosen
 
