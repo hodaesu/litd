@@ -98,8 +98,6 @@ def expected_hero_heavy_damage(base_range: list[int], bonuses: dict[str, int]) -
     damage = base * 1.35
     damage *= 1.0 + float(bonuses.get("precision", 0)) / 100.0
     damage *= 1.0 + 0.5 * float(bonuses.get("critical_chance", 0)) / 100.0
-    # damage_percent/execute_percent restent volontairement absents tant que main.gd
-    # ne les consomme pas : le simulateur doit refléter le code réellement jouable.
     return damage
 
 
@@ -130,9 +128,7 @@ def party_damage_curve(root: Path, sim: Simulation) -> dict[int, float]:
 
 def parse_scripted_enemies(root: Path) -> dict[str, dict[str, Any]]:
     source = (root / "scripts/world/ashlands_combat_bridge.gd").read_text(encoding="utf-8")
-    pattern = re.compile(
-        r'"([^"]+)"\s*:\s*_setup_enemy\(e,"([^"]+)",(\d+),\[(\d+),(\d+)\],(\d+),"([^"]+)"\)'
-    )
+    pattern = re.compile(r'"([^"]+)"\s*:\s*_setup_enemy\(e,"([^"]+)",(\d+),\[(\d+),(\d+)\],(\d+),"([^"]+)"\)')
     result: dict[str, dict[str, Any]] = {}
     for encounter_id, name, hp, low, high, fear, signature in pattern.findall(source):
         result[encounter_id] = {
@@ -155,15 +151,31 @@ def nearest_curve_value(curve: dict[int, float], level: int) -> float:
     return curve[checkpoint]
 
 
+def _contract_rank(contract: dict[str, Any]) -> str:
+    tier = str(contract.get("tier", ""))
+    encounter_id = str(contract.get("id", ""))
+    if tier == "chapter_boss":
+        return "boss"
+    if tier == "deep_vestige_boss":
+        return "deep_boss"
+    if tier == "miniboss":
+        if encounter_id.startswith(("va_", "vs_", "vn_", "vv_", "vm_", "vz_", "vy_")):
+            return "deep_miniboss"
+        return "miniboss"
+    return ""
+
+
 def simulate_bosses(root: Path, sim: Simulation, party_curve: dict[int, float]) -> None:
     scripted = parse_scripted_enemies(root)
-    recruits = load_json(root, "data/world/ngplus_boss_recruits.json").get("recruits", [])
-    recruit_by_encounter = {str(item.get("encounter_id", "")): item for item in recruits}
+    contracts = load_json(root, "data/boss_design_contracts.json").get("bosses", [])
+    contract_by_id = {str(item.get("id", "")): item for item in contracts}
     rows: list[dict[str, Any]] = []
     for encounter_id, enemy in scripted.items():
-        recruit = recruit_by_encounter.get(encounter_id, {})
-        rank = str(recruit.get("rank", ""))
-        if rank not in {"miniboss", "boss", "deep_miniboss", "deep_boss"}:
+        contract = contract_by_id.get(encounter_id)
+        if not contract:
+            continue
+        rank = _contract_rank(contract)
+        if not rank:
             continue
         chapter = chapter_for_encounter(encounter_id)
         target_level = CHAPTER_TARGET_LEVELS.get(chapter or 8, 40)
@@ -186,11 +198,7 @@ def simulate_bosses(root: Path, sim: Simulation, party_curve: dict[int, float]) 
     sim.report["scripted_bosses"] = rows
     sim.check("Boss : rencontres scriptées simulées", len(rows) >= 30, f"simulées={len(rows)}")
     too_short = [row["encounter_id"] for row in rows if row["rank"] in {"boss", "deep_boss"} and row["raw_rounds_to_zero_hp"] < 1.5]
-    sim.warn(
-        "Boss potentiellement trop courts sans leurs résistances/puzzles",
-        bool(too_short),
-        ", ".join(too_short),
-    )
+    sim.warn("Boss potentiellement trop courts sans leurs résistances/puzzles", bool(too_short), ", ".join(too_short))
 
 
 def simulate_normal_pack(root: Path, sim: Simulation, party_curve: dict[int, float]) -> None:
@@ -201,32 +209,27 @@ def simulate_normal_pack(root: Path, sim: Simulation, party_curve: dict[int, flo
     rows = []
     for level in LEVEL_CHECKPOINTS:
         dpr = max(1.0, party_curve[level])
-        rows.append({
-            "level": level,
-            "pack_hp": hp,
-            "party_skill_only_dpr": round(dpr, 2),
-            "rounds_to_clear": round(hp / dpr, 2),
-            "enemy_pack_avg_damage_per_round": round(avg_incoming, 2),
-        })
+        rows.append({"level": level, "pack_hp": hp, "party_skill_only_dpr": round(dpr, 2), "rounds_to_clear": round(hp / dpr, 2), "enemy_pack_avg_damage_per_round": round(avg_incoming, 2)})
     sim.report["normal_pack"] = rows
 
 
 def simulate_companions(root: Path, sim: Simulation) -> None:
-    recruits = load_json(root, "data/world/ngplus_boss_recruits.json").get("recruits", [])
+    creatures = load_json(root, "data/capturable_creatures.json")
     rows = []
     for level in LEVEL_CHECKPOINTS:
         damages = []
-        for recruit in recruits:
-            damage_range = recruit.get("base_damage", [1, 2])
+        for creature in creatures:
+            damage_range = creature.get("base_damage", [1, 2])
             base = (float(damage_range[0]) + float(damage_range[1])) / 2.0
             damages.append(base * (1.0 + float(level - 1) * 0.05))
         rows.append({
             "level": level,
-            "boss_recruit_avg_damage": round(sum(damages) / max(1, len(damages)), 2),
-            "boss_recruit_min_damage": round(min(damages), 2),
-            "boss_recruit_max_damage": round(max(damages), 2),
+            "ordinary_companion_avg_damage": round(sum(damages) / max(1, len(damages)), 2),
+            "ordinary_companion_min_damage": round(min(damages), 2) if damages else 0.0,
+            "ordinary_companion_max_damage": round(max(damages), 2) if damages else 0.0,
         })
-    sim.report["boss_recruit_damage_curve"] = rows
+    sim.report["ordinary_companion_damage_curve"] = rows
+    sim.check("Compagnons : créatures ordinaires simulées", bool(creatures), f"créatures={len(creatures)}")
 
 
 def xp_needed(start_level: int, target_level: int) -> int:
@@ -249,20 +252,11 @@ def simulate_xp(root: Path, sim: Simulation) -> None:
         needed = xp_needed(3, target)
         victories = math.ceil(needed / shared_xp) if shared_xp > 0 else None
         rows.append({"target_level": target, "xp_needed_from_level_3": needed, "prototype_victories_at_shared_xp": victories})
-    sim.report["xp_pacing"] = {
-        "shared_ui_xp": shared_xp,
-        "campaign_scaled_xp": scaled_campaign,
-        "campaign_targets": campaign_targets,
-        "prototype_only_targets": rows,
-    }
+    sim.report["xp_pacing"] = {"shared_ui_xp": shared_xp, "campaign_scaled_xp": scaled_campaign, "campaign_targets": campaign_targets, "prototype_only_targets": rows}
     sim.check("XP : récompense partagée détectée", shared_xp > 0, str(shared_xp))
     sim.check("XP : campagne possède une courbe accélérée", scaled_campaign)
     level_48_victories = next(row["prototype_victories_at_shared_xp"] for row in rows if row["target_level"] == 48)
-    sim.warn(
-        "Progression XP extrêmement longue jusqu'aux ultimes de niveau 48",
-        (not scaled_campaign) and bool(level_48_victories and level_48_victories > 300),
-        f"{level_48_victories} victoires théoriques avec seulement {shared_xp} XP/victoire",
-    )
+    sim.warn("Progression XP extrêmement longue jusqu'aux ultimes de niveau 48", (not scaled_campaign) and bool(level_48_victories and level_48_victories > 300), f"{level_48_victories} victoires théoriques avec seulement {shared_xp} XP/victoire")
 
 
 def simulate_ngplus(root: Path, sim: Simulation) -> None:
@@ -283,15 +277,7 @@ def simulate_ngplus(root: Path, sim: Simulation) -> None:
         monotonic = monotonic and scaled_hp >= previous_hp
         previous_hp = scaled_hp
         base_damage = final.get("damage", [0, 0])
-        rows.append({
-            "cycle": cycle,
-            "hp_multiplier": round(hp_mult, 2),
-            "damage_multiplier": round(damage_mult, 2),
-            "fear_multiplier": round(fear_mult, 2),
-            "final_boss_hp": int(round(scaled_hp)),
-            "final_boss_avg_damage": round(((base_damage[0] + base_damage[1]) / 2.0) * damage_mult, 2),
-            "final_boss_fear": int(round(float(final.get("fear", 0)) * fear_mult)),
-        })
+        rows.append({"cycle": cycle, "hp_multiplier": round(hp_mult, 2), "damage_multiplier": round(damage_mult, 2), "fear_multiplier": round(fear_mult, 2), "final_boss_hp": int(round(scaled_hp)), "final_boss_avg_damage": round(((base_damage[0] + base_damage[1]) / 2.0) * damage_mult, 2), "final_boss_fear": int(round(float(final.get("fear", 0)) * fear_mult))})
     sim.report["ngplus_cycles"] = rows
     sim.check("NG+ : croissance des PV monotone", monotonic)
     sim.check("NG+ : multiplicateurs positifs", hp_pct > 0 and damage_pct > 0 and fear_pct > 0, str(diff))
@@ -310,55 +296,27 @@ def simulate_economy(root: Path, sim: Simulation) -> None:
     major_essence = 12 if bridge_compensates else generic_essence + 12
     deep_gold = 80 if bridge_compensates else generic_gold + 80
     deep_essence = 18 if bridge_compensates else generic_essence + 18
+    boss_rules = load_json(root, "data/world/new_game_plus.json").get("boss_recruitment", {})
+    boss_catalog = load_json(root, "data/world/ngplus_boss_recruits.json")
+    boss_capture_disabled = boss_rules.get("enabled") is False and boss_catalog.get("recruits", []) == [] and boss_catalog.get("capture_rules", {}) == {}
     sim.report["economy"] = {
         "generic_victory": {"gold": generic_gold, "essence": generic_essence},
         "campaign_bridge_has_separate_loot": bridge_has_loot,
         "campaign_bridge_removes_shared_reward": bridge_compensates,
         "effective_campaign_major_boss": {"gold": major_gold, "essence": major_essence},
         "effective_deep_boss": {"gold": deep_gold, "essence": deep_essence},
+        "boss_capture_enabled": not boss_capture_disabled,
+        "boss_capture_essence_costs": {},
     }
     sim.check("Économie campagne : récompense prototype neutralisée avant le butin routé", (not bridge_has_loot) or bridge_compensates)
-    sim.warn(
-        "Risque de double récompense sur les combats routés par AshlandsCombatBridge",
-        generic_gold > 0 and generic_essence > 0 and bridge_has_loot and not bridge_compensates,
-        f"finish_victory ajoute +{generic_gold} Or/+{generic_essence} Essence et aucun correctif du bridge n'est détecté",
-    )
-
-    recruits = load_json(root, "data/world/ngplus_boss_recruits.json")
-    rules = recruits.get("capture_rules", {})
-    costs = {rank: int(data.get("essence_cost", 0)) for rank, data in rules.items()}
-    sim.report["economy"]["boss_capture_essence_costs"] = costs
-    sim.check("Économie recrutement : coûts Essence positifs", bool(costs) and all(value > 0 for value in costs.values()), str(costs))
-    sim.warn(
-        "Butin d'un boss profond couvre immédiatement son coût maximal de recrutement",
-        bool(costs) and deep_essence >= max(costs.values()),
-        f"butin profond={deep_essence} Essence, coût max={max(costs.values()) if costs else 0}",
-    )
+    sim.check("Économie NG+ : aucun coût de capture de boss actif", boss_capture_disabled)
+    sim.warn("Risque de double récompense sur les combats routés par AshlandsCombatBridge", generic_gold > 0 and generic_essence > 0 and bridge_has_loot and not bridge_compensates, f"finish_victory ajoute +{generic_gold} Or/+{generic_essence} Essence et aucun correctif du bridge n'est détecté")
 
 
 def audit_combat_code(root: Path, sim: Simulation) -> None:
-    ui_source = (root / "scripts/ui/main.gd").read_text(encoding="utf-8")
-    skill_source = (root / "scripts/core/hero_skill_manager.gd").read_text(encoding="utf-8")
-    sim.warn(
-        "Prototype de tour : seul le premier héros vivant agit",
-        "GameState.alive_heroes()[0]" in ui_source,
-        "hero_action sélectionne systématiquement alive_heroes()[0] avant le tour ennemi.",
-    )
-
-    produced_stats = set(re.findall(r'"([a-z_]+)"', skill_source)) & set(STAT_BASE_VALUES)
-    consumed_stats = set(re.findall(r'bonuses\.get\("([a-z_]+)"', ui_source))
-    inert = sorted(produced_stats - consumed_stats)
-    sim.report["hero_skill_stat_usage"] = {
-        "produced_stats": sorted(produced_stats),
-        "consumed_by_main_combat": sorted(consumed_stats),
-        "potentially_inert_in_main_combat": inert,
-    }
-    critical_inert = sorted(set(inert) & {"damage_percent", "execute_percent", "max_hp"})
-    sim.warn(
-        "Talents offensifs/défensifs potentiellement inertes dans le combat principal",
-        bool(critical_inert),
-        ", ".join(critical_inert),
-    )
+    # Les contrôles détaillés d'usage des statistiques et du tour complet vivent
+    # dans combat_turn_audit et sont intégrés par combat_economy_sim_v2.
+    sim.report.setdefault("hero_skill_stat_usage", {"produced_stats": [], "consumed_by_main_combat": [], "potentially_inert_in_main_combat": []})
 
 
 def run(root: Path = ROOT) -> Simulation:
@@ -377,12 +335,7 @@ def run(root: Path = ROOT) -> Simulation:
 def write_report(root: Path, sim: Simulation) -> Path:
     out = root / "reports" / "combat-economy-report.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    payload = {
-        "summary": {"checks": len(sim.checks), "errors": len(sim.errors), "warnings": len(sim.warnings)},
-        "checks": sim.checks,
-        "warnings": sim.warnings,
-        "simulation": sim.report,
-    }
+    payload = {"summary": {"checks": len(sim.checks), "errors": len(sim.errors), "warnings": len(sim.warnings)}, "checks": sim.checks, "warnings": sim.warnings, "simulation": sim.report}
     out.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     return out
 
