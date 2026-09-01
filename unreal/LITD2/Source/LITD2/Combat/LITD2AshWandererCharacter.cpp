@@ -1,7 +1,6 @@
 #include "Combat/LITD2AshWandererCharacter.h"
 
 #include "Combat/LITD2CombatantComponent.h"
-#include "Combat/LITD2PlayerCombatCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Run/LITD2EncounterDirectorSubsystem.h"
@@ -25,6 +24,7 @@ void ALITD2AshWandererCharacter::BeginPlay()
     Super::BeginPlay();
     if (Combatant)
     {
+        Combatant->OnDamageResolved.AddDynamic(this, &ALITD2AshWandererCharacter::HandleDamageResolved);
         Combatant->OnDeath.AddDynamic(this, &ALITD2AshWandererCharacter::HandleDeath);
     }
 }
@@ -103,8 +103,18 @@ void ALITD2AshWandererCharacter::CommitAttack()
     Payload.DismembermentValue = 0.0f;
     Payload.bReadableSevereCause = false;
 
-    TargetCombatant->ReceiveDamageEvent(Payload);
+    const FLITD2DamageResolution Resolution = TargetCombatant->ReceiveDamageEvent(Payload);
+    if (Resolution.bParried)
+    {
+        RecoveryRemaining = AttackRecoverySeconds * 1.85f;
+        OnParriedPresentation();
+    }
     OnAttackCommitted();
+}
+
+void ALITD2AshWandererCharacter::HandleDamageResolved(FLITD2DamageResolution Resolution)
+{
+    OnDamagePresentation(Resolution);
 }
 
 void ALITD2AshWandererCharacter::HandleDeath()
