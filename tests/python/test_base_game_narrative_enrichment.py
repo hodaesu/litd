@@ -8,6 +8,7 @@ SIDE_STORIES = ROOT / "data/narrative/base_game_side_stories.json"
 VOICE_POLISH = ROOT / "data/narrative/base_game_voice_polish.json"
 SIDE_RUNTIME = ROOT / "scripts/core/side_quest_runtime.gd"
 ENRICHMENT_RUNTIME = ROOT / "scripts/core/base_game_enrichment_runtime.gd"
+SIDE_STORY_UI = ROOT / "scripts/ui/base_game_side_story_ui.gd"
 SAVE_MANAGER = ROOT / "scripts/core/save_manager.gd"
 PROJECT = ROOT / "project.godot"
 
@@ -107,6 +108,18 @@ def test_enrichment_runtime_is_autoloaded_and_persistent():
         assert f"func {func}(" in runtime
     assert '"base_game_enrichment": BaseGameEnrichmentRuntime.serialize()' in save
     assert 'BaseGameEnrichmentRuntime.deserialize(payload.get("base_game_enrichment",{}))' in save
+
+
+def test_side_story_ui_surfaces_supplemental_quests_in_journal():
+    project = PROJECT.read_text(encoding="utf-8")
+    ui = SIDE_STORY_UI.read_text(encoding="utf-8")
+    assert 'BaseGameSideStoryUI="*res://scripts/ui/base_game_side_story_ui.gd"' in project
+    assert "SideQuestRuntime.definitions.keys()" in ui
+    assert "EndgameState.active_cycle <= 0" in ui
+    assert "SideQuestRuntime.accept(quest_id)" in ui
+    assert "SideQuestRuntime.refuse(quest_id)" in ui
+    assert "SideQuestRuntime.track(quest_id)" in ui
+    assert 'screen_name == "quest_journal"' in ui
 
 
 def test_pre_dubbing_contract_covers_core_recurring_cast():
