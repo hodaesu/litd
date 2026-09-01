@@ -4,15 +4,22 @@ Projet Unreal séparé de LITD 1. Les mécaniques présentes ici sont propres à
 
 ## Fondation actuelle
 
-La première fondation C++ met en place les **Archives de Rémanence** :
+La fondation C++ met en place les **Archives de Rémanence** :
 
 - types de données pour les nœuds, sources, contradictions et reconstructions ;
 - état de découverte persistant ;
 - exigences de reconstruction avec sources alternatives ;
 - déblocages de gameplay data-driven ;
-- branche d'amorçage de Sarei décrite dans `Data/Remanence/sarei_seed.json`.
+- branche d'amorçage de Sarei décrite dans `Data/Remanence/sarei_seed.json` ;
+- constellation UMG native interactive avec déplacement, zoom et dossier documentaire ;
+- apparition progressive des fils, contradictions brisées, nœuds irréguliers et halos de catégorie ;
+- ambiance procédurale de cendre/lumière et pulsations de nouvelles connaissances ;
+- transition animée du dossier sélectionné ;
+- révélation plein écran courte lors d'une reconstruction ;
+- quatre slots audio optionnels : ouverture, sélection, contradiction et reconstruction ;
+- direction sonore versionnée dans `Data/Remanence/archive_audio_direction.json`.
 
-Les assets UMG, Data Assets `.uasset`, cartes et contenus binaires devront être créés/importés dans l'éditeur Unreal. Les classes C++ et données texte de ce dossier constituent le contrat d'implémentation versionné.
+Le Widget Blueprint `WBP_RemembranceArchive` peut être généré dans Unreal à partir de la classe native. Les assets `.uasset`, sons définitifs, matériaux et contenus binaires restent à produire/importer dans l'éditeur Unreal ; la logique, la présentation native et les contrats de données sont versionnés ici.
 
 ## Principes verrouillés
 
@@ -20,5 +27,7 @@ Les assets UMG, Data Assets `.uasset`, cartes et contenus binaires devront être
 - pas de monnaie de Rémanence ;
 - la progression persistante porte d'abord sur les connaissances et les possibilités ;
 - les reconstructions importantes acceptent des voies de preuve alternatives ;
+- toute récompense de Rémanence explique sa cause historique ;
+- la révélation d'une connaissance reste brève et ne devient jamais une fanfare de loot ;
 - Corps, Esprit, Politique et Serments restent indépendants des Archives ;
 - LITD 1 et LITD 2 restent techniquement et ludiquement séparés.
