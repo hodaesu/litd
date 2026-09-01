@@ -22,5 +22,7 @@ public class LITD2 : ModuleRules
         RuntimeDependencies.Add("$(ProjectDir)/Data/Remanence/sarei_ui_layout.json");
         RuntimeDependencies.Add("$(ProjectDir)/Data/Remanence/archive_audio_direction.json");
         RuntimeDependencies.Add("$(ProjectDir)/Data/Runs/sarei_faubourgs_run.json");
+        RuntimeDependencies.Add("$(ProjectDir)/Data/Combat/animation_combat_contracts.json");
+        RuntimeDependencies.Add("$(ProjectDir)/Data/Combat/enemy_runtime_registry.json");
     }
 }
