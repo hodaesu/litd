@@ -34,6 +34,9 @@ def test_bram_and_veyra_require_old_and_new_evidence_before_status_choice():
     data = load('data/levels/chapter_07_living_responsible.json')
     assert len(data['provisional_outcomes']['bram']) == 3
     assert len(data['provisional_outcomes']['veyra']) == 3
+    veyra = next(actor for actor in data['living_actors'] if actor['id'] == 'veyra_oss')
+    assert 'limiter' in veyra['mitigation'].lower()
+    assert 'réduire la stabilisation' not in veyra['mitigation'].lower()
 
 
 def test_edras_and_pilgrim_follow_global_boss_rule():
@@ -50,12 +53,21 @@ def test_edras_and_pilgrim_follow_global_boss_rule():
     assert 'TRANSE ALIMENTÉE' in runtime
 
 
-def test_controlled_trial_is_conditional_not_free_option():
+def test_confined_observation_is_conditional_and_cannot_reopen_the_veil():
     data = load('data/levels/chapter_07_living_responsible.json')
     controlled = next(c for c in data['boss_choices'] if c['id'] == 'controlled_trial')
+    assert controlled['label'] == 'AUTORISER UNE OBSERVATION CONFINÉE'
     assert controlled['requirements']['anchors'] == 3
     assert controlled['requirements']['absent_contact_min'] >= 8
     assert controlled['requirements']['justice_integrity_min'] >= 45
+    protocol = controlled['protocol']
+    assert protocol['existing_phenomena_only'] is True
+    assert protocol['new_opening_forbidden'] is True
+    assert protocol['living_subject_exposure_forbidden'] is True
+    assert protocol['threshold_project_relay_reactivation_forbidden'] is True
+    assert protocol['automatic_abort_on_limit_breach'] is True
+    assert protocol['edras_controls_protocol'] is False
+    assert protocol['edras_controls_abort'] is False
     runtime = (ROOT / 'scripts/world/chapter_07_runtime.gd').read_text()
     assert 'func available_boss_choices()' in runtime
     assert 'justice_integrity_min' in runtime
