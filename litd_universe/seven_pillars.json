@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "scope": "LITD_UNIVERSE",
+  "status": "CANON_MANDATORY",
+  "applies_to": ["LITD_1", "LITD_2", "FUTURE_LITD_PROJECTS"],
+  "rule": "Every LITD project must materially express all seven pillars, although their mechanical implementation may differ by project.",
+  "pillars": [
+    {
+      "id": "BODY",
+      "name_fr": "Corps",
+      "core_question": "Que peut supporter un être ?",
+      "non_negotiable": "Physical action, vulnerability and consequence must matter in the chosen form of the project."
+    },
+    {
+      "id": "MIND",
+      "name_fr": "Esprit",
+      "core_question": "Que peut-il comprendre ?",
+      "non_negotiable": "Knowledge, art, memory, interpretation or understanding must materially affect how the world is perceived or approached."
+    },
+    {
+      "id": "POLITICS",
+      "name_fr": "Politique",
+      "core_question": "Comment peut-on vivre ensemble ?",
+      "non_negotiable": "Collective choices, institutions or power must have causes, beneficiaries, victims and consequences."
+    },
+    {
+      "id": "FEAR",
+      "name_fr": "Peur",
+      "core_question": "Qu'avons-nous à perdre ?",
+      "non_negotiable": "Fear must arise from a real stake, uncertainty, loss or responsibility rather than empty spectacle."
+    },
+    {
+      "id": "HOPE",
+      "name_fr": "Espoir",
+      "core_question": "Pourquoi continuer ?",
+      "non_negotiable": "The universe must preserve a credible possibility of rebuilding, caring, creating, transmitting or continuing."
+    },
+    {
+      "id": "MADNESS",
+      "name_fr": "Folie",
+      "core_question": "Que se passe-t-il lorsque le sens se fracture ?",
+      "non_negotiable": "Fracture of perception or meaning must have readable causes and consequences and must not be reduced to arbitrary randomness or caricature."
+    },
+    {
+      "id": "LIGHT",
+      "name_fr": "Lumière",
+      "core_question": "Qu'est-ce qui mérite encore d'être protégé, compris ou reconstruit ?",
+      "non_negotiable": "Every LITD work must create a meaningful lived tension between light and darkness, literal or symbolic."
+    }
+  ]
+}
