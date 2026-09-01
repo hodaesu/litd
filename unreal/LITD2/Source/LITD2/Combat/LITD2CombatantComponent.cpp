@@ -22,6 +22,9 @@ void ULITD2CombatantComponent::ResetCombatant()
     TraumaLevel = 0;
     ParryTimeRemaining = 0.0f;
     InvulnerableTimeRemaining = 0.0f;
+    ActiveBleedDamagePerSecond = 0.0f;
+    BleedTimeRemaining = 0.0f;
+    BleedRunBridgeAccumulator = 0.0f;
     bBlocking = false;
     bDeathBroadcast = false;
     OnHealthChanged.Broadcast(Health);
@@ -34,6 +37,8 @@ void ULITD2CombatantComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 
     if (ParryTimeRemaining > 0.0f) ParryTimeRemaining = FMath::Max(0.0f, ParryTimeRemaining - DeltaTime);
     if (InvulnerableTimeRemaining > 0.0f) InvulnerableTimeRemaining = FMath::Max(0.0f, InvulnerableTimeRemaining - DeltaTime);
+
+    TickTemporaryBleed(DeltaTime);
 
     if (!IsDead() && Stamina < MaxStamina)
     {
@@ -73,6 +78,82 @@ void ULITD2CombatantComponent::SetBlocking(bool bNewBlocking)
 void ULITD2CombatantComponent::StartInvulnerabilityWindow(float DurationSeconds)
 {
     InvulnerableTimeRemaining = FMath::Max(InvulnerableTimeRemaining, FMath::Max(0.0f, DurationSeconds));
+}
+
+void ULITD2CombatantComponent::ApplyTemporaryBleed(float DamagePerSecond, float DurationSeconds)
+{
+    if (IsDead()) return;
+
+    const float NewDamagePerSecond = FMath::Max(0.0f, DamagePerSecond);
+    const float NewDuration = FMath::Max(0.0f, DurationSeconds);
+    if (NewDamagePerSecond <= KINDA_SMALL_NUMBER || NewDuration <= KINDA_SMALL_NUMBER) return;
+
+    // Temporary wounds refresh/upgrade rather than stack into an unreadable damage spiral.
+    ActiveBleedDamagePerSecond = FMath::Max(ActiveBleedDamagePerSecond, NewDamagePerSecond);
+    BleedTimeRemaining = FMath::Max(BleedTimeRemaining, NewDuration);
+}
+
+void ULITD2CombatantComponent::ClearTemporaryBleed()
+{
+    ActiveBleedDamagePerSecond = 0.0f;
+    BleedTimeRemaining = 0.0f;
+    BleedRunBridgeAccumulator = 0.0f;
+}
+
+void ULITD2CombatantComponent::TickTemporaryBleed(float DeltaTime)
+{
+    if (!IsBleeding() || IsDead()) return;
+
+    const float ActiveDelta = FMath::Min(FMath::Max(0.0f, DeltaTime), BleedTimeRemaining);
+    const float BleedDamage = ActiveBleedDamagePerSecond * ActiveDelta;
+    BleedTimeRemaining = FMath::Max(0.0f, BleedTimeRemaining - ActiveDelta);
+
+    if (BleedDamage > 0.0f)
+    {
+        Health = FMath::Clamp(Health - BleedDamage, 0.0f, GetRecoverableMaxHealth());
+        BleedRunBridgeAccumulator += BleedDamage;
+
+        const int32 WholeDamage = FMath::FloorToInt(BleedRunBridgeAccumulator);
+        if (WholeDamage > 0)
+        {
+            BridgeCombatDamageToRun(WholeDamage);
+            BleedRunBridgeAccumulator -= static_cast<float>(WholeDamage);
+        }
+
+        OnHealthChanged.Broadcast(Health);
+        BroadcastDeathIfNeeded();
+    }
+
+    if (BleedTimeRemaining <= KINDA_SMALL_NUMBER)
+    {
+        ActiveBleedDamagePerSecond = 0.0f;
+        BleedTimeRemaining = 0.0f;
+    }
+}
+
+void ULITD2CombatantComponent::BridgeCombatDamageToRun(int32 DamageAmount)
+{
+    if (!bBridgeTraumaToRunDirector || DamageAmount <= 0) return;
+
+    if (const AActor* OwnerActor = GetOwner())
+    {
+        if (UGameInstance* GI = OwnerActor->GetGameInstance())
+        {
+            if (ULITD2RunDirectorSubsystem* RunDirector = GI->GetSubsystem<ULITD2RunDirectorSubsystem>())
+            {
+                RunDirector->ApplyCombatDamage(DamageAmount);
+            }
+        }
+    }
+}
+
+void ULITD2CombatantComponent::BroadcastDeathIfNeeded()
+{
+    if (IsDead() && !bDeathBroadcast)
+    {
+        bDeathBroadcast = true;
+        OnDeath.Broadcast();
+    }
 }
 
 int32 ULITD2CombatantComponent::RestoreRecoverableHealth()
@@ -194,12 +275,6 @@ FLITD2DamageResolution ULITD2CombatantComponent::ReceiveDamageEvent(const FLITD2
 
     OnHealthChanged.Broadcast(Health);
     OnDamageResolved.Broadcast(Resolution);
-
-    if (Resolution.bKilled && !bDeathBroadcast)
-    {
-        bDeathBroadcast = true;
-        OnDeath.Broadcast();
-    }
-
+    BroadcastDeathIfNeeded();
     return Resolution;
 }
