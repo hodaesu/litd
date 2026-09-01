@@ -5,10 +5,14 @@ signal narration_selected(payload: Dictionary)
 const STORY_PATH := "res://data/narrative/base_game_story_contract.json"
 const NARRATOR_PATH := "res://data/narrative/base_game_narrator.json"
 const KEY_SCENES_PATH := "res://data/narrative/base_game_key_scenes.json"
+const CHARACTER_ARCS_PATH := "res://data/narrative/base_game_character_arcs.json"
+const REVELATION_MATRIX_PATH := "res://data/narrative/base_game_revelation_matrix.json"
 
 var story_data: Dictionary = {}
 var narrator_data: Dictionary = {}
 var key_scenes_data: Dictionary = {}
+var character_arcs_data: Dictionary = {}
+var revelation_matrix_data: Dictionary = {}
 var _used_line_keys: Dictionary = {}
 var _last_chapter_id := ""
 
@@ -16,6 +20,8 @@ func _ready() -> void:
     story_data = _load_dictionary(STORY_PATH)
     narrator_data = _load_dictionary(NARRATOR_PATH)
     key_scenes_data = _load_dictionary(KEY_SCENES_PATH)
+    character_arcs_data = _load_dictionary(CHARACTER_ARCS_PATH)
+    revelation_matrix_data = _load_dictionary(REVELATION_MATRIX_PATH)
     _last_chapter_id = CampaignState.current_chapter_id
     if not CampaignState.campaign_changed.is_connected(_on_campaign_changed):
         CampaignState.campaign_changed.connect(_on_campaign_changed)
@@ -80,6 +86,46 @@ func key_scene(scene_id: String, chapter_id: String = "") -> Dictionary:
         if str(scene.get("id", "")) == scene_id:
             return scene.duplicate(true)
     return {}
+
+func character_arc(character_id: String) -> Dictionary:
+    for value: Variant in character_arcs_data.get("characters", []):
+        var character: Dictionary = value if value is Dictionary else {}
+        if str(character.get("id", "")) == character_id:
+            return character.duplicate(true)
+    return {}
+
+func character_knowledge(character_id: String, chapter_id: String = "") -> String:
+    var target_id := chapter_id
+    if target_id == "":
+        target_id = CampaignState.current_chapter_id
+    var character := character_arc(character_id)
+    var limits: Dictionary = character.get("knowledge_limits", {})
+    return str(limits.get(target_id, ""))
+
+func revelation(truth_id: String) -> Dictionary:
+    for value: Variant in revelation_matrix_data.get("truths", []):
+        var truth: Dictionary = value if value is Dictionary else {}
+        if str(truth.get("id", "")) == truth_id:
+            return truth.duplicate(true)
+    return {}
+
+func revelation_established(truth_id: String, chapter_number: int = -1) -> bool:
+    var truth := revelation(truth_id)
+    if truth.is_empty():
+        return false
+    var current_number := chapter_number
+    if current_number < 0:
+        current_number = CampaignState.current_chapter_number()
+    return current_number >= int(truth.get("established_chapter", 999))
+
+func revelation_can_be_clue(truth_id: String, chapter_number: int = -1) -> bool:
+    var truth := revelation(truth_id)
+    if truth.is_empty():
+        return false
+    var current_number := chapter_number
+    if current_number < 0:
+        current_number = CampaignState.current_chapter_number()
+    return current_number >= int(truth.get("earliest_clue_chapter", 999))
 
 func narrator_rules() -> Dictionary:
     var value: Variant = narrator_data.get("style_contract", {})
