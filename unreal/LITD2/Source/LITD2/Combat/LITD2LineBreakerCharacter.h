@@ -43,6 +43,10 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="LITD2|Enemy|Animation")
     TObjectPtr<UAnimMontage> DeathMontage;
 
+    // Called by ULITD2AnimNotify_CombatCommit at the exact impact frame.
+    UFUNCTION(BlueprintCallable, Category="LITD2|Enemy|Animation")
+    void CommitSevereAttackFromAnimation();
+
     UFUNCTION(BlueprintImplementableEvent, Category="LITD2|Enemy|Presentation")
     void OnSevereTelegraphStarted();
 
@@ -66,6 +70,7 @@ private:
     float WindupRemaining = 0.0f;
     float RecoveryRemaining = 0.0f;
     bool bSevereAttackQueued = false;
+    bool bAttackUsesAnimationCommit = false;
 
     void StartSevereAttack();
     void CommitSevereAttack();
