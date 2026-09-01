@@ -113,11 +113,13 @@ FLITD2DamageResolution ULITD2CombatantComponent::ResolvePipeline(FLITD2DamageEve
     if (IsParryWindowActive())
     {
         Payload.bParried = true;
+        Result.bParried = true;
         Result.AppliedDamage = Payload.DamageAmount * ParryDamageMultiplier;
     }
     else if (bBlocking || Payload.bBlocked)
     {
         Payload.bBlocked = true;
+        Result.bBlocked = true;
         Result.AppliedDamage = Payload.DamageAmount * BlockDamageMultiplier;
     }
     else
