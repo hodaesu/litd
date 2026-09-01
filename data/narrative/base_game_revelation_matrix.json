@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "scope": "LITD1 cycle initial only",
+  "rule": "Une vérité structurante peut être soupçonnée avant son chapitre de validation, mais elle ne peut être affirmée comme canon par un personnage, le narrateur ou le journal avant son niveau de preuve requis.",
+  "evidence_levels": ["rumor", "clue", "supported_hypothesis", "established", "operational_model", "unknown_by_design"],
+  "truths": [
+    {
+      "id": "fall_not_whole_veil_history",
+      "statement": "La Chute actuelle n'est pas le premier contact historique avec des phénomènes du Voile.",
+      "earliest_clue_chapter": 1,
+      "established_chapter": 1,
+      "required_evidence": ["borne antérieure à la Chute", "trace ancienne indépendante"],
+      "must_not_imply": ["Projet Seuil déjà connu", "nature du Voile déjà comprise"]
+    },
+    {
+      "id": "fall_was_prepared",
+      "statement": "L'ouverture moderne fut préparée volontairement et n'est pas un simple accident.",
+      "earliest_clue_chapter": 1,
+      "established_chapter": 2,
+      "required_evidence": ["instruments entretenus avant la Chute", "archives effacées", "relais installés à l'avance"],
+      "must_not_imply": ["identité complète des responsables au chapitre I", "culpabilité d'un peuple entier"]
+    },
+    {
+      "id": "project_threshold_immediate_cause",
+      "statement": "Le Projet Seuil est la cause immédiate de la Chute moderne.",
+      "earliest_clue_chapter": 2,
+      "established_chapter": 3,
+      "required_evidence": ["archives du complexe", "chronologie du protocole", "sources indépendantes des six participants"],
+      "must_not_imply": ["les six acteurs avaient la même intention", "le Projet Seuil a inventé le Voile"]
+    },
+    {
+      "id": "closed_horizon_coordination",
+      "statement": "Plusieurs puissances étrangères ont coordonné une partie du Projet Seuil via le Pacte de l'Horizon Fermé.",
+      "earliest_clue_chapter": 2,
+      "established_chapter": 3,
+      "required_evidence": ["accords secrets", "relais étrangers", "flux de financement ou matériel"],
+      "must_not_imply": ["toutes les populations étrangères étaient consentantes", "tous les acteurs étrangers étaient unis"]
+    },
+    {
+      "id": "responsibility_is_differentiated",
+      "statement": "Les six acteurs du Projet Seuil portent des responsabilités réelles mais différenciées selon leurs actes, connaissances et possibilités d'arrêter.",
+      "earliest_clue_chapter": 3,
+      "established_chapter": 3,
+      "required_evidence": ["ordres individuels", "alertes reçues", "actions tardives de Bram et Veyra", "persistance d'Edras"],
+      "must_not_imply": ["mitigation égale innocence", "responsabilité collective uniforme"]
+    },
+    {
+      "id": "ashai_first_known_rupture",
+      "statement": "Les Ashaï de Nhal ont provoqué une rupture locale environ 3 700 ans avant la Chute.",
+      "earliest_clue_chapter": 3,
+      "established_chapter": 4,
+      "required_evidence": ["quatre archives incompatibles sur les motifs mais convergentes sur l'événement", "traces physiques de la rupture"],
+      "must_not_imply": ["Ashaï premiers êtres à avoir jamais rencontré le Voile", "modèle métaphysique final"]
+    },
+    {
+      "id": "veil_not_ordinary_place",
+      "statement": "Le Voile n'est probablement pas un lieu extérieur auquel on accède par une porte spatiale ordinaire.",
+      "earliest_clue_chapter": 4,
+      "established_chapter": 4,
+      "required_evidence": ["comparaison rupture ashaï / Projet Seuil", "effets locaux incompatibles avec simple passage spatial"],
+      "must_not_imply": ["définition finale du Voile", "absence de toute dimension inconnue"]
+    },
+    {
+      "id": "orsilex_weaponization",
+      "statement": "Or-Silex a volontairement utilisé des phénomènes de divergence du réel dans une doctrine militaire.",
+      "earliest_clue_chapter": 4,
+      "established_chapter": 5,
+      "required_evidence": ["ateliers militaires", "ordres de doctrine", "armes ou protocoles conservés"],
+      "must_not_imply": ["Or-Silex n'avait aucune histoire hors du Voile", "toute standardisation mène nécessairement au crime"]
+    },
+    {
+      "id": "great_closure_saved_and_abandoned",
+      "statement": "La Grande Fermeture de Saan a limité une catastrophe plus vaste tout en isolant volontairement des populations.",
+      "earliest_clue_chapter": 5,
+      "established_chapter": 5,
+      "required_evidence": ["données de stabilisation", "listes d'évacuation incomplètes", "ordres de fermeture", "effets géographiques postérieurs"],
+      "must_not_imply": ["tous les isolés sont morts", "décision moralement simple"]
+    },
+    {
+      "id": "some_absents_respond",
+      "statement": "Certaines continuités liées aux populations disparues répondent encore sous conditions reproductibles.",
+      "earliest_clue_chapter": 5,
+      "established_chapter": 6,
+      "required_evidence": ["réponse répétable", "souvenirs partiellement vérifiables", "contact Saen"],
+      "must_not_imply": ["tous les disparus survivent", "voix égale personne intacte", "nature universelle des Absents"]
+    },
+    {
+      "id": "boundary_not_proven_conscious",
+      "statement": "La Frontière qui marche produit des contre-effets reproductibles mais aucune conscience ou intention n'est établie.",
+      "earliest_clue_chapter": 6,
+      "established_chapter": 6,
+      "required_evidence": ["réponse identique à paramètres identiques", "absence de réponse spécifique aux menaces ou demandes"],
+      "must_not_imply": ["elle choisit", "elle protège quelque chose", "elle négocie"]
+    },
+    {
+      "id": "bram_late_sabotage",
+      "statement": "Bram Torgun a réduit une partie de l'ampleur immédiate de la Chute par un sabotage tardif sans effacer sa participation antérieure.",
+      "earliest_clue_chapter": 3,
+      "established_chapter": 7,
+      "required_evidence": ["dommages de sabotage", "chronologie", "témoignage vivant recoupé"],
+      "must_not_imply": ["Bram innocent", "Bram sauveur unique"]
+    },
+    {
+      "id": "veyra_late_mitigation",
+      "statement": "Veyra Oss avait identifié une partie du danger et a tenté tardivement de limiter l'emballement sans renoncer assez tôt au Projet Seuil.",
+      "earliest_clue_chapter": 3,
+      "established_chapter": 7,
+      "required_evidence": ["notes d'alerte", "modifications de stabilisation", "témoignage vivant recoupé"],
+      "must_not_imply": ["Veyra innocente", "Veyra connaissait le modèle final du Voile"]
+    },
+    {
+      "id": "edras_consent_conflict",
+      "statement": "Edras Nhal continue de considérer certaines pertes comme un prix acceptable pour la connaissance et s'accorde un droit que les personnes exposées n'ont pas consenti à lui donner.",
+      "earliest_clue_chapter": 3,
+      "established_chapter": 7,
+      "required_evidence": ["archives de ses choix", "position exprimée par Edras vivant", "tentative de poursuivre l'observation malgré les limites"],
+      "must_not_imply": ["diagnostic psychiatrique", "possession par le Voile", "omniscience"]
+    },
+    {
+      "id": "foreign_societies_are_plural",
+      "statement": "Les puissances impliquées dans le Projet Seuil contenaient aussi dissidents, refus, secours et populations sans responsabilité individuelle dans le projet.",
+      "earliest_clue_chapter": 3,
+      "established_chapter": 8,
+      "required_evidence": ["archives militaires de refus", "registres commerciaux doubles", "témoignages de dissidents", "ruines et institutions locales"],
+      "must_not_imply": ["régimes innocents", "dissidents tous héroïques", "culpabilité héréditaire ou ethnique"]
+    },
+    {
+      "id": "light_shared_reference",
+      "statement": "La Lumière stabilise une référence commune locale ; elle ne détermine pas quelle interprétation est vraie.",
+      "earliest_clue_chapter": 1,
+      "established_chapter": 9,
+      "required_evidence": ["expériences répétées", "désaccords persistants sous Lumière", "stabilisation géométrique ou perceptive mesurable"],
+      "must_not_imply": ["détecteur de vérité", "arme absolue contre le Voile", "consensus idéologique"]
+    },
+    {
+      "id": "fear_veil_folie_weight_possibilities",
+      "statement": "Dans des conditions déjà instables, peur et Folie du Voile peuvent réduire ou orienter certaines possibilités déjà ouvertes ; elles ne créent pas librement le réel.",
+      "earliest_clue_chapter": 1,
+      "established_chapter": 9,
+      "required_evidence": ["comparaisons de zones", "conditions d'instabilité préexistantes", "répétitions contrôlées"],
+      "must_not_imply": ["pensée crée tout", "maladie mentale crée des monstres", "croyance suffit à rendre vrai"]
+    },
+    {
+      "id": "veil_operational_model",
+      "statement": "Le Voile peut être décrit opérationnellement comme un régime où possibilité, perception, mémoire, conscience et matière perdent localement leur séparation stricte, avec des limites mesurables.",
+      "earliest_clue_chapter": 4,
+      "established_chapter": 9,
+      "required_evidence": ["corpus antique", "corpus moderne", "corpus étranger", "observations reproductibles", "limites et échecs conservés"],
+      "must_not_imply": ["origine ultime connue", "volonté du Voile", "modèle universel sans exception"]
+    },
+    {
+      "id": "veil_origin_unknown",
+      "statement": "L'origine ultime, une éventuelle volonté et un modèle universel complet du Voile restent inconnus par conception à la fin de LITD1.",
+      "earliest_clue_chapter": 9,
+      "established_chapter": 9,
+      "evidence_level": "unknown_by_design",
+      "required_evidence": ["limites explicites de l'observation", "arrêt volontaire avant seuil catastrophique", "modèles concurrents non résolus"],
+      "must_not_imply": ["suite autorisée à inventer rétroactivement n'importe quelle cause sans traces antérieures"]
+    },
+    {
+      "id": "final_choice_collective",
+      "statement": "Aucune orientation finale légitime ne peut être décidée par le protagoniste seul ; sa disponibilité dépend des relations, institutions et capacités construites pendant la campagne.",
+      "earliest_clue_chapter": 1,
+      "established_chapter": 10,
+      "required_evidence": ["précédents de justice", "alliances", "statuts des créatures et Absents", "infrastructures", "assemblée finale"],
+      "must_not_imply": ["élu", "fin à trois boutons indépendante du parcours", "unanimité obligatoire"]
+    },
+    {
+      "id": "light_final_meaning",
+      "statement": "La lumière ne supprime pas l'obscurité ; elle rend possible un monde commun où le désaccord peut encore exister sans dissoudre toute référence partagée.",
+      "earliest_clue_chapter": 1,
+      "established_chapter": 10,
+      "required_evidence": ["fonction de Lumière établie", "Concorde reconstruite par pratiques", "assemblée pluraliste", "conséquences non effacées"],
+      "must_not_imply": ["victoire cosmique définitive", "absence future de conflit", "solution moralement parfaite"]
+    }
+  ]
+}
