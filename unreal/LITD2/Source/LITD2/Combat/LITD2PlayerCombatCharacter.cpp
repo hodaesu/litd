@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Run/LITD2RunDirectorSubsystem.h"
+#include "TimerManager.h"
 
 ALITD2PlayerCombatCharacter::ALITD2PlayerCombatCharacter()
 {
@@ -53,14 +54,14 @@ void ALITD2PlayerCombatCharacter::SetupPlayerInputComponent(UInputComponent* Pla
 
 void ALITD2PlayerCombatCharacter::MoveForward(float Value)
 {
-    if (!Controller || FMath::IsNearlyZero(Value)) return;
+    if (bExternalMovementLocked || !Controller || FMath::IsNearlyZero(Value)) return;
     const FRotator YawRotation(0.0f, Controller->GetControlRotation().Yaw, 0.0f);
     AddMovementInput(FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X), Value);
 }
 
 void ALITD2PlayerCombatCharacter::MoveRight(float Value)
 {
-    if (!Controller || FMath::IsNearlyZero(Value)) return;
+    if (bExternalMovementLocked || !Controller || FMath::IsNearlyZero(Value)) return;
     const FRotator YawRotation(0.0f, Controller->GetControlRotation().Yaw, 0.0f);
     AddMovementInput(FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y), Value);
 }
@@ -77,7 +78,7 @@ void ALITD2PlayerCombatCharacter::LookUp(float Value)
 
 bool ALITD2PlayerCombatCharacter::LightAttack()
 {
-    if (!Combatant || Combatant->IsDead() || bAttackCommitPending || !Combatant->SpendStamina(12.0f)) return false;
+    if (bExternalMovementLocked || !Combatant || Combatant->IsDead() || bAttackCommitPending || !Combatant->SpendStamina(12.0f)) return false;
 
     if (LightAttackMontage && PlayAnimMontage(LightAttackMontage) > 0.0f)
     {
@@ -91,7 +92,7 @@ bool ALITD2PlayerCombatCharacter::LightAttack()
 
 bool ALITD2PlayerCombatCharacter::HeavyAttack()
 {
-    if (!Combatant || Combatant->IsDead() || bAttackCommitPending || !Combatant->SpendStamina(28.0f)) return false;
+    if (bExternalMovementLocked || !Combatant || Combatant->IsDead() || bAttackCommitPending || !Combatant->SpendStamina(28.0f)) return false;
 
     if (HeavyAttackMontage && PlayAnimMontage(HeavyAttackMontage) > 0.0f)
     {
@@ -105,7 +106,7 @@ bool ALITD2PlayerCombatCharacter::HeavyAttack()
 
 bool ALITD2PlayerCombatCharacter::Dodge()
 {
-    if (!Combatant || Combatant->IsDead() || !Combatant->SpendStamina(22.0f)) return false;
+    if (bExternalMovementLocked || !Combatant || Combatant->IsDead() || !Combatant->SpendStamina(22.0f)) return false;
 
     CancelQueuedAttack();
 
@@ -123,7 +124,7 @@ bool ALITD2PlayerCombatCharacter::Dodge()
 
 bool ALITD2PlayerCombatCharacter::BeginParry()
 {
-    if (!Combatant || !Combatant->BeginParry()) return false;
+    if (bExternalMovementLocked || !Combatant || !Combatant->BeginParry()) return false;
     CancelQueuedAttack();
     if (ParryMontage) PlayAnimMontage(ParryMontage);
     return true;
@@ -151,9 +152,40 @@ bool ALITD2PlayerCombatCharacter::UsePotion()
     return false;
 }
 
+void ALITD2PlayerCombatCharacter::ApplyExternalMovementLock(float DurationSeconds)
+{
+    if (!Combatant || Combatant->IsDead()) return;
+
+    const float LockDuration = FMath::Max(0.0f, DurationSeconds);
+    if (LockDuration <= KINDA_SMALL_NUMBER) return;
+
+    CancelQueuedAttack();
+    Combatant->SetBlocking(false);
+    bExternalMovementLocked = true;
+    GetCharacterMovement()->StopMovementImmediately();
+    GetCharacterMovement()->DisableMovement();
+
+    GetWorldTimerManager().ClearTimer(ExternalMovementLockTimer);
+    GetWorldTimerManager().SetTimer(
+        ExternalMovementLockTimer,
+        this,
+        &ALITD2PlayerCombatCharacter::ReleaseExternalMovementLock,
+        LockDuration,
+        false);
+}
+
+void ALITD2PlayerCombatCharacter::ReleaseExternalMovementLock()
+{
+    bExternalMovementLocked = false;
+    if (Combatant && !Combatant->IsDead())
+    {
+        GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+    }
+}
+
 bool ALITD2PlayerCombatCharacter::CommitQueuedAttackFromAnimation()
 {
-    if (!bAttackCommitPending || !Combatant || Combatant->IsDead()) return false;
+    if (bExternalMovementLocked || !bAttackCommitPending || !Combatant || Combatant->IsDead()) return false;
 
     const ELITD2AttackKind AttackKind = PendingAttackKind;
     bAttackCommitPending = false;
