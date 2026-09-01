@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "game": "LITD2",
+  "branch_id": "SAREI_LAST_DOCTORS",
+  "branch_title": "Les Derniers Médecins de Sarei",
+  "initial_archive": {
+    "instruction": "Certaines traces peuvent être reliées.",
+    "visible_entry_ids": [
+      "SAREI_HOSPITAL",
+      "THIRD_ARMY",
+      "SAREI_UNKNOWN_MEDICAL_LINK"
+    ]
+  },
+  "ui_palette": {
+    "Body": "dark_red_copper",
+    "Mind": "ivory_cold_light",
+    "Politics": "aged_gold",
+    "Medicine": "white_deep_red",
+    "Technology": "silver_metal",
+    "Person": "warm_light",
+    "Unknown": "near_black"
+  },
+  "entries": [
+    {
+      "entry_id": "SAREI_HOSPITAL",
+      "title": "Hôpital de Sarei",
+      "category": "Place",
+      "initial_state": "Trace",
+      "reliability": "Confirmed",
+      "description": "Poste et réseau médical de Sarei pendant les dernières opérations d'évacuation.",
+      "related_entry_ids": ["SAREI_FIELD_POTIONS", "SAREI_ASHARA_PROTOCOL"]
+    },
+    {
+      "entry_id": "THIRD_ARMY",
+      "title": "IIIe Armée",
+      "category": "Faction",
+      "initial_state": "Trace",
+      "reliability": "Confirmed",
+      "description": "Formation militaire liée aux coffrets médicaux de campagne.",
+      "related_entry_ids": ["SAREI_THIRD_ARMY_CASE", "SAREI_MEDICAL_STORAGE"]
+    },
+    {
+      "entry_id": "SAREI_UNKNOWN_MEDICAL_LINK",
+      "title": "????????",
+      "category": "Unknown",
+      "initial_state": "Unknown",
+      "reliability": "Uncertain",
+      "description": "Connexion médicale encore incomprise."
+    },
+    {
+      "entry_id": "SAREI_ECHO_LAST_FLASK",
+      "title": "Le Dernier Flacon",
+      "category": "Medicine",
+      "initial_state": "Unknown",
+      "reliability": "SingleTestimony",
+      "description": "Deux médecins rationnent les dernières préparations pendant l'évacuation de Sarei.",
+      "source_ids": ["SAREI_SOURCE_LAST_FLASK_ECHO"],
+      "related_entry_ids": ["SAREI_HOSPITAL", "SAREI_FIELD_POTIONS", "THIRD_ARMY"]
+    },
+    {
+      "entry_id": "SAREI_FIELD_POTIONS",
+      "title": "Potions de campagne",
+      "category": "Medicine",
+      "initial_state": "Unknown",
+      "reliability": "Probable",
+      "description": "Préparations médicales de guerre dont la conservation limite la quantité transportable.",
+      "related_entry_ids": ["SAREI_MEDICAL_STORAGE", "SAREI_HOSPITAL"]
+    },
+    {
+      "entry_id": "SAREI_MEDICAL_STORAGE",
+      "title": "Conditionnement médical de campagne",
+      "category": "Technology",
+      "initial_state": "Unknown",
+      "reliability": "Probable",
+      "description": "Méthodes d'isolation de l'air, de l'humidité et des variations de température utilisées pour préserver les préparations.",
+      "source_ids": ["SAREI_SOURCE_VEL_REPORT", "SAREI_SOURCE_THIRD_ARMY_CASE"],
+      "related_entry_ids": ["SAREI_FIELD_POTIONS", "SAREI_THIRD_ARMY_CASE"]
+    },
+    {
+      "entry_id": "SAREI_THIRD_ARMY_CASE",
+      "title": "Coffret de la IIIe Armée",
+      "category": "Technology",
+      "initial_state": "Unknown",
+      "reliability": "Confirmed",
+      "description": "Coffret incomplet dont les compartiments hermétiques peuvent être reconstruits grâce aux traces disponibles.",
+      "source_ids": ["SAREI_SOURCE_THIRD_ARMY_CASE"],
+      "related_entry_ids": ["THIRD_ARMY", "SAREI_MEDICAL_STORAGE"]
+    },
+    {
+      "entry_id": "SAREI_RECONSTRUCTED_FIELD_STORAGE",
+      "title": "Conservation médicale de campagne",
+      "category": "Technology",
+      "initial_state": "Unknown",
+      "reliability": "Confirmed",
+      "description": "Technique reconstruite de conservation des préparations dans des compartiments hermétiques.",
+      "gameplay_unlocks": [
+        {
+          "unlock_id": "POTION_CAPACITY",
+          "type": "LogisticsCapacity",
+          "integer_value": 4,
+          "explanation": "Les coffrets à compartiments hermétiques de la IIIe Armée permettent de conserver une préparation supplémentaire."
+        }
+      ]
+    },
+    {
+      "entry_id": "SAREI_ASHARA_PROTOCOL",
+      "title": "Protocole Ashara",
+      "category": "Medicine",
+      "initial_state": "Unknown",
+      "reliability": "Probable",
+      "description": "Méthode de triage médical ensuite appliquée à l'évacuation civile de Sarei.",
+      "related_entry_ids": ["SAREI_ASHARA_OFFICIAL_ACCOUNT", "SAREI_ASHARA_ABANDONED_TESTIMONY"],
+      "gameplay_unlocks": [
+        {
+          "unlock_id": "TRAUMA_DIAGNOSTIC_DETAIL",
+          "type": "GameplayFeature",
+          "integer_value": 1,
+          "explanation": "Le Protocole Ashara permet d'afficher des informations plus précises sur la gravité et les conséquences des traumatismes."
+        }
+      ]
+    },
+    {
+      "entry_id": "SAREI_ASHARA_OFFICIAL_ACCOUNT",
+      "title": "Bilan officiel du Protocole Ashara",
+      "category": "Politics",
+      "initial_state": "Unknown",
+      "reliability": "ProbablePropaganda",
+      "description": "Archive officielle affirmant que le protocole permit de sauver 11 000 citoyens.",
+      "contradiction_entry_ids": ["SAREI_ASHARA_ABANDONED_TESTIMONY"]
+    },
+    {
+      "entry_id": "SAREI_ASHARA_ABANDONED_TESTIMONY",
+      "title": "Témoignage des abandonnés",
+      "category": "Person",
+      "initial_state": "Unknown",
+      "reliability": "SingleTestimony",
+      "description": "Un témoin affirme : « Ils nous ont simplement abandonnés. »",
+      "contradiction_entry_ids": ["SAREI_ASHARA_OFFICIAL_ACCOUNT"]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "SAREI_SOURCE_LAST_FLASK_ECHO",
+      "source_type": "Echo",
+      "title": "Écho — Le Dernier Flacon",
+      "reliability": "SingleTestimony",
+      "text": "Il en reste combien ? — Deux.",
+      "linked_entry_ids": ["SAREI_ECHO_LAST_FLASK", "SAREI_FIELD_POTIONS", "SAREI_HOSPITAL"]
+    },
+    {
+      "source_id": "SAREI_SOURCE_VEL_REPORT",
+      "source_type": "MedicalReport",
+      "title": "Rapport du chirurgien Vel",
+      "author": "Vel",
+      "reliability": "Probable",
+      "text": "Les préparations doivent rester isolées de l'air, de l'humidité et des variations de température. Les nouveaux coffrets ont réduit considérablement les pertes.",
+      "linked_entry_ids": ["SAREI_MEDICAL_STORAGE", "SAREI_FIELD_POTIONS"]
+    },
+    {
+      "source_id": "SAREI_SOURCE_THIRD_ARMY_CASE",
+      "source_type": "ObjectAnalysis",
+      "title": "Analyse du coffret de la IIIe Armée",
+      "reliability": "Confirmed",
+      "text": "La disposition des compartiments et les résidus d'étanchéité confirment un conditionnement médical spécialisé.",
+      "linked_entry_ids": ["SAREI_THIRD_ARMY_CASE", "SAREI_MEDICAL_STORAGE"]
+    },
+    {
+      "source_id": "SAREI_SOURCE_ASHARA_OFFICIAL",
+      "source_type": "PoliticalArchive",
+      "title": "Bilan officiel d'évacuation",
+      "reliability": "ProbablePropaganda",
+      "text": "Le protocole permit de sauver 11 000 citoyens.",
+      "linked_entry_ids": ["SAREI_ASHARA_PROTOCOL", "SAREI_ASHARA_OFFICIAL_ACCOUNT"]
+    },
+    {
+      "source_id": "SAREI_SOURCE_ASHARA_TESTIMONY",
+      "source_type": "Testimony",
+      "title": "Témoignage d'un civil de Sarei",
+      "reliability": "SingleTestimony",
+      "text": "Ils nous ont simplement abandonnés.",
+      "linked_entry_ids": ["SAREI_ASHARA_PROTOCOL", "SAREI_ASHARA_ABANDONED_TESTIMONY"]
+    }
+  ],
+  "reconstructions": [
+    {
+      "reconstruction_id": "SAREI_RECON_FIELD_MEDICAL_STORAGE",
+      "title": "Conservation médicale de campagne",
+      "required_entry_ids": ["SAREI_FIELD_POTIONS", "SAREI_MEDICAL_STORAGE"],
+      "alternative_requirement_groups": [
+        {
+          "minimum_matches": 1,
+          "any_of_entry_ids": ["SAREI_THIRD_ARMY_CASE"],
+          "any_of_source_ids": ["SAREI_SOURCE_VEL_REPORT", "SAREI_SOURCE_THIRD_ARMY_CASE"]
+        }
+      ],
+      "result_entry_id": "SAREI_RECONSTRUCTED_FIELD_STORAGE",
+      "unlocks": [
+        {
+          "unlock_id": "POTION_CAPACITY",
+          "type": "LogisticsCapacity",
+          "integer_value": 4,
+          "explanation": "Les coffrets à compartiments hermétiques de la IIIe Armée permettent désormais de conserver une préparation supplémentaire."
+        }
+      ]
+    }
+  ],
+  "target_learning_cadence": [
+    "Run 1: Le Dernier Flacon",
+    "Run 2: rapport médical ou preuve équivalente",
+    "Run 3: preuve technique et reconstruction, capacité de potions 3 vers 4",
+    "Runs suivantes: Protocole Ashara puis contradiction politique"
+  ]
+}
