@@ -7,6 +7,7 @@ NARRATOR = ROOT / "data/narrative/base_game_narrator.json"
 KEY_SCENES = ROOT / "data/narrative/base_game_key_scenes.json"
 CHARACTER_ARCS = ROOT / "data/narrative/base_game_character_arcs.json"
 REVELATIONS = ROOT / "data/narrative/base_game_revelation_matrix.json"
+CHAPTER_ONE_EXTENDED = ROOT / "data/narrative/chapter_01_extended_narrative.json"
 CAMPAIGN = ROOT / "data/world/main_campaign.json"
 PROJECT = ROOT / "project.godot"
 DIRECTOR = ROOT / "scripts/core/base_game_narrative_director.gd"
@@ -56,6 +57,7 @@ def test_narrator_is_limited_authored_and_covers_all_chapters():
         chapter_id = chapter["id"]
         assert chapter_id in narrator_chapters
         assert narrator_chapters[chapter_id]["opening"]
+        assert narrator_chapters[chapter_id]["first_major_discovery"]
         assert narrator_chapters[chapter_id]["closing"]
         text = " ".join(
             line
@@ -77,6 +79,19 @@ def test_narrator_forbidden_tics_are_absent_from_authored_lines():
     corpus = " ".join(all_text).lower()
     for tic in narrator["style_contract"]["forbidden_tics"]:
         assert tic.lower() not in corpus
+
+
+def test_chapter_one_extended_narrative_is_french_and_tracks_the_human_question():
+    data = load(CHAPTER_ONE_EXTENDED)
+    story = load(STORY)
+    chapter_one = story["chapters"][0]
+    assert data["language"] == "fr"
+    assert data["localization"] == ["fr"]
+    assert data["chapter_human_question"] == chapter_one["human_question"]
+    assert all(sequence.get("human_function", "").strip() for sequence in data["environmental_sequences"])
+    corpus = json.dumps(data, ensure_ascii=False).lower()
+    assert "the gate opens" not in corpus
+    assert "fear is a witness" not in corpus
 
 
 def test_key_scenes_cover_every_chapter_with_action_dialogue_environment_and_aftermath():
@@ -157,3 +172,4 @@ def test_runtime_exposes_story_scenes_arcs_and_revelations_without_extending_ngp
     assert 'return EndgameState.active_cycle <= 0' in director
     assert 'select_and_log("closing", _last_chapter_id)' in director
     assert 'select_and_log("opening", current_id)' in director
+    assert 'select_and_log("first_major_discovery", current_id)' in director
