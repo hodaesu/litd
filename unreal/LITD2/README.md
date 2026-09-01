@@ -30,6 +30,21 @@ La première run complète est désormais définie dans :
 
 La run part avec **3 potions**, ne permet aucun drop ennemi de potion, garde les soins ordinaires limités aux PV, et impose que Corps, Esprit et Politique puissent chacun vaincre le boss sans dépendre d'un build hybride. La première run découvre **Le Dernier Flacon** mais ne débloque pas prématurément la capacité de 4 potions ; le Rapport de Vel et le Coffret de la IIIe Armée restent réservés aux runs ultérieures de la branche.
 
+## Runtime de run — squelette jouable data-driven
+
+Le vertical slice possède maintenant un runtime C++ versionné dans `Source/LITD2/Run/` :
+
+- `LITD2RunDirectorSubsystem` charge `sarei_faubourgs_run.json`, maintient l'état de la run et fait progresser Z0 → Z8 ;
+- `LITD2EncounterDirectorSubsystem` lit les rencontres, branches, vagues, mini-boss et boss puis émet les requêtes de spawn destinées aux Blueprints/niveaux ;
+- `LITD2RunInteractionActors` fournit des acteurs logiques pour fontaines, caches médicales, déclencheurs de Rémanence et portes de branche ;
+- les événements Blueprint `OnZoneStarted`, `OnZoneCompleted`, `OnEnemySpawnRequested`, `OnWaveStarted`, `OnBossSpawnRequested`, `OnRemanenceDiscovered`, `OnBossPhaseChanged` et `OnRunCompleted` servent de points de branchement pour level design, VFX, audio et mise en scène.
+
+Le contrat de santé du squelette respecte déjà les règles de Sarei : la fontaine remplit uniquement les PV récupérables, les traumatismes condamnent une partie des PV max, la potion efface tous les traumatismes, et une cache contextuelle ne remplace une potion que si la capacité n'est pas déjà pleine.
+
+Le runtime transmet également les Rémanences découvertes au `LITD2RemembranceSubsystem`, ce qui permet au retour aux Archives de retrouver la connaissance acquise pendant la run.
+
+Ce runtime est un **squelette de niveau jouable** : il orchestre la séquence, mais les acteurs ennemis définitifs, le système de combat complet, les animations, l'anatomie/gore et le level art restent à brancher/produire dans Unreal.
+
 ## Feuille de route de production officielle des Archives
 
 La fabrication finale ne doit plus redécider l'architecture du système. Elle suit les trois contrats versionnés suivants :
