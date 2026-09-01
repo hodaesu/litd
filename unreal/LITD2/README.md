@@ -21,6 +21,16 @@ La fondation C++ met en place les **Archives de Rémanence** :
 
 Le Widget Blueprint `WBP_RemembranceArchive` peut être généré dans Unreal à partir de la classe native. Les assets `.uasset`, sons définitifs, matériaux et contenus binaires restent à produire/importer dans l'éditeur Unreal ; la logique, la présentation native et les contrats de données sont versionnés ici.
 
+## Feuille de route de production officielle des Archives
+
+La fabrication finale ne doit plus redécider l'architecture du système. Elle suit les trois contrats versionnés suivants :
+
+- `docs/LITD2/REMANENCE_PRODUCTION_PACK.md` — direction artistique, UX, états de production, règles de droits et définition de terminé ;
+- `Data/Remanence/archive_asset_manifest.json` — liste canonique des textures, matériaux, widgets, sons, FX et styles typographiques à produire ;
+- `Data/Remanence/archive_validation_matrix.json` — validation obligatoire 1080p, 1440p, 4K, interaction, contenu, audio, performance, droits et séparation LITD 1/LITD 2.
+
+Les statuts de production autorisés sont `TODO`, `READY`, `IMPLEMENTED`, `VALIDATED` et `BLOCKED`. Un asset ne devient `VALIDATED` qu'après vérification réelle dans Unreal Editor ou dans une build jouable.
+
 ## Principes verrouillés
 
 - pas de boucle temporelle ;
