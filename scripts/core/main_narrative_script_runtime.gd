@@ -6,8 +6,10 @@ signal choice_requested(choice: Dictionary)
 signal scene_finished(scene_id: String)
 
 const MANIFEST_PATH := "res://data/narrative/main_script/manifest.json"
+const THEATRICAL_DIRECTION_PATH := "res://data/narrative/main_script/theatrical_direction.json"
 
 var manifest: Dictionary = {}
+var theatrical_direction: Dictionary = {}
 var scripts_by_chapter: Dictionary = {}
 var active_scene: Dictionary = {}
 var active_beat_index: int = -1
@@ -24,6 +26,7 @@ func _load_json(path: String) -> Dictionary:
 
 func reload_scripts() -> void:
     manifest = _load_json(MANIFEST_PATH)
+    theatrical_direction = _load_json(THEATRICAL_DIRECTION_PATH)
     scripts_by_chapter.clear()
     for value: Variant in manifest.get("chapters", []):
         var entry: Dictionary = value if value is Dictionary else {}
@@ -69,7 +72,9 @@ func start_scene(scene_id: String, chapter_id: String = "") -> Dictionary:
     active_scene = target
     active_beat_index = 0
     _skip_unavailable_beats()
-    scene_started.emit(active_scene.duplicate(true))
+    var scene_payload := active_scene.duplicate(true)
+    scene_payload["theatrical_direction"] = theatrical_scene_direction(scene_id, str(active_scene.get("chapter_id", "")), str(active_scene.get("type", "")))
+    scene_started.emit(scene_payload)
     return _emit_current_beat()
 
 func start_first_for_trigger(trigger_id: String, chapter_id: String = "") -> Dictionary:
@@ -94,6 +99,11 @@ func advance() -> Dictionary:
     if str(beat.get("kind", "")) == "choice":
         var prepared := beat.duplicate(true)
         prepared["options"] = available_options(beat)
+        prepared["theatrical_scene"] = theatrical_scene_direction(
+            str(active_scene.get("id", "")),
+            str(active_scene.get("chapter_id", "")),
+            str(active_scene.get("type", ""))
+        )
         choice_requested.emit(prepared.duplicate(true))
         return {"mode":"choice_required", "choice":prepared}
     active_beat_index += 1
@@ -130,6 +140,55 @@ func available_options(choice_beat: Dictionary) -> Array:
         if _availability_matches(str(option.get("availability", ""))):
             result.append(option.duplicate(true))
     return result
+
+func theatrical_scene_direction(scene_id: String, chapter_id: String = "", scene_type: String = "") -> Dictionary:
+    var chapter_profiles: Dictionary = theatrical_direction.get("chapter_profiles", {})
+    var scene_types: Dictionary = theatrical_direction.get("scene_type_profiles", {})
+    var overrides: Dictionary = theatrical_direction.get("scene_overrides", {})
+    var result: Dictionary = {}
+    var chapter_value: Variant = chapter_profiles.get(chapter_id, {})
+    if chapter_value is Dictionary:
+        result["chapter"] = chapter_value.duplicate(true)
+    var type_value: Variant = scene_types.get(scene_type, {})
+    if type_value is Dictionary:
+        result["scene_type"] = type_value.duplicate(true)
+    var override_value: Variant = overrides.get(scene_id, {})
+    if override_value is Dictionary and not override_value.is_empty():
+        result["override"] = override_value.duplicate(true)
+    return result
+
+func performance_for_line(line: Dictionary, scene_id: String = "", chapter_id: String = "", scene_type: String = "") -> Dictionary:
+    if str(line.get("kind", "dialogue")) != "dialogue" and not line.has("speaker"):
+        return {}
+    if str(line.get("speaker", "")) == "Narration":
+        return {}
+    var actor := _actor_profile(line)
+    var scene_direction := theatrical_scene_direction(scene_id, chapter_id, scene_type)
+    var result: Dictionary = {}
+    for field in ["emotion", "posture", "gaze", "gesture", "breath", "voice", "subtext", "script_note"]:
+        if actor.has(field):
+            result[field] = actor[field]
+    result["scene"] = scene_direction
+    var inline_value: Variant = line.get("performance", {})
+    if inline_value is Dictionary:
+        for key: Variant in inline_value.keys():
+            result[key] = inline_value[key]
+    return result
+
+func _actor_profile(line: Dictionary) -> Dictionary:
+    var actors: Dictionary = theatrical_direction.get("actors", {})
+    var speaker_id := str(line.get("speaker_id", ""))
+    if speaker_id != "" and actors.has(speaker_id):
+        var by_id: Variant = actors.get(speaker_id, {})
+        return by_id.duplicate(true) if by_id is Dictionary else {}
+    var aliases: Dictionary = theatrical_direction.get("speaker_name_aliases", {})
+    var speaker_name := str(line.get("speaker", ""))
+    var alias_id := str(aliases.get(speaker_name, ""))
+    if alias_id != "" and actors.has(alias_id):
+        var by_alias: Variant = actors.get(alias_id, {})
+        return by_alias.duplicate(true) if by_alias is Dictionary else {}
+    var fallback: Variant = actors.get("generic_civilian", {})
+    return fallback.duplicate(true) if fallback is Dictionary else {}
 
 func _availability_matches(rule: String) -> bool:
     if rule == "":
@@ -176,7 +235,14 @@ func _filtered_lines(values: Variant) -> Array:
     for value: Variant in values:
         var line: Dictionary = value if value is Dictionary else {}
         if _beat_conditions_match(line):
-            result.append(line.duplicate(true))
+            var prepared := line.duplicate(true)
+            prepared["performance"] = performance_for_line(
+                prepared,
+                str(active_scene.get("id", "")),
+                str(active_scene.get("chapter_id", "")),
+                str(active_scene.get("type", ""))
+            )
+            result.append(prepared)
     return result
 
 func _skip_unavailable_beats() -> void:
@@ -207,6 +273,18 @@ func _emit_current_beat() -> Dictionary:
     payload["mode"] = "beat"
     payload["scene_id"] = str(active_scene.get("id", ""))
     payload["beat_index"] = active_beat_index
+    payload["theatrical_scene"] = theatrical_scene_direction(
+        str(active_scene.get("id", "")),
+        str(active_scene.get("chapter_id", "")),
+        str(active_scene.get("type", ""))
+    )
+    if str(payload.get("kind", "")) == "dialogue":
+        payload["performance"] = performance_for_line(
+            payload,
+            str(active_scene.get("id", "")),
+            str(active_scene.get("chapter_id", "")),
+            str(active_scene.get("type", ""))
+        )
     if str(payload.get("kind", "")) == "choice":
         payload["options"] = available_options(payload)
         choice_requested.emit(payload.duplicate(true))
