@@ -15,6 +15,7 @@ var character_arcs_data: Dictionary = {}
 var revelation_matrix_data: Dictionary = {}
 var _used_line_keys: Dictionary = {}
 var _last_chapter_id := ""
+var _last_completed_main_quest_count := 0
 
 func _ready() -> void:
     story_data = _load_dictionary(STORY_PATH)
@@ -23,6 +24,7 @@ func _ready() -> void:
     character_arcs_data = _load_dictionary(CHARACTER_ARCS_PATH)
     revelation_matrix_data = _load_dictionary(REVELATION_MATRIX_PATH)
     _last_chapter_id = CampaignState.current_chapter_id
+    _last_completed_main_quest_count = _completed_main_quest_count(_last_chapter_id)
     if not CampaignState.campaign_changed.is_connected(_on_campaign_changed):
         CampaignState.campaign_changed.connect(_on_campaign_changed)
     if is_cycle_zero_contract():
@@ -194,20 +196,38 @@ func select_and_log(event_id: String, chapter_id: String = "", allow_repeat: boo
         GameState.add_log("%s — %s" % [str(payload.get("speaker", "Narration")), str(payload.get("text", ""))])
     return payload
 
+func _completed_main_quest_count(chapter_id: String) -> int:
+    var chapter := CampaignState.get_chapter(chapter_id)
+    var count := 0
+    for quest_value: Variant in chapter.get("main_quests", []):
+        var quest: Dictionary = quest_value if quest_value is Dictionary else {}
+        if CampaignState.is_main_quest_completed(str(quest.get("id", ""))):
+            count += 1
+    return count
+
 func _on_campaign_changed() -> void:
     if not is_cycle_zero_contract():
         _last_chapter_id = CampaignState.current_chapter_id
+        _last_completed_main_quest_count = _completed_main_quest_count(_last_chapter_id)
         return
+
     var current_id := CampaignState.current_chapter_id
-    if current_id == _last_chapter_id:
+    if current_id != _last_chapter_id:
+        if _last_chapter_id != "":
+            select_and_log("closing", _last_chapter_id)
+        _last_chapter_id = current_id
+        _last_completed_main_quest_count = _completed_main_quest_count(current_id)
+        select_and_log("opening", current_id)
         return
-    if _last_chapter_id != "":
-        select_and_log("closing", _last_chapter_id)
-    _last_chapter_id = current_id
-    select_and_log("opening", current_id)
+
+    var completed_count := _completed_main_quest_count(current_id)
+    if _last_completed_main_quest_count == 0 and completed_count > 0:
+        select_and_log("first_major_discovery", current_id)
+    _last_completed_main_quest_count = completed_count
 
 func reset_session_memory() -> void:
     _used_line_keys.clear()
+    _last_completed_main_quest_count = _completed_main_quest_count(CampaignState.current_chapter_id)
 
 func is_cycle_zero_contract() -> bool:
     return EndgameState.active_cycle <= 0
