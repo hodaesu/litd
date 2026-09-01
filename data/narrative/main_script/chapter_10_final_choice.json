@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_10_final_choice",
+  "title": "La lumière mérite d'être défendue",
+  "human_question": "Quel monde voulons-nous rendre possible ensemble, sachant qu'aucune solution n'effacera toutes les pertes ?",
+  "scenes": [
+    {
+      "id":"c10_opening_assembly","chapter_id":"chapter_10_final_choice","type":"chapter_opening","trigger":"chapter_start","purpose":"Faire du choix final une décision collective rendue possible par le parcours du joueur.",
+      "staging":["Cercle improvisé ou restauré selon la campagne", "sièges pour communautés présentes", "places vides portant les noms de personnes mortes", "Chambre d'Écoute ouverte si Saen peut être contacté"],
+      "beats":[
+        {"kind":"narration","speaker":"Narration","text":"Le monde ne tient pas dans une main, même celle qui l'a traversé de bout en bout. Pour la première fois, la question finale doit être posée devant ceux qui devront vivre avec la réponse."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Personne ici ne représente tout son peuple. Personne ici ne possède seul la science, la mémoire, la peur ou les morts. Nous allons parler quand même."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Et chaque option affichera ses conditions, ses inconnues et ses coûts. Si une solution n'est pas réalisable avec ce que nous avons construit, elle ne deviendra pas possible parce qu'elle sonne mieux."}
+      ],
+      "exit_state":["c10_gather_world disponible"]
+    },
+    {
+      "id":"c10_gather_world","chapter_id":"chapter_10_final_choice","type":"main_quest","quest_id":"c10_gather_world","trigger":"assembly_invites_resolved","purpose":"Rendre visible qui a réellement obtenu une place dans le monde commun.",
+      "staging":["délégations arrivant par routes réparées", "créatures conscientes présentes si relations suffisantes", "étrangers présents selon alliances", "siège de Saen laissé vide ou relié à la Chambre d'Écoute"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Issel Pell","conditions":["foreign_alliances_sufficient"],"text":"Je parle pour le refuge qui m'a mandatée. Pas pour Namar entier. Cette différence est la première chose que je veux inscrire au procès-verbal."},
+        {"kind":"dialogue","speaker":"Saen","conditions":["saen_contact_available"],"text":"JE PARLE SAEN. PAS ABSENTS. NE PAS AGRANDIR MA VOIX."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Les créatures qui peuvent exprimer un refus auront le droit de le faire. Celles que nous ne comprenons pas ne seront pas comptées comme consentantes par défaut."},
+        {"kind":"action","text":"Le joueur confirme la composition de l'assemblée parmi les groupes réellement accessibles, sans pouvoir inventer une représentation absente de sa campagne."},
+        {"kind":"system","text":"La composition finale est enregistrée et affecte les options de monde ainsi que l'épilogue."}
+      ],
+      "exit_state":["c10_gather_world complétée", "assemblée finale constituée"]
+    },
+    {
+      "id":"c10_costs_hearing","chapter_id":"chapter_10_final_choice","type":"assembly_scene","trigger":"final_options_calculated","purpose":"Présenter les options comme compromis réels plutôt que fins bonnes/mauvaises.",
+      "staging":["six orientations possibles affichées uniquement si leurs conditions sont atteintes", "coûts écrits sous chaque orientation", "échecs possibles affichés séparément"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Fermer davantage réduit certains risques et peut couper des contacts. Maintenir des passages conserve des possibilités et crée des gardiens qu'il faudra contrôler. La coexistence demande une maintenance permanente. Aucune colonne n'est vide."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"La question n'est pas : quelle doctrine gagne ? La question est : laquelle pouvons-nous appliquer sans mentir sur ceux qu'elle expose ?"},
+        {"kind":"dialogue","speaker":"Veyra Oss","conditions":["veyra_alive"],"text":"Et sans appeler certitude ce qui reste un modèle. Je préfère que cette phrase vienne de moi."},
+        {"kind":"silence","text":"Les membres de l'assemblée lisent les coûts avant que le joueur puisse poursuivre."}
+      ],
+      "exit_state":["coûts des orientations reconnus"]
+    },
+    {
+      "id":"c10_last_crossing_departure","chapter_id":"chapter_10_final_choice","type":"main_quest","quest_id":"c10_last_crossing","trigger":"departure_to_central_node","purpose":"Faire de la dernière traversée une opération de protection des communautés, pas une marche solitaire vers un boss final.",
+      "staging":["carte du réseau avec refuges reliés", "équipes locales affectées à chaque nœud", "ligne centrale vers la Rupture Commune"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Nous n'allons pas au centre pour décider seuls. Nous y allons pour rendre exécutable ce que l'assemblée pourra décider ensuite."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Chaque nœud a une équipe de repli. Si l'un d'eux tombe, on ne sacrifie pas un refuge pour maintenir la beauté du plan."},
+        {"kind":"choice","id":"c10_network_priority","prompt":"Quelle priorité opérationnelle imposer pendant la traversée ?","options":[
+          {"id":"civilian_redundancy","label":"Redondance maximale pour les refuges, même si l'accès central devient plus difficile.","response":[{"speaker_id":"nara_vey","speaker":"Nara Vey","text":"Le centre attendra si une route civile ne tient plus."}],"sets":["c10_priority_refuges"]},
+          {"id":"balanced_network","label":"Répartir également capacité centrale et protection locale.","response":[{"speaker_id":"meira_sen","speaker":"Meira Sen","text":"Alors aucun secteur n'aura de marge confortable. Mais aucun ne sera délibérément laissé sans filet."}],"sets":["c10_priority_balanced"]},
+          {"id":"central_speed","label":"Atteindre rapidement le centre avant que la crise ne s'étende.","response":[{"speaker_id":"sela_mor","speaker":"Sela Mor","text":"Je l'accepte seulement avec des seuils d'abandon clairs. Si un refuge bascule, on revient."}],"sets":["c10_priority_speed"]}
+        ]}
+      ],
+      "exit_state":["priorité de traversée enregistrée"]
+    },
+    {
+      "id":"c10_network_loss","chapter_id":"chapter_10_final_choice","type":"main_quest","quest_id":"c10_last_crossing","trigger":"network_crisis_midway","purpose":"Obliger le joueur à accepter qu'une solution finale possède déjà des coûts avant le choix doctrinal.",
+      "staging":["deux nœuds instables simultanément", "une équipe étrangère isolée", "un corridor vers le centre commence à se fermer"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Varek Sorn","conditions":["varek_present"],"text":"Mon équipe peut tenir le nœud est encore huit minutes. Après, je ne promets rien."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Huit minutes n'est pas une ressource abstraite. Ce sont leurs huit minutes."},
+        {"kind":"choice","id":"c10_midway_cost","prompt":"Réagir à la crise du réseau.","options":[
+          {"id":"withdraw_team","label":"Retirer l'équipe isolée et accepter de perdre ce nœud.","response":[{"speaker":"Varek Sorn","conditions":["varek_present"],"text":"Reçu. On détruit les instruments derrière nous. Le passage sera plus pauvre, pas nos tombes plus nombreuses."}],"sets":["c10_node_lost_team_saved"]},
+          {"id":"reinforce_node","label":"Envoyer des renforts et retarder l'accès central.","response":[{"speaker_id":"sela_mor","speaker":"Sela Mor","text":"Alors le centre attend. C'est exactement pour ça qu'on a refusé d'appeler la vitesse nécessité."}],"sets":["c10_node_saved_delay"]}
+        ]}
+      ],
+      "exit_state":["c10_last_crossing complétée", "crise centrale accessible"]
+    },
+    {
+      "id":"c10_boss_common_rupture","chapter_id":"chapter_10_final_choice","type":"boss","trigger":"c10_boss_final_engaged","purpose":"Faire de la confrontation finale une crise du réseau, non une entité maléfique dont la mort résoudrait le monde.",
+      "staging":["nœud central montrant plusieurs états incompatibles", "voix et lieux de la campagne apparaissent comme traces", "aucun visage divin ni volonté déclarée"],
+      "beats":[
+        {"kind":"narration","speaker":"Narration","text":"Il n'y a pas de dieu au centre. Pas de bouche à faire taire. Seulement un réseau devenu incapable de maintenir assez longtemps une version commune du monde."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Les états se concurrencent. Nous pouvons stabiliser le centre juste assez pour permettre l'application d'une orientation. Rien ici ne choisira à notre place."},
+        {"kind":"dialogue","speaker":"Saen","conditions":["saen_contact_available"],"text":"VOUS TENEZ MONDE. PAS SERRER TROP. PAS LÂCHER TOUT."},
+        {"kind":"action","text":"Le combat final consiste à maintenir les ancrages, protéger les opérateurs et empêcher l'effondrement de nœuds selon les règles apprises aux chapitres précédents."},
+        {"kind":"system","text":"La Rupture Commune n'est jamais marquée tuée. Elle est stabilisée, isolée, reconfigurée ou partiellement fermée selon l'orientation finale."}
+      ],
+      "exit_state":["c10_boss_resolved", "c10_world_choice disponible"]
+    },
+    {
+      "id":"c10_final_deliberation","chapter_id":"chapter_10_final_choice","type":"main_quest","quest_id":"c10_world_choice","trigger":"central_node_stable_window","purpose":"Permettre le choix parmi les orientations réellement débloquées, avec réponse immédiate de l'assemblée.",
+      "staging":["liaison ouverte avec le Cercle", "options indisponibles grisées avec causes visibles", "aucune option étiquetée bonne fin"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Les conditions sont là. Les coûts aussi. Ce que tu choisis maintenant ne deviendra pas juste parce que nous avons réussi à le rendre possible."},
+        {"kind":"choice","id":"c10_orientation","prompt":"Proposer l'orientation finale à l'assemblée.","options":[
+          {"id":"radical_closure","label":"La Grande Fermeture nouvelle","availability":"ending_available:radical_closure","response":[{"speaker_id":"sela_mor","speaker":"Sela Mor","text":"Alors chaque fermeture aura une liste de personnes à évacuer avant une liste de machines à activer."},{"speaker":"Saen","conditions":["saen_contact_available"],"text":"JE COMPRENDS PEUR. JE DEMANDE : PAS TOUT SANS ÉCOUTER."}],"sets":["ending_selected:radical_closure"]},
+          {"id":"stable_coexistence","label":"La Concorde des deux rives","availability":"ending_available:stable_coexistence","response":[{"speaker_id":"meira_sen","speaker":"Meira Sen","text":"Alors la maintenance devient une institution, pas un projet temporaire. Et chaque zone garde le droit de demander sa fermeture."}],"sets":["ending_selected:stable_coexistence"]},
+          {"id":"preserve_crossings","label":"Les Portes gardées","availability":"ending_available:preserve_crossings","response":[{"speaker_id":"nara_vey","speaker":"Nara Vey","text":"Alors les gardiens auront des mandats courts, des registres publics et des gens autorisés à leur dire non."}],"sets":["ending_selected:preserve_crossings"]},
+          {"id":"seek_absent","label":"Ramener les Absents","availability":"ending_available:seek_absent","response":[{"speaker":"Saen","conditions":["saen_contact_available"],"text":"NE PAS RAMENER SI PAS DEMANDÉ. CHERCHER D'ABORD QUI VEUT CHEMIN."},{"speaker_id":"sela_mor","speaker":"Sela Mor","text":"Ce principe entre dans la décision. Le désir des vivants ne suffira pas."}],"sets":["ending_selected:seek_absent"]},
+          {"id":"restore_concord","label":"La Concorde restaurée","availability":"ending_available:restore_concord","response":[{"speaker_id":"nara_vey","speaker":"Nara Vey","text":"Alors on restaure les raisons des règles, pas leur forme morte. Une institution qui ne peut pas être contestée n'est pas une restauration de la Concorde."}],"sets":["ending_selected:restore_concord"]},
+          {"id":"transform_concord","label":"La Quatrième Veille","availability":"ending_available:transform_concord","response":[{"speaker":"Issel Pell","conditions":["foreign_alliances_sufficient"],"text":"Alors ne l'appelez pas inclusion si les nouvelles voix ne peuvent jamais modifier la règle."},{"speaker_id":"nara_vey","speaker":"Nara Vey","text":"Le quatrième symbole restera inachevé. Pas par modestie décorative : parce que le système devra encore accepter d'être changé."}],"sets":["ending_selected:transform_concord"]}
+        ]}
+      ],
+      "exit_state":["orientation proposée", "vote/consentement de l'assemblée déclenché"]
+    },
+    {
+      "id":"c10_assembly_response","chapter_id":"chapter_10_final_choice","type":"assembly_resolution","trigger":"ending_selected","purpose":"Empêcher le protagoniste de devenir souverain solitaire : l'orientation doit être adoptée par les conditions politiques construites.",
+      "staging":["votes, consentements ou oppositions selon institutions présentes", "les absents de la campagne restent absents", "les coûts restent affichés"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Le protagoniste a proposé. Le Cercle doit maintenant décider s'il existe assez de confiance, de capacité et d'accord pour que cette proposition devienne une politique plutôt qu'un ordre."},
+        {"kind":"action","text":"Le runtime évalue les métriques et acteurs construits pendant la campagne ; une orientation disponible possède déjà ses conditions minimales, mais certaines vignettes d'opposition ou de soutien dépendent des choix antérieurs."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Si nous l'adoptons, nous adoptons aussi l'obligation de mesurer ce qu'elle fait réellement et de reconnaître si nos modèles se trompent."},
+        {"kind":"system","text":"Déclenche l'épilogue correspondant dans endgame_epilogues.json."}
+      ],
+      "exit_state":["campaign_complete", "ending_id enregistré"]
+    },
+    {
+      "id":"c10_failure_resolution","chapter_id":"chapter_10_final_choice","type":"conditional_resolution","trigger":"no_ending_available","purpose":"Donner une conclusion causale même si le joueur n'a construit aucune orientation viable.",
+      "staging":["options principales indisponibles avec causes visibles", "assemblée fragmentée ou institutions trop faibles", "réseau central stabilisé seulement à court terme"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Nous avons atteint le centre sans construire assez de monde autour pour imposer une solution commune. Alors nous ne ferons pas semblant d'en avoir une."},
+        {"kind":"choice","id":"c10_failure_state","prompt":"La campagne détermine l'issue de repli selon ses métriques.","options":[
+          {"id":"fractured_survival","label":"L'Archipel de refuges","availability":"failure_state:fractured_survival","response":[{"speaker_id":"sela_mor","speaker":"Sela Mor","text":"Alors on sauve ce qui peut l'être et on garde les routes entre les lumières aussi longtemps qu'on peut."}],"sets":["ending_selected:fractured_survival"]},
+          {"id":"authoritarian_order","label":"L'Ordre d'exception","availability":"failure_state:authoritarian_order","response":[{"speaker_id":"nara_vey","speaker":"Nara Vey","text":"Je veux que le registre note chaque pouvoir qui vient d'être prolongé. Si nous échouons à l'arrêter plus tard, personne ne pourra prétendre que cela s'est fait sans date."}],"sets":["ending_selected:authoritarian_order"]},
+          {"id":"veil_dissolution","label":"Le Réseau fragmenté","availability":"failure_state:veil_dissolution","response":[{"speaker_id":"meira_sen","speaker":"Meira Sen","text":"Alors nous cessons les expériences et passons en survie de réseau. Ce n'est pas la fin que nous voulions. C'est celle que nos risques ont rendue probable."}],"sets":["ending_selected:veil_dissolution"]}
+        ]}
+      ],
+      "exit_state":["campaign_complete", "failure ending enregistré"]
+    },
+    {
+      "id":"c10_closing_light","chapter_id":"chapter_10_final_choice","type":"chapter_closing","trigger":"epilogue_transition","purpose":"Fermer la campagne sans annuler l'obscurité ni transformer la Lumière en victoire absolue.",
+      "staging":["premières tâches du monde d'après", "des gens réparent pendant que l'épilogue commence", "la Lumière éclaire une table de travail plutôt qu'un trône"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Demain quelqu'un contestera cette décision. J'espère que nous aurons laissé assez de place pour qu'il puisse le faire sans reprendre les armes."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Et demain quelqu'un sera blessé, quelqu'un aura faim, quelqu'un voudra recommencer trop vite. Le monde d'après n'est pas un générique."},
+        {"kind":"narration","speaker":"Narration","text":"La lumière n'a pas supprimé l'obscurité. Elle a seulement rendu visibles assez de visages, de routes et de conséquences pour qu'un monde commun puisse encore être choisi. Pour aujourd'hui, cela suffit."}
+      ],
+      "exit_state":["chapter_10_complete", "postgame disponible"]
+    }
+  ]
+}
