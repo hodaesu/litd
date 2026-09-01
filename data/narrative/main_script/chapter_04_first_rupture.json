@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_04_first_rupture",
+  "title": "La Première Rupture",
+  "human_question": "Que devient notre recherche de vérité quand l'outil utilisé pour comprendre le monde commence lui-même à le déranger ?",
+  "scenes": [
+    {
+      "id":"c04_opening_city_below","chapter_id":"chapter_04_first_rupture","type":"chapter_opening","trigger":"chapter_start","purpose":"Présenter les Ashaï comme une société entière avant d'aborder leur catastrophe.",
+      "staging":["terrasses noyées sous la cendre", "canaux encore lisibles", "mosaïques de verre coloré", "un théâtre de témoignage ouvert sur une place"],
+      "beats":[
+        {"kind":"narration","speaker":"Narration","text":"Avant d'être une ruine liée au Voile, cette ville distribuait de l'eau, jugeait des témoignages, réparait des digues et organisait des fêtes. La catastrophe n'est pas la seule chose qu'elle ait faite."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Regarde les outils. Les gens qui vivaient ici passaient plus de temps à maintenir les canaux qu'à chercher des mystères."},
+        {"kind":"dialogue","speaker":"Mémoire de Nhal","text":"Mesurer l'eau. Mesurer le vent. Mesurer la voix. Mesurer ne signifie pas posséder."}
+      ],
+      "exit_state":["c04_ashai_song disponible"]
+    },
+    {
+      "id":"c04_living_city","chapter_id":"chapter_04_first_rupture","type":"exploration_scene","trigger":"ashaï_civic_quarter_reached","purpose":"Donner une vie sociale indépendante du Voile aux Ashaï.",
+      "staging":["tableau de distribution d'eau", "instruments de musique communaux", "mur de plaintes civiques", "jouets en céramique"],
+      "beats":[
+        {"kind":"action","text":"Le joueur peut examiner quatre objets ordinaires avant d'accéder au laboratoire ancien."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Si on ne regarde que leur erreur, on finira par croire qu'ils ont existé uniquement pour nous avertir."},
+        {"kind":"dialogue","speaker":"Mémoire de Nhal","text":"Une cité n'est pas la somme de ses catastrophes. Même les morts méritent mieux que d'être réduits à la leçon qui nous arrange."},
+        {"kind":"system","text":"Codex : institutions, arts et économie ashaï ajoutés avant toute entrée sur la Première Rupture."}
+      ],
+      "exit_state":["ashaï_society_seen"]
+    },
+    {
+      "id":"c04_ashai_song","chapter_id":"chapter_04_first_rupture","type":"main_quest","quest_id":"c04_ashai_song","trigger":"resonance_instrument_reconstructed","purpose":"Montrer que la résonance naît d'une culture de mesure et non d'une magie sans contexte.",
+      "staging":["cordes tendues au-dessus d'un bassin", "repères de hauteur d'eau", "mosaïque indiquant plusieurs positions de chanteurs"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Mémoire de Nhal","text":"Le chant n'était pas une prière. Il servait à comparer ce que plusieurs personnes entendaient au même endroit."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Donc l'art, la mesure et l'expérience se mélangeaient déjà. Pas besoin d'inventer une religion pour expliquer ça."},
+        {"kind":"action","text":"Le joueur reproduit trois séquences et observe que certaines mesures divergent uniquement dans la zone instable."},
+        {"kind":"system","text":"Établi : les Ashaï étudiaient la concordance entre perceptions et conditions matérielles locales."}
+      ],
+      "exit_state":["c04_ashai_song complétée", "c04_first_rupture disponible"]
+    },
+    {
+      "id":"c04_four_archives","chapter_id":"chapter_04_first_rupture","type":"main_quest","quest_id":"c04_first_rupture","trigger":"four_ashaï_sources_found","purpose":"Construire la Première Rupture par sources contradictoires plutôt que par exposition unique.",
+      "staging":["journal de mesure", "procès-verbal politique", "chant mémoriel", "couche archéologique brûlée"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Mémoire de Nhal","text":"Le journal dit : contrôle maintenu. Le procès-verbal dit : divergence croissante. Le chant dit : les voix ne revenaient plus ensemble. La pierre dit : quelque chose a brûlé sans feu ordinaire."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Aucune source n'a tout vu. Ensemble, elles dessinent quand même une catastrophe."},
+        {"kind":"choice","id":"c04_archive_weight","prompt":"Quelle source utiliser comme axe de reconstitution ?","options":[
+          {"id":"material_first","label":"Donner priorité aux traces matérielles.","response":[{"speaker":"Mémoire de Nhal","text":"Alors les voix resteront des hypothèses autour d'une pierre plus têtue."}],"sets":["c04_method_material"]},
+          {"id":"cross_source","label":"Garder les quatre sources au même niveau jusqu'au recoupement.","response":[{"speaker":"Mémoire de Nhal","text":"Plus lent. Plus honnête. Et parfois plus cruel pour ceux qui veulent une réponse nette."}],"sets":["c04_method_cross"]}
+        ]}
+      ],
+      "exit_state":["Première Rupture datée environ -3700", "responsabilité technique ashaï établie sans théorie universelle"]
+    },
+    {
+      "id":"c04_measurement_hubris","chapter_id":"chapter_04_first_rupture","type":"character_scene","trigger":"ashaï_control_room_opened","purpose":"Formuler l'erreur historique des Ashaï sans les caricaturer en savants fous.",
+      "staging":["tableaux de mesures très précis", "colonne de marge d'erreur réduite à chaque série", "alarme ajoutée tardivement"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Mémoire de Nhal","text":"Nous savions mesurer les écarts. Nous avons fini par croire que mesurer un écart signifiait savoir le contenir."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"C'est une erreur banale. C'est ce qui la rend dangereuse."},
+        {"kind":"dialogue","speaker":"Mémoire de Nhal","text":"Oui. Les grandes catastrophes n'ont pas toujours besoin de grandes folies. Parfois, une compétence dépasse silencieusement le domaine où elle était fiable."}
+      ],
+      "exit_state":["erreur historique ashaï explicitée"]
+    },
+    {
+      "id":"c04_not_a_door","chapter_id":"chapter_04_first_rupture","type":"main_quest","quest_id":"c04_not_a_door","trigger":"ashaï_threshold_compared_to_project_threshold","purpose":"Séparer la rupture ashaï du Projet Seuil et réduire la métaphore de porte littérale.",
+      "staging":["schéma ashaï superposé au protocole moderne", "aucune structure équivalente à une porte physique", "zones de divergence localisées"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Mémoire de Nhal","text":"Vous appelez cela ouvrir. Nous parlions de perte de concordance. Peut-être que vos mots décrivent deux techniques différentes autour d'un même problème."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Donc pas de preuve d'un monde derrière une porte. Seulement des réalités qui cessent de tenir ensemble comme avant."},
+        {"kind":"system","text":"Journal : le Voile n'est probablement pas un lieu extérieur accessible comme un espace ordinaire ; modèle encore incomplet."}
+      ],
+      "exit_state":["c04_not_a_door complétée"]
+    },
+    {
+      "id":"c04_boss_unfinished_chorus","chapter_id":"chapter_04_first_rupture","type":"boss","trigger":"c04_boss_chorus_defeated","purpose":"Traiter les fragments de conscience comme êtres possibles sans affirmer une identité complète.",
+      "staging":["voix synchronisées puis divergentes", "figures lumineuses incomplètes", "certaines phrases se répètent depuis des siècles"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Chœur Inachevé","text":"Nous étions nombreux. Nous sommes nombreux. Nous ne savons plus si les deux phrases parlent des mêmes personnes."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Je ne peux pas te promettre ce qu'ils sont. Je peux te dire qu'ils réagissent à ce que nous faisons."},
+        {"kind":"choice","id":"c04_chorus_fate","prompt":"Que faire du Chœur Inachevé ?","options":[
+          {"id":"release","label":"Dissiper la boucle pour mettre fin à la répétition.","response":[{"speaker":"Chœur Inachevé","text":"Si le silence vient, qu'il vienne sans qu'on l'appelle oubli."}],"sets":["c04_chorus_released"]},
+          {"id":"communicate","label":"Tenter un échange limité avant de fermer le dispositif.","response":[{"speaker":"Sela Mor","text":"Questions courtes. Pas d'interprétation forcée. On arrête si leurs réponses se désorganisent davantage."}],"sets":["c04_chorus_contact"]},
+          {"id":"preserve","label":"Préserver le dispositif sous surveillance.","response":[{"speaker":"Mémoire de Nhal","text":"Alors écrivez aussi que préserver n'est pas sauver. C'est continuer une situation dont nous ignorons encore le coût."}],"sets":["c04_chorus_preserved"]}
+        ]}
+      ],
+      "exit_state":["c04_boss_resolved", "motifs de résonance transmis au Sanctuaire"]
+    },
+    {
+      "id":"c04_closing_humility","chapter_id":"chapter_04_first_rupture","type":"chapter_closing","trigger":"chapter_complete","purpose":"Fermer sur l'humilité et préparer la militarisation ultérieure.",
+      "staging":["canaux ashaï au coucher de lumière", "registre moderne placé à côté d'un registre ancien", "trace d'une route commerciale vers Or-Silex"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Mémoire de Nhal","text":"Ne nous gardez pas comme prophètes. Nous n'avons pas compris assez pour mériter ce rôle."},
+        {"kind":"dialogue","speaker_id":"sela_mor","speaker":"Sela Mor","text":"Ils ont mesuré, réussi, appris — puis dépassé ce que leurs succès autorisaient à croire. Quelqu'un d'autre a hérité de leurs travaux. La question est ce qu'il en a fait."},
+        {"kind":"narration","speaker":"Narration","text":"La première rupture n'était ni la Chute ni une répétition parfaite du Projet Seuil. Elle laisse une leçon moins confortable : une erreur ancienne peut survivre assez longtemps pour devenir la technologie de quelqu'un d'autre."}
+      ],
+      "exit_state":["chapter_04_complete", "chapter_05_great_closure débloqué"]
+    }
+  ]
+}
