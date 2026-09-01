@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_08_outer_world",
+  "title": "Le monde extérieur",
+  "human_question": "Peut-on condamner un régime sans condamner tous ceux qui ont vécu sous lui ?",
+  "scenes": [
+    {
+      "id":"c08_opening_departure","chapter_id":"chapter_08_outer_world","type":"chapter_opening","trigger":"chapter_start","purpose":"Faire du premier départ hors du continent un déplacement moral autant que géographique.",
+      "staging":["quai reconstruit", "caisses de preuves scellées", "réfugiés étrangers déjà présents au Sanctuaire", "aucune bannière de conquête"],
+      "beats":[
+        {"kind":"narration","speaker":"Narration","text":"Le monde extérieur a longtemps existé dans les archives comme origine de menaces, de marchandises et de signatures. Il va maintenant avoir des visages, des villes, des morts et des désaccords qui ne tiennent dans aucun dossier."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Nous emportons des preuves, pas une sentence pour des continents entiers."},
+        {"kind":"dialogue","speaker":"Issel Pell","text":"Alors rangez vos cartes. Les routes que vous avez de Namar ont été dessinées par des gens qui n'y vivent plus depuis la Chute."}
+      ],
+      "exit_state":["routes extérieures ouvertes"]
+    },
+    {
+      "id":"c08_varkhane_archives","chapter_id":"chapter_08_outer_world","type":"main_quest","quest_id":"c08_varkhane","trigger":"varkhane_provincial_archive_reached","purpose":"Montrer un ancien appareil impérial fracturé, avec refus internes antérieurs à la Chute.",
+      "staging":["ancien palais administratif sans autorité centrale", "ordres contradictoires", "registres de désertions et de refus"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Varek Sorn","text":"Le Trône envoyait des ordres. Certaines provinces les exécutaient. D'autres les retardaient, les réécrivaient ou les brûlaient. Un empire sur une carte est toujours plus uniforme que dans les rues."},
+        {"kind":"dialogue","speaker":"Toma Rei","text":"Ces unités ont refusé l'escorte des convois liés au Projet Seuil avant même la catastrophe."},
+        {"kind":"dialogue","speaker":"Varek Sorn","text":"Et celles-ci l'ont assurée jusqu'au bout. Si vous voulez juger Varkhane, commencez par accepter qu'il n'y avait pas un seul Varkhane."},
+        {"kind":"system","text":"Établi : refus militaires internes documentés avant la Chute."}
+      ],
+      "exit_state":["c08_varkhane partiellement complétée"]
+    },
+    {
+      "id":"c08_varkhane_marshal","chapter_id":"chapter_08_outer_world","type":"boss","trigger":"c08_boss_varkhane_defeated","purpose":"Opposer stabilité autoritaire et transition locale sans faire du peuple une extension du chef.",
+      "staging":["forteresse tenue par le Maréchal du Trône Vide", "quartiers civils qui dépendent de ses convois", "officiers locaux divisés"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Maréchal du Trône Vide","text":"Vous arrivez avec des preuves d'un monde mort et vous voulez que je détruise le seul ordre qui nourrit encore ces rues."},
+        {"kind":"dialogue","speaker":"Varek Sorn","text":"Tu nourris les rues avec des greniers publics et tu signes ton nom sur les sacs. Ce n'est pas la même chose."},
+        {"kind":"choice","id":"c08_varkhane_resolution","prompt":"Résoudre la crise de Varkhane.","options":[
+          {"id":"support_transition","label":"Soutenir une transition menée par les autorités locales et les quartiers.","response":[{"speaker":"Varek Sorn","text":"Alors vous restez assez longtemps pour les convois du mois prochain. Une révolution qui oublie les rations ne dure qu'un discours."}],"sets":["c08_varkhane_transition"]},
+          {"id":"negotiate_limits","label":"Négocier la fin progressive des pouvoirs du Maréchal avec contrôles publics.","response":[{"speaker":"Maréchal du Trône Vide","text":"Vous appelez ça transition. Moi j'appelle ça me demander de signer ma propre disparition."},{"speaker":"Varek Sorn","text":"Oui. Et c'est précisément ce qu'un pouvoir temporaire doit parfois savoir faire."}],"sets":["c08_varkhane_negotiated"]},
+          {"id":"overthrow","label":"Le renverser immédiatement après sécurisation des infrastructures civiles.","response":[{"speaker":"Varek Sorn","text":"Les dépôts d'abord, les hommes ensuite. Sinon vous prouverez seulement qu'il avait raison sur le chaos."}],"sets":["c08_varkhane_overthrown"]}
+        ]}
+      ],
+      "exit_state":["c08_varkhane complétée"]
+    },
+    {
+      "id":"c08_namar_islands","chapter_id":"chapter_08_outer_world","type":"main_quest","quest_id":"c08_namar","trigger":"namar_trade_records_opened","purpose":"Distinguer finance du Projet, dissidence et survie marchande au sein d'un même réseau maritime.",
+      "staging":["archives de cargaisons", "registres d'assurance", "listes de passagers clandestins", "ports ayant des autorités différentes"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Issel Pell","text":"Cette maison a financé deux relais. Celle d'en face a vendu les cordages. Et ce registre montre qu'un capitaine de la même ville a caché des techniciens qui voulaient fuir le projet."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"L'argent traverse facilement les frontières morales. Les personnes, beaucoup moins."},
+        {"kind":"choice","id":"c08_namar_records","prompt":"Que demander aux refuges de Namar en échange de l'accès complet ?","options":[
+          {"id":"mutual_archive","label":"Créer un dépôt de copies partagé avec droit de correction local.","response":[{"speaker":"Issel Pell","text":"Alors vos archives ne deviendront pas la seule version de ce que nous avons fait."}],"sets":["c08_namar_shared_archive"]},
+          {"id":"witness_exchange","label":"Organiser un échange de témoins avant publication globale.","response":[{"speaker":"Issel Pell","text":"Mieux. Les comptes disent qui a payé. Les témoins disent parfois pourquoi."}],"sets":["c08_namar_witness_exchange"]}
+        ]}
+      ],
+      "exit_state":["c08_namar complétée", "financement marchand différencié"]
+    },
+    {
+      "id":"c08_azravel_temples","chapter_id":"chapter_08_outer_world","type":"main_quest","quest_id":"c08_azravel","trigger":"azravel_schism_archive_reached","purpose":"Montrer l'instrumentalisation politique de la catastrophe sans réduire la religion à la violence.",
+      "staging":["temple devenu refuge", "mur portant des noms de victimes de purges", "sermons officiels corrigés en marge par des croyants dissidents"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Frère Oren Val","text":"La foi n'a pas ouvert la Porte. Des autorités ont utilisé la peur religieuse pour justifier des purges après la Chute."},
+        {"kind":"dialogue","speaker":"Habitante d'Azravel","text":"Mon frère est mort parce qu'il refusait leur interprétation. Ne viens pas ici m'expliquer que la croyance et le pouvoir sont la même chose."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Je ne le ferai pas. Mais ceux qui ont utilisé la croyance comme arme devront répondre de ce qu'ils ont fait avec elle."}
+      ],
+      "exit_state":["c08_azravel partiellement complétée"]
+    },
+    {
+      "id":"c08_azravel_saint","chapter_id":"chapter_08_outer_world","type":"boss","trigger":"c08_boss_azravel_defeated","purpose":"Résoudre le pouvoir du Saint de la Faille par preuve, arrestation ou rupture institutionnelle plutôt que simple violence.",
+      "staging":["place publique", "archives de purges projetées sur des draps", "fidèles et opposants mêlés", "gardes hésitants"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Saint de la Faille","text":"Vous apportez des documents à un peuple qui a survécu grâce à une vérité commune. Vous appelez cela libération ?"},
+        {"kind":"dialogue","speaker":"Frère Oren Val","text":"Une vérité qui a besoin de listes de disparus pour rester commune est déjà une prison."},
+        {"kind":"choice","id":"c08_azravel_resolution","prompt":"Briser l'autorité du Saint de la Faille.","options":[
+          {"id":"public_exposure","label":"Révéler publiquement les archives et laisser les institutions locales le destituer.","response":[{"speaker":"Habitante d'Azravel","text":"Alors restez assez longtemps pour voir si nous le faisons vraiment. Ne nous abandonnez pas au moment où vos preuves deviennent dangereuses."}],"sets":["c08_azravel_exposed"]},
+          {"id":"arrest","label":"L'arrêter avec l'accord des autorités locales dissidentes.","response":[{"speaker":"Frère Oren Val","text":"Il aura une audience. Pas parce qu'il la mérite plus que ses victimes, mais parce que nous refusons de devenir son miroir."}],"sets":["c08_azravel_arrested"]},
+          {"id":"schism","label":"Soutenir un schisme qui retire aux autorités religieuses le pouvoir coercitif.","response":[{"speaker":"Frère Oren Val","text":"Alors la rupture sera aussi théologique, pas seulement politique. Elle prendra du temps et elle ne sera pas propre."}],"sets":["c08_azravel_schism"]}
+        ]}
+      ],
+      "exit_state":["c08_azravel complétée"]
+    },
+    {
+      "id":"c08_korem_academy","chapter_id":"chapter_08_outer_world","type":"main_quest","quest_id":"c08_korem","trigger":"korem_archive_access","purpose":"Obtenir les recherches presque complètes sans faire de Kor-Em une académie omnisciente ou moralement homogène.",
+      "staging":["académie fortifiée", "copies techniques du Projet Seuil", "registres de débats internes", "salles évacuées lors de la Chute"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Keira Om","text":"Nous avons conservé presque tout parce que nos archivistes ont dupliqué les données contre les ordres de destruction. Certains l'ont fait pour la science. D'autres parce qu'ils avaient compris qu'un jour il faudrait juger ce qui s'était passé."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Presque tout n'est pas tout. Qu'est-ce qui manque ?"},
+        {"kind":"dialogue","speaker":"Keira Om","text":"La dernière série de mesures du nœud central. Et les notes privées d'Edras sur ce qu'il pensait observer. Je préfère te dire le manque avant de te vendre la complétude."},
+        {"kind":"choice","id":"c08_korem_access","prompt":"Conditions d'accès aux archives.","options":[
+          {"id":"shared_research","label":"Équipe commune avec copies réciproques et protocole public.","response":[{"speaker":"Keira Om","text":"Alors vos chercheurs pourront contester les nôtres, et les nôtres les vôtres. C'est probablement plus sûr."}],"sets":["c08_korem_shared_research"]},
+          {"id":"copy_only","label":"Copier les archives sans réactiver aucun dispositif expérimental.","response":[{"speaker_id":"meira_sen","speaker":"Meira Sen","text":"Les données suffisent pour l'instant. Nous n'avons pas besoin de prouver notre sérieux en reproduisant le danger."}],"sets":["c08_korem_copy_only"]}
+        ]}
+      ],
+      "exit_state":["c08_korem complétée", "données nécessaires au chapitre IX acquises"]
+    },
+    {
+      "id":"c08_foreign_house","chapter_id":"chapter_08_outer_world","type":"sanctuary_aftermath","trigger":"return_after_outer_world","purpose":"Matérialiser au Sanctuaire la différence entre responsables étrangers et populations étrangères.",
+      "staging":["nouvelle maison commune", "enseignes en plusieurs langues", "réfugiés et témoins participent à une réunion", "vieilles insultes effacées d'un mur mais encore visibles"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Issel Pell","text":"Je ne suis pas venue ici pour demander pardon au nom de Namar. Personne ne m'a donné ce droit."},
+        {"kind":"dialogue","speaker":"Varek Sorn","text":"Et moi je ne veux pas que vos morts deviennent une excuse pour oublier les nôtres."},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Alors cette maison ne sera ni une ambassade de culpabilité ni un monument au pardon. Ce sera un lieu où les gens qui doivent encore vivre ensemble pourront se contredire sans recommencer la guerre."}
+      ],
+      "exit_state":["sanctuary_foreign_house_unlocked"]
+    },
+    {
+      "id":"c08_closing_shared_disaster","chapter_id":"chapter_08_outer_world","type":"chapter_closing","trigger":"chapter_complete","purpose":"Fermer sur l'échec de la logique de punition collective et préparer la convergence des données sur le Voile.",
+      "staging":["cartes des quatre régions avec zones détruites", "liste des institutions responsables séparée des populations", "archives de Kor-Em ouvertes à côté des données ashaï et de Saan"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Keira Om","text":"Le Projet Seuil a été soutenu par des institutions de plusieurs terres. La Chute les a ensuite traversées sans vérifier qui avait signé quoi."},
+        {"kind":"dialogue","speaker_id":"meira_sen","speaker":"Meira Sen","text":"Et pour la première fois, nous avons assez de données indépendantes pour comparer le même phénomène sur des siècles et des continents."},
+        {"kind":"narration","speaker":"Narration","text":"La catastrophe n'a pas puni un peuple. Elle a détruit des responsables, des opposants, des indifférents et des enfants avec la même absence de justice. Ce que les survivants en feront, en revanche, peut encore être une décision."}
+      ],
+      "exit_state":["chapter_08_complete", "chapter_09_veil_nature débloqué"]
+    }
+  ]
+}
