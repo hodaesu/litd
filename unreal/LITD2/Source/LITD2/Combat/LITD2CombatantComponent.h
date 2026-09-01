@@ -68,6 +68,12 @@ public:
     UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Defense")
     void StartInvulnerabilityWindow(float DurationSeconds);
 
+    UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Wound")
+    void ApplyTemporaryBleed(float DamagePerSecond, float DurationSeconds);
+
+    UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Wound")
+    void ClearTemporaryBleed();
+
     UFUNCTION(BlueprintCallable, Category="LITD2|Combat|Healing")
     int32 RestoreRecoverableHealth();
 
@@ -92,6 +98,12 @@ public:
     UFUNCTION(BlueprintPure, Category="LITD2|Combat")
     int32 GetTraumaLevel() const { return TraumaLevel; }
 
+    UFUNCTION(BlueprintPure, Category="LITD2|Combat|Wound")
+    bool IsBleeding() const { return BleedTimeRemaining > 0.0f && ActiveBleedDamagePerSecond > 0.0f; }
+
+    UFUNCTION(BlueprintPure, Category="LITD2|Combat|Wound")
+    float GetBleedTimeRemaining() const { return BleedTimeRemaining; }
+
     UFUNCTION(BlueprintPure, Category="LITD2|Combat")
     bool IsDead() const { return Health <= 0.0f; }
 
@@ -112,9 +124,15 @@ private:
     int32 TraumaLevel = 0;
     float ParryTimeRemaining = 0.0f;
     float InvulnerableTimeRemaining = 0.0f;
+    float ActiveBleedDamagePerSecond = 0.0f;
+    float BleedTimeRemaining = 0.0f;
+    float BleedRunBridgeAccumulator = 0.0f;
     bool bBlocking = false;
     bool bDeathBroadcast = false;
 
+    void TickTemporaryBleed(float DeltaTime);
+    void BridgeCombatDamageToRun(int32 DamageAmount);
+    void BroadcastDeathIfNeeded();
     ELITD2BodyZone ResolveBodyZone(FName HitBone) const;
     FLITD2DamageResolution ResolvePipeline(FLITD2DamageEventPayload Payload);
 };
