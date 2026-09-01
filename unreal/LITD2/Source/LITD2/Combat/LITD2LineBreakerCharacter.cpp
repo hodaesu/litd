@@ -43,6 +43,9 @@ void ALITD2LineBreakerCharacter::Tick(float DeltaSeconds)
 
     if (bSevereAttackQueued)
     {
+        // With a montage assigned, only the animation notify is allowed to apply the hit.
+        if (bAttackUsesAnimationCommit) return;
+
         WindupRemaining -= DeltaSeconds;
         if (WindupRemaining <= 0.0f)
         {
@@ -78,11 +81,18 @@ void ALITD2LineBreakerCharacter::StartSevereAttack()
 
     bSevereAttackQueued = true;
     WindupRemaining = SevereWindupSeconds;
-    if (SevereAttackMontage)
-    {
-        PlayAnimMontage(SevereAttackMontage);
-    }
+    bAttackUsesAnimationCommit = SevereAttackMontage && PlayAnimMontage(SevereAttackMontage) > 0.0f;
     OnSevereTelegraphStarted();
+}
+
+void ALITD2LineBreakerCharacter::CommitSevereAttackFromAnimation()
+{
+    if (!bSevereAttackQueued || !bAttackUsesAnimationCommit || !Combatant || Combatant->IsDead()) return;
+
+    bSevereAttackQueued = false;
+    bAttackUsesAnimationCommit = false;
+    CommitSevereAttack();
+    RecoveryRemaining = SevereRecoverySeconds;
 }
 
 void ALITD2LineBreakerCharacter::CommitSevereAttack()
@@ -129,6 +139,8 @@ void ALITD2LineBreakerCharacter::HandleDamageResolved(FLITD2DamageResolution Res
 
 void ALITD2LineBreakerCharacter::HandleDeath()
 {
+    bSevereAttackQueued = false;
+    bAttackUsesAnimationCommit = false;
     GetCharacterMovement()->DisableMovement();
     SetActorEnableCollision(false);
 
