@@ -23,37 +23,50 @@ Le Widget Blueprint `WBP_RemembranceArchive` peut être généré dans Unreal à
 
 ## Premier vertical slice — Les Faubourgs de Sarei
 
-La première run complète est désormais définie dans :
+La première run complète est définie dans :
 
 - `docs/LITD2/SAREI_FAUBOURGS_RUN.md` — structure canonique zone par zone, soins, traumatismes, rencontres, Rémanences, mini-boss, boss et retour aux Archives ;
 - `Data/Runs/sarei_faubourgs_run.json` — contrat data-driven de l'opération pour l'implémentation Unreal.
 
-La run part avec **3 potions**, ne permet aucun drop ennemi de potion, garde les soins ordinaires limités aux PV, et impose que Corps, Esprit et Politique puissent chacun vaincre le boss sans dépendre d'un build hybride. La première run découvre **Le Dernier Flacon** mais ne débloque pas prématurément la capacité de 4 potions ; le Rapport de Vel et le Coffret de la IIIe Armée restent réservés aux runs ultérieures de la branche.
+La run part avec **3 potions**, ne permet aucun drop ennemi de potion, garde les soins ordinaires limités aux PV, et impose que Corps, Esprit et Politique puissent chacun vaincre le boss sans dépendre d'un build hybride. La première run découvre **Le Dernier Flacon** mais ne débloque pas prématurément la capacité de 4 potions.
 
-## Runtime de run — squelette jouable data-driven
+## Runtime de run
 
-Le vertical slice possède maintenant un runtime C++ versionné dans `Source/LITD2/Run/` :
+Le vertical slice possède un runtime C++ dans `Source/LITD2/Run/` :
 
 - `LITD2RunDirectorSubsystem` charge `sarei_faubourgs_run.json`, maintient l'état de la run et fait progresser Z0 → Z8 ;
-- `LITD2EncounterDirectorSubsystem` lit les rencontres, branches, vagues, mini-boss et boss puis émet les requêtes de spawn destinées aux Blueprints/niveaux ;
-- `LITD2RunInteractionActors` fournit des acteurs logiques pour fontaines, caches médicales, déclencheurs de Rémanence et portes de branche ;
-- les événements Blueprint `OnZoneStarted`, `OnZoneCompleted`, `OnEnemySpawnRequested`, `OnWaveStarted`, `OnBossSpawnRequested`, `OnRemanenceDiscovered`, `OnBossPhaseChanged` et `OnRunCompleted` servent de points de branchement pour level design, VFX, audio et mise en scène.
+- `LITD2EncounterDirectorSubsystem` lit les rencontres, branches, vagues, mini-boss et boss puis émet les requêtes de spawn ;
+- `LITD2RunInteractionActors` fournit fontaines, caches médicales, déclencheurs de Rémanence et portes de branche ;
+- les événements Blueprint servent de points de branchement pour level design, VFX, audio et mise en scène.
 
-Le contrat de santé du squelette respecte déjà les règles de Sarei : la fontaine remplit uniquement les PV récupérables, les traumatismes condamnent une partie des PV max, la potion efface tous les traumatismes, et une cache contextuelle ne remplace une potion que si la capacité n'est pas déjà pleine.
+Le runtime transmet les Rémanences découvertes au `LITD2RemembranceSubsystem` afin que le retour aux Archives retrouve la connaissance acquise pendant la run.
 
-Le runtime transmet également les Rémanences découvertes au `LITD2RemembranceSubsystem`, ce qui permet au retour aux Archives de retrouver la connaissance acquise pendant la run.
+## Combat jouable — première fondation
 
-Ce runtime est un **squelette de niveau jouable** : il orchestre la séquence, mais les acteurs ennemis définitifs, le système de combat complet, les animations, l'anatomie/gore et le level art restent à brancher/produire dans Unreal.
+Le projet possède maintenant une première couche de combat native dans `Source/LITD2/Combat/` :
+
+- `LITD2CombatTypes` définit le langage commun des dégâts, zones anatomiques, blessures, traumatismes, parade/blocage et candidat au démembrement ;
+- `LITD2CombatantComponent` gère PV, endurance, régénération, parade, blocage, esquive invulnérable, PV condamnés, trauma, mort et synchronisation avec la run ;
+- `LITD2PlayerCombatCharacter` fournit déplacement troisième personne, caméra, attaque légère/lourde, esquive, parade/blocage et potion ;
+- `LITD2AshWandererCharacter` est le premier Errant cendré relié au combat et au `EncounterDirector` ;
+- `LITD2CombatGameMode` utilise le personnage de combat comme pawn par défaut du vertical slice ;
+- `Config/DefaultInput.ini` rend la base immédiatement pilotable au clavier/souris.
+
+La direction détaillée et les critères d'essai en éditeur sont dans `docs/LITD2/COMBAT_VERTICAL_SLICE.md`.
+
+Le trauma reste strictement déterministe : aucune probabilité aléatoire ne peut en créer un. Une cause sévère doit être explicitement signalée et lisible. Les fontaines restaurent uniquement les PV encore récupérables ; les potions suppriment les traumatismes et restaurent complètement le personnage.
+
+Les assets d'animation, modèles, montages, VFX de gore/démembrement, sons et HUD définitifs restent à produire dans Unreal Editor.
 
 ## Feuille de route de production officielle des Archives
 
-La fabrication finale ne doit plus redécider l'architecture du système. Elle suit les trois contrats versionnés suivants :
+La fabrication finale suit les contrats versionnés suivants :
 
-- `docs/LITD2/REMANENCE_PRODUCTION_PACK.md` — direction artistique, UX, états de production, règles de droits et définition de terminé ;
-- `Data/Remanence/archive_asset_manifest.json` — liste canonique des textures, matériaux, widgets, sons, FX et styles typographiques à produire ;
-- `Data/Remanence/archive_validation_matrix.json` — validation obligatoire 1080p, 1440p, 4K, interaction, contenu, audio, performance, droits et séparation LITD 1/LITD 2.
+- `docs/LITD2/REMANENCE_PRODUCTION_PACK.md` ;
+- `Data/Remanence/archive_asset_manifest.json` ;
+- `Data/Remanence/archive_validation_matrix.json`.
 
-Les statuts de production autorisés sont `TODO`, `READY`, `IMPLEMENTED`, `VALIDATED` et `BLOCKED`. Un asset ne devient `VALIDATED` qu'après vérification réelle dans Unreal Editor ou dans une build jouable.
+Un asset ne devient `VALIDATED` qu'après vérification réelle dans Unreal Editor ou dans une build jouable.
 
 ## Principes verrouillés
 
