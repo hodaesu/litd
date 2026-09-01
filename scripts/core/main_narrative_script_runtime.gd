@@ -68,6 +68,7 @@ func start_scene(scene_id: String, chapter_id: String = "") -> Dictionary:
         return {"mode":"missing", "scene_id":scene_id}
     active_scene = target
     active_beat_index = 0
+    _skip_unavailable_beats()
     scene_started.emit(active_scene.duplicate(true))
     return _emit_current_beat()
 
@@ -96,6 +97,7 @@ func advance() -> Dictionary:
         choice_requested.emit(prepared.duplicate(true))
         return {"mode":"choice_required", "choice":prepared}
     active_beat_index += 1
+    _skip_unavailable_beats()
     if current_beat().is_empty():
         return _finish_active_scene()
     return _emit_current_beat()
@@ -109,12 +111,15 @@ func choose(option_id: String) -> Dictionary:
         if str(option.get("id", "")) != option_id:
             continue
         _apply_sets(option.get("sets", []))
+        var response := _filtered_lines(option.get("response", []))
         active_beat_index += 1
+        _skip_unavailable_beats()
+        var next_payload := _emit_current_beat() if not current_beat().is_empty() else _finish_active_scene()
         return {
             "mode":"choice_resolved",
             "option":option.duplicate(true),
-            "response":option.get("response", []).duplicate(true),
-            "next":_emit_current_beat() if not current_beat().is_empty() else _finish_active_scene()
+            "response":response,
+            "next":next_payload
         }
     return {"mode":"invalid", "reason":"option_unavailable", "option_id":option_id}
 
@@ -141,8 +146,52 @@ func _availability_matches(rule: String) -> bool:
         return bool(CampaignState.chapter_flags.get("failure_state_" + failure_id, false))
     return bool(CampaignState.chapter_flags.get(rule, false))
 
+func _beat_conditions_match(beat: Dictionary) -> bool:
+    var conditions_value: Variant = beat.get("conditions", [])
+    if not (conditions_value is Array):
+        return true
+    for raw: Variant in conditions_value:
+        var condition := str(raw)
+        if condition == "foreign_alliances_sufficient":
+            if int(CampaignState.metrics.get("foreign_alliances", 0)) < 10:
+                return false
+        elif condition == "saen_contact_available":
+            var saen_flag := bool(CampaignState.chapter_flags.get("c06_absent_consent", false)) or bool(CampaignState.chapter_flags.get("c06_absent_research_limits", false))
+            if not saen_flag and int(CampaignState.metrics.get("absent_contact", 0)) <= 0:
+                return false
+        elif condition == "veyra_alive":
+            if bool(CampaignState.chapter_flags.get("c07_veyra_dead", false)):
+                return false
+        elif condition == "varek_present":
+            if not bool(CampaignState.chapter_flags.get("scene_complete_c08_varkhane_marshal", false)) and int(CampaignState.metrics.get("foreign_alliances", 0)) <= 0:
+                return false
+        elif not bool(CampaignState.chapter_flags.get(condition, false)):
+            return false
+    return true
+
+func _filtered_lines(values: Variant) -> Array:
+    var result: Array = []
+    if not (values is Array):
+        return result
+    for value: Variant in values:
+        var line: Dictionary = value if value is Dictionary else {}
+        if _beat_conditions_match(line):
+            result.append(line.duplicate(true))
+    return result
+
+func _skip_unavailable_beats() -> void:
+    if active_scene.is_empty():
+        return
+    var beats: Array = active_scene.get("beats", [])
+    while active_beat_index >= 0 and active_beat_index < beats.size():
+        var value: Variant = beats[active_beat_index]
+        var beat: Dictionary = value if value is Dictionary else {}
+        if _beat_conditions_match(beat):
+            return
+        active_beat_index += 1
+
 func _apply_sets(values: Variant) -> void:
-    if not values is Array:
+    if not (values is Array):
         return
     for raw: Variant in values:
         var flag := str(raw)
@@ -191,4 +240,9 @@ func deserialize(payload: Dictionary) -> void:
         active_beat_index = -1
         return
     active_scene = scene(scene_id, chapter_id)
-    active_beat_index = clampi(int(payload.get("active_beat_index", 0)), 0, maxi(0, active_scene.get("beats", []).size() - 1))
+    if active_scene.is_empty():
+        active_beat_index = -1
+        return
+    var beats: Array = active_scene.get("beats", [])
+    active_beat_index = clampi(int(payload.get("active_beat_index", 0)), 0, maxi(0, beats.size() - 1))
+    _skip_unavailable_beats()
