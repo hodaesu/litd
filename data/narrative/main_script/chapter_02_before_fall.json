@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_02_before_fall",
+  "title": "Les traces d'avant la Chute",
+  "human_question": "Que fait-on d'une vérité qui détruit le récit rassurant d'un accident ?",
+  "scenes": [
+    {
+      "id":"c02_opening_map_room","chapter_id":"chapter_02_before_fall","type":"chapter_opening","trigger":"chapter_start","purpose":"Passer de la survie à l'enquête sans donner immédiatement un coupable.",
+      "staging":["carte murale couverte de ficelles", "trois fragments de borne posés sous verre", "un espace vide réservé aux faits non vérifiés"],
+      "beats":[
+        {"kind":"narration","speaker":"Narration","text":"La survie a produit ses premières règles. L'enquête produit maintenant ses premières obligations : ne pas appeler preuve ce qui n'est encore qu'un soupçon."},
+        {"kind":"dialogue","speaker":"Toma Rei","text":"Les instruments que nous cherchons étaient entretenus avant la Chute. Si nous les retrouvons, nous saurons au moins si quelqu'un regardait déjà le danger venir."},
+        {"kind":"dialogue","speaker":"Sana Khel","text":"Regarder n'est pas provoquer. Je te le rappellerai autant de fois qu'il faudra."}
+      ],
+      "exit_state":["c02_old_instruments disponible"]
+    },
+    {
+      "id":"c02_old_instruments_first","chapter_id":"chapter_02_before_fall","type":"main_quest","quest_id":"c02_old_instruments","trigger":"first_instrument_found","purpose":"Établir l'existence d'une surveillance pré-Chute.",
+      "staging":["instrument de cuivre fendu", "carnet de calibration", "marques de réparation sur plusieurs mois"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Toma Rei","text":"La lentille a été remplacée trois fois. Quelqu'un a payé pour que cette chose continue à mesurer quelque chose."},
+        {"kind":"dialogue","speaker":"Sana Khel","text":"Quelque chose. Pas encore le Voile, pas encore le Projet, pas encore un crime."},
+        {"kind":"action","text":"Le joueur compare date des réparations, origine des pièces et relevés survivants."},
+        {"kind":"system","text":"Journal : surveillance d'anomalies antérieure à la Chute, cause inconnue."}
+      ],
+      "exit_state":["c02_instrument_1_logged"]
+    },
+    {
+      "id":"c02_old_instruments_crosscheck","chapter_id":"chapter_02_before_fall","type":"main_quest","quest_id":"c02_old_instruments","trigger":"three_instruments_found","purpose":"Transformer l'observation isolée en motif historique démontré.",
+      "staging":["trois appareils de fabricants différents", "dates qui se chevauchent", "mêmes symboles techniques sur des pièces importées"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Toma Rei","text":"Trois sites, trois administrations, mêmes périodes d'alerte. Là, on n'a plus un objet oublié."},
+        {"kind":"dialogue","speaker":"Sana Khel","text":"On a une surveillance. C'est assez grave sans ajouter ce qu'on ne sait pas encore."},
+        {"kind":"choice","id":"c02_public_warning","prompt":"Informer immédiatement le Sanctuaire ?","options":[
+          {"id":"publish_now","label":"Publier les relevés et leurs limites.","response":[{"speaker":"Toma Rei","text":"Alors j'écris aussi tout ce qui manque. Une vérité incomplète doit avoir ses bords visibles."}],"sets":["c02_warning_public"]},
+          {"id":"hold_for_sources","label":"Attendre une seconde source indépendante.","response":[{"speaker":"Sana Khel","text":"Prudent. Mais si d'autres savent déjà, notre silence deviendra aussi un choix."}],"sets":["c02_warning_delayed"]}
+        ]}
+      ],
+      "exit_state":["c02_old_instruments complétée", "c02_deleted_pages disponible"]
+    },
+    {
+      "id":"c02_deleted_registry","chapter_id":"chapter_02_before_fall","type":"main_quest","quest_id":"c02_deleted_pages","trigger":"registry_copies_reunited","purpose":"Montrer une dissimulation active tout en refusant la culpabilité collective.",
+      "staging":["pages arrachées proprement", "copies commerciales incomplètes", "annotations en plusieurs langues"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Toma Rei","text":"L'effacement suit les numéros du registre. Celui qui a fait ça connaissait son architecture."},
+        {"kind":"dialogue","speaker":"Sana Khel","text":"Alors cherchons une main, une fonction, un réseau. Pas un peuple entier à accuser parce qu'une encre vient de loin."},
+        {"kind":"action","text":"Le joueur reconstitue les pages par numérotation, copies fiscales et citations croisées."},
+        {"kind":"dialogue","speaker":"Toma Rei","text":"Voilà. Achat de capteurs. Transit par Namar. Autorisation technique signée à Kor-Em. Et pourtant aucune de ces lignes ne dit encore qui a voulu quoi."}
+      ],
+      "exit_state":["preuve de transferts étrangers enregistrée", "culpabilité non attribuée"]
+    },
+    {
+      "id":"c02_sanctuary_argument","chapter_id":"chapter_02_before_fall","type":"sanctuary_interlude","trigger":"after_c02_deleted_pages","purpose":"Faire exister le coût social d'une vérité qui menace le récit rassurant de l'accident.",
+      "staging":["habitants massés devant le tableau des archives", "un homme a écrit TRAHISON sous une carte", "Nara tient le morceau de craie effacé"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Habitante","text":"Vous voulez encore nous dire d'attendre ? Des étrangers étaient là avant. Qu'est-ce qu'il vous faut de plus ?"},
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"Assez pour punir des responsables sans fabriquer des responsables de remplacement."},
+        {"kind":"choice","id":"c02_public_language","prompt":"Comment nommer publiquement ce qui est établi ?","options":[
+          {"id":"organized_preparation","label":"Parler de préparation organisée, sans attribuer encore les auteurs.","response":[{"speaker":"Nara Vey","text":"C'est précis et frustrant. Les deux qualités vont souvent ensemble quand on essaie de ne pas mentir."}],"sets":["c02_language_precise"]},
+          {"id":"foreign_involvement","label":"Mentionner explicitement l'implication de réseaux étrangers.","response":[{"speaker":"Sana Khel","text":"Alors ajoute immédiatement : réseaux, pas peuples. Je veux cette phrase à côté de la première."}],"sets":["c02_language_foreign_networks"]}
+        ]}
+      ],
+      "exit_state":["tension publique modifiée"]
+    },
+    {
+      "id":"c02_hidden_relay","chapter_id":"chapter_02_before_fall","type":"main_quest","quest_id":"c02_false_accident","trigger":"relay_exposed","purpose":"Établir la préparation volontaire de l'ouverture sans révéler encore le Projet Seuil complet.",
+      "staging":["relais caché derrière une façade civique", "accès maintenu depuis l'intérieur", "pièces compatibles avec les instruments trouvés"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Sana Khel","text":"Quelqu'un a construit ça pour ne pas être vu. Et quelqu'un d'ici l'a entretenu."},
+        {"kind":"dialogue","speaker":"Toma Rei","text":"Le relais ne mesure pas seulement. Il transmet."},
+        {"kind":"action","text":"Le joueur choisit de couper immédiatement le relais ou d'enregistrer une dernière émission passive sans l'activer."},
+        {"kind":"choice","id":"c02_relay_handling","prompt":"Comment traiter le relais ?","options":[
+          {"id":"cut_now","label":"Le neutraliser immédiatement.","response":[{"speaker":"Sana Khel","text":"On perd une piste. On gagne la certitude qu'il ne transmettra plus rien depuis notre dos."}],"sets":["c02_relay_cut"]},
+          {"id":"passive_record","label":"Observer passivement une émission avant neutralisation.","response":[{"speaker":"Toma Rei","text":"Aucune impulsion envoyée. Seulement l'écoute. Si le signal change, on coupe."}],"sets":["c02_relay_recorded"]}
+        ]},
+        {"kind":"narration","speaker":"Narration","text":"L'installation n'est pas une preuve de l'intention finale. Elle suffit à rendre l'accident impossible à croire comme seule explication."}
+      ],
+      "exit_state":["c02_false_accident complétée", "préparation volontaire établie"]
+    },
+    {
+      "id":"c02_boss_archive_keeper","chapter_id":"chapter_02_before_fall","type":"boss","trigger":"c02_boss_archive_keeper_defeated","purpose":"Opposer conservation de l'information et sécurité présente.",
+      "staging":["noyau d'archive fissuré", "fragments de voix administratives", "portes qui se referment selon d'anciens protocoles"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Toma Rei","text":"Il protège encore quelque chose. Pas comme une personne. Comme une fonction qui a oublié ce qu'elle devait protéger des gens."},
+        {"kind":"dialogue","speaker":"Sana Khel","text":"Et sa fonction vient d'essayer de nous écraser contre une porte. Ne romantise pas une machine parce qu'elle possède des archives."},
+        {"kind":"choice","id":"c02_keeper_fate","prompt":"Que faire du noyau ?","options":[
+          {"id":"destroy","label":"Détruire le noyau et sécuriser le site.","response":[{"speaker":"Toma Rei","text":"Je prendrai ce que nous avons déjà copié. Le reste mourra avec lui."}],"sets":["c02_keeper_destroyed"]},
+          {"id":"restore","label":"Restaurer uniquement sa fonction d'archive.","response":[{"speaker":"Toma Rei","text":"Aucun protocole de défense. Aucune décision autonome. S'il refuse ces limites, on coupe."}],"sets":["c02_keeper_restored"]},
+          {"id":"redirect","label":"Détourner son accès vers une copie isolée.","response":[{"speaker":"Sana Khel","text":"Une cage pour une fonction. J'aime mieux ça qu'une confiance qu'elle n'a pas méritée."}],"sets":["c02_keeper_isolated"]}
+        ]}
+      ],
+      "exit_state":["c02_boss_resolved", "fragment de carte étrangère obtenu"]
+    },
+    {
+      "id":"c02_closing_prepared","chapter_id":"chapter_02_before_fall","type":"chapter_closing","trigger":"chapter_complete","purpose":"Fermer le chapitre sur la préparation démontrée et ouvrir la question des responsables.",
+      "staging":["carte des relais reliée par quatre couleurs", "mentions de ports étrangers", "aucun nom encore au centre"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Toma Rei","text":"On peut enfin écrire une phrase sans conditionnel : l'ouverture a été préparée."},
+        {"kind":"dialogue","speaker":"Sana Khel","text":"Et la phrase suivante doit rester vide. Qui. Pourquoi. Jusqu'à quel point. Si on remplit ces blancs trop vite, on recommence à fabriquer une histoire au lieu d'enquêter."},
+        {"kind":"narration","speaker":"Narration","text":"L'accident était un refuge. Il n'existe plus. À sa place restent des relais, des signatures effacées et une question devenue impossible à éviter : qui a voulu que cette machine existe ?"}
+      ],
+      "exit_state":["chapter_02_complete", "chapter_03_threshold débloqué"]
+    }
+  ]
+}
