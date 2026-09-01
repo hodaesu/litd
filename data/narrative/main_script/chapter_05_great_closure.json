@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "chapter_id": "chapter_05_great_closure",
+  "title": "Or-Silex et la Grande Fermeture",
+  "human_question": "Peut-on sauver le plus grand nombre en condamnant volontairement ceux qu'on ne peut plus atteindre ?",
+  "scenes": [
+    {
+      "id":"c05_opening_black_glass","chapter_id":"chapter_05_great_closure","type":"chapter_opening","trigger":"chapter_start","purpose":"Introduire Or-Silex comme civilisation de routes, forges et standardisation avant sa militarisation du Voile.",
+      "staging":["pont modulaire effondré", "marques de poids standardisées", "grenier militaire reconverti en abri civil", "verre noir dans les murs"],
+      "beats":[
+        {"kind":"narration","speaker":"Narration","text":"Or-Silex n'a pas bâti ses routes pour le Voile. Elles servaient aux minerais, au grain, aux troupeaux, puis aux armées. La catastrophe est venue s'ajouter à une société déjà pleine de besoins ordinaires."},
+        {"kind":"dialogue","speaker_id":"orren_taal","speaker":"Orren Taal","text":"Tout est calibré : largeur des ponts, taille des blocs, poids des caisses. Une civilisation qui savait répéter les choses à grande échelle."},
+        {"kind":"dialogue","speaker":"Dernière Veille de Saan","text":"Et ce qui se répète bien devient vite séduisant pour ceux qui veulent contrôler une crise."}
+      ],
+      "exit_state":["c05_weaponized_reality disponible"]
+    },
+    {
+      "id":"c05_weaponized_reality","chapter_id":"chapter_05_great_closure","type":"main_quest","quest_id":"c05_weaponized_reality","trigger":"military_workshops_reached","purpose":"Établir la militarisation volontaire comme développement tardif et encadré, non comme pouvoir arbitraire.",
+      "staging":["sites préparés par rails de pierre", "matériaux rares stockés séparément", "registres d'échec plus nombreux que les succès"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"orren_taal","speaker":"Orren Taal","text":"Ils ne lançaient pas ça depuis un champ de bataille au hasard. Il fallait préparer le site, amener les matériaux, aligner les relais."},
+        {"kind":"dialogue","speaker":"Dernière Veille de Saan","text":"Et même alors, le résultat restait instable. Les généraux ont appelé doctrine ce qui n'était souvent qu'une probabilité coûteuse."},
+        {"kind":"action","text":"Le joueur examine trois essais : un succès limité, un échec sans effet et une rupture ayant touché les deux camps."},
+        {"kind":"system","text":"Établi : Or-Silex a systématisé un usage militaire local de phénomènes de rupture, sans contrôle universel."}
+      ],
+      "exit_state":["c05_weaponized_reality complétée"]
+    },
+    {
+      "id":"c05_security_doctrine","chapter_id":"chapter_05_great_closure","type":"character_scene","trigger":"or_silex_command_archive_opened","purpose":"Montrer comment la préparation devient idéologie de sécurité absolue.",
+      "staging":["cartes de dépôts", "routes fortifiées", "ordre classant l'imprévisible comme menace"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"orren_taal","speaker":"Orren Taal","text":"Au début ils stockent pour survivre à l'imprévu. Plus tard ils traitent l'imprévu comme une faute à éliminer."},
+        {"kind":"dialogue","speaker":"Dernière Veille de Saan","text":"Une forteresse peut sauver une vallée. Elle peut aussi apprendre à ses gardiens à croire que tout ce qui n'entre pas dans le plan est un ennemi."},
+        {"kind":"silence","text":"Le joueur traverse une salle où des ordres de sécurisation recouvrent d'anciens registres de secours."}
+      ],
+      "exit_state":["or_silex_historical_error_logged"]
+    },
+    {
+      "id":"c05_saan_network","chapter_id":"chapter_05_great_closure","type":"main_quest","quest_id":"c05_saan_network","trigger":"first_saan_node_reactivated","purpose":"Présenter les Veilleurs de Saan comme ingénieurs du passage et du secours avant la Grande Fermeture.",
+      "staging":["refuge de col", "stocks médicaux", "lanternes codées", "mandat d'urgence avec date d'expiration"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Dernière Veille de Saan","text":"Nous gardions les passages. Cela voulait dire sauver un voyageur, réparer un pont, fermer une route infectée et expliquer publiquement pourquoi."},
+        {"kind":"dialogue","speaker_id":"orren_taal","speaker":"Orren Taal","text":"Vos pouvoirs d'urgence avaient une date de fin."},
+        {"kind":"dialogue","speaker":"Dernière Veille de Saan","text":"Parce qu'un danger qui dure donne aux pouvoirs temporaires mille raisons de devenir permanents."},
+        {"kind":"action","text":"Le joueur réactive le nœud en choisissant quels corridors stabiliser d'abord."}
+      ],
+      "exit_state":["premier nœud de Saan actif"]
+    },
+    {
+      "id":"c05_closure_map","chapter_id":"chapter_05_great_closure","type":"main_quest","quest_id":"c05_price_of_closure","trigger":"closure_map_completed","purpose":"Rendre simultanément visibles les vies sauvées et celles condamnées par la Grande Fermeture.",
+      "staging":["carte montrant les régions stabilisées", "zones rayées après fermeture", "listes d'évacuation incomplètes", "signaux de secours reçus après le scellement"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Dernière Veille de Saan","text":"Cette ligne a empêché la rupture de gagner trois vallées. Elle a aussi coupé douze communautés qui n'avaient pas fini d'évacuer."},
+        {"kind":"dialogue","speaker_id":"orren_taal","speaker":"Orren Taal","text":"Ils le savaient ?"},
+        {"kind":"dialogue","speaker":"Dernière Veille de Saan","text":"Ils savaient qu'ils ne pouvaient pas sauver tout le monde. Ils ne savaient pas ce que deviendraient ceux qu'ils fermaient dehors."},
+        {"kind":"choice","id":"c05_closure_record","prompt":"Comment le Sanctuaire doit-il nommer la Grande Fermeture ?","options":[
+          {"id":"necessary_and_tragic","label":"Une décision de survie ayant sacrifié des populations identifiables.","response":[{"speaker":"Dernière Veille de Saan","text":"Alors ne laissez jamais le mot nécessaire effacer les noms."}],"sets":["c05_closure_balanced_record"]},
+          {"id":"containment_success_with_cost","label":"Un succès de confinement dont le coût humain reste central.","response":[{"speaker_id":"orren_taal","speaker":"Orren Taal","text":"Le mot succès me gêne. Mais les vallées qui existent encore sont aussi un fait."}],"sets":["c05_closure_success_cost"]}
+        ]}
+      ],
+      "exit_state":["coût moral de la Grande Fermeture établi"]
+    },
+    {
+      "id":"c05_saan_emergency_choice","chapter_id":"chapter_05_great_closure","type":"sanctuary_parallel","trigger":"saan_network_partially_restored","purpose":"Faire écho au passé par une décision présente sans répéter artificiellement la même situation.",
+      "staging":["deux routes du Sanctuaire deviennent instables", "une équipe est encore dehors", "le réseau ne peut renforcer qu'un corridor à la fois"],
+      "beats":[
+        {"kind":"dialogue","speaker_id":"nara_vey","speaker":"Nara Vey","text":"On peut fermer la route nord maintenant et protéger le Sanctuaire. L'équipe d'Orren devra rentrer par le ravin."},
+        {"kind":"dialogue","speaker":"Dernière Veille de Saan","text":"Tu n'es pas obligé de reproduire notre décision. Tu es obligé de regarder qui paiera la tienne."},
+        {"kind":"choice","id":"c05_present_closure","prompt":"Répartir la capacité de stabilisation.","options":[
+          {"id":"sanctuary_first","label":"Fermer la route nord et sécuriser le Sanctuaire.","response":[{"speaker_id":"nara_vey","speaker":"Nara Vey","text":"Je lance une équipe de balises au ravin. Si Orren paie notre choix, nous ne ferons pas semblant que c'était automatique."}],"sets":["c05_present_sanctuary_first"]},
+          {"id":"hold_route","label":"Maintenir la route ouverte jusqu'au retour de l'équipe.","response":[{"speaker":"Dernière Veille de Saan","text":"Alors acceptez aussi l'augmentation du risque ici. La compassion n'annule pas la physique."}],"sets":["c05_present_team_first"]}
+        ]}
+      ],
+      "exit_state":["parallèle contemporain enregistré"]
+    },
+    {
+      "id":"c05_boss_silex_general","chapter_id":"chapter_05_great_closure","type":"boss","trigger":"c05_boss_silex_general_defeated","purpose":"Confronter un commandement fossilisé et décider si un outil dangereux peut être utilisé sans hériter de sa doctrine.",
+      "staging":["armure autonome brisée", "ordres vieux de millénaires encore répétés", "une rupture active menace un corridor voisin"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Général de Silex","text":"FRONTIÈRE NON CONFORME. PRÉPARATION INSUFFISANTE. MENACE : DIFFÉRENCE."},
+        {"kind":"dialogue","speaker_id":"orren_taal","speaker":"Orren Taal","text":"Voilà où leur doctrine finit : la différence elle-même devient une cible."},
+        {"kind":"choice","id":"c05_general_fate","prompt":"Traiter le Général de Silex.","options":[
+          {"id":"destroy","label":"Détruire définitivement le commandement autonome.","response":[{"speaker_id":"orren_taal","speaker":"Orren Taal","text":"On perd un outil. On gagne la certitude qu'il ne choisira plus qui mérite d'être une menace."}],"sets":["c05_general_destroyed"]},
+          {"id":"disarm","label":"Le désarmer et conserver ses archives logistiques.","response":[{"speaker":"Dernière Veille de Saan","text":"Les routes peuvent survivre à la doctrine qui les a militarisées."}],"sets":["c05_general_disarmed"]},
+          {"id":"temporary_use","label":"Utiliser une seule fonction contre la rupture active, puis le désarmer.","response":[{"speaker_id":"orren_taal","speaker":"Orren Taal","text":"Une fonction, une durée, un arrêt défini avant l'activation. Sinon nous ne faisons que lui emprunter son vocabulaire."}],"sets":["c05_general_limited_use"]}
+        ]}
+      ],
+      "exit_state":["c05_boss_resolved", "nœud sous l'Arbre reconnu comme héritage de Saan"]
+    },
+    {
+      "id":"c05_closing_missing_populations","chapter_id":"chapter_05_great_closure","type":"chapter_closing","trigger":"chapter_complete","purpose":"Ouvrir la piste des Absents en partant de personnes historiquement identifiées comme coupées du réseau.",
+      "staging":["listes de communautés disparues", "un signal ancien rejoué dans un nœud restauré", "nom de Saen dans un registre de passage"],
+      "beats":[
+        {"kind":"dialogue","speaker":"Dernière Veille de Saan","text":"Nous avons longtemps dit disparus parce que morts était un mot que nous ne pouvions pas prouver."},
+        {"kind":"dialogue","speaker_id":"orren_taal","speaker":"Orren Taal","text":"Et ce signal ?"},
+        {"kind":"dialogue","speaker":"Dernière Veille de Saan","text":"Il n'était pas là hier."},
+        {"kind":"narration","speaker":"Narration","text":"La Grande Fermeture a sauvé des régions entières. Derrière ses lignes, certains noms n'ont jamais reçu de tombe. L'un d'eux vient peut-être de répondre."}
+      ],
+      "exit_state":["chapter_05_complete", "chapter_06_absent débloqué"]
+    }
+  ]
+}
