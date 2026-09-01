@@ -76,11 +76,6 @@ struct FLITD2RunRuntimeState
     TSet<FName> DiscoveredRemanenceIds;
 };
 
-/**
- * Data-driven runtime skeleton for LITD 2 operations.
- * Loads Data/Runs/sarei_faubourgs_run.json and owns the Z0->Z8 progression contract.
- * Level actors/Blueprints listen to delegates instead of hard-coding run order.
- */
 UCLASS()
 class LITD2_API ULITD2RunDirectorSubsystem : public UGameInstanceSubsystem
 {
@@ -116,6 +111,9 @@ public:
 
     UFUNCTION(BlueprintCallable, Category="LITD2|Run")
     void MarkCurrentZoneObjectiveSatisfied();
+
+    UFUNCTION(BlueprintCallable, Category="LITD2|Run|Health")
+    int32 ApplyCombatDamage(int32 DamageAmount);
 
     UFUNCTION(BlueprintCallable, Category="LITD2|Run|Health")
     bool ApplyTrauma(int32 Level, int32 LockedHealthAmount, int32 ImmediateDamage = 0);
