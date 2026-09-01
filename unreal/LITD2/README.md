@@ -21,6 +21,15 @@ La fondation C++ met en place les **Archives de Rémanence** :
 
 Le Widget Blueprint `WBP_RemembranceArchive` peut être généré dans Unreal à partir de la classe native. Les assets `.uasset`, sons définitifs, matériaux et contenus binaires restent à produire/importer dans l'éditeur Unreal ; la logique, la présentation native et les contrats de données sont versionnés ici.
 
+## Premier vertical slice — Les Faubourgs de Sarei
+
+La première run complète est désormais définie dans :
+
+- `docs/LITD2/SAREI_FAUBOURGS_RUN.md` — structure canonique zone par zone, soins, traumatismes, rencontres, Rémanences, mini-boss, boss et retour aux Archives ;
+- `Data/Runs/sarei_faubourgs_run.json` — contrat data-driven de l'opération pour l'implémentation Unreal.
+
+La run part avec **3 potions**, ne permet aucun drop ennemi de potion, garde les soins ordinaires limités aux PV, et impose que Corps, Esprit et Politique puissent chacun vaincre le boss sans dépendre d'un build hybride. La première run découvre **Le Dernier Flacon** mais ne débloque pas prématurément la capacité de 4 potions ; le Rapport de Vel et le Coffret de la IIIe Armée restent réservés aux runs ultérieures de la branche.
+
 ## Feuille de route de production officielle des Archives
 
 La fabrication finale ne doit plus redécider l'architecture du système. Elle suit les trois contrats versionnés suivants :
