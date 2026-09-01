@@ -78,12 +78,14 @@ void ALITD2PlayerCombatCharacter::LookUp(float Value)
 bool ALITD2PlayerCombatCharacter::LightAttack()
 {
     if (!Combatant || Combatant->IsDead() || !Combatant->SpendStamina(12.0f)) return false;
+    if (LightAttackMontage) PlayAnimMontage(LightAttackMontage);
     return PerformMeleeTrace(ELITD2AttackKind::Light);
 }
 
 bool ALITD2PlayerCombatCharacter::HeavyAttack()
 {
     if (!Combatant || Combatant->IsDead() || !Combatant->SpendStamina(28.0f)) return false;
+    if (HeavyAttackMontage) PlayAnimMontage(HeavyAttackMontage);
     return PerformMeleeTrace(ELITD2AttackKind::Heavy);
 }
 
@@ -98,13 +100,16 @@ bool ALITD2PlayerCombatCharacter::Dodge()
 
     Combatant->SetBlocking(false);
     Combatant->StartInvulnerabilityWindow(DodgeInvulnerabilitySeconds);
+    if (DodgeMontage) PlayAnimMontage(DodgeMontage);
     LaunchCharacter(Direction * DodgeStrength + FVector(0.0f, 0.0f, 45.0f), true, false);
     return true;
 }
 
 bool ALITD2PlayerCombatCharacter::BeginParry()
 {
-    return Combatant && Combatant->BeginParry();
+    if (!Combatant || !Combatant->BeginParry()) return false;
+    if (ParryMontage) PlayAnimMontage(ParryMontage);
+    return true;
 }
 
 void ALITD2PlayerCombatCharacter::EndParry()
