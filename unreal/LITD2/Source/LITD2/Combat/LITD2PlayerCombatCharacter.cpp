@@ -77,21 +77,37 @@ void ALITD2PlayerCombatCharacter::LookUp(float Value)
 
 bool ALITD2PlayerCombatCharacter::LightAttack()
 {
-    if (!Combatant || Combatant->IsDead() || !Combatant->SpendStamina(12.0f)) return false;
-    if (LightAttackMontage) PlayAnimMontage(LightAttackMontage);
+    if (!Combatant || Combatant->IsDead() || bAttackCommitPending || !Combatant->SpendStamina(12.0f)) return false;
+
+    if (LightAttackMontage && PlayAnimMontage(LightAttackMontage) > 0.0f)
+    {
+        bAttackCommitPending = true;
+        PendingAttackKind = ELITD2AttackKind::Light;
+        return true;
+    }
+
     return PerformMeleeTrace(ELITD2AttackKind::Light);
 }
 
 bool ALITD2PlayerCombatCharacter::HeavyAttack()
 {
-    if (!Combatant || Combatant->IsDead() || !Combatant->SpendStamina(28.0f)) return false;
-    if (HeavyAttackMontage) PlayAnimMontage(HeavyAttackMontage);
+    if (!Combatant || Combatant->IsDead() || bAttackCommitPending || !Combatant->SpendStamina(28.0f)) return false;
+
+    if (HeavyAttackMontage && PlayAnimMontage(HeavyAttackMontage) > 0.0f)
+    {
+        bAttackCommitPending = true;
+        PendingAttackKind = ELITD2AttackKind::Heavy;
+        return true;
+    }
+
     return PerformMeleeTrace(ELITD2AttackKind::Heavy);
 }
 
 bool ALITD2PlayerCombatCharacter::Dodge()
 {
     if (!Combatant || Combatant->IsDead() || !Combatant->SpendStamina(22.0f)) return false;
+
+    CancelQueuedAttack();
 
     FVector Direction = GetLastMovementInputVector();
     if (Direction.IsNearlyZero()) Direction = GetActorForwardVector();
@@ -108,6 +124,7 @@ bool ALITD2PlayerCombatCharacter::Dodge()
 bool ALITD2PlayerCombatCharacter::BeginParry()
 {
     if (!Combatant || !Combatant->BeginParry()) return false;
+    CancelQueuedAttack();
     if (ParryMontage) PlayAnimMontage(ParryMontage);
     return true;
 }
@@ -134,6 +151,15 @@ bool ALITD2PlayerCombatCharacter::UsePotion()
     return false;
 }
 
+bool ALITD2PlayerCombatCharacter::CommitQueuedAttackFromAnimation()
+{
+    if (!bAttackCommitPending || !Combatant || Combatant->IsDead()) return false;
+
+    const ELITD2AttackKind AttackKind = PendingAttackKind;
+    bAttackCommitPending = false;
+    return PerformMeleeTrace(AttackKind);
+}
+
 void ALITD2PlayerCombatCharacter::StartBlock()
 {
     BeginParry();
@@ -142,6 +168,11 @@ void ALITD2PlayerCombatCharacter::StartBlock()
 void ALITD2PlayerCombatCharacter::StopBlock()
 {
     EndParry();
+}
+
+void ALITD2PlayerCombatCharacter::CancelQueuedAttack()
+{
+    bAttackCommitPending = false;
 }
 
 bool ALITD2PlayerCombatCharacter::PerformMeleeTrace(ELITD2AttackKind AttackKind)
