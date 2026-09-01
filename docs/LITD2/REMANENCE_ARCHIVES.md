@@ -43,6 +43,35 @@ La fiabilité est qualitative, jamais affichée comme un pourcentage :
 
 Les contradictions sont représentées par des liens brisés. Les zones non comprises restent volontairement visibles afin de nourrir la curiosité plutôt qu'une logique de checklist.
 
+## Langage de présentation final
+
+L'écran ne doit jamais ressembler à un arbre de talents propre et statique. Il doit donner la sensation d'une mémoire historique qui tente de se recomposer.
+
+La version native Unreal met donc en place les règles suivantes :
+
+- les fils entre connaissances **se dessinent progressivement** lors de l'ouverture ;
+- les fils ordinaires respirent très légèrement et ne restent jamais parfaitement rigides ;
+- les contradictions utilisent des traits rompus rouges, plus nerveux que les connexions normales ;
+- les nœuds sont des cartes documentaires volontairement irrégulières, avec bordures décalées, amorces de filaments et halos de catégorie ;
+- un nœud nouvellement compris bénéficie d'une courte pulsation lumineuse, sans explosion d'effets ;
+- de fines particules de cendre/poussière traversent lentement la constellation ; elles ne doivent jamais gêner la lecture ;
+- le dossier latéral glisse et se révèle à chaque nouvelle sélection au lieu de remplacer brutalement son contenu ;
+- la sélection d'une information contestée peut déclencher une signature sonore distincte ;
+- toute reconstruction importante déclenche une courte révélation plein écran : **CONNAISSANCE RECONSTRUITE**, titre de la découverte, puis explication historique du déblocage.
+
+La révélation d'une connaissance doit rester brève. Elle célèbre une compréhension, pas une récompense de loot. Le joueur doit retrouver le contrôle avant que l'animation ne casse le rythme entre deux opérations.
+
+### Audio de Rémanence
+
+Quatre familles de cues sont prévues dans le Widget :
+
+1. **Ouverture** — souffle très court, poussière, métal ou résonance lointaine ;
+2. **Sélection** — contact discret de papier, pierre, métal ou filament ;
+3. **Contradiction** — tension sèche et instable, jamais un son d'erreur d'interface ;
+4. **Reconstruction** — convergence de plusieurs couches suivie d'une résolution courte.
+
+Ces sons sont des références `USoundBase` optionnelles et data-authored. Le système fonctionne sans asset binaire assigné ; les fichiers audio définitifs seront raccordés dans Unreal. Les sons externes restent soumis aux règles de droits de LITD Universe.
+
 ## Découverte en run
 
 La Rémanence ne dépend pas d'un mode « vision détective » permanent. Elle se manifeste par de petites anomalies du monde : son impossible, poussière inversée, reflet incohérent, voix lointaine, ombre sans corps, mouvement fugace.
