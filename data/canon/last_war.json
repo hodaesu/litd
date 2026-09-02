@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "id": "last_war",
+  "status": "canon",
+  "dating": {
+    "rule": "La Dernière Guerre se déroule un peu plus d'un millénaire avant la Chute; aucune année absolue supplémentaire n'est verrouillée ici.",
+    "exact_years_locked": false
+  },
+  "core_question": "Comment une civilisation qui avait créé tant de moyens pour éviter la guerre a-t-elle fini par tous les rendre insuffisants ?",
+  "principles": [
+    "Aucune grande puissance n'est le camp moralement pur de la guerre.",
+    "L'incident déclencheur détermine quand la guerre éclate, pas pourquoi elle existe.",
+    "La guerre commence avec l'illusion largement partagée qu'elle sera courte.",
+    "Les Trois Éveils n'existent pas encore comme doctrine constituée pendant ces phases.",
+    "Sahra, Ilyan et Tala doivent traverser la guerre avant que leurs trajectoires convergent vers la Nuit de Sarn."
+  ],
+  "belligerents": [
+    {"id":"azravel","initial_position":"coopération croissante avec la Ligue des Frontières","war_pressure":"préserver un ordre moral et politique face à une société perçue comme dominée par les intérêts commerciaux"},
+    {"id":"erhal","initial_position":"centre du Pacte des Routes","war_pressure":"garantir routes, crédit et liberté commerciale"},
+    {"id":"kharad","initial_position":"centre de la Ligue des Frontières","war_pressure":"empêcher l'encerclement économique et préserver la souveraineté territoriale"},
+    {"id":"sarn","initial_position":"neutralité et médiation","war_pressure":"préserver les libertés politiques tout en empêchant les deux blocs de contrôler la cité"},
+    {"id":"namar","initial_position":"fragmenté entre neutralité et alliances concurrentes","war_pressure":"protéger nourriture, terres et autonomie contre l'instrumentalisation extérieure"},
+    {"id":"odran","initial_position":"pilier maritime du Pacte des Routes","war_pressure":"maintenir ports, routes maritimes et équilibre commercial"}
+  ],
+  "causal_chain": [
+    "interdépendance économique",
+    "rivalités sur les routes",
+    "mauvaises récoltes et crise du grain",
+    "dette des États de Namar",
+    "réarmement réciproque",
+    "polarisation identitaire",
+    "instrumentalisation des archives et anciennes frontières",
+    "échec des médiations",
+    "Affaire des Trois Bannières",
+    "mobilisations",
+    "premier affrontement militaire",
+    "activation des alliances"
+  ],
+  "trigger": {
+    "id": "three_banners_affair",
+    "name": "Affaire des Trois Bannières",
+    "public_fact": "Un convoi de Namar transportant grain, archives diplomatiques et représentants politiques est attaqué; les assaillants portent des signes associés à trois puissances différentes.",
+    "in_world_versions": [
+      {"source":"erhal","claim":"opération clandestine de Kharad destinée à faire échouer les négociations"},
+      {"source":"kharad","claim":"opération sous faux drapeau destinée à justifier une guerre contre Kharad"},
+      {"source":"namar","claim":"extrémistes locaux utilisant des équipements volés à plusieurs armées"}
+    ],
+    "author_truth": "L'attaque est menée par un réseau radical mêlant anciens combattants, nationalistes et agents issus de plusieurs milieux. Aucune puissance centrale ne l'ordonne entièrement. Plusieurs services disposent cependant d'indices incomplets et choisissent de ne pas tous les partager, espérant exploiter politiquement une crise.",
+    "knowledge_design": {
+      "trace":"restes du convoi, trois types d'insignes, listes de victimes et manifestes de cargaison",
+      "echo":"rapports militaires incompatibles et témoignages de survivants",
+      "memoire":"archives de renseignement montrant que plusieurs acteurs connaissaient une partie du risque",
+      "concordance":"le joueur peut établir qu'aucun récit officiel n'explique seul l'attaque et reconstruire la responsabilité distribuée sans obtenir une omniscience parfaite"
+    }
+  },
+  "phases": [
+    {
+      "id":"mobilisation",
+      "order":1,
+      "name":"Les Jours de Mobilisation",
+      "summary":"Après les Trois Bannières, chaque bloc mobilise en prétendant agir défensivement. Un affrontement autour d'un passage stratégique transforme la crise en guerre ouverte.",
+      "civilian_state":"rumeurs, achats de panique, départs précipités, familles séparées par les frontières",
+      "military_state":"plans préexistants activés trop vite; commandants locaux disposent d'une forte autonomie",
+      "knowledge_effect":"chaque gouvernement peut sincèrement présenter des preuves indiquant qu'il a été attaqué en premier"
+    },
+    {
+      "id":"short_war_illusion",
+      "order":2,
+      "name":"La Guerre qui devait être courte",
+      "summary":"Les états-majors cherchent des victoires décisives rapides. Les anciennes cultures de tournoi et de prestige favorisent la recherche de batailles symboliques dont le coût réel est sous-estimé.",
+      "civilian_state":"enthousiasme, peur et propagande coexistent; beaucoup pensent les proches revenus avant la prochaine saison",
+      "military_state":"offensives rapides, champions intégrés aux armées, premiers fronts stabilisés après des pertes inattendues",
+      "systemic_consequence":"les réseaux commerciaux se fragmentent plus vite que prévu et rendent la poursuite de la guerre matériellement plus coûteuse"
+    },
+    {
+      "id":"war_of_roads",
+      "order":3,
+      "name":"La Guerre des Routes",
+      "summary":"Cols, fleuves, ponts, greniers et ports deviennent plus importants que les capitales. Les armées combattent pour maintenir leurs chaînes logistiques.",
+      "civilian_state":"réquisitions, déplacements, rationnement et marché noir",
+      "military_state":"sièges, embuscades, destruction d'infrastructures et contrôle des corridors",
+      "systemic_consequence":"détruire une route ennemie affame souvent aussi des populations alliées ou neutres"
+    },
+    {
+      "id":"fractured_fronts",
+      "order":4,
+      "name":"Les Fronts Brisés",
+      "summary":"Namar se divise, des villes changent d'alliance, des unités combattent parfois d'anciens partenaires. La distinction entre front et arrière devient instable.",
+      "civilian_state":"réfugiés, communautés divisées, violences de représailles et réseaux d'entraide transfrontaliers",
+      "military_state":"guerre moins lisible, forces locales, désertions, prisonniers et combattants réaffectés",
+      "narrative_role":"phase privilégiée pour les premières trajectoires croisées de Sahra, Ilyan et Tala sans encore verrouiller leurs scènes exactes"
+    },
+    {
+      "id":"exhaustion",
+      "order":5,
+      "name":"L'Épuisement",
+      "summary":"Aucun camp n'obtient la victoire promise. La guerre devient une lutte pour supporter plus longtemps les pertes que l'adversaire.",
+      "civilian_state":"deuil massif, pénuries, fatigue politique, radicalisation mais aussi fraternisation et refus croissant de la guerre",
+      "military_state":"vétérans épuisés, recrutement plus jeune, matériel réparé, objectifs réduits, discipline inégale",
+      "philosophical_shift":"la question cesse progressivement d'être qui doit gagner et devient quel ordre rendrait une nouvelle guerre générale moins probable"
+    },
+    {
+      "id":"sarn_convergence",
+      "order":6,
+      "name":"La Convergence vers Sarn",
+      "summary":"Sarn, longtemps médiatrice et officiellement neutre, devient le lieu où convergent intérêts militaires, réfugiés, oppositions politiques, diplomates et protagonistes. Cette phase mène à la Nuit de Sarn sans en fixer encore le déroulement.",
+      "civilian_state":"ville saturée, politiquement divisée, accueillant déplacés et réseaux concurrents",
+      "military_state":"pressions autour de la cité, infiltrations, unités proches et risque qu'une action locale déclenche une catastrophe politique",
+      "locked_boundary":"La Nuit de Sarn reste un événement canonique distinct à détailler après les trajectoires Sahra/Ilyan/Tala."
+    }
+  ],
+  "recurring_human_consequences": [
+    "soldats qui ont combattu dans des tournois contre des adversaires devenus ennemis réels",
+    "familles possédant des membres dans plusieurs États désormais en guerre",
+    "réfugiés considérés simultanément comme victimes, charge économique et risque sécuritaire",
+    "médecins soignant sans pouvoir toujours respecter les frontières politiques",
+    "marchands accusés de profiter des pénuries alors que certains maintiennent les seules routes de ravitaillement",
+    "religieux et artistes divisés entre soutien patriotique, soin, propagande et opposition",
+    "prisonniers dont le traitement devient un test concret des principes juridiques hérités de Vaor-Khal",
+    "archives détruites, falsifiées ou sauvées clandestinement"
+  ],
+  "gameplay_translation": {
+    "run_structure":[
+      "Chaque run doit avoir un objectif militaire immédiat et une conséquence humaine observable.",
+      "La victoire tactique ne doit pas toujours produire un résultat stratégique positif.",
+      "Les routes, vivres, blessés, prisonniers, civils et informations sont des enjeux aussi importants que l'élimination ennemie.",
+      "Des ennemis rencontrés dans un run peuvent réapparaître comme témoins, prisonniers, alliés circonstanciels ou morts documentés.",
+      "Les choix doivent alimenter les affinités et convictions avant la Nuit de Sarn."
+    ],
+    "mission_families":["tenir","extraire","escorter","évacuer","ravitailler","saboter","reconnaître","négocier_sous_pression","récupérer_archive","secourir","capturer_sans_tuer","choisir_entre_objectifs"],
+    "remanence_sources":["ordres militaires","lettres civiles","journaux de terrain","registres de rationnement","cartes corrigées","propagande","témoignages ennemis","archives diplomatiques","objets personnels"]
+  },
+  "cross_game_remanence": {
+    "litd2":"La guerre est vécue directement et ses récits restent contradictoires pendant qu'elle se déroule.",
+    "les_veilleurs":"Plusieurs générations plus tard, les premiers temps de la Concorde interprètent encore la guerre à travers témoins indirects, archives et usages politiques concurrents.",
+    "litd1":"Après la Chute, des noms de batailles et objets militaires peuvent survivre alors que leur camp ou leur signification ont été oubliés."
+  },
+  "pending_after_this_file":[
+    "positions initiales exactes de Sahra, Ilyan et Tala",
+    "leurs rencontres et choix d'affinité",
+    "batailles nommées et géographie militaire détaillée",
+    "déroulement précis de la Nuit de Sarn",
+    "naissance explicite des Trois Éveils",
+    "épilogue historique de LITD 2"
+  ]
+}
