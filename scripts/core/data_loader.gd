@@ -20,6 +20,8 @@ var les_veilleurs_enemy_recruitment: Dictionary = {}
 var les_veilleurs_bestiary_families: Dictionary = {}
 var les_veilleurs_bestiary_missing_roles: Dictionary = {}
 var les_veilleurs_bestiary_rank_ladders: Dictionary = {}
+var les_veilleurs_combat_kits: Dictionary = {}
+var les_veilleurs_encounter_compositions: Dictionary = {}
 
 func _ready() -> void:
     reload_all()
@@ -64,6 +66,10 @@ func reload_all() -> void:
     les_veilleurs_bestiary_missing_roles = veilleurs_missing_roles_value if typeof(veilleurs_missing_roles_value) == TYPE_DICTIONARY else {}
     var veilleurs_rank_ladders_value = load_json("res://data/canon/les_veilleurs_bestiary_rank_ladders.json")
     les_veilleurs_bestiary_rank_ladders = veilleurs_rank_ladders_value if typeof(veilleurs_rank_ladders_value) == TYPE_DICTIONARY else {}
+    var veilleurs_combat_kits_value = load_json("res://data/canon/les_veilleurs_combat_kits.json")
+    les_veilleurs_combat_kits = veilleurs_combat_kits_value if typeof(veilleurs_combat_kits_value) == TYPE_DICTIONARY else {}
+    var veilleurs_encounters_value = load_json("res://data/canon/les_veilleurs_encounter_compositions.json")
+    les_veilleurs_encounter_compositions = veilleurs_encounters_value if typeof(veilleurs_encounters_value) == TYPE_DICTIONARY else {}
 
 func find_by_id(items: Array, id_value: Variant) -> Dictionary:
     for item in items:
@@ -259,6 +265,64 @@ func les_veilleurs_bestiary_rank_order() -> Array[String]:
     if values is Array:
         for value: Variant in values:
             result.append(str(value))
+    return result
+
+func les_veilleurs_combat_variant(variant_id: String) -> Dictionary:
+    var values: Variant = les_veilleurs_combat_kits.get("variants", [])
+    var variants: Array = values if values is Array else []
+    return find_by_id(variants, variant_id).duplicate(true)
+
+func les_veilleurs_combat_family_profile(family_id: String) -> Dictionary:
+    var values: Variant = les_veilleurs_combat_kits.get("family_profiles", {})
+    if values is Dictionary:
+        var value: Variant = values.get(family_id, {})
+        return value.duplicate(true) if value is Dictionary else {}
+    return {}
+
+func les_veilleurs_combat_rank_profile(rank_id: String) -> Dictionary:
+    var values: Variant = les_veilleurs_combat_kits.get("rank_profiles", {})
+    if values is Dictionary:
+        var value: Variant = values.get(rank_id, {})
+        return value.duplicate(true) if value is Dictionary else {}
+    return {}
+
+func les_veilleurs_combat_kit(variant_id: String) -> Dictionary:
+    var variant := les_veilleurs_combat_variant(variant_id)
+    if variant.is_empty():
+        return {}
+    var result := {}
+    result.merge(les_veilleurs_combat_family_profile(str(variant.get("family", ""))), true)
+    result.merge(les_veilleurs_combat_rank_profile(str(variant.get("rank", ""))), true)
+    result.merge(variant, true)
+    return result
+
+func les_veilleurs_encounter(encounter_id: String) -> Dictionary:
+    var acts: Variant = les_veilleurs_encounter_compositions.get("acts", [])
+    if acts is Array:
+        for act_value: Variant in acts:
+            var act: Dictionary = act_value if act_value is Dictionary else {}
+            var encounters: Variant = act.get("encounters", [])
+            if encounters is Array:
+                for encounter_value: Variant in encounters:
+                    var encounter: Dictionary = encounter_value if encounter_value is Dictionary else {}
+                    if str(encounter.get("id", "")) == encounter_id:
+                        return encounter.duplicate(true)
+    return {}
+
+func les_veilleurs_encounters_for_act(act_id: String) -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
+    var acts: Variant = les_veilleurs_encounter_compositions.get("acts", [])
+    if acts is Array:
+        for act_value: Variant in acts:
+            var act: Dictionary = act_value if act_value is Dictionary else {}
+            if str(act.get("act", "")) != act_id:
+                continue
+            var encounters: Variant = act.get("encounters", [])
+            if encounters is Array:
+                for encounter_value: Variant in encounters:
+                    var encounter: Dictionary = encounter_value if encounter_value is Dictionary else {}
+                    result.append(encounter.duplicate(true))
+            break
     return result
 
 func knowledge_remanence_stages() -> Array[String]:
