@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "dungeon_id": "dungeon_voices_under_sanctuary",
+  "storage_mode": "anchor_scars_only",
+  "anchors": [
+    {"anchor_id": "voices.s1.fresco", "criticality": "protected", "allowed_states": ["unknown", "inspected", "interpreted"], "progression_rule": "knowledge_may_persist_without_forcing_truth"},
+    {"anchor_id": "voices.s2.tripwire", "criticality": "normal", "allowed_states": ["armed", "disarmed", "triggered", "salvaged"], "progression_rule": "never_block_only_route"},
+    {"anchor_id": "voices.s3.corpses", "criticality": "protected", "allowed_states": ["initial", "battle_added", "moved", "partially_consumed"], "progression_rule": "corpse_changes_use_anchor_scars"},
+    {"anchor_id": "voices.s4.black_basin", "criticality": "normal", "allowed_states": ["untouched", "water_tested", "blood_tested", "light_tested"], "progression_rule": "optional_only"},
+    {"anchor_id": "voices.s5.scout_corpse", "criticality": "protected", "allowed_states": ["unexamined", "examined", "deep_examined", "moved"], "progression_rule": "s6_hint_optional_s6_not_required"},
+    {"anchor_id": "voices.s6.recruit_history", "criticality": "protected", "allowed_states": ["alive_unresolved", "left_alive", "recruited", "killed", "fled"], "progression_rule": "recruitment_never_required"},
+    {"anchor_id": "voices.s7.device", "criticality": "protected", "allowed_states": ["intact", "destroyed", "disabled", "studied"], "progression_rule": "objective_completion_allows_destroy_disable_study"},
+    {"anchor_id": "voices.s7.corpses", "criticality": "normal", "allowed_states": ["initial", "battle_added", "moved", "consumed"], "progression_rule": "never_blocks_device"},
+    {"anchor_id": "voices.s8.archive", "criticality": "protected", "allowed_states": ["hidden", "discovered", "fragment_taken"], "progression_rule": "secret_never_required"}
+  ],
+  "knowledge": [
+    {"id": "KNOWLEDGE_PRE_SANCTUARY_STRUCTURE", "source_anchor": "voices.s1.fresco", "initial_certainty": "low", "can_be_revised": true},
+    {"id": "BLACK_BASIN_WATER_REACTION", "source_anchor": "voices.s4.black_basin", "initial_certainty": "medium", "can_be_revised": true},
+    {"id": "KNOWLEDGE_ACOUSTIC_DEVICE", "source_anchor": "voices.s7.device", "initial_certainty": "high", "can_be_revised": false},
+    {"id": "KNOWLEDGE_THREE_PATHS_PRE_NAMING", "source_anchor": "voices.s8.archive", "initial_certainty": "medium", "can_be_revised": true}
+  ],
+  "scar_examples": [
+    {"scar_type": "persistent_corpse", "anchor_id": "voices.s3.corpses", "state": "moved", "payload": {"origin_room": "s3_sleepers", "possible_destination": "corridor_s2_s3"}},
+    {"scar_type": "major_item_removed", "anchor_id": "voices.s7.device", "state": "destroyed", "payload": {"device_operational": false}},
+    {"scar_type": "enemy_occupation_change", "anchor_id": "voices.s6.recruit_history", "state": "recruited", "payload": {"entity_identity_persists": true}}
+  ]
+}
