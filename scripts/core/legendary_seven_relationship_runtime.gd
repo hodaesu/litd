@@ -271,6 +271,8 @@ func _resolved_scene(pair_id: String, stage: String, left: Dictionary, right: Di
     }
 
 func _latest_unseen_memory(left: Dictionary, right: Dictionary, pair_id: String, stage: String) -> Dictionary:
+    if stage == "bereavement" and _stage_seen(left, right, pair_id, stage):
+        return {}
     var examined: Dictionary = {}
     for source_target: Array in [[left, right], [right, left]]:
         var source: Dictionary = source_target[0]
