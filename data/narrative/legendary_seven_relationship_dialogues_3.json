@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "pack": 3,
+  "pairs": [
+    {
+      "id": "lya_anouk",
+      "heroes": ["hero.lya","hero.anouk"],
+      "stages": {
+        "opening": {"stage_direction":"Leur enthousiasme s'arrête juste assez longtemps pour comparer les détails.","line":{"speaker_id":"hero.anouk","text":"Tu l'as vu aussi ?"}},
+        "friction": {"stage_direction":"Lya hoche la tête, sans dramatiser.","line":{"speaker_id":"hero.lya","text":"Nous nous comprenons trop vite sur ça."}},
+        "rupture": {"stage_direction":"Elles demandent à une troisième personne de reprendre les observations depuis le début.","line":{"speaker_id":"hero.anouk","text":"Tu me demandes une vérification seulement quand ce que je dis ressemble à ce que tu espérais déjà."}},
+        "repair": {"stage_direction":"Elles écrivent dos à dos avant de remettre les feuilles côte à côte.","line":{"speaker_id":"hero.lya","text":"On note séparément avant de comparer."}},
+        "durable": {"stage_direction":"Leur complicité gagne en rigueur sans perdre sa chaleur.","line":{"speaker_id":"hero.anouk","text":"Je peux être heureuse qu'on ait vu quelque chose de proche sans appeler ça une confirmation."}},
+        "bereavement": {"stage_direction":"Deux dessins presque identiques restent archivés avec leurs différences soulignées.","survivor_lines":{"hero.lya":"Elle me rappelait qu'une perception partagée peut être une joie avant d'être une preuve.","hero.anouk":"Elle savait garder une forme belle même après avoir découvert qu'elle s'était trompée sur sa cause."}}
+      }
+    },
+    {
+      "id": "mathilde_marec",
+      "heroes": ["hero.mathilde","hero.marec"],
+      "stages": {
+        "opening": {"stage_direction":"Marec tend quand même la main, mais après l'avoir décidé lui-même.","line":{"speaker_id":"hero.mathilde","text":"Montre-moi ta main."}},
+        "friction": {"stage_direction":"La tendresse rend le conflit plus difficile, pas plus simple.","line":{"speaker_id":"hero.marec","text":"Je ne suis pas un enfant parce que tu as peur pour moi."}},
+        "rupture": {"stage_direction":"Mathilde retire sa main avant de le toucher.","line":{"speaker_id":"hero.mathilde","text":"Je ne te regarderai pas te détruire pour prouver que tu peux choisir."}},
+        "repair": {"stage_direction":"Le soin devient une conversation explicite.","line":{"speaker_id":"hero.mathilde","text":"Je peux te demander. Pas décider."}},
+        "durable": {"stage_direction":"Le lien reste maternel dans sa chaleur, pas dans une hiérarchie.","line":{"speaker_id":"hero.marec","text":"Tu peux t'inquiéter sans me mettre derrière toi."}},
+        "bereavement": {"stage_direction":"Un vieux bandage porte une annotation : « demandé avant soin ».","survivor_lines":{"hero.mathilde":"Je voulais le garder vivant. Je devais aussi le laisser vivre comme quelqu'un qui pouvait choisir.","hero.marec":"Elle me protégeait comme une mère parfois. Les meilleurs jours, elle se souvenait que je n'étais pas son enfant."}}
+      }
+    },
+    {
+      "id": "mathilde_zeje",
+      "heroes": ["hero.mathilde","hero.zeje"],
+      "stages": {
+        "opening": {"stage_direction":"Ils regardent le même registre depuis des angles différents.","line":{"speaker_id":"hero.mathilde","text":"Quand tu dis INCONNU, quelqu'un l'entend comme 'nous avons abandonné'."}},
+        "friction": {"stage_direction":"Le ton reste contrôlé précisément parce que le sujet ne l'est pas.","line":{"speaker_id":"hero.zeje","text":"Ta compassion ne peut pas décider quelle version est vraie."}},
+        "rupture": {"stage_direction":"Aucun ne retire la phrase de l'autre du dossier.","line":{"speaker_id":"hero.mathilde","text":"Tu peux blesser quelqu'un avec une catégorie exacte."}},
+        "repair": {"stage_direction":"Ils ajoutent une note humaine à côté du statut épistémique.","line":{"speaker_id":"hero.zeje","text":"Je peux annoncer ce que l'incertitude coûte aux personnes concernées."}},
+        "durable": {"stage_direction":"Leur respect devient possible sans adoucir leurs désaccords.","line":{"speaker_id":"hero.mathilde","text":"Je sais que ton doute n'est pas de l'indifférence."}},
+        "bereavement": {"stage_direction":"Un registre garde le statut et une note sur la manière dont il fut annoncé.","survivor_lines":{"hero.mathilde":"Il refusait de donner un nom faux même quand le silence faisait mal. Je comprends pourquoi.","hero.zeje":"Elle me rappelait qu'une catégorie correcte peut quand même faire violence si personne n'accompagne ceux qui la reçoivent."}}
+      }
+    },
+    {
+      "id": "mathilde_anouk",
+      "heroes": ["hero.mathilde","hero.anouk"],
+      "stages": {
+        "opening": {"stage_direction":"Mathilde reste proche sans raccourcir la distance entre elles.","line":{"speaker_id":"hero.mathilde","text":"Tu n'as pas besoin de prouver que tu peux tout supporter."}},
+        "friction": {"stage_direction":"Mathilde comprend que voir n'est pas toujours une permission d'intervenir.","line":{"speaker_id":"hero.anouk","text":"Tu réponds parfois à ma peur avant que j'aie eu le temps de la comprendre."}},
+        "rupture": {"stage_direction":"Anouk reste immobile ; Mathilde doit choisir entre insister et parler autrement.","line":{"speaker_id":"hero.mathilde","text":"Je ne vais pas te laisser entrer là si tu n'en mesures pas le risque."}},
+        "repair": {"stage_direction":"La protection devient une ressource proposée, pas imposée.","line":{"speaker_id":"hero.mathilde","text":"Je te donne ce que je vois. Tu me dis ce que tu veux en faire."}},
+        "durable": {"stage_direction":"Leur tendresse cesse d'être confondue avec une hiérarchie.","line":{"speaker_id":"hero.anouk","text":"Tu peux me protéger sans devenir ma frontière."}},
+        "bereavement": {"stage_direction":"Le survivant garde une place libre près de lui sans la remplir d'un symbole.","survivor_lines":{"hero.mathilde":"Je voulais qu'elle ait le temps de devenir ce qu'elle choisirait. Pas ce que nous espérions.","hero.anouk":"Elle avait peur pour moi très vite. Avec le temps, elle a appris à me laisser parler avant sa peur."}}
+      }
+    },
+    {
+      "id": "marec_zeje",
+      "heroes": ["hero.marec","hero.zeje"],
+      "stages": {
+        "opening": {"stage_direction":"Zejé regarde enfin la poutre au lieu de demander une seconde phrase.","line":{"speaker_id":"hero.marec","text":"Je pense qu'il va tomber. La partie qui craque."}},
+        "friction": {"stage_direction":"L'ironie disparaît lorsque le risque devient réel.","line":{"speaker_id":"hero.zeje","text":"Ton instinct n'est pas une méthode transmissible."}},
+        "rupture": {"stage_direction":"Marec cesse de plaisanter ; Zejé comprend que c'est le vrai signal de rupture.","line":{"speaker_id":"hero.marec","text":"Tu me demandes pourquoi après chaque fois où j'ai déjà dû agir."}},
+        "repair": {"stage_direction":"Ils établissent une règle simple : agir peut précéder l'explication, pas l'effacer.","line":{"speaker_id":"hero.marec","text":"Je dis ce que j'ai vu juste après. Même si j'ai agi avant."}},
+        "durable": {"stage_direction":"Leur humour revient comme signe de confiance, jamais comme réduction de l'autre.","line":{"speaker_id":"hero.zeje","text":"Quand Marec dit 'ça va casser', je commence par regarder."}},
+        "bereavement": {"stage_direction":"Une note sèche accompagne un schéma très simple : « Marec avait vu juste ; cause identifiée après ».","survivor_lines":{"hero.marec":"Il posait la question après. Ça m'énervait. Maintenant je me la pose parfois avant.","hero.zeje":"Il voyait certains effondrements avant mes modèles. Ce n'était pas magique. C'était une compétence que je devais apprendre à décrire."}}
+      }
+    },
+    {
+      "id": "marec_anouk",
+      "heroes": ["hero.marec","hero.anouk"],
+      "stages": {
+        "opening": {"stage_direction":"Marec grimace ; Anouk a déjà sa réponse.","line":{"speaker_id":"hero.marec","text":"Tu me dis si tu veux que je reste."}},
+        "friction": {"stage_direction":"Ils se parlent comme frère et sœur : directement, sans cérémonie.","line":{"speaker_id":"hero.anouk","text":"Tu te places devant moi avant même de regarder ce que je fais."}},
+        "rupture": {"stage_direction":"Marec quitte la pièce pour ne pas transformer sa peur en décision.","line":{"speaker_id":"hero.marec","text":"Je ne peux pas faire semblant que ça m'est égal si tu risques ta vie."}},
+        "repair": {"stage_direction":"Ils rient malgré eux ; la règle tient parce qu'elle ressemble à leur relation.","line":{"speaker_id":"hero.anouk","text":"Si je dis 'avec moi', tu viens. Si je dis 'derrière', tu restes derrière."}},
+        "durable": {"stage_direction":"Leur lien fraternel reste profond sans devenir destin, dette ou possession.","line":{"speaker_id":"hero.marec","text":"Je suis ton frère. Pas ton gardien."}},
+        "bereavement": {"stage_direction":"Un objet partagé reste au Mémorial sans titre héroïque.","survivor_lines":{"hero.marec":"Elle était ma sœur. Pas mon devoir. J'aimerais avoir compris la différence plus tôt.","hero.anouk":"Il était mon frère. Il n'avait pas à être devant chaque danger pour que je sache qu'il était avec moi."}}
+      }
+    },
+    {
+      "id": "zeje_anouk",
+      "heroes": ["hero.zeje","hero.anouk"],
+      "stages": {
+        "opening": {"stage_direction":"Anouk semble soulagée que l'expérience ne soit ni niée ni promue en preuve.","line":{"speaker_id":"hero.anouk","text":"Je l'ai senti avant que l'instrument bouge."}},
+        "friction": {"stage_direction":"Le conflit porte sur les verbes, donc sur beaucoup plus que les verbes.","line":{"speaker_id":"hero.zeje","text":"Tu dis parfois 'je sais' quand tu veux dire 'je sens'."}},
+        "rupture": {"stage_direction":"Ils découvrent qu'ils défendaient deux questions différentes.","line":{"speaker_id":"hero.anouk","text":"Je ne te demande pas de prouver ma perception avant de me croire quand je dis qu'elle m'a fait peur."}},
+        "repair": {"stage_direction":"Ils écrivent séparément vécu, observation et interprétation.","line":{"speaker_id":"hero.zeje","text":"Je peux croire que tu as vécu quelque chose sans conclure ce que c'était."}},
+        "durable": {"stage_direction":"Leur confiance repose sur une distinction qui protège les deux.","line":{"speaker_id":"hero.anouk","text":"Avec toi, 'inconnu' ne veut plus toujours dire 'je ne te crois pas'."}},
+        "bereavement": {"stage_direction":"Un dossier conserve une phrase : « vécu confirmé comme vécu ; cause inconnue ».","survivor_lines":{"hero.zeje":"Elle m'a appris qu'une expérience peut mériter soin avant que sa cause soit établie.","hero.anouk":"Il m'a appris qu'une trace ne détruit pas ce que j'ai ressenti. Elle l'empêche parfois d'être utilisé à ma place."}}
+      }
+    }
+  ]
+}
