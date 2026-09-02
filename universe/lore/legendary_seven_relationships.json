@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "canon_status": "canon_litd1_legendary_seven_relationships_v1",
+  "scope": "LITD1 cycle initial; the Seven only",
+  "heroes": [
+    "hero.aurelien",
+    "hero.effrie",
+    "hero.lya",
+    "hero.mathilde",
+    "hero.marec",
+    "hero.zeje",
+    "hero.anouk"
+  ],
+  "rules": {
+    "pair_count": 21,
+    "no_new_relationship_meter": true,
+    "states_are_derived_not_stored_scores": true,
+    "use_existing_relationship_runtime": true,
+    "max_spoken_lines_per_scene": 2,
+    "one_pair_scene_per_sanctuary_entry": true,
+    "systemic_scenes_have_priority": true,
+    "afterlife_beats_have_priority": true,
+    "dead_hero_never_speaks": true,
+    "created_protagonist_posture_never_imposed": true,
+    "not_every_pair_comments_on_every_event": true,
+    "trust_and_disagreement_may_coexist": true,
+    "bereavement_is_not_moral_verdict": true,
+    "romance_is_never_inferred_from_trust": true,
+    "old_graphic_relationship_labels_do_not_override_current_registry": true
+  },
+  "stage_derivation": {
+    "rupture": {"tension_min": 70},
+    "friction": {"tension_min": 45},
+    "durable": {"trust_min": 60, "qualitative_memories_min": 2},
+    "opening": {"trust_min": 15, "or_qualitative_memories_min": 1},
+    "repair": {"requires_prior_disagreement": true, "requires_later_shared_burden_or_reconcile": true, "tension_max_exclusive": 45},
+    "bereavement": {"requires_exactly_one_living_member": true},
+    "priority": ["bereavement", "rupture", "friction", "repair", "durable", "opening"]
+  },
+  "source_conflict_notes": [
+    {
+      "source": "Library graphic bible",
+      "status": "concept_to_revalidate",
+      "conflict": "It labels Mathilde ↔ Aurélien as romantic and contains other obsolete/over-absolute concepts.",
+      "resolution": "This V1 does not canonize romance. Their current relationship axis is moral respect plus disagreement over acceptable cost."
+    },
+    {
+      "source": "Library graphic bible",
+      "status": "partially_compatible",
+      "preserved": [
+        "Marec ↔ Anouk is fraternal",
+        "Mathilde has a maternal/protective bond toward Marec and protective/quasi-maternal bond toward Anouk"
+      ]
+    }
+  ],
+  "pairs": [
+    {"id":"aurelien_effrie","heroes":["hero.aurelien","hero.effrie"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"respect for responsibility and capacity to act","central_disagreement":"authority versus control","evolution":"They learn to distinguish decisive leadership from ownership of other people's choices."},
+    {"id":"aurelien_lya","heroes":["hero.aurelien","hero.lya"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"mutual respect for careful interpretation","central_disagreement":"evidence versus representation","evolution":"They learn that a responsible account can preserve both measurable facts and lived meaning without confusing them."},
+    {"id":"aurelien_mathilde","heroes":["hero.aurelien","hero.mathilde"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"deep moral respect and concern","central_disagreement":"what cost is acceptable to protect others","evolution":"They become capable of naming a cost together without requiring agreement about whether it was acceptable."},
+    {"id":"aurelien_marec","heroes":["hero.aurelien","hero.marec"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"rough trust grounded in care for bodies","central_disagreement":"whether bodies can ever be treated as expendable resources","evolution":"Aurélien learns to ask before treating Marec's endurance as capacity; Marec learns that medical limits are not mistrust."},
+    {"id":"aurelien_zeje","heroes":["hero.aurelien","hero.zeje"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"respect for disciplined responsibility","central_disagreement":"how to decide when evidence remains uncertain","evolution":"They learn to separate the need to act from the temptation to pretend certainty."},
+    {"id":"aurelien_anouk","heroes":["hero.aurelien","hero.anouk"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"scholarly care and protective curiosity","central_disagreement":"how to study an extraordinary perception without turning Anouk into an instrument","evolution":"Aurélien learns to ask what Anouk wants from inquiry; Anouk learns to demand protocols that protect her agency."},
+    {"id":"effrie_lya","heroes":["hero.effrie","hero.lya"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"respect for living traditions and memory","central_disagreement":"transmitting a tradition versus representing it without stealing its voice","evolution":"They learn to let a tradition change in transmission while keeping who speaks, who remembers and who interprets distinct."},
+    {"id":"effrie_mathilde","heroes":["hero.effrie","hero.mathilde"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"warrior respect and fierce concern","central_disagreement":"retaliation versus protection","evolution":"They learn that refusing vengeance does not mean refusing force, and using force does not require making pain into a law."},
+    {"id":"effrie_marec","heroes":["hero.effrie","hero.marec"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"physical respect and camaraderie","central_disagreement":"discipline versus instinctive commitment","evolution":"They learn to trust strength that can stop itself and instinct that can explain its limits."},
+    {"id":"effrie_zeje","heroes":["hero.effrie","hero.zeje"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"respect sharpened by suspicion","central_disagreement":"tradition versus methodological doubt","evolution":"They learn that doubt can protect a tradition from false certainty, while tradition can preserve questions a method would otherwise discard."},
+    {"id":"effrie_anouk","heroes":["hero.effrie","hero.anouk"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"protective tenderness and respect","central_disagreement":"protecting Anouk without sacralizing or possessing the one called chosen","evolution":"Èffrie learns to protect without turning Anouk into a symbol; Anouk learns to refuse protection that erases her agency."},
+    {"id":"lya_mathilde","heroes":["hero.lya","hero.mathilde"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"mutual sensitivity and quiet care","central_disagreement":"how to remain open to others without being destroyed by what they feel","evolution":"They learn to recognize overload without treating sensitivity as weakness or moral superiority."},
+    {"id":"lya_marec","heroes":["hero.lya","hero.marec"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"warm curiosity and bodily trust","central_disagreement":"art and movement versus direct force","evolution":"They learn that force can have rhythm and art can have practical bodily consequences."},
+    {"id":"lya_zeje","heroes":["hero.lya","hero.zeje"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"intellectual and perceptual partnership","central_disagreement":"how to investigate without confusing a meaningful pattern with a verified cause","evolution":"They become an investigation duo where Lya expands possibilities and Zejé protects the boundary between pattern and proof."},
+    {"id":"lya_anouk","heroes":["hero.lya","hero.anouk"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"creative and perceptual affinity","central_disagreement":"shared perception can become a confirmation loop","evolution":"They learn to use outside checks precisely because they understand each other too easily."},
+    {"id":"mathilde_marec","heroes":["hero.mathilde","hero.marec"],"bond_type":"maternal_protective","romance_status":"not_canonized","affection_axis":"maternal protective affection","central_disagreement":"protecting Marec without infantilizing him","evolution":"Mathilde learns to respect Marec's adult choices; Marec learns to accept care without treating it as loss of autonomy."},
+    {"id":"mathilde_zeje","heroes":["hero.mathilde","hero.zeje"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"mutual respect with recurrent discomfort","central_disagreement":"human consequence versus epistemic restraint","evolution":"They learn that precision can be compassionate and compassion can tolerate an unresolved answer."},
+    {"id":"mathilde_anouk","heroes":["hero.mathilde","hero.anouk"],"bond_type":"protective_quasi_maternal","romance_status":"not_canonized","affection_axis":"protective tenderness","central_disagreement":"protection versus overprotection","evolution":"Mathilde learns to let Anouk enter risk by choice; Anouk learns that accepting help need not surrender agency."},
+    {"id":"marec_zeje","heroes":["hero.marec","hero.zeje"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"dry friendship and mutual respect","central_disagreement":"instinct versus analysis","evolution":"They learn that instinct can be interrogated and analysis can be forced to name when it has enough information to act."},
+    {"id":"marec_anouk","heroes":["hero.marec","hero.anouk"],"bond_type":"fraternal","romance_status":"not_canonized","affection_axis":"strictly fraternal sibling bond","central_disagreement":"protection without possession","evolution":"Marec learns not to turn sibling love into control; Anouk learns to ask for protection without fearing debt."},
+    {"id":"zeje_anouk","heroes":["hero.zeje","hero.anouk"],"bond_type":"complex_bond","romance_status":"not_canonized","affection_axis":"gentle epistemic trust","central_disagreement":"what is felt versus what can be established","evolution":"Anouk learns that verification does not invalidate experience; Zejé learns that unverified experience can still deserve care and preservation."}
+  ]
+}
