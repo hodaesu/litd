@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "id": "les_veilleurs_encounter_compositions",
+  "status": "design_locked",
+  "game": "LITD: Les Veilleurs",
+  "design_rules": [
+    "Une rencontre standard vise 3 à 4 ennemis actifs; 5 uniquement si les rôles restent immédiatement lisibles sur mobile.",
+    "Chaque groupe possède au moins un point d'effondrement autre que tuer tous les ennemis.",
+    "Les actes I et II utilisent des noms fonctionnels de zones tant que leurs noms narratifs définitifs ne sont pas verrouillés.",
+    "Les Manifestations destructrices ne sont jamais présentées comme alliées d'une faction: lorsqu'elles coexistent avec des humains, elles sont un danger concurrent.",
+    "Les mini-boss apparaissent avec peu d'alliés afin que leur gate narratif et leur anatomie restent lisibles.",
+    "Les boss complets ne sont pas inclus dans les rencontres procédurales ordinaires."
+  ],
+  "acts": [
+    {
+      "act":"I",
+      "theme":"routes, convois et premières tensions institutionnelles",
+      "narrative_zone_names":"pending",
+      "encounters":[
+        {"id":"a1_barrage_mobile","name":"Barrage mobile","difficulty":"standard","units":["gardes_de_convoi_common","gardes_de_convoi_common","tireurs_de_relais_common","molosses_de_convoi_common"],"formation":"2 gardes avant, tireur arrière, molosse mobile","team_plan":"les gardes ferment l'axe pendant que le tireur vise jambes/bras et que le molosse poursuit toute cible sortie de la protection","collapse":["neutraliser le bras de garde d'un des deux gardes","ouvrir un second axe avec déplacement ou décor","forcer le tireur à changer deux fois d'angle"],"nonlethal_resolution":"si le convoi protégé est déjà sorti de la zone, les gardes peuvent cesser le combat"},
+        {"id":"a1_convoi_blesse","name":"Convoi blessé","difficulty":"standard_plus","units":["gardes_de_convoi_veteran","chirurgiens_de_releve_common","tireurs_de_relais_common","molosses_de_convoi_common"],"formation":"garde central, chirurgien protégé, tireur en hauteur, molosse d'interception","team_plan":"le chirurgien stabilise, le garde couvre, le tireur punit l'approche directe, le molosse empêche le contournement","collapse":["séparer chirurgien et garde sans exécuter le blessé","fermer la hauteur du tireur","ouvrir une retraite au groupe"],"nonlethal_resolution":"respecter une trêve médicale peut transformer la rencontre en négociation"},
+        {"id":"a1_carrefour_sous_voix","name":"Carrefour sous voix","difficulty":"elite_intro","units":["gardes_de_convoi_veteran","meneurs_de_voix_common","sapeurs_de_passage_common","tireurs_de_relais_common"],"formation":"garde en ancre, meneur au centre, sapeur sur point d'appui, tireur arrière","team_plan":"le meneur maintient la cohésion pendant que le sapeur canalise le déplacement vers la ligne de tir","collapse":["interrompre le relais sonore","désamorcer ou retourner l'obstacle du sapeur","contester la ligne du tireur"],"nonlethal_resolution":"si la route est rendue praticable sans mettre les civils en danger, le groupe peut perdre sa raison de tenir"}
+      ]
+    },
+    {
+      "act":"II",
+      "theme":"passages disputés, information contradictoire et institutions qui se raidissent",
+      "narrative_zone_names":"pending",
+      "encounters":[
+        {"id":"a2_archive_escorte","name":"Archive sous escorte","difficulty":"standard_plus","units":["gardiens_des_versions_common","gardes_de_convoi_veteran","tireurs_de_relais_veteran","gardes_de_convoi_common"],"formation":"deux écrans de protection autour du porteur d'archive","team_plan":"les gardes gagnent du temps, le tireur neutralise les poursuivants et le gardien cherche une issue avec la source","collapse":["couper l'issue sans détruire l'archive","ouvrir une négociation sur la source","désarmer fonctionnellement la ligne sans tuer le porteur"],"nonlethal_resolution":"obtenir une copie ou garantir la conservation de l'original peut suffire"},
+        {"id":"a2_passage_condamne","name":"Passage condamné","difficulty":"elite","units":["sapeurs_de_passage_veteran","gardes_de_convoi_veteran","molosses_de_convoi_veteran","tireurs_de_relais_common"],"formation":"sapeur derrière obstacle, garde et molosse contrôlent l'avant, tireur couvre","team_plan":"le groupe veut forcer le joueur dans un seul corridor préparé","collapse":["occuper le point d'appui du sapeur","libérer ou détourner le molosse","créer une seconde route"],"nonlethal_resolution":"si le joueur répare ou stabilise l'ouvrage que le groupe cherchait à protéger, une voie d'intérêt commun peut s'ouvrir"},
+        {"id":"a2_deux_versions","name":"Deux versions du même ordre","difficulty":"elite","units":["gardiens_des_versions_veteran","meneurs_de_voix_veteran","gardes_de_convoi_common","chirurgiens_de_releve_common"],"formation":"gardien et meneur se soutiennent derrière une protection minimale","team_plan":"le gardien expose les faiblesses tandis que le meneur exploite les contradictions et que le chirurgien empêche l'effondrement physique","collapse":["présenter une preuve contradictoire vérifiable","isoler le meneur de sa source","forcer le chirurgien à choisir le triage plutôt que le soutien tactique"],"nonlethal_resolution":"la rencontre peut finir par comparaison des ordres plutôt que par élimination"},
+        {"id":"a2_incident_concurrent","name":"Incident concurrent","difficulty":"hazard","units":["manifestations_destructrices_common","gardes_de_convoi_common","sapeurs_de_passage_common"],"formation":"aucune alliance; humains et manifestation se gênent mutuellement","team_plan":"les humains tentent de contenir la zone pendant que la Manifestation modifie le terrain","collapse":["isoler le point de cohésion","aider ou convaincre les humains d'évacuer","utiliser le sapeur ou le décor contre l'ancrage"],"nonlethal_resolution":"les humains peuvent devenir temporairement non hostiles si la priorité commune devient l'évacuation"}
+      ]
+    },
+    {
+      "act":"III",
+      "theme":"Les Veines: dépendance, transfert, personnes-fonctions et réseau",
+      "encounters":[
+        {"id":"a3_cellule_transfert","name":"Cellule de transfert","difficulty":"standard","units":["porteurs_des_veines_common","porteurs_des_veines_common","sapeurs_de_passage_common","meneurs_de_voix_common"],"formation":"deux porteurs en ligne, sapeur sur levier, meneur derrière","team_plan":"les porteurs maintiennent le flux, le sapeur ferme les écarts, le meneur empêche l'hésitation","collapse":["couper le flux sans écraser un porteur","interrompre la voix","ouvrir une sortie que le réseau ne prévoit pas"],"nonlethal_resolution":"laisser un porteur choisir librement après rupture du flux ouvre le recrutement"},
+        {"id":"a3_galerie_vivante","name":"Galerie vivante","difficulty":"standard_plus","units":["fouisseurs_des_veines_veteran","fouisseurs_des_veines_common","porteurs_des_veines_common","sapeurs_de_passage_veteran"],"formation":"fouisseurs hors ligne initiale, porteur et sapeur visibles","team_plan":"le sapeur et le porteur structurent l'espace pendant que les fouisseurs surgissent sur les côtés","collapse":["laisser une sortie de terrier","stabiliser l'éboulis","neutraliser le point d'appui du sapeur"],"nonlethal_resolution":"sécuriser la galerie peut faire cesser les fouisseurs sans les tuer"},
+        {"id":"a3_station_ancree","name":"Station ancrée","difficulty":"elite","units":["porteurs_des_veines_elite","porteurs_des_veines_veteran","chirurgiens_de_releve_veteran","meneurs_de_voix_veteran"],"formation":"Ancre au centre, Porte-fardeau avant, chirurgien et meneur arrière","team_plan":"l'Ancre bloque le terrain, le Porte-fardeau redistribue, le chirurgien stabilise et le meneur maintient l'obéissance","collapse":["rompre la fonction de l'Ancre","isoler le meneur","offrir une relève crédible avant de pousser le Porte-fardeau à l'épuisement"],"nonlethal_resolution":"la station peut être arrêtée sans vaincre tous les humains"},
+        {"id":"a3_contremaitre_ancrage","name":"Contremaître d'ancrage","difficulty":"mini_boss","units":["porteurs_des_veines_mini_boss","porteurs_des_veines_common","porteurs_des_veines_common","sapeurs_de_passage_veteran"],"formation":"Contremaître arrière-central, deux porteurs en relais, sapeur contrôle la station","team_plan":"le mini-boss redistribue la charge pour empêcher l'arrêt du réseau","collapse":["arrêter la station sans surcharger un autre porteur","faire quitter leur poste à deux personnes-fonctions vivantes","neutraliser les outils du sapeur"],"nonlethal_resolution":"conditions identiques au gate de recrutement du Contremaître"}
+      ]
+    },
+    {
+      "act":"IV",
+      "theme":"Porte-Cendres: coût, exposition, relève et sacrifice temporaire devenu institution",
+      "encounters":[
+        {"id":"a4_equipe_releve","name":"Équipe de relève","difficulty":"standard","units":["brules_de_porte_cendres_common","brules_de_porte_cendres_veteran","chirurgiens_de_releve_common","gardes_de_convoi_common"],"formation":"deux Brûlés devant, garde en couverture, chirurgien derrière","team_plan":"les Brûlés encaissent trop longtemps, le garde empêche la rupture de ligne et le chirurgien les maintient fonctionnels","collapse":["forcer une relève sans exécuter le premier rang","ouvrir une sortie sûre","montrer que la mission peut continuer sans sacrifier la personne"],"nonlethal_resolution":"une relève réellement possible peut faire céder l'Endurant"},
+        {"id":"a4_couloir_fumee","name":"Couloir de fumée","difficulty":"elite","units":["brules_de_porte_cendres_elite","meneurs_de_voix_veteran","sapeurs_de_passage_veteran","chirurgiens_de_releve_veteran"],"formation":"Témoin devant, meneur et chirurgien milieu, sapeur manipule ventilation/obstacles","team_plan":"le sapeur contrôle l'exposition, le meneur maintient la cohésion, le chirurgien compense les blessures","collapse":["rétablir une ventilation ou route sûre","interrompre la pression vocale","forcer le chirurgien à prioriser une urgence réelle"],"nonlethal_resolution":"si l'exposition cesse, la justification de tenir peut disparaître"},
+        {"id":"a4_premier_releve","name":"Premier de relève","difficulty":"mini_boss","units":["brules_de_porte_cendres_mini_boss","brules_de_porte_cendres_veteran","chirurgiens_de_releve_veteran","meneurs_de_voix_common"],"formation":"Premier devant mais mobile, Endurant en relais, soutien arrière","team_plan":"le Premier se remet toujours lui-même dans la zone dangereuse et entraîne les autres par exemple","collapse":["faire fonctionner une alternative sans sacrifier quelqu'un","maintenir une relève vivante","éviter d'humilier ou exécuter les blessés"],"nonlethal_resolution":"le mini-boss peut retourner sa propre autorité contre la procédure"},
+        {"id":"a4_manifestation_exposition","name":"Exposition interrompue","difficulty":"hazard_elite","units":["manifestations_destructrices_elite","brules_de_porte_cendres_common","chirurgiens_de_releve_common"],"formation":"danger concurrent dans une zone de traitement","team_plan":"la Manifestation déforme le terrain pendant que les humains tentent d'extraire un blessé","collapse":["isoler l'ancrage","aider à l'extraction","ne pas traiter les humains comme alliés automatiques ni ennemis prioritaires"],"nonlethal_resolution":"l'événement peut se résoudre avec tous les humains vivants"}
+      ]
+    },
+    {
+      "act":"V",
+      "theme":"copies, transmission, contradiction et contrôle de la mémoire",
+      "encounters":[
+        {"id":"a5_convoi_versions","name":"Convoi des versions","difficulty":"standard_plus","units":["gardiens_des_versions_veteran","gardes_de_convoi_veteran","tireurs_de_relais_veteran","meneurs_de_voix_common"],"formation":"archive au centre, garde avant, tireur arrière, meneur mobile","team_plan":"le groupe ne cherche pas nécessairement à tuer: il veut faire sortir les copies","collapse":["garantir la conservation d'au moins deux copies","bloquer l'issue sans brûler les sources","révéler une contradiction au meneur"],"nonlethal_resolution":"une négociation sur la duplication peut remplacer le combat"},
+        {"id":"a5_chambre_deux_sources","name":"Chambre des deux sources","difficulty":"elite","units":["gardiens_des_versions_elite","gardiens_des_versions_veteran","meneurs_de_voix_elite","sapeurs_de_passage_veteran"],"formation":"deux gardiens séparés, meneur au centre, sapeur ferme les accès","team_plan":"chaque gardien soutient une version, le meneur exploite les incohérences et le sapeur empêche le joueur d'atteindre les deux sources facilement","collapse":["préserver les deux sources","ouvrir le passage entre elles","retourner une contradiction contre le meneur"],"nonlethal_resolution":"Concordance possible si les deux sources restent intactes"},
+        {"id":"a5_arbitre_copies","name":"Arbitre des copies","difficulty":"mini_boss","units":["gardiens_des_versions_mini_boss","gardiens_des_versions_veteran","tireurs_de_relais_elite","chirurgiens_de_releve_common"],"formation":"Arbitre et source au centre, tireur contrôle les angles, chirurgien maintient les porteurs","team_plan":"l'Arbitre décide quelles sources doivent survivre pendant que le tireur empêche l'accès direct","collapse":["séparer physiquement les sources sans les détruire","fermer la ligne du tireur","prouver qu'une copie rejetée est authentique"],"nonlethal_resolution":"l'Arbitre peut être recruté seulement si la contradiction est conservée et non confisquée"},
+        {"id":"a5_archive_instable","name":"Archive instable","difficulty":"hazard_bosslike","units":["manifestations_destructrices_mini_boss","gardiens_des_versions_common","sapeurs_de_passage_elite"],"formation":"danger concurrent au milieu d'une tentative de sauvetage documentaire","team_plan":"le Gardien veut extraire des sources, le Sapeur veut stabiliser l'accès, la Manifestation perturbe les ancrages","collapse":["isoler les points de cohésion","laisser au Sapeur un accès aux appuis","choisir quelles sources déplacer en premier"],"nonlethal_resolution":"les humains peuvent coopérer temporairement; aucune alliance avec la Manifestation n'est suggérée"}
+      ]
+    }
+  ],
+  "global_group_rules": {
+    "role_limit":"Pas plus de deux unités ayant exactement le même rôle principal dans une rencontre standard, sauf rencontre thématique explicitement conçue comme ligne ou meute.",
+    "support_limit":"Maximum deux soutiens purs simultanés afin d'éviter les combats qui stagnent.",
+    "healer_rule":"Un Chirurgien stabilise et protège les fonctions; il ne doit jamais annuler en boucle les dégâts sans coût, stock ou fenêtre d'action.",
+    "ranged_rule":"Une rencontre avec deux Tireurs ou plus doit fournir au moins deux moyens de casser les lignes de tir.",
+    "environment_rule":"Une rencontre avec Sapeur/Fouisseur/Manifestation doit télégraphier les cases, points d'appui ou ancrages interactifs avant leur résolution.",
+    "corpse_rule":"Les compositions doivent accepter que des cadavres persistants changent leurs chemins, couvertures et priorités plutôt que de les faire disparaître pour simplifier l'IA."
+  },
+  "encounter_count": 18
+}
