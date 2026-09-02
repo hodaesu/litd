@@ -107,7 +107,7 @@
       "predicate": "relative_year_approximate",
       "value": -3700,
       "status": "fixed",
-      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+      "sources": ["docs/civilisations/README.md"]
     },
     {
       "id": "history.concord.birth_date",
@@ -116,7 +116,7 @@
       "value": -1000,
       "status": "perspective",
       "allowed_operations": ["affirm", "partial_evidence"],
-      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+      "sources": ["docs/LITD2_NAISSANCE_DE_LA_CONCORDE.md", "data/lore_concorde_origins.json"]
     },
     {
       "id": "veilleurs.protagonists.count",
@@ -152,12 +152,55 @@
       "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
     },
     {
-      "id": "legendary_seven.formation_order",
+      "id": "legendary_seven.known_formation_positions",
       "subject": "legendary_seven",
-      "predicate": "formation_order",
-      "value": ["hero.zeje", "hero.mathilde", "hero.marec", "hero.aurelien", "hero.lya", "hero.effrie", "hero.anouk"],
+      "predicate": "known_formation_positions",
+      "value": {"2": "hero.anouk", "5": "hero.effrie"},
       "status": "fixed",
-      "sources": ["docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+      "sources": ["docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"]
+    },
+    {
+      "id": "legendary_seven.complete_formation_order",
+      "subject": "legendary_seven",
+      "predicate": "complete_formation_order",
+      "value": "unconfirmed",
+      "status": "open",
+      "allowed_operations": ["affirm", "theory", "partial_evidence"],
+      "sources": ["docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"]
+    },
+    {
+      "id": "anouk.magic.name",
+      "subject": "hero.anouk",
+      "predicate": "signature_magic_name",
+      "value": "La Trame",
+      "status": "fixed",
+      "sources": ["docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"]
+    },
+    {
+      "id": "anouk.magic.origin",
+      "subject": "hero.anouk",
+      "predicate": "signature_magic_origin",
+      "value": "unconfirmed",
+      "status": "open",
+      "allowed_operations": ["affirm", "theory", "partial_evidence"],
+      "sources": ["docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"]
+    },
+    {
+      "id": "effrie.dragons.confirmed_link",
+      "subject": "hero.effrie",
+      "predicate": "dragon_link",
+      "value": "dragon_powers_and_tribe_historical_harmony",
+      "status": "fixed",
+      "sources": ["docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"]
+    },
+    {
+      "id": "effrie.dragons.history_date",
+      "subject": "hero.effrie",
+      "predicate": "tribe_dragon_harmony_date",
+      "value": "unconfirmed",
+      "status": "open",
+      "allowed_operations": ["affirm", "theory", "partial_evidence"],
+      "sources": ["docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"]
     },
     {
       "id": "universe.design.pillars",
@@ -181,10 +224,10 @@
   "timeline": [
     {"id": "event.ashai_first_rupture", "label": "Première Rupture d'Ashaï", "order": 10},
     {"id": "era.or_silex", "label": "Ère d'Or-Silex", "order": 20},
-    {"id": "event.great_closure", "label": "Grande Fermeture", "order": 30},
+    {"id": "event.great_closure", "label": "Grande Fermeture de Saan", "order": 30},
     {"id": "era.last_war", "label": "Dernière Guerre / LITD 2", "order": 40},
     {"id": "event.night_of_sarn", "label": "Nuit de Sarn", "order": 45},
-    {"id": "event.three_awakenings_birth", "label": "Naissance explicite des Trois Éveils", "order": 50},
+    {"id": "event.three_awakenings_birth", "label": "Convergence explicite des Trois Éveils", "order": 50},
     {"id": "era.long_assemblies", "label": "Longues Assemblées", "order": 60},
     {"id": "event.first_pact", "label": "Premier Pacte", "order": 70},
     {"id": "event.concord_birth", "label": "Naissance de la Concorde", "order": 80},

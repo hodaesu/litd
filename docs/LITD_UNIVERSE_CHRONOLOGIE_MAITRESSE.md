@@ -1,136 +1,188 @@
 # LITD Universe — Chronologie maîtresse officielle
 
-> Statut : canon de référence. Toute nouvelle idée temporelle doit être confrontée à ce document, au registre canonique et aux neuf piliers LITD Universe avant intégration.
+> Statut : canon de référence.
+> Règle : toute nouvelle idée temporelle doit être confrontée à ce document, au registre canonique, aux sources prioritaires et aux neuf piliers LITD Universe avant intégration.
 
 ## Convention temporelle
 
-La **Chute est l'an 0**. Les valeurs négatives désignent les périodes antérieures. Quand aucune date absolue n'est suffisamment établie, la chronologie conserve volontairement un ordre relatif au lieu d'inventer un chiffre.
+La **Chute est l'an 0**. Les valeurs négatives désignent les périodes antérieures. Les archives anciennes sont imparfaites : lorsqu'une date n'est pas suffisamment établie, la chronologie conserve une plage ou un ordre relatif plutôt que d'inventer une année.
 
-Les degrés de certitude utilisés sont :
+Niveaux de certitude :
 
 - **locked** : position ou fait temporel verrouillé ;
-- **approximate** : ordre et époque établis, date seulement approximative ;
-- **relative_only** : seul l'ordre relatif est canonique ;
-- **unknown** : information volontairement non tranchée.
+- **approximate** : période établie, datation arrondie ;
+- **relative_only** : l'ordre relatif est établi, pas l'année ;
+- **unknown** : donnée volontairement non tranchée.
 
-## Ligne du temps maîtresse
+## 1. Histoire profonde
 
-### ≈ -3700 — Première Rupture d'Ashaï
+Les dossiers `docs/civilisations/` et les données synchronisées de `data/world/` priment sur les anciennes approximations de travail.
 
-Ashaï est la plus ancienne rupture actuellement datée. Sa civilisation savait observer et mesurer des écarts du réel mais a fini par confondre mesure, compréhension et maîtrise. La Première Rupture n'est ni la Chute ni une répétition exacte du Projet Seuil.
+### Ashaï de Nhal — env. -4450 à -3520
 
-Cette période constitue une Rémanence fondamentale : une erreur ancienne peut survivre à ses auteurs et devenir plus tard la technologie d'une autre civilisation.
+Civilisation ancienne du continent de la future Concorde. Sa Première Rupture se produit vers **-3700**. Ashaï ne crée pas le Voile : elle constitue la plus ancienne rupture documentée actuellement datée.
 
-### Après Ashaï, avant la Concorde — Or-Silex
+### Royaumes d'Or-Silex — env. -3260 à -2470
 
-Des connaissances ou techniques héritées de ruptures plus anciennes sont reprises et industrialisées par Or-Silex. Les dispositifs exigent préparation de sites, matériaux et relais ; leur fiabilité reste imparfaite. L'usage se militarise progressivement.
+Or-Silex reprend, transforme et militarise des connaissances incomplètes liées à des phénomènes plus anciens. L'existence d'héritages n'implique pas une chaîne de transmission parfaite ni une compréhension continue.
 
-La date exacte reste inconnue.
+### Veilleurs de Saan — env. -2910 à -1980
 
-### Or-Silex — La Grande Fermeture
+Réseau politique et culturel pluriel développant des ancrages de réalité et des pratiques de confinement. La **Grande Fermeture de Saan**, vers **-2290**, répond à une catastrophe liée aux usages militaires d'Or-Silex. Elle sauve certaines zones au prix de communautés exclues de la réalité commune.
 
-La Grande Fermeture sauve certaines zones en condamnant volontairement des communautés devenues inatteignables. Cet événement doit toujours conserver son coût humain : il n'est pas une victoire technique propre.
+### Civilisations anciennes des continents extérieurs
 
-Son ordre après Ashaï et avant la Concorde est canonique ; sa date absolue ne l'est pas encore.
+Les histoires profondes extérieures sont contemporaines par endroits des cultures précédentes et ne forment pas une unique chaîne secrète :
 
-### Un peu plus d'un millénaire avant la Chute — Dernière Guerre / LITD 2
+- **Cités de Vaor-Khal** : env. -2870 à -2010 ;
+- **Navigateurs de Lyr-Mar** : env. -2680 à -1760 ;
+- **Cités de Sahm-Ir** : env. -2440 à -1510 ;
+- **Ateliers d'Ydris** : env. -2190 à -1280.
 
-LITD 2 se déroule durant la Dernière Guerre. Sa séquence historique de référence est :
+Des idées peuvent circuler par commerce, traduction, migration ou guerre, mais une ressemblance ne prouve jamais automatiquement une filiation. Certains travaux d'Ydris seront bien plus tard réemployés indirectement et de manière incomplète par le Projet Seuil.
 
-**Dernière Guerre → batailles/runs → rencontres avec Sahra, Ilyan et Tala → choix/affinités → Nuit de Sarn → naissance explicite des Trois Éveils → épilogue historique.**
+## 2. Sites et héritages antiques
 
-Aucune année précise de la Dernière Guerre ou de la Nuit de Sarn n'est encore fixée.
+La Cité sous la Cendre, l'Observatoire des Sept Silences, la Bibliothèque Renversée, les Cryptes de Verre Noir, le Puits de Saan, le Jardin Sans Saison et la Salle des Portes Muettes appartiennent à ces histoires anciennes.
 
-### Fin de la Dernière Guerre — Nuit de Sarn
+Le **nœud de stabilisation de Saan sous l'Arbre du Premier Voile** est antérieur à la Concorde. Il ne faut pas le confondre avec l'institution ultérieure des Sanctuaires des Trois Éveils. Le lieu ancien peut être réemployé, oublié ou réinterprété sans rendre les fondateurs de la Concorde omniscients sur sa fonction réelle.
 
-La Nuit de Sarn constitue la dernière grande séquence du conflit dans LITD 2. Elle précède directement la formulation explicite des Trois Éveils.
+Les **Absents** restent une possibilité tardive du canon : leur survie ou leur identité exacte ne doit pas être révélée prématurément.
 
-### Après la Nuit de Sarn — Naissance des Trois Éveils
+## 3. Dernière Guerre et LITD 2 — autour de -1000
 
-**Corps, Esprit et Politique/Commun** ne sont pas trois éléments magiques. Ils deviennent trois manières humaines d'agir, comprendre et organiser la vie commune. LITD 2 raconte leur émergence ; les jeux suivants racontent leur institutionnalisation, leur transmission et leurs déformations.
+La Dernière Guerre dure plusieurs décennies. LITD 2 se déroule dans ses dernières années. Une run représente une opération historique réelle, pas une boucle temporelle.
 
-### Après-guerre — Les Longues Assemblées
+La progression historique de référence est :
 
-Les survivants ne passent pas directement de la guerre à une société harmonieuse. Les Longues Assemblées transforment les idées nées du conflit en pratiques discutées, contestées et révisables.
+**Dernière Guerre → opérations et refus croissants → émergence des trois voies → Nuit de Sarn → Longues Assemblées → Premier Pacte → générations de transmission → Concorde développée.**
 
-### Après les Longues Assemblées — Premier Pacte
+### Nuit de Sarn
 
-Le Premier Pacte constitue une première architecture durable du monde d'après-guerre. Son contenu détaillé et sa date exacte doivent encore être consolidés avant d'être fixés davantage.
+La Nuit de Sarn est la **fin jouable de LITD 2**. Sahra Khen, Ilyan Sorei et Tala Veyr sont des synthétiseurs majeurs, pas les inventeurs solitaires d'une civilisation. Les soldats qui refusent les ordres, les travailleurs, les villes, les soignants, les artistes, les juristes, les enseignants et les réseaux civils participent aussi à la fin du conflit.
 
-### ≈ -1000 — Naissance de la Concorde
+### Trois Éveils
 
-La Concorde naît approximativement un millénaire avant la Chute. C'est une confédération de cités autonomes, pas un empire homogène. Cette date est volontairement approximative.
+Corps, Esprit et Politique/Bien commun émergent avant Sarn dans plusieurs pratiques humaines. À Sarn, ils sont explicitement compris ensemble ; leur formalisation et leur institutionnalisation se poursuivent ensuite. Le troisième nom évoluera progressivement vers **La Cité**.
 
-### Plusieurs générations après LITD 2 — LITD : Les Veilleurs
+### Longues Assemblées et Premier Pacte
 
-Les Veilleurs se déroule dans les premiers temps de la Concorde et des Sanctuaires, **plusieurs générations après LITD 2** et **plusieurs siècles avant LITD 1**.
+Les Longues Assemblées commencent après Sarn. Elles transforment les leçons de la guerre en règles contestables, institutions, écoles, médiations et limites de pouvoir. Le **Premier Pacte de Concorde** appartient à cet épilogue historique : il n'est pas la fin jouable de LITD 2.
 
-Les témoins directs de la Dernière Guerre ont disparu. Le jeu porte notamment sur ce qui arrive aux faits, techniques, récits, erreurs, institutions et œuvres lorsqu'ils ne sont plus transmis par ceux qui les ont vécus.
+## 4. Naissance et développement de la Concorde
 
-Le jeu comporte **quatre protagonistes principaux**. Leurs identités ne sont pas encore verrouillées par le canon. Les anciennes attributions automatiques à Darius, Aurélien, Malvor et Lysandra ne doivent pas être utilisées comme vérité chronologique sans nouvelle validation.
+La Concorde naît progressivement autour du millénaire précédant la Chute. Elle reste une coopération de cités autonomes, jamais un empire centralisé.
 
-### Siècles de Concorde
+### Premiers Sanctuaires
 
-La Concorde, ses Sanctuaires, ses arts, ses institutions et les Trois Éveils se développent durant des siècles. Cette période ne doit jamais être écrite comme un âge d'or sans contradictions : elle reste humaine, politique, réformable et faillible.
+Les premiers Sanctuaires apparaissent **après Sarn** comme lieux neutres de mémoire commune. Ils ne naissent pas comme temples religieux.
 
-### Derniers temps de la Concorde — époque des futurs Sept
+Avec les générations, ils participent à l'institutionnalisation des Trois Éveils. À l'époque de la Concorde mature, les **Sanctuaires des Trois Éveils** sont des lieux de transmission, de mémoire, de pratique et de confrontation des héritages.
 
-Les futurs Sept Héros légendaires appartiennent à la période tardive de la Concorde et traversent la Chute. **Les Sept ne sont pas prédestinés.** Ils deviennent légendaires par leurs actes et par la manière dont ceux-ci seront ensuite transmis.
+### Grands Tournois
+
+Les pratiques martiales d'après-guerre évoluent progressivement vers les Grands Tournois. Leur principe historique central est de dissocier prestige martial, conquête territoriale et droit politique.
+
+## 5. LITD : Les Veilleurs
+
+Les Veilleurs se déroule **plusieurs générations après LITD 2** et **plusieurs siècles avant LITD 1**, dans les premiers temps de la Concorde.
+
+Le jeu possède **quatre protagonistes principaux**, mais leurs identités restent non confirmées. Aucun personnage de LITD 1 ne doit y être introduit par simple commodité chronologique.
+
+Cette période est centrale pour la **Rémanence de la connaissance** : faits, œuvres, techniques, institutions, erreurs et récits ont déjà commencé à changer parce que leurs témoins directs ont disparu. Une trace peut être préservée, transformée, ritualisée, institutionnalisée, oubliée, mythifiée, déformée, falsifiée ou fragmentaire.
+
+## 6. Siècles de Concorde
+
+La Concorde développe pendant des siècles ses écoles, Sanctuaires, routes, institutions, arts, Grand Tournois et pratiques de mémoire. Elle ne doit pas être réduite à un âge d'or parfait : sa force vient précisément du fait que ses institutions peuvent être discutées, corrigées et transmises.
+
+## 7. Derniers temps avant la Chute
+
+Les futurs Sept Héros légendaires appartiennent à cette période tardive et traversent la Chute. **Ils ne sont pas prédestinés.** Le titre de « Sept Héros légendaires » est une qualification historique ultérieure.
 
 Composition canonique : **Aurélien, Èffrie, Lya, Mathilde, Marec, Zejé et Anouk**.
 
-Ordre de formation actuel après la Chute : **Zejé → Mathilde → Marec → Aurélien → Lya → Èffrie → Anouk**.
+### Ordre de formation : précision corrigée
+
+L'ancienne chronologie avait transformé une extrapolation de travail en ordre complet. Cette précision est retirée.
+
+Positions actuellement verrouillées :
+
+- **2e : Anouk** ;
+- **5e : Èffrie**.
+
+Les rangs des cinq autres membres restent **non confirmés** jusqu'à décision sourcée. Aucun système ne doit recomposer automatiquement un ordre complet.
+
+### Anouk et La Trame
+
+Le nom canonique de la magie d'Anouk est **La Trame**. Sa nature profonde, son origine historique et ses éventuels liens au Voile, à l'Essence, à la Rémanence ou à une civilisation ancienne restent **ouverts**.
+
+### Èffrie et les dragons
+
+Èffrie possède des pouvoirs liés aux dragons et vient d'une tribu qui vénérait les dragons et vécut autrefois en harmonie avec eux. La date et la nature exacte de cette harmonie restent **non établies**. Aucun pacte, ascendance draconique ou lien au Voile ne peut être ajouté sans validation ultérieure.
+
+## 8. Projet Seuil et Chute
 
 ### Juste avant l'an 0 — Projet Seuil
 
-Le Projet Seuil comprend infrastructure, relais, protocoles et une opération décrite par ses responsables comme une ouverture. Il est la **cause immédiate documentée de la Chute**, sans constituer l'explication totale du Voile ni de toutes les ruptures historiques.
+Le Projet Seuil combine infrastructure, relais, protocoles et savoirs fragmentaires issus de plusieurs histoires. Il constitue la **cause immédiate documentée de la Chute**, sans être l'origine du Voile.
+
+Les similitudes avec Ashaï, Or-Silex, Saan ou Ydris doivent rester historiquement traçables et ne jamais devenir une révélation commode du type « tout venait d'une seule civilisation ».
 
 ### An 0 — La Chute
 
-La Chute est l'ancre centrale de la chronologie LITD Universe. Elle frappe responsables, opposants, indifférents et innocents sans constituer un jugement moral du monde.
+La Chute est l'ancre centrale de LITD Universe. Elle frappe responsables, opposants, indifférents et innocents sans fonctionner comme jugement moral du monde.
 
-### Immédiatement après l'an 0 — LITD 1
+## 9. LITD 1 et formation des Sept
 
-LITD 1 commence dans l'immédiat après-Chute : rationnement, blessés, expéditions, reconstruction et enquête ont déjà commencé, mais la cause de la catastrophe n'est pas connue des survivants au début du cycle.
+LITD 1 commence dans l'immédiat après-Chute. La cause exacte n'est pas connue des survivants au début du cycle.
 
-La campagne conduit notamment vers l'étude du Projet Seuil, d'Ashaï, d'Or-Silex, du Voile et du monde extérieur.
+Les Sept se forment progressivement. À ce stade du canon, seule la position d'Anouk (2) et celle d'Èffrie (5) sont verrouillées. La chronologie doit accepter cette information partielle sans fabriquer les rangs manquants.
 
-### Après la Chute — Formation des Sept
+La campagne conduit notamment à l'étude du Projet Seuil, des civilisations anciennes, du Voile, des continents extérieurs et des conséquences politiques de la reconstruction.
 
-Les Sept se forment progressivement selon l'ordre de travail canonique :
+## 10. Rémanences à ne pas confondre
 
-1. Zejé
-2. Mathilde
-3. Marec
-4. Aurélien
-5. Lya
-6. Èffrie
-7. Anouk
+### Rémanence du Vestige — LITD 2
 
-Le terme « Sept Héros légendaires » est une qualification historique ultérieure, pas un mandat prophétique.
+Le Vestige reconstruit une continuité corporelle après une mort réelle. Son créateur appartient à une **civilisation ancienne non identifiée**. Il est interdit de l'attribuer automatiquement à Ashaï, Or-Silex ou Saan. Rémanence ne signifie ni résurrection, ni retour temporel.
 
-### Fin du cycle initial de LITD 1 — Rupture Commune
+### Rémanence de la connaissance — inter-jeux
 
-La Rupture Commune n'est pas obligatoirement un être à tuer. Le conflit final porte sur la stabilisation, l'isolement, la reconfiguration ou la fermeture partielle d'un réseau incapable de maintenir suffisamment longtemps une version commune du monde.
+Il ne s'agit pas d'un artefact unique mais d'une règle de transmission : ce qu'un jeu établit peut survivre dans un autre sous forme de trace, institution, mythe, erreur, œuvre, technique, ruine, loi ou contradiction.
 
-Plusieurs orientations politiques peuvent résulter de la campagne. L'après-LITD 1 est donc **branché** et ne doit pas être aplati prématurément en une unique fin canonique.
+La Rémanence du Vestige et la Rémanence de la connaissance peuvent dialoguer thématiquement sans être déclarées comme un même phénomène métaphysique.
 
 ## Ordre inter-jeux
 
-La colonne vertébrale historique est :
+La colonne vertébrale historique reste :
 
-**Ashaï → Or-Silex → Dernière Guerre / LITD 2 → Nuit de Sarn → Trois Éveils → Longues Assemblées → Premier Pacte → Concorde → LITD : Les Veilleurs → siècles de Concorde → Projet Seuil → Chute (an 0) → LITD 1 → Rupture Commune → futurs héritages branchés.**
+**civilisations antiques → Dernière Guerre / LITD 2 → Nuit de Sarn → Longues Assemblées → Premier Pacte → premiers Sanctuaires → Concorde → LITD : Les Veilleurs → Concorde mature → Projet Seuil → Chute (an 0) → LITD 1 → formation progressive des Sept → Rupture Commune → héritages branchés.**
+
+## Validation par les piliers
+
+Cette chronologie est validée principalement contre :
+
+- **P1 — Création de personnages** : les héros historiques ne remplacent pas les systèmes de création ; les identités non confirmées restent ouvertes ;
+- **P3 — Philosophie et psychologie** : erreurs historiques, mémoire, identité et pouvoir restent portés par des situations humaines plutôt que des réponses absolues ;
+- **P4 — Profondeur humaine accessible** : chaque période possède un conflit compréhensible avant son interprétation profonde ;
+- **P5 — Narration forte** : causes, conséquences et révélations sont préparées et persistantes ;
+- **P6 — Interconnexion des jeux** : les traces entre jeux sont explicites sans rendre un jeu incompréhensible seul ;
+- **P7 — Rémanence de la connaissance** : la transmission peut conserver autant que déformer ;
+- **P8 — Dialogues et mise en scène** : toute future matérialisation narrative de ces événements doit respecter la qualité de scène du projet ;
+- **P9 — Gameplay simple, profond, lisible** : lorsqu'une connaissance historique devient mécanique, sa lecture doit rester claire et sa profondeur venir de ses conséquences, pas d'une surcharge de systèmes.
+
+Le pilier 2 — gore systémique — reste obligatoire pour les scènes ou systèmes corporels concernés, notamment la Rémanence de LITD 2, mais il n'impose pas artificiellement du gore aux entrées purement historiques.
 
 ## Règle d'intégration
 
-Une nouvelle scène, un personnage, un objet, une institution, une Rémanence ou une référence inter-jeux qui implique une date doit déclarer :
+Toute nouvelle scène, personnage, civilisation, peuple, institution, Sanctuaire, créature, Rémanence ou référence inter-jeux impliquant une date doit déclarer :
 
-- son événement ou son ancre temporelle ;
+- sa période ou son ancre ;
 - son niveau de certitude ;
 - ses sources ;
 - les jeux concernés ;
 - les personnages impliqués ;
-- ses liens éventuels de Rémanence ;
+- ses traces vers le futur lorsqu'elles sont établies ;
 - son statut canonique.
 
-Une date inconnue ne doit jamais être inventée uniquement pour remplir un champ. L'incertitude est une donnée canonique et doit rester représentable.
+**Une date inconnue est une donnée canonique. Elle ne doit jamais être remplacée par un chiffre uniquement pour compléter un tableau.**
