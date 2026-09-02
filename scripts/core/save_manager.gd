@@ -4,7 +4,7 @@ signal save_started(slot: int)
 signal save_finished(slot: int, success: bool, recovered: bool)
 
 const SAVE_PATH := "user://light_in_the_dark_save.json"
-const SAVE_VERSION := "0.32"
+const SAVE_VERSION := "0.31"
 const SLOT_COUNT := 3
 const AUTOSAVE_SLOT := -1
 const QA_SNAPSHOT_PATH := "user://litd_qa_snapshot.json"
@@ -190,7 +190,7 @@ func _apply_payload(payload: Dictionary) -> void:
 
 func _migrate(payload: Dictionary) -> Dictionary:
     var version := String(payload.get("version", "0.31"))
-    if version not in ["0.31", SAVE_VERSION]:
+    if version != SAVE_VERSION:
         return {}
     payload["campaign_memory"] = payload.get("campaign_memory",{})
     payload["remanence"] = payload.get("remanence",{})
@@ -202,7 +202,6 @@ func _migrate(payload: Dictionary) -> Dictionary:
     payload["base_game_enrichment"] = payload.get("base_game_enrichment",{})
     payload["systemic_cross"] = payload.get("systemic_cross",{})
     payload["systemic_cross_narrative"] = payload.get("systemic_cross_narrative",{})
-    payload["version"] = SAVE_VERSION
     return payload
 
 func _atomic_write(path: String, text: String) -> bool:
