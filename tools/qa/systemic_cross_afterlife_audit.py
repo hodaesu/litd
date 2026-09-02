@@ -22,6 +22,7 @@ def audit_systemic_cross_afterlife(root: Path = ROOT) -> dict[str, Any]:
 
     canon_path = root / "universe/lore/contextual_quest_cross_ramifications.json"
     data_path = root / "data/narrative/systemic_cross_afterlives.json"
+    v2_path = root / "data/narrative/systemic_cross_afterlife_v2.json"
     runtime_path = root / "scripts/core/systemic_cross_afterlife_runtime.gd"
     project_path = root / "project.godot"
     smoke_path = root / "scripts/core/systemic_cross_afterlife_smoke_test.gd"
@@ -29,7 +30,7 @@ def audit_systemic_cross_afterlife(root: Path = ROOT) -> dict[str, Any]:
     scene_path = root / "scenes/tests/systemic_cross_afterlife_smoke.tscn"
     godot_ci_path = root / "tools/build/run_godot_ci.sh"
 
-    required = [canon_path, data_path, runtime_path, project_path, smoke_path, bootstrap_path, scene_path, godot_ci_path]
+    required = [canon_path, data_path, v2_path, runtime_path, project_path, smoke_path, bootstrap_path, scene_path, godot_ci_path]
     for path in required:
         if not path.is_file():
             errors.append(f"Fichier requis absent: {path.relative_to(root)}")
@@ -38,6 +39,7 @@ def audit_systemic_cross_afterlife(root: Path = ROOT) -> dict[str, Any]:
 
     canon = load(canon_path)
     data = load(data_path)
+    v2 = load(v2_path)
     runtime = runtime_path.read_text(encoding="utf-8")
     project = project_path.read_text(encoding="utf-8")
     smoke = smoke_path.read_text(encoding="utf-8")
@@ -59,6 +61,20 @@ def audit_systemic_cross_afterlife(root: Path = ROOT) -> dict[str, Any]:
     if int(rules.get("remanence_chapter_offset", 0)) <= int(rules.get("echo_chapter_offset", 0)):
         errors.append("La Rémanence doit émerger après le premier écho, pas en même temps")
 
+    v2_rules = v2.get("rules", {})
+    for key in [
+        "no_new_ui", "no_new_relationship_meter", "afterlife_echo_objects_remain_non_numeric",
+        "use_existing_relationship_runtime", "absent_heroes_are_never_fabricated",
+        "dead_heroes_never_receive_new_reciprocal_feelings", "relationship_effects_are_idempotent",
+        "rumor_lineage_preserves_source", "rumor_lineage_never_replaces_fact",
+    ]:
+        if v2_rules.get(key) is not True:
+            errors.append(f"Règle V2 {key} doit rester true")
+    if str(v2_rules.get("future_target", "")) != "post_litd1":
+        errors.append("Les nouvelles Rémanences doivent viser uniquement l'après-LITD1")
+    if v2_rules.get("backward_causation") is not False:
+        errors.append("Une conséquence de LITD1 ne peut jamais causer rétroactivement LITD2 ou Les Veilleurs")
+
     canon_families = {str(item.get("family", "")) for item in canon.get("cross_events", []) if str(item.get("family", ""))}
     profiles = data.get("family_profiles", {})
     profile_families = set(map(str, profiles.keys()))
@@ -72,6 +88,16 @@ def audit_systemic_cross_afterlife(root: Path = ROOT) -> dict[str, Any]:
     cascade_profiles = data.get("cascade_profiles", {})
     if set(map(str, cascade_profiles.keys())) != cascade_ids:
         errors.append("Chaque cascade systémique doit posséder une transmission différée et une Rémanence propres")
+
+    family_distortions = v2.get("family_distortions", {})
+    if set(map(str, family_distortions.keys())) != canon_families:
+        errors.append("Chaque famille systémique doit nommer explicitement sa forme de déformation mémorielle")
+    cascade_distortions = v2.get("cascade_distortions", {})
+    if set(map(str, cascade_distortions.keys())) != cascade_ids:
+        errors.append("Chaque cascade doit nommer explicitement sa forme de déformation mémorielle")
+    for distortion_id, label in {**family_distortions, **cascade_distortions}.items():
+        if not str(label).strip():
+            errors.append(f"Déformation mémorielle vide: {distortion_id}")
 
     used_heroes: set[str] = set()
     required_profile_fields = [
@@ -103,26 +129,45 @@ def audit_systemic_cross_afterlife(root: Path = ROOT) -> dict[str, Any]:
         errors.append(f"Les Sept doivent tous disposer d'au moins une voix différée potentielle: {sorted(used_heroes)}")
 
     relationship_meanings = data.get("relationship_meanings", {})
+    meaning_tags: set[str] = set()
     for key in ["shared_burden", "friction", "grief", "none"]:
         meaning = relationship_meanings.get(key, {}) if isinstance(relationship_meanings, dict) else {}
-        if not str(meaning.get("tag", "")).strip() or not str(meaning.get("description", "")).strip():
+        tag = str(meaning.get("tag", ""))
+        if not tag.strip() or not str(meaning.get("description", "")).strip():
             errors.append(f"Sens relationnel incomplet pour {key}")
+        if tag:
+            meaning_tags.add(tag)
+
+    relationship_effects = v2.get("relationship_effects", {})
+    if set(map(str, relationship_effects.keys())) != meaning_tags:
+        errors.append("Les effets relationnels V2 doivent couvrir exactement les significations qualitatives existantes")
+    for tag, raw in relationship_effects.items():
+        effect = raw if isinstance(raw, dict) else {}
+        if str(effect.get("mode", "")) not in {"mutual_or_living_memory", "adaptive_grief", "history_only"}:
+            errors.append(f"Mode relationnel V2 invalide pour {tag}")
 
     runtime_tokens = [
-        "func relation_history_for", "func remanences", "func present_next_pending_beat",
+        "func relation_history_for", "func rumor_lineage", "func remanences", "func present_next_pending_beat",
+        "func _sync_relationship_echo_effects", "func _ensure_relation_effect", "func _party_hero",
         "SystemicCrossRuntime.applied_events", "SystemicCrossRuntime.applied_cascades",
         '"SOURCE"', '"TRANSMISSION"', '"REMANENCE"',
         '"status": "emergent_not_objective_truth"', '"numeric_score": false',
+        '"future_target": "post_litd1"', '"backward_causation": false',
         "CommunityRuntime.record_systemic_cross_event", "SystemicCrossNarrativeRuntime.has_pending_scene()",
-        "SystemicCrossNarrativeRuntime.scene_presented.connect", "GameState.alive_heroes()",
-        "source_trace_preserved", "presented_phases", "afterlife",
+        "SystemicCrossNarrativeRuntime.scene_presented.connect", "GameState.alive_heroes()", "GameState.party",
+        "RelationshipRuntime.relation", "RelationshipRuntime.relationship_changed.emit",
+        "source_trace_preserved", "rumor_lineage", "distortion_kind", "qualitative_tag",
+        "application_state", "runtime_event_id", "presented_phases", "afterlife",
     ]
     for token in runtime_tokens:
         if token not in runtime:
             errors.append(f"Runtime des conséquences différées incomplet: {token}")
-    for forbidden in ["ProgressBar", "morality_score", "alignment_score", "global_approval", "truth_score"]:
+    for forbidden in [
+        "ProgressBar", "morality_score", "alignment_score", "global_approval", "truth_score",
+        "GameState.party.append", "DataLoader.heroes.append",
+    ]:
         if forbidden in runtime:
-            errors.append(f"Score/UI interdit dans le runtime différé: {forbidden}")
+            errors.append(f"Score/UI ou fabrication de héros interdite dans le runtime différé: {forbidden}")
     if "func serialize" in runtime or "func deserialize" in runtime:
         warnings.append("La couche différée devrait préférer la persistance dans l'état source SystemicCrossRuntime plutôt qu'un second silo de sauvegarde")
 
@@ -136,9 +181,13 @@ def audit_systemic_cross_afterlife(root: Path = ROOT) -> dict[str, Any]:
 
     smoke_tokens = [
         "No delayed echo may appear in the same chapter", "plan unique",
-        "relationship echo", "numeric_score", "immediate sanctuary consequence must keep priority",
+        "relationship echo", "numeric_score", "Mathilde test fixture",
+        "existing RelationshipRuntime", "accumulate through distinct afterlife history entries",
+        "rumor lineage", "source", "echo", "remanence", "distortion_kind",
+        "immediate sanctuary consequence must keep priority",
         "SOURCE -> TRANSMISSION -> REMANENCE", "source_trace_preserved",
-        "emergent_not_objective_truth", "persist through the existing systemic-cross save payload",
+        "future_target", "backward_causation", "emergent_not_objective_truth",
+        "persist through the existing systemic-cross save payload",
     ]
     for token in smoke_tokens:
         if token not in smoke:
@@ -159,6 +208,8 @@ def audit_systemic_cross_afterlife(root: Path = ROOT) -> dict[str, Any]:
             "cascades": len(cascade_ids),
             "heroes_with_delayed_voice": sorted(used_heroes),
             "relationship_meanings": len(relationship_meanings),
+            "relationship_effects": len(relationship_effects),
+            "distortion_profiles": len(family_distortions) + len(cascade_distortions),
         },
     }
 
