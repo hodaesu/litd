@@ -97,7 +97,9 @@ def test_lysandra_followup_keeps_bodily_consequences_visible() -> None:
     assert "cicatrice reste irrégulière" in doc
     assert "zone demeure insensible" in doc
     assert "rééducation est nécessaire" in doc
-    assert "ne prouve aucune théologie" in doc
+    source = load(SOURCE_PATH)
+    quest = next(q for q in source["quests"] if q["id"] == "quest.litd1.lysandra_what_miracle_proves")
+    assert "miracle_does_not_prove_theology" in quest["guardrails"]
 
 
 def test_zeje_probable_and_unknown_remain_valid_followups() -> None:
