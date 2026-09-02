@@ -14,6 +14,7 @@ var events: Array = []
 var dialogues: Array = []
 var ashlands_lore: Dictionary = {}
 var canonical_history: Dictionary = {}
+var last_war: Dictionary = {}
 
 func _ready() -> void:
     reload_all()
@@ -46,6 +47,8 @@ func reload_all() -> void:
     ashlands_lore = lore_value if typeof(lore_value) == TYPE_DICTIONARY else {}
     var history_value = load_json("res://data/canonical_history.json")
     canonical_history = history_value if typeof(history_value) == TYPE_DICTIONARY else {}
+    var last_war_value = load_json("res://data/canon/last_war.json")
+    last_war = last_war_value if typeof(last_war_value) == TYPE_DICTIONARY else {}
 
 func find_by_id(items: Array, id_value: Variant) -> Dictionary:
     for item in items:
@@ -87,6 +90,31 @@ func pre_last_war_power(power_id: String) -> Dictionary:
     var powers: Array = values if values is Array else []
     return find_by_id(powers, power_id).duplicate(true)
 
+func last_war_phase(phase_id: String) -> Dictionary:
+    var values: Variant = last_war.get("phases", [])
+    var phases: Array = values if values is Array else []
+    return find_by_id(phases, phase_id).duplicate(true)
+
+func last_war_phases() -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
+    var values: Variant = last_war.get("phases", [])
+    var phases: Array = values if values is Array else []
+    for value: Variant in phases:
+        var phase: Dictionary = value if value is Dictionary else {}
+        result.append(phase.duplicate(true))
+    result.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+        return int(a.get("order", 0)) < int(b.get("order", 0))
+    )
+    return result
+
+func last_war_trigger() -> Dictionary:
+    var value: Variant = last_war.get("trigger", {})
+    return value.duplicate(true) if value is Dictionary else {}
+
+func last_war_gameplay_translation() -> Dictionary:
+    var value: Variant = last_war.get("gameplay_translation", {})
+    return value.duplicate(true) if value is Dictionary else {}
+
 func knowledge_remanence_stages() -> Array[String]:
     var result: Array[String] = []
     var remanence: Variant = canonical_history.get("knowledge_remanence", {})
@@ -112,4 +140,9 @@ func pending_canon_topics() -> Array[String]:
     if values is Array:
         for value: Variant in values:
             result.append(str(value))
+    var war_values: Variant = last_war.get("pending_after_this_file", [])
+    if war_values is Array:
+        for value: Variant in war_values:
+            if not result.has(str(value)):
+                result.append(str(value))
     return result
