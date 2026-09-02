@@ -1,0 +1,215 @@
+{
+  "universe_id": "litd_universe",
+  "schema_version": 1,
+  "canon_version": "1.0.0",
+  "status": "canon_social_ritual_continuity",
+  "scope": ["litd2", "les_veilleurs", "mature_concorde", "litd1", "shared_history"],
+  "core_rules": {
+    "single_shared_concorde_liturgy": false,
+    "ritual_is_automatically_religious": false,
+    "three_awakenings_ceremony_is_religious_by_default": false,
+    "single_funeral_method": false,
+    "single_confederal_calendar": false,
+    "local_and_religious_variation_is_normal": true,
+    "identity_accuracy_over_symbolic_completion": true,
+    "unknown_dead_may_receive_invented_names": false,
+    "memorial_requires_body": false,
+    "centralized_memorial_is_automatically_progress": false,
+    "body_is_trophy_or_generic_resource": false,
+    "ritual_grants_universal_moral_bonus": false,
+    "ritual_can_reverse_litd1_permadeath": false
+  },
+  "social_layers": {
+    "family_community": {
+      "exists": true,
+      "examples": ["wake", "silence", "song", "meal", "memory_object", "dress", "body_care", "local_burial_custom"],
+      "biologically_determined": false
+    },
+    "civic": {
+      "exists": true,
+      "shared_principles": [
+        "accurate_identity",
+        "body_dignity",
+        "memorial_without_body_possible",
+        "local_or_shared_memory",
+        "no_forced_common_theology",
+        "documented_disagreement_can_survive"
+      ]
+    },
+    "religious": {
+      "exists": true,
+      "plural": true,
+      "may_structure": ["funerals", "unions", "festivals", "calendars", "mutual_aid", "passage_rites"],
+      "metaphysical_claim_is_automatically_fact": false
+    }
+  },
+  "funerary_principles": {
+    "return_the_name": {
+      "canonical_principle": true,
+      "invent_missing_identity": false,
+      "identity_can_be_corrected_later": true,
+      "body_required_for_memorial": false,
+      "multiple_communities_may_preserve_same_name": true
+    },
+    "body_dignity": {
+      "mutilation_erases_identity": false,
+      "personal_objects_are_automatically_relics": false,
+      "recovery_can_conflict_with_living_safety": true,
+      "body_absence_blocks_mourning": false,
+      "religious_body_treatment_proves_metaphysics": false
+    },
+    "memory_distribution": {
+      "shared_memorial_allowed": true,
+      "local_memorial_allowed": true,
+      "distributed_archives_allowed": true,
+      "centralization_required": false,
+      "contradictory_documented_memories_allowed": true
+    },
+    "absence": {
+      "empty_marker_allowed": true,
+      "name_only_memorial_allowed": true,
+      "object_or_testimony_can_carry_memory": true,
+      "false_relic_should_be_invented_for_drama": false
+    }
+  },
+  "post_fall_body_protocol": {
+    "identify_when_possible": true,
+    "document_condition": true,
+    "isolate_or_secure_dangerous_body": true,
+    "recover_personal_object_when_reasonably_safe": true,
+    "body_recovery_always_required": false,
+    "practical_danger_proves_soul_or_possession": false,
+    "raised_dead_identity_is_automatically_same_person": false
+  },
+  "three_awakenings_passage_ceremonies": {
+    "exist_in_mature_concorde": true,
+    "religious_by_default": false,
+    "single_continental_name": false,
+    "single_required_age": false,
+    "single_identical_form": false,
+    "possible_components": ["body_practice", "art_or_reflection", "civic_contribution_or_mediation"],
+    "magical_initiation": false,
+    "ethnic_membership_test": false
+  },
+  "sarn_commemorations": {
+    "exist": true,
+    "victory_festival": false,
+    "single_confederal_holiday": false,
+    "forms_may_include": ["name_reading", "silence", "assembly", "art", "teaching", "care_for_wounded", "public_debate", "memory_site_visit", "former_enemy_meeting"],
+    "transmit_hereditary_guilt": false
+  },
+  "grand_tournaments": {
+    "major_public_ceremony": true,
+    "combines": ["body", "art", "intercity_meeting", "prestige", "commerce", "diplomacy", "martial_transmission"],
+    "victory_grants_sovereignty": false,
+    "single_ceremonial_form": false
+  },
+  "local_festivals": {
+    "exist": true,
+    "can_be": ["seasonal", "harvest", "craft", "music", "market", "school", "neighborhood", "navigation", "forge", "ecological", "civic_anniversary", "religious"],
+    "one_signature_festival_per_city_required": false,
+    "uniform_continental_calendar": false,
+    "ashai_festivals_prove_direct_continuity": false
+  },
+  "life_passages": {
+    "single_universal_liturgy": false,
+    "local_forms_may_exist_for": ["birth", "naming", "union", "separation", "majority", "profession_entry", "departure", "adoption", "end_of_life"],
+    "mixed_traditions_can_coexist": true,
+    "every_passage_requires_gameplay_system": false
+  },
+  "chronology": [
+    {
+      "era": "litd2_last_war",
+      "mature_concorde_rites_exist": false,
+      "features": ["incomplete_name_lists", "temporary_graves", "body_returns_or_refusals", "dignity_toward_former_enemies", "object_transmission", "religious_rites_possible_or_impossible", "propaganda_using_dead"]
+    },
+    {
+      "era": "post_sarn_long_assemblies",
+      "features": ["accurate_identity", "memorial_without_body", "rite_coexistence", "refusal_of_human_trophies", "local_memory_right", "voluntary_archive_sharing"]
+    },
+    {
+      "era": "les_veilleurs",
+      "features": ["rite_translation", "early_shared_memorials", "sarn_memory_disputes", "ritual_object_transformation", "variable_three_awakenings_ceremonies", "family_civic_religious_memory_conflicts"]
+    },
+    {
+      "era": "mature_concorde_prefall",
+      "features": ["normal_ritual_plurality", "shared_civic_principles", "grand_tournaments", "educational_passage_ceremonies", "local_festivals", "religious_rites"]
+    },
+    {
+      "era": "litd1_post_fall",
+      "features": ["lost_names", "opened_graves", "improvised_memorials", "persistent_corpses", "rites_becoming_impossible", "adapted_or_abandoned_traditions", "raised_dead_identity_conflicts", "personal_objects_as_remanence"]
+    }
+  ],
+  "gameplay": {
+    "universal_ritual_meter": false,
+    "mandatory_funeral_minigame_per_death": false,
+    "universal_hope_bonus_per_funeral": false,
+    "generic_resurrection_rite": false,
+    "litd1_permadeath_reversed": false,
+    "possible_actions": [
+      "recover_or_leave_body",
+      "identify_dead",
+      "return_personal_object",
+      "choose_local_or_shared_memory",
+      "respect_adapt_or_refuse_rite",
+      "manage_unstable_body_risk",
+      "mediate_family_civic_religious_dispute"
+    ],
+    "contextual_consequences": ["trust", "relationship", "hope_or_fear_for_affected_characters", "quest_branch", "community_change", "remanence"],
+    "effects_are_universal_moral_reward": false
+  },
+  "body_and_gore": {
+    "pillar_2_applies_when_body_present": true,
+    "mutilation_can_change_identification": true,
+    "incomplete_body_can_change_ritual": true,
+    "reanimation_can_change_recovery": true,
+    "family_reaction_can_change": true,
+    "memory_form_can_change": true,
+    "tactical_risk_can_change": true,
+    "gore_exists_to_make_funeral_spectacular": false
+  },
+  "staging": {
+    "names_over_heroic_summary": true,
+    "objects_and_empty_space_can_carry_scene": true,
+    "silence_is_not_constant_solemnity": true,
+    "crowds_react_individually": true,
+    "doctrine_exposition_by_default": false,
+    "music_or_light_confirms_divine_truth": false,
+    "ritual_can_be_incomplete_or_interrupted": true
+  },
+  "remanence": {
+    "model": ["source", "transmission", "transformation"],
+    "forms": ["gesture", "translated_formula", "object", "calendar_shift", "civic_ceremony_from_religious_use", "religious_rite_from_civic_use", "forgotten_prohibition", "misattributed_name", "rebuilt_memorial", "silence_as_custom", "abandoned_and_rediscovered_practice"],
+    "surviving_form_proves_original_meaning": false
+  },
+  "open_design_spaces": [
+    "six_city_detailed_funeral_rites",
+    "concorde_local_religions",
+    "azravel_detailed_rites",
+    "effrie_tribe_rites",
+    "conscious_nonhuman_funeral_customs",
+    "full_confederal_calendar",
+    "universal_name_for_three_awakenings_passage_ceremonies",
+    "mandatory_body_disposition_method",
+    "objective_soul_or_afterlife"
+  ],
+  "pillar_validation": {
+    "P1_character_creation": "pass",
+    "P2_systemic_gore": "pass_central_when_body_present",
+    "P3_philosophy_psychology": "pass_central",
+    "P4_accessible_human_depth": "pass_central",
+    "P5_strong_narrative": "pass_central",
+    "P6_interconnection": "pass_central",
+    "P7_knowledge_remanence": "pass_central",
+    "P8_dialogue_staging": "pass_central",
+    "P9_simple_deep_readable_gameplay": "pass_central"
+  },
+  "sources": [
+    "docs/LORE_BIBLE.md",
+    "docs/HISTOIRE_TROIS_EVEILS.md",
+    "docs/LITD_UNIVERSE_PEUPLES_CULTURES_VIVANTES.md",
+    "docs/LITD_UNIVERSE_RELIGIONS_CROYANCES.md",
+    "docs/LITD_UNIVERSE_TRADITIONS_ARTISTIQUES_MUSICALES.md",
+    "universe/lore/religions_beliefs.json"
+  ]
+}
