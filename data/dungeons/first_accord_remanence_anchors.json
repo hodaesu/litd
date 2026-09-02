@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "dungeon_id": "dungeon_first_map_hall_of_first_accord",
+  "storage_mode": "anchor_scars_only",
+  "anchors": [
+    {"anchor_id":"accord.vestibule.exit_stairs","scope":"entry","criticality":"protected","allowed":["old_blood","persistent_corpse","nemesis_mark"],"forbidden":["collapsed_bridge","built_barricade"]},
+    {"anchor_id":"accord.gallery.north_door","scope":"critical_route","criticality":"high","allowed":["destroyed_door","opened_shortcut","nemesis_mark"],"progression_rule":"must_keep_passable_or_supply_alternative"},
+    {"anchor_id":"accord.gallery.memorial_floor","scope":"narrative","criticality":"low","allowed":["old_blood","persistent_corpse"],"corpse_cap_mobile":3,"corpse_cap_pc":6},
+    {"anchor_id":"accord.debate.archive_door","scope":"optional_secret","criticality":"medium","allowed":["destroyed_door","discovered_passage"],"progression_rule":"may_only_change_optional_access"},
+    {"anchor_id":"accord.debate.loop_gate","scope":"shortcut","criticality":"high","allowed":["opened_shortcut","built_barricade","nemesis_mark"],"progression_rule":"opened_shortcut_dominates_barricade_if_no_other_retreat"},
+    {"anchor_id":"accord.collapse.retreat_breach","scope":"retreat","criticality":"protected","allowed":["opened_shortcut","collapsed_bridge","built_barricade"],"progression_rule":"physical_retreat_must_remain_possible"},
+    {"anchor_id":"accord.pillars.center","scope":"elite_arena","criticality":"medium","allowed":["old_blood","persistent_corpse","burned_area","nemesis_mark"],"corpse_cap_mobile":2,"corpse_cap_pc":4},
+    {"anchor_id":"accord.warden.sanctum","scope":"boss","criticality":"protected","allowed":["major_item_removed","old_blood"],"progression_rule":"boss_navigation_and_safe_zones_immutable"},
+    {"anchor_id":"accord.guardroom.ceiling","scope":"optional","criticality":"low","allowed":["burned_area","nemesis_mark"]},
+    {"anchor_id":"accord.archive.seal","scope":"secret","criticality":"medium","allowed":["destroyed_door","discovered_passage","major_item_removed"]},
+    {"anchor_id":"accord.vault.cache","scope":"optional_reward","criticality":"medium","allowed":["major_item_removed","old_blood","persistent_corpse"]}
+  ],
+  "conflict_resolution": [
+    "campaign_constraint",
+    "retreat_solvability",
+    "major_permanent_change",
+    "opened_shortcut",
+    "nemesis_trace",
+    "persistent_corpse",
+    "minor_damage",
+    "procedural_decoration"
+  ],
+  "deferred_policy": "keep_scar_until_anchor_returns",
+  "cleanup_policy": {
+    "persistent_corpses_keep_identity": true,
+    "minor_blood_can_merge_into_decal_cluster": true,
+    "never_delete_nemesis_trace_for_cosmetic_budget": true
+  }
+}
