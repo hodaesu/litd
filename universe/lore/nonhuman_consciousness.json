@@ -1,0 +1,112 @@
+{
+  "universe_id": "litd_universe",
+  "schema_version": 1,
+  "canon_version": "1.0.0",
+  "status": "canon_continuity_with_ontological_unknowns",
+  "scope": ["litd1", "shared_history"],
+  "core_rules": {
+    "humanlike_body_required_for_personhood": false,
+    "human_speech_required_for_personhood": false,
+    "reactivity_automatically_proves_consciousness": false,
+    "strangeness_automatically_proves_consciousness": false,
+    "clear_refusal_must_be_respected": true,
+    "single_case_defines_entire_category": false,
+    "personhood_requires_metaphysical_soul_proof": false,
+    "uncertainty_can_remain_canonical": true
+  },
+  "agency_indicators": [
+    "stable_refusal",
+    "vocabulary_correction",
+    "persistent_preference",
+    "negotiation_or_limit_setting",
+    "interaction_memory",
+    "self_other_distinction",
+    "future_consequence_request",
+    "fear_or_uncertainty_expression",
+    "differentiated_response_to_choices"
+  ],
+  "entities": {
+    "saen": {
+      "status": "documented_conscious_interlocutor",
+      "ontology": "unknown",
+      "confirmed": ["responds", "corrects_human_categories", "expresses_preferences", "expresses_refusal", "anticipates_possible_consequences", "asks_humans_to_listen_to_others"],
+      "unconfirmed": ["human", "known_species", "spirit", "dead_soul", "representative_of_all_absents", "simple_other_world_inhabitant", "immortal", "religiously_supernatural"]
+    },
+    "absents": {
+      "status": "working_category_with_possible_plurality",
+      "single_species_confirmed": false,
+      "single_civilization_confirmed": false,
+      "single_collective_will_confirmed": false,
+      "saen_represents_all": false,
+      "guardrail": "Saen explicitly rejects treating one case as all others."
+    },
+    "frontier": {
+      "status": "reactive_system_not_confirmed_conscious",
+      "consciousness_confirmed": false,
+      "hostility_confirmed": false,
+      "causal_reactivity_confirmed": true
+    },
+    "memory_reacting_creatures": {
+      "status": "behavior_observed_mechanism_unknown",
+      "route_reproduction_observed": true,
+      "memory_mechanism_confirmed": false,
+      "consciousness_confirmed_from_this_behavior_alone": false
+    },
+    "dragons": {
+      "status": "historically_relational_nonhuman_beings_detailed_agency_open",
+      "existence_in_history_confirmed": true,
+      "effrie_powers_related": true,
+      "tribe_venerated_dragons": true,
+      "historical_harmony_with_tribe": true,
+      "full_language_confirmed": false,
+      "political_structure_confirmed": false,
+      "religious_demand_confirmed": false,
+      "ancestry_link_confirmed": false,
+      "veil_link_confirmed": false,
+      "ancestral_pact_confirmed": false
+    }
+  },
+  "consent_policy": {
+    "capture_after_clear_refusal_allowed": false,
+    "recruitment_after_clear_refusal_allowed": false,
+    "invasive_experiment_after_clear_refusal_allowed": false,
+    "noninvasive_contact_requires_contextual_limits": true,
+    "uncertain_being_can_still_receive_precautionary_protection": true
+  },
+  "legal_principle": {
+    "text": "Repeated demonstrable will, refusal or interaction creates a duty to treat discernible interests as relevant without waiting for metaphysical certainty.",
+    "full_juridical_categories_locked": false
+  },
+  "gameplay": {
+    "universal_consciousness_stat": false,
+    "personhood_is_xp_bonus": false,
+    "all_intelligent_beings_have_peaceful_solution": false,
+    "all_combat_against_conscious_beings_is_morally_identical": false,
+    "uncertainty_removes_consequences": false,
+    "horizontal_uses": ["contact_protocol", "experiment_abort", "passage_negotiation", "name_recognition", "testimony_preservation", "capture_refusal", "companion_reaction", "institutional_language_change"]
+  },
+  "body_and_gore": {
+    "nonhuman_anatomy_is_exotic_spectacle": false,
+    "injury_can_affect_communication": true,
+    "injury_can_affect_escape": true,
+    "injury_can_affect_consent_expression": true,
+    "recognized_person_is_automatic_crafting_material": false
+  },
+  "remanence": {
+    "model": ["source", "transmission", "transformation"],
+    "forms": ["preserved_name", "contact_protocol", "classification_error", "avoided_site", "coexistence_story", "practical_prohibition", "legal_precedent"]
+  },
+  "pillar_validation": {
+    "P1_character_creation": "pass",
+    "P2_systemic_gore": "pass",
+    "P3_philosophy_psychology": "pass_central",
+    "P4_accessible_human_depth": "pass_central",
+    "P5_strong_narrative": "pass_central",
+    "P6_interconnection": "pass",
+    "P7_knowledge_remanence": "pass_central",
+    "P8_dialogue_staging": "pass_central",
+    "P9_simple_deep_readable_gameplay": "pass"
+  },
+  "open_fields": ["absent_nature", "number_of_saen_like_entities", "saen_biology", "dragon_societies", "dragon_language", "precise_nonhuman_legal_categories", "additional_conscious_species", "creature_remanence_mechanisms", "consciousness_veil_relation"],
+  "sources": ["docs/LITD_UNIVERSE_RELIGIONS_CROYANCES.md", "docs/LITD_UNIVERSE_RITES_FUNERAILLES_COUTUMES.md", "docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md", "docs/CAMPAGNE_PRINCIPALE.md"]
+}
