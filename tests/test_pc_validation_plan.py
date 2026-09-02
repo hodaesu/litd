@@ -37,7 +37,10 @@ def test_pc_validation_contract_covers_all_pc_only_workstreams():
 
 def test_pc_validation_orchestrator_has_safety_gates_and_outputs():
     plan = load("data/production/pc_validation_plan.json")
-    script = (ROOT / "tools/build/pc_validation.py").read_text(encoding="utf-8")
+    script_path = ROOT / "tools/build/pc_validation.py"
+    script = script_path.read_text(encoding="utf-8")
+    compile(script, str(script_path), "exec")
+
     for token in (
         "PC_VALIDATION_PLAN_OK",
         "PC_VALIDATION_AUTOMATED_OK_MANUAL_REVIEW_REQUIRED",
