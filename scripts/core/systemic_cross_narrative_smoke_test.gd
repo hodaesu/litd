@@ -16,6 +16,8 @@ func run() -> void:
     _check(SystemicCrossNarrativeRuntime.pending_scene_count() == 1, "A new systemic crossing must queue exactly one sanctuary scene")
     _check(not SystemicCrossNarrativeRuntime.scene_seen(scene_id), "A queued sanctuary scene must not count as seen before returning")
     _check(SystemicCrossNarrativeRuntime.next_scene_title() == "Le grain et les toiles", "The queued scene must expose its human title without a new UI meter")
+    var living_scene := SystemicCrossNarrativeRuntime.resolved_scene(scene_id)
+    _check(_dialogue_has_speaker(living_scene, "hero.aurelien"), "A living eligible hero present in the current party must be able to speak")
 
     GameState.request_screen("sanctuary")
     await _frames(2)
@@ -44,7 +46,7 @@ func run() -> void:
     await _frames(1)
     var filtered := SystemicCrossNarrativeRuntime.resolved_scene("cross.food.distributed_risk_and_local_repairs")
     _check(not _dialogue_has_speaker(filtered, "hero.aurelien"), "A dead hero must never speak in a sanctuary consequence scene")
-    _check(_dialogue_has_speaker(filtered, "hero.marec"), "A living eligible hero must still be able to speak")
+    _check(not _dialogue_has_speaker(filtered, "hero.marec"), "A hero absent from the current party must never be invented as a speaker")
 
     GameState.reset_new_game()
     GameState.current_screen = "expedition"
