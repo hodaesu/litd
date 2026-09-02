@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "dungeon_id": "dungeon_first_map_hall_of_first_accord",
+  "profile": "medium",
+  "biome_tags": ["ancient_civic", "underground", "first_accord"],
+  "theme_tags": ["body", "art", "common_decision", "memory", "broken_institution"],
+  "fallback_authored_map": "res://data/dungeons/first_map_hall_of_first_accord_map.json",
+  "objective_role": "boss",
+  "mandatory_room_ids": ["vestibule", "gallery_of_names", "debate_chamber", "collapsed_passage", "three_pillars_hall", "warden_sanctum"],
+  "mandatory_rooms": [
+    {"id":"vestibule","role":"entry","preferred_depth":0,"module_pool":"accord_entry"},
+    {"id":"gallery_of_names","role":"narrative","preferred_depth":2,"module_pool":"accord_gallery"},
+    {"id":"debate_chamber","role":"choice","preferred_depth":4,"module_pool":"accord_debate"},
+    {"id":"collapsed_passage","role":"hazard","preferred_depth":5,"module_pool":"accord_collapse"},
+    {"id":"three_pillars_hall","role":"elite","preferred_depth":7,"module_pool":"accord_three_pillars"},
+    {"id":"warden_sanctum","role":"boss","preferred_depth":9,"module_pool":"accord_warden"}
+  ],
+  "optional_room_pools": [
+    {"pool":"accord_guardroom","roles":["combat","resource"],"weight":3,"value":"reward"},
+    {"pool":"accord_memory_vault","roles":["narrative","resource"],"weight":2,"value":"lore"},
+    {"pool":"accord_service_rooms","roles":["transit","hazard","resource"],"weight":4,"value":"tactical_position"}
+  ],
+  "secret_room_pools": [
+    {"pool":"accord_sealed_archive","roles":["secret"],"weight":3,"value":"knowledge"},
+    {"pool":"accord_forgotten_chamber","roles":["secret"],"weight":1,"value":"lore"}
+  ],
+  "protected_story_order": ["vestibule", "gallery_of_names", "debate_chamber", "collapsed_passage", "three_pillars_hall", "warden_sanctum"],
+  "protected_boss_module": "accord_warden_sanctum_boss_v1",
+  "branching_target": [2,4],
+  "loop_target": [1,2],
+  "secret_target": [1,2],
+  "retreat_policy": {
+    "minimum": 2,
+    "entry_exit": true,
+    "deep_shortcut_required": true,
+    "preboss_retreat_allowed": true
+  },
+  "difficulty_rhythm": ["observe", "pressure", "choice", "relief", "pressure", "elite", "finale"],
+  "encounter_table": "res://data/dungeons/first_accord_encounters.json",
+  "module_library": "res://data/dungeons/first_accord_module_library.json",
+  "remanence_anchors": "res://data/dungeons/first_accord_remanence_anchors.json",
+  "ash_guidance": "only_on_request",
+  "world_rules": {
+    "death_and_injuries_persist": true,
+    "completion_required": false,
+    "entry_confirmation": true,
+    "critical_path_readable_without_hud": true
+  }
+}
