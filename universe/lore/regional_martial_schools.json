@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.0.0",
+  "status": "canon",
+  "design_name_policy": {
+    "school_names_are_translated_design_labels": true,
+    "local_diegetic_names_locked": false,
+    "reason": "Les langues locales ne sont pas encore nommées dans le système linguistique canonique."
+  },
+  "core_rules": {
+    "school_is_not_ethnicity": true,
+    "school_is_not_class": true,
+    "school_is_not_religion": true,
+    "school_is_not_political_authority": true,
+    "cross_training_allowed": true,
+    "single_official_concorde_style": false,
+    "mature_schools_exist_in_litd2": false,
+    "schools_add_separate_skill_trees": false,
+    "schools_add_new_progression_currency": false
+  },
+  "khen_breath": {
+    "id": "martial.transversal.khen_breath",
+    "name": "Souffle de Khen",
+    "kind": "transversal_practice",
+    "is_seventh_school": false,
+    "is_magic": false,
+    "is_build_path": false,
+    "first_breath_attested": true,
+    "functions": [
+      "effort_regulation",
+      "panic_recognition",
+      "posture_under_fatigue",
+      "recovery",
+      "voluntary_action_interruption",
+      "distinguish_pain_injury_exhaustion"
+    ],
+    "sources": ["docs/LITD_UNIVERSE_TROIS_FONDATEURS_CANON.md"]
+  },
+  "mature_concorde_schools": [
+    {
+      "id": "martial.jian_lu.three_supports",
+      "design_name": "École des Trois Appuis",
+      "region": "Jian-Lu",
+      "principle": "Ne jamais dépendre d'un seul appui, d'un seul angle ni d'une seule direction de fuite.",
+      "focus": ["balance", "axis_change", "redirection", "short_throws", "staff", "moving_protection"],
+      "strengths": ["mobility", "enemy_displacement", "space_control", "balance_recovery"],
+      "limitation": "Moins confortable dans un affrontement frontal et immobile accepté volontairement.",
+      "exclusive_to_region": false
+    },
+    {
+      "id": "martial.sorye.body_measure",
+      "design_name": "École de la Mesure du Corps",
+      "region": "Sorye",
+      "principle": "Avant de frapper plus fort, comprendre ce que le geste va réellement produire.",
+      "focus": ["precision", "movement_economy", "joint_reading", "breath_reading", "immobilization", "limb_control", "post_impact_diagnosis"],
+      "strengths": ["precision", "interruption", "functional_targeting", "limb_neutralization"],
+      "limitation": "La recherche de précision parfaite devient fragile sous pression chaotique.",
+      "ethical_risk": "La connaissance anatomique augmente autant la capacité de soigner que celle de mutiler.",
+      "exclusive_to_region": false
+    },
+    {
+      "id": "martial.dhor_khal.forge_anchor",
+      "design_name": "École de l'Ancrage de Forge",
+      "region": "Dhor-Khal",
+      "principle": "Une force n'est utile que si le corps peut la transmettre sans se briser lui-même.",
+      "focus": ["stability", "weight_transfer", "ally_guard", "guard_break", "push_pull", "heavy_tools_and_weapons", "paired_force"],
+      "strengths": ["anchoring", "impact", "guard", "forced_movement_control", "ally_protection"],
+      "limitation": "L'engagement puissant devient prévisible et coûteux contre des changements d'angle constants.",
+      "exclusive_to_region": false
+    },
+    {
+      "id": "martial.lhaor.flexible_branch",
+      "design_name": "École de la Branche Souple",
+      "region": "Lhaor",
+      "principle": "Survivre à une force n'oblige pas toujours à l'arrêter ; parfois il faut lui laisser un passage qui ne mène pas à sa cible.",
+      "focus": ["small_evasion", "deflection", "staff", "non_crushing_control", "irregular_terrain", "environmental_awareness", "third_party_protection"],
+      "strengths": ["avoidance", "redirection", "terrain_adaptation", "protection"],
+      "limitation": "La recherche de moindre dommage peut devenir dangereuse lorsqu'une menace doit être arrêtée immédiatement.",
+      "exclusive_to_region": false
+    },
+    {
+      "id": "martial.tessen.open_circles",
+      "design_name": "École des Cercles Ouverts",
+      "region": "Tessen",
+      "principle": "Un combat réel ne respecte pas toujours un duel à deux ni une ligne propre entre combattants et témoins.",
+      "focus": ["peripheral_awareness", "partner_switching", "multi_person_drills", "crowd_protection", "encirclement_escape", "improvised_tools", "gesture_coordination"],
+      "strengths": ["group_awareness", "multi_enemy_adaptation", "mutual_support", "encirclement_exit"],
+      "limitation": "Moins spécialisée dans le duel technique prolongé contre un adversaire unique de très haut niveau.",
+      "exclusive_to_region": false
+    },
+    {
+      "id": "martial.orun_sai.long_step",
+      "design_name": "École du Long Pas",
+      "region": "Orun-Saï",
+      "principle": "La technique parfaite qui ne peut être répétée après une journée de marche n'est pas une technique de voyage.",
+      "focus": ["endurance", "movement_economy", "convoy_defense", "range_change", "staff_and_long_travel_weapons", "ambush_response", "wounded_extraction", "fight_with_load"],
+      "strengths": ["endurance", "range", "long_mobility", "protection", "extraction"],
+      "limitation": "Sacrifie une part de sophistication du duel pour robustesse et répétabilité.",
+      "language_link": "Gestes et commandes courtes de groupes multilingues contribuent indirectement aux pratiques du registre de passage.",
+      "exclusive_to_region": false
+    }
+  ],
+  "chronology": [
+    {
+      "era": "litd2_last_war",
+      "mature_six_schools_exist": false,
+      "state": "many_local_civilian_military_dueling_hunting_and_work_traditions_mix_under_war"
+    },
+    {
+      "era": "post_sarn_long_assemblies_veilleurs",
+      "mature_six_schools_exist": false,
+      "state": "precursors_compare_methods_and_form_exchange_networks"
+    },
+    {
+      "era": "mature_concorde_litd1_prefall",
+      "mature_six_schools_exist": true,
+      "state": "six_major_regional_families_are_widely_recognized_but_not_exclusive"
+    }
+  ],
+  "game_integration": {
+    "litd1": {
+      "replace_three_skill_trees": false,
+      "new_parallel_progression_layer": false,
+      "uses": ["animation_provenance", "technique_description", "dialogue_recognition", "contextual_knowledge", "horizontal_variant", "tournament_staging"]
+    },
+    "litd2": {
+      "replace_body_mind_politics": false,
+      "replace_run_weapons": false,
+      "mature_school_selection_at_creation": false,
+      "uses": ["precursor_techniques", "animation_provenance", "teacher_dialogue", "historical_remanence"]
+    },
+    "les_veilleurs": {
+      "assign_four_protagonists_to_four_classes": false,
+      "mature_six_schools_present": false,
+      "uses": ["precursor_transmission", "gesture_memory", "translation_between_practices", "early_codification"]
+    }
+  },
+  "body_consequence_rules": {
+    "gore_bonus_by_school": false,
+    "anatomical_result_depends_on_systemic_physics_and_body_state": true,
+    "intent_values": ["displace", "immobilize", "interrupt", "protect", "break_guard", "neutralize_limb", "kill_when_required"],
+    "nonlethal_actions_can_still_injure": true
+  },
+  "grand_tournaments": {
+    "exist_in_litd2": false,
+    "mature_centuries_after_founders": true,
+    "victory_grants_territorial_or_political_power": false,
+    "example_events": ["out_of_position", "disarm", "zone_control", "protect_third_party", "weapon_mastery", "endurance", "duel", "multi_actor_scenario"]
+  },
+  "outer_world_policy": {
+    "single_style_per_polity": false,
+    "varkhane": "Imperial drills overlay diverse provincial traditions.",
+    "namar": "Maritime balance, boarding and mercenary exchange produce plural traditions.",
+    "azravel": "Religious orders, sanctuary guards, domain infantry and highland cavalry remain distinct.",
+    "kor_em": "Academic analysis coexists with guard and mercenary traditions.",
+    "named_outer_schools_locked": false
+  },
+  "effrie_guardrail": {
+    "tribe_martial_practice": "unconfirmed",
+    "must_remain_unconfirmed_here": true
+  },
+  "cross_game_remanence": [
+    {
+      "from": "litd2",
+      "to": "les_veilleurs",
+      "channels": ["gesture", "breath", "soldier_practice", "civilian_adaptation", "witness_variation"]
+    },
+    {
+      "from": "les_veilleurs",
+      "to": "litd1",
+      "channels": ["preservation", "changed_intent", "false_attribution", "forgotten_origin", "school_fusion", "movement_without_explanation"]
+    }
+  ],
+  "open_design_spaces": [
+    "subschools",
+    "historical_masters",
+    "local_diegetic_school_names",
+    "detailed_technique_lists",
+    "tournament_programs",
+    "named_outer_world_schools",
+    "effrie_tribe_martial_practice"
+  ],
+  "pillar_validation": {
+    "P1_character_creation": "pass_central",
+    "P2_systemic_gore": "pass_central",
+    "P3_philosophy_psychology": "pass",
+    "P4_accessible_human_depth": "pass",
+    "P5_strong_narrative": "pass",
+    "P6_interconnection": "pass_central",
+    "P7_knowledge_remanence": "pass_central",
+    "P8_dialogue_staging": "pass",
+    "P9_simple_deep_readable_gameplay": "pass_central"
+  },
+  "supersedes_generic_open_space": "écoles martiales régionales",
+  "sources": [
+    "docs/LITD_UNIVERSE_ECOLES_MARTIALES_REGIONALES.md",
+    "docs/HISTOIRE_TROIS_EVEILS.md",
+    "docs/LITD_UNIVERSE_TROIS_FONDATEURS_CANON.md",
+    "docs/CONCORDE_MONDE_POLITIQUE.md",
+    "docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md",
+    "docs/LITD_UNIVERSE_PEUPLES_CULTURES_VIVANTES.md",
+    "docs/LITD_UNIVERSE_SYSTEME_LINGUISTIQUE.md",
+    "docs/LITD_UNIVERSE_CREATION_PERSONNAGES.md",
+    "docs/LORE_BIBLE.md"
+  ]
+}
