@@ -60,9 +60,9 @@ def test_no_new_morality_reputation_or_relationship_score() -> None:
     assert core["new_universal_meter"] is False
     assert core["global_morality_score"] is False
     assert core["relationship_effects_are_not_approval_scores"] is True
-    encoded = json.dumps(data, ensure_ascii=False).lower()
+    encoded_events = json.dumps(data["cross_events"], ensure_ascii=False).lower()
     for forbidden in ["reputation_score", "alignment_score", "morality_score", "score_delta", "relationship_delta"]:
-        assert forbidden not in encoded
+        assert forbidden not in encoded_events
 
 
 def test_rumor_collisions_keep_sources_and_can_remain_unresolved() -> None:
