@@ -46,6 +46,8 @@ jobs:
         run: python -m tools.qa.nonhuman_consciousness_audit
       - name: Audit croyances, rites et quêtes contextuels LITD Universe
         run: python -m tools.qa.contextual_beliefs_rites_quests_audit
+      - name: Audit neuf quêtes contextuelles théâtrales LITD 1
+        run: python -m tools.qa.theatrical_contextual_quests_audit
       - name: Audit bibliothèque picturale et droits
         run: python -m tools.qa.art_reference_library_audit
       - name: Audit progression, économie et NG+
