@@ -32,6 +32,8 @@ jobs:
         run: python -m tools.qa.lore_universe_audit --report reports/lore-universe.json
       - name: Audit système linguistique LITD Universe
         run: python -m tools.qa.language_system_audit
+      - name: Audit écoles martiales régionales LITD Universe
+        run: python -m tools.qa.regional_martial_schools_audit
       - name: Audit bibliothèque picturale et droits
         run: python -m tools.qa.art_reference_library_audit
       - name: Audit progression, économie et NG+
