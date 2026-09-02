@@ -29,6 +29,11 @@ func _ready() -> void:
 func _connect_game_state() -> void:
     if GameState != null and not GameState.new_game_reset.is_connected(reset_new_game):
         GameState.new_game_reset.connect(reset_new_game)
+    if ExpeditionManager != null and not ExpeditionManager.expedition_ended.is_connected(_on_expedition_ended):
+        ExpeditionManager.expedition_ended.connect(_on_expedition_ended)
+
+func _on_expedition_ended(_reason: String) -> void:
+    advance_expedition_cycle()
 
 func _load_rules() -> void:
     var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
