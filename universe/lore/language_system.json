@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.0.0",
+  "world_multilingual": true,
+  "identity_rules": {
+    "language_is_not_ethnicity": true,
+    "city_is_not_language": true,
+    "language_has_no_intrinsic_combat_stats": true,
+    "personal_names_can_cross_languages": true
+  },
+  "contact_register": {
+    "design_label": "registre de passage",
+    "diegetic_name": null,
+    "native_language": false,
+    "single_standardized_language": false,
+    "replaces_local_languages": false,
+    "regional_variants": true,
+    "emerges_after_sarn": true,
+    "matures_during_long_assemblies_and_after": true,
+    "widely_used_by_mature_concorde": true,
+    "components": [
+      "shared_vocabulary",
+      "civic_formulas",
+      "numeric_conventions",
+      "gestures",
+      "signs",
+      "mediation_habits",
+      "professional_variants"
+    ]
+  },
+  "family_policy": {
+    "multiple_human_language_families_exist": true,
+    "language_isolates_exist": true,
+    "named_families_locked": false,
+    "city_may_contain_multiple_families": true,
+    "foreign_polity_is_not_single_language": true,
+    "ancient_language_is_not_automatic_modern_ancestor": true,
+    "evidence_required_for_family_link": [
+      "recurrent_lexical_correspondence",
+      "shared_grammar",
+      "documentary_continuity",
+      "compatible_migration_history",
+      "concordant_historical_testimony"
+    ]
+  },
+  "comprehension_states": [
+    "fluent",
+    "familiar",
+    "mediated",
+    "fragmentary",
+    "unknown"
+  ],
+  "gameplay_rules": {
+    "critical_information_can_be_permanently_blocked_by_language": false,
+    "combat_critical_information_requires_unknown_language_reading": false,
+    "language_choice_can_be_only_route_to_canonical_ending": false,
+    "language_familiarity_is_horizontal": true,
+    "valid_alternate_resolution_channels": [
+      "interpreter",
+      "found_translation",
+      "visual_or_material_evidence",
+      "contextual_repetition",
+      "document_comparison",
+      "companion_help",
+      "observed_consequence",
+      "later_reconstruction"
+    ]
+  },
+  "presentation_rules": {
+    "translate_when_understood": true,
+    "mark_source_language_only_when_relevant": true,
+    "allow_few_preserved_source_terms": true,
+    "accessibility_reformulation_option": true,
+    "uncertainty_tags": [
+      "translated",
+      "uncertain_meaning",
+      "fragment"
+    ]
+  },
+  "era_model": [
+    {
+      "era": "litd2_last_war",
+      "continental_register_stable": false,
+      "features": ["interpreters", "contact_vocabularies", "gestures", "military_and_civic_signs"]
+    },
+    {
+      "era": "post_sarn_long_assemblies_veilleurs",
+      "continental_register_stable": "emerging",
+      "features": ["shared_terms", "translation_debates", "regional_variants", "parallel_versions"]
+    },
+    {
+      "era": "mature_concorde_litd1_prefall",
+      "continental_register_stable": "widespread_but_nonexclusive",
+      "features": ["institutional_translation", "multilingual_public_texts", "professional_mediation"]
+    },
+    {
+      "era": "litd1_post_fall",
+      "continental_register_stable": "fragmented_network",
+      "features": ["lost_interpreters", "broken_archives", "refugee_multilingualism", "translation_gaps"]
+    }
+  ],
+  "ancient_language_guardrails": {
+    "ashai_direct_ancestor": "unconfirmed",
+    "or_silex_direct_ancestor": "unconfirmed",
+    "saan_direct_ancestor": "unconfirmed",
+    "ancient_text_states": ["understood", "translated_copy", "partially_deciphered", "mistranslated", "copy_only", "contradictory_versions", "unknown"]
+  },
+  "effrie_guardrail": {
+    "tribe_language": "unconfirmed",
+    "must_remain_unconfirmed_in_this_system": true
+  },
+  "cross_game_remanence": [
+    {
+      "from": "litd2",
+      "to": "les_veilleurs",
+      "channels": ["field_words", "gestures", "contact_formulas", "translation_errors"]
+    },
+    {
+      "from": "les_veilleurs",
+      "to": "litd1",
+      "channels": ["semantic_shift", "archaic_terms", "songs", "laws", "place_names", "misreadings", "older_text_corrections"]
+    }
+  ],
+  "open_design_spaces": [
+    "diegetic_family_names",
+    "local_language_names",
+    "full_phylogenetic_map",
+    "scripts",
+    "phonologies",
+    "grammars",
+    "production_lexicons",
+    "effrie_tribe_language",
+    "nonhuman_communication_systems",
+    "veilleurs_four_protagonists_exact_language_backgrounds"
+  ],
+  "pillar_validation": {
+    "P1_character_creation": "pass",
+    "P2_systemic_gore": "conditional",
+    "P3_philosophy_psychology": "pass",
+    "P4_accessible_human_depth": "pass",
+    "P5_strong_narrative": "pass",
+    "P6_interconnection": "pass_central",
+    "P7_knowledge_remanence": "pass_central",
+    "P8_dialogue_staging": "pass",
+    "P9_simple_deep_readable_gameplay": "pass_central"
+  },
+  "sources": [
+    "docs/LITD_UNIVERSE_SYSTEME_LINGUISTIQUE.md",
+    "docs/LITD_UNIVERSE_PEUPLES_CULTURES_VIVANTES.md",
+    "docs/LORE_BIBLE.md",
+    "docs/HISTOIRE_TROIS_EVEILS.md",
+    "docs/CONCORDE_MONDE_POLITIQUE.md",
+    "docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md",
+    "docs/LITD_UNIVERSE_CREATION_PERSONNAGES.md",
+    "docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"
+  ]
+}
