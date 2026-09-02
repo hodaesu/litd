@@ -220,7 +220,7 @@ def audit_systemic_cross_ramifications(root: Path = ROOT) -> dict[str, Any]:
         errors.append("Le croisement doit conserver les inconnues draconiques d'Èffrie")
 
     required_doc_phrases = [
-        "aucune nouvelle jauge",
+        "pas d'une nouvelle jauge",
         "L'absence de refus compréhensible n'est pas une preuve de consentement",
         "PROBABLE",
         "INCONNU",
