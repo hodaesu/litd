@@ -74,9 +74,9 @@ func queue_scene(scene_id: String) -> bool:
     return true
 
 func _sync_applied_scenes() -> void:
-    for event_id in SystemicCrossRuntime.applied_event_ids():
+    for event_id: String in SystemicCrossRuntime.applied_event_ids():
         queue_scene(event_id)
-    for cascade_id in SystemicCrossRuntime.applied_cascade_ids():
+    for cascade_id: String in SystemicCrossRuntime.applied_cascade_ids():
         queue_scene(cascade_id)
 
 func pending_scene_count() -> int:
@@ -100,11 +100,11 @@ func present_next_pending_scene() -> Dictionary:
     if pending_scene_ids.is_empty():
         return {}
     _presenting = true
-    var scene_id := pending_scene_ids.pop_front()
+    var scene_id: String = str(pending_scene_ids.pop_front())
     if seen_scene_ids.has(scene_id):
         _presenting = false
         return present_next_pending_scene()
-    var payload := resolved_scene(scene_id)
+    var payload: Dictionary = resolved_scene(scene_id)
     if payload.is_empty():
         _presenting = false
         return {}
@@ -123,10 +123,10 @@ func resolved_scene(scene_id: String) -> Dictionary:
     var source: Dictionary = source_value
     if source.is_empty():
         return {}
-    var context := _context_for(scene_id)
-    var payload := source.duplicate(true)
+    var context: Dictionary = _context_for(scene_id)
+    var payload: Dictionary = source.duplicate(true)
     payload["scene_id"] = scene_id
-    for key in ["title", "task", "opening", "closing", "location"]:
+    for key: String in ["title", "task", "opening", "closing", "location"]:
         payload[key] = _replace_tokens(str(payload.get(key, "")), context)
     payload["dialogue"] = _resolve_dialogue(source.get("dialogue", []), context)
     payload["silent_reaction"] = _resolve_silent_reaction(source.get("silent_reactions", []), context)
@@ -135,18 +135,18 @@ func resolved_scene(scene_id: String) -> Dictionary:
 func _resolve_dialogue(values: Variant, context: Dictionary) -> Array[Dictionary]:
     var result: Array[Dictionary] = []
     var lines: Array = values if values is Array else []
-    var limit := maxi(0, int(data.get("rules", {}).get("max_spoken_hero_lines", 2)))
-    for value in lines:
+    var limit: int = maxi(0, int(data.get("rules", {}).get("max_spoken_hero_lines", 2)))
+    for value: Variant in lines:
         if result.size() >= limit:
             break
         var line: Dictionary = value if value is Dictionary else {}
-        var speaker_id := str(line.get("speaker_id", ""))
+        var speaker_id: String = str(line.get("speaker_id", ""))
         if speaker_id == "":
             continue
-        var hero := _alive_hero(speaker_id)
+        var hero: Dictionary = _alive_hero(speaker_id)
         if hero.is_empty():
             continue
-        var text := _replace_tokens(str(line.get("text", "")), context)
+        var text: String = _replace_tokens(str(line.get("text", "")), context)
         if text == "":
             continue
         result.append({
@@ -158,13 +158,13 @@ func _resolve_dialogue(values: Variant, context: Dictionary) -> Array[Dictionary
 
 func _resolve_silent_reaction(values: Variant, context: Dictionary) -> Dictionary:
     var reactions: Array = values if values is Array else []
-    for value in reactions:
+    for value: Variant in reactions:
         var reaction: Dictionary = value if value is Dictionary else {}
-        var hero_id := str(reaction.get("hero_id", ""))
-        var hero := _alive_hero(hero_id)
+        var hero_id: String = str(reaction.get("hero_id", ""))
+        var hero: Dictionary = _alive_hero(hero_id)
         if hero.is_empty():
             continue
-        var text := _replace_tokens(str(reaction.get("text", "")), context)
+        var text: String = _replace_tokens(str(reaction.get("text", "")), context)
         if text == "":
             continue
         return {
@@ -186,20 +186,20 @@ func _context_for(scene_id: String) -> Dictionary:
     return {}
 
 func _replace_tokens(text: String, context: Dictionary) -> String:
-    var dead_name := str(context.get("name", context.get("dead_name", "le nom inscrit")))
-    var cause := str(context.get("cause", context.get("material_cause", "cause matérielle consignée")))
+    var dead_name: String = str(context.get("name", context.get("dead_name", "le nom inscrit")))
+    var cause: String = str(context.get("cause", context.get("material_cause", "cause matérielle consignée")))
     return text.replace("{dead_name}", dead_name).replace("{cause}", cause)
 
 func _alive_hero(registry_id: String) -> Dictionary:
-    var normalized := _normalize_hero_id(registry_id)
-    for hero_value in GameState.alive_heroes():
+    var normalized: String = _normalize_hero_id(registry_id)
+    for hero_value: Variant in GameState.alive_heroes():
         var hero: Dictionary = hero_value if hero_value is Dictionary else {}
         if _normalize_hero_id(str(hero.get("id", ""))) == normalized:
             return hero
     return {}
 
 func _normalize_hero_id(value: String) -> String:
-    var normalized := value.strip_edges().to_lower()
+    var normalized: String = value.strip_edges().to_lower()
     if normalized.begins_with("hero."):
         normalized = normalized.trim_prefix("hero.")
     return normalized
@@ -218,16 +218,16 @@ func _record_presentation(payload: Dictionary) -> void:
         recent_presentations.pop_front()
 
 func _log_scene(payload: Dictionary) -> void:
-    var title := str(payload.get("title", "Conséquence"))
-    var opening := str(payload.get("opening", ""))
-    var task := str(payload.get("task", ""))
-    var closing := str(payload.get("closing", ""))
+    var title: String = str(payload.get("title", "Conséquence"))
+    var opening: String = str(payload.get("opening", ""))
+    var task: String = str(payload.get("task", ""))
+    var closing: String = str(payload.get("closing", ""))
     GameState.add_log("SCÈNE AU SANCTUAIRE — %s" % title)
     if opening != "":
         GameState.add_log(opening)
     if task != "":
         GameState.add_log("Pendant ce temps : %s" % task)
-    for line_value in payload.get("dialogue", []):
+    for line_value: Variant in payload.get("dialogue", []):
         var line: Dictionary = line_value if line_value is Dictionary else {}
         if line.is_empty():
             continue
@@ -236,7 +236,7 @@ func _log_scene(payload: Dictionary) -> void:
     var silence_value: Variant = payload.get("silent_reaction", {})
     var silence: Dictionary = silence_value if silence_value is Dictionary else {}
     if not silence.is_empty():
-        var reaction := str(silence.get("text", ""))
+        var reaction: String = str(silence.get("text", ""))
         scene_silence_selected.emit(str(payload.get("scene_id", "")), reaction)
         GameState.add_log(reaction)
     if closing != "":
@@ -244,7 +244,7 @@ func _log_scene(payload: Dictionary) -> void:
 
 func recent_scene_summaries(limit: int = 4) -> Array[String]:
     var result: Array[String] = []
-    for index in range(recent_presentations.size() - 1, -1, -1):
+    for index: int in range(recent_presentations.size() - 1, -1, -1):
         if result.size() >= limit:
             break
         var item: Dictionary = recent_presentations[index]
@@ -260,22 +260,22 @@ func serialize() -> Dictionary:
 
 func deserialize(payload: Dictionary) -> void:
     pending_scene_ids = []
-    for value in payload.get("pending_scene_ids", []):
-        var scene_id := str(value)
+    for value: Variant in payload.get("pending_scene_ids", []):
+        var scene_id: String = str(value)
         if scenes.has(scene_id) and not pending_scene_ids.has(scene_id):
             pending_scene_ids.append(scene_id)
     seen_scene_ids = []
-    for value in payload.get("seen_scene_ids", []):
-        var scene_id := str(value)
+    for value: Variant in payload.get("seen_scene_ids", []):
+        var scene_id: String = str(value)
         if scenes.has(scene_id) and not seen_scene_ids.has(scene_id):
             seen_scene_ids.append(scene_id)
     recent_presentations = []
-    for value in payload.get("recent_presentations", []):
+    for value: Variant in payload.get("recent_presentations", []):
         if value is Dictionary:
             recent_presentations.append((value as Dictionary).duplicate(true))
     while recent_presentations.size() > RECENT_PRESENTATION_LIMIT:
         recent_presentations.pop_front()
-    for scene_id in seen_scene_ids:
+    for scene_id: String in seen_scene_ids:
         pending_scene_ids.erase(scene_id)
     _sync_applied_scenes()
     narrative_state_changed.emit()
