@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "canon_status": "litd1_legendary_seven_causal_relationship_arcs_v1",
+  "extends": "universe/lore/legendary_seven_relationships.json",
+  "formation_source": "universe/lore/legendary_seven_formation.json",
+  "memory_source": "universe/lore/legendary_seven_relationship_memory_contexts.json",
+  "rules": {
+    "pair_count": 21,
+    "reuse_existing_stages": [
+      "opening",
+      "friction",
+      "rupture",
+      "repair",
+      "durable",
+      "bereavement"
+    ],
+    "no_new_relationship_meter": true,
+    "no_automatic_romance": true,
+    "rupture_requires_prior_friction_memory": true,
+    "rupture_requires_concrete_consequence": true,
+    "repair_not_guaranteed": true,
+    "repair_requires_new_event_and_cost": true,
+    "repair_never_erases_history": true,
+    "durable_does_not_mean_agreement": true,
+    "bereavement_can_interrupt_any_stage": true,
+    "dead_hero_never_speaks": true,
+    "no_posthumous_reconciliation": true,
+    "remanence_forward_only": true,
+    "backward_causation": false,
+    "runtime_implementation_deferred_until_playtest": true
+  },
+  "arcs": [
+    {
+      "pair_id": "aurelien_effrie",
+      "formation_event": "formation.aurelien_rank_6",
+      "seed": "autorite_contre_controle",
+      "rupture": "Une urgence où l'un agit sans laisser de prise réelle à la contradiction.",
+      "repair": "Publier à l'avance un seuil de délégation et reconnaître après coup qui pouvait légitimement contester.",
+      "remanence": "La tradition future peut simplifier leur désaccord en « chef contre rebelle », alors que le fait source porte sur les limites de l'autorité."
+    },
+    {
+      "pair_id": "aurelien_lya",
+      "formation_event": "formation.lya_rank_7",
+      "seed": "preuve_contre_representation",
+      "rupture": "Aurélien écarte une représentation jugée trop ambiguë, ou Lya la présente comme si elle établissait une causalité.",
+      "repair": "Archiver séparément observation, interprétation et auteur de l'interprétation, puis laisser une décision réelle dépendre de cette séparation.",
+      "remanence": "Une archive tardive peut fusionner image et preuve, ou effacer l'image en ne gardant que le registre."
+    },
+    {
+      "pair_id": "aurelien_mathilde",
+      "formation_event": "formation.aurelien_rank_6",
+      "seed": "cout_acceptable",
+      "rupture": "Une décision de triage, de route ou de saturation laisse des victimes clairement identifiables et l'un accuse l'autre d'avoir rendu ce coût moralement invisible.",
+      "repair": "Revenir vers les personnes qui ont payé le coût, modifier une pratique concrète et conserver le désaccord dans le registre au lieu de réécrire la décision.",
+      "remanence": "La postérité peut les transformer en couple symbolique de raison et compassion, effaçant qu'ils pouvaient rester profondément en désaccord."
+    },
+    {
+      "pair_id": "aurelien_marec",
+      "formation_event": "formation.aurelien_rank_6",
+      "seed": "endurance_contre_disponibilite_du_corps",
+      "rupture": "Un plan s'appuie encore sur Marec blessé parce qu'il a déjà tenu une situation semblable.",
+      "repair": "Marec annonce lui-même un seuil d'arrêt et Aurélien modifie réellement le plan autour de ce seuil, même si cela coûte du temps ou des ressources.",
+      "remanence": "La légende peut faire d'Aurélien celui qui « empêchait le héros d'agir » ou de Marec une force sans limite, effaçant le consentement et les lésions."
+    },
+    {
+      "pair_id": "aurelien_zeje",
+      "formation_event": "formation.aurelien_rank_6",
+      "seed": "decision_sous_incertitude",
+      "rupture": "Une décision irréversible est prise alors que Zejé maintient un niveau d'incertitude élevé, puis son doute est présenté comme obstruction ou la décision comme preuve rétrospective.",
+      "repair": "Écrire ensemble ce qui était connu, inconnu et néanmoins décidé, puis accepter une correction publique ultérieure.",
+      "remanence": "La mémoire peut transformer leur méthode en doctrine de certitude rationnelle alors qu'elle reposait précisément sur l'acceptation de l'incertain."
+    },
+    {
+      "pair_id": "aurelien_anouk",
+      "formation_event": "formation.aurelien_rank_6",
+      "seed": "etudier_sans_instrumentaliser",
+      "rupture": "Une urgence pousse à demander à Anouk un nouvel usage malgré des symptômes, ou une donnée sur elle est utilisée sans son accord pour justifier une politique.",
+      "repair": "Anouk choisit les limites d'un protocole et Aurélien accepte une perte réelle d'information ou d'efficacité pour les respecter.",
+      "remanence": "Un récit futur peut présenter Anouk comme ressource stratégique confiée à Aurélien, effaçant son consentement."
+    },
+    {
+      "pair_id": "effrie_lya",
+      "formation_event": "formation.lya_rank_7",
+      "seed": "transmettre_sans_voler_la_voix",
+      "rupture": "Lya met en forme un récit d'Èffrie que celle-ci juge approprié ou figé; ou Èffrie exige que la fidélité interdise toute interprétation extérieure.",
+      "repair": "Conserver plusieurs versions attribuées et laisser un désaccord visible dans la transmission publique.",
+      "remanence": "La postérité peut attribuer une version composite à une seule voix et la transformer en tradition homogène."
+    },
+    {
+      "pair_id": "effrie_mathilde",
+      "formation_event": "formation.effrie_rank_5",
+      "seed": "represailles_contre_protection",
+      "rupture": "Après une perte ou une attaque, Èffrie veut neutraliser une menace au-delà du danger immédiat ou Mathilde bloque toute action en confondant retenue et protection.",
+      "repair": "Choisir ensemble une action de protection limitée par un seuil explicite et accepter qu'elle laisse un risque résiduel.",
+      "remanence": "Un chant tardif peut raconter que l'une réclamait vengeance et l'autre pardon, alors que leur conflit portait sur la limite de la force."
+    },
+    {
+      "pair_id": "effrie_marec",
+      "formation_event": "formation.effrie_rank_5",
+      "seed": "discipline_contre_instinct",
+      "rupture": "Marec ou Èffrie s'engage avant le plan dans une situation où son intuition est plausible mais non vérifiée, exposant les autres.",
+      "repair": "L'un accepte d'annoncer son intention et l'autre construit une fenêtre d'action réversible autour d'elle.",
+      "remanence": "La légende peut transformer leur coordination en fraternité guerrière instinctive et effacer les règles d'arrêt qu'ils ont dû apprendre."
+    },
+    {
+      "pair_id": "effrie_zeje",
+      "formation_event": "formation.effrie_rank_5",
+      "seed": "tradition_contre_doute_methodique",
+      "rupture": "Une observation contredit une interprétation transmise par la tradition d'Èffrie et Zejé formule la correction d'une manière qui semble nier toute la mémoire.",
+      "repair": "Séparer le fait transmis, son interprétation et la contradiction nouvelle; Èffrie accepte la correction et Zejé conserve la valeur historique de la source.",
+      "remanence": "La postérité peut raconter que Zejé « démontra » la fausseté de la tradition ou qu'Èffrie lui révéla une vérité interdite."
+    },
+    {
+      "pair_id": "effrie_anouk",
+      "formation_event": "formation.effrie_rank_5",
+      "seed": "proteger_sans_sacraliser",
+      "rupture": "Après un effet spectaculaire de la Trame, Èffrie traite le danger autour d'Anouk comme justification pour décider à sa place.",
+      "repair": "Anouk formule elle-même le risque qu'elle accepte; Èffrie protège la possibilité de ce choix plutôt que le résultat choisi.",
+      "remanence": "Une tradition ultérieure peut faire d'Èffrie la gardienne d'une élue de la Trame, transformant protection et consentement en destinée."
+    },
+    {
+      "pair_id": "lya_mathilde",
+      "formation_event": "formation.lya_rank_7",
+      "seed": "ouverture_contre_surcharge",
+      "rupture": "Lya ou Mathilde continue d'exposer l'autre à des témoignages, douleurs ou scènes que celle-ci n'a plus la capacité de recevoir.",
+      "repair": "La personne en surcharge nomme une limite; l'autre la respecte sans interpréter ce retrait comme indifférence.",
+      "remanence": "La postérité peut glorifier leur sensibilité comme compassion illimitée et effacer les limites nécessaires à sa survie."
+    },
+    {
+      "pair_id": "lya_marec",
+      "formation_event": "formation.lya_rank_7",
+      "seed": "mouvement_contre_force_directe",
+      "rupture": "Une solution de Lya est jugée trop indirecte par Marec, ou une action de force détruit une trace, un rythme collectif ou une option non violente encore viable.",
+      "repair": "Ils construisent une solution où la force intervient à un moment précis défini par la lecture du mouvement, avec coût visible si le timing échoue.",
+      "remanence": "Une version héroïque peut réduire Lya à inspiratrice et Marec à exécutant, effaçant la co-construction tactique."
+    },
+    {
+      "pair_id": "lya_zeje",
+      "formation_event": "formation.lya_rank_7",
+      "seed": "motif_contre_cause_verifiee",
+      "rupture": "Lya relie plusieurs signes que Zejé juge insuffisants, ou Zejé classe trop vite une convergence comme simple coïncidence.",
+      "repair": "Ils enregistrent le motif comme hypothèse testable et acceptent publiquement qu'il puisse être confirmé, partiellement confirmé ou abandonné.",
+      "remanence": "Une école future peut transformer leur méthode en lecture symbolique infaillible ou en rejet complet des motifs."
+    },
+    {
+      "pair_id": "lya_anouk",
+      "formation_event": "formation.lya_rank_7",
+      "seed": "boucle_de_confirmation_perceptive",
+      "rupture": "Les perceptions de Lya et Anouk convergent sans vérification indépendante et conduisent à une action coûteuse.",
+      "repair": "Elles demandent volontairement un contrôle extérieur qui peut contredire leur lecture et conservent la contradiction dans leur mémoire commune.",
+      "remanence": "La postérité peut les présenter comme deux voyantes se confirmant mutuellement, effaçant leur discipline de vérification externe."
+    },
+    {
+      "pair_id": "mathilde_marec",
+      "formation_event": "formation.mathilde_rank_4",
+      "seed": "proteger_sans_infantiliser",
+      "rupture": "Mathilde interdit à Marec une action qu'il estime pouvoir choisir, ou Marec cache une aggravation pour éviter qu'elle décide à sa place.",
+      "repair": "Marec dit explicitement ce qu'il accepte de risquer; Mathilde peut refuser de l'aider à franchir une limite médicale mais ne confisque pas sa décision.",
+      "remanence": "La légende peut transformer leur lien maternel en autorité totale de Mathilde sur Marec, ce que le canon refuse."
+    },
+    {
+      "pair_id": "mathilde_zeje",
+      "formation_event": "formation.mathilde_rank_4",
+      "seed": "consequence_humaine_contre_retenue_epistemique",
+      "rupture": "Une identité, une responsabilité ou une cause reste PROBABLE/INCONNUE alors qu'une famille exige une réponse immédiate.",
+      "repair": "Ils maintiennent ensemble le marqueur d'incertitude tout en accomplissant une action concrète de soin, de mémoire ou d'aide qui n'exige pas de faux verdict.",
+      "remanence": "La postérité peut raconter que Mathilde « savait » et que Zejé résistait, ou inversement que Zejé imposa une froide vérité."
+    },
+    {
+      "pair_id": "mathilde_anouk",
+      "formation_event": "formation.mathilde_rank_4",
+      "seed": "protection_contre_surprotection",
+      "rupture": "Après une surcharge de la Trame, Mathilde empêche une nouvelle participation sans demander à Anouk ce qu'elle veut ou Anouk minimise ses symptômes pour éviter cette protection.",
+      "repair": "Anouk fixe elle-même une limite et une condition d'aide; Mathilde s'engage à la faire respecter même si elle désapprouve le choix.",
+      "remanence": "La postérité peut transformer Mathilde en mère gardienne d'Anouk et effacer les conflits d'autonomie qui rendent leur affection adulte."
+    },
+    {
+      "pair_id": "marec_zeje",
+      "formation_event": "formation.marec_rank_3",
+      "seed": "instinct_contre_analyse",
+      "rupture": "Marec agit avant que Zejé considère l'information suffisante, ou Zejé retarde jusqu'à rendre l'action devenue plus dangereuse.",
+      "repair": "Ils définissent un seuil minimal d'information et une action réversible; chacun accepte une situation où sa méthode n'a pas le dernier mot.",
+      "remanence": "La légende peut caricaturer Marec en instinct pur et Zejé en cerveau froid, effaçant leurs apprentissages croisés."
+    },
+    {
+      "pair_id": "marec_anouk",
+      "formation_event": "formation.marec_rank_3",
+      "seed": "fraternite_sans_dette",
+      "rupture": "Marec intervient contre le choix d'Anouk parce qu'il pense la protéger, ou Anouk se met en danger parce qu'elle croit devoir compenser ce qu'il a fait pour elle.",
+      "repair": "L'un demande explicitement l'aide; l'autre peut accepter ou refuser sans dette relationnelle, et le refus reste sans sanction.",
+      "remanence": "La mémoire populaire peut transformer leur fraternité en serment de garde absolue, précisément ce qu'ils refusent."
+    },
+    {
+      "pair_id": "zeje_anouk",
+      "formation_event": "formation.anouk_rank_2",
+      "seed": "ressenti_contre_etabli",
+      "rupture": "Une perception d'Anouk ignorée se révèle juste, ou une perception suivie trop vite provoque un coût; chacun peut alors vouloir convertir un cas en règle générale.",
+      "repair": "Ils reprennent le protocole RESSENTI/OBSERVÉ avec un cas qui leur donne tort à chacun sur un aspect et conservent la correction.",
+      "remanence": "La postérité peut prétendre que Zejé reconnut immédiatement une élue infaillible ou qu'il passa sa vie à nier ce qu'elle percevait."
+    }
+  ]
+}
