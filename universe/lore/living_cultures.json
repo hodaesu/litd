@@ -1,0 +1,382 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.0.0",
+  "status_values": ["canon", "open", "working_canon"],
+  "culture_kind_values": ["civic", "imperial", "maritime", "religious_political", "scholarly_confederation", "tribal", "meta_cultural"],
+  "continuity_channel_values": ["body", "language", "art", "institution", "object", "place", "ritual", "narrative", "silence"],
+  "identity_rules": {
+    "ethnicity_is_not_culture": true,
+    "city_is_not_ethnicity": true,
+    "religion_is_not_ethnicity": true,
+    "language_is_not_biology": true,
+    "no_intrinsic_stats_from_ethnicity_sex_or_skin_color": true,
+    "populations_are_not_collectively_guilty_for_governments": true,
+    "sources": [
+      "docs/LORE_BIBLE.md",
+      "docs/LITD_UNIVERSE_CREATION_PERSONNAGES.md",
+      "docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md"
+    ]
+  },
+  "language_policy": {
+    "world_multilingual": true,
+    "concorde_single_common_language": "unconfirmed",
+    "named_language_families": "unconfirmed",
+    "known_facts": [
+      "Jian-Lu est cosmopolite et polyglotte.",
+      "Orun-Saï pratique traduction, diplomatie et accueil des migrations.",
+      "Les provinces de Varkhane possèdent leurs propres langues.",
+      "Namar rassemble de nombreuses communautés et Ilyara en fait cohabiter des dizaines.",
+      "Kor-Em accueille de nombreux étudiants étrangers."
+    ],
+    "guardrails": [
+      "Ne pas lier une langue à une apparence physique.",
+      "Ne pas supposer qu'une cité correspond à une seule langue.",
+      "Ne pas inventer une langue véhiculaire unique de la Concorde sans décision dédiée."
+    ],
+    "sources": [
+      "docs/CONCORDE_MONDE_POLITIQUE.md",
+      "docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md"
+    ]
+  },
+  "cultures": [
+    {
+      "id": "culture.concorde_common",
+      "name": "Culture commune de la Concorde",
+      "kind": "meta_cultural",
+      "scope": "concorde_continent",
+      "period": "post_sarn_to_fall",
+      "status": "canon",
+      "identity": "Socle civique cosmopolite superposé à de nombreuses cultures locales, croyances, langues et origines.",
+      "three_awakenings_relation": "Corps, Esprit et La Cité structurent progressivement éducation et vie commune sans constituer une religion.",
+      "martial_practice": "La fonction sociale de la pratique martiale est canonique ; les écoles précises restent ouvertes.",
+      "artistic_practice": "La création artistique est structurante via l'Esprit ; les écoles précises restent ouvertes.",
+      "religion": "Pluralité religieuse confirmée ; aucune religion continentale unique n'est verrouillée.",
+      "language": "Multilinguisme confirmé ; langue véhiculaire éventuelle non confirmée.",
+      "continuity_channels": ["body", "language", "art", "institution", "object", "place", "ritual", "narrative", "silence"],
+      "sources": ["docs/LORE_BIBLE.md", "docs/HISTOIRE_TROIS_EVEILS.md", "docs/LITD_UNIVERSE_CREATION_PERSONNAGES.md"]
+    },
+    {
+      "id": "culture.jian_lu",
+      "name": "Jian-Lu — Cité des Ponts",
+      "kind": "civic",
+      "scope": "concorde_continent",
+      "period": "mature_concord_to_fall",
+      "status": "canon",
+      "identity": "Carrefour fluvial cosmopolite et polyglotte fondé sur commerce, transport, négociation et hospitalité marchande.",
+      "language": "Polyglotte ; langues précises non confirmées.",
+      "martial_practice": "open",
+      "artistic_practice": "open",
+      "religion": "open",
+      "continuity_channels": ["language", "institution", "place", "object", "narrative"],
+      "sources": ["docs/CONCORDE_MONDE_POLITIQUE.md"]
+    },
+    {
+      "id": "culture.sorye",
+      "name": "Sorye — Cité des Cent Écoles",
+      "kind": "civic",
+      "scope": "concorde_continent",
+      "period": "mature_concord_to_fall",
+      "status": "canon",
+      "identity": "Centre intellectuel, médical, artistique et juridique attaché au débat, à l'expérimentation et à la critique publique.",
+      "language": "Langues savantes précises non confirmées.",
+      "martial_practice": "open",
+      "artistic_practice": "Importance artistique confirmée ; écoles précises ouvertes.",
+      "religion": "open",
+      "continuity_channels": ["art", "institution", "object", "narrative", "silence"],
+      "sources": ["docs/CONCORDE_MONDE_POLITIQUE.md"]
+    },
+    {
+      "id": "culture.dhor_khal",
+      "name": "Dhor-Khal — Cité de la Forge Commune",
+      "kind": "civic",
+      "scope": "concorde_continent",
+      "period": "mature_concord_to_fall",
+      "status": "canon",
+      "identity": "Culture d'ingénierie, métallurgie, endurance, apprentissage et service utile.",
+      "language": "open",
+      "martial_practice": "Grandes places d'entraînement confirmées ; écoles martiales précises ouvertes.",
+      "artistic_practice": "open",
+      "religion": "open",
+      "continuity_channels": ["body", "institution", "object", "place"],
+      "sources": ["docs/CONCORDE_MONDE_POLITIQUE.md"]
+    },
+    {
+      "id": "culture.lhaor",
+      "name": "Lhaor — Cité-Jardin",
+      "kind": "civic",
+      "scope": "concorde_continent",
+      "period": "mature_concord_to_fall",
+      "status": "canon",
+      "identity": "Culture de l'interdépendance du vivant, de l'agriculture spécialisée, de la médecine végétale et de la gestion durable.",
+      "language": "open",
+      "martial_practice": "open",
+      "artistic_practice": "open",
+      "religion": "open",
+      "continuity_channels": ["body", "institution", "object", "place", "ritual", "narrative"],
+      "sources": ["docs/CONCORDE_MONDE_POLITIQUE.md", "docs/HISTOIRE_TROIS_EVEILS.md"]
+    },
+    {
+      "id": "culture.tessen",
+      "name": "Tessen — Cité des Mille Voix",
+      "kind": "civic",
+      "scope": "concorde_continent",
+      "period": "mature_concord_to_fall",
+      "status": "canon",
+      "identity": "Culture de quartiers autonomes, assemblées fréquentes, artisanat diversifié et participation civique locale.",
+      "language": "Langues de quartier non confirmées.",
+      "martial_practice": "open",
+      "artistic_practice": "Textile confirmé comme secteur ; motifs et écoles restent ouverts.",
+      "religion": "open",
+      "continuity_channels": ["language", "art", "institution", "object", "narrative"],
+      "sources": ["docs/CONCORDE_MONDE_POLITIQUE.md"]
+    },
+    {
+      "id": "culture.orun_sai",
+      "name": "Orun-Saï — Cité du Seuil",
+      "kind": "civic",
+      "scope": "concorde_continent",
+      "period": "mature_concord_to_fall",
+      "status": "canon",
+      "identity": "Culture de commerce lointain, transport terrestre, diplomatie, traduction, accueil des voyageurs et migrations.",
+      "language": "Multilinguisme fonctionnel et traduction confirmés ; composition précise ouverte.",
+      "martial_practice": "open",
+      "artistic_practice": "open",
+      "religion": "open",
+      "continuity_channels": ["language", "institution", "object", "place", "narrative"],
+      "sources": ["docs/CONCORDE_MONDE_POLITIQUE.md"]
+    },
+    {
+      "id": "culture.varkhane",
+      "name": "Cultures de Varkhane",
+      "kind": "imperial",
+      "scope": "outer_world_varkhane",
+      "period": "pre_fall_and_post_fall",
+      "status": "canon",
+      "identity": "Identité impériale civique superposée à de nombreux peuples, espèces, provinces et langues.",
+      "language": "Les provinces possèdent leurs propres langues.",
+      "martial_practice": "Traditions martiales provinciales confirmées comme diverses ; styles précis ouverts.",
+      "artistic_practice": "open",
+      "religion": "Pèlerinage dynastique documenté ; nature religieuse détaillée non généralisée.",
+      "continuity_channels": ["body", "language", "institution", "object", "place", "ritual", "narrative"],
+      "sources": ["docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md"]
+    },
+    {
+      "id": "culture.namar",
+      "name": "Cultures de Namar",
+      "kind": "maritime",
+      "scope": "outer_world_namar",
+      "period": "pre_fall_and_post_fall",
+      "status": "canon",
+      "identity": "Réseau cosmopolite de cités, îles et comptoirs valorisant navigation, négociation, réputation, crédit et adaptabilité.",
+      "language": "Pluralité communautaire confirmée ; langues précises ouvertes.",
+      "martial_practice": "Forces navales et mercenaires confirmés ; traditions culturelles martiales précises ouvertes.",
+      "artistic_practice": "open",
+      "religion": "open",
+      "continuity_channels": ["language", "institution", "object", "place", "narrative", "silence"],
+      "sources": ["docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md"]
+    },
+    {
+      "id": "culture.azravel",
+      "name": "Cultures d'Azravel",
+      "kind": "religious_political",
+      "scope": "outer_world_azravel",
+      "period": "pre_fall_and_post_fall",
+      "status": "canon",
+      "identity": "Royaume théocratique pluriel où foi dominante, minorités, mystiques et courants hétérodoxes coexistent sous tension.",
+      "language": "open",
+      "martial_practice": "Ordres militaires et cavalerie confirmés ; écoles précises ouvertes.",
+      "artistic_practice": "Copie de textes religieux confirmée ; autres arts ouverts.",
+      "religion": "Foi dominante structurante avec minorités et interprétations concurrentes.",
+      "continuity_channels": ["language", "art", "institution", "object", "place", "ritual", "narrative", "silence"],
+      "sources": ["docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md"]
+    },
+    {
+      "id": "culture.kor_em",
+      "name": "Cultures de Kor-Em",
+      "kind": "scholarly_confederation",
+      "scope": "outer_world_kor_em",
+      "period": "pre_fall_and_post_fall",
+      "status": "canon",
+      "identity": "Confédération d'académies, principautés et cités savantes fondée sur apprentissage, concours, mécénat et spécialisation technique.",
+      "language": "Présence d'étudiants étrangers confirmée ; langues précises ouvertes.",
+      "martial_practice": "Gardes et mercenaires locaux confirmés ; traditions culturelles martiales ouvertes.",
+      "artistic_practice": "open",
+      "religion": "open",
+      "continuity_channels": ["language", "institution", "object", "place", "narrative"],
+      "sources": ["docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md"]
+    },
+    {
+      "id": "culture.effrie_dragon_tribe",
+      "name": "Tribu d'Èffrie liée aux dragons",
+      "kind": "tribal",
+      "scope": "unknown",
+      "period": "late_concord_known_earlier_harmony_undated",
+      "status": "canon",
+      "identity": "Tribu d'origine d'Èffrie qui vénère les dragons et a autrefois vécu en harmonie avec eux.",
+      "language": "unconfirmed",
+      "martial_practice": "unconfirmed",
+      "artistic_practice": "unconfirmed",
+      "religion": "La vénération des dragons est confirmée ; sa nature précise reste ouverte.",
+      "continuity_channels": ["body", "ritual", "narrative"],
+      "guardrails": [
+        "Nom de la tribu non confirmé.",
+        "Territoire non confirmé.",
+        "Date de l'harmonie avec les dragons non confirmée.",
+        "Aucun pacte ancestral n'est confirmé.",
+        "Aucune ascendance draconique n'est confirmée.",
+        "Aucun lien au Voile n'est confirmé."
+      ],
+      "sources": ["docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"]
+    }
+  ],
+  "migration_history": [
+    {
+      "id": "migration.last_war_displacements",
+      "period": "last_war",
+      "status": "canon",
+      "facts": [
+        "Conscriptions, famines, massacres et déplacements forcés touchent les populations.",
+        "Des villes ouvrent leurs portes à d'anciens ennemis.",
+        "Des communautés protègent des populations auparavant désignées comme adversaires.",
+        "Des alliances locales se forment entre peuples auparavant opposés."
+      ],
+      "sources": ["docs/HISTOIRE_TROIS_EVEILS.md"]
+    },
+    {
+      "id": "migration.long_assemblies_mixing",
+      "period": "post_sarn_long_assemblies",
+      "status": "canon",
+      "facts": [
+        "Des représentants de toutes les régions participent aux Longues Assemblées.",
+        "Artisans, paysans, anciens soldats, philosophes, guérisseurs, juristes, artistes, enseignants, marchands, religieux et communautés diverses se rencontrent durablement."
+      ],
+      "sources": ["docs/HISTOIRE_TROIS_EVEILS.md"]
+    },
+    {
+      "id": "migration.mature_concord_nodes",
+      "period": "mature_concord",
+      "status": "canon",
+      "facts": [
+        "Jian-Lu est un carrefour cosmopolite et polyglotte.",
+        "Orun-Saï est un nœud de diplomatie, traduction, accueil et migrations."
+      ],
+      "sources": ["docs/CONCORDE_MONDE_POLITIQUE.md"]
+    },
+    {
+      "id": "migration.post_fall_refugees",
+      "period": "post_fall",
+      "status": "canon",
+      "facts": [
+        "Le Sanctuaire de LITD1 peut accueillir ou refuser des réfugiés.",
+        "Les mondes extérieurs connaissent villes isolées, navires-refuges, communautés rurales survivantes, monastères fortifiés, académies isolées et armées autonomes."
+      ],
+      "sources": ["docs/CONCORDE_VIE_SOCIALE.md", "docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md"]
+    }
+  ],
+  "ancient_heritage_sources": [
+    {
+      "id": "heritage.ashai",
+      "civilization": "Ashaï de Nhal",
+      "status": "canon",
+      "survival_channels": ["object", "place", "narrative", "institution"],
+      "possible_survivals": ["ruines", "mesures", "archives", "techniques fragmentaires", "erreurs scientifiques", "légendes"],
+      "direct_modern_ethnic_descendants": "unconfirmed"
+    },
+    {
+      "id": "heritage.or_silex",
+      "civilization": "Royaumes d'Or-Silex",
+      "status": "canon",
+      "survival_channels": ["body", "object", "place", "narrative"],
+      "possible_survivals": ["métallurgie", "dispositifs", "techniques de site", "architecture", "vocabulaire technique"],
+      "direct_modern_ethnic_descendants": "unconfirmed"
+    },
+    {
+      "id": "heritage.saan",
+      "civilization": "Veilleurs de Saan",
+      "status": "canon",
+      "survival_channels": ["institution", "place", "narrative", "ritual"],
+      "possible_survivals": ["sites", "ancrages", "pratiques de confinement", "récits de la Grande Fermeture", "traditions réinterprétées"],
+      "direct_modern_ethnic_descendants": "unconfirmed",
+      "guardrail": "Un nom moderne contenant Saan ne prouve ni descendance ni continuité institutionnelle."
+    },
+    {
+      "id": "heritage.outer_ancients",
+      "civilization": "Vaor-Khal / Lyr-Mar / Sahm-Ir / Ydris",
+      "status": "canon",
+      "survival_channels": ["object", "place", "institution", "narrative"],
+      "possible_survivals": ["routes", "fondations", "méthodes", "symboles", "instruments", "copies incomplètes"],
+      "direct_legal_or_moral_continuity_to_modern_regimes": false
+    }
+  ],
+  "cross_game_remanence": [
+    {
+      "id": "remanence.litd2_to_veilleurs.culture",
+      "from": "litd2",
+      "to": "litd_veilleurs",
+      "status": "canon",
+      "channels": ["body", "art", "institution", "object", "ritual", "narrative", "silence"],
+      "examples": [
+        "souvenirs de la Dernière Guerre",
+        "gestes de refus et de coopération",
+        "premières pratiques des Trois Éveils",
+        "premières institutions",
+        "premiers Sanctuaires de mémoire",
+        "témoignages, chansons, objets et erreurs transmis"
+      ],
+      "guardrail": "Dans Les Veilleurs, les témoins directs de la Dernière Guerre ont disparu."
+    },
+    {
+      "id": "remanence.veilleurs_to_litd1.culture",
+      "from": "litd_veilleurs",
+      "to": "litd1",
+      "status": "canon",
+      "channels": ["body", "language", "art", "institution", "object", "place", "ritual", "narrative", "silence"],
+      "examples": ["lois", "rites civiques", "institutions", "écoles", "archives", "chants", "œuvres", "traditions martiales", "controverses", "silences", "déformations historiques"],
+      "guardrail": "Une trace ne doit pas nécessairement être immédiatement reconnue par le joueur de LITD1."
+    },
+    {
+      "id": "remanence.dragons_to_litd1",
+      "from": "undated_dragon_harmony",
+      "to": "litd1",
+      "status": "canon",
+      "channels": ["body", "ritual", "narrative"],
+      "examples": ["Èffrie", "vénération des dragons", "pouvoirs liés aux dragons"],
+      "guardrail": "Aucune extension vers LITD2 ou Les Veilleurs n'est canonique à ce stade."
+    }
+  ],
+  "open_design_spaces": [
+    "familles linguistiques",
+    "langue ou langues véhiculaires",
+    "écoles martiales régionales",
+    "écoles artistiques et musicales",
+    "religions de la Concorde",
+    "cultures rurales et nomades",
+    "peuples conscients non humains",
+    "nom et histoire détaillée de la tribu d'Èffrie",
+    "migrations régionales détaillées",
+    "survivances culturelles précises choisies pour Les Veilleurs"
+  ],
+  "pillar_validation": {
+    "P1_character_creation": "pass",
+    "P2_systemic_gore": "conditional",
+    "P3_philosophy_psychology": "pass",
+    "P4_accessible_human_depth": "pass",
+    "P5_strong_narrative": "pass",
+    "P6_interconnection": "pass",
+    "P7_knowledge_remanence": "pass_central",
+    "P8_dialogue_staging": "pass",
+    "P9_simple_deep_readable_gameplay": "pass"
+  },
+  "sources": [
+    "docs/LORE_BIBLE.md",
+    "docs/HISTOIRE_TROIS_EVEILS.md",
+    "docs/CONCORDE_MONDE_POLITIQUE.md",
+    "docs/CONCORDE_VIE_SOCIALE.md",
+    "docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md",
+    "docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md",
+    "docs/LITD_UNIVERSE_CREATION_PERSONNAGES.md",
+    "docs/LITD_UNIVERSE_BIBLIOTHEQUE_CIVILISATIONS_HISTORIQUES.md",
+    "docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"
+  ]
+}
