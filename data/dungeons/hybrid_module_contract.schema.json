@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "schema_id": "les_veilleurs_hybrid_module_contract_v1",
+  "required": [
+    "module_id", "role", "biome_tags", "theme_tags", "size_class", "connectors",
+    "elevation_profile", "camera_profile", "combat_profile", "variation_slots",
+    "scar_anchors", "encounter_anchors", "resource_anchors", "lore_anchors",
+    "mobile_cost", "pc_detail_tier"
+  ],
+  "role_values": ["entry", "transit", "combat", "choice", "resource", "narrative", "hazard", "puzzle", "rest", "loop_gate", "secret", "elite", "boss", "exit"],
+  "size_classes": ["xs", "s", "m", "l", "xl", "boss"],
+  "connector_contract": {
+    "required": ["id", "type", "orientation", "width_m", "height_m", "level", "compatibility_tags"],
+    "types": ["door", "corridor", "stairs", "ladder", "breach", "bridge", "vertical_drop", "secret"],
+    "orientation_values": ["north", "east", "south", "west", "up", "down", "free"],
+    "optional": ["lockable", "shortcut_capable", "one_way", "hidden", "requires_tags"]
+  },
+  "variation_slot_contract": {
+    "required": ["slot_id", "kind", "allowed_variants"],
+    "kinds": ["cover", "obstacle", "hazard", "prop", "lighting", "route_state", "destructible", "corpse", "encounter_geometry", "resource_geometry"],
+    "must_preserve_critical_path": true
+  },
+  "anchor_contract": {
+    "scar_anchor": ["anchor_id", "allowed_scar_types", "criticality"],
+    "encounter_anchor": ["anchor_id", "formation_tags", "capacity"],
+    "resource_anchor": ["anchor_id", "resource_tags"],
+    "lore_anchor": ["anchor_id", "lore_tags"]
+  },
+  "performance_contract": {
+    "mobile_cost_fields": ["geometry", "materials", "lights", "particles", "decals", "dynamic_bodies"],
+    "mobile_cost_scale": "0_low_to_5_high",
+    "pc_detail_tier_values": ["same", "enhanced", "hero"]
+  },
+  "invariants": [
+    "connector_ids_unique_per_module",
+    "anchor_ids_globally_stable",
+    "critical_connectors_not_removed_by_variation",
+    "boss_critical_geometry_authored",
+    "mobile_and_pc_collision_identical",
+    "module_origin_and_connector_transform_stable"
+  ]
+}

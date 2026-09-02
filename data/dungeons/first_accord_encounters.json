@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "dungeon_id": "dungeon_first_map_hall_of_first_accord",
+  "director_rules": {
+    "populate_after_remanence": true,
+    "respect_room_capacity": true,
+    "critical_path_min_encounters": 4,
+    "critical_path_max_encounters": 7,
+    "optional_encounter_chance": 0.65,
+    "nemesis_slot_chance": 0.12,
+    "same_nemesis_max_once_per_run": true,
+    "injury_pressure_relief_threshold": 0.65,
+    "low_supplies_relief_threshold": 0.30,
+    "boss_fixed": true
+  },
+  "depth_bands": {
+    "shallow": {"depth":[0,2],"budget":[1,3]},
+    "middle": {"depth":[3,6],"budget":[2,5]},
+    "deep": {"depth":[7,9],"budget":[3,6]}
+  },
+  "room_tables": {
+    "accord_gallery": [
+      {"id":"accord_scavengers_01","weight":5,"formation_tags":["frontline","flank"],"threat":2,"memory_eligible":true},
+      {"id":"accord_watchers_names","weight":3,"formation_tags":["ranged","pressure"],"threat":2,"memory_eligible":true}
+    ],
+    "accord_debate": [
+      {"id":"echoes_of_dissent","weight":5,"formation_tags":["surround","elevated"],"threat":3,"memory_eligible":true},
+      {"id":"accord_debaters_broken","weight":2,"formation_tags":["control","flank"],"threat":3,"memory_eligible":true}
+    ],
+    "accord_collapse": [
+      {"id":"accord_scavengers_02","weight":5,"formation_tags":["choke","rear_pressure"],"threat":3,"memory_eligible":true},
+      {"id":"collapse_ambushers","weight":3,"formation_tags":["ambush","hazard_push"],"threat":3,"memory_eligible":true}
+    ],
+    "accord_three_pillars": [
+      {"id":"three_pillars_trial","weight":6,"formation_tags":["elite","ritual"],"threat":5,"memory_eligible":true},
+      {"id":"three_pillars_veteran_patrol","weight":2,"formation_tags":["veteran","control"],"threat":5,"memory_eligible":true}
+    ],
+    "accord_guardroom": [
+      {"id":"accord_guard_remnants","weight":6,"formation_tags":["ambush"],"threat":2,"memory_eligible":true}
+    ],
+    "accord_service_rooms": [
+      {"id":"accord_service_scavengers","weight":5,"formation_tags":["small","mobile"],"threat":2,"memory_eligible":true},
+      {"id":"accord_service_empty","weight":3,"formation_tags":[],"threat":0,"memory_eligible":false}
+    ]
+  },
+  "nemesis_override": {
+    "allowed_roles":["combat","choice","hazard","elite"],
+    "forbidden_roles":["entry","rest","secret","boss"],
+    "requires_shared_history":true,
+    "may_replace_normal_encounter":true,
+    "may_add_environmental_trace":true,
+    "may_block_optional_branch":true,
+    "may_block_critical_path":false,
+    "may_remove_only_retreat":false
+  },
+  "boss": {
+    "encounter_id":"c01_ancient_accord_warden",
+    "room_pool":"accord_warden",
+    "capturable":false,
+    "threat":7,
+    "authored_topology":true
+  }
+}
