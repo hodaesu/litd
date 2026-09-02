@@ -93,6 +93,7 @@ def audit_contextual_quest_ramifications(root: Path = ROOT) -> dict[str, Any]:
 
     hero_union: set[str] = set()
     death_branches = 0
+    migration_economy_branches = 0
     reliability_seen: set[str] = set()
     for item in ramifications:
         pair = (str(item.get("quest_id", "")), str(item.get("choice_id", "")))
@@ -107,8 +108,10 @@ def audit_contextual_quest_ramifications(root: Path = ROOT) -> dict[str, Any]:
             errors.append(f"Fiabilité de rumeur invalide pour {label}: {sorted(rel)}")
         if item.get("physical_world_change") is not True:
             errors.append(f"Le monde physique doit changer pour {label}")
-        if item.get("migration_or_economic_consequence") is not True:
-            errors.append(f"Migration ou économie doit être affectée pour {label}")
+        if item.get("migration_or_economic_consequence") is True:
+            migration_economy_branches += 1
+        elif item.get("migration_or_economic_consequence") is not False:
+            errors.append(f"Le marqueur migration/économie doit être booléen pour {label}")
         if item.get("hero_dialogue_conditional") is not True:
             errors.append(f"Les dialogues de héros doivent rester conditionnels pour {label}")
         heroes = set(map(str, item.get("hero_followups", [])))
@@ -138,6 +141,8 @@ def audit_contextual_quest_ramifications(root: Path = ROOT) -> dict[str, Any]:
         errors.append(f"Les sept héros doivent être représentés conditionnellement; manquants={sorted(EXPECTED_HEROES-hero_union)}")
     if death_branches < 1:
         errors.append("Aucune branche ne matérialise encore les morts contextuelles")
+    if migration_economy_branches < 15:
+        errors.append("Les effets de migration/économie doivent couvrir largement le cycle sans être forcés partout")
     if len(reliability_seen) < 4:
         errors.append("Les rumeurs doivent montrer plusieurs degrés de fiabilité")
 
@@ -179,6 +184,7 @@ def audit_contextual_quest_ramifications(root: Path = ROOT) -> dict[str, Any]:
             "source_choices": len(source_pairs),
             "ramifications": len(ramifications),
             "possible_death_branches": death_branches,
+            "migration_economy_branches": migration_economy_branches,
             "heroes_represented": sorted(hero_union),
             "rumor_reliability_values": sorted(reliability_seen),
         },
