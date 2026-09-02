@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "canon_status": "canon_litd1_major_relationship_scenes_v1",
+  "scope": "LITD1; major event-driven rupture, repair and bereavement scenes for the Seven",
+  "sources": {
+    "relationships": "universe/lore/legendary_seven_relationships.json",
+    "causal_arcs": "universe/lore/legendary_seven_relationship_causal_arcs.json",
+    "formation": "universe/lore/legendary_seven_formation.json",
+    "cross_events": "universe/lore/contextual_quest_cross_ramifications.json"
+  },
+  "rules": {
+    "major_scene_count": 9,
+    "all_21_pairs_have_at_least_one_major_scene": true,
+    "major_scene_is_never_mandatory_for_every_campaign": true,
+    "rupture_requires_prior_memory": true,
+    "rupture_requires_concrete_consequence": true,
+    "repair_requires_later_event": true,
+    "repair_requires_real_cost": true,
+    "repair_is_not_guaranteed": true,
+    "durable_disagreement_is_valid": true,
+    "bereavement_can_interrupt_any_stage": true,
+    "dead_hero_never_speaks": true,
+    "no_posthumous_reconciliation": true,
+    "one_major_relationship_scene_per_sanctuary_entry": true,
+    "systemic_and_afterlife_scenes_keep_priority": true,
+    "no_new_relationship_meter": true,
+    "no_romance_inference": true,
+    "created_protagonist_posture_never_imposed": true,
+    "max_spoken_lines_per_major_scene": 2,
+    "remanence_forward_only": true,
+    "backward_causation": false
+  },
+  "scene_families": [
+    {
+      "id": "major.corridor_capacity",
+      "title": "La route n'a pas deux largeurs",
+      "source_events": ["cross.funeral.body_return_and_medical_corridor"],
+      "eligible_pairs": ["aurelien_mathilde", "aurelien_marec", "aurelien_zeje", "mathilde_zeje", "mathilde_marec"],
+      "rupture": {
+        "trigger": "La même voie sûre doit servir aux blessés vivants, aux médicaments et au retour de corps identifiés. Une décision antérieure a déjà donné un coût humain à cette route.",
+        "consequence": "Une personne attend, un soin est retardé ou un corps ne peut pas être rendu dans le délai espéré.",
+        "stage_direction": "Au Sanctuaire, trois listes sont posées sur la même carte. Personne ne les superpose. Le vide entre elles devient le centre de la scène.",
+        "material_trace": "carte_de_corridor_avec_trois_listes",
+        "pair_lines": {
+          "aurelien_mathilde": {"speaker_id": "hero.mathilde", "text": "Tu peux appeler ça une capacité de route. Celui qui attend l'appelle encore sa jambe, son frère ou son enfant."},
+          "aurelien_marec": {"speaker_id": "hero.marec", "text": "Si ton plan tient seulement parce qu'on me remet sous la charge, ce n'est plus un plan. C'est mon épaule."},
+          "aurelien_zeje": {"speaker_id": "hero.zeje", "text": "La priorité choisie est documentée. Son caractère nécessaire ne l'est pas encore."},
+          "mathilde_zeje": {"speaker_id": "hero.mathilde", "text": "Garde INCONNU si tu dois. Mais n'utilise pas INCONNU pour oublier qui attend devant nous."},
+          "mathilde_marec": {"speaker_id": "hero.marec", "text": "Tu ne peux pas me protéger en décidant que je ne porterai rien. Tu peux me demander ce que je peux encore porter."}
+        }
+      },
+      "repair": {
+        "trigger": "Un nouveau passage ou une nouvelle vague oblige le même couple à refaire un choix de capacité après la rupture.",
+        "required_cost": "Ils acceptent un détour, un délai, une dépense ou une perte de capacité afin de respecter la limite reconnue pendant la rupture.",
+        "stage_direction": "Une ancienne ligne n'est pas effacée. Une seconde règle est écrite dessous, avec le nom de ce qu'elle coûte.",
+        "pair_lines": {
+          "aurelien_mathilde": {"speaker_id": "hero.aurelien", "text": "Je garde l'ordre. J'ajoute les noms, le délai et ce que nous devons encore à ceux qui attendent."},
+          "aurelien_marec": {"speaker_id": "hero.aurelien", "text": "Ton seuil change le plan. Je préfère perdre du temps que faire semblant que ton corps n'en perd pas."},
+          "aurelien_zeje": {"speaker_id": "hero.aurelien", "text": "Décision prise sous incertitude élevée. Et cette fois, je laisse la phrase visible."},
+          "mathilde_zeje": {"speaker_id": "hero.zeje", "text": "Je peux garder l'incertitude et quand même agir pour la famille. Ce sont deux colonnes, pas deux camps."},
+          "mathilde_marec": {"speaker_id": "hero.mathilde", "text": "Dis-moi ta limite. Je ne te promets pas de l'aimer. Je te promets de ne pas la remplacer par la mienne."}
+        }
+      }
+    },
+    {
+      "id": "major.winter_saturation",
+      "title": "Ceux qui attendent encore",
+      "source_events": ["cascade.winter_refugee_pressure", "winter_resource_pressure"],
+      "eligible_pairs": ["aurelien_mathilde", "aurelien_effrie", "lya_mathilde", "mathilde_anouk"],
+      "rupture": {
+        "trigger": "Le Sanctuaire manque simultanément de chaleur, lits, nourriture et soins. Une priorité en protège certains et laisse d'autres dehors ou en attente.",
+        "consequence": "La saturation devient visible dans des corps froids, des files déplacées et des personnes que le groupe connaît par leur nom.",
+        "stage_direction": "La scène se joue près d'une porte qui s'ouvre trop souvent. Chaque ouverture fait entrer du froid. Les personnages parlent en travaillant.",
+        "material_trace": "registre_saturation_et_couvertures_numérotees",
+        "pair_lines": {
+          "aurelien_mathilde": {"speaker_id": "hero.mathilde", "text": "Ne me dis pas combien nous avons absorbé. Montre-moi qui est encore dehors."},
+          "aurelien_effrie": {"speaker_id": "hero.effrie", "text": "Tu as donné un ordre parce qu'il fallait agir. Ne transforme pas l'urgence en droit de décider seul la prochaine fois."},
+          "lya_mathilde": {"speaker_id": "hero.lya", "text": "Je peux encore écouter leurs récits. Je ne peux plus les recevoir tous ce soir."},
+          "mathilde_anouk": {"speaker_id": "hero.anouk", "text": "Tu veux que je m'arrête parce que mes mains tremblent. Demande-moi d'abord ce que je sens encore capable de faire."}
+        }
+      },
+      "repair": {
+        "trigger": "Une seconde saturation survient alors que la première décision et ses victimes sont encore visibles.",
+        "required_cost": "Le couple protège une limite ou une voix au prix d'une efficacité moindre ou d'une ressource réellement déplacée.",
+        "stage_direction": "Une couverture, un lit ou une place est physiquement déplacé avant la seule réplique de la scène.",
+        "pair_lines": {
+          "aurelien_mathilde": {"speaker_id": "hero.aurelien", "text": "J'ai revu ceux qui attendaient. La règle change ici, même si le rendement baisse."},
+          "aurelien_effrie": {"speaker_id": "hero.aurelien", "text": "J'annonce ce que je délègue et jusqu'où. Si tu contestes, tu auras une prise avant l'urgence, pas après."},
+          "lya_mathilde": {"speaker_id": "hero.mathilde", "text": "Tu peux sortir de la pièce. Je garderai les noms jusqu'à ce que tu puisses les entendre sans te perdre avec eux."},
+          "mathilde_anouk": {"speaker_id": "hero.mathilde", "text": "Donne-moi ta limite. Je la défendrai même si j'aurais choisi plus bas."}
+        }
+      }
+    },
+    {
+      "id": "major.trame_overload",
+      "title": "Ce que nous te demandons",
+      "source_events": ["formation.anouk_rank_2", "contradictory_late_evidence"],
+      "eligible_pairs": ["aurelien_anouk", "effrie_anouk", "mathilde_anouk", "marec_anouk", "zeje_anouk"],
+      "rupture": {
+        "trigger": "Une nouvelle crise pourrait être résolue plus vite par la Trame alors qu'Anouk présente déjà tremblement, photophobie ou engourdissement. La demande est formulée comme nécessité, protection ou dette.",
+        "consequence": "Anouk est soit poussée au-delà de son seuil, soit exclue d'une décision qu'elle voulait prendre elle-même.",
+        "stage_direction": "Anouk essaie deux fois de fermer un fermoir fin avant d'abandonner le geste. Personne ne commente le symptôme avant que la décision soit posée.",
+        "material_trace": "fermoir_non_ferme_et_protocole_trame",
+        "pair_lines": {
+          "aurelien_anouk": {"speaker_id": "hero.anouk", "text": "Si tu veux une donnée de plus, demande-moi aussi ce que je refuse de payer pour l'obtenir."},
+          "effrie_anouk": {"speaker_id": "hero.anouk", "text": "Me protéger ne te donne pas le droit de choisir à ma place ce que je risque."},
+          "mathilde_anouk": {"speaker_id": "hero.anouk", "text": "Je sais que tu vois mes mains. Je te demande de voir aussi que je suis encore dans la décision."},
+          "marec_anouk": {"speaker_id": "hero.anouk", "text": "Je ne te dois pas un danger parce que tu en as pris pour moi."},
+          "zeje_anouk": {"speaker_id": "hero.anouk", "text": "Cette fois j'avais raison trop tôt. La dernière fois, j'avais tort trop fort. Aucun des deux ne fait une règle."}
+        }
+      },
+      "repair": {
+        "trigger": "Anouk rédige ou dicte elle-même un protocole d'usage lors d'une nouvelle crise, avec seuil d'arrêt et droit de refus public.",
+        "required_cost": "Le groupe accepte de perdre du temps, une information, un avantage tactique ou une option de sauvetage plutôt que de franchir son seuil sans accord.",
+        "stage_direction": "Le protocole est posé à portée d'Anouk. C'est elle qui raye la dernière ligne ou la maintient.",
+        "pair_lines": {
+          "aurelien_anouk": {"speaker_id": "hero.aurelien", "text": "La donnée que tu refuses de produire restera absente. Je ne remplirai pas le vide à ta place."},
+          "effrie_anouk": {"speaker_id": "hero.effrie", "text": "Je protège ton droit de dire oui aussi. Pas seulement mon envie de t'entendre dire non."},
+          "mathilde_anouk": {"speaker_id": "hero.mathilde", "text": "Je déteste ce risque. Je respecterai la limite que tu as fixée, pas celle que ma peur invente."},
+          "marec_anouk": {"speaker_id": "hero.marec", "text": "Tu peux me demander de venir. Tu peux aussi me dire de rester. Les deux comptent pareil."},
+          "zeje_anouk": {"speaker_id": "hero.zeje", "text": "RESSENTI, OBSERVÉ, puis décision d'Anouk. J'aurais dû ajouter cette troisième colonne plus tôt."}
+        }
+      }
+    },
+    {
+      "id": "major.dragon_scarcity",
+      "title": "Ce qui ne nous appartient pas",
+      "source_events": ["cross.dragon.restraint_under_scarcity"],
+      "eligible_pairs": ["effrie_lya", "effrie_mathilde", "effrie_marec", "effrie_zeje"],
+      "rupture": {
+        "trigger": "Une pénurie rend utile un objet ou un matériau situé sur un site d'activité draconique crédible. Le besoin humain est réel; l'interprétation du site reste incomplète.",
+        "consequence": "Le groupe doit choisir entre extraction, attente, détour ou risque de manquer ailleurs. Une ancienne tradition d'Èffrie est contredite sur un détail sans être entièrement invalidée.",
+        "stage_direction": "L'objet reste au sol pendant toute la scène. Personne ne le saisit pour ponctuer une réplique.",
+        "material_trace": "objet_cartographie_non_preleve_ou_echantillon_minimal",
+        "pair_lines": {
+          "effrie_lya": {"speaker_id": "hero.effrie", "text": "Tu peux raconter ce que j'ai appris ici. Ne raconte pas que ma mémoire savait déjà ce que nous venons seulement de voir."},
+          "effrie_mathilde": {"speaker_id": "hero.mathilde", "text": "Je veux protéger les nôtres. Je refuse que la peur transforme tout ce qui vit ici en cible préventive."},
+          "effrie_marec": {"speaker_id": "hero.effrie", "text": "Ta force m'aide seulement si elle peut rester immobile quand frapper serait plus simple."},
+          "effrie_zeje": {"speaker_id": "hero.effrie", "text": "Corrige mon interprétation si elle tombe. Ne jette pas avec elle ceux qui ont gardé ces signes avant nous."}
+        }
+      },
+      "repair": {
+        "trigger": "Une seconde décision sur le même site ou un site comparable oblige à réutiliser l'information corrigée.",
+        "required_cost": "Le groupe accepte un prélèvement plus petit, un détour, une incertitude maintenue ou une protection limitée qui laisse un besoin humain partiellement insatisfait.",
+        "stage_direction": "Ancienne et nouvelle annotation restent visibles sur la même carte, chacune datée et attribuée.",
+        "pair_lines": {
+          "effrie_lya": {"speaker_id": "hero.lya", "text": "Je garde ta première version, ta correction et mon interprétation séparées. Le récit sera moins propre. Il sera plus juste."},
+          "effrie_mathilde": {"speaker_id": "hero.effrie", "text": "On protège le passage, pas notre colère. Si le danger cesse, notre force cesse avec lui."},
+          "effrie_marec": {"speaker_id": "hero.marec", "text": "Je peux attendre le signal. Ça ne me rend pas moins prêt. Ça me rend moins dangereux pour les autres."},
+          "effrie_zeje": {"speaker_id": "hero.zeje", "text": "Le signe était transmis correctement. C'est notre explication qui était trop large. Je garderai les deux faits."}
+        }
+      }
+    },
+    {
+      "id": "major.archive_under_threat",
+      "title": "Le registre que l'on peut saisir",
+      "source_events": ["cross.azravel.evidence_and_protected_registry", "cross.epistemic.layered_archive_and_unknown_identity"],
+      "eligible_pairs": ["aurelien_lya", "aurelien_zeje", "lya_zeje", "mathilde_zeje", "zeje_anouk"],
+      "rupture": {
+        "trigger": "Un registre protégé permet de relier noms et témoignages, mais une saisie exposerait plusieurs personnes. Conserver davantage de preuve augmente aussi le risque humain.",
+        "consequence": "Une source peut être détruite, déplacée, anonymisée ou conservée au prix d'un danger accru pour les personnes nommées.",
+        "stage_direction": "Une page est tenue au-dessus d'une flamme sans être brûlée immédiatement. La décision doit précéder le geste.",
+        "material_trace": "registre_scinde_avec_pages_retirees",
+        "pair_lines": {
+          "aurelien_lya": {"speaker_id": "hero.lya", "text": "Si ton dossier protège la vérité mais expose ceux qui l'ont dite, il faut écrire ce coût dans le dossier aussi."},
+          "aurelien_zeje": {"speaker_id": "hero.zeje", "text": "Tu veux décider avant la saisie. Je veux que la décision garde la trace de ce que nous détruisons pour la rendre possible."},
+          "lya_zeje": {"speaker_id": "hero.lya", "text": "Ce motif vaut peut-être quelque chose. Le brûler parce qu'il n'est pas encore une preuve serait aussi une conclusion."},
+          "mathilde_zeje": {"speaker_id": "hero.mathilde", "text": "Tu peux préserver PROBABLE. Moi, je veux préserver la personne qui sera battue si ce nom sort d'ici."},
+          "zeje_anouk": {"speaker_id": "hero.anouk", "text": "Un vide dans l'archive peut être une protection. Mais écrivons au moins pourquoi il est vide."}
+        }
+      },
+      "repair": {
+        "trigger": "Une nouvelle archive ou une preuve tardive permet de reconstruire partiellement ce qui avait été séparé ou détruit.",
+        "required_cost": "Le couple accepte une archive moins complète, un accès restreint, une attribution incomplète ou une correction publique qui affaiblit leur ancienne position.",
+        "stage_direction": "Les pages ne sont pas recousues comme avant. Elles sont reliées par références croisées et lacunes explicites.",
+        "pair_lines": {
+          "aurelien_lya": {"speaker_id": "hero.aurelien", "text": "Je peux conserver l'effet sans posséder la voix. L'auteur, le contexte et le risque restent à côté."},
+          "aurelien_zeje": {"speaker_id": "hero.aurelien", "text": "Je corrige la décision, pas le passé. Ce que nous savions alors reste écrit avec ce que nous savons maintenant."},
+          "lya_zeje": {"speaker_id": "hero.zeje", "text": "Le motif reste hypothèse. Cette fois, je ne le classe pas comme bruit avant de l'avoir testé."},
+          "mathilde_zeje": {"speaker_id": "hero.zeje", "text": "Nous gardons INCONNU et nous aidons quand même la famille. Aucune des deux actions n'annule l'autre."},
+          "zeje_anouk": {"speaker_id": "hero.zeje", "text": "Je note pourquoi la case est vide. Une absence documentée vaut mieux qu'une certitude de remplacement."}
+        }
+      }
+    },
+    {
+      "id": "major.body_as_structure",
+      "title": "La poutre suivante",
+      "source_events": ["formation.marec_rank_3", "cross.food.distributed_risk_and_local_repairs"],
+      "eligible_pairs": ["aurelien_marec", "effrie_marec", "lya_marec", "mathilde_marec", "marec_zeje"],
+      "rupture": {
+        "trigger": "Une nouvelle crise ressemble suffisamment au sauvetage fondateur de Marec pour que les autres commencent à compter sur lui avant de vérifier son état réel.",
+        "consequence": "Une ancienne lésion se réveille, une prise lâche ou Marec cache une aggravation afin de rester la solution la plus simple.",
+        "stage_direction": "Marec teste sa main sur une poignée, la relâche et change de main. Le geste est vu avant d'être commenté.",
+        "material_trace": "bandage_epaule_et_plan_de_charge_corrige",
+        "pair_lines": {
+          "aurelien_marec": {"speaker_id": "hero.aurelien", "text": "Ce que tu as pu porter hier n'est pas une mesure de ce que nous avons le droit de te demander aujourd'hui."},
+          "effrie_marec": {"speaker_id": "hero.effrie", "text": "Ton instinct part avant nous. Si tu veux qu'on le suive, donne-nous au moins l'endroit où il s'arrête."},
+          "lya_marec": {"speaker_id": "hero.lya", "text": "Tu peux briser la porte. Si tu le fais maintenant, tu brises aussi le rythme qui permet encore aux blessés de sortir."},
+          "mathilde_marec": {"speaker_id": "hero.mathilde", "text": "Je ne veux pas décider pour toi. Je veux que tu arrêtes de me cacher ce qui rend ta décision différente de celle d'hier."},
+          "marec_zeje": {"speaker_id": "hero.marec", "text": "Si tu attends encore une certitude, je vais devoir agir avec moins de choix qu'il y a une minute."}
+        }
+      },
+      "repair": {
+        "trigger": "Une crise suivante offre plusieurs solutions, dont une où Marec pourrait encore payer le prix principal.",
+        "required_cost": "Le groupe choisit une solution plus lente, plus risquée collectivement ou plus coûteuse afin que le corps de Marec ne soit plus le raccourci par défaut.",
+        "stage_direction": "Le plan est modifié autour d'une limite annoncée par Marec. Personne ne la négocie après qu'elle a été dite.",
+        "pair_lines": {
+          "aurelien_marec": {"speaker_id": "hero.marec", "text": "Mon seuil est là. Si je le dépasse, ce sera mon choix, pas une ligne que vous aviez déjà mise dans le plan."},
+          "effrie_marec": {"speaker_id": "hero.marec", "text": "Je te dis quand je pars. Tu me dis quand je mets les autres en danger. Aucun de nous n'a le dernier mot tout seul."},
+          "lya_marec": {"speaker_id": "hero.marec", "text": "Donne-moi le moment. Je garde la force pour ce moment-là, pas pour prouver que j'en ai."},
+          "mathilde_marec": {"speaker_id": "hero.marec", "text": "Je te dirai quand ça change. Tu peux me soigner sans devenir propriétaire du risque."},
+          "marec_zeje": {"speaker_id": "hero.zeje", "text": "Seuil minimal atteint. L'action est réversible pendant vingt secondes. C'est assez pour agir, pas assez pour prétendre savoir."}
+        }
+      }
+    },
+    {
+      "id": "major.named_death_retaliation",
+      "title": "Le nom avant la colère",
+      "source_events": ["cross.relationship.named_death_after_difficult_choice", "contextual_named_death"],
+      "eligible_pairs": ["aurelien_effrie", "effrie_mathilde", "effrie_marec", "mathilde_marec"],
+      "rupture": {
+        "trigger": "Une personne nommée meurt après un choix difficile. La cause matérielle est connue, mais la signification morale de la mort divise les héros.",
+        "consequence": "Une action de représailles, une interdiction générale ou une nouvelle règle pourrait être justifiée au nom du mort sans qu'il ait jamais défendu cette conclusion.",
+        "stage_direction": "Le nom est écrit au Mémorial avant que l'échange commence. La scène ne montre jamais le cadavre comme argument visuel.",
+        "material_trace": "nom_et_cause_sur_supports_distincts",
+        "pair_lines": {
+          "aurelien_effrie": {"speaker_id": "hero.aurelien", "text": "Sa mort exige une réponse. Elle ne nous donne pas automatiquement l'autorité de choisir laquelle en son nom."},
+          "effrie_mathilde": {"speaker_id": "hero.effrie", "text": "Je ne veux pas une vengeance. Je veux que ceux qui recommencent sachent que nous les arrêterons."},
+          "effrie_marec": {"speaker_id": "hero.marec", "text": "Je suis en colère aussi. Ça ne rend pas la première cible qui ressemble au coupable plus coupable."},
+          "mathilde_marec": {"speaker_id": "hero.mathilde", "text": "Ne prends pas ce risque pour payer une dette à quelqu'un qui ne peut plus te la réclamer."}
+        }
+      },
+      "repair": {
+        "trigger": "Une menace comparable réapparaît et oblige les héros à agir sans pouvoir résoudre leur désaccord sur la mort précédente.",
+        "required_cost": "Ils choisissent une protection limitée par un seuil, renoncent à une punition plus large ou acceptent un risque résiduel afin de ne pas transformer le mort en doctrine.",
+        "stage_direction": "La nouvelle consigne est déposée près du nom, jamais par-dessus.",
+        "pair_lines": {
+          "aurelien_effrie": {"speaker_id": "hero.effrie", "text": "J'annonce jusqu'où j'irai avant de partir. Si je dépasse ça, tu me contestes même devant les autres."},
+          "effrie_mathilde": {"speaker_id": "hero.mathilde", "text": "On frappe ce qui menace maintenant. Pas ce que notre douleur voudrait ajouter autour."},
+          "effrie_marec": {"speaker_id": "hero.effrie", "text": "Tu me retiens si je transforme une ressemblance en verdict. Je te pousse si ta prudence laisse le danger revenir."},
+          "mathilde_marec": {"speaker_id": "hero.marec", "text": "Je peux protéger les vivants sans essayer de rembourser les morts avec mon corps."}
+        }
+      }
+    },
+    {
+      "id": "major.shared_perception_error",
+      "title": "Nous l'avons vu tous les deux",
+      "source_events": ["contradictory_late_evidence"],
+      "eligible_pairs": ["lya_anouk", "lya_zeje", "zeje_anouk"],
+      "rupture": {
+        "trigger": "Deux perceptions convergentes conduisent à une action coûteuse; une preuve tardive montre que la convergence était réelle mais la causalité supposée était fausse ou incomplète.",
+        "consequence": "Le coût ne peut pas être annulé. Le danger est de transformer soit la convergence, soit l'erreur en règle générale.",
+        "stage_direction": "Deux croquis presque identiques sont posés à côté d'un relevé qui les contredit sur un point essentiel.",
+        "material_trace": "deux_croquis_et_releve_contradictoire",
+        "pair_lines": {
+          "lya_anouk": {"speaker_id": "hero.lya", "text": "Le fait qu'on ait vu la même forme prouve qu'on a vu la même forme. Pas qu'elle voulait dire ce qu'on lui a fait dire."},
+          "lya_zeje": {"speaker_id": "hero.zeje", "text": "J'ai classé votre convergence trop vite. J'avais tort sur sa valeur. Vous aviez tort sur sa cause. Gardons les deux erreurs."},
+          "zeje_anouk": {"speaker_id": "hero.anouk", "text": "Je ne veux pas que cette erreur efface les fois où je sens juste. Je ne veux pas non plus que les bonnes fois effacent celle-ci."}
+        }
+      },
+      "repair": {
+        "trigger": "Une nouvelle convergence apparaît et le groupe peut cette fois choisir une vérification indépendante avant l'action irréversible.",
+        "required_cost": "Ils acceptent le délai de contrôle et le risque de perdre une occasion si la perception était correcte.",
+        "stage_direction": "La troisième source est placée physiquement entre les deux premières, sans être traitée comme arbitre infaillible.",
+        "pair_lines": {
+          "lya_anouk": {"speaker_id": "hero.anouk", "text": "Je veux quelqu'un qui ne voie pas ce que nous voyons. Pas pour nous corriger d'avance. Pour nous donner une sortie."},
+          "lya_zeje": {"speaker_id": "hero.lya", "text": "Garde le motif assez longtemps pour le tester. Je garderai l'image assez légère pour la perdre si elle tombe."},
+          "zeje_anouk": {"speaker_id": "hero.zeje", "text": "Cette fois, le contrôle extérieur nous contredit sur un détail. C'est précisément pour cela qu'il est utile."}
+        }
+      }
+    },
+    {
+      "id": "major.voice_ownership",
+      "title": "À qui appartient le récit",
+      "source_events": ["cross.azravel.distributed_convoy_and_households", "cross.epistemic.public_silence_and_diverging_memories"],
+      "eligible_pairs": ["aurelien_lya", "effrie_lya", "lya_mathilde"],
+      "rupture": {
+        "trigger": "Plusieurs groupes transmettent des versions incompatibles d'un même déplacement ou d'une même crise. Une version plus claire pourrait devenir officielle au prix d'effacer des voix ou des contradictions.",
+        "consequence": "Une communauté se reconnaît moins dans le récit qui prétend pourtant la protéger ou la documenter.",
+        "stage_direction": "Lya suspend plusieurs feuillets séparés au lieu de les assembler. Une place vide reste volontairement au centre.",
+        "material_trace": "versions_attribuees_non_fusionnees",
+        "pair_lines": {
+          "aurelien_lya": {"speaker_id": "hero.aurelien", "text": "Je veux une version utilisable. Tu as raison sur un point : utilisable par nous ne signifie pas fidèle pour eux."},
+          "effrie_lya": {"speaker_id": "hero.effrie", "text": "Si tu changes mes mots, dis que tu les changes. Si je refuse toute traduction, je transforme ma mémoire en propriété privée."},
+          "lya_mathilde": {"speaker_id": "hero.mathilde", "text": "Ne leur demande pas encore de raconter proprement. Certains sont seulement en train d'essayer de rester debout."}
+        }
+      },
+      "repair": {
+        "trigger": "Une transmission publique devient nécessaire plus tard et les versions séparées sont encore disponibles.",
+        "required_cost": "Ils acceptent un récit plus long, moins élégant, moins centralisé ou moins utile politiquement afin de préserver attribution et contradiction.",
+        "stage_direction": "La version publique montre les coutures, les auteurs et les passages laissés contradictoires.",
+        "pair_lines": {
+          "aurelien_lya": {"speaker_id": "hero.lya", "text": "Tu peux utiliser le dossier. Laisse les coutures visibles pour que personne ne croie qu'il est né d'une seule voix."},
+          "effrie_lya": {"speaker_id": "hero.lya", "text": "Ta version reste la tienne. Ma mise en forme porte mon nom aussi. Aucun de nous ne se cache derrière l'autre."},
+          "lya_mathilde": {"speaker_id": "hero.lya", "text": "Je peux garder leur silence dans la forme au lieu de le remplir. Ce sera moins complet. Ce sera encore leur histoire."}
+        }
+      }
+    }
+  ],
+  "bereavement_overlays": [
+    {
+      "id": "bereavement.unresolved_rupture",
+      "applies_when": "A member of the pair dies while the latest meaningful stage is rupture or unresolved friction.",
+      "stage_direction": "Le survivant reste avec une trace matérielle liée au désaccord. Aucun souvenir ne met de nouveaux mots dans la bouche du mort.",
+      "material_rule": "Reuse the exact object, wound record, map, correction, tool or note that carried the conflict.",
+      "survivor_lines": {
+        "hero.aurelien": "Nous n'avions pas fini de nous contredire. Je ne vais pas lui inventer une réponse maintenant.",
+        "hero.effrie": "On s'était quittés en désaccord. Je garderai le désaccord aussi.",
+        "hero.lya": "Je peux garder la trace sans dessiner la fin qu'on n'a pas eue.",
+        "hero.mathilde": "Je ne transformerai pas sa mort en pardon.",
+        "hero.marec": "On n'avait pas réglé ça. C'est moche. C'est vrai.",
+        "hero.zeje": "Aucune donnée nouvelle ne permet de conclure qu'il aurait changé d'avis.",
+        "hero.anouk": "Le vide entre nos dernières phrases reste vide. Je peux le garder comme ça."
+      }
+    },
+    {
+      "id": "bereavement.after_repair",
+      "applies_when": "A member dies after a real repair event but before the relationship becomes narratively settled.",
+      "stage_direction": "Le survivant refait une action apprise pendant la réparation, sans rejouer la scène ni transformer l'action en sainteté du mort.",
+      "material_rule": "The repaired protocol or altered practice must still be usable by the living.",
+      "survivor_lines": {
+        "hero.aurelien": "Nous avions corrigé une pratique, pas résolu tout ce qui nous séparait. La correction reste utile.",
+        "hero.effrie": "On avait trouvé une manière d'agir ensemble. Je la garderai sans prétendre que nous pensions pareil.",
+        "hero.lya": "La couture tient encore. Je n'effacerai pas la déchirure pour la rendre plus belle.",
+        "hero.mathilde": "Ce qu'on avait réparé mérite de rester. Le reste n'a pas besoin d'une fin inventée.",
+        "hero.marec": "On avait appris un truc qui marche. Ça suffit pour que je continue à le faire.",
+        "hero.zeje": "La correction commune reste valide. Elle ne prouve aucune réconciliation totale.",
+        "hero.anouk": "Nous avions trouvé une limite ensemble. Je peux encore la respecter sans faire semblant qu'elle répond à tout."
+      }
+    },
+    {
+      "id": "bereavement.durable_disagreement",
+      "applies_when": "A member dies while trust is durable and a real disagreement still exists.",
+      "stage_direction": "Le survivant conserve volontairement une objection, une annotation ou une règle du mort qui pouvait encore le contredire.",
+      "material_rule": "The surviving record must keep both positions attributable.",
+      "survivor_lines": {
+        "hero.aurelien": "Je pourrais simplifier le dossier maintenant qu'il n'est plus là pour me corriger. C'est précisément pour cela que je ne le ferai pas.",
+        "hero.effrie": "Sa contradiction reste dans la règle. Sinon je gagnerais un débat seulement parce qu'il est mort.",
+        "hero.lya": "Je garde sa version à côté de la mienne. La mort ne les fusionne pas.",
+        "hero.mathilde": "Je sais ce qu'il m'aurait contesté avant de mourir. Je garderai cette contestation, pas une réponse imaginaire.",
+        "hero.marec": "Il me disait non sur ça. Le fait qu'il ne puisse plus le dire ne transforme pas son non en oui.",
+        "hero.zeje": "Son objection reste une donnée historique pertinente, même si aucun interlocuteur vivant ne la défend désormais.",
+        "hero.anouk": "Je peux continuer sans transformer son silence en accord."
+      }
+    }
+  ],
+  "remanence_contract": {
+    "source": "The exact event, pair, material consequence and unresolved or repaired disagreement.",
+    "transmission": "Objects, corrections, protocols, survivor testimony and attributed archives preserve the disagreement with provenance.",
+    "transformation": "Later cultures may turn a rupture into legendary rivalry, a repair into perfect unity, or a death into retrospective agreement; all are possible distortions, never source facts."
+  }
+}
