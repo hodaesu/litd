@@ -1,0 +1,346 @@
+{
+  "version": 1,
+  "source": "data/narrative/systemic_cross_runtime.json",
+  "rules": {
+    "no_new_ui": true,
+    "one_scene_per_sanctuary_entry": true,
+    "no_protagonist_emotion_imposed": true,
+    "objects_carry_subtext": true,
+    "silence_is_action": true,
+    "max_spoken_hero_lines": 2,
+    "hero_lines_require_living_speaker": true,
+    "scene_replays": false
+  },
+  "scenes": {
+    "cross.food.local_security_and_grain_bridge": {
+      "title": "Le grain et les toiles",
+      "location": "Porte / réserves",
+      "task": "Des manutentionnaires comptent les sacs pendant que deux familles déplacent leurs couchettes pour laisser passer une charrette.",
+      "opening": "Un sac se déchire. Personne ne s'arrête pour regarder la scène ; trois mains ramassent le grain pendant qu'une quatrième tient la liste d'eau.",
+      "dialogue": [
+        {"speaker_id": "hero.aurelien", "text": "Le flux est revenu. La capacité d'accueil, non."},
+        {"speaker_id": "hero.mathilde", "text": "Alors ne prononçons pas victoire devant ceux qui dorment encore sous toile."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.marec", "text": "Marec soulève la charrette juste assez pour dégager une sangle coincée, puis reprend le déchargement sans commentaire."}
+      ],
+      "closing": "La file du grain avance. Celle de l'eau ne raccourcit pas.",
+      "priority": 60
+    },
+    "cross.food.refugee_seed_and_high_passage": {
+      "title": "Ce qui traverse",
+      "location": "Porte / Infirmerie",
+      "task": "Une soigneuse marque les ballots qui doivent passer avec les blessés ; des graines sont cousues dans les doublures pour ne pas occuper les mains.",
+      "opening": "Un enfant tient un ballot trop grand pour lui. La sangle porte le même signe que les caisses de médicaments.",
+      "dialogue": [
+        {"speaker_id": "hero.lya", "text": "Ils transportent une récolte qui n'existe pas encore."},
+        {"speaker_id": "hero.marec", "text": "Et le passage n'a pas appris à être plus large parce que nous avons de bonnes raisons."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.mathilde", "text": "Mathilde resserre la couverture d'un blessé avant de déplacer elle-même un ballot hors du passage."}
+      ],
+      "closing": "Le convoi part avec des soins, des semences et aucune garantie sur l'endroit où il s'arrêtera.",
+      "priority": 60
+    },
+    "cross.food.distributed_risk_and_local_repairs": {
+      "title": "Réparer partout un peu",
+      "location": "Table des routes",
+      "task": "Des messagers déplacent de petits jetons entre six itinéraires au lieu d'en renforcer un seul.",
+      "opening": "La carte n'a plus de route épaisse. Elle est couverte de traits minces, de corrections et de capacités écrites au crayon.",
+      "dialogue": [
+        {"speaker_id": "hero.aurelien", "text": "Nous avons réduit le risque d'un effondrement unique. Nous avons multiplié les points à surveiller."},
+        {"speaker_id": "hero.marec", "text": "Donc demain, on réparera encore. C'est moins glorieux et probablement plus utile."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.lya", "text": "Lya relie deux traits par un symbole provisoire, puis le barre quand un messager corrige l'information."}
+      ],
+      "closing": "Aucune route n'est sûre. Plusieurs restent possibles.",
+      "priority": 55
+    },
+    "cross.funeral.body_return_and_medical_corridor": {
+      "title": "La même route",
+      "location": "Porte / couloir de l'Infirmerie",
+      "task": "Deux équipes tracent au sol des bandes différentes pour les civières médicales et les corps rendus aux familles.",
+      "opening": "Une civière vivante et un corps enveloppé arrivent en même temps. Les porteurs s'arrêtent sans savoir qui doit céder le passage.",
+      "dialogue": [
+        {"speaker_id": "hero.mathilde", "text": "Les morts ont droit au retour. Les vivants ont besoin d'arriver avant de le devenir."},
+        {"speaker_id": "hero.zeje", "text": "Ce n'est pas une contradiction logique. C'est une largeur de porte."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.aurelien", "text": "Aurélien déplace une caisse médicale hors de l'axe et inscrit l'heure du retard sur le registre."}
+      ],
+      "closing": "La règle de priorité est écrite à hauteur de civière, pas au-dessus des têtes.",
+      "priority": 70
+    },
+    "cross.memorial.local_burial_and_explicit_unknown": {
+      "title": "Nom, corps, lieu",
+      "location": "Mémorial",
+      "task": "Trois plaques sont démontées pour séparer le nom connu, le lieu du corps et les objets restitués.",
+      "opening": "Sur une plaque neuve, le mot INCONNU occupe exactement la même taille que les autres mentions.",
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "Ne pas savoir où il repose n'efface pas son nom."},
+        {"speaker_id": "hero.mathilde", "text": "Et un vide n'est pas une invitation à inventer ce qui rassure."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.anouk", "text": "Anouk remet un objet personnel dans son sachet sans toucher à l'étiquette laissée vide."}
+      ],
+      "closing": "Le mur paraît plus précis et moins complet. Personne ne comble les blancs.",
+      "priority": 75
+    },
+    "cross.memorial.distributed_memory_and_multiple_claims": {
+      "title": "Trois mémoires, une référence",
+      "location": "Mémorial / table d'archives",
+      "task": "Des copies venues de trois communautés sont alignées autour d'un même numéro de dossier central.",
+      "opening": "Les trois textes ne racontent pas exactement la même mort. Une cordelette les relie pourtant au même dossier.",
+      "dialogue": [
+        {"speaker_id": "hero.anouk", "text": "Elles peuvent se souvenir différemment sans avoir inventé trois personnes."},
+        {"speaker_id": "hero.zeje", "text": "À condition que le lien entre les versions reste visible."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.mathilde", "text": "Mathilde lit les trois copies jusqu'au bout avant de replacer celle qui contredit les deux autres."}
+      ],
+      "closing": "Aucune copie n'est déclarée maîtresse. Le lien entre elles, lui, est doublé.",
+      "priority": 70
+    },
+    "cross.azravel.survival_and_anonymity": {
+      "title": "Dormir sans être inscrit",
+      "location": "Accueil / Infirmerie",
+      "task": "Les couchettes portent des symboles temporaires à la place de noms ; les distributions se font par description pratique.",
+      "opening": "Une femme refuse de donner son nom et donne pourtant celui de l'enfant qu'elle cherche.",
+      "dialogue": [
+        {"speaker_id": "hero.aurelien", "text": "Un registre peut réunir demain et livrer ce soir."},
+        {"speaker_id": "hero.lya", "text": "L'absence de trace protégera certains. Elle servira aussi ceux qui diront qu'ils n'ont jamais existé."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.mathilde", "text": "Mathilde remplace une question de formulaire par une description de vêtement et continue l'accueil."}
+      ],
+      "closing": "La table d'accueil reste presque vide de noms et pleine de personnes.",
+      "priority": 80
+    },
+    "cross.azravel.evidence_and_protected_registry": {
+      "title": "Le registre sous deux serrures",
+      "location": "Archives / Compagnie",
+      "task": "Deux personnes différentes contrôlent l'accès au registre ; les témoignages sont rangés séparément des identités.",
+      "opening": "Une famille se retrouve grâce à trois lettres concordantes. Avant de partir, elle demande qui pourrait ouvrir la même boîte contre elle.",
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "Concentrer la preuve facilite sa vérification. Et sa saisie."},
+        {"speaker_id": "hero.aurelien", "text": "Alors l'architecture de protection fait partie de la valeur du dossier."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.anouk", "text": "Anouk vérifie que la copie remise à la famille ne contient aucun autre nom."}
+      ],
+      "closing": "Le registre est refermé. Les deux clés repartent dans deux directions différentes.",
+      "priority": 80
+    },
+    "cross.azravel.distributed_convoy_and_households": {
+      "title": "Des tables sans centre",
+      "location": "Taverne / ruelles du Sanctuaire",
+      "task": "Des messagers répartissent nourriture et messages de maison en maison sans point de distribution unique.",
+      "opening": "Personne ne peut dire combien de tables servent encore. Chacun peut en montrer deux ou trois.",
+      "dialogue": [
+        {"speaker_id": "hero.anouk", "text": "Ils sont plus difficiles à trouver. Pour ceux qui les cherchent comme pour ceux qui les chassent."},
+        {"speaker_id": "hero.lya", "text": "Une histoire sans centre résiste autrement. Elle se perd autrement aussi."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.mathilde", "text": "Mathilde dépose un sac de farine devant une porte marquée d'un signe discret puis efface la trace de craie au sol."}
+      ],
+      "closing": "Le réseau tient parce qu'aucun plan complet n'est affiché.",
+      "priority": 75
+    },
+    "cross.epistemic.clinical_record_and_probable_identity": {
+      "title": "Écrire PROBABLE",
+      "location": "Infirmerie / Mémorial",
+      "task": "Des soignants et archivistes testent les mêmes tampons : CONFIRMÉ, PROBABLE, INCONNU.",
+      "opening": "Une correction datée reste visible sous la nouvelle mention. Personne ne gratte l'ancienne encre.",
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "PROBABLE n'affaiblit pas une conclusion. Il indique sa portée."},
+        {"speaker_id": "hero.aurelien", "text": "Et le mot doit survivre à la copie autant que le nom qui le suit."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.mathilde", "text": "Mathilde replace un dossier dans les mains de sa famille avant de corriger un archiviste qui avait lu trop vite."}
+      ],
+      "closing": "Le premier formulaire imprimé porte une case prévue pour changer d'avis plus tard.",
+      "priority": 85
+    },
+    "cross.epistemic.layered_archive_and_unknown_identity": {
+      "title": "Ce que le dossier ne conclut pas",
+      "location": "Archives communes",
+      "task": "Observation, témoignage, interprétation et identité sont séparés en feuillets distincts.",
+      "opening": "Un dossier épais se termine sans conclusion. La dernière page porte seulement INCONNU et une date de révision.",
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "Un dossier peut être complet dans ce qu'il contient et incomplet dans ce qu'il sait."},
+        {"speaker_id": "hero.anouk", "text": "Alors gardons aussi la place où une réponse pourra venir sans effacer ce qui l'a précédée."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.aurelien", "text": "Aurélien sépare une note clinique d'un témoignage religieux sans jeter ni l'un ni l'autre."}
+      ],
+      "closing": "Le dossier est rangé dans l'étagère active, pas dans celle des affaires résolues.",
+      "priority": 85
+    },
+    "cross.epistemic.public_silence_and_diverging_memories": {
+      "title": "Le vide se remplit tout seul",
+      "location": "Taverne / Mémorial",
+      "task": "Trois versions du même événement sont copiées sur des feuilles distinctes avec leur source.",
+      "opening": "Avant qu'une déclaration commune soit prête, les trois récits ont déjà chacun un public.",
+      "dialogue": [
+        {"speaker_id": "hero.mathilde", "text": "Attendre pour ne pas mentir n'empêche personne d'autre de parler."},
+        {"speaker_id": "hero.zeje", "text": "Alors documentons aussi l'intervalle où nous n'avons rien affirmé."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.anouk", "text": "Anouk recopie la source de chaque rumeur avant son contenu."}
+      ],
+      "closing": "Les trois feuilles restent visibles. Aucune n'est transformée en version officielle par défaut.",
+      "priority": 80
+    },
+    "cross.dragon.restraint_under_scarcity": {
+      "title": "Ce que nous n'avons pas pris",
+      "location": "Réserves / table des expéditions",
+      "task": "Une équipe raye une ressource potentielle de la carte et cherche un itinéraire plus coûteux.",
+      "opening": "La case du site draconique reste vide pendant qu'une colonne de besoins urgents s'allonge à côté.",
+      "dialogue": [
+        {"speaker_id": "hero.effrie", "text": "Je n'ai pas dit que le lieu était sacré. J'ai dit que nous ne savions pas ce que nous prenions."},
+        {"speaker_id": "hero.marec", "text": "Ceux qui ont froid sentiront surtout que nous sommes revenus les mains vides."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.lya", "text": "Lya garde le croquis du site dans la pile des cartes, pas dans celle des reliques."}
+      ],
+      "closing": "Le détour est noté avec son coût. Le site n'est ni sanctifié ni effacé.",
+      "priority": 90
+    },
+    "cross.dragon.sample_and_layered_archive": {
+      "title": "L'échantillon et son étiquette",
+      "location": "Atelier / archives",
+      "task": "Un fragment minuscule est pesé, dessiné puis rangé avec des étiquettes séparant provenance, mesure et interprétation.",
+      "opening": "La boîte porte : SITE DRACONIQUE — attribution de l'objet inconnue. Le mot RELIQUE n'apparaît nulle part.",
+      "dialogue": [
+        {"speaker_id": "hero.effrie", "text": "Ce morceau vient du site. C'est tout ce que nous savons."},
+        {"speaker_id": "hero.zeje", "text": "Alors ce sera exactement ce que la première étiquette dira."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.aurelien", "text": "Aurélien ajoute les mesures sans modifier la ligne d'attribution."}
+      ],
+      "closing": "La boîte rejoint les preuves, pas les objets de culte.",
+      "priority": 90
+    },
+    "cross.dragon.extraction_and_survival_first_policy": {
+      "title": "Ce que l'urgence efface",
+      "location": "Réserves / Infirmerie",
+      "task": "Un objet prélevé est démonté pour répondre à un besoin immédiat tandis qu'un archiviste tente de sauver les traces de son contexte.",
+      "opening": "Une pièce utile quitte la table avant que tous les dessins soient terminés.",
+      "dialogue": [
+        {"speaker_id": "hero.aurelien", "text": "Sauver maintenant peut détruire une preuve. C'est un coût, pas une excuse."},
+        {"speaker_id": "hero.effrie", "text": "Et ce coût ne doit pas devenir une doctrine parce qu'il a sauvé quelqu'un aujourd'hui."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.lya", "text": "Lya trace le contour de la pièce manquante avant que l'objet soit emporté."}
+      ],
+      "closing": "Le besoin est satisfait. Le dossier conserve explicitement ce qui n'a plus pu être observé.",
+      "priority": 90
+    },
+    "cross.consent.refusal_precedent_meets_new_refusal": {
+      "title": "Le précédent porte sur le refus",
+      "location": "Compagnie / Porte",
+      "task": "Une équipe de contact réécrit son protocole après un nouveau refus clairement exprimé.",
+      "opening": "Sur le tableau, SAEN est barré dans la colonne NATURE et conservé dans la colonne PRÉCÉDENT DE REFUS.",
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "Le précédent concerne le refus. Pas la nature de celui qui refuse."},
+        {"speaker_id": "hero.mathilde", "text": "Et le coût du détour doit rester dans le dossier, avec les personnes qu'il a touchées."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.anouk", "text": "Anouk remplace une catégorie d'espèce par la description exacte du signal reçu."}
+      ],
+      "closing": "Le protocole devient plus précis sans devenir une théorie sur tous les Absents.",
+      "priority": 95
+    },
+    "cross.consent.reversible_protocol_meets_uncertain_response": {
+      "title": "Pouvoir arrêter",
+      "location": "Salle d'écoute",
+      "task": "Les opérateurs affichent publiquement les seuils d'arrêt avant de lancer un test réversible.",
+      "opening": "Le bouton d'arrêt est placé entre les opérateurs, pas derrière le responsable de l'expérience.",
+      "dialogue": [
+        {"speaker_id": "hero.anouk", "text": "Le silence n'a pas dit oui."},
+        {"speaker_id": "hero.zeje", "text": "Une méthode n'est réversible que si nous acceptons réellement de l'interrompre."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.aurelien", "text": "Aurélien inscrit qui peut arrêter le test sans demander d'autorisation supplémentaire."}
+      ],
+      "closing": "Le premier test commence avec sa condition d'arrêt déjà écrite.",
+      "priority": 95
+    },
+    "cross.relationship.named_death_after_difficult_choice": {
+      "title": "{dead_name}",
+      "location": "Mémorial",
+      "task": "Le nom est inscrit à côté de la cause matérielle consignée, sans colonne pour désigner un choix coupable.",
+      "opening": "La place réservée au nom de {dead_name} est nettoyée avant que la discussion sur la décision ne commence.",
+      "dialogue": [
+        {"speaker_id": "hero.mathilde", "text": "Son nom ne doit pas devenir un argument avant d'avoir été un nom."},
+        {"speaker_id": "hero.aurelien", "text": "Sa mort change ce que nous savons de nos conséquences. Elle ne fabrique pas une morale rétroactive."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.marec", "text": "Marec reste debout près de la plaque de {dead_name} jusqu'à ce que les outils d'inscription soient rangés."}
+      ],
+      "closing": "Le registre conserve : {cause}. Aucun verdict n'est ajouté à la ligne.",
+      "priority": 100
+    },
+    "cascade.winter_refugee_pressure": {
+      "title": "L'hiver rassemble les coûts",
+      "location": "Cour centrale / Infirmerie / réserves",
+      "task": "Des couvertures changent de file au fur et à mesure que chauffage, nourriture et soins saturent ensemble.",
+      "opening": "La cour semble organisée jusqu'à ce qu'une caisse de bois arrive : trois personnes la réclament pour trois urgences différentes.",
+      "dialogue": [
+        {"speaker_id": "hero.aurelien", "text": "Ce n'est plus une décision isolée. C'est une capacité entière qui sature."},
+        {"speaker_id": "hero.mathilde", "text": "Alors aucun tableau ne doit cacher qui attend derrière chaque ligne."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.marec", "text": "Marec fend le bois pendant que deux responsables discutent encore de son affectation."}
+      ],
+      "closing": "La répartition est inscrite pour la nuit seulement. Personne ne prétend avoir résolu l'hiver.",
+      "priority": 110
+    },
+    "cascade.archive_of_uncertainty": {
+      "title": "L'incertitude devient une méthode",
+      "location": "Archives communes",
+      "task": "Des archivistes de l'Infirmerie, du Mémorial et de la Compagnie harmonisent leurs étiquettes sans harmoniser leurs conclusions.",
+      "opening": "Quatre tampons sont alignés : OBSERVÉ, RAPPORTÉ, PROBABLE, INCONNU. À côté, une boîte entière est réservée aux corrections.",
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "Une méthode commune aide jusqu'au jour où l'on oublie pourquoi elle accepte INCONNU."},
+        {"speaker_id": "hero.anouk", "text": "Alors gardons aussi l'histoire de nos corrections."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.aurelien", "text": "Aurélien teste le formulaire sur un cas où sa propre conclusion a déjà changé."}
+      ],
+      "closing": "Le règlement porte une date de révision dès sa première version.",
+      "priority": 105
+    },
+    "cascade.corridor_of_consent": {
+      "title": "Des précédents, pas une essence",
+      "location": "Compagnie / salle d'écoute",
+      "task": "Les dossiers de contact sont classés par type de réponse et conditions d'arrêt, pas par espèce supposée.",
+      "opening": "Deux cas voisins dans l'armoire portent des conclusions différentes malgré des signaux ressemblants.",
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "Un précédent n'est pas une essence."},
+        {"speaker_id": "hero.anouk", "text": "Et une réponse que nous ne comprenons pas n'est pas un oui que nous pouvons inventer."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.mathilde", "text": "Mathilde vérifie que le formulaire contient aussi la liste des personnes exposées au risque du protocole."}
+      ],
+      "closing": "La procédure commune commence par décrire le cas avant de choisir une catégorie.",
+      "priority": 105
+    },
+    "cascade.memorial_network_under_loss": {
+      "title": "Le Mémorial n'est plus un mur",
+      "location": "Mémorial",
+      "task": "Noms, lieux de corps, objets, niveaux de certitude et corrections sont reliés entre plusieurs registres physiques.",
+      "opening": "Une cordelette quitte une plaque, traverse une carte et finit sur un sachet d'objet personnel. Une autre s'arrête sur INCONNU.",
+      "dialogue": [
+        {"speaker_id": "hero.mathilde", "text": "Plus le réseau grandit, plus il doit rester possible de retrouver une personne, pas seulement un dossier."},
+        {"speaker_id": "hero.zeje", "text": "Et plus nous relions, plus nous devons conserver la provenance de chaque lien."}
+      ],
+      "silent_reactions": [
+        {"hero_id": "hero.anouk", "text": "Anouk suit une cordelette jusqu'à une correction récente puis revient vérifier l'ancienne plaque."}
+      ],
+      "closing": "Le centre du Mémorial reste vide : aucun registre unique n'est désigné comme mémoire absolue.",
+      "priority": 110
+    }
+  }
+}
