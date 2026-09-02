@@ -3,13 +3,16 @@ extends Node
 signal pair_scene_presented(pair_id: String, stage: String, payload: Dictionary)
 
 const CORE_PATH := "res://universe/lore/legendary_seven_relationships.json"
+const MEMORY_CONTEXT_PATH := "res://data/narrative/legendary_seven_relationship_memory_contexts.json"
 const DIALOGUE_PATHS := [
     "res://data/narrative/legendary_seven_relationship_dialogues_1.json",
     "res://data/narrative/legendary_seven_relationship_dialogues_2.json",
     "res://data/narrative/legendary_seven_relationship_dialogues_3.json"
 ]
+const NARRATIVE_SEEN_LIMIT := 96
 
 var core: Dictionary = {}
+var memory_contexts: Dictionary = {}
 var profiles: Dictionary = {}
 var dialogues: Dictionary = {}
 var _presenting: bool = false
@@ -21,6 +24,7 @@ func _ready() -> void:
 
 func _load_data() -> void:
     core = _load_json_dictionary(CORE_PATH)
+    memory_contexts = _load_json_dictionary(MEMORY_CONTEXT_PATH)
     profiles = {}
     dialogues = {}
     for value: Variant in core.get("pairs", []):
@@ -45,6 +49,11 @@ func _load_json_dictionary(path: String) -> Dictionary:
 
 func pair_count() -> int:
     return profiles.size()
+
+func memory_topic_count() -> int:
+    var topics_value: Variant = memory_contexts.get("topics", {})
+    var topics: Dictionary = topics_value if topics_value is Dictionary else {}
+    return topics.size()
 
 func profile_for_ids(left_id: String, right_id: String) -> Dictionary:
     var pair_id: String = pair_id_for_ids(left_id, right_id)
@@ -171,18 +180,20 @@ func present_best_pending_scene() -> Dictionary:
         var stage: String = relationship_stage_for_ids(str(heroes[0]), str(heroes[1]))
         if stage in ["absent", "silent", "dormant"]:
             continue
-        if _stage_seen(left, right, pair_id, stage):
+        var memory: Dictionary = _latest_unseen_memory(left, right, pair_id, stage)
+        if memory.is_empty() and _stage_seen(left, right, pair_id, stage):
             continue
-        var payload: Dictionary = _resolved_scene(pair_id, stage, left, right)
+        var payload: Dictionary = _resolved_scene(pair_id, stage, left, right, memory)
         if payload.is_empty():
             continue
         candidates.append({
             "pair_id": pair_id,
             "stage": stage,
-            "score": _stage_priority(stage),
+            "score": _stage_priority(stage) + (5 if not memory.is_empty() else 0),
             "payload": payload,
             "left": left,
-            "right": right
+            "right": right,
+            "memory": memory
         })
 
     if candidates.is_empty():
@@ -197,14 +208,16 @@ func present_best_pending_scene() -> Dictionary:
     var selected: Dictionary = candidates[0]
     var payload_value: Variant = selected.get("payload", {})
     var payload: Dictionary = payload_value if payload_value is Dictionary else {}
+    var memory_value: Variant = selected.get("memory", {})
+    var memory: Dictionary = memory_value if memory_value is Dictionary else {}
     _presenting = true
-    _mark_stage_seen(selected.get("left", {}), selected.get("right", {}), str(selected.get("pair_id", "")), str(selected.get("stage", "")))
+    _mark_stage_seen(selected.get("left", {}), selected.get("right", {}), str(selected.get("pair_id", "")), str(selected.get("stage", "")), memory)
     _log_scene(payload)
     pair_scene_presented.emit(str(selected.get("pair_id", "")), str(selected.get("stage", "")), payload.duplicate(true))
     _presenting = false
     return payload
 
-func _resolved_scene(pair_id: String, stage: String, left: Dictionary, right: Dictionary) -> Dictionary:
+func _resolved_scene(pair_id: String, stage: String, left: Dictionary, right: Dictionary, memory: Dictionary = {}) -> Dictionary:
     var dialogue_value: Variant = dialogues.get(pair_id, {})
     var dialogue: Dictionary = dialogue_value if dialogue_value is Dictionary else {}
     var stages_value: Variant = dialogue.get("stages", {})
@@ -220,6 +233,9 @@ func _resolved_scene(pair_id: String, stage: String, left: Dictionary, right: Di
         var survivor_lines_value: Variant = stage_data.get("survivor_lines", {})
         var survivor_lines: Dictionary = survivor_lines_value if survivor_lines_value is Dictionary else {}
         var text: String = str(survivor_lines.get(survivor_key, ""))
+        var contextual: Dictionary = _memory_line_for(pair_id, memory, left, right, survivor_key)
+        if str(contextual.get("speaker_id", "")) == survivor_key and str(contextual.get("text", "")) != "":
+            text = str(contextual.get("text", ""))
         if text != "":
             lines.append({"speaker_id": survivor_key, "speaker": str(survivor.get("name", survivor_key)), "text": text})
     else:
@@ -229,16 +245,115 @@ func _resolved_scene(pair_id: String, stage: String, left: Dictionary, right: Di
         var speaker: Dictionary = _party_hero(speaker_id)
         if speaker_id != "" and not speaker.is_empty() and int(speaker.get("hp", 0)) > 0:
             lines.append({"speaker_id": speaker_id, "speaker": str(speaker.get("name", speaker_id)), "text": str(line.get("text", ""))})
+            var contextual: Dictionary = _memory_line_for(pair_id, memory, left, right, speaker_id)
+            if not contextual.is_empty() and lines.size() < 2:
+                lines.append(contextual)
     if lines.is_empty():
         return {}
+    var memory_topic: String = str(memory.get("topic", ""))
+    var memory_event_id: String = str(memory.get("event_id", ""))
+    var direction: String = str(stage_data.get("stage_direction", ""))
+    var suffix: String = _memory_direction_suffix(memory)
+    if suffix != "":
+        direction = direction + " " + suffix
     return {
         "pair_id": pair_id,
         "stage": stage,
-        "direction": str(stage_data.get("stage_direction", "")),
+        "direction": direction.strip_edges(),
         "lines": lines,
-        "memory_topic": _latest_qualitative_topic(left, right),
+        "memory_topic": memory_topic,
+        "memory_event_id": memory_event_id,
+        "memory_source_id": _source_token_from_event_id(memory_event_id),
+        "memory_chapter_id": str(memory.get("chapter", "")),
+        "memory_qualitative_tag": str(memory.get("qualitative_tag", "")),
+        "memory_context_applied": memory_topic != "" and _memory_topic_profile(memory_topic).size() > 0,
         "profile": profiles.get(pair_id, {}).duplicate(true)
     }
+
+func _latest_unseen_memory(left: Dictionary, right: Dictionary, pair_id: String, stage: String) -> Dictionary:
+    var examined: Dictionary = {}
+    for source_target: Array in [[left, right], [right, left]]:
+        var source: Dictionary = source_target[0]
+        var target: Dictionary = source_target[1]
+        var state: Dictionary = RelationshipRuntime.relation(source, target)
+        var history_value: Variant = state.get("history", [])
+        var history: Array = history_value if history_value is Array else []
+        for index: int in range(history.size() - 1, -1, -1):
+            var entry: Dictionary = history[index] if history[index] is Dictionary else {}
+            var event_id: String = str(entry.get("event_id", ""))
+            var topic: String = str(entry.get("topic", ""))
+            if event_id == "" or topic == "" or examined.has(event_id):
+                continue
+            examined[event_id] = true
+            if _memory_topic_profile(topic).is_empty():
+                continue
+            if not _stage_seen(left, right, pair_id, stage, entry):
+                return entry.duplicate(true)
+    return {}
+
+func _memory_topic_profile(topic: String) -> Dictionary:
+    var topics_value: Variant = memory_contexts.get("topics", {})
+    var topics: Dictionary = topics_value if topics_value is Dictionary else {}
+    var value: Variant = topics.get(topic, {})
+    return value if value is Dictionary else {}
+
+func _memory_event_override(memory: Dictionary) -> Dictionary:
+    var overrides_value: Variant = memory_contexts.get("event_overrides", {})
+    var overrides: Dictionary = overrides_value if overrides_value is Dictionary else {}
+    var source_token: String = _source_token_from_event_id(str(memory.get("event_id", "")))
+    var value: Variant = overrides.get(source_token, {})
+    return value if value is Dictionary else {}
+
+func _memory_direction_suffix(memory: Dictionary) -> String:
+    if memory.is_empty():
+        return ""
+    var override: Dictionary = _memory_event_override(memory)
+    var exact_suffix: String = str(override.get("stage_direction_suffix", ""))
+    if exact_suffix != "":
+        return exact_suffix
+    var profile: Dictionary = _memory_topic_profile(str(memory.get("topic", "")))
+    return str(profile.get("stage_direction_suffix", ""))
+
+func _memory_line_for(pair_id: String, memory: Dictionary, left: Dictionary, right: Dictionary, base_speaker_id: String) -> Dictionary:
+    if memory.is_empty():
+        return {}
+    var override: Dictionary = _memory_event_override(memory)
+    var pair_lines_value: Variant = override.get("pair_lines", {})
+    var pair_lines: Dictionary = pair_lines_value if pair_lines_value is Dictionary else {}
+    var exact_value: Variant = pair_lines.get(pair_id, {})
+    var exact: Dictionary = exact_value if exact_value is Dictionary else {}
+    if not exact.is_empty():
+        var exact_speaker_id: String = str(exact.get("speaker_id", ""))
+        var exact_speaker: Dictionary = _party_hero(exact_speaker_id)
+        var exact_text: String = str(exact.get("text", ""))
+        if not exact_speaker.is_empty() and int(exact_speaker.get("hp", 0)) > 0 and exact_text != "":
+            return {"speaker_id": exact_speaker_id, "speaker": str(exact_speaker.get("name", exact_speaker_id)), "text": exact_text}
+
+    var profile: Dictionary = _memory_topic_profile(str(memory.get("topic", "")))
+    var voices_value: Variant = profile.get("voices", {})
+    var voices: Dictionary = voices_value if voices_value is Dictionary else {}
+    var left_id: String = _registry_id_for_hero(left)
+    var right_id: String = _registry_id_for_hero(right)
+    var preferred_id: String = right_id if base_speaker_id == left_id else left_id
+    for candidate_id: String in [preferred_id, base_speaker_id]:
+        if candidate_id == "":
+            continue
+        var candidate: Dictionary = _party_hero(candidate_id)
+        var text: String = str(voices.get(candidate_id, ""))
+        if not candidate.is_empty() and int(candidate.get("hp", 0)) > 0 and text != "":
+            return {"speaker_id": candidate_id, "speaker": str(candidate.get("name", candidate_id)), "text": text}
+    return {}
+
+func _registry_id_for_hero(hero: Dictionary) -> String:
+    if hero.is_empty():
+        return ""
+    return "hero." + _normalize_hero_id(str(hero.get("id", "")))
+
+func _source_token_from_event_id(event_id: String) -> String:
+    var value: String = event_id.strip_edges()
+    if value.begins_with("systemic_afterlife:"):
+        value = value.trim_prefix("systemic_afterlife:")
+    return value
 
 func _stage_priority(stage: String) -> int:
     match stage:
@@ -250,8 +365,15 @@ func _stage_priority(stage: String) -> int:
         "opening": return 40
     return 0
 
-func _stage_seen(left: Dictionary, right: Dictionary, pair_id: String, stage: String) -> bool:
-    var marker: String = pair_id + ":" + stage
+func _scene_marker(pair_id: String, stage: String, memory: Dictionary = {}) -> String:
+    var base: String = pair_id + ":" + stage
+    var event_id: String = str(memory.get("event_id", ""))
+    if event_id == "":
+        return base
+    return base + ":memory:" + event_id
+
+func _stage_seen(left: Dictionary, right: Dictionary, pair_id: String, stage: String, memory: Dictionary = {}) -> bool:
+    var marker: String = _scene_marker(pair_id, stage, memory)
     for source_target: Array in [[left, right], [right, left]]:
         var source: Dictionary = source_target[0]
         var target: Dictionary = source_target[1]
@@ -264,8 +386,11 @@ func _stage_seen(left: Dictionary, right: Dictionary, pair_id: String, stage: St
             return true
     return false
 
-func _mark_stage_seen(left: Dictionary, right: Dictionary, pair_id: String, stage: String) -> void:
-    var marker: String = pair_id + ":" + stage
+func _mark_stage_seen(left: Dictionary, right: Dictionary, pair_id: String, stage: String, memory: Dictionary = {}) -> void:
+    var markers: Array[String] = [_scene_marker(pair_id, stage)]
+    var memory_marker: String = _scene_marker(pair_id, stage, memory)
+    if memory_marker not in markers:
+        markers.append(memory_marker)
     for source_target: Array in [[left, right], [right, left]]:
         var source: Dictionary = source_target[0]
         var target: Dictionary = source_target[1]
@@ -274,8 +399,11 @@ func _mark_stage_seen(left: Dictionary, right: Dictionary, pair_id: String, stag
         var state: Dictionary = RelationshipRuntime.relation(source, target)
         var seen_value: Variant = state.get("narrative_seen", [])
         var seen: Array = seen_value if seen_value is Array else []
-        if not seen.has(marker):
-            seen.append(marker)
+        for marker: String in markers:
+            if marker != "" and not seen.has(marker):
+                seen.append(marker)
+        while seen.size() > NARRATIVE_SEEN_LIMIT:
+            seen.pop_front()
         state["narrative_seen"] = seen
         var relationships_value: Variant = source.get("relationships", {})
         var relationships: Dictionary = relationships_value if relationships_value is Dictionary else {}
