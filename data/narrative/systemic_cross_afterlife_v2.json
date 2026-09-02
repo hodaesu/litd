@@ -1,0 +1,53 @@
+{
+  "version": 2,
+  "canon_status": "validated_systemic_afterlife_integration_layer",
+  "rules": {
+    "no_new_ui": true,
+    "no_new_relationship_meter": true,
+    "afterlife_echo_objects_remain_non_numeric": true,
+    "use_existing_relationship_runtime": true,
+    "absent_heroes_are_never_fabricated": true,
+    "dead_heroes_never_receive_new_reciprocal_feelings": true,
+    "relationship_effects_are_idempotent": true,
+    "rumor_lineage_preserves_source": true,
+    "rumor_lineage_never_replaces_fact": true,
+    "future_target": "post_litd1",
+    "backward_causation": false
+  },
+  "relationship_effects": {
+    "responsabilite_partagee": {
+      "mode": "mutual_or_living_memory",
+      "mutual": {"trust": 2, "admiration": 1},
+      "living_memory": {"trust": 1}
+    },
+    "desaccord_persistant": {
+      "mode": "mutual_or_living_memory",
+      "mutual": {"trust": 1, "mistrust": 2},
+      "living_memory": {"mistrust": 1}
+    },
+    "deuil_sans_verdict": {
+      "mode": "adaptive_grief",
+      "living_mutual": {"trust": 1, "mistrust": 1},
+      "trusted_memory": {"trust": 1, "admiration": 1},
+      "tense_memory": {"mistrust": 1, "resentment": 1}
+    },
+    "memoire_commune": {
+      "mode": "history_only"
+    }
+  },
+  "family_distortions": {
+    "food_and_logistics": "simplification_en_plan_unique",
+    "death_identity_and_memorial": "effacement_des_marqueurs_de_certitude",
+    "migration_and_refuge": "mouvement_reconstruit_en_plan",
+    "evidence_testimony_and_uncertainty": "perte_du_niveau_de_confiance",
+    "nonhuman_consent": "precedent_transforme_en_essence",
+    "scarce_resources_and_dragon_site": "sacralisation_et_pacte_invente",
+    "relationships_and_bereavement": "personne_transformee_en_symbole"
+  },
+  "cascade_distortions": {
+    "cascade.winter_refugee_pressure": "cause_unique_inventee",
+    "cascade.archive_of_uncertainty": "methode_transformee_en_doctrine",
+    "cascade.corridor_of_consent": "protocole_transforme_en_regle_d_espece",
+    "cascade.memorial_network_under_loss": "pratique_recente_transformee_en_tradition_ancienne"
+  }
+}

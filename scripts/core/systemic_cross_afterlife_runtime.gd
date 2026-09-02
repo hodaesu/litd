@@ -7,8 +7,11 @@ signal afterlife_beat_presented(source_id: String, phase: String, payload: Dicti
 signal afterlife_state_changed
 
 const DATA_PATH := "res://data/narrative/systemic_cross_afterlives.json"
+const V2_DATA_PATH := "res://data/narrative/systemic_cross_afterlife_v2.json"
+const RELATIONSHIP_HISTORY_LIMIT := 16
 
 var data: Dictionary = {}
+var v2_data: Dictionary = {}
 var pending_beats: Array[Dictionary] = []
 var _sync_scheduled: bool = false
 var _presenting: bool = false
@@ -18,6 +21,8 @@ func _ready() -> void:
     _load_data()
     if not GameState.new_game_reset.is_connected(_on_new_game_reset):
         GameState.new_game_reset.connect(_on_new_game_reset)
+    if not GameState.state_changed.is_connected(_on_game_state_changed):
+        GameState.state_changed.connect(_on_game_state_changed)
     if not CampaignState.campaign_changed.is_connected(_on_campaign_changed):
         CampaignState.campaign_changed.connect(_on_campaign_changed)
     if not SystemicCrossRuntime.cross_event_applied.is_connected(_on_source_applied):
@@ -31,12 +36,15 @@ func _ready() -> void:
     call_deferred("_schedule_sync")
 
 func _load_data() -> void:
-    if not FileAccess.file_exists(DATA_PATH):
-        push_error("SystemicCrossAfterlifeRuntime: missing data file " + DATA_PATH)
-        data = {}
-        return
-    var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
-    data = parsed if parsed is Dictionary else {}
+    data = _load_json_dictionary(DATA_PATH)
+    v2_data = _load_json_dictionary(V2_DATA_PATH)
+
+func _load_json_dictionary(path: String) -> Dictionary:
+    if not FileAccess.file_exists(path):
+        push_error("SystemicCrossAfterlifeRuntime: missing data file " + path)
+        return {}
+    var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+    return parsed if parsed is Dictionary else {}
 
 func reset_new_game() -> void:
     pending_beats = []
@@ -47,6 +55,9 @@ func reset_new_game() -> void:
 
 func _on_new_game_reset() -> void:
     reset_new_game()
+
+func _on_game_state_changed() -> void:
+    _schedule_sync()
 
 func _on_campaign_changed() -> void:
     _schedule_sync()
@@ -90,11 +101,23 @@ func _sync_source(source_id: String, is_cascade: bool) -> void:
     elif bool(afterlife.get("echo_applied", false)) and not _phase_presented(afterlife, "echo"):
         _queue_beat(source_id, is_cascade, "echo")
 
+    if bool(afterlife.get("echo_applied", false)):
+        afterlife = _sync_echo_v2(source_id, is_cascade, source_state, afterlife)
+        source_state["afterlife"] = afterlife
+        _store_source_state(source_id, is_cascade, source_state)
+
     var remanence_target: int = _target_index(source_index, remanence_offset)
     if current_index >= remanence_target and not bool(afterlife.get("remanence_applied", false)):
         _apply_remanence(source_id, is_cascade, source_state, afterlife)
     elif bool(afterlife.get("remanence_applied", false)) and not _phase_presented(afterlife, "remanence"):
         _queue_beat(source_id, is_cascade, "remanence")
+
+    source_state = _source_state(source_id, is_cascade)
+    afterlife = _afterlife_state(source_state)
+    if bool(afterlife.get("remanence_applied", false)):
+        afterlife = _sync_remanence_v2(source_id, is_cascade, source_state, afterlife)
+        source_state["afterlife"] = afterlife
+        _store_source_state(source_id, is_cascade, source_state)
 
 func _target_index(source_index: int, offset: int) -> int:
     var final_index: int = maxi(0, CampaignState.chapters().size() - 1)
@@ -134,6 +157,7 @@ func _apply_echo(source_id: String, is_cascade: bool, source_state: Dictionary, 
     afterlife["echo_applied"] = true
     afterlife["echo_chapter_id"] = CampaignState.current_chapter_id
     afterlife["source_title"] = title
+    afterlife = _sync_echo_v2(source_id, is_cascade, source_state, afterlife)
     source_state["afterlife"] = afterlife
     _store_source_state(source_id, is_cascade, source_state)
     _queue_beat(source_id, is_cascade, "echo")
@@ -154,8 +178,13 @@ func _apply_remanence(source_id: String, is_cascade: bool, source_state: Diction
     var source_definition: Dictionary = _source_definition(source_id, is_cascade)
     var future_seed: String = str(profile.get("remanence_future", source_definition.get("remanence_future", "")))
     var remanence_rumor: String = _replace_tokens(str(profile.get("remanence_rumor", "")), title, context)
+    afterlife = _ensure_source_and_echo_lineage(source_id, is_cascade, source_state, afterlife)
+    afterlife = _ensure_remanence_lineage(source_id, is_cascade, source_state, afterlife, remanence_rumor)
     var relationship_echoes_value: Variant = afterlife.get("relationship_echoes", [])
     var relationship_echoes: Array = relationship_echoes_value if relationship_echoes_value is Array else []
+    var lineage_value: Variant = afterlife.get("rumor_lineage", [])
+    var lineage: Array = lineage_value if lineage_value is Array else []
+    var distortion_kind: String = _distortion_kind(source_id, is_cascade)
     var remanence: Dictionary = {
         "id": "remanence:" + _safe_id(source_id),
         "status": "emergent_not_objective_truth",
@@ -168,8 +197,13 @@ func _apply_remanence(source_id: String, is_cascade: bool, source_state: Diction
         "TRANSMISSION": {
             "echo_chapter_id": str(afterlife.get("echo_chapter_id", "")),
             "rumor_source_id": "afterlife.echo." + source_id,
+            "origin_source_id": source_id,
+            "distortion_kind": distortion_kind,
+            "lineage": lineage.duplicate(true),
             "relationship_echoes": relationship_echoes.duplicate(true),
-            "source_trace_preserved": true
+            "source_trace_preserved": true,
+            "future_target": "post_litd1",
+            "backward_causation": false
         },
         "REMANENCE": {
             "label": str(profile.get("remanence_label", title)),
@@ -197,6 +231,35 @@ func _apply_remanence(source_id: String, is_cascade: bool, source_state: Diction
     remanence_emerged.emit(source_id, remanence.duplicate(true))
     afterlife_phase_applied.emit(source_id, "remanence", remanence.duplicate(true))
 
+func _sync_echo_v2(source_id: String, is_cascade: bool, source_state: Dictionary, afterlife: Dictionary) -> Dictionary:
+    afterlife = _ensure_source_and_echo_lineage(source_id, is_cascade, source_state, afterlife)
+    afterlife = _sync_relationship_echo_effects(source_id, afterlife)
+    return afterlife
+
+func _sync_remanence_v2(source_id: String, is_cascade: bool, source_state: Dictionary, afterlife: Dictionary) -> Dictionary:
+    var profile: Dictionary = _profile_for(source_id, is_cascade)
+    var context: Dictionary = _source_context(source_state)
+    var title: String = _source_title(source_id, is_cascade, context)
+    var remanence_rumor: String = _replace_tokens(str(profile.get("remanence_rumor", "")), title, context)
+    afterlife = _ensure_source_and_echo_lineage(source_id, is_cascade, source_state, afterlife)
+    afterlife = _ensure_remanence_lineage(source_id, is_cascade, source_state, afterlife, remanence_rumor)
+    var remanence_value: Variant = afterlife.get("remanence", {})
+    var remanence: Dictionary = remanence_value if remanence_value is Dictionary else {}
+    if not remanence.is_empty():
+        var transmission_value: Variant = remanence.get("TRANSMISSION", {})
+        var transmission: Dictionary = transmission_value if transmission_value is Dictionary else {}
+        var lineage_value: Variant = afterlife.get("rumor_lineage", [])
+        var lineage: Array = lineage_value if lineage_value is Array else []
+        transmission["origin_source_id"] = source_id
+        transmission["distortion_kind"] = _distortion_kind(source_id, is_cascade)
+        transmission["lineage"] = lineage.duplicate(true)
+        transmission["source_trace_preserved"] = true
+        transmission["future_target"] = "post_litd1"
+        transmission["backward_causation"] = false
+        remanence["TRANSMISSION"] = transmission
+        afterlife["remanence"] = remanence
+    return afterlife
+
 func _build_relationship_echo(source_id: String, is_cascade: bool, profile_name: String, profile: Dictionary) -> Dictionary:
     var hero_ids: Array[String] = _hero_followups(source_id, is_cascade, profile)
     if hero_ids.size() < 2:
@@ -212,8 +275,140 @@ func _build_relationship_echo(source_id: String, is_cascade: bool, profile_name:
         "description": str(meaning.get("description", "")),
         "topic": str(profile.get("relationship_topic", "")),
         "chapter_id": CampaignState.current_chapter_id,
+        "application_state": "pending_presence",
         "numeric_score": false
     }
+
+func _sync_relationship_echo_effects(source_id: String, afterlife: Dictionary) -> Dictionary:
+    var echoes_value: Variant = afterlife.get("relationship_echoes", [])
+    var echoes: Array = echoes_value if echoes_value is Array else []
+    for index: int in range(echoes.size()):
+        var echo_value: Variant = echoes[index]
+        var echo: Dictionary = echo_value if echo_value is Dictionary else {}
+        if echo.is_empty() or str(echo.get("application_state", "")) == "applied":
+            continue
+        echo = _apply_relationship_echo_effect(source_id, echo)
+        echoes[index] = echo
+    afterlife["relationship_echoes"] = echoes
+    return afterlife
+
+func _apply_relationship_echo_effect(source_id: String, echo: Dictionary) -> Dictionary:
+    var pair_value: Variant = echo.get("pair", [])
+    var pair: Array = pair_value if pair_value is Array else []
+    if pair.size() != 2:
+        echo["application_state"] = "invalid_pair"
+        return echo
+    var left: Dictionary = _party_hero(str(pair[0]))
+    var right: Dictionary = _party_hero(str(pair[1]))
+    if left.is_empty() or right.is_empty():
+        echo["application_state"] = "pending_presence"
+        return echo
+
+    var event_id: String = "systemic_afterlife:" + _safe_id(source_id)
+    var tag: String = str(echo.get("tag", "memoire_commune"))
+    var effect: Dictionary = _relationship_effect(tag)
+    var mode: String = str(effect.get("mode", "history_only"))
+    var left_alive: bool = int(left.get("hp", 0)) > 0
+    var right_alive: bool = int(right.get("hp", 0)) > 0
+    var applied: bool = false
+
+    if not left_alive and not right_alive:
+        echo["application_state"] = "no_living_witness"
+        echo["runtime_event_id"] = event_id
+        return echo
+
+    if mode == "adaptive_grief":
+        if left_alive and right_alive:
+            var mutual_value: Variant = effect.get("living_mutual", {})
+            var mutual: Dictionary = mutual_value if mutual_value is Dictionary else {}
+            applied = _ensure_relation_effect(left, right, mutual, event_id, echo) or applied
+            applied = _ensure_relation_effect(right, left, mutual, event_id, echo) or applied
+        else:
+            var living: Dictionary = left if left_alive else right
+            var dead: Dictionary = right if left_alive else left
+            var bond: Dictionary = RelationshipRuntime.relation(living, dead)
+            var trust: int = int(bond.get("trust", 0))
+            var tension: int = int(bond.get("mistrust", 0)) + int(bond.get("resentment", 0))
+            var memory_delta: Dictionary = {}
+            if trust >= 60:
+                var trusted_value: Variant = effect.get("trusted_memory", {})
+                memory_delta = trusted_value if trusted_value is Dictionary else {}
+            elif tension >= 45:
+                var tense_value: Variant = effect.get("tense_memory", {})
+                memory_delta = tense_value if tense_value is Dictionary else {}
+            applied = _ensure_relation_effect(living, dead, memory_delta, event_id, echo) or applied
+    elif mode == "mutual_or_living_memory":
+        if left_alive and right_alive:
+            var mutual_value: Variant = effect.get("mutual", {})
+            var mutual: Dictionary = mutual_value if mutual_value is Dictionary else {}
+            applied = _ensure_relation_effect(left, right, mutual, event_id, echo) or applied
+            applied = _ensure_relation_effect(right, left, mutual, event_id, echo) or applied
+        else:
+            var living: Dictionary = left if left_alive else right
+            var dead: Dictionary = right if left_alive else left
+            var memory_value: Variant = effect.get("living_memory", {})
+            var memory_delta: Dictionary = memory_value if memory_value is Dictionary else {}
+            applied = _ensure_relation_effect(living, dead, memory_delta, event_id, echo) or applied
+    else:
+        if left_alive:
+            applied = _ensure_relation_effect(left, right, {}, event_id, echo) or applied
+        if right_alive:
+            applied = _ensure_relation_effect(right, left, {}, event_id, echo) or applied
+
+    echo["application_state"] = "applied" if applied else "pending_presence"
+    echo["runtime_event_id"] = event_id
+    return echo
+
+func _relationship_effect(tag: String) -> Dictionary:
+    var effects_value: Variant = v2_data.get("relationship_effects", {})
+    var effects: Dictionary = effects_value if effects_value is Dictionary else {}
+    var effect_value: Variant = effects.get(tag, effects.get("memoire_commune", {}))
+    return effect_value if effect_value is Dictionary else {}
+
+func _ensure_relation_effect(source: Dictionary, target: Dictionary, delta: Dictionary, event_id: String, echo: Dictionary) -> bool:
+    if source.is_empty() or target.is_empty() or str(source.get("id", "")) == str(target.get("id", "")):
+        return false
+    var state: Dictionary = RelationshipRuntime.relation(source, target)
+    if _relation_history_has_event(state, event_id):
+        return true
+    for metric: String in ["trust", "admiration", "mistrust", "resentment"]:
+        if delta.has(metric):
+            state[metric] = clampi(int(state.get(metric, 0)) + int(delta.get(metric, 0)), 0, 100)
+    var history_value: Variant = state.get("history", [])
+    var history: Array = history_value if history_value is Array else []
+    history.append({
+        "event_id": event_id,
+        "chapter": CampaignState.current_chapter_id,
+        "kind": "systemic_afterlife_echo",
+        "qualitative_tag": str(echo.get("tag", "memoire_commune")),
+        "topic": str(echo.get("topic", ""))
+    })
+    while history.size() > RELATIONSHIP_HISTORY_LIMIT:
+        history.pop_front()
+    state["history"] = history
+    var relationships_value: Variant = source.get("relationships", {})
+    var relationships: Dictionary = relationships_value if relationships_value is Dictionary else {}
+    relationships[str(target.get("id", ""))] = state
+    source["relationships"] = relationships
+    RelationshipRuntime.relationship_changed.emit(str(source.get("id", "")), str(target.get("id", "")), event_id)
+    return true
+
+func _relation_history_has_event(state: Dictionary, event_id: String) -> bool:
+    var history_value: Variant = state.get("history", [])
+    var history: Array = history_value if history_value is Array else []
+    for value: Variant in history:
+        var entry: Dictionary = value if value is Dictionary else {}
+        if str(entry.get("event_id", "")) == event_id:
+            return true
+    return false
+
+func _party_hero(registry_id: String) -> Dictionary:
+    var normalized: String = _normalize_hero_id(registry_id)
+    for value: Variant in GameState.party:
+        var hero: Dictionary = value if value is Dictionary else {}
+        if _normalize_hero_id(str(hero.get("id", ""))) == normalized:
+            return hero
+    return {}
 
 func _hero_followups(source_id: String, is_cascade: bool, profile: Dictionary) -> Array[String]:
     var result: Array[String] = []
@@ -256,6 +451,97 @@ func _collect_relation_history(result: Array[Dictionary], source_state: Dictiona
         var b: String = _normalize_hero_id(str(pair[1]))
         if (a == left and b == right) or (a == right and b == left):
             result.append(echo.duplicate(true))
+
+func rumor_lineage(origin_source_id: String) -> Array[Dictionary]:
+    var state: Dictionary = _source_state(origin_source_id, false)
+    if state.is_empty():
+        state = _source_state(origin_source_id, true)
+    if state.is_empty():
+        return []
+    var afterlife: Dictionary = _afterlife_state(state)
+    var lineage_value: Variant = afterlife.get("rumor_lineage", [])
+    var lineage: Array = lineage_value if lineage_value is Array else []
+    var result: Array[Dictionary] = []
+    for value: Variant in lineage:
+        if value is Dictionary:
+            result.append((value as Dictionary).duplicate(true))
+    return result
+
+func _ensure_source_and_echo_lineage(source_id: String, is_cascade: bool, source_state: Dictionary, afterlife: Dictionary) -> Dictionary:
+    var lineage_value: Variant = afterlife.get("rumor_lineage", [])
+    var lineage: Array = lineage_value if lineage_value is Array else []
+    var context: Dictionary = _source_context(source_state)
+    var title: String = _source_title(source_id, is_cascade, context)
+    var source_presentation: Dictionary = _source_presentation(source_id, is_cascade)
+    if not _lineage_has_stage(lineage, "source"):
+        var source_rumors: Array[Dictionary] = []
+        for value: Variant in source_presentation.get("rumors", []):
+            var rumor: Dictionary = value if value is Dictionary else {}
+            var text: String = _replace_tokens(str(rumor.get("text", "")), title, context)
+            if text == "":
+                continue
+            source_rumors.append({
+                "reliability": str(rumor.get("reliability", "reported")),
+                "text": text
+            })
+        lineage.append({
+            "stage": "source",
+            "source_id": source_id,
+            "parent_source_id": "",
+            "chapter_id": str(source_state.get("chapter_id", "")),
+            "fact": _replace_tokens(str(source_presentation.get("fact", "")), title, context),
+            "rumors": source_rumors,
+            "distortion_kind": "none"
+        })
+    if bool(afterlife.get("echo_applied", false)) and not _lineage_has_stage(lineage, "echo"):
+        var profile: Dictionary = _profile_for(source_id, is_cascade)
+        lineage.append({
+            "stage": "echo",
+            "source_id": "afterlife.echo." + source_id,
+            "parent_source_id": source_id,
+            "chapter_id": str(afterlife.get("echo_chapter_id", CampaignState.current_chapter_id)),
+            "reliability": "variable",
+            "text": _replace_tokens(str(profile.get("echo_rumor", "")), title, context),
+            "distortion_kind": _distortion_kind(source_id, is_cascade)
+        })
+    afterlife["rumor_lineage"] = lineage
+    return afterlife
+
+func _ensure_remanence_lineage(source_id: String, is_cascade: bool, source_state: Dictionary, afterlife: Dictionary, remanence_rumor: String) -> Dictionary:
+    var lineage_value: Variant = afterlife.get("rumor_lineage", [])
+    var lineage: Array = lineage_value if lineage_value is Array else []
+    if not _lineage_has_stage(lineage, "remanence"):
+        lineage.append({
+            "stage": "remanence",
+            "source_id": "afterlife.remanence." + source_id,
+            "parent_source_id": "afterlife.echo." + source_id,
+            "chapter_id": str(afterlife.get("remanence_chapter_id", CampaignState.current_chapter_id)),
+            "reliability": "reported",
+            "text": remanence_rumor,
+            "distortion_kind": _distortion_kind(source_id, is_cascade),
+            "future_target": "post_litd1",
+            "backward_causation": false
+        })
+    afterlife["rumor_lineage"] = lineage
+    return afterlife
+
+func _lineage_has_stage(lineage: Array, stage: String) -> bool:
+    for value: Variant in lineage:
+        var entry: Dictionary = value if value is Dictionary else {}
+        if str(entry.get("stage", "")) == stage:
+            return true
+    return false
+
+func _distortion_kind(source_id: String, is_cascade: bool) -> String:
+    if is_cascade:
+        var cascades_value: Variant = v2_data.get("cascade_distortions", {})
+        var cascades: Dictionary = cascades_value if cascades_value is Dictionary else {}
+        return str(cascades.get(source_id, "transformation_contextuelle"))
+    var definition: Dictionary = _source_definition(source_id, false)
+    var family: String = str(definition.get("family", ""))
+    var families_value: Variant = v2_data.get("family_distortions", {})
+    var families: Dictionary = families_value if families_value is Dictionary else {}
+    return str(families.get(family, "transformation_contextuelle"))
 
 func remanences() -> Array[Dictionary]:
     var result: Array[Dictionary] = []
