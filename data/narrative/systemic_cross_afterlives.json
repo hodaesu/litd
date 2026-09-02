@@ -1,0 +1,227 @@
+{
+  "version": 1,
+  "canon_status": "validated_systemic_afterlife_layer",
+  "rules": {
+    "no_new_ui": true,
+    "no_global_morality_score": true,
+    "source_trace_never_deleted": true,
+    "rumor_never_replaces_fact": true,
+    "contradiction_may_remain_unresolved": true,
+    "relationship_echoes_are_non_numeric": true,
+    "hero_lines_require_living_present_speaker": true,
+    "one_afterlife_beat_per_sanctuary_entry": true,
+    "immediate_scene_has_priority": true,
+    "echo_chapter_offset": 1,
+    "remanence_chapter_offset": 2,
+    "clamp_to_final_chapter": true
+  },
+  "relationship_meanings": {
+    "shared_burden": {
+      "tag": "responsabilite_partagee",
+      "description": "Deux personnages se rapprochent parce qu'ils doivent continuer à porter ensemble une conséquence imparfaite, sans transformer ce rapprochement en approbation morale."
+    },
+    "friction": {
+      "tag": "desaccord_persistant",
+      "description": "Le désaccord survit au choix initial et devient un sujet concret de relation, sans convertir l'autre en ennemi."
+    },
+    "grief": {
+      "tag": "deuil_sans_verdict",
+      "description": "Une perte nommée modifie la manière dont deux personnages se parlent sans devenir une preuve que le choix initial était bon ou mauvais."
+    },
+    "none": {
+      "tag": "memoire_commune",
+      "description": "Les personnages partagent désormais une référence commune sans changement relationnel imposé."
+    }
+  },
+  "family_profiles": {
+    "food_and_logistics": {
+      "echo_rumor": "À force d'être racontée, « {title} » commence à passer pour un plan unique du Sanctuaire. Les deux décisions distinctes qui l'ont produite disparaissent déjà du récit.",
+      "echo_opening": "Les cartes ont changé de main plusieurs fois. Les annotations les plus récentes parlent d'une stratégie là où les premiers traits montrent surtout des décisions prises séparément sous pression.",
+      "echo_closing": "La route, les réserves et les files existent encore. Le récit qui les explique est déjà plus simple qu'elles.",
+      "silence": "Personne ne corrige immédiatement la version qui circule ; plusieurs personnes reprennent pourtant les anciennes cartes pour comparer les dates.",
+      "dialogue": {
+        "hero.aurelien": "On commence à parler comme si nous avions prévu l'ensemble. Nous avons seulement choisi deux fois dans l'urgence.",
+        "hero.mathilde": "Qu'ils se souviennent aussi de ceux pour qui le résultat n'a pas suffi.",
+        "hero.lya": "Le récit se resserre plus vite que la faim n'a disparu.",
+        "hero.marec": "Une route qui tient devient vite, dans les histoires, une route qu'on avait toujours voulu construire."
+      },
+      "relationship_topic": "qui_portera_le_cout_apres_l_urgence",
+      "remanence_label": "La route devenue tradition",
+      "remanence_form": "pratique_civique_ou_mythe_logistique",
+      "remanence_trace": "cartes successives conservant les tracés initiaux sous les noms apparus plus tard",
+      "remanence_rumor": "Certains disent désormais que cette organisation existait avant la crise. Les archives datées montrent seulement qu'elle a émergé pendant elle."
+    },
+    "death_identity_and_memorial": {
+      "echo_rumor": "Les récits autour de « {title} » commencent à confondre lieu du corps, nom, objet restitué et certitude d'identification.",
+      "echo_opening": "Au Mémorial, une copie récente a simplifié plusieurs mentions. L'original conserve encore les mots PROBABLE et INCONNU.",
+      "echo_closing": "La correction reste visible à côté de l'erreur au lieu de la faire disparaître.",
+      "silence": "Une famille relit l'ancienne mention sans demander qu'on tranche ce qui ne peut plus l'être.",
+      "dialogue": {
+        "hero.zeje": "Une copie plus nette peut être moins exacte que l'original.",
+        "hero.mathilde": "La précision n'est froide que si elle nous dispense de regarder la personne derrière le dossier.",
+        "hero.aurelien": "Corriger l'archive sans garder la correction fabriquerait une seconde certitude.",
+        "hero.anouk": "Laisser INCONNU visible, c'est aussi laisser une place à ce que nous n'avons pas pu rendre."
+      },
+      "relationship_topic": "dignite_et_incertitude_des_morts",
+      "remanence_label": "Le droit de laisser un nom incomplet",
+      "remanence_form": "institution_memorielle",
+      "remanence_trace": "mentions de certitude, objets et lieux de corps conservés sur des supports séparés",
+      "remanence_rumor": "On raconte que le Mémorial a toujours distingué les morts de cette manière. Les premiers registres montrent au contraire une règle née de cas douloureux."
+    },
+    "migration_and_refuge": {
+      "echo_rumor": "Les arrivées liées à « {title} » sont désormais racontées comme un mouvement organisé. Plusieurs familles se souviennent seulement d'avoir cherché le prochain endroit sûr.",
+      "echo_opening": "Des signes d'accueil subsistent sur certaines portes. Leur sens varie déjà d'une rue à l'autre.",
+      "echo_closing": "Ce qui fut d'abord une solution de survie commence à devenir coutume, réseau et récit d'origine.",
+      "silence": "Une personne efface un ancien signe d'accueil ; sa voisine le repeint avec une signification légèrement différente.",
+      "dialogue": {
+        "hero.aurelien": "Une protection peut devenir une institution. Il faut encore se souvenir de ceux qu'elle devait protéger de nous aussi.",
+        "hero.lya": "Une histoire sans centre survit en plusieurs versions. C'est sa force et sa perte.",
+        "hero.mathilde": "S'ils appellent cela un plan, qu'ils n'effacent pas ceux qui ne savaient même pas où dormir le lendemain.",
+        "hero.anouk": "Les chemins se sont rejoints après coup. Ce n'est pas la même chose que les avoir dessinés d'avance."
+      },
+      "relationship_topic": "proteger_sans_posseder_les_recits_des_refugies",
+      "remanence_label": "Les tables dispersées",
+      "remanence_form": "coutume_d_accueil_et_reseau_civique",
+      "remanence_trace": "signes domestiques, listes partielles et itinéraires familiaux qui ne partagent pas une archive centrale unique",
+      "remanence_rumor": "Les générations suivantes commencent à parler d'un ancien réseau d'accueil. Les sources montrent surtout des foyers qui ont improvisé puis appris les uns des autres."
+    },
+    "evidence_testimony_and_uncertainty": {
+      "echo_rumor": "Les catégories nées autour de « {title} » circulent mieux que les précautions qui les accompagnaient. Certains recopient déjà la conclusion sans son degré de confiance.",
+      "echo_opening": "Un dossier recopié porte encore CONFIRMÉ, PROBABLE et INCONNU ; sur une copie de copie, l'un des marqueurs a disparu.",
+      "echo_closing": "La méthode survit, mais elle commence déjà à perdre les raisons humaines qui l'avaient rendue nécessaire.",
+      "silence": "Quelqu'un rajoute au crayon la provenance d'une affirmation que la copie avait transformée en fait brut.",
+      "dialogue": {
+        "hero.zeje": "Une catégorie qui survit sans sa limite devient une certitude déguisée.",
+        "hero.aurelien": "Alors il faut archiver pourquoi nous avons écrit PROBABLE, pas seulement le mot.",
+        "hero.anouk": "Nos corrections font partie de ce que nous savons.",
+        "hero.mathilde": "Et de ce que nous avons fait subir aux gens pendant que nous apprenions."
+      },
+      "relationship_topic": "agir_sans_transformer_l_incertitude_en_excuse",
+      "remanence_label": "L'archive de l'incertitude",
+      "remanence_form": "methode_epistemique_et_institution",
+      "remanence_trace": "historique de corrections attaché aux observations, témoignages et interprétations séparées",
+      "remanence_rumor": "Certains parlent déjà d'une doctrine du Sanctuaire. Les premiers dossiers montrent une méthode révisable née précisément pour éviter les doctrines trop certaines."
+    },
+    "nonhuman_consent": {
+      "echo_rumor": "Le précédent lié à « {title} » commence à être raconté comme une règle sur les êtres non humains, alors qu'il concernait d'abord une réponse précise dans une situation précise.",
+      "echo_opening": "À la Porte, une consigne nouvelle cite un cas ancien. En marge, quelqu'un a ajouté : « précédent de refus, pas définition d'une espèce ».",
+      "echo_closing": "La règle reste utilisable seulement tant que le cas particulier qui l'a produite n'est pas effacé.",
+      "silence": "Une équipe de contact relit les conditions d'arrêt avant de partir au lieu de transformer le protocole en permission automatique.",
+      "dialogue": {
+        "hero.zeje": "Un précédent décrit ce que nous avons dû respecter. Pas ce qu'est l'autre.",
+        "hero.anouk": "Une réponse que nous ne comprenons pas ne devient pas plus claire parce qu'un règlement la classe.",
+        "hero.mathilde": "Le détour a eu un coût humain. Le respect du refus n'autorise pas à l'oublier.",
+        "hero.aurelien": "Une règle responsable doit garder visibles ses conditions d'arrêt et le prix de son application."
+      },
+      "relationship_topic": "respecter_un_refus_sans_inventer_une_essence",
+      "remanence_label": "Le précédent du refus",
+      "remanence_form": "pratique_juridique_et_protocole_reversible",
+      "remanence_trace": "consignes de contact distinguant refus clair, réponse ambiguë et absence de signal",
+      "remanence_rumor": "Des voyageurs résument déjà la règle en disant que le Sanctuaire sait parler aux créatures. Les dossiers disent seulement qu'il a appris quand il devait s'arrêter."
+    },
+    "scarce_resources_and_dragon_site": {
+      "echo_rumor": "Le choix lié à « {title} » commence à prendre une couleur sacrée ou héroïque que les observations initiales ne justifiaient pas.",
+      "echo_opening": "Sur une copie du relevé du site, le mot « dragon » est écrit plus gros que les mesures. L'original séparait soigneusement provenance, propriété observée et interprétation.",
+      "echo_closing": "Une prudence pratique peut devenir tabou ; un échantillon peut devenir relique ; une urgence peut devenir doctrine.",
+      "silence": "Une étiquette ancienne est replacée sous l'objet avant que quelqu'un ne décide ce qu'il signifie.",
+      "dialogue": {
+        "hero.effrie": "Je n'ai pas demandé qu'on transforme notre ignorance en sacré.",
+        "hero.zeje": "Le contexte perdu est déjà une interprétation gagnée par quelqu'un d'autre.",
+        "hero.lya": "L'objet n'a pas changé. Le cadre autour de lui, oui.",
+        "hero.aurelien": "L'urgence explique pourquoi nous avons agi. Elle ne doit pas devenir une preuve que cette action était une loi."
+      },
+      "relationship_topic": "memoire_dogme_et_necessite_humaine",
+      "remanence_label": "Le site que les récits ont sacralisé",
+      "remanence_form": "tabou_coutume_relique_ou_protocole_scientifique",
+      "remanence_trace": "étiquettes de provenance et relevés antérieurs aux interprétations religieuses ou politiques",
+      "remanence_rumor": "Certains parlent d'un pacte ancien confirmé par le site. Les documents conservés établissent seulement ce qui fut observé et ce que les survivants choisirent d'en faire."
+    },
+    "relationships_and_bereavement": {
+      "echo_rumor": "Le nom de {dead_name} commence à être utilisé pour défendre des décisions qu'il ou elle n'a jamais pu commenter.",
+      "echo_opening": "Au Mémorial, le nom de {dead_name} apparaît désormais dans plusieurs conversations qui ne parlent plus directement de sa vie.",
+      "echo_closing": "Le nom reste une personne dans le registre, même lorsqu'il devient argument dans la mémoire collective.",
+      "silence": "Quelqu'un retire une note politique laissée sous le nom sans effacer la cause matérielle consignée.",
+      "dialogue": {
+        "hero.mathilde": "Son nom ne doit pas devenir un argument avant d'avoir été un nom.",
+        "hero.aurelien": "Sa mort change ce que nous savons des conséquences. Elle ne fabrique pas un verdict rétroactif.",
+        "hero.zeje": "Une causalité matérielle peut être documentée sans devenir une morale.",
+        "hero.anouk": "Ce que nous faisons de son nom nous appartient. Sa vie ne nous appartient pas."
+      },
+      "relationship_topic": "deuil_causalite_et_instrumentalisation_des_morts",
+      "remanence_label": "Le nom qui refuse de devenir verdict",
+      "remanence_form": "pratique_memorielle_et_precaution_politique",
+      "remanence_trace": "nom, cause matérielle et débats ultérieurs conservés dans des champs distincts",
+      "remanence_rumor": "Plus tard, certains feront de {dead_name} un symbole d'une cause unique. Le Mémorial conserve encore une personne, une cause matérielle et des interprétations séparées."
+    }
+  },
+  "cascade_profiles": {
+    "cascade.winter_refugee_pressure": {
+      "hero_followups": ["hero.aurelien", "hero.mathilde"],
+      "echo_rumor": "Après l'hiver, beaucoup racontent qu'une décision précise a causé la saturation. Les registres montrent plusieurs capacités qui ont cédé ensemble.",
+      "echo_opening": "Les listes de chauffage, de soins et de rations sont conservées côte à côte. Aucune ne suffit à raconter l'hiver seule.",
+      "echo_closing": "La mémoire cherche un responsable simple ; les traces matérielles gardent plusieurs contraintes en même temps.",
+      "silence": "Les anciennes files ont disparu, mais leurs marques au sol ne coïncident pas avec un seul registre.",
+      "dialogue": {
+        "hero.aurelien": "Une saturation entière est plus facile à raconter comme une faute unique.",
+        "hero.mathilde": "Et plus facile encore si ceux qui ont attendu n'ont plus la force de corriger le récit."
+      },
+      "relationship_topic": "responsabilite_dans_une_capacite_saturee",
+      "remanence_label": "La règle des capacités concurrentes",
+      "remanence_form": "pratique_logistique_institutionnelle",
+      "remanence_trace": "registres séparés de chauffage, soins, logement et alimentation conservés ensemble",
+      "remanence_rumor": "Une règle nouvelle exige de regarder plusieurs capacités avant de déclarer une ressource « suffisante ». Certains la présentent déjà comme une sagesse ancienne.",
+      "remanence_future": "a crisis-management practice may survive as an old civic rule while its origin in refugee winter pressure is forgotten"
+    },
+    "cascade.archive_of_uncertainty": {
+      "hero_followups": ["hero.zeje", "hero.anouk"],
+      "echo_rumor": "Le langage commun des archives est déjà appelé « doctrine de l'Inconnu » par ceux qui n'ont jamais vu les dossiers qui l'ont rendu nécessaire.",
+      "echo_opening": "Plusieurs services utilisent désormais les mêmes marqueurs. Une feuille rappelle que leur fonction est de permettre la correction, pas de rendre l'incertitude prestigieuse.",
+      "echo_closing": "Une méthode commune devient institution au moment précis où elle risque d'oublier pourquoi elle devait rester révisable.",
+      "silence": "Une correction ancienne est lue à côté de la règle actuelle au lieu d'être classée comme erreur embarrassante.",
+      "dialogue": {
+        "hero.zeje": "Une institution qui sait écrire INCONNU doit aussi savoir écrire : nous nous sommes trompés.",
+        "hero.anouk": "Alors l'histoire des corrections doit rester attachée à la méthode."
+      },
+      "relationship_topic": "methode_commune_et_droit_a_la_revision",
+      "remanence_label": "L'institution de l'incertitude",
+      "remanence_form": "institution_epistemique",
+      "remanence_trace": "mêmes marqueurs de source, type de preuve, confiance et correction dans plusieurs services",
+      "remanence_rumor": "Certains croient que l'institution refuse de conclure. Ses premiers dossiers montrent qu'elle voulait surtout empêcher une conclusion de survivre à ses propres preuves.",
+      "remanence_future": "a shared uncertainty archive may become either epistemic humility or rigid bureaucracy depending on whether correction history survives"
+    },
+    "cascade.corridor_of_consent": {
+      "hero_followups": ["hero.zeje", "hero.anouk"],
+      "echo_rumor": "Le corridor du consentement est parfois raconté comme une loi sur toutes les consciences non humaines. Les premiers cas ne permettaient précisément pas cette généralisation.",
+      "echo_opening": "Les équipes de contact apprennent désormais les anciens cas. La première phrase du manuel interdit d'en déduire une nature commune.",
+      "echo_closing": "Le précédent devient transmissible sans devenir essence.",
+      "silence": "Avant un départ, une équipe barre une ancienne formulation trop générale et inscrit le cas précis qu'elle va rencontrer.",
+      "dialogue": {
+        "hero.zeje": "La méthode peut être commune. La conclusion sur l'autre ne l'est pas.",
+        "hero.anouk": "Le manuel doit apprendre à s'arrêter, pas à parler à la place de ce qu'il rencontre."
+      },
+      "relationship_topic": "precedent_cas_par_cas_et_generalisation",
+      "remanence_label": "Le corridor des précédents",
+      "remanence_form": "droit_casuistique_et_protocole_de_contact",
+      "remanence_trace": "manuel composé de cas distincts avec seuils d'arrêt et conditions de révision",
+      "remanence_rumor": "Plus tard, le corridor pourra sembler être une loi fondatrice. Ses premières pages disent pourtant qu'aucun cas ne définit les suivants.",
+      "remanence_future": "case-based consent practice may harden into species-wide law if its original distinctions are lost"
+    },
+    "cascade.memorial_network_under_loss": {
+      "hero_followups": ["hero.mathilde", "hero.zeje"],
+      "echo_rumor": "Le réseau du Mémorial commence à être traité comme une institution unique alors qu'il relie des lieux, des familles et des archives qui gardent encore leurs différences.",
+      "echo_opening": "Une corde relie plusieurs références sans faire disparaître les lieux où les morts sont réellement honorés.",
+      "echo_closing": "Le réseau tient parce qu'il relie des mémoires différentes, pas parce qu'il les remplace par une seule.",
+      "silence": "Une copie locale corrige le centre ; le centre conserve la correction et son origine.",
+      "dialogue": {
+        "hero.mathilde": "Un réseau ne doit pas devenir propriétaire de ceux qu'il relie.",
+        "hero.zeje": "La référence commune est utile seulement si elle garde visibles les désaccords locaux."
+      },
+      "relationship_topic": "memoire_commune_sans_propriete_centrale",
+      "remanence_label": "Le Mémorial en réseau",
+      "remanence_form": "institution_memorielle_distribuee",
+      "remanence_trace": "références croisées entre noms, lieux, objets, degrés de certitude et corrections locales",
+      "remanence_rumor": "On parlera peut-être un jour du Mémorial comme d'un seul monument. Ses premières traces montrent au contraire un réseau construit pour ne pas forcer l'unité.",
+      "remanence_future": "a distributed memorial network may later be mistaken for a single founding monument if local correction links disappear"
+    }
+  }
+}
