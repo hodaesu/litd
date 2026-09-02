@@ -17,6 +17,7 @@ var canonical_history: Dictionary = {}
 var last_war: Dictionary = {}
 var litd2_triad: Dictionary = {}
 var les_veilleurs_enemy_recruitment: Dictionary = {}
+var les_veilleurs_bestiary_families: Dictionary = {}
 
 func _ready() -> void:
     reload_all()
@@ -55,6 +56,8 @@ func reload_all() -> void:
     litd2_triad = triad_value if typeof(triad_value) == TYPE_DICTIONARY else {}
     var veilleurs_recruitment_value = load_json("res://data/canon/les_veilleurs_enemy_recruitment.json")
     les_veilleurs_enemy_recruitment = veilleurs_recruitment_value if typeof(veilleurs_recruitment_value) == TYPE_DICTIONARY else {}
+    var veilleurs_bestiary_value = load_json("res://data/canon/les_veilleurs_bestiary_families.json")
+    les_veilleurs_bestiary_families = veilleurs_bestiary_value if typeof(veilleurs_bestiary_value) == TYPE_DICTIONARY else {}
 
 func find_by_id(items: Array, id_value: Variant) -> Dictionary:
     for item in items:
@@ -162,6 +165,37 @@ func les_veilleurs_recruitment_content_contract() -> Array[String]:
     if values is Array:
         for value: Variant in values:
             result.append(str(value))
+    return result
+
+func les_veilleurs_bestiary_family(family_id: String) -> Dictionary:
+    var values: Variant = les_veilleurs_bestiary_families.get("families", [])
+    var families: Array = values if values is Array else []
+    return find_by_id(families, family_id).duplicate(true)
+
+func les_veilleurs_bestiary_all_families() -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
+    var values: Variant = les_veilleurs_bestiary_families.get("families", [])
+    var families: Array = values if values is Array else []
+    for value: Variant in families:
+        var family: Dictionary = value if value is Dictionary else {}
+        result.append(family.duplicate(true))
+    return result
+
+func les_veilleurs_bestiary_recruitable_families() -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
+    for family: Dictionary in les_veilleurs_bestiary_all_families():
+        if bool(family.get("recruitable", false)):
+            result.append(family)
+    return result
+
+func les_veilleurs_bestiary_roles() -> Array[String]:
+    var result: Array[String] = []
+    var roster_design: Variant = les_veilleurs_bestiary_families.get("roster_design", {})
+    if roster_design is Dictionary:
+        var values: Variant = roster_design.get("current_roles", [])
+        if values is Array:
+            for value: Variant in values:
+                result.append(str(value))
     return result
 
 func knowledge_remanence_stages() -> Array[String]:
