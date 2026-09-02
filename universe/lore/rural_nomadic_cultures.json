@@ -1,0 +1,123 @@
+{
+  "universe_id": "litd_universe",
+  "schema_version": 1,
+  "canon_version": "1.0.0",
+  "status": "canon_continuity",
+  "scope": ["litd2", "les_veilleurs", "litd1", "mature_concorde"],
+  "core_rules": {
+    "rural_means_backward": false,
+    "nomadism_is_ethnicity": false,
+    "city_represents_entire_region": false,
+    "rural_origin_grants_biological_stats": false,
+    "mobile_community_lacks_institutions_by_definition": false,
+    "countryside_is_resource_only_space": false,
+    "rural_and_urban_interdependence_is_canonical": true,
+    "mobility_can_be_chosen_seasonal_or_forced": true
+  },
+  "lifeways": [
+    {
+      "id": "lhaor_basin_garden_communities",
+      "anchor": "Lhaor",
+      "type": "rural_agricultural_ecological",
+      "features": ["seed_stewardship", "soil_and_water_knowledge", "plant_medicine", "forest_harvest_rules", "local_practical_assemblies"],
+      "guardrails": ["not_druid_culture_by_default", "ecological_knowledge_does_not_prove_nature_religion"]
+    },
+    {
+      "id": "jian_lu_river_communities",
+      "anchor": "Jian-Lu",
+      "type": "riverine_rural_network",
+      "features": ["ferrying", "local_navigation", "flood_knowledge", "riverbank_agriculture", "quay_and_dike_maintenance", "traveler_mediation"],
+      "guardrails": ["not_simple_extension_of_city", "multilingualism_not_ethnicity"]
+    },
+    {
+      "id": "dhor_khal_satellite_workshop_villages",
+      "anchor": "Dhor-Khal",
+      "type": "technical_rural_network",
+      "features": ["quarries", "mines", "charcoal_and_forestry", "repair_workshops", "transport", "work_safety", "mutual_aid"],
+      "guardrails": ["maintenance_counts_as_culture", "technical_knowledge_not_urban_monopoly"]
+    },
+    {
+      "id": "tessen_artisan_agricultural_rings",
+      "anchor": "Tessen",
+      "type": "rural_market_network",
+      "features": ["textiles", "food", "dyes", "fibers", "tools", "periodic_markets", "local_assemblies"],
+      "guardrails": ["not_single_style", "local_politics_can_be_complex"]
+    },
+    {
+      "id": "orun_sai_caravan_networks",
+      "anchor": "Orun-Saï",
+      "type": "mobile_and_semi_mobile_network",
+      "features": ["translation", "convoy_maintenance", "route_knowledge", "water_and_refuge_knowledge", "hospitality_translation", "fallback_routes"],
+      "guardrails": ["caravan_not_automatically_nomadic", "reputation_not_morality", "refuge_information_can_require_secrecy"]
+    },
+    {
+      "id": "transhumant_pastoral_networks",
+      "anchor": "concorde_and_margins",
+      "type": "mobile_pastoral_network",
+      "features": ["seasonal_routes", "camp_alliances", "terrain_knowledge", "passage_negotiation", "water_memory", "portable_archives"],
+      "name_locked": false,
+      "livestock_species_locked": false,
+      "guardrails": ["mobility_not_absence_of_law", "not_single_ethnicity", "no_fixed_continental_name"]
+    }
+  ],
+  "city_countryside_relations": {
+    "exchange_flows": ["food", "wood", "minerals", "plants", "fibers", "transport", "information", "people", "specialized_care", "tools", "archives", "legal_mediation", "education"],
+    "conflict_domains": ["prices", "debt", "water", "passage", "forest_use", "conscription", "road_maintenance", "infrastructure_ownership", "refugees", "ancient_sites", "local_food_security"]
+  },
+  "chronology": [
+    {
+      "era": "litd2_last_war",
+      "features": ["requisitions", "crop_destruction", "forced_displacement", "conscription", "road_closure", "famine", "local_refusal_and_relief_networks"],
+      "mature_concorde_rural_policy_exists": false
+    },
+    {
+      "era": "post_sarn_long_assemblies",
+      "features": ["land_questions", "water_questions", "food_security", "route_rights", "mobile_community_safety", "rural_participation_in_reconstruction"]
+    },
+    {
+      "era": "les_veilleurs",
+      "features": ["escape_routes_become_trade_routes", "clandestine_halts_become_settlements", "war_lists_become_civic_records", "survival_practices_change_meaning"]
+    },
+    {
+      "era": "mature_concorde_prefall",
+      "features": ["normalized_interdependence", "persistent_center_periphery_tensions", "rural_three_awakenings_practice", "mobile_translation_networks"]
+    },
+    {
+      "era": "litd1_post_fall",
+      "features": ["isolated_villages", "strategic_seed_loss", "unsafe_routes", "refugee_convoys", "blocked_transhumance", "local_refuge_conflict", "material_shortages", "local_knowledge_beats_old_maps"]
+    }
+  ],
+  "gameplay": {
+    "new_build_path": false,
+    "universal_rural_survival_meter": false,
+    "automatic_nomad_bonus": false,
+    "village_is_quest_dispenser_only": false,
+    "caravan_is_shop_only": false,
+    "refugee_choice_has_universal_moral_score": false,
+    "horizontal_uses": ["route_choice", "water_security", "seed_security", "passage_mediation", "debt_conflict", "refuge_decisions", "bridge_repair", "refuge_information_protection", "local_knowledge_alternate_solution", "persistent_region_change"]
+  },
+  "remanence": {
+    "model": ["source", "transmission", "transformation"],
+    "examples": [
+      ["military_route", "refusal_path", "trade_route", "refugee_route"],
+      ["hidden_seed", "survival_crop", "local_symbol", "misattributed_variety"],
+      ["work_song", "road_song", "ceremonial_piece"],
+      ["pasture_record", "border_map", "historical_evidence"],
+      ["temporary_shelter", "caravan_halt", "village", "ruin"],
+      ["workshop_safety_rule", "family_custom", "forgotten_technical_origin"]
+    ]
+  },
+  "pillar_validation": {
+    "P1_character_creation": "pass",
+    "P2_systemic_gore": "pass_conditional",
+    "P3_philosophy_psychology": "pass",
+    "P4_accessible_human_depth": "pass_central",
+    "P5_strong_narrative": "pass",
+    "P6_interconnection": "pass_central",
+    "P7_knowledge_remanence": "pass_central",
+    "P8_dialogue_staging": "pass",
+    "P9_simple_deep_readable_gameplay": "pass"
+  },
+  "open_fields": ["named_pastoral_peoples", "domestic_species", "detailed_seasonal_calendars", "rural_religions", "transhumance_maps", "local_dialects", "region_specific_family_structures", "named_harvest_festivals", "local_political_statuses"],
+  "sources": ["docs/LITD_UNIVERSE_PEUPLES_CULTURES_VIVANTES.md", "docs/LITD_UNIVERSE_RITES_FUNERAILLES_COUTUMES.md", "docs/LITD_UNIVERSE_CHRONOLOGIE_MAITRESSE.md"]
+}
