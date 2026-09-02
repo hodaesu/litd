@@ -16,10 +16,12 @@ FILES = {
     "balance": VEILLEURS / "vs001_balance.json",
     "events": VEILLEURS / "vs001_events.json",
     "dialogues": VEILLEURS / "vs001_dialogues.json",
+    "ui": VEILLEURS / "vs001_ui_input_contract.json",
 }
 MODULE_SCHEMA = DUNGEONS / "hybrid_module_contract.schema.json"
 CAPTURABLES = ROOT / "data" / "capturable_creatures.json"
 CAPTURE_WOUNDS = ROOT / "data" / "capture_wound_rules.json"
+PROJECT = ROOT / "project.godot"
 
 
 def load(path: Path):
@@ -52,6 +54,7 @@ def audit() -> list[str]:
     balance = data["balance"]
     events = data["events"]
     dialogues = data["dialogues"]
+    ui = data["ui"]
 
     if config["profile"] != "short":
         errors.append("config_profile_not_short")
@@ -164,6 +167,39 @@ def audit() -> list[str]:
         variants = event.get("variants", {})
         if set(variants) != {"nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"}:
             errors.append(f"dialogue_missing_watcher_variant:{event['id']}")
+
+    principles = ui.get("principles", {})
+    for key in (
+        "same_gameplay_all_platforms",
+        "same_macro_topology_all_platforms",
+        "irreversible_action_requires_explicit_validation",
+        "information_request_never_executes_irreversible_action",
+        "safe_area_required_on_mobile",
+    ):
+        if principles.get(key) is not True:
+            errors.append(f"ui_principle_required:{key}")
+    if principles.get("long_press_required") is not False:
+        errors.append("long_press_must_not_be_required")
+    if principles.get("hover_required") is not False:
+        errors.append("hover_must_not_be_required")
+    if int(principles.get("touch_target_min_points", 0)) < 48:
+        errors.append("touch_target_too_small")
+    if set(ui.get("profiles", {})) != {"phone", "tablet", "desktop", "controller"}:
+        errors.append("ui_profiles_incomplete")
+    if ui["profiles"]["controller"].get("pointer_dependency") is not False:
+        errors.append("controller_must_not_require_pointer")
+    if ui["profiles"]["phone"].get("long_press") != "optional_shortcut_only":
+        errors.append("phone_long_press_contract_changed")
+    required_commands = {
+        "MoveCommand", "InteractCommand", "InspectCommand", "UseItemCommand", "CombatCommand",
+        "MapCommand", "RecruitCommand", "ExtractCommand", "CancelCommand", "ConfirmCommand",
+    }
+    if set(ui.get("abstract_commands", [])) != required_commands:
+        errors.append("abstract_command_contract_changed")
+    project_text = PROJECT.read_text(encoding="utf-8")
+    for action in ui.get("existing_runtime_alignment", {}).get("existing_project_actions_reused", []):
+        if f"{action}=" not in project_text:
+            errors.append(f"missing_existing_project_action:{action}")
 
     return errors
 
