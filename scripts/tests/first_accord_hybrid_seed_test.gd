@@ -1,6 +1,6 @@
 extends SceneTree
 
-const PLANNER := preload("res://scripts/world/first_accord_hybrid_planner.gd")
+const RUNTIME_PLAN := preload("res://scripts/world/first_accord_hybrid_runtime_plan.gd")
 
 const CAMPAIGN_SEEDS := [1, 7, 42, 1337, 9001, 17011, 65537, 123456789]
 const VISIT_INDICES := [0, 1, 2, 5, 12]
@@ -20,8 +20,8 @@ func _init() -> void:
                     "difficulty_band": difficulty_band,
                     "story_epoch": 0
                 }
-                var first := PLANNER.build_plan(state)
-                var second := PLANNER.build_plan(state)
+                var first := RUNTIME_PLAN.build(state)
+                var second := RUNTIME_PLAN.build(state)
                 tested += 1
 
                 if not bool(first.get("ok", false)):
@@ -30,6 +30,8 @@ func _init() -> void:
                 if bool(first.get("fallback", false)):
                     failures.append("unexpected_fallback:%s:%s" % [str(state), str(first.get("fallback_reason", ""))])
                     continue
+                if not bool(first.get("all_nodes_have_modules", false)):
+                    failures.append("unresolved_modules:%s" % str(state))
 
                 var validation := first.get("validation", {})
                 if not bool(validation.get("ok", false)):
