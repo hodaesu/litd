@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "canon_status": "canon_litd1_legendary_seven_formation_v1",
+  "scope": "LITD1 cycle initial; formation historique des Sept apres la Chute",
+  "formation_order": ["hero.zeje", "hero.anouk", "hero.marec", "hero.mathilde", "hero.effrie", "hero.aurelien", "hero.lya"],
+  "rules": {
+    "formation_is_not_prophecy": true,
+    "legendary_status_is_acquired_later": true,
+    "recruitment_order_is_historical_not_mystical": true,
+    "choices_change_costs_not_canonical_membership": true,
+    "created_protagonist_posture_never_imposed": true,
+    "no_hidden_good_choice": true,
+    "no_new_relationship_meter": true,
+    "body_consequences_are_persistent_when_documented": true,
+    "observed_magic_effect_does_not_prove_cosmology": true,
+    "dragon_activity_does_not_prove_pact_or_ancestry": true,
+    "max_spoken_lines_first_camp": 2,
+    "not_every_present_hero_comments": true,
+    "remanence_points_forward_only": true,
+    "backward_causation": false
+  },
+  "source_harmonization": {
+    "locked_before_this_pass": {"rank_2": "hero.anouk", "rank_5": "hero.effrie"},
+    "preserved_library_fact": {"rank_3": "hero.marec", "source_note": "La fiche de Marec indique explicitement qu'il devient le troisieme des Sept."},
+    "completed_order_for_production": ["hero.zeje", "hero.anouk", "hero.marec", "hero.mathilde", "hero.effrie", "hero.aurelien", "hero.lya"],
+    "obsolete_order_guard": "Toute liste placant Anouk septieme ou Effrie sixieme reste obsolete."
+  },
+  "recruitments": [
+    {
+      "id": "formation.anouk_rank_2", "rank": 2, "joining_hero": "hero.anouk", "existing_group": ["hero.zeje"],
+      "title": "Ce que tu as senti", "human_question": "Comment prendre une experience au serieux sans transformer ce qui est ressenti en verite deja prouvee ?",
+      "theatrical_opening": {"task": "Anouk aligne des cailloux selon les passages qu'elle percoit pendant que Zeje marque les deplacements reellement observes.", "lines": [{"speaker_id":"hero.anouk","text":"Je le sens avant qu'il bouge. Je ne sais pas encore ce que cela veut dire."},{"speaker_id":"hero.zeje","text":"Alors je garde deux faits : tu le sens, et parfois la pierre bouge ensuite."}]},
+      "body_system": {"event":"Tremblement fin des doigts, photophobie, fatigue et engourdissement intermittent apres usage intense de la Trame.","mechanical_change":"Les gestes fins et l'usage soutenu deviennent moins fiables jusqu'au repos.","subjective_experience":"Anouk decrit une surcharge sans pretendre en connaitre la cause.","social_reaction":"Zeje conserve les symptomes comme faits sans conclusion cosmologique.","persistent_consequence":"Des usages repetes sans recuperation peuvent prolonger les symptomes."},
+      "choices": [
+        {"id":"verify_three_passages","action":"Tester trois passages avec charges legeres et reperes.","benefit":"Methode reproductible.","costs":["Sauvetage ralenti.","Un survivant peut s'aggraver pendant la verification."]},
+        {"id":"follow_anouk_with_stop_threshold","action":"Suivre le passage indique avec corde de rappel et seuil d'arret.","benefit":"Acces potentiellement plus rapide.","costs":["Risque direct pour les sauveteurs.","Un succes peut nourrir un faux mythe d'infaillibilite."]}
+      ],
+      "relationship_seeds": [{"pair_id":"zeje_anouk","topic":"ressenti_contre_etabli","seed":"Verification ne signifie pas invalidation de l'experience; experience ne signifie pas cause prouvee."}],
+      "future_break_seed": "Une perception ecartee puis confirmee peut rendre la methode de Zeje douloureuse; une perception crue trop vite peut nourrir sa peur de la sacralisation.",
+      "first_camp": {"task":"Anouk replace les cailloux; Zeje ajoute RESSENTI et OBSERVE sans effacer aucune colonne.","lines":[{"speaker_id":"hero.anouk","text":"Tu n'as pas dit que j'avais tort."},{"speaker_id":"hero.zeje","text":"Je n'ai pas encore assez d'elements pour faire une chose aussi pratique."}]},
+      "ramifications": ["Le protocole de verification conjointe peut reapparaitre.","Une rumeur peut presenter Anouk comme infaillible."],
+      "remanence": {"source":"Une perception prise au serieux mais separee de sa verification.","transmission":"Les dossiers conservent RESSENTI et OBSERVE.","transformation":"Un recit futur peut pretendre que Zeje reconnut une elue infaillible."}
+    },
+    {
+      "id": "formation.marec_rank_3", "rank": 3, "joining_hero": "hero.marec", "existing_group": ["hero.zeje","hero.anouk"],
+      "title": "Ce que le corps tient", "human_question": "Proteger les autres autorise-t-il a traiter son propre corps comme une ressource infinie ?",
+      "theatrical_opening": {"task":"Marec souleve une structure massive pendant que les autres ouvrent une fenetre d'evacuation.","lines":[{"speaker_id":"hero.marec","text":"Je peux la tenir. Je n'ai pas dit combien de temps."},{"speaker_id":"hero.zeje","text":"Enfin une mesure que je peux utiliser."}]},
+      "body_system": {"event":"Dechirures partielles des flechisseurs, subluxation de l'epaule droite, plaies des paumes et compression lombaire.","mechanical_change":"Poigne, garde haute, projection et maintien prolonge sont diminues; forcer aggrave l'epaule.","subjective_experience":"Marec distingue douleur traversable et perte de force non negociable.","social_reaction":"Le groupe doit apprendre a ne pas confondre endurance et disponibilite.","persistent_consequence":"Cicatrices palmaires et risque d'instabilite de l'epaule."},
+      "choices": [
+        {"id":"evacuate_nearest_first","action":"Evacuer d'abord les plus accessibles.","benefit":"Moins de sauveteurs restent longtemps sous la structure.","costs":["Les blesses profonds attendent.","Marec porte plus longtemps sans renfort."]},
+        {"id":"brace_before_deep_evacuation","action":"Installer une cale avant l'evacuation profonde.","benefit":"La fenetre d'evacuation peut durer davantage.","costs":["Pic d'effort pour Marec.","Delai dangereux pour un blesse instable."]},
+        {"id":"human_counterweight","action":"Former un contrepoids humain.","benefit":"La charge sur Marec diminue.","costs":["Davantage de sauveteurs sont exposes.","L'organisation ralentit l'evacuation."]}
+      ],
+      "relationship_seeds": [{"pair_id":"marec_zeje","topic":"instinct_contre_analyse","seed":"Agir peut preceder l'explication sans l'effacer."},{"pair_id":"marec_anouk","topic":"protection_sans_dette","seed":"L'aide ne devient ni dette ni droit de possession."}],
+      "future_break_seed":"Le groupe peut apprendre a compter sur Marec jusqu'a oublier de lui demander s'il peut encore porter.",
+      "first_camp": {"task":"Marec nettoie ses paumes et remet son epaule en echarpe; Zeje note les mouvements impossibles.","lines":[{"speaker_id":"hero.marec","text":"Si tu notes tous les endroits ou j'ai mal, il va te falloir une autre page."},{"speaker_id":"hero.zeje","text":"Je l'avais prevue."}]},
+      "ramifications": ["Le contrepoids peut devenir protocole de sauvetage.","La blessure teste le respect des limites corporelles."],
+      "remanence": {"source":"Marec souleve une structure au prix de lesions reelles.","transmission":"Les registres conservent aussi cales, cordes et sauveteurs.","transformation":"La legende peut pretendre que le Troisieme porta seul une montagne."}
+    },
+    {
+      "id": "formation.mathilde_rank_4", "rank": 4, "joining_hero": "hero.mathilde", "existing_group": ["hero.zeje","hero.anouk","hero.marec"],
+      "title":"Soigner avant le verdict", "human_question":"Que doit-on a une personne en danger quand on ne sait pas encore si elle a cause le danger ?",
+      "theatrical_opening": {"task":"Mathilde comprime l'hemorragie d'un suspect pendant que les temoignages restent contradictoires.","lines":[{"speaker_id":"hero.mathilde","text":"On peut lui demander ce qu'il a fait quand il aura encore assez de sang pour repondre."},{"speaker_id":"hero.zeje","text":"Soigne-le. Gardons la difference entre sauver quelqu'un et conclure sur lui."}]},
+      "body_system": {"event":"Profonde laceration de l'avant-bras gauche avec atteinte musculaire partielle.","mechanical_change":"Parades, changements de prise et maintien du katana perdent en precision jusqu'a reeducation.","subjective_experience":"Mathilde supporte la douleur mais refuse que l'incertitude retarde un soin vital.","social_reaction":"Marec aide sans infantiliser; Zeje conserve la cause sans en tirer un verdict.","persistent_consequence":"Cicatrice visible et risque de raideur."},
+      "choices": [
+        {"id":"treat_before_restraint","action":"Traiter avant toute contrainte.","benefit":"Le soin reste independant du verdict.","costs":["Le suspect peut fuir.","Des survivants peuvent se sentir ignores."]},
+        {"id":"secure_and_treat_in_place","action":"Garder et soigner sur place.","benefit":"Indices et temoins sont mieux preserves.","costs":["Transfert medical ralenti.","Gardes exposes a une structure instable."]}
+      ],
+      "relationship_seeds": [{"pair_id":"mathilde_zeje","topic":"consequence_humaine_contre_retenue_epistemique","seed":"La precision ne doit pas devenir pretexte a laisser souffrir; la compassion ne doit pas fabriquer un verdict."},{"pair_id":"mathilde_marec","topic":"proteger_sans_infantiliser","seed":"Chacun reconnait chez l'autre la tendance a encaisser."},{"pair_id":"mathilde_anouk","topic":"protection_contre_surprotection","seed":"Proposer l'aide sans retirer Anouk des decisions."}],
+      "future_break_seed":"Une categorie exacte mais froide peut etre vecue comme violence; une consolation fausse peut l'etre aussi.",
+      "first_camp": {"task":"Mathilde refait son bandage; Marec tient la bande sans lui prendre le bras.","lines":[{"speaker_id":"hero.mathilde","text":"Tu peux tenir ca sans me dire que ce n'est rien ?"},{"speaker_id":"hero.marec","text":"Je peux meme eviter de dire que toi aussi tu fais semblant que ce n'est rien."}]},
+      "ramifications": ["Le soin avant verdict peut devenir pratique du Sanctuaire sans devenir immunite judiciaire.","La cicatrice rappelle que proteger ne prouvait pas l'innocence."],
+      "remanence": {"source":"Mathilde exige un soin immediat sous responsabilite incertaine.","transmission":"Triage medical et statut judiciaire restent separes.","transformation":"Un mythe peut pretendre qu'elle savait instinctivement qui etait innocent."}
+    },
+    {
+      "id": "formation.effrie_rank_5", "rank": 5, "joining_hero": "hero.effrie", "existing_group": ["hero.zeje","hero.anouk","hero.marec","hero.mathilde"],
+      "title":"Le passage retenu", "human_question":"Que vaut une tradition lorsqu'elle avertit d'un danger qu'elle ne peut pas entierement expliquer ?",
+      "theatrical_opening": {"task":"Effrie inspecte chaleur, marques de passage et courants d'air dans une gorge a activite draconique credible.","lines":[{"speaker_id":"hero.effrie","text":"Je reconnais assez de signes pour ne pas entrer comme si le lieu etait vide. Pas pour connaitre leurs raisons."},{"speaker_id":"hero.zeje","text":"Activite credible, intention inconnue, attente contestee. Ca suffit pour commencer."}]},
+      "body_system": {"event":"Plaie perforante de la cuisse et brulure superficielle de la main de lance.","mechanical_change":"Appuis explosifs, charges, rotations et prise de lance sont limites.","subjective_experience":"Effrie refuse que sa blessure soit transformee en preuve cosmologique.","social_reaction":"Le groupe distingue prudence, tradition et preuve.","persistent_consequence":"Cicatrice de cuisse et sensibilite thermique temporaire de la main."},
+      "choices": [
+        {"id":"wait_and_observe","action":"Attendre et observer.","benefit":"Davantage d'indices et moins d'exposition.","costs":["Soins retardes.","Vivres et eau consommes."]},
+        {"id":"take_high_detour","action":"Prendre la voie haute.","benefit":"Contourner le site sans definir sa nature.","costs":["Chargement abandonne.","Epuisement et retard."]},
+        {"id":"staggered_crossing","action":"Traverser par petites fenetres reversibles.","benefit":"Les blesses avancent plus vite.","costs":["Risque corporel accru.","Un succes peut etre pris a tort pour preuve d'absence de danger."]}
+      ],
+      "relationship_seeds": [{"pair_id":"effrie_zeje","topic":"tradition_contre_doute_methodique","seed":"Le doute ne doit pas humilier la memoire; la memoire ne doit pas se deguiser en certitude."},{"pair_id":"effrie_marec","topic":"discipline_contre_instinct","seed":"La force doit savoir s'arreter."},{"pair_id":"effrie_mathilde","topic":"represailles_contre_protection","seed":"La force n'oblige pas a faire de la colere une loi."},{"pair_id":"effrie_anouk","topic":"proteger_sans_sacraliser","seed":"L'extraordinaire ne transforme pas Anouk en symbole possede par le groupe."}],
+      "future_break_seed":"Une tradition d'Effrie pourra etre contredite dans son interpretation sans perdre toute valeur historique.",
+      "first_camp": {"task":"Effrie nettoie sa lance et sa plaie; Zeje ecrit ACTIVITE DRACONIQUE CREDIBLE sans Pacte ni propriete.","lines":[{"speaker_id":"hero.effrie","text":"Tu as ecrit probable ?"},{"speaker_id":"hero.zeje","text":"J'ai ecrit ce que tu m'as donne. C'est plus rare."}]},
+      "ramifications": ["Le Pas Retenu peut avoir ici un antecedent sans etre deja un rite universel.","Aucun resultat ne confirme Pacte, ascendance, langue draconique ou lien au Voile."],
+      "remanence": {"source":"Effrie obtient un arret temporaire sur des signes limites.","transmission":"Le dossier garde activite credible, intention inconnue et cout humain.","transformation":"Un recit futur peut inventer une admission par signe draconique ou Pacte."}
+    },
+    {
+      "id": "formation.aurelien_rank_6", "rank": 6, "joining_hero": "hero.aurelien", "existing_group": ["hero.zeje","hero.anouk","hero.marec","hero.mathilde","hero.effrie"],
+      "title":"L'ordre des soins", "human_question":"Choisir un ordre de soin revient-il a choisir quelles vies valent davantage ?",
+      "theatrical_opening": {"task":"Aurelien trie et reexamine les blesses d'une infirmerie saturee; son protocole reste visible et contestable.","lines":[{"speaker_id":"hero.aurelien","text":"Je peux choisir l'ordre des interventions. Je refuse d'appeler cet ordre la valeur des gens."},{"speaker_id":"hero.mathilde","text":"Alors garde aussi les noms de ceux que ton ordre fait attendre."}]},
+      "body_system": {"event":"Un patient presente une fracture ouverte de jambe avec atteinte vasculaire et ecrasement des tissus.","mechanical_change":"La survie peut laisser boiterie, amputation, besoin de reeducation ou adaptation prothetique.","subjective_experience":"Le patient conserve peur, refus, consentement et choix lorsque son etat le permet.","social_reaction":"Le groupe voit qu'une decision clinique utile ne mesure pas la valeur humaine.","persistent_consequence":"Toute mutilation eventuelle reste visible dans mobilite, soins, dialogues et memoire."},
+      "choices": [
+        {"id":"maximize_survival_probability","action":"Prioriser le meilleur gain de survie.","benefit":"Le nombre total de survivants peut augmenter.","costs":["Des cas gravissimes attendent.","Des familles peuvent vivre le protocole comme abandon mesure."]},
+        {"id":"immediate_life_threat_first","action":"Traiter les menaces vitales les plus immediates.","benefit":"Les plus proches de la mort ne sont pas reportes pour leur pronostic.","costs":["Moins de traitements complets.","Ressources critiques epuisees plus vite."]},
+        {"id":"distributed_partial_care","action":"Stabiliser davantage de personnes avant les soins definitifs.","benefit":"Plus de blesses recoivent un premier geste utile.","costs":["Complications plus nombreuses.","Coordination et erreurs plus difficiles a reperer."]}
+      ],
+      "relationship_seeds": [{"pair_id":"aurelien_mathilde","topic":"cout_acceptable","seed":"Nommer ensemble le cout sans devoir s'accorder sur son acceptabilite."},{"pair_id":"aurelien_marec","topic":"corps_comme_ressource","seed":"Endurance ne signifie pas disponibilite infinie."},{"pair_id":"aurelien_zeje","topic":"decider_sous_incertitude","seed":"Decider sans fabriquer une certitude retrospective."},{"pair_id":"aurelien_anouk","topic":"etudier_sans_instrumentaliser","seed":"La recherche doit proteger le droit d'Anouk a interrompre l'examen."},{"pair_id":"aurelien_effrie","topic":"autorite_contre_controle","seed":"Coordonner ne donne pas la propriete de la decision."}],
+      "future_break_seed":"Une decision defendable peut causer une mort identifiable; la methode ne doit pas servir d'abri moral.",
+      "first_camp": {"task":"Aurelien revoit le triage et l'epaule de Marec; Mathilde ajoute les noms des personnes encore en attente.","lines":[{"speaker_id":"hero.aurelien","text":"J'ai choisi un ordre. Pas une valeur des vies."},{"speaker_id":"hero.mathilde","text":"Alors demain, relis aussi ceux que l'ordre a fait attendre."}]},
+      "ramifications": ["Le triage peut devenir institution contestable et revisable.","Aurelien rejoint un groupe deja forme sans droit naturel au commandement."],
+      "remanence": {"source":"Aurelien coordonne une infirmerie saturee en distinguant ordre et valeur humaine.","transmission":"Criteres, exceptions, noms et corrections restent ensemble.","transformation":"Un recit futur peut pretendre que le Sixieme savait qui devait vivre."}
+    },
+    {
+      "id": "formation.lya_rank_7", "rank": 7, "joining_hero": "hero.lya", "existing_group": ["hero.zeje","hero.anouk","hero.marec","hero.mathilde","hero.effrie","hero.aurelien"],
+      "title":"Dessiner le manque", "human_question":"Comment raconter ce qui s'est passe sans parler a la place de ceux qui ne peuvent plus corriger notre recit ?",
+      "theatrical_opening": {"task":"Lya copie une marque interrompue par une cassure et laisse la cassure visible dans son dessin.","lines":[{"speaker_id":"hero.lya","text":"Je peux dessiner ce qui manque. Je ne peux pas dessiner ce qui etait la avant le manque sans l'inventer."},{"speaker_id":"hero.zeje","text":"Alors ton vide devient une information. Pas une reponse."}]},
+      "body_system": {"event":"Des corps endommages par effondrement et humidite ne permettent pas toujours une identification certaine.","mechanical_change":"Identification, transport, conservation et rites s'adaptent au corps reel.","subjective_experience":"Les proches peuvent accepter PROBABLE, demander INCONNU ou refuser une attribution prematuree.","social_reaction":"Lya refuse de restaurer un visage ou symbole au-dela des sources; Mathilde garde les morts humains derriere les dossiers.","persistent_consequence":"Dessins, objets, corrections et statuts PROBABLE/INCONNU restent consultables."},
+      "choices": [
+        {"id":"preserve_registry_fragments","action":"Sauver les fragments de registre.","benefit":"Davantage de noms peuvent etre reconstruits.","costs":["Contexte visuel perdu.","Objets personnels exposes peuvent disparaitre."]},
+        {"id":"map_material_context","action":"Cartographier d'abord le contexte materiel.","benefit":"Relations entre traces mieux conservees.","costs":["Fragments nominaux deviennent illisibles.","Priorite peut sembler abstraite aux familles."]},
+        {"id":"recover_personal_objects","action":"Recuperer d'abord les objets personnels.","benefit":"Traces concretes rendues plus vite aux familles.","costs":["Contexte de preuve detruit en partie.","Certaines attributions restent seulement probables."]}
+      ],
+      "relationship_seeds": [{"pair_id":"lya_zeje","topic":"motif_contre_cause_verifiee","seed":"Lya ouvre des pistes; Zeje protege leur statut."},{"pair_id":"lya_anouk","topic":"boucle_de_confirmation","seed":"Leur compatibilite rend les verifications exterieures plus necessaires."},{"pair_id":"aurelien_lya","topic":"preuve_contre_representation","seed":"Mesure et representation peuvent decrire des dimensions differentes sans se confondre."},{"pair_id":"lya_mathilde","topic":"sensibilite_et_surcharge","seed":"Rester ouverte a la douleur ne doit pas devenir devoir de se detruire."},{"pair_id":"lya_marec","topic":"art_et_mouvement_contre_force_directe","seed":"Force, rythme et art ont des effets corporels concrets."},{"pair_id":"effrie_lya","topic":"transmettre_sans_parler_a_la_place","seed":"Representer une tradition ne donne pas sa voix a celle qui la documente."}],
+      "future_break_seed":"Le groupe peut demander a Lya de produire un sens qu'elle refuse legitimement d'inventer.",
+      "first_camp": {"task":"Lya redessine une marque avec son segment manquant; Zeje conserve le fragment original a cote.","lines":[{"speaker_id":"hero.lya","text":"Je peux dessiner le manque."},{"speaker_id":"hero.zeje","text":"Alors on saura qu'il etait deja la quand nous sommes arrives."}]},
+      "ramifications": ["Forme, attribution, contexte et interpretation deviennent explicitement distincts.","Lya ne nomme pas une equipe predestinee; le statut legendaire vient plus tard."],
+      "remanence": {"source":"Lya documente les lacunes au lieu de les completer.","transmission":"Dessins, fragments et corrections voyagent ensemble.","transformation":"Un recit futur peut pretendre que la Septieme nomma les Sept et leur donna un destin."}
+    }
+  ],
+  "pillar_validation": {
+    "P1":"PASS CENTRAL", "P2":"PASS CENTRAL", "P3":"PASS CENTRAL", "P4":"PASS CENTRAL", "P5":"PASS CENTRAL", "P6":"PASS", "P7":"PASS CENTRAL", "P8":"PASS CENTRAL", "P9":"PASS CENTRAL"
+  }
+}
