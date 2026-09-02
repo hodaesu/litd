@@ -1,0 +1,414 @@
+{
+  "universe_id": "litd_universe",
+  "schema_version": 1,
+  "canon_version": "1.0.0",
+  "status": "canon_systemic_cross_layer",
+  "game": "litd1",
+  "source_quests": "universe/lore/theatrical_contextual_quests.json",
+  "source_ramifications": "universe/lore/theatrical_contextual_quest_ramifications.json",
+  "narrative_document": "docs/LITD1_CROISEMENTS_SYSTEMIQUES_DES_9_QUETES_V1.md",
+  "core_rules": {
+    "crossings_use_existing_systems": true,
+    "new_universal_meter": false,
+    "global_morality_score": false,
+    "cross_event_requires_multiple_causes": true,
+    "rumor_collision_preserves_sources": true,
+    "contradiction_can_remain_unresolved": true,
+    "hero_reactions_are_conditional": true,
+    "deaths_remain_contextual": true,
+    "relationship_effects_are_not_approval_scores": true,
+    "numeric_balance_values_locked_by_lore": false,
+    "past_games_can_be_caused_by_litd1": false,
+    "complete_seven_order_inferred": false
+  },
+  "existing_system_targets": [
+    "CommunityRuntime",
+    "SanctuaryState",
+    "DecisionMemoryRuntime",
+    "FieldMemoryRuntime",
+    "RelationshipRuntime",
+    "PsychologyRuntime",
+    "CampaignState",
+    "Memorial",
+    "existing_economy_and_resource_systems"
+  ],
+  "families": [
+    "food_and_logistics",
+    "migration_and_refuge",
+    "death_identity_and_memorial",
+    "evidence_testimony_and_uncertainty",
+    "nonhuman_consent",
+    "scarce_resources_and_dragon_site",
+    "relationships_and_bereavement"
+  ],
+  "external_triggers": [
+    "new_nonhuman_consciousness_clear_refusal",
+    "new_nonhuman_consciousness_uncertain_response",
+    "contextual_named_death",
+    "winter_resource_pressure",
+    "contradictory_late_evidence"
+  ],
+  "cross_events": [
+    {
+      "id": "cross.food.local_security_and_grain_bridge",
+      "family": "food_and_logistics",
+      "all_choices": [
+        ["quest.litd1.lhaor_seeds_that_remain", "protect_lhaor_basin"],
+        ["quest.litd1.dhor_khal_bridge_two_valleys", "restore_grain_bridge"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 2,
+      "channels": ["market", "population", "gate", "rumors"],
+      "world_result": "grain_flow_recovers_while_refugee_housing_and_water_pressure_remain_visible",
+      "tension": "food_security_improves_without_solving_who_gets_to_settle_or_use_water",
+      "rumor_modes": ["confirmed", "reported"],
+      "hero_followups": ["hero.aurelien", "hero.mathilde", "hero.lya", "hero.marec"],
+      "possible_death": false,
+      "remanence_future": "later_accounts_may_reduce_two_separate_decisions_to_a_myth_of_the_sanctuary_that_saved_the_harvest"
+    },
+    {
+      "id": "cross.food.refugee_seed_and_high_passage",
+      "family": "food_and_logistics",
+      "all_choices": [
+        ["quest.litd1.lhaor_seeds_that_remain", "equip_refugee_convoy"],
+        ["quest.litd1.dhor_khal_bridge_two_valleys", "restore_high_rope_passage"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 2,
+      "channels": ["gate", "market", "population", "infirmary", "rumors"],
+      "world_result": "medical_access_improves_and_seed_bearing_refugees_move_farther_while_food_prices_remain_tense",
+      "tension": "mobility_saves_people_but_moves_scarcity_instead_of_erasing_it",
+      "rumor_modes": ["direct", "reported"],
+      "hero_followups": ["hero.mathilde", "hero.aurelien", "hero.lya", "hero.marec"],
+      "possible_death": true,
+      "remanence_future": "a_seed_route_may_later_be_remembered_as_a_planned_colonization_it_never_was"
+    },
+    {
+      "id": "cross.food.distributed_risk_and_local_repairs",
+      "family": "food_and_logistics",
+      "all_choices": [
+        ["quest.litd1.lhaor_seeds_that_remain", "split_below_threshold"],
+        ["quest.litd1.dhor_khal_bridge_two_valleys", "distribute_material_local_repairs"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 2,
+      "channels": ["gate", "market", "population", "rumors"],
+      "world_result": "many_small_routes_and_small_seed_reserves_exist_but_no_single_network_has_a_safe_margin",
+      "tension": "distributed_resilience_creates_many_survivable_failures_and_no_easy_central_rescue",
+      "rumor_modes": ["confirmed", "variable"],
+      "hero_followups": ["hero.aurelien", "hero.mathilde", "hero.lya", "hero.marec"],
+      "possible_death": true,
+      "remanence_future": "later_politics_may_call_this_decentralization_ancient_tradition_instead_of_emergency_compromise"
+    },
+    {
+      "id": "cross.funeral.body_return_and_medical_corridor",
+      "family": "death_identity_and_memorial",
+      "all_choices": [
+        ["quest.litd1.orun_sai_road_without_grave", "transport_bodies"],
+        ["quest.litd1.dhor_khal_bridge_two_valleys", "restore_high_rope_passage"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 2,
+      "channels": ["gate", "memorial", "infirmary", "rumors"],
+      "world_result": "the_same_safe_corridor_carries_medicine_living_travelers_and_returned_bodies",
+      "tension": "route_capacity_for_the_dead_competes_visibly_with_urgent_care_for_the_living",
+      "rumor_modes": ["direct", "reported"],
+      "hero_followups": ["hero.mathilde", "hero.zeje", "hero.aurelien", "hero.marec"],
+      "possible_death": true,
+      "remanence_future": "the_corridor_can_become_a_funeral_road_even_though_its_repair_was_medical_and_logistical"
+    },
+    {
+      "id": "cross.memorial.local_burial_and_explicit_unknown",
+      "family": "death_identity_and_memorial",
+      "all_choices": [
+        ["quest.litd1.orun_sai_road_without_grave", "local_burial_send_names_objects"],
+        ["quest.litd1.zeje_three_versions_same_dead", "preserve_unknown_distribute_objects"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 9,
+      "channels": ["memorial", "company", "rumors"],
+      "world_result": "the_memorial_formally_separates_body_location_name_status_and_returned_objects",
+      "tension": "administrative_precision_can_protect_dignity_and_still_feel_cold_to_grieving_families",
+      "rumor_modes": ["confirmed", "reported"],
+      "hero_followups": ["hero.zeje", "hero.mathilde", "hero.aurelien", "hero.anouk"],
+      "possible_death": false,
+      "remanence_future": "a_right_to_unknown_identity_may_survive_after_the_human_reasons_for_it_are_forgotten"
+    },
+    {
+      "id": "cross.memorial.distributed_memory_and_multiple_claims",
+      "family": "death_identity_and_memorial",
+      "all_choices": [
+        ["quest.litd1.orun_sai_road_without_grave", "distributed_memory"],
+        ["quest.litd1.zeje_three_versions_same_dead", "separate_memorials_no_body_assignment"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 9,
+      "channels": ["memorial", "population", "rumors", "company"],
+      "world_result": "several_places_hold_valid_partial_memories_while_the_central_archive_tracks_their_shared_origin",
+      "tension": "plural_memory_avoids_forced_certainty_but_increases_the_risk_of_later_false_multiplication",
+      "rumor_modes": ["confirmed", "unreliable"],
+      "hero_followups": ["hero.zeje", "hero.mathilde", "hero.anouk", "hero.aurelien"],
+      "possible_death": false,
+      "remanence_future": "one_body_can_become_three_historical_deaths_if_cross_references_disappear"
+    },
+    {
+      "id": "cross.azravel.survival_and_anonymity",
+      "family": "migration_and_refuge",
+      "all_choices": [
+        ["quest.litd1.azravel_burned_margins", "wounded_and_food"],
+        ["quest.litd1.azravel_table_still_open", "no_name_registry"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 9,
+      "channels": ["population", "infirmary", "market", "rumors"],
+      "world_result": "more_people_survive_and_remain_hard_to_track_while_the_purge_becomes_harder_to_prove_formally",
+      "tension": "protecting_people_from_records_can_also_protect_persecutors_from_future_accountability",
+      "rumor_modes": ["direct", "reported", "unreliable"],
+      "hero_followups": ["hero.aurelien", "hero.mathilde", "hero.anouk", "hero.lya"],
+      "possible_death": true,
+      "remanence_future": "later_generations_may_argue_whether_missing_names_prove_exaggeration_or_successful_protection"
+    },
+    {
+      "id": "cross.azravel.evidence_and_protected_registry",
+      "family": "migration_and_refuge",
+      "all_choices": [
+        ["quest.litd1.azravel_burned_margins", "wounded_and_evidence"],
+        ["quest.litd1.azravel_table_still_open", "sealed_community_registry"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 9,
+      "channels": ["population", "memorial", "company", "rumors"],
+      "world_result": "testimony_and_names_can_be_cross_checked_but_a_single_seizure_would_expose_many_people",
+      "tension": "better_evidence_and_family_reconnection_create_a_more_dangerous_concentration_of_information",
+      "rumor_modes": ["confirmed", "reported"],
+      "hero_followups": ["hero.aurelien", "hero.zeje", "hero.anouk", "hero.lya"],
+      "possible_death": true,
+      "remanence_future": "a_future_archive_may_keep_the_registry_and_forget_the_original_right_to_withdraw_or_destroy_it"
+    },
+    {
+      "id": "cross.azravel.distributed_convoy_and_households",
+      "family": "migration_and_refuge",
+      "all_choices": [
+        ["quest.litd1.azravel_burned_margins", "split_convoy"],
+        ["quest.litd1.azravel_table_still_open", "distributed_household_tables"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 9,
+      "channels": ["population", "gate", "rumors", "audio"],
+      "world_result": "refugees_and_aid_are_spread_across_many_small_nodes_with_no_single_authoritative_story",
+      "tension": "distributed_survival_resists_raids_but_makes_coordination_and_fact_checking_harder",
+      "rumor_modes": ["reported", "variable", "unreliable"],
+      "hero_followups": ["hero.anouk", "hero.lya", "hero.mathilde", "hero.aurelien"],
+      "possible_death": true,
+      "remanence_future": "a_religious_aid_network_can_become_civic_custom_while_its_origin_and_losses_fragment"
+    },
+    {
+      "id": "cross.epistemic.clinical_record_and_probable_identity",
+      "family": "evidence_testimony_and_uncertainty",
+      "all_choices": [
+        ["quest.litd1.lysandra_what_miracle_proves", "publish_observations_only"],
+        ["quest.litd1.zeje_three_versions_same_dead", "assign_most_probable_identity"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 9,
+      "channels": ["infirmary", "memorial", "company", "rumors"],
+      "world_result": "the_sanctuary_adopts_visible_confidence_labels_for_clinical_and_identity_claims",
+      "tension": "precision_improves_comparison_but_people_can_mistake_formal_language_for_emotional_distance",
+      "rumor_modes": ["confirmed", "reported"],
+      "hero_followups": ["hero.zeje", "hero.aurelien", "hero.mathilde", "hero.anouk"],
+      "possible_death": false,
+      "remanence_future": "later_copyists_may_keep_the_categories_and_drop_the_confidence_marker"
+    },
+    {
+      "id": "cross.epistemic.layered_archive_and_unknown_identity",
+      "family": "evidence_testimony_and_uncertainty",
+      "all_choices": [
+        ["quest.litd1.lysandra_what_miracle_proves", "archive_observation_and_testimony_separately"],
+        ["quest.litd1.zeje_three_versions_same_dead", "preserve_unknown_distribute_objects"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 9,
+      "channels": ["infirmary", "memorial", "company", "rumors"],
+      "world_result": "an_archive_of_uncertainty_keeps_observation_testimony_interpretation_and_identity_status_separate",
+      "tension": "the_system_preserves_more_truthful_complexity_but_creates_more_labels_that_future_copies_can_lose",
+      "rumor_modes": ["confirmed", "unreliable"],
+      "hero_followups": ["hero.zeje", "hero.aurelien", "hero.anouk", "hero.mathilde"],
+      "possible_death": false,
+      "remanence_future": "the_archive_can_become_a_model_of_epistemic_humility_or_a_bureaucracy_of_categories"
+    },
+    {
+      "id": "cross.epistemic.public_silence_and_diverging_memories",
+      "family": "evidence_testimony_and_uncertainty",
+      "all_choices": [
+        ["quest.litd1.lysandra_what_miracle_proves", "delay_public_statement"],
+        ["quest.litd1.zeje_three_versions_same_dead", "separate_memorials_no_body_assignment"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 9,
+      "channels": ["rumors", "memorial", "infirmary", "company"],
+      "world_result": "several_unofficial_explanations_grow_before_any_shared_record_is_ready",
+      "tension": "refusing_premature_certainty_can_create_the_social_conditions_for_multiple_false_certainties",
+      "rumor_modes": ["variable", "unreliable", "reported"],
+      "hero_followups": ["hero.zeje", "hero.mathilde", "hero.anouk", "hero.aurelien"],
+      "possible_death": true,
+      "remanence_future": "later_histories_may_treat_simultaneous_rumors_as_separate_events_or_competing_revelations"
+    },
+    {
+      "id": "cross.dragon.restraint_under_scarcity",
+      "family": "scarce_resources_and_dragon_site",
+      "all_choices": [
+        ["quest.litd1.effrie_not_ours", "leave_object_document_site"],
+        ["quest.litd1.lhaor_seeds_that_remain", "split_below_threshold"]
+      ],
+      "external_triggers": ["winter_resource_pressure"],
+      "first_possible_chapter": 9,
+      "channels": ["market", "population", "gate", "rumors", "company"],
+      "world_result": "the_site_remains_intact_while_the_sanctuary_must_find_another_resource_during_real_scarcity",
+      "tension": "restraint_has_a_visible_human_cost_without_proving_that_extraction_would_have_been_right",
+      "rumor_modes": ["direct", "unreliable"],
+      "hero_followups": ["hero.effrie", "hero.marec", "hero.lya", "hero.zeje"],
+      "possible_death": true,
+      "remanence_future": "a_practical_restraint_can_harden_into_a_sacred_taboo_and_an_invented_dragon_pact"
+    },
+    {
+      "id": "cross.dragon.sample_and_layered_archive",
+      "family": "scarce_resources_and_dragon_site",
+      "all_choices": [
+        ["quest.litd1.effrie_not_ours", "minimal_sample_after_mapping"],
+        ["quest.litd1.lysandra_what_miracle_proves", "archive_observation_and_testimony_separately"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 9,
+      "channels": ["company", "rumors", "infirmary"],
+      "world_result": "the_sample_is_recorded_with_measured_properties_separate_from_dragon_attribution_and_religious_interpretation",
+      "tension": "better_method_does_not_stop_people_from_recombining_separated_labels_later",
+      "rumor_modes": ["confirmed", "unreliable"],
+      "hero_followups": ["hero.effrie", "hero.zeje", "hero.lya", "hero.aurelien"],
+      "possible_death": false,
+      "remanence_future": "a_scientific_sample_can_become_a_relic_if_its_context_labels_are_lost"
+    },
+    {
+      "id": "cross.dragon.extraction_and_survival_first_policy",
+      "family": "scarce_resources_and_dragon_site",
+      "all_choices": [
+        ["quest.litd1.effrie_not_ours", "remove_object_for_human_need"],
+        ["quest.litd1.azravel_burned_margins", "wounded_and_food"]
+      ],
+      "external_triggers": [],
+      "first_possible_chapter": 9,
+      "channels": ["market", "infirmary", "company", "rumors"],
+      "world_result": "two_survival_first_decisions_save_immediate_lives_while_erasing_or_weakening_context_needed_for_future_understanding",
+      "tension": "repeated_emergency_pragmatism_can_become_a_doctrine_that_no_individual_choice_ever_claimed",
+      "rumor_modes": ["direct", "reported", "unreliable"],
+      "hero_followups": ["hero.effrie", "hero.aurelien", "hero.mathilde", "hero.lya"],
+      "possible_death": false,
+      "remanence_future": "later_politics_may_call_the_pattern_a_sanctuary_policy_even_if_it_emerged_from_two_local_crises"
+    },
+    {
+      "id": "cross.consent.refusal_precedent_meets_new_refusal",
+      "family": "nonhuman_consent",
+      "all_choices": [
+        ["quest.litd1.saen_ask_before_pulling", "cut_anchor_and_detour"]
+      ],
+      "external_triggers": ["new_nonhuman_consciousness_clear_refusal"],
+      "first_possible_chapter": 7,
+      "channels": ["company", "rumors", "gate"],
+      "world_result": "saens_case_is_used_as_precedent_but_the_new_entity_is_evaluated_on_its_own_signals",
+      "tension": "respecting_a_second_refusal_reopens_the_memory_of_people_harmed_by_the_first_detour",
+      "rumor_modes": ["confirmed", "reported"],
+      "hero_followups": ["hero.zeje", "hero.anouk", "hero.mathilde", "hero.aurelien"],
+      "possible_death": true,
+      "remanence_future": "a_case_based_rule_can_later_be_misremembered_as_a_universal_law_about_all_absents"
+    },
+    {
+      "id": "cross.consent.reversible_protocol_meets_uncertain_response",
+      "family": "nonhuman_consent",
+      "all_choices": [
+        ["quest.litd1.saen_ask_before_pulling", "low_pulses_public_stop_threshold"]
+      ],
+      "external_triggers": ["new_nonhuman_consciousness_uncertain_response"],
+      "first_possible_chapter": 7,
+      "channels": ["company", "rumors", "gate"],
+      "world_result": "the_sanctuary_reuses_reversible_tests_with_public_stop_conditions_but_does_not_treat_silence_as_consent",
+      "tension": "a_protocol_that_worked_with_saen_can_become_dangerous_if_method_is_confused_with_permission",
+      "rumor_modes": ["confirmed", "variable"],
+      "hero_followups": ["hero.zeje", "hero.anouk", "hero.mathilde", "hero.aurelien"],
+      "possible_death": true,
+      "remanence_future": "future_institutions_may_preserve_the_test_protocol_and_forget_the_stop_condition"
+    },
+    {
+      "id": "cross.relationship.named_death_after_difficult_choice",
+      "family": "relationships_and_bereavement",
+      "all_choices": [],
+      "external_triggers": ["contextual_named_death"],
+      "requires_prior_contextual_choice": true,
+      "first_possible_chapter": 2,
+      "channels": ["company", "memorial", "infirmary", "rumors"],
+      "world_result": "the_dead_persons_name_and_material_cause_are_preserved_while_hero_relationships_process_the_loss_differently",
+      "tension": "two_heroes_can_share_grief_and_disagree_about_whether_the_prior_decision_should_change_future_policy",
+      "rumor_modes": ["confirmed", "reported"],
+      "hero_followups": ["hero.aurelien", "hero.effrie", "hero.lya", "hero.mathilde", "hero.marec", "hero.zeje", "hero.anouk"],
+      "possible_death": true,
+      "remanence_future": "a_named_loss_can_become_argument_precedent_warning_or_martyr_story_without_becoming_objective_moral_score"
+    }
+  ],
+  "compound_cascades": [
+    {
+      "id": "cascade.winter_refugee_pressure",
+      "requires_any_cross_events": [
+        "cross.food.refugee_seed_and_high_passage",
+        "cross.food.distributed_risk_and_local_repairs",
+        "cross.azravel.survival_and_anonymity",
+        "cross.azravel.distributed_convoy_and_households"
+      ],
+      "requires_external": ["winter_resource_pressure"],
+      "channels": ["population", "market", "infirmary", "gate", "company"],
+      "result": "sanctuary_crowding_food_heating_and_care_capacity_collide_without_single_optimal_solution"
+    },
+    {
+      "id": "cascade.archive_of_uncertainty",
+      "requires_any_cross_events": [
+        "cross.azravel.evidence_and_protected_registry",
+        "cross.epistemic.clinical_record_and_probable_identity",
+        "cross.epistemic.layered_archive_and_unknown_identity",
+        "cross.dragon.sample_and_layered_archive"
+      ],
+      "requires_external": [],
+      "channels": ["memorial", "infirmary", "company", "rumors"],
+      "result": "the_sanctuary_develops_a_shared_practice_of_labeling_claim_type_source_and_confidence_with_visible_correction_history"
+    },
+    {
+      "id": "cascade.corridor_of_consent",
+      "requires_any_cross_events": [
+        "cross.consent.refusal_precedent_meets_new_refusal",
+        "cross.consent.reversible_protocol_meets_uncertain_response"
+      ],
+      "requires_external": [],
+      "channels": ["gate", "company", "rumors"],
+      "result": "nonhuman_contact_rules_become_case_based_practice_rather_than_species_wide_assumption"
+    },
+    {
+      "id": "cascade.memorial_network_under_loss",
+      "requires_any_cross_events": [
+        "cross.funeral.body_return_and_medical_corridor",
+        "cross.memorial.local_burial_and_explicit_unknown",
+        "cross.memorial.distributed_memory_and_multiple_claims",
+        "cross.relationship.named_death_after_difficult_choice"
+      ],
+      "requires_external": [],
+      "channels": ["memorial", "population", "company", "rumors"],
+      "result": "the_memorial_becomes_a_network_of_names_confidence_status_body_locations_objects_and_corrections_instead_of_a_single_monument"
+    }
+  ],
+  "pillar_validation": {
+    "P1_character_creation": "pass",
+    "P2_systemic_gore": "pass_contextual",
+    "P3_philosophy_psychology": "pass_central",
+    "P4_accessible_human_depth": "pass_central",
+    "P5_strong_narrative": "pass_central",
+    "P6_interconnection": "pass",
+    "P7_knowledge_remanence": "pass_central",
+    "P8_dialogue_staging": "pass_central",
+    "P9_simple_deep_readable_gameplay": "pass_central"
+  }
+}
