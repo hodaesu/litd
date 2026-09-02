@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "dungeon_id": "dungeon_voices_under_sanctuary",
+  "room_tables": {
+    "voices_combat": {
+      "s3_intro": {
+        "fixed": true,
+        "members": [
+          {"creature_id": "hungry_ghoul", "profile": "standard", "count": 2},
+          {"creature_id": "hungry_ghoul", "profile": "scout", "count": 1}
+        ],
+        "corpse_interaction": true
+      }
+    },
+    "voices_recruitment": {
+      "s6_survivor": {
+        "fixed": true,
+        "members": [{"creature_id": "hungry_ghoul", "profile": "wounded_recruit", "count": 1}],
+        "combat_on_entry": false,
+        "recruitment_contract": "vs001_s6_wounded_ghoul"
+      }
+    },
+    "voices_objective": {
+      "s7_finale": {
+        "fixed": true,
+        "members": [
+          {"creature_id": "hungry_ghoul", "profile": "voracious", "evolution_level": 5, "count": 1},
+          {"creature_id": "hungry_ghoul", "profile": "standard", "count": 2}
+        ],
+        "corpse_interaction": true,
+        "nemesis_promotion_candidate": "voracious_if_survives"
+      }
+    }
+  },
+  "patrols": [
+    {
+      "patrol_id": "voices_return_pressure_01",
+      "starts_active": false,
+      "activation": "s2_trap_triggered_or_noise_50",
+      "allowed_rooms": ["s2_rope_gallery", "s3_sleepers", "s5_fractured_crypt"],
+      "profile": "hungry_scout",
+      "count": 1
+    }
+  ],
+  "nemesis_override": {
+    "may_block_critical_path": false,
+    "may_remove_only_retreat": false,
+    "requires_shared_history": true,
+    "promotion_events": ["survives_mutilation", "kills_watcher", "forces_retreat", "repeated_encounter"]
+  }
+}
