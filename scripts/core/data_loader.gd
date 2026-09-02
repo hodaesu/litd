@@ -16,6 +16,7 @@ var ashlands_lore: Dictionary = {}
 var canonical_history: Dictionary = {}
 var last_war: Dictionary = {}
 var litd2_triad: Dictionary = {}
+var les_veilleurs_enemy_recruitment: Dictionary = {}
 
 func _ready() -> void:
     reload_all()
@@ -52,6 +53,8 @@ func reload_all() -> void:
     last_war = last_war_value if typeof(last_war_value) == TYPE_DICTIONARY else {}
     var triad_value = load_json("res://data/canon/litd2_triad.json")
     litd2_triad = triad_value if typeof(triad_value) == TYPE_DICTIONARY else {}
+    var veilleurs_recruitment_value = load_json("res://data/canon/les_veilleurs_enemy_recruitment.json")
+    les_veilleurs_enemy_recruitment = veilleurs_recruitment_value if typeof(veilleurs_recruitment_value) == TYPE_DICTIONARY else {}
 
 func find_by_id(items: Array, id_value: Variant) -> Dictionary:
     for item in items:
@@ -135,6 +138,31 @@ func litd2_affinity_system() -> Dictionary:
 func litd2_sarn_entry_conditions() -> Dictionary:
     var value: Variant = litd2_triad.get("sarn_entry_conditions", {})
     return value.duplicate(true) if value is Dictionary else {}
+
+func les_veilleurs_recruitment_vector(vector_id: String) -> Dictionary:
+    var values: Variant = les_veilleurs_enemy_recruitment.get("recruitment_vectors", [])
+    var vectors: Array = values if values is Array else []
+    return find_by_id(vectors, vector_id).duplicate(true)
+
+func les_veilleurs_recruitment_mobile_scope() -> Dictionary:
+    var value: Variant = les_veilleurs_enemy_recruitment.get("mobile_scope", {})
+    return value.duplicate(true) if value is Dictionary else {}
+
+func les_veilleurs_recruitment_progression() -> Dictionary:
+    var value: Variant = les_veilleurs_enemy_recruitment.get("progression", {})
+    return value.duplicate(true) if value is Dictionary else {}
+
+func les_veilleurs_recruitment_ui_flow() -> Dictionary:
+    var value: Variant = les_veilleurs_enemy_recruitment.get("ui_flow", {})
+    return value.duplicate(true) if value is Dictionary else {}
+
+func les_veilleurs_recruitment_content_contract() -> Array[String]:
+    var result: Array[String] = []
+    var values: Variant = les_veilleurs_enemy_recruitment.get("content_contract_per_recruitable_family", [])
+    if values is Array:
+        for value: Variant in values:
+            result.append(str(value))
+    return result
 
 func knowledge_remanence_stages() -> Array[String]:
     var result: Array[String] = []
