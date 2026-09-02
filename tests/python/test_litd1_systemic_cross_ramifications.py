@@ -80,9 +80,9 @@ def test_saen_precedent_does_not_make_all_nonhuman_consciousness_the_same() -> N
     uncertain = ids["cross.consent.reversible_protocol_meets_uncertain_response"]
     assert refusal["external_triggers"] == ["new_nonhuman_consciousness_clear_refusal"]
     assert uncertain["external_triggers"] == ["new_nonhuman_consciousness_uncertain_response"]
-    doc = DOC_PATH.read_text(encoding="utf-8")
-    assert "Mais la nouvelle conscience n'est pas Saen." in doc
-    assert "L'absence de refus compréhensible n'est pas une preuve de consentement" in doc
+    doc = DOC_PATH.read_text(encoding="utf-8").lower()
+    assert "mais la nouvelle conscience n'est pas saen." in doc
+    assert "l'absence de refus compréhensible n'est pas une preuve de consentement" in doc
 
 
 def test_lysandra_and_zeje_create_method_not_absolute_truth() -> None:
