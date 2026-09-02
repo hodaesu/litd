@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "id": "les_veilleurs_bestiary_rank_ladders",
+  "status": "design_locked",
+  "game": "LITD: Les Veilleurs",
+  "rank_order": ["common","veteran","elite","mini_boss","boss"],
+  "rank_rules": {
+    "common": {
+      "recruitable_by_default": true,
+      "exact_conditions": ["encounter_state == yielding","combat_integrity <= 45 OR leader_defeated == true OR mission_objective_lost == true","at_least_one_allowed_recruitment_vector_open == true","no_family_hard_refusal_condition == true"],
+      "defeat_reward": ["1 matériau commun de famille","1 ressource de terrain faible"],
+      "nonlethal_reward": ["1 Trace de rencontre"],
+      "recruitment_tradeoff": "la recrue remplace le butin matériel principal de cette unité"
+    },
+    "veteran": {
+      "recruitable_by_default": true,
+      "exact_conditions": ["encounter_state == yielding","combat_integrity <= 35","family_context_trigger == true","at_least_one_allowed_recruitment_vector_open == true","no_family_hard_refusal_condition == true"],
+      "defeat_reward": ["1 matériau amélioré de famille","1 fragment de doctrine ou d'équipement"],
+      "nonlethal_reward": ["1 Écho de rencontre","1 information tactique locale"],
+      "recruitment_tradeoff": "aucun fragment de doctrine n'est pillé sur une recrue accueillie"
+    },
+    "elite": {
+      "recruitable_by_default": true,
+      "exact_conditions": ["encounter_state == yielding","combat_integrity <= 30","family_context_trigger == true","nonlethal_disable_or_objective_resolution == true","fear_is_not_the_only_open_vector == true","no_family_hard_refusal_condition == true"],
+      "defeat_reward": ["1 matériau rare de famille","1 composant d'équipement spécialisé","1 Mémoire locale potentielle"],
+      "nonlethal_reward": ["1 Mémoire locale","1 avantage de route ou d'information pour l'expédition"],
+      "recruitment_tradeoff": "le composant spécialisé est conservé par la recrue et n'entre pas dans le butin"
+    },
+    "mini_boss": {
+      "recruitable_by_default": true,
+      "exact_conditions": ["encounter_state == yielding","combat_integrity <= 25","named_family_recruitment_gate == true","protected_entities_required_by_gate_alive == true","no_family_hard_refusal_condition == true","roster_has_capacity == true"],
+      "defeat_reward": ["1 composant unique de famille","1 archive nommée de rencontre"],
+      "nonlethal_reward": ["1 archive nommée","1 Concordance potentielle si des sources antérieures existent"],
+      "recruitment_tradeoff": "le composant unique personnel n'est pas obtenu; la valeur principale devient la recrue et son témoignage"
+    },
+    "boss": {
+      "recruitable_by_default": false,
+      "exact_conditions": ["recruitment_forbidden == true","exception_requires_separate_explicit_canon == true"],
+      "defeat_reward": ["1 récompense signature de boss","1 archive ou preuve majeure","1 clé de progression narrative ou d'accès lorsque prévue par l'acte"],
+      "nonlethal_reward": ["résolution narrative spécifique si le scénario autorise l'épargne; jamais recrutement implicite"],
+      "recruitment_tradeoff": "aucun"
+    }
+  },
+  "families": [
+    {
+      "family_id": "gardes_de_convoi",
+      "reward_theme": "boucliers, hampes, ordres de passage, registres de convoi",
+      "family_context_triggers": {
+        "veteran": "au moins un civil ou porteur que le vétéran protégeait a été épargné ou évacué",
+        "elite": "le joueur a ouvert une retraite sûre à son groupe au lieu de l'encercler pour l'exécuter",
+        "mini_boss": "le convoi protégé a été évacué, au moins deux redditions de gardes ont été respectées et le barrage a été neutralisé sans tuer de civil"
+      },
+      "ranks": [
+        {"rank":"common","name":"Vigie de route","attacks":["Coup de hampe","Tenir la ligne"],"behavior":"protège une seule cible et recule si elle est sortie du danger","wound_emphasis":["bras d'arme: attaque réduite","jambe: interception réduite"],"appearance":"casque simple, hampe courte, bouclier réparé, marque de route locale","narrative_text":"Il regarde d'abord derrière lui: sa mission n'est pas de gagner, mais de faire passer quelqu'un.","recruitment_vectors":["surrender","persuasion","debt","interest"]},
+        {"rank":"veteran","name":"Garde de convoi","attacks":["Crochet de hampe","Relève"],"behavior":"transfère sa garde vers l'allié le plus exposé","wound_emphasis":["bras de garde: protection alliée réduite","thorax: ancrage plus court"],"appearance":"armure composite usée, deux marques de convoi, bouclier renforcé","narrative_text":"Il sait que la route coûte toujours plus que ce qu'indique le registre.","recruitment_rule":"veteran"},
+        {"rank":"elite","name":"Rempart de passage","attacks":["Contre-marche","Mur de passage"],"behavior":"ferme une ligne entière puis contre-attaque les déplacements forcés","wound_emphasis":["épaule: Mur de passage interdit","jambe: Contre-marche limitée"],"appearance":"bouclier haut stratifié, brassards de relais, cicatrices de chocs répétés","narrative_text":"Il ne défend plus une porte. Il défend l'idée que quelqu'un doit rester devant.","recruitment_rule":"elite"},
+        {"rank":"mini_boss","name":"Capitaine du barrage","attacks":["Ordre de barrage","Aucun ne passe"],"behavior":"coordonne les gardes et offre une reddition si sa mission civile est déjà accomplie","wound_emphasis":["tête: ordres de groupe perturbés","bras de garde: barrage perd sa couverture"],"appearance":"manteau court de commandement, bouclier portant plusieurs réparations datées","narrative_text":"Une fois les derniers civils partis, son ordre et sa conscience ne disent plus la même chose.","recruitment_rule":"mini_boss"},
+        {"rank":"boss","name":"Prévôt du Passage clos","attacks":["Fermer la route","Dernière relève"],"behavior":"transforme tout le combat en défense d'un verrou narratif","wound_emphasis":["blessures persistantes propres au boss","perte de commandement si tête gravement atteinte"],"appearance":"armure cérémonielle fonctionnelle, sceaux de plusieurs autorités, porte sans ornement inutile","narrative_text":"Il a fini par confondre la continuité de l'institution avec la survie des gens qu'elle devait servir.","recruitment_rule":"boss"}
+      ]
+    },
+    {
+      "family_id": "molosses_de_convoi",
+      "reward_theme": "harnais, plaques, colliers, traces de route et fournitures de dressage",
+      "family_context_triggers": {
+        "veteran": "son conducteur a fui ou s'est rendu et le joueur n'a pas attaqué le molosse pendant un tour complet après cette rupture",
+        "elite": "le joueur a libéré l'animal d'un harnais blessant ou a protégé son membre de meute lié",
+        "mini_boss": "le harnais de contrainte a été retiré, aucun membre de sa meute n'a été tué après l'ouverture de cette action et une voie debt ou binding est ouverte"
+      },
+      "ranks": [
+        {"rank":"common","name":"Pisteur de route","attacks":["Morsure basse","Marque odorante"],"behavior":"piste puis attaque les jambes d'une cible isolée","wound_emphasis":["mâchoire: morsure réduite","patte arrière: poursuite réduite"],"appearance":"fourrure poussiéreuse, collier de cuir, petites protections d'épaule","narrative_text":"Il connaît le chemin mieux que ceux qui lui donnent des ordres.","recruitment_vectors":["debt","interest","binding"]},
+        {"rank":"veteran","name":"Molosse de convoi","attacks":["Mordre l'arme","Garder le blessé"],"behavior":"se lie à une cible alliée et intercepte pour elle","wound_emphasis":["patte avant: interception réduite","thorax: endurance de garde réduite"],"appearance":"harnais épais réparé, dents usées, plaques latérales légères","narrative_text":"Son obéissance n'est pas une absence de mémoire.","recruitment_rule":"veteran"},
+        {"rank":"elite","name":"Gardien de meute","attacks":["Cercle de meute","Chasse silencieuse"],"behavior":"coordonne plusieurs canidés et change de cible selon l'odeur du danger","wound_emphasis":["nez/tête: marquage perturbé","patte arrière: bond interdit"],"appearance":"harnais sans décoration, plaques mieux ajustées, nombreuses cicatrices anciennes","narrative_text":"Il protège une meute avant de protéger un maître.","recruitment_rule":"elite"},
+        {"rank":"mini_boss","name":"Dominant au harnais brisé","attacks":["Rupture de chaîne","Dernier rempart"],"behavior":"attaque prioritairement tout porteur de l'ancien système de contrainte","wound_emphasis":["cou: douleur et stress si harnais encore présent","pattes avant: capacité de renversement réduite"],"appearance":"grand canidé, harnais métallique tordu, fourrure rasée par frottement","narrative_text":"Le métal cassé autour de son cou raconte déjà une partie de son histoire.","recruitment_rule":"mini_boss"},
+        {"rank":"boss","name":"Gardien du Grand Attelage","attacks":["Charge de l'attelage","Meute fermée"],"behavior":"boss territorial lié à une rencontre spécifique, non ralliable dans cette vague","wound_emphasis":["profil quadrupède complet","plaques d'armure destructibles"],"appearance":"harnais lourd cérémoniel hérité d'un ancien convoi, plaques disparates","narrative_text":"Tout ce que les hommes appellent fidélité n'a pas le même sens pour lui.","recruitment_rule":"boss"}
+      ]
+    },
+    {
+      "family_id": "porteurs_des_veines",
+      "reward_theme": "sangles, outils de transfert, marques de fonction et registres de rotation",
+      "family_context_triggers": {
+        "veteran": "une ligne de transfert a été interrompue sans abandonner les porteurs qui s'y trouvaient",
+        "elite": "le joueur a laissé au moins un porteur choisir entre rester, fuir ou aider après rupture de sa fonction",
+        "mini_boss": "la station d'ancrage a été arrêtée sans surcharger un autre porteur et au moins deux personnes-fonctions ont quitté leur poste vivantes"
+      },
+      "ranks": [
+        {"rank":"common","name":"Porteur","attacks":["Épaule basse","Transfert de poids"],"behavior":"maintient sa tâche même sous menace jusqu'à rupture claire de routine","wound_emphasis":["épaules: port interdit","jambe: ancrage réduit"],"appearance":"sangles fonctionnelles, épaules protégées, identifiant de poste à la place d'un nom visible","narrative_text":"On l'appelle par sa fonction avant de lui demander son nom.","recruitment_vectors":["surrender","persuasion","debt","interest"]},
+        {"rank":"veteran","name":"Porte-fardeau","attacks":["Masse du fardeau","Répartition du fardeau"],"behavior":"redistribue charges et dégâts positionnels","wound_emphasis":["dos: transfert lourd interdit","mains: saisies limitées"],"appearance":"sangles doublées, renforts dorsaux, anciennes marques de surcharge","narrative_text":"Il est devenu excellent à supporter ce qui n'aurait jamais dû reposer sur une seule personne.","recruitment_rule":"veteran"},
+        {"rank":"elite","name":"Ancre des Veines","attacks":["Mur mobile","Entendre la tension"],"behavior":"stabilise le réseau local et bloque les déplacements","wound_emphasis":["thorax: durée d'ancrage réduite","jambes: stabilité fortement réduite"],"appearance":"harnais structurel lourd, chaussures d'ancrage, outils intégrés aux sangles","narrative_text":"La station fonctionne mieux quand il cesse de se considérer comme quelqu'un.","recruitment_rule":"elite"},
+        {"rank":"mini_boss","name":"Contremaître d'ancrage","attacks":["Changer la file","Charge de tous"],"behavior":"sacrifie sa propre endurance pour empêcher l'arrêt de station","wound_emphasis":["tête: routine collective perturbée","dos: actions de redistribution interdites"],"appearance":"sangles de plusieurs postes, tablette de rotation, renforts improvisés","narrative_text":"Il ne sait plus s'il commande les autres ou s'il protège le système qui les commande tous.","recruitment_rule":"mini_boss"},
+        {"rank":"boss","name":"Pilier des Veines","attacks":["Tout doit circuler","Aucune relève"],"behavior":"incarne la dépendance institutionnelle maximale d'une rencontre d'Acte III","wound_emphasis":["profil humain surchargé, sans transformation surnaturelle","lésions d'usage déjà présentes au début"],"appearance":"équipement de charge presque architectural mais toujours porté par un corps humain","narrative_text":"Le réseau n'a pas besoin qu'il croie. Il a seulement besoin qu'il continue.","recruitment_rule":"boss"}
+      ]
+    },
+    {
+      "family_id": "fouisseurs_des_veines",
+      "reward_theme": "plaques, griffes, échantillons non destructifs et cartes de galeries",
+      "family_context_triggers": {
+        "veteran": "le joueur a laissé une issue de terrier ouverte au lieu de condamner toutes les sorties",
+        "elite": "un effondrement menaçant son groupe a été stabilisé par le joueur",
+        "mini_boss": "le nid a été protégé d'un effondrement, aucune ponte ou jeune n'a été détruit après découverte et une voie debt ou binding est ouverte"
+      },
+      "ranks": [
+        {"rank":"common","name":"Fouisseur clair","attacks":["Morsure de joint","Sous-pierre"],"behavior":"embuscade courte puis fuite","wound_emphasis":["mandibules: attaque réduite","pattes avant: creusement réduit"],"appearance":"petit quadrupède pâle, plaques dorsales fines, griffes larges","narrative_text":"Il n'habite pas les Veines parce qu'elles ont été construites pour lui.","recruitment_vectors":["debt","interest","binding"]},
+        {"rank":"veteran","name":"Fouisseur profond","attacks":["Bond latéral","Retrait sous couvert"],"behavior":"attaque depuis plusieurs sorties connues","wound_emphasis":["pattes arrière: bond interdit","plaques: vulnérabilité accrue si brisées"],"appearance":"pigmentation sombre, griffes épaissies, plaques marquées par la roche","narrative_text":"Ses trajets traversent des galeries plus anciennes que les usages qu'on leur prête aujourd'hui.","recruitment_rule":"veteran"},
+        {"rank":"elite","name":"Fouisseur cuirassé","attacks":["Effondrement dirigé","Cuirasse profonde"],"behavior":"utilise le terrain comme armure et arme","wound_emphasis":["plaques: perte d'armure","pattes avant: effondrement dirigé interdit"],"appearance":"plaques dorsales épaisses mais irrégulières, cicatrices minérales","narrative_text":"Son corps suggère une histoire longue; il ne dit pas qui l'a écrite.","recruitment_rule":"elite"},
+        {"rank":"mini_boss","name":"Matriarche de galerie","attacks":["Surgissement profond","Appel vibratoire"],"behavior":"défend une zone de nid et cesse de poursuivre si le nid est sécurisé","wound_emphasis":["thorax: endurance de défense réduite","pattes avant: contrôle de galerie réduit"],"appearance":"gabarit supérieur, plaques fendillées et réparées naturellement, griffes d'excavation massives","narrative_text":"Sa violence a une frontière très nette: celle de ce qu'elle protège.","recruitment_rule":"mini_boss"},
+        {"rank":"boss","name":"Ancien cuirassé","attacks":["Galerie qui tombe","Charge sous roche"],"behavior":"menace environnementale vivante d'une rencontre spécifique","wound_emphasis":["plaques segmentées destructibles","mobilité dépendante des membres postérieurs"],"appearance":"très vieux fouisseur, plaques minérales épaisses, nombreuses fractures cicatrisées","narrative_text":"Son âge est certain. Son origine ne l'est pas.","recruitment_rule":"boss"}
+      ]
+    },
+    {
+      "family_id": "brules_de_porte_cendres",
+      "reward_theme": "protections thermiques, outils de relève, registres et effets personnels",
+      "family_context_triggers": {
+        "veteran": "le joueur a interrompu une exposition dangereuse au lieu d'en profiter tactiquement",
+        "elite": "un blessé de Porte-Cendres a été stabilisé et aucun volontaire n'a été forcé à prendre sa place",
+        "mini_boss": "le mécanisme de relève forcée a été arrêté, aucun personnage n'a été sacrifié pour l'arrêter et au moins un ancien Brûlé a été évacué vivant"
+      },
+      "ranks": [
+        {"rank":"common","name":"Marqué de la Porte","attacks":["Frappe courte","Tenir la douleur"],"behavior":"surcompense ses séquelles et peut dépasser ses limites","wound_emphasis":["poumons: endurance réduite","cicatrices articulaires: mobilité réduite"],"appearance":"vêtements protecteurs incomplets, cicatrices visibles mais variées","narrative_text":"Ses blessures ont commencé avant que le combat ne commence.","recruitment_vectors":["surrender","persuasion","debt","interest"]},
+        {"rank":"veteran","name":"Endurant de la Porte","attacks":["Poussée de relève","Bandage appris"],"behavior":"protège les plus exposés et refuse de quitter tant qu'une relève n'est pas faite","wound_emphasis":["épaule: poussée réduite","thorax: actions longues limitées"],"appearance":"protections réparées plusieurs fois, bandages de prévention, peau marquée","narrative_text":"On lui a appris à survivre assez longtemps pour que quelqu'un d'autre prenne sa place.","recruitment_rule":"veteran"},
+        {"rank":"elite","name":"Témoin des braises","attacks":["Avertissement des marques","Rester debout"],"behavior":"transforme son expérience en protection morale du groupe","wound_emphasis":["voies respiratoires: soutien vocal réduit","jambes: dernier rempart moins mobile"],"appearance":"équipement volontairement allégé, marques anciennes non dissimulées","narrative_text":"Il ne montre pas ses cicatrices pour prouver qu'il avait raison. Il les montre pour que le coût ait un nom.","recruitment_rule":"elite"},
+        {"rank":"mini_boss","name":"Premier de relève","attacks":["Refus du repos","Personne n'est un combustible"],"behavior":"peut retourner ses propres alliés contre la procédure s'il voit une alternative crédible","wound_emphasis":["poumons: Refus du repos limité","bras: capacité de protection réduite"],"appearance":"insignes de première relève, masque usé, nombreuses réparations personnelles","narrative_text":"Il a longtemps été le premier à entrer. Il doit maintenant apprendre qu'il peut être le premier à refuser.","recruitment_rule":"mini_boss"},
+        {"rank":"boss","name":"Dernier de Porte-Cendres","attacks":["Le coût doit être payé","Relève impossible"],"behavior":"boss narratif centré sur l'institutionnalisation du sacrifice temporaire","wound_emphasis":["séquelles préexistantes majeures","aucune régénération magique"],"appearance":"silhouette marquée par des années d'exposition, protections superposées de plusieurs générations","narrative_text":"Il ne demande plus si le système est juste. Seulement qui prendra le prochain tour.","recruitment_rule":"boss"}
+      ]
+    },
+    {
+      "family_id": "gardiens_des_versions",
+      "reward_theme": "copies, sceaux, encres, étuis et annotations marginales",
+      "family_context_triggers": {
+        "veteran": "au moins deux versions contradictoires d'un même fait ont été conservées",
+        "elite": "le joueur a refusé de détruire une copie minoritaire uniquement parce qu'elle contredisait sa lecture actuelle",
+        "mini_boss": "deux copies incompatibles ont été récupérées, la chaîne de transmission de chacune a été documentée et aucune n'a été déclarée vraie sans preuve suffisante"
+      },
+      "ranks": [
+        {"rank":"common","name":"Copieur de terrain","attacks":["Marque de faiblesse","Protéger la source"],"behavior":"observe avant d'engager et tente d'extraire une archive","wound_emphasis":["main dominante: annotation impossible","yeux: précision réduite"],"appearance":"étui de copies, vêtements de voyage, doigts tachés d'encre","narrative_text":"Il transporte parfois des mots dont il ignore l'auteur.","recruitment_vectors":["surrender","persuasion","debt","interest"]},
+        {"rank":"veteran","name":"Conservateur de marche","attacks":["Copie de secours","Seconde source"],"behavior":"duplique l'information utile et protège les porteurs","wound_emphasis":["main secondaire: manipulation d'archive réduite","jambe: extraction ralentie"],"appearance":"deux étuis séparés, sceaux multiples, protections légères","narrative_text":"Il a appris qu'une copie peut sauver un texte et déformer une histoire en même temps.","recruitment_rule":"veteran"},
+        {"rank":"elite","name":"Gardien des versions","attacks":["Preuve croisée","Garder deux versions"],"behavior":"affaiblit les certitudes tactiques adverses et renforce les faits confirmés","wound_emphasis":["yeux: preuve croisée limitée","main dominante: précision de marquage réduite"],"appearance":"archives portées séparément, notes marginales visibles, aucun symbole d'omniscience","narrative_text":"Sa compétence n'est pas de savoir. C'est de ne pas jeter trop tôt ce qui dérange.","recruitment_rule":"elite"},
+        {"rank":"mini_boss","name":"Arbitre des copies","attacks":["Version adverse","Rien ne repose sur un exemplaire"],"behavior":"protège plusieurs sources mais peut aussi vouloir en contrôler l'accès","wound_emphasis":["main: conservation active réduite","thorax: fuite avec archives plus difficile"],"appearance":"porte-documents compartimenté, sceaux contradictoires conservés ensemble","narrative_text":"Il protège la contradiction, mais commence à croire que lui seul doit décider qui peut la lire.","recruitment_rule":"mini_boss"},
+        {"rank":"boss","name":"Conservateur des versions fermées","attacks":["Version autorisée","Fermer l'archive"],"behavior":"boss narratif sur la frontière entre préserver et contrôler le savoir","wound_emphasis":["profil humain standard","archives externes destructibles sans être des organes"],"appearance":"protection renforcée autour de plusieurs coffres documentaires, tenue institutionnelle sobre","narrative_text":"Il n'a pas falsifié les copies. Il a simplement décidé lesquelles le monde avait le droit de voir.","recruitment_rule":"boss"}
+      ]
+    },
+    {
+      "family_id": "chirurgiens_de_releve",
+      "reward_theme": "bandages, instruments, attelles, protocoles et registres de blessés",
+      "family_context_triggers": {
+        "veteran": "le joueur a stabilisé ou laissé soigner un ennemi blessé au lieu de l'achever",
+        "elite": "un blessé des deux camps a été évacué ou stabilisé pendant la même rencontre",
+        "mini_boss": "au moins un allié et un ennemi ont été stabilisés, aucune exécution de blessé n'a eu lieu et les réserves médicales n'ont pas été pillées avant résolution"
+      },
+      "ranks": [
+        {"rank":"common","name":"Aide de relève","attacks":["Bandage compressé","Repli protégé"],"behavior":"stabilise le blessé le plus urgent puis cherche couverture","wound_emphasis":["main dominante: soin fin interdit","jambe: accès aux blessés réduit"],"appearance":"sac médical simple, bandes lavées, couteau utilitaire","narrative_text":"Son premier réflexe est de compter les respirations, pas les uniformes.","recruitment_vectors":["surrender","persuasion","debt","interest"]},
+        {"rank":"veteran","name":"Chirurgien de relève","attacks":["Garrot rapide","Attelle de marche"],"behavior":"priorise hémorragies et perte de fonction","wound_emphasis":["yeux: diagnostic réduit","thorax: soins longs limités"],"appearance":"instruments protégés, tablier de voyage, marques de triage","narrative_text":"Il sait que sauver une vie et rendre un corps intact sont deux promesses différentes.","recruitment_rule":"veteran"},
+        {"rank":"elite","name":"Maître de triage","attacks":["Priorité vitale","Tenir jusqu'au retour"],"behavior":"réordonne les priorités d'un groupe entier","wound_emphasis":["main dominante: Priorité vitale moins efficace","jambes: portée de triage réduite"],"appearance":"trousse compartimentée, attelles pliantes, registre court fixé à la ceinture","narrative_text":"Il ne soigne pas d'abord le plus important. Il soigne d'abord celui qui mourra sans lui.","recruitment_rule":"elite"},
+        {"rank":"mini_boss","name":"Premier soignant","attacks":["Ne pas perdre le prochain","Ordre de triage"],"behavior":"peut suspendre le combat autour d'un blessé si le joueur respecte la fenêtre","wound_emphasis":["mains: actions de sauvetage critiques interdites","voies respiratoires: endurance de soutien réduite"],"appearance":"protection légère, nombreux outils remplaçables, brassard de neutralité locale parfois contesté","narrative_text":"Sa neutralité n'est pas l'absence de choix. C'est un choix répété sous pression.","recruitment_rule":"mini_boss"},
+        {"rank":"boss","name":"Intendant des blessés","attacks":["Triage impitoyable","Réserve fermée"],"behavior":"boss narratif où la logique de triage devient pouvoir sur qui mérite une ressource rare","wound_emphasis":["profil humain","mains et yeux sont des fonctions critiques"],"appearance":"équipement médical abondant mais strictement compté, registres de rationnement","narrative_text":"Quand les ressources manquent, décider qui reçoit un soin devient une forme de gouvernement.","recruitment_rule":"boss"}
+      ]
+    },
+    {
+      "family_id": "tireurs_de_relais",
+      "reward_theme": "traits, cordes, mécanismes de tir, cartes d'angles et signaux",
+      "family_context_triggers": {
+        "veteran": "le joueur a créé une retraite hors ligne de tir au lieu de poursuivre l'éclaireur exposé",
+        "elite": "une cible marquée par le tireur a été neutralisée non létalement et une preuve d'objectif commun a été découverte",
+        "mini_boss": "deux postes de tir ont été contournés sans exécuter leurs servants, le relais de signal a été préservé et la sortie du tireur est restée ouverte"
+      },
+      "ranks": [
+        {"rank":"common","name":"Éclaireur de trait","attacks":["Mesure de distance","Trait d'arrêt"],"behavior":"tire puis change de ligne","wound_emphasis":["bras de tir: portée réduite","yeux: précision réduite"],"appearance":"arme régionale légère, carquois ou étui minimal, cape de poussière","narrative_text":"Il ne cherche pas le meilleur tir. Il cherche celui qui lui laisse encore une sortie.","recruitment_vectors":["surrender","persuasion","debt","interest"]},
+        {"rank":"veteran","name":"Tireur de relais","attacks":["Tir de joint","Changer d'angle"],"behavior":"exploite les défauts d'armure et les hauteurs","wound_emphasis":["main guide: tir de joint réduit","jambe: changement d'angle limité"],"appearance":"repères de distance sur l'arme, équipement de relais, protection d'avant-bras","narrative_text":"Chaque angle de tir est aussi un angle depuis lequel quelqu'un peut mentir sur ce qu'il a vu.","recruitment_rule":"veteran"},
+        {"rank":"elite","name":"Œil de passage","attacks":["Viser la fonction","Carte des angles"],"behavior":"vise les zones fonctionnelles avant les dégâts bruts","wound_emphasis":["yeux: ciblage de zone limité","thorax: tir préparé réduit"],"appearance":"optique non moderne: œilleton, marques de corde, cartes pliées, plusieurs munitions spécialisées non explosives","narrative_text":"Il peut dire d'où venait le tir. Pas pourquoi il a été tiré.","recruitment_rule":"elite"},
+        {"rank":"mini_boss","name":"Maître du relais haut","attacks":["Ligne claire","Pluie mesurée"],"behavior":"coordonne plusieurs angles sans spammer les zones indiscriminées","wound_emphasis":["bras de tir: Pluie mesurée réduite","jambe: perte de hauteur tactique"],"appearance":"arme de qualité, signaux visuels, cape courte et harnais d'escalade","narrative_text":"Il commande une vue plus large, pas une vérité plus grande.","recruitment_rule":"mini_boss"},
+        {"rank":"boss","name":"Veilleur de la ligne morte","attacks":["Aucun angle sûr","Trait de commandement"],"behavior":"boss narratif autour d'un espace de tir construit","wound_emphasis":["profil humain à distance","destruction du poste modifie le combat sans blesser directement le boss"],"appearance":"position préparée, protections contre projectiles, réseau de signaux","narrative_text":"Il a transformé une route en problème de géométrie et oublié qu'elle servait à relier des gens.","recruitment_rule":"boss"}
+      ]
+    },
+    {
+      "family_id": "meneurs_de_voix",
+      "reward_theme": "instruments de signal, textes, slogans annotés et témoignages de foule",
+      "family_context_triggers": {
+        "veteran": "le joueur a répondu à une provocation sans exécuter une cible en état yielding",
+        "elite": "une affirmation utilisée par le meneur a été contredite par une source trouvée pendant l'expédition et présentée en dialogue",
+        "mini_boss": "deux sources indépendantes ont réfuté son récit de mobilisation, les redditions provoquées ont été respectées et aucune torture n'a été utilisée"
+      },
+      "ranks": [
+        {"rank":"common","name":"Porte-voix","attacks":["Nommer la peur","Appel et réponse"],"behavior":"attaque le moral des cibles déjà sous pression","wound_emphasis":["bouche/mâchoire: portée vocale réduite","thorax: durée de voix réduite"],"appearance":"instrument de signal simple, vêtements visibles de loin, aucun signe magique","narrative_text":"Une foule l'entend mieux parce qu'elle partage déjà certaines peurs.","recruitment_vectors":["surrender","persuasion","debt","interest","fear"]},
+        {"rank":"veteran","name":"Meneur de voix","attacks":["Appel du doute","Reprendre le rythme"],"behavior":"alterne pression adverse et cohésion alliée","wound_emphasis":["poumons: chants longs interdits","mains: percussion et signaux réduits"],"appearance":"cloche, tambour ou bâton de rythme selon culture locale, signes de fonction","narrative_text":"Il sait qu'un même mot peut calmer une place et en enflammer une autre.","recruitment_rule":"veteran"},
+        {"rank":"elite","name":"Voix de cohésion","attacks":["Faire céder la ligne","Refuser le chœur unique"],"behavior":"force des replis moraux mais protège ses alliés de la panique","wound_emphasis":["thorax: pression de zone réduite","tête: coordination perturbée"],"appearance":"instruments portables, texte mémorisé et annoté, protections légères","narrative_text":"Son pouvoir vient de ceux qui choisissent de répondre.","recruitment_rule":"elite"},
+        {"rank":"mini_boss","name":"Orateur des deux récits","attacks":["Deux récits","Nommer la promesse"],"behavior":"utilise les contradictions du groupe contre lui jusqu'à ce que ses propres sources soient contestées","wound_emphasis":["voix: Deux récits limité","jambes: reposition de foule réduit"],"appearance":"tablettes de citations, signaux de plusieurs factions réutilisés","narrative_text":"Il ne ment pas toujours. C'est précisément ce qui le rend dangereux lorsqu'il choisit ce qu'il omet.","recruitment_rule":"mini_boss"},
+        {"rank":"boss","name":"Maître du chœur fermé","attacks":["Une seule version","Silence de la foule"],"behavior":"boss narratif sur la cohésion devenue suppression du désaccord","wound_emphasis":["profil humain","actions de voix dépendent physiquement du souffle"],"appearance":"dispositif acoustique architectural non magique, nombreux relais humains","narrative_text":"Il a voulu empêcher la panique. Puis il a commencé à appeler panique toute voix qui disait non.","recruitment_rule":"boss"}
+      ]
+    },
+    {
+      "family_id": "sapeurs_de_passage",
+      "reward_theme": "outils, cordages, pièces de structure, plans et marques de chantier",
+      "family_context_triggers": {
+        "veteran": "le joueur a stabilisé une structure que le sapeur croyait perdue",
+        "elite": "un passage a été ouvert sans déclencher l'effondrement létal disponible comme raccourci",
+        "mini_boss": "la structure centrale a été sauvée, aucun civil n'a péri par effondrement et le joueur a renoncé à une route plus courte qui exigeait sa destruction"
+      },
+      "ranks": [
+        {"rank":"common","name":"Ouvrier de passage","attacks":["Levier court","Corde basse"],"behavior":"pose un obstacle puis change de position","wound_emphasis":["bras d'outil: levier interdit","main secondaire: corde limitée"],"appearance":"ceinture d'outils, coins en bois/métal, cordes courtes","narrative_text":"Il regarde un mur et voit d'abord comment il porte son propre poids.","recruitment_vectors":["surrender","persuasion","debt","interest"]},
+        {"rank":"veteran","name":"Sapeur de passage","attacks":["Crochet de sol","Réparation de campagne"],"behavior":"contrôle les déplacements et protège les structures utiles","wound_emphasis":["dos: port d'outils réduit","jambe: terrain instable plus dangereux"],"appearance":"outils spécialisés, protections de main, corde de mesure","narrative_text":"Il a vu trop de ruines déclarées anciennes qui avaient en réalité été brisées la semaine précédente.","recruitment_rule":"veteran"},
+        {"rank":"elite","name":"Maître de structure","attacks":["Effondrement sélectif","Terrain qui refuse"],"behavior":"modifie plusieurs cases/positions du terrain sans magie","wound_emphasis":["bras d'outil: effondrement sélectif interdit","yeux: lecture de charge réduite"],"appearance":"marteaux, coins, leviers, plans annotés, protections de chantier","narrative_text":"Un décor devient une arme dès que quelqu'un comprend comment il tient debout.","recruitment_rule":"elite"},
+        {"rank":"mini_boss","name":"Architecte de rupture locale","attacks":["Maître du passage","Pont de corde"],"behavior":"ouvre et ferme des routes pendant le combat, parfois pour évacuer plutôt que tuer","wound_emphasis":["mains: outils complexes limités","jambes: accès aux points d'appui réduit"],"appearance":"harnais de cordage, outils marqués par plusieurs chantiers, plans incomplets","narrative_text":"Il sait comment faire tomber la structure. La vraie question est pourquoi il choisirait de le faire.","recruitment_rule":"mini_boss"},
+        {"rank":"boss","name":"Maître du passage condamné","attacks":["Route condamnée","Le bâtiment combat"],"behavior":"boss narratif utilisant une structure entière comme espace tactique","wound_emphasis":["profil humain","détruire le décor ne doit pas être confondu avec mutiler le boss"],"appearance":"poste de commande de chantier, cordages, contrepoids, outils sans technologie anachronique","narrative_text":"À force de décider quelles routes devaient rester ouvertes, il a commencé à décider quels hommes avaient encore le droit de passer.","recruitment_rule":"boss"}
+      ]
+    },
+    {
+      "family_id": "manifestations_destructrices",
+      "reward_theme": "mesures, traces physiques et matériaux non classés; jamais trophée biologique présenté comme certitude",
+      "family_context_triggers": {},
+      "recruitment_override": "never_recruitable",
+      "ranks": [
+        {"rank":"common","name":"Frémissement","attacks":["Projection brève","Décalage d'appui"],"behavior":"répète des motifs courts sans intention attribuée","wound_emphasis":["nœud de cohésion: stabilité réduite","masse de projection: attaque réduite"],"appearance":"forme localement cohérente mais difficile à classer","narrative_text":"Les témoins s'accordent sur les dégâts, pas sur la forme qui les a causés.","recruitment_rule":"never"},
+        {"rank":"veteran","name":"Cohésion locale","attacks":["Balayage de masse","Ancrage instable"],"behavior":"interagit davantage avec le terrain","wound_emphasis":["contact d'ancrage: maintien réduit","cohésion: forme moins stable"],"appearance":"structure plus persistante, toujours sans organes nommés","narrative_text":"Plus elle dure, plus les descriptions divergent.","recruitment_rule":"never"},
+        {"rank":"elite","name":"Rupture mobile","attacks":["Déplacement impossible","Projection multiple"],"behavior":"change de position selon des règles observables mais inexpliquées","wound_emphasis":["plusieurs points de cohésion destructibles","aucune hémorragie biologique supposée"],"appearance":"masses et lignes qui semblent se réorganiser au contact du décor","narrative_text":"Le comportement est répétable. Son sens ne l'est pas.","recruitment_rule":"never"},
+        {"rank":"mini_boss","name":"Nœud de déchaînement","attacks":["Déformation locale","Ancrages multiples"],"behavior":"transforme une salle entière en danger dynamique","wound_emphasis":["ancrages détruits réduisent les zones dangereuses","cohésion centrale n'est pas appelée cœur"],"appearance":"phénomène fortement ancré à plusieurs surfaces","narrative_text":"Les Veilleurs peuvent apprendre comment le contenir sans apprendre ce qu'il est.","recruitment_rule":"never"},
+        {"rank":"boss","name":"Manifestation majeure","attacks":["Déchaînement","Espace incohérent"],"behavior":"boss-phénomène exceptionnel; les intentions ne sont jamais affirmées sans preuve","wound_emphasis":["points de cohésion, masses de projection et ancrages uniquement","aucun vocabulaire biologique non démontré"],"appearance":"présence destructive dont les archives conservent plusieurs descriptions incompatibles","narrative_text":"La Concordance peut établir ce qui s'est produit ici sans résoudre ce qui l'a produit.","recruitment_rule":"never"}
+      ]
+    }
+  ],
+  "mobile_readability": {
+    "rank_visual_rule":"Le rang doit être lisible par silhouette, équipement et comportement avant de l'être par un contour de couleur.",
+    "common":"silhouette simple, une signature tactique",
+    "veteran":"un outil ou renfort supplémentaire, deux signatures tactiques",
+    "elite":"silhouette immédiatement distincte, compétence de famille avancée",
+    "mini_boss":"nom visible, posture ou gabarit unique, événement de recrutement éventuel télégraphié",
+    "boss":"mise en scène et mécanique propres; jamais simple élite avec plus de PV"
+  },
+  "production_rule":"Les rangs réutilisent le même squelette, animations de base et profil anatomique de leur famille autant que possible; l'identité vient de l'équipement, des accessoires, de la posture, des compétences et de quelques animations signatures afin de rester viable sur mobile."
+}
