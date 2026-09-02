@@ -1,0 +1,371 @@
+{
+  "universe_id": "litd_universe",
+  "schema_version": 1,
+  "canon_version": "1.0.0",
+  "status": "canon_narrative_complement",
+  "game": "litd1",
+  "existing_theatrical_quests_preserved": 23,
+  "new_quest_count": 9,
+  "core_rules": {
+    "replaces_existing_23_quests": false,
+    "player_protagonist_emotion_imposed": false,
+    "single_hidden_moral_answer": false,
+    "universal_good_evil_score": false,
+    "new_universal_quest_meter": false,
+    "unknown_can_be_valid_resolution": true,
+    "hero_reactions_are_conditional": true,
+    "complete_seven_order_inferred": false,
+    "depth_uses_existing_systems": true
+  },
+  "quests": [
+    {
+      "id": "quest.litd1.lhaor_seeds_that_remain",
+      "source_hook_id": "lhaor_seeds_that_remain",
+      "title": "Les graines qui restent",
+      "chapter": 1,
+      "chapter_title": "Survivre aux Terres de Cendre",
+      "region": "Lhaor_rural_network",
+      "giver": "Iria Senn",
+      "unlock": ["first_supply_expeditions_open", "lhaor_rural_network_accessible"],
+      "human_question": "A qui appartient une reserve lorsque plusieurs futurs en dependent ?",
+      "choices": [
+        {
+          "id": "protect_lhaor_basin",
+          "protects": ["local_food_security", "locally_adapted_seed"],
+          "costs": ["refugee_route_shortened", "housing_and_water_pressure"]
+        },
+        {
+          "id": "equip_refugee_convoy",
+          "protects": ["refugee_restart_capacity", "seed_dispersal"],
+          "costs": ["local_failure_margin", "future_relief_dependency"]
+        },
+        {
+          "id": "split_below_threshold",
+          "protects": ["shared_chance_to_replant"],
+          "costs": ["dual_failure_risk", "future_logistical_obligation"]
+        }
+      ],
+      "conditional_hero_reactions": ["hero.mathilde", "hero.aurelien", "hero.lya"],
+      "remanence": {
+        "source": "documented_seed_distribution",
+        "transmission": ["seed_records", "carried_seed", "refugee_memory"],
+        "transformation": "surviving_variety_may_become_identity_symbol_with_simplified_origin_story"
+      },
+      "guardrails": ["no_magic_seed_validation", "no_rural_origin_bonus", "no_guaranteed_double_harvest"]
+    },
+    {
+      "id": "quest.litd1.orun_sai_road_without_grave",
+      "source_hook_id": "orun_sai_road_without_grave",
+      "title": "La route sans tombe",
+      "chapter": 1,
+      "chapter_title": "Survivre aux Terres de Cendre",
+      "region": "Orun-Sai_caravan_network",
+      "giver": "Rahil Oren",
+      "unlock": ["long_routes_accessible"],
+      "human_question": "Faut-il risquer les vivants pour rendre les morts a leur foyer ?",
+      "choices": [
+        {
+          "id": "transport_bodies",
+          "protects": ["body_return", "family_ritual_possibility"],
+          "costs": ["route_delay", "living_risk", "resource_loss"]
+        },
+        {
+          "id": "local_burial_send_names_objects",
+          "protects": ["living_safety", "identity_transmission"],
+          "costs": ["body_not_returned", "possible_family_resentment"]
+        },
+        {
+          "id": "distributed_memory",
+          "protects": ["case_by_case_dignity", "risk_adaptation"],
+          "costs": ["administrative_complexity", "fragmented_memorial_network"]
+        }
+      ],
+      "body_system": ["mutilated_body_changes_possible_rite", "unstable_corpse_requires_isolation", "missing_body_allows_memorial"],
+      "conditional_hero_reactions": ["hero.zeje", "hero.mathilde", "hero.aurelien"],
+      "remanence": {
+        "source": "separated_decisions_for_bodies_names_objects",
+        "transmission": ["caravan_notebooks", "road_memorials"],
+        "transformation": "emergency_protocol_may_later_be_misremembered_as_ancient_orun_sai_tradition"
+      }
+    },
+    {
+      "id": "quest.litd1.dhor_khal_bridge_two_valleys",
+      "source_hook_id": "dhor_khal_bridge_two_valleys",
+      "title": "Le pont qui nourrit deux vallées",
+      "chapter": 1,
+      "chapter_title": "Survivre aux Terres de Cendre",
+      "region": "Dhor-Khal_rural_network",
+      "giver": "Orren Taal",
+      "unlock": ["first_chapter_first_third_complete"],
+      "human_question": "Quand reparer une chose condamne l'attente d'une autre, qui porte le cout du choix ?",
+      "choices": [
+        {
+          "id": "restore_grain_bridge",
+          "protects": ["food_supply", "lower_food_prices"],
+          "costs": ["medical_isolation", "workshop_isolation", "migration"]
+        },
+        {
+          "id": "restore_high_rope_passage",
+          "protects": ["medical_access", "repair_workshops", "hamlet_connection"],
+          "costs": ["higher_food_prices", "more_food_convoys"]
+        },
+        {
+          "id": "distribute_material_local_repairs",
+          "protects": ["local_autonomy", "distributed_routes"],
+          "costs": ["no_major_link_restored_now", "short_term_inefficiency", "sanctuary_resentment"]
+        }
+      ],
+      "persistent_systems": ["prices", "famine_risk", "migration", "repair_capacity", "resentment", "new_routes"],
+      "conditional_hero_reactions": ["hero.marec", "hero.aurelien", "hero.effrie"],
+      "remanence": {
+        "source": "visible_chosen_and_unchosen_infrastructure_plans",
+        "transmission": ["repair_records", "local_routes", "community_memory"],
+        "transformation": "abandoned_route_can_become_later_political_memory"
+      }
+    },
+    {
+      "id": "quest.litd1.saen_ask_before_pulling",
+      "source_hook_id": "saen_ask_before_pulling",
+      "title": "Demander avant de tirer",
+      "chapter": 6,
+      "chapter_title": "Les Absents",
+      "region": "frontier_contact_zone",
+      "giver": "Meira Sen",
+      "unlock": ["first_stable_saen_exchange", "saen_refusal_comprehensible"],
+      "human_question": "Une urgence rend-elle le refus d'un autre moins reel ?",
+      "forbidden_after_clear_refusal": ["invasive_anchor_increase_on_saen"],
+      "choices": [
+        {
+          "id": "cut_anchor_and_detour",
+          "protects": ["saen_refusal", "noninvasive_contact_rule"],
+          "costs": ["rescue_delay", "possible_human_loss"]
+        },
+        {
+          "id": "low_pulses_public_stop_threshold",
+          "protects": ["consent_boundary", "possible_faster_mapping"],
+          "costs": ["uncertain_corridor", "material_risk", "no_guaranteed_rescue"]
+        }
+      ],
+      "saen_staging": {
+        "human_body_language": false,
+        "signal_timing_only": true,
+        "represents_all_absents": false
+      },
+      "conditional_hero_reactions": ["hero.zeje", "hero.anouk", "hero.mathilde"],
+      "remanence": {
+        "source": "documented_refusal_respected_under_real_cost",
+        "transmission": ["contact_protocol", "public_archive"],
+        "transformation": "later_legal_precedent_for_nonhuman_consent"
+      }
+    },
+    {
+      "id": "quest.litd1.azravel_burned_margins",
+      "source_hook_id": "azravel_burned_margins",
+      "title": "Les Marges brulees",
+      "chapter": 8,
+      "chapter_title": "Le monde exterieur",
+      "region": "Azravel",
+      "giver": "Sahirah En",
+      "unlock": ["azravel_entered", "local_purge_discovered"],
+      "human_question": "Que sauver d'une persecution lorsqu'on ne peut pas sauver tout ce qui permettra aux survivants de vivre et de temoigner ?",
+      "required_practice": "reading_of_margins",
+      "choices": [
+        {
+          "id": "wounded_and_food",
+          "protects": ["living_survival", "food_security"],
+          "costs": ["archives_lost", "purge_harder_to_prove"]
+        },
+        {
+          "id": "wounded_and_evidence",
+          "protects": ["living_survival", "accountability_evidence"],
+          "costs": ["food_shortage", "dependency_on_crossed_villages"]
+        },
+        {
+          "id": "split_convoy",
+          "protects": ["more_people_food_and_archives_possible"],
+          "costs": ["separation_risk", "ambush_risk", "possible_archive_loss_or_injury"]
+        }
+      ],
+      "conditional_hero_reactions": ["hero.aurelien", "hero.lya", "hero.mathilde"],
+      "remanence": {
+        "source": "margin_annotation_saved_from_purge",
+        "transmission": ["hidden_copy", "refuge_archive", "later_copy"],
+        "transformation": "annotation_can_later_be_misattributed_as_doctrine"
+      },
+      "guardrails": ["azravel_faith_name_remains_open", "belief_population_not_monolithic", "survivors_not_reduced_to_evidence"]
+    },
+    {
+      "id": "quest.litd1.azravel_table_still_open",
+      "source_hook_id": "azravel_table_still_open",
+      "title": "La Table encore ouverte",
+      "chapter": 8,
+      "chapter_title": "Le monde exterieur",
+      "region": "Azravel",
+      "giver": "Arem Dhal",
+      "unlock": ["azravel_aid_network_identified"],
+      "human_question": "Comment continuer a aider lorsque l'aide elle-meme devient une preuve d'accusation ?",
+      "required_practice": "open_door_table",
+      "choices": [
+        {
+          "id": "no_name_registry",
+          "protects": ["refugee_anonymity", "continued_open_access"],
+          "costs": ["raid_risk", "sanctions", "stock_loss"]
+        },
+        {
+          "id": "sealed_community_registry",
+          "protects": ["family_reconnection", "ration_management", "partial_consent"],
+          "costs": ["seizure_risk", "stored_names_as_power"]
+        },
+        {
+          "id": "distributed_household_tables",
+          "protects": ["network_resilience", "no_single_target"],
+          "costs": ["lower_daily_capacity", "harder_coordination"]
+        }
+      ],
+      "conditional_hero_reactions": ["hero.anouk", "hero.aurelien", "hero.mathilde"],
+      "remanence": {
+        "source": "religious_mutual_aid_practice",
+        "transmission": ["household_hospitality", "refuge_network", "oral_formula"],
+        "transformation": "may_become_civic_custom_with_forgotten_religious_origin"
+      }
+    },
+    {
+      "id": "quest.litd1.lysandra_what_miracle_proves",
+      "source_hook_id": "lysandra_what_miracle_proves",
+      "title": "Ce que le miracle prouve",
+      "chapter": 9,
+      "chapter_title": "Ce qu'est reellement le Voile",
+      "region": "post_fall_hospice",
+      "giver": "Lysandra",
+      "requires_character_available": "Lysandra",
+      "unlock": ["observation_model_interpretation_distinction_established"],
+      "human_question": "Qu'est-ce qu'un pouvoir reel autorise a affirmer sur sa propre signification ?",
+      "epistemic_layers": ["observed_effect", "testimony", "interpretation", "doctrine"],
+      "body_system": ["hemorrhage_stopped", "partial_tissue_closure", "persistent_irregular_scar", "persistent_numbness", "strength_not_instantly_restored"],
+      "choices": [
+        {
+          "id": "publish_observations_only",
+          "protects": ["clinical_comparability", "evidence_precision"],
+          "costs": ["religious_interpretation_excluded_from_official_record", "parallel_rumor"]
+        },
+        {
+          "id": "archive_observation_and_testimony_separately",
+          "protects": ["plural_testimony", "epistemic_labels"],
+          "costs": ["future_copy_can_lose_labels"]
+        },
+        {
+          "id": "delay_public_statement",
+          "protects": ["more_examination_time"],
+          "costs": ["information_vacuum", "rumor_growth", "possible_secrecy_accusation"]
+        }
+      ],
+      "conditional_hero_reactions": ["hero.aurelien", "hero.zeje", "hero.mathilde"],
+      "guardrails": ["miracle_does_not_prove_theology", "raised_dead_does_not_prove_soul_return", "healing_does_not_erase_all_bodily_consequences"],
+      "remanence": {
+        "source": "lysandra_known_hoped_unknown_formula",
+        "transmission": ["hospice_rule", "medical_archive", "popular_phrase"],
+        "transformation": "later_copy_may_falsely_claim_lysandra_proved_a_doctrine"
+      }
+    },
+    {
+      "id": "quest.litd1.zeje_three_versions_same_dead",
+      "source_hook_id": "zeje_three_versions_same_dead",
+      "title": "Trois versions du meme mort",
+      "chapter": 9,
+      "chapter_title": "Ce qu'est reellement le Voile",
+      "region": "post_fall_multicommunity_zone",
+      "giver": "Zejé",
+      "requires_character": "hero.zeje",
+      "unlock": ["hero_zeje_present", "chapter_9_midpoint_reached"],
+      "human_question": "Une communaute a-t-elle besoin d'une certitude vraie, ou seulement d'une certitude assez utile pour commencer son deuil ?",
+      "body_system": ["burns", "missing_forearm", "partially_destroyed_face", "anatomical_exclusions_possible"],
+      "three_verifications": ["body", "spirit", "city"],
+      "choices": [
+        {
+          "id": "assign_most_probable_identity",
+          "result_status": "probable",
+          "costs": ["future_public_correction_possible", "trust_crisis_if_contradicted"]
+        },
+        {
+          "id": "preserve_unknown_distribute_objects",
+          "result_status": "unknown",
+          "costs": ["no_requested_certainty", "possible_bureaucratic_violence_perception"]
+        },
+        {
+          "id": "separate_memorials_no_body_assignment",
+          "result_status": "distinct_memories_body_unassigned",
+          "costs": ["diverging_narratives", "archive_complexity"]
+        }
+      ],
+      "conditional_hero_reactions": ["hero.mathilde", "hero.aurelien", "hero.anouk"],
+      "guardrails": ["unknown_is_valid", "probable_marker_must_be_visible", "no_truth_spell", "zeje_not_prophet", "zeje_final_geographic_origin_not_locked"],
+      "remanence": {
+        "source": "annotated_probable_or_unknown_identity",
+        "transmission": ["memorial_register", "copies", "community_memory"],
+        "transformation": "copy_can_drop_confidence_marker_and_create_false_zeje_truth"
+      }
+    },
+    {
+      "id": "quest.litd1.effrie_not_ours",
+      "source_hook_id": "effrie_not_ours",
+      "title": "Ce qui ne nous appartient pas",
+      "chapter": 9,
+      "chapter_title": "Ce qu'est reellement le Voile",
+      "region": "credible_dragon_activity_site",
+      "giver": "Èffrie",
+      "requires_character": "hero.effrie",
+      "unlock": ["hero_effrie_present", "advanced_sites_open"],
+      "human_question": "L'absence d'un proprietaire visible rend-elle une chose disponible ?",
+      "visible_dragon_required": false,
+      "required_practices": ["restrained_step", "do_not_take_everything", "incomplete_story"],
+      "choices": [
+        {
+          "id": "leave_object_document_site",
+          "protects": ["site_context", "effrie_trust"],
+          "costs": ["no_major_resource_gain", "refugee_heating_problem_persists"]
+        },
+        {
+          "id": "minimal_sample_after_mapping",
+          "protects": ["material_knowledge", "limited_intrusion"],
+          "costs": ["site_no_longer_fully_untouched"]
+        },
+        {
+          "id": "remove_object_for_human_need",
+          "protects": ["immediate_heating_or_resource_need"],
+          "costs": ["archaeological_context_lost", "effrie_tension", "dragon_theft_rumor"]
+        }
+      ],
+      "conditional_hero_reactions": ["hero.lya", "hero.zeje", "hero.marec"],
+      "guardrails": ["no_vharren_lock", "no_ancestral_pact_reveal", "no_dragon_ancestry_proof", "no_dragon_language_lock", "no_veil_link", "activity_does_not_equal_property", "no_visible_dragon_needed"],
+      "remanence": {
+        "source": "documented_restraint_at_uncertain_dragon_related_site",
+        "transmission": ["maps", "effrie_account", "route_habit"],
+        "transformation": "later_sacred_prohibition_may_be_falsely_attributed_to_unproven_pact"
+      }
+    }
+  ],
+  "chapter_distribution": {
+    "1": 3,
+    "6": 1,
+    "8": 2,
+    "9": 3
+  },
+  "pillar_validation": {
+    "P1_character_creation": "pass",
+    "P2_systemic_gore": "pass",
+    "P3_philosophy_psychology": "pass_central",
+    "P4_accessible_human_depth": "pass_central",
+    "P5_strong_narrative": "pass_central",
+    "P6_interconnection": "pass",
+    "P7_knowledge_remanence": "pass_central",
+    "P8_dialogue_staging": "pass_central",
+    "P9_simple_deep_readable_gameplay": "pass_central"
+  },
+  "sources": [
+    "universe/lore/contextual_beliefs_rites_quests.json",
+    "docs/LITD1_NEUF_QUETES_CONTEXTUELLES_EDITION_THEATRALE_V1.md",
+    "docs/LITD_UNIVERSE_RITES_FUNERAILLES_COUTUMES.md",
+    "docs/LITD_UNIVERSE_RELIGIONS_CROYANCES.md",
+    "docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"
+  ]
+}
