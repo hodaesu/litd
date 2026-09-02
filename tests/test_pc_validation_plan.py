@@ -36,6 +36,7 @@ def test_pc_validation_contract_covers_all_pc_only_workstreams():
 
 
 def test_pc_validation_orchestrator_has_safety_gates_and_outputs():
+    plan = load("data/production/pc_validation_plan.json")
     script = (ROOT / "tools/build/pc_validation.py").read_text(encoding="utf-8")
     for token in (
         "PC_VALIDATION_PLAN_OK",
@@ -43,17 +44,18 @@ def test_pc_validation_orchestrator_has_safety_gates_and_outputs():
         "--build-blender",
         "--approve-art",
         "--export-release",
-        "capture_vertical_slice.py",
-        "profile_vertical_slice.py",
-        "vertical_slice_session.py",
-        "build_vertical_slice.py",
         "automated_passed_manual_pending",
     ):
         assert token in script
 
-    assert "--approve-art" in script
     assert "command.append(\"--approve-art\")" in script
     assert "status=\"pending\"" in script
+    assert plan["automated_tools"] == {
+        "capture": "tools/godot/capture_vertical_slice.py",
+        "profile": "tools/godot/profile_vertical_slice.py",
+        "blender_preflight": "tools/blender/vertical_slice_session.py",
+        "blender_build": "tools/blender/build_vertical_slice.py",
+    }
 
 
 def test_pc_validation_static_contract_is_self_consistent():
