@@ -44,7 +44,7 @@ def test_artistic_musical_traditions_are_valid() -> None:
 
 
 def test_city_cannot_become_single_art_style(tmp_path: Path) -> None:
-    report = _mutate(tmp_path, lambda d: d["core_rules"].__setitem__("city_is_not_single_style", True))
+    report = _mutate(tmp_path, lambda d: d["core_rules"].__setitem__("city_is_not_single_style", False))
     assert report["ok"] is False
 
 
