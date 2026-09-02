@@ -1,0 +1,250 @@
+{
+  "universe_id": "litd_universe",
+  "schema_version": 1,
+  "canon_version": "1.0.0",
+  "status": "canon_continuity_with_open_theologies",
+  "scope": ["litd2", "les_veilleurs", "litd1", "shared_history"],
+  "core_rules": {
+    "religions_are_socially_real": true,
+    "metaphysical_interpretation_is_automatically_fact": false,
+    "three_awakenings_are_religion": false,
+    "religion_is_ethnicity": false,
+    "belief_grants_biological_stats": false,
+    "single_official_concorde_theology": false,
+    "religion_is_fourth_awakening": false,
+    "all_believers_share_one_moral_alignment": false,
+    "all_nonbelievers_share_one_moral_alignment": false,
+    "supernatural_effect_proves_theology": false
+  },
+  "epistemic_layers": [
+    "observed_phenomenon",
+    "testimony",
+    "interpretation",
+    "doctrine",
+    "institution",
+    "unknown"
+  ],
+  "epistemic_policy": {
+    "narrator_may_present_observation_as_fact": true,
+    "narrator_may_present_character_interpretation_as_fact_without_evidence": false,
+    "sincere_testimony_can_be_inaccurate": true,
+    "working_power_proves_effect_only": true,
+    "working_power_proves_metaphysical_explanation": false,
+    "independent_evidence_required_to_promote_interpretation_to_fact": true
+  },
+  "three_awakenings": {
+    "religious_system": false,
+    "compatible_with_religion": true,
+    "compatible_with_agnosticism": true,
+    "compatible_with_atheism_or_nontheism": true,
+    "sanctuaries_are_temples_by_default": false,
+    "religious_rites_can_occur_in_some_sanctuaries": true,
+    "confederal_clergy": false
+  },
+  "concorde_mature": {
+    "religiously_plural": true,
+    "official_confederal_theology": false,
+    "civic_institutions_decide_existence_of_gods": false,
+    "belief_and_nonbelief_can_coexist": true,
+    "local_rites_and_calendars_can_persist": true,
+    "coercion_is_beyond_civic_accountability": false,
+    "precise_internal_religion_names_locked": false
+  },
+  "azravel": {
+    "polity_type": "theocratic_kingdom",
+    "dominant_faith_exists": true,
+    "dominant_faith_name_locked": false,
+    "faith_structures": ["festivals", "marriages", "funerals", "calendar", "mutual_aid"],
+    "political_and_religious_authority_historically_linked": true,
+    "internal_plurality": [
+      "sincere_believers",
+      "religious_minorities",
+      "independent_mystics",
+      "heterodox_currents",
+      "theologians_opposed_to_central_power"
+    ],
+    "post_fall_religious_fear_used_for_purges": true,
+    "believers_resisted_instrumentalization": true,
+    "schism_can_be_theological_and_political": true,
+    "saint_of_the_rift_title_proves_supernatural_sainthood": false,
+    "open_fields": [
+      "deity_or_deities",
+      "sacred_texts",
+      "afterlife_doctrine",
+      "full_hierarchy",
+      "detailed_rites",
+      "meaning_of_brother_title",
+      "meaning_of_saint_title"
+    ]
+  },
+  "veil_and_supernatural": {
+    "veil_is_confirmed_deity": false,
+    "veil_is_confirmed_spirit": false,
+    "veil_is_confirmed_afterlife": false,
+    "veil_is_confirmed_realm_of_dead": false,
+    "ultimate_nature": "unknown",
+    "religious_interpretations_allowed": true,
+    "scientific_models_allowed": true,
+    "one_model_automatically_invalidates_all_testimony": false,
+    "raised_dead_prove_soul_return": false,
+    "raised_dead_identity_requires_separate_investigation": true,
+    "terms_are_cultural_not_automatic_proof": [
+      "miracle",
+      "grace",
+      "sacred",
+      "invocation",
+      "spirit",
+      "soul",
+      "judgment",
+      "blessing"
+    ]
+  },
+  "effrie": {
+    "from_dragon_venerating_tribe": true,
+    "tribe_once_lived_in_harmony_with_dragons": true,
+    "has_dragon_related_powers": true,
+    "tribe_name": "unconfirmed",
+    "pact": "unconfirmed",
+    "theology": "unconfirmed",
+    "priests": "unconfirmed",
+    "rites": "unconfirmed",
+    "symbols": "unconfirmed",
+    "territory": "unconfirmed",
+    "power_origin": "unconfirmed",
+    "dragon_ancestry": "unconfirmed",
+    "veil_link": "unconfirmed",
+    "legacy_vharren_or_pact_concepts_override_current_canon": false
+  },
+  "post_fall_responses": [
+    "ritual_preservation",
+    "mutual_aid",
+    "loss_of_faith",
+    "conversion",
+    "syncretism",
+    "reinterpretation",
+    "new_prophecy",
+    "schism",
+    "authoritarian_movement",
+    "non_supernatural_interpretation",
+    "improvised_funeral_rites",
+    "disputes_about_raised_dead_identity"
+  ],
+  "post_fall_guardrails": {
+    "new_cult_is_automatically_evil": false,
+    "old_religion_is_automatically_wise": false,
+    "atheist_is_automatically_rational": false,
+    "believer_is_automatically_credulous": false
+  },
+  "remanence": {
+    "model": ["source", "transmission", "transformation"],
+    "forms": [
+      "rite",
+      "text",
+      "place",
+      "object",
+      "title",
+      "song_or_formula",
+      "prohibition",
+      "schism",
+      "historically_influential_error",
+      "testimony_becoming_doctrine"
+    ],
+    "original_meaning_must_survive_unchanged": false,
+    "misinterpretation_can_be_historically_influential": true
+  },
+  "chronology": [
+    {
+      "era": "litd2_last_war",
+      "religions_preexist_three_awakenings": true,
+      "mature_concorde_religious_policy_exists": false,
+      "religion_can_be_used_for_power_or_resistance": true
+    },
+    {
+      "era": "post_sarn_long_assemblies",
+      "religious_representatives_participate": true,
+      "three_awakenings_stabilize_as_common_human_framework_not_theology": true
+    },
+    {
+      "era": "les_veilleurs",
+      "focus": ["shared_institutions", "rite_translation", "death_disputes", "coexistence_rules", "contradictory_memory"]
+    },
+    {
+      "era": "mature_concorde_prefall",
+      "religious_plurality_normalized": true,
+      "differences_erased": false
+    },
+    {
+      "era": "litd1_post_fall",
+      "religion_functions": ["care", "memory", "power", "fear", "resistance", "catastrophe_interpretation"]
+    }
+  ],
+  "gameplay": {
+    "universal_faith_meter": false,
+    "fourth_build_path": false,
+    "universal_morality_score": false,
+    "critical_plot_permanently_locked_by_belief": false,
+    "alternate_evidence_paths_required": true,
+    "horizontal_uses": [
+      "dialogue_and_trust",
+      "evidence_interpretation",
+      "archives_and_testimony",
+      "mourning_rites",
+      "raised_dead_decisions",
+      "community_mediation",
+      "institutional_conflict",
+      "nonviolent_solutions",
+      "companion_reactions",
+      "intergame_remanence"
+    ],
+    "player_created_protagonist_worldview_may_be_expressed": true,
+    "worldview_grants_power_bonus_by_default": false
+  },
+  "staging": {
+    "pillar_8_central": true,
+    "religious_scene_is_doctrine_exposition_by_default": false,
+    "body_language_and_ritual_action_matter": true,
+    "silence_can_be_meaningful": true,
+    "music_or_light_confirms_divine_moral_approval": false,
+    "crowds_are_monolithic_belief_blocks": false
+  },
+  "body_and_death": {
+    "gore_required_in_every_religious_scene": false,
+    "persistent_injury_can_change_ritual_practice": true,
+    "mutilated_body_can_create_funeral_conflict": true,
+    "raised_dead_can_destabilize_personhood_categories": true,
+    "body_treatment_can_have_tactical_cost": true,
+    "adapted_rite_can_become_remanence": true
+  },
+  "pillar_validation": {
+    "P1_character_creation": "pass",
+    "P2_systemic_gore": "pass_conditional",
+    "P3_philosophy_psychology": "pass_central",
+    "P4_accessible_human_depth": "pass_central",
+    "P5_strong_narrative": "pass_central",
+    "P6_interconnection": "pass_central",
+    "P7_knowledge_remanence": "pass_central",
+    "P8_dialogue_staging": "pass_central",
+    "P9_simple_deep_readable_gameplay": "pass_central"
+  },
+  "open_design_spaces": [
+    "concorde_religion_names_and_theologies",
+    "regional_religions_of_six_cities",
+    "pantheons_or_nontheism",
+    "complete_azravel_doctrine",
+    "soul_cosmology",
+    "objective_afterlife",
+    "ultimate_veil_metaphysics",
+    "effrie_tribe_detailed_religion",
+    "varkhane_religions",
+    "namar_religions",
+    "korem_religions",
+    "named_postfall_movements"
+  ],
+  "supersedes_generic_open_space": "religions, croyances et relation au surnaturel",
+  "sources": [
+    "docs/LORE_BIBLE.md",
+    "docs/HISTOIRE_TROIS_EVEILS.md",
+    "docs/LITD_UNIVERSE_PEUPLES_CULTURES_VIVANTES.md",
+    "docs/LITD_UNIVERSE_REGLE_COHERENCE_NARRATIVE.md"
+  ]
+}
