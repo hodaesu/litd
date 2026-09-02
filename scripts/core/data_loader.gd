@@ -18,6 +18,8 @@ var last_war: Dictionary = {}
 var litd2_triad: Dictionary = {}
 var les_veilleurs_enemy_recruitment: Dictionary = {}
 var les_veilleurs_bestiary_families: Dictionary = {}
+var les_veilleurs_bestiary_missing_roles: Dictionary = {}
+var les_veilleurs_bestiary_rank_ladders: Dictionary = {}
 
 func _ready() -> void:
     reload_all()
@@ -58,6 +60,10 @@ func reload_all() -> void:
     les_veilleurs_enemy_recruitment = veilleurs_recruitment_value if typeof(veilleurs_recruitment_value) == TYPE_DICTIONARY else {}
     var veilleurs_bestiary_value = load_json("res://data/canon/les_veilleurs_bestiary_families.json")
     les_veilleurs_bestiary_families = veilleurs_bestiary_value if typeof(veilleurs_bestiary_value) == TYPE_DICTIONARY else {}
+    var veilleurs_missing_roles_value = load_json("res://data/canon/les_veilleurs_bestiary_missing_roles.json")
+    les_veilleurs_bestiary_missing_roles = veilleurs_missing_roles_value if typeof(veilleurs_missing_roles_value) == TYPE_DICTIONARY else {}
+    var veilleurs_rank_ladders_value = load_json("res://data/canon/les_veilleurs_bestiary_rank_ladders.json")
+    les_veilleurs_bestiary_rank_ladders = veilleurs_rank_ladders_value if typeof(veilleurs_rank_ladders_value) == TYPE_DICTIONARY else {}
 
 func find_by_id(items: Array, id_value: Variant) -> Dictionary:
     for item in items:
@@ -142,10 +148,20 @@ func litd2_sarn_entry_conditions() -> Dictionary:
     var value: Variant = litd2_triad.get("sarn_entry_conditions", {})
     return value.duplicate(true) if value is Dictionary else {}
 
+func les_veilleurs_normalize_recruitment_vector_id(vector_id: String) -> String:
+    match vector_id:
+        "common_interest":
+            return "interest"
+        "constrained_bond":
+            return "binding"
+        _:
+            return vector_id
+
 func les_veilleurs_recruitment_vector(vector_id: String) -> Dictionary:
+    var normalized_id := les_veilleurs_normalize_recruitment_vector_id(vector_id)
     var values: Variant = les_veilleurs_enemy_recruitment.get("recruitment_vectors", [])
     var vectors: Array = values if values is Array else []
-    return find_by_id(vectors, vector_id).duplicate(true)
+    return find_by_id(vectors, normalized_id).duplicate(true)
 
 func les_veilleurs_recruitment_mobile_scope() -> Dictionary:
     var value: Variant = les_veilleurs_enemy_recruitment.get("mobile_scope", {})
@@ -167,18 +183,33 @@ func les_veilleurs_recruitment_content_contract() -> Array[String]:
             result.append(str(value))
     return result
 
+func _les_veilleurs_normalized_family(family: Dictionary) -> Dictionary:
+    var result := family.duplicate(true)
+    var vectors: Variant = result.get("recruitment_vectors", [])
+    if vectors is Array:
+        var normalized: Array[String] = []
+        for vector: Variant in vectors:
+            normalized.append(les_veilleurs_normalize_recruitment_vector_id(str(vector)))
+        result["recruitment_vectors"] = normalized
+    return result
+
+func _append_les_veilleurs_family_source(result: Array[Dictionary], source: Dictionary) -> void:
+    var values: Variant = source.get("families", [])
+    if values is Array:
+        for value: Variant in values:
+            var family: Dictionary = value if value is Dictionary else {}
+            result.append(_les_veilleurs_normalized_family(family))
+
 func les_veilleurs_bestiary_family(family_id: String) -> Dictionary:
-    var values: Variant = les_veilleurs_bestiary_families.get("families", [])
-    var families: Array = values if values is Array else []
-    return find_by_id(families, family_id).duplicate(true)
+    for family: Dictionary in les_veilleurs_bestiary_all_families():
+        if str(family.get("id", "")) == family_id:
+            return family.duplicate(true)
+    return {}
 
 func les_veilleurs_bestiary_all_families() -> Array[Dictionary]:
     var result: Array[Dictionary] = []
-    var values: Variant = les_veilleurs_bestiary_families.get("families", [])
-    var families: Array = values if values is Array else []
-    for value: Variant in families:
-        var family: Dictionary = value if value is Dictionary else {}
-        result.append(family.duplicate(true))
+    _append_les_veilleurs_family_source(result, les_veilleurs_bestiary_families)
+    _append_les_veilleurs_family_source(result, les_veilleurs_bestiary_missing_roles)
     return result
 
 func les_veilleurs_bestiary_recruitable_families() -> Array[Dictionary]:
@@ -190,12 +221,44 @@ func les_veilleurs_bestiary_recruitable_families() -> Array[Dictionary]:
 
 func les_veilleurs_bestiary_roles() -> Array[String]:
     var result: Array[String] = []
-    var roster_design: Variant = les_veilleurs_bestiary_families.get("roster_design", {})
-    if roster_design is Dictionary:
-        var values: Variant = roster_design.get("current_roles", [])
-        if values is Array:
-            for value: Variant in values:
-                result.append(str(value))
+    for family: Dictionary in les_veilleurs_bestiary_all_families():
+        var role := str(family.get("combat_role", ""))
+        if not role.is_empty() and not result.has(role):
+            result.append(role)
+    return result
+
+func les_veilleurs_bestiary_rank_rule(rank_id: String) -> Dictionary:
+    var rules: Variant = les_veilleurs_bestiary_rank_ladders.get("rank_rules", {})
+    if rules is Dictionary:
+        var value: Variant = rules.get(rank_id, {})
+        return value.duplicate(true) if value is Dictionary else {}
+    return {}
+
+func les_veilleurs_bestiary_rank_ladder(family_id: String) -> Dictionary:
+    var values: Variant = les_veilleurs_bestiary_rank_ladders.get("families", [])
+    if values is Array:
+        for value: Variant in values:
+            var ladder: Dictionary = value if value is Dictionary else {}
+            if str(ladder.get("family_id", "")) == family_id:
+                return ladder.duplicate(true)
+    return {}
+
+func les_veilleurs_bestiary_rank(family_id: String, rank_id: String) -> Dictionary:
+    var ladder := les_veilleurs_bestiary_rank_ladder(family_id)
+    var values: Variant = ladder.get("ranks", [])
+    if values is Array:
+        for value: Variant in values:
+            var rank: Dictionary = value if value is Dictionary else {}
+            if str(rank.get("rank", "")) == rank_id:
+                return rank.duplicate(true)
+    return {}
+
+func les_veilleurs_bestiary_rank_order() -> Array[String]:
+    var result: Array[String] = []
+    var values: Variant = les_veilleurs_bestiary_rank_ladders.get("rank_order", [])
+    if values is Array:
+        for value: Variant in values:
+            result.append(str(value))
     return result
 
 func knowledge_remanence_stages() -> Array[String]:
