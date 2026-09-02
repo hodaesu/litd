@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
       - name: Créer les notes
         run: python tools/release/generate_notes.py "${GITHUB_REF_NAME}" > RELEASE_NOTES.md
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           body_path: RELEASE_NOTES.md
           generate_release_notes: true
