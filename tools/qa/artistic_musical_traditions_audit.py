@@ -28,11 +28,10 @@ def audit_artistic_musical_traditions(root: Path = ROOT) -> dict[str, Any]:
         errors.append("Version canonique artistique incompatible")
 
     rules = data.get("core_rules", {})
-    for key in ("art_is_not_ethnicity",):
+    for key in ("art_is_not_ethnicity", "city_is_not_single_style"):
         if rules.get(key) is not True:
             errors.append(f"Règle artistique obligatoire absente ou fausse: {key}")
     for key in (
-        "city_is_not_single_style",
         "single_official_concorde_art",
         "single_official_concorde_music",
         "art_adds_universal_stat",
