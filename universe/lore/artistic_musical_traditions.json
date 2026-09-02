@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.0.0",
+  "status": "canon",
+  "core_rules": {
+    "art_is_not_ethnicity": true,
+    "city_is_not_single_style": true,
+    "single_official_concorde_art": false,
+    "single_official_concorde_music": false,
+    "art_adds_universal_stat": false,
+    "art_adds_parallel_progression_tree": false,
+    "real_world_reference_library_is_diegetic_canon": false,
+    "prototype_music_tracks_are_diegetic_canon": false,
+    "signature_franchise_theme_locked": false,
+    "mature_concorde_aesthetic_exists_in_litd2": false
+  },
+  "artistic_dimensions": [
+    "music",
+    "text",
+    "theatre",
+    "image",
+    "textile",
+    "sculpture",
+    "dance",
+    "material_craft",
+    "spatial_art",
+    "oral_storytelling"
+  ],
+  "regional_ecologies": [
+    {
+      "id": "art.jian_lu.circulation",
+      "region": "Jian-Lu",
+      "design_label": "arts de circulation",
+      "drivers": ["river", "bridges", "markets", "migration", "negotiation"],
+      "forms": ["portable_works", "sequential_storytelling", "adaptive_public_performance", "modular_ensembles", "multilingual_refrains"],
+      "musical_tendencies": ["movement", "alternation", "group_response", "portable_repertoire"],
+      "contradiction": "Circulation encourages hybridization but can erase origin or detach community work from context.",
+      "exclusive_to_region": false
+    },
+    {
+      "id": "art.sorye.annotated",
+      "region": "Sorye",
+      "design_label": "arts annotés et contradictoires",
+      "drivers": ["schools", "archives", "medicine", "debate", "experimentation"],
+      "forms": ["annotated_versions", "public_response_works", "debate_theatre", "observational_drawing", "variant_preservation"],
+      "musical_tendencies": ["close_listening", "variation", "motif_transformation", "dialogue_between_lines"],
+      "contradiction": "Scholarly analysis can become cultural appropriation or institutional confiscation.",
+      "exclusive_to_region": false
+    },
+    {
+      "id": "art.dhor_khal.resonance",
+      "region": "Dhor-Khal",
+      "design_label": "arts de matière et de résonance",
+      "drivers": ["metal", "stone", "wood", "workshops", "technical_apprenticeship"],
+      "forms": ["material_sculpture", "infrastructure_art", "collective_rhythm", "resonant_objects", "visible_repair"],
+      "musical_tendencies": ["pulse", "material_resonance", "impact_and_silence", "interlocking_cycles"],
+      "contradiction": "Technical mastery can be mistaken for artistic depth by itself.",
+      "exclusive_to_region": false
+    },
+    {
+      "id": "art.lhaor.situated",
+      "region": "Lhaor",
+      "design_label": "arts situés et saisonniers",
+      "drivers": ["forest_valley", "agriculture", "plant_medicine", "living_systems", "seasonality"],
+      "forms": ["site_specific_work", "seasonal_work", "temporary_materials", "terrain_performance", "ephemeral_memory"],
+      "musical_tendencies": ["breath", "space", "variable_density", "long_time", "world_sound_room"],
+      "contradiction": "Respecting ephemerality can conflict with preserving work after catastrophe.",
+      "exclusive_to_region": false
+    },
+    {
+      "id": "art.tessen.plurality",
+      "region": "Tessen",
+      "design_label": "arts d'assemblée et de pluralité",
+      "drivers": ["autonomous_districts", "civic_squares", "textile", "participation", "craft_diversity"],
+      "forms": ["collective_authorship", "generational_work", "participatory_theatre", "narrative_textile", "regulated_improvisation"],
+      "musical_tendencies": ["polyphony", "alternation", "call_response", "collective_improvisation", "independent_lines"],
+      "contradiction": "Collective authorship can erase individual labor or blur responsibility.",
+      "exclusive_to_region": false
+    },
+    {
+      "id": "art.orun_sai.translation",
+      "region": "Orun-Saï",
+      "design_label": "arts du voyage et de la traduction",
+      "drivers": ["caravans", "diplomacy", "translation", "migration", "long_routes"],
+      "forms": ["portable_instruments", "adaptable_storytelling", "route_memory_repertoire", "source_and_translation_coexistence", "mnemonic_forms"],
+      "musical_tendencies": ["memorable_refrains", "route_variants", "extendable_forms", "multilingual_versions"],
+      "contradiction": "Translation increases access but can shift meaning.",
+      "exclusive_to_region": false
+    }
+  ],
+  "shared_musical_functions": [
+    "pulse",
+    "line",
+    "resonance",
+    "plurality",
+    "return",
+    "silence"
+  ],
+  "shared_musical_function_policy": {
+    "diegetic_universal_theory": false,
+    "official_scale": false,
+    "official_mode": false,
+    "official_tuning": false,
+    "official_meter": false,
+    "production_design_vocabulary": true
+  },
+  "instrument_policy": {
+    "named_diegetic_instruments_locked": false,
+    "start_from_material_and_function": true,
+    "families": [
+      "bowed_or_plucked_strings",
+      "membranes",
+      "struck_or_resonant_wood",
+      "struck_or_vibrating_metal",
+      "winds_and_conduits",
+      "solo_or_group_voice",
+      "transformed_work_objects",
+      "architectural_or_landscape_resonators"
+    ],
+    "fictional_instrument_requires": ["available_material", "plausible_craft", "ergonomics", "social_context", "mobility_or_fixed_context", "transmission_history"],
+    "rename_sensitive_real_instrument_and_claim_original": false
+  },
+  "remanence_model": {
+    "layers": ["form", "attribution", "context", "interpretation"],
+    "layers_can_diverge": true,
+    "transmission_states": [
+      "preserved",
+      "copied",
+      "translated",
+      "interpreted",
+      "transformed",
+      "fragmented",
+      "fused",
+      "misattributed",
+      "forbidden",
+      "forgotten_then_reconstructed",
+      "known_only_through_response_or_critique"
+    ],
+    "historical_original_is_automatically_artistically_best": false
+  },
+  "chronology": [
+    {
+      "era": "litd2_last_war",
+      "mature_concorde_ecologies_exist": false,
+      "state": "ancient_diverse_traditions_collide_under_war_displacement_propaganda_and_loss"
+    },
+    {
+      "era": "post_sarn_long_assemblies_veilleurs",
+      "mature_concorde_ecologies_exist": false,
+      "state": "artists_participate_in_transmission_debate_and_cross_regional_exchange"
+    },
+    {
+      "era": "mature_concorde_litd1_prefall",
+      "mature_concorde_ecologies_exist": true,
+      "state": "regional_tendencies_remain_recognizable_after_centuries_of_hybridization"
+    },
+    {
+      "era": "litd1_post_fall",
+      "mature_concorde_ecologies_exist": "fragmented",
+      "state": "works_survive_as_objects_copies_memory_gesture_fragments_misattribution_and_silence"
+    }
+  ],
+  "gameplay_rules": {
+    "art_is_fourth_mandatory_progression_system": false,
+    "critical_main_plot_can_be_permanently_locked_by_art_school": false,
+    "music_can_mark_morally_correct_choice": false,
+    "uses": [
+      "provenance_recognition",
+      "alternate_evidence_reading",
+      "dialogue_variant",
+      "nonviolent_solution",
+      "propaganda_analysis",
+      "restoration_or_comparison",
+      "audio_visual_motif",
+      "cross_game_remanence",
+      "character_and_location_staging"
+    ]
+  },
+  "staging_rules": {
+    "pillar_8_central": true,
+    "explain_every_artwork_by_exposition": false,
+    "silence_is_valid_staging": true,
+    "music_ducks_for_critical_information": true,
+    "music_moralizes_political_choice": false,
+    "veilleurs_text_dialogue_can_use_timing_layout_portraits_sfx_reactions": true
+  },
+  "body_consequence_rules": {
+    "gore_required_in_every_art_context": false,
+    "persistent_injury_can_change_artistic_practice": true,
+    "art_can_depict_injury_without_replacing_systemic_body_consequences": true
+  },
+  "real_world_reference_guardrails": {
+    "reference_library": "docs/BIBLIOTHEQUE_ARTISTIQUE_MONDE.md",
+    "diegetic_canon": false,
+    "single_source_copy_allowed": false,
+    "sacred_or_community_motif_as_generic_decoration": false,
+    "deep_transformation_required": true
+  },
+  "production_music_guardrails": {
+    "catalog": "data/music_library.json",
+    "guide": "docs/design/music_library.md",
+    "catalog_is_prototype_production_tool": true,
+    "catalog_tracks_are_world_canon": false,
+    "final_original_identity_still_required": true,
+    "signature_theme_locked_by_this_pass": false
+  },
+  "outer_world_policy": {
+    "single_aesthetic_per_polity": false,
+    "varkhane": "Imperial, provincial, military, rural and dissident arts coexist.",
+    "namar": "Ports and diasporas create circulation and hybridization without one Namar style.",
+    "azravel": "Religious, popular, heterodox and political arts must remain distinct.",
+    "kor_em": "Patronage, contests, academies and workshops create competing aesthetics.",
+    "detailed_outer_traditions_locked": false
+  },
+  "effrie_guardrail": {
+    "tribe_artistic_traditions": "unconfirmed",
+    "tribe_music": "unconfirmed",
+    "tribe_symbols": "unconfirmed",
+    "must_remain_unconfirmed_here": true
+  },
+  "cross_game_remanence": [
+    {
+      "from": "litd2",
+      "to": "les_veilleurs",
+      "channels": ["soldier_song_to_mourning", "propaganda_as_evidence", "work_rhythm_to_civil_form", "displaced_artist_hybridization"]
+    },
+    {
+      "from": "les_veilleurs",
+      "to": "litd1",
+      "channels": ["preserve_with_context", "preserve_without_context", "translation", "contestation", "intentional_incompletion", "misattribution", "semantic_and_formal_shift"]
+    }
+  ],
+  "open_design_spaces": [
+    "diegetic_school_and_movement_names",
+    "historical_artists",
+    "individual_canonical_works",
+    "named_instruments",
+    "tuning_modes_and_notation",
+    "scripts_and_calligraphies",
+    "specific_textile_motifs",
+    "rural_and_nomadic_arts",
+    "nonhuman_conscious_peoples_arts",
+    "effrie_tribe_art_and_music",
+    "final_signature_music_identity"
+  ],
+  "pillar_validation": {
+    "P1_character_creation": "pass",
+    "P2_systemic_gore": "conditional",
+    "P3_philosophy_psychology": "pass_central",
+    "P4_accessible_human_depth": "pass_central",
+    "P5_strong_narrative": "pass_central",
+    "P6_interconnection": "pass_central",
+    "P7_knowledge_remanence": "pass_central",
+    "P8_dialogue_staging": "pass_central",
+    "P9_simple_deep_readable_gameplay": "pass_central"
+  },
+  "supersedes_generic_open_space": "traditions artistiques et musicales régionales de la Concorde",
+  "sources": [
+    "docs/LITD_UNIVERSE_TRADITIONS_ARTISTIQUES_MUSICALES.md",
+    "docs/LITD_UNIVERSE_PEUPLES_CULTURES_VIVANTES.md",
+    "docs/LITD_UNIVERSE_SYSTEME_LINGUISTIQUE.md",
+    "docs/LITD_UNIVERSE_ECOLES_MARTIALES_REGIONALES.md",
+    "docs/HISTOIRE_TROIS_EVEILS.md",
+    "docs/LORE_BIBLE.md",
+    "docs/CONCORDE_MONDE_POLITIQUE.md",
+    "docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md",
+    "docs/LITD_UNIVERSE_CREATION_PERSONNAGES.md",
+    "docs/BIBLIOTHEQUE_ARTISTIQUE_MONDE.md",
+    "docs/design/music_library.md",
+    "data/music_library.json"
+  ]
+}
