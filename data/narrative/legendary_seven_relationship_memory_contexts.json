@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "canon_status": "litd1_seven_memory_context_v1",
+  "rules": {
+    "no_new_relationship_meter": true,
+    "exact_event_id_marks_scene_seen": true,
+    "same_stage_may_return_for_distinct_memory": true,
+    "generic_stage_line_is_preserved": true,
+    "max_spoken_lines_per_scene": 2,
+    "dead_hero_never_speaks": true,
+    "memory_context_is_not_moral_verdict": true,
+    "unknown_topic_falls_back_to_generic_scene": true,
+    "event_override_never_changes_source_fact": true
+  },
+  "topics": {
+    "qui_portera_le_cout_apres_l_urgence": {
+      "stage_direction_suffix": "Une carte de routes corrigée après la crise reste ouverte entre eux, avec les capacités réelles notées à côté du résultat.",
+      "voices": {
+        "hero.aurelien": "Le résultat tient. Je veux encore savoir qui continue d'en payer le prix.",
+        "hero.effrie": "Une décision d'urgence ne devient pas une règle parce qu'elle a fonctionné une fois.",
+        "hero.lya": "La route a un nouveau nom ; ceux qui ont attendu n'en ont pas tous un dans le récit.",
+        "hero.mathilde": "Montre-moi ceux pour qui l'urgence n'est pas terminée avant de parler de réussite.",
+        "hero.marec": "Une route réparée n'a pas réparé les gens qui ont dormi dehors.",
+        "hero.zeje": "Le succès matériel est confirmé. La répartition du coût reste une autre question.",
+        "hero.anouk": "Les chemins se rejoignent sur la carte après coup ; ça ne veut pas dire qu'ils avaient le même but avant."
+      }
+    },
+    "dignite_et_incertitude_des_morts": {
+      "stage_direction_suffix": "Le dossier garde séparés le nom, le lieu du corps, les objets rendus et ce qui demeure INCONNU.",
+      "voices": {
+        "hero.aurelien": "Je préfère une incertitude écrite à une certitude inventée pour consoler plus vite.",
+        "hero.effrie": "Un mort n'a pas besoin que nous fabriquions une histoire propre autour de lui.",
+        "hero.lya": "Un nom incomplet peut encore être transmis sans qu'on remplisse le vide à sa place.",
+        "hero.mathilde": "La précision ne doit jamais nous dispenser de regarder la personne derrière le dossier.",
+        "hero.marec": "Si on ne sait pas, on peut au moins garder ce qu'on sait sans le mélanger au reste.",
+        "hero.zeje": "INCONNU est parfois la seule conclusion exacte que nous possédions.",
+        "hero.anouk": "Laisser une case vide peut être une manière de ne pas voler la dernière chose qui lui appartient."
+      }
+    },
+    "proteger_sans_posseder_les_recits_des_refugies": {
+      "stage_direction_suffix": "Des listes partielles, des signes d'accueil et plusieurs itinéraires incompatibles sont conservés sans fabriquer un récit central unique.",
+      "voices": {
+        "hero.aurelien": "Protéger quelqu'un ne nous donne pas le droit de devenir propriétaire de son histoire.",
+        "hero.effrie": "S'ils ont changé de route trois fois pour survivre, ne transforme pas ça en marche glorieuse.",
+        "hero.lya": "Une histoire dispersée perd des morceaux ; une histoire centralisée peut perdre les personnes.",
+        "hero.mathilde": "Certains ne savaient même pas où ils dormiraient le soir. Gardons cette réalité dans le récit.",
+        "hero.marec": "Ils ont suivi l'endroit qui tenait encore. Pas un plan que nous aurions écrit pour eux.",
+        "hero.zeje": "L'absence de centre n'est pas l'absence de preuve ; elle change seulement la manière de la relier.",
+        "hero.anouk": "Plusieurs chemins peuvent former un réseau sans avoir été dessinés ensemble."
+      }
+    },
+    "agir_sans_transformer_l_incertitude_en_excuse": {
+      "stage_direction_suffix": "Un dossier conserve côte à côte observation, degré de confiance, décision prise et conséquences apparues ensuite.",
+      "voices": {
+        "hero.aurelien": "L'incertitude explique pourquoi j'ai hésité ; elle ne m'exonère pas de ce que j'ai décidé.",
+        "hero.effrie": "Ne pas savoir assez n'empêche pas d'agir. Ça interdit seulement de prétendre qu'on savait.",
+        "hero.lya": "Ce que nous avons cru voir doit rester distinct de ce que nous avons fait à partir de là.",
+        "hero.mathilde": "Écrivons aussi ce que les gens ont subi pendant que nous apprenions.",
+        "hero.marec": "On peut dire qu'on n'était pas sûrs et quand même reconnaître qui a pris le coup.",
+        "hero.zeje": "Décider sous incertitude n'est pas une contradiction. Effacer l'incertitude après coup en serait une.",
+        "hero.anouk": "Nos corrections ne diminuent pas ce que nous savons ; elles montrent comment nous l'avons appris."
+      }
+    },
+    "respecter_un_refus_sans_inventer_une_essence": {
+      "stage_direction_suffix": "Le protocole conserve le refus précis, ses conditions et le seuil d'arrêt sans transformer le cas en définition d'une espèce.",
+      "voices": {
+        "hero.aurelien": "Le refus suffit pour arrêter ici. Il ne suffit pas pour expliquer ce que l'autre est.",
+        "hero.effrie": "Respecter une limite n'exige pas que nous inventions une doctrine autour d'elle.",
+        "hero.lya": "Une réponse peut garder son étrangeté sans devenir symbole de tout un peuple.",
+        "hero.mathilde": "Le respect du refus a eu un coût pour d'autres aussi. Je veux que les deux restent visibles.",
+        "hero.marec": "Si ça dit stop, je m'arrête. Le reste, on le comprendra ou pas.",
+        "hero.zeje": "Le précédent porte sur notre obligation d'arrêt, pas sur la nature de celui qui a refusé.",
+        "hero.anouk": "Ne pas comprendre une réponse ne nous autorise pas à lui donner un sens plus commode."
+      }
+    },
+    "memoire_dogme_et_necessite_humaine": {
+      "stage_direction_suffix": "L'étiquette d'origine reste sous l'objet ou le relevé, antérieure aux récits sacrés, héroïques ou politiques apparus ensuite.",
+      "voices": {
+        "hero.aurelien": "L'urgence peut expliquer une décision. Elle ne doit jamais devenir la preuve qu'elle était une loi.",
+        "hero.effrie": "Je ne laisserai pas notre ignorance devenir un pacte que personne n'a réellement prononcé.",
+        "hero.lya": "L'objet n'a pas changé ; le cadre autour de lui commence déjà à parler plus fort.",
+        "hero.mathilde": "Si une histoire rend notre choix plus beau qu'il ne l'était, gardons aussi ceux qui ont payé pour lui.",
+        "hero.marec": "Ce qu'on a pris pour survivre ne devient pas sacré juste parce qu'on a survécu.",
+        "hero.zeje": "Quand le contexte disparaît, l'interprétation la plus simple gagne sans avoir gagné en preuve.",
+        "hero.anouk": "Je veux garder la première étiquette, même si plus tard personne n'aime ce qu'elle ne dit pas."
+      }
+    },
+    "deuil_causalite_et_instrumentalisation_des_morts": {
+      "stage_direction_suffix": "Au Mémorial, le nom, la cause matérielle et les interprétations politiques restent sur des supports distincts.",
+      "voices": {
+        "hero.aurelien": "Sa mort change notre connaissance des conséquences. Elle ne rédige pas à notre place le verdict moral.",
+        "hero.effrie": "Qu'on ne fasse pas parler un mort pour gagner un débat qu'il n'a jamais entendu.",
+        "hero.lya": "Un nom devient vite symbole quand ceux qui l'aimaient n'ont plus la force de corriger l'histoire.",
+        "hero.mathilde": "Dis son nom avant d'utiliser sa mort pour défendre quoi que ce soit.",
+        "hero.marec": "Je veux me souvenir de ce qu'il faisait, pas seulement de la décision après laquelle il est mort.",
+        "hero.zeje": "Une causalité documentée n'est pas encore une morale ; les confondre détruirait les deux.",
+        "hero.anouk": "Ce que nous faisons de son nom nous appartient. Sa vie, non."
+      }
+    },
+    "responsabilite_dans_une_capacite_saturee": {
+      "stage_direction_suffix": "Les registres de soins, chauffage, logement et nourriture sont posés ensemble pour empêcher une cause unique d'absorber les autres.",
+      "voices": {
+        "hero.aurelien": "Aucune ligne de ce registre n'explique seule pourquoi tout a saturé.",
+        "hero.effrie": "Quand tout manque à la fois, choisir une priorité reste un choix, pas une vérité naturelle.",
+        "hero.lya": "Les files ont disparu ; leurs traces au sol racontent encore des attentes différentes.",
+        "hero.mathilde": "Ceux qui ont attendu n'ont pas attendu une statistique globale. Ils ont attendu du chaud, un lit ou un soin précis.",
+        "hero.marec": "Une réserve pleine ne sert pas à grand-chose si l'autre pièce est vide.",
+        "hero.zeje": "La saturation est un système de contraintes concurrentes, pas un coupable unique.",
+        "hero.anouk": "Si nous réunissons les registres, gardons quand même la raison pour laquelle ils étaient séparés."
+      }
+    },
+    "methode_commune_et_droit_a_la_revision": {
+      "stage_direction_suffix": "Une ancienne correction demeure attachée à la règle actuelle au lieu d'être effacée comme une erreur embarrassante.",
+      "voices": {
+        "hero.aurelien": "Une institution fiable doit conserver le moment où elle a dû se corriger.",
+        "hero.effrie": "Une méthode commune devient dangereuse quand plus personne n'a le droit de lui dire qu'elle s'est trompée.",
+        "hero.lya": "La rature fait partie de l'œuvre quand elle montre ce que nous avons appris.",
+        "hero.mathilde": "Je veux savoir qui a subi l'ancienne règle avant qu'on félicite la nouvelle.",
+        "hero.marec": "Si la règle a changé parce qu'elle blessait quelqu'un, ne cache pas l'ancienne version.",
+        "hero.zeje": "Écrire « nous nous sommes trompés » est une fonction de la méthode, pas son échec.",
+        "hero.anouk": "La correction doit voyager avec la conclusion, sinon la conclusion finit par paraître éternelle."
+      }
+    },
+    "precedent_cas_par_cas_et_generalisation": {
+      "stage_direction_suffix": "Le manuel aligne plusieurs cas avec leurs seuils d'arrêt, sans phrase permettant de transformer l'un d'eux en nature commune.",
+      "voices": {
+        "hero.aurelien": "Un précédent peut guider l'action sans autoriser une conclusion universelle sur ceux que nous rencontrons.",
+        "hero.effrie": "Un cas transmis devient vite une tradition ; gardons ce qu'il n'autorise pas à conclure.",
+        "hero.lya": "Deux histoires qui se ressemblent ne deviennent pas la même histoire parce qu'on les relie.",
+        "hero.mathilde": "Le manuel doit dire aussi quel coût produit une mauvaise généralisation.",
+        "hero.marec": "Je peux apprendre quand m'arrêter sans prétendre connaître d'avance ce que j'ai devant moi.",
+        "hero.zeje": "La méthode peut être commune. La conclusion sur l'autre ne l'est pas.",
+        "hero.anouk": "Un manuel utile devrait apprendre à reconnaître quand il ne sait plus quoi dire."
+      }
+    },
+    "memoire_commune_sans_propriete_centrale": {
+      "stage_direction_suffix": "Les références croisées relient plusieurs lieux de mémoire sans faire disparaître leurs corrections, leurs rites ni leurs désaccords locaux.",
+      "voices": {
+        "hero.aurelien": "Relier les archives n'autorise pas le centre à devenir propriétaire de ce qu'elles gardent.",
+        "hero.effrie": "Une mémoire commune qui exige qu'on abandonne sa mémoire locale n'est plus commune.",
+        "hero.lya": "Le réseau peut tenir précisément parce que ses voix ne sont pas fondues en une seule.",
+        "hero.mathilde": "Je veux que les familles puissent encore corriger le centre au lieu d'être corrigées par lui.",
+        "hero.marec": "Si tous les chemins ramènent au même registre, le registre doit encore montrer d'où chacun vient.",
+        "hero.zeje": "Une référence commune est utile seulement si elle conserve les divergences qui l'ont produite.",
+        "hero.anouk": "Relier deux souvenirs ne les oblige pas à devenir identiques."
+      }
+    }
+  },
+  "event_overrides": {
+    "cross_food_local_security_and_grain_bridge": {
+      "stage_direction_suffix": "Un sac de grain arrivé par le pont reste à côté d'une liste de familles encore sous toile.",
+      "pair_lines": {
+        "aurelien_mathilde": {"speaker_id":"hero.aurelien","text":"Le grain passe de nouveau. Les abris, eux, sont toujours saturés ; je refuse d'appeler ça une victoire entière."}
+      }
+    },
+    "cross_funeral_body_return_and_medical_corridor": {
+      "stage_direction_suffix": "Le registre du corridor alterne médicaments urgents et corps rendus aux familles, sans ligne de priorité définitive.",
+      "pair_lines": {
+        "aurelien_mathilde": {"speaker_id":"hero.mathilde","text":"Je ne veux ni abandonner les morts ni faire attendre un médicament pour leur rendre une dignité que nous pouvons organiser autrement."}
+      }
+    },
+    "cross_epistemic_clinical_record_and_probable_identity": {
+      "stage_direction_suffix": "Un dossier clinique porte encore le tampon PROBABLE à côté d'une décision de soin déjà exécutée.",
+      "pair_lines": {
+        "aurelien_mathilde": {"speaker_id":"hero.aurelien","text":"J'ai soigné avant d'être certain de l'identité. Je dois garder les deux faits visibles : l'incertitude et la décision."}
+      }
+    },
+    "cross_azravel_evidence_and_protected_registry": {
+      "stage_direction_suffix": "Le registre protégé reste sous double sceau ; une liste d'accès rappelle qu'une archive politique peut sauver ou livrer les mêmes personnes.",
+      "pair_lines": {
+        "aurelien_mathilde": {"speaker_id":"hero.mathilde","text":"Si ce registre peut réunir une famille et la condamner le même soir, sa sécurité fait partie de notre décision, pas de l'intendance."}
+      }
+    },
+    "cross_relationship_named_death_after_difficult_choice": {
+      "stage_direction_suffix": "Le nom du mort est inscrit avant le débat sur la décision qui l'a précédé.",
+      "pair_lines": {
+        "aurelien_mathilde": {"speaker_id":"hero.mathilde","text":"Écris son nom avant notre justification. Je veux être certaine qu'on se souvienne d'une personne avant de se souvenir de notre débat."}
+      }
+    },
+    "cascade_winter_refugee_pressure": {
+      "stage_direction_suffix": "Les registres de l'hiver sont empilés ensemble : chauffage, soins, rations et couchages ont cédé à des moments différents.",
+      "pair_lines": {
+        "aurelien_mathilde": {"speaker_id":"hero.aurelien","text":"Je peux nommer la décision que j'aurais changée. Je ne laisserai pas pour autant quatre capacités saturées devenir une faute unique inventée après coup."}
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@ func run() -> void:
     await _frames(1)
 
     _check(LegendarySevenRelationshipRuntime.pair_count() == 21, "pair_count() == 21")
+    _check(LegendarySevenRelationshipRuntime.memory_topic_count() == 11, "memory_topic_count() == 11")
     var aurelien_mathilde: Dictionary = LegendarySevenRelationshipRuntime.profile_for_ids("aurelien", "mathilde")
     _check(str(aurelien_mathilde.get("romance_status", "")) == "not_canonized", "Aurélien and Mathilde romance must remain not_canonized")
     _check(str(aurelien_mathilde.get("central_disagreement", "")).contains("acceptable"), "Aurélien and Mathilde must keep acceptable-cost disagreement")
@@ -24,7 +25,26 @@ func run() -> void:
     var opening: Dictionary = LegendarySevenRelationshipRuntime.present_best_pending_scene()
     _check(str(opening.get("pair_id", "")) == "aurelien_mathilde" and str(opening.get("stage", "")) == "opening", "opening scene must select Aurélien and Mathilde")
     _check(opening.get("lines", []).size() == 1, "pair scene must remain sparse rather than become an NPC queue")
-    _check(LegendarySevenRelationshipRuntime.present_best_pending_scene().is_empty(), "an already seen stage must not replay")
+    _check(LegendarySevenRelationshipRuntime.present_best_pending_scene().is_empty(), "an already seen generic stage must not replay")
+
+    var route_event_id := "systemic_afterlife:cross_food_local_security_and_grain_bridge"
+    _append_qualitative_history("aurelien", "mathilde", route_event_id, "responsabilite_partagee", "qui_portera_le_cout_apres_l_urgence")
+    _append_qualitative_history("mathilde", "aurelien", route_event_id, "responsabilite_partagee", "qui_portera_le_cout_apres_l_urgence")
+    var route_memory: Dictionary = LegendarySevenRelationshipRuntime.present_best_pending_scene()
+    _check(str(route_memory.get("stage", "")) == "opening", "same stage may replay for a distinct exact memory")
+    _check(bool(route_memory.get("memory_context_applied", false)), "memory_context_applied must be true for a known systemic topic")
+    _check(str(route_memory.get("memory_event_id", "")) == route_event_id, "memory_event_id must preserve the exact relationship history event")
+    _check(route_memory.get("lines", []).size() == 2, "a living contextual memory may add at most one second voice")
+    _check(str(route_memory.get("direction", "")).contains("sac de grain"), "exact route memory must change Aurélien-Mathilde staging")
+    _check(LegendarySevenRelationshipRuntime.present_best_pending_scene().is_empty(), "same exact memory must not replay")
+
+    var second_route_event_id := "systemic_afterlife:cross_food_distributed_risk_and_local_repairs"
+    _append_qualitative_history("aurelien", "mathilde", second_route_event_id, "responsabilite_partagee", "qui_portera_le_cout_apres_l_urgence")
+    _append_qualitative_history("mathilde", "aurelien", second_route_event_id, "responsabilite_partagee", "qui_portera_le_cout_apres_l_urgence")
+    var second_route_memory: Dictionary = LegendarySevenRelationshipRuntime.present_best_pending_scene()
+    _check(str(second_route_memory.get("memory_event_id", "")) == second_route_event_id, "same stage may replay for a distinct exact memory")
+    _check(bool(second_route_memory.get("memory_context_applied", false)), "topic fallback must contextualize a source without an exact override")
+    _check(LegendarySevenRelationshipRuntime.present_best_pending_scene().is_empty(), "same exact memory must not replay")
 
     _set_pair_metrics("aurelien", "mathilde", 25, 25, 20)
     _check(LegendarySevenRelationshipRuntime.relationship_stage_for_ids("aurelien", "mathilde") == "friction", "friction stage must derive from real tension")
