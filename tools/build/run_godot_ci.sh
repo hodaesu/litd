@@ -42,6 +42,7 @@ run_checked "Mémoire : décisions, convictions et conséquences différées" go
 run_checked "Mémoire de terrain : recrutement, retraite, boss et réévaluation" godot --headless --path . res://scenes/tests/field_memory_smoke.tscn
 run_checked "Monde réactif : survivants, ressources et retours différés" godot --headless --path . res://scenes/tests/field_encounter_smoke.tscn
 run_checked "Sanctuaire vivant : personnes, rumeurs et quêtes émergentes" godot --headless --path . res://scenes/tests/community_network_smoke.tscn
+run_checked "Croisements systémiques : choix, cascades, mémoire, routes, économie et anti-rejeu" godot --headless --path . res://scenes/tests/systemic_cross_smoke.tscn
 run_checked "Narration : bibliothèque transmédiatique, dialogues et mise en scène" godot --headless --path . res://scenes/tests/narrative_library_smoke.tscn
 run_checked "Musique : bibliothèque, licences et accompagnement narratif" godot --headless --path . res://scenes/tests/music_library_smoke.tscn
 run_checked "Bruitages : bibliothèque, licences et sound design" godot --headless --path . res://scenes/tests/sfx_library_smoke.tscn
