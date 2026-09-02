@@ -11,7 +11,7 @@
     {"id":"hero.marec","name":"Marec","earliest_anchor":"era.late_concord","latest_anchor":"event.common_rupture","canon_status":"canon"},
     {"id":"hero.aurelien","name":"Aurélien","earliest_anchor":"era.late_concord","latest_anchor":"event.common_rupture","canon_status":"canon"},
     {"id":"hero.lya","name":"Lya","earliest_anchor":"era.late_concord","latest_anchor":"event.common_rupture","canon_status":"canon"},
-    {"id":"hero.effrie","name":"Èffrie","earliest_anchor":"era.late_concord","latest_anchor":"event.common_rupture","formation_position":5,"dragon_link":"powers_and_tribal_harmony_confirmed_origin_undated","sources":["docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"],"canon_status":"canon"},
+    {"id":"hero.effrie","name":"Èffrie","earliest_anchor":"era.late_concord","latest_anchor":"event.common_rupture","formation_position":5,"dragon_link":"dragon_powers_and_tribal_harmony_confirmed_origin_undated","sources":["docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"],"canon_status":"canon"},
     {"id":"hero.anouk","name":"Anouk","earliest_anchor":"era.late_concord","latest_anchor":"event.common_rupture","formation_position":2,"signature_magic":"La Trame","sources":["docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"],"canon_status":"canon"}
   ],
   "civilizations": [
