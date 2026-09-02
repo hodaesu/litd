@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "system_id": "les_veilleurs_hybrid_dungeon_v1",
+  "generation": {
+    "max_attempts": 12,
+    "fallback_to_authored": true,
+    "seed_components": [
+      "campaign_seed",
+      "dungeon_id",
+      "visit_index",
+      "difficulty_band",
+      "story_epoch",
+      "attempt_index"
+    ]
+  },
+  "global_constraints": {
+    "critical_path_must_be_solvable": true,
+    "secret_never_required": true,
+    "boss_topology_protected": true,
+    "physical_retreat_required": true,
+    "max_non_secret_dead_ends_per_floor": 2,
+    "prefer_loops_over_dead_ends": true,
+    "mobile_pc_topology_identical": true,
+    "store_scene_snapshots": false
+  },
+  "room_roles": [
+    "entry",
+    "transit",
+    "combat",
+    "choice",
+    "resource",
+    "narrative",
+    "hazard",
+    "puzzle",
+    "rest",
+    "loop_gate",
+    "secret",
+    "elite",
+    "boss",
+    "exit"
+  ],
+  "connector_types": [
+    "door",
+    "corridor",
+    "stairs",
+    "ladder",
+    "breach",
+    "bridge",
+    "vertical_drop",
+    "secret"
+  ],
+  "default_profiles": {
+    "short": {
+      "room_count": [8, 12],
+      "critical_length": [5, 7],
+      "branching_target": [1, 2],
+      "loop_target": [0, 1],
+      "secret_target": [0, 1],
+      "retreat_points": [1, 2],
+      "encounter_budget": [4, 7],
+      "resource_budget": [2, 4]
+    },
+    "medium": {
+      "room_count": [13, 19],
+      "critical_length": [7, 10],
+      "branching_target": [2, 4],
+      "loop_target": [1, 2],
+      "secret_target": [1, 2],
+      "retreat_points": [2, 3],
+      "encounter_budget": [7, 11],
+      "resource_budget": [3, 6]
+    },
+    "long": {
+      "room_count": [20, 30],
+      "critical_length": [10, 15],
+      "branching_target": [4, 7],
+      "loop_target": [2, 4],
+      "secret_target": [1, 3],
+      "retreat_points": [3, 5],
+      "encounter_budget": [11, 18],
+      "resource_budget": [5, 9]
+    }
+  },
+  "branch_rules": {
+    "optional_branch_requires_value": true,
+    "allowed_values": [
+      "resource",
+      "lore",
+      "shortcut",
+      "secret",
+      "reward",
+      "tactical_position",
+      "knowledge"
+    ],
+    "shortcut_unlock_direction": "deep_to_shallow",
+    "nemesis_may_modify_branch": true,
+    "nemesis_may_break_solvability": false
+  },
+  "remenance": {
+    "storage_mode": "anchor_scars_only",
+    "scar_fields": [
+      "anchor_id",
+      "scar_type",
+      "state",
+      "created_on_run",
+      "source_entity_id",
+      "payload"
+    ],
+    "priority": [
+      "campaign_constraint",
+      "major_permanent_change",
+      "discovered_shortcut",
+      "nemesis_trace",
+      "persistent_corpse",
+      "minor_damage",
+      "procedural_decoration"
+    ],
+    "allowed_scar_types": [
+      "destroyed_door",
+      "collapsed_bridge",
+      "persistent_corpse",
+      "old_blood",
+      "defiled_altar",
+      "discovered_passage",
+      "opened_shortcut",
+      "built_barricade",
+      "burned_area",
+      "major_item_removed",
+      "nemesis_mark",
+      "enemy_occupation_change"
+    ]
+  },
+  "module_library_targets_per_biome": {
+    "entry": 3,
+    "transit": 8,
+    "choice": 4,
+    "combat": 8,
+    "resource": 4,
+    "narrative": 4,
+    "hazard": 4,
+    "puzzle": 3,
+    "elite": 3,
+    "secret": 4,
+    "loop_gate": 4,
+    "rest": 2,
+    "boss": [1, 3]
+  },
+  "validation": {
+    "entry_accessible": true,
+    "objective_accessible": true,
+    "critical_path_continuous": true,
+    "mandatory_rooms_present": true,
+    "retreats_functional": true,
+    "no_impossible_required_lock": true,
+    "branches_within_profile_bounds": true,
+    "no_major_spatial_overlap": true,
+    "navigation_required": true,
+    "performance_budget_required": true,
+    "remenance_must_preserve_progression": true
+  }
+}
