@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "id": "les_veilleurs_bestiary_missing_roles",
+  "status": "design_locked",
+  "game": "LITD: Les Veilleurs",
+  "purpose": "Compléter le roster recrutabile avec soin, combat à distance, pression psychologique non surnaturelle et contrôle environnemental.",
+  "canon_rules": [
+    "Aucun soin de cette vague n'est magique: il s'agit de stabilisation, analgésie, bandage, immobilisation, triage et récupération limitée en expédition.",
+    "La pression psychologique ne permet jamais un contrôle mental surnaturel; elle agit par peur, fatigue, coordination, propagande, rythme, réputation et information.",
+    "Le combat à distance reste compatible avec un monde pré-armes à feu: arcs, arbalètes légères, frondes, javelots et variantes régionales sont autorisés.",
+    "Le contrôle environnemental repose sur outils, cordes, coins, leviers, pièges, feu, eau, poussière, obstacles et structures existantes; pas sur une magie environnementale implicite.",
+    "Les quatre familles restent humaines et culturellement variables; leur équipement n'implique aucune ethnie unique."
+  ],
+  "family_count": 4,
+  "recruitable_family_count": 4,
+  "families": [
+    {
+      "id": "chirurgiens_de_releve",
+      "name": "Chirurgiens de relève",
+      "kind": "human_medical_role",
+      "presence": {"scope":"transversal","primary_contexts":["camps","convois","postes de relève","zones de catastrophe","abords des Sanctuaires"]},
+      "origin_categories": ["natural"],
+      "recruitable": true,
+      "recruitment_vectors": ["surrender","persuasion","debt","interest"],
+      "hard_refusal_conditions": ["exécution volontaire d'un blessé placé sous sa protection pendant la rencontre","destruction délibérée de réserves médicales après avertissement","tentative de faire de la dette médicale un chantage"],
+      "anatomy": {
+        "model":"humanoid_standard_precision_hands",
+        "zones":[
+          {"id":"head_eyes","functions":["diagnosis","observation"],"critical_consequences":["diagnostic moins fiable","précision réduite"]},
+          {"id":"thorax","functions":["endurance","respiration"],"critical_consequences":["fatigue accrue","soins longs limités"]},
+          {"id":"dominant_hand","functions":["medical_precision","weapon_precision"],"critical_consequences":["sutures et gestes fins interdits","précision réduite"]},
+          {"id":"off_hand","functions":["stabilization","support"],"critical_consequences":["immobilisation et maintien réduits"]},
+          {"id":"legs","functions":["movement","casualty_reach"],"critical_consequences":["accès aux blessés limité","repositionnement réduit"]}
+        ]
+      },
+      "combat_role": "triage_healer_support",
+      "ai_priorities": ["stabiliser un allié en danger plutôt que restaurer tous les PV","protéger une cible déjà stabilisée","éviter le corps à corps prolongé","quitter une position si ses mains sont menacées"],
+      "progression_paths": [
+        {"id":"triage","name":"Triage","skills":[
+          {"id":"regard_clinique","name":"Regard clinique","tags":["diagnose","reveal_wound"]},
+          {"id":"priorite_vitale","name":"Priorité vitale","tags":["triage","initiative_support"]},
+          {"id":"garrot_rapide","name":"Garrot rapide","tags":["bleed_control"]},
+          {"id":"ne_pas_perdre_le_prochain","name":"Ne pas perdre le prochain","tags":["death_prevention","limited"]},
+          {"id":"ordre_de_triage","name":"Ordre de triage","tags":["team_support","wound_priority"]}
+        ]},
+        {"id":"stabilisation","name":"Stabilisation","skills":[
+          {"id":"bandage_compresse","name":"Bandage compressé","tags":["heal_light","bleed_control"]},
+          {"id":"attelle_de_marche","name":"Attelle de marche","tags":["mobility_compensation"]},
+          {"id":"souffle_guide","name":"Souffle guidé","tags":["fatigue_control","stress_light"]},
+          {"id":"immobilisation_propre","name":"Immobilisation propre","tags":["wound_protection"]},
+          {"id":"tenir_jusqu_au_retour","name":"Tenir jusqu'au retour","tags":["stabilize","extraction"]}
+        ]},
+        {"id":"devoir_de_soin","name":"Devoir de soin","skills":[
+          {"id":"soigner_sans_camp","name":"Soigner sans camp","tags":["neutral_care","morale"]},
+          {"id":"refus_du_gaspillage_humain","name":"Refus du gaspillage humain","tags":["anti_execution","morale"]},
+          {"id":"partager_les_reserves","name":"Partager les réserves","tags":["resource_support"]},
+          {"id":"temoin_des_blessures","name":"Témoin des blessures","tags":["remanence","wound_memory"]},
+          {"id":"personne_apres_le_triage","name":"Personne après le triage","tags":["team_resilience","bond"]}
+        ]}
+      ],
+      "hub_behavior": ["réorganise les priorités de soins selon l'urgence plutôt que le statut","conserve les traces des blessures anciennes","peut contester une expédition si aucun moyen de retour des blessés n'est prévu"],
+      "narrative_reactions": ["compare les blessures présentes avec d'anciens registres","peut reconnaître une séquelle causée par une procédure institutionnelle","refuse de transformer une pratique de secours en preuve métaphysique"] ,
+      "evolution": ["Aide de relève","Chirurgien de relève","Maître de triage"],
+      "remanence_hooks": ["registres de blessés","bandages marqués","protocoles contradictoires","cicatrices correspondant à d'anciens accidents"]
+    },
+    {
+      "id": "tireurs_de_relais",
+      "name": "Tireurs de relais",
+      "kind": "human_ranged_role",
+      "presence": {"scope":"transversal","primary_contexts":["tours","routes découvertes","falaises","escortes","postes avancés"]},
+      "origin_categories": ["natural"],
+      "recruitable": true,
+      "recruitment_vectors": ["surrender","persuasion","debt","interest"],
+      "hard_refusal_conditions": ["mise à mort d'un éclaireur rendu sans nécessité reconnue","promesse explicite de libre passage rompue devant lui","destruction volontaire de son groupe de civils escortés"],
+      "equipment_rule": "Selon l'origine régionale: arc composite, arc long, arbalète légère, fronde lourde ou javelots; le kit tactique reste commun sans imposer une culture unique.",
+      "anatomy": {
+        "model":"humanoid_ranged_precision",
+        "zones":[
+          {"id":"head_eyes","functions":["range_estimation","perception"],"critical_consequences":["portée efficace réduite","précision réduite"]},
+          {"id":"draw_arm","functions":["draw","reload"],"critical_consequences":["attaques lourdes à distance interdites","rechargement ralenti"]},
+          {"id":"guide_hand","functions":["aim","stabilize"],"critical_consequences":["précision réduite","marquage moins fiable"]},
+          {"id":"torso","functions":["endurance","breathing_control"],"critical_consequences":["tir préparé limité","fatigue accrue"]},
+          {"id":"legs","functions":["reposition","high_ground"],"critical_consequences":["changement de ligne réduit","repli ralenti"]}
+        ]
+      },
+      "combat_role": "ranged_precision_zone_pressure",
+      "ai_priorities": ["maintenir une ligne de tir","marquer ou finir une cible exposée","changer de position lorsque la ligne est fermée","éviter de tirer à travers un allié si le risque est trop élevé"],
+      "progression_paths": [
+        {"id":"trait","name":"Trait","skills":[
+          {"id":"mesure_de_distance","name":"Mesure de distance","tags":["accuracy"]},
+          {"id":"tir_de_joint","name":"Tir de joint","tags":["armor_gap"]},
+          {"id":"trait_d_arret","name":"Trait d'arrêt","tags":["interrupt"]},
+          {"id":"viser_la_fonction","name":"Viser la fonction","tags":["body_zone","disable"]},
+          {"id":"ligne_claire","name":"Ligne claire","tags":["precision","critical_setup"]}
+        ]},
+        {"id":"mobilite","name":"Mobilité","skills":[
+          {"id":"pas_de_relais","name":"Pas de relais","tags":["reposition"]},
+          {"id":"tir_en_retrait","name":"Tir en retrait","tags":["retreat_attack"]},
+          {"id":"hauteur_utile","name":"Hauteur utile","tags":["environment_bonus"]},
+          {"id":"changer_d_angle","name":"Changer d'angle","tags":["flank_ranged"]},
+          {"id":"relais_mobile","name":"Relais mobile","tags":["reposition_team","ranged"]}
+        ]},
+        {"id":"observation","name":"Observation","skills":[
+          {"id":"repere_de_passage","name":"Repère de passage","tags":["exploration","mark"]},
+          {"id":"signal_discret","name":"Signal discret","tags":["initiative_team"]},
+          {"id":"compter_les_sorties","name":"Compter les sorties","tags":["anti_ambush"]},
+          {"id":"observer_sans_tirer","name":"Observer sans tirer","tags":["reveal","nonlethal_setup"]},
+          {"id":"carte_des_angles","name":"Carte des angles","tags":["team_accuracy","environment_read"]}
+        ]}
+      ],
+      "hub_behavior": ["cherche naturellement un point haut ou une ligne de vue","améliore les cartes d'approche","peut signaler qu'une défense supposée imprenable possède en réalité un angle mort"],
+      "narrative_reactions": ["reconnaît les signaux de relais et codes visuels","peut identifier qu'un tir attribué à une faction exigeait une position qu'elle ne contrôlait pas","ses observations restent des indices, pas une omniscience"] ,
+      "evolution": ["Éclaireur de trait","Tireur de relais","Œil de passage"],
+      "remanence_hooks": ["traits récupérés","angles consignés","signaux de tour","cartes annotées"]
+    },
+    {
+      "id": "meneurs_de_voix",
+      "name": "Meneurs de voix",
+      "kind": "human_morale_role",
+      "presence": {"scope":"transversal","primary_contexts":["formations militaires","foules","camps","assemblées sous tension","postes de travail collectifs"]},
+      "origin_categories": ["natural"],
+      "recruitable": true,
+      "recruitment_vectors": ["surrender","persuasion","debt","interest","fear"],
+      "hard_refusal_conditions": ["usage répété de la torture après qu'une alternative a été ouverte","humiliation publique volontaire d'une reddition respectée","chantage par dette envers une recrue déjà ralliée"],
+      "non_supernatural_rule": "Leurs cris, récits, rythmes, percussions, cloches et signaux modifient attention, peur et cohésion; ils ne contrôlent jamais l'esprit et ne créent aucune émotion ex nihilo.",
+      "anatomy": {
+        "model":"humanoid_voice_endurance",
+        "zones":[
+          {"id":"head_mouth","functions":["voice","command"],"critical_consequences":["portée vocale réduite","actions de commandement limitées"]},
+          {"id":"thorax_lungs","functions":["breath","voice_endurance"],"critical_consequences":["chants longs interdits","fatigue accrue"]},
+          {"id":"hands","functions":["signals","percussion"],"critical_consequences":["signaux rythmiques limités"]},
+          {"id":"torso","functions":["endurance"],"critical_consequences":["pression prolongée réduite"]},
+          {"id":"legs","functions":["positioning","formation_follow"],"critical_consequences":["repositionnement réduit"]}
+        ]
+      },
+      "combat_role": "morale_pressure_coordination",
+      "ai_priorities": ["affaiblir la cohésion d'une cible déjà sous pression","renforcer un allié qui hésite","changer de cible plutôt que spammer un ennemi déjà brisé","se taire ou se replier si la voix devient physiquement impossible"],
+      "progression_paths": [
+        {"id":"pression","name":"Pression","skills":[
+          {"id":"nommer_la_peur","name":"Nommer la peur","tags":["stress","reveal_state"]},
+          {"id":"appel_du_doute","name":"Appel du doute","tags":["morale_debuff"]},
+          {"id":"rythme_de_poursuite","name":"Rythme de poursuite","tags":["pressure","initiative"]},
+          {"id":"briser_le_chant","name":"Briser le chant","tags":["interrupt_morale"]},
+          {"id":"faire_ceder_la_ligne","name":"Faire céder la ligne","tags":["morale_break","reposition_enemy"]}
+        ]},
+        {"id":"cohesion","name":"Cohésion","skills":[
+          {"id":"appel_et_reponse","name":"Appel et réponse","tags":["team_morale"]},
+          {"id":"reprendre_le_rythme","name":"Reprendre le rythme","tags":["stress_recovery"]},
+          {"id":"voix_de_releve","name":"Voix de relève","tags":["ally_swap","morale"]},
+          {"id":"tenir_ensemble","name":"Tenir ensemble","tags":["team_resist"]},
+          {"id":"nous_sommes_encore_la","name":"Nous sommes encore là","tags":["team_last_stand","morale"]}
+        ]},
+        {"id":"contradiction","name":"Contradiction","skills":[
+          {"id":"retourner_le_mot","name":"Retourner le mot","tags":["counter_morale"]},
+          {"id":"rappeler_le_fait","name":"Rappeler le fait","tags":["anti_propaganda"]},
+          {"id":"nommer_la_promesse","name":"Nommer la promesse","tags":["bond","truth"]},
+          {"id":"deux_recits","name":"Deux récits","tags":["remanence","doubt"]},
+          {"id":"refuser_le_chœur_unique","name":"Refuser le chœur unique","tags":["knowledge_remanence","team_resist"]}
+        ]}
+      ],
+      "hub_behavior": ["observe les tensions collectives avant d'intervenir","peut aider à ritualiser une relève sans sacraliser l'institution","réagit fortement aux slogans qui effacent les contradictions"],
+      "narrative_reactions": ["reconnaît des slogans ayant changé de sens selon les régions","peut révéler comment une foule a été mobilisée sans prétendre qu'elle a été manipulée comme un seul esprit","peut être confronté à ses propres paroles recopiées hors contexte"] ,
+      "evolution": ["Porte-voix","Meneur de voix","Voix de cohésion"],
+      "remanence_hooks": ["chants avec variantes","slogans corrigés","témoignages de foule","instruments de signal"]
+    },
+    {
+      "id": "sapeurs_de_passage",
+      "name": "Sapeurs de passage",
+      "kind": "human_engineering_role",
+      "presence": {"scope":"transversal","primary_contexts":["ponts","galeries","portes","routes effondrées","fortifications","installations anciennes réutilisées"]},
+      "origin_categories": ["natural"],
+      "recruitable": true,
+      "recruitment_vectors": ["surrender","persuasion","debt","interest"],
+      "hard_refusal_conditions": ["effondrement délibéré d'une structure sur des civils après avertissement","destruction d'un ouvrage de secours qu'il venait de stabiliser","mensonge sur une évacuation utilisée comme piège"],
+      "anatomy": {
+        "model":"humanoid_tool_user",
+        "zones":[
+          {"id":"head_eyes","functions":["structure_read","measurement"],"critical_consequences":["détection de faiblesse réduite"]},
+          {"id":"tool_arm","functions":["tool_use","lever_force"],"critical_consequences":["actions d'outil lourdes interdites"]},
+          {"id":"support_arm","functions":["rope","brace"],"critical_consequences":["pièges et cordages limités"]},
+          {"id":"torso_back","functions":["carry_tools","endurance"],"critical_consequences":["charge d'outils réduite","fatigue accrue"]},
+          {"id":"legs","functions":["brace","hazard_movement"],"critical_consequences":["stabilisation de structure réduite","déplacement en terrain instable limité"]}
+        ]
+      },
+      "combat_role": "environment_control_traps_breach",
+      "ai_priorities": ["transformer le terrain avant d'attaquer directement","fermer une route dangereuse","forcer l'ennemi à changer de ligne","éviter toute action dont l'effondrement menacerait ses propres alliés sans gain majeur"],
+      "progression_paths": [
+        {"id":"terrain","name":"Terrain","skills":[
+          {"id":"lire_la_charge","name":"Lire la charge","tags":["structure_read"]},
+          {"id":"coin_de_blocage","name":"Coin de blocage","tags":["obstacle"]},
+          {"id":"ouvrir_le_couloir","name":"Ouvrir le couloir","tags":["exploration","breach"]},
+          {"id":"effondrement_selectif","name":"Effondrement sélectif","tags":["environment_damage","area_denial"]},
+          {"id":"maitre_du_passage","name":"Maître du passage","tags":["environment_control","route"]}
+        ]},
+        {"id":"entraves","name":"Entraves","skills":[
+          {"id":"corde_basse","name":"Corde basse","tags":["trip"]},
+          {"id":"crochet_de_sol","name":"Crochet de sol","tags":["root"]},
+          {"id":"huile_et_poussiere","name":"Huile et poussière","tags":["hazard","accuracy_debuff"]},
+          {"id":"piege_de_repli","name":"Piège de repli","tags":["retreat_trap"]},
+          {"id":"terrain_qui_refuse","name":"Terrain qui refuse","tags":["area_denial","control"]}
+        ]},
+        {"id":"outils","name":"Outils","skills":[
+          {"id":"levier_court","name":"Levier court","tags":["push","armor_disrupt"]},
+          {"id":"reparation_de_campagne","name":"Réparation de campagne","tags":["repair","objective"]},
+          {"id":"pont_de_corde","name":"Pont de corde","tags":["exploration","mobility"]},
+          {"id":"outil_partage","name":"Outil partagé","tags":["team_environment"]},
+          {"id":"rien_n_est_juste_un_decor","name":"Rien n'est juste un décor","tags":["environment_mastery","team_synergy"]}
+        ]}
+      ],
+      "hub_behavior": ["répare ce qui menace réellement la sécurité avant ce qui est esthétique","laisse des annotations sur les structures anciennes plutôt que de prétendre connaître leur usage originel","peut créer des raccourcis permanents limités dans le hub"],
+      "narrative_reactions": ["distingue réparation ancienne et modification récente","peut montrer qu'un site a été réutilisé plusieurs fois","refuse d'inférer le but originel d'une structure depuis son usage actuel"] ,
+      "evolution": ["Ouvrier de passage","Sapeur de passage","Maître de structure"],
+      "remanence_hooks": ["marques d'outil","réparations superposées","plans incomplets","matériaux de périodes différentes"]
+    }
+  ]
+}
