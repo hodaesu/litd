@@ -158,7 +158,7 @@ def audit_contextual_quest_ramifications(root: Path = ROOT) -> dict[str, Any]:
 
     required_doc_phrases = [
         "aucune jauge supplémentaire",
-        "ne peut donc jamais expliquer rétroactivement",
+        "ne peuvent donc jamais expliquer rétroactivement",
         "PROBABLE",
         "INCONNU",
         "Saen",
