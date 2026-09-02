@@ -156,7 +156,7 @@ def audit_systemic_cross_runtime(root: Path = ROOT) -> dict[str, Any]:
     smoke_tokens = [
         "cross.food.local_security_and_grain_bridge", "cascade.winter_refugee_pressure",
         "cross.relationship.named_death_after_difficult_choice", "Iria Sen",
-        "serialize()", "deserialize(", "applied_event_ids().count", "market_price_modifier()",
+        "serialize()", "deserialize(", "applied_event_ids().count", "PoliticalState.price_modifier()",
     ]
     for token in smoke_tokens:
         if token not in smoke:
