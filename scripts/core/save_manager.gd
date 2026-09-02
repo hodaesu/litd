@@ -144,7 +144,8 @@ func _build_payload() -> Dictionary:
         "chapter_08": Chapter08Runtime.serialize(), "chapter_09": Chapter09Runtime.serialize(), "chapter_10": Chapter10Runtime.serialize(),
         "endgame": EndgameState.serialize(), "deep_vestiges": DeepVestigeRuntime.serialize(), "expedition_room": GameState.expedition_room,
         "ashlands": AshlandsRuntime.serialize(), "expedition": ExpeditionManager.serialize(), "field_encounters": FieldEncounterRuntime.serialize(),
-        "community": CommunityRuntime.serialize(), "ashlands_minibosses": AshlandsMinibossDirector.serialize(),
+        "community": CommunityRuntime.serialize(), "systemic_cross": SystemicCrossRuntime.serialize(),
+        "ashlands_minibosses": AshlandsMinibossDirector.serialize(),
         "ashlands_combat": AshlandsCombatBridge.serialize(), "campaign_memory": CampaignMemoryDirector.serialize(),
         "expedition_reports": ExpeditionReportDirector.serialize(), "preparation_presets": ExpeditionPreparationDirector.serialize(),
         "living_exploration": ExplorationDirector.serialize(),
@@ -172,7 +173,8 @@ func _apply_payload(payload: Dictionary) -> void:
     Chapter09Runtime.deserialize(payload.get("chapter_09",{})); Chapter10Runtime.deserialize(payload.get("chapter_10",{}))
     EndgameState.deserialize(payload.get("endgame",{})); DeepVestigeRuntime.deserialize(payload.get("deep_vestiges",{}))
     ExpeditionManager.deserialize(payload.get("expedition",{})); FieldEncounterRuntime.deserialize(payload.get("field_encounters",{}))
-    CommunityRuntime.deserialize(payload.get("community",{})); AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses",{}))
+    CommunityRuntime.deserialize(payload.get("community",{})); SystemicCrossRuntime.deserialize(payload.get("systemic_cross",{}))
+    AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses",{}))
     AshlandsCombatBridge.deserialize(payload.get("ashlands_combat",{})); CampaignMemoryDirector.deserialize(payload.get("campaign_memory",{}))
     ExpeditionReportDirector.deserialize(payload.get("expedition_reports",{})); ExpeditionPreparationDirector.deserialize(payload.get("preparation_presets",{}))
     ExplorationDirector.deserialize(payload.get("living_exploration",{}))
@@ -193,6 +195,7 @@ func _migrate(payload: Dictionary) -> Dictionary:
     payload["progression_scope"] = payload.get("progression_scope",{})
     payload["main_narrative_script"] = payload.get("main_narrative_script",{})
     payload["base_game_enrichment"] = payload.get("base_game_enrichment",{})
+    payload["systemic_cross"] = payload.get("systemic_cross",{})
     return payload
 
 func _atomic_write(path: String, text: String) -> bool:

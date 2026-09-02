@@ -1,0 +1,389 @@
+{
+  "version": 1,
+  "source": "universe/lore/contextual_quest_cross_ramifications.json",
+  "rules": {
+    "new_universal_meter": false,
+    "global_morality_score": false,
+    "rumor_sources_preserved": true,
+    "hero_lines_require_living_speaker": true,
+    "cross_events_apply_once": true,
+    "cascades_apply_once": true
+  },
+  "relationship_profiles": {
+    "none": {},
+    "shared_burden": {"mode": "mutual", "trust": 1},
+    "friction": {"mode": "mutual", "mistrust": 1},
+    "grief": {"mode": "adaptive_grief", "trust": 1, "mistrust": 1}
+  },
+  "psychology_profiles": {
+    "none": {"fear_delta": 0},
+    "named_loss": {"fear_delta": 4},
+    "winter_pressure": {"fear_delta": 2}
+  },
+  "events": {
+    "cross.food.local_security_and_grain_bridge": {
+      "title": "Le grain revient, pas l'espace",
+      "fact": "Le pont rétablit le flux de grain tandis que l'eau et les logements restent sous pression.",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "confirmed", "text": "Le grain arrive de nouveau par Dhor-Khal."},
+        {"reliability": "reported", "text": "On dit que le Sanctuaire a sauvé la récolte ; personne ne parle des familles qui dorment encore sous toile."}
+      ],
+      "visual": ["sacs de grain empilés près d'abris provisoires", "files distinctes pour l'eau et le marché"],
+      "audio": ["charrettes de grain mêlées aux discussions sur les points d'eau"],
+      "population": ["réfugiés installés durablement près des réserves"],
+      "dialogue": [
+        {"speaker_id": "hero.aurelien", "text": "Nous avons rouvert un flux. Pas créé de place."},
+        {"speaker_id": "hero.mathilde", "text": "Alors regardons ceux qui mangent debout avant de parler de victoire."}
+      ]
+    },
+    "cross.food.refugee_seed_and_high_passage": {
+      "title": "La pénurie voyage",
+      "fact": "Le passage médical sauve des vies et permet aux réfugiés porteurs de semences d'aller plus loin, sans effacer la pénurie.",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "direct", "text": "Des familles traversent le haut passage avec des semences cousues dans leurs ballots."},
+        {"reliability": "reported", "text": "Certains parlent déjà d'une route de colonisation, alors qu'aucun plan de ce genre n'a jamais existé."}
+      ],
+      "visual": ["ballots de semences marqués à la craie près de l'Infirmerie", "cordes du passage réparées et constamment sollicitées"],
+      "audio": ["appels de convoi et consignes médicales se superposent à la Porte"],
+      "population": ["familles de passage qui ne savent pas encore où s'arrêter"],
+      "dialogue": [
+        {"speaker_id": "hero.lya", "text": "Ils emportent des graines et des chansons. La faim voyage avec elles."},
+        {"speaker_id": "hero.marec", "text": "Le passage tient. Ça ne veut pas dire que tout le reste tient."}
+      ]
+    },
+    "cross.food.distributed_risk_and_local_repairs": {
+      "title": "Beaucoup de petites marges",
+      "fact": "Des réserves et réparations distribuées rendent plusieurs communautés moins dépendantes, mais aucune ne dispose d'une vraie marge de sécurité.",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "confirmed", "text": "Plusieurs petites routes fonctionnent de nouveau, aucune n'est suffisante seule."},
+        {"reliability": "variable", "text": "Selon qui parle, cette dispersion est une sagesse ancienne ou un bricolage de crise."}
+      ],
+      "visual": ["cartes couvertes de petits itinéraires plutôt que d'un axe principal", "réserves modestes réparties entre plusieurs dépôts"],
+      "audio": ["messagers annonçant des capacités différentes pour chaque route"],
+      "population": ["petits groupes se répartissant entre plusieurs relais"],
+      "dialogue": [
+        {"speaker_id": "hero.aurelien", "text": "Aucun point unique ne peut tout sauver. Aucun point unique ne peut tout faire tomber."},
+        {"speaker_id": "hero.marec", "text": "Ça veut surtout dire qu'on réparera partout un peu, tout le temps."}
+      ]
+    },
+    "cross.funeral.body_return_and_medical_corridor": {
+      "title": "La route des vivants et des morts",
+      "fact": "Le même corridor transporte médicaments, voyageurs et corps rendus aux familles.",
+      "relationship_profile": "friction",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "direct", "text": "Des civières de malades croisent désormais des corps enveloppés sur le même passage."},
+        {"reliability": "reported", "text": "On commence à appeler le passage la Route des morts, bien qu'il ait été réparé pour les soins."}
+      ],
+      "visual": ["marques séparant convois médicaux et convois funéraires", "objets personnels attachés aux linceuls"],
+      "audio": ["cloches de passage très brèves, suivies du bruit des civières"],
+      "population": ["familles attendant un corps près de voyageurs attendant un médicament"],
+      "dialogue": [
+        {"speaker_id": "hero.mathilde", "text": "Les morts ont droit au retour. Les vivants ont besoin que la route reste ouverte."},
+        {"speaker_id": "hero.zeje", "text": "Deux obligations vraies peuvent saturer le même pont."}
+      ]
+    },
+    "cross.memorial.local_burial_and_explicit_unknown": {
+      "title": "Rendre le nom sans inventer le corps",
+      "fact": "Le Mémorial sépare désormais lieu du corps, statut du nom et objets restitués.",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "confirmed", "text": "Le Mémorial inscrit maintenant certains noms sans prétendre savoir où repose le corps."},
+        {"reliability": "reported", "text": "Des familles trouvent la nouvelle précision froide ; d'autres disent qu'elle évite un second mensonge."}
+      ],
+      "visual": ["plaques distinctes pour nom, lieu du corps et objets rendus", "mentions INCONNU laissées visibles"],
+      "audio": ["lectures de noms interrompues par la mention explicite des inconnues"],
+      "population": ["familles consultant les objets restitués sans exiger une attribution forcée"],
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "Ne pas savoir où il repose n'efface pas son nom."},
+        {"speaker_id": "hero.mathilde", "text": "Et ne pas connaître son nom n'autorise personne à lui en donner un pour se rassurer."}
+      ]
+    },
+    "cross.memorial.distributed_memory_and_multiple_claims": {
+      "title": "Une mort, plusieurs mémoires",
+      "fact": "Plusieurs lieux conservent des mémoires partielles valides tandis que le Mémorial central garde leur origine commune.",
+      "relationship_profile": "friction",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "confirmed", "text": "Trois mémoriaux locaux renvoient désormais au même dossier central."},
+        {"reliability": "unreliable", "text": "Une rumeur affirme déjà qu'il y avait trois morts différents."}
+      ],
+      "visual": ["cordelettes reliant plusieurs plaques à une même référence d'archive", "copies locales portant des mentions différentes"],
+      "audio": ["trois récits du même décès entendus dans des accents différents"],
+      "population": ["visiteurs de plusieurs communautés devant le même dossier"],
+      "dialogue": [
+        {"speaker_id": "hero.anouk", "text": "Trois souvenirs peuvent venir d'une seule personne sans être trois personnes."},
+        {"speaker_id": "hero.zeje", "text": "Tant que le lien entre les copies survit."}
+      ]
+    },
+    "cross.azravel.survival_and_anonymity": {
+      "title": "Sauver sans compter",
+      "fact": "Davantage de réfugiés survivent et restent difficiles à identifier, tandis que la purge devient plus difficile à documenter.",
+      "relationship_profile": "friction",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "direct", "text": "Des familles arrivent sans registre nominatif pour éviter d'être retrouvées."},
+        {"reliability": "unreliable", "text": "Des voix utilisent déjà l'absence de listes pour nier l'ampleur de la purge."}
+      ],
+      "visual": ["couchettes anonymes marquées par symboles temporaires", "table d'accueil sans registre de noms"],
+      "audio": ["prénoms remplacés par des descriptions pratiques lors des distributions"],
+      "population": ["réfugiés azravélites évitant les files où l'on écrit"],
+      "dialogue": [
+        {"speaker_id": "hero.aurelien", "text": "Un registre peut protéger une personne demain. Il peut aussi la livrer ce soir."},
+        {"speaker_id": "hero.lya", "text": "Et l'absence de trace deviendra un argument pour ceux qui voudront dire qu'ils n'étaient pas là."}
+      ]
+    },
+    "cross.azravel.evidence_and_protected_registry": {
+      "title": "L'archive qui peut sauver ou livrer",
+      "fact": "Noms et témoignages peuvent être recoupés, mais leur concentration crée un risque majeur en cas de saisie.",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "confirmed", "text": "Le registre scellé permet déjà de réunir certaines familles."},
+        {"reliability": "reported", "text": "On craint qu'une seule intrusion suffise à exposer des dizaines de personnes."}
+      ],
+      "visual": ["registre sous double sceau et accès consigné", "témoignages rangés séparément des identités"],
+      "audio": ["noms épelés à voix basse derrière une porte fermée"],
+      "population": ["familles venant vérifier une identité puis repartant sans copie"],
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "Une preuve centralisée est plus facile à vérifier. Et plus facile à voler."},
+        {"speaker_id": "hero.aurelien", "text": "Alors la protection du registre fait partie de la preuve."}
+      ]
+    },
+    "cross.azravel.distributed_convoy_and_households": {
+      "title": "Une aide sans centre",
+      "fact": "Réfugiés et aide sont répartis entre de nombreux foyers sans récit central unique.",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "reported", "text": "Des dizaines de petites tables nourrissent ceux que le grand convoi aurait rendus visibles."},
+        {"reliability": "unreliable", "text": "Personne ne sait plus combien de groupes sont encore sur la route."}
+      ],
+      "visual": ["petits signes d'accueil aux portes de foyers dispersés", "cartes incomplètes de réseaux d'hébergement"],
+      "audio": ["messages de maison en maison plutôt qu'annonces centrales"],
+      "population": ["réfugiés répartis en petits groupes intégrés aux foyers"],
+      "dialogue": [
+        {"speaker_id": "hero.anouk", "text": "Ils sont plus difficiles à trouver. Pour leurs ennemis comme pour nous."},
+        {"speaker_id": "hero.lya", "text": "Une histoire sans centre survit autrement. Elle se perd autrement aussi."}
+      ]
+    },
+    "cross.epistemic.clinical_record_and_probable_identity": {
+      "title": "Dire PROBABLE",
+      "fact": "Le Sanctuaire utilise des marqueurs visibles de confiance pour les observations cliniques et les identités.",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "confirmed", "text": "Les dossiers distinguent désormais CONFIRMÉ, PROBABLE et INCONNU."},
+        {"reliability": "reported", "text": "Certains trouvent ces mots trop froids ; d'autres disent qu'ils empêchent une certitude fabriquée."}
+      ],
+      "visual": ["tampons CONFIRMÉ, PROBABLE et INCONNU sur les dossiers", "corrections datées laissées visibles"],
+      "audio": ["lectures de dossiers où le niveau de certitude est prononcé à voix haute"],
+      "population": ["soignants et archivistes comparant leurs méthodes"],
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "PROBABLE n'est pas un aveu de faiblesse. C'est une information."},
+        {"speaker_id": "hero.aurelien", "text": "À condition que personne ne copie la conclusion en oubliant le mot."}
+      ]
+    },
+    "cross.epistemic.layered_archive_and_unknown_identity": {
+      "title": "L'archive de l'incertitude",
+      "fact": "Observation, témoignage, interprétation et statut d'identité sont archivés séparément.",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "confirmed", "text": "Un même dossier peut désormais contenir un fait observé, plusieurs témoignages et aucune conclusion."},
+        {"reliability": "unreliable", "text": "Des visiteurs accusent déjà les archivistes de ne plus vouloir rien affirmer."}
+      ],
+      "visual": ["dossiers à feuillets séparés par type de preuve", "historique des corrections visible sur la couverture"],
+      "audio": ["archivistes répétant : observation, témoignage, interprétation"],
+      "population": ["soignants, familles et témoins autour de la même table d'archive"],
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "INCONNU doit rester une conclusion possible."},
+        {"speaker_id": "hero.anouk", "text": "Sinon nous remplirons les blancs avec ce que nous espérions trouver."}
+      ]
+    },
+    "cross.epistemic.public_silence_and_diverging_memories": {
+      "title": "Le silence rempli par les autres",
+      "fact": "Plusieurs explications officieuses se développent avant qu'un dossier commun soit prêt.",
+      "relationship_profile": "friction",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "variable", "text": "Trois versions incompatibles du même phénomène circulent dans le Sanctuaire."},
+        {"reliability": "unreliable", "text": "Chaque version commence déjà à se présenter comme la première."}
+      ],
+      "visual": ["feuillets contradictoires épinglés côte à côte", "zones du Mémorial portant des formulations différentes"],
+      "audio": ["versions incompatibles racontées dans la même salle"],
+      "population": ["petits groupes se formant autour d'explications concurrentes"],
+      "dialogue": [
+        {"speaker_id": "hero.mathilde", "text": "Attendre avant d'affirmer n'empêche pas les autres d'affirmer à notre place."},
+        {"speaker_id": "hero.zeje", "text": "Alors il faut documenter le silence lui-même."}
+      ]
+    },
+    "cross.dragon.restraint_under_scarcity": {
+      "title": "Ce que nous refusons de prendre",
+      "fact": "Le site reste intact pendant que le Sanctuaire cherche ailleurs des ressources réellement nécessaires.",
+      "relationship_profile": "friction",
+      "psychology_profile": "winter_pressure",
+      "rumors": [
+        {"reliability": "direct", "text": "Le groupe a laissé l'objet sur le site malgré la pénurie."},
+        {"reliability": "unreliable", "text": "Certains parlent déjà d'un interdit sacré que personne n'a jamais formulé."}
+      ],
+      "visual": ["marque de détour sur les cartes d'approvisionnement", "réserves d'hiver plus maigres au marché"],
+      "audio": ["discussions tendues sur les ressources laissées derrière"],
+      "population": ["équipes envoyées vers des itinéraires plus longs pour chercher des matériaux"],
+      "dialogue": [
+        {"speaker_id": "hero.effrie", "text": "Je n'ai pas dit que le lieu était sacré. J'ai dit que nous ne savions pas ce que nous prenions."},
+        {"speaker_id": "hero.marec", "text": "Et ceux qui ont froid ne sentiront pas la différence entre prudence et manque."}
+      ]
+    },
+    "cross.dragon.sample_and_layered_archive": {
+      "title": "Un échantillon n'est pas une relique",
+      "fact": "Les propriétés mesurées de l'échantillon sont séparées de son attribution aux dragons et des interprétations religieuses.",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "confirmed", "text": "L'échantillon est archivé avec mesures, lieu et conditions de prélèvement."},
+        {"reliability": "unreliable", "text": "On l'appelle déjà fragment de dragon alors que personne ne l'a établi."}
+      ],
+      "visual": ["petit échantillon scellé avec plusieurs étiquettes distinctes", "croquis du site conservé à côté sans interprétation unique"],
+      "audio": ["lectures séparant mesure et attribution"],
+      "population": ["artisans et archivistes observant l'échantillon sans pouvoir conclure son origine"],
+      "dialogue": [
+        {"speaker_id": "hero.effrie", "text": "Ce morceau vient du site. C'est tout ce que nous savons."},
+        {"speaker_id": "hero.zeje", "text": "Alors écrivons exactement cela."}
+      ]
+    },
+    "cross.dragon.extraction_and_survival_first_policy": {
+      "title": "L'urgence devenue doctrine",
+      "fact": "Deux décisions de survie immédiate sauvent des vies tout en affaiblissant le contexte nécessaire à la compréhension future.",
+      "relationship_profile": "friction",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "direct", "text": "L'objet du site a servi à répondre à un besoin humain immédiat."},
+        {"reliability": "unreliable", "text": "Une rumeur prétend que le Sanctuaire a toujours eu pour règle de prendre d'abord et comprendre ensuite."}
+      ],
+      "visual": ["objet démonté ou réemployé sans son contexte d'origine", "archives portant la mention contexte perdu"],
+      "audio": ["débats sur ce que l'urgence autorise à sacrifier"],
+      "population": ["survivants reconnaissants côtoyant des archivistes frustrés"],
+      "dialogue": [
+        {"speaker_id": "hero.aurelien", "text": "Sauver maintenant peut détruire une preuve. C'est un coût, pas une excuse."},
+        {"speaker_id": "hero.effrie", "text": "Et ce coût ne doit pas devenir une habitude simplement parce qu'il a sauvé quelqu'un une fois."}
+      ]
+    },
+    "cross.consent.refusal_precedent_meets_new_refusal": {
+      "title": "Le précédent du refus",
+      "fact": "Le refus exprimé par une nouvelle conscience est respecté sans supposer qu'elle partage la nature de Saen.",
+      "relationship_profile": "friction",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "confirmed", "text": "Le protocole cite le cas de Saen comme précédent de refus, pas comme définition d'une espèce."},
+        {"reliability": "reported", "text": "Certains demandent combien de détours humains seront encore acceptés au nom de ce principe."}
+      ],
+      "visual": ["protocole de contact annoté : refus clair = arrêt", "cartes de détour conservées à côté du dossier"],
+      "audio": ["signaux de contact espacés suivis de longues pauses"],
+      "population": ["équipes de contact travaillant sous observation publique"],
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "Le précédent concerne le refus. Pas la nature de celui qui refuse."},
+        {"speaker_id": "hero.mathilde", "text": "Et les personnes blessées par le détour ont aussi le droit d'être nommées."}
+      ]
+    },
+    "cross.consent.reversible_protocol_meets_uncertain_response": {
+      "title": "Méthode n'est pas permission",
+      "fact": "Le Sanctuaire réutilise des tests réversibles avec seuils d'arrêt publics sans traiter le silence comme un consentement.",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "rumors": [
+        {"reliability": "confirmed", "text": "Chaque test de contact affiche désormais ses conditions d'arrêt avant de commencer."},
+        {"reliability": "variable", "text": "L'absence de réponse est interprétée de façons incompatibles selon les équipes."}
+      ],
+      "visual": ["seuils d'arrêt affichés à côté des dispositifs de contact", "journal public des tests interrompus"],
+      "audio": ["compte à voix haute des impulsions et des pauses"],
+      "population": ["observateurs civils présents lors des essais de contact"],
+      "dialogue": [
+        {"speaker_id": "hero.anouk", "text": "Le silence n'a pas dit oui."},
+        {"speaker_id": "hero.zeje", "text": "Et une méthode réversible n'est sûre que si nous acceptons réellement de l'arrêter."}
+      ]
+    },
+    "cross.relationship.named_death_after_difficult_choice": {
+      "title": "Un nom dans la conséquence",
+      "fact": "Une mort liée matériellement à une décision est enregistrée avec son nom et sa cause sans transformer le décès en verdict moral.",
+      "relationship_profile": "grief",
+      "psychology_profile": "named_loss",
+      "rumors": [
+        {"reliability": "confirmed", "text": "Le Mémorial ajoute un nom avec la chaîne matérielle qui a conduit à sa mort."},
+        {"reliability": "reported", "text": "Les mêmes faits servent déjà à défendre des décisions opposées pour l'avenir."}
+      ],
+      "visual": ["nouvelle inscription au Mémorial accompagnée d'une cause matérielle", "objets personnels remis à proximité du nom"],
+      "audio": ["le nom du mort prononcé sans commentaire avant les débats"],
+      "population": ["proches et témoins réunis autour d'une même inscription sans conclusion commune"],
+      "dialogue": [
+        {"speaker_id": "hero.mathilde", "text": "Son nom ne doit pas devenir un argument avant d'avoir été un nom."},
+        {"speaker_id": "hero.aurelien", "text": "Et sa mort doit changer ce que nous savons des conséquences, pas fabriquer une morale rétroactive."}
+      ]
+    }
+  },
+  "cascades": {
+    "cascade.winter_refugee_pressure": {
+      "title": "L'hiver rassemble les coûts",
+      "relationship_profile": "friction",
+      "psychology_profile": "winter_pressure",
+      "fact": "Foule, nourriture, chauffage et capacité de soin entrent en concurrence sans solution unique.",
+      "rumors": [{"reliability": "reported", "text": "Au Sanctuaire, chaque file semble désormais prendre quelque chose à une autre."}],
+      "visual": ["braseros entourés de files de rationnement", "zones de couchage gagnant sur les espaces de stockage"],
+      "audio": ["toux, distribution de combustible et appels de rationnement dans le même espace"],
+      "population": ["surpopulation saisonnière autour de l'Infirmerie et du marché"],
+      "dialogue": [
+        {"speaker_id": "hero.aurelien", "text": "Ce n'est plus une décision isolée. C'est une capacité entière qui sature."},
+        {"speaker_id": "hero.mathilde", "text": "Alors aucun chiffre ne doit nous permettre d'oublier qui attend derrière."}
+      ]
+    },
+    "cascade.archive_of_uncertainty": {
+      "title": "L'archive de l'incertitude devient institution",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "fact": "Le Sanctuaire formalise source, type de preuve, niveau de confiance et historique des corrections.",
+      "rumors": [{"reliability": "confirmed", "text": "Les archives partagent désormais un même langage pour signaler ce qui est observé, rapporté, probable ou inconnu."}],
+      "visual": ["historique de corrections visible sur plusieurs services", "codes communs entre Infirmerie et Mémorial"],
+      "audio": ["mêmes termes de certitude employés dans plusieurs bâtiments"],
+      "population": ["archivistes formant soignants et gardiens du Mémorial"],
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "Une méthode commune aide. Elle deviendra dangereuse le jour où l'on oubliera pourquoi elle accepte INCONNU."},
+        {"speaker_id": "hero.anouk", "text": "Alors gardons aussi l'histoire de nos corrections."}
+      ]
+    },
+    "cascade.corridor_of_consent": {
+      "title": "Le corridor du consentement",
+      "relationship_profile": "shared_burden",
+      "psychology_profile": "none",
+      "fact": "Les contacts non humains utilisent des précédents par cas plutôt qu'une règle supposée sur une espèce entière.",
+      "rumors": [{"reliability": "confirmed", "text": "Les équipes de contact doivent désormais distinguer refus clair, réponse ambiguë et absence de signal."}],
+      "visual": ["dossiers de contact rangés par cas plutôt que par espèce", "conditions d'arrêt visibles sur les protocoles"],
+      "audio": ["briefings où le mot consentement est séparé du mot réponse"],
+      "population": ["témoins civils intégrés aux procédures de contact"],
+      "dialogue": [
+        {"speaker_id": "hero.zeje", "text": "Un précédent n'est pas une essence."},
+        {"speaker_id": "hero.anouk", "text": "Et une réponse que nous ne comprenons pas n'est pas un oui que nous pouvons inventer."}
+      ]
+    },
+    "cascade.memorial_network_under_loss": {
+      "title": "Le Mémorial devient un réseau",
+      "relationship_profile": "grief",
+      "psychology_profile": "none",
+      "fact": "Noms, corps, objets, niveaux de certitude et corrections sont reliés entre plusieurs lieux de mémoire.",
+      "rumors": [{"reliability": "confirmed", "text": "Le Mémorial n'est plus seulement un mur : il relie désormais plusieurs lieux, objets et dossiers."}],
+      "visual": ["cartes reliant inscriptions, tombes locales et objets restitués", "corrections conservées au lieu d'être effacées"],
+      "audio": ["lectures de noms accompagnées du lieu et du degré de certitude quand il est connu"],
+      "population": ["messagers entre mémoriaux locaux et archive centrale"],
+      "dialogue": [
+        {"speaker_id": "hero.mathilde", "text": "Un nom peut être ici même si le corps est ailleurs."},
+        {"speaker_id": "hero.zeje", "text": "Et une correction peut rester visible sans devenir une honte."}
+      ]
+    }
+  }
+}

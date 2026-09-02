@@ -172,7 +172,8 @@ func _apply_effects(effects: Dictionary) -> void:
         GameState.supplies = maxi(0, GameState.supplies + int(effects.get("supplies", 0)))
 
 func price_modifier() -> float:
-    return clampf(1.15 - float(trust) * 0.003 + float(tension) * 0.002, 0.80, 1.35)
+    var base := clampf(1.15 - float(trust) * 0.003 + float(tension) * 0.002, 0.80, 1.35)
+    return clampf(base * SystemicCrossRuntime.market_price_modifier(), 0.80, 1.35)
 
 func service_unlocked(service_id: String) -> bool:
     var thresholds: Dictionary = data.get("persistent_rules", {}).get("service_thresholds", {}).get(service_id, {})
