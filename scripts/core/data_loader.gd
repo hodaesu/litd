@@ -15,6 +15,7 @@ var dialogues: Array = []
 var ashlands_lore: Dictionary = {}
 var canonical_history: Dictionary = {}
 var last_war: Dictionary = {}
+var litd2_triad: Dictionary = {}
 
 func _ready() -> void:
     reload_all()
@@ -49,6 +50,8 @@ func reload_all() -> void:
     canonical_history = history_value if typeof(history_value) == TYPE_DICTIONARY else {}
     var last_war_value = load_json("res://data/canon/last_war.json")
     last_war = last_war_value if typeof(last_war_value) == TYPE_DICTIONARY else {}
+    var triad_value = load_json("res://data/canon/litd2_triad.json")
+    litd2_triad = triad_value if typeof(triad_value) == TYPE_DICTIONARY else {}
 
 func find_by_id(items: Array, id_value: Variant) -> Dictionary:
     for item in items:
@@ -115,6 +118,24 @@ func last_war_gameplay_translation() -> Dictionary:
     var value: Variant = last_war.get("gameplay_translation", {})
     return value.duplicate(true) if value is Dictionary else {}
 
+func litd2_character(character_id: String) -> Dictionary:
+    var values: Variant = litd2_triad.get("characters", [])
+    var characters: Array = values if values is Array else []
+    return find_by_id(characters, character_id).duplicate(true)
+
+func litd2_encounter(encounter_id: String) -> Dictionary:
+    var values: Variant = litd2_triad.get("encounters", [])
+    var encounters: Array = values if values is Array else []
+    return find_by_id(encounters, encounter_id).duplicate(true)
+
+func litd2_affinity_system() -> Dictionary:
+    var value: Variant = litd2_triad.get("affinity_system", {})
+    return value.duplicate(true) if value is Dictionary else {}
+
+func litd2_sarn_entry_conditions() -> Dictionary:
+    var value: Variant = litd2_triad.get("sarn_entry_conditions", {})
+    return value.duplicate(true) if value is Dictionary else {}
+
 func knowledge_remanence_stages() -> Array[String]:
     var result: Array[String] = []
     var remanence: Variant = canonical_history.get("knowledge_remanence", {})
@@ -143,6 +164,11 @@ func pending_canon_topics() -> Array[String]:
     var war_values: Variant = last_war.get("pending_after_this_file", [])
     if war_values is Array:
         for value: Variant in war_values:
+            if not result.has(str(value)):
+                result.append(str(value))
+    var triad_values: Variant = litd2_triad.get("pending_after_this_file", [])
+    if triad_values is Array:
+        for value: Variant in triad_values:
             if not result.has(str(value)):
                 result.append(str(value))
     return result
