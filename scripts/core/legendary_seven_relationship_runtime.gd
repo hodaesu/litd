@@ -96,7 +96,7 @@ func relationship_stage_for_ids(left_id: String, right_id: String) -> String:
         return "rupture"
     if tension >= friction_min:
         return "friction"
-    if _has_repair_signal(left, right):
+    if _has_repair_signal(left, right) and not _stage_seen(left, right, pair_id, "repair"):
         return "repair"
     var qualitative_count: int = _qualitative_memory_count(left, right)
     var durable_value: Variant = thresholds.get("durable", {})
