@@ -11,6 +11,9 @@ var people_state: Dictionary = {}
 var rumors: Array[Dictionary] = []
 var collective_memory: Dictionary = {}
 var quest_states: Dictionary = {}
+var systemic_visual_cues: Array[String] = []
+var systemic_audio_cues: Array[String] = []
+var systemic_population_cues: Array[String] = []
 var _syncing_world_facts: bool = false
 
 func _ready() -> void:
@@ -42,6 +45,9 @@ func reset_new_game() -> void:
     rumors = []
     collective_memory = {}
     quest_states = {}
+    systemic_visual_cues = []
+    systemic_audio_cues = []
+    systemic_population_cues = []
     for person_value in data.get("people", []):
         var person: Dictionary = person_value if person_value is Dictionary else {}
         var person_id: String = str(person.get("id", ""))
@@ -143,6 +149,57 @@ func _has_rumor(rumor_id: String) -> bool:
             return true
     return false
 
+func record_systemic_cross_event(item_id: String, payload: Dictionary, kind: String = "event") -> bool:
+    if item_id == "" or payload.is_empty():
+        return false
+    var changed := false
+    var rumor_index := 0
+    for rumor_value in payload.get("rumors", []):
+        var rumor: Dictionary = rumor_value if rumor_value is Dictionary else {}
+        var text := str(rumor.get("text", ""))
+        if text == "":
+            continue
+        changed = _add_rumor({
+            "id": "systemic_%s_%d" % [_safe_systemic_id(item_id), rumor_index],
+            "scope": "sanctuary",
+            "reliability": str(rumor.get("reliability", "reported")),
+            "source_id": item_id,
+            "source_kind": kind,
+            "text": text
+        }) or changed
+        rumor_index += 1
+    var fact_text := str(payload.get("fact", ""))
+    if fact_text != "":
+        changed = _record_fact({
+            "scope": "systemic_cross",
+            "id": "systemic_fact_" + _safe_systemic_id(item_id),
+            "source_id": item_id,
+            "source_kind": kind,
+            "text": fact_text
+        }) or changed
+    systemic_visual_cues = _merge_cues(systemic_visual_cues, payload.get("visual", []))
+    systemic_audio_cues = _merge_cues(systemic_audio_cues, payload.get("audio", []))
+    systemic_population_cues = _merge_cues(systemic_population_cues, payload.get("population", []))
+    community_changed.emit()
+    return changed
+
+func _merge_cues(existing: Array[String], values: Variant, limit: int = 18) -> Array[String]:
+    var result: Array[String] = []
+    for cue in existing:
+        if not result.has(cue):
+            result.append(cue)
+    if values is Array:
+        for cue_value in values:
+            var cue := str(cue_value)
+            if cue != "" and not result.has(cue):
+                result.append(cue)
+    while result.size() > limit:
+        result.pop_front()
+    return result
+
+func _safe_systemic_id(value: String) -> String:
+    return value.replace(".", "_").replace(":", "_").replace("/", "_")
+
 func recent_rumor_lines(limit: int = 4) -> Array[String]:
     var result: Array[String] = []
     for index in range(rumors.size() - 1, -1, -1):
@@ -219,6 +276,9 @@ func sanctuary_people() -> Array[Dictionary]:
 
 func sanctuary_population_cues() -> Array[String]:
     var result: Array[String] = []
+    for cue in systemic_population_cues:
+        if not result.has(cue):
+            result.append(cue)
     for person in sanctuary_people():
         var sanctuary_value: Variant = person.get("sanctuary", {})
         var sanctuary: Dictionary = sanctuary_value if sanctuary_value is Dictionary else {}
@@ -229,6 +289,9 @@ func sanctuary_population_cues() -> Array[String]:
 
 func sanctuary_visual_cues() -> Array[String]:
     var result: Array[String] = []
+    for cue in systemic_visual_cues:
+        if not result.has(cue):
+            result.append(cue)
     for person in sanctuary_people():
         var sanctuary_value: Variant = person.get("sanctuary", {})
         var sanctuary: Dictionary = sanctuary_value if sanctuary_value is Dictionary else {}
@@ -238,9 +301,15 @@ func sanctuary_visual_cues() -> Array[String]:
     return result
 
 func sanctuary_audio_cues() -> Array[String]:
-    if sanctuary_people().is_empty():
-        return []
-    return ["noms de routes et de survivants échangés autour des tables communes", "départs d'expédition discutés avec ceux qui ont réellement traversé les Cendres"]
+    var result: Array[String] = []
+    for cue in systemic_audio_cues:
+        if not result.has(cue):
+            result.append(cue)
+    if not sanctuary_people().is_empty():
+        for cue in ["noms de routes et de survivants échangés autour des tables communes", "départs d'expédition discutés avec ceux qui ont réellement traversé les Cendres"]:
+            if not result.has(cue):
+                result.append(cue)
+    return result
 
 func community_summary() -> String:
     var residents: int = sanctuary_people().size()
@@ -384,7 +453,10 @@ func serialize() -> Dictionary:
         "people_state": people_state.duplicate(true),
         "rumors": rumors.duplicate(true),
         "collective_memory": collective_memory.duplicate(true),
-        "quest_states": quest_states.duplicate(true)
+        "quest_states": quest_states.duplicate(true),
+        "systemic_visual_cues": systemic_visual_cues.duplicate(),
+        "systemic_audio_cues": systemic_audio_cues.duplicate(),
+        "systemic_population_cues": systemic_population_cues.duplicate()
     }
 
 func deserialize(payload: Dictionary) -> void:
@@ -406,5 +478,17 @@ func deserialize(payload: Dictionary) -> void:
     collective_memory = collective_value.duplicate(true) if collective_value is Dictionary else {}
     var quests_value: Variant = payload.get("quest_states", {})
     quest_states = quests_value.duplicate(true) if quests_value is Dictionary else {}
+    systemic_visual_cues = _string_array(payload.get("systemic_visual_cues", []))
+    systemic_audio_cues = _string_array(payload.get("systemic_audio_cues", []))
+    systemic_population_cues = _string_array(payload.get("systemic_population_cues", []))
     _evaluate_all_active_quests()
     community_changed.emit()
+
+func _string_array(value: Variant) -> Array[String]:
+    var result: Array[String] = []
+    if value is Array:
+        for item in value:
+            var text := str(item)
+            if text != "":
+                result.append(text)
+    return result
