@@ -62,6 +62,8 @@ jobs:
         run: python -m tools.qa.legendary_seven_relationships_audit
       - name: Audit mémoires contextuelles des Sept LITD 1
         run: python -m tools.qa.legendary_seven_memory_context_audit
+      - name: Audit formation théâtrale des Sept LITD 1
+        run: python -m tools.qa.legendary_seven_formation_audit
       - name: Audit bibliothèque picturale et droits
         run: python -m tools.qa.art_reference_library_audit
       - name: Audit progression, économie et NG+
