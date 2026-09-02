@@ -1,0 +1,238 @@
+{
+  "universe_id": "litd_universe",
+  "schema_version": 1,
+  "canon_version": "1.0.0",
+  "status": "canon_contextual",
+  "scope": ["azravel", "lysandra", "zeje", "effrie", "dragons", "quest_hooks", "regional_hooks"],
+  "core_rules": {
+    "contextual_rites_create_complete_theology": false,
+    "working_power_proves_theology": false,
+    "ritual_practice_is_automatic_religion": false,
+    "character_belief_grants_stat_bonus": false,
+    "quest_requires_single_correct_worldview": false,
+    "open_cosmology_remains_open": true
+  },
+  "azravel": {
+    "dominant_faith_name_locked": false,
+    "deity_model_locked": false,
+    "afterlife_locked": false,
+    "practices": [
+      {
+        "id": "two_witness_vigil",
+        "name": "La Veille des Deux Témoins",
+        "type": "funerary_or_memorial",
+        "rules": ["two_separate_witnesses", "contradiction_may_remain", "uncertain_identity_may_remain_incomplete", "no_soul_claim_required"],
+        "post_fall_use": "resist_rewriting_purge_victims_into_single_official_category"
+      },
+      {
+        "id": "open_door_table",
+        "name": "La Table de la Porte Ouverte",
+        "type": "mutual_aid",
+        "contexts": ["festival", "union", "funeral", "crisis"],
+        "rule": "reserve_share_for_outsider_or_person_in_need",
+        "religious_interpretation_required": false
+      },
+      {
+        "id": "reading_of_margins",
+        "name": "La Lecture des Marges",
+        "type": "textual_commentary_tradition",
+        "rules": ["preserve_comments", "preserve_objections", "preserve_variants", "do_not_auto_erase_contradiction"],
+        "political_risk": "can_be_censored_or_burned_during_purges"
+      }
+    ]
+  },
+  "lysandra": {
+    "institution_name_locked": false,
+    "skill_names_are_cultural_language": true,
+    "miracle_term_proves_theology": false,
+    "practices": [
+      {
+        "id": "state_knowledge_hope_unknown",
+        "name": "Dire ce que l'on sait",
+        "sequence": ["known", "hoped", "unknown"],
+        "prayer_can_follow": true,
+        "prayer_replaces_diagnosis": false
+      },
+      {
+        "id": "hands_before_words",
+        "name": "Les mains avant les mots",
+        "sequence": ["prepare_hands", "prepare_tools", "prepare_bandages", "position_patient", "seek_consent_when_possible", "optional_religious_words"]
+      },
+      {
+        "id": "miracle_not_verdict",
+        "name": "Le miracle n'est pas un verdict",
+        "forbidden_inferences": ["patient_chosen", "unsaved_person_condemned", "doctrine_proven", "lysandra_has_authority_over_others"]
+      }
+    ],
+    "human_arc_conflicts": ["unsavable_patients", "unexplained_healing", "raised_dead_memory", "believers_using_power_as_proof", "nonbelievers_accepting_care_not_interpretation"]
+  },
+  "zeje": {
+    "final_geographic_origin_locked_by_this_pass": false,
+    "prophet_status": false,
+    "practices": [
+      {
+        "id": "three_verifications",
+        "name": "Les Trois Vérifications",
+        "dimensions": {
+          "body": "physical_state_and_sensation",
+          "spirit": "independent_observation_and_sources",
+          "city": "affected_people_dissent_and_power"
+        },
+        "truth_spell": false,
+        "religious_rite": false
+      },
+      {
+        "id": "versions_notebook",
+        "name": "Le Carnet des versions",
+        "rules": ["record_incompatible_claims", "record_sources", "record_dates", "record_confidence", "do_not_preserve_all_versions_as_equal_forever"]
+      },
+      {
+        "id": "dead_name_protocol",
+        "name": "Devant un mort",
+        "verified_name": "repeat_and_record",
+        "probable_name": "mark_probable",
+        "unknown_name": "preserve_unknown"
+      }
+    ],
+    "body_markings_prove_clergy": false
+  },
+  "effrie": {
+    "tribe_name_locked": false,
+    "ancestral_pact_locked": false,
+    "dragon_ancestry_locked": false,
+    "dragon_language_locked": false,
+    "veil_link_locked": false,
+    "veneration_means_divinity_required": false,
+    "practices": [
+      {
+        "id": "restrained_step",
+        "name": "Le Pas Retenu",
+        "rule": "stop_and_observe_before_entering_credible_dragon_activity_site",
+        "verbal_dragon_permission_required": false,
+        "meaning": "do_not_treat_another_beings_space_as_automatically_available"
+      },
+      {
+        "id": "do_not_take_everything",
+        "name": "Ne pas tout prendre",
+        "applies_to": ["bones", "fragments", "possible_eggs", "site_materials", "human_objects_left_at_dragon_related_site"],
+        "single_theological_reason": false
+      },
+      {
+        "id": "incomplete_story",
+        "name": "Le Récit incomplet",
+        "rule": "preserve_what_humans_do_not_know_about_dragon_motives",
+        "purpose": "prevent_coexistence_memory_becoming_human_domination_story"
+      }
+    ],
+    "power_interpretation": {
+      "responsibility_or_cultural_inheritance_allowed": true,
+      "proves_dragon_ancestry": false,
+      "proves_divine_election": false,
+      "proves_ownership_of_dragons": false,
+      "proves_right_to_rule_tribe": false,
+      "proves_ancestral_pact": false,
+      "proves_veil_link": false
+    }
+  },
+  "quest_hooks": [
+    {
+      "id": "lhaor_seeds_that_remain",
+      "title": "Les graines qui restent",
+      "region": "Lhaor_rural_network",
+      "conflict": "seed_reserve_cannot_fully_supply_isolated_village_and_refugee_convoy",
+      "required_themes": ["food_security", "archives", "adaptation_to_soil", "refugee_human_depth", "remanence"]
+    },
+    {
+      "id": "orun_sai_road_without_grave",
+      "title": "La route sans tombe",
+      "region": "Orun-Sai_caravan_network",
+      "conflict": "dead_from_multiple_traditions_cannot_reach_home_communities_safely",
+      "required_themes": ["ritual_translation", "memorial_without_body", "living_risk", "distributed_memory"]
+    },
+    {
+      "id": "azravel_burned_margins",
+      "title": "Les Marges brûlées",
+      "region": "Azravel",
+      "conflict": "people_archives_food_and_purge_evidence_compete_for_limited_transport",
+      "required_practice": "reading_of_margins"
+    },
+    {
+      "id": "azravel_table_still_open",
+      "title": "La Table encore ouverte",
+      "region": "Azravel",
+      "conflict": "community_feeds_suspect_refugees_under_authoritarian_pressure",
+      "required_practice": "open_door_table"
+    },
+    {
+      "id": "lysandra_what_miracle_proves",
+      "title": "Ce que le miracle prouve",
+      "region": "post_fall_site",
+      "conflict": "spectacular_healing_and_raised_dead_memory_trigger_doctrinal_claims",
+      "required_layers": ["observed_effect", "testimony", "interpretation", "doctrine"]
+    },
+    {
+      "id": "zeje_three_versions_same_dead",
+      "title": "Trois versions du même mort",
+      "region": "post_fall_multicommunity_zone",
+      "conflict": "three_communities_claim_different_identity_for_mutilated_body",
+      "valid_resolution_can_be_unknown": true
+    },
+    {
+      "id": "effrie_not_ours",
+      "title": "Ce qui ne nous appartient pas",
+      "region": "credible_dragon_activity_site",
+      "visible_dragon_required": false,
+      "conflict": "valuable_object_at_site_multiple_groups_want_to_extract",
+      "required_practice": "restrained_step",
+      "pact_revelation_required": false
+    },
+    {
+      "id": "saen_ask_before_pulling",
+      "title": "Demander avant de tirer",
+      "region": "frontier_contact_zone",
+      "conflict": "urgent_faction_wants_invasive_anchor_increase_despite_saen_refusal",
+      "required_rule": "clear_refusal_changes_permitted_actions"
+    },
+    {
+      "id": "dhor_khal_bridge_two_valleys",
+      "title": "Le pont qui nourrit deux vallées",
+      "region": "Dhor-Khal_rural_network",
+      "conflict": "materials_can_restore_only_one_of_two_supply_links",
+      "persistent_consequences": ["prices", "famine_risk", "migration", "local_repair", "resentment", "new_routes"]
+    }
+  ],
+  "staging": {
+    "gestures_before_exposition": true,
+    "examples": ["lysandra_cleans_tool_before_prayer", "zeje_writes_probable", "effrie_stops_at_site_boundary", "azravel_believer_serves_outsider", "two_witnesses_may_disagree", "saen_signal_has_nonhuman_timing"]
+  },
+  "gameplay": {
+    "fourth_build_path": false,
+    "faith_meter": false,
+    "ritual_meter": false,
+    "consciousness_stat": false,
+    "religious_or_ethnic_bonus": false,
+    "universal_morality_reward": false,
+    "depth_from_existing_system_interactions": true
+  },
+  "remanence_chains": [
+    ["azravel_margin_comment", "forbidden_text", "hidden_archive", "later_misattributed_doctrine"],
+    ["lysandra_care_formula", "hospice_rule", "popular_expression_with_forgotten_origin"],
+    ["zeje_annotated_hypothesis", "copy_without_confidence_marker", "false_certainty_called_zeje_truth"],
+    ["effrie_prudence_gesture", "route_tradition", "sacred_prohibition_after_reason_forgotten"],
+    ["saen_documented_refusal", "contact_protocol", "later_legal_precedent"],
+    ["lhaor_survival_seed", "regional_variety", "identity_symbol_with_contested_origin"]
+  ],
+  "pillar_validation": {
+    "P1_character_creation": "pass",
+    "P2_systemic_gore": "pass",
+    "P3_philosophy_psychology": "pass_central",
+    "P4_accessible_human_depth": "pass_central",
+    "P5_strong_narrative": "pass_central",
+    "P6_interconnection": "pass",
+    "P7_knowledge_remanence": "pass_central",
+    "P8_dialogue_staging": "pass_central",
+    "P9_simple_deep_readable_gameplay": "pass_central"
+  },
+  "protected_open_fields": ["azravel_faith_name", "azravel_deities", "azravel_afterlife", "lysandra_exact_institution", "zeje_final_geographic_origin", "effrie_tribe_name", "effrie_ancestral_pact", "dragon_language", "dragon_political_society", "dragon_ancestry", "dragons_veil_link", "saen_metaphysical_nature"],
+  "sources": ["docs/LITD_UNIVERSE_RELIGIONS_CROYANCES.md", "docs/LITD_UNIVERSE_RITES_FUNERAILLES_COUTUMES.md", "docs/LITD_UNIVERSE_PEUPLES_CULTURES_VIVANTES.md", "docs/LITD1_DECISIONS_SEPT_TRAME_DRAGONS.md"]
+}
