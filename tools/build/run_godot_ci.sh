@@ -45,6 +45,7 @@ run_checked "Sanctuaire vivant : personnes, rumeurs et quêtes émergentes" godo
 run_checked "Croisements systémiques : choix, cascades, mémoire, routes, économie et anti-rejeu" godot --headless --path . res://scenes/tests/systemic_cross_smoke.tscn
 run_checked "Mise en scène des croisements : retour au Sanctuaire, silences, mortalité et anti-rejeu" godot --headless --path . res://scenes/tests/systemic_cross_narrative_smoke.tscn
 run_checked "Conséquences différées : relations, rumeurs, Rémanence et priorité des scènes" godot --headless --path . res://scenes/tests/systemic_cross_afterlife_smoke.tscn
+run_checked "Relations des Sept : ouverture, friction, rupture, réparation, lien durable et deuil" godot --headless --path . res://scenes/tests/legendary_seven_relationship_smoke.tscn
 run_checked "Narration : bibliothèque transmédiatique, dialogues et mise en scène" godot --headless --path . res://scenes/tests/narrative_library_smoke.tscn
 run_checked "Musique : bibliothèque, licences et accompagnement narratif" godot --headless --path . res://scenes/tests/music_library_smoke.tscn
 run_checked "Bruitages : bibliothèque, licences et sound design" godot --headless --path . res://scenes/tests/sfx_library_smoke.tscn

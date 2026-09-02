@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "pack": 1,
+  "pairs": [
+    {
+      "id": "aurelien_effrie",
+      "heroes": ["hero.aurelien","hero.effrie"],
+      "stages": {
+        "opening": {"stage_direction":"Ils vérifient la même carte sans se placer du même côté de la table.","line":{"speaker_id":"hero.aurelien","text":"Tu décides vite. Je veux seulement savoir qui peut encore te dire non."}},
+        "friction": {"stage_direction":"La carte reste entre eux ; aucun ne la reprend.","line":{"speaker_id":"hero.effrie","text":"Tu appelles ça une procédure. Moi, j'entends surtout quelqu'un décider qui a le droit d'agir."}},
+        "rupture": {"stage_direction":"Èffrie s'éloigne avant la fin de l'échange ; Aurélien ne la rappelle pas.","line":{"speaker_id":"hero.aurelien","text":"Si tu ne peux plus être contredite, tu n'es plus en train de protéger une décision. Tu la possèdes."}},
+        "repair": {"stage_direction":"Ils corrigent ensemble une consigne plutôt que de refaire le débat.","line":{"speaker_id":"hero.effrie","text":"Je peux annoncer ce que je ferai avant de le faire. Ça laisse au moins une prise aux autres."}},
+        "durable": {"stage_direction":"Le désaccord n'a pas disparu ; il a cessé d'être une menace pour leur confiance.","line":{"speaker_id":"hero.aurelien","text":"Je sais que tu agiras quand je n'aurai plus le temps de convaincre."}},
+        "bereavement": {"stage_direction":"Le survivant relit une ancienne consigne portant les deux écritures.","survivor_lines":{"hero.aurelien":"Elle détestait qu'on transforme une décision en permission permanente. Je garderai ça.","hero.effrie":"Il aurait demandé qui pouvait me contredire. Alors je vais laisser quelqu'un le faire."}}
+      }
+    },
+    {
+      "id": "aurelien_lya",
+      "heroes": ["hero.aurelien","hero.lya"],
+      "stages": {
+        "opening": {"stage_direction":"Lya pose un fragment près du registre sans le déposer dessus.","line":{"speaker_id":"hero.lya","text":"Tu veux savoir ce que la trace prouve. Moi, je veux savoir ce qu'on perd en la décrivant trop vite."}},
+        "friction": {"stage_direction":"Ils parlent bas pour ne pas attirer le reste de la salle dans leur désaccord.","line":{"speaker_id":"hero.aurelien","text":"Une image peut ouvrir une hypothèse. Elle ne peut pas devenir sa preuve."}},
+        "rupture": {"stage_direction":"Lya reprend le fragment ; Aurélien ferme le registre.","line":{"speaker_id":"hero.lya","text":"Tu veux retirer tout ce qui risque d'être mal compris. À force, il ne restera plus que ce qui tient dans ton formulaire."}},
+        "repair": {"stage_direction":"Le fragment revient entre eux, accompagné de deux étiquettes distinctes.","line":{"speaker_id":"hero.aurelien","text":"Je peux écrire : observation, puis interprétation de Lya. Sans les fusionner."}},
+        "durable": {"stage_direction":"Ils se répartissent spontanément la description et la vérification.","line":{"speaker_id":"hero.lya","text":"Tu n'as pas besoin de croire mon image pour la conserver honnêtement."}},
+        "bereavement": {"stage_direction":"Un dossier conserve la trace et l'interprétation sur deux feuillets reliés.","survivor_lines":{"hero.aurelien":"Elle me rappelait qu'une donnée sans forme humaine peut devenir facile à utiliser contre quelqu'un.","hero.lya":"Il séparait les colonnes pour que personne ne puisse faire passer mon intuition pour un fait. Je comprends mieux pourquoi."}}
+      }
+    },
+    {
+      "id": "aurelien_mathilde",
+      "heroes": ["hero.aurelien","hero.mathilde"],
+      "stages": {
+        "opening": {"stage_direction":"Mathilde regarde d'abord la liste des blessés ; Aurélien, les colonnes de capacité.","line":{"speaker_id":"hero.mathilde","text":"Quand tu dis 'coût', je veux savoir qui va le sentir dans son corps."}},
+        "friction": {"stage_direction":"Ils restent debout, chacun refusant de réduire l'autre à une caricature.","line":{"speaker_id":"hero.aurelien","text":"Refuser ce choix ne supprime pas le coût. Il le déplace."}},
+        "rupture": {"stage_direction":"Le silence est plus long que l'échange. Aucun ne cherche à gagner le dernier mot.","line":{"speaker_id":"hero.mathilde","text":"Si tu commences à appeler certaines personnes 'pertes acceptables', je ne te suivrai pas."}},
+        "repair": {"stage_direction":"Mathilde corrige un nom ; Aurélien laisse la correction visible.","line":{"speaker_id":"hero.aurelien","text":"Je n'écrirai plus 'acceptable'. J'écrirai qui paie, pourquoi, et ce que nous devons encore à ceux-là."}},
+        "durable": {"stage_direction":"Ils peuvent désormais contester une décision sans douter immédiatement de l'humanité de l'autre.","line":{"speaker_id":"hero.mathilde","text":"Je sais que tu comptes parce que tu as peur d'oublier quelqu'un."}},
+        "bereavement": {"stage_direction":"Le survivant reste devant un registre où plusieurs coûts sont écrits en toutes lettres.","survivor_lines":{"hero.aurelien":"Elle me demandait toujours qui allait sentir la décision. Je continuerai à répondre à cette question.","hero.mathilde":"Il comptait pour empêcher les morts de devenir du bruit. Je ne laisserai personne transformer ça en froideur."}}
+      }
+    },
+    {
+      "id": "aurelien_marec",
+      "heroes": ["hero.aurelien","hero.marec"],
+      "stages": {
+        "opening": {"stage_direction":"Marec roule l'épaule ; Aurélien observe sans toucher.","line":{"speaker_id":"hero.marec","text":"Tu regardes encore mon épaule."}},
+        "friction": {"stage_direction":"Marec ne répond pas tout de suite ; il teste sa prise avant de relâcher.","line":{"speaker_id":"hero.marec","text":"Si je peux tenir la poutre, je la tiens."}},
+        "rupture": {"stage_direction":"Ils savent tous les deux que l'autre touche une peur réelle.","line":{"speaker_id":"hero.aurelien","text":"Je ne signerai pas un plan qui te transforme en pièce de structure."}},
+        "repair": {"stage_direction":"Aurélien marque un seuil ; Marec le répète à voix haute.","line":{"speaker_id":"hero.marec","text":"Tu me donnes le seuil d'arrêt. Moi, je te dis quand je m'en approche."}},
+        "durable": {"stage_direction":"Leur confiance ressemble moins à de l'affection démonstrative qu'à une règle tenue.","line":{"speaker_id":"hero.aurelien","text":"Je te fais confiance pour savoir quand pousser."}},
+        "bereavement": {"stage_direction":"Un ancien bandage et une note médicale restent rangés ensemble.","survivor_lines":{"hero.aurelien":"Il avait raison de rappeler qu'un corps peut choisir de risquer. J'avais raison de lui rappeler qu'il restait un corps.","hero.marec":"Il me regardait comme quelqu'un à soigner, pas comme une force à dépenser. Ça reste avec moi."}}
+      }
+    },
+    {
+      "id": "aurelien_zeje",
+      "heroes": ["hero.aurelien","hero.zeje"],
+      "stages": {
+        "opening": {"stage_direction":"Zejé annote un chiffre ; Aurélien ajoute une conséquence en marge.","line":{"speaker_id":"hero.zeje","text":"Tu veux un seuil de décision. Je peux te donner un degré d'incertitude, pas un ordre."}},
+        "friction": {"stage_direction":"Le désaccord porte sur la phrase à inscrire, pas sur la nécessité d'agir.","line":{"speaker_id":"hero.aurelien","text":"À un moment, quelqu'un doit décider."}},
+        "rupture": {"stage_direction":"Ils cessent de parler du dossier et parlent enfin l'un de l'autre.","line":{"speaker_id":"hero.zeje","text":"Tu utilises l'urgence pour fermer une question qui reste ouverte."}},
+        "repair": {"stage_direction":"Ils corrigent chacun une phrase de leur propre main.","line":{"speaker_id":"hero.aurelien","text":"Décision prise sous incertitude élevée. Voilà ce que j'aurais dû écrire."}},
+        "durable": {"stage_direction":"La méthode devient un langage commun, pas une victoire de l'un sur l'autre.","line":{"speaker_id":"hero.zeje","text":"Tu peux trancher sans me demander de rendre le monde certain d'abord."}},
+        "bereavement": {"stage_direction":"Une correction reste lisible sous une décision ancienne.","survivor_lines":{"hero.aurelien":"Il séparait ce que nous savions de ce que nous devions quand même décider. Je garderai cette séparation.","hero.zeje":"Il acceptait parfois d'écrire 'incertain' sous une décision qu'il devait quand même assumer. C'était plus rare qu'il ne le croyait."}}
+      }
+    },
+    {
+      "id": "aurelien_anouk",
+      "heroes": ["hero.aurelien","hero.anouk"],
+      "stages": {
+        "opening": {"stage_direction":"Anouk garde le carnet entre ses mains pendant qu'ils parlent.","line":{"speaker_id":"hero.anouk","text":"Tu veux noter ce que j'ai perçu ?"}},
+        "friction": {"stage_direction":"Aurélien retire une demande du protocole avant de répondre.","line":{"speaker_id":"hero.aurelien","text":"Si nous ne comparons jamais tes perceptions, d'autres les transformeront en miracle ou en mensonge."}},
+        "rupture": {"stage_direction":"Il ferme lui-même le dossier d'expérience.","line":{"speaker_id":"hero.anouk","text":"Je ne veux pas être la preuve vivante de ta théorie."}},
+        "repair": {"stage_direction":"Le protocole porte désormais deux signatures de consentement, pas une autorisation médicale unique.","line":{"speaker_id":"hero.aurelien","text":"Tu choisis quand l'observation commence et quand elle s'arrête."}},
+        "durable": {"stage_direction":"Leur travail ressemble à une collaboration, jamais à un examen.","line":{"speaker_id":"hero.anouk","text":"Je peux te dire quelque chose d'étrange sans craindre que tu en fasses immédiatement un système."}},
+        "bereavement": {"stage_direction":"Le carnet reste fermé à la page où l'un des deux avait écrit « arrêt demandé ».","survivor_lines":{"hero.aurelien":"Elle avait le droit de rester une personne même quand ce qu'elle percevait dépassait nos modèles.","hero.anouk":"Il m'a appris qu'une méthode peut aussi servir à dire non à ceux qui veulent une réponse trop vite."}}
+      }
+    },
+    {
+      "id": "effrie_lya",
+      "heroes": ["hero.effrie","hero.lya"],
+      "stages": {
+        "opening": {"stage_direction":"Lya montre ses notes avant de raconter quoi que ce soit.","line":{"speaker_id":"hero.effrie","text":"Tu racontes bien. Je veux juste savoir quand c'est encore notre histoire."}},
+        "friction": {"stage_direction":"Une formule reste volontairement inachevée.","line":{"speaker_id":"hero.lya","text":"Si personne ne transforme un récit, il finit parfois par ne plus voyager."}},
+        "rupture": {"stage_direction":"Lya range son instrument ; Èffrie ne lui demande pas de reprendre.","line":{"speaker_id":"hero.effrie","text":"Ne rends pas notre silence plus beau que notre parole."}},
+        "repair": {"stage_direction":"Elles inscrivent ensemble l'origine et la transformation.","line":{"speaker_id":"hero.lya","text":"Je peux dire : version entendue d'Èffrie, puis ma variation."}},
+        "durable": {"stage_direction":"Leur confiance tient à une permission révocable, pas à une fusion de leurs traditions.","line":{"speaker_id":"hero.effrie","text":"Je sais que tu laisseras la couture visible."}},
+        "bereavement": {"stage_direction":"Une version annotée garde le nom de celle qui l'a transmise et de celle qui l'a transformée.","survivor_lines":{"hero.effrie":"Elle savait changer une histoire sans prétendre qu'elle avait toujours été ainsi. Je garderai ses coutures.","hero.lya":"Elle me demandait toujours qui parlait encore dans ce que je racontais. J'entends la question même maintenant."}}
+      }
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "pack": 2,
+  "pairs": [
+    {
+      "id": "effrie_mathilde",
+      "heroes": ["hero.effrie","hero.mathilde"],
+      "stages": {
+        "opening": {"stage_direction":"Elles vérifient leurs armes plutôt que de se jauger.","line":{"speaker_id":"hero.mathilde","text":"Tu frappes comme si tu avais déjà décidé ce qu'il faudra faire après."}},
+        "friction": {"stage_direction":"Aucune ne baisse la voix ; aucune ne lève son arme.","line":{"speaker_id":"hero.effrie","text":"Ils recommenceront si on ne leur laisse aucune raison d'avoir peur."}},
+        "rupture": {"stage_direction":"Le respect reste intact, mais il ne suffit plus à rendre la proximité facile.","line":{"speaker_id":"hero.mathilde","text":"Je ne t'aiderai pas à appeler vengeance une mesure de sécurité."}},
+        "repair": {"stage_direction":"Elles transforment un désaccord moral en règle d'engagement concrète.","line":{"speaker_id":"hero.effrie","text":"On fixe ce qui arrête la menace. Pas ce qui satisfait notre colère."}},
+        "durable": {"stage_direction":"Leur respect devient moins spectaculaire et plus fiable.","line":{"speaker_id":"hero.mathilde","text":"Je sais que tu peux t'arrêter même quand tu es en colère."}},
+        "bereavement": {"stage_direction":"Une ancienne règle d'engagement porte encore leurs deux corrections.","survivor_lines":{"hero.effrie":"Elle me rappelait que la colère n'est pas une règle. Je ne laisserai personne utiliser sa mort pour en écrire une.","hero.mathilde":"Elle n'avait pas peur de la force. Elle avait peur qu'on oublie pourquoi on devait l'arrêter."}}
+      }
+    },
+    {
+      "id": "effrie_marec",
+      "heroes": ["hero.effrie","hero.marec"],
+      "stages": {
+        "opening": {"stage_direction":"Marec sourit ; Èffrie lui montre une seconde issue.","line":{"speaker_id":"hero.marec","text":"Tu comptes tes pas avant de charger ?"}},
+        "friction": {"stage_direction":"Ils déplacent une caisse trop lourde en silence, chacun refusant l'aide de l'autre.","line":{"speaker_id":"hero.effrie","text":"Ton instinct est bon jusqu'au jour où il décide pour tout le monde."}},
+        "rupture": {"stage_direction":"La colère vient d'une inquiétude qu'aucun ne formule encore.","line":{"speaker_id":"hero.marec","text":"Je ne suis pas un mur que tu places là où ton plan a besoin de tenir."}},
+        "repair": {"stage_direction":"Ils transforment leur réflexe de protection en coordination.","line":{"speaker_id":"hero.effrie","text":"Tu annonces quand tu prends l'avant. Je t'annonce quand je compte sur toi pour tenir."}},
+        "durable": {"stage_direction":"Leur humour revient seulement quand la confiance est assez solide pour le supporter.","line":{"speaker_id":"hero.marec","text":"Je sais où tu seras quand ça casse."}},
+        "bereavement": {"stage_direction":"Un plan de combat garde deux trajectoires tracées de mains différentes.","survivor_lines":{"hero.effrie":"Il savait utiliser sa force sans croire qu'elle lui donnait raison. C'est plus rare qu'on ne le pense.","hero.marec":"Elle m'a appris qu'une charge commence parfois par regarder où on peut encore revenir."}}
+      }
+    },
+    {
+      "id": "effrie_zeje",
+      "heroes": ["hero.effrie","hero.zeje"],
+      "stages": {
+        "opening": {"stage_direction":"Zejé laisse une formule non traduite dans la marge.","line":{"speaker_id":"hero.zeje","text":"Je peux documenter ce que ta tradition affirme. Pas confirmer ce qu'elle ne peut pas montrer."}},
+        "friction": {"stage_direction":"Leur précision devient presque agressive.","line":{"speaker_id":"hero.effrie","text":"Ton doute arrive toujours avec un couteau propre."}},
+        "rupture": {"stage_direction":"Ils cessent de travailler sur la même copie.","line":{"speaker_id":"hero.zeje","text":"Je ne signerai pas 'ancien' seulement parce que personne ne se souvient d'un début."}},
+        "repair": {"stage_direction":"Ils reviennent au même document avec deux catégories au lieu d'une.","line":{"speaker_id":"hero.effrie","text":"Écris : transmis comme ancien. Pas établi comme ancien."}},
+        "durable": {"stage_direction":"Leur désaccord devient une méthode de protection réciproque.","line":{"speaker_id":"hero.zeje","text":"Ta mémoire me donne des questions que mes archives n'auraient pas su poser."}},
+        "bereavement": {"stage_direction":"Une note méthodologique reste attachée à un récit transmis oralement.","survivor_lines":{"hero.effrie":"Il doutait assez pour empêcher nos histoires de devenir des chaînes. Je détestais ça quand il était là.","hero.zeje":"Elle me rappelait qu'une tradition peut conserver une question même lorsqu'elle ne peut plus prouver son origine."}}
+      }
+    },
+    {
+      "id": "effrie_anouk",
+      "heroes": ["hero.effrie","hero.anouk"],
+      "stages": {
+        "opening": {"stage_direction":"Anouk sourit à peine ; Èffrie accepte le coup sans se défendre.","line":{"speaker_id":"hero.effrie","text":"Si quelqu'un t'appelle 'élue', tu peux lui dire non."}},
+        "friction": {"stage_direction":"Èffrie reste près de la porte au lieu de se placer devant Anouk.","line":{"speaker_id":"hero.anouk","text":"Me protéger de tout ce qui pourrait m'utiliser peut aussi m'empêcher de choisir."}},
+        "rupture": {"stage_direction":"Le mot « protéger » devient lui-même le sujet du conflit.","line":{"speaker_id":"hero.effrie","text":"Je ne vais pas regarder quelqu'un t'offrir au danger parce que tu dis que tu peux le supporter."}},
+        "repair": {"stage_direction":"Elles définissent une protection qui peut être demandée, refusée et rappelée.","line":{"speaker_id":"hero.anouk","text":"Demande-moi ce que je veux éviter avant de décider ce dont je dois être protégée."}},
+        "durable": {"stage_direction":"Leur proximité cesse de fabriquer un rôle pour Anouk.","line":{"speaker_id":"hero.effrie","text":"Je n'ai pas besoin que tu sois sacrée pour vouloir te garder en vie."}},
+        "bereavement": {"stage_direction":"Le survivant retire un titre ajouté sous le nom de l'autre.","survivor_lines":{"hero.effrie":"Elle n'était pas un signe. Elle n'était pas une promesse. Elle était Anouk.","hero.anouk":"Elle me protégeait mieux quand elle se souvenait de me demander ce que je voulais protéger aussi."}}
+      }
+    },
+    {
+      "id": "lya_mathilde",
+      "heroes": ["hero.lya","hero.mathilde"],
+      "stages": {
+        "opening": {"stage_direction":"Elles restent quelques secondes à écouter les bruits du Sanctuaire.","line":{"speaker_id":"hero.lya","text":"Tu entends la pièce avant que quelqu'un parle."}},
+        "friction": {"stage_direction":"Lya pose son outil ; Mathilde décroise enfin les bras.","line":{"speaker_id":"hero.mathilde","text":"Tu transformes parfois ce qui te blesse en travail avant même d'admettre que ça t'a touchée."}},
+        "rupture": {"stage_direction":"Elles se quittent sans colère visible, ce qui rend la distance plus nette.","line":{"speaker_id":"hero.lya","text":"Je ne peux pas être ta preuve que ressentir plus fort rend plus juste."}},
+        "repair": {"stage_direction":"Elles partagent un silence qui n'est plus une fuite.","line":{"speaker_id":"hero.mathilde","text":"On peut dire 'trop' avant que quelqu'un nous l'arrache du corps."}},
+        "durable": {"stage_direction":"Leur attention mutuelle devient discrète, presque invisible aux autres.","line":{"speaker_id":"hero.lya","text":"Je sais quand tu veux qu'on cesse de parler sans croire que tu me fermes la porte."}},
+        "bereavement": {"stage_direction":"Un espace vide reste volontairement sans musique ni commentaire.","survivor_lines":{"hero.lya":"Elle savait quand une pièce devenait trop pleine avant que quelqu'un ne tombe. J'entends encore cette alerte.","hero.mathilde":"Elle me laissait ressentir sans me demander d'en faire tout de suite quelque chose d'utile."}}
+      }
+    },
+    {
+      "id": "lya_marec",
+      "heroes": ["hero.lya","hero.marec"],
+      "stages": {
+        "opening": {"stage_direction":"Lya rit ; Marec réalise seulement après qu'il a été observé aussi.","line":{"speaker_id":"hero.lya","text":"Tu changes de rythme juste avant de frapper."}},
+        "friction": {"stage_direction":"Ils testent le même obstacle de deux façons différentes.","line":{"speaker_id":"hero.marec","text":"Parfois, il faut juste pousser."}},
+        "rupture": {"stage_direction":"Le conflit porte moins sur l'art que sur l'accès des autres à leur savoir.","line":{"speaker_id":"hero.lya","text":"Tu appelles 'simple' ce que ton corps sait faire après des années."}},
+        "repair": {"stage_direction":"Ils recommencent l'exercice en inversant qui explique.","line":{"speaker_id":"hero.marec","text":"Montre-moi le rythme sans les mots."}},
+        "durable": {"stage_direction":"Ils peuvent se moquer l'un de l'autre sans réduire l'autre à son rôle.","line":{"speaker_id":"hero.lya","text":"Ta force a une grammaire."}},
+        "bereavement": {"stage_direction":"Une séquence d'entraînement survit sous forme de notation et de gestes.","survivor_lines":{"hero.lya":"Son corps savait des choses qu'il n'avait pas besoin de rendre savantes pour qu'elles soient vraies.","hero.marec":"Elle m'a appris qu'un mouvement peut raconter quelque chose sans devenir moins utile."}}
+      }
+    },
+    {
+      "id": "lya_zeje",
+      "heroes": ["hero.lya","hero.zeje"],
+      "stages": {
+        "opening": {"stage_direction":"Ils rapprochent trois fragments sans les empiler.","line":{"speaker_id":"hero.lya","text":"J'ai vu le même motif dans trois matières différentes."}},
+        "friction": {"stage_direction":"Le ton est sec, mais aucun ne quitte la table.","line":{"speaker_id":"hero.zeje","text":"Tu aimes trop les correspondances."}},
+        "rupture": {"stage_direction":"Ils séparent leurs notes pour la première fois.","line":{"speaker_id":"hero.lya","text":"Si tu refuses toute piste avant qu'elle soit preuve, tu n'en découvriras jamais de nouvelle."}},
+        "repair": {"stage_direction":"Leur méthode tient sur deux colonnes qui restent ouvertes.","line":{"speaker_id":"hero.zeje","text":"Tu proposes les correspondances. Je marque leur statut. Aucun de nous ne supprime le travail de l'autre."}},
+        "durable": {"stage_direction":"Le duo devient rapide précisément parce qu'il n'exige pas un accord préalable.","line":{"speaker_id":"hero.lya","text":"Je peux te donner une intuition sans que tu la ridiculises."}},
+        "bereavement": {"stage_direction":"Deux colonnes d'un vieux dossier restent remplies par deux écritures différentes.","survivor_lines":{"hero.lya":"Il savait dire 'je ne sais pas' sans fermer la porte. C'est une forme rare d'attention.","hero.zeje":"Elle voyait des structures avant moi. Mon travail n'était pas de les nier, mais de savoir lesquelles survivaient à la vérification."}}
+      }
+    }
+  ]
+}
