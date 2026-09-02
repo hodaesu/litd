@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "dungeon_id": "dungeon_voices_under_sanctuary",
+  "profile": "short",
+  "biome_tags": [
+    "early_concord",
+    "sanctuary_underworks",
+    "crypt",
+    "ancient_civic"
+  ],
+  "theme_tags": [
+    "knowledge",
+    "remanence",
+    "corpse_persistence",
+    "acoustics",
+    "recruitment",
+    "three_awakenings"
+  ],
+  "seed_override_for_vertical_slice": "WATCHERS_VERTICAL_001",
+  "fallback_authored_map": "res://data/dungeons/voices_under_sanctuary_map.json",
+  "objective_role": "combat",
+  "mandatory_room_ids": [
+    "s1_vestibule",
+    "s2_rope_gallery",
+    "s3_sleepers",
+    "s5_fractured_crypt",
+    "s7_voice_chamber"
+  ],
+  "mandatory_rooms": [
+    {"id": "s1_vestibule", "role": "entry", "preferred_depth": 0, "module_pool": "voices_entry"},
+    {"id": "s2_rope_gallery", "role": "hazard", "preferred_depth": 1, "module_pool": "voices_hazard"},
+    {"id": "s3_sleepers", "role": "combat", "preferred_depth": 2, "module_pool": "voices_combat"},
+    {"id": "s5_fractured_crypt", "role": "narrative", "preferred_depth": 3, "module_pool": "voices_narrative"},
+    {"id": "s7_voice_chamber", "role": "combat", "preferred_depth": 4, "module_pool": "voices_objective"}
+  ],
+  "optional_room_pools": [
+    {"pool": "voices_resource", "roles": ["resource"], "weight": 3, "value": "resource"},
+    {"pool": "voices_recruitment", "roles": ["choice"], "weight": 2, "value": "knowledge"}
+  ],
+  "secret_room_pools": [
+    {"pool": "voices_archive", "roles": ["secret"], "weight": 1, "value": "knowledge"}
+  ],
+  "protected_story_order": [
+    "s1_vestibule",
+    "s2_rope_gallery",
+    "s3_sleepers",
+    "s5_fractured_crypt",
+    "s7_voice_chamber"
+  ],
+  "branching_target": [2, 2],
+  "loop_target": [0, 0],
+  "secret_target": [1, 1],
+  "retreat_policy": {
+    "minimum": 1,
+    "entry_exit": true,
+    "deep_shortcut_required": false,
+    "preobjective_retreat_allowed": true
+  },
+  "difficulty_rhythm": [
+    "observe",
+    "hazard",
+    "combat",
+    "relief_optional",
+    "investigate",
+    "choice_optional",
+    "finale",
+    "secret_optional"
+  ],
+  "encounter_table": "res://data/dungeons/voices_under_sanctuary_encounters.json",
+  "module_library": "res://data/dungeons/voices_under_sanctuary_module_library.json",
+  "remanence_anchors": "res://data/dungeons/voices_under_sanctuary_remanence_anchors.json",
+  "balance_contract": "res://data/veilleurs/vs001_balance.json",
+  "dialogue_contract": "res://data/veilleurs/vs001_dialogues.json",
+  "world_rules": {
+    "death_and_injuries_persist": true,
+    "completion_required": false,
+    "entry_confirmation": true,
+    "critical_path_readable_without_hud": true,
+    "persistent_corpses": true,
+    "knowledge_persists": true,
+    "mobile_pc_topology_identical": true
+  }
+}
