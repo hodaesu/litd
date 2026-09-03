@@ -17,13 +17,15 @@
     "Rémanence avancée avec provenance, qualité de source et questions non résolues",
     "progression du hub du Poste de lisière à l'Archive ouverte",
     "finale du Copiste avec trois états de gouvernance de la mémoire",
-    "catalogue narratif Godot dédié couvrant les cinq actes",
+    "quatuor canonique Nayra Orun, Tarek Senn, Aïsha Maren et Idris Vael avec mécaniques, arbres, ultimes et pressions narratives par acte",
+    "catalogue narratif Godot dédié couvrant les cinq actes et le quatuor canonique",
     "tests Python de contrat par système et test transversal cinq actes",
     "plan de validation PC et orchestrateur de validation déjà présents dans le dépôt"
   ],
   "static_contracts": {
     "narrative_early": "data/canon/les_veilleurs_acts_1_2.json",
     "narrative_late": "data/canon/les_veilleurs_acts_3_5.json",
+    "quartet": "data/canon/les_veilleurs_quartet.json",
     "narrative_godot_catalog": "scripts/core/les_veilleurs_narrative_catalog.gd",
     "encounters": "data/canon/les_veilleurs_encounter_compositions.json",
     "recruitment": "data/canon/les_veilleurs_enemy_recruitment.json",
@@ -98,6 +100,7 @@
     "densité exacte des rencontres",
     "durées chiffrées de convalescence",
     "budget exact de mémoire IA",
+    "valeurs finales de Détermination, Traque, Diagnostic et Autorité",
     "taille définitive des zones tactiles",
     "mix audio final",
     "budgets LOD et textures définitifs"
