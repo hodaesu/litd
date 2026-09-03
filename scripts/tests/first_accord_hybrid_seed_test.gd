@@ -33,7 +33,7 @@ func _init() -> void:
                 if not bool(first.get("all_nodes_have_modules", false)):
                     failures.append("unresolved_modules:%s" % str(state))
 
-                var validation := first.get("validation", {})
+                var validation: Dictionary = first.get("validation", {})
                 if not bool(validation.get("ok", false)):
                     failures.append("validation_failed:%s:%s" % [str(state), str(validation.get("errors", []))])
 
