@@ -36,13 +36,26 @@ func choose_action(enemy: Dictionary, heroes: Array) -> Dictionary:
             candidates.append(skill)
     if candidates.is_empty():
         var fallback := {"id":"basic_attack","name":"Attaque","power":1.0,"target":"random"}
+        fallback = _apply_remanence_action(enemy, fallback)
         fallback = NgPlusCycleDirector.modify_enemy_action(fallback, enemy, heroes)
         fallback["target_index"] = _target_index(heroes, String(fallback.get("target", "random")))
         return fallback
     var chosen: Dictionary = candidates[randi() % candidates.size()].duplicate(true)
+    chosen = _apply_remanence_action(enemy, chosen)
     chosen = NgPlusCycleDirector.modify_enemy_action(chosen, enemy, heroes)
     chosen["target_index"] = _target_index(heroes, String(chosen.get("target", "random")))
     return chosen
+
+func _apply_remanence_action(enemy: Dictionary, action: Dictionary) -> Dictionary:
+    var result := action.duplicate(true)
+    var target_mode := str(enemy.get("remanence_target_mode", ""))
+    if target_mode != "":
+        result["target"] = target_mode
+    var memory_multiplier := maxf(0.1, float(enemy.get("remanence_damage_multiplier", 1.0)))
+    if not is_equal_approx(memory_multiplier, 1.0):
+        result["power"] = float(result.get("power", 1.0)) * memory_multiplier
+        result["remanence_modified"] = true
+    return result
 
 func apply_secondary(action: Dictionary, enemy: Dictionary, target: Dictionary, all_targets: Array) -> Array[String]:
     var messages: Array[String] = []
@@ -64,6 +77,9 @@ func apply_secondary(action: Dictionary, enemy: Dictionary, target: Dictionary, 
 func intent_preview(enemy: Dictionary) -> String:
     var enemy_archetype := archetype(enemy)
     var fear := int(enemy.get("enemy_fear", enemy.get("fear_gauge", 0)))
+    var target_mode := str(enemy.get("remanence_target_mode", ""))
+    if target_mode == "weakest":
+        return "Mémoire tactique · cible le Veilleur le plus vulnérable"
     if fear >= 70:
         return "Panique probable · intention instable"
     if enemy_archetype == "spider":
