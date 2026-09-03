@@ -1,33 +1,66 @@
-# LITD : Les Veilleurs — Contrats de contenu V1
+# LITD : Les Veilleurs — Contrats de contenu V2
 
-## Progression 1-50
+Source combat/rencontres actuelle : `LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx`.
 
-La progression ne doit jamais annuler l'importance des blessures, de l'armure ou du terrain. Monter de niveau augmente surtout maîtrise, options, fiabilité, spécialisation et capacité à exploiter le système.
+## Progression 1–50 — baseline récupérée
 
-Bandes fonctionnelles des Veilleurs, tant que les niveaux de nœuds exacts ne sont pas revalidés :
+Le référentiel contient une progression exacte de conception, à importer puis mesurer en Godot plutôt qu'à réinventer.
 
-- 1-9 : fondations, lecture du rôle, actions fiables.
-- 10-19 : identité de l'arbre et engagement tactique.
-- 20-29 : maîtrise et premières interactions systémiques complexes.
-- 30-39 : conséquences avancées, contre-jeu, exploitation du terrain/anatomie/SPE.
-- 40-49 : expertise de haut niveau, fortes synergies et coûts réels.
-- 50 : accomplissement du parcours, sans immunité aux règles du monde.
+Nœuds de compétence Veilleur :
 
-Chaque arbre contient exactement 15 compétences et possède un UltimateDefinition séparé. Les cadences précises d'acquisition et le nombre d'usages d'ultime restent PROTOTYPE jusqu'à validation du rythme de run.
+- N1 : nœud 1
+- N4 : nœud 2
+- N7 : nœud 3
+- N10 : nœud 4
+- N13 : nœud 5
+- N16 : nœud 6 + ultime à 1 charge
+- N19 : nœud 7
+- N22 : nœud 8
+- N25 : nœud 9
+- N28 : nœud 10
+- N31 : nœud 11
+- N32 : ultime passe à 2 charges
+- N35 : nœud 12
+- N39 : nœud 13
+- N44 : nœud 14
+- N48 : ultime passe à 3 charges
+- N49 : nœud 15
+- N50 : maîtrise niveau max
 
-Recrues : L5 adaptation ; L10 orientation ; L15 modification native ; L20 transformation fonctionnelle ; L25 passive majeure ; L30 seconde transformation ; L35 amélioration signature ; L40 maîtrise ; L45 trait exceptionnel ; L50 forme accomplie.
+Principe explicite du référentiel : la puissance ne doit pas venir principalement d'une inflation brute ; elle vient de l'arbre, de l'équipement et de la maîtrise. Les multiplicateurs numériques du tableur sont une baseline de test, non l'équilibrage final.
 
-## Chorégraphie des 21 ultimes
+Pour les ennemis recrutables des actes II–V, leurs arbres utilisent également les paliers 1/4/7/.../49 et deviennent exclusifs une fois spécialisés. Les anciennes orientations L10 du système 25/75 sont donc archivées comme concept legacy, pas comme contrat de progression courant.
 
-Toute chorégraphie suit cinq beats :
+## Corpus de compétences actuel
 
-1. Déclaration/lecture : le joueur comprend l'intention.
-2. Engagement : l'utilisateur s'expose ou consomme une opportunité réelle.
-3. Contact/phénomène : interaction avec géométrie, cible et environnement.
-4. Conséquence : anatomie, position, volonté, terrain, réseau ou information changent réellement.
-5. Après-coup : repositionnement, fatigue, ouverture, trace ou effet de monde.
+### Veilleurs
 
-Un ultime doit être signature de son arbre, pas une version avec plus de dégâts. Il peut être interrompu uniquement selon des règles déclarées. Il ne garantit jamais un démembrement impossible anatomiquement.
+- 12 arbres.
+- 180 compétences normales.
+- 12 ultimes séparés.
+
+### Ennemis et boss
+
+- 29 entités nommées.
+- 87 arbres.
+- 1 305 compétences normales.
+- 87 ultimes.
+
+### Total spécifié
+
+- 99 arbres.
+- 1 485 compétences normales.
+- 99 ultimes séparés.
+
+Ce total décrit la bibliothèque de contenu. Il ne justifie pas son implémentation massive avant la verticale jouable.
+
+## Ultimes des Veilleurs
+
+Les 12 ultimes actuels sont listés dans `SKILL_TREE_INDEX.md` et `data/TREE_REGISTRY_V1.json`.
+
+Le référentiel fournit pour chacun : mécanique, charges, limite de combat, condition, puissance, garde-fou et huit beats de storyboard. Il faut préserver ces huit beats lors de l'import, sans les réduire à un simple multiplicateur de dégâts.
+
+Baseline : N16=1, N32=2, N48=3 ; une activation maximum du même ultime par rencontre ; conditions de l'arbre et fonctions corporelles requises ; jamais d'invulnérabilité ni de résurrection.
 
 ## Équipement
 
@@ -35,72 +68,98 @@ Armes : exigences de prise et fonctions corporelles, portée, masse, modes d'att
 
 Armures : couverture par zone, matériau, rigidité, absorption, déflexion, résistance à pénétration, état, mobilité, bruit et éventuels effets thermiques/respiratoires.
 
-Une armure endommagée peut créer une faiblesse locale persistante pendant l'expédition. Une pièce lourde peut sauver un membre tout en rendant une approche discrète plus difficile. Les valeurs numériques exactes restent PROTOTYPE.
+Une armure endommagée peut créer une faiblesse locale persistante. Une pièce lourde peut sauver un membre tout en rendant l'approche plus bruyante ou certains gestes moins accessibles.
 
 ## Résolution des dégâts et du gore
 
-Aucune compétence ne dit directement « coupe un bras » sans résolution. Le moteur vérifie contact, armure, tissus, état préalable, puissance, type d'impact et éligibilité anatomique. Les conséquences fonctionnelles ont priorité sur une simple perte de HP.
+Aucune compétence ne produit directement une mutilation par probabilité libre. Le moteur vérifie contact, zone, armure, tissus, lésion préalable, puissance, impact et anatomie.
 
-Le jeu doit savoir produire : contusion, lacération, perforation, fracture, luxation, rupture musculo-tendineuse, saignement externe/interne, brûlure, écrasement, section et traumatisme d'organe, lorsque l'anatomie de l'espèce le permet.
+Conséquences supportées par le contrat : contusion, lacération, perforation, fracture, luxation, rupture musculo-tendineuse, saignements externe/interne, brûlure, écrasement, section et traumatisme d'organe lorsque l'anatomie le permet.
 
-Les causes terminales peuvent provenir de destruction vitale, hémorragie, insuffisance respiratoire, choc ou atteinte d'organe majeure, mais le modèle doit rester lisible comme jeu et non devenir une simulation médicale exhaustive.
+Les conséquences fonctionnelles priment sur une simple lecture en HP.
+
+## Rémanence corporelle et Traces
+
+Les feuilles `Rémanence_blessures` et `Traces_psychologiques` du pack canonique deviennent les données de référence à importer.
+
+Une blessure/Trace ne doit pas être recréée à partir d'un résumé de conversation : utiliser les lignes exactes du pack extrait.
+
+## Bestiaire actuel
+
+Le roster quantitatif courant est `data/BESTIARY_REGISTRY_V1.json` : 24 ennemis ordinaires + 5 boss.
+
+L'ancienne matrice 25 archétypes / 75 orientations est conservée dans `data/legacy/` comme réserve de concepts. Une idée peut en être réintroduite plus tard, mais seulement par décision explicite et migration vers le roster actuel.
+
+## Ralliement / auxiliaires
+
+Le principe systémique reste : capture/neutralisation et ralliement sont distincts ; les blessures ne sont pas effacées ; aucun boss n'est recruté ; un auxiliaire ne remplace jamais le rôle narratif d'un Veilleur.
+
+Acte I : la source indique seulement `Auxiliaire possible; ne remplace jamais un Veilleur` pour les huit ennemis ordinaires. Aucune condition numérique supplémentaire ne doit être inventée avant qu'elle soit écrite/testée.
+
+Actes II–V : utiliser exactement les conditions de recrutement et rôles auxiliaires du référentiel, déjà reportés dans `data/SYSTEM_RULES_V1.json`.
 
 ## Génération hybride des donjons
 
-Structure : auteur pour la macro-dramaturgie ; procédural pour modules et variations ; Rémanence pour réinjecter l'histoire.
-
-RoomTags V1 : TRAVERSAL, COMBAT, AMBUSH, REFUGE, LORE, HAZARD, VERTICAL, ACOUSTIC, BIOLOGICAL, ASH, BOSS_APPROACH, EXTRACTION.
+Structure : macro-dramaturgie écrite + modules procéduraux + Rémanence persistante.
 
 Pipeline : CampaignSeed -> AuthoredMacroGraph -> ZoneConstraints -> RoomModuleSelection -> ConnectivityValidation -> PersistentScarInjection -> FactionEcologyState -> EncounterDirector -> ResourcePlacement -> NarrativeAnchors -> ExtractionValidation -> ConsistencyPass.
 
-Contraintes fortes : toujours au moins un chemin légal jusqu'à un état d'extraction ; aucune cicatrice persistante ne doit rendre une campagne impossible sans route alternative explicitement gérée ; les salles importantes restent identifiables malgré la variation procédurale ; les Némésis et cadavres persistent via ancrages plutôt que coordonnées fragiles.
+Les 64 rencontres actuelles, la profondeur, les tables de spawn, les synergies et les 12 dangers doivent être importés depuis le pack maître avant création manuelle de nouvelles rencontres.
 
-## Directeur de rencontres
+Le directeur ne doit pas contre-picker artificiellement la composition du joueur.
 
-Entrées : profondeur, état de la zone, bruit/alertes récents, faction/écologie, cicatrices, ennemis mémoriels disponibles, composition du groupe, événements narratifs autorisés.
+## Boss actuels
 
-Le directeur ne doit pas contrer artificiellement la composition du joueur. Il crée un monde cohérent puis laisse les forces/faiblesses de la composition produire les conséquences.
+- Acte I : Ishar, Gardien du Passage — 3 phases.
+- Acte II : Orateur Sans Voix — 3 phases.
+- Acte III : Mère des Veines — 3 phases.
+- Acte IV : Porte-Cendres Blanc — 3 phases.
+- Acte V : Le Copiste — 4 phases.
 
-Pas de rubber band caché transformant chaque rencontre en matchup parfait.
+Les phases exactes sont dans `Boss_5_phases`. Les boss sont non ralliables.
 
-## Boss et mini-boss
+Leur victoire peut dépendre de conditions tactiques et doctrinales en plus de la vitalité. Par exemple, Le Copiste combine Correction, Palimpseste et synthèse des comportements utilisés par le joueur ; une seule routine de statut ou un combo signature répété doit pouvoir être puni sans transformer le boss en omniscient.
 
-Boss et mini-boss : jamais ralliables dans le bestiaire V1. Leur identité vient d'une doctrine et d'une fonction, non d'un multiplicateur de PV.
+## Économie d'expédition — état récupéré
 
-Un boss peut changer de phase lorsque : fonction corporelle détruite, relais coupé, support environnemental perdu, doctrine invalidée, objectif secondaire accompli, terrain transformé. Un seuil de PV peut exister si physiquement justifié, mais ne doit pas être le principe par défaut.
+La feuille `Recompenses_capture` comporte explicitement :
 
-Le boss respecte le même moteur d'anatomie. Une anatomie spéciale doit être déclarée, jamais codée comme exception cachée.
+- Or cible
+- Essence cible
+- Rémanence cible
+- Butin
+- Capture
+- Bonus connaissance
 
-Cartographe Retourné et Conservateur sont réservés comme références de contenu déjà travaillées ; leurs données finales doivent être récupérées et validées avant implémentation afin d'éviter une réécriture contradictoire.
+Donc `Essence` ne peut plus être supprimée des données de rencontre comme si elle n'existait pas. En revanche, le référentiel retrouvé ne suffit pas à lui seul à définir sa fonction globale de dépense/persistance. Statut pré-PC : **donnée de récompense canonique présente, fonction économique globale à valider/consolider**.
 
-## Économie d'expédition
+La Connaissance reste qualitative et le bonus de connaissance récompense notamment une nouvelle entrée de bestiaire.
 
-Ressources : Or, Provisions, Matériaux, Remèdes. Connaissance qualitative.
+## Narration de zone
 
-Arbitrages de chargement : provisions, équipement, traitement/stabilisation, moyens de contention lorsqu'ils sont nécessaires, capacité de loot et marge pour extraire un blessé/un corps.
+Les couches narratives actuelles du référentiel comprennent :
 
-Sources : exploration, objectifs, récupération, démontage cohérent, commerce, rôles du Refuge, connaissance qui ouvre de nouvelles possibilités.
+- 64 rencontres narratives
+- 29 entrées de bestiaire narratif
+- 68 barks Veilleurs
+- 30 lignes de dialogue boss
+- 15 événements narratifs régionaux
+- 667 clés FR stables
 
-Sinks : préparation, soins, réparation, équipement, améliorations et adaptations du Refuge.
+Règle narrative récupérée : `Observation ≠ certitude`; la Lumière stabilise le référentiel partagé, jamais une vérité absolue.
 
-Anti-softlock : une suite d'échecs ne doit pas rendre la prochaine expédition mathématiquement impossible. Prévoir un plancher de récupération, des options de mission à faible engagement et des solutions de réparation/soin basiques. Les quantités restent PROTOTYPE.
-
-## Paquet narratif obligatoire par zone
-
-Chaque zone majeure renseigne : visible_problem, hidden_human_truth, historical_layer, philosophical_question, ecology_rule, gameplay_rule, rally_discovery, boss_thesis, remanence_scar, litd2_echo, litd1_echo.
-
-La narration ne doit pas expliquer la philosophie par monologue si une situation de jeu peut la faire vivre. Les choix doivent produire conséquences et mémoire plutôt qu'une jauge morale.
-
-## Marches du Sanctuaire — axe de travail
-
-Axe compatible avec le bestiaire actuel : fonctions de protection, conservation, surveillance et mémoire qui survivent à leur intention initiale ; début de la Concorde et institutions encore incomplètes ; rencontres qui obligent à distinguer monstre, survivant, organisme et fonction héritée.
-
-Ce texte est une direction, pas un verrouillage de scènes précises. Les scènes canoniques déjà écrites doivent primer lors de l'ingestion finale.
+Toute nouvelle scène doit respecter cette couche avant d'inventer des textes de remplacement.
 
 ## Interconnexion Universe
 
-Les Veilleurs montrent des pratiques encore émergentes : observation structurée, ralliement, cohabitation, traitement des altérés, premières règles du Refuge et mise en commun de connaissances. LITD1 peut montrer des versions institutionnalisées, simplifiées ou déformées de ces pratiques. La connexion doit être reconnaissable sans réduire Les Veilleurs à une préquelle explicative.
+Les Veilleurs montrent des pratiques encore émergentes : observation structurée, ralliement/auxiliaires, traitement des altérés, mémoire des blessures, cohabitation et règles communes. Les jeux futurs peuvent institutionnaliser, déformer ou oublier ces pratiques sans que Les Veilleurs deviennent une simple préquelle explicative.
 
-## Règle de contenu avant expansion
+## Règle avant expansion
 
-Chaque nouvelle compétence, ennemi, salle, objet ou scène doit démontrer au moins une contribution claire à un pilier du jeu et utiliser les systèmes transversaux plutôt que créer une exception spéciale. Si un contenu exige un nouveau système, il doit justifier son coût mobile et sa valeur de réutilisation.
+Avant d'ajouter une compétence, ennemi, rencontre ou boss hors référentiel :
+
+1. intégrer la verticale Acte I ;
+2. faire passer les gates ;
+3. exécuter les tests pertinents parmi `Tests_48` ;
+4. mesurer mobile/PC ;
+5. seulement ensuite étendre le corpus.
