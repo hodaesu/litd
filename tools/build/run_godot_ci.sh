@@ -67,6 +67,7 @@ run_checked "Parcours campagne I→X, fin, postgame et NG+" godot --headless --p
 run_checked "Opérations joueur : scènes, expédition, équipement, capture et sauvegarde disque" godot --headless --path . res://scenes/tests/runtime_player_smoke.tscn
 run_checked "Première Descente : tentative unique, chronique et anti-farm" godot --headless --path . res://scenes/tests/first_descent_smoke.tscn
 run_checked "Les Veilleurs VS001 : recrutement, lumière, bruit, Goules et loot" godot --headless --path . res://scenes/tests/veilleurs_vs001_smoke.tscn
+run_checked "Les Veilleurs VS001 physique : S1-S8, collisions, retour et passage secret" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_vs001_physical_smoke.tscn
 run_checked "Hall des Descendants : chronique, morts, relique et retour au Sanctuaire" timeout 60s godot --headless --path . res://scenes/tests/descendants_hall_smoke.tscn
 run_checked "Donjon physique : salles réelles, fog of war et secrets cachés" timeout 60s godot --headless --path . res://scenes/tests/physical_dungeon_smoke.tscn
 run_checked "Blockout 3D : dimensions, collisions, ancres et passages secrets" timeout 60s godot --headless --path . res://scenes/tests/first_veil_proxy_smoke.tscn
