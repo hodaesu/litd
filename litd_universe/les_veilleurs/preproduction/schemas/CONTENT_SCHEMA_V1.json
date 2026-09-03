@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "stable_ids": {
+    "veilleurs": ["veilleur.v01", "veilleur.v02", "veilleur.v03", "veilleur.v04"],
+    "rule": "display names are never persistence keys"
+  },
+  "enums": {
+    "impact_type": ["BLUNT", "CUTTING", "PIERCING", "TEARING", "CRUSHING", "THERMAL", "CHEMICAL_BIOLOGICAL", "PRESSURE_RESPIRATORY"],
+    "lesion_type": ["CONTUSION", "LACERATION", "PUNCTURE", "FRACTURE", "DISLOCATION", "MUSCLE_TENDON_RUPTURE", "EXTERNAL_BLEEDING", "INTERNAL_BLEEDING", "BURN", "CRUSH_INJURY", "SEVERANCE", "ORGAN_TRAUMA"],
+    "sensory_channel": ["VISUAL", "NOISE", "ODOR", "VIBRATION", "BIOLOGICAL"],
+    "memory_importance": ["TRIVIAL", "MINOR", "SIGNIFICANT", "MAJOR", "FOUNDATIONAL"],
+    "vigilance": ["UNAWARE", "CURIOUS", "SUSPICIOUS", "SEARCHING", "CONFIRMED", "ENGAGED"],
+    "will_state": ["COMPOSED", "PRESSURED", "SHAKEN", "BREAKING", "BROKEN"],
+    "rally_method": ["SUBMISSION", "SURRENDER", "RESCUE", "PACT", "ACCLIMATION"],
+    "knowledge_state": ["UNKNOWN", "SUSPECTED", "OBSERVED", "CONFIRMED", "UNDERSTOOD"]
+  },
+  "ability_definition": {
+    "required": ["id", "owner_scope", "tree_id", "slot_index", "display_name_key", "action_type", "targeting_mode", "impact_types", "physical_power", "precision", "allowed_zones", "preferred_zones", "dismemberment_eligibility", "armor_interaction", "environment_interaction", "user_risk", "synergy_tags", "ai_tags", "animation_intent"],
+    "constraints": ["slot_index must be 1..15", "ability ids must be unique", "all references must resolve", "body requirements must be explicit", "offensive abilities require explicit systemic resolution"]
+  },
+  "ultimate_definition": {
+    "required": ["id", "tree_id", "declaration_beat", "commitment_beat", "contact_or_phenomenon_beat", "consequence_beat", "aftermath_beat", "body_requirements", "target_rules", "systemic_resolution", "animation_intent"]
+  },
+  "species_definition": {
+    "required": ["id", "family", "anatomy_id", "native_abilities", "sensory_profile", "recruitment_id", "orientation_ids", "corpse_behavior"]
+  },
+  "orientation_definition": {
+    "required": ["id", "species_id", "unlock_level", "milestones", "refuge_role", "synergy_tags"]
+  },
+  "memory_event": {
+    "required": ["id", "type", "participants", "importance", "factual_tags", "certainty", "accuracy"]
+  },
+  "zone_scar": {
+    "required": ["zone_id", "scar_type", "anchor_id", "state", "related_entities", "persistence_rule"]
+  },
+  "save_game": {
+    "required": ["save_version", "campaign", "veilleur_states", "recruit_registry", "enemy_memory_registry", "corpse_registry", "refuge", "knowledge", "world_scars", "narrative_flags", "rng_state"]
+  },
+  "content_count_contract": {
+    "skill_trees": 21,
+    "skills_per_tree": 15,
+    "total_skills": 315,
+    "ultimates": 21,
+    "bestiary_archetypes_v1": 25,
+    "orientations_v1": 75,
+    "party_max": 4,
+    "party_min_veilleurs": 1,
+    "refuge_capacity": {"I": 4, "II": 6, "III": 8, "IV": 10, "V": 12}
+  }
+}
