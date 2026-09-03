@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "id": "les_veilleurs_acts_3_5",
+  "status": "narrative_content_locked_runtime_art_balance_pending",
+  "game": "LITD: Les Veilleurs",
+  "scope": "Actes III à V, transitions, rencontres non combattantes, Rémanence, hub et finale du Copiste.",
+  "dating_policy": {
+    "mode": "relative_only",
+    "rule": "Aucune année absolue n'est affichée dans les archives des Veilleurs.",
+    "era_guard": "Les Trois Éveils et les premiers Sanctuaires existent déjà; les Veilleurs ne rejouent pas leur naissance."
+  },
+  "design_rules": [
+    "Chaque zone part d'un problème humain avant d'être un biome.",
+    "Une victoire tactique peut aggraver un coût humain, institutionnel ou documentaire.",
+    "Trace, Écho, Mémoire puis Concordance conservent provenance, contradiction et incertitude.",
+    "Rémanence de la connaissance, Rémanence du Vestige et Rémanence des blessures restent distinctes.",
+    "Les Manifestations destructrices restent des dangers concurrents d'origine non résolue.",
+    "Les valeurs finales de dégâts, précision, cooldown, télégraphe et convalescence restent pour les essais Godot."
+  ],
+  "transitions": [
+    {
+      "id": "II_to_III",
+      "from": "II",
+      "to": "III",
+      "title": "Ce qui tient parce que quelqu'un tient",
+      "premise": "Trois routes supposées indépendantes dépendent des mêmes porteurs, réparateurs, relais et soignants.",
+      "revelation": "Le problème n'est plus seulement quel ordre suivre, mais combien de personnes sont devenues des fonctions invisibles.",
+      "inputs": ["a2_both_orders_preserved", "a2_specialist_relieved", "a2_neutral_care_protected"]
+    },
+    {
+      "id": "III_to_IV",
+      "from": "III",
+      "to": "IV",
+      "title": "La relève qui n'arrive plus",
+      "premise": "Une relève promise aux Veines est détournée vers Porte-Cendres; les mêmes noms reviennent sur plusieurs rotations dites exceptionnelles.",
+      "revelation": "Le temporaire peut devenir institution sans décision unique."
+    },
+    {
+      "id": "IV_to_V",
+      "from": "IV",
+      "to": "V",
+      "title": "Qui écrira que cela était nécessaire ?",
+      "premise": "Des rapports contradictoires de Porte-Cendres sont confiés à un Copiste chargé de produire une version transmissible.",
+      "revelation": "Sauver les personnes ne suffit pas si leur coût peut ensuite être simplifié jusqu'à devenir justification."
+    }
+  ],
+  "acts": [
+    {
+      "id": "III",
+      "title": "Les Veines",
+      "question": "Quand un réseau fonctionne parce que certaines personnes ne peuvent plus le quitter, qui sert réellement qui ?",
+      "arc": "Les Veilleurs rendent visibles les dépendances cachées et les personnes transformées en fonctions réputées irremplaçables.",
+      "zones": [
+        {"id":"galerie_des_charges","name":"La Galerie des Charges","human_premise":"Des porteurs se relaient dans une galerie où la charge circule plus vite que les personnes capables de la porter.","gameplay_role":"dependency_and_relief","combat_encounters":["a3_cellule_transfert"],"noncombat_encounters":["a3_nc_compter_les_absents"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"carte_des_dependances"},
+        {"id":"station_des_porteurs","name":"La Station des Porteurs","human_premise":"La station fonctionne tant que personne ne demande combien de fois les mêmes personnes ont accepté une relève jamais venue.","gameplay_role":"dependency_and_relief","combat_encounters":["a3_station_ancree"],"noncombat_encounters":["a3_nc_refuser_son_poste"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"table_des_releves"},
+        {"id":"galeries_fouissees","name":"Les Galeries Fouissées","human_premise":"Des voies de secours ouvertes au fil des urgences forment un réseau réel absent des cartes officielles.","gameplay_role":"dependency_and_relief","combat_encounters":["a3_galerie_vivante"],"noncombat_encounters":["a3_nc_carte_qui_respire"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"cartes_de_flux"},
+        {"id":"noeud_des_vivants","name":"Le Nœud des Vivants","human_premise":"Un contremaître redistribue si bien les charges que chacun finit par croire le réseau impossible sans lui.","gameplay_role":"dependency_and_relief","combat_encounters":["a3_contremaitre_ancrage"],"noncombat_encounters":["a3_nc_qui_peut_partir"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"registre_des_personnes_fonctions"}
+      ]
+    },
+    {
+      "id": "IV",
+      "title": "Porte-Cendres",
+      "question": "Combien de fois peut-on appeler un sacrifice temporaire avant qu'il devienne une institution ?",
+      "arc": "Une nécessité réelle a produit une procédure d'exposition puis une normalisation du coût humain et de la relève impossible.",
+      "zones": [
+        {"id":"cour_des_releves","name":"La Cour des Relèves","human_premise":"Des équipes reviennent avant d'avoir récupéré parce qu'une relève manque.","gameplay_role":"exposure_relief_and_refusal","combat_encounters":["a4_equipe_releve"],"noncombat_encounters":["a4_nc_noms_barres"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"tableau_des_expositions"},
+        {"id":"couloir_de_fumee","name":"Le Couloir de Fumée","human_premise":"Une voie d'extraction transforme chaque traversée en dette corporelle à cause d'une ventilation défaillante.","gameplay_role":"exposure_relief_and_refusal","combat_encounters":["a4_couloir_fumee"],"noncombat_encounters":["a4_nc_respirer_compte"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"registre_des_expositions"},
+        {"id":"poste_du_premier","name":"Le Poste du Premier de Relève","human_premise":"Le Premier retourne toujours dans la zone dangereuse et son exemple rend le refus des autres presque impossible.","gameplay_role":"exposure_relief_and_refusal","combat_encounters":["a4_premier_releve"],"noncombat_encounters":["a4_nc_promesse_du_premier"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"charte_du_refus"},
+        {"id":"seuil_de_porte_cendres","name":"Le Seuil de Porte-Cendres","human_premise":"Une Manifestation interrompt une extraction et révèle que des équipes humaines ont été maintenues trop près du seuil.","gameplay_role":"exposure_relief_and_refusal","combat_encounters":["a4_manifestation_exposition"],"noncombat_encounters":["a4_nc_apres_le_silence"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"salle_des_refus"}
+      ]
+    },
+    {
+      "id": "V",
+      "title": "Ce que nous transmettons",
+      "question": "Protège-t-on la mémoire en choisissant une version stable, ou en conservant la possibilité de la contredire ?",
+      "arc": "Le pouvoir de décider quelles traces deviennent l'histoire conduit les Veilleurs jusqu'au Copiste, qui n'est ni oracle ni menteur absolu.",
+      "zones": [
+        {"id":"convoi_des_versions","name":"Le Convoi des Versions","human_premise":"Plusieurs copies d'un même événement voyagent séparément parce que leurs gardiens craignent autant la destruction que l'unification forcée.","gameplay_role":"source_governance_and_concordance","combat_encounters":["a5_convoi_versions"],"noncombat_encounters":["a5_nc_choisir_qui_copie"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"atelier_des_copies"},
+        {"id":"chambre_des_deux_sources","name":"La Chambre des Deux Sources","human_premise":"Deux archives incompatibles sont authentiques parce qu'elles décrivent le même événement depuis des positions et moments différents.","gameplay_role":"source_governance_and_concordance","combat_encounters":["a5_chambre_deux_sources"],"noncombat_encounters":["a5_nc_lire_les_deux"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"chambre_de_contradiction"},
+        {"id":"salle_de_l_arbitre","name":"La Salle de l'Arbitre des Copies","human_premise":"Trier quelles archives sauver d'abord est devenu un pouvoir sur la mémoire.","gameplay_role":"source_governance_and_concordance","combat_encounters":["a5_arbitre_copies"],"noncombat_encounters":["a5_nc_poids_source"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"registre_des_pertes_documentaires"},
+        {"id":"atelier_du_copiste","name":"L'Atelier du Copiste","human_premise":"Le Copiste propose une synthèse utile qui résout les contradictions en les hiérarchisant et risque de devenir la seule mémoire publique.","gameplay_role":"source_governance_and_concordance","combat_encounters":["a5_archive_instable"],"noncombat_encounters":["a5_nc_derniere_marge"],"human_choices":["préserver la fonction sans invisibiliser les personnes","rompre la procédure et accepter le coût","documenter la contradiction avant de conclure"],"body_and_corpse_use":"Blessures et cadavres persistent avec identité, contexte et conséquence fonctionnelle; ils ne sont jamais réduits à un décor.","remanence_sources":["trace matérielle","témoignage situé","registre ou copie contradictoire"],"hub_output":"archive_ouverte"}
+      ]
+    }
+  ],
+  "noncombat_encounters": [
+    {"id":"a3_nc_compter_les_absents","act":"III","premise":"Le registre compte les charges mais pas les personnes absentes.","choices":["ajouter les noms","garder le rendement seul","chercher qui a disparu des listes"]},
+    {"id":"a3_nc_refuser_son_poste","act":"III","premise":"Une porteuse demande si elle peut refuser une rotation sans perdre sa place.","choices":["garantir le refus","organiser une rotation","maintenir l'obligation"]},
+    {"id":"a3_nc_carte_qui_respire","act":"III","premise":"La carte locale change à mesure que les fouisseurs ouvrent et ferment des passages.","choices":["conserver l'historique","imposer le plan officiel","signaler l'incertitude"]},
+    {"id":"a3_nc_qui_peut_partir","act":"III","premise":"Chacun affirme pouvoir partir dès qu'un autre prendra sa place.","choices":["tester un départ réel","promettre une relève","former un remplaçant"]},
+    {"id":"a4_nc_noms_barres","act":"IV","premise":"Des noms barrés du tableau réapparaissent quelques rotations plus bas.","choices":["copier avant correction","interroger les revenants","confronter le responsable"]},
+    {"id":"a4_nc_respirer_compte","act":"IV","premise":"Deux personnes peuvent marcher mais une seule supporterait une nouvelle traversée.","choices":["arrêter","changer la route","documenter un volontariat"]},
+    {"id":"a4_nc_promesse_du_premier","act":"IV","premise":"Le Premier dit ne jamais demander ce qu'il ne ferait pas lui-même.","choices":["interroger le droit réel de refuser","honorer son courage","montrer les rotations forcées"]},
+    {"id":"a4_nc_apres_le_silence","act":"IV","premise":"Les témoins décrivent des formes différentes mais la même rupture fonctionnelle de la Manifestation.","choices":["conserver formes et fonctions","conclure sur la forme","archiver seulement le commun"]},
+    {"id":"a5_nc_choisir_qui_copie","act":"V","premise":"La question devient qui possède le droit de produire la copie reconnue.","choices":["copie centrale","copies communautaires","copies multiples avec provenance"]},
+    {"id":"a5_nc_lire_les_deux","act":"V","premise":"Deux témoignages incompatibles deviennent compatibles lorsque leur position dans l'espace est reconstruite.","choices":["choisir le plus cohérent","reconstruire","conserver le désaccord"]},
+    {"id":"a5_nc_poids_source","act":"V","premise":"Une source faible est la seule à conserver le nom d'une personne disparue.","choices":["la sauver","la perdre","dupliquer le nom en signalant la faible confiance"]},
+    {"id":"a5_nc_derniere_marge","act":"V","premise":"Le Copiste laisse une marge vide: que doit-elle préserver lorsque les auteurs seront oubliés ?","choices":["une conclusion","les sources","le droit de corriger"]}
+  ],
+  "remanence_bundles": [
+    {"id":"a3_irremplacables","act":"III","trace":["harnais réparé","liste de rotations"],"echo":["responsables: volontariat","porteurs: relève jamais vue"],"memory":["demandes de relève et absence de formation comparées"],"concordance":"L'irremplaçabilité est en partie fabriquée par le défaut de relève, sans annuler les attachements volontaires.","source_quality":{"trace":"forte","echo":"divergente","memory":"incomplète"},"unresolved":["part de contrainte pour chaque individu","décideurs successifs"]},
+    {"id":"a3_galeries_non_officielles","act":"III","trace":["entailles","objets de convois"],"echo":["plans officiels négatifs","mémoire locale positive"],"memory":["versions successives des cartes"],"concordance":"Plusieurs groupes ont créé le réseau par couches; aucune origine unique n'est établie.","source_quality":{"trace":"moyenne","echo":"variable","memory":"forte"},"unresolved":["première galerie"]},
+    {"id":"a4_temporaire_permanent","act":"IV","trace":["ordre temporaire","tableau de relève"],"echo":["anciens exposés situent le changement différemment"],"memory":["rotations, symptômes et demandes comparés"],"concordance":"La répétition d'exceptions et le déficit de relève ont normalisé l'exposition sans décret unique.","source_quality":{"trace":"forte","echo":"imprécise","memory":"forte"},"unresolved":["moment de prise de conscience institutionnelle"]},
+    {"id":"a4_premier_releve","act":"IV","trace":["serment","historique de blessures"],"echo":["protecteur pour certains","pression morale pour d'autres"],"memory":["rotations avant et après ses retours"],"concordance":"Son courage a réduit certains risques et a aussi servi de norme rendant le refus plus difficile.","source_quality":{"trace":"forte","echo":"contextuelle","memory":"corrélative"},"unresolved":["intention de devenir symbole"]},
+    {"id":"a5_version_unique","act":"V","trace":["mandat du Copiste","inventaire des copies"],"echo":["peur de propagande","peur de fragmentation"],"memory":["crises dues aux versions divergentes et aux effacements"],"concordance":"L'unification répond à de vrais besoins de transmission mais concentre un pouvoir d'effacement.","source_quality":{"trace":"forte","echo":"politique","memory":"forte"},"unresolved":["intention privée des commanditaires"]},
+    {"id":"a5_copiste","act":"V","trace":["synthèse","marges","sources rejetées"],"echo":["protecteur de continuité","faiseur d'histoire officielle"],"memory":["écarts entre brouillons, public et brut"],"concordance":"Le Copiste protège transmissibilité et stabilité; son geste n'est réduit ni à vérité ni à mensonge.","source_quality":{"trace":"forte","echo":"politisée","memory":"très_forte"},"unresolved":["quelle lecture future dominera"]}
+  ],
+  "hub_progression_continuation": [
+    {"id":"carte_des_dependances","order":6,"name":"Carte des dépendances","trigger":"entrée Acte III","function":"relie routes, postes, personnes et compétences","choice_pressure":"rendre visible sans réduire à la fonction"},
+    {"id":"table_des_releves","order":7,"name":"Table des relèves","trigger":"première relève réelle","function":"distingue relève promise, prévue, effective et refusée","choice_pressure":"efficacité ou droit de refus"},
+    {"id":"registre_des_personnes_fonctions","order":8,"name":"Registre des personnes-fonctions","trigger":"Nœud des Vivants","function":"signale dépendances critiques et compétences non transmises","choice_pressure":"former sans créer une nouvelle caste irremplaçable"},
+    {"id":"registre_des_expositions","order":9,"name":"Registre des expositions","trigger":"entrée Acte IV","function":"conserve cause, symptômes, récupération et répétitions","choice_pressure":"urgence ou suspension"},
+    {"id":"charte_du_refus","order":10,"name":"Charte du refus","trigger":"relève sans coercition","function":"rend le refus d'une tâche dangereuse jouable et mémorisé","choice_pressure":"perte d'efficacité immédiate ou institution moins coercitive"},
+    {"id":"atelier_des_copies","order":11,"name":"Atelier des copies","trigger":"entrée Acte V","function":"duplique avec provenance, corrections et divergences","choice_pressure":"multiplier sans perdre l'origine"},
+    {"id":"archive_ouverte","order":12,"name":"Archive ouverte","trigger":"finale du Copiste","function":"présente Concordances révisables, sources et questions ouvertes","choice_pressure":"mémoire utilisable sans vérité finale"}
+  ],
+  "recruit_event_extensions": [
+    {"family_id":"porteurs_des_veines","availability":"only_if_recruitable_in_recruitment_catalog","stages":["quitter sans abandonner la charge à un autre","refuser l'affectation automatique au hub","revoir l'ancien poste et ses conséquences"]},
+    {"family_id":"fouisseurs_des_veines","availability":"only_if_recruitable_in_recruitment_catalog","stages":["révéler une sortie sans céder toute sa carte","transmettre des signes plutôt qu'un plan figé","revenir sur une galerie transformée"]},
+    {"family_id":"brules_de_porte_cendres","availability":"only_if_recruitable_in_recruitment_catalog","stages":["refuser d'être renvoyé parce qu'il a déjà survécu","convalescence fonctionnelle au hub","retour qui change le droit de refuser des autres"]},
+    {"family_id":"gardiens_des_versions","availability":"only_if_recruitable_in_recruitment_catalog","stages":["préserver deux sources","construire leur provenance","affronter le choix du Copiste"]}
+  ],
+  "finale": {
+    "copiste_role": "Fonction humaine ou institutionnelle chargée de rendre des archives contradictoires transmissibles; jamais entité omnisciente.",
+    "fixed_truths": ["Une version stable peut prévenir des conflits réels et effacer des responsabilités réelles.","Une Concordance saine ne détruit pas les sources qui la contredisent.","Aucune vérité métaphysique définitive n'est révélée sur Manifestations, Vestige ou monde."],
+    "ending_states": [
+      {"id":"archive_unifiee","description":"Version unique: lisible mais vulnérable à l'effacement futur."},
+      {"id":"corpus_contradictoire","description":"Sources multiples sans synthèse: pluralité forte mais accès et action commune difficiles."},
+      {"id":"concordance_revisable","description":"Synthèse avec provenance, désaccords, confiance et droit de correction."}
+    ]
+  },
+  "canon_guardrails": [
+    "Aurélien est un héros légendaire de LITD1 et ne fait pas partie du quatuor des Veilleurs.",
+    "Le titre ancien de veilleur chez Saan ne désigne pas la faction des Veilleurs.",
+    "Les Trois Éveils existent avant Les Veilleurs et ne sont pas une religion.",
+    "La Concorde reste cosmopolite et multilingue.",
+    "Le créateur du Vestige reste inconnu.",
+    "Rémanence de la connaissance, du Vestige et des blessures restent distinctes.",
+    "Les Manifestations restent d'origine non résolue.",
+    "Projet Seuil et causalité complète de la Chute ne sont pas définis ici.",
+    "Aucune Concordance ne devient omniscience."
+  ],
+  "runtime_pending": ["dégâts et précision finaux","cooldowns et télégraphes","densité mobile","cadavres persistants et navigation","convalescence chiffrée","mémoire IA bornée","interface tactile Rémanence","clavier/souris/manette PC","audio et haptique","performance Godot 4.3","visuel collisions et Blender","VFX et animations"],
+  "authoring_completion": {"acts_III_to_V_story":"complete_before_runtime_validation","inter_act_transitions":"complete","noncombat_encounters":"complete_first_pass","remanence_investigations":"complete_first_pass","hub_progression":"complete_first_pass","finale_copiste":"complete_first_pass"}
+}
