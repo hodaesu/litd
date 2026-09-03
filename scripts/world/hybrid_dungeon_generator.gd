@@ -336,5 +336,5 @@ static func _compose_seed(config: Dictionary, run_state: Dictionary, attempt_ind
 static func _load_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
         return {}
-    var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+    var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
     return parsed if typeof(parsed) == TYPE_DICTIONARY else {}
