@@ -1,14 +1,17 @@
 # LITD : Les Veilleurs — Gel de préproduction avant PC
 
 Date : 2026-09-03
-Statut : contrat fonctionnel pré-prototype. Les paramètres marqués PROTOTYPE ne doivent pas être figés avant test Godot.
+Statut : contrat fonctionnel pré-prototype, corrigé après récupération du référentiel combat maître narratif le plus récent.
+
+## Source de vérité de ce gel
+
+Pour le combat, les rencontres et le bestiaire : `LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx` est désormais la source maîtresse récupérée. Voir `CANON_RECOVERY_2026-09-03.md`.
 
 ## Principes non négociables
 
 - Godot, mobile-first avec adaptation PC complète.
 - Groupe de 4 combattants maximum, toujours au moins 1 Veilleur.
-- Les 4 Veilleurs sont les seuls protagonistes humains permanents ; les renforts viennent du Ralliement.
-- Les recrues restent des individus persistants : identité, seed, blessures, relations, histoire, orientation, mort et éventuelle libération.
+- Les 4 Veilleurs sont les seuls protagonistes humains permanents ; les renforts viennent du Ralliement lorsque le référentiel d'espèce l'autorise.
 - Mort permanente. Pas de résurrection.
 - Gore systémique : anatomie, impacts, lésions, conséquences fonctionnelles, armure et environnement. Aucun démembrement par simple proc arbitraire.
 - Rémanence : individus, cadavres, ennemis mémoriels, connaissance et cicatrices du donjon persistent de façon bornée.
@@ -18,81 +21,158 @@ Statut : contrat fonctionnel pré-prototype. Les paramètres marqués PROTOTYPE 
 
 ## Veilleurs canoniques et IDs stables
 
-Le quatuor canonique récupéré des travaux antérieurs est : Nayra Orun, Tarek Senn, Aïsha Maren, Idris Vael.
-
-Le code et les sauvegardes utilisent néanmoins des IDs stables indépendants du texte affiché :
-
 - V01 / `veilleur.v01` : Nayra Orun — avant-garde / protection / rupture physique.
 - V02 / `veilleur.v02` : Tarek Senn — mobilité / traque / discrétion / information.
 - V03 / `veilleur.v03` : Aïsha Maren — anatomie / soin / neutralisation / Rémanence corporelle.
 - V04 / `veilleur.v04` : Idris Vael — autorité / ordre / politique / cohésion et dissidence.
 
-Les noms Sahen Varo, Mira Sen, Ysra Nahal et Narem Osh apparus dans un fil récent ne remplacent pas ce quatuor canonique et ne doivent pas être utilisés comme clés de contenu.
+Les noms de présentation ne servent jamais de clés de sauvegarde.
 
-## Compétences
+## Corpus actuel des Veilleurs
 
-Le contrat de contenu est 21 arbres x 15 compétences = 315 compétences ordinaires. Les 21 ultimes sont des objets séparés, un par arbre, et ne comptent pas dans les 315.
+- 4 Veilleurs.
+- 3 arbres chacun.
+- 12 arbres.
+- 15 compétences normales par arbre.
+- 180 compétences normales.
+- 12 ultimes séparés.
 
-Répartition récupérée : 180 compétences pour les quatre Veilleurs, soit 12 arbres ; 135 compétences pour trois boss disposant chacun de trois arbres : Barek Thann, Ilya Kesh, Oshren Vaïr.
+Ultimes canoniques actuels :
 
-Chaque compétence doit renseigner : type d'action, ciblage, fonctions corporelles requises, impacts autorisés, zones corporelles autorisées et privilégiées, puissance physique qualitative, précision qualitative, lésions possibles, conséquences fonctionnelles, conditions de démembrement, interaction armure, interaction environnement, bruit/vibration/signaux biologiques, risque pour l'utilisateur, tir allié, tags de synergie, tags IA et intention d'animation.
+- Nayra / Bastion — `La Ligne ne rompt pas`.
+- Nayra / Brisure — `Le Poids du Mur`.
+- Nayra / Serment — `Pas un de plus`.
+- Tarek / Traque — `La Proie n’a plus d’ombre`.
+- Tarek / Entaille — `Les Sept Ouvertures`.
+- Tarek / Disparition — `Là où nul ne regarde`.
+- Aïsha / Anatomie — `Carte parfaite du vivant`.
+- Aïsha / Suture — `Tout ce qui peut être sauvé`.
+- Aïsha / Hémocorde — `Le Dernier Battement`.
+- Idris / Sentence — `Le Verdict tombe`.
+- Idris / Concorde — `Un seul mouvement`.
+- Idris / Dissidence — `Que l’ordre se brise`.
 
-Aucune compétence physique ne peut contourner l'anatomie ou l'armure simplement parce qu'elle est de haut niveau. Les effets doivent émerger de la résolution du contact.
+Baseline actuelle des charges : N16=1, N32=2, N48=3, avec une activation maximum du même ultime par rencontre. À confirmer en playtest Godot.
 
-## Bestiaire et Ralliement
+## Ancien stade 315
 
-Bestiaire V1 des Marches du Sanctuaire : 25 archétypes, 5 familles, 75 orientations.
+Le contrat `21 arbres / 315 compétences / 21 ultimes` basé sur Barek Thann, Ilya Kesh et Oshren Vaïr est archivé comme étape de conception antérieure. Il ne doit plus être utilisé par les validateurs du build actuel.
 
-Familles : Déliés, Retournés, Silencieux, Veines, Porte-Cendres.
+## Bestiaire actuel du référentiel maître
 
-Recrues : progression 1-50 ; L10 choix permanent d'une des 3 orientations ; jalons fonctionnels L15/L20/L25/L30/L35/L40/L45/L50. Les recrues conservent leur kit natif et l'orientation le transforme au lieu de créer 45 nouvelles compétences par créature.
+### Acte I — Les Marches du Sanctuaire
 
-Méthodes officielles : Soumission, Reddition, Sauvetage, Pacte, Apprivoisement/acclimatation uniquement lorsque cohérent. Capture et ralliement sont deux états différents.
+- Délié Affamé
+- Délié Boursouflé
+- Censeur Fendu
+- Flagellant Fendu
+- Sentinelle du Seuil
+- Exécuteur de Pierre
+- Traque-Suie
+- Brise-Os de Suie
+- Boss : Ishar, Gardien du Passage
+
+### Acte II — Les Routes Muettes
+
+- Écouteur Creux
+- Porte-Signe
+- Marcheur Aphone
+- Reteneur de Souffle
+- Boss : Orateur Sans Voix
+
+### Acte III — Ce qui pousse sous nous
+
+- Veine Rampante
+- Nœud-Écorché
+- Porte-Sang
+- Germe Artériel
+- Boss : Mère des Veines
+
+### Acte IV — Les Cendres de la Paix
+
+- Marche-Pâle
+- Porte-Linceul
+- Effaceur de Traces
+- Dormeur de Cendre
+- Boss : Porte-Cendres Blanc
+
+### Acte V — Les Versions
+
+- Copie Lacunaire
+- Rature Vivante
+- Archiviste de Version
+- Double du Seuil
+- Boss final : Le Copiste
+
+Total actuel : 24 ennemis ordinaires + 5 boss = 29 entités nommées. Chaque entité possède 3 arbres de 15 compétences dans le référentiel actuel : 1 305 compétences ennemies/boss + 87 ultimes.
+
+Le corpus combat spécifié totalise donc actuellement 1 485 compétences normales et 99 ultimes séparés, mais cette quantité ne doit pas être implémentée avant validation de la verticale jouable.
+
+## Matrice 25 archétypes / 75 orientations
+
+La matrice antérieure Déliés / Retournés / Silencieux / Veines / Porte-Cendres reste conservée comme réserve de concepts et design legacy. Elle ne doit plus être utilisée comme contrat quantitatif du build sans décision explicite de réintégration.
+
+Les systèmes qu'elle a permis de définir restent valables : Ralliement, Refuge, relations, blessures persistantes, choix de traitement, mémoire individuelle et conséquences de libération.
+
+## Compétence : contrat systémique
+
+Chaque compétence doit renseigner au minimum : identité stable, propriétaire, arbre, niveau, type, fonction, positions, cible, impacts, zones privilégiées, puissance qualitative, précision qualitative, lésions possibles, conséquences fonctionnelles, démembrement, interaction armure, interaction environnement, risque utilisateur, tags, cooldown, charges, conditions, variante si blessé, variante équipement et note d'intégration Godot.
+
+Aucune compétence physique ne contourne gratuitement anatomie, armure ou géométrie.
 
 ## Refuge
 
-Capacité : I=4, II=6, III=8, IV=10, V=12. Le Refuge évolue de survie vers communauté politique. Les résidents ont des besoins qualitatifs, des fonctions et des droits ; ils peuvent demander à partir. Refuser physiquement un départ transforme politiquement le Refuge et est mémorisé.
-
-Relations : Confiance, Respect, Peur, Ressentiment. Pas de jauge globale d'amitié.
+Capacité de conception conservée : I=4, II=6, III=8, IV=10, V=12. Les résidents ont besoins, fonctions et droits ; ils peuvent demander à partir. Les relations utilisent Confiance, Respect, Peur et Ressentiment.
 
 ## SPE — perception événementielle
 
-Canaux : vision, son, odeur, vibration, biologique ; les perturbations de cendre sont un médium spécialisé. La perception produit des hypothèses avec certitude décroissante, jamais une position omnisciente.
+Canaux : vision, son, odeur, vibration, biologique ; perturbations de cendre comme médium spécialisé. Une perception crée une hypothèse avec certitude, jamais une position omnisciente.
 
-Séquence IA : PERCEIVE -> UPDATE BELIEFS -> ASSESS SELF -> ASSESS SITUATION -> SELECT GOAL -> SELECT ACTION -> EXECUTE -> LEARN/REMEMBER.
-
-Vigilance : UNAWARE -> CURIOUS -> SUSPICIOUS -> SEARCHING -> CONFIRMED -> ENGAGED, avec transitions descendantes possibles.
+Cycle IA : PERCEIVE -> UPDATE BELIEFS -> ASSESS SELF -> ASSESS SITUATION -> SELECT GOAL -> SELECT ACTION -> EXECUTE -> LEARN/REMEMBER.
 
 ## Rémanence
 
-Mémoire bornée en trois couches : fondatrice, significative, récente. Les souvenirs anciens peuvent être compressés. Certains profils peuvent perdre des détails ou déformer un souvenir via certainty/accuracy.
+Mémoire individuelle bornée. Ennemi : NORMAL -> MEMORIEL -> VETERAN -> ELITE -> NEMESIS uniquement par événements vécus. Persistance du monde par cicatrices ancrées plutôt que snapshots complets.
 
-Ennemi : NORMAL -> MEMORIEL -> VETERAN -> ELITE -> NEMESIS uniquement par événements vécus, jamais par simple rareté.
+Le référentiel récupéré contient aussi les tables `Rémanence_blessures` et `Traces_psychologiques`, à importer avant extension du contenu.
 
-Persistance de zone par cicatrices ancrées, pas par snapshot complet : corps laissé, porte détruite, pont effondré, croissance Veine, saturation de cendre, objet retiré, événement mémoriel, etc.
+## Rencontres
 
-## Économie
+Le référentiel actuel fixe :
 
-Ressources persistantes principales : Or, Provisions, Matériaux, Remèdes. La Connaissance est un état qualitatif. Pas d'Essence générique sans fonction indispensable.
+- 64 templates de rencontre.
+- 5 paliers de profondeur par acte.
+- 12 dangers de combat persistants.
+- 48 cas de validation préparés.
+- 4 acteurs ennemis simultanés maximum en combat standard mobile.
+- 5 boss avec 16 phases au total : Ishar 3, Orateur 3, Mère des Veines 3, Porte-Cendres Blanc 3, Copiste 4.
 
-Le chargement d'expédition doit créer un arbitrage entre équipement, provisions, stabilisation/entraves et capacité de récupération. Les valeurs exactes restent PROTOTYPE.
+## Génération et sauvegarde
 
-## Génération hybride
+Pipeline hybride : seed campagne -> macrographe auteur -> contraintes -> modules -> connectivité -> cicatrices -> écologie/factions -> directeur de rencontres -> ressources -> ancres narratives -> extraction -> cohérence.
 
-Pipeline : seed campagne -> macrographe auteur -> contraintes de zone -> sélection de modules -> validation connectivité -> injection cicatrices persistantes -> état faction/écologie -> directeur de rencontres -> ressources -> ancres narratives -> validation extraction -> passe de cohérence.
-
-RNG séparés par flux : monde, rencontre, individu, loot, narration. Recharger ne doit jamais reroll les propriétés persistantes.
+RNG séparés par flux. Recharger ne reroll jamais les propriétés persistantes.
 
 ## Boss
 
-Boss et mini-boss non ralliables. Ils respectent l'anatomie systémique sauf définition anatomique explicitement spéciale. Pas de sac à PV : les changements de phase doivent privilégier rupture de fonction, terrain, doctrine, réseau ou organe de support plutôt qu'un seuil de PV arbitraire.
+Boss non ralliables. Pas de sacs à PV : terrain, fonctions, doctrine, réseau, seuils et conditions tactiques doivent compter. Le référentiel maître fournit déjà les phases et dialogues des cinq boss actuels.
 
 ## Interface
 
-Mobile : information fonctionnelle d'abord, détail au long press. Ciblage anatomique par grandes zones compatibles avec le pouce. SPE affiché qualitativement. Ralliement via action contextuelle INTERAGIR et uniquement les options réellement comprises.
+Mobile : information fonctionnelle d'abord, détails contextuels, ciblage anatomique lisible au pouce. PC : densité supérieure, pas simple agrandissement mobile.
 
-PC : même logique, densité d'information supérieure ; pas une simple interface mobile agrandie.
+## Ce qui reste PROTOTYPE
 
-## Ce qui reste volontairement PROTOTYPE
+Les valeurs numériques du référentiel sont une baseline de conception, pas un équilibrage final. Restent à valider dans Godot : dégâts/PV, timings, cooldowns, haptique, lisibilité tactile, densité, rythme XP, économie, mémoire IA, difficulté et performance.
 
-Dégâts, PV, probabilités, cooldowns, durée exacte des animations, tailles tactiles exactes, haptique, densité d'ennemis, fréquence d'événements du Refuge, vitesse de progression, coûts économiques exacts, limite numérique de mémoire IA et difficulté. Ces paramètres exigent un build Godot jouable.
+## Blocage réel atteint
+
+Le référentiel maître indique explicitement que la suite utile exige désormais :
+
+- CombatResolver Godot.
+- intégration/exécution du générateur de rencontres.
+- IA + intentions.
+- exécution des 48 tests automatiques.
+- playtests mobile/PC.
+
+Le travail éditorial de récupération des compétences et ultimes n'est plus bloquant : la source exacte a été retrouvée.
