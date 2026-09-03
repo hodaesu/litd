@@ -74,3 +74,25 @@ jobs:
             reports/balance-matrix.json
             reports/balance-matrix.csv
             reports/balance-matrix-cells.csv.gz
+
+  veilleurs-vs001-guardrails:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Simuler les garde-fous VS001
+        env:
+          VS001_RUNS: ${{ github.event_name == 'pull_request' && '1200' || '5000' }}
+        run: >-
+          python -m tools.qa.veilleurs_vs001_balance_sim
+          --runs "$VS001_RUNS"
+          --report reports/veilleurs-vs001-balance.json
+          --strict
+      - name: Publier le rapport VS001
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: veilleurs-vs001-balance
+          path: reports/veilleurs-vs001-balance.json
