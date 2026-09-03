@@ -16,18 +16,24 @@ Statut : contrat fonctionnel pré-prototype. Les paramètres marqués PROTOTYPE 
 - Perception ennemie honnête : aucune IA ne connaît automatiquement la position du joueur.
 - Connaissance qualitative, jamais monnaie abstraite.
 
-## Identifiants des Veilleurs
+## Veilleurs canoniques et IDs stables
 
-Le contenu existant a employé deux jeux de noms pour les mêmes quatre rôles. Le code et les sauvegardes utilisent donc exclusivement des IDs stables V01, V02, V03, V04. Le nom affiché reste une donnée de localisation/contenu et pourra être canonisé sans migration de gameplay.
+Le quatuor canonique récupéré des travaux antérieurs est : Nayra Orun, Tarek Senn, Aïsha Maren, Idris Vael.
 
-- V01 : avant-garde / protection / rupture physique.
-- V02 : mobilité / traque / discrétion / information.
-- V03 : anatomie / soin / neutralisation / Rémanence corporelle.
-- V04 : autorité / ordre / politique / cohésion et dissidence.
+Le code et les sauvegardes utilisent néanmoins des IDs stables indépendants du texte affiché :
+
+- V01 / `veilleur.v01` : Nayra Orun — avant-garde / protection / rupture physique.
+- V02 / `veilleur.v02` : Tarek Senn — mobilité / traque / discrétion / information.
+- V03 / `veilleur.v03` : Aïsha Maren — anatomie / soin / neutralisation / Rémanence corporelle.
+- V04 / `veilleur.v04` : Idris Vael — autorité / ordre / politique / cohésion et dissidence.
+
+Les noms Sahen Varo, Mira Sen, Ysra Nahal et Narem Osh apparus dans un fil récent ne remplacent pas ce quatuor canonique et ne doivent pas être utilisés comme clés de contenu.
 
 ## Compétences
 
-Le contrat de contenu est 21 arbres x 15 compétences = 315 compétences. Les 21 ultimes sont des objets séparés, un par arbre, et ne comptent pas dans les 315.
+Le contrat de contenu est 21 arbres x 15 compétences = 315 compétences ordinaires. Les 21 ultimes sont des objets séparés, un par arbre, et ne comptent pas dans les 315.
+
+Répartition récupérée : 180 compétences pour les quatre Veilleurs, soit 12 arbres ; 135 compétences pour trois boss disposant chacun de trois arbres : Barek Thann, Ilya Kesh, Oshren Vaïr.
 
 Chaque compétence doit renseigner : type d'action, ciblage, fonctions corporelles requises, impacts autorisés, zones corporelles autorisées et privilégiées, puissance physique qualitative, précision qualitative, lésions possibles, conséquences fonctionnelles, conditions de démembrement, interaction armure, interaction environnement, bruit/vibration/signaux biologiques, risque pour l'utilisateur, tir allié, tags de synergie, tags IA et intention d'animation.
 
