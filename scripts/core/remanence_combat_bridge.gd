@@ -1,5 +1,7 @@
 extends Node
 
+const WORLD_DIRECTOR_SCRIPT := preload("res://scripts/core/remanence_world_director.gd")
+
 var combat_active := false
 var enemy_snapshots: Dictionary = {}
 var hero_alive: Dictionary = {}
@@ -7,9 +9,14 @@ var last_enemy_actor_entity_id := ""
 var last_defeated_major_entity_id := ""
 var capture_attempt_counter_seen := 0
 var captured_count_seen := 0
+var world_director: Node = null
 
 func _ready() -> void:
     process_mode = Node.PROCESS_MODE_ALWAYS
+    world_director = WORLD_DIRECTOR_SCRIPT.new() as Node
+    if world_director != null:
+        world_director.name = "RemanenceWorldDirector"
+        add_child(world_director)
     call_deferred("_connect_sources")
 
 func _connect_sources() -> void:
@@ -62,6 +69,8 @@ func _begin_current_combat() -> void:
     last_enemy_actor_entity_id = ""
     capture_attempt_counter_seen = CreatureManager.capture_attempt_counter
     captured_count_seen = CreatureManager.captured_creatures.size()
+    if world_director != null and world_director.has_method("prepare_battle"):
+        world_director.call("prepare_battle", GameState.battle_enemies, _combat_context())
     for hero_value: Variant in GameState.party:
         var hero: Dictionary = hero_value
         hero_alive[str(hero.get("id", hero.get("name", "hero")))] = int(hero.get("hp", 0)) > 0
@@ -71,6 +80,7 @@ func _begin_current_combat() -> void:
         RemanenceRuntime.note_encounter(enemy, AshlandsRuntime.current_zone_id, _combat_context({
             "summary": "Rencontre avec %s." % str(enemy.get("name", "un adversaire"))
         }))
+        _refresh_adaptations(entity_id)
         enemy_snapshots[entity_id] = _enemy_snapshot(enemy)
 
 func _finish_current_combat(victory: bool, reason: String) -> void:
@@ -82,7 +92,7 @@ func _finish_current_combat(victory: bool, reason: String) -> void:
         var entity_id := str(enemy.get("remanence_id", ""))
         if entity_id == "":
             continue
-        RemanenceRuntime.sync_body_snapshot(enemy)
+        _sync_full_body_snapshot(enemy)
         if bool(enemy.get("captured", false)):
             RemanenceRuntime.set_entity_status(entity_id, "recruited")
         elif int(enemy.get("hp", 0)) > 0:
@@ -94,6 +104,7 @@ func _finish_current_combat(victory: bool, reason: String) -> void:
                 RemanenceRuntime.record_event(entity_id, "forced_retreat", _combat_context({
                     "summary": "%s force les Veilleurs à rompre le combat." % str(enemy.get("name", "L'adversaire"))
                 }))
+                _refresh_adaptations(entity_id)
         else:
             RemanenceRuntime.set_entity_status(entity_id, "dead")
             if _is_major_enemy(enemy):
@@ -121,6 +132,11 @@ func _scan_hero_deaths() -> void:
                     "summary": "%s abat %s." % [_entity_name(killer_id), str(hero.get("name", "un Veilleur"))]
                 }))
                 RemanenceRuntime.link_archive_nodes(killer_id, "hero:%s" % hero_id, "killed", {"run_index": RemanenceRuntime.run_index})
+                _refresh_adaptations(killer_id)
+            if world_director != null and world_director.has_method("create_corpse_scar"):
+                world_director.call("create_corpse_scar", hero, false, _combat_context({
+                    "summary": "%s est tombé pendant cet affrontement." % str(hero.get("name", "Un Veilleur"))
+                }))
         hero_alive[hero_id] = is_alive
 
 func _scan_enemy_changes() -> void:
@@ -150,8 +166,12 @@ func _scan_enemy_changes() -> void:
         var was_alive := bool(before.get("alive", true))
         var is_alive := int(enemy.get("hp", 0)) > 0
         if was_alive and not is_alive and not bool(enemy.get("captured", false)):
+            _sync_full_body_snapshot(enemy)
+            if world_director != null and world_director.has_method("create_corpse_scar"):
+                world_director.call("create_corpse_scar", enemy, true, _combat_context({
+                    "summary": "%s meurt dans cet affrontement." % str(enemy.get("name", "L'adversaire"))
+                }))
             RemanenceRuntime.set_entity_status(entity_id, "dead")
-            RemanenceRuntime.sync_body_snapshot(enemy)
             if _is_major_enemy(enemy):
                 last_defeated_major_entity_id = entity_id
         enemy_snapshots[entity_id] = _enemy_snapshot(enemy)
@@ -162,7 +182,8 @@ func _record_mutilation(enemy: Dictionary, entity_id: String, part_id: String, s
         "injury_state": state,
         "summary": "%s subit une mutilation majeure : %s (%s)." % [str(enemy.get("name", "L'adversaire")), part_id, state]
     }))
-    RemanenceRuntime.sync_body_snapshot(enemy)
+    _sync_full_body_snapshot(enemy)
+    _refresh_adaptations(entity_id)
 
 func _scan_capture_attempts() -> void:
     var attempts := CreatureManager.capture_attempt_counter
@@ -175,9 +196,10 @@ func _scan_capture_attempts() -> void:
     for _index in range(failed_attempts):
         var target := _probable_capture_target()
         if not target.is_empty():
-            RemanenceRuntime.record_enemy_event(target, "capture_escaped", _combat_context({
+            var event := RemanenceRuntime.record_enemy_event(target, "capture_escaped", _combat_context({
                 "summary": "%s échappe au sceau de capture." % str(target.get("name", "L'adversaire"))
             }))
+            _refresh_adaptations(str(event.get("entity_id", target.get("remanence_id", ""))))
     capture_attempt_counter_seen = attempts
     captured_count_seen = captured_now
 
@@ -201,7 +223,7 @@ func _on_creature_captured(creature: Dictionary) -> void:
     if entity_id == "":
         return
     RemanenceRuntime.set_entity_status(entity_id, "recruited")
-    RemanenceRuntime.sync_body_snapshot(enemy)
+    _sync_full_body_snapshot(enemy)
     var instance_id := str(creature.get("instance_id", ""))
     if instance_id != "":
         RemanenceRuntime.link_archive_nodes(entity_id, "creature:%s" % instance_id, "recruited_as", {
@@ -221,6 +243,7 @@ func _on_first_descent_completed(award: Dictionary) -> void:
         "summary": "La relique %s est prise après la chute de %s." % [str(relic.get("name", "Relique")), _entity_name(last_defeated_major_entity_id)],
         "dungeon_id": str(award.get("dungeon_id", ""))
     })
+    _refresh_adaptations(last_defeated_major_entity_id)
     RemanenceRuntime.link_archive_nodes(last_defeated_major_entity_id, "relic:%s" % relic_id, "relic_taken_from", {
         "name": str(relic.get("name", "Relique"))
     })
@@ -269,6 +292,25 @@ func _enemy_snapshot(enemy: Dictionary) -> Dictionary:
         "anatomy_injuries": (enemy.get("anatomy_injuries", {}) as Dictionary).duplicate(true)
     }
 
+func _sync_full_body_snapshot(enemy: Dictionary) -> void:
+    RemanenceRuntime.sync_body_snapshot(enemy)
+    var entity_id := str(enemy.get("remanence_id", ""))
+    if entity_id == "" or not RemanenceRuntime.entities.has(entity_id):
+        return
+    var record: Dictionary = RemanenceRuntime.entities[entity_id]
+    var snapshot: Dictionary = record.get("body_snapshot", {})
+    snapshot["dismembered_parts"] = (enemy.get("dismembered_parts", []) as Array).duplicate(true)
+    snapshot["anatomy_injuries"] = (enemy.get("anatomy_injuries", {}) as Dictionary).duplicate(true)
+    snapshot["anatomy_part_states"] = (enemy.get("anatomy_part_states", {}) as Dictionary).duplicate(true)
+    snapshot["anatomy_part_trauma"] = (enemy.get("anatomy_part_trauma", {}) as Dictionary).duplicate(true)
+    record["body_snapshot"] = snapshot
+    RemanenceRuntime.entities[entity_id] = record
+
+func _refresh_adaptations(entity_id: String) -> void:
+    if entity_id == "" or world_director == null or not world_director.has_method("_assign_adaptations"):
+        return
+    world_director.call("_assign_adaptations", entity_id)
+
 func _first_living_enemy_entity_id() -> String:
     for enemy_value: Variant in GameState.alive_enemies():
         var enemy: Dictionary = enemy_value
@@ -281,14 +323,16 @@ func _entity_name(entity_id: String) -> String:
     return str(RemanenceRuntime.entity_state(entity_id).get("name", "L'adversaire"))
 
 func _combat_context(extra: Dictionary = {}) -> Dictionary:
+    var resolved_encounter_id := AshlandsCombatBridge.encounter_id if AshlandsCombatBridge.active else "prototype:%d" % GameState.expedition_room
     var result := {
         "zone_id": AshlandsRuntime.current_zone_id,
         "region_id": AshlandsRuntime.current_zone_id,
-        "encounter_id": AshlandsCombatBridge.encounter_id if AshlandsCombatBridge.active else "prototype:%d" % GameState.expedition_room
+        "encounter_id": resolved_encounter_id,
+        "combat_id": resolved_encounter_id
     }
     for key_value: Variant in extra.keys():
         result[str(key_value)] = extra.get(key_value)
     return result
 
 func _is_major_enemy(enemy: Dictionary) -> bool:
-    return bool(enemy.get("boss", false)) or bool(enemy.get("is_boss", false)) or bool(enemy.get("is_miniboss", false)) or str(enemy.get("chapter_boss_id", "")) != "" or str(enemy.get("chapter_miniboss_id", "")) != ""
+    return bool(enemy.get("boss", false)) or bool(enemy.get("is_boss", false)) or bool(enemy.get("is_miniboss", false)) or bool(enemy.get("elite", false)) or str(enemy.get("chapter_boss_id", "")) != "" or str(enemy.get("chapter_miniboss_id", "")) != ""
