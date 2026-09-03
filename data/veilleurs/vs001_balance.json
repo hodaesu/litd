@@ -215,17 +215,17 @@
       "kill": {"pulse": 0, "ends_encounter": "combat"}
     },
     "capture_check": {
-      "base": 50,
+      "base": 48,
       "creature_resistance": 20,
       "wound_bonus_from_existing_contract": true,
-      "actor_bonus": {"idris": 15, "nayra": 8, "tarek": 5, "aisha": 6},
+      "actor_bonus": {"idris": 12, "nayra": 8, "tarek": 5, "aisha": 6},
       "trust_bonus_formula": "floor(trust * 0.20)",
       "fear_penalty_formula": "floor(max(fear-60,0) * 0.25)",
-      "restraint_bonus_formula": "floor(restraint * 0.15)",
+      "restraint_bonus_formula": "floor(restraint * 0.50)",
       "stability_bonus_formula": "floor(stability * 0.10)",
       "success_threshold": 60,
       "strong_success_threshold": 80,
-      "deterministic_roll_range": [-8, 8],
+      "deterministic_roll_range": [-20, 20],
       "on_fail": {"fear": 12, "trust": -8, "aggression": 15, "may_start_combat": true},
       "on_success": "apply_global_capture_wound_rules_then_create_persistent_identity"
     },
