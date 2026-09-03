@@ -15,6 +15,7 @@ var expedition_room := 0
 var expedition_rooms := 4
 var party: Array = []
 var battle_enemies: Array = []
+var battle_rounds := 0
 var selected_hero := 0
 var log_lines: Array[String] = []
 
@@ -63,6 +64,7 @@ func reset_new_game() -> void:
     supplies = 8
     expedition_room = 0
     battle_enemies = []
+    battle_rounds = 0
     log_lines = ["Le Sanctuaire attend."]
     new_game_reset.emit()
     state_changed.emit()
