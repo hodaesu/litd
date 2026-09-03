@@ -1,66 +1,56 @@
-# LITD : Les Veilleurs — Index des 21 arbres
+# LITD : Les Veilleurs — Index actuel des arbres des Veilleurs
 
-Ce fichier récupère les noms d'arbres et signatures explicitement retrouvés dans les travaux antérieurs. Les IDs sont stables ; les libellés de présentation peuvent être corrigés sans casser les sauvegardes.
+Source : `LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx`, feuilles `Compétences_180` et `Ultimes_12`.
 
-## Veilleurs — 12 arbres / 180 compétences
+## Contrat actuel
 
-### V01 — Nayra Orun
+- 4 Veilleurs.
+- 3 arbres chacun.
+- 12 arbres.
+- 15 compétences normales par arbre.
+- 180 compétences normales.
+- 12 ultimes séparés.
 
-- `tree.v01.bastion` — Bastion — signature : **LA LIGNE NE ROMPT PAS**
-- `tree.v01.brisure` — Brisure — signature : **LE POIDS DU MUR**
-- `tree.v01.serment` — Serment — signature : **PAS UN DE PLUS**
+## V01 — Nayra Orun
 
-### V02 — Tarek Senn
+- `tree.v01.bastion` — Bastion — ultime : **La Ligne ne rompt pas**.
+- `tree.v01.brisure` — Brisure — ultime : **Le Poids du Mur**.
+- `tree.v01.serment` — Serment — ultime : **Pas un de plus**.
 
-- `tree.v02.traque` — Traque — signature : **JE SAIS OÙ TU VAS**
-- `tree.v02.entaille` — Entaille — signature : **MILLE COUPURES**
-- `tree.v02.disparition` — Disparition — signature : **TU M'AVAIS PERDU**
+## V02 — Tarek Senn
 
-### V03 — Aïsha Maren
+- `tree.v02.traque` — Traque — ultime : **La Proie n’a plus d’ombre**.
+- `tree.v02.entaille` — Entaille — ultime : **Les Sept Ouvertures**.
+- `tree.v02.disparition` — Disparition — ultime : **Là où nul ne regarde**.
 
-- `tree.v03.anatomie` — Anatomie
-- `tree.v03.suture` — Suture
-- `tree.v03.hemocorde` — Hémocorde
+## V03 — Aïsha Maren
 
-Deux séries de titres de présentation apparaissent dans les sorties antérieures et ne doivent pas être fusionnées silencieusement :
+- `tree.v03.anatomie` — Anatomie — ultime : **Carte parfaite du vivant**.
+- `tree.v03.suture` — Suture — ultime : **Tout ce qui peut être sauvé**.
+- `tree.v03.hemocorde` — Hémocorde — ultime : **Le Dernier Battement**.
 
-Série mécanique antérieure : **JE SAIS CE QUI VA CÉDER** / **PAS ICI** / **LE CORPS SE SOUVIENT**.
+Les titres antérieurs d'Aïsha sont archivés comme variantes historiques et ne nécessitent plus de réconciliation éditoriale.
 
-Série storyboard ultérieure : **JE VOIS CE QUI CÈDE** / **TU NE MEURS PAS ICI** / **LE SANG A SA ROUTE**.
+## V04 — Idris Vael
 
-Les IDs d'ultimes doivent donc rester `ultimate.v03.anatomie`, `ultimate.v03.suture`, `ultimate.v03.hemocorde` jusqu'à réconciliation éditoriale. Ce conflit de libellé n'est pas un blocage technique.
+- `tree.v04.sentence` — Sentence — ultime : **Le Verdict tombe**.
+- `tree.v04.concorde` — Concorde — ultime : **Un seul mouvement**.
+- `tree.v04.dissidence` — Dissidence — ultime : **Que l’ordre se brise**.
 
-### V04 — Idris Vael
+## Baseline des ultimes
 
-- `tree.v04.sentence` — Sentence — signature récupérée la plus récente : **LA SENTENCE EST RENDUE**
-- `tree.v04.concorde` — Concorde — signature récupérée la plus récente : **ENSEMBLE OU PAS DU TOUT**
-- `tree.v04.dissidence` — Dissidence — signature récupérée la plus récente : **ILS NE CROIENT PLUS EN RIEN**
+La feuille `Ultimes_12` fixe comme baseline de prototype :
 
-## Boss — 9 arbres / 135 compétences
+- N16 : 1 charge.
+- N32 : 2 charges.
+- N48 : 3 charges.
+- Une activation maximum du même ultime par rencontre.
+- Conditions propres à l'arbre et fonctions corporelles requises.
+- Pas d'invulnérabilité.
+- Pas de résurrection.
 
-### B01 — Barek Thann — boss
+## Historique supersédé
 
-- `tree.b01.force` — Force — signature : **Rupture du terrain**
-- `tree.b01.emprise` — Emprise — signature : **Capture**
-- `tree.b01.ruine` — Ruine — signature : **Effondrement**
+L'ancien index ajoutant Barek Thann, Ilya Kesh et Oshren Vaïr pour atteindre 21 arbres / 315 compétences est une étape de conception antérieure. Il n'est plus le contrat du build actuel.
 
-### B02 — Ilya Kesh — boss
-
-- `tree.b02.traque` — Traque — signature : **Poursuite**
-- `tree.b02.section` — Section — signature : **Section**
-- `tree.b02.leurre` — Leurre — signature : **Fausse retraite**
-
-### B03 — Oshren Vaïr — boss
-
-- `tree.b03.lecture` — Lecture — signature : **Lecture**
-- `tree.b03.renversement` — Renversement — signature : **Renversement**
-- `tree.b03.remanence` — Rémanence — signature : **Rémanence**
-
-## Contrat de comptage
-
-- 4 Veilleurs x 3 arbres x 15 = 180 compétences.
-- 3 boss x 3 arbres x 15 = 135 compétences.
-- Total = 315 compétences ordinaires.
-- 21 arbres = 21 UltimateDefinition séparés.
-
-Le dépôt connecté n'expose pas actuellement, via la recherche effectuée, un fichier unique contenant les 315 fiches détaillées. La structure, les propriétaires, les arbres et plusieurs signatures sont cependant récupérés ici. L'ingestion des 315 fiches exactes devra réutiliser le corpus original lorsqu'il est retrouvé, sans régénération automatique des textes manquants.
+Le référentiel maître actuel possède séparément 29 entités ennemies/boss, 87 arbres, 1 305 compétences normales et 87 ultimes. Voir `CANON_RECOVERY_2026-09-03.md`.
