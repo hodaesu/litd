@@ -40,7 +40,7 @@ jobs:
           --csv reports/roguelike-telemetry.csv
           --strict
       - name: Publier les rapports d'équilibrage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: roguelike-balance-telemetry
@@ -66,7 +66,7 @@ jobs:
           --raw-csv-gz reports/balance-matrix-cells.csv.gz
           --strict
       - name: Publier la matrice globale
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: full-game-balance-matrix
@@ -91,7 +91,7 @@ jobs:
           --report reports/veilleurs-vs001-balance.json
           --strict
       - name: Publier le rapport VS001
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: veilleurs-vs001-balance
