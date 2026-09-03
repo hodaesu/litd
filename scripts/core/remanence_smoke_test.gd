@@ -7,6 +7,8 @@ func run() -> void:
     _test_entity_identity_and_promotion()
     _test_world_scar_aging()
     _test_archive_links_and_serialization()
+    _test_live_combat_bridge()
+    _test_archives_ui()
     if failures.is_empty():
         print("REMANENCE_SMOKE_OK")
         get_tree().quit(0)
@@ -61,6 +63,48 @@ func _test_archive_links_and_serialization() -> void:
     RemanenceRuntime.deserialize(snapshot)
     _expect(RemanenceRuntime.entities.has(entity_id), "La désérialisation doit restaurer les EntityID")
     _expect(RemanenceRuntime.linked_entries(entity_id).size() == 1, "Les liens d'Archive doivent survivre à la sauvegarde")
+
+func _test_live_combat_bridge() -> void:
+    RemanenceRuntime.reset_new_game()
+    RemanenceCombatBridge._on_new_game_reset()
+    var enemy := {
+        "id": 8,
+        "species_id": "traque_suie",
+        "name": "Traque-Suie témoin",
+        "hp": 20,
+        "max_hp": 20,
+        "dismembered_parts": [],
+        "anatomy_injuries": {}
+    }
+    GameState.battle_enemies = [enemy]
+    RemanenceCombatBridge._begin_current_combat()
+    var entity_id := str(enemy.get("remanence_id", ""))
+    _expect(entity_id != "", "Le bridge doit préparer un EntityID au début du combat")
+    _expect(_has_event(entity_id, "encountered"), "Le début réel du combat doit créer l'événement de rencontre")
+
+    enemy["dismembered_parts"] = ["arm_right"]
+    RemanenceCombatBridge._scan_enemy_changes()
+    _expect(_has_event(entity_id, "major_mutilation"), "Une perte de membre en combat doit remonter en mutilation majeure")
+
+    RemanenceCombatBridge._finish_current_combat(false, "forced_retreat")
+    _expect(_has_event(entity_id, "survived_combat"), "Un ennemi encore vivant doit mémoriser sa survie")
+    _expect(_has_event(entity_id, "forced_retreat"), "Un ennemi encore vivant doit mémoriser une retraite imposée")
+
+func _test_archives_ui() -> void:
+    _expect(RemanenceArchivesUI.panel != null, "L'interface des Archives doit être construite")
+    if RemanenceArchivesUI.panel == null:
+        return
+    RemanenceArchivesUI.open_archives()
+    _expect(RemanenceArchivesUI.panel.visible, "Les Archives doivent pouvoir être ouvertes")
+    _expect(RemanenceArchivesUI.list != null and RemanenceArchivesUI.list.item_count > 0, "Les Archives doivent afficher les entrées de Rémanence")
+    RemanenceArchivesUI.close_archives()
+    _expect(not RemanenceArchivesUI.panel.visible, "Les Archives doivent pouvoir être refermées")
+
+func _has_event(entity_id: String, event_type: String) -> bool:
+    for event: Dictionary in RemanenceRuntime.recent_events(entity_id, 32):
+        if str(event.get("type", "")) == event_type:
+            return true
+    return false
 
 func _expect(condition: bool, message: String) -> void:
     if not condition:
