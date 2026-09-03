@@ -32,6 +32,7 @@ func build_blockout() -> void:
     _build_connections(generated, connections)
     _build_gameplay_anchors(generated, anchors)
     _build_navigation_contract(generated)
+    set_secret_connection_open(false)
 
 func room_count() -> int:
     return (physical_map.get("rooms", []) as Array).size()
@@ -97,6 +98,22 @@ func path_exists(start_id: String, goal_id: String, include_secrets: bool = fals
                 queue.append(next_id)
     return false
 
+func set_secret_connection_open(is_open: bool) -> void:
+    var secret: Node3D = connection_node("c_s7_s8")
+    if secret == null:
+        return
+    secret.visible = is_open
+    secret.set_meta("physically_open", is_open)
+    _set_collision_enabled_recursive(secret, is_open)
+
+func secret_connection_open() -> bool:
+    var secret: Node3D = connection_node("c_s7_s8")
+    return secret != null and secret.visible and bool(secret.get_meta("physically_open", false)) and _all_collisions_enabled(secret)
+
+func secret_connection_locked() -> bool:
+    var secret: Node3D = connection_node("c_s7_s8")
+    return secret != null and not secret.visible and not bool(secret.get_meta("physically_open", true)) and _all_collisions_disabled(secret)
+
 func layout_summary() -> Dictionary:
     var root: Node3D = _generated_root()
     if root == null:
@@ -109,6 +126,7 @@ func layout_summary() -> Dictionary:
         "mesh_instances": _count_type(root, "MeshInstance3D"),
         "collision_shapes": _count_type(root, "CollisionShape3D"),
         "secret_connection_hidden": _secret_connection_hidden(),
+        "secret_connection_physically_locked": secret_connection_locked(),
         "physical_retreat_s7_to_s1": path_exists("s7_voice_chamber", "s1_vestibule", false)
     }
 
@@ -289,6 +307,46 @@ func _has_opening(openings: Array, direction: String) -> bool:
 func _secret_connection_hidden() -> bool:
     var secret: Node3D = connection_node("c_s7_s8")
     return secret != null and not secret.visible and bool(secret.get_meta("secret", false))
+
+func _set_collision_enabled_recursive(node: Node, enabled: bool) -> void:
+    if node is CollisionShape3D:
+        (node as CollisionShape3D).disabled = not enabled
+    for child: Node in node.get_children():
+        _set_collision_enabled_recursive(child, enabled)
+
+func _all_collisions_disabled(node: Node) -> bool:
+    var found := false
+    var all_disabled := true
+    if node is CollisionShape3D:
+        found = true
+        all_disabled = (node as CollisionShape3D).disabled
+    for child: Node in node.get_children():
+        if _contains_collision(child):
+            found = true
+            if not _all_collisions_disabled(child):
+                all_disabled = false
+    return found and all_disabled
+
+func _all_collisions_enabled(node: Node) -> bool:
+    var found := false
+    var all_enabled := true
+    if node is CollisionShape3D:
+        found = true
+        all_enabled = not (node as CollisionShape3D).disabled
+    for child: Node in node.get_children():
+        if _contains_collision(child):
+            found = true
+            if not _all_collisions_enabled(child):
+                all_enabled = false
+    return found and all_enabled
+
+func _contains_collision(node: Node) -> bool:
+    if node is CollisionShape3D:
+        return true
+    for child: Node in node.get_children():
+        if _contains_collision(child):
+            return true
+    return false
 
 func _count_type(root: Node, class_name_value: String) -> int:
     var count := 0
