@@ -2,7 +2,7 @@
 
 ## Statut
 
-Contrat de vertical slice prêt à implémenter. Le but de VS001 est de démontrer en une expédition courte le noyau de **LITD : Les Veilleurs** : exploration, combat anatomique, lumière/bruit, cadavres persistants, Rémanence, recrutement ennemi, choix d’extraction et interface mobile/PC commune au niveau des règles.
+Contrat de vertical slice **pré-implémenté et exécutable côté logique**, prêt pour l’intégration des scènes jouables. Le but de VS001 est de démontrer en une expédition courte le noyau de **LITD : Les Veilleurs** : exploration, combat anatomique, lumière/bruit, cadavres persistants, Rémanence, recrutement ennemi, choix d’extraction et interface mobile/PC commune au niveau des règles.
 
 Seed de développement : `WATCHERS_VERTICAL_001`.
 
@@ -36,16 +36,39 @@ Entrée — S1 — S2 — S3 — S5 — S7
 
 Le fallback exact est `data/dungeons/voices_under_sanctuary_map.json`. La version procédurale hybride doit préserver les rôles, l’ordre protégé et les invariants, pas forcément les coordonnées.
 
-## Règle d’architecture
+## Architecture existante réutilisée
 
-VS001 s’appuie sur les systèmes existants :
+VS001 s’appuie sur les systèmes centraux du dépôt :
 
-- `ExpeditionManager` pour l’état et la sérialisation d’expédition ;
-- `ExplorationDirector` pour perception, pièges, patrouilles, bruit/lumière et états de salle ;
+- `ExpeditionManager` pour l’état général d’expédition et la sauvegarde globale ;
+- `ExplorationDirector` pour les systèmes génériques de perception, pièges, patrouilles, bruit/lumière et états de salle ;
 - `HUDDirector`/`ContextHUD` pour la divulgation contextuelle et les confirmations ;
 - contrats globaux d’anatomie/blessures/capture existants pour éviter une seconde logique parallèle.
 
-Aucun système VS001 ne doit dupliquer une règle globale lorsqu’une règle globale existe déjà. Les fichiers VS001 peuvent adapter des valeurs et ajouter du contenu mais doivent rester compatibles avec les contrats centraux.
+Aucun système VS001 ne doit dupliquer une règle globale lorsqu’une règle globale existe déjà. Les fichiers VS001 adaptent des valeurs et ajoutent du contenu tout en conservant les contrats centraux.
+
+## Couche logique VS001 exécutable
+
+Deux runtimes Godot purs existent désormais :
+
+- `scripts/core/veilleurs_vs001_runtime.gd` : calculs de recrutement, lumière, bruit, événements, loot de référence et profils de Goules ;
+- `scripts/core/veilleurs_vs001_session_runtime.gd` : état d’une expédition VS001, navigation S1–S8, Pulse, piège S2, combat abstrait, interaction/recrutement S6, dispositif S7, accès S8, loot, extraction et sérialisation.
+
+Le smoke `scenes/tests/veilleurs_vs001_smoke.tscn` vérifie :
+
+1. les bandes de probabilité provisoires du recrutement ;
+2. les coûts lumière/bruit ;
+3. les invariants relatifs Affamée/Éclaireuse/Vorace ;
+4. les 67 or de la seed de référence ;
+5. le parcours logique S1 → S2 → S3 → S5 → S6 → S5 → S7 → S8 ;
+6. le désamorçage du piège ;
+7. le recrutement prudent ;
+8. l’étude du dispositif ;
+9. l’ouverture conditionnelle de S8 ;
+10. la sérialisation puis restauration de la session ;
+11. l’extraction avec conservation des états S6/S7/S8.
+
+Ce smoke est branché dans `tools/build/run_godot_ci.sh` et doit passer sous l’import Godot strict.
 
 ## Données VS001
 
@@ -63,18 +86,23 @@ Aucun système VS001 ne doit dupliquer une règle globale lorsqu’une règle gl
 - `data/veilleurs/vs001_events.json`
 - `data/veilleurs/vs001_dialogues.json`
 - `data/veilleurs/vs001_ui_input_contract.json`
+- `data/veilleurs/vs001_playtest_guardrails.json`
+- `data/veilleurs/vs001_telemetry_contract.json`
 
-### QA
+### QA et équilibrage
 
 - `tools/qa/veilleurs_vs001_audit.py`
+- `tools/qa/veilleurs_vs001_balance_sim.py`
 - `tests/test_veilleurs_vs001_data.py`
+- `tests/test_veilleurs_vs001_balance_sim.py`
 - `docs/VEILLEURS_VS001_QA_MATRIX.md`
+- `docs/VEILLEURS_VS001_PLAYTEST_PROTOCOL.md`
 
 ## Exploration Pulse
 
 Le Pulse est une horloge abstraite invisible. Un déplacement de corridor, une fouille, un traitement ou une interaction profonde peut consommer un ou plusieurs Pulses. Ouvrir la carte, consulter l’inventaire ou regarder brièvement ne consomme rien.
 
-Ordre de résolution :
+Ordre de résolution cible :
 
 ```text
 player_action
@@ -102,6 +130,8 @@ Le RNG des événements et interactions répétables est dérivé de la seed et 
 
 La faible lumière n’est pas un simple malus : elle peut améliorer la discrétion tout en dégradant perception et résistance aux embuscades.
 
+Les valeurs sont une **baseline provisoire**. Le simulateur synthétique vérifie qu’elles ne deviennent pas manifestement incohérentes ; le playtest humain décide du réglage final.
+
 ## Bruit
 
 Échelle : 0–100. Le bruit se propage le long des connexions avec atténuation par corridor/porte/mur et absorption des salles. Il redescend durant les Pulses calmes.
@@ -123,7 +153,7 @@ VS001 réutilise `hungry_ghoul` comme identité de créature globale.
 - **Goule éclaireuse** : profil tactique de Goule affamée, pas nouvelle espèce ni nouvelle évolution.
 - **Goule vorace** : évolution globale niveau 5 déjà prévue.
 
-Cette distinction empêche de casser le bestiaire/capture global.
+Le simulateur protège les différences structurelles entre les trois profils sans prétendre mesurer le plaisir ou la lisibilité du combat.
 
 ## Cadavres
 
@@ -146,20 +176,13 @@ Un échec de ciblage anatomique ne supprime pas les dégâts normaux : il rédui
 
 La Goule de S6 commence grièvement blessée, craintive et défensive. La rencontre n’est pas un combat automatique.
 
-Voies principales :
-
-- observer ;
-- réduire la menace ;
-- diagnostiquer/soigner ;
-- désamorcer la peur ;
-- offrir une ressource ;
-- maîtriser ;
-- partir ;
-- tuer.
+Voies principales : observer, réduire la menace, diagnostiquer/soigner, désamorcer la peur, offrir une ressource, maîtriser, partir ou tuer.
 
 Les actions des quatre Veilleurs ont des conséquences distinctes. Une approche douce augmente confiance/stabilité ; bloquer physiquement la sortie augmente la contrainte mais aussi la peur ; soigner crée un avantage relationnel important ; la force directe est possible mais moins fiable et laisse un historique différent.
 
-Le recrutement est bloqué si :
+La baseline a été corrigée après calcul exact : l’ancienne formule rendait la maîtrise immédiate pratiquement impossible malgré une cible de design de 20–45 %. La formule provisoire maintient désormais l’approche prudente dans la bande 70–90 % et la force immédiate dans 20–45 %, avec l’approche prudente nettement supérieure. Ces bandes restent à confirmer humainement.
+
+Le recrutement reste bloqué si :
 
 - `Manifestation destructrice` interdit la capture ;
 - quota régional atteint ;
@@ -206,31 +229,45 @@ PC : survol pour aperçu facultatif, clic/raccourci pour action ; affichage enri
 
 Manette : navigation par focus complète, sans dépendance à un pointeur.
 
-## Ce qui est explicitement laissé au playtest
+## Équilibrage synthétique et humain
 
-Ces valeurs sont verrouillées comme **baseline**, pas comme équilibrage final :
+`veilleurs_vs001_balance_sim.py` protège automatiquement :
 
-- consommation lumière ;
-- seuils et propagation du bruit ;
-- statistiques des trois profils de Goules ;
-- taux de recrutement ;
-- loot ;
-- probabilités d’événements ;
-- seuils de difficulté des interactions.
+- lumière sur profils équilibré/méthodique ;
+- bruit maximal ;
+- fréquence d’événements synthétique ;
+- hiérarchie structurelle des profils de Goules ;
+- probabilités exactes S6 ;
+- total de loot/or ;
+- absence de prime économique à la mise à mort de S6.
 
-Elles ne doivent être modifiées qu’après mesure contre les objectifs de la matrice QA.
+Le fichier `vs001_playtest_guardrails.json` impose explicitement que ces valeurs restent **provisoires** tant que les playtests humains n’ont pas été réalisés.
 
-## Définition de « prêt à coder »
+Le protocole humain commence à 12 runs ciblés ; une modification importante n’est envisagée qu’après au moins 30 runs ou une rupture P0/P1 évidente.
 
-Le contenu est prêt à coder lorsque :
+## Ce qui reste réellement à faire dans Godot
 
-1. l’audit de données passe ;
-2. aucun contrat global existant n’est contredit ;
-3. le graphe fixe est reproductible ;
-4. chaque salle possède ses interactions et sorties ;
-5. les quatre Veilleurs ont des variantes de dialogue ;
-6. les branches S6 et S7 ont des états terminaux définis ;
-7. la Rémanence utilise des anchors/flags ;
-8. les mêmes commandes abstraites sont utilisables tactile/souris/clavier/manette.
+Le noyau logique n’est plus seulement un document. Le travail restant est principalement l’intégration jouable :
 
-Le blocage suivant n’est plus une décision de game design : c’est l’intégration Godot, le lancement réel du projet, l’exécution de `pytest`, puis les playtests sur résolutions et appareils réels.
+1. instancier physiquement les modules S1–S8 ;
+2. connecter les interactions monde aux méthodes du runtime de session ;
+3. connecter combats réels et conséquences anatomiques à l’état VS001 ;
+4. connecter les cadavres physiques aux ancres de Rémanence ;
+5. connecter UI tactile/desktop/manette ;
+6. connecter sauvegarde globale via `ExpeditionManager`/`SaveManager` ;
+7. produire le blockout puis les assets ;
+8. exécuter le protocole de playtest sur appareils réels.
+
+## Définition de « prêt pour scène jouable »
+
+Le bloc logique est prêt lorsque :
+
+1. l’audit VS001 passe ;
+2. la simulation synthétique passe ;
+3. l’import strict Godot passe ;
+4. le smoke VS001 passe ;
+5. aucun contrat global existant n’est contredit ;
+6. le graphe fixe est reproductible ;
+7. S6/S7/S8 et la sérialisation ont des états terminaux testés.
+
+Après cela, le prochain verrou n’est plus une décision de game design : c’est la construction et le test réel des scènes Godot, puis les playtests sur les appareils cibles.
