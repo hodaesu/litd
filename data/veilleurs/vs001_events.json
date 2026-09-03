@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "system_id": "les_veilleurs_vs001_events_v1",
+  "seed": "WATCHERS_VERTICAL_001",
+  "major_event_cooldown_pulses": 3,
+  "events": [
+    {"id": "EVT_01", "name": "Bruit derrière la pierre", "room": "s2_rope_gallery", "once": true, "conditions": ["first_entry"], "priority": 80, "effects": [{"type": "dialogue", "id": "dlg_s2_distant_sound"}, {"type": "knowledge_hint", "id": "acoustic_anomaly", "certainty": "low"}]},
+    {"id": "EVT_02", "name": "Réaction au piège", "room": "s2_rope_gallery", "once": true, "conditions": ["tripwire_triggered"], "priority": 100, "effects": [{"type": "noise", "delta": 30}, {"type": "enemy_state", "target": "s3_group", "state": "alert"}, {"type": "dialogue", "id": "dlg_s2_trap_triggered"}]},
+    {"id": "EVT_03", "name": "Festin sous pression", "room": "s3_sleepers", "once": false, "conditions": ["combat_active", "accessible_corpse", "hungry_ghoul_hp_ratio<=0.65"], "priority": 50, "effects": [{"type": "enable_ai_action", "action": "corpse_feast"}, {"type": "dialogue", "id": "dlg_s3_feast", "once_per_combat": true}]},
+    {"id": "EVT_04", "name": "Lecture de la fresque", "room": "s1_vestibule", "once": true, "conditions": ["fresco_deep_inspected"], "priority": 70, "effects": [{"type": "knowledge", "id": "KNOWLEDGE_PRE_SANCTUARY_STRUCTURE", "certainty": "low"}, {"type": "dialogue", "id": "dlg_s1_fresco"}]},
+    {"id": "EVT_05", "name": "Cri étouffé", "room": "s5_fractured_crypt", "once": true, "conditions": ["first_entry"], "priority": 80, "effects": [{"type": "dialogue", "id": "dlg_s5_voice"}, {"type": "knowledge_hint", "id": "wall_voice_not_localized", "certainty": "low"}]},
+    {"id": "EVT_06", "name": "Trace fraîche", "room": "s5_fractured_crypt", "once": true, "conditions": ["scout_corpse_deep_inspection_success"], "priority": 90, "effects": [{"type": "map_hint", "room": "s6_survivor"}, {"type": "dialogue", "id": "dlg_s5_deep_trace"}]},
+    {"id": "EVT_07", "name": "Goule blessée", "room": "s6_survivor", "once": true, "conditions": ["first_entry"], "priority": 100, "effects": [{"type": "start_interaction", "contract": "vs001_s6_wounded_ghoul"}, {"type": "dialogue", "id": "dlg_s6_first"}]},
+    {"id": "EVT_08", "name": "Propagation acoustique", "room": "s7_voice_chamber", "once": false, "conditions": ["party_noise>=40", "device_state=intact"], "priority": 65, "cooldown_pulses": 4, "effects": [{"type": "acoustic_echo", "source": "party_recent_noise", "distortion": "human_voice_like"}, {"type": "knowledge_hint", "id": "acoustic_transport", "certainty": "medium"}]},
+    {"id": "EVT_09", "name": "Retour perturbé", "room": "dynamic_return_route", "once": true, "conditions": ["objective_complete", "party_noise>=50"], "priority": 75, "effects": [{"type": "activate_patrol", "id": "voices_return_pressure_01"}]},
+    {"id": "EVT_10", "name": "Cadavre déplacé", "room": "s3_sleepers", "once": true, "conditions": ["s3_corpses_exist", "ghoul_survivor_or_return_patrol", "party_left_s3_for_at_least_2_pulses"], "priority": 55, "effects": [{"type": "scar", "anchor_id": "voices.s3.corpses", "scar_type": "persistent_corpse", "state": "moved"}, {"type": "dialogue", "id": "dlg_return_s3_changed"}]}
+  ],
+  "interactions": {
+    "s1_fresco": {
+      "actions": {"inspect": {"pulse": 0}, "deep_inspect": {"pulse": 1, "check": "perception_or_history", "difficulty": 55}},
+      "knowledge": "KNOWLEDGE_PRE_SANCTUARY_STRUCTURE"
+    },
+    "s2_tripwire": {
+      "detection": {"check": "trapcraft", "difficulty": 62, "light_sensitive": true},
+      "actions": {
+        "disarm": {"pulse": 1, "check": "trapcraft", "difficulty": 58, "on_success": "salvaged", "on_fail": "trigger"},
+        "bypass": {"pulse": 1, "check": "mobility", "difficulty": 45, "on_fail": "trigger"},
+        "remote_trigger": {"pulse": 1, "requires": "suitable_tool", "noise": 22}
+      }
+    },
+    "s4_black_basin": {
+      "actions": {
+        "inspect": {"pulse": 0},
+        "water": {"pulse": 1, "requires": "water", "knowledge": "BLACK_BASIN_WATER_REACTION"},
+        "blood": {"pulse": 1, "requires": "blood_source", "result": "unknown_prototype_locked"},
+        "light": {"pulse": 1, "requires": "light_source", "result": "unknown_prototype_locked"},
+        "touch": {"pulse": 1, "risk": "contamination_minor"}
+      }
+    },
+    "s5_scout_corpse": {
+      "actions": {
+        "inspect": {"pulse": 0, "check": "medicine_or_anatomy", "difficulty": 40},
+        "deep_inspect": {"pulse": 1, "check": "medicine_or_tracking", "difficulty": 60, "on_success": "EVT_06"},
+        "search": {"pulse": 1, "loot_anchor": "voices.s5.scout_gear"}
+      }
+    },
+    "s7_device": {
+      "actions": {
+        "destroy": {"pulse": 2, "check": "force", "difficulty": 55, "state": "destroyed", "secret_unlock": false},
+        "disable": {"pulse": 2, "check": "trapcraft_or_anatomy", "difficulty": 68, "state": "disabled", "secret_unlock": false},
+        "study": {"pulse": 2, "check": "perception_plus_anatomy_or_tracking", "difficulty": 72, "state": "studied", "secret_unlock": true}
+      }
+    }
+  }
+}
