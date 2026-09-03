@@ -22,6 +22,8 @@ static func build(run_state: Dictionary = {}) -> Dictionary:
         return plan
 
     plan = HybridDungeonGenerator.apply_remanence(plan, _active_world_scars())
+    if RemanenceCombatBridge.world_director != null and RemanenceCombatBridge.world_director.has_method("decorate_plan"):
+        plan = RemanenceCombatBridge.world_director.call("decorate_plan", plan)
 
     var unresolved: Array[String] = []
     for node in plan.get("nodes", []):
