@@ -46,19 +46,28 @@ func room_node(room_id: String) -> Node3D:
     var root: Node3D = _generated_root()
     if root == null:
         return null
-    return root.find_child(room_id, true, false) as Node3D
+    var rooms_root: Node = root.get_node_or_null("Rooms")
+    if rooms_root == null:
+        return null
+    return rooms_root.find_child(room_id, true, false) as Node3D
 
 func marker_node(marker_id: String) -> Marker3D:
     var root: Node3D = _generated_root()
     if root == null:
         return null
-    return root.find_child(marker_id, true, false) as Marker3D
+    var anchors_root: Node = root.get_node_or_null("GameplayAnchors")
+    if anchors_root == null:
+        return null
+    return anchors_root.find_child(marker_id, true, false) as Marker3D
 
 func connection_node(connection_id: String) -> Node3D:
     var root: Node3D = _generated_root()
     if root == null:
         return null
-    return root.find_child(connection_id, true, false) as Node3D
+    var connections_root: Node = root.get_node_or_null("Connections")
+    if connections_root == null:
+        return null
+    return connections_root.find_child(connection_id, true, false) as Node3D
 
 func path_exists(start_id: String, goal_id: String, include_secrets: bool = false) -> bool:
     if start_id == goal_id:
