@@ -3,35 +3,78 @@ class_name LITDContentValidator
 extends RefCounted
 
 ## Preproduction skeleton: not compile-validated yet.
+## Counts aligned with the recovered master combat reference.
 
-const EXPECTED_TREE_COUNT := 21
-const EXPECTED_SKILLS_PER_TREE := 15
-const EXPECTED_SKILL_COUNT := 315
-const EXPECTED_ULTIMATE_COUNT := 21
-const EXPECTED_ARCHETYPE_COUNT := 25
-const EXPECTED_ORIENTATION_COUNT := 75
+const SKILLS_PER_TREE := 15
 
-func validate_registry(tree_rows: Array, skill_rows: Array, ultimate_rows: Array, archetype_rows: Array) -> PackedStringArray:
-    var errors := PackedStringArray()
-    errors.append_array(_validate_counts(tree_rows, skill_rows, ultimate_rows, archetype_rows))
-    errors.append_array(_validate_unique_ids(tree_rows, "tree"))
-    errors.append_array(_validate_unique_ids(skill_rows, "skill"))
-    errors.append_array(_validate_unique_ids(ultimate_rows, "ultimate"))
-    errors.append_array(_validate_skill_slots(tree_rows, skill_rows))
-    errors.append_array(_validate_tree_ultimates(tree_rows, ultimate_rows))
-    errors.append_array(_validate_archetype_orientations(archetype_rows))
+const EXPECTED_VEILLEUR_TREE_COUNT := 12
+const EXPECTED_VEILLEUR_SKILL_COUNT := 180
+const EXPECTED_VEILLEUR_ULTIMATE_COUNT := 12
+
+const EXPECTED_ENEMY_BOSS_ENTITY_COUNT := 29
+const EXPECTED_ENEMY_BOSS_TREE_COUNT := 87
+const EXPECTED_ENEMY_BOSS_SKILL_COUNT := 1305
+const EXPECTED_ENEMY_BOSS_ULTIMATE_COUNT := 87
+
+const EXPECTED_TOTAL_TREE_COUNT := 99
+const EXPECTED_TOTAL_NORMAL_SKILL_COUNT := 1485
+const EXPECTED_TOTAL_ULTIMATE_COUNT := 99
+
+const EXPECTED_ENCOUNTER_TEMPLATE_COUNT := 64
+const EXPECTED_BOSS_PHASE_COUNT := 16
+const EXPECTED_HAZARD_COUNT := 12
+const EXPECTED_ACCEPTANCE_TEST_COUNT := 48
+
+func validate_veilleur_registry(tree_rows: Array, skill_rows: Array, ultimate_rows: Array) -> PackedStringArray:
+    return _validate_domain(
+        tree_rows,
+        skill_rows,
+        ultimate_rows,
+        EXPECTED_VEILLEUR_TREE_COUNT,
+        EXPECTED_VEILLEUR_SKILL_COUNT,
+        EXPECTED_VEILLEUR_ULTIMATE_COUNT,
+        "veilleur"
+    )
+
+func validate_enemy_boss_registry(entity_rows: Array, tree_rows: Array, skill_rows: Array, ultimate_rows: Array) -> PackedStringArray:
+    var errors := _validate_domain(
+        tree_rows,
+        skill_rows,
+        ultimate_rows,
+        EXPECTED_ENEMY_BOSS_TREE_COUNT,
+        EXPECTED_ENEMY_BOSS_SKILL_COUNT,
+        EXPECTED_ENEMY_BOSS_ULTIMATE_COUNT,
+        "enemy_boss"
+    )
+    if entity_rows.size() != EXPECTED_ENEMY_BOSS_ENTITY_COUNT:
+        errors.append("Expected %d enemy/boss entities, got %d" % [EXPECTED_ENEMY_BOSS_ENTITY_COUNT, entity_rows.size()])
     return errors
 
-func _validate_counts(trees: Array, skills: Array, ultimates: Array, archetypes: Array) -> PackedStringArray:
+func validate_support_content(encounters: Array, boss_phases: Array, hazards: Array, acceptance_tests: Array) -> PackedStringArray:
     var errors := PackedStringArray()
-    if trees.size() != EXPECTED_TREE_COUNT:
-        errors.append("Expected %d trees, got %d" % [EXPECTED_TREE_COUNT, trees.size()])
-    if skills.size() != EXPECTED_SKILL_COUNT:
-        errors.append("Expected %d skills, got %d" % [EXPECTED_SKILL_COUNT, skills.size()])
-    if ultimates.size() != EXPECTED_ULTIMATE_COUNT:
-        errors.append("Expected %d ultimates, got %d" % [EXPECTED_ULTIMATE_COUNT, ultimates.size()])
-    if archetypes.size() != EXPECTED_ARCHETYPE_COUNT:
-        errors.append("Expected %d archetypes, got %d" % [EXPECTED_ARCHETYPE_COUNT, archetypes.size()])
+    if encounters.size() != EXPECTED_ENCOUNTER_TEMPLATE_COUNT:
+        errors.append("Expected %d encounter templates, got %d" % [EXPECTED_ENCOUNTER_TEMPLATE_COUNT, encounters.size()])
+    if boss_phases.size() != EXPECTED_BOSS_PHASE_COUNT:
+        errors.append("Expected %d boss phases, got %d" % [EXPECTED_BOSS_PHASE_COUNT, boss_phases.size()])
+    if hazards.size() != EXPECTED_HAZARD_COUNT:
+        errors.append("Expected %d combat hazards, got %d" % [EXPECTED_HAZARD_COUNT, hazards.size()])
+    if acceptance_tests.size() != EXPECTED_ACCEPTANCE_TEST_COUNT:
+        errors.append("Expected %d acceptance tests, got %d" % [EXPECTED_ACCEPTANCE_TEST_COUNT, acceptance_tests.size()])
+    return errors
+
+func _validate_domain(trees: Array, skills: Array, ultimates: Array, expected_trees: int, expected_skills: int, expected_ultimates: int, label: String) -> PackedStringArray:
+    var errors := PackedStringArray()
+    if trees.size() != expected_trees:
+        errors.append("%s: expected %d trees, got %d" % [label, expected_trees, trees.size()])
+    if skills.size() != expected_skills:
+        errors.append("%s: expected %d normal skills, got %d" % [label, expected_skills, skills.size()])
+    if ultimates.size() != expected_ultimates:
+        errors.append("%s: expected %d ultimates, got %d" % [label, expected_ultimates, ultimates.size()])
+    errors.append_array(_validate_unique_ids(trees, "%s tree" % label))
+    errors.append_array(_validate_unique_ids(skills, "%s skill" % label))
+    errors.append_array(_validate_unique_ids(ultimates, "%s ultimate" % label))
+    errors.append_array(_validate_skill_slots(trees, skills))
+    errors.append_array(_validate_tree_ultimates(trees, ultimates))
     return errors
 
 func _validate_unique_ids(rows: Array, label: String) -> PackedStringArray:
@@ -55,7 +98,7 @@ func _validate_skill_slots(trees: Array, skills: Array) -> PackedStringArray:
         var slot: int = int(skill.get("slot_index", 0))
         if not slots_by_tree.has(tree_id):
             slots_by_tree[tree_id] = {}
-        if slot < 1 or slot > EXPECTED_SKILLS_PER_TREE:
+        if slot < 1 or slot > SKILLS_PER_TREE:
             errors.append("Invalid skill slot %d in %s" % [slot, tree_id])
         elif slots_by_tree[tree_id].has(slot):
             errors.append("Duplicate slot %d in %s" % [slot, tree_id])
@@ -63,8 +106,8 @@ func _validate_skill_slots(trees: Array, skills: Array) -> PackedStringArray:
             slots_by_tree[tree_id][slot] = true
     for tree in trees:
         var tree_id: String = str(tree.get("id", ""))
-        if not slots_by_tree.has(tree_id) or slots_by_tree[tree_id].size() != EXPECTED_SKILLS_PER_TREE:
-            errors.append("Tree %s does not contain exactly %d skill slots" % [tree_id, EXPECTED_SKILLS_PER_TREE])
+        if not slots_by_tree.has(tree_id) or slots_by_tree[tree_id].size() != SKILLS_PER_TREE:
+            errors.append("Tree %s does not contain exactly %d normal skill slots" % [tree_id, SKILLS_PER_TREE])
     return errors
 
 func _validate_tree_ultimates(trees: Array, ultimates: Array) -> PackedStringArray:
@@ -78,14 +121,10 @@ func _validate_tree_ultimates(trees: Array, ultimates: Array) -> PackedStringArr
             errors.append("Tree %s has no resolvable ultimate" % str(tree.get("id", "")))
     return errors
 
-func _validate_archetype_orientations(archetypes: Array) -> PackedStringArray:
+func validate_superseded_contract_not_loaded(metadata: Dictionary) -> PackedStringArray:
     var errors := PackedStringArray()
-    var total := 0
-    for archetype in archetypes:
-        var orientations: Array = archetype.get("orientations", [])
-        total += orientations.size()
-        if orientations.size() != 3:
-            errors.append("Archetype %s must have exactly 3 orientations" % str(archetype.get("id", "")))
-    if total != EXPECTED_ORIENTATION_COUNT:
-        errors.append("Expected %d orientations, got %d" % [EXPECTED_ORIENTATION_COUNT, total])
+    if int(metadata.get("normal_skill_count", -1)) == 315:
+        errors.append("Superseded 315-stage corpus detected. Load the recovered master combat reference instead.")
+    if int(metadata.get("orientation_count", -1)) == 75 and int(metadata.get("archetype_count", -1)) == 25:
+        errors.append("Legacy 25/75 concept matrix detected as current roster. Keep it as concept reserve only unless explicitly reintroduced.")
     return errors
