@@ -104,7 +104,7 @@ static func _rebuild_protected_spine(generated: Dictionary, config: Dictionary) 
         copy["protected"] = false
         copy["module_pool"] = _optional_pool_for_role(config, str(copy.get("role", "transit")))
         nodes.append(copy)
-        var anchor_index := abs(node_id.hash()) % maxi(1, protected_order.size() - 1)
+        var anchor_index: int = abs(node_id.hash()) % maxi(1, protected_order.size() - 1)
         edges.append({"from":str(protected_order[anchor_index]),"to":node_id,"kind":"branch","hidden":str(copy.get("role", "")) == "secret","requires":""})
         if str(copy.get("role", "")) != "secret" and anchor_index + 1 < protected_order.size() and abs((node_id + "loop").hash()) % 3 == 0:
             edges.append({"from":node_id,"to":str(protected_order[anchor_index + 1]),"kind":"loop","hidden":false,"requires":""})
@@ -215,5 +215,5 @@ static func _fallback_plan(config: Dictionary, reason: String, validation: Dicti
 static func _load_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
         return {}
-    var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+    var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
     return parsed if typeof(parsed) == TYPE_DICTIONARY else {}
