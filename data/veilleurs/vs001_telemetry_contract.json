@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "contract_id": "les_veilleurs_vs001_telemetry_v1",
+  "privacy": {
+    "personal_identifiers_forbidden": true,
+    "free_text_forbidden": true,
+    "device_model_exact_forbidden": true,
+    "allowed_device_class": ["phone", "tablet", "desktop", "handheld_pc", "console_like_controller"],
+    "session_id": "random_ephemeral_uuid",
+    "retention_note": "Raw playtest telemetry is for balancing and QA only."
+  },
+  "common_fields": [
+    "session_id",
+    "build_id",
+    "seed",
+    "platform_profile",
+    "input_profile",
+    "elapsed_seconds"
+  ],
+  "events": {
+    "vs001_expedition_started": {
+      "fields": ["difficulty_band", "party_state_summary", "starting_light"]
+    },
+    "vs001_pulse_resolved": {
+      "fields": ["pulse_index", "room_id", "action_id", "light_before", "light_after", "noise_before", "noise_after", "event_triggered"]
+    },
+    "vs001_room_entered": {
+      "fields": ["room_id", "visit_index", "light", "noise", "party_critical_injuries"]
+    },
+    "vs001_combat_completed": {
+      "fields": ["room_id", "rounds", "enemy_profiles", "party_damage_taken", "new_critical_injuries", "new_lost_parts", "corpses_created", "corpses_consumed", "enemy_escapes"]
+    },
+    "vs001_recruitment_action": {
+      "fields": ["action_id", "fear_before", "fear_after", "trust_before", "trust_after", "stability_before", "stability_after", "restraint_before", "restraint_after"]
+    },
+    "vs001_recruitment_resolved": {
+      "fields": ["route", "capture_actor", "capture_score", "roll", "success", "fear", "trust", "stability", "restraint", "critical_injuries", "lost_parts"]
+    },
+    "vs001_device_choice": {
+      "fields": ["choice", "check_success", "s8_unlocked", "light", "noise"]
+    },
+    "vs001_loot_acquired": {
+      "fields": ["room_id", "item_id", "rarity", "quantity", "or_delta"]
+    },
+    "vs001_extraction": {
+      "fields": ["reason", "objective_complete", "rooms_visited", "s6_outcome", "s8_discovered", "ending_light", "peak_noise", "major_events", "critical_injuries", "lost_parts", "or_found", "useful_items_found"]
+    }
+  },
+  "derived_metrics": {
+    "duration_minutes": "elapsed_seconds_at_extraction / 60",
+    "light_on_s7_entry": "light from first vs001_room_entered where room_id=s7_voice_chamber",
+    "peak_party_noise": "max(noise_after from vs001_pulse_resolved)",
+    "major_events_per_run": "count(vs001_pulse_resolved where event_triggered=true)",
+    "s3_rounds": "rounds from vs001_combat_completed where room_id=s3_sleepers",
+    "s7_rounds": "rounds from vs001_combat_completed where room_id=s7_voice_chamber",
+    "careful_recruitment_success": "success rate where route=careful",
+    "force_recruitment_success": "success rate where route=immediate_force",
+    "s8_first_run_discovery_rate": "rate(s8_discovered=true on first completed attempt)",
+    "kill_vs_recruit_value_gap": "mean extract value for s6_outcome=killed minus mean extract value for s6_outcome=recruited"
+  },
+  "required_histogram_buckets": {
+    "light": [0, 10, 25, 40, 55, 70, 85, 100],
+    "noise": [0, 20, 40, 60, 80, 100],
+    "duration_minutes": [0, 15, 25, 35, 45, 60],
+    "combat_rounds": [0, 2, 4, 6, 8, 12, 20]
+  }
+}

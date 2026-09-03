@@ -1,0 +1,263 @@
+{
+  "version": 1,
+  "dialogue_id": "les_veilleurs_vs001_dialogues_v1",
+  "language": "fr",
+  "mission": "Les Voix sous le Sanctuaire",
+  "voice_contract": {
+    "nayra_orun": {
+      "anchor": "La Garde / Garde-Bastion",
+      "rules": ["phrases_courtes", "priorite_a_la_securite_du_groupe", "observe_structure_et_risque", "evite_les_grands_discours"],
+      "avoid": ["cruaute_gratuite", "mysticisme_affirme_sans_preuve"]
+    },
+    "tarek_senn": {
+      "anchor": "Le Pisteur / Traque",
+      "rules": ["sensoriel_concret", "lit_traces_et_distances", "ironie_seche_rare", "parle_peu_quand_une_trace_suffit"],
+      "avoid": ["explications_medicales_detaillees", "autorite_morale_abstraite"]
+    },
+    "aisha_maren": {
+      "anchor": "L’Anatomiste / Diagnostic-Suture",
+      "rules": ["precision_clinique", "humanite_sans_sentimentalisme", "distingue_fait_hypothese", "corps_comme_source_d_information"],
+      "avoid": ["gore_complaisant", "certitude_sans_diagnostic"]
+    },
+    "idris_vael": {
+      "anchor": "Le Médiateur / Autorité-Concorde",
+      "rules": ["formulation_mesuree", "coordonne_avant_d_ordonner", "questionne_les_causes_et_les_consequences", "desescalade_quand_possible"],
+      "avoid": ["sermons", "passivite_face_au_danger_immediat"]
+    }
+  },
+  "selection_rule": {
+    "primary": "highest_context_affinity_then_seeded_tie_break",
+    "reply": "different_watcher_with_complementary_affinity",
+    "repeat_cooldown_pulses": 4,
+    "max_lines_per_micro_event": 2
+  },
+  "events": [
+    {
+      "id": "dlg_s1_entry", "trigger": "enter_s1_first_time",
+      "variants": {
+        "nayra_orun": "Restez dans ma lumière. La pierre travaille encore.",
+        "tarek_senn": "Pas de poussière fraîche sur nos traces. Personne n’est passé depuis peu.",
+        "aisha_maren": "L’air est plus froid ici. Pas assez pour expliquer cette odeur.",
+        "idris_vael": "Nous descendons pour comprendre. Pas pour donner un nom trop vite à ce que nous entendrons."
+      }
+    },
+    {
+      "id": "dlg_s1_fresco", "trigger": "inspect_fresco",
+      "variants": {
+        "nayra_orun": "Trois figures. Le cercle a été martelé, pas usé.",
+        "tarek_senn": "Les coups vont tous dans le même sens. Quelqu’un voulait effacer le centre.",
+        "aisha_maren": "La fracture est ancienne. L’effacement est venu après.",
+        "idris_vael": "On détruit rarement un symbole qui ne signifie plus rien."
+      },
+      "pair_replies": [{"speaker": "nayra_orun", "line": "Ils ont construit au-dessus de quelque chose.", "reply": "idris_vael", "reply_line": "Ou ils ont voulu qu’on le croie."}]
+    },
+    {
+      "id": "dlg_s2_distant_sound", "trigger": "evt_01_distant_sound",
+      "variants": {
+        "nayra_orun": "Stop. Ça a traversé la pierre.",
+        "tarek_senn": "Trop loin pour cette galerie. Le son est porté.",
+        "aisha_maren": "Ce n’était pas une voix claire. Seulement des fréquences qui lui ressemblent.",
+        "idris_vael": "Retenons ce que nous avons entendu, pas ce que nous voudrions y reconnaître."
+      }
+    },
+    {
+      "id": "dlg_s2_trap_detected", "trigger": "tripwire_detected",
+      "variants": {
+        "nayra_orun": "Ne bougez plus. Tarek, confirme le trajet du fil.",
+        "tarek_senn": "Fil à la cheville. Retour dans le mur. Je peux le neutraliser.",
+        "aisha_maren": "S’il frappe bas, les jambes prendront l’essentiel.",
+        "idris_vael": "On choisit : le désarmer, le contourner, ou l’utiliser."
+      }
+    },
+    {
+      "id": "dlg_s2_trap_triggered", "trigger": "tripwire_triggered",
+      "variants": {
+        "nayra_orun": "En garde. Ce bruit a voyagé.",
+        "tarek_senn": "Ils l’ont entendu. Comptez dessus.",
+        "aisha_maren": "D’abord la plaie. Ensuite nous bougeons.",
+        "idris_vael": "Plus de silence possible. À partir de maintenant, supposons-nous attendus."
+      }
+    },
+    {
+      "id": "dlg_s3_precombat", "trigger": "s3_enemy_reveal",
+      "variants": {
+        "nayra_orun": "Derrière moi. Ne leur laissez pas le premier passage.",
+        "tarek_senn": "Trois. Celle de droite regarde déjà la sortie.",
+        "aisha_maren": "Les corps sous les tissus sont plus anciens qu’elles.",
+        "idris_vael": "Formation serrée. Nous comprendrons après avoir survécu."
+      }
+    },
+    {
+      "id": "dlg_s3_feast", "trigger": "ghoul_uses_corpse_feast",
+      "variants": {
+        "nayra_orun": "Elle se découvre. Maintenant.",
+        "tarek_senn": "Elle préfère le mort au danger. Servez-vous de cette seconde.",
+        "aisha_maren": "Elle se nourrit malgré notre présence. La faim domine sa prudence.",
+        "idris_vael": "Ce comportement est une faiblesse, pas seulement une horreur."
+      }
+    },
+    {
+      "id": "dlg_s3_after", "trigger": "s3_combat_end",
+      "variants": {
+        "nayra_orun": "Comptez les vivants. Les corps restent où ils sont pour l’instant.",
+        "tarek_senn": "Regardez les traînées avant de marcher dessus.",
+        "aisha_maren": "Le silence revient. Les corps, eux, restent.",
+        "idris_vael": "Avant de repartir, distinguons ce que nous avons causé de ce qui était déjà là."
+      }
+    },
+    {
+      "id": "dlg_s4_basin_first", "trigger": "inspect_black_basin_first",
+      "variants": {
+        "nayra_orun": "Je n’aime pas ce qui refuse la lumière.",
+        "tarek_senn": "Pas d’empreinte autour. Soit personne n’y touche, soit rien ne reste.",
+        "aisha_maren": "La surface absorbe notre reflet. Je ne conclus rien avant un test.",
+        "idris_vael": "Nous pouvons apprendre sans tout essayer. Choisissons ce que nous sommes prêts à risquer."
+      }
+    },
+    {
+      "id": "dlg_s4_basin_water", "trigger": "black_basin_water_reaction",
+      "variants": {
+        "nayra_orun": "Une ligne. Puis plus rien. On note et on n’invente pas le reste.",
+        "tarek_senn": "Réaction brève, toujours au même bord.",
+        "aisha_maren": "Réponse au contact de l’eau confirmée. Sa nature reste inconnue.",
+        "idris_vael": "Une observation devient une connaissance seulement si nous conservons aussi son incertitude."
+      }
+    },
+    {
+      "id": "dlg_s5_scout", "trigger": "identify_fallen_scout",
+      "variants": {
+        "nayra_orun": "C’est l’un des nôtres. Personne ne touche au corps avant Aïsha.",
+        "tarek_senn": "Il n’est pas mort ici. Les talons ont raclé la pierre.",
+        "aisha_maren": "Gorge détruite. Morsures au torse. Mais la mort précède le déplacement.",
+        "idris_vael": "Nous lui devons deux choses : comprendre ce qui s’est passé, et ne pas laisser sa mort nous précipiter."
+      }
+    },
+    {
+      "id": "dlg_s5_deep_trace", "trigger": "deep_inspect_scout_corpse_success",
+      "variants": {
+        "nayra_orun": "La piste part au sud. On garde l’objectif à l’est en tête.",
+        "tarek_senn": "Traîné depuis le sud. Une seule créature, blessée ou légère.",
+        "aisha_maren": "Le sang déposé pendant le déplacement n’a pas la même coagulation. Le corps était déjà sans vie.",
+        "idris_vael": "Le sud est une réponse possible, pas une obligation. Nous choisissons de la poursuivre."
+      }
+    },
+    {
+      "id": "dlg_s5_voice", "trigger": "evt_05_muffled_voice",
+      "variants": {
+        "nayra_orun": "Vous avez entendu ? Ça venait du mur.",
+        "tarek_senn": "Oui. Et rien n’a bougé derrière.",
+        "aisha_maren": "Le son ressemble à une syllabe parce que notre cerveau la complète.",
+        "idris_vael": "Ne lui donnons pas encore de locuteur."
+      }
+    },
+    {
+      "id": "dlg_s6_first", "trigger": "enter_s6_first_time",
+      "variants": {
+        "nayra_orun": "Elle ne charge pas. Gardez vos armes basses, pas rangées.",
+        "tarek_senn": "Jambe atteinte. Elle regarde la sortie plus que nous.",
+        "aisha_maren": "Blessure critique. Douleur élevée. Son agressivité est défensive.",
+        "idris_vael": "La peur nous précède dans cette pièce. N’ajoutons pas la nôtre à la sienne."
+      }
+    },
+    {
+      "id": "dlg_s6_treat", "trigger": "aisha_treat_success",
+      "variants": {
+        "nayra_orun": "Je couvre. Fais ce que tu peux.",
+        "tarek_senn": "Elle a cessé de chercher l’angle de fuite.",
+        "aisha_maren": "Je ne guéris pas la jambe. J’empêche seulement qu’elle empire maintenant.",
+        "idris_vael": "Elle n’a pas besoin de nous faire confiance pour comprendre que ce geste ne la blesse pas."
+      }
+    },
+    {
+      "id": "dlg_s6_deescalate", "trigger": "idris_deescalate_success",
+      "variants": {
+        "nayra_orun": "Elle desserre la mâchoire.",
+        "tarek_senn": "Ses yeux ne cherchent plus ma gorge.",
+        "aisha_maren": "Respiration plus lente. La douleur reste, la panique baisse.",
+        "idris_vael": "Nous ne te demandons pas d’approcher. Seulement de ne pas fuir pendant que nous choisissons."
+      }
+    },
+    {
+      "id": "dlg_s6_recruit", "trigger": "s6_capture_success",
+      "variants": {
+        "nayra_orun": "On la ramène vivante. Et on assume ce que cela exige.",
+        "tarek_senn": "Elle se souviendra de cette pièce. Nous aussi.",
+        "aisha_maren": "Elle cesse de lutter avant de cesser d’avoir peur.",
+        "idris_vael": "Ce n’est pas de l’obéissance. C’est le début d’une relation dont nous portons la responsabilité."
+      }
+    },
+    {
+      "id": "dlg_s7_predoor", "trigger": "approach_s7_first_time",
+      "variants": {
+        "nayra_orun": "Plusieurs voix. Pourtant je n’entends aucun pas.",
+        "tarek_senn": "Les sons se chevauchent comme des échos pris dans des couloirs différents.",
+        "aisha_maren": "Le rythme ne correspond pas à une conversation.",
+        "idris_vael": "Ouvrons en supposant un mécanisme avant de supposer des morts."
+      }
+    },
+    {
+      "id": "dlg_s7_device", "trigger": "inspect_acoustic_device",
+      "variants": {
+        "nayra_orun": "Des conduits. Tout ce vacarme vient de ça ?",
+        "tarek_senn": "Ça ne fabrique rien. Ça transporte.",
+        "aisha_maren": "Une goutte suffit. Le réseau déforme les fréquences jusqu’à imiter une voix.",
+        "idris_vael": "Nous n’entendions personne. Nous nous entendions nous-mêmes."
+      },
+      "pair_replies": [{"speaker": "idris_vael", "line": "Nous n’entendions personne. Nous nous entendions nous-mêmes.", "reply": "tarek_senn", "reply_line": "Alors quelque chose, plus bas, nous renvoie le son."}]
+    },
+    {
+      "id": "dlg_s7_destroy", "trigger": "destroy_acoustic_device",
+      "variants": {
+        "nayra_orun": "C’est fini. La structure ne transmettra plus rien.",
+        "tarek_senn": "Et ce qu’elle cachait restera plus difficile à suivre.",
+        "aisha_maren": "Nous avons supprimé le phénomène avant d’en comprendre toute la portée.",
+        "idris_vael": "Parfois rendre un lieu sûr coûte une question. Gardons au moins la question."
+      }
+    },
+    {
+      "id": "dlg_s7_disable", "trigger": "disable_acoustic_device",
+      "variants": {
+        "nayra_orun": "Silencieux, mais intact. Ça me suffit pour le retour.",
+        "tarek_senn": "Les conduits restent lisibles. On pourra les suivre plus tard.",
+        "aisha_maren": "Fonction suspendue sans destruction majeure.",
+        "idris_vael": "Nous avons choisi de préserver la possibilité d’apprendre."
+      }
+    },
+    {
+      "id": "dlg_s7_study", "trigger": "study_acoustic_device_success",
+      "variants": {
+        "nayra_orun": "Il y a un passage sous le bâti. Étroit.",
+        "tarek_senn": "Le conduit descend. Et quelqu’un l’a entretenu autrefois.",
+        "aisha_maren": "Les dépôts sont interrompus près de cette dalle. Elle a bougé plus récemment que le reste.",
+        "idris_vael": "Alors les voix nous ont finalement indiqué une porte."
+      }
+    },
+    {
+      "id": "dlg_s8_archive", "trigger": "read_archive_fragment",
+      "variants": {
+        "nayra_orun": "« Avant qu’elles soient nommées. » Ça ne dit pas avant qu’elles existaient.",
+        "tarek_senn": "Le texte est incomplet. Le bord manquant emporte le contexte.",
+        "aisha_maren": "L’encre et le support sont cohérents avec l’ancienneté de la pièce. Pas encore avec notre interprétation.",
+        "idris_vael": "Une contradiction utile n’est pas une nouvelle certitude. Conservons les deux."
+      }
+    },
+    {
+      "id": "dlg_return_s3_changed", "trigger": "return_s3_corpse_moved",
+      "variants": {
+        "nayra_orun": "Un corps manque. Formation serrée.",
+        "tarek_senn": "Traîné vers l’ouest. Après notre passage.",
+        "aisha_maren": "Les marques sont fraîches. Le donjon a continué sans nous.",
+        "idris_vael": "Voilà pourquoi une carte ne doit jamais devenir une promesse."
+      }
+    },
+    {
+      "id": "dlg_extract_partial", "trigger": "extract_before_objective",
+      "variants": {
+        "nayra_orun": "On rentre avec ce qu’on sait et avec ceux qui respirent.",
+        "tarek_senn": "La piste restera. Nos morts, eux, ne reviendraient pas.",
+        "aisha_maren": "Nous avons assez de blessures pour transformer la prochaine salle en pari.",
+        "idris_vael": "Abandonner l’objectif n’efface pas ce que cette expédition nous a appris."
+      }
+    }
+  ]
+}

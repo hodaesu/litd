@@ -1,0 +1,264 @@
+{
+  "version": 1,
+  "system_id": "les_veilleurs_vs001_balance_v1",
+  "seed": "WATCHERS_VERTICAL_001",
+  "scope": "Les Voix sous le Sanctuaire",
+  "compatibility": {
+    "hybrid_dungeon_system": "les_veilleurs_hybrid_dungeon_v1",
+    "capture_creature_id": "hungry_ghoul",
+    "capture_wound_rules": "res://data/capture_wound_rules.json",
+    "body_animation_contract": "res://data/body_state_animation_contract.json",
+    "mobile_pc_rules_identical": true
+  },
+  "watchers": {
+    "nayra_orun": {
+      "display_name": "Nayra Orun", "role": "La Garde", "age": 36,
+      "combat_anchor": ["garde", "bastion", "protection", "controle", "trauma_lourd"],
+      "utility": {"perception": 58, "tracking": 42, "trapcraft": 36, "medicine": 34, "anatomy": 56, "authority": 64, "resolve": 82, "stealth": 34, "mobility": 42, "force": 88},
+      "exploration_affinities": {"structural_hazard": 12, "protective_interaction": 15, "force_door": 18, "carry_wounded": 20}
+    },
+    "tarek_senn": {
+      "display_name": "Tarek Senn", "role": "Le Pisteur", "age": 29,
+      "combat_anchor": ["traque", "mobilite", "ciblage_anatomique", "poursuite"],
+      "utility": {"perception": 86, "tracking": 94, "trapcraft": 82, "medicine": 40, "anatomy": 78, "authority": 38, "resolve": 63, "stealth": 90, "mobility": 91, "force": 55},
+      "exploration_affinities": {"trace_reading": 18, "trap_detection": 15, "ambush_detection": 15, "scouting": 18}
+    },
+    "aisha_maren": {
+      "display_name": "Aïsha Maren", "role": "L’Anatomiste", "age": 43,
+      "combat_anchor": ["diagnostic", "suture", "anatomie", "soins", "alterations_corporelles"],
+      "utility": {"perception": 76, "tracking": 54, "trapcraft": 49, "medicine": 96, "anatomy": 98, "authority": 57, "resolve": 76, "stealth": 47, "mobility": 57, "force": 49},
+      "exploration_affinities": {"corpse_analysis": 20, "wound_analysis": 20, "treatment": 20, "biological_hazard": 15}
+    },
+    "idris_vael": {
+      "display_name": "Idris Vael", "role": "Le Médiateur", "age": 52,
+      "combat_anchor": ["autorite", "concorde", "coordination", "controle_psychologique"],
+      "utility": {"perception": 69, "tracking": 45, "trapcraft": 40, "medicine": 48, "anatomy": 61, "authority": 97, "resolve": 90, "stealth": 43, "mobility": 50, "force": 58},
+      "exploration_affinities": {"deescalation": 20, "recruitment": 20, "group_coordination": 16, "fear_control": 18}
+    }
+  },
+  "party_checks": {
+    "scale": "0_100",
+    "lead_rule": "highest_relevant_eligible_score",
+    "support_bonus_rule": "floor(second_best_relevant_score * 0.15)",
+    "support_bonus_cap": 12,
+    "context_affinity_cap": 20,
+    "final_score_clamp": [5, 95],
+    "uncertainty_roll": {"min": -10, "max": 10, "deterministic": true},
+    "difficulty_bands": {"trivial": 25, "easy": 40, "standard": 55, "hard": 70, "severe": 82, "extreme": 92},
+    "graded_outcomes": [
+      {"margin_max": -20, "grade": "fail_hard"},
+      {"margin_max": -1, "grade": "fail"},
+      {"margin_max": 9, "grade": "partial"},
+      {"margin_max": 24, "grade": "success"},
+      {"margin_max": 999, "grade": "strong_success"}
+    ]
+  },
+  "exploration_pulse": {
+    "hidden_from_player": true,
+    "action_costs": {"look": 0, "map": 0, "inventory": 0, "brief_inspect": 0, "corridor_move": 1, "search_body": 1, "deep_curio": 1, "disarm_trap": 1, "force_door": 1, "treat_wound": 1, "search_room": 1, "short_rest": 2, "exhaustive_search": 2, "complex_treatment": 2, "heavy_manipulation": 2, "major_rest": 3},
+    "resolution_order": ["player_action", "light_update", "noise_update", "injury_update", "enemy_movement", "environment_update", "event_check", "remanence_check", "save_state"]
+  },
+  "light": {
+    "range": [0, 100],
+    "initial": 82,
+    "cost_by_action": {"cautious_move": 3, "normal_move": 2, "fast_move": 2, "search": 2, "deep_search": 4, "short_rest": 4, "major_rest": 7, "complex_treatment": 3},
+    "combat_cost": {"per_meaningful_round": 1, "per_combat_cap": 6},
+    "states": [
+      {"id": "clear", "min": 76, "max": 100, "trap_detection": 15, "trace_perception": 10, "stealth": -5, "enemy_ambush": -5},
+      {"id": "stable", "min": 51, "max": 75, "trap_detection": 0, "trace_perception": 0, "stealth": 0, "enemy_ambush": 0},
+      {"id": "low", "min": 26, "max": 50, "trap_detection": -10, "trace_perception": -10, "stealth": 10, "enemy_ambush": 8},
+      {"id": "critical", "min": 1, "max": 25, "trap_detection": -20, "trace_perception": -20, "stealth": 15, "enemy_ambush": 15},
+      {"id": "darkness", "min": 0, "max": 0, "trap_detection": -35, "trace_perception": -30, "stealth": 20, "enemy_ambush": 25}
+    ],
+    "update_formula": "clamp(current - action_cost - environment_cost + item_gain + event_delta, 0, 100)",
+    "item_gains": {"small_oil": 18, "standard_oil": 30, "major_light_source": 45}
+  },
+  "noise": {
+    "range": [0, 100],
+    "party_noise_decay_per_calm_pulse": 5,
+    "action_deltas": {"cautious_move": 0, "normal_move": 2, "fast_move": 5, "open_door": 2, "force_door": 20, "sound_trap": 30, "short_combat": 15, "violent_combat": 25, "collapse": 40, "deep_search": 3},
+    "thresholds": [
+      {"id": "silent", "min": 0, "max": 19},
+      {"id": "perceptible", "min": 20, "max": 39},
+      {"id": "noisy", "min": 40, "max": 59},
+      {"id": "alarming", "min": 60, "max": 79},
+      {"id": "roar", "min": 80, "max": 100}
+    ],
+    "propagation": {
+      "method": "max_path_product",
+      "minimum_audible": 5,
+      "connection_attenuation": {"open_corridor": 0.70, "open_door": 0.62, "normal_door": 0.48, "closed_heavy_door": 0.28, "collapsed_passage": 0.18, "vertical_opening": 0.55, "acoustic_duct": 0.88},
+      "room_absorption_default": 0.92,
+      "formula": "round(source_noise * product(edge_attenuation) * product(room_absorption))"
+    },
+    "enemy_reaction": {"investigate_heard_noise_min": 20, "alert_heard_noise_min": 40, "prepare_ambush_heard_noise_min": 60, "approximate_party_location_heard_noise_min": 80}
+  },
+  "events": {
+    "base_check_percent": 10,
+    "cooldown_major_pulses": 3,
+    "chance_formula": "clamp(10 + floor(max(party_noise-20)*0.25) + danger_band*3 + light_event_mod + room_event_mod, 5, 45)",
+    "light_event_mod": {"clear": -2, "stable": 0, "low": 3, "critical": 7, "darkness": 10},
+    "danger_band_vs001": 2,
+    "deterministic_rng_key": ["seed", "pulse_index", "room_id", "event_check_index"]
+  },
+  "patrol_ai": {
+    "states": ["idle", "patrol", "investigate", "alert", "hunt", "flee", "ambush"],
+    "move_chance_percent": {"idle": 20, "patrol": 60, "investigate": 80, "alert": 70, "hunt": 100, "flee": 100, "ambush": 0},
+    "memory_fields": ["last_party_room", "last_noise_room", "party_strength_estimate", "dead_allies_seen", "known_exit"],
+    "state_rules": {
+      "idle_to_investigate": "heard_noise >= 20",
+      "investigate_to_alert": "finds_recent_party_trace or heard_noise >= 40",
+      "alert_to_hunt": "party_location_confidence >= 60",
+      "alert_to_ambush": "heard_noise >= 60 and tactical_room_available",
+      "any_to_flee": "non_boss and effective_health_ratio <= flee_threshold"
+    }
+  },
+  "injury_model": {
+    "principle": "Trauma is independent per body part; HP damage and part Trauma are separate.",
+    "body_parts": {
+      "head": {"trauma_threshold": 125, "severable": false, "vital": true},
+      "torso": {"trauma_threshold": 150, "severable": false, "vital": true},
+      "arm_left": {"trauma_threshold": 100, "severable": true, "vital": false},
+      "arm_right": {"trauma_threshold": 100, "severable": true, "vital": false},
+      "leg_left": {"trauma_threshold": 105, "severable": true, "vital": false},
+      "leg_right": {"trauma_threshold": 105, "severable": true, "vital": false}
+    },
+    "state_threshold_ratio": {"intact": [0, 0.349], "fragile": [0.35, 0.649], "wounded": [0.65, 0.849], "critical": [0.85, 0.999], "lost": [1.0, 99]},
+    "anatomical_hit": {"normal_damage_always_resolves": true, "failed_anatomy_roll_trauma_multiplier": 0.35, "partial_anatomy_roll_trauma_multiplier": 0.65, "success_multiplier": 1.0, "strong_success_multiplier": 1.15},
+    "bleeding": {
+      "blood_pool": 100,
+      "severity_loss_per_round": {"minor": 1, "moderate": 2, "severe": 4, "catastrophic": 7},
+      "blood_loss_states": [
+        {"id": "stable", "min": 0, "max": 24, "penalty": 0},
+        {"id": "winded", "min": 25, "max": 49, "penalty": -5},
+        {"id": "weakened", "min": 50, "max": 74, "penalty": -12},
+        {"id": "critical", "min": 75, "max": 99, "penalty": -25},
+        {"id": "exsanguinated", "min": 100, "max": 999, "lethal": true}
+      ],
+      "ghoul_blood_loss_multiplier": 0.65
+    },
+    "fracture": {"eligible_damage_tags": ["blunt", "crush", "heavy"], "min_state": "wounded", "chance_percent_by_state": {"wounded": 15, "critical": 40}, "heavy_bonus": 15, "blunt_bonus": 10},
+    "functional_penalties": {
+      "head": {"fragile": {"precision": -3, "perception": -3}, "wounded": {"precision": -8, "perception": -10, "resolve": -5}, "critical": {"precision": -15, "perception": -20, "resolve": -15, "stagger_chance": 20}},
+      "torso": {"fragile": {"recovery": 5}, "wounded": {"recovery": 12, "force": -8}, "critical": {"recovery": 25, "force": -18, "max_stamina_percent": -25}},
+      "arm": {"fragile": {"accuracy_with_arm": -4}, "wounded": {"accuracy_with_arm": -12, "guard_with_arm": -10}, "critical": {"accuracy_with_arm": -30, "guard_with_arm": -30, "function_available": false}, "lost": {"function_available": false}},
+      "leg": {"fragile": {"mobility": -5}, "wounded": {"mobility": -15, "dodge": -8}, "critical": {"mobility": -35, "dodge": -20, "limp": true}, "lost": {"mobility": -50, "dodge": -30, "function_available": false}}
+    },
+    "treatment": {
+      "bandage": {"pulse_cost": 1, "bleed_severity_steps_reduced": 2, "reopen_protection_pulses": 3},
+      "suture": {"pulse_cost": 2, "requires_medicine_score": 70, "bleed_severity_steps_reduced": 3, "reopen_protection_pulses": 6},
+      "splint": {"pulse_cost": 2, "fracture_penalty_reduction_percent": 50, "allows_cautious_mobility": true},
+      "stabilize_critical": {"pulse_cost": 2, "requires_medicine_score": 80, "prevents_one_injury_worsening_check": true},
+      "aisha_affinity": {"medicine_bonus": 20, "complex_treatment_pulse_reduction": 1, "minimum_pulse_cost": 1}
+    },
+    "persistence": {"wounded_or_worse_persists_after_extraction": true, "critical_injury_creates_history_event": true, "lost_part_creates_permanent_body_state": true, "scar_storage": "state_flags_plus_history_event_not_scene_snapshot"},
+    "gore_modes_preserve_mechanics": ["full", "reduced", "off"]
+  },
+  "ghoul_profiles": {
+    "hungry_standard": {
+      "creature_id": "hungry_ghoul", "evolution_level": 1, "profile_id": "standard", "display_name": "Goule affamée",
+      "stats": {"hp": 30, "damage": [3, 6], "accuracy": 74, "dodge": 9, "initiative": 11, "armor": 0, "resolve": 55, "perception": 58, "stealth": 48, "fear_resistance": 30, "bleed_resistance": 25},
+      "body_threshold_multiplier": 0.85,
+      "skills": {
+        "claws": {"accuracy": 78, "damage": [3, 6], "trauma": 12, "bleed_percent": 10, "tags": ["slash"]},
+        "infected_bite": {"accuracy": 70, "damage": [4, 6], "trauma": 10, "bleed_percent": 35, "tags": ["bite", "infection"]},
+        "corpse_feast": {"target": "corpse", "heal": 6, "damage_bonus_percent": 15, "buff_rounds": 2, "noise": 4}
+      },
+      "target_weights": {"bleeding": 35, "hp_below_40": 25, "isolated": 15, "front": 8, "guarded": -12},
+      "flee_threshold": 0.16,
+      "corpse_behavior": {"consider_percent": 35, "when_hp_below": 0.65}
+    },
+    "hungry_scout": {
+      "creature_id": "hungry_ghoul", "evolution_level": 1, "profile_id": "scout", "display_name": "Goule éclaireuse",
+      "note": "Tactical profile of Goule affamée, not a separate capturable species/evolution.",
+      "stats": {"hp": 26, "damage": [2, 5], "accuracy": 82, "dodge": 19, "initiative": 17, "armor": 0, "resolve": 50, "perception": 84, "stealth": 79, "fear_resistance": 27, "bleed_resistance": 25},
+      "body_threshold_multiplier": 0.78,
+      "skills": {
+        "raking_pass": {"accuracy": 84, "damage": [2, 5], "trauma": 8, "bleed_percent": 15, "self_reposition": 1},
+        "scent_mark": {"accuracy": 90, "damage": [0, 1], "mark_rounds": 3, "party_target_bonus_against_mark": 15},
+        "warning_cry": {"damage": [0, 0], "noise": 25, "allies_alert_bonus": 20}
+      },
+      "target_weights": {"backline": 30, "low_dodge": 15, "isolated": 20, "marked": 25, "guarded": -15},
+      "flee_threshold": 0.32,
+      "special_ai": "If it has identified the party and no ally is threatened, prefer Warning Cry then escape toward a connected occupied room."
+    },
+    "voracious_evolved": {
+      "creature_id": "hungry_ghoul", "evolution_level": 5, "profile_id": "voracious", "display_name": "Goule vorace",
+      "stats": {"hp": 48, "damage": [5, 8], "accuracy": 78, "dodge": 11, "initiative": 13, "armor": 3, "resolve": 68, "perception": 66, "stealth": 42, "fear_resistance": 40, "bleed_resistance": 35},
+      "body_threshold_multiplier": 1.08,
+      "skills": {
+        "heavy_claws": {"accuracy": 80, "damage": [5, 8], "trauma": 18, "bleed_percent": 18, "tags": ["slash", "heavy"]},
+        "devour_weak": {"accuracy": 74, "damage": [6, 10], "trauma": 14, "damage_bonus_under_25_hp_percent": 40, "bleed_percent": 25},
+        "corpse_devour": {"target": "corpse", "heal": 10, "damage_bonus_percent": 20, "guard_bonus": 8, "buff_rounds": 2, "noise": 7}
+      },
+      "target_weights": {"hp_below_25": 45, "bleeding": 30, "critical_injury": 35, "isolated": 10, "guarded": -8},
+      "flee_threshold": 0.08,
+      "corpse_behavior": {"consider_percent": 50, "when_hp_below": 0.75}
+    }
+  },
+  "recruitment_s6": {
+    "encounter_id": "vs001_s6_wounded_ghoul",
+    "base_creature_id": "hungry_ghoul",
+    "initial": {"health_ratio": 0.28, "fear": 78, "trust": 8, "pain": 72, "aggression": 45, "stability": 28, "restraint": 0, "wounded_leg": "critical", "critical_injuries": 1, "lost_parts": 0},
+    "hard_blocks": {"manifestation_destructrice": "recruitment_disabled", "regional_recruitment_slots_full": "recruitment_disabled", "no_sanctuary_capacity": "recruitment_disabled"},
+    "actions": {
+      "observe": {"pulse": 0, "fear": -5, "trust": 2, "stability": 3, "reveal": ["defensive_aggression", "exit_seeking"]},
+      "nayra_lower_guard": {"pulse": 0, "requires": "nayra_present", "fear": -8, "trust": 10, "aggression": -8, "stability": 5},
+      "tarek_block_exit": {"pulse": 0, "requires": "tarek_present", "fear": 12, "trust": -5, "aggression": 8, "restraint": 20},
+      "aisha_diagnose": {"pulse": 0, "requires": "aisha_present", "fear": -3, "trust": 5, "reveal": ["critical_leg", "pain_level", "safe_treatment"]},
+      "aisha_treat": {"pulse": 1, "requires": ["aisha_present", "bandage_or_medical_supply"], "fear": -15, "trust": 18, "pain": -25, "stability": 18, "health_ratio_delta": 0.07},
+      "idris_deescalate": {"pulse": 0, "requires": "idris_present", "fear": -18, "trust": 9, "aggression": -12, "stability": 10},
+      "offer_food": {"pulse": 0, "requires": "food", "fear": -8, "trust": 8, "stability": 4},
+      "approach_unprepared": {"pulse": 0, "fear": 10, "aggression": 12, "defensive_attack_if_fear_at_least": 85},
+      "subdue": {"pulse": 0, "fear": 18, "trust": -12, "restraint": 35, "starts_capture_check": true},
+      "leave": {"pulse": 0, "ends_encounter": "ghoul_left_alive"},
+      "kill": {"pulse": 0, "ends_encounter": "combat"}
+    },
+    "capture_check": {
+      "base": 48,
+      "creature_resistance": 20,
+      "wound_bonus_from_existing_contract": true,
+      "actor_bonus": {"idris": 12, "nayra": 8, "tarek": 5, "aisha": 6},
+      "trust_bonus_formula": "floor(trust * 0.20)",
+      "fear_penalty_formula": "floor(max(fear-60,0) * 0.25)",
+      "restraint_bonus_formula": "floor(restraint * 0.50)",
+      "stability_bonus_formula": "floor(stability * 0.10)",
+      "success_threshold": 60,
+      "strong_success_threshold": 80,
+      "deterministic_roll_range": [-20, 20],
+      "on_fail": {"fear": 12, "trust": -8, "aggression": 15, "may_start_combat": true},
+      "on_success": "apply_global_capture_wound_rules_then_create_persistent_identity"
+    },
+    "post_recruit": {"identity_persists": true, "history_tags": ["abandoned_wounded", "captured_in_sanctuary_crypt", "fear_origin"], "initial_bond_uses_global_capture_wound_rules": true, "care_uses_global_capture_wound_rules": true, "combat_disabled_until_care_complete": true}
+  },
+  "loot_vs001": {
+    "seeded_authored_mode": true,
+    "currency_name": "or",
+    "rooms": {
+      "s1": {"guaranteed": [], "seed_result": [], "or": 0, "knowledge": ["KNOWLEDGE_PRE_SANCTUARY_STRUCTURE"]},
+      "s2": {"guaranteed_if_disarmed": ["trap_wire_salvage"], "seed_result": [], "or": 0},
+      "s3": {"guaranteed": [], "seed_result": ["field_bandage"], "or": 21, "materials": ["ghoul_tissue_common"]},
+      "s4": {"guaranteed": ["standard_oil", "field_bandage"], "seed_result": ["simple_toolkit"], "or": 8},
+      "s5": {"guaranteed": ["fallen_scout_token"], "seed_result": ["worn_medical_wrap"], "or": 0},
+      "s6": {
+        "recruit_path": {"guaranteed": [], "or": 0},
+        "leave_path": {"guaranteed": [], "or": 0},
+        "kill_path": {"guaranteed": ["ghoul_tissue_common"], "or": 0},
+        "anti_optimization_rule": "No exclusive valuable reward for killing the recruitable ghoul."
+      },
+      "s7": {"guaranteed": ["acoustic_component"], "seed_result": ["rare_resonance_tool"], "or": 38},
+      "s8": {"guaranteed": ["archive_fragment_three_paths"], "seed_result": [], "or": 0, "knowledge": ["KNOWLEDGE_THREE_PATHS_PRE_NAMING"]}
+    },
+    "expected_totals": {"useful_items_min": 7, "useful_items_max": 9, "or_base_seed": 67},
+    "rarity_weights": {"common": 70, "uncommon": 22, "rare": 7, "exceptional": 1, "legendary": 0}
+  },
+  "qa_targets": {
+    "expected_duration_minutes": [25, 35],
+    "target_light_on_objective_entry": [30, 65],
+    "target_noise_typical": [20, 55],
+    "target_party_critical_injuries_max_typical": 2,
+    "recruitment_success_target_after_careful_sequence_percent": [70, 90],
+    "recruitment_success_target_immediate_force_percent": [20, 45],
+    "first_run_secret_discovery_target_percent": [20, 40]
+  }
+}

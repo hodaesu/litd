@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "guardrail_id": "les_veilleurs_vs001_preplaytest_v1",
+  "status": "provisional_baseline",
+  "real_playtest_required_for_final_balance": true,
+  "principle": "Synthetic simulation catches contradictions and regressions; it never replaces a human playtest.",
+  "light": {
+    "primary_metric": "light_on_s7_entry",
+    "target": [30, 65],
+    "synthetic_profiles_required_in_target": ["balanced", "thorough"],
+    "retune_order": ["optional_action_costs", "movement_costs", "item_gains"],
+    "max_single_batch_change_percent": 10,
+    "do_not_tune_to": "rush_profile"
+  },
+  "noise": {
+    "primary_metric": "peak_party_noise_before_s7",
+    "target": [20, 55],
+    "synthetic_profiles_required_in_target": ["balanced", "thorough"],
+    "retune_order": ["action_deltas", "calm_decay", "propagation_attenuation", "enemy_thresholds"],
+    "max_threshold_change_per_batch": 5,
+    "design_rule": "Noise must create readable consequences without granting omniscience to enemy AI."
+  },
+  "ghoul_profiles": {
+    "structural_invariants": [
+      "scout_hp_below_standard",
+      "scout_dodge_above_standard",
+      "scout_initiative_above_standard",
+      "scout_perception_above_standard",
+      "scout_stealth_above_standard",
+      "voracious_hp_above_standard",
+      "voracious_average_damage_above_standard",
+      "voracious_body_threshold_above_standard",
+      "voracious_flee_threshold_below_standard",
+      "scout_flee_threshold_above_standard"
+    ],
+    "human_playtest_metrics": [
+      "rounds_to_defeat",
+      "damage_received_by_party",
+      "critical_injuries_created",
+      "corpse_feast_usage_rate",
+      "warning_cry_usage_rate",
+      "scout_escape_rate",
+      "voracious_survival_rate"
+    ],
+    "max_single_batch_stat_change_percent": 10
+  },
+  "recruitment": {
+    "careful_sequence": {
+      "actions": ["observe", "nayra_lower_guard", "aisha_diagnose", "aisha_treat", "idris_deescalate", "offer_food", "subdue"],
+      "capture_actor": "nayra",
+      "target_percent": [70, 90]
+    },
+    "immediate_force": {
+      "actions": ["subdue"],
+      "capture_actor": "nayra",
+      "target_percent": [20, 45]
+    },
+    "coercive_control": {
+      "actions": ["tarek_block_exit", "subdue"],
+      "capture_actor": "tarek",
+      "diagnostic_only": true
+    },
+    "design_rule": "Careful recruitment should be materially more reliable than immediate force; force remains possible and carries worse relationship history.",
+    "retune_order": ["restraint_bonus", "roll_range", "base", "actor_bonus"],
+    "do_not_optimize": "lost_parts_or_critical_injuries"
+  },
+  "events": {
+    "synthetic_major_events_per_run_target": [1, 3],
+    "human_metric": "meaningful_events_per_25_35_minute_run",
+    "human_target": [1, 4],
+    "retune_order": ["base_check_percent", "cooldown_major_pulses", "noise_modifier", "light_modifier"],
+    "max_base_chance_change_per_batch": 3
+  },
+  "loot": {
+    "base_seed_or": 67,
+    "useful_items_without_conditional_trap_salvage": [7, 9],
+    "s6_kill_premium_allowed": false,
+    "human_metrics": ["extract_value", "consumables_used", "inventory_pressure", "optional_room_value", "kill_vs_recruit_value_gap"],
+    "max_currency_change_per_batch_percent": 12
+  },
+  "secret_s8": {
+    "human_first_run_discovery_target_percent": [20, 40],
+    "synthetic_balance_gate": false,
+    "reason": "Discovery depends primarily on player curiosity and the decision to study S7, which cannot be estimated honestly without playtests."
+  },
+  "tuning_protocol": {
+    "minimum_human_runs_before_first_balance_pass": 12,
+    "minimum_human_runs_before_large_change": 30,
+    "change_one_family_at_a_time": true,
+    "keep_raw_telemetry": true,
+    "record_build_and_seed": true,
+    "never_hide_failed_runs": true
+  }
+}

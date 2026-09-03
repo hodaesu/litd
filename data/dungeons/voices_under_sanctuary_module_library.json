@@ -1,0 +1,187 @@
+{
+  "version": 1,
+  "library_id": "voices_under_sanctuary_modules_v1",
+  "modules": [
+    {
+      "module_id": "voices_s1_vestibule_v1",
+      "pool": "voices_entry",
+      "role": "entry",
+      "biome_tags": ["sanctuary_underworks", "crypt"],
+      "theme_tags": ["three_awakenings", "pre_sanctuary", "observation"],
+      "size_class": "m",
+      "connectors": [
+        {"id": "s1_e", "type": "corridor", "orientation": "east", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]},
+        {"id": "s1_exit", "type": "corridor", "orientation": "west", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]}
+      ],
+      "elevation_profile": "flat_or_minor_steps",
+      "camera_profile": "exploration_to_tactical_same_scene",
+      "combat_profile": "none",
+      "variation_slots": [{"slot_id": "fresco_state", "kind": "prop", "allowed_variants": ["fractured_default", "dust_heavy"]}],
+      "scar_anchors": [{"anchor_id": "voices.s1.fresco", "allowed_scar_types": ["old_blood", "nemesis_mark"], "criticality": "protected"}],
+      "encounter_anchors": [],
+      "resource_anchors": [],
+      "lore_anchors": [{"anchor_id": "voices.s1.fresco_lore", "lore_tags": ["three_awakenings", "pre_sanctuary_structure"]}],
+      "mobile_cost": {"geometry": 1, "materials": 1, "lights": 1, "particles": 0, "decals": 1, "dynamic_bodies": 0},
+      "pc_detail_tier": "enhanced"
+    },
+    {
+      "module_id": "voices_s2_rope_gallery_v1",
+      "pool": "voices_hazard",
+      "role": "hazard",
+      "biome_tags": ["sanctuary_underworks", "crypt"],
+      "theme_tags": ["noise", "trap", "learning"],
+      "size_class": "m",
+      "connectors": [
+        {"id": "s2_w", "type": "corridor", "orientation": "west", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]},
+        {"id": "s2_e", "type": "door", "orientation": "east", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]},
+        {"id": "s2_s", "type": "door", "orientation": "south", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]}
+      ],
+      "elevation_profile": "flat_or_minor_steps",
+      "camera_profile": "exploration_to_tactical_same_scene",
+      "combat_profile": "hazard_tripwire",
+      "variation_slots": [{"slot_id": "tripwire", "kind": "hazard", "allowed_variants": ["armed", "detected", "disarmed", "triggered"]}],
+      "scar_anchors": [{"anchor_id": "voices.s2.tripwire", "allowed_scar_types": ["old_blood"], "criticality": "normal"}],
+      "encounter_anchors": [],
+      "resource_anchors": [{"anchor_id": "voices.s2.salvage", "resource_tags": ["trap_salvage"]}],
+      "lore_anchors": [],
+      "mobile_cost": {"geometry": 2, "materials": 2, "lights": 2, "particles": 1, "decals": 2, "dynamic_bodies": 1},
+      "pc_detail_tier": "enhanced"
+    },
+    {
+      "module_id": "voices_s3_sleepers_v1",
+      "pool": "voices_combat",
+      "role": "combat",
+      "biome_tags": ["sanctuary_underworks", "crypt"],
+      "theme_tags": ["corpse_persistence", "ghouls", "combat"],
+      "size_class": "l",
+      "connectors": [
+        {"id": "s3_w", "type": "door", "orientation": "west", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]},
+        {"id": "s3_e", "type": "corridor", "orientation": "east", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]}
+      ],
+      "elevation_profile": "flat_or_minor_steps",
+      "camera_profile": "exploration_to_tactical_same_scene",
+      "combat_profile": "authored_ghoul_intro",
+      "variation_slots": [{"slot_id": "corpse_layout", "kind": "corpse", "allowed_variants": ["four_bodies", "three_bodies_shifted"]}],
+      "scar_anchors": [{"anchor_id": "voices.s3.corpses", "allowed_scar_types": ["persistent_corpse", "old_blood", "nemesis_mark"], "criticality": "protected"}],
+      "encounter_anchors": [{"anchor_id": "voices.s3.combat", "formation_tags": ["4v3", "corpse_interaction"], "capacity": 3}],
+      "resource_anchors": [{"anchor_id": "voices.s3.loot", "resource_tags": ["enemy_loot", "medical_small"]}],
+      "lore_anchors": [{"anchor_id": "voices.s3.old_body", "lore_tags": ["corpse_predates_ghouls"]}],
+      "mobile_cost": {"geometry": 3, "materials": 2, "lights": 2, "particles": 1, "decals": 3, "dynamic_bodies": 2},
+      "pc_detail_tier": "enhanced"
+    },
+    {
+      "module_id": "voices_s4_forgotten_store_v1",
+      "pool": "voices_resource",
+      "role": "resource",
+      "biome_tags": ["sanctuary_underworks", "crypt"],
+      "theme_tags": ["resource", "curiosity", "experiment"],
+      "size_class": "s",
+      "connectors": [{"id": "s4_n", "type": "door", "orientation": "north", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]}],
+      "elevation_profile": "flat_or_minor_steps",
+      "camera_profile": "exploration_to_tactical_same_scene",
+      "combat_profile": "none",
+      "variation_slots": [
+        {"slot_id": "shelves", "kind": "prop", "allowed_variants": ["collapsed_left", "collapsed_right"]},
+        {"slot_id": "basin", "kind": "lighting", "allowed_variants": ["black_still"]}
+      ],
+      "scar_anchors": [{"anchor_id": "voices.s4.black_basin", "allowed_scar_types": ["defiled_altar", "old_blood"], "criticality": "normal"}],
+      "encounter_anchors": [],
+      "resource_anchors": [{"anchor_id": "voices.s4.supplies", "resource_tags": ["light", "medical", "tool"]}],
+      "lore_anchors": [{"anchor_id": "voices.s4.basin_lore", "lore_tags": ["black_basin", "experiment"]}],
+      "mobile_cost": {"geometry": 2, "materials": 2, "lights": 2, "particles": 1, "decals": 2, "dynamic_bodies": 1},
+      "pc_detail_tier": "enhanced"
+    },
+    {
+      "module_id": "voices_s5_fractured_crypt_v1",
+      "pool": "voices_narrative",
+      "role": "narrative",
+      "biome_tags": ["sanctuary_underworks", "crypt"],
+      "theme_tags": ["investigation", "corpse_analysis", "acoustics"],
+      "size_class": "l",
+      "connectors": [
+        {"id": "s5_w", "type": "corridor", "orientation": "west", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]},
+        {"id": "s5_s", "type": "door", "orientation": "south", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]},
+        {"id": "s5_e", "type": "door", "orientation": "east", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]}
+      ],
+      "elevation_profile": "flat_or_minor_steps",
+      "camera_profile": "exploration_to_tactical_same_scene",
+      "combat_profile": "none",
+      "variation_slots": [{"slot_id": "scout_corpse", "kind": "corpse", "allowed_variants": ["fresh_body_default", "dragged_marks_visible"]}],
+      "scar_anchors": [{"anchor_id": "voices.s5.scout_corpse", "allowed_scar_types": ["persistent_corpse", "old_blood"], "criticality": "protected"}],
+      "encounter_anchors": [],
+      "resource_anchors": [{"anchor_id": "voices.s5.scout_gear", "resource_tags": ["quest_token", "medical_worn"]}],
+      "lore_anchors": [
+        {"anchor_id": "voices.s5.body_analysis", "lore_tags": ["moved_after_death", "trail_to_survivor"]},
+        {"anchor_id": "voices.s5.wall_voice", "lore_tags": ["acoustic_clue"]}
+      ],
+      "mobile_cost": {"geometry": 2, "materials": 2, "lights": 2, "particles": 1, "decals": 2, "dynamic_bodies": 1},
+      "pc_detail_tier": "enhanced"
+    },
+    {
+      "module_id": "voices_s6_survivor_v1",
+      "pool": "voices_recruitment",
+      "role": "choice",
+      "biome_tags": ["sanctuary_underworks", "crypt"],
+      "theme_tags": ["recruitment", "fear", "care", "choice"],
+      "size_class": "m",
+      "connectors": [{"id": "s6_n", "type": "door", "orientation": "north", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]}],
+      "elevation_profile": "flat_or_minor_steps",
+      "camera_profile": "exploration_to_tactical_same_scene",
+      "combat_profile": "authored_nonhostile_recruitment",
+      "variation_slots": [{"slot_id": "wounded_ghoul", "kind": "encounter_geometry", "allowed_variants": ["cornered", "near_exit"]}],
+      "scar_anchors": [{"anchor_id": "voices.s6.recruit_history", "allowed_scar_types": ["persistent_corpse", "nemesis_mark", "enemy_occupation_change"], "criticality": "protected"}],
+      "encounter_anchors": [{"anchor_id": "voices.s6.survivor", "formation_tags": ["single_wounded", "recruitment"], "capacity": 1}],
+      "resource_anchors": [],
+      "lore_anchors": [],
+      "mobile_cost": {"geometry": 2, "materials": 2, "lights": 2, "particles": 1, "decals": 2, "dynamic_bodies": 1},
+      "pc_detail_tier": "enhanced"
+    },
+    {
+      "module_id": "voices_s7_voice_chamber_v1",
+      "pool": "voices_objective",
+      "role": "combat",
+      "biome_tags": ["sanctuary_underworks", "crypt"],
+      "theme_tags": ["acoustics", "objective", "choice", "ghouls"],
+      "size_class": "xl",
+      "connectors": [
+        {"id": "s7_w", "type": "door", "orientation": "west", "width_m": 1.8, "height_m": 2.5, "level": 0, "compatibility_tags": ["voices_underworks"]},
+        {"id": "s7_down", "type": "secret", "orientation": "down", "width_m": 1.4, "height_m": 2.1, "level": -1, "compatibility_tags": ["voices_underworks", "secret_archive"], "hidden": true}
+      ],
+      "elevation_profile": "flat_or_minor_steps",
+      "camera_profile": "exploration_to_tactical_same_scene",
+      "combat_profile": "authored_objective_combat",
+      "variation_slots": [
+        {"slot_id": "acoustic_device", "kind": "destructible", "allowed_variants": ["intact", "disabled", "destroyed", "studied"]},
+        {"slot_id": "corpse_layout", "kind": "corpse", "allowed_variants": ["ritual_scatter", "feeding_cluster"]}
+      ],
+      "scar_anchors": [
+        {"anchor_id": "voices.s7.device", "allowed_scar_types": ["major_item_removed", "burned_area", "nemesis_mark"], "criticality": "protected"},
+        {"anchor_id": "voices.s7.corpses", "allowed_scar_types": ["persistent_corpse", "old_blood"], "criticality": "normal"}
+      ],
+      "encounter_anchors": [{"anchor_id": "voices.s7.combat", "formation_tags": ["4v3", "objective_room", "corpse_interaction"], "capacity": 3}],
+      "resource_anchors": [{"anchor_id": "voices.s7.component", "resource_tags": ["objective_component", "rare_tool"]}],
+      "lore_anchors": [{"anchor_id": "voices.s7.device_lore", "lore_tags": ["acoustics", "sanctuary_foundations"]}],
+      "mobile_cost": {"geometry": 3, "materials": 2, "lights": 2, "particles": 1, "decals": 3, "dynamic_bodies": 2},
+      "pc_detail_tier": "hero"
+    },
+    {
+      "module_id": "voices_s8_lower_archive_v1",
+      "pool": "voices_archive",
+      "role": "secret",
+      "biome_tags": ["sanctuary_underworks", "crypt"],
+      "theme_tags": ["secret", "archive", "three_paths", "knowledge"],
+      "size_class": "m",
+      "connectors": [{"id": "s8_up", "type": "secret", "orientation": "up", "width_m": 1.4, "height_m": 2.1, "level": 0, "compatibility_tags": ["voices_underworks", "secret_archive"]}],
+      "elevation_profile": "flat_or_minor_steps",
+      "camera_profile": "exploration_to_tactical_same_scene",
+      "combat_profile": "none",
+      "variation_slots": [{"slot_id": "archive_state", "kind": "prop", "allowed_variants": ["burned_partial", "collapsed_partial"]}],
+      "scar_anchors": [{"anchor_id": "voices.s8.archive", "allowed_scar_types": ["major_item_removed", "old_blood"], "criticality": "protected"}],
+      "encounter_anchors": [],
+      "resource_anchors": [{"anchor_id": "voices.s8.fragment", "resource_tags": ["knowledge_quest_item"]}],
+      "lore_anchors": [{"anchor_id": "voices.s8.three_paths", "lore_tags": ["three_paths_pre_naming", "concord_origins"]}],
+      "mobile_cost": {"geometry": 2, "materials": 2, "lights": 2, "particles": 1, "decals": 2, "dynamic_bodies": 1},
+      "pc_detail_tier": "hero"
+    }
+  ]
+}

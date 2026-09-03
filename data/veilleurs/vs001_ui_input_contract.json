@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "contract_id": "les_veilleurs_vs001_ui_input_v1",
+  "principles": {
+    "same_gameplay_all_platforms": true,
+    "same_macro_topology_all_platforms": true,
+    "presentation_may_expand_on_pc": true,
+    "long_press_required": false,
+    "hover_required": false,
+    "irreversible_action_requires_explicit_validation": true,
+    "information_request_never_executes_irreversible_action": true,
+    "touch_target_min_points": 48,
+    "safe_area_required_on_mobile": true,
+    "controller_pointer_dependency": false
+  },
+  "abstract_commands": [
+    "MoveCommand",
+    "InteractCommand",
+    "InspectCommand",
+    "UseItemCommand",
+    "CombatCommand",
+    "MapCommand",
+    "RecruitCommand",
+    "ExtractCommand",
+    "CancelCommand",
+    "ConfirmCommand"
+  ],
+  "interaction_fsm": {
+    "combat": ["actor_select", "skill_select", "target_preview", "target_select", "body_zone_optional", "confirm_if_irreversible", "resolve"],
+    "exploration": ["idle", "target_select", "context_preview", "action_select", "confirm_if_irreversible", "resolve"],
+    "inventory": ["browse", "item_select", "details", "use_or_equip", "confirm_if_destructive", "resolve"],
+    "recruitment": ["observe", "action_select", "state_preview", "capture_or_leave_or_fight", "confirm_if_irreversible", "resolve"]
+  },
+  "profiles": {
+    "phone": {
+      "layout": "compact_contextual",
+      "primary_input": "touch",
+      "combat_action": "tap_skill_then_tap_target",
+      "inspect": "tap_explicit_inspect_or_details",
+      "navigation": "tap_destination_and_swipe_lists",
+      "drag_usage": ["reorder", "equipment", "storage"],
+      "long_press": "optional_shortcut_only",
+      "context_surface": "bottom_sheet_or_finger_avoiding_popup",
+      "persistent_panels": 0,
+      "max_primary_combat_actions_visible": 6,
+      "body_targeting": "optional_auto_or_explicit_zone",
+      "minimum_target_points": 48,
+      "supports_left_handed_layout": true
+    },
+    "tablet": {
+      "layout": "expanded_contextual",
+      "primary_input": "touch",
+      "combat_action": "tap_skill_then_tap_target",
+      "inspect": "tap_explicit_inspect_or_details",
+      "navigation": "tap_destination_and_swipe_lists",
+      "drag_usage": ["reorder", "equipment", "storage"],
+      "long_press": "optional_shortcut_only",
+      "context_surface": "side_panel_when_space_allows",
+      "persistent_panels": 1,
+      "max_primary_combat_actions_visible": 6,
+      "body_targeting": "optional_auto_or_explicit_zone",
+      "minimum_target_points": 48,
+      "supports_left_handed_layout": true
+    },
+    "desktop": {
+      "layout": "expanded_information",
+      "primary_input": "mouse_keyboard",
+      "combat_action": "click_or_shortcut_skill_then_click_target",
+      "inspect": "hover_preview_plus_explicit_right_click_or_inspect",
+      "navigation": "wasd_or_click_destination",
+      "drag_usage": ["reorder", "equipment", "storage"],
+      "persistent_panels": 2,
+      "body_targeting": "hover_preview_then_click_or_auto",
+      "keyboard_defaults": {
+        "move": ["WASD", "ZQSD"],
+        "interact": "E",
+        "confirm": ["Enter", "Space"],
+        "cancel": "Escape",
+        "skills": ["1", "2", "3", "4", "5", "6"],
+        "watchers": ["F1", "F2", "F3", "F4"],
+        "inventory": "I",
+        "map": "M",
+        "status": "H",
+        "sprint": "Shift"
+      },
+      "mouse_defaults": {"left": "select_or_validate", "right": "inspect_or_cancel_context", "wheel": "scroll_lists", "hover": "preview_only"}
+    },
+    "controller": {
+      "layout": "focus_navigation",
+      "primary_input": "gamepad",
+      "combat_action": "skill_focus_then_target_focus_then_confirm",
+      "inspect": "dedicated_inspect_action",
+      "navigation": "left_stick_or_dpad",
+      "targeting": "right_stick_or_dpad_context",
+      "confirm": "south_face_button",
+      "cancel": "east_face_button",
+      "watcher_cycle": "shoulder_buttons",
+      "skill_category_cycle": "triggers",
+      "focus_ring_required": true,
+      "pointer_dependency": false,
+      "steam_deck_compatible_goal": true
+    }
+  },
+  "vs001_states": [
+    "EXPEDITION_PREP",
+    "EXPLORATION_IDLE",
+    "EXPLORATION_MOVE",
+    "INTERACTION_SELECT",
+    "TRAP_DISCOVERED",
+    "CURIO_INTERACTION",
+    "BODY_INSPECTION",
+    "RECRUITMENT_INTERACTION",
+    "COMBAT_ENTER",
+    "COMBAT",
+    "COMBAT_EXIT",
+    "LOOT",
+    "MAP",
+    "INVENTORY",
+    "EXTRACTION_CONFIRM",
+    "EXPEDITION_RESULT"
+  ],
+  "hud_contract": {
+    "exploration_default": "world_first_transient_hud",
+    "combat_default": "decision_hud",
+    "inspection_default": "full_details",
+    "max_simultaneous_transient_items": 3,
+    "fear_hope_as_postures_not_permanent_gauges": true,
+    "body_injury_summary_levels": ["combat_summary", "tap_or_hover_detail", "inspection_full"],
+    "feedback": {
+      "touch_selection": "light_haptic_if_available",
+      "touch_validation": "medium_haptic_if_available",
+      "critical_hit": "distinct_haptic_if_available",
+      "controller": "short_rumble_if_enabled",
+      "keyboard_mouse": "visual_and_audio_only_by_default"
+    }
+  },
+  "confirmation_rules": {
+    "requires_confirmation": [
+      "extract_before_objective",
+      "discard_rare_or_better_item",
+      "destroy_objective_device",
+      "kill_recruitable_s6_ghoul_after_nonhostile_state",
+      "spend_last_critical_consumable_if_setting_enabled"
+    ],
+    "no_extra_confirmation": [
+      "normal_combat_attack_after_target_selected",
+      "move",
+      "inspect",
+      "open_map",
+      "open_inventory",
+      "read_knowledge"
+    ]
+  },
+  "accessibility": {
+    "ui_scale_adjustable": true,
+    "text_scale_adjustable": true,
+    "reduced_motion": true,
+    "reduce_flashes": true,
+    "gore_modes_preserve_mechanics": true,
+    "haptics_toggle": true,
+    "controller_rumble_toggle": true,
+    "probability_display_toggle": true,
+    "left_handed_touch_layout": true,
+    "no_color_only_critical_information": true
+  },
+  "existing_runtime_alignment": {
+    "hud_director": "res://scripts/ui/hud_director.gd",
+    "context_hud": "res://scripts/ui/context_hud.gd",
+    "expedition_manager": "res://scripts/core/expedition_manager.gd",
+    "exploration_director": "res://scripts/core/exploration_director.gd",
+    "existing_project_actions_reused": ["confirm", "back", "context_menu", "status_hud", "move_left", "move_right", "move_up", "move_down", "sprint", "interact", "camera_zoom_in", "camera_zoom_out", "game_menu"],
+    "new_actions_to_add_when_runtime_integration_begins": ["map", "inventory", "inspect", "skill_1", "skill_2", "skill_3", "skill_4", "skill_5", "skill_6", "watcher_1", "watcher_2", "watcher_3", "watcher_4"]
+  }
+}

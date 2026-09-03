@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "map_id": "voices_under_sanctuary_authored_vs001",
+  "seed": "WATCHERS_VERTICAL_001",
+  "entry": "s1_vestibule",
+  "objective": "s7_voice_chamber",
+  "rooms": [
+    {"id": "s1_vestibule", "module_id": "voices_s1_vestibule_v1", "critical": true},
+    {"id": "s2_rope_gallery", "module_id": "voices_s2_rope_gallery_v1", "critical": true},
+    {"id": "s3_sleepers", "module_id": "voices_s3_sleepers_v1", "critical": true},
+    {"id": "s4_forgotten_store", "module_id": "voices_s4_forgotten_store_v1", "critical": false},
+    {"id": "s5_fractured_crypt", "module_id": "voices_s5_fractured_crypt_v1", "critical": true},
+    {"id": "s6_survivor", "module_id": "voices_s6_survivor_v1", "critical": false},
+    {"id": "s7_voice_chamber", "module_id": "voices_s7_voice_chamber_v1", "critical": true},
+    {"id": "s8_lower_archive", "module_id": "voices_s8_lower_archive_v1", "critical": false, "secret": true}
+  ],
+  "connections": [
+    {"a": "s1_vestibule", "b": "s2_rope_gallery", "type": "corridor"},
+    {"a": "s2_rope_gallery", "b": "s3_sleepers", "type": "door"},
+    {"a": "s2_rope_gallery", "b": "s4_forgotten_store", "type": "door"},
+    {"a": "s3_sleepers", "b": "s5_fractured_crypt", "type": "corridor"},
+    {"a": "s5_fractured_crypt", "b": "s6_survivor", "type": "door"},
+    {"a": "s5_fractured_crypt", "b": "s7_voice_chamber", "type": "door"},
+    {"a": "s7_voice_chamber", "b": "s8_lower_archive", "type": "secret", "locked_by": "s7_study_acoustic_device"}
+  ],
+  "invariants": {
+    "s8_never_required": true,
+    "s6_never_required": true,
+    "physical_retreat_to_entry": true,
+    "scene_snapshot_persistence": false
+  }
+}
