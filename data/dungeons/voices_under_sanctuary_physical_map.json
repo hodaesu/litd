@@ -1,0 +1,190 @@
+{
+  "version": 1,
+  "layout_id": "voices_under_sanctuary_physical_vs001",
+  "logical_map": "res://data/dungeons/voices_under_sanctuary_map.json",
+  "seed": "WATCHERS_VERTICAL_001",
+  "coordinate_system": "godot_y_up_meters",
+  "design_rules": {
+    "mobile_first": true,
+    "physical_backtracking": true,
+    "critical_path_readable_without_minimap": true,
+    "optional_rooms_never_block_objective": true,
+    "secret_room_below_objective_level": true,
+    "scene_snapshot_persistence": false,
+    "navigation_bake_required_after_art_pass": true
+  },
+  "rooms": [
+    {
+      "id": "s1_vestibule",
+      "display_name": "Vestibule des Trois Traces",
+      "center": [0.0, 0.0, 0.0],
+      "size": [12.0, 4.0, 10.0],
+      "role": "entry",
+      "critical": true,
+      "openings": ["east", "west"],
+      "blender_asset_slot": "VEILLEURS_VS001_S1_VESTIBULE"
+    },
+    {
+      "id": "s2_rope_gallery",
+      "display_name": "Galerie des Cordes",
+      "center": [16.0, 0.0, 0.0],
+      "size": [12.0, 4.0, 10.0],
+      "role": "hazard",
+      "critical": true,
+      "openings": ["west", "east", "south"],
+      "blender_asset_slot": "VEILLEURS_VS001_S2_ROPE_GALLERY"
+    },
+    {
+      "id": "s3_sleepers",
+      "display_name": "Salle des Dormeurs",
+      "center": [34.0, 0.0, 0.0],
+      "size": [16.0, 5.0, 12.0],
+      "role": "combat",
+      "critical": true,
+      "openings": ["west", "east"],
+      "blender_asset_slot": "VEILLEURS_VS001_S3_SLEEPERS"
+    },
+    {
+      "id": "s4_forgotten_store",
+      "display_name": "Réserve Oubliée",
+      "center": [16.0, 0.0, 14.0],
+      "size": [10.0, 4.0, 8.0],
+      "role": "resource",
+      "critical": false,
+      "optional": true,
+      "openings": ["north"],
+      "blender_asset_slot": "VEILLEURS_VS001_S4_FORGOTTEN_STORE"
+    },
+    {
+      "id": "s5_fractured_crypt",
+      "display_name": "Crypte Fracturée",
+      "center": [54.0, 0.0, 0.0],
+      "size": [16.0, 5.0, 12.0],
+      "role": "narrative",
+      "critical": true,
+      "openings": ["west", "east", "south"],
+      "blender_asset_slot": "VEILLEURS_VS001_S5_FRACTURED_CRYPT"
+    },
+    {
+      "id": "s6_survivor",
+      "display_name": "Recoin du Survivant",
+      "center": [54.0, 0.0, 15.0],
+      "size": [12.0, 4.0, 10.0],
+      "role": "recruitment",
+      "critical": false,
+      "optional": true,
+      "openings": ["north"],
+      "blender_asset_slot": "VEILLEURS_VS001_S6_SURVIVOR"
+    },
+    {
+      "id": "s7_voice_chamber",
+      "display_name": "Chambre des Voix",
+      "center": [76.0, 0.0, 0.0],
+      "size": [20.0, 6.0, 16.0],
+      "role": "objective",
+      "critical": true,
+      "openings": ["west", "south"],
+      "blender_asset_slot": "VEILLEURS_VS001_S7_VOICE_CHAMBER"
+    },
+    {
+      "id": "s8_lower_archive",
+      "display_name": "Archive Basse",
+      "center": [84.0, -4.0, 18.0],
+      "size": [14.0, 4.0, 10.0],
+      "role": "secret",
+      "critical": false,
+      "optional": true,
+      "secret": true,
+      "openings": ["north"],
+      "blender_asset_slot": "VEILLEURS_VS001_S8_LOWER_ARCHIVE"
+    }
+  ],
+  "connections": [
+    {
+      "id": "c_s1_s2",
+      "a": "s1_vestibule",
+      "b": "s2_rope_gallery",
+      "type": "corridor",
+      "width": 2.4,
+      "waypoints": [[6.0, 0.0, 0.0], [10.0, 0.0, 0.0]]
+    },
+    {
+      "id": "c_s2_s3",
+      "a": "s2_rope_gallery",
+      "b": "s3_sleepers",
+      "type": "door",
+      "width": 2.4,
+      "waypoints": [[22.0, 0.0, 0.0], [26.0, 0.0, 0.0]]
+    },
+    {
+      "id": "c_s2_s4",
+      "a": "s2_rope_gallery",
+      "b": "s4_forgotten_store",
+      "type": "door",
+      "optional": true,
+      "width": 2.4,
+      "waypoints": [[16.0, 0.0, 5.0], [16.0, 0.0, 10.0]]
+    },
+    {
+      "id": "c_s3_s5",
+      "a": "s3_sleepers",
+      "b": "s5_fractured_crypt",
+      "type": "corridor",
+      "width": 2.4,
+      "waypoints": [[42.0, 0.0, 0.0], [46.0, 0.0, 0.0]]
+    },
+    {
+      "id": "c_s5_s6",
+      "a": "s5_fractured_crypt",
+      "b": "s6_survivor",
+      "type": "door",
+      "optional": true,
+      "width": 2.4,
+      "waypoints": [[54.0, 0.0, 6.0], [54.0, 0.0, 10.0]]
+    },
+    {
+      "id": "c_s5_s7",
+      "a": "s5_fractured_crypt",
+      "b": "s7_voice_chamber",
+      "type": "door",
+      "width": 2.4,
+      "waypoints": [[62.0, 0.0, 0.0], [66.0, 0.0, 0.0]]
+    },
+    {
+      "id": "c_s7_s8",
+      "a": "s7_voice_chamber",
+      "b": "s8_lower_archive",
+      "type": "secret_stair",
+      "secret": true,
+      "locked_by": "s7_study_acoustic_device",
+      "width": 1.8,
+      "waypoints": [[82.0, 0.0, 8.0], [83.0, -2.0, 11.0], [84.0, -4.0, 13.0]]
+    }
+  ],
+  "gameplay_anchors": [
+    {"id": "entry_spawn", "room": "s1_vestibule", "role": "entry_spawn", "position": [-4.5, 0.1, 0.0]},
+    {"id": "extraction_gate", "room": "s1_vestibule", "role": "physical_extraction", "position": [-6.0, 0.1, 0.0]},
+    {"id": "s1_fresco", "room": "s1_vestibule", "role": "lore", "source_anchor": "voices.s1.fresco_lore", "position": [0.0, 0.1, -4.0]},
+    {"id": "s2_tripwire", "room": "s2_rope_gallery", "role": "hazard", "source_anchor": "voices.s2.tripwire", "position": [16.0, 0.1, 0.0]},
+    {"id": "s2_salvage", "room": "s2_rope_gallery", "role": "resource", "source_anchor": "voices.s2.salvage", "position": [18.0, 0.1, 2.0]},
+    {"id": "s3_combat", "room": "s3_sleepers", "role": "combat", "source_anchor": "voices.s3.combat", "position": [34.0, 0.1, 0.0]},
+    {"id": "s3_corpses", "room": "s3_sleepers", "role": "corpse_cluster", "source_anchor": "voices.s3.corpses", "position": [36.5, 0.1, 2.5]},
+    {"id": "s4_supplies", "room": "s4_forgotten_store", "role": "resource", "source_anchor": "voices.s4.supplies", "position": [16.0, 0.1, 14.0]},
+    {"id": "s4_black_basin", "room": "s4_forgotten_store", "role": "curio", "source_anchor": "voices.s4.black_basin", "position": [18.5, 0.1, 15.5]},
+    {"id": "s5_scout_corpse", "room": "s5_fractured_crypt", "role": "corpse", "source_anchor": "voices.s5.scout_corpse", "position": [54.0, 0.1, 0.0]},
+    {"id": "s5_wall_voice", "room": "s5_fractured_crypt", "role": "lore", "source_anchor": "voices.s5.wall_voice", "position": [59.5, 0.1, -4.5]},
+    {"id": "s6_survivor", "room": "s6_survivor", "role": "recruitment", "source_anchor": "voices.s6.survivor", "position": [54.0, 0.1, 15.0]},
+    {"id": "s7_combat", "room": "s7_voice_chamber", "role": "combat", "source_anchor": "voices.s7.combat", "position": [74.0, 0.1, 0.0]},
+    {"id": "s7_acoustic_device", "room": "s7_voice_chamber", "role": "objective_device", "source_anchor": "voices.s7.device", "position": [80.0, 0.1, 0.0]},
+    {"id": "s7_secret_stair", "room": "s7_voice_chamber", "role": "secret_reveal", "position": [82.0, 0.1, 6.5]},
+    {"id": "s8_archive", "room": "s8_lower_archive", "role": "secret_archive", "source_anchor": "voices.s8.archive", "position": [84.0, -3.9, 18.0]},
+    {"id": "s8_fragment", "room": "s8_lower_archive", "role": "knowledge", "source_anchor": "voices.s8.fragment", "position": [87.0, -3.9, 18.0]}
+  ],
+  "budgets": {
+    "max_proxy_meshes": 180,
+    "max_collision_shapes": 180,
+    "max_dynamic_bodies": 0,
+    "target_visible_rooms_mobile": 3,
+    "target_visible_rooms_tablet_pc": 5
+  }
+}
