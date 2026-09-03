@@ -75,6 +75,7 @@ func initialize_enemy(enemy: Dictionary, heroes: Array) -> int:
     var starting := int(round(party_threat(heroes) * multiplier))
     var trait_modifiers: Dictionary = CharacterTraitDirector.modifiers(enemy)
     starting -= int(round(float(trait_modifiers.get("fear_resistance", 0.0))))
+    starting -= int(enemy.get("remanence_fear_resistance", 0))
     starting = clampi(starting, int(courage.get("minimum_starting_fear", 0)), 100)
     enemy["enemy_fear"] = starting
     enemy["enemy_fear_state"] = state_for(starting)
@@ -109,10 +110,10 @@ func change_fear(enemy: Dictionary, delta: int, reason: String) -> Dictionary:
     var before := clampi(int(enemy.get("enemy_fear", 0)), 0, 100)
     var after := clampi(before + delta, 0, 100)
     enemy["enemy_fear"] = after
-    enemy["enemy_fear_state"] = state_for(after)
+    enemy["enemy_fear_state"] = state_for(_effective_fear(enemy))
     if before != after:
         enemy_fear_changed.emit(enemy, before, after, reason)
-    return {"before": before, "after": after, "delta": after - before, "state": state_for(after), "reason": reason}
+    return {"before": before, "after": after, "delta": after - before, "state": state_for(_effective_fear(enemy)), "reason": reason}
 
 func state_for(value: int) -> String:
     var fear := clampi(value, 0, 100)
@@ -128,7 +129,7 @@ func state_for(value: int) -> String:
     return "calm"
 
 func combat_modifiers(enemy: Dictionary) -> Dictionary:
-    var state := state_for(int(enemy.get("enemy_fear", 0)))
+    var state := state_for(_effective_fear(enemy))
     if state == "calm":
         return {"state": state, "accuracy_multiplier": 1.0, "damage_multiplier": 1.0, "retreat_bias": 0.0}
     var values: Dictionary = data.get("gameplay", {}).get(state, {})
@@ -137,7 +138,7 @@ func combat_modifiers(enemy: Dictionary) -> Dictionary:
     return result
 
 func body_psychological_state(enemy: Dictionary) -> String:
-    var state := state_for(int(enemy.get("enemy_fear", 0)))
+    var state := state_for(_effective_fear(enemy))
     if state == "wary":
         return "tense"
     if state == "shaken" or state == "terrified":
@@ -147,11 +148,15 @@ func body_psychological_state(enemy: Dictionary) -> String:
     return "neutral"
 
 func should_panic(enemy: Dictionary, round_number: int) -> bool:
-    if state_for(int(enemy.get("enemy_fear", 0))) != "panic":
+    var effective := _effective_fear(enemy)
+    if state_for(effective) != "panic":
         return false
     var chance := float(data.get("gameplay", {}).get("panic", {}).get("panic_action_chance", 0.45))
-    var seed_text := "%s|%d|%d" % [str(enemy.get("id", enemy.get("name", "enemy"))), round_number, int(enemy.get("enemy_fear", 0))]
+    var seed_text := "%s|%d|%d" % [str(enemy.get("id", enemy.get("name", "enemy"))), round_number, effective]
     return float(abs(seed_text.hash()) % 1000) / 1000.0 < chance
+
+func _effective_fear(enemy: Dictionary) -> int:
+    return clampi(int(enemy.get("enemy_fear", 0)) - int(enemy.get("remanence_fear_resistance", 0)), 0, 100)
 
 func record_deed(hero: Dictionary, deed_id: String, amount: int = 1, family_id: String = "") -> void:
     var hero_id: String = str(hero.get("id", ""))
