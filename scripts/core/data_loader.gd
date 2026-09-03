@@ -22,6 +22,7 @@ var les_veilleurs_bestiary_missing_roles: Dictionary = {}
 var les_veilleurs_bestiary_rank_ladders: Dictionary = {}
 var les_veilleurs_combat_kits: Dictionary = {}
 var les_veilleurs_encounter_compositions: Dictionary = {}
+var les_veilleurs_acts_1_2: Dictionary = {}
 
 func _ready() -> void:
     reload_all()
@@ -70,6 +71,8 @@ func reload_all() -> void:
     les_veilleurs_combat_kits = veilleurs_combat_kits_value if typeof(veilleurs_combat_kits_value) == TYPE_DICTIONARY else {}
     var veilleurs_encounters_value = load_json("res://data/canon/les_veilleurs_encounter_compositions.json")
     les_veilleurs_encounter_compositions = veilleurs_encounters_value if typeof(veilleurs_encounters_value) == TYPE_DICTIONARY else {}
+    var veilleurs_acts_value = load_json("res://data/canon/les_veilleurs_acts_1_2.json")
+    les_veilleurs_acts_1_2 = veilleurs_acts_value if typeof(veilleurs_acts_value) == TYPE_DICTIONARY else {}
 
 func find_by_id(items: Array, id_value: Variant) -> Dictionary:
     for item in items:
@@ -323,6 +326,47 @@ func les_veilleurs_encounters_for_act(act_id: String) -> Array[Dictionary]:
                     var encounter: Dictionary = encounter_value if encounter_value is Dictionary else {}
                     result.append(encounter.duplicate(true))
             break
+    return result
+
+func les_veilleurs_act(act_id: String) -> Dictionary:
+    var values: Variant = les_veilleurs_acts_1_2.get("acts", [])
+    var acts: Array = values if values is Array else []
+    return find_by_id(acts, act_id).duplicate(true)
+
+func les_veilleurs_zone(zone_id: String) -> Dictionary:
+    var values: Variant = les_veilleurs_acts_1_2.get("acts", [])
+    if values is Array:
+        for act_value: Variant in values:
+            var act: Dictionary = act_value if act_value is Dictionary else {}
+            var zones: Variant = act.get("zones", [])
+            if zones is Array:
+                for zone_value: Variant in zones:
+                    var zone: Dictionary = zone_value if zone_value is Dictionary else {}
+                    if str(zone.get("id", "")) == zone_id:
+                        return zone.duplicate(true)
+    return {}
+
+func les_veilleurs_recruit_event_chain(chain_id: String) -> Dictionary:
+    var values: Variant = les_veilleurs_acts_1_2.get("recruit_event_chains", [])
+    var chains: Array = values if values is Array else []
+    return find_by_id(chains, chain_id).duplicate(true)
+
+func les_veilleurs_hub_stage(stage_id: String) -> Dictionary:
+    var values: Variant = les_veilleurs_acts_1_2.get("hub_progression", [])
+    var stages: Array = values if values is Array else []
+    return find_by_id(stages, stage_id).duplicate(true)
+
+func les_veilleurs_remanence_bundle(bundle_id: String) -> Dictionary:
+    var values: Variant = les_veilleurs_acts_1_2.get("remanence_bundles", [])
+    var bundles: Array = values if values is Array else []
+    return find_by_id(bundles, bundle_id).duplicate(true)
+
+func les_veilleurs_runtime_pending() -> Array[String]:
+    var result: Array[String] = []
+    var values: Variant = les_veilleurs_acts_1_2.get("runtime_pending", [])
+    if values is Array:
+        for value: Variant in values:
+            result.append(str(value))
     return result
 
 func knowledge_remanence_stages() -> Array[String]:
