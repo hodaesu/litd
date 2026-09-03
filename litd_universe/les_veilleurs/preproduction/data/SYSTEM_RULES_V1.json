@@ -1,57 +1,79 @@
 {
-  "version": 1,
+  "version": 2,
+  "status": "CURRENT_SYSTEM_BASELINE",
+  "canonical_source": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx",
   "party": {"max_size": 4, "min_veilleurs": 1},
   "refuge": {
     "capacity_by_level": {"I": 4, "II": 6, "III": 8, "IV": 10, "V": 12},
-    "levels": {"I":"survivre","II":"organiser","III":"spécialiser","IV":"institutionnaliser","V":"communauté"},
-    "event_families": ["COHABITATION","CONFLIT","RAPPROCHEMENT","SOUVENIR","BESOIN_BIOLOGIQUE","BESOIN_PSYCHOLOGIQUE","TRANSFORMATION","TRAVAIL","DECOUVERTE","DEPART","CRISE","POLITIQUE"],
-    "departure_states": ["STABLE","DISCOMFORT","INTENTION_TO_LEAVE","REQUEST","RESOLUTION"],
-    "crisis_states": ["WARNING","DEVELOPING","CRITICAL","RESOLVED","AFTERMATH"]
-  },
-  "economy": {
-    "persistent_resources": ["OR","PROVISIONS","MATERIAUX","REMEDES"],
-    "knowledge_is_currency": false,
-    "knowledge_states": ["UNKNOWN","SUSPECTED","OBSERVED","CONFIRMED","UNDERSTOOD"]
+    "status": "system_design_retained_pending_godot_validation",
+    "event_families": ["COHABITATION","CONFLIT","RAPPROCHEMENT","SOUVENIR","BESOIN_BIOLOGIQUE","BESOIN_PSYCHOLOGIQUE","TRANSFORMATION","TRAVAIL","DECOUVERTE","DEPART","CRISE","POLITIQUE"]
   },
   "relationships": {
     "axes": ["CONFIANCE","RESPECT","PEUR","RESSENTIMENT"],
-    "confidence_labels": ["NULLE","FRAGILE","PRUDENTE","ETABLIE","FORTE","ABSOLUE"],
-    "respect_labels": ["MEPRIS","FAIBLE","RECONNAISSANCE","FORT","PROFOND"],
-    "fear_labels": ["AUCUNE","MALAISE","CRAINTE","FORTE","TERREUR"],
-    "resentment_labels": ["AUCUN","IRRITATION","MARQUE","PROFOND","HAINE"]
+    "status": "system_design_retained"
+  },
+  "knowledge": {
+    "is_currency": false,
+    "states": ["UNKNOWN","SUSPECTED","OBSERVED","CONFIRMED","UNDERSTOOD"]
+  },
+  "encounter_reward_baseline": {
+    "source_sheet": "Recompenses_capture",
+    "columns_present": ["Or cible", "Essence cible", "Rémanence cible", "Butin", "Capture", "Bonus connaissance"],
+    "essence_status": "PRESENT_IN_LATEST_REFERENCE_FUNCTION_TO_VALIDATE",
+    "note": "Do not delete Essence from imported encounter data. Its broader economy function must be reconciled in Godot/GDD before treating it as a persistent spendable currency."
   },
   "ralliement": {
-    "methods": ["SUBMISSION","SURRENDER","RESCUE","PACT","ACCLIMATION"],
-    "visible_target_states": ["HOSTILE","AFFAIBLI","HESITANT","TERRIFIE","ISOLE","PRET_A_CEDER","INCONSCIENT","INSTABLE"],
     "display_capture_probability": false,
     "capture_is_recruitment": false,
     "injuries_reset_on_rally": false,
-    "rules": {
-      "species.delie.rampant":"affaiblissement + isolement + interruption du comportement prédateur",
-      "species.delie.rabatteur":"rompre la dynamique de meute ou produire une issue alternative crédible",
-      "species.delie.porteur":"comprendre ce qu'il transporte avant traitement/ralliement",
-      "species.delie.rememorant":"interaction avec ce qu'il reconnaît ou mémorise",
-      "species.delie.vestige_concorde":"reconnaissance d'un geste, symbole, discipline ou valeur de Concorde",
-      "species.retourne.manutentionnaire":"interrompre la fonction automatique puis proposer une fonction compréhensible",
-      "species.retourne.guetteur":"neutraliser puis supprimer/comprendre la menace surveillée",
-      "species.retourne.archiviste":"préserver ou comprendre ce qu'il défend",
-      "species.retourne.garde":"comprendre ce qu'il protège",
-      "species.retourne.lucide_intermittent":"fenêtre de lucidité + choix volontaire",
-      "species.silencieux.ecouteur":"neutralisation sensorielle + comportement non menaçant",
-      "species.silencieux.bondisseur":"entraver la mobilité sans destruction anatomique majeure",
-      "species.silencieux.imitateur":"interactions répétées permettant de distinguer hostile/non hostile",
-      "species.silencieux.veilleur_muet":"comprendre ce qu'il surveille ou pourquoi il reste",
-      "species.silencieux.oreille_profonde":"NON_RALLIABLE",
-      "species.veines.germe":"compatibilité biologique + interaction contrôlée",
-      "species.veines.epine":"séparation du réseau ou changement de fonction du réseau local",
-      "species.veines.hote_veine":"choix de l'Hôte autant que possible",
-      "species.veines.noeud":"NON_RALLIABLE",
-      "species.veines.coeur_reseau":"NON_RALLIABLE",
-      "species.porte_cendres.souffleur_gris":"neutralisation physique + gestion du milieu",
-      "species.porte_cendres.cuirasse":"briser la capacité de combat sans destruction structurelle",
-      "species.porte_cendres.disperse":"comprendre et maintenir l'intégrité de l'individu",
-      "species.porte_cendres.nodule":"NON_RALLIABLE",
-      "species.porte_cendres.porte_tombe":"respect/compréhension du mort protégé"
-    }
+    "bosses_recruitable": false,
+    "act_i_rule": "The eight ordinary Act I entities are marked 'Auxiliaire possible; ne remplace jamais un Veilleur'. The master source does not provide a more precise numeric capture condition for them; do not invent one.",
+    "current_conditions": {
+      "enemy.ecouteur_creux":"Sous 30 % de vitalité + rompre son suivi sonore deux fois dans le même combat",
+      "enemy.porte_signe":"Sous 35 % + neutraliser ses deux mains sans les détruire",
+      "enemy.marcheur_aphone":"Sous 25 % + l’isoler de tout autre Silencieux pendant un round complet",
+      "enemy.reteneur_de_souffle":"Sous 30 % + interrompre sa troisième retenue sans l’achever",
+      "enemy.veine_rampante":"Sous 35 % + couper son lien au réseau sans détruire son noyau",
+      "enemy.noeud_ecorche":"Sous 25 % + empêcher toute absorption de cadavre durant deux rounds",
+      "enemy.porte_sang":"Sous 30 % + déconnecter ses liens de transfert sans provoquer d’hémorragie létale",
+      "enemy.germe_arteriel":"Sous 40 % + détruire toutes ses vrilles actives mais préserver le bulbe",
+      "enemy.marche_pale":"Sous 25 % + interrompre sa procession sans le mettre au sol",
+      "enemy.porte_linceul":"Sous 35 % + révéler sa vraie position trois fois dans le même combat",
+      "enemy.effaceur_de_traces":"Sous 30 % + conserver une marque ou un indice malgré deux tentatives d’effacement",
+      "enemy.dormeur_de_cendre":"Sous 30 % + le rendormir ou l’apaiser après son réveil sans le tuer",
+      "enemy.copie_lacunaire":"Sous 25 % + provoquer trois échecs de copie différents sans la détruire",
+      "enemy.rature_vivante":"Sous 35 % + maintenir un état de terrain qu’elle tente de rayer pendant deux rounds",
+      "enemy.archiviste_de_version":"Sous 30 % + saturer sa mémoire en utilisant quatre familles d’actions distinctes",
+      "enemy.double_du_seuil":"Sous 25 % + rompre sa symétrie de position trois fois"
+    },
+    "auxiliary_roles": {
+      "enemy.ecouteur_creux":"Reconnaissance : Observation et détection d’embuscade",
+      "enemy.porte_signe":"Coordination : signaux muets, préparation et camp",
+      "enemy.marcheur_aphone":"Garde : tenir un passage ou escorter",
+      "enemy.reteneur_de_souffle":"Halte : respiration, Peur et récupération",
+      "enemy.veine_rampante":"Pistage souterrain : passages organiques et ressources",
+      "enemy.noeud_ecorche":"Défense du Sanctuaire : ancrage et barricade organique temporaire",
+      "enemy.porte_sang":"Médical risqué : connaissances vasculaires et ressources biologiques",
+      "enemy.germe_arteriel":"Culture : matériaux organiques et sols fertiles/anormaux",
+      "enemy.marche_pale":"Convoi : déplacement, retrait et logistique",
+      "enemy.porte_linceul":"Dissimulation : réduction de détection sur certaines expéditions",
+      "enemy.effaceur_de_traces":"Contre-pistage : protection des routes et réduction d’embuscades",
+      "enemy.dormeur_de_cendre":"Garde du Sanctuaire : sentinelle immobile",
+      "enemy.copie_lacunaire":"Entraînement : reproduction limitée de gestes connus",
+      "enemy.rature_vivante":"Entretien : suppression de certaines traces dangereuses au Sanctuaire",
+      "enemy.archiviste_de_version":"Archives : conservation et comparaison des Rémanences",
+      "enemy.double_du_seuil":"Défense : copie d’une posture défensive choisie au début d’une mission"
+    },
+    "non_recruitable": [
+      "boss.ishar_gardien_du_passage",
+      "boss.orateur_sans_voix",
+      "boss.mere_des_veines",
+      "boss.porte_cendres_blanc",
+      "boss.le_copiste"
+    ]
+  },
+  "legacy": {
+    "bestiar​y_25_75":"legacy/BESTIARY_REGISTRY_LEGACY_25_75.json",
+    "ralliement_25_75":"legacy/SYSTEM_RULES_LEGACY_25_75.json"
   }
 }
