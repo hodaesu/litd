@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "scope": "litd_les_veilleurs_remanence_pre_pc",
+  "required_runtime_behaviors": [
+    "persistent_enemy_identity",
+    "persistent_watcher_corpses",
+    "memorial_enemy_corpses",
+    "world_scar_aging",
+    "great_remanence_promotion",
+    "hybrid_dungeon_scar_injection",
+    "nemesis_room_assignment",
+    "remembered_enemy_reappearance",
+    "persistent_anatomy",
+    "adaptive_enemy_targeting",
+    "adaptive_capture_resistance",
+    "adaptive_fear_resistance",
+    "archives_search_and_filters",
+    "mobile_proxy_budgets",
+    "save_restore_compatibility"
+  ],
+  "pc_only_validation": [
+    "iphone_ipad_visual_touch_validation",
+    "pc_keyboard_mouse_controller_validation",
+    "real_device_memory_and_fps_profiling",
+    "final_corpse_and_nemesis_assets",
+    "blender_gore_variants_and_lods",
+    "lighting_decals_vfx_and_readability",
+    "long_session_playtest_and_balance"
+  ]
+}

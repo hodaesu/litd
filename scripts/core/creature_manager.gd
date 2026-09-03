@@ -107,6 +107,7 @@ func capture_chance(enemy: Dictionary) -> int:
     var hp_ratio: float = float(enemy.get("hp", max_hp)) / float(max_hp)
     var missing_hp_bonus: int = int(round((1.0 - hp_ratio) * 70.0))
     var base_chance := 55 - int(capture.get("resistance", 0)) + missing_hp_bonus
+    base_chance -= int(enemy.get("remanence_capture_resistance", 0))
     return clampi(base_chance, 5, 90)
 
 func attempt_capture(enemy: Dictionary) -> Dictionary:

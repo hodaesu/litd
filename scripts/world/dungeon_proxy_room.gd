@@ -1,6 +1,7 @@
 extends Node3D
 
 signal exit_reached(target_room_id: String)
+signal remanence_interaction(scar_id: String, result: Dictionary)
 
 const EXPLORER_SCENE := preload("res://scenes/dungeon/DungeonProxyExplorer.tscn")
 const ASH_GUIDANCE_POLICY_SCRIPT := preload("res://scripts/core/ash_guidance_policy.gd")
@@ -50,6 +51,7 @@ func _rebuild() -> void:
 
     _add_anchor_markers(room_spec.get("anchors", {}))
     _add_interaction_markers(room_spec.get("interaction_points", []))
+    _add_remanence_proxies(room_spec.get("remanence_scars", []), dimensions)
     _add_obstacle_proxies(str(proxy.get("role", "generic")), dimensions)
 
     for port_value in ports:
@@ -66,6 +68,8 @@ func _rebuild() -> void:
         explorer.position = anchors.get("hero_spawn", Vector3(0.0, 0.2, -2.0))
         explorer.name = "Explorer"
         add_child(explorer)
+        if explorer.has_signal("interaction_requested") and not explorer.is_connected("interaction_requested", _on_explorer_interaction):
+            explorer.connect("interaction_requested", _on_explorer_interaction)
         _configure_boss_guidance(dimensions, ports)
 
 func _configure_boss_guidance(dimensions: Vector3, ports: Array) -> void:
@@ -173,6 +177,7 @@ func _add_interaction_markers(points: Array) -> void:
         var marker := Marker3D.new()
         marker.name = str(point.get("id", "interaction"))
         marker.position = point.get("position", Vector3.ZERO)
+        marker.set_meta("interaction_id", str(point.get("id", "interaction")))
         marker.set_meta("interaction_label", str(point.get("label", "")))
         root.add_child(marker)
         var visual := MeshInstance3D.new()
@@ -182,6 +187,107 @@ func _add_interaction_markers(points: Array) -> void:
         visual.position = marker.position
         visual.name = "POI_%s" % marker.name
         root.add_child(visual)
+
+func _add_remanence_proxies(scars: Array, dimensions: Vector3) -> void:
+    var root := Node3D.new()
+    root.name = "RemanenceScars"
+    add_child(root)
+    var usable_x := maxf(2.0, dimensions.x * 0.55)
+    var usable_z := maxf(2.0, dimensions.z * 0.45)
+    for index in range(scars.size()):
+        var scar_value: Variant = scars[index]
+        if not (scar_value is Dictionary):
+            continue
+        var scar: Dictionary = scar_value
+        var scar_id := str(scar.get("id", ""))
+        if scar_id == "":
+            continue
+        var scar_type := str(scar.get("type", "trace"))
+        var seed := absi(scar_id.hash())
+        var x_ratio := float(seed % 1000) / 999.0
+        var z_ratio := float((seed / 1000) % 1000) / 999.0
+        var position_value := Vector3((x_ratio - 0.5) * usable_x, 0.0, (z_ratio - 0.5) * usable_z)
+        var marker := Marker3D.new()
+        marker.name = "Scar_%03d" % index
+        marker.position = position_value
+        marker.set_meta("scar_id", scar_id)
+        marker.set_meta("scar_type", scar_type)
+        marker.set_meta("interaction_id", scar_id)
+        marker.set_meta("interaction_label", _scar_interaction_label(scar))
+        marker.set_meta("summary", str(scar.get("summary", "")))
+        root.add_child(marker)
+
+        var visual := MeshInstance3D.new()
+        var mesh := BoxMesh.new()
+        match scar_type:
+            "persistent_corpse":
+                mesh.size = Vector3(1.6, 0.24, 0.58)
+                visual.position = position_value + Vector3(0.0, 0.12, 0.0)
+                visual.set_meta("blender_asset_slot", "remanence/persistent_corpse")
+            "nemesis_mark":
+                mesh.size = Vector3(0.34, 1.55, 0.34)
+                visual.position = position_value + Vector3(0.0, 0.78, 0.0)
+                visual.set_meta("blender_asset_slot", "remanence/nemesis_mark")
+            _:
+                mesh.size = Vector3(1.1, 0.06, 0.8)
+                visual.position = position_value + Vector3(0.0, 0.03, 0.0)
+                visual.set_meta("blender_asset_slot", "remanence/%s" % scar_type)
+        visual.mesh = mesh
+        visual.name = "Visual_%03d" % index
+        visual.set_meta("scar_id", scar_id)
+        visual.set_meta("scar_type", scar_type)
+        root.add_child(visual)
+
+func _scar_interaction_label(scar: Dictionary) -> String:
+    var scar_type := str(scar.get("type", "trace"))
+    var payload: Dictionary = scar.get("payload", {})
+    match scar_type:
+        "persistent_corpse": return "Examiner le corps de %s" % str(payload.get("owner_name", "l'inconnu"))
+        "nemesis_mark": return "Examiner la marque du Némésis"
+        _:
+            var effect: Dictionary = {}
+            if RemanenceCombatBridge.world_director != null:
+                effect = RemanenceCombatBridge.world_director.rules.get("scar_effects", {}).get(scar_type, {})
+            return "Examiner la Rémanence" if bool(effect.get("interaction", false)) else ""
+
+func nearest_interaction_for(world_position: Vector3, radius: float) -> Dictionary:
+    var best: Dictionary = {}
+    var best_distance := maxf(0.0, radius)
+    for root_name in ["InteractionAnchors", "RemanenceScars"]:
+        var root := get_node_or_null(root_name)
+        if root == null:
+            continue
+        for child_value: Node in root.get_children():
+            if not (child_value is Node3D):
+                continue
+            var child := child_value as Node3D
+            var label := str(child.get_meta("interaction_label", ""))
+            if label == "":
+                continue
+            var distance := child.global_position.distance_to(world_position)
+            if distance > best_distance:
+                continue
+            best_distance = distance
+            best = {
+                "id": str(child.get_meta("interaction_id", child.name)),
+                "label": label,
+                "distance": distance
+            }
+    return best
+
+func _on_explorer_interaction(interaction_id: String, _label: String) -> void:
+    if not interaction_id.begins_with("scar:"):
+        return
+    if RemanenceCombatBridge.world_director == null or not RemanenceCombatBridge.world_director.has_method("visit_scar"):
+        return
+    var result_value: Variant = RemanenceCombatBridge.world_director.call("visit_scar", interaction_id)
+    if not (result_value is Dictionary):
+        return
+    var result: Dictionary = result_value
+    if not bool(result.get("ok", false)):
+        return
+    GameState.add_log(str(result.get("text", "Le monde se souvient.")))
+    remanence_interaction.emit(interaction_id, result.duplicate(true))
 
 func _add_obstacle_proxies(role: String, dimensions: Vector3) -> void:
     var root := Node3D.new()
@@ -278,5 +384,7 @@ func room_summary() -> Dictionary:
         "port_count": (room_spec.get("ports", []) as Array).size(),
         "visible_exit_count": visible_targets.size(),
         "has_explorer": explorer != null,
-        "exits_enabled": exits_enabled
+        "exits_enabled": exits_enabled,
+        "remanence_scar_count": (room_spec.get("remanence_scars", []) as Array).size(),
+        "nemesis_entity_id": str(room_spec.get("nemesis_entity_id", ""))
     }

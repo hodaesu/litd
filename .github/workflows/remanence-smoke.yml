@@ -1,0 +1,20 @@
+name: Remanence Smoke
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  remanence-smoke:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import strict du projet
+        run: godot --headless --path . --import --quit
+      - name: Rémanence des Veilleurs
+        run: godot --headless --path . res://scenes/tests/remanence_smoke.tscn

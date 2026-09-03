@@ -21,6 +21,10 @@ static func build(run_state: Dictionary = {}) -> Dictionary:
     if not bool(plan.get("ok", false)) or bool(plan.get("fallback", false)):
         return plan
 
+    plan = HybridDungeonGenerator.apply_remanence(plan, _active_world_scars())
+    if RemanenceCombatBridge.world_director != null and RemanenceCombatBridge.world_director.has_method("decorate_plan"):
+        plan = RemanenceCombatBridge.world_director.call("decorate_plan", plan)
+
     var unresolved: Array[String] = []
     for node in plan.get("nodes", []):
         if str(node.get("module_id", "")) != "":
@@ -42,6 +46,13 @@ static func build(run_state: Dictionary = {}) -> Dictionary:
             "fallback_authored_map": plan.get("fallback_authored_map", "")
         }
     return plan
+
+static func _active_world_scars() -> Array:
+    var scars: Array = []
+    for scar_value: Variant in RemanenceRuntime.world_scars.values():
+        if scar_value is Dictionary:
+            scars.append((scar_value as Dictionary).duplicate(true))
+    return scars
 
 static func _all_nodes_have_modules(nodes: Array) -> bool:
     for node in nodes:
