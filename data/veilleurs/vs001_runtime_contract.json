@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "contract_id": "les_veilleurs_vs001_runtime_v1",
+  "implementation": {
+    "balance_runtime": "res://scripts/core/veilleurs_vs001_runtime.gd",
+    "session_runtime": "res://scripts/core/veilleurs_vs001_session_runtime.gd",
+    "smoke_scene": "res://scenes/tests/veilleurs_vs001_smoke.tscn"
+  },
+  "session_state_required": [
+    "active",
+    "seed",
+    "current_room",
+    "previous_room",
+    "visited_rooms",
+    "pulse_index",
+    "light",
+    "noise",
+    "peak_noise",
+    "objective_complete",
+    "s2_tripwire",
+    "s6_outcome",
+    "s6_state",
+    "s7_device",
+    "s8_unlocked",
+    "s8_discovered",
+    "knowledge",
+    "scars",
+    "loot",
+    "or_found",
+    "extraction_reason"
+  ],
+  "terminal_states": {
+    "s2_tripwire": ["triggered", "salvaged"],
+    "s6_outcome": ["recruited", "left_alive", "killed"],
+    "s7_device": ["destroyed", "disabled", "studied"]
+  },
+  "invariants": {
+    "s8_requires_s7_studied": true,
+    "s6_optional": true,
+    "s8_optional": true,
+    "objective_required_for_normal_completion": true,
+    "physical_backtracking_supported": true,
+    "light_range": [0, 100],
+    "noise_range": [0, 100],
+    "serialization_deep_copy": true,
+    "scene_snapshot_persistence_forbidden": true,
+    "recruitment_uses_global_capture_wound_contract": true
+  },
+  "integration_boundaries": {
+    "world_scene": "calls session navigation and interaction methods",
+    "combat_scene": "reports rounds, injuries, corpses and outcomes into session",
+    "hud": "reads snapshot and never owns authoritative gameplay state",
+    "save_manager": "persists serialized session state",
+    "remanence": "persists knowledge/scars/history outside scene snapshots",
+    "telemetry": "observes state transitions without changing outcomes"
+  },
+  "not_yet_scene_integrated": [
+    "physical_room_instances",
+    "real_combat_bridge",
+    "corpse_nodes",
+    "touch_desktop_controller_views",
+    "global_save_bridge",
+    "telemetry_emitter",
+    "audio_visual_feedback"
+  ]
+}
