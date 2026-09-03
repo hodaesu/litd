@@ -1,4 +1,13 @@
-# LITD : Les Veilleurs — Contrats techniques V1
+# LITD : Les Veilleurs — Contrats techniques V2
+
+## Principe d'import
+
+Ne jamais imposer au référentiel maître des champs qu'il ne possède pas. Séparer :
+
+1. **SourceRecord** — reproduction fidèle des colonnes du classeur canonique.
+2. **RuntimeDefinition** — structure Godot enrichie par normalisation, dérivation et données supplémentaires explicitement validées.
+
+Une donnée runtime absente de la source doit être marquée `derived`, `defaulted` ou `author_required`; elle ne doit jamais être présentée comme une valeur récupérée.
 
 ## Couches
 
@@ -8,29 +17,47 @@ SYSTEMS : logique pure et services.
 PRESENTATION : UI, animation, FX, audio.
 PERSISTENCE : sérialisation, migration, intégrité.
 
-Aucun écran ne doit décider directement d'une règle de gameplay.
+Aucun écran ne décide directement d'une règle de gameplay.
 
 ## IDs
 
-Les IDs sont stables, ASCII et indépendants du texte affiché. Ne jamais sauvegarder un display_name comme clé métier.
+IDs stables, ASCII et indépendants du texte affiché. Ne jamais sauvegarder un `display_name` comme clé métier.
 
-Exemples : veilleur.v01, tree.v01.a, ability.v01.a.01, species.delie.rampant, orientation.delie.rampant.fouisseur.
+Les IDs historiques des tables sources peuvent contenir accents/espaces. À l'import : conserver `source_id` tel quel et générer un `runtime_id` ASCII stable via une table de correspondance versionnée ; ne jamais régénérer ce mapping à chaque lancement.
 
-## AbilityDefinition / SkillData canonique
+## SourceAbilityRecord — colonnes canoniques Veilleurs
 
-Champs du template antérieur réintégrés :
+La feuille `Compétences_180` fournit exactement :
 
-id; owner_scope; tree_id; slot_index; rank; tier; display_name_key; description_key; action_type; targeting_mode; range_profile; endurance_cost; maintenance_cost; material_cost; preparation_profile; recovery_profile; required_body_functions[]; forbidden_body_states[]; impact_types[]; physical_power; precision; user_risk; allowed_zones[]; preferred_zones[]; lesion_rules[]; functional_effects[]; dismemberment_eligibility; armor_interaction; environment_interaction; noise_profile; vibration_profile; biological_profile; friendly_fire; prerequisites[]; synergy_tags[]; ai_tags[]; animation_intent; fx_tags[]; knowledge_reveal.
+ID; Veilleur; Arbre; Niveau; Nom; Type; Fonction; Positions; Cible; Impacts; Zones privilégiées; Puissance qual.; Puissance 0-5; Précision qual.; Précision base %; Lésions possibles; Conséquences fonctionnelles; Démembrement; Interaction armure; Interaction environnement; Risque utilisateur; Tags; Cooldown; Charges; Conditions; Variante si blessé; Variante équipement; Note Godot.
 
-`endurance_cost` représente la dépense corporelle immédiate ; `maintenance_cost` un maintien éventuel ; `material_cost` une ressource/munition/outil concret si la compétence l'exige ; `preparation_profile` et `recovery_profile` représentent PREP/REC sans imposer encore des durées numériques finales.
+Le premier importeur doit accepter ces colonnes sans exiger `PREP`, `REC`, coût d'endurance, coût matériel ou autres champs provenant d'anciens templates.
 
-Validation : un arbre contient exactement 15 AbilityDefinition distinctes ; un UltimateDefinition séparé ; aucun ID dupliqué ; toutes les références résolues ; toute capacité offensive possède au moins un impact ou un effet systémique explicite ; toute capacité exigeant une partie du corps déclare ses fonctions requises ; tout coût matériel doit référencer une ressource existante ; PREP/REC ne peuvent être absents que pour une action explicitement instantanée/neutre.
+## RuntimeAbilityDefinition
 
-## UltimateDefinition
+Champs minimaux dérivables/normalisables :
 
-id; tree_id; display_name_key; declaration_beat; commitment_beat; contact_or_phenomenon_beat; consequence_beat; aftermath_beat; body_requirements[]; target_rules; systemic_resolution; environment_hooks[]; failure_or_interruption_rules; endurance_cost; material_cost; preparation_profile; recovery_profile; animation_intent; audio_intent.
+runtime_id; source_id; owner_id; tree_id; unlock_level; slot_index; display_name; action_type; function_text; valid_positions; target_rule; impact_tags[]; preferred_zones[]; qualitative_power; source_power_0_5; qualitative_precision; source_precision_percent; lesion_rules; functional_consequences; dismemberment_rule; armor_interaction; environment_interaction; user_risk; tags[]; cooldown_rule; charges_rule; conditions; injured_variant; equipment_variant; godot_note; provenance.
 
-Un ultime ne contourne pas gratuitement géométrie, anatomie, armure ou environnement. Son nombre d'usages et son rythme exact restent PROTOTYPE.
+Champs runtime supplémentaires possibles : required_body_functions[], forbidden_body_states[], sensory_emission, animation_intent, normalized_costs. Ils sont **enrichissements** et doivent avoir une provenance distincte.
+
+Validation : exactement 15 compétences normales par arbre ; niveau/slot cohérents ; source_id unique ; runtime_id unique ; propriétaire/arbre résolus ; toute compétence physique conserve impacts, zones, lésions, armure et environnement de la source.
+
+## SourceUltimateRecord
+
+La feuille `Ultimes_12` fournit :
+
+Veilleur; Arbre; Ultime; Mécanique; Charges; Limite combat; Condition; Puissance; Garde-fou; Beat 1; Beat 2; Beat 3; Beat 4; Beat 5; Beat 6; Beat 7; Beat 8.
+
+Ne pas réduire ces 8 beats à cinq champs lors de l'import.
+
+Baseline source : N16=1 / N32=2 / N48=3 ; une activation maximum du même ultime par rencontre ; pas d'invulnérabilité ni résurrection.
+
+## RuntimeUltimateDefinition
+
+runtime_id; owner_id; tree_id; display_name; mechanic; charge_progression; encounter_limit; conditions; qualitative_power; safeguard; beats[8]; body_requirements[]; normalized_systemic_effects; provenance.
+
+Les règles corporelles supplémentaires viennent du moteur systémique, pas d'une réécriture du texte source.
 
 ## Anatomie
 
@@ -40,21 +67,19 @@ BodyPartDefinition : id, parent, functions[], tissue_tags[], vital_tags[], sever
 
 BodyPartState : part_id, present, functionality, injuries[], protection_state, replacements[], adaptations[].
 
-Familles minimales : humanoïde, quadrupède, arachnide, ailé, serpentin, massif, aberrant. Une espèce ne doit jamais être forcée dans un squelette humanoïde.
+Familles minimales nécessaires au roster actuel : humanoïde, humanoïde altéré, quadrupède, quadrupède massif, construct/minéral, serpentin organique, amorphe organique, insectoïde végétal-organique, humanoïde cendreux, amorphe de version, construct humanoïde/de version. Les anatomies non verrouillées des boss restent `author_required`, jamais déduites arbitrairement.
 
 ## Impacts et lésions
 
-ImpactType V1 : BLUNT, CUTTING, PIERCING, TEARING, CRUSHING, THERMAL, CHEMICAL_BIOLOGICAL, PRESSURE_RESPIRATORY.
+Normalisation runtime initiale : BLUNT, CUTTING, PIERCING, TEARING, CRUSHING, THERMAL, CHEMICAL_BIOLOGICAL, PRESSURE_RESPIRATORY. Cette taxonomie sert au resolver mais ne doit pas écraser les chaînes source plus spécifiques.
 
-LesionType V1 : CONTUSION, LACERATION, PUNCTURE, FRACTURE, DISLOCATION, MUSCLE_TENDON_RUPTURE, EXTERNAL_BLEEDING, INTERNAL_BLEEDING, BURN, CRUSH_INJURY, SEVERANCE, ORGAN_TRAUMA.
-
-Les lésions produisent d'abord des conséquences fonctionnelles. Les HP globaux peuvent exister comme abstraction de robustesse, mais ne doivent pas remplacer l'état du corps.
+Lésions runtime : CONTUSION, LACERATION, PUNCTURE, FRACTURE, DISLOCATION, MUSCLE_TENDON_RUPTURE, EXTERNAL_BLEEDING, INTERNAL_BLEEDING, BURN, CRUSH_INJURY, SEVERANCE, ORGAN_TRAUMA.
 
 ## Pipeline de résolution corporelle
 
-ActionIntent -> TargetValidation -> Preparation -> ContactResolution -> ArmorResolution -> TissueResolution -> LesionCreation -> FunctionalConsequences -> Bleeding/Pain/Respiration/Will -> DismembermentCheck -> Death/IncapacityCheck -> Recovery -> EventEmission -> Presentation.
+ActionIntent -> TargetValidation -> Timeline/Preparation si applicable -> ContactResolution -> ArmorResolution -> TissueResolution -> LesionCreation -> FunctionalConsequences -> Bleeding/Pain/Respiration/Will -> DismembermentCheck -> Death/IncapacityCheck -> Recovery si applicable -> EventEmission -> Presentation.
 
-Le démembrement est autorisé uniquement si : anatomie severable + impact compatible + puissance/état de zone suffisant + armure ne bloque pas + règle de compétence autorise la conséquence. Aucun proc de rareté ne crée un membre perdu.
+Le démembrement exige anatomie sectionnable + impact compatible + état de zone + puissance + armure + autorisation de la compétence. Aucun proc de rareté ne crée un membre perdu.
 
 ## EquipmentDefinition
 
@@ -62,33 +87,27 @@ WeaponDefinition : id, grip_requirements[], body_function_requirements[], reach_
 
 ArmorDefinition : id, covered_zones[], material, rigidity, absorption_profile, deflection_profile, penetration_resistance, condition_model, mobility_cost, noise_profile, heat_or_breathing_effects, tags[].
 
-L'armure protège des zones concrètes et modifie aussi SPE, mobilité et respiration lorsque cohérent.
-
 ## CharacterState
 
 unique_id; definition_id; seed; level; xp; body_state; equipment_state; traits[]; current_conditions[]; relationship_refs[]; memory_refs[]; status; location_ref.
 
-RecruitState ajoute orientation_id, evolution_stage, refuge_assignment, rally_method, rally_context, release_state.
+RecruitState courant : source_enemy_id; selected_tree_id; specialization_locked; refuge_assignment; rally_context; auxiliary_role; release_state. Ne pas imposer `orientation_id` du système legacy 25/75.
 
 ## RelationshipState
 
 target_id; confidence; respect; fear; resentment; recent_trend; important_memory_refs[].
 
-Le joueur voit des niveaux qualitatifs ; les valeurs internes exactes restent implémentation.
-
 ## MemoryEvent
 
 id; type; participants[]; location_id; expedition_id; importance; emotional_tags[]; factual_tags[]; certainty; accuracy; created_at; last_recalled_at.
 
-Importance : TRIVIAL, MINOR, SIGNIFICANT, MAJOR, FOUNDATIONAL.
-
-Trois couches par individu : foundational, significant, recent. Compression permise pour les répétitions cohérentes.
+Mémoire bornée : fondatrice, significative, récente ; compression des répétitions autorisée sans perdre les événements structurants.
 
 ## SensoryEvent
 
 id; source_id; position_or_zone; channel; intensity; tags[]; duration; environment_modifier; created_turn.
 
-Canaux : VISUAL, NOISE, ODOR, VIBRATION, BIOLOGICAL. Les perturbations particulaires utilisent tags/médium spécialisés.
+Canaux : VISUAL, NOISE, ODOR, VIBRATION, BIOLOGICAL ; cendre/particules via tags et médiums spécialisés.
 
 SensoryMemory : source_hypothesis, estimated_location, certainty, interpretation, age, supporting_event_refs[].
 
@@ -100,42 +119,48 @@ Vigilance : UNAWARE, CURIOUS, SUSPICIOUS, SEARCHING, CONFIRMED, ENGAGED.
 
 Volonté : COMPOSED, PRESSURED, SHAKEN, BREAKING, BROKEN.
 
-Goals V1 : ATTACK, PROTECT, ESCAPE, INVESTIGATE, RALLY_ALLIES, HOLD_POSITION, SEEK_COVER, SURRENDER, RECOVER_BODY, BREAK_CONNECTION.
+Une IA n'utilise jamais une information qu'elle n'a ni perçue, ni reçue via un relais valide, ni mémorisée.
 
-Une IA n'utilise jamais une information qu'elle n'a ni perçue, ni reçue d'un relais valide, ni mémorisée.
+Les priorités IA spécifiques des actes II–V sont déjà dans le référentiel maître et doivent être importées avant génération de nouvelles heuristiques.
 
 ## Ralliement
 
-RecruitmentDefinition : species_id, methods[], required_states[], forbidden_states[], knowledge_requirements[], anatomy_requirements[], special_conditions[], transport_requirements[], post_rally_requirements[].
+RecruitmentDefinition : source_enemy_id, admissible, source_condition, auxiliary_role, body_state_requirements, knowledge_requirements, transport_requirements, provenance.
 
-Méthodes : SUBMISSION, SURRENDER, RESCUE, PACT, ACCLIMATION.
-
-Ralliement et capture sont des états distincts. Les blessures persistent après ralliement.
+Capture et ralliement restent distincts ; blessures persistantes ; bosses non ralliables. Les conditions source sont prioritaires sur les anciennes règles 25/75.
 
 ## Cadavre
 
-CorpseState : unique_id, original_character_id, species_id, location_ref, body_state_snapshot_ref, equipment_refs[], death_cause, decay_state, colonization_state, protection_state, memory_tags[].
+CorpseState : unique_id, original_character_id, source_enemy_id, location_ref, body_state_snapshot_ref, equipment_refs[], death_cause, decay_state, colonization_state, protection_state, memory_tags[].
 
-Le cadavre reste le même objet narratif au travers des transformations de colonisation/déplacement.
+Même identité de cadavre malgré déplacement/colonisation.
 
 ## ZoneScar
 
 zone_id; scar_type; anchor_id; state; related_entities[]; created_expedition; persistence_rule.
 
-Types V1 : DOOR_DESTROYED, BODY_LEFT, BRIDGE_COLLAPSED, VEIN_GROWTH, ASH_SATURATION, OBJECT_REMOVED, MEMORIAL_EVENT.
-
 ## SaveGame
 
-save_version; campaign; veilleur_states; recruit_registry; enemy_memory_registry; corpse_registry; refuge; knowledge; world_scars; narrative_flags; rng_state.
+save_version; content_schema_version; canonical_pack_version; campaign; veilleur_states; recruit_registry; enemy_memory_registry; corpse_registry; refuge; knowledge; world_scars; narrative_flags; rng_state.
 
-Autosave transactionnel A/B. Écrire -> valider intégrité -> basculer actif. Migration obligatoire entre versions de schéma.
+Autosave transactionnel A/B ; migration obligatoire des schémas.
 
 ## EventBus
 
-Événements structurants : CHARACTER_INJURED, BODY_PART_LOST, CHARACTER_DIED, CORPSE_CREATED, ENEMY_SURRENDERED, RECRUIT_JOINED, MEMORY_CREATED, RELATIONSHIP_CHANGED, KNOWLEDGE_DISCOVERED, REFUGE_EVENT_STARTED, ZONE_SCAR_CREATED, SENSORY_EVENT_EMITTED.
-
-Les systèmes réagissent aux événements plutôt que de se coupler directement.
+CHARACTER_INJURED, BODY_PART_LOST, CHARACTER_DIED, CORPSE_CREATED, ENEMY_SURRENDERED, RECRUIT_JOINED, MEMORY_CREATED, RELATIONSHIP_CHANGED, KNOWLEDGE_DISCOVERED, REFUGE_EVENT_STARTED, ZONE_SCAR_CREATED, SENSORY_EVENT_EMITTED.
 
 ## RNG déterministe
 
-Flux indépendants : WORLD, ENCOUNTER, INDIVIDUAL, LOOT, NARRATIVE. Un appel RNG dans l'UI ou un système sans rapport ne doit jamais changer les traits persistants ou reroll un objet déjà créé.
+Flux indépendants : WORLD, ENCOUNTER, INDIVIDUAL, LOOT, NARRATIVE. L'UI n'appelle jamais un RNG qui pourrait modifier une donnée persistante.
+
+## Provenance obligatoire
+
+Chaque définition importée doit pouvoir répondre à :
+
+- de quel fichier/onglet vient-elle ?
+- quel est son `source_id` ?
+- quelle version du pack l'a produite ?
+- quels champs ont été normalisés ?
+- quels champs ont été enrichis après import ?
+
+C'est le garde-fou principal contre une nouvelle divergence entre conversation, tableur et runtime Godot.
