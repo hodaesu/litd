@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "id": "les_veilleurs_quartet",
+  "status": "canonical_quartet_identity_and_act_hooks_locked",
+  "game": "LITD: Les Veilleurs",
+  "rules": [
+    "Le groupe jouable principal compte exactement quatre Veilleurs.",
+    "Aurélien appartient aux Sept Héros légendaires de LITD1 et ne fait pas partie de ce quatuor.",
+    "Sahen Varo, Mira Sen, Narem Osh et Ysra Nahal ne remplacent pas ce quatuor canonique.",
+    "Les relations interpersonnelles fines ne sont pas inventées ici lorsqu'elles ne sont pas déjà verrouillées.",
+    "Chaque identité de combat doit avoir une traduction tactile mobile et une traduction clavier/souris/manette PC.",
+    "Les blessures persistantes peuvent modifier une fonction de combat sans effacer l'identité du personnage."
+  ],
+  "characters": [
+    {
+      "id": "V01",
+      "name": "Nayra Orun",
+      "title": "La Garde",
+      "age": null,
+      "age_status": "not_locked_here",
+      "weapons": ["lance courte", "grand bouclier"],
+      "combat_position": "frontline",
+      "identity": "protection, contrôle spatial, collisions, traumatismes lourds et rupture de garde",
+      "strengths": ["protéger réellement un allié", "tenir une position", "bloquer un axe", "transformer l'espace du combat"],
+      "weaknesses": ["mobilité réduite", "coût élevé si elle doit couvrir plusieurs menaces séparées"],
+      "personal_mechanic": {
+        "name": "Détermination",
+        "gain_rule": "Se gagne par une protection réelle: bloquer, intercepter, tenir une position ou rester debout blessée; jamais par simple attente.",
+        "design_guard": "La ressource récompense le fait de protéger, pas le fait de subir gratuitement."
+      },
+      "skill_trees": ["Bastion", "Brisure", "Serment"],
+      "ultimates": ["La Ligne ne rompt pas", "Le Poids du Mur", "Pas un de plus"],
+      "five_act_hooks": {
+        "I": "Les barrages et convois lui imposent de distinguer protéger un passage, protéger une institution et protéger les personnes coincées de chaque côté.",
+        "II": "Deux ordres authentiques l'obligent à admettre qu'obéir et protéger peuvent diverger.",
+        "III": "Les Veines lui montrent qu'une protection permanente peut transformer la personne qui tient la ligne en infrastructure humaine.",
+        "IV": "Porte-Cendres confronte son réflexe de tenir jusqu'au bout au droit réel d'être relevé et de refuser le sacrifice répété.",
+        "V": "Elle doit décider si protéger la mémoire signifie garder une version stable ou garantir physiquement que plusieurs sources puissent survivre."
+      },
+      "narrative_pressure": "Protéger sans enfermer les autres dans la protection ni se condamner elle-même à devenir le mur permanent."
+    },
+    {
+      "id": "V02",
+      "name": "Tarek Senn",
+      "title": "Le Pisteur",
+      "age": 29,
+      "weapons": ["arc court", "deux couteaux crochus"],
+      "combat_position": "variable",
+      "identity": "mobilité, poursuite, lecture corporelle, ciblage anatomique et exploitation des blessures",
+      "strengths": ["mobilité", "poursuite", "lecture des comportements", "ciblage anatomique", "exploitation des blessures existantes"],
+      "weaknesses": ["faible résistance directe", "vulnérable immobilisé", "désavantagé dans un échange frontal imposé"],
+      "personal_mechanic": {
+        "name": "Traque",
+        "levels": ["0 — Inconnue", "1 — Observation", "2 — Anticipation", "3 — Exploitation"],
+        "gain_rule": "Progresse par comportements réellement observés et reconnus; ce n'est jamais un scan magique de la cible."
+      },
+      "skill_trees": ["Traque", "Entaille", "Disparition"],
+      "ultimates": ["JE SAIS OÙ TU VAS", "MILLE COUPURES", "TU M’AVAIS PERDU"],
+      "five_act_hooks": {
+        "I": "Les cartes contradictoires et le Bois des Traces Basses opposent piste vécue, carte officielle et conclusion trop rapide.",
+        "II": "Il apprend qu'une séquence d'indices peut démontrer la transmission d'un ordre sans révéler l'intention de ceux qui l'ont relayé.",
+        "III": "Les galeries non officielles transforment son savoir du terrain en savoir révisable: une route vraie hier peut être fausse au retour suivant.",
+        "IV": "Il piste les répétitions d'exposition par gestes, souffle et habitudes sans traiter les corps comme de simples marqueurs tactiques.",
+        "V": "Il applique à la provenance documentaire la même discipline qu'à une piste: suivre les transformations d'une source plutôt que deviner son origine."
+      },
+      "narrative_pressure": "Savoir lire les traces sans confondre forte probabilité et certitude."
+    },
+    {
+      "id": "V03",
+      "name": "Aïsha Maren",
+      "title": "L'Anatomiste",
+      "age": null,
+      "age_status": "not_locked_here",
+      "weapons": ["lame longue de chirurgie militaire / arme d'hast légère"],
+      "weapon_status": "current_canonical_combat_direction",
+      "combat_position": "support_precision_control",
+      "identity": "anatomie, médecine de terrain, diagnostic, stabilisation et contrôle physiologique",
+      "strengths": ["précision", "diagnostic", "stabilisation", "blessures fonctionnelles", "contrôle des hémorragies", "exploitation anatomique documentée"],
+      "weaknesses": ["puissance brute réduite", "forte dépendance à la précision", "efficacité maximale dépendante des connaissances réellement acquises"],
+      "personal_mechanic": {
+        "name": "Diagnostic",
+        "levels": ["0 — Inconnu", "I — Observation", "II — Examen", "III — Cartographie"],
+        "gain_rule": "Progresse à partir d'observations anatomiques et fonctionnelles acquises en jeu; ne révèle pas une anatomie inconnue par magie."
+      },
+      "skill_trees": ["Anatomie", "Suture", "Hémocorde"],
+      "ultimates": ["Carte parfaite du vivant", "Tout ce qui peut être sauvé", "Le dernier battement"],
+      "five_act_hooks": {
+        "I": "Le Gué des Absents et les trêves médicales l'obligent à traiter soin, triage, corps et identité dans le même espace tactique.",
+        "II": "La Maison de Relève sans camp rend explicite qu'un registre de blessures est une archive du corps mais jamais une vérité complète sur une personne.",
+        "III": "Les personnes-fonctions montrent la différence entre être capable d'une tâche aujourd'hui et être condamné à l'assurer toujours.",
+        "IV": "Porte-Cendres devient son conflit central: survivre à une exposition ne vaut pas aptitude à la répéter; convalescence et consentement sont distincts.",
+        "V": "Elle défend une lecture des corps comme sources situées: une blessure peut corroborer un fait sans rendre tout témoignage automatiquement vrai."
+      },
+      "narrative_pressure": "Comprendre le corps sans transformer la personne en matériau de connaissance ou en somme de fonctions."
+    },
+    {
+      "id": "V04",
+      "name": "Idris Vael",
+      "title": "Le Médiateur",
+      "age": null,
+      "age_status": "not_locked_here",
+      "weapons": ["bâton ferré", "chaîne courte"],
+      "weapon_status": "current_canonical_combat_direction",
+      "combat_position": "coordination_control",
+      "identity": "commandement, cohésion, contrôle comportemental et perturbation des formations",
+      "strengths": ["préparation", "contrôle du rythme", "coordination", "exploitation des erreurs", "efficacité contre ennemis organisés"],
+      "weaknesses": ["faible valeur contre une cible isolée sans structure à perturber", "moins efficace lorsque les comportements ennemis ne répondent pas à une logique sociale ou de formation"],
+      "personal_mechanic": {
+        "name": "Autorité",
+        "linked_axis": "Concorde",
+        "gain_rule": "Se construit par présence, décisions, coordination et relations observables; ce n'est ni charme magique ni contrôle mental."
+      },
+      "skill_trees": ["Sentence", "Concorde", "Dissidence"],
+      "ultimates": ["Le verdict tombe", "Un seul mouvement", "Que l’ordre se brise"],
+      "five_act_hooks": {
+        "I": "Le Carrefour des Voix Basses lui montre qu'obtenir l'obéissance immédiate peut détruire la légitimité nécessaire au trajet suivant.",
+        "II": "La Maison des Deux Ordres l'empêche de résoudre une contradiction institutionnelle en choisissant arbitrairement l'autorité la plus pratique.",
+        "III": "Les Veines déplacent sa question vers le droit de refuser une fonction et la fabrication institutionnelle de l'irremplaçabilité.",
+        "IV": "Porte-Cendres met son Autorité à l'épreuve: une décision urgente peut être justifiée une fois et devenir abusive par répétition.",
+        "V": "Le Copiste l'oblige à distinguer une mémoire commune nécessaire à l'action d'une mémoire officielle impossible à contredire."
+      },
+      "narrative_pressure": "Coordonner sans confisquer la décision et produire de la Concorde sans effacer le désaccord."
+    }
+  ],
+  "party_contract": {
+    "exact_ids": ["V01", "V02", "V03", "V04"],
+    "exact_names": ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"],
+    "main_party_size": 4,
+    "skills_per_character_target": 45,
+    "trees_per_character": 3,
+    "skills_per_tree_target": 15,
+    "ultimates_per_character": 3,
+    "interpersonal_relationships_status": "preserve_existing_only_do_not_invent_new_canon_here"
+  },
+  "runtime_pending": [
+    "valeurs finales des ressources Détermination, Traque, Diagnostic et Autorité",
+    "timings précis des compétences et ultimes",
+    "lisibilité tactile des quatre identités de combat",
+    "lisibilité clavier/souris/manette de leurs commandes",
+    "animations et VFX définitifs",
+    "réactions corporelles exactes aux blessures persistantes",
+    "équilibrage du quatuor dans les compositions réelles des Actes I à V"
+  ]
+}
