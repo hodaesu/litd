@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://scripts/world/veilleurs_vs001_blockout_builder.gd" type="Script" id="1"]
+
+[node name="VoicesUnderSanctuaryBlockout" type="Node3D"]
+script = ExtResource("1")
+build_on_ready = true
