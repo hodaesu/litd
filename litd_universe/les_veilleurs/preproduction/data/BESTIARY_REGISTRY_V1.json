@@ -13,7 +13,7 @@
     {"id":"species.retourne.guetteur","name":"Guetteur","family":"RETOURNES","rally":"C","orientations":["Sentinelle","Tireur","Observateur"]},
     {"id":"species.retourne.archiviste","name":"Archiviste","family":"RETOURNES","rally":"C","orientations":["Conservateur","Exégète","Mémoire de Guerre"]},
     {"id":"species.retourne.garde","name":"Garde Retourné","family":"RETOURNES","rally":"C","orientations":["Rempart","Duelliste","Gardien du Serment"]},
-    {"id":"species.retourne.lucide_intermitent","name":"Lucide Intermittent","family":"RETOURNES","rally":"R","orientations":["Revenu","Fracturé","Entre-Deux"]},
+    {"id":"species.retourne.lucide_intermittent","name":"Lucide Intermittent","family":"RETOURNES","rally":"R","orientations":["Revenu","Fracturé","Entre-Deux"]},
 
     {"id":"species.silencieux.ecouteur","name":"Écouteur","family":"SILENCIEUX","rally":"R","orientations":["Sonar","Chasseur de Bruit","Silence Absolu"]},
     {"id":"species.silencieux.bondisseur","name":"Bondisseur","family":"SILENCIEUX","rally":"R","orientations":["Prédateur","Éclaireur","Intercepteur"]},
