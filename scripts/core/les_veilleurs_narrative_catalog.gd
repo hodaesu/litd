@@ -3,6 +3,7 @@ extends RefCounted
 
 const EARLY_PATH := "res://data/canon/les_veilleurs_acts_1_2.json"
 const LATE_PATH := "res://data/canon/les_veilleurs_acts_3_5.json"
+const QUARTET_PATH := "res://data/canon/les_veilleurs_quartet.json"
 
 static func _load_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
@@ -23,6 +24,9 @@ static func early_catalog() -> Dictionary:
 
 static func late_catalog() -> Dictionary:
     return _load_json(LATE_PATH)
+
+static func quartet_catalog() -> Dictionary:
+    return _load_json(QUARTET_PATH)
 
 static func _find_by_id(values: Variant, id_value: String) -> Dictionary:
     if values is not Array:
@@ -100,21 +104,45 @@ static func hub_stage(stage_id: String) -> Dictionary:
             return stage.duplicate(true)
     return {}
 
+static func quartet() -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
+    var values: Variant = quartet_catalog().get("characters", [])
+    if values is Array:
+        for value: Variant in values:
+            if value is Dictionary:
+                result.append(value.duplicate(true))
+    return result
+
+static func character(character_id_or_name: String) -> Dictionary:
+    for value: Dictionary in quartet():
+        if str(value.get("id", "")) == character_id_or_name or str(value.get("name", "")) == character_id_or_name:
+            return value.duplicate(true)
+    return {}
+
+static func party_contract() -> Dictionary:
+    var value: Variant = quartet_catalog().get("party_contract", {})
+    return value.duplicate(true) if value is Dictionary else {}
+
 static func finale() -> Dictionary:
     var value: Variant = late_catalog().get("finale", {})
     return value.duplicate(true) if value is Dictionary else {}
 
 static func canon_guardrails() -> Array[String]:
     var result: Array[String] = []
-    var values: Variant = late_catalog().get("canon_guardrails", [])
-    if values is Array:
-        for value: Variant in values:
-            result.append(str(value))
+    for source: Dictionary in [late_catalog(), quartet_catalog()]:
+        var keys: Array[String] = ["canon_guardrails"] if source == late_catalog() else ["rules"]
+        for key: String in keys:
+            var values: Variant = source.get(key, [])
+            if values is Array:
+                for value: Variant in values:
+                    var text := str(value)
+                    if not result.has(text):
+                        result.append(text)
     return result
 
 static func runtime_pending() -> Array[String]:
     var result: Array[String] = []
-    for source: Dictionary in [early_catalog(), late_catalog()]:
+    for source: Dictionary in [early_catalog(), late_catalog(), quartet_catalog()]:
         var values: Variant = source.get("runtime_pending", [])
         if values is Array:
             for value: Variant in values:
