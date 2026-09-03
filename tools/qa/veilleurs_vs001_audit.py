@@ -17,6 +17,8 @@ FILES = {
     "events": VEILLEURS / "vs001_events.json",
     "dialogues": VEILLEURS / "vs001_dialogues.json",
     "ui": VEILLEURS / "vs001_ui_input_contract.json",
+    "guardrails": VEILLEURS / "vs001_playtest_guardrails.json",
+    "telemetry": VEILLEURS / "vs001_telemetry_contract.json",
 }
 MODULE_SCHEMA = DUNGEONS / "hybrid_module_contract.schema.json"
 CAPTURABLES = ROOT / "data" / "capturable_creatures.json"
@@ -55,6 +57,8 @@ def audit() -> list[str]:
     events = data["events"]
     dialogues = data["dialogues"]
     ui = data["ui"]
+    guardrails = data["guardrails"]
+    telemetry = data["telemetry"]
 
     if config["profile"] != "short":
         errors.append("config_profile_not_short")
@@ -200,6 +204,47 @@ def audit() -> list[str]:
     for action in ui.get("existing_runtime_alignment", {}).get("existing_project_actions_reused", []):
         if f"{action}=" not in project_text:
             errors.append(f"missing_existing_project_action:{action}")
+
+    if guardrails.get("status") != "provisional_baseline":
+        errors.append("guardrails_must_remain_provisional_before_human_playtest")
+    if guardrails.get("real_playtest_required_for_final_balance") is not True:
+        errors.append("human_playtest_must_remain_required")
+    if int(guardrails.get("tuning_protocol", {}).get("minimum_human_runs_before_first_balance_pass", 0)) < 12:
+        errors.append("minimum_human_runs_too_low")
+    if int(guardrails.get("tuning_protocol", {}).get("minimum_human_runs_before_large_change", 0)) < 30:
+        errors.append("large_change_sample_too_low")
+    if guardrails.get("loot", {}).get("s6_kill_premium_allowed") is not False:
+        errors.append("s6_kill_premium_must_be_forbidden")
+    if guardrails.get("secret_s8", {}).get("synthetic_balance_gate") is not False:
+        errors.append("s8_discovery_must_not_be_synthetic_gate")
+
+    privacy = telemetry.get("privacy", {})
+    for key in ("personal_identifiers_forbidden", "free_text_forbidden", "device_model_exact_forbidden"):
+        if privacy.get(key) is not True:
+            errors.append(f"telemetry_privacy_required:{key}")
+    expected_telemetry_events = {
+        "vs001_expedition_started",
+        "vs001_pulse_resolved",
+        "vs001_room_entered",
+        "vs001_combat_completed",
+        "vs001_recruitment_action",
+        "vs001_recruitment_resolved",
+        "vs001_device_choice",
+        "vs001_loot_acquired",
+        "vs001_extraction",
+    }
+    if set(telemetry.get("events", {})) != expected_telemetry_events:
+        errors.append("telemetry_event_contract_changed")
+    if "session_id" not in telemetry.get("common_fields", []):
+        errors.append("telemetry_session_id_missing")
+    derived = telemetry.get("derived_metrics", {})
+    for metric in (
+        "duration_minutes", "light_on_s7_entry", "peak_party_noise", "major_events_per_run",
+        "careful_recruitment_success", "force_recruitment_success", "s8_first_run_discovery_rate",
+        "kill_vs_recruit_value_gap",
+    ):
+        if metric not in derived:
+            errors.append(f"telemetry_metric_missing:{metric}")
 
     return errors
 
