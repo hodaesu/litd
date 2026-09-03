@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "zone":"Les Marches du Sanctuaire",
+  "families":["DELIES","RETOURNES","SILENCIEUX","VEINES","PORTE_CENDRES"],
+  "archetypes":[
+    {"id":"species.delie.rampant","name":"Rampant","family":"DELIES","rally":"R","orientations":["Fouisseur","Déchireur","Charognard"]},
+    {"id":"species.delie.rabatteur","name":"Rabatteur","family":"DELIES","rally":"R","orientations":["Traqueur","Meneur","Harceleur"]},
+    {"id":"species.delie.porteur","name":"Porteur","family":"DELIES","rally":"C","orientations":["Réservoir","Diffuseur","Purgé"]},
+    {"id":"species.delie.rememorant","name":"Remémorant","family":"DELIES","rally":"C","orientations":["Écho","Archiviste Vivant","Hanté"]},
+    {"id":"species.delie.vestige_concorde","name":"Vestige de Concorde","family":"DELIES","rally":"C","orientations":["Protecteur","Disciple","Témoin"]},
+
+    {"id":"species.retourne.manutentionnaire","name":"Manutentionnaire","family":"RETOURNES","rally":"C","orientations":["Porte-Fardeau","Briseur","Bâtisseur"]},
+    {"id":"species.retourne.guetteur","name":"Guetteur","family":"RETOURNES","rally":"C","orientations":["Sentinelle","Tireur","Observateur"]},
+    {"id":"species.retourne.archiviste","name":"Archiviste","family":"RETOURNES","rally":"C","orientations":["Conservateur","Exégète","Mémoire de Guerre"]},
+    {"id":"species.retourne.garde","name":"Garde Retourné","family":"RETOURNES","rally":"C","orientations":["Rempart","Duelliste","Gardien du Serment"]},
+    {"id":"species.retourne.lucide_intermitent","name":"Lucide Intermittent","family":"RETOURNES","rally":"R","orientations":["Revenu","Fracturé","Entre-Deux"]},
+
+    {"id":"species.silencieux.ecouteur","name":"Écouteur","family":"SILENCIEUX","rally":"R","orientations":["Sonar","Chasseur de Bruit","Silence Absolu"]},
+    {"id":"species.silencieux.bondisseur","name":"Bondisseur","family":"SILENCIEUX","rally":"R","orientations":["Prédateur","Éclaireur","Intercepteur"]},
+    {"id":"species.silencieux.imitateur","name":"Imitateur","family":"SILENCIEUX","rally":"C","orientations":["Mimétique","Leurre","Assimilateur"]},
+    {"id":"species.silencieux.veilleur_muet","name":"Veilleur Muet","family":"SILENCIEUX","rally":"C","orientations":["Sentinelle Nocturne","Marcheur","Gardien Silencieux"]},
+    {"id":"species.silencieux.oreille_profonde","name":"Oreille Profonde","family":"SILENCIEUX","rally":"N","orientations":["Résonante","Sismique","Chœur Profond"]},
+
+    {"id":"species.veines.germe","name":"Germe","family":"VEINES","rally":"C","orientations":["Symbiote","Floraison","Dormant"]},
+    {"id":"species.veines.epine","name":"Épine","family":"VEINES","rally":"C","orientations":["Ronce","Dard","Carapace"]},
+    {"id":"species.veines.hote_veine","name":"Hôte Veiné","family":"VEINES","rally":"C","orientations":["Guéri","Symbiotique","Abandonné"]},
+    {"id":"species.veines.noeud","name":"Nœud","family":"VEINES","rally":"N","orientations":["Nourricier","Relais","Ancrage"]},
+    {"id":"species.veines.coeur_reseau","name":"Cœur de Réseau","family":"VEINES","rally":"N","orientations":["Cœur Nourricier","Cœur Défensif","Cœur Pensant"]},
+
+    {"id":"species.porte_cendres.souffleur_gris","name":"Souffleur Gris","family":"PORTE_CENDRES","rally":"R","orientations":["Brumier","Étouffeur","Guide Gris"]},
+    {"id":"species.porte_cendres.cuirasse","name":"Cuirassé","family":"PORTE_CENDRES","rally":"R","orientations":["Rempart","Percuteur","Cendre-Fer"]},
+    {"id":"species.porte_cendres.disperse","name":"Dispersé","family":"PORTE_CENDRES","rally":"C","orientations":["Rassemblé","Nuée","Passager"]},
+    {"id":"species.porte_cendres.nodule","name":"Nodule","family":"PORTE_CENDRES","rally":"N","orientations":["Dense","Émissif","Générateur"]},
+    {"id":"species.porte_cendres.porte_tombe","name":"Porte-Tombe","family":"PORTE_CENDRES","rally":"C","orientations":["Gardien des Morts","Porte-Mémoire","Dernier Voyageur"]}
+  ],
+  "legend":{"R":"ralliable","C":"ralliement conditionnel","N":"non ralliable"},
+  "expected_archetype_count":25,
+  "expected_orientation_count":75
+}
