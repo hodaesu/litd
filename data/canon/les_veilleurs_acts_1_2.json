@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "id": "les_veilleurs_acts_1_2",
+  "status": "narrative_content_locked_runtime_balance_pending",
+  "game": "LITD: Les Veilleurs",
+  "scope": "Zones, rencontres humaines, événements de recrues, Rémanence et progression du hub pour les Actes I et II.",
+  "dating_policy": {
+    "mode": "relative_only",
+    "rule": "Aucune année absolue n'est affichée dans les archives des Veilleurs. Les documents sont datés par succession, saison, mandat, convoi ou événement local.",
+    "era_guard": "Les Trois Éveils et les premiers Sanctuaires existent déjà; leur naissance n'est jamais rejouée ni attribuée aux Veilleurs."
+  },
+  "design_rules": [
+    "Chaque zone part d'un problème humain avant d'être un biome.",
+    "Une victoire tactique peut aggraver un problème humain ou documentaire.",
+    "Les blessures, cadavres, objets, routes et témoignages survivent à la rencontre lorsqu'ils ont une conséquence.",
+    "Les recrues conservent leurs blessures, leur version des faits, leurs relations et leur groupe d'origine.",
+    "Trace, Écho, Mémoire puis Concordance émergent de sources comparées; aucune fiche ne révèle automatiquement une vérité omnisciente.",
+    "Les Actes I et II amorcent dépendance institutionnelle et sacrifice normalisé sans employer prématurément les concepts des Veines ou de Porte-Cendres.",
+    "Les dialogues critiques doivent tenir dans une lecture mobile courte; les détails passent par l'archive secondaire.",
+    "Les valeurs finales de dégâts, précision, cooldown, durée de télégraphe et convalescence chiffrée restent hors de ce fichier jusqu'aux essais Godot."
+  ],
+  "acts": [
+    {
+      "id": "I",
+      "title": "Les Routes qui restent",
+      "question": "Que protège-t-on réellement lorsqu'une route doit rester ouverte ?",
+      "arc": "Les Veilleurs découvrent que les contrôles, escortes et fermetures sont souvent nécessaires, mais que les mêmes procédures peuvent rendre invisibles ceux qu'elles prétendent protéger.",
+      "zones": [
+        {
+          "id": "marches_des_retours",
+          "name": "Les Marches des Retours",
+          "human_premise": "Des familles revenues après plusieurs déplacements trouvent leurs chemins devenus postes de contrôle, propriétés provisoires ou voies militaires.",
+          "gameplay_role": "tutorial_route_control",
+          "combat_encounters": ["a1_barrage_mobile"],
+          "human_choices": ["ouvrir un passage et perdre du temps", "forcer le barrage", "identifier qui l'ordre protège réellement"],
+          "body_and_corpse_use": "Les blessés gênent la ligne et doivent être déplacés; un mort porteur d'un laissez-passer peut devenir preuve, personne à restituer ou simple obstacle si le joueur l'ignore.",
+          "remanence_sources": ["liste de passagers corrigée", "laissez-passer raturé", "témoignage d'une famille refusée"],
+          "recruit_hooks": ["gardes_de_convoi", "tireurs_de_relais"],
+          "hub_output": "table_des_retours"
+        },
+        {
+          "id": "gue_des_absents",
+          "name": "Le Gué des Absents",
+          "human_premise": "Le seul passage sûr sert aussi de lieu de mémoire à des familles qui n'ont jamais récupéré leurs morts.",
+          "gameplay_role": "corpse_retrieval_and_triage",
+          "combat_encounters": ["a1_convoi_blesse"],
+          "human_choices": ["évacuer les vivants d'abord", "récupérer un corps avant la crue", "respecter une trêve de soin"],
+          "body_and_corpse_use": "Les corps persistent dans le lit du gué et modifient couverture et déplacement; leur récupération ou abandon est enregistré.",
+          "remanence_sources": ["marques funéraires", "registre de relève", "objet reconnu sur un corps"],
+          "recruit_hooks": ["chirurgiens_de_releve", "gardes_de_convoi", "molosses_de_convoi"],
+          "hub_output": "salle_de_releve"
+        },
+        {
+          "id": "carrefour_des_voix_basses",
+          "name": "Le Carrefour des Voix Basses",
+          "human_premise": "Trois communautés utilisent le même carrefour mais ne reconnaissent plus la même autorité pour décider qui passe en premier.",
+          "gameplay_role": "morale_and_route_choice",
+          "combat_encounters": ["a1_carrefour_sous_voix"],
+          "human_choices": ["faire taire un meneur", "prouver qu'un ordre est irrégulier", "créer une seconde voie au lieu de gagner le carrefour"],
+          "body_and_corpse_use": "La foule et les blessés rendent toute attaque de zone politiquement lisible; l'humiliation d'une reddition ferme certaines voies de recrutement.",
+          "remanence_sources": ["ordre lu à haute voix", "copie privée de l'ordre", "témoignage d'un sapeur ayant déplacé la borne"],
+          "recruit_hooks": ["meneurs_de_voix", "sapeurs_de_passage"],
+          "hub_output": "mur_des_versions"
+        },
+        {
+          "id": "bois_des_traces_basses",
+          "name": "Le Bois des Traces Basses",
+          "human_premise": "Des convois disparus sont recherchés à partir de pistes animales, de cartes humaines et de récits qui ne coïncident pas.",
+          "gameplay_role": "exploration_tracking_and_source_conflict",
+          "combat_encounters": [],
+          "human_choices": ["suivre la carte officielle", "suivre un molosse", "revenir avec une preuve plutôt qu'avec une conclusion"],
+          "body_and_corpse_use": "Les odeurs de vieux sang et les restes déplacés permettent de distinguer lieu de mort, lieu de découverte et récit ultérieur.",
+          "remanence_sources": ["harnais réparé", "carte officielle", "trace olfactive interprétée par comportement"],
+          "recruit_hooks": ["molosses_de_convoi"],
+          "hub_output": "cartes_annotees"
+        }
+      ]
+    },
+    {
+      "id": "II",
+      "title": "Les Ordres qui se contredisent",
+      "question": "Une institution reste-t-elle juste lorsque personne ne sait plus quelle version de son ordre doit être suivie ?",
+      "arc": "Les Veilleurs passent de procédures imparfaites à des institutions qui commencent à protéger leur continuité autant que leur mission. Certaines personnes deviennent indispensables à un poste et certaines mesures provisoires cessent discrètement de l'être.",
+      "zones": [
+        {
+          "id": "archive_de_la_traverse",
+          "name": "L'Archive de la Traverse",
+          "human_premise": "Un dépôt itinérant conserve des originaux et des copies parce que plusieurs communautés accusent les autres d'avoir réécrit les ordres de passage.",
+          "gameplay_role": "document_extraction_without_destruction",
+          "combat_encounters": ["a2_archive_escorte"],
+          "human_choices": ["sauver l'original", "garantir plusieurs copies", "extraire le gardien capable d'expliquer la chaîne de copie"],
+          "body_and_corpse_use": "Tuer le porteur d'une source peut rendre son contexte irrécupérable même si le document survit.",
+          "remanence_sources": ["original taché", "deux copies divergentes", "journal de transmission"],
+          "recruit_hooks": ["gardiens_des_versions", "gardes_de_convoi"],
+          "hub_output": "atelier_des_preuves"
+        },
+        {
+          "id": "passage_des_appuis",
+          "name": "Le Passage des Appuis",
+          "human_premise": "Un passage indispensable tient grâce à des réparations successives et à quelques ouvriers qui reviennent toujours au même poste faute de relève fiable.",
+          "gameplay_role": "terrain_control_and_structural_choice",
+          "combat_encounters": ["a2_passage_condamne"],
+          "human_choices": ["détruire l'ouvrage pour finir le combat", "stabiliser sous pression", "obtenir qu'un spécialiste quitte son poste vivant"],
+          "body_and_corpse_use": "Un corps, une poutre ou un blessé peuvent bloquer un point d'appui; déplacer sans comprendre peut provoquer l'effondrement.",
+          "remanence_sources": ["carnet de réparations", "marques de relève jamais utilisées", "outil personnel resté au poste"],
+          "recruit_hooks": ["sapeurs_de_passage", "molosses_de_convoi"],
+          "hub_output": "atelier_de_passage"
+        },
+        {
+          "id": "maison_des_deux_ordres",
+          "name": "La Maison des Deux Ordres",
+          "human_premise": "Deux ordres incompatibles, tous deux authentiques, sont appliqués par des groupes qui ignorent lequel a été émis le dernier.",
+          "gameplay_role": "contradiction_and_morale_resolution",
+          "combat_encounters": ["a2_deux_versions"],
+          "human_choices": ["désigner arbitrairement un vrai ordre", "préserver les deux", "retrouver la séquence de transmission"],
+          "body_and_corpse_use": "Le triage peut forcer une pause et créer une fenêtre de comparaison; exécuter les messagers détruit des témoins mais pas nécessairement les documents.",
+          "remanence_sources": ["ordre A", "ordre B", "témoignage du copiste", "heure relative donnée par un chirurgien"],
+          "recruit_hooks": ["gardiens_des_versions", "meneurs_de_voix", "chirurgiens_de_releve"],
+          "hub_output": "table_de_concordance"
+        },
+        {
+          "id": "maison_de_releve_sans_camp",
+          "name": "La Maison de Relève sans camp",
+          "human_premise": "Des soignants prennent les blessés de plusieurs groupes et deviennent progressivement indispensables à tous, donc suspects pour chacun.",
+          "gameplay_role": "care_resource_and_neutrality",
+          "combat_encounters": [],
+          "human_choices": ["partager les réserves", "protéger la neutralité", "privilégier les Veilleurs et accepter la perte de confiance"],
+          "body_and_corpse_use": "Les blessures persistantes deviennent ici archives corporelles comparables aux registres de soin.",
+          "remanence_sources": ["registre de blessures", "bandage marqué", "témoignages opposés sur le même soin"],
+          "recruit_hooks": ["chirurgiens_de_releve"],
+          "hub_output": "registre_des_blessures"
+        },
+        {
+          "id": "cuvette_des_points_d_appui",
+          "name": "La Cuvette des Points d'Appui",
+          "human_premise": "Une équipe tente de contenir une Manifestation destructrice près d'un ouvrage habité; combattre les humains comme s'ils la contrôlaient condamnerait les civils.",
+          "gameplay_role": "three_sided_hazard_and_functional_targeting",
+          "combat_encounters": ["a2_incident_concurrent"],
+          "human_choices": ["évacuer avant de poursuivre le conflit", "isoler l'ancrage fonctionnel", "coopérer temporairement sans transformer la Manifestation en alliée"],
+          "body_and_corpse_use": "La Manifestation est décrite par structures fonctionnelles observables, jamais par anatomie inventée; les corps humains restent des corps, pas des ressources abstraites.",
+          "remanence_sources": ["croquis fonctionnel", "rapport d'évacuation", "témoignages incompatibles sur la forme de la Manifestation"],
+          "recruit_hooks": ["sapeurs_de_passage", "gardes_de_convoi"],
+          "hub_output": "table_des_incidents"
+        }
+      ]
+    }
+  ],
+  "recruit_event_chains": [
+    {
+      "id": "garde_promesse_de_passage",
+      "family_id": "gardes_de_convoi",
+      "stages": [
+        {"id":"encounter","trigger":"reddition respectée ou civils protégés","event":"La garde demande que la promesse faite au convoi soit inscrite avant d'accepter le départ."},
+        {"id":"hub","trigger":"premier retour vivant","event":"Elle conteste une consigne du hub qui reproduit le barrage où elle a été rencontrée."},
+        {"id":"return","trigger":"retour aux Marches des Retours","event":"Un ancien collègue reconnaît sa voix; le joueur choisit de la laisser expliquer son départ ou de parler à sa place."}
+      ],
+      "wound_variants": {"guard_arm":"Elle change de prise et refuse qu'on qualifie la blessure de simple malus.","legs":"Elle ne peut plus intercepter comme avant et propose de tenir une sortie plutôt qu'une ligne."}
+    },
+    {
+      "id": "molosse_meute_choisie",
+      "family_id": "molosses_de_convoi",
+      "stages": [
+        {"id":"encounter","trigger":"soin, rupture avec ancien maître ou secours","event":"Le molosse suit d'abord une habitude et une odeur, pas une allégeance abstraite."},
+        {"id":"hub","trigger":"repos répété sans violence","event":"Il choisit un lieu de couchage et commence à signaler les retours du groupe."},
+        {"id":"return","trigger":"ancien trajet retrouvé","event":"Il refuse une bifurcation indiquée par la carte officielle et conduit vers une trace matérielle contradictoire."}
+      ],
+      "wound_variants": {"head_jaw":"Le pistage reste possible mais les actions de morsure sont adaptées.","hindlegs":"Le bond reste indisponible tant que la fonction n'est pas récupérée ou compensée."}
+    },
+    {
+      "id": "chirurgien_soigner_sans_camp",
+      "family_id": "chirurgiens_de_releve",
+      "stages": [
+        {"id":"encounter","trigger":"trêve médicale respectée","event":"Le chirurgien soigne d'abord la personne la plus urgente, même si elle combattait les Veilleurs."},
+        {"id":"hub","trigger":"accès à la Salle de relève","event":"Il demande que les registres de blessures conservent cause et contexte, pas seulement résultat."},
+        {"id":"return","trigger":"Maison de Relève sans camp","event":"D'anciens patients donnent des versions opposées de son choix de triage; les deux témoignages sont archivés."}
+      ],
+      "wound_variants": {"dominant_hand":"Les gestes fins restent verrouillés et l'événement propose adaptation, repos ou changement de rôle, sans guérison magique.","legs":"Le chirurgien demande qu'on organise l'accès aux blessés plutôt que de nier sa mobilité réduite."}
+    },
+    {
+      "id": "tireur_angle_impossible",
+      "family_id": "tireurs_de_relais",
+      "stages": [
+        {"id":"encounter","trigger":"ligne cassée sans exécution ou preuve d'un tir impossible","event":"Le tireur accepte de montrer d'où un tir aurait réellement pu partir."},
+        {"id":"hub","trigger":"carte d'approche disponible","event":"Il annote un angle mort qui contredit une version officielle."},
+        {"id":"return","trigger":"ancien relais","event":"Une position supposée ennemie se révèle impropre au tir décrit; cela crée un Écho, pas une conclusion définitive."}
+      ],
+      "wound_variants": {"draw_arm":"Les attaques lourdes à distance restent indisponibles jusqu'à compensation valide.","head_eyes":"Ses affirmations sur les distances sont marquées comme moins fiables sans effacer son témoignage."}
+    },
+    {
+      "id": "meneur_promesse_nommee",
+      "family_id": "meneurs_de_voix",
+      "stages": [
+        {"id":"encounter","trigger":"reddition non humiliée ou contradiction publique prouvée","event":"Le meneur cesse de soutenir une version qu'il ne peut plus défendre devant son groupe."},
+        {"id":"hub","trigger":"premier désaccord collectif","event":"Il demande le droit de contredire publiquement un Veilleur sans que cela soit traité comme insubordination automatique."},
+        {"id":"return","trigger":"Carrefour des Voix Basses","event":"Sa présence peut apaiser, provoquer ou révéler qui a intérêt à conserver l'ancien récit."}
+      ],
+      "wound_variants": {"head_mouth":"La portée des actions vocales est réduite; ses choix de dialogue ne disparaissent pas.","thorax_lungs":"Les actions prolongées sont remplacées par signaux courts lorsqu'une adaptation est disponible."}
+    },
+    {
+      "id": "sapeur_quitter_le_poste",
+      "family_id": "sapeurs_de_passage",
+      "stages": [
+        {"id":"encounter","trigger":"ouvrage stabilisé sans destruction","event":"Le sapeur accepte de quitter un point d'appui seulement lorsqu'il voit une relève crédible."},
+        {"id":"hub","trigger":"Atelier de passage construit","event":"Il reproduit d'abord la même routine jusqu'à ce qu'une tâche puisse être refusée sans punition."},
+        {"id":"return","trigger":"Passage des Appuis","event":"Il rencontre la personne qui a pris sa place; la réussite du passage n'efface pas la question du coût humain."}
+      ],
+      "wound_variants": {"hands":"Les outils exigeant prise fine restent restreints et les tâches du hub s'adaptent.","legs":"Il peut inspecter mais ne doit pas être automatiquement réassigné au poste le plus dangereux."}
+    },
+    {
+      "id": "gardien_conserver_la_contradiction",
+      "family_id": "gardiens_des_versions",
+      "stages": [
+        {"id":"encounter","trigger":"au moins deux sources incompatibles préservées","event":"Le gardien accepte que la mission ne soit plus de faire gagner une version mais de préserver la contradiction."},
+        {"id":"hub","trigger":"Atelier des preuves disponible","event":"Il exige que l'origine, la copie et les corrections restent visibles."},
+        {"id":"return","trigger":"Archive de la Traverse","event":"Une copie qu'il avait rejetée acquiert un contexte nouveau; son ancienne certitude est conservée dans l'historique au lieu d'être réécrite."}
+      ],
+      "wound_variants": {"default":"Une blessure persistante modifie son aptitude au combat mais jamais l'authenticité de ce qu'il a réellement observé."}
+    }
+  ],
+  "remanence_bundles": [
+    {
+      "id":"barrage_des_marches",
+      "subject":"Pourquoi le barrage a été déplacé",
+      "trace":["laissez-passer raturé"],
+      "echo":["une famille affirme que l'ancien passage était encore ouvert"],
+      "memory":["la liste de passagers et l'ordre montrent deux dates relatives incompatibles"],
+      "concordance":"Le barrage a bien été déplacé, mais le motif de sécurité et le motif de contrôle restent tous deux documentés; l'intention unique n'est pas affirmée."
+    },
+    {
+      "id":"morts_du_gue",
+      "subject":"Qui a abandonné les corps du gué",
+      "trace":["objet personnel récupéré"],
+      "echo":["un proche accuse l'escorte"],
+      "memory":["le registre médical prouve une évacuation interrompue par la crue"],
+      "concordance":"Une partie des corps a été abandonnée lors de l'évacuation; les sources ne permettent pas d'établir que tous l'ont été pour la même raison."
+    },
+    {
+      "id":"deux_ordres",
+      "subject":"Quel ordre était faux",
+      "trace":["ordre A","ordre B"],
+      "echo":["chaque groupe dit posséder l'original"],
+      "memory":["chaîne de copie, heure relative de triage et journal de transmission"],
+      "concordance":"Les deux ordres sont authentiques et incompatibles; la rupture vient de la transmission et du changement de situation, pas nécessairement d'une falsification."
+    },
+    {
+      "id":"manifestation_cuvette",
+      "subject":"Ce qu'était la Manifestation",
+      "trace":["croquis d'un point d'ancrage"],
+      "echo":["témoins décrivent des silhouettes incompatibles"],
+      "memory":["les effets sur le terrain sont comparés indépendamment de la forme décrite"],
+      "concordance":"Plusieurs fonctions observées concordent; la nature biologique, métaphysique ou historique de la Manifestation reste non résolue."
+    }
+  ],
+  "compact_dialogue_lines": [
+    {"id":"a1_guard_passage","speaker":"garde_de_convoi","line":"Je ne garde pas cette barrière. Je garde ceux qui sont derrière."},
+    {"id":"a1_local_reply","speaker":"locale","line":"Alors pourquoi sommes-nous toujours du mauvais côté ?"},
+    {"id":"a1_surgeon_truce","speaker":"chirurgien_de_releve","line":"Posez les armes une minute. Le sang ne porte pas vos couleurs."},
+    {"id":"a1_molosse_clue","speaker":"archive_note","line":"Le chien revient toujours au fossé. La carte, elle, dit qu'il n'y a rien ici."},
+    {"id":"a2_copy","speaker":"gardien_des_versions","line":"Une copie peut mentir. Un original aussi, si on oublie quand il a été écrit."},
+    {"id":"a2_sapper","speaker":"sapeur_de_passage","line":"On m'a promis une relève trois fois. Le passage, lui, n'a jamais attendu."},
+    {"id":"a2_healer","speaker":"chirurgien_de_releve","line":"Je peux compter les blessés. Je refuse de compter ceux qui méritent d'être soignés."},
+    {"id":"a2_manifestation","speaker":"veilleur","line":"Nous savons ce qu'elle détruit. Pas ce qu'elle est."}
+  ],
+  "hub_progression": [
+    {
+      "id":"poste_de_lisiere",
+      "order":0,
+      "name":"Poste de lisière",
+      "trigger":"début de partie",
+      "function":"abri minimal, préparation d'expédition, stockage restreint",
+      "visible_consequence":"Le hub ressemble à un poste temporaire, pas à une ville déjà acquise."
+    },
+    {
+      "id":"table_des_retours",
+      "order":1,
+      "name":"Table des retours",
+      "trigger":"premières listes, laissez-passer ou témoignages ramenés",
+      "function":"conserve personnes attendues, revenues, disparues et sources associées",
+      "choice_pressure":"mettre l'espace au service de la logistique ou rendre les listes consultables par les familles"
+    },
+    {
+      "id":"salle_de_releve",
+      "order":2,
+      "name":"Salle de relève",
+      "trigger":"première blessure persistante ou trêve médicale respectée",
+      "function":"stabilisation, convalescence et lecture des limitations fonctionnelles",
+      "choice_pressure":"réserver les faibles ressources aux combattants ou accepter des blessés extérieurs"
+    },
+    {
+      "id":"quartier_des_rallies",
+      "order":3,
+      "name":"Quartier des ralliés",
+      "trigger":"première recrue issue d'un ennemi rencontré",
+      "function":"hébergement, lien, convalescence, histoire individuelle et départ éventuel",
+      "choice_pressure":"augmenter la capacité sans transformer les personnes en inventaire"
+    },
+    {
+      "id":"atelier_des_preuves",
+      "order":4,
+      "name":"Atelier des preuves",
+      "trigger":"sources contradictoires de l'Acte II",
+      "function":"classe les Trace/Écho/Mémoire/Concordance avec provenance et contradictions",
+      "choice_pressure":"rendre une source publiquement accessible ou la protéger lorsqu'elle peut déclencher une violence immédiate"
+    },
+    {
+      "id":"atelier_de_passage",
+      "order":5,
+      "name":"Atelier de passage",
+      "trigger":"ouvrage sauvé ou sapeur rallié",
+      "function":"prépare outils, réparations et solutions de terrain pour les expéditions",
+      "choice_pressure":"gagner en efficacité sans assigner automatiquement les mêmes individus aux tâches risquées"
+    }
+  ],
+  "persistent_flags": [
+    "a1_barrage_opened_without_execution",
+    "a1_gue_body_recovered",
+    "a1_medical_truce_respected",
+    "a1_public_surrender_humiliated",
+    "a1_molosse_followed_over_map",
+    "a2_both_orders_preserved",
+    "a2_original_and_copies_preserved",
+    "a2_passage_saved",
+    "a2_specialist_relieved",
+    "a2_neutral_care_protected",
+    "a2_manifestation_humans_evacuated"
+  ],
+  "runtime_pending": [
+    "valeurs finales de dégâts et précision",
+    "durées de télégraphes",
+    "cooldowns",
+    "durées chiffrées de convalescence",
+    "densité exacte des rencontres selon performance mobile",
+    "validation tactile des fiches de Rémanence et de recrutement",
+    "validation des chemins avec cadavres persistants"
+  ]
+}
