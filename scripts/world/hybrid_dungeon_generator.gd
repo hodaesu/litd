@@ -297,7 +297,7 @@ static func _reachable(start_id: String, goal_id: String, edges: Array, include_
     var visited: Dictionary = {start_id: true}
     var queue: Array[String] = [start_id]
     while not queue.is_empty():
-        var current := queue.pop_front()
+        var current: String = queue.pop_front()
         for edge in edges:
             if not include_hidden and bool(edge.get("hidden", false)):
                 continue
