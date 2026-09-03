@@ -127,26 +127,21 @@ static func finale() -> Dictionary:
     var value: Variant = late_catalog().get("finale", {})
     return value.duplicate(true) if value is Dictionary else {}
 
+static func _append_unique_strings(result: Array[String], values: Variant) -> void:
+    if values is Array:
+        for value: Variant in values:
+            var text := str(value)
+            if not result.has(text):
+                result.append(text)
+
 static func canon_guardrails() -> Array[String]:
     var result: Array[String] = []
-    for source: Dictionary in [late_catalog(), quartet_catalog()]:
-        var keys: Array[String] = ["canon_guardrails"] if source == late_catalog() else ["rules"]
-        for key: String in keys:
-            var values: Variant = source.get(key, [])
-            if values is Array:
-                for value: Variant in values:
-                    var text := str(value)
-                    if not result.has(text):
-                        result.append(text)
+    _append_unique_strings(result, late_catalog().get("canon_guardrails", []))
+    _append_unique_strings(result, quartet_catalog().get("rules", []))
     return result
 
 static func runtime_pending() -> Array[String]:
     var result: Array[String] = []
     for source: Dictionary in [early_catalog(), late_catalog(), quartet_catalog()]:
-        var values: Variant = source.get("runtime_pending", [])
-        if values is Array:
-            for value: Variant in values:
-                var text := str(value)
-                if not result.has(text):
-                    result.append(text)
+        _append_unique_strings(result, source.get("runtime_pending", []))
     return result
