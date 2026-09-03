@@ -16,17 +16,19 @@ Les IDs sont stables, ASCII et indépendants du texte affiché. Ne jamais sauveg
 
 Exemples : veilleur.v01, tree.v01.a, ability.v01.a.01, species.delie.rampant, orientation.delie.rampant.fouisseur.
 
-## AbilityDefinition
+## AbilityDefinition / SkillData canonique
 
-Champs obligatoires :
+Champs du template antérieur réintégrés :
 
-id; owner_scope; tree_id; slot_index; display_name_key; description_key; action_type; targeting_mode; range_profile; required_body_functions[]; forbidden_body_states[]; impact_types[]; physical_power; precision; allowed_zones[]; preferred_zones[]; lesion_rules[]; functional_effects[]; dismemberment_eligibility; armor_interaction; environment_interaction; noise_profile; vibration_profile; biological_profile; user_risk; friendly_fire; prerequisites[]; synergy_tags[]; ai_tags[]; animation_intent; fx_tags[]; knowledge_reveal.
+id; owner_scope; tree_id; slot_index; rank; tier; display_name_key; description_key; action_type; targeting_mode; range_profile; endurance_cost; maintenance_cost; material_cost; preparation_profile; recovery_profile; required_body_functions[]; forbidden_body_states[]; impact_types[]; physical_power; precision; user_risk; allowed_zones[]; preferred_zones[]; lesion_rules[]; functional_effects[]; dismemberment_eligibility; armor_interaction; environment_interaction; noise_profile; vibration_profile; biological_profile; friendly_fire; prerequisites[]; synergy_tags[]; ai_tags[]; animation_intent; fx_tags[]; knowledge_reveal.
 
-Validation : un arbre contient exactement 15 AbilityDefinition distinctes ; un UltimateDefinition séparé ; aucun ID dupliqué ; toutes les références résolues ; toute capacité offensive possède au moins un impact ou un effet systémique explicite ; toute capacité exigeant une partie du corps déclare ses fonctions requises.
+`endurance_cost` représente la dépense corporelle immédiate ; `maintenance_cost` un maintien éventuel ; `material_cost` une ressource/munition/outil concret si la compétence l'exige ; `preparation_profile` et `recovery_profile` représentent PREP/REC sans imposer encore des durées numériques finales.
+
+Validation : un arbre contient exactement 15 AbilityDefinition distinctes ; un UltimateDefinition séparé ; aucun ID dupliqué ; toutes les références résolues ; toute capacité offensive possède au moins un impact ou un effet systémique explicite ; toute capacité exigeant une partie du corps déclare ses fonctions requises ; tout coût matériel doit référencer une ressource existante ; PREP/REC ne peuvent être absents que pour une action explicitement instantanée/neutre.
 
 ## UltimateDefinition
 
-id; tree_id; display_name_key; declaration_beat; commitment_beat; contact_or_phenomenon_beat; consequence_beat; aftermath_beat; body_requirements[]; target_rules; systemic_resolution; environment_hooks[]; failure_or_interruption_rules; animation_intent; audio_intent.
+id; tree_id; display_name_key; declaration_beat; commitment_beat; contact_or_phenomenon_beat; consequence_beat; aftermath_beat; body_requirements[]; target_rules; systemic_resolution; environment_hooks[]; failure_or_interruption_rules; endurance_cost; material_cost; preparation_profile; recovery_profile; animation_intent; audio_intent.
 
 Un ultime ne contourne pas gratuitement géométrie, anatomie, armure ou environnement. Son nombre d'usages et son rythme exact restent PROTOTYPE.
 
@@ -50,7 +52,7 @@ Les lésions produisent d'abord des conséquences fonctionnelles. Les HP globaux
 
 ## Pipeline de résolution corporelle
 
-ActionIntent -> TargetValidation -> ContactResolution -> ArmorResolution -> TissueResolution -> LesionCreation -> FunctionalConsequences -> Bleeding/Pain/Respiration/Will -> DismembermentCheck -> Death/IncapacityCheck -> EventEmission -> Presentation.
+ActionIntent -> TargetValidation -> Preparation -> ContactResolution -> ArmorResolution -> TissueResolution -> LesionCreation -> FunctionalConsequences -> Bleeding/Pain/Respiration/Will -> DismembermentCheck -> Death/IncapacityCheck -> Recovery -> EventEmission -> Presentation.
 
 Le démembrement est autorisé uniquement si : anatomie severable + impact compatible + puissance/état de zone suffisant + armure ne bloque pas + règle de compétence autorise la conséquence. Aucun proc de rareté ne crée un membre perdu.
 
