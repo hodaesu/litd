@@ -197,7 +197,7 @@ static func _reachable(start_id: String, goal_id: String, edges: Array) -> bool:
     var visited := {start_id:true}
     var queue: Array[String] = [start_id]
     while not queue.is_empty():
-        var current := queue.pop_front()
+        var current: String = queue.pop_front()
         if current == goal_id:
             return true
         for edge in edges:
