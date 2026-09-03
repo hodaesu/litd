@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "event_weights": {
+    "encountered": 0,
+    "survived_combat": 1,
+    "reencountered": 1,
+    "major_mutilation": 2,
+    "capture_escaped": 2,
+    "forced_retreat": 2,
+    "relic_taken": 3,
+    "killed_watcher": 4,
+    "great_remanence": 4,
+    "defeated_same_watcher": 2
+  },
+  "stage_thresholds": {
+    "memorial": 3,
+    "veteran": 7,
+    "elite": 12,
+    "nemesis": 18
+  },
+  "minimum_encounters": {
+    "veteran": 2,
+    "elite": 3,
+    "nemesis": 4
+  },
+  "major_event_types": [
+    "major_mutilation",
+    "relic_taken",
+    "killed_watcher",
+    "great_remanence"
+  ],
+  "adaptation_limits": {
+    "normal": 0,
+    "memorial": 0,
+    "veteran": 1,
+    "elite": 2,
+    "nemesis": 2
+  },
+  "nemesis_limits": {
+    "global": 3,
+    "per_region": 1
+  },
+  "mobile_caps": {
+    "active_entities": 64,
+    "archived_entities": 64,
+    "event_timeline": 220,
+    "active_scars": 96,
+    "archived_scars": 128,
+    "archive_links": 256
+  },
+  "scar_aging": [
+    {"after_runs": 0, "stage": "fresh"},
+    {"after_runs": 2, "stage": "weathered"},
+    {"after_runs": 5, "stage": "remnant"},
+    {"after_runs": 10, "stage": "archive"}
+  ],
+  "scar_severity_rank": {
+    "trace": 0,
+    "local": 1,
+    "regional": 2,
+    "historical": 3
+  }
+}

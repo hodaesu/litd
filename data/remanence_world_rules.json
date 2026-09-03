@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "corpse_policy": {
+    "watcher_corpses_always_persist": true,
+    "enemy_minimum_stage": "memorial",
+    "major_enemies_always_persist": true,
+    "one_corpse_per_origin_per_run": true
+  },
+  "reappearance_chance": {
+    "normal": 0.0,
+    "memorial": 0.35,
+    "veteran": 0.55,
+    "elite": 0.75,
+    "nemesis": 1.0
+  },
+  "stage_combat_multipliers": {
+    "normal": {"hp": 1.0, "damage": 1.0},
+    "memorial": {"hp": 1.0, "damage": 1.0},
+    "veteran": {"hp": 1.05, "damage": 1.03},
+    "elite": {"hp": 1.10, "damage": 1.08},
+    "nemesis": {"hp": 1.18, "damage": 1.12}
+  },
+  "adaptation_priority": [
+    "guard_old_wound",
+    "seal_resistance",
+    "hunter_weakest",
+    "relic_fury",
+    "fear_hardened"
+  ],
+  "event_to_adaptations": {
+    "major_mutilation": ["guard_old_wound"],
+    "capture_escaped": ["seal_resistance"],
+    "forced_retreat": ["hunter_weakest"],
+    "killed_watcher": ["hunter_weakest"],
+    "relic_taken": ["relic_fury"],
+    "reencountered": ["fear_hardened"]
+  },
+  "adaptations": {
+    "guard_old_wound": {
+      "label": "Garde de l'ancienne plaie",
+      "effect": "protect_last_mutilated_part",
+      "anatomy_hit_penalty": 15
+    },
+    "seal_resistance": {
+      "label": "Mémoire du sceau",
+      "effect": "capture_resistance",
+      "capture_resistance": 15
+    },
+    "hunter_weakest": {
+      "label": "Chasseur des faibles",
+      "effect": "target_mode",
+      "target_mode": "weakest"
+    },
+    "relic_fury": {
+      "label": "Fureur de la relique perdue",
+      "effect": "damage_multiplier",
+      "damage_multiplier": 1.10
+    },
+    "fear_hardened": {
+      "label": "Endurci par la peur",
+      "effect": "fear_resistance",
+      "fear_resistance": 15
+    }
+  },
+  "scar_anchor_preferences": {
+    "watcher_corpse": [
+      "accord.gallery.memorial_floor",
+      "accord.vault.cache",
+      "accord.vestibule.exit_stairs"
+    ],
+    "enemy_corpse": [
+      "accord.pillars.center",
+      "accord.gallery.memorial_floor",
+      "accord.vault.cache"
+    ],
+    "nemesis_mark": [
+      "accord.pillars.center",
+      "accord.guardroom.ceiling",
+      "accord.gallery.north_door",
+      "accord.debate.loop_gate",
+      "accord.vestibule.exit_stairs"
+    ],
+    "old_blood": [
+      "accord.gallery.memorial_floor",
+      "accord.warden.sanctum",
+      "accord.vault.cache"
+    ]
+  },
+  "scar_effects": {
+    "persistent_corpse": {
+      "environment_tags": ["corpse_memory", "mortality_trace"],
+      "interaction": true,
+      "may_change_navigation": false
+    },
+    "old_blood": {
+      "environment_tags": ["old_blood", "danger_memory"],
+      "interaction": false,
+      "may_change_navigation": false
+    },
+    "nemesis_mark": {
+      "environment_tags": ["nemesis_trace", "shared_history"],
+      "interaction": true,
+      "boost_nemesis_eligibility": true,
+      "may_change_navigation": false
+    },
+    "burned_area": {
+      "environment_tags": ["burned_area", "hazard_memory"],
+      "interaction": false,
+      "may_change_navigation": false
+    },
+    "opened_shortcut": {
+      "environment_tags": ["persistent_route"],
+      "route_state": "opened_shortcut",
+      "may_change_navigation": true
+    },
+    "destroyed_door": {
+      "environment_tags": ["broken_access"],
+      "route_state": "destroyed_door",
+      "may_change_navigation": true
+    },
+    "built_barricade": {
+      "environment_tags": ["barricade_memory"],
+      "route_state": "barricaded_optional",
+      "may_change_navigation": true
+    },
+    "major_item_removed": {
+      "environment_tags": ["missing_relic"],
+      "resource_state": "removed",
+      "may_change_navigation": false
+    }
+  },
+  "great_remanence": {
+    "minimum_age_runs": 2,
+    "minimum_visits": 2,
+    "protect_scar": true
+  },
+  "mobile_proxy_budget": {
+    "max_visible_scars_per_room": 4,
+    "max_interactive_scars_per_room": 2
+  },
+  "pc_proxy_budget": {
+    "max_visible_scars_per_room": 8,
+    "max_interactive_scars_per_room": 4
+  }
+}

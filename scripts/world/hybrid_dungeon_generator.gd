@@ -297,7 +297,7 @@ static func _reachable(start_id: String, goal_id: String, edges: Array, include_
     var visited: Dictionary = {start_id: true}
     var queue: Array[String] = [start_id]
     while not queue.is_empty():
-        var current: String = queue.pop_front()
+        var current: String = str(queue.pop_front())
         for edge in edges:
             if not include_hidden and bool(edge.get("hidden", false)):
                 continue
@@ -336,5 +336,5 @@ static func _compose_seed(config: Dictionary, run_state: Dictionary, attempt_ind
 static func _load_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
         return {}
-    var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+    var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
     return parsed if typeof(parsed) == TYPE_DICTIONARY else {}

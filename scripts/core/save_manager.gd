@@ -148,6 +148,7 @@ func _build_payload() -> Dictionary:
         "systemic_cross_narrative": SystemicCrossNarrativeRuntime.serialize(),
         "ashlands_minibosses": AshlandsMinibossDirector.serialize(),
         "ashlands_combat": AshlandsCombatBridge.serialize(), "campaign_memory": CampaignMemoryDirector.serialize(),
+        "remanence": RemanenceRuntime.serialize(),
         "expedition_reports": ExpeditionReportDirector.serialize(), "preparation_presets": ExpeditionPreparationDirector.serialize(),
         "living_exploration": ExplorationDirector.serialize(),
         "progression_scope": ContentScopeDirector.serialize()
@@ -178,6 +179,7 @@ func _apply_payload(payload: Dictionary) -> void:
     SystemicCrossNarrativeRuntime.deserialize(payload.get("systemic_cross_narrative",{}))
     AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses",{}))
     AshlandsCombatBridge.deserialize(payload.get("ashlands_combat",{})); CampaignMemoryDirector.deserialize(payload.get("campaign_memory",{}))
+    RemanenceRuntime.deserialize(payload.get("remanence",{}))
     ExpeditionReportDirector.deserialize(payload.get("expedition_reports",{})); ExpeditionPreparationDirector.deserialize(payload.get("preparation_presets",{}))
     ExplorationDirector.deserialize(payload.get("living_exploration",{}))
     ContentScopeDirector.deserialize(payload.get("progression_scope",{}))
@@ -191,6 +193,7 @@ func _migrate(payload: Dictionary) -> Dictionary:
     if version != SAVE_VERSION:
         return {}
     payload["campaign_memory"] = payload.get("campaign_memory",{})
+    payload["remanence"] = payload.get("remanence",{})
     payload["expedition_reports"] = payload.get("expedition_reports",{})
     payload["preparation_presets"] = payload.get("preparation_presets",{})
     payload["living_exploration"] = payload.get("living_exploration",{})
