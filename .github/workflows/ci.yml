@@ -168,7 +168,7 @@ jobs:
         run: python -m tools.blender.generate_dismemberment_jobs --output reports/dismemberment-jobs.json
       - name: Simulation combat v2, économie et cycles NG+
         run: python -m tools.qa.combat_economy_sim_v2
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: qa-reports

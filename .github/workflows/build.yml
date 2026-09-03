@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: mkdir -p "${{ matrix.path }}"
       - run: godot --headless --path . --export-release "${{ matrix.preset }}"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.artifact }}
           path: ${{ matrix.path }}
