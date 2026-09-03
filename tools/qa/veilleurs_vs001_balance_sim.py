@@ -106,7 +106,7 @@ def _apply_recruitment_actions(balance: dict, action_ids: list[str]) -> dict:
 def _capture_score(balance: dict, wounds: dict, state: dict, actor: str) -> int:
     check = balance["recruitment_s6"]["capture_check"]
     wound_bonus = 0
-    if bool(check.get("wound_bonus_from_existing_contract", false)):
+    if bool(check.get("wound_bonus_from_existing_contract", False)):
         wound_bonus = min(
             int(wounds.get("capture_bonus_cap", 20)),
             int(state.get("lost_parts", 0)) * int(wounds.get("capture_bonus_per_lost_part", 0))
