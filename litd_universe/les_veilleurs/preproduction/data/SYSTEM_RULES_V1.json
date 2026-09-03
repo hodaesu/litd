@@ -8,26 +8,20 @@
     "status": "system_design_retained_pending_godot_validation",
     "event_families": ["COHABITATION","CONFLIT","RAPPROCHEMENT","SOUVENIR","BESOIN_BIOLOGIQUE","BESOIN_PSYCHOLOGIQUE","TRANSFORMATION","TRAVAIL","DECOUVERTE","DEPART","CRISE","POLITIQUE"]
   },
-  "relationships": {
-    "axes": ["CONFIANCE","RESPECT","PEUR","RESSENTIMENT"],
-    "status": "system_design_retained"
-  },
-  "knowledge": {
-    "is_currency": false,
-    "states": ["UNKNOWN","SUSPECTED","OBSERVED","CONFIRMED","UNDERSTOOD"]
-  },
+  "relationships": {"axes": ["CONFIANCE","RESPECT","PEUR","RESSENTIMENT"],"status":"system_design_retained"},
+  "knowledge": {"is_currency":false,"states":["UNKNOWN","SUSPECTED","OBSERVED","CONFIRMED","UNDERSTOOD"]},
   "encounter_reward_baseline": {
     "source_sheet": "Recompenses_capture",
     "columns_present": ["Or cible", "Essence cible", "Rémanence cible", "Butin", "Capture", "Bonus connaissance"],
     "essence_status": "PRESENT_IN_LATEST_REFERENCE_FUNCTION_TO_VALIDATE",
-    "note": "Do not delete Essence from imported encounter data. Its broader economy function must be reconciled in Godot/GDD before treating it as a persistent spendable currency."
+    "note": "Conserver l'Essence dans les données importées. Sa fonction économique globale doit être consolidée avant d'en faire une monnaie persistante dépensable."
   },
   "ralliement": {
     "display_capture_probability": false,
     "capture_is_recruitment": false,
     "injuries_reset_on_rally": false,
     "bosses_recruitable": false,
-    "act_i_rule": "The eight ordinary Act I entities are marked 'Auxiliaire possible; ne remplace jamais un Veilleur'. The master source does not provide a more precise numeric capture condition for them; do not invent one.",
+    "act_i_rule": "Les huit ennemis ordinaires de l'Acte I sont marqués 'Auxiliaire possible; ne remplace jamais un Veilleur'. La source maîtresse ne fournit pas de condition numérique plus précise : ne pas en inventer.",
     "current_conditions": {
       "enemy.ecouteur_creux":"Sous 30 % de vitalité + rompre son suivi sonore deux fois dans le même combat",
       "enemy.porte_signe":"Sous 35 % + neutraliser ses deux mains sans les détruire",
@@ -64,16 +58,10 @@
       "enemy.archiviste_de_version":"Archives : conservation et comparaison des Rémanences",
       "enemy.double_du_seuil":"Défense : copie d’une posture défensive choisie au début d’une mission"
     },
-    "non_recruitable": [
-      "boss.ishar_gardien_du_passage",
-      "boss.orateur_sans_voix",
-      "boss.mere_des_veines",
-      "boss.porte_cendres_blanc",
-      "boss.le_copiste"
-    ]
+    "non_recruitable": ["boss.ishar_gardien_du_passage","boss.orateur_sans_voix","boss.mere_des_veines","boss.porte_cendres_blanc","boss.le_copiste"]
   },
   "legacy": {
-    "bestiar​y_25_75":"legacy/BESTIARY_REGISTRY_LEGACY_25_75.json",
+    "bestiary_25_75":"legacy/BESTIARY_REGISTRY_LEGACY_25_75.json",
     "ralliement_25_75":"legacy/SYSTEM_RULES_LEGACY_25_75.json"
   }
 }
