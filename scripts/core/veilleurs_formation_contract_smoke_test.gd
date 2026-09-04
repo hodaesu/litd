@@ -1,5 +1,7 @@
 extends Node
 
+const CombatPositionRules = preload("res://scripts/core/combat_position_rules.gd")
+
 var failures: Array[String] = []
 
 func _ready() -> void:
@@ -19,7 +21,7 @@ func _test_corpse_blocks_front_compression() -> void:
         {"id": "b", "combat_position": 2, "rank_span": 1},
         {"id": "c", "combat_position": 3, "rank_span": 1}
     ]
-    var result := CombatPositionRules.compress_toward_front(actors, [corpse], false)
+    var result: Dictionary = CombatPositionRules.compress_toward_front(actors, [corpse], false)
     _check(bool(result.get("success", false)), "Tests_48/T04 : la formation avec cadavre bloquant doit rester résoluble")
     var formation: Array = result.get("formation", [])
     _check(formation.size() == 3, "Tests_48/T04 : aucun acteur ne doit être perdu pendant la compression")
@@ -35,7 +37,7 @@ func _test_projection_into_ally_resolves_collision() -> void:
         {"id": "ally", "combat_position": 1, "rank_span": 1},
         {"id": "rear", "combat_position": 3, "rank_span": 1}
     ]
-    var result := CombatPositionRules.project_actor(actors, "projected", 1)
+    var result: Dictionary = CombatPositionRules.project_actor(actors, "projected", 1)
     _check(bool(result.get("success", false)), "Tests_48/T05 : une projection dans un allié doit résoudre la collision si un rang libre existe")
     var formation: Array = result.get("formation", [])
     _check(bool(CombatPositionRules.validate_formation(formation).get("valid", false)), "Tests_48/T05 : la projection résolue ne doit laisser aucune superposition")
