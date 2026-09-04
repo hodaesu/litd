@@ -128,6 +128,7 @@ func _build_payload() -> Dictionary:
             "timestamp": Time.get_datetime_string_from_system(),
             "chapter": CampaignState.current_chapter_number(),
             "zone": AshlandsRuntime.current_zone_id,
+            "mode": "veilleurs_vs001" if VeilleursVS001WorldRuntime.is_active() else "litd1",
             "party": GameState.party.map(func(hero: Dictionary): return {"id":hero.get("id", ""),"name":hero.get("name", ""),"hp":hero.get("hp", 0),"max_hp":hero.get("max_hp", 0)}),
             "play_seconds": int((Time.get_ticks_msec() - session_started_ms) / 1000),
             "screen": GameState.current_screen
@@ -149,6 +150,7 @@ func _build_payload() -> Dictionary:
         "ashlands_minibosses": AshlandsMinibossDirector.serialize(),
         "ashlands_combat": AshlandsCombatBridge.serialize(), "campaign_memory": CampaignMemoryDirector.serialize(),
         "remanence": RemanenceRuntime.serialize(),
+        "veilleurs_vs001": VeilleursVS001PlayableBridge.serialize(),
         "expedition_reports": ExpeditionReportDirector.serialize(), "preparation_presets": ExpeditionPreparationDirector.serialize(),
         "living_exploration": ExplorationDirector.serialize(),
         "progression_scope": ContentScopeDirector.serialize()
@@ -180,6 +182,7 @@ func _apply_payload(payload: Dictionary) -> void:
     AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses",{}))
     AshlandsCombatBridge.deserialize(payload.get("ashlands_combat",{})); CampaignMemoryDirector.deserialize(payload.get("campaign_memory",{}))
     RemanenceRuntime.deserialize(payload.get("remanence",{}))
+    VeilleursVS001PlayableBridge.deserialize(payload.get("veilleurs_vs001",{}))
     ExpeditionReportDirector.deserialize(payload.get("expedition_reports",{})); ExpeditionPreparationDirector.deserialize(payload.get("preparation_presets",{}))
     ExplorationDirector.deserialize(payload.get("living_exploration",{}))
     ContentScopeDirector.deserialize(payload.get("progression_scope",{}))
@@ -194,6 +197,7 @@ func _migrate(payload: Dictionary) -> Dictionary:
         return {}
     payload["campaign_memory"] = payload.get("campaign_memory",{})
     payload["remanence"] = payload.get("remanence",{})
+    payload["veilleurs_vs001"] = payload.get("veilleurs_vs001",{})
     payload["expedition_reports"] = payload.get("expedition_reports",{})
     payload["preparation_presets"] = payload.get("preparation_presets",{})
     payload["living_exploration"] = payload.get("living_exploration",{})
