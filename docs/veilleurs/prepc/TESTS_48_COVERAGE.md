@@ -1,67 +1,101 @@
-# LITD : Les Veilleurs — couverture Tests_48
+# LITD : Les Veilleurs — couverture canonique Tests_48
 
 Date : 2026-09-04
 
-Statuts :
+Source canonique : onglet `Tests_48` de `LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx`.
+Fingerprint canonique `Tests_48` : `31bd5279fafc4ca5a40bb1646b60cac03d168f5d41dbad3dce5edb5ae875815f`.
 
-- `PASS_HEADLESS` : contrat exact couvert par un smoke automatisé.
-- `COVERED_ADJACENT` : système voisin testé, mais le scénario exact doit encore être ajouté.
-- `MECHANICAL_GAP_NO_PC` : runtime manquant ou incomplet ; peut et doit être développé/testé sans attendre un PC de production.
-- `DEVICE_REQUIRED` : validation finale qui dépend réellement d'un appareil, du rendu ou d'un jugement ergonomique humain.
+## Correction de dérive documentaire
 
-| # | Gate | Contrat | Statut actuel | Preuve / prochaine action |
-|---:|---|---|---|---|
-| 1 | G01 | Vitesse très différente → rapide avant lent | PASS_HEADLESS | `veilleurs_prepc_contract_smoke` |
-| 2 | G01 | Étourdi juste avant le tour → action sautée + récupération | MECHANICAL_GAP_NO_PC | timeline actuelle ne possède pas encore de scheduler de statut/tour |
-| 3 | G01 | Ralenti → délai de prochaine action plus long | MECHANICAL_GAP_NO_PC | timeline actuelle trie l'initiative mais ne planifie pas le délai suivant |
-| 4 | G01 | Rapide répété → jamais de verrou infini | MECHANICAL_GAP_NO_PC | nécessite timeline continue avec garde anti-lock |
-| 5 | G02 | Retraite P4 → permutation cohérente | MECHANICAL_GAP_NO_PC | règles de positions existent, moteur de permutation à créer |
-| 6 | G02 | Poussée P1 → glissement voisin valide | MECHANICAL_GAP_NO_PC | moteur de déplacement de formation à créer |
-| 7 | G02 | Large + 3 Medium → occupation respectée | MECHANICAL_GAP_NO_PC | modèle de taille/occupation à créer |
-| 8 | G02 | Large impossible → refus propre | MECHANICAL_GAP_NO_PC | idem G02 |
-| 9 | G03 | Bras détruit → compétence 2 bras indisponible | COVERED_ADJACENT | anatomie sait perdre une partie ; prérequis corporels des compétences à relier explicitement |
-| 10 | G03 | Jambe perdue → mobilité recalculée | PASS_HEADLESS | `body_state_smoke` valide `limp_walk`; Rémanence conserve la perte |
-| 11 | G03 | Main blessée → arme 2 mains pénalisée/indisponible | MECHANICAL_GAP_NO_PC | loadout actuel couvre consommables, pas prérequis biomécaniques d'armes |
-| 12 | G03 | Œil détruit → précision visée change sans fuite d'info | COVERED_ADJACENT | anatomie/senseurs existent ; assertion précision ciblée à ajouter |
-| 13 | G04 | Coup tête + armure torse → torse n'absorbe pas | MECHANICAL_GAP_NO_PC | couverture d'armure localisée non trouvée dans runtime actuel |
-| 14 | G04 | Durabilité 0 → protection réduite | MECHANICAL_GAP_NO_PC | modèle de durabilité d'armure à brancher |
-| 15 | G04 | Contrôle vs forte résistance → chance/cap cohérents | COVERED_ADJACENT | résistances existent dans plusieurs systèmes ; contrat générique à centraliser |
-| 16 | G04 | Ancienne plaie protégée → exposition réduite, jamais immunité | PASS_HEADLESS | `remanence_smoke` + adaptation `guard_old_wound` |
-| 17 | G05 | Entend sans voir → enquête position estimée | MECHANICAL_GAP_NO_PC | `EnemyCombatDirector` combat n'implémente pas encore perception sensorielle spatiale |
-| 18 | G05 | Signal ancien → confiance diminue | MECHANICAL_GAP_NO_PC | modèle de croyance/confidence spatial à créer |
-| 19 | G05 | Diversion deux sources → choix crédible non omniscient | MECHANICAL_GAP_NO_PC | idem G05 |
-| 20 | G05 | Vieille mémoire/changement zone → ancienne info peut devenir fausse | MECHANICAL_GAP_NO_PC | mémoire existe, croyance spatiale versionnée manque |
-| 21 | G06 | Cible paniquée → approche adaptée améliore issue | COVERED_ADJACENT | VS001 S6 teste peur/confiance et actions de désescalade ; effet exact de probabilité à verrouiller |
-| 22 | G06 | Cible amputée → recrue garde membre perdu | PASS_HEADLESS | nouveau transfert automatique `CaptureWoundRuntime` + smoke |
-| 23 | G06 | Compagnie 4/4 → pas de 5e slot, autre destin possible | MECHANICAL_GAP_NO_PC | Refuge Veilleurs 4 places pas encore implémenté comme runtime dédié |
-| 24 | G06 | Échecs répétés de sceau → résistance mémorisée | PASS_HEADLESS | `capture_escaped` → `seal_resistance` + smoke exact |
-| 25 | G07 | Veilleur mort définitivement → roster actif réduit | COVERED_ADJACENT | cadavre/mort testés ; roster Veilleurs permanent exact à ajouter |
-| 26 | G07 | Save/load → même corpse ID + lésions | PASS_HEADLESS | `remanence_smoke` sérialise identité/corps et cadavre persistant |
-| 27 | G07 | Retour sur corps transformé → identité conservée | PASS_HEADLESS | vieillissement + visites + Grande Rémanence conservent l'origine |
-| 28 | G07 | Zone saturée → archivage/merge sans perte essentielle | PASS_HEADLESS | caps Rémanence + `archived_scars` testés |
-| 29 | G08 | Deux témoins d'un même événement → croyances différentes | PASS_HEADLESS | nouveau smoke convictions opposées |
-| 30 | G08 | Admiration vs confiance → secours désobéissant change axes différemment | COVERED_ADJACENT | `relationship_smoke` prouve axes séparés ; événement exact à ajouter |
-| 31 | G08 | Blessure sévère/événement extrême → Trace possible et persistante | COVERED_ADJACENT | psychologie persistante testée ; corpus des 60 Traces pas encore importé comme moteur dédié |
-| 32 | G08 | Trace latente + faible surcharge après repos → peut se résoudre | MECHANICAL_GAP_NO_PC | cycle de vie exact des Traces canoniques à implémenter |
-| 33 | G09 | Survie/fuite → preuve de mémoire | PASS_HEADLESS | nouveau smoke événementiel |
-| 34 | G09 | Mort immédiate → pas d'évolution posthume | PASS_HEADLESS | nouveau smoke via `RemanenceCombatBridge` |
-| 35 | G09 | Stratégie répétée sur 3 rencontres → contre-mesure possible | COVERED_ADJACENT | adaptations événementielles existent ; répétition tactique générique à instrumenter |
-| 36 | G09 | Membre perdu → adaptation ne le recrée jamais | PASS_HEADLESS | nouveau smoke exact |
-| 37 | G10 | Autel profané ZoneScar → seed+scar reconstruit état | PASS_HEADLESS | `remanence_smoke` attache/reconstruit les cicatrices sur plan hybride |
-| 38 | G10 | Raccourci persistant reste ouvert | COVERED_ADJACENT | type `opened_shortcut` existe ; scénario exact de route à ajouter |
-| 39 | G11 | Refuge 4 places + 5e → attente/départ/remplacement par choix | MECHANICAL_GAP_NO_PC | Refuge Veilleurs dédié à implémenter |
-| 40 | G11 | Besoin faim/peur ignoré → mémoire/risque de départ augmente | MECHANICAL_GAP_NO_PC | besoins/résidents du Refuge Veilleurs à implémenter |
-| 41 | G12 | 1000 runs : difficulté moyenne augmente avec profondeur | MECHANICAL_GAP_NO_PC | générateur hybride actuel choisit salles, pas encore budgets d'ennemis mesurables par profondeur |
-| 42 | G12 | Longue série → anti-répétition visible | COVERED_ADJACENT | le générateur interdit déjà la répétition d'un template dans un layout ; historique inter-runs à ajouter |
-| 43 | G12 | Aucun counter-pick direct du loadout joueur | COVERED_ADJACENT | générateur actuel ne lit pas le loadout ; audit statique/contract test à ajouter |
-| 44 | G13 | Action tactile fréquente → 1–2 interactions max | DEVICE_REQUIRED | structure automatisable, mais confort final doit être validé sur appareil réel |
-| 45 | G13 | Inspection anatomique lisible sans microtexte | DEVICE_REQUIRED | CI vérifie tailles/bords ; lisibilité réelle nécessite appareil humain |
-| 46 | G13 | Interruption/autosave → reprise cohérente | PASS_HEADLESS | nouveau smoke corrompt l'autosave courant et exige restauration du `.bak` valide |
-| 47 | G14 | Ishar phase 2 → télégraphe + fenêtre de réponse | MECHANICAL_GAP_NO_PC | Ishar n'est pas encore présent dans le runtime du dépôt actuel |
-| 48 | G14 | Pattern appris + variation contextuelle | MECHANICAL_GAP_NO_PC | dépend du runtime Ishar/IA de boss à implémenter |
+Une première version de cette matrice avait résumé/re-numéroté des scénarios de travail comme s'ils étaient les 48 scénarios canoniques. Cette version est annulée.
 
-## Résultat de tri
+Règle désormais verrouillée :
 
-Le PC n'est **pas** le blocage des scénarios mécaniques. Les statuts `MECHANICAL_GAP_NO_PC` restent des tâches de code/data/Godot headless et doivent être poursuivis avant le handoff matériel.
+- les IDs 1–48 ci-dessous correspondent mot pour mot au référentiel canonique ;
+- un test utile mais absent de `Tests_48` est nommé `SMOKE_SUPPLEMENTAL` et ne reçoit jamais un faux ID canonique ;
+- aucun des 48 cas n'est classé comme intrinsèquement `DEVICE_REQUIRED` : le référentiel exige une automatisation Godot pour chacun, complétée ensuite par du playtest tactile quand pertinent.
 
-Les seuls cas intrinsèquement `DEVICE_REQUIRED` dans cette matrice sont actuellement T44 et T45. Le profiling CPU/GPU/RAM/FPS, la qualité du rendu, les animations finales et le confort tactile prolongé restent également des validations matérielles extérieures à `Tests_48`.
+## Statuts
+
+- `PASS_HEADLESS` : le résultat attendu complet du scénario canonique est couvert par un test automatisé exact.
+- `PARTIAL_HEADLESS` : une partie importante du scénario exact est automatisée, mais une assertion canonique manque encore.
+- `COVERED_ADJACENT` : le système voisin est testé, mais le scénario canonique exact n'est pas encore verrouillé.
+- `MECHANICAL_GAP_NO_PC` : runtime ou données manquants/incomplets ; doit être développé et testé headless avant handoff matériel.
+
+| ID | Système | Scénario canonique | Résultat attendu canonique | Statut | Preuve / prochaine action |
+|---:|---|---|---|---|---|
+| 1 | Timeline | 4 Veilleurs + 4 ennemis | Chaque acteur obtient 1 action/cycle; réactions n’ajoutent pas de nouveau tour. | PASS_HEADLESS | `veilleurs_prepc_contract_smoke` : scheduler cyclique + réaction hors-tour |
+| 2 | Timeline | Retard + avance simultanés | Résolution déterministe; aucun acteur dupliqué ou perdu. | PASS_HEADLESS | application atomique des shifts + test de stabilité de l'ordre et unicité des jetons |
+| 3 | Timeline | Boss multi-action | Actions boss visibles et séparées; pas d’action cachée gratuite. | PASS_HEADLESS | jetons boss explicites `action_index`, visibles, réactions sans tour gratuit |
+| 4 | Formation | Cadavre P1 | La compression ne traverse pas un corps bloquant sans règle de passage. | MECHANICAL_GAP_NO_PC | ajouter resolver de formation/cadavre bloquant |
+| 5 | Formation | Projection dans allié | Collision résolue puis positions valides; pas de superposition. | MECHANICAL_GAP_NO_PC | ajouter résolution de poussée en chaîne / refus propre |
+| 6 | Formation | 4 ennemis + boss occupant 2 rangs | Le générateur refuse une formation physiquement impossible. | MECHANICAL_GAP_NO_PC | ajouter empreinte de rang et validation de capacité P1–P4 |
+| 7 | Anatomie | Membre hors fonction | Compétences exigeant cette fonction deviennent indisponibles, autres restent jouables. | COVERED_ADJACENT | anatomie sait perdre une partie ; relier exigences fonctionnelles des compétences |
+| 8 | Anatomie | Construct contre Hémocorde | Pas de saignement/hémorragie; technique invalidée ou fortement réduite selon définition. | MECHANICAL_GAP_NO_PC | centraliser immunité physiologique / compatibilité de technique |
+| 9 | Anatomie | Démembrement | N’arrive que si impact, zone, énergie et gravité sont compatibles. | COVERED_ADJACENT | runtime de démembrement existe ; test exact multi-conditions à ajouter |
+| 10 | Armure | Pièce brisée | La zone devient exposée; l’armure ne continue pas à absorber à pleine valeur. | MECHANICAL_GAP_NO_PC | brancher durabilité/localisation de protection |
+| 11 | Armure | Contondant sur plaque | Transmission de choc possible sans perforation. | MECHANICAL_GAP_NO_PC | ajouter séparation perforation / trauma transmis |
+| 12 | Blessures | Fracture persistante | Sauvegarde/rechargement conserve zone, gravité, traitement, séquelle. | COVERED_ADJACENT | blessures persistantes et SaveManager existent ; round-trip exact fracture à ajouter |
+| 13 | Blessures | Stabilisation | Stoppe aggravation sans guérir la lésion. | COVERED_ADJACENT | soins/stabilisation existent dans systèmes voisins ; contrat exact à ajouter |
+| 14 | Blessures | État critique + extraction | Un allié porteur peut quitter avec le blessé; pénalités appliquées. | MECHANICAL_GAP_NO_PC | portage/extraction fonctionnelle à implémenter |
+| 15 | Cadavres | Mort puis revisit | Même CorpseState rechargé, pas de resimulation du ragdoll. | COVERED_ADJACENT | Rémanence/cadavres sérialisés ; assertion CorpseState identique à ajouter |
+| 16 | Cadavres | Brûler un corps | État persiste et interdit absorption/réanimation incompatibles. | MECHANICAL_GAP_NO_PC | ajouter état brûlé + règles d'admissibilité persistantes |
+| 17 | Cadavres | Boss Mère absorbe corps | L’assimilation cible seulement cadavres admissibles et est télégraphiée. | MECHANICAL_GAP_NO_PC | dépend runtime Mère des Veines + filtre cadavres |
+| 18 | Lumière | Source détruite | Informations deviennent moins précises, jamais fausse certitude arbitraire. | COVERED_ADJACENT | lumière/information existent ; contrat de dégradation épistémique exact à ajouter |
+| 19 | Lumière | Deux zones stables | Porte-Cendres phase 1 reconnaît correctement la condition. | MECHANICAL_GAP_NO_PC | dépend runtime Porte-Cendres + lecture zones stables |
+| 20 | Psychologie | Peur 100 | Rupture psychologique distincte de Folie; effets persistants cohérents. | COVERED_ADJACENT | `psychology_smoke` couvre Peur/Folie ; assertion exacte seuil 100 + persistance à ajouter |
+| 21 | Rémanence | Espèce inconnue | Intentions affichées qualitativement et connaissances progressent par preuves. | COVERED_ADJACENT | intentions qualitatives et Rémanence existent ; progression de connaissance exacte à lier |
+| 22 | Rémanence | Espèce maîtrisée | Informations confirmées réapparaissent sur nouvelle expédition. | COVERED_ADJACENT | persistance Rémanence existe ; round-trip bestiaire maîtrisé à ajouter |
+| 23 | Capture | Condition non remplie | Bouton de capture indique pourquoi la cible n’est pas admissible. | COVERED_ADJACENT | `capture_readiness` existe ; UI/reason code exact à verrouiller |
+| 24 | Capture | Échec de capture | Cible reste ennemie, résistance augmente, intention agressive actualisée. | PARTIAL_HEADLESS | résistance mémorisée testée ; ajouter assertions cible toujours hostile + intention actualisée |
+| 25 | Capture | Réussite | Cible retirée proprement du combat et enregistrée comme auxiliaire; jamais ajoutée au quatuor. | COVERED_ADJACENT | capture/ralliement existent ; test exact retrait + auxiliaire hors quatuor à ajouter |
+| 26 | Rencontre | Budget menace | Aucun template généré au-dessus du budget sauf rencontre scriptée explicitement marquée. | MECHANICAL_GAP_NO_PC | intégrer/brancher budget de menace du pack canonique |
+| 27 | Rencontre | Max acteurs | Jamais plus de 4 acteurs ennemis standards. | MECHANICAL_GAP_NO_PC | ajouter contrat de capacité au générateur de rencontres |
+| 28 | Rencontre | Anti-répétition | Même template jamais 2 fois de suite. | COVERED_ADJACENT | anti-répétition intra-layout existe ; historique inter-rencontres à brancher |
+| 29 | Rencontre | Injection mémorielle | Maximum 1 ennemi mémoriel injecté par génération standard. | MECHANICAL_GAP_NO_PC | brancher injection mémorielle bornée |
+| 30 | Rencontre | Némésis | N’apparaît que si une histoire partagée l’a créée. | COVERED_ADJACENT | Rémanence/némésis existent ; verrou d'éligibilité générateur à ajouter |
+| 31 | Variantes | N20 | Même rig de base; stats/IA/visuel spécialisés chargés sans scène spécifique. | MECHANICAL_GAP_NO_PC | intégrer données variantes + contrat de ressource/rig partagé |
+| 32 | Variantes | N40 | Réactions avancées/forme experte sans casser les intentions mobiles. | MECHANICAL_GAP_NO_PC | intégrer variante experte + intentions bornées |
+| 33 | IA | Cible blessée | Délié Affamé peut prioriser blessé mais respecte accessibilité réelle. | COVERED_ADJACENT | ciblage `weakest` existe ; accessibilité réelle manque au contrat |
+| 34 | IA | Porte-Signe mains hors fonction | Perd les capacités exigeant gestes, change de plan IA. | MECHANICAL_GAP_NO_PC | lier anatomie fonctionnelle aux exigences de compétences IA |
+| 35 | IA | Archiviste saturé | Quatre familles d’actions distinctes empêchent une réponse parfaite unique. | MECHANICAL_GAP_NO_PC | intégrer profil Archiviste + diversité minimale des familles |
+| 36 | Boss Ishar | Phase 1 | Transition exige vitalité + 2 méthodes de franchissement distinctes. | MECHANICAL_GAP_NO_PC | intégrer `boss_phases` / contrôleur Ishar canonique |
+| 37 | Boss Ishar | Mémoire | Répéter action renforce contre; nouvelle famille contourne l’adaptation. | MECHANICAL_GAP_NO_PC | brancher mémoire tactique du boss et familles d'action |
+| 38 | Boss Orateur | Écho | Copie structure, pas asset/arme impossible; contexte peut la faire échouer. | MECHANICAL_GAP_NO_PC | runtime Orateur à intégrer |
+| 39 | Boss Orateur | Silence | Actions individuelles restent utilisables; pas de désactivation totale de commandes. | MECHANICAL_GAP_NO_PC | runtime Silence à intégrer avec garde-fou UI/commandes |
+| 40 | Boss Mère | Réseau | Dégâts redistribués seulement via connexions actives visibles. | MECHANICAL_GAP_NO_PC | runtime réseau Mère des Veines à intégrer |
+| 41 | Boss Mère | Zones mortes | Coupures du réseau persistent entre phases. | MECHANICAL_GAP_NO_PC | persistance inter-phases du réseau à intégrer |
+| 42 | Boss Porte-Cendres | Effacement | Ne peut effacer blessure, mort, cadavre, porte détruite ou Rémanence ancrée. | MECHANICAL_GAP_NO_PC | intégrer Effacement + liste d'états irréversibles |
+| 43 | Boss Porte-Cendres | Procession | Route d’extraction se réduit de façon annoncée et peut être défendue. | MECHANICAL_GAP_NO_PC | intégrer route d'extraction télégraphiée/défendable |
+| 44 | Boss Copiste | Copie | Copie les familles les plus récentes, pas les statistiques du joueur. | MECHANICAL_GAP_NO_PC | intégrer copie structurelle bornée |
+| 45 | Boss Copiste | Correction | Une correction par fenêtre; ne peut pas annuler plusieurs conséquences lourdes simultanément. | MECHANICAL_GAP_NO_PC | intégrer budget/fenêtre de Correction |
+| 46 | Boss Copiste | Palimpseste | Deux versions cohérentes; lumière stabilise; aucune téléportation aléatoire. | MECHANICAL_GAP_NO_PC | intégrer états de version cohérents + ancrage lumière |
+| 47 | Boss Copiste | Finale | Synthèse choisit comportements observés; une nouvelle séquence doit pouvoir la battre. | MECHANICAL_GAP_NO_PC | intégrer synthèse adaptative avec ouverture anti-lock |
+| 48 | Sauvegarde | Checkpoint pré-boss | Seed, salle, blessures, cadavres, terrain, mémoriels et connaissances restent identiques. | COVERED_ADJACENT | SaveManager sérialise plusieurs briques ; snapshot complet pré-boss exact à ajouter |
+
+## Smokes supplémentaires conservés
+
+Ces tests restent utiles mais ne sont **pas** des IDs `Tests_48` :
+
+- priorité simple par vitesse ;
+- étourdissement consommant un créneau sans créer de nouveau tour ;
+- capture d'une cible amputée conservant membre perdu, lésions, trauma et origine de Rémanence ;
+- soins de convalescence sans repousse de membre ;
+- deux témoins pouvant interpréter différemment le même événement ;
+- ennemi survivant/fuyant laissant une mémoire ;
+- mort immédiate n'entraînant pas d'évolution posthume ;
+- adaptation ne recréant jamais un membre perdu ;
+- corruption d'autosave avec restauration du backup valide.
+
+## Ordre de travail pré-PC corrigé
+
+1. fermer G01 canonique : fait pour T01–T03 ;
+2. formation T04–T06 ;
+3. anatomie/armure/blessures T07–T14 ;
+4. cadavres/lumière/psychologie/Rémanence T15–T22 ;
+5. capture T23–T25 ;
+6. générateur de rencontres/variantes T26–T32 ;
+7. IA T33–T35 ;
+8. boss T36–T47 ;
+9. checkpoint complet T48 ;
+10. playtests tactile/PC et profiling en complément des preuves headless.
