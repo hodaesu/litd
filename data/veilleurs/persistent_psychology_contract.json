@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "contract_id": "les_veilleurs_persistent_psychology_v1",
+  "core_rule": "Fear is the immediate visible reaction. Psychological Traces are persistent lived memories or protective habits. Folie du Voile remains a separate supernatural exposure system. None is a psychiatric diagnosis.",
+  "layers": {
+    "fear": {
+      "persistent_between_scenes": false,
+      "visible_meter": true,
+      "bands": [
+        {"id": "calm", "min": 0, "max": 24},
+        {"id": "uneasy", "min": 25, "max": 49},
+        {"id": "afraid", "min": 50, "max": 74},
+        {"id": "terrified", "min": 75, "max": 99},
+        {"id": "panic", "min": 100, "max": 100}
+      ],
+      "rule": "Existing fear combat penalties remain authoritative."
+    },
+    "psychological_trace": {
+      "persistent": true,
+      "visible_as_discrete_history_linked_entries": true,
+      "non_diagnostic": true,
+      "purpose": "Modify contextual reactions, not define a character as permanently broken or cured."
+    },
+    "hope": {
+      "persistent_meter": false,
+      "presentation": "temporary posture/event",
+      "rule": "Hope may create temporary resolve, support or counter-experience but is not a permanent gauge."
+    },
+    "veil_folie": {
+      "persistent_meter": false,
+      "separate_supernatural_system": true,
+      "cannot_be_substituted_for_fear_or_trace": true
+    }
+  },
+  "trace_record": {
+    "fields": [
+      "trace_uid",
+      "definition_id",
+      "owner_uid",
+      "kind",
+      "source_type",
+      "source_id",
+      "source_tags",
+      "intensity",
+      "reinforcement_count",
+      "softening_count",
+      "acquired_run",
+      "last_trigger_run",
+      "related_entity_uid",
+      "related_location_id",
+      "history_event_ids"
+    ],
+    "intensity_range": [1, 3],
+    "source_types": ["enemy", "memorable_enemy", "ally_event", "location", "injury", "mutilation", "loss", "victory", "community", "choice", "sanctuary", "unknown"],
+    "kinds": ["protective_trace", "memory_trace", "stress_memory", "relationship_trace", "place_trace"]
+  },
+  "lifecycle": {
+    "create": "Only an authored event or systemic threshold with a valid trace pool may create a trace.",
+    "reinforce": "A meaningfully similar lived event may add reinforcement. Two reinforcements at the same intensity may increase intensity by one, max 3.",
+    "soften": "A meaningful counter-experience may add softening. Two softening events may decrease intensity by one, min 1, or mark the trace quiet when authored rules allow it.",
+    "quiet": "A quiet trace remains in history but does not apply its contextual modifier until reactivated by a strong matching event.",
+    "never_auto_delete": true,
+    "sanctuary_rule": "Care and reflection can soften or contextualize traces; they never erase history instantly."
+  },
+  "contextual_effects": {
+    "rule": "Trace effects activate only when current event tags match the trace definition/source tags.",
+    "allowed_effects": [
+      "fear_gain_multiplier",
+      "fear_relief_multiplier",
+      "panic_reaction_override",
+      "resolve_check_modifier",
+      "intent_confidence_modifier_against_related_enemy",
+      "deescalation_modifier",
+      "guard_or_support_trigger",
+      "dialogue_or_nonverbal_variant"
+    ],
+    "forbidden_effects": [
+      "global_goodness_score",
+      "permanent_random_turn_theft_without_warning",
+      "mental_illness_equals_violence",
+      "mental_illness_equals_evil",
+      "trauma_always_breaks_or_strengthens"
+    ]
+  },
+  "panic": {
+    "default_reaction": "freeze",
+    "trace_override_allowed": true,
+    "possible_authored_reactions": ["freeze", "retreat", "guard_ally", "seek_cover"],
+    "preview_rule": "When the reaction is predictable from known current state, the combat preview should expose the risk before player commitment.",
+    "post_crisis_fear_uses_existing_rules": true
+  },
+  "existing_trace_definitions_reused": [
+    "judgement_fixation",
+    "ash_dissociation",
+    "identity_detachment",
+    "name_obsession",
+    "panic_memory",
+    "mutilation_echo"
+  ],
+  "remanence_links": {
+    "memorable_enemy_trace": "A trace may point to an individual enemy UID and later affect recognition, fear and dialogue when that same entity returns.",
+    "knowledge_counterplay": "Repeated successful observation may increase intent confidence against a related enemy, but only when current Perception permits it.",
+    "history": "Trace creation, reinforcement, softening and reactivation create compact history events, not scene snapshots."
+  },
+  "ui": {
+    "combat": "Show Fear band/meter and only decision-changing trace effects; no permanent Hope or Folie meter.",
+    "status_sheet": "Show current Fear, active Traces with source and contextual effect, temporary Hope posture and separate Folie du Voile exposure information when relevant.",
+    "archives": "Historical traces may appear in a character history view without diagnostic labels."
+  }
+}
