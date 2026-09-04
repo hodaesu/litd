@@ -15,9 +15,19 @@ func _ready() -> void:
     if persistence != null and not persistence.persistent_world_changed.is_connected(_request_rebuild):
         persistence.persistent_world_changed.connect(_request_rebuild)
     call_deferred("rebuild")
+    call_deferred("_restore_saved_party_position")
 
 func _request_rebuild() -> void:
     call_deferred("rebuild")
+
+func _restore_saved_party_position() -> void:
+    if not VeilleursVS001PlayableBridge.has_saved_party_position():
+        return
+    await get_tree().process_frame
+    var parties: Array[Node] = get_tree().get_nodes_in_group("player_party")
+    if parties.is_empty() or not (parties[0] is Node3D):
+        return
+    (parties[0] as Node3D).global_position = VeilleursVS001PlayableBridge.resume_world_position()
 
 func rebuild() -> void:
     for child: Node in get_children():
