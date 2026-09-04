@@ -1,0 +1,124 @@
+class_name LoreMasterCatalog
+extends RefCounted
+
+const HISTORY_PATH := "res://data/canonical_history.json"
+const ANCIENT_MYSTERIES_PATH := "res://data/canon/ancient_periods_and_mysteries.json"
+const LAST_WAR_PATH := "res://data/canon/last_war.json"
+const LAST_WAR_BATTLES_PATH := "res://data/canon/last_war_battles.json"
+const TRIAD_PATH := "res://data/canon/litd2_triad.json"
+const NIGHT_OF_SARN_PATH := "res://data/canon/night_of_sarn.json"
+const LITD2_EPILOGUE_PATH := "res://data/canon/litd2_epilogue.json"
+const POST_SARN_PATH := "res://data/canon/post_sarn_concorde.json"
+const VEILLEURS_EARLY_PATH := "res://data/canon/les_veilleurs_acts_1_2.json"
+const VEILLEURS_LATE_PATH := "res://data/canon/les_veilleurs_acts_3_5.json"
+const VEILLEURS_QUARTET_PATH := "res://data/canon/les_veilleurs_quartet.json"
+const PROJECT_THRESHOLD_PATH := "res://data/canon/project_threshold_and_fall.json"
+const POST_FALL_PATH := "res://data/canon/post_fall_litd1.json"
+const COMPLETION_PATH := "res://data/canon/lore_completion_manifest.json"
+
+static func _load_json(path: String) -> Dictionary:
+    if not FileAccess.file_exists(path):
+        push_error("Lore canonique manquant: " + path)
+        return {}
+    var file := FileAccess.open(path, FileAccess.READ)
+    if file == null:
+        push_error("Impossible d'ouvrir le lore canonique: " + path)
+        return {}
+    var parsed: Variant = JSON.parse_string(file.get_as_text())
+    if parsed is Dictionary:
+        return parsed
+    push_error("JSON de lore invalide: " + path)
+    return {}
+
+static func history() -> Dictionary:
+    return _load_json(HISTORY_PATH)
+
+static func ancient_periods_and_mysteries() -> Dictionary:
+    return _load_json(ANCIENT_MYSTERIES_PATH)
+
+static func last_war() -> Dictionary:
+    return _load_json(LAST_WAR_PATH)
+
+static func last_war_battles() -> Dictionary:
+    return _load_json(LAST_WAR_BATTLES_PATH)
+
+static func litd2_triad() -> Dictionary:
+    return _load_json(TRIAD_PATH)
+
+static func night_of_sarn() -> Dictionary:
+    return _load_json(NIGHT_OF_SARN_PATH)
+
+static func litd2_epilogue() -> Dictionary:
+    return _load_json(LITD2_EPILOGUE_PATH)
+
+static func post_sarn_concorde() -> Dictionary:
+    return _load_json(POST_SARN_PATH)
+
+static func veilleurs_acts_1_2() -> Dictionary:
+    return _load_json(VEILLEURS_EARLY_PATH)
+
+static func veilleurs_acts_3_5() -> Dictionary:
+    return _load_json(VEILLEURS_LATE_PATH)
+
+static func veilleurs_quartet() -> Dictionary:
+    return _load_json(VEILLEURS_QUARTET_PATH)
+
+static func project_threshold_and_fall() -> Dictionary:
+    return _load_json(PROJECT_THRESHOLD_PATH)
+
+static func post_fall_litd1() -> Dictionary:
+    return _load_json(POST_FALL_PATH)
+
+static func completion_manifest() -> Dictionary:
+    return _load_json(COMPLETION_PATH)
+
+static func master_chronology() -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
+    var values: Variant = completion_manifest().get("master_chronology", [])
+    if values is Array:
+        for value: Variant in values:
+            if value is Dictionary:
+                result.append(value.duplicate(true))
+    return result
+
+static func core_lore_complete() -> bool:
+    return bool(completion_manifest().get("core_canon_completion", false))
+
+static func intentionally_bounded_unknowns() -> Array[String]:
+    var result: Array[String] = []
+    var values: Variant = completion_manifest().get("intentionally_bounded_unknowns", [])
+    if values is Array:
+        for value: Variant in values:
+            result.append(str(value))
+    return result
+
+static func resolved_legacy_pending_topics() -> Array[String]:
+    var result: Array[String] = []
+    var values: Variant = completion_manifest().get("resolved_legacy_pending_topics", [])
+    if values is Array:
+        for value: Variant in values:
+            result.append(str(value))
+    return result
+
+static func still_expandable_topics() -> Array[String]:
+    var result: Array[String] = []
+    var values: Variant = completion_manifest().get("still_expandable_without_changing_core_canon", [])
+    if values is Array:
+        for value: Variant in values:
+            result.append(str(value))
+    return result
+
+static func mystery(mystery_id: String) -> Dictionary:
+    var values: Variant = ancient_periods_and_mysteries().get("mysteries", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == mystery_id:
+                return item.duplicate(true)
+    return {}
+
+static func effective_pending_lore_topics() -> Array[String]:
+    # The historical file can preserve old pending lists for traceability.
+    # Effective pending topics are now only expandable encyclopedic detail,
+    # not the resolved spine or intentionally bounded mysteries.
+    return still_expandable_topics()
