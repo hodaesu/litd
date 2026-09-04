@@ -129,7 +129,7 @@ func _test_remembered_enemy_survival_and_death_rules() -> void:
     RemanenceRuntime.record_enemy_event(survivor, "forced_retreat", {"region_id": "premier_voile"})
     var survivor_record := RemanenceRuntime.entity_state(survivor_id)
     _check(int(survivor_record.get("score", 0)) > 0, "G09/T33 : survivre et forcer une retraite doit laisser une preuve mémorielle")
-    _check(Rem anenceRuntime.recent_events(survivor_id, 4).size() >= 3, "G09/T33 : la chronologie doit conserver rencontre, survie et fuite")
+    _check(RemanenceRuntime.recent_events(survivor_id, 4).size() >= 3, "G09/T33 : la chronologie doit conserver rencontre, survie et fuite")
 
     var doomed := {"id": 1, "species_id": "hungry_ghoul", "name": "Éphémère", "hp": 10, "max_hp": 10}
     GameState.battle_enemies = [doomed]
