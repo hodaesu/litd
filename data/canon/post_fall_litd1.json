@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "id": "post_fall_litd1",
+  "status": "canon_locked",
+  "dating": {
+    "reference": "chute_year_zero",
+    "fall": 0,
+    "litd1_campaign_center": 24,
+    "litd1_date_approximate": true
+  },
+  "core_principle": "LITD 1 ne se déroule pas dans un monde totalement mort mais dans un monde où assez de personnes ont survécu pour reconstruire, se disputer les ressources, conserver des institutions fragmentaires et rechercher ce qui a causé la Chute.",
+  "post_fall_periods": [
+    {
+      "id": "days_of_ash",
+      "period": [0, 2],
+      "name": "Les Jours de Cendre",
+      "state": "Effondrement aigu des réseaux, incendies, évacuations, coupures de communication et décisions locales de survie.",
+      "knowledge": "Les survivants possèdent de nombreux faits locaux mais aucune vue d'ensemble fiable.",
+      "institutions": "Sanctuaires, maisons de soin, réserves, milices locales et anciennes Veilles deviennent des points de continuité."
+    },
+    {
+      "id": "survivals",
+      "period": [2, 8],
+      "name": "Les Survivances",
+      "state": "Des communautés se stabilisent autour d'eau, nourriture, soins, routes encore praticables et bâtiments défendables.",
+      "knowledge": "Les récits de la Chute se fragmentent très vite; faux témoignages et vérités locales circulent ensemble.",
+      "institutions": "Des Sanctuaires changent de fonction: lieux de formation et archives deviennent aussi refuges, infirmeries et centres de rationnement."
+    },
+    {
+      "id": "broken_roads",
+      "period": [8, 18],
+      "name": "Les Routes Brisées",
+      "state": "La survie immédiate cède progressivement la place à la question des échanges, de la sécurité et de la reconstruction.",
+      "knowledge": "Des expéditions cherchent anciens dépôts, archives, outils et personnes disparues.",
+      "institutions": "Des guildes, bandes, communautés itinérantes, récupérateurs et autorités locales apparaissent ou se reforment."
+    },
+    {
+      "id": "first_reconstruction",
+      "period": [18, 35],
+      "name": "La Première Reconstruction",
+      "state": "Des pôles humains assez solides peuvent recruter, commercer, réparer, explorer et organiser des expéditions lointaines.",
+      "knowledge": "La recherche des causes de la Chute devient un enjeu politique autant que scientifique ou philosophique.",
+      "institutions": "Le monde de LITD 1 émerge: hubs, sanctuaires transformés, routes dangereuses, marchés et groupes d'exploration."
+    }
+  ],
+  "litd1": {
+    "campaign_center": 24,
+    "date_display_rule": "Le jeu peut éviter d'afficher systématiquement +24 car les calendriers locaux ont divergé; la bible d'auteur utilise cette date comme centre approximatif.",
+    "genre_position": "RPG dark fantasy, roguelike, dungeon crawler au tour par tour, exploration et extraction dans la Terre des Cendres.",
+    "world_state": [
+      "les survivants sont nombreux mais dispersés",
+      "les grandes structures continentales de la Concorde sont brisées ou isolées",
+      "certains Sanctuaires fonctionnent encore mais ont changé de rôle",
+      "des routes existent, mais leur contrôle et leur fiabilité varient",
+      "les ruines contiennent ressources, archives, dangers et personnes",
+      "la connaissance du monde d'avant est inégale et souvent contradictoire"
+    ],
+    "central_question": "Que mérite d'être reconstruit d'un monde qui a produit à la fois une civilisation remarquable et les conditions de sa propre Chute ?",
+    "seven_legendary_heroes": ["Aurélien", "Èffrie", "Lya", "Mathilde", "Marec", "Zejé", "Anouk"],
+    "hero_truth": "Ils deviennent les Sept héros légendaires de cette période; leur légende n'implique ni sainteté ni connaissance parfaite du passé.",
+    "character_creation_pillar": "Les personnages restent définis par leur histoire, leurs choix, blessures, relations, compétences et contradictions; ils ne sont pas seulement des classes tactiques.",
+    "currency": "or",
+    "currency_history": "Le terme survit à la standardisation sahm-irienne et à des siècles d'usage; après la Chute il sert souvent d'unité pratique même lorsque les pièces et poids réels varient localement."
+  },
+  "sanctuaries_after_fall": {
+    "continuity": "Les Sanctuaires n'ont pas tous disparu. Ceux qui survivent deviennent des points de reconstruction précisément parce qu'ils combinaient soin, archives, formation, assemblée et accueil.",
+    "transformations": [
+      "espaces d'assemblée transformés en zones de rationnement ou recrutement",
+      "archives protégées, dispersées ou partiellement pillées",
+      "pratiques du Corps adaptées aux blessures et à la survie",
+      "pratiques de l'Esprit utilisées pour maintenir témoignages et santé sociale",
+      "pratiques du Politique confrontées à l'urgence, aux milices et au manque de ressources"
+    ],
+    "risk": "Dans certains lieux, les Trois Éveils se réduisent à des slogans ou deviennent des justifications de pouvoir, exactement ce qu'ils étaient conçus pour empêcher."
+  },
+  "why_many_survive": [
+    "décentralisation politique héritée de la Concorde",
+    "réserves réparties plutôt que totalement centralisées",
+    "culture de soin et de formation corporelle",
+    "nombreux bâtiments communautaires multifonctions",
+    "routes et connaissances locales capables de fonctionner sans centre continental",
+    "population habituée à des traditions martiales mais aussi à la médiation et à l'entraide",
+    "anciens protocoles de Veille et de Fermeture encore connus dans certains territoires"
+  ],
+  "why_reconstruction_is_hard": [
+    "effondrement des réseaux longue distance",
+    "perte d'une partie des spécialistes et outils techniques",
+    "zones devenues dangereuses ou imprévisibles",
+    "désaccords sur la cause de la Chute",
+    "retour de frontières locales et rivalités de ressources",
+    "archives contradictoires ou détruites",
+    "blessures et traumatismes collectifs",
+    "nouveaux équilibres écologiques et créatures post-Chute"
+  ],
+  "bestiary_after_fall": {
+    "origin_categories": [
+      {"id":"natural","meaning":"lignées naturelles antérieures à la Chute"},
+      {"id":"domesticated","meaning":"lignées domestiquées avant ou après la Chute"},
+      {"id":"anciently_altered","meaning":"lignées modifiées bien avant l'an 0"},
+      {"id":"artificially_selected","meaning":"lignées sélectionnées par des sociétés anciennes"},
+      {"id":"post_fall","meaning":"formes apparues ou profondément transformées dans les conditions post-Chute"}
+    ],
+    "guardrail": "Une créature étrange n'est pas automatiquement un produit de la Chute; l'origine doit rester attribuée seulement lorsque les preuves le permettent."
+  },
+  "knowledge_remanence_in_litd1": {
+    "trace": "objets, corps, ruines, inscriptions, cicatrices, équipements, restes de routes",
+    "echo": "rumeurs, récits familiaux, chansons, témoignages de survivants, versions de factions",
+    "memory": "recoupement de plusieurs traces et échos au cours des runs et retours au hub",
+    "concordance": "reconstruction provisoire qui conserve provenance, contradictions et questions non résolues",
+    "gameplay_rule": "Le joueur peut savoir davantage que son groupe local sans jamais recevoir une encyclopédie omnisciente automatiquement."
+  },
+  "wound_remanence_in_litd1": {
+    "principle": "Le corps garde l'histoire du combat.",
+    "effects": [
+      "cicatrices visibles",
+      "pertes fonctionnelles",
+      "amputations sous conditions cohérentes",
+      "adaptations techniques ou prothétiques lorsqu'elles sont disponibles",
+      "dialogues et comportements modifiés",
+      "cadavres persistants comme traces de combats antérieurs"
+    ],
+    "historical_root": "La logique existait avant la Chute; le monde post-Chute la rend simplement beaucoup plus visible et difficile à effacer."
+  },
+  "vestige_remanence_in_litd1": {
+    "rule": "Le Vestige possède une Rémanence propre qui peut influencer exploration, événements ou narration, mais elle ne remplace jamais la reconstruction historique ni la persistance corporelle.",
+    "creator": "unknown_by_design",
+    "creator_guard": "Aucune civilisation ancienne connue, aucune puissance extérieure et aucun protagoniste n'est déclaré créateur sans futur verrou canonique explicite."
+  },
+  "interconnection_with_veilleurs": [
+    "certaines procédures de recrutement d'ennemis ont des ancêtres dans les pratiques des Veilleurs",
+    "des archives ouvertes ou fragments de leurs méthodes peuvent survivre sans que leur nom soit compris",
+    "des lieux explorés par les Veilleurs peuvent réapparaître transformés plusieurs siècles plus tard",
+    "des familles d'ennemis ou lignées animales peuvent avoir une continuité pré- et post-Chute",
+    "des décisions historiques des Veilleurs peuvent être connues dans LITD 1 seulement comme traces déformées"
+  ],
+  "interconnection_with_litd2": [
+    "noms de batailles de la Dernière Guerre survivent parfois sans contexte",
+    "les Trois Éveils sont connus bien davantage que les personnes réelles Sahra, Ilyan et Tala",
+    "des récits héroïques de Sarn simplifient des responsabilités qui étaient historiquement distribuées",
+    "certaines institutions post-Chute utilisent encore des fragments du Premier Pacte sans savoir précisément leur origine"
+  ],
+  "author_truths": [
+    "LITD 1 se déroule environ vingt-quatre ans après la Chute.",
+    "La société antérieure n'a pas été exterminée: la question est la reconstruction, pas la recolonisation d'un monde vide.",
+    "La Terre des Cendres est un monde fragmenté mais humainement vivant.",
+    "La recherche sur la Chute peut produire des réponses importantes sans résoudre toute la métaphysique du monde.",
+    "Les Sept héros appartiennent à LITD 1; Aurélien ne fait pas partie du quatuor des Veilleurs."
+  ]
+}
