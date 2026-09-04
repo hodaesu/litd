@@ -69,6 +69,7 @@ run_checked "Première Descente : tentative unique, chronique et anti-farm" godo
 run_checked "Les Veilleurs VS001 : recrutement, lumière, bruit, Goules et loot" godot --headless --path . res://scenes/tests/veilleurs_vs001_smoke.tscn
 run_checked "Les Veilleurs pré-PC : timeline canonique, ralliement corporel et mémoire du sceau" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_prepc_contract_smoke.tscn
 run_checked "Les Veilleurs formation : cadavre P1, projection et boss 2 rangs" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_formation_contract_smoke.tscn
+run_checked "Les Veilleurs physique : anatomie, armure, blessures et extraction T07-T14" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_physical_contract_smoke.tscn
 run_checked "Les Veilleurs VS001 physique : S1-S8, collisions, retour et passage secret" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_vs001_physical_smoke.tscn
 run_checked "Les Veilleurs VS001 jouable : quatuor, exploration physique, interactions, combats et secret S8" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_vs001_playable_smoke.tscn
 run_checked "Hall des Descendants : chronique, morts, relique et retour au Sanctuaire" timeout 60s godot --headless --path . res://scenes/tests/descendants_hall_smoke.tscn
