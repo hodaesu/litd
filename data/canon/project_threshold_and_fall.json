@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "id": "project_threshold_and_fall",
+  "status": "canon_locked",
+  "dating": {
+    "reference": "chute_year_zero",
+    "project_threshold_formal_start": -118,
+    "project_threshold_full_network_trials": -36,
+    "last_safe_shutdown": -9,
+    "final_activation": 0,
+    "fall": 0,
+    "dates_are_approximate_except_fall": true
+  },
+  "core_revision": "La Chute n'est pas provoquée par un continent extérieur ouvrant volontairement une porte sur le monde. Elle résulte d'un projet commun devenu trop vaste, qui reconnecte des principes et infrastructures que la Grande Fermeture avait précisément séparés. Des puissances extérieures participent au Projet Seuil, mais aucune n'est l'ennemi unique ni la cause morale simple de la catastrophe.",
+  "project_threshold": {
+    "name": "Projet Seuil",
+    "formal_start": -118,
+    "purpose_public": [
+      "restaurer des communications et transports à très longue distance",
+      "comprendre certains phénomènes de seuil sans répéter les erreurs d'Or-Silex",
+      "rendre possibles des échanges directs avec des régions et continents extérieurs",
+      "réduire le coût écologique et humain des routes physiques les plus dangereuses",
+      "étudier la possibilité d'isoler puis reconnecter de manière contrôlée des sites anciens"
+    ],
+    "purpose_private_divergences": [
+      "certains marchands veulent accélérer les routes commerciales",
+      "certains chercheurs veulent tester des hypothèses interdites depuis la Grande Fermeture",
+      "certaines institutions de la Concorde espèrent renforcer l'interdépendance pour rendre une nouvelle guerre générale moins probable",
+      "certaines puissances extérieures veulent réduire leur dépendance aux ports contrôlés par d'autres",
+      "quelques responsables militaires voient un potentiel stratégique, sans constituer une conspiration centrale"
+    ],
+    "institutional_structure": "Consortium distribué entre Maisons de Concordance, collèges techniques, institutions de la Concorde, partenaires extérieurs, réseaux marchands et équipes de Veille. Aucun acteur ne possède seul la totalité du système.",
+    "knowledge_sources": [
+      {"source":"Ashaï de Nhal","use":"modèles de persistance, trace et relation entre événement et information","risk":"prendre une observation de persistance pour une maîtrise ontologique"},
+      {"source":"Or-Silex","use":"protocoles reproductibles, synchronisation et architecture réseau","risk":"réactiver la logique de propagation à grande échelle"},
+      {"source":"Saan","use":"procédures de limitation, séparation et arrêt","risk":"considérer des interdictions anciennes comme trop prudentes parce que leur catastrophe d'origine est oubliée"},
+      {"source":"Vaor-Khal","use":"contrôle juridique distribué et responsabilité","risk":"diluer la responsabilité entre trop d'organes jusqu'à ce qu'aucun ne puisse arrêter seul le projet"},
+      {"source":"Sahm-Ir","use":"financement, logistique, garanties et coordination contractuelle","risk":"créer des dépendances économiques rendant politiquement coûteux l'abandon du projet"},
+      {"source":"Ydris","use":"surveillance biologique et écologique autour des sites","risk":"sous-estimer des effets qui n'entrent pas dans les catégories biologiques connues"}
+    ],
+    "critical_design_error": "Les concepteurs croient pouvoir obtenir la sécurité par redondance et contrôle distribué. Mais la distribution rend aussi possible une activation partielle sans vision globale, tandis que la redondance reconnecte des nœuds que la Grande Fermeture avait volontairement laissés incompatibles.",
+    "ethical_error": "Le projet transforme progressivement l'absence d'accident majeur en preuve positive de sécurité, alors qu'elle signifie seulement qu'aucune configuration testée jusque-là n'a franchi le seuil critique."
+  },
+  "external_continents": {
+    "status": "partners_and_rivals_not_single_aggressor",
+    "truth": "Des sociétés extérieures participent au projet avec leurs propres intérêts, savoirs et inquiétudes. Certaines demandent une accélération, d'autres des moratoires. Après la Chute, les survivants simplifieront parfois cette complexité en récit d'une 'porte ouverte de l'extérieur'.",
+    "why_myth_survives": [
+      "les derniers essais incluent des infrastructures situées hors du continent principal",
+      "des messages incomplets montrent des partenaires extérieurs demandant une nouvelle tentative",
+      "plusieurs stations extérieures cessent de répondre avant certaines stations locales",
+      "le vocabulaire technique de 'seuil' et 'ouverture' devient littéralement 'porte' dans la mémoire populaire",
+      "désigner un ennemi extérieur est psychologiquement plus simple que reconstruire une responsabilité distribuée"
+    ],
+    "guardrail": "Aucun peuple extérieur n'est défini comme biologiquement, moralement ou culturellement responsable de la Chute."
+  },
+  "pre_fall_warning_chain": [
+    {"year":-36,"event":"Essais de réseau complet","finding":"des anomalies mineures apparaissent simultanément sur des sites sans connexion physique directe","reaction":"le système est fractionné puis relancé avec de nouveaux filtres"},
+    {"year":-22,"event":"Décalages de trace","finding":"certains journaux de capteurs divergent sur l'ordre exact de micro-événements","reaction":"attribué en partie à des erreurs de synchronisation"},
+    {"year":-14,"event":"Incident des Doubles Mesures","finding":"deux équipes obtiennent des mesures incompatibles mais reproductibles depuis des nœuds différents","reaction":"moratoire partiel puis révision du modèle"},
+    {"year":-9,"event":"Dernier arrêt sûr","finding":"une séquence d'essai provoque des effets dépassant le site actif mais s'éteint après sectionnement manuel","reaction":"plusieurs équipes demandent l'abandon; d'autres concluent qu'un mécanisme d'arrêt renforcé suffit"},
+    {"year":-3,"event":"Accord de reprise","finding":"les coûts politiques, scientifiques et économiques d'un abandon sont jugés supérieurs au risque estimé","reaction":"activation finale autorisée avec seuils d'arrêt multiples"}
+  ],
+  "fall_causal_chain": [
+    "activation coordonnée de plusieurs nœuds du Projet Seuil",
+    "mise en résonance de structures modernes et de fragments anciens jamais cartographiés comme un système unique",
+    "réactivation de chemins de propagation hérités d'Or-Silex et de phénomènes de persistance plus anciens",
+    "désaccord entre systèmes de mesure sur l'état réel du réseau",
+    "déclenchement automatique de procédures d'arrêt incompatibles entre plusieurs nœuds",
+    "sectionnements locaux qui déplacent au lieu d'annuler certaines interactions",
+    "synchronisation brutale de phénomènes jusque-là locaux",
+    "ruptures physiques, informationnelles, perceptives et biologiques dans plusieurs régions",
+    "effondrement des communications longues distances au moment où elles seraient nécessaires pour coordonner l'arrêt",
+    "cascade mondiale ou quasi mondiale dont aucun centre ne peut plus reprendre le contrôle"
+  ],
+  "fall_author_truth": {
+    "necessary_condition": "Le Projet Seuil et sa reconnexion distribuée sont une condition directe de la Chute telle qu'elle se produit en l'an 0.",
+    "not_sufficiently_understood": "Le Projet Seuil n'explique pas à lui seul pourquoi certains phénomènes réagissent de cette façon. La couche ontologique sous-jacente reste partiellement inconnue même au niveau auteur.",
+    "no_single_culprit": "Aucune personne, civilisation ancienne, religion ou puissance extérieure n'est seule responsable.",
+    "great_closure_relation": "La Grande Fermeture avait correctement identifié qu'une partie du danger venait de la connectivité. Le Projet Seuil réintroduit cette connectivité sous une forme techniquement plus avancée mais pas fondamentalement comprise.",
+    "vestige_relation": "Le créateur du Vestige reste inconnu et le Vestige n'est pas défini comme cause première de la Chute. Certaines Rémanences du Vestige interagissent avec le monde post-Chute, mais cela reste un système distinct."
+  },
+  "the_fall": {
+    "year": 0,
+    "duration": "La phase aiguë dure plusieurs jours, tandis que des conséquences secondaires s'étendent sur des mois et années.",
+    "first_hours": [
+      "perte ou contradiction des communications",
+      "accidents simultanés sur sites de Seuil",
+      "effondrements et incendies autour de certaines infrastructures",
+      "apparition ou intensification de zones où perception, mémoire, matière ou événement se comportent de manière incohérente",
+      "panique provoquée autant par l'absence d'information que par les phénomènes eux-mêmes"
+    ],
+    "first_days": [
+      "fragmentation politique et logistique",
+      "rupture de routes et systèmes de ravitaillement",
+      "évacuations massives",
+      "activation d'anciens protocoles de Sanctuaire et de Veille",
+      "tentatives locales de sectionnement qui sauvent certaines régions et en condamnent d'autres",
+      "multiplication de récits incompatibles sur la cause"
+    ],
+    "survival_truth": "La civilisation ne disparaît pas entièrement. Le continent possède de nombreux survivants grâce à sa densité urbaine, ses traditions de préparation corporelle, ses Sanctuaires, sa médecine, ses réseaux locaux et la décentralisation héritée de la Concorde.",
+    "external_world": "Les régions extérieures sont elles aussi touchées de façon inégale. Certaines s'effondrent, d'autres perdent le contact, d'autres survivent partiellement. LITD 1 ne connaît pas la carte complète de leur état."
+  },
+  "terres_des_cendres_origin": {
+    "name": "Terre des Cendres",
+    "origin": "Nom post-Chute progressivement appliqué aux régions où destruction, poussières, incendies, sols dégradés et ruines rendent le paysage méconnaissable.",
+    "not_literal_everywhere": "Tout le continent n'est pas uniformément couvert de cendres; le nom devient une désignation historique et affective du monde détruit.",
+    "cultural_effect": "Le nom remplace progressivement les anciennes catégories politiques dans les régions où les survivants connaissent mieux leur ruine commune que leurs anciennes frontières."
+  },
+  "manifestations_after_fall": {
+    "truth": "La Chute augmente fortement la fréquence ou la visibilité de certaines Manifestations, mais elle ne prouve pas qu'elles ont été créées en l'an 0.",
+    "categories": [
+      "phénomènes peut-être antérieurs mais auparavant rares ou contenus",
+      "formes nouvelles issues des conditions post-Chute",
+      "cas impossibles à classer avec certitude"
+    ],
+    "guardrail": "Une Manifestation n'est pas automatiquement une créature, un esprit, un produit du Vestige ou une arme du Projet Seuil."
+  },
+  "remanence_systems_after_fall": {
+    "knowledge": "La destruction des institutions rend Trace → Écho → Mémoire → Concordance plus difficile et plus essentielle.",
+    "wounds": "Les blessures persistantes acquièrent une importance accrue dans un monde où soins, prothèses et repos sont rares; leur logique a des racines bien antérieures à la Chute.",
+    "vestige": "La Rémanence du Vestige suit ses propres règles et ne doit pas être utilisée comme explication universelle des deux autres."
+  },
+  "popular_post_fall_explanations": [
+    "les étrangers ont ouvert une porte",
+    "les anciens ont été punis pour leur orgueil",
+    "les Trois Éveils ont échoué ou ont abandonné le monde",
+    "le Vestige a détruit la civilisation",
+    "un seul laboratoire a déclenché la catastrophe",
+    "la Chute était inévitable depuis Ashaï"
+  ],
+  "author_rejection_of_simplifications": "Aucune de ces explications populaires ne décrit seule la vérité canonique. Certaines conservent des fragments réels, mais la causalité est historique, technique, politique et ontologiquement incomplète.",
+  "next_canon": "post_fall_and_litd1"
+}
