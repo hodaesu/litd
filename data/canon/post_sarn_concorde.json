@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "id": "post_sarn_concorde",
+  "status": "canon_locked",
+  "dating": {
+    "reference": "chute_year_zero",
+    "night_of_sarn": -1112,
+    "long_assemblies_start": -1110,
+    "first_pact": -1061,
+    "concorde_foundation_center": -1050,
+    "first_sanctuaries_window": [-1045, -1015],
+    "great_tournaments_mature_window": [-930, -780],
+    "veilleurs_campaign_center": -842,
+    "dates_are_approximate": true
+  },
+  "core_principle": "La Concorde n'est pas fondée par une victoire militaire ni par l'imposition des Trois Éveils. Elle naît d'une reconstruction politique longue qui cherche à rendre structurellement plus difficile le retour d'une guerre générale.",
+  "long_assemblies": {
+    "period": [-1110, -1065],
+    "name": "Les Longues Assemblées",
+    "why_long": "Les sociétés sorties de la guerre refusent qu'une seule conférence produise une constitution idéale. Des assemblées régionales, professionnelles, religieuses, militaires, agricoles, marchandes et civiques expérimentent des compromis puis les révisent.",
+    "participants": [
+      "représentants des anciennes puissances belligérantes",
+      "cités et communautés restées partiellement neutres",
+      "réseaux de réfugiés et communautés déplacées",
+      "soignants, convois et acteurs logistiques",
+      "guildes et maisons marchandes",
+      "artistes, maîtres martiaux et enseignants",
+      "juristes et héritiers des traditions de Vaor-Khal",
+      "archivistes et gardiens de sources",
+      "communautés religieuses diverses sans privilège métaphysique institutionnel"
+    ],
+    "major_disputes": [
+      "droit de circulation contre souveraineté locale",
+      "dette de guerre et reconstruction",
+      "contrôle du grain et ressources vitales",
+      "statut des réfugiés et doubles appartenances",
+      "désarmement et maintien de forces locales",
+      "traitement des criminels de guerre sans punition collective",
+      "propriété des archives et droit de copie",
+      "pouvoir d'urgence et date d'expiration",
+      "droit de quitter une fonction jugée indispensable",
+      "autonomie des communautés face à une coordination continentale"
+    ],
+    "three_awakenings_role": "Corps, Esprit et Politique deviennent des cadres de critique utilisés pour tester les institutions; aucune proposition n'est valide uniquement parce qu'elle se réclame d'un Éveil.",
+    "institutional_experiments": [
+      "mandats courts renouvelables",
+      "assemblées à sièges tournants",
+      "archives à sources multiples",
+      "cours d'arbitrage interrégionales",
+      "corridors communs protégés par plusieurs autorités",
+      "réserves alimentaires réparties",
+      "forces de protection sous commandements croisés",
+      "droit formel de refus pour certaines missions dangereuses"
+    ]
+  },
+  "first_pact": {
+    "year": -1061,
+    "name": "Premier Pacte",
+    "nature": "Texte-cadre volontairement court, signé après plusieurs versions régionales testées pendant les Longues Assemblées.",
+    "articles": [
+      {"id":1,"title":"Nul centre unique","principle":"Aucune institution continentale ne peut absorber durablement toutes les compétences locales."},
+      {"id":2,"title":"Circuler sans conquérir","principle":"Les grandes routes, fleuves et ports communs ne peuvent être monopolisés comme armes permanentes contre les populations."},
+      {"id":3,"title":"Pouvoir attribuable","principle":"Toute décision coercitive doit pouvoir être reliée à une personne ou institution responsable et contestable."},
+      {"id":4,"title":"Urgence mortelle","principle":"Tout pouvoir d'exception porte sa fin, son contrôle et les conditions de son renouvellement."},
+      {"id":5,"title":"Sources conservées","principle":"Une archive publique ne peut détruire volontairement les sources contradictoires utilisées pour produire sa synthèse."},
+      {"id":6,"title":"Droit de visage","principle":"Les personnes affectées par une décision doivent pouvoir être reconnues comme sujets et non seulement comme catégories administratives."},
+      {"id":7,"title":"Charge et refus","principle":"Aucune fonction jugée indispensable ne peut justifier sans limite l'impossibilité de la quitter."},
+      {"id":8,"title":"Protection commune","principle":"Les communautés peuvent organiser une défense commune, mais les forces permanentes doivent rester distribuées et contrôlées par plusieurs autorités."},
+      {"id":9,"title":"Révision","principle":"Le Pacte peut être corrigé publiquement; sa stabilité vient de ses procédures de révision, pas de son intangibilité."}
+    ],
+    "signing_truth": "Il n'existe pas un instant où tous les peuples acceptent le Pacte. Des adhésions, réserves et refus durent plusieurs décennies.",
+    "myth_vs_truth": "La tradition tardive représentera parfois une grande table unique de fondateurs; en réalité, les signatures sont distribuées dans le temps et les copies du Pacte présentent des variations mineures."
+  },
+  "concorde": {
+    "foundation_center": -1050,
+    "definition": "Réseau politique et culturel de communautés autonomes partageant des règles communes de circulation, arbitrage, protection, archives et limitation du pouvoir.",
+    "not": ["empire", "État unitaire", "religion", "abolition des cultures régionales", "gouvernement mondial parfaitement pacifique"],
+    "institutions": [
+      {"name":"Assemblées de Concorde","function":"coordination et révision des accords communs; composition variable selon la question"},
+      {"name":"Cours de Passage","function":"arbitrage sur routes, frontières, convois et déplacements"},
+      {"name":"Maisons de Concordance","function":"conservation de sources, synthèses révisables et formation à la critique des archives"},
+      {"name":"Réserves Communes","function":"stocks alimentaires et médicaux distribués afin d'éviter qu'un seul bloc puisse affamer les autres"},
+      {"name":"Veilles de Limite","function":"surveillance des sites dangereux hérités de la Grande Fermeture sans prétendre les comprendre totalement"}
+    ],
+    "languages": "La Concorde est explicitement multilingue; aucune langue sacrée ou unique ne remplace les langues locales.",
+    "religions": "Les religions restent multiples et socialement réelles. Aucune ne reçoit le monopole des institutions communes et les Trois Éveils ne deviennent pas une foi officielle.",
+    "military_model": "Défense distribuée, formations communes temporaires et commandements croisés; l'objectif est de rendre difficile la concentration d'une armée continentale sous une seule autorité.",
+    "persistent_flaws": [
+      "lenteur décisionnelle",
+      "bureaucratie croissante",
+      "inégalités entre régions riches et pauvres",
+      "professionnalisation des experts",
+      "tendance des institutions temporaires à se prolonger",
+      "usage politique des Trois Éveils malgré leur fonction critique"
+    ]
+  },
+  "three_awakenings_after_sarn": {
+    "body": {
+      "institutional_translation": ["éducation corporelle", "arts martiaux", "soin", "travail", "consentement physique", "droit de refuser une violence injustifiée"],
+      "risk": "réduire le Corps à performance, discipline ou héroïsme sacrificiel"
+    },
+    "mind": {
+      "institutional_translation": ["arts", "enseignement", "archives", "critique des sources", "langues", "capacité à réviser un récit"],
+      "risk": "transformer l'Esprit en élitisme lettré ou en relativisme où aucun fait n'est plus défendable"
+    },
+    "politics": {
+      "institutional_translation": ["assemblées", "mandats", "opposition", "responsabilité", "arbitrage", "droit de minorité"],
+      "risk": "confondre le Politique avec procédure infinie ou expertise administrative"
+    },
+    "triadic_rule": "Toute institution majeure doit pouvoir être critiquée depuis les trois dimensions sans que l'une puisse annuler les deux autres."
+  },
+  "first_sanctuaries": {
+    "window": [-1045, -1015],
+    "origin": "Les premiers Sanctuaires sont des lieux civiques de formation, repos, archives, soins, pratiques artistiques, médiation et entraînement corporel. Ils synthétisent des institutions déjà existantes au lieu d'apparaître comme temples nouveaux.",
+    "functions": [
+      "enseignement du Corps, de l'Esprit et du Politique",
+      "soins et récupération",
+      "archives à versions multiples",
+      "médiation locale",
+      "accueil temporaire des voyageurs et déplacés",
+      "pratiques martiales et artistiques",
+      "assemblées civiques",
+      "veille de certaines traces dangereuses"
+    ],
+    "architecture": "Architecture ouverte autour de trois ensembles reliés mais non hiérarchisés: espace du corps et du soin, espace des arts et archives, espace d'assemblée et de décision. Les formes régionales varient fortement.",
+    "governance": "Collèges mixtes à mandats limités; aucune fonction de gardien, maître ou archiviste ne possède seule le Sanctuaire.",
+    "guardrails": [
+      "Ils ne sont pas des temples des Trois Éveils.",
+      "Ils n'exigent pas une croyance métaphysique.",
+      "Ils peuvent échouer, devenir bureaucratiques ou être contestés.",
+      "Le nœud de Saan sous l'Arbre du Premier Voile n'est pas rétrospectivement un Sanctuaire."
+    ]
+  },
+  "great_tournaments": {
+    "mature_window": [-930, -780],
+    "origin": "Les anciennes rencontres de maîtres, festivals civiques et traditions martiales deviennent des événements interrégionaux réguliers sous la Concorde.",
+    "purpose": [
+      "échange d'écoles martiales",
+      "résolution symbolique de certaines rivalités",
+      "rencontres artistiques",
+      "débats publics",
+      "formation et recrutement civil",
+      "circulation de techniques médicales et corporelles",
+      "renforcement des liens entre régions"
+    ],
+    "rules": [
+      "Les participants représentent souvent une école ou une communauté sans que la défaite produise un transfert politique obligatoire.",
+      "Les armes et formes de combat dépendent des traditions; les règles protègent autant que possible l'intégrité des participants.",
+      "Arts, musique, débats et démonstrations de savoir accompagnent les épreuves physiques.",
+      "Les arbitres sont issus de plusieurs régions afin de limiter la capture d'un tournoi par un pouvoir unique."
+    ],
+    "declines_and_flaws": [
+      "prestige transformé en nationalisme local",
+      "marchandisation des écoles",
+      "pressions économiques sur les champions",
+      "tentation d'utiliser les victoires symboliques comme preuve de supériorité politique"
+    ]
+  },
+  "veilleurs_faction": {
+    "formation_window": [-890, -865],
+    "founding_cause": "Plusieurs incidents montrent qu'entre les Sanctuaires, les autorités locales et les Veilles de Limite, personne n'est clairement responsable lorsqu'un site ancien, une archive contradictoire et une population en danger se rencontrent dans le même événement.",
+    "founding_event": "L'Affaire des Trois Registres: trois administrations produisent des rapports incompatibles sur un même corridor dangereux; l'attente d'une clarification contribue à des morts évitables. Une mission interinstitutionnelle est créée pour agir tout en conservant les contradictions.",
+    "mandate": [
+      "protéger les personnes avant les institutions lorsque l'urgence est immédiate",
+      "enquêter sans détruire les versions contradictoires",
+      "opérer entre plusieurs juridictions sans devenir autorité souveraine",
+      "documenter les blessures, corps, objets et sites comme traces situées",
+      "négocier redditions, recrutements ou coopérations lorsque l'élimination n'est pas nécessaire",
+      "se retirer lorsqu'une situation ne peut être comprise ou contenue sans coût disproportionné"
+    ],
+    "name_truth": "Le nom 'Veilleurs' est un choix contemporain de la Concorde. Il ne crée aucune filiation institutionnelle directe avec les anciens observateurs de Saan qui portaient parfois un titre équivalent.",
+    "campaign_center": -842,
+    "canonical_quartet": ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"],
+    "quartet_role": "Ils ne fondent pas nécessairement toute la faction, mais leur campagne devient la période la mieux documentée et transforme durablement ses règles de recrutement, de refus, de soin et de conservation des sources.",
+    "post_campaign_reforms": [
+      "droit formel de refus d'une mission jugée disproportionnée",
+      "Quartiers des ralliés pour les anciens adversaires recrutés",
+      "Archives ouvertes conservant sources et Concordances révisables",
+      "registre des blessures fonctionnelles distinct des jugements moraux",
+      "interdiction de traiter une Manifestation destructrice comme faction recrutée par défaut"
+    ],
+    "later_history": "Au fil des siècles, certaines fonctions des Veilleurs sont absorbées par les Sanctuaires, Veilles de Limite et cours locales. Le nom survit comme référence à une pratique de terrain plutôt qu'à une institution continentale unique."
+  },
+  "author_truths": [
+    "La Concorde fonctionne suffisamment bien pour produire plusieurs siècles de stabilité relative, mais elle n'abolit ni conflit, ni injustice, ni ambition.",
+    "Les Trois Éveils deviennent influents sans devenir une religion.",
+    "Les Sanctuaires institutionnels sont postérieurs à Sarn.",
+    "Les Grands Tournois héritent de traditions bien plus anciennes et ne sont pas inventés ex nihilo par la Concorde.",
+    "LITD: Les Veilleurs se déroule dans la première longue phase de la Concorde, plusieurs siècles avant la Chute."
+  ],
+  "next_canon": "project_threshold_and_fall"
+}
