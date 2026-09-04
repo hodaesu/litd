@@ -14,6 +14,7 @@ var watchers_active := false
 var persistence_bridge: VeilleursVS001PersistenceBridge = null
 var launch_canvas: CanvasLayer = null
 var launch_button: Button = null
+var saved_party_position: Array = []
 
 func _ready() -> void:
     AshlandsSceneRouter.zone_scene_paths[VeilleursVS001WorldRuntime.ZONE_ID] = VeilleursVS001WorldRuntime.SCENE_PATH
@@ -33,6 +34,7 @@ func _ready() -> void:
     call_deferred("_install_launch_ui")
 
 func start_playable() -> bool:
+    saved_party_position.clear()
     activate_watchers_party()
     VeilleursVS001WorldRuntime.start_new_session()
     if not ExpeditionManager.expedition_active:
@@ -89,6 +91,7 @@ func restore_previous_party() -> Array:
     GameState.battle_enemies = []
     GameState.battle_rounds = 0
     previous_party.clear()
+    saved_party_position.clear()
     watchers_active = false
     GameState.state_changed.emit()
     _sync_launch_button()
@@ -97,12 +100,24 @@ func restore_previous_party() -> Array:
 func is_watcher_party_active() -> bool:
     return watchers_active and _party_matches_watchers(GameState.party)
 
+func has_saved_party_position() -> bool:
+    return saved_party_position.size() == 3
+
+func resume_world_position() -> Vector3:
+    if not has_saved_party_position():
+        return Vector3.ZERO
+    return Vector3(float(saved_party_position[0]), float(saved_party_position[1]), float(saved_party_position[2]))
+
 func serialize() -> Dictionary:
+    var live_position: Array = _capture_party_position()
+    if live_position.size() == 3:
+        saved_party_position = live_position.duplicate()
     var session_state: Dictionary = VeilleursVS001WorldRuntime.session.call("serialize")
     return {
         "schema_version": 1,
         "watchers_active": watchers_active,
         "previous_party": previous_party.duplicate(true),
+        "party_position": saved_party_position.duplicate(),
         "world_runtime": {
             "session": session_state,
             "pending_combat": VeilleursVS001WorldRuntime.pending_combat.duplicate(true),
@@ -116,12 +131,14 @@ func serialize() -> Dictionary:
 func deserialize(payload: Dictionary) -> void:
     if payload.is_empty():
         previous_party.clear()
+        saved_party_position.clear()
         watchers_active = false
         if persistence_bridge != null:
             persistence_bridge.reset()
         _sync_launch_button()
         return
     previous_party = payload.get("previous_party", []).duplicate(true)
+    saved_party_position = payload.get("party_position", []).duplicate(true)
     watchers_active = bool(payload.get("watchers_active", false))
     var world: Dictionary = payload.get("world_runtime", {})
     var session_payload: Dictionary = world.get("session", {})
@@ -140,6 +157,15 @@ func deserialize(payload: Dictionary) -> void:
     VeilleursVS001WorldRuntime.session_changed.emit(state_value.duplicate(true))
     GameState.state_changed.emit()
     _sync_launch_button()
+
+func _capture_party_position() -> Array:
+    if not VeilleursVS001WorldRuntime.is_active():
+        return []
+    var parties: Array[Node] = get_tree().get_nodes_in_group("player_party")
+    if parties.is_empty() or not (parties[0] is Node3D):
+        return saved_party_position.duplicate()
+    var position: Vector3 = (parties[0] as Node3D).global_position
+    return [position.x, position.y, position.z]
 
 func _build_watchers_party() -> Array:
     var watchers: Array = []
@@ -228,6 +254,7 @@ func _resume_after_load() -> void:
 
 func _on_new_game_reset() -> void:
     previous_party.clear()
+    saved_party_position.clear()
     watchers_active = false
     if persistence_bridge != null:
         persistence_bridge.reset()
