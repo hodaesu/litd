@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "id": "night_of_sarn",
+  "status": "canon_locked",
+  "game": "LITD 2",
+  "dating": {
+    "reference": "chute_year_zero",
+    "year": -1112,
+    "approximate": true,
+    "rule": "La Nuit de Sarn clôt la Dernière Guerre sans prétendre que tous les combats cessent au même instant; elle provoque la bascule politique qui rend leur poursuite générale impossible."
+  },
+  "core_truth": "La Nuit de Sarn n'est ni une révélation surnaturelle ni la victoire d'un camp. C'est une crise urbaine, militaire, documentaire et politique où Sahra, Ilyan et Tala découvrent publiquement que protéger, comprendre et décider deviennent destructeurs lorsqu'ils sont séparés les uns des autres.",
+  "preconditions": [
+    "Les Trois Cloches de Sarn ont laissé la ville saturée de réfugiés, de forces rivales, d'archives sensibles et d'autorités concurrentes.",
+    "Sahra, Ilyan et Tala se connaissent déjà et portent les conséquences variables de leurs choix de guerre.",
+    "Aucun des trois ne parle encore des Trois Éveils.",
+    "Les blocs militaires sont épuisés et incapables d'une victoire nette, mais encore capables de détruire Sarn."
+  ],
+  "crisis_structure": {
+    "simultaneous_crises": [
+      {
+        "id": "portes",
+        "name": "Les Portes",
+        "problem": "Une foule de civils et de combattants désarmés cherche refuge alors que des unités armées approchent. Fermer protège l'intérieur à court terme mais condamne les retardataires; ouvrir sans contrôle peut permettre une prise de la ville.",
+        "sahra_role": "refuse un ordre de dispersion létale, organise des couloirs physiques, sépare armes et personnes et tient les accès sans transformer la foule en cible",
+        "tala_role": "obtient un mandat d'urgence limité pour coordonner plusieurs autorités et impose qu'il expire avant l'aube",
+        "ilyan_role": "fait circuler les conditions d'ouverture et les incertitudes au lieu de laisser chaque quartier inventer sa propre version"
+      },
+      {
+        "id": "archives",
+        "name": "Les Archives",
+        "problem": "Des documents prouvent des crimes, des sabotages et des responsabilités distribuées, mais plusieurs factions veulent les saisir, les détruire ou les publier sans contexte.",
+        "sahra_role": "protège physiquement personnes et documents sans décider quels récits méritent de survivre",
+        "ilyan_role": "refuse à la fois la destruction et une publication brute qui déclencherait des représailles; organise copies, provenance et contradictions",
+        "tala_role": "empêche qu'une autorité unique obtienne la garde exclusive de l'ensemble documentaire"
+      },
+      {
+        "id": "conseil",
+        "name": "Le Conseil improvisé",
+        "problem": "La République de Sarn ne peut plus attendre les procédures ordinaires, mais une dictature d'urgence risquerait de survivre à la crise.",
+        "sahra_role": "garantit que la force du conseil reste soumise à des limites explicites et refuse d'exécuter un ordre sans responsable identifiable",
+        "ilyan_role": "fait conserver les objections et versions minoritaires dans le procès-verbal au lieu de produire un récit unanime fictif",
+        "tala_role": "fait adopter des pouvoirs temporaires, révocables, publiquement attribués et séparés entre plusieurs détenteurs"
+      }
+    ]
+  },
+  "night_sequence": [
+    {
+      "order": 1,
+      "title": "La troisième cloche",
+      "event": "Les cloches de quartiers ne sonnent pas ensemble. Chaque zone croit que l'autre a déjà décidé. Des unités locales commencent à agir sur des informations incompatibles.",
+      "meaning": "La crise naît moins d'une absence totale d'information que d'une synchronisation impossible entre vérités partielles."
+    },
+    {
+      "order": 2,
+      "title": "L'ordre de fermer",
+      "event": "Un ordre juridiquement plausible exige la fermeture des portes. Un second ordre, lui aussi authentique, exige de poursuivre l'accueil. Tala établit qu'ils proviennent d'autorités différentes exerçant des compétences qui se chevauchent.",
+      "meaning": "L'authenticité d'un ordre ne suffit pas à résoudre sa légitimité."
+    },
+    {
+      "order": 3,
+      "title": "Le refus de Sahra",
+      "event": "Sahra refuse de faire disperser par la force une foule qui ne peut matériellement pas se disperser. Elle n'abandonne pas son poste: elle remplace l'ordre par une solution de contrôle plus risquée pour elle et son unité.",
+      "meaning": "Le Corps naît d'un refus d'opposer discipline et jugement."
+    },
+    {
+      "order": 4,
+      "title": "Les feuilles contradictoires",
+      "event": "Ilyan découvre que plusieurs récits diffusés dans Sarn contiennent chacun des faits vrais mais produisent ensemble une image fausse. Il ordonne que les sources soient copiées avec leur provenance et leurs désaccords au lieu d'être fondues immédiatement.",
+      "meaning": "L'Esprit naît du droit de conserver la contradiction sans renoncer à comprendre."
+    },
+    {
+      "order": 5,
+      "title": "Le mandat qui doit mourir",
+      "event": "Tala accepte une autorité exceptionnelle uniquement après avoir inscrit son expiration, son contrôle et la possibilité de la contester. Elle refuse la proposition de concentrer les pouvoirs jusqu'à la fin indéfinie de la guerre.",
+      "meaning": "Le Politique naît de l'idée qu'un pouvoir nécessaire doit aussi prévoir sa propre limite."
+    },
+    {
+      "order": 6,
+      "title": "La place des trois réponses",
+      "event": "À proximité de l'aube, les trois se retrouvent devant une assemblée improvisée. Aucun ne prétend posséder la solution. Ils expliquent publiquement ce que leur propre réponse ne peut accomplir sans les deux autres.",
+      "meaning": "La doctrine naît d'une reconnaissance mutuelle des limites, pas d'une synthèse où toutes les différences disparaissent."
+    },
+    {
+      "order": 7,
+      "title": "L'aube de Sarn",
+      "event": "Les représentants militaires acceptent des cessations locales, puis un gel général des grandes offensives autour de Sarn. Des unités continuent de se battre ailleurs pendant plusieurs jours ou semaines, mais plus aucun bloc ne peut politiquement relancer une offensive générale sans rompre avec le mouvement né à Sarn.",
+      "meaning": "La Nuit met fin à la guerre comme système politique avant de mettre fin à chaque combat."
+    }
+  ],
+  "first_formulations": {
+    "sahra": {
+      "future_awakening": "Corps",
+      "formula": "Nul ne devrait apprendre à frapper sans apprendre aussi quand refuser de frapper.",
+      "negative_definition": "Le Corps n'est ni culte de la force, ni obéissance martiale, ni simple santé physique.",
+      "positive_definition": "Le Corps est la capacité d'agir dans le monde tout en restant responsable de ce que l'action fait aux autres et à soi."
+    },
+    "ilyan": {
+      "future_awakening": "Esprit",
+      "formula": "Une mémoire qui ne peut être contredite n'est plus un savoir commun.",
+      "negative_definition": "L'Esprit n'est ni supériorité intellectuelle, ni vérité révélée, ni fuite dans l'abstraction.",
+      "positive_definition": "L'Esprit est la capacité de comprendre, créer, interpréter et réviser sans transformer ses propres récits en prisons."
+    },
+    "tala": {
+      "future_awakening": "Politique",
+      "formula": "Un pouvoir qui ne sait pas comment finir finit par appartenir à celui qui le tient.",
+      "negative_definition": "Le Politique n'est ni parti, ni gouvernement unique, ni sacralisation de la procédure.",
+      "positive_definition": "Le Politique est la capacité de décider ensemble, d'attribuer la responsabilité, d'organiser le désaccord et de limiter le pouvoir."
+    }
+  },
+  "birth_of_three_awakenings": {
+    "during_night": "Les trois formulations existent publiquement, mais le nom collectif n'est pas encore stabilisé.",
+    "within_months": "Des témoins de Sarn commencent à parler des 'trois éveils' nécessaires à une société qui veut survivre à la guerre: éveil du corps agissant, de l'esprit interprétant et du politique décidant.",
+    "within_years": "Les majuscules Corps, Esprit et Politique se stabilisent dans les premières assemblées de reconstruction. Le terme Trois Éveils devient le nom historique de la triade.",
+    "religion_guard": "Les Trois Éveils ne sont pas une religion, ne réclament aucune métaphysique et ne désignent pas Sahra, Ilyan ou Tala comme êtres sacrés.",
+    "plurality_guard": "Les trois traditions peuvent se critiquer mutuellement; leur unité repose sur l'exigence de coexister, pas sur une orthodoxie unique."
+  },
+  "player_variability": {
+    "fixed_history": [
+      "Sahra refuse une résolution purement coercitive et formule la responsabilité de l'action.",
+      "Ilyan conserve la contradiction et formule la révisabilité du savoir.",
+      "Tala limite l'autorité d'urgence et formule la responsabilité du pouvoir.",
+      "Les trois reconnaissent publiquement qu'aucune réponse ne suffit seule.",
+      "La Nuit provoque la bascule politique qui clôt la Dernière Guerre générale."
+    ],
+    "variable_memory": [
+      "qui a été sauvé ou perdu aux portes",
+      "quelles archives subsistent",
+      "niveau de confiance entre les trois",
+      "mots exacts de certains dialogues privés",
+      "réputation des protagonistes auprès des différentes communautés",
+      "témoignages ultérieurs contradictoires sur la priorité donnée à protéger, comprendre ou décider"
+    ]
+  },
+  "author_truths": [
+    "Aucune force surnaturelle n'inspire directement les Trois Éveils.",
+    "La Nuit de Sarn ne résout pas toutes les causes de la guerre.",
+    "Les trois protagonistes restent faillibles et continuent de se contredire après Sarn.",
+    "La mémoire publique simplifiera progressivement la Nuit, alors que les archives conservent plusieurs versions incompatibles de certains détails.",
+    "Les Trois Éveils sont une réponse historique à la faillite conjointe de la force, de l'information et des institutions lorsqu'elles agissent séparément."
+  ],
+  "immediate_aftermath": [
+    "cessations locales autour de Sarn",
+    "ouverture de couloirs pour réfugiés et blessés",
+    "mise sous garde distribuée des archives sensibles",
+    "convocation d'assemblées interrégionales temporaires",
+    "retrait progressif des forces étrangères autour de Sarn",
+    "premiers débats sur la transformation des accords de crise en institutions durables"
+  ],
+  "next_canon": "long_assemblies_and_concorde"
+}
