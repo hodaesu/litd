@@ -245,7 +245,7 @@ func _on_screen_requested(_screen_name: String) -> void:
     call_deferred("_sync_launch_button")
 
 func _on_save_finished(_slot: int, success: bool, _recovered: bool) -> void:
-    if success and GameState.current_screen == "title" and VeilleursVS001WorldRuntime.is_active():
+    if success and SaveManager.last_operation == "load" and GameState.current_screen == "title" and VeilleursVS001WorldRuntime.is_active():
         call_deferred("_resume_after_load")
 
 func _resume_after_load() -> void:
