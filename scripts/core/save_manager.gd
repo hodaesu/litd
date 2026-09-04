@@ -11,12 +11,14 @@ const QA_SNAPSHOT_PATH := "user://litd_qa_snapshot.json"
 
 var active_slot := 0
 var last_status := ""
+var last_operation := ""
 var session_started_ms := 0
 
 func _ready() -> void:
     session_started_ms = Time.get_ticks_msec()
 
 func save_game(slot: int = active_slot) -> bool:
+    last_operation = "save"
     slot = _valid_slot(slot)
     save_started.emit(slot)
     last_status = "Sauvegarde en cours…"
@@ -37,6 +39,7 @@ func save_game(slot: int = active_slot) -> bool:
     return success
 
 func save_qa_snapshot() -> bool:
+    last_operation = "qa_save"
     var payload := _build_payload()
     payload["qa_snapshot"] = true
     var body := JSON.stringify(payload)
@@ -44,6 +47,7 @@ func save_qa_snapshot() -> bool:
     return _atomic_write(QA_SNAPSHOT_PATH, JSON.stringify(envelope))
 
 func load_qa_snapshot() -> bool:
+    last_operation = "qa_load"
     var payload := _read_payload(QA_SNAPSHOT_PATH)
     if payload.is_empty() or not bool(payload.get("qa_snapshot", false)):
         return false
@@ -67,6 +71,7 @@ func autosave(reason: String = "") -> bool:
     return success
 
 func load_game(slot: int = active_slot) -> bool:
+    last_operation = "load"
     slot = _valid_slot(slot)
     var recovered := false
     var payload: Dictionary = _read_payload(SAVE_PATH) if slot == 0 else {}
