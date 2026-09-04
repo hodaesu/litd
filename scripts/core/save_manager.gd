@@ -11,12 +11,14 @@ const QA_SNAPSHOT_PATH := "user://litd_qa_snapshot.json"
 
 var active_slot := 0
 var last_status := ""
+var last_operation := ""
 var session_started_ms := 0
 
 func _ready() -> void:
     session_started_ms = Time.get_ticks_msec()
 
 func save_game(slot: int = active_slot) -> bool:
+    last_operation = "save"
     slot = _valid_slot(slot)
     save_started.emit(slot)
     last_status = "Sauvegarde en cours…"
@@ -37,6 +39,7 @@ func save_game(slot: int = active_slot) -> bool:
     return success
 
 func save_qa_snapshot() -> bool:
+    last_operation = "qa_save"
     var payload := _build_payload()
     payload["qa_snapshot"] = true
     var body := JSON.stringify(payload)
@@ -44,6 +47,7 @@ func save_qa_snapshot() -> bool:
     return _atomic_write(QA_SNAPSHOT_PATH, JSON.stringify(envelope))
 
 func load_qa_snapshot() -> bool:
+    last_operation = "qa_load"
     var payload := _read_payload(QA_SNAPSHOT_PATH)
     if payload.is_empty() or not bool(payload.get("qa_snapshot", false)):
         return false
@@ -67,6 +71,7 @@ func autosave(reason: String = "") -> bool:
     return success
 
 func load_game(slot: int = active_slot) -> bool:
+    last_operation = "load"
     slot = _valid_slot(slot)
     var recovered := false
     var payload: Dictionary = _read_payload(SAVE_PATH) if slot == 0 else {}
@@ -128,6 +133,7 @@ func _build_payload() -> Dictionary:
             "timestamp": Time.get_datetime_string_from_system(),
             "chapter": CampaignState.current_chapter_number(),
             "zone": AshlandsRuntime.current_zone_id,
+            "mode": "veilleurs_vs001" if VeilleursVS001WorldRuntime.is_active() else "litd1",
             "party": GameState.party.map(func(hero: Dictionary): return {"id":hero.get("id", ""),"name":hero.get("name", ""),"hp":hero.get("hp", 0),"max_hp":hero.get("max_hp", 0)}),
             "play_seconds": int((Time.get_ticks_msec() - session_started_ms) / 1000),
             "screen": GameState.current_screen
@@ -149,6 +155,7 @@ func _build_payload() -> Dictionary:
         "ashlands_minibosses": AshlandsMinibossDirector.serialize(),
         "ashlands_combat": AshlandsCombatBridge.serialize(), "campaign_memory": CampaignMemoryDirector.serialize(),
         "remanence": RemanenceRuntime.serialize(),
+        "veilleurs_vs001": VeilleursVS001PlayableBridge.serialize(),
         "expedition_reports": ExpeditionReportDirector.serialize(), "preparation_presets": ExpeditionPreparationDirector.serialize(),
         "living_exploration": ExplorationDirector.serialize(),
         "progression_scope": ContentScopeDirector.serialize()
@@ -180,6 +187,7 @@ func _apply_payload(payload: Dictionary) -> void:
     AshlandsMinibossDirector.deserialize(payload.get("ashlands_minibosses",{}))
     AshlandsCombatBridge.deserialize(payload.get("ashlands_combat",{})); CampaignMemoryDirector.deserialize(payload.get("campaign_memory",{}))
     RemanenceRuntime.deserialize(payload.get("remanence",{}))
+    VeilleursVS001PlayableBridge.deserialize(payload.get("veilleurs_vs001",{}))
     ExpeditionReportDirector.deserialize(payload.get("expedition_reports",{})); ExpeditionPreparationDirector.deserialize(payload.get("preparation_presets",{}))
     ExplorationDirector.deserialize(payload.get("living_exploration",{}))
     ContentScopeDirector.deserialize(payload.get("progression_scope",{}))
@@ -194,6 +202,7 @@ func _migrate(payload: Dictionary) -> Dictionary:
         return {}
     payload["campaign_memory"] = payload.get("campaign_memory",{})
     payload["remanence"] = payload.get("remanence",{})
+    payload["veilleurs_vs001"] = payload.get("veilleurs_vs001",{})
     payload["expedition_reports"] = payload.get("expedition_reports",{})
     payload["preparation_presets"] = payload.get("preparation_presets",{})
     payload["living_exploration"] = payload.get("living_exploration",{})
