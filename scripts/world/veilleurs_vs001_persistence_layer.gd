@@ -94,5 +94,6 @@ func _marker_id_for_scar(scar: Dictionary) -> String:
 func _corpse_offset(scar_id: String, index: int) -> Vector3:
     var signature: int = absi(scar_id.hash()) + index * 31
     var x: float = float((signature % 5) - 2) * 0.72
-    var z: float = float(((signature / 5) % 5) - 2) * 0.62
+    var row: int = int(signature / 5) % 5
+    var z: float = float(row - 2) * 0.62
     return Vector3(x, 0.0, z)
