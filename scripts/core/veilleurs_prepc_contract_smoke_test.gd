@@ -8,6 +8,9 @@ func _ready() -> void:
 func _run() -> void:
     await get_tree().process_frame
     _test_timeline_speed_priority()
+    _test_timeline_stun_skips_and_recovers()
+    _test_timeline_slow_delays_next_action()
+    _test_timeline_extreme_speed_never_locks()
     _test_capture_preserves_body_state()
     _test_failed_seal_memory_becomes_resistance()
     _test_witnesses_can_disagree()
@@ -23,6 +26,56 @@ func _test_timeline_speed_priority() -> void:
     _check(entries.size() == 2, "G01/T01 : la timeline doit contenir les deux combattants vivants")
     if entries.size() == 2:
         _check(str((entries[0] as Dictionary).get("id", "")) == "fast", "G01/T01 : un combattant nettement plus rapide doit agir avant le lent")
+
+func _test_timeline_stun_skips_and_recovers() -> void:
+    var hero := {"id": "stunned", "name": "Étourdi", "hp": 20, "speed": 10, "fear": 0}
+    var enemy := {"id": "witness", "name": "Témoin", "hp": 20, "speed": 10, "enemy_fear": 0}
+    ActionTimelineDirector.begin_continuous([hero], [enemy])
+    _check(ActionTimelineDirector.set_continuous_status("stunned", "stun_turns", 1), "G01/T02 : le statut doit pouvoir être appliqué juste avant le tour")
+    var skipped := ActionTimelineDirector.consume_next_action()
+    _check(str(skipped.get("id", "")) == "stunned", "G01/T02 : le combattant étourdi doit bien atteindre son créneau")
+    _check(bool(skipped.get("skipped", false)) and str(skipped.get("reason", "")) == "stunned", "G01/T02 : son action doit être sautée")
+    _check(bool(skipped.get("recovered", false)), "G01/T02 : un étourdissement d'un tour doit être consommé et signaler la récupération")
+    var events := ActionTimelineDirector.simulate_continuous(3)
+    var acted_after_recovery := false
+    for event_value: Variant in events:
+        if event_value is Dictionary:
+            var event: Dictionary = event_value
+            if str(event.get("id", "")) == "stunned" and not bool(event.get("skipped", false)):
+                acted_after_recovery = true
+    _check(acted_after_recovery, "G01/T02 : le combattant récupéré doit pouvoir agir à un créneau ultérieur")
+
+func _test_timeline_slow_delays_next_action() -> void:
+    var hero := {"id": "slowed", "name": "Ralenti", "hp": 20, "speed": 10, "fear": 0}
+    var enemy := {"id": "normal", "name": "Normal", "hp": 20, "speed": 10, "enemy_fear": 0}
+    ActionTimelineDirector.begin_continuous([hero], [enemy])
+    _check(ActionTimelineDirector.set_continuous_status("slowed", "slow_multiplier", 2.0), "G01/T03 : le ralentissement doit pouvoir modifier la timeline active")
+    var slowed_event := ActionTimelineDirector.consume_next_action()
+    _check(str(slowed_event.get("id", "")) == "slowed", "G01/T03 : l'acteur ralenti doit garder son créneau déjà acquis")
+    _check(is_equal_approx(float(slowed_event.get("interval", 0.0)), 20.0), "G01/T03 : vitesse 10 avec ralentissement x2 doit produire un délai de 20 unités")
+    _check(is_equal_approx(float(slowed_event.get("next_action_at", 0.0)), 30.0), "G01/T03 : la prochaine action doit être repoussée après le tour courant")
+    var normal_first := ActionTimelineDirector.consume_next_action()
+    var normal_second := ActionTimelineDirector.consume_next_action()
+    _check(str(normal_first.get("id", "")) == "normal" and str(normal_second.get("id", "")) == "normal", "G01/T03 : le combattant non ralenti doit pouvoir rejouer avant le prochain créneau du ralenti")
+    _check(float(normal_second.get("time", 0.0)) < float(slowed_event.get("next_action_at", 0.0)), "G01/T03 : le délai supplémentaire doit être réel sur l'horloge continue")
+
+func _test_timeline_extreme_speed_never_locks() -> void:
+    var fast := {"id": "extreme_fast", "name": "Fulgu-rant", "hp": 20, "speed": 100000, "fear": 0}
+    var slow := {"id": "extreme_slow", "name": "Très lent", "hp": 20, "speed": 1, "enemy_fear": 0}
+    ActionTimelineDirector.begin_continuous([fast], [slow])
+    var events := ActionTimelineDirector.simulate_continuous(24, 128)
+    _check(events.size() == 24, "G01/T04 : une vitesse extrême ne doit jamais bloquer la simulation dans une boucle infinie")
+    var slow_acted := false
+    var anti_lock_seen := false
+    for event_value: Variant in events:
+        if event_value is Dictionary:
+            var event: Dictionary = event_value
+            if str(event.get("id", "")) == "extreme_slow":
+                slow_acted = true
+            if bool(event.get("anti_lock", false)):
+                anti_lock_seen = true
+    _check(slow_acted, "G01/T04 : même face à une vitesse extrême, un autre combattant vivant doit finir par obtenir un créneau")
+    _check(anti_lock_seen, "G01/T04 : la garde anti-lock doit être observable lorsqu'elle intervient")
 
 func _test_capture_preserves_body_state() -> void:
     CreatureManager.reset_new_game(62001)
