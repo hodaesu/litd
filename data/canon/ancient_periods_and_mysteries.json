@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "id": "ancient_periods_and_mysteries",
+  "status": "canon_locked",
+  "dating": {
+    "reference": "chute_year_zero",
+    "policy": "Les bornes ci-dessous sont des enveloppes historiques approximatives. Elles verrouillent l'ordre et les chevauchements sans prétendre qu'une civilisation commence ou cesse en une seule année."
+  },
+  "civilization_periods": [
+    {
+      "id": "ashai_de_nhal",
+      "name": "Ashaï de Nhal",
+      "period": [-4450, -3520],
+      "status": "previously_locked",
+      "note": "Première Rupture vers -3700."
+    },
+    {
+      "id": "or_silex",
+      "name": "Or-Silex",
+      "period": [-3260, -2470],
+      "status": "previously_locked"
+    },
+    {
+      "id": "saan",
+      "name": "Saan",
+      "period": [-2910, -1980],
+      "status": "previously_locked"
+    },
+    {
+      "id": "vaor_khal",
+      "name": "Vaor-Khal",
+      "period": [-2780, -1680],
+      "status": "locked_now",
+      "interpretation": "Long ensemble politique à transformations successives; sa culture juridique survit largement après sa fragmentation."
+    },
+    {
+      "id": "lyr_mar",
+      "name": "Lyr-Mar",
+      "period": [-2630, -1540],
+      "status": "locked_now",
+      "interpretation": "Réseaux maritimes et cités de passage plus qu'État central unique; les bornes désignent sa période de cohérence culturelle maximale."
+    },
+    {
+      "id": "sahm_ir",
+      "name": "Sahm-Ir",
+      "period": [-2510, -1430],
+      "status": "locked_now",
+      "interpretation": "L'espace sahm-irien se fragmente politiquement avant que ses pratiques de crédit, garantie et standardisation monétaire ne disparaissent."
+    },
+    {
+      "id": "ydris",
+      "name": "Ydris",
+      "period": [-2680, -1510],
+      "status": "locked_now",
+      "interpretation": "Ensemble de régions agricoles, médicales et écologiques dont les traditions survivent par écoles et réserves après la fin de l'unité politique."
+    }
+  ],
+  "overlap_rule": "Les sept civilisations se chevauchent, migrent, commercent, combattent et se transforment. Elles ne forment pas sept âges successifs étanches.",
+  "mystery_levels": {
+    "level_1_publicly_resolved": "La vérité peut être reconstruite par des personnages suffisamment informés.",
+    "level_2_author_resolved_world_uncertain": "La bible d'auteur possède une réponse, mais le monde peut n'en conserver que des fragments contradictoires.",
+    "level_3_author_bounded_unknown": "La bible d'auteur fixe ce qui est vrai et faux autour du mystère mais ne choisit pas une explication ontologique complète. Cette absence est volontaire et canonique."
+  },
+  "mysteries": [
+    {
+      "id": "first_rupture",
+      "name": "Première Rupture d'Ashaï",
+      "level": 3,
+      "locked_truths": [
+        "l'événement est réel",
+        "matière, information, perception et événement cessent temporairement de se comporter comme des catégories indépendantes",
+        "il ne constitue pas une preuve d'âme ou de vie après la mort"
+      ],
+      "intentionally_unknown": "nature ontologique complète du phénomène"
+    },
+    {
+      "id": "dhal",
+      "name": "Catastrophe de Dhal",
+      "level": 3,
+      "locked_truths": [
+        "312 personnes disparaissent lors de l'opération",
+        "19 reviennent",
+        "leurs souvenirs temporels et événementiels sont incompatibles entre eux",
+        "les retours ne sont pas une fraude collective",
+        "aucun modèle connu n'explique toutes les observations"
+      ],
+      "rejected_explanations_as_certainty": [
+        "simple voyage temporel",
+        "mort puis résurrection prouvée",
+        "simulation",
+        "enlèvement par une civilisation connue"
+      ],
+      "intentionally_unknown": "mécanisme exact de disparition et retour"
+    },
+    {
+      "id": "manifestations",
+      "name": "Manifestations destructrices",
+      "level": 3,
+      "locked_truths": [
+        "elles produisent des effets physiques observables",
+        "certaines présentent des comportements fonctionnellement répétables",
+        "leur fréquence ou visibilité augmente après la Chute",
+        "elles peuvent être étudiées sans leur attribuer automatiquement conscience ou anatomie"
+      ],
+      "rejected_explanations_as_certainty": [
+        "espèce unique",
+        "esprits confirmés",
+        "armes du Projet Seuil",
+        "créatures du Vestige",
+        "intelligence collective démontrée"
+      ],
+      "intentionally_unknown": "statut ontologique commun, s'il en existe un"
+    },
+    {
+      "id": "vestige_creator",
+      "name": "Créateur du Vestige",
+      "level": 3,
+      "locked_truths": [
+        "le Vestige existe et possède une Rémanence distincte",
+        "aucune des sept civilisations anciennes n'est désignée comme créatrice",
+        "le Projet Seuil n'est pas son projet de création",
+        "sa présence ne constitue pas une explication universelle des phénomènes du monde"
+      ],
+      "intentionally_unknown": "créateur, origine ultime et finalité complète du Vestige",
+      "permanent_guard": "Le lore n'a pas besoin de révéler un créateur pour être considéré complet."
+    },
+    {
+      "id": "fall_underlying_layer",
+      "name": "Couche ontologique sous la Chute",
+      "level": 3,
+      "locked_truths": [
+        "le Projet Seuil est une condition directe de la catastrophe de l'an 0",
+        "la reconnexion de systèmes séparés déclenche la cascade",
+        "la Grande Fermeture avait correctement identifié la connectivité comme facteur de danger"
+      ],
+      "intentionally_unknown": "pourquoi l'univers permet exactement ce type de persistance et de propagation"
+    },
+    {
+      "id": "three_banners",
+      "name": "Affaire des Trois Bannières",
+      "level": 2,
+      "locked_truths": [
+        "aucune grande puissance centrale n'ordonne l'attaque",
+        "un réseau radical transnational mène l'opération",
+        "plusieurs services disposent d'indices incomplets et certains les retiennent pour raisons politiques"
+      ],
+      "world_uncertainty": "Les archives publiques restent durablement fragmentaires et instrumentalisées."
+    },
+    {
+      "id": "project_threshold_fall",
+      "name": "Responsabilité du Projet Seuil",
+      "level": 2,
+      "locked_truths": [
+        "la catastrophe vient d'une responsabilité distribuée",
+        "des partenaires extérieurs participent sans être un agresseur unique",
+        "la reconnexion de nœuds séparés est l'erreur structurelle majeure",
+        "aucun laboratoire unique n'explique la Chute"
+      ],
+      "world_uncertainty": "LITD 1 n'a accès qu'à des morceaux de cette chaîne et rencontre plusieurs mythes concurrents."
+    },
+    {
+      "id": "night_of_sarn_detail",
+      "name": "Nuit de Sarn",
+      "level": 2,
+      "locked_truths": [
+        "crise des Portes, Archives et Conseil improvisé",
+        "refus de Sahra de réduire la protection à l'obéissance",
+        "conservation par Ilyan des sources contradictoires",
+        "limitation par Tala du pouvoir d'urgence",
+        "naissance historique des Trois Éveils sans révélation surnaturelle"
+      ],
+      "world_uncertainty": "Les mots exacts, l'ordre de certains événements et les responsabilités locales varient selon les témoignages."
+    }
+  ],
+  "completion_rule": "Un mystère de niveau 3 n'est pas un trou de lore. Il est considéré verrouillé lorsque ses limites, fausses certitudes et conséquences sont définies.",
+  "author_guardrails": [
+    "Aucune religion n'obtient confirmation automatique d'une métaphysique.",
+    "Aucun mystère ne doit être résolu uniquement pour fermer une encyclopédie.",
+    "La cohérence exige de distinguer absence de réponse et contradiction involontaire.",
+    "Les Trois Rémanences restent distinctes.",
+    "Les civilisations anciennes restent des ensembles culturels et politiques, jamais des races biologiques."
+  ]
+}
