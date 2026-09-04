@@ -1,22 +1,19 @@
 extends Node
 
-const TIMELINE_QUANTUM := 100.0
-const MIN_INTERVAL := 0.1
-const MAX_SLOW_MULTIPLIER := 4.0
-const MAX_CONSECUTIVE_ACTIONS := 8
-
 var round_index := 1
 var initiative: Array[Dictionary] = []
-var timeline_clock := 0.0
-var continuous_entries: Array[Dictionary] = []
-var _continuous_sequence := 0
-var _last_actor_id := ""
-var _consecutive_actions := 0
+var cycle_queue: Array[Dictionary] = []
+var cycle_reactions: Array[Dictionary] = []
+var cycle_consumed_tokens: Array[String] = []
+var cycle_status: Dictionary = {}
+var _cycle_sequence := 0
 
 func rebuild(heroes: Array, enemies: Array) -> Array[Dictionary]:
     initiative.clear()
     var sequence := 0
     for hero_value: Variant in heroes:
+        if hero_value is not Dictionary:
+            continue
         var hero: Dictionary = hero_value
         if int(hero.get("hp", 0)) <= 0:
             continue
@@ -25,6 +22,8 @@ func rebuild(heroes: Array, enemies: Array) -> Array[Dictionary]:
         sequence += 1
         initiative.append(hero_entry)
     for enemy_value: Variant in enemies:
+        if enemy_value is not Dictionary:
+            continue
         var enemy: Dictionary = enemy_value
         if int(enemy.get("hp", 0)) <= 0:
             continue
@@ -32,7 +31,7 @@ func rebuild(heroes: Array, enemies: Array) -> Array[Dictionary]:
         enemy_entry["sequence"] = sequence
         sequence += 1
         initiative.append(enemy_entry)
-    _sort_initiative()
+    _sort_initiative(initiative)
     return initiative.duplicate(true)
 
 func preview_lines(heroes: Array, enemies: Array) -> Array[String]:
@@ -53,200 +52,149 @@ func modify_initiative(character_id: String, amount: float) -> void:
         if String(entry.get("id", "")) == character_id:
             entry["initiative"] = float(entry.get("initiative", 0)) + amount
             break
-    _sort_initiative()
+    _sort_initiative(initiative)
 
 func next_round() -> void:
     round_index += 1
 
-# --- Timeline continue -----------------------------------------------------
-# La timeline historique `rebuild()` reste disponible pour les vues d'initiative.
-# Ces fonctions ajoutent un scheduler réellement consommable : chaque acteur a
-# un prochain instant d'action, mis à jour après son action ou un tour sauté.
+# --- Scheduler cyclique canonique -----------------------------------------
+# Tests_48 impose une action primaire par acteur et par cycle. Une réaction
+# reste un événement hors-tour. Les boss multi-actions reçoivent des jetons
+# supplémentaires explicites : aucune action gratuite n'est cachée au joueur.
 
-func begin_continuous(heroes: Array, enemies: Array) -> Array[Dictionary]:
-    timeline_clock = 0.0
-    continuous_entries.clear()
-    _continuous_sequence = 0
-    _last_actor_id = ""
-    _consecutive_actions = 0
+func begin_cycle(heroes: Array, enemies: Array) -> Array[Dictionary]:
+    cycle_queue.clear()
+    cycle_reactions.clear()
+    cycle_consumed_tokens.clear()
+    cycle_status.clear()
+    _cycle_sequence = 0
+
+    var primaries: Array[Dictionary] = []
+    var boss_extras: Array[Dictionary] = []
     for hero_value: Variant in heroes:
         if hero_value is not Dictionary:
             continue
         var hero: Dictionary = hero_value
         if int(hero.get("hp", 0)) <= 0:
             continue
-        continuous_entries.append(_continuous_entry(hero, false))
+        primaries.append(_cycle_token(hero, false, 1, false))
     for enemy_value: Variant in enemies:
         if enemy_value is not Dictionary:
             continue
         var enemy: Dictionary = enemy_value
         if int(enemy.get("hp", 0)) <= 0:
             continue
-        continuous_entries.append(_continuous_entry(enemy, true))
-    _sort_continuous()
-    return continuous_snapshot()
+        primaries.append(_cycle_token(enemy, true, 1, false))
+        var actions_per_cycle := _actions_per_cycle(enemy)
+        for action_index in range(2, actions_per_cycle + 1):
+            boss_extras.append(_cycle_token(enemy, true, action_index, true))
 
-func continuous_snapshot() -> Array[Dictionary]:
-    var result: Array[Dictionary] = []
-    for value: Variant in continuous_entries:
-        if value is Dictionary:
-            var entry: Dictionary = value
-            var copy := entry.duplicate(true)
-            copy.erase("source")
-            result.append(copy)
-    return result
+    _sort_cycle_tokens(primaries)
+    # Les actions supplémentaires restent séparées et visibles. Elles sont
+    # ajoutées après les actions primaires par défaut ; un système de boss peut
+    # ensuite les avancer/retarder explicitement via apply_cycle_shifts().
+    cycle_queue.append_array(primaries)
+    cycle_queue.append_array(boss_extras)
+    return cycle_snapshot()
 
-func set_continuous_status(character_id: String, status: String, value: Variant) -> bool:
-    var entry := _continuous_entry_by_id(character_id)
-    if entry.is_empty():
-        return false
-    match status:
-        "stun_turns":
-            entry["stun_turns"] = maxi(0, int(value))
-        "slow_multiplier":
-            entry["slow_multiplier"] = clampf(float(value), 1.0, MAX_SLOW_MULTIPLIER)
-        "speed":
-            entry["speed"] = maxf(1.0, float(value))
-        _:
-            entry[status] = value
-    _sort_continuous()
-    return true
+func cycle_snapshot() -> Array[Dictionary]:
+    return cycle_queue.duplicate(true)
 
-func peek_next_action() -> Dictionary:
-    _prune_dead_continuous_entries()
-    if continuous_entries.is_empty():
-        return {}
-    _sort_continuous()
-    return _public_continuous_entry(continuous_entries[0])
+func apply_cycle_shifts(shifts: Dictionary) -> Array[Dictionary]:
+    # Mutation atomique : on applique toutes les avances/retards avant un seul tri,
+    # ce qui évite qu'un effet simultané dépende de l'ordre d'itération.
+    for token: Dictionary in cycle_queue:
+        var actor_id := str(token.get("id", ""))
+        if not shifts.has(actor_id):
+            continue
+        token["initiative"] = float(token.get("initiative", 0.0)) + float(shifts.get(actor_id, 0.0))
+    _sort_cycle_tokens(cycle_queue)
+    return cycle_snapshot()
 
-func consume_next_action() -> Dictionary:
-    _prune_dead_continuous_entries()
-    if continuous_entries.is_empty():
-        return {"valid": false, "reason": "empty_timeline"}
-    _sort_continuous()
-    _apply_anti_lock_guard()
-    _sort_continuous()
+func set_cycle_status(character_id: String, status: String, value: Variant) -> void:
+    var actor_status: Dictionary = cycle_status.get(character_id, {})
+    actor_status[status] = value
+    cycle_status[character_id] = actor_status
 
-    var entry: Dictionary = continuous_entries[0]
-    timeline_clock = maxf(timeline_clock, float(entry.get("next_action_at", timeline_clock)))
-    var actor_id := str(entry.get("id", ""))
-    var interval := _interval_for_entry(entry)
-    var event := {
-        "valid": true,
-        "id": actor_id,
-        "name": str(entry.get("name", "Combattant")),
-        "enemy": bool(entry.get("enemy", false)),
-        "time": timeline_clock,
-        "interval": interval,
-        "skipped": false,
-        "reason": "action",
-        "recovered": false,
-        "anti_lock": bool(entry.get("anti_lock_pending", false))
+func register_reaction(character_id: String, reaction_id: String = "reaction") -> Dictionary:
+    var reaction := {
+        "id": character_id,
+        "reaction_id": reaction_id,
+        "round_index": round_index,
+        "reaction": true,
+        "grants_turn": false
     }
-    entry["anti_lock_pending"] = false
+    cycle_reactions.append(reaction)
+    return reaction.duplicate(true)
 
-    var stun_turns := maxi(0, int(entry.get("stun_turns", 0)))
+func consume_cycle_action() -> Dictionary:
+    if cycle_queue.is_empty():
+        return {"valid": false, "reason": "cycle_complete"}
+    var token: Dictionary = cycle_queue.pop_front()
+    var token_id := str(token.get("token_id", ""))
+    if cycle_consumed_tokens.has(token_id):
+        return {"valid": false, "reason": "duplicate_token", "token_id": token_id}
+    cycle_consumed_tokens.append(token_id)
+
+    var actor_id := str(token.get("id", ""))
+    var status: Dictionary = cycle_status.get(actor_id, {})
+    var stun_turns := maxi(0, int(status.get("stun_turns", 0)))
+    var result := token.duplicate(true)
+    result["valid"] = true
+    result["skipped"] = false
+    result["reason"] = "action"
+    result["recovered"] = false
     if stun_turns > 0:
         stun_turns -= 1
-        entry["stun_turns"] = stun_turns
-        event["skipped"] = true
-        event["reason"] = "stunned"
-        event["recovered"] = stun_turns == 0
-        entry["next_action_at"] = timeline_clock + interval
-        # Un tour sauté rompt la séquence d'actions effectives : il ne doit pas
-        # alimenter le garde anti-lock comme s'il s'agissait d'une vraie attaque.
-        _last_actor_id = ""
-        _consecutive_actions = 0
-    else:
-        entry["acted_count"] = int(entry.get("acted_count", 0)) + 1
-        entry["next_action_at"] = timeline_clock + interval
-        if actor_id == _last_actor_id:
-            _consecutive_actions += 1
-        else:
-            _last_actor_id = actor_id
-            _consecutive_actions = 1
-
-    _sort_continuous()
-    event["next_action_at"] = float(entry.get("next_action_at", timeline_clock + interval))
-    return event
-
-func simulate_continuous(action_events: int, safety_iterations: int = 4096) -> Array[Dictionary]:
-    var result: Array[Dictionary] = []
-    var iterations := 0
-    while result.size() < maxi(0, action_events) and iterations < maxi(1, safety_iterations):
-        iterations += 1
-        var event := consume_next_action()
-        if not bool(event.get("valid", false)):
-            break
-        result.append(event)
+        status["stun_turns"] = stun_turns
+        cycle_status[actor_id] = status
+        result["skipped"] = true
+        result["reason"] = "stunned"
+        result["recovered"] = stun_turns == 0
     return result
 
-func _continuous_entry(character: Dictionary, enemy: bool) -> Dictionary:
+func cycle_complete() -> bool:
+    return cycle_queue.is_empty()
+
+func cycle_actor_action_counts(include_boss_extras: bool = true) -> Dictionary:
+    var counts: Dictionary = {}
+    for token_value: Variant in cycle_queue:
+        if token_value is not Dictionary:
+            continue
+        var token: Dictionary = token_value
+        if not include_boss_extras and bool(token.get("boss_extra", false)):
+            continue
+        var actor_id := str(token.get("id", ""))
+        counts[actor_id] = int(counts.get(actor_id, 0)) + 1
+    return counts
+
+func _cycle_token(character: Dictionary, enemy: bool, action_index: int, boss_extra: bool) -> Dictionary:
     var base := _entry(character, enemy)
-    var sequence := _continuous_sequence
-    _continuous_sequence += 1
-    var entry := {
-        "id": str(base.get("id", "")),
+    var sequence := _cycle_sequence
+    _cycle_sequence += 1
+    var actor_id := str(base.get("id", ""))
+    return {
+        "token_id": "%s:cycle:%d:action:%d" % [actor_id, round_index, action_index],
+        "id": actor_id,
         "name": str(base.get("name", "Combattant")),
         "enemy": enemy,
-        "source": character,
-        "speed": maxf(1.0, float(base.get("initiative", 10.0))),
-        "slow_multiplier": clampf(float(character.get("slow_multiplier", 1.0)), 1.0, MAX_SLOW_MULTIPLIER),
-        "stun_turns": maxi(0, int(character.get("stun_turns", character.get("stunned_turns", 0)))),
-        "sequence": sequence,
-        "acted_count": 0,
-        "anti_lock_pending": false
+        "initiative": float(base.get("initiative", 0.0)),
+        "intent": str(base.get("intent", "")),
+        "guarding": bool(base.get("guarding", false)),
+        "riposte": int(base.get("riposte", 0)),
+        "action_index": action_index,
+        "boss_extra": boss_extra,
+        "visible": true,
+        "sequence": sequence
     }
-    entry["next_action_at"] = _interval_for_entry(entry)
-    return entry
 
-func _interval_for_entry(entry: Dictionary) -> float:
-    var speed := maxf(1.0, float(entry.get("speed", 10.0)))
-    var slow := clampf(float(entry.get("slow_multiplier", 1.0)), 1.0, MAX_SLOW_MULTIPLIER)
-    return maxf(MIN_INTERVAL, TIMELINE_QUANTUM / speed * slow)
+func _actions_per_cycle(character: Dictionary) -> int:
+    if not bool(character.get("boss", false)):
+        return 1
+    return clampi(int(character.get("actions_per_cycle", character.get("boss_actions_per_cycle", 1))), 1, 4)
 
-func _continuous_entry_by_id(character_id: String) -> Dictionary:
-    for value: Variant in continuous_entries:
-        if value is Dictionary:
-            var entry: Dictionary = value
-            if str(entry.get("id", "")) == character_id:
-                return entry
-    return {}
-
-func _prune_dead_continuous_entries() -> void:
-    for index in range(continuous_entries.size() - 1, -1, -1):
-        var entry: Dictionary = continuous_entries[index]
-        var source_value: Variant = entry.get("source", {})
-        if source_value is Dictionary and int((source_value as Dictionary).get("hp", 0)) <= 0:
-            continuous_entries.remove_at(index)
-
-func _apply_anti_lock_guard() -> void:
-    if _last_actor_id == "" or _consecutive_actions < MAX_CONSECUTIVE_ACTIONS or continuous_entries.size() < 2:
-        return
-    _sort_continuous()
-    var first: Dictionary = continuous_entries[0]
-    if str(first.get("id", "")) != _last_actor_id:
-        return
-    var competitor_index := -1
-    for index in range(1, continuous_entries.size()):
-        if str((continuous_entries[index] as Dictionary).get("id", "")) != _last_actor_id:
-            competitor_index = index
-            break
-    if competitor_index < 0:
-        return
-    var competitor: Dictionary = continuous_entries[competitor_index]
-    first["next_action_at"] = maxf(float(first.get("next_action_at", 0.0)), float(competitor.get("next_action_at", 0.0)) + MIN_INTERVAL)
-    first["anti_lock_pending"] = true
-    _last_actor_id = ""
-    _consecutive_actions = 0
-
-func _public_continuous_entry(entry: Dictionary) -> Dictionary:
-    var copy := entry.duplicate(true)
-    copy.erase("source")
-    return copy
-
-func _sort_initiative() -> void:
-    initiative.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+func _sort_initiative(entries: Array[Dictionary]) -> void:
+    entries.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
         var left_value := float(left.get("initiative", 0.0))
         var right_value := float(right.get("initiative", 0.0))
         if not is_equal_approx(left_value, right_value):
@@ -254,12 +202,12 @@ func _sort_initiative() -> void:
         return int(left.get("sequence", 0)) < int(right.get("sequence", 0))
     )
 
-func _sort_continuous() -> void:
-    continuous_entries.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
-        var left_time := float(left.get("next_action_at", 0.0))
-        var right_time := float(right.get("next_action_at", 0.0))
-        if not is_equal_approx(left_time, right_time):
-            return left_time < right_time
+func _sort_cycle_tokens(entries: Array[Dictionary]) -> void:
+    entries.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+        var left_value := float(left.get("initiative", 0.0))
+        var right_value := float(right.get("initiative", 0.0))
+        if not is_equal_approx(left_value, right_value):
+            return left_value > right_value
         return int(left.get("sequence", 0)) < int(right.get("sequence", 0))
     )
 
