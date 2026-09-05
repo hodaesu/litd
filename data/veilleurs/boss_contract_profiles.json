@@ -1,0 +1,34 @@
+{
+  "source": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx / Boss_Phases + Tests_48",
+  "version": 1,
+  "ishar": {
+    "phase_1_hp_ratio": 0.70,
+    "distinct_crossing_methods": 2,
+    "memory_repeat_step": 0.25,
+    "memory_cap": 0.75
+  },
+  "orateur": {
+    "echo_forbidden_fields": ["weapon_id", "weapon_asset", "animation_asset", "damage", "power", "player_stats"],
+    "silence_collective_reliability": 0.55,
+    "individual_actions_remain_enabled": true
+  },
+  "mere_des_veines": {
+    "redistribution_per_connection": 0.20,
+    "redistribution_cap": 0.60,
+    "network_zones": 5,
+    "max_active_growths": 2
+  },
+  "porte_cendres": {
+    "irreversible_kinds": ["injury", "death", "corpse", "destroyed_door", "anchored_remanence"],
+    "procession_initial_route": 4,
+    "procession_min_route": 1,
+    "procession_step": 1
+  },
+  "copiste": {
+    "copy_recent_family_count": 3,
+    "corrections_per_window": 1,
+    "heavy_consequence_kinds": ["injury", "mutilation", "death", "corpse", "destroyed_door", "anchored_remanence"],
+    "palimpsest_versions": 2,
+    "finale_behavior_count": 3
+  }
+}
