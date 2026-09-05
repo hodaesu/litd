@@ -83,7 +83,12 @@ static func relocate_persistent_object(absence_scar_id: String, new_anchor_id: S
     payload["object_carrier_id"] = str(context.get("carrier_id", ""))
     payload["object_last_moved_run"] = RemanenceRuntime.run_index
     payload["object_movements"] = movements
-    var updated := RemanenceRuntime.update_world_scar(absence_scar_id, {"payload": payload})
+    payload["object_persistence_locked"] = true
+    var updated := RemanenceRuntime.update_world_scar(absence_scar_id, {
+        "payload": payload,
+        "protected": true,
+        "severity": "historical"
+    })
     if updated:
         RemanenceRuntime.link_archive_nodes(object_id, "anchor:%s" % new_anchor_id, "located_at", {
             "run_index": RemanenceRuntime.run_index,
