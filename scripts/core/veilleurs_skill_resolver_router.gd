@@ -3,16 +3,21 @@ extends Node
 const CONTRACT_PATH := "res://data/veilleurs/skills/resolver_contract.json"
 const OVERRIDES_PATH := "res://data/veilleurs/skills/canonical_overrides.json"
 const CLINICAL_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_clinical_combat_runtime.gd")
+const HEMOCORDE_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_hemocorde_runtime.gd")
 
 var contract: Dictionary = {}
 var overrides: Dictionary = {}
 var load_errors: Array[String] = []
 var clinical_runtime: Node = null
+var hemocorde_runtime: Node = null
 
 func _ready() -> void:
     clinical_runtime = CLINICAL_RUNTIME_SCRIPT.new()
     clinical_runtime.name = "ClinicalRuntime"
     add_child(clinical_runtime)
+    hemocorde_runtime = HEMOCORDE_RUNTIME_SCRIPT.new()
+    hemocorde_runtime.name = "HemocordeRuntime"
+    add_child(hemocorde_runtime)
     reload()
 
 func reload() -> void:
@@ -107,23 +112,22 @@ func combat_profile(hero: Dictionary, node: Dictionary) -> Dictionary:
         result["target"] = "none"
         return result
 
-    var runtime := _clinical_runtime()
-    if runtime != null and runtime.has_method("handles") and bool(runtime.call("handles", result)) and runtime.has_method("profile_for"):
+    var runtime := _runtime_for(result)
+    if runtime != null and runtime.has_method("profile_for"):
         var runtime_profile: Dictionary = runtime.call("profile_for", hero, result)
         for key_value: Variant in runtime_profile.keys():
             result[str(key_value)] = runtime_profile.get(key_value)
         return result
 
-    # Un resolver déclaré jouable mais absent du runtime reste volontairement bloqué.
     result["effect"] = "resolver_required"
     result["target"] = "none"
     result["manual_combat_usable"] = false
     return result
 
 func resolve_combat(hero: Dictionary, target: Dictionary, skill: Dictionary, damage: int = 0, party: Array = []) -> Dictionary:
-    var runtime := _clinical_runtime()
-    if runtime == null or not runtime.has_method("resolve") or not runtime.has_method("handles") or not bool(runtime.call("handles", skill)):
-        return {"ok": false, "reason": "clinical_runtime_unavailable", "skill_id": str(skill.get("id", ""))}
+    var runtime := _runtime_for(skill)
+    if runtime == null or not runtime.has_method("resolve"):
+        return {"ok": false, "reason": "specialized_runtime_unavailable", "skill_id": str(skill.get("id", ""))}
     return runtime.call("resolve", hero, target, skill, damage, party)
 
 func select_medical_target(party: Array) -> Dictionary:
@@ -131,6 +135,24 @@ func select_medical_target(party: Array) -> Dictionary:
     if runtime == null or not runtime.has_method("select_medical_target"):
         return {}
     return runtime.call("select_medical_target", party)
+
+func refresh_specialized_passives(party: Array, enemies: Array) -> void:
+    var runtime := _hemocorde_runtime()
+    if runtime == null or not runtime.has_method("refresh_passive_state"):
+        return
+    for hero_value: Variant in party:
+        if hero_value is Dictionary and str((hero_value as Dictionary).get("id", "")) == "aisha_maren":
+            runtime.call("refresh_passive_state", hero_value, enemies)
+            break
+
+func advance_specialized_round_states(party: Array) -> void:
+    var runtime := _hemocorde_runtime()
+    if runtime == null or not runtime.has_method("advance_round_state"):
+        return
+    for hero_value: Variant in party:
+        if hero_value is Dictionary and str((hero_value as Dictionary).get("id", "")) == "aisha_maren":
+            runtime.call("advance_round_state", hero_value)
+            break
 
 func ultimate_contract(hero: Dictionary, branch: String) -> Dictionary:
     var ultimate := VeilleursSkillCatalog.ultimate_for(hero, branch)
@@ -147,13 +169,28 @@ func summary() -> Dictionary:
         "tree_families": (contract.get("tree_families", {}) as Dictionary).size(),
         "skill_overrides": (contract.get("skill_overrides", {}) as Dictionary).size(),
         "clinical_runtime": clinical_runtime != null,
+        "hemocorde_runtime": hemocorde_runtime != null,
         "load_errors": load_errors.duplicate()
     }
+
+func _runtime_for(skill: Dictionary) -> Node:
+    var clinical := _clinical_runtime()
+    if clinical != null and clinical.has_method("handles") and bool(clinical.call("handles", skill)):
+        return clinical
+    var hemocorde := _hemocorde_runtime()
+    if hemocorde != null and hemocorde.has_method("handles") and bool(hemocorde.call("handles", skill)):
+        return hemocorde
+    return null
 
 func _clinical_runtime() -> Node:
     if clinical_runtime == null:
         clinical_runtime = get_node_or_null("ClinicalRuntime")
     return clinical_runtime
+
+func _hemocorde_runtime() -> Node:
+    if hemocorde_runtime == null:
+        hemocorde_runtime = get_node_or_null("HemocordeRuntime")
+    return hemocorde_runtime
 
 func _load_dictionary(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
