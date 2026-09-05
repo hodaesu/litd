@@ -56,15 +56,24 @@ func generate(seed_value: int, dungeon_id: String, context: Dictionary = {}) -> 
             chance = minf(1.0, chance + secret_bonus)
         if chance < 1.0 and rng.randf() > chance:
             continue
-        var template := _pick_template(templates, node.get("types", []), used_templates, rng)
+        var desired_depth := int(node.get("depth", 1))
+        var template := _pick_template(templates, node.get("types", []), used_templates, rng, desired_depth)
         if template.is_empty():
-            return {"success": false, "reason": "no_compatible_handcrafted_room", "node": str(node.get("key", "")), "layout": []}
+            return {
+                "success": false,
+                "reason": "no_compatible_handcrafted_room",
+                "node": str(node.get("key", "")),
+                "depth": desired_depth,
+                "types": (node.get("types", []) as Array).duplicate(true),
+                "layout": []
+            }
         var key := str(node.get("key", "room"))
         var room := template.duplicate(true)
         room["id"] = "hy_%02d_%s" % [layout.size() + 1, key]
         room["template_id"] = str(template.get("id", ""))
         room["graph_key"] = key
-        room["depth"] = int(node.get("depth", template.get("depth", 1)))
+        room["authored_depth"] = int(template.get("depth", template.get("palier", desired_depth)))
+        room["depth"] = desired_depth
         room["palier"] = room["depth"]
         room["connections"] = []
         room["hand_authored_geometry"] = true
@@ -150,6 +159,8 @@ func validate_layout(layout: Array) -> Dictionary:
             return {"valid": false, "reason": "invalid_or_duplicate_room_id"}
         if not bool(room.get("hand_authored_geometry", false)):
             return {"valid": false, "reason": "non_authored_geometry"}
+        if int(room.get("authored_depth", room.get("depth", -1))) != int(room.get("depth", -2)):
+            return {"valid": false, "reason": "authored_depth_mismatch", "room_id": room_id}
         ids[room_id] = room
         if str(room.get("graph_key", "")) == "entry":
             entry_id = room_id
@@ -177,16 +188,20 @@ func validate_layout(layout: Array) -> Dictionary:
         "entry_id": entry_id,
         "boss_id": boss_id,
         "ash_route_supported": true,
-        "physical_retreat_supported": true
+        "physical_retreat_supported": true,
+        "authored_depths_preserved": true
     }
 
-func _pick_template(templates: Array, allowed_types: Array, used: Array[String], rng: RandomNumberGenerator) -> Dictionary:
+func _pick_template(templates: Array, allowed_types: Array, used: Array[String], rng: RandomNumberGenerator, desired_depth: int) -> Dictionary:
     var candidates: Array = []
     for template_value: Variant in templates:
         var template: Dictionary = template_value
         if not allowed_types.has(str(template.get("type", ""))):
             continue
         if used.has(str(template.get("id", ""))):
+            continue
+        var authored_depth := int(template.get("depth", template.get("palier", -1)))
+        if authored_depth != desired_depth:
             continue
         candidates.append(template)
     if candidates.is_empty():
