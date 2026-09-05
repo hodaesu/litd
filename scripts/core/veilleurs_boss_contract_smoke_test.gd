@@ -53,7 +53,7 @@ func _test_t38_orateur_echo_copies_structure_not_impossible_asset() -> void:
         "timing": "major",
         "tags": ["impact", "formation"],
         "weapon_id": "unique_halberd",
-        "weapon_asset": "res://hero_only_halberd.glb",
+        "weapon_asset": "hero_only_halberd_asset",
         "animation_asset": "hero_only_animation",
         "damage": 999,
         "player_stats": {"strength": 999}
