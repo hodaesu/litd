@@ -1,0 +1,41 @@
+id,domain,family_or_school,name,input,role_or_form,range,tempo,commitment,damage_nature,equilibrium_pressure,locomotion_or_gesture,targeting,body_bias,finisher_candidate,inspiration_tags,animation_note
+U001,unarmed,poing,jab_vertical,Light,opening,close,fast,low,Blunt,low,step_in,single,head_torso,false,The Raid|Sifu|Pak Mei,"Coup court vertical, coude près du corps; retour immédiat en garde."
+U002,unarmed,poing,cross_hip,Light,pressure,close,fast,low,Blunt,medium,step_in,single,torso_head,false,Sifu|John Wick,Rotation hanche-épaules compacte; frappe droite traversante.
+U003,unarmed,poing,backfist_snap,Light,interrupt,close,fast,low,Blunt,low,pivot,single,head,false,Kung-fu cinema|Sifu,"Revers court depuis un pivot, conçu pour interrompre."
+U004,unarmed,main_ouverte,palm_chin,Heavy,launcher,close,medium,medium,Blunt,high,step_in,single,head,true,The Raid|Police Story,"Paume ascendante menton; extension courte, pas de suranimation."
+U005,unarmed,poing,hammerfist_clavicle,Heavy,breaker,close,medium,medium,Blunt,high,stationary,single,shoulder_head,true,The Raid|Oldboy,Marteau descendant vers clavicule/épaule; sensation lourde.
+U006,unarmed,poing,body_hook,Light,pressure,close,fast,low,Blunt,medium,sidestep,single,torso,false,Boxing cinema|Sifu,"Crochet compact au corps, déplacement latéral minimal."
+U007,unarmed,coude,rising_elbow,Heavy,breaker,close,fast,medium,Blunt,high,step_in,single,head,true,The Raid|Tom-Yum-Goong,Coude montant très court; excellent après esquive.
+U008,unarmed,coude,horizontal_elbow,Light,interrupt,close,fast,low,Blunt,medium,pivot,single,head,false,The Raid|SPL,Coude horizontal avec rotation buste; coupe visuelle nette.
+U009,unarmed,coude,spinning_elbow,Heavy,crowd,close,medium,high,Blunt,high,spin,arc,head,true,The Raid|Muay Thai cinema,"Rotation contrôlée 180°, frappe large; engagement élevé."
+U010,unarmed,genou,straight_knee,Heavy,breaker,close,medium,medium,Blunt,high,clinch_step,single,torso,true,The Raid|Tom-Yum-Goong,Genou direct au plexus; mains cadrent la cible sans clinch prolongé.
+U011,unarmed,genou,rising_knee,Heavy,launcher,close,medium,high,Blunt,high,step_in,single,head_torso,true,Ong-Bak|The Raid,"Genou montant explosif, propulsion brève."
+U012,unarmed,jambe,low_round_kick,Light,control,close_mid,fast,low,Blunt,medium,pivot,single,leg,false,Sifu|The Raid,Low kick sur cuisse/genou; récupération très rapide.
+U013,unarmed,jambe,side_kick_push,Heavy,space,mid,medium,medium,Blunt,high,step_out,single,torso,false,Police Story|Sifu,Coup de pied latéral poussé pour recréer de la distance.
+U014,unarmed,jambe,front_kick_snap,Light,interrupt,mid,fast,low,Blunt,medium,step_in,single,torso,false,Kung-fu cinema|Sifu,"Coup de pied frontal claqué, peu d'amplitude."
+U015,unarmed,jambe,sweep_low,Heavy,knockdown,close,medium,high,Blunt,high,low_spin,arc,leg,true,Crouching Tiger Hidden Dragon|Sifu,Balayage bas lisible; centre de gravité abaissé.
+U016,unarmed,jambe,axe_kick,Heavy,breaker,close_mid,slow,high,Blunt,very_high,stationary,single,head_shoulder,true,Taekwondo cinema|Fighting games,Jambe monte puis talon descend; gros engagement.
+U017,unarmed,jambe,roundhouse_head,Heavy,damage,mid,medium,high,Blunt,high,pivot,single,head,true,The Raid|Fighting games,"Fouetté circulaire tête, anticipation marquée."
+U018,unarmed,jambe,back_kick,Heavy,counter,mid,medium,medium,Blunt,high,turn,single,torso,false,Police Story|Sifu,Coup arrière compact contre poursuivant.
+U019,unarmed,corps,shoulder_check,Light,space,close,fast,low,Blunt,medium,drive,single,torso,false,Sifu|John Wick,"Impact d'épaule pendant déplacement, conserve le flux."
+U020,unarmed,corps,forearm_frame,Parry,defense,close,fast,low,Blunt,medium,micro_step,single,upper_body,false,The Raid|Sifu,Cadre avant-bras qui dévie plutôt que bloquer net.
+U021,unarmed,defense,outside_parry,Parry,defense,close,fast,low,Blunt,high,micro_step,single,weapon_arm,false,Sifu|Pak Mei,Déviation extérieure courte suivie d'ouverture du centre.
+U022,unarmed,defense,inside_parry,Parry,defense,close,fast,low,Blunt,high,micro_step,single,weapon_arm,false,Sifu|Kung-fu cinema,Déviation intérieure et recentrage immédiat.
+U023,unarmed,counter,catch_and_hit,Parry,counter,close,fast,medium,Blunt,high,step_in,single,head_torso,false,The Raid|John Wick,Contrôle très bref du membre puis frappe immédiate; pas de grapple long.
+U024,unarmed,counter,slip_cross,Dodge,counter,close,fast,low,Blunt,medium,slip,single,head,false,Boxing cinema|Sifu,Esquive du buste et réentrée directe dans l'axe.
+U025,unarmed,counter,sidestep_bodyshot,Dodge,counter,close,fast,low,Blunt,medium,sidestep,single,torso,false,Sifu|The Raid,Pas latéral court puis frappe au flanc.
+U026,unarmed,defense,duck_under,Dodge,reposition,close,fast,medium,Blunt,low,duck_step,single,none,false,Sifu|Boxing cinema,Passage sous attaque haute sans roulade.
+U027,unarmed,defense,backstep_reentry,Dodge,bait,mid,medium,low,Blunt,low,backstep,single,none,false,Sekiro|Sifu,Retrait court suivi d'une fenêtre de réentrée.
+U028,unarmed,defense,shoulder_roll,Dodge,reposition,close,fast,medium,Blunt,low,roll_side,single,none,false,Action cinema|Sifu,"Esquive compacte à l'épaule, pas de roulade acrobatique longue."
+U029,unarmed,environment,wall_rebound_kick,SkillAttack,mobility,mid,medium,high,Blunt,high,wall_rebound,single,torso_head,true,Police Story|Sifu,Appui sur mur puis frappe; réservé aux contextes lisibles.
+U030,unarmed,environment,vault_kick,SkillAttack,crowd,mid,medium,high,Blunt,high,vault,arc,head_torso,true,Police Story|Sifu,Franchissement d'un obstacle bas en frappant.
+U031,unarmed,takedown,leg_reap_throw,Heavy,knockdown,close,medium,high,Blunt,very_high,step_through,single,leg_torso,true,John Wick|The Raid,"Fauchage de jambe + poussée, projection courte."
+U032,unarmed,takedown,hip_bump_throw,Heavy,knockdown,close,medium,high,Blunt,very_high,turn,single,torso,true,Judo cinema|John Wick,Déséquilibre hanche sans animation de lutte prolongée.
+U033,unarmed,takedown,arm_drag_knee,SkillAttack,burst,close,fast,medium,Blunt,high,pull_step,single,torso,true,The Raid|John Wick,Tire brièvement le bras pour créer l'axe du genou.
+U034,unarmed,counter,sprawl_knee,SkillAttack,anti_grab,close,medium,medium,Blunt,high,drop,single,head_torso,true,MMA cinema|The Raid,Réponse contextuelle à une saisie/charge basse.
+U035,unarmed,corps,double_palm_blast,Heavy,space,close_mid,medium,medium,Blunt,very_high,drive,cone,torso,false,Wuxia|Fighting games,"Double paume explosive, crédible mais légèrement stylisée."
+U036,unarmed,poing,chain_punch_burst,SkillAttack,pressure,close,fast,high,Blunt,high,advance,single,torso_head,false,Ip Man|Sifu,Rafale très courte de frappes en avançant; durée limitée.
+U037,unarmed,combo,three_point_combo,SkillAttack,burst,close,fast,medium,Blunt,high,advance,single,torso_head,true,The Raid|Sifu,"Poing corps → coude → genou, trois temps très nets."
+U038,unarmed,combo,spinning_backfist_knee,SkillAttack,burst,close,medium,high,Blunt,very_high,spin_step,single,head_torso,true,The Raid|Fighting games,Revers tournant puis genou si le premier impact connecte.
+U039,unarmed,finisher_seed,ground_stomp,Heavy,finish,close,slow,high,Blunt,very_high,stationary,single,torso_head,true,The Raid|Action cinema,Écrasement court sur ennemi au sol; réservé aux ouvertures.
+U040,unarmed,finisher_seed,wall_pin_strike,SkillAttack,finish,close,medium,high,Blunt,very_high,drive,single,head_torso,true,The Raid|John Wick,Percute cible contre mur puis frappe unique; pas de longue cinématique.

@@ -24,6 +24,8 @@ jobs:
         run: mkdir -p reports
       - name: Tests Python
         run: python -m pytest -q --tb=short --junitxml=reports/pytest.xml
+      - name: Valider la bibliothèque de mouvements LITD2
+        run: python unreal/LITDValidation/Data/MoveLibrary/validate_move_library.py
       - name: Audit des données de base
         run: python -m tools.qa.audit
       - name: Audit transversal campagne et systèmes
