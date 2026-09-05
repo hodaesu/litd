@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "source": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx/Bestiaire_confirme+Boss_Phases+Tests_48",
+  "boss_count": 5,
+  "bosses": [
+    {"boss_id":"ishar_gardien_du_passage","name":"Ishar, Gardien du Passage","act_id":"I","combat_group":"Gardien du Passage","phase_count":3,"recruitable":false,"standard_generator_injection":false,"preboss_depth":5,"contract_key":"ishar","contract_methods":["ishar_phase_1_transition","ishar_record_family"]},
+    {"boss_id":"orateur_sans_voix","name":"Orateur Sans Voix","act_id":"II","combat_group":"Silencieux","phase_count":3,"recruitable":false,"standard_generator_injection":false,"preboss_depth":5,"contract_key":"orateur","contract_methods":["orateur_echo","orateur_apply_silence"]},
+    {"boss_id":"mere_des_veines","name":"Mère des Veines","act_id":"III","combat_group":"Veines","phase_count":3,"recruitable":false,"standard_generator_injection":false,"preboss_depth":5,"contract_key":"mere_des_veines","contract_methods":["mother_redistribute_damage","mother_mark_dead_zone","mother_advance_phase"]},
+    {"boss_id":"porte_cendres_blanc","name":"Porte-Cendres Blanc","act_id":"IV","combat_group":"Porte-Cendres","phase_count":3,"recruitable":false,"standard_generator_injection":false,"preboss_depth":5,"contract_key":"porte_cendres","contract_methods":["porte_cendres_efface","procession_initial_state","procession_announce","procession_defend","procession_resolve"]},
+    {"boss_id":"le_copiste","name":"Le Copiste","act_id":"V","combat_group":"Gardiens de Version","phase_count":4,"recruitable":false,"standard_generator_injection":false,"preboss_depth":5,"contract_key":"copiste","contract_methods":["copiste_copy_recent","copiste_start_correction_window","copiste_correct","copiste_palimpseste","copiste_finale"]}
+  ]
+}
