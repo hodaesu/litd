@@ -20,6 +20,9 @@ func _ready() -> void:
 func _request_rebuild() -> void:
     call_deferred("rebuild")
 
+func materialize_corpses() -> void:
+    rebuild()
+
 func _restore_saved_party_position() -> void:
     if not VeilleursVS001PlayableBridge.has_saved_party_position():
         return
@@ -59,8 +62,7 @@ func _spawn_corpse(scar: Dictionary, marker: Marker3D, index: int) -> void:
     var proxy: VeilleursVS001CorpseProxy = CORPSE_PROXY_SCRIPT.new() as VeilleursVS001CorpseProxy
     proxy.configure(scar)
     add_child(proxy)
-    var offset := _corpse_offset(str(scar.get("id", "")), index)
-    proxy.global_position = marker.global_position + offset
+    proxy.global_position = marker.global_position + _corpse_offset(scar, index)
 
     var mesh_instance := MeshInstance3D.new()
     mesh_instance.name = "CorpseBody"
@@ -86,6 +88,9 @@ func _spawn_corpse(scar: Dictionary, marker: Marker3D, index: int) -> void:
     proxy.set_meta("body_snapshot", payload.get("body_snapshot", {}).duplicate(true))
     proxy.set_meta("combat_id", str(payload.get("combat_id", "")))
     proxy.set_meta("age_stage", str(scar.get("age_stage", "fresh")))
+    proxy.set_meta("moved", bool(payload.get("moved", false)))
+    proxy.set_meta("mutilated", bool(payload.get("mutilated", false)))
+    proxy.set_meta("cover_prepared", bool(payload.get("cover_prepared", false)))
 
 func _marker_id_for_scar(scar: Dictionary) -> String:
     var payload: Dictionary = scar.get("payload", {})
@@ -101,9 +106,16 @@ func _marker_id_for_scar(scar: Dictionary) -> String:
             return str(anchor.get("id", ""))
     return "s3_corpses"
 
-func _corpse_offset(scar_id: String, index: int) -> Vector3:
+func _corpse_offset(scar: Dictionary, index: int) -> Vector3:
+    var scar_id := str(scar.get("id", ""))
     var signature: int = absi(scar_id.hash()) + index * 31
     var x: float = float((signature % 5) - 2) * 0.72
     var row: int = int(signature / 5) % 5
     var z: float = float(row - 2) * 0.62
-    return Vector3(x, 0.0, z)
+    var result := Vector3(x, 0.0, z)
+    var payload: Dictionary = scar.get("payload", {})
+    var moved: Variant = payload.get("corpse_offset", [0.0, 0.0, 0.0])
+    if moved is Array and (moved as Array).size() >= 3:
+        var values: Array = moved
+        result += Vector3(float(values[0]), float(values[1]), float(values[2]))
+    return result

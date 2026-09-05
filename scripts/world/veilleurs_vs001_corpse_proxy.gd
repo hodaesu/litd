@@ -14,17 +14,11 @@ func configure(scar: Dictionary) -> void:
     monitoring = false
     monitorable = true
     set_meta("scar_id", scar_id)
-    set_meta("interaction_prompt", "EXAMINER LE CORPS")
+    set_meta("interaction_prompt", "AGIR SUR LE CORPS")
     set_meta("owner_name", owner_name)
     add_to_group("veilleurs_vs001_persistent_corpse")
 
 func interact() -> Dictionary:
     if scar_id.is_empty():
         return {"ok": false, "reason": "missing_scar_id"}
-    var director: Node = RemanenceCombatBridge.world_director as Node
-    if director == null or not director.has_method("visit_scar"):
-        return {"ok": false, "reason": "remanence_world_director_missing"}
-    var result: Dictionary = director.call("visit_scar", scar_id)
-    if bool(result.get("ok", false)):
-        GameState.add_log(str(result.get("text", "%s demeure ici." % owner_name)))
-    return result
+    return VeilleursCorpseInteractionRuntime.preview(scar_id)

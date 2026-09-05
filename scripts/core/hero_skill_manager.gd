@@ -41,7 +41,24 @@ func prepare_hero(hero: Dictionary) -> void:
 func multi_tree_enabled() -> bool:
     return EndgameState.active_cycle >= 1
 
+func branches_for(hero: Dictionary) -> Array[String]:
+    if VeilleursSkillCatalog.is_watcher(hero):
+        return VeilleursSkillCatalog.branches_for(hero)
+    return BRANCHES.duplicate()
+
+func branch_label(hero: Dictionary, branch: String) -> String:
+    if VeilleursSkillCatalog.is_watcher(hero):
+        return VeilleursSkillCatalog.branch_label(hero, branch)
+    return str({"offense":"Assaut","defense":"Égide","special":"Essence"}.get(branch, branch.capitalize()))
+
+func ultimate_for(hero: Dictionary, branch: String) -> Dictionary:
+    if VeilleursSkillCatalog.is_watcher(hero):
+        return VeilleursSkillCatalog.ultimate_for(hero, branch)
+    return {}
+
 func skill_nodes(hero: Dictionary, branch: String) -> Array:
+    if VeilleursSkillCatalog.is_watcher(hero):
+        return VeilleursSkillCatalog.skill_nodes(hero, branch)
     var result: Array = []
     var hero_id: String = str(hero.get("id", "hero"))
     var previous: String = ""
@@ -85,7 +102,10 @@ func can_unlock(hero: Dictionary, skill_id: String) -> bool:
     var branch: String = _branch_for(hero, skill_id)
     var specialization: String = str(hero.get("specialization", ""))
     if branch == "": return false
-    if not multi_tree_enabled() and specialization != "" and specialization != branch: return false
+    if VeilleursSkillCatalog.is_watcher(hero):
+        if specialization != "" and specialization != branch: return false
+    else:
+        if not multi_tree_enabled() and specialization != "" and specialization != branch: return false
     var node: Dictionary = _node(hero, skill_id)
     if node.is_empty() or not bool(node.get("available_in_current_release", false)): return false
     if hero.get("unlocked_skills", []).has(skill_id): return false
@@ -98,14 +118,18 @@ func unlock(hero: Dictionary, skill_id: String) -> bool:
     var unlocked: Array = hero.get("unlocked_skills", [])
     unlocked.append(skill_id); hero["unlocked_skills"] = unlocked
     hero["skill_points"] = int(hero.get("skill_points",0)) - int(node.cost)
-    if not multi_tree_enabled() and str(hero.get("specialization","")) == "": hero["specialization"] = _branch_for(hero,skill_id)
+    if str(hero.get("specialization","")) == "" and (VeilleursSkillCatalog.is_watcher(hero) or not multi_tree_enabled()):
+        hero["specialization"] = _branch_for(hero,skill_id)
     prepare_hero(hero)
     return true
 
 func stats_for(hero: Dictionary) -> Dictionary:
     var result: Dictionary = {}
     for skill_id_value in hero.get("unlocked_skills", []):
-        var node: Dictionary = _node(hero,str(skill_id_value)); var stat: String = str(node.get("stat",""))
+        var node: Dictionary = _node(hero,str(skill_id_value))
+        var stat: String = str(node.get("stat",""))
+        if stat == "":
+            continue
         result[stat] = int(result.get(stat,0)) + int(node.get("value",0))
     return result
 
@@ -122,7 +146,7 @@ func known_combat_skills(hero: Dictionary) -> Array[Dictionary]:
         result.append((base_value as Dictionary).duplicate(true))
     for skill_id_value in hero.get("unlocked_skills", []):
         var skill := combat_skill(hero, str(skill_id_value))
-        if not skill.is_empty():
+        if not skill.is_empty() and bool(skill.get("manual_combat_usable", true)):
             result.append(skill)
     return result
 
@@ -142,7 +166,7 @@ func equip_combat_skill(hero: Dictionary, slot: int, skill_id: String) -> bool:
     if slot < 0 or slot >= COMBAT_LOADOUT_SIZE:
         return false
     var skill := combat_skill(hero, skill_id)
-    if skill.is_empty():
+    if skill.is_empty() or not bool(skill.get("manual_combat_usable", true)):
         return false
     prepare_hero(hero)
     var loadout: Array = hero.get("combat_loadout", []).duplicate()
@@ -161,6 +185,8 @@ func grant_xp(hero: Dictionary, amount: int) -> void:
         hero["xp"] = int(hero.xp) - (50 + int(hero.level) * 25); hero["level"] = int(hero.level)+1; hero["skill_points"] = int(hero.get("skill_points",0))+1
 
 func _combat_profile_from_node(hero: Dictionary, node: Dictionary) -> Dictionary:
+    if VeilleursSkillCatalog.is_watcher(hero):
+        return VeilleursSkillCatalog.combat_profile(hero, node)
     var branch := _branch_for(hero, str(node.get("id", "")))
     var stat := str(node.get("stat", ""))
     var value := int(node.get("value", 0))
@@ -207,15 +233,17 @@ func _combat_profile_from_node(hero: Dictionary, node: Dictionary) -> Dictionary
     return result
 
 func _node(hero: Dictionary, skill_id: String) -> Dictionary:
-    for branch in BRANCHES:
+    for branch in branches_for(hero):
         for node_value in skill_nodes(hero,branch):
             if str(node_value.id)==skill_id: return node_value
     return {}
+
 func _branch_for(hero: Dictionary, skill_id: String) -> String:
-    for branch in BRANCHES:
+    for branch in branches_for(hero):
         for node_value in skill_nodes(hero,branch):
             if str(node_value.id)==skill_id: return branch
     return ""
+
 func _stats(hero_id: String, branch: String) -> Array[String]:
     match hero_id:
         "aurelien":
@@ -234,9 +262,11 @@ func _stats(hero_id: String, branch: String) -> Array[String]:
             if branch=="offense": return ["riposte_chance","damage_bonus","critical_chance","stun_chance","damage_percent"]
             if branch=="defense": return ["guard_power","physical_resistance","max_hp","riposte_chance","fear_resistance"]
             return ["riposte_chance","guard_power","stun_chance","physical_resistance","party_heal"]
+
 func _value(stat:String,index:int,hero_id:String,branch:String)->int:
     var hero_offset: int = int({"aurelien":1,"malvor":2,"lysandra":3,"darius":4}.get(hero_id,0))
     var branch_offset: int = int({"offense":0,"defense":1,"special":2}.get(branch,0))
     return int({"damage_bonus":2,"critical_chance":3,"damage_percent":5,"break_chance":4,"bleed_chance":4,"physical_resistance":2,"fear_resistance":3,"guard_power":4,"max_hp":5,"riposte_chance":3,"madness_resistance":3,"max_madness":4,"stun_chance":3,"execute_percent":6,"healing_power":5,"max_hope":4,"party_heal":2,"precision":3}.get(stat,2))+int(index/4)+hero_offset+branch_offset
+
 func _skill_name(hero_id:String,branch:String,index:int)->String:
     return "%s · %s %d"%[str({"aurelien":"Rite occulte","malvor":"Fureur brisée","lysandra":"Grâce du Voile","darius":"Serment du Veilleur"}.get(hero_id,"Maîtrise")),str({"offense":"Assaut","defense":"Égide","special":"Essence"}.get(branch,branch)),index+1]
