@@ -4,12 +4,14 @@ const CONTRACT_PATH := "res://data/veilleurs/skills/resolver_contract.json"
 const OVERRIDES_PATH := "res://data/veilleurs/skills/canonical_overrides.json"
 const CLINICAL_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_clinical_combat_runtime.gd")
 const HEMOCORDE_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_hemocorde_runtime.gd")
+const ULTIMATE_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_ultimate_runtime.gd")
 
 var contract: Dictionary = {}
 var overrides: Dictionary = {}
 var load_errors: Array[String] = []
 var clinical_runtime: Node = null
 var hemocorde_runtime: Node = null
+var ultimate_runtime: Node = null
 
 func _ready() -> void:
     clinical_runtime = CLINICAL_RUNTIME_SCRIPT.new()
@@ -18,6 +20,9 @@ func _ready() -> void:
     hemocorde_runtime = HEMOCORDE_RUNTIME_SCRIPT.new()
     hemocorde_runtime.name = "HemocordeRuntime"
     add_child(hemocorde_runtime)
+    ultimate_runtime = ULTIMATE_RUNTIME_SCRIPT.new()
+    ultimate_runtime.name = "UltimateRuntime"
+    add_child(ultimate_runtime)
     reload()
 
 func reload() -> void:
@@ -165,17 +170,55 @@ func ultimate_contract(hero: Dictionary, branch: String) -> Dictionary:
     if ultimate.is_empty():
         return {}
     var family: Dictionary = (contract.get("ultimate_family", {}) as Dictionary).duplicate(true)
+    var override_key := "%s:%s" % [str(hero.get("id", "")), branch]
+    var ultimate_overrides: Dictionary = contract.get("ultimate_overrides", {})
+    if ultimate_overrides.has(override_key):
+        var override: Dictionary = ultimate_overrides[override_key]
+        for key_value: Variant in override.keys():
+            family[str(key_value)] = override.get(key_value)
     family["ultimate"] = ultimate
     family["resolver_id"] = str(family.get("resolver_id", "ultimate_sequence"))
     family["status"] = str(family.get("status", "required"))
+    family["override_key"] = override_key
     return family
+
+func begin_ultimate_encounter(enemies: Array) -> String:
+    var runtime := _ultimate_runtime()
+    if runtime == null or not runtime.has_method("begin_encounter"):
+        return ""
+    return str(runtime.call("begin_encounter", enemies))
+
+func end_ultimate_encounter() -> void:
+    var runtime := _ultimate_runtime()
+    if runtime != null and runtime.has_method("end_encounter"):
+        runtime.call("end_encounter")
+
+func ultimate_status(hero: Dictionary, branch: String, target: Dictionary = {}, enemies: Array = []) -> Dictionary:
+    var runtime := _ultimate_runtime()
+    if runtime == null or not runtime.has_method("status"):
+        return {"available": false, "reason": "ultimate_runtime_unavailable"}
+    return runtime.call("status", hero, branch, target, enemies)
+
+func resolve_ultimate(hero: Dictionary, branch: String, target: Dictionary, enemies: Array = []) -> Dictionary:
+    var runtime := _ultimate_runtime()
+    if runtime == null or not runtime.has_method("resolve"):
+        return {"ok": false, "reason": "ultimate_runtime_unavailable"}
+    return runtime.call("resolve", hero, branch, target, enemies)
+
+func ultimate_charges_remaining(hero: Dictionary, branch: String) -> int:
+    var runtime := _ultimate_runtime()
+    if runtime == null or not runtime.has_method("charges_remaining"):
+        return 0
+    return int(runtime.call("charges_remaining", hero, branch))
 
 func summary() -> Dictionary:
     return {
         "tree_families": (contract.get("tree_families", {}) as Dictionary).size(),
         "skill_overrides": (contract.get("skill_overrides", {}) as Dictionary).size(),
+        "ultimate_overrides": (contract.get("ultimate_overrides", {}) as Dictionary).size(),
         "clinical_runtime": clinical_runtime != null,
         "hemocorde_runtime": hemocorde_runtime != null,
+        "ultimate_runtime": ultimate_runtime != null,
         "load_errors": load_errors.duplicate()
     }
 
@@ -197,6 +240,11 @@ func _hemocorde_runtime() -> Node:
     if hemocorde_runtime == null:
         hemocorde_runtime = get_node_or_null("HemocordeRuntime")
     return hemocorde_runtime
+
+func _ultimate_runtime() -> Node:
+    if ultimate_runtime == null:
+        ultimate_runtime = get_node_or_null("UltimateRuntime")
+    return ultimate_runtime
 
 func _load_dictionary(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
