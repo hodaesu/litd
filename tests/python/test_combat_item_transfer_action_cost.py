@@ -19,6 +19,7 @@ def test_v34_item_rules_survive_the_current_main_ui_layer():
     ui = (ROOT / "scripts/ui/main_v34.gd").read_text(encoding="utf-8")
     clinical_manual = (ROOT / "scripts/ui/main_v35.gd").read_text(encoding="utf-8")
     clinical_reactions = (ROOT / "scripts/ui/main_v36.gd").read_text(encoding="utf-8")
+    hemocorde_layer = (ROOT / "scripts/ui/main_v37.gd").read_text(encoding="utf-8")
     scene = (ROOT / "scenes/Main.tscn").read_text(encoding="utf-8")
 
     for marker in (
@@ -46,9 +47,8 @@ def test_v34_item_rules_survive_the_current_main_ui_layer():
     assert "battle_locked = true" in use_body
     assert "_complete_active_hero_turn()" in use_body
 
-    # The active UI adds thin specialized layers, but the chain must still reach
-    # v34 so the established use-vs-give action-cost contract remains authoritative.
-    assert 'res://scripts/ui/main_v36.gd' in scene
+    assert 'res://scripts/ui/main_v37.gd' in scene
+    assert 'extends "res://scripts/ui/main_v36.gd"' in hemocorde_layer
     assert 'extends "res://scripts/ui/main_v35.gd"' in clinical_reactions
     assert 'extends "res://scripts/ui/main_v34.gd"' in clinical_manual
     assert "_enemy_try_use_healing_item" in clinical_reactions
