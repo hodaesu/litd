@@ -145,6 +145,12 @@ func refresh_specialized_passives(party: Array, enemies: Array) -> void:
             runtime.call("refresh_passive_state", hero_value, enemies)
             break
 
+func refresh_specialized_target(target: Dictionary) -> Dictionary:
+    var runtime := _hemocorde_runtime()
+    if runtime == null or not runtime.has_method("refresh_circulatory_state") or target.is_empty():
+        return {}
+    return runtime.call("refresh_circulatory_state", target)
+
 func advance_specialized_round_states(party: Array) -> void:
     var runtime := _hemocorde_runtime()
     if runtime == null or not runtime.has_method("advance_round_state"):

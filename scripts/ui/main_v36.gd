@@ -99,6 +99,8 @@ func _clinical_enemy_attack_phase(attacking_enemies: Array) -> void:
             GameState.add_log("%s hésite sous l’effet de la Peur et manque %s." % [str(enemy.get("name", "L'ennemi")), str(target.get("name", "sa cible"))])
             var miss_reaction: Dictionary = _reaction_runtime().on_enemy_miss(enemy, target, combat_round_number, GameState.party)
             _log_clinical_reaction(miss_reaction, enemy, target)
+            var blood_return_miss: Dictionary = _reaction_runtime().after_enemy_action(enemy, target, combat_round_number, GameState.party)
+            _log_clinical_reaction(blood_return_miss, enemy, target)
             if int(enemy.get("hp", 0)) <= 0:
                 CombatBodyPresentation.stage_death(enemy, true)
             continue
@@ -141,12 +143,15 @@ func _clinical_enemy_attack_phase(attacking_enemies: Array) -> void:
         for secondary_message: String in EnemyCombatDirector.apply_secondary(enemy_action, enemy, target, targets):
             GameState.add_log(secondary_message)
 
+        # Priorité Aïsha : urgence médicale > ouverture de mouvement > Retour sanguin.
         var hit_reaction: Dictionary = _reaction_runtime().after_enemy_hit(enemy, target, hp_before, bleeding_before, combat_round_number, GameState.party)
         _log_clinical_reaction(hit_reaction, enemy, target)
         var movement_reactions: Array[Dictionary] = _reaction_runtime().on_enemy_movement(enemy, enemy_position_before, _enemy_position(enemy), combat_round_number, GameState.party)
         for reaction_value: Variant in movement_reactions:
             if reaction_value is Dictionary:
                 _log_clinical_reaction(reaction_value, enemy, target)
+        var blood_return: Dictionary = _reaction_runtime().after_enemy_action(enemy, target, combat_round_number, GameState.party)
+        _log_clinical_reaction(blood_return, enemy, target)
 
         if damage >= int(damage_range[1]):
             EnemyFearDirector.apply_event(enemy, "enemy_lands_heavy_hit")
@@ -185,3 +190,7 @@ func _log_clinical_reaction(result: Dictionary, enemy: Dictionary, target: Dicti
             GameState.add_log("Aïsha · Main réflexe jugule immédiatement l'hémorragie de %s." % str(target.get("name", "un allié")))
         "AÏ-SUT-13":
             GameState.add_log("Aïsha · Intervention immédiate stabilise %s au seuil critique." % str(target.get("name", "un allié")))
+        "AÏ-HÉM-04":
+            GameState.add_log("Aïsha · Retour sanguin : %d dégâts et saignement accru sur %s." % [int(result.get("damage", 0)), str(enemy.get("name", "l'ennemi"))])
+        "AÏ-HÉM-13":
+            GameState.add_log("Aïsha · Pointe réflexe exploite une ouverture vasculaire de %s." % str(enemy.get("name", "l'ennemi")))

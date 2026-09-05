@@ -6,6 +6,8 @@ const AISHA_DEFLECTION := "AÏ-ANA-04"
 const AISHA_MUSCLE_REFLEX := "AÏ-ANA-13"
 const AISHA_REFLEX_HAND := "AÏ-SUT-04"
 const AISHA_IMMEDIATE_INTERVENTION := "AÏ-SUT-13"
+const AISHA_BLOOD_RETURN := "AÏ-HÉM-04"
+const AISHA_REFLEX_POINT := "AÏ-HÉM-13"
 
 signal reaction_resolved(actor_id: String, skill_id: String, result: Dictionary)
 
@@ -130,6 +132,49 @@ func after_enemy_hit(enemy: Dictionary, target: Dictionary, hp_before: int, blee
         return hemorrhage_result
     return {}
 
+# Hémocorde : réaction générique de fin d'action. Elle n'est tentée qu'après
+# les réactions médicales et les ouvertures de mouvement, afin qu'une urgence
+# ou Pointe réflexe garde la priorité sur Retour sanguin.
+func after_enemy_action(enemy: Dictionary, target: Dictionary, round_index: int, party: Array) -> Dictionary:
+    var aisha := _hero(party, "aisha_maren")
+    if aisha.is_empty() or int(enemy.get("hp", 0)) <= 0:
+        return {}
+    if not _has_skill(aisha, AISHA_BLOOD_RETURN) or not _reaction_available(aisha, round_index):
+        return {}
+    if int(enemy.get("bleeding", 0)) <= 0 or not _adjacent(aisha, target):
+        return {}
+
+    AnatomyRuntime.ensure_state(enemy)
+    var part := _known_vascular_part(enemy)
+    if part == "":
+        # Le saignement visible fournit un indice local, mais pas une carte vasculaire omnisciente.
+        part = _preferred_close_part(enemy)
+    if part == "":
+        return {}
+
+    var damage := maxi(3, 3 + int(aisha.get("level", 1)) / 15)
+    var bleeding_before_enemy := int(enemy.get("bleeding", 0))
+    enemy["hp"] = maxi(0, int(enemy.get("hp", 0)) - damage)
+    var anatomy_result := AnatomyRuntime.register_targeted_hit(aisha, enemy, "technique", damage, part, AISHA_BLOOD_RETURN)
+    enemy["bleeding"] = bleeding_before_enemy + 1
+    var circulation := VeilleursSkillResolverRouter.refresh_specialized_target(enemy)
+    var result := {
+        "ok": true,
+        "actor_id": "aisha_maren",
+        "skill_id": AISHA_BLOOD_RETURN,
+        "target_id": str(target.get("id", "")),
+        "enemy_id": str(enemy.get("id", "")),
+        "damage": damage,
+        "part_id": str(anatomy_result.get("part_id", part)),
+        "bleeding_before": bleeding_before_enemy,
+        "bleeding_after": int(enemy.get("bleeding", 0)),
+        "circulatory_shock": int(circulation.get("shock", enemy.get("circulatory_shock", 0))),
+        "round": round_index
+    }
+    _consume_reaction(aisha, round_index, AISHA_BLOOD_RETURN)
+    reaction_resolved.emit("aisha_maren", AISHA_BLOOD_RETURN, result.duplicate(true))
+    return result
+
 func on_enemy_miss(enemy: Dictionary, target: Dictionary, round_index: int, party: Array) -> Dictionary:
     if str(target.get("id", "")) != "tarek_senn":
         return {}
@@ -159,7 +204,7 @@ func on_enemy_miss(enemy: Dictionary, target: Dictionary, round_index: int, part
 
 func on_enemy_movement(enemy: Dictionary, position_before: int, position_after: int, round_index: int, party: Array) -> Array[Dictionary]:
     var results: Array[Dictionary] = []
-    if position_before == position_after:
+    if position_before == position_after or int(enemy.get("hp", 0)) <= 0:
         return results
 
     var tarek := _hero(party, "tarek_senn")
@@ -185,7 +230,40 @@ func on_enemy_movement(enemy: Dictionary, position_before: int, position_after: 
         results.append(tarek_result)
 
     var aisha := _hero(party, "aisha_maren")
-    if not aisha.is_empty() and _has_skill(aisha, AISHA_MUSCLE_REFLEX) and _reaction_available(aisha, round_index):
+    if aisha.is_empty() or not _reaction_available(aisha, round_index) or int(enemy.get("hp", 0)) <= 0:
+        return results
+
+    # Pointe réflexe est plus spécifique que Réflexe musculaire : si une zone
+    # vasculaire connue devient brièvement accessible au premier plan, elle a priorité.
+    if _has_skill(aisha, AISHA_REFLEX_POINT) and mini(position_before, position_after) <= 1:
+        AnatomyRuntime.ensure_state(enemy)
+        var vascular_part := _known_vascular_part(enemy)
+        if vascular_part != "":
+            var damage := maxi(5, 5 + int(aisha.get("level", 1)) / 12)
+            var bleeding_before_enemy := int(enemy.get("bleeding", 0))
+            enemy["hp"] = maxi(0, int(enemy.get("hp", 0)) - damage)
+            var anatomy_result := AnatomyRuntime.register_targeted_hit(aisha, enemy, "technique", damage, vascular_part, AISHA_REFLEX_POINT)
+            enemy["bleeding"] = bleeding_before_enemy + 1
+            var circulation := VeilleursSkillResolverRouter.refresh_specialized_target(enemy)
+            var point_result := {
+                "ok": true,
+                "actor_id": "aisha_maren",
+                "skill_id": AISHA_REFLEX_POINT,
+                "enemy_id": str(enemy.get("id", "")),
+                "damage": damage,
+                "part_id": str(anatomy_result.get("part_id", vascular_part)),
+                "bleeding_before": bleeding_before_enemy,
+                "bleeding_after": int(enemy.get("bleeding", 0)),
+                "circulatory_shock": int(circulation.get("shock", enemy.get("circulatory_shock", 0))),
+                "position_before": position_before,
+                "position_after": position_after,
+                "round": round_index
+            }
+            _consume_reaction(aisha, round_index, AISHA_REFLEX_POINT)
+            reaction_resolved.emit("aisha_maren", AISHA_REFLEX_POINT, point_result.duplicate(true))
+            results.append(point_result)
+
+    if _reaction_available(aisha, round_index) and _has_skill(aisha, AISHA_MUSCLE_REFLEX):
         AnatomyRuntime.ensure_state(enemy)
         var locomotor_part := _part_with_any_tag(enemy, ["mobility", "support", "anchor"])
         if locomotor_part == "":
@@ -308,6 +386,26 @@ func _most_injured_part(enemy: Dictionary) -> String:
         var part_id := str(part.get("id", ""))
         var score := int(enemy.get("anatomy_part_trauma", {}).get(part_id, 0))
         score += {"injured": 100, "critical": 250}.get(str(enemy.get("anatomy_part_states", {}).get(part_id, "intact")), 0)
+        if score > best_score:
+            best_score = score
+            best = part_id
+    return best
+
+func _known_vascular_part(enemy: Dictionary) -> String:
+    AnatomyRuntime.ensure_state(enemy)
+    var known: Dictionary = enemy.get("vascular_known_parts", {})
+    var best := ""
+    var best_score := -1
+    for part_value: Variant in AnatomyRuntime.targetable_parts(enemy):
+        var part: Dictionary = part_value
+        var part_id := str(part.get("id", ""))
+        var entry_value: Variant = known.get(part_id, {})
+        if not (entry_value is Dictionary):
+            continue
+        var certainty := int((entry_value as Dictionary).get("certainty", 0))
+        if certainty <= 0:
+            continue
+        var score := certainty * 100 + int(enemy.get("anatomy_part_trauma", {}).get(part_id, 0))
         if score > best_score:
             best_score = score
             best = part_id

@@ -113,7 +113,7 @@ func _run() -> void:
 
     var reaction_node := _skill_node(aisha, "AÏ-HÉM-04")
     var reaction_profile := VeilleursSkillResolverRouter.combat_profile(aisha, reaction_node)
-    _check(str(reaction_profile.get("effect", "")) == "resolver_required", "Retour sanguin must remain blocked until the Hemocorde reaction hook is implemented")
+    _check(str(reaction_profile.get("effect", "")) == "resolver_required", "Retour sanguin must remain an automatic reaction hook rather than a manual action")
     _check(not bool(reaction_profile.get("manual_combat_usable", true)), "Hemocorde reactions must never become manual buttons")
     var ultimate := VeilleursSkillResolverRouter.ultimate_contract(aisha, "hemocorde")
     _check(str(ultimate.get("status", "")) == "required", "Le Dernier Battement must remain on the dedicated ultimate sequence contract")
