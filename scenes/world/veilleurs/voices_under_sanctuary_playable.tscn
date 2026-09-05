@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource path="res://scripts/world/veilleurs_vs001_playable_world.gd" type="Script" id="1"]
 [ext_resource path="res://scenes/world/veilleurs/voices_under_sanctuary_blockout.tscn" type="PackedScene" id="2"]
 [ext_resource path="res://scripts/world/veilleurs_vs001_persistence_layer.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/veilleurs_corpse_context_ui.gd" type="Script" id="4"]
+[ext_resource path="res://scripts/ui/veilleurs_skill_tree_overlay.gd" type="Script" id="5"]
 
 [node name="VoicesUnderSanctuaryPlayable" type="Node3D"]
 script = ExtResource("1")
@@ -16,3 +17,6 @@ blockout_path = NodePath("../Blockout")
 
 [node name="CorpseContextUI" type="CanvasLayer" parent="."]
 script = ExtResource("4")
+
+[node name="CanonicalSkillTreeUI" type="CanvasLayer" parent="."]
+script = ExtResource("5")
