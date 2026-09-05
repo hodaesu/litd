@@ -111,9 +111,10 @@ func _run() -> void:
     VeilleursSkillResolverRouter.advance_specialized_round_states(GameState.party)
     _check(int(aisha.get("hemodynamic_posture_rounds", 0)) == 2, "Posture hémodynamique must decrement with round progression")
 
-    var reaction := HeroSkillManager.combat_skill(aisha, "AÏ-HÉM-04")
-    _check(str(reaction.get("effect", "")) == "resolver_required", "Retour sanguin must remain blocked until the Hemocorde reaction hook is implemented")
-    _check(not bool(reaction.get("manual_combat_usable", true)), "Hemocorde reactions must never become manual buttons")
+    var reaction_node := _skill_node(aisha, "AÏ-HÉM-04")
+    var reaction_profile := VeilleursSkillResolverRouter.combat_profile(aisha, reaction_node)
+    _check(str(reaction_profile.get("effect", "")) == "resolver_required", "Retour sanguin must remain blocked until the Hemocorde reaction hook is implemented")
+    _check(not bool(reaction_profile.get("manual_combat_usable", true)), "Hemocorde reactions must never become manual buttons")
     var ultimate := VeilleursSkillResolverRouter.ultimate_contract(aisha, "hemocorde")
     _check(str(ultimate.get("status", "")) == "required", "Le Dernier Battement must remain on the dedicated ultimate sequence contract")
 
@@ -123,6 +124,15 @@ func _hero(hero_id: String) -> Dictionary:
     for value: Variant in GameState.party:
         if value is Dictionary and str((value as Dictionary).get("id", "")) == hero_id:
             return value
+    return {}
+
+func _skill_node(hero: Dictionary, skill_id: String) -> Dictionary:
+    if hero.is_empty():
+        return {}
+    for branch: String in HeroSkillManager.branches_for(hero):
+        for value: Variant in HeroSkillManager.skill_nodes(hero, branch):
+            if value is Dictionary and str((value as Dictionary).get("id", "")) == skill_id:
+                return value
     return {}
 
 func _party_ids(party_value: Array) -> Array[String]:
