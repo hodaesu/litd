@@ -4,6 +4,7 @@ const RULES_PATH := "res://data/remanence_world_rules.json"
 const WorldDirectorScript := preload("res://scripts/core/remanence_world_director.gd")
 const CorpseState := preload("res://scripts/core/corpse_state_runtime.gd")
 const SpeciesKnowledge := preload("res://scripts/core/species_knowledge_runtime.gd")
+const ScarAging := preload("res://scripts/core/veilleurs_scar_aging_runtime.gd")
 
 var rules: Dictionary = {}
 var world_director: Node
@@ -26,22 +27,42 @@ func assemble_room(room: Dictionary, encounter: Dictionary = {}, context: Dictio
     var active_candidates: Array[Dictionary] = _matching_active_scars(output_room)
     var visible_scars: Array[Dictionary] = []
     var persistent_corpses: Array[Dictionary] = []
+    var temporal_presentations: Array[Dictionary] = []
     var interactive_count: int = 0
+    var temporal_visible_count: int = 0
+    var temporal_interactive_count: int = 0
 
     for scar: Dictionary in active_candidates:
-        if visible_scars.size() >= max_visible:
-            break
         var scar_type: String = str(scar.get("type", ""))
         if scar_type == "species_knowledge":
             continue
         var effect: Dictionary = (rules.get("scar_effects", {}) as Dictionary).get(scar_type, {})
-        var interactive: bool = bool(effect.get("interaction", false))
+        var temporal: Dictionary = ScarAging.presentation_for_scar(scar)
+        var temporal_visible: bool = bool(temporal.get("visible", true))
+        var interactive: bool = bool(temporal.get("interactive", effect.get("interaction", false)))
+
+        # Les conséquences logiques continuent d'exister même si leur représentation
+        # visuelle a disparu ou a été compressée (relique absente, route modifiée, etc.).
+        _apply_scar_effect(output_room, scar, effect)
+        _apply_temporal_presentation(output_room, temporal)
+        temporal_presentations.append(temporal.duplicate(true))
+        if temporal_visible:
+            temporal_visible_count += 1
+        if interactive:
+            temporal_interactive_count += 1
+
+        if not temporal_visible:
+            continue
+        if visible_scars.size() >= max_visible:
+            continue
         if interactive and interactive_count >= max_interactive:
             continue
-        visible_scars.append(scar.duplicate(true))
+
+        var visible_scar := scar.duplicate(true)
+        visible_scar["temporal_presentation"] = temporal.duplicate(true)
+        visible_scars.append(visible_scar)
         if interactive:
             interactive_count += 1
-        _apply_scar_effect(output_room, scar, effect)
         if scar_type == "persistent_corpse":
             var reconstruction: Dictionary = CorpseState.reconstruct(str(scar.get("id", "")))
             if bool(reconstruction.get("ok", false)):
@@ -53,12 +74,16 @@ func assemble_room(room: Dictionary, encounter: Dictionary = {}, context: Dictio
 
     output_room["remanence_scars"] = visible_scars
     output_room["persistent_corpses"] = persistent_corpses
+    output_room["remanence_temporal_presentations"] = temporal_presentations
     output_room["remanence_archived_traces"] = archived_traces
     output_room["persistence_projection_ready"] = true
     output_room["persistence_projection"] = {
         "active_scars": visible_scars.size(),
         "interactive_scars": interactive_count,
         "persistent_corpses": persistent_corpses.size(),
+        "temporal_presentations": temporal_presentations.size(),
+        "temporal_visible": temporal_visible_count,
+        "temporal_interactive": temporal_interactive_count,
         "archived_traces": archived_traces.size(),
         "remembered_enemies": int(actor_result.get("remembered_enemies", 0)),
         "nemesis_enemies": int(actor_result.get("nemesis_enemies", 0)),
@@ -361,6 +386,30 @@ func _apply_scar_effect(room: Dictionary, scar: Dictionary, effect: Dictionary) 
             var species_id: String = str(entity.get("species_id", payload.get("species_id", "")))
             if species_id != "":
                 room["nemesis_species_id"] = species_id
+
+func _apply_temporal_presentation(room: Dictionary, presentation: Dictionary) -> void:
+    if presentation.is_empty():
+        return
+    var tags_value: Variant = room.get("environment_tags", [])
+    var tags: Array = tags_value if tags_value is Array else []
+    if bool(presentation.get("visible", true)):
+        for tag_value: Variant in presentation.get("environment_tags", []):
+            if not tags.has(tag_value):
+                tags.append(tag_value)
+    room["environment_tags"] = tags
+
+    var scar_type := str(presentation.get("scar_type", ""))
+    if scar_type == "major_item_removed":
+        var object_id := str(presentation.get("object_id", ""))
+        if object_id != "":
+            var locations: Dictionary = (room.get("remanence_object_locations", {}) as Dictionary).duplicate(true)
+            locations[object_id] = {
+                "anchor_id": str(presentation.get("object_location_anchor", "")),
+                "room_id": str(presentation.get("object_location_room", "")),
+                "age_stage": str(presentation.get("age_stage", "fresh")),
+                "representation": str(presentation.get("representation", ""))
+            }
+            room["remanence_object_locations"] = locations
 
 func _proxy_budget(device_profile: String) -> Dictionary:
     var key: String = "pc_proxy_budget" if _is_pc_profile(device_profile) else "mobile_proxy_budget"
