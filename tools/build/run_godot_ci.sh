@@ -73,6 +73,7 @@ run_checked "Les Veilleurs physique : anatomie, armure, blessures et extraction 
 run_checked "Les Veilleurs cadavres : revisite, brûlure et assimilation T15-T17" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_corpse_contract_smoke.tscn
 run_checked "Les Veilleurs information : lumière, psychologie et Rémanence T18-T22" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_information_psychology_contract_smoke.tscn
 run_checked "Les Veilleurs capture : conditions, échec mémoriel et auxiliaire T23-T25" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_capture_contract_smoke.tscn
+run_checked "Les Veilleurs rencontres : budget, anti-répétition, mémoriels et variantes T26-T32" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_encounter_contract_smoke.tscn
 run_checked "Les Veilleurs VS001 physique : S1-S8, collisions, retour et passage secret" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_vs001_physical_smoke.tscn
 run_checked "Les Veilleurs VS001 jouable : quatuor, exploration physique, interactions, combats et secret S8" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_vs001_playable_smoke.tscn
 run_checked "Hall des Descendants : chronique, morts, relique et retour au Sanctuaire" timeout 60s godot --headless --path . res://scenes/tests/descendants_hall_smoke.tscn
