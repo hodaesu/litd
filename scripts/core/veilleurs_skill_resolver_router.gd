@@ -41,6 +41,7 @@ func normalize_node(node: Dictionary) -> Dictionary:
     result["resolver_status"] = str(resolver.get("status", "required"))
     result["activation_mode"] = str(resolver.get("activation_mode", activation_mode_for(result)))
     result["runtime_entrypoint"] = str(resolver.get("entrypoint", ""))
+    result["resolver_coverage"] = (resolver.get("coverage", {}) as Dictionary).duplicate(true)
     return result
 
 func contract_for(node: Dictionary) -> Dictionary:
@@ -79,6 +80,7 @@ func combat_profile(hero: Dictionary, node: Dictionary) -> Dictionary:
         "name": str(normalized.get("name", "Technique")),
         "description": str(normalized.get("description", "")),
         "branch": str(normalized.get("branch", "")),
+        "branch_name": str(normalized.get("branch_name", "")),
         "canonical_type": str(normalized.get("canonical_type", "")),
         "canonical_function": str(normalized.get("canonical_function", "")),
         "canonical_positions": str(normalized.get("canonical_positions", "")),
@@ -90,17 +92,27 @@ func combat_profile(hero: Dictionary, node: Dictionary) -> Dictionary:
         "power_0_5": float(normalized.get("power_0_5", 0.0)),
         "resolver_id": str(normalized.get("resolver_id", "")),
         "resolver_status": str(normalized.get("resolver_status", "required")),
+        "resolver_coverage": (normalized.get("resolver_coverage", {}) as Dictionary).duplicate(true),
         "activation_mode": str(normalized.get("activation_mode", "action")),
+        "runtime_entrypoint": str(normalized.get("runtime_entrypoint", "")),
         "manual_combat_usable": can_manual_equip(normalized)
     }
     if not bool(result.get("manual_combat_usable", false)):
         result["effect"] = "resolver_required"
         result["target"] = "none"
         return result
-    # A prototype bridge may be added later only by changing resolver_contract.json.
-    # Until then, canonical skills never silently collapse into generic damage/heal.
+
+    var runtime: Node = get_node_or_null("/root/VeilleursClinicalCombatRuntime")
+    if runtime != null and runtime.has_method("handles") and bool(runtime.call("handles", result)) and runtime.has_method("profile_for"):
+        var runtime_profile: Dictionary = runtime.call("profile_for", hero, result)
+        for key_value: Variant in runtime_profile.keys():
+            result[str(key_value)] = runtime_profile.get(key_value)
+        return result
+
+    # Un resolver déclaré jouable mais absent du runtime reste volontairement bloqué.
     result["effect"] = "resolver_required"
     result["target"] = "none"
+    result["manual_combat_usable"] = false
     return result
 
 func ultimate_contract(hero: Dictionary, branch: String) -> Dictionary:
