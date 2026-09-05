@@ -3,13 +3,16 @@ extends RefCounted
 const TEMPLATES_PATH := "res://data/veilleurs/encounter_templates_64.json"
 const DEPTH_RULES_PATH := "res://data/veilleurs/encounter_depth_rules.json"
 const VARIANTS_PATH := "res://data/veilleurs/enemy_variant_rules.json"
+const ProductionRegistry := preload("res://scripts/core/veilleurs_enemy_production_registry.gd")
 
 var templates: Array = []
 var depth_rules: Array = []
 var variant_data: Dictionary = {}
 var recent_template_ids: Array[String] = []
+var production_registry: RefCounted
 
 func _init() -> void:
+    production_registry = ProductionRegistry.new()
     _load_data()
 
 func reset_history() -> void:
@@ -26,6 +29,18 @@ func restore_history(history: Array) -> void:
 
 func template_count() -> int:
     return templates.size()
+
+func production_species_count() -> int:
+    return int(production_registry.call("species_count"))
+
+func production_family_count() -> int:
+    return int(production_registry.call("family_count"))
+
+func production_profile(species: String) -> Dictionary:
+    return production_registry.call("species_profile", species)
+
+func production_contract() -> Dictionary:
+    return production_registry.call("validate_contract")
 
 func depth_rule(act_id: String, depth: int) -> Dictionary:
     for value: Variant in depth_rules:
@@ -100,6 +115,7 @@ func generate(act_id: String, depth: int, seed: int, memory_candidates: Array = 
         var species := str(species_value)
         var tier := _choose_variant_tier((rule.get("variant_weights", {}) as Dictionary), rng)
         var actor := variant_profile(species, tier)
+        actor = production_registry.call("enrich_actor", actor, species, tier)
         actor["actor_id"] = "%s:%d" % [str(selected.get("template_id", "encounter")), actor_index]
         actor["species"] = species
         actors.append(actor)
@@ -180,15 +196,23 @@ func variant_profile(species: String, tier: String) -> Dictionary:
     var tier_profiles: Dictionary = variant_data.get("tier_profiles", {})
     var profile: Dictionary = (tier_profiles.get(tier, tier_profiles.get("N1", {})) as Dictionary).duplicate(true)
     var species_rule := _species_variant_rule(species)
+    var production: Dictionary = production_registry.call("species_profile", species)
+    var family := str(production.get("family", ""))
     var base_rig_id := str(species_rule.get("base_rig_id", "rig_%s" % species.to_snake_case()))
-    var family_scene_id := str(species_rule.get("family_scene_id", "family_scene_%s" % species.to_snake_case()))
+    var family_scene_fallback := "family_scene_%s" % family.to_snake_case() if family != "" else "family_scene_%s" % species.to_snake_case()
+    var family_scene_id := str(species_rule.get("family_scene_id", family_scene_fallback))
     profile["variant_tier"] = tier if tier_profiles.has(tier) else "N1"
     profile["base_rig_id"] = base_rig_id
     profile["family_scene_id"] = family_scene_id
+    profile["variant_rule_known"] = not species_rule.is_empty()
     profile["scene_specific"] = false
     profile["shared_base_rig"] = true
     profile["specialized_profile"] = profile["variant_tier"] in ["N20", "N40"]
     profile["intent_contract"] = "bounded_mobile"
+    var form: Dictionary = production_registry.call("variant_form", species, str(profile["variant_tier"]))
+    profile["variant_form"] = str(form.get("form", ""))
+    profile["variant_form_locked"] = bool(form.get("named_form_locked", false))
+    profile["unnamed_canonical_variant"] = bool(form.get("unnamed_canonical_variant", false))
     return profile
 
 func _load_data() -> void:
