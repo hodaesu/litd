@@ -1,5 +1,7 @@
 extends RefCounted
 
+const MemorialRecruit := preload("res://scripts/core/veilleurs_memorial_recruit_runtime.gd")
+
 static func preview(enemy: Dictionary) -> Dictionary:
     var readiness := CreatureManager.capture_readiness(enemy).duplicate(true)
     var state := str(readiness.get("state", "hidden"))
@@ -94,6 +96,8 @@ static func attempt(enemy: Dictionary, roll_override: int = -1) -> Dictionary:
     var creature: Dictionary = creature_value if creature_value is Dictionary else {}
     if creature.is_empty():
         return {"success": false, "consumed": true, "reason_code": "creature_creation_failed", "message": "Le lien n'a pas pu être matérialisé."}
+    var memory_transition := MemorialRecruit.on_recruited(enemy, creature)
+    creature = (memory_transition.get("creature", creature) as Dictionary).duplicate(true)
     CreatureManager.captured_creatures.append(creature)
     if CreatureManager.active_instance_id == "":
         CreatureManager.active_instance_id = str(creature.get("instance_id", ""))
@@ -110,5 +114,8 @@ static func attempt(enemy: Dictionary, roll_override: int = -1) -> Dictionary:
         "creature": creature.duplicate(true),
         "removed_from_combat": int(enemy.get("hp", 0)) <= 0 and bool(enemy.get("captured", false)),
         "auxiliary_only": true,
+        "memory_preserved": bool(memory_transition.get("memory_preserved", false)),
+        "historical_stage": str(memory_transition.get("historical_stage", "")),
+        "allied_status": str(memory_transition.get("allied_status", "")),
         "message": "%s rejoint les auxiliaires." % str(creature.get("name", "La créature"))
     }
