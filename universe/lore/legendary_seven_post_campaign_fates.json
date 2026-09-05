@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.1.0",
+  "id": "legendary_seven_post_campaign_fates",
+  "status": "canon_post_campaign_trajectories_locked_late_endpoints_open",
+  "campaign_center": 24,
+  "formation_order": ["hero.zeje", "hero.anouk", "hero.marec", "hero.mathilde", "hero.effrie", "hero.aurelien", "hero.lya"],
+  "design_intent": "Verrouiller ce que les Sept deviennent après la campagne principale de LITD1 sans imposer des dates de mort, romances ou révélations métaphysiques inutiles.",
+  "rules": {
+    "seven_become_permanent_government": false,
+    "seven_found_hereditary_order": false,
+    "seven_receive_sovereignty_as_reward": false,
+    "seven_remain_permanent_field_party": false,
+    "group_breakup_is_single_betrayal": false,
+    "romance_is_inferred_from_post_campaign_closeness": false,
+    "exact_death_dates_locked": false,
+    "all_late_endpoints_closed": false,
+    "wounds_remain_historical_constraints": true,
+    "legend_can_distort_trajectory": true,
+    "ordinary_collaborators_remain_part_of_history": true,
+    "effrie_unknowns_remain_unknown": true,
+    "anouk_trame_origin_remains_unconfirmed": true,
+    "future_story_can_continue_after_last_secure_attestation": true
+  },
+  "shared_fate": {
+    "immediate_after_campaign": "Après la crise centrale autour de +24, les Sept continuent quelque temps à intervenir ensemble lorsque leurs compétences combinées sont indispensables, mais cessent progressivement de fonctionner comme une unité permanente.",
+    "why_they_diverge": [
+      "leurs blessures et capacités ne permettent pas une disponibilité infinie",
+      "les communautés ont davantage besoin de transmission, soin, archives, routes et structures locales que d'un groupe héroïque toujours en mouvement",
+      "leurs désaccords deviennent plus utiles lorsqu'ils nourrissent plusieurs institutions plutôt qu'une autorité unique",
+      "aucun d'eux ne veut que le prestige des Sept devienne un droit de gouverner"
+    ],
+    "legendary_name": "L'expression les Sept se fixe surtout après leurs principales actions communes. Elle simplifie des réseaux beaucoup plus larges de survivants, recrues, guides, soignants, artisans, archivistes et communautés.",
+    "last_all_seven_secure_period": "dans les premières années suivant la campagne principale; aucune date unique de dernière réunion n'est verrouillée",
+    "institutional_legacy": [
+      "protocoles de preuve et de correction",
+      "soin avant verdict et séparation soin/jugement",
+      "partage des charges et sécurité de sauvetage",
+      "consentement dans l'étude des phénomènes extraordinaires",
+      "mémoire des absents et statuts PROBABLE/INCONNU",
+      "prudence envers traditions et phénomènes non expliqués",
+      "coordination transparente et contestable"
+    ],
+    "what_they_do_not_create": ["Conseil des Sept", "dynastie", "ordre sacré", "Église des Sept", "gouvernement continental", "doctrine d'infaillibilité"]
+  },
+  "heroes": [
+    {
+      "id": "hero.zeje",
+      "name": "Zejé",
+      "post_campaign_role": "enquêteur itinérant, formateur d'archivistes de terrain et gardien des niveaux de preuve",
+      "trajectory": [
+        "Il transforme ses carnets RESSENTI/OBSERVÉ en méthodes transmissibles sans en faire une autorité centrale.",
+        "Il forme des personnes capables de conserver une hypothèse, une correction et le nom de celui qui conteste la correction.",
+        "Il refuse plusieurs fois qu'une communauté lui demande de trancher seul une question uniquement parce qu'il est l'un des Sept.",
+        "Il revient périodiquement auprès des autres lorsque leurs traces deviennent incompatibles, moins comme juge que comme personne chargée de rendre la contradiction visible."
+      ],
+      "body_continuity": "Aucune nouvelle blessure finale n'est imposée. Son travail devient progressivement moins dépendant du combat et plus dépendant de déplacements courts, d'entretiens et de conservation.",
+      "relationship_continuity": ["maintient avec Anouk une pratique de vérification sans invalidation", "travaille souvent avec Lya sur la distinction motif/cause", "continue de heurter Mathilde lorsque la retenue documentaire menace de retarder une aide"],
+      "public_legend": "Zejé devint le juge des vérités et ne se trompa plus.",
+      "author_truth": "Il consacre justement son après-campagne à rendre visible la possibilité qu'il se trompe et à empêcher qu'un nom prestigieux remplace une source.",
+      "secure_late_legacy": ["carnets à colonnes", "protocoles de correction datée", "écoles locales de provenance"],
+      "late_endpoint": "open_after_secure_post_campaign_trajectory"
+    },
+    {
+      "id": "hero.anouk",
+      "name": "Anouk",
+      "post_campaign_role": "praticienne itinérante de La Trame, coautrice de protocoles de consentement et témoin de phénomènes extraordinaires",
+      "trajectory": [
+        "Elle refuse qu'une institution revendique un droit permanent d'étude sur son corps ou ses perceptions.",
+        "Elle formalise avec soignants et enquêteurs des seuils d'arrêt, journaux de symptômes et conditions de consentement révocable.",
+        "Elle intervient sur des routes et sites où sa perception peut aider, mais demande que chaque succès soit enregistré avec les échecs, hésitations et symptômes.",
+        "Elle choisit progressivement des périodes de retrait longues afin que La Trame ne devienne ni son métier obligatoire ni toute son identité."
+      ],
+      "body_continuity": "Tremblements, photophobie, fatigue et engourdissements restent de vrais signaux de surcharge; l'après-campagne ne les guérit pas magiquement et elle adapte fréquence, lumière, repos et gestes fins.",
+      "relationship_continuity": ["Marec reste un frère choisi sans droit de surveillance", "Zejé reste partenaire de vérification", "Lya reste une affinité perceptive qui nécessite parfois un troisième regard", "Aurélien respecte le droit d'Anouk à refuser une étude même utile"],
+      "public_legend": "Anouk devint l'oracle des Sept et sut toujours quel chemin suivre.",
+      "author_truth": "Elle devient au contraire l'une des principales raisons pour lesquelles le monde apprend qu'une perception extraordinaire peut être utile, faillible et soumise au consentement de celle qui la vit.",
+      "secure_late_legacy": ["protocoles d'arrêt consentis", "journaux de surcharge", "témoignages conservant JE NE SAIS PAS"],
+      "metaphysics": "origin_of_la_trame_still_unconfirmed",
+      "late_endpoint": "open_after_voluntary_periods_of_withdrawal"
+    },
+    {
+      "id": "hero.marec",
+      "name": "Marec",
+      "post_campaign_role": "formateur de sauvetage, spécialiste du partage de charge et protecteur moins souvent engagé en première ligne",
+      "trajectory": [
+        "L'instabilité de son épaule et les séquelles accumulées rendent le rôle de mur permanent de moins en moins soutenable.",
+        "Il refuse d'abord plusieurs limitations avant d'accepter que transmettre une méthode de sauvetage protège davantage de personnes que porter seul chaque charge.",
+        "Il développe des exercices où cales, cordes, relais humains et seuils d'abandon sont aussi importants que la force du sauveteur.",
+        "Il intervient encore physiquement lorsque nécessaire, mais ses compagnons et élèves apprennent à lui demander ce qu'il peut réellement tenir plutôt qu'à supposer qu'il tiendra."
+      ],
+      "body_continuity": "La subluxation de l'épaule droite, les cicatrices palmaires et la fatigue lombaire restent persistantes. Les charges longues, gardes hautes et projections répétées sont adaptées; aucun retour à un corps neuf n'est canonique.",
+      "relationship_continuity": ["Anouk reste sa sœur choisie", "Mathilde continue de le soigner sans l'infantiliser", "Aurélien et lui transforment leur désaccord sur les limites en protocoles de terrain", "Èffrie reste une partenaire de discipline physique capable de lui dire d'arrêter"],
+      "public_legend": "Marec porta les ruines jusqu'à sa mort sans jamais plier.",
+      "author_truth": "Son héritage majeur vient du moment où il cesse de traiter le fait de plier comme un échec et enseigne que personne ne doit être le contrepoids permanent du monde.",
+      "secure_late_legacy": ["techniques de contrepoids partagé", "seuils d'arrêt de sauvetage", "outils de levage simples", "témoignages sur ses propres limites"],
+      "late_endpoint": "open_after_transition_away_from_permanent_frontline"
+    },
+    {
+      "id": "hero.mathilde",
+      "name": "Mathilde",
+      "post_campaign_role": "combattante-soignante de terrain, organisatrice de corridors de soin et défenseuse de la séparation entre urgence médicale et jugement",
+      "trajectory": [
+        "Elle participe à la mise en place de lieux où blessés, suspects, ennemis rendus et civils peuvent recevoir les premiers soins avant décision judiciaire ou politique.",
+        "Elle refuse que ces corridors deviennent immunité pénale ou qu'ils soient utilisés pour interroger des patients incapables de consentir.",
+        "Sa blessure de l'avant-bras l'oblige à modifier certaines prises et à transmettre des techniques adaptées plutôt qu'à cacher sa raideur.",
+        "Elle reste capable de combat, mais choisit plus souvent la protection, l'extraction et le maintien d'un espace où le verdict peut attendre quelques minutes."
+      ],
+      "body_continuity": "La cicatrice et le risque de raideur de l'avant-bras gauche persistent; la précision des parades et changements de prise varie avec fatigue, froid et rééducation.",
+      "relationship_continuity": ["son lien avec Aurélien reste respect moral profond sans romance imposée", "elle apprend avec Anouk à offrir une aide qui peut être refusée", "elle continue de voir quand Marec transforme sa douleur en argument", "ses désaccords avec Èffrie sur la représaille restent possibles sans briser leur respect"],
+      "public_legend": "Mathilde fonda un ordre qui soignait seulement les innocents reconnus par son instinct.",
+      "author_truth": "Son principe est précisément inverse: l'urgence du soin précède souvent la possibilité de savoir qui est innocent, responsable ou ennemi.",
+      "secure_late_legacy": ["corridors de soin", "dossiers médicaux séparés du judiciaire", "enseignement de prises adaptées aux blessures"],
+      "late_endpoint": "open_after_secure_field_care_network"
+    },
+    {
+      "id": "hero.effrie",
+      "name": "Èffrie",
+      "post_campaign_role": "gardienne et passeuse d'une tradition draconique qu'elle refuse de livrer comme objet de certitude extérieure",
+      "trajectory": [
+        "Après les principales actions communes, elle prépare un retour vers les personnes et territoires liés à sa tradition, sans fournir au monde une carte publique vers eux.",
+        "Elle emporte des copies de ce que les Sept ont observé sur l'activité draconique, mais sépare systématiquement OBSERVÉ, TRANSMIS PAR MA TRADITION et INTERPRÉTÉ.",
+        "Avant son départ, elle forme quelques compagnons à reconnaître des signes suffisants pour s'arrêter ou se retirer, sans leur transmettre ce qu'elle n'a pas autorité à transmettre.",
+        "Sa dernière trajectoire publique sûre est un départ volontaire vers une zone qu'elle ne nomme pas dans les archives partagées; ce silence est respecté comme limite, pas traité comme énigme à forcer."
+      ],
+      "body_continuity": "La cicatrice de cuisse persiste; les longues charges et appuis explosifs restent sensibles selon fatigue. La main brûlée n'est pas transformée en marque mystique.",
+      "relationship_continuity": ["Lya peut représenter son absence mais pas inventer le contenu de sa tradition", "Zejé conserve la catégorie INCONNU sans la convertir en preuve d'un Pacte", "Anouk comprend particulièrement le refus d'être transformée en objet d'étude"],
+      "public_legend": "Èffrie retourna auprès des dragons et révéla enfin le Pacte ancien.",
+      "author_truth": "Elle retourne vers une origine et une communauté dont plusieurs détails restent volontairement hors des sources communes; aucune preuve canonique de Pacte, d'ascendance ou de langue draconique n'est créée par son départ.",
+      "secure_late_legacy": ["notes à trois niveaux OBSERVÉ/TRANSMIS/INTERPRÉTÉ", "protocoles de retrait face à activité draconique crédible", "lance et techniques dont la chaîne de transmission reste partielle"],
+      "protected_unknowns": ["tribe_name", "exact_territory", "language", "theology", "rites", "symbols", "dragon_pact", "dragon_ancestry", "power_origin", "veil_link"],
+      "late_endpoint": "open_beyond_voluntary_return_journey"
+    },
+    {
+      "id": "hero.aurelien",
+      "name": "Aurélien",
+      "post_campaign_role": "coordinateur de crise, enseignant du triage transparent et conseiller itinérant de structures de soin",
+      "trajectory": [
+        "Il aide plusieurs communautés et Sanctuaires survivants à écrire des protocoles de triage dont les critères, exceptions et personnes laissées en attente restent visibles.",
+        "Il refuse les titres qui présenteraient ses décisions comme une autorité morale supérieure et rappelle qu'il a rejoint un groupe déjà formé.",
+        "Il transforme progressivement son rôle de commandement immédiat en formation de coordinateurs capables d'être contredits et remplacés.",
+        "Il conserve des listes de personnes mortes malgré des décisions raisonnables afin que la réussite d'une méthode ne soit jamais confondue avec absence de coût."
+      ],
+      "body_continuity": "Aucune blessure personnelle post-campagne précise n'est imposée sans source; son vieillissement futur et sa mort restent ouverts. Son travail de terrain demeure physiquement exigeant sans statut surhumain.",
+      "relationship_continuity": ["Mathilde et lui restent capables de désaccord profond sans que ce lien soit canonisé romantique", "Marec l'oblige à penser la capacité corporelle comme consentement et non disponibilité", "Anouk l'oblige à distinguer curiosité de droit d'étude", "Zejé l'oblige à nommer l'incertitude derrière l'action"],
+      "public_legend": "Aurélien devint le chef des Sept et fonda seul les règles qui sauvèrent la Terre des Cendres.",
+      "author_truth": "Il n'est ni le fondateur unique ni le chef naturel des Sept. Son héritage tient à des procédures collectives, transparentes et contestables qui gardent le nom de ceux qu'elles n'ont pas sauvés.",
+      "secure_late_legacy": ["protocoles de triage révisables", "listes d'attente nominatives", "formation de coordinateurs remplaçables", "séparation valeur humaine/ordre d'intervention"],
+      "late_endpoint": "open_after_distributed_training_role"
+    },
+    {
+      "id": "hero.lya",
+      "name": "Lya",
+      "post_campaign_role": "cartographe des absences, artiste-documentaliste et enquêtrice de provenance",
+      "trajectory": [
+        "Elle développe une pratique de cartes et dessins où une ruine, un corps non identifié, une route interrompue ou un symbole incomplet gardent visiblement leur manque.",
+        "Elle voyage entre communautés pour comparer ce qu'elles dessinent de la même catastrophe, conservant les différences plutôt que de produire une image officielle unique.",
+        "Elle refuse plusieurs commandes de reconstruction imaginaire lorsque les proches demandent un visage, un bâtiment ou une scène que les sources ne permettent pas de restituer honnêtement.",
+        "Ses œuvres deviennent des outils d'enquête autant que des œuvres d'art: position d'un vide, changement de trait, morceau recollé et attribution PROBABLE peuvent déclencher une nouvelle recherche."
+      ],
+      "body_continuity": "Aucune blessure personnelle tardive n'est imposée. La surcharge émotionnelle et perceptive reste reconnue comme limite réelle; son travail alterne observation, retrait et comparaison extérieure.",
+      "relationship_continuity": ["Zejé reste partenaire privilégié pour distinguer motif et cause", "Anouk reste une affinité qui nécessite des vérifications extérieures", "Èffrie lui confie la limite de ce qui peut être représenté sans lui céder la voix de sa tradition", "Mathilde l'aide à reconnaître quand recevoir trop d'histoires devient une blessure"],
+      "public_legend": "Lya écrivit l'histoire définitive des Sept et donna à chacun son destin.",
+      "author_truth": "Elle refuse précisément l'histoire définitive: son œuvre la plus fidèle conserve ce que les Sept, leurs témoins et leurs adversaires ne peuvent plus ou ne veulent pas résoudre.",
+      "secure_late_legacy": ["atlas à lacunes visibles", "portraits non complétés sans source", "cartes de provenance", "archives PROBABLE/INCONNU"],
+      "late_endpoint": "open_after_secure_documentary_network"
+    }
+  ],
+  "later_memory": {
+    "centuries_later": "Les Sept sont plus faciles à retenir que les milliers de personnes et institutions autour d'eux; cette facilité produit une légende utile mais dangereusement simplificatrice.",
+    "institutional_misuses": [
+      "citer Zejé pour imposer une version officielle alors qu'il protégeait les contradictions",
+      "citer Anouk comme preuve qu'une perception extraordinaire n'a pas besoin de consentement ni de vérification",
+      "citer Marec pour glorifier le sacrifice corporel qu'il finit par combattre",
+      "citer Mathilde pour confondre soin et innocence alors qu'elle séparait les deux",
+      "citer Èffrie pour inventer une cosmologie draconique totale",
+      "citer Aurélien pour justifier une autorité de triage incontestable",
+      "citer Lya pour produire une histoire définitive alors qu'elle laissait les lacunes visibles"
+    ],
+    "remanence_rule": "Les versions légendaires ne sont pas supprimées du canon diégétique; elles sont elles-mêmes des Échos et Mémoires à confronter aux Traces."
+  },
+  "still_open": [
+    "dates de mort des Sept",
+    "lieux de sépulture éventuels",
+    "enfants, descendants ou familles tardives non déjà établis",
+    "romances futures non nécessaires au canon présent",
+    "dernières paroles",
+    "dernière rencontre exacte des sept ensemble",
+    "destin final d'Èffrie après son voyage de retour",
+    "cause ontologique de La Trame",
+    "détails protégés de la tribu d'Èffrie"
+  ]
+}
