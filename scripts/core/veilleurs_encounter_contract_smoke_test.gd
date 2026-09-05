@@ -58,7 +58,7 @@ func _test_t28_no_immediate_template_repeat() -> void:
     _check(bool(first.get("ok", false)) and bool(second.get("ok", false)), "Tests_48/T28 : deux générations consécutives doivent être possibles")
     _check(str(first.get("template_id", "")) != str(second.get("template_id", "")), "Tests_48/T28 : le même template ne doit jamais apparaître deux fois de suite")
     var first_id := str(first.get("template_id", ""))
-    generator.set("recent_template_ids", ["x", first_id, "y", first_id, "z"])
+    generator.call("restore_history", ["x", first_id, "y", first_id, "z"])
     _check(int(generator.call("anti_repetition_weight", first_id)) == 40, "Tests_48/T28 : deux apparitions dans les cinq dernières salles doivent appliquer le malus canonique de 60 %")
 
 func _test_t29_only_one_memorial_injection() -> void:
