@@ -21,6 +21,13 @@ const CULTURAL_ATLAS_PATH := "res://universe/lore/concorde_cultural_atlas.json"
 const HISTORICAL_BESTIARY_PATH := "res://universe/lore/historical_bestiary.json"
 const SEVEN_BIOGRAPHIES_PATH := "res://universe/lore/legendary_seven_biographies.json"
 const ENCYCLOPEDIA_COMPLETION_PATH := "res://universe/lore/encyclopedia_completion_manifest.json"
+const POLITICAL_FAMILIES_PATH := "res://universe/lore/political_families_genealogies.json"
+const LIVING_WORLD_PATH := "res://universe/lore/living_world_npcs_microhistory.json"
+const LANGUAGE_DEPTH_V2_PATH := "res://universe/lore/language_depth_v2.json"
+const CULTURAL_DEPTH_V2_PATH := "res://universe/lore/cultural_depth_v2.json"
+const BESTIARY_DEPTH_V2_PATH := "res://universe/lore/bestiary_depth_v2.json"
+const QUEST_SEED_LIBRARY_V2_PATH := "res://universe/lore/quest_seed_library_v2.json"
+const ENCYCLOPEDIA_DEPTH_V2_MANIFEST_PATH := "res://universe/lore/encyclopedia_depth_v2_manifest.json"
 
 static func _load_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
@@ -96,6 +103,27 @@ static func legendary_seven_biographies() -> Dictionary:
 static func encyclopedia_completion_manifest() -> Dictionary:
     return _load_json(ENCYCLOPEDIA_COMPLETION_PATH)
 
+static func political_families() -> Dictionary:
+    return _load_json(POLITICAL_FAMILIES_PATH)
+
+static func living_world() -> Dictionary:
+    return _load_json(LIVING_WORLD_PATH)
+
+static func language_depth_v2() -> Dictionary:
+    return _load_json(LANGUAGE_DEPTH_V2_PATH)
+
+static func cultural_depth_v2() -> Dictionary:
+    return _load_json(CULTURAL_DEPTH_V2_PATH)
+
+static func bestiary_depth_v2() -> Dictionary:
+    return _load_json(BESTIARY_DEPTH_V2_PATH)
+
+static func quest_seed_library_v2() -> Dictionary:
+    return _load_json(QUEST_SEED_LIBRARY_V2_PATH)
+
+static func encyclopedia_depth_v2_manifest() -> Dictionary:
+    return _load_json(ENCYCLOPEDIA_DEPTH_V2_MANIFEST_PATH)
+
 static func master_chronology() -> Array[Dictionary]:
     var result: Array[Dictionary] = []
     var values: Variant = completion_manifest().get("master_chronology", [])
@@ -110,6 +138,9 @@ static func core_lore_complete() -> bool:
 
 static func encyclopedia_v1_complete() -> bool:
     return bool(encyclopedia_completion_manifest().get("encyclopedia_v1_complete", false))
+
+static func encyclopedia_depth_v2_complete() -> bool:
+    return bool(encyclopedia_depth_v2_manifest().get("depth_v2_complete", false))
 
 static func intentionally_bounded_unknowns() -> Array[String]:
     var result: Array[String] = []
@@ -138,6 +169,14 @@ static func still_expandable_topics() -> Array[String]:
 static func encyclopedia_intentionally_open() -> Array[String]:
     var result: Array[String] = []
     var values: Variant = encyclopedia_completion_manifest().get("intentionally_open_after_v1", [])
+    if values is Array:
+        for value: Variant in values:
+            result.append(str(value))
+    return result
+
+static func encyclopedia_depth_v2_open() -> Array[String]:
+    var result: Array[String] = []
+    var values: Variant = encyclopedia_depth_v2_manifest().get("still_intentionally_open", [])
     if values is Array:
         for value: Variant in values:
             result.append(str(value))
@@ -183,6 +222,15 @@ static func regional_language(language_id: String) -> Dictionary:
                 return item.duplicate(true)
     return {}
 
+static func spoken_language_depth(language_id: String) -> Dictionary:
+    var values: Variant = language_depth_v2().get("languages", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == language_id:
+                return item.duplicate(true)
+    return {}
+
 static func religious_tradition(tradition_id: String) -> Dictionary:
     var values: Variant = cultural_atlas().get("religious_traditions", [])
     if values is Array:
@@ -201,8 +249,26 @@ static func martial_lineage(lineage_id: String) -> Dictionary:
                 return item.duplicate(true)
     return {}
 
+static func martial_micro_lineage(lineage_id: String) -> Dictionary:
+    var values: Variant = cultural_depth_v2().get("martial_micro_lineages", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == lineage_id:
+                return item.duplicate(true)
+    return {}
+
 static func historical_bestiary_entry(entry_id: String) -> Dictionary:
     var values: Variant = historical_bestiary().get("entries", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == entry_id:
+                return item.duplicate(true)
+    return {}
+
+static func bestiary_depth_entry(entry_id: String) -> Dictionary:
+    var values: Variant = bestiary_depth_v2().get("species", [])
     if values is Array:
         for value: Variant in values:
             var item: Dictionary = value if value is Dictionary else {}
@@ -216,6 +282,33 @@ static func legendary_biography(hero_id: String) -> Dictionary:
         for value: Variant in values:
             var item: Dictionary = value if value is Dictionary else {}
             if str(item.get("id", "")) == hero_id:
+                return item.duplicate(true)
+    return {}
+
+static func political_family(family_id: String) -> Dictionary:
+    var values: Variant = political_families().get("families", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == family_id:
+                return item.duplicate(true)
+    return {}
+
+static func living_npc(npc_id: String) -> Dictionary:
+    var values: Variant = living_world().get("npcs", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == npc_id:
+                return item.duplicate(true)
+    return {}
+
+static func quest_seed(quest_id: String) -> Dictionary:
+    var values: Variant = quest_seed_library_v2().get("quests", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == quest_id:
                 return item.duplicate(true)
     return {}
 
@@ -241,6 +334,6 @@ static func geography_open_cartography() -> Array[String]:
     return result
 
 static func effective_pending_lore_topics() -> Array[String]:
-    # V1 encyclopedic domains are complete. What remains here is deliberately open,
-    # production-level, or infinitely extensible rather than missing core lore.
-    return encyclopedia_intentionally_open()
+    # V1 and the first depth V2 pass are complete. Remaining topics are explicitly
+    # protected mysteries, visual-production decisions, or unbounded future depth.
+    return encyclopedia_depth_v2_open()
