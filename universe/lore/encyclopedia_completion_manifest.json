@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "universe_id": "litd_universe",
-  "canon_version": "1.1.0",
+  "canon_version": "1.0.0",
   "id": "encyclopedia_completion_manifest",
   "status": "encyclopedia_v1_complete_for_production_with_depth_v2_extension",
   "definition": "L'encyclopédie V1 est complète lorsqu'elle fournit assez de détail cohérent pour écrire, prototyper, mettre en scène et relier les jeux sans transformer les mystères volontaires ou la micro-histoire infinie en faux manque de canon.",
