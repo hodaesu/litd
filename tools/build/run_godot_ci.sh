@@ -78,6 +78,7 @@ run_checked "Les Veilleurs production bestiaire : 24 espèces, 8 familles et var
 run_checked "Les Veilleurs production synergies : 21 relations tactiques visibles et cassables" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_production_synergy_smoke.tscn
 run_checked "Les Veilleurs IA : cible blessée accessible, gestes et Archiviste T33-T35" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_enemy_ai_contract_smoke.tscn
 run_checked "Les Veilleurs boss : Ishar, Orateur, Mère, Porte-Cendres et Copiste T36-T47" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_boss_contract_smoke.tscn
+run_checked "Les Veilleurs production boss : routage actes, pré-boss, non-recrutabilité et phases" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_boss_production_smoke.tscn
 run_checked "Les Veilleurs checkpoint pré-boss : état critique complet T48" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_preboss_checkpoint_smoke.tscn
 run_checked "Les Veilleurs VS001 physique : S1-S8, collisions, retour et passage secret" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_vs001_physical_smoke.tscn
 run_checked "Les Veilleurs VS001 jouable : quatuor, exploration physique, interactions, combats et secret S8" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_vs001_playable_smoke.tscn
