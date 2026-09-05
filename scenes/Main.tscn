@@ -1,7 +1,8 @@
 [gd_scene load_steps=11 format=3]
 
+; main_v37 ajoute le cycle passif/posture d'Hémocorde au-dessus de la couche clinique.
 ; main_v36 ajoute réactions, passifs et transformations des resolvers Entaille / Anatomie / Suture.
-; main_v35 ajoute le pont de combat manuel des resolvers Entaille / Anatomie / Suture sans modifier le comportement LITD1.
+; main_v35 ajoute le pont de combat manuel des resolvers cliniques sans modifier le comportement LITD1.
 ; main_v34 ajoute l'inventaire personnel en combat : utiliser un objet coûte l'action,
 ; le donner à un allié est gratuit, avec la même règle pour les ennemis.
 ; Héritage arbres de compétences : res://scripts/ui/main_v33.gd
@@ -15,7 +16,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v36.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v37.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
