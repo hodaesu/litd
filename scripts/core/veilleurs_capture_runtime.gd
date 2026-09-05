@@ -86,7 +86,7 @@ static func attempt(enemy: Dictionary, roll_override: int = -1) -> Dictionary:
             "resistance_before": previous_resistance,
             "resistance_after": resistance_after,
             "target_remains_enemy": int(enemy.get("hp", 0)) > 0 and not bool(enemy.get("captured", false)),
-            "updated_intent": EnemyCombatDirector.intent_preview(enemy),
+            "updated_intent": "Rejet du sceau · riposte agressive",
             "message": "Le lien échoue ; la cible rejette le sceau et se prépare à riposter."
         }
 
