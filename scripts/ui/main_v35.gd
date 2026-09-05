@@ -4,7 +4,7 @@ extends "res://scripts/ui/main_v34.gd"
 # Toutes les compétences LITD1 et toutes les familles Veilleurs encore non résolues
 # continuent de passer par v34/v30 sans changement de comportement.
 
-const CLINICAL_RESOLVERS := ["anatomical_lesion", "anatomical_diagnostic", "medical_treatment"]
+const CLINICAL_RESOLVERS := ["anatomical_lesion", "anatomical_diagnostic", "medical_treatment", "vascular_bleeding"]
 
 func _use_combat_skill(slot: int) -> void:
     if battle_locked:
@@ -97,9 +97,14 @@ func _log_clinical_result(hero: Dictionary, target: Dictionary, skill: Dictionar
             suffix += " · saignement +%d" % bleed
         if bonus_damage > 0:
             suffix += " · %d dégâts fonctionnels" % bonus_damage
+        if result.has("circulatory_shock"):
+            suffix += " · choc circulatoire %d" % int(result.get("circulatory_shock", 0))
         GameState.add_log("%s affecte %s%s." % [part_name, str(target.get("name", "la cible")), suffix])
     elif effect == "diagnostic":
-        GameState.add_log("%s lit %s : %s · %s." % [str(hero.get("name", "Aïsha")), str(target.get("name", "la cible")), str(result.get("part_name", result.get("part_id", "zone"))), str(result.get("state", "intact"))])
+        var diagnostic_suffix := ""
+        if result.has("circulatory_shock"):
+            diagnostic_suffix = " · choc %d · risque hémorragique %d%%" % [int(result.get("circulatory_shock", 0)), int(result.get("hemorrhage_risk", 0))]
+        GameState.add_log("%s lit %s : %s%s." % [str(hero.get("name", "Aïsha")), str(target.get("name", "la cible")), str(result.get("part_name", result.get("part_id", "zone"))), diagnostic_suffix if diagnostic_suffix != "" else " · " + str(result.get("state", "intact"))])
     elif effect == "medical":
         var stabilized := str(result.get("stabilized_injury", ""))
         var downgraded := str(result.get("downgraded_injury", ""))
@@ -123,5 +128,6 @@ func _clinical_failure_text(reason: String) -> String:
         "patient_required": "aucun patient valide",
         "target_required": "aucune cible valide",
         "no_targetable_part": "aucune zone anatomique accessible",
-        "clinical_runtime_unavailable": "resolver clinique indisponible"
+        "clinical_runtime_unavailable": "resolver clinique indisponible",
+        "specialized_runtime_unavailable": "resolver spécialisé indisponible"
     }.get(reason, reason.replace("_", " "))

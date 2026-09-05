@@ -10,7 +10,7 @@ def _load(path: str) -> dict:
 
 def test_entaille_anatomie_suture_are_explicit_prototype_bridges():
     contract = _load("data/veilleurs/skills/resolver_contract.json")
-    assert contract["version"] >= 3
+    assert contract["version"] >= 4
     expected = {
         "Entaille": "anatomical_lesion",
         "Anatomie": "anatomical_diagnostic",
@@ -31,7 +31,7 @@ def test_entaille_anatomie_suture_are_explicit_prototype_bridges():
 
 def test_unimplemented_trees_still_cannot_claim_runtime_execution():
     contract = _load("data/veilleurs/skills/resolver_contract.json")
-    for tree in ["Bastion", "Brisure", "Serment", "Traque", "Disparition", "Hémocorde", "Sentence", "Concorde", "Dissidence"]:
+    for tree in ["Bastion", "Brisure", "Serment", "Traque", "Disparition", "Sentence", "Concorde", "Dissidence"]:
         assert contract["tree_families"][tree]["status"] == "required"
 
 
@@ -46,14 +46,16 @@ def test_clinical_runtime_uses_existing_body_and_persistent_injury_systems():
     assert "resurrection" not in runtime.lower()
 
 
-def test_main_v36_is_additive_and_keeps_clinical_and_item_layers():
+def test_main_v37_is_additive_and_keeps_clinical_and_item_layers():
     scene = (ROOT / "scenes/Main.tscn").read_text(encoding="utf-8")
     manual_bridge = (ROOT / "scripts/ui/main_v35.gd").read_text(encoding="utf-8")
     reaction_bridge = (ROOT / "scripts/ui/main_v36.gd").read_text(encoding="utf-8")
-    assert "main_v36.gd" in scene
+    hemocorde_layer = (ROOT / "scripts/ui/main_v37.gd").read_text(encoding="utf-8")
+    assert "main_v37.gd" in scene
+    assert 'extends "res://scripts/ui/main_v36.gd"' in hemocorde_layer
     assert 'extends "res://scripts/ui/main_v35.gd"' in reaction_bridge
     assert 'extends "res://scripts/ui/main_v34.gd"' in manual_bridge
-    assert '"anatomical_lesion", "anatomical_diagnostic", "medical_treatment"' in manual_bridge
+    assert '"vascular_bleeding"' in manual_bridge
     assert "super._use_combat_skill(slot)" in manual_bridge
     assert "super._resolve_skill_attack(hero, skill)" in manual_bridge
     assert "VeilleursSkillResolverRouter.resolve_combat" in manual_bridge
@@ -62,6 +64,8 @@ def test_main_v36_is_additive_and_keeps_clinical_and_item_layers():
     assert "on_enemy_miss" in reaction_bridge
     assert "on_enemy_movement" in reaction_bridge
     assert "advance_round_state" in reaction_bridge
+    assert "refresh_specialized_passives" in hemocorde_layer
+    assert "advance_specialized_round_states" in hemocorde_layer
 
 
 def test_clinical_reactions_are_automatic_causal_hooks():

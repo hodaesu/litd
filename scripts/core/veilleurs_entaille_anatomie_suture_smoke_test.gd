@@ -121,9 +121,12 @@ func _run() -> void:
     var selected_patient := VeilleursSkillResolverRouter.select_medical_target(GameState.alive_heroes())
     _check(str(selected_patient.get("id", "")) == "nayra_orun", "Medical target selection must prioritize the genuinely injured ally")
 
-    var unsupported := _skill_node(aisha, "AÏ-HÉM-01")
-    var unsupported_profile := VeilleursSkillResolverRouter.combat_profile(aisha, unsupported)
-    _check(str(unsupported_profile.get("effect", "")) == "resolver_required", "Hémocorde must remain blocked until its own resolver exists")
+    var hemocorde_node := _skill_node(aisha, "AÏ-HÉM-01")
+    var hemocorde_profile := VeilleursSkillResolverRouter.combat_profile(aisha, hemocorde_node)
+    _check(str(hemocorde_profile.get("resolver_status", "")) == "prototype_bridge", "Hémocorde must now expose its dedicated prototype bridge")
+    _check(str(hemocorde_profile.get("effect", "")) == "attack" and bool(hemocorde_profile.get("manual_combat_usable", false)), "Incision contrôlée must now be a playable manual Hémocorde action")
+    var hemocorde_reaction := VeilleursSkillResolverRouter.combat_profile(aisha, _skill_node(aisha, "AÏ-HÉM-04"))
+    _check(str(hemocorde_reaction.get("effect", "")) == "resolver_required" and not bool(hemocorde_reaction.get("manual_combat_usable", true)), "Hémocorde reactions must remain blocked until their reaction hooks exist")
 
     _finish(original_ids)
 
