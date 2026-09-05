@@ -73,6 +73,7 @@ run_checked "Les Veilleurs VS001 persistance : corps, blessures, recrue, carte e
 run_checked "Les Veilleurs canon : 180 compétences, 12 ultimes, resolvers et cadavres" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_canonical_skills_corpses_smoke.tscn
 run_checked "Les Veilleurs jouables : Entaille, Anatomie et Suture" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_entaille_anatomie_suture_smoke.tscn
 run_checked "Les Veilleurs réactions cliniques : six hooks, transformations et postures" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_clinical_reactions_smoke.tscn
+run_checked "Les Veilleurs Hémocorde : anatomie, hémorragie, choc et garde-fous" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_hemocorde_smoke.tscn
 run_checked "Hall des Descendants : chronique, morts, relique et retour au Sanctuaire" timeout 60s godot --headless --path . res://scenes/tests/descendants_hall_smoke.tscn
 run_checked "Donjon physique : salles réelles, fog of war et secrets cachés" timeout 60s godot --headless --path . res://scenes/tests/physical_dungeon_smoke.tscn
 run_checked "Blockout 3D : dimensions, collisions, ancres et passages secrets" timeout 60s godot --headless --path . res://scenes/tests/first_veil_proxy_smoke.tscn
