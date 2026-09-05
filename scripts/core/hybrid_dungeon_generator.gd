@@ -5,12 +5,15 @@ extends RefCounted
 # il ne fabrique jamais les murs, les portes, les arènes ou la mise en scène narrative.
 
 const POLICY_PATH := "res://data/roguelike/hybrid_dungeon_generation.json"
+const RoomPersistenceAssembler := preload("res://scripts/core/veilleurs_room_persistence_assembler.gd")
 
 var policy: Dictionary = {}
 var catalog_cache: Dictionary = {}
+var room_persistence_assembler: RefCounted
 
 func _init() -> void:
     policy = _load_dictionary(POLICY_PATH)
+    room_persistence_assembler = RoomPersistenceAssembler.new()
 
 func generate(seed_value: int, dungeon_id: String, context: Dictionary = {}) -> Dictionary:
     var dungeon_rules: Dictionary = policy.get("dungeons", {}).get(dungeon_id, {})
@@ -93,6 +96,17 @@ func generate(seed_value: int, dungeon_id: String, context: Dictionary = {}) -> 
                 if extra_hazard != "" and not room["hazards"].has(extra_hazard):
                     room["hazards"].append(extra_hazard)
 
+        # La Rémanence est projetée après la sélection de la salle : elle peut conserver
+        # cadavres, cicatrices et états de route sans jamais fabriquer ni remplacer la géométrie authored.
+        var persistence_context: Dictionary = context.duplicate(true)
+        persistence_context["dungeon_id"] = dungeon_id
+        persistence_context["zone_id"] = str(context.get("zone_id", dungeon_id))
+        persistence_context["region_id"] = str(context.get("region_id", dungeon_id))
+        persistence_context["device_profile"] = str(context.get("device_profile", "mobile"))
+        var persistence_result: Dictionary = room_persistence_assembler.call("assemble_room", room, {}, persistence_context)
+        if bool(persistence_result.get("ok", false)):
+            room = persistence_result.get("room", room)
+
         selected_by_key[key] = room
         used_templates.append(str(template.get("id", "")))
         layout.append(room)
@@ -118,7 +132,8 @@ func generate(seed_value: int, dungeon_id: String, context: Dictionary = {}) -> 
         "generation_mode": "handcrafted_rooms_controlled_graph",
         "seed": effective_seed,
         "source_seed": seed_value,
-        "ngplus": ngplus_context.duplicate(true) if ngplus_active else {"active": false}
+        "ngplus": ngplus_context.duplicate(true) if ngplus_active else {"active": false},
+        "room_persistence_projection": true
     }
 
 func validate_layout(layout: Array) -> Dictionary:
