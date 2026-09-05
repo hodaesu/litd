@@ -46,11 +46,11 @@ func _test_t48_preboss_checkpoint_preserves_all_critical_state() -> void:
     var restored: Dictionary = result.get("restored", {})
     _check(str(restored.get("seed", "")) == str(source.get("seed", "")), "Tests_48/T48 : le seed doit rester strictement identique")
     _check(str(restored.get("room_id", "")) == str(source.get("room_id", "")), "Tests_48/T48 : la salle pré-boss doit rester strictement identique")
-    _check(restored.get("injuries", {}) == source.get("injuries", {}), "Tests_48/T48 : blessures, stabilisation et séquelles doivent survivre au checkpoint")
-    _check(restored.get("corpse_states", {}) == source.get("corpse_states", {}), "Tests_48/T48 : identité, pose et transformation des cadavres doivent survivre au checkpoint")
-    _check(restored.get("terrain_state", {}) == source.get("terrain_state", {}), "Tests_48/T48 : portes, zones mortes, raccourcis et lumière stabilisée doivent survivre au checkpoint")
-    _check(restored.get("memorial_entities", {}) == source.get("memorial_entities", {}), "Tests_48/T48 : ennemis mémoriels et Némésis doivent rester identiques")
-    _check(restored.get("species_knowledge", {}) == source.get("species_knowledge", {}), "Tests_48/T48 : la connaissance collective confirmée doit rester identique")
+    _check(bool(checkpoint.call("values_equivalent", restored.get("injuries", {}), source.get("injuries", {}))), "Tests_48/T48 : blessures, stabilisation et séquelles doivent survivre au checkpoint")
+    _check(bool(checkpoint.call("values_equivalent", restored.get("corpse_states", {}), source.get("corpse_states", {}))), "Tests_48/T48 : identité, pose et transformation des cadavres doivent survivre au checkpoint")
+    _check(bool(checkpoint.call("values_equivalent", restored.get("terrain_state", {}), source.get("terrain_state", {}))), "Tests_48/T48 : portes, zones mortes, raccourcis et lumière stabilisée doivent survivre au checkpoint")
+    _check(bool(checkpoint.call("values_equivalent", restored.get("memorial_entities", {}), source.get("memorial_entities", {}))), "Tests_48/T48 : ennemis mémoriels et Némésis doivent rester identiques")
+    _check(bool(checkpoint.call("values_equivalent", restored.get("species_knowledge", {}), source.get("species_knowledge", {}))), "Tests_48/T48 : la connaissance collective confirmée doit rester identique")
 
     var captured: Dictionary = result.get("captured", {})
     var mutated_source: Dictionary = source
