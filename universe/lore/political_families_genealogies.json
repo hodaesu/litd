@@ -1,0 +1,367 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.1.0",
+  "id": "political_families_genealogies",
+  "status": "canon_depth_atlas_v2",
+  "scope": ["post_sarn", "mature_concorde", "les_veilleurs_context", "pre_fall", "litd1_post_fall"],
+  "guardrails": {
+    "family_is_ethnicity": false,
+    "blood_confers_moral_trait": false,
+    "blood_confers_office": false,
+    "concorde_is_hereditary_state": false,
+    "adoption_counts_as_real_kinship": true,
+    "marriage_does_not_merge_identity_automatically": true,
+    "apprenticeship_can_create_political_network": true,
+    "surname_proves_relation": false,
+    "political_family_means_historical_network_not_nobility": true,
+    "post_fall_survival_is_not_guaranteed": true
+  },
+  "genealogy_rules": {
+    "relationship_types": ["parent", "child", "sibling", "adopted_parent", "adopted_child", "spouse", "former_spouse", "household", "mentor", "apprentice", "political_heir", "institutional_successor"],
+    "office_rule": "Une charge publique exige toujours un mécanisme institutionnel local; aucune charge de la Concorde n'est héritée automatiquement.",
+    "name_rule": "Un nom de maison ou de réseau peut être pris, transmis, abandonné, traduit ou partagé par des personnes sans lien biologique.",
+    "source_rule": "Toute généalogie complète est une reconstruction de sources; les liens marqués probable ou contested restent jouables comme incertitudes historiques."
+  },
+  "families": [
+    {
+      "id": "family.jian_lu.ren_vai",
+      "name": "Réseau Ren-Vaï",
+      "city": "jian_lu",
+      "type": "river_mediation_household_network",
+      "public_reputation": "médiateurs des quais et arbitres de passages",
+      "material_base": ["maisons de rive", "parts de barges", "archives de litiges"],
+      "political_axis": "qui paie l'entretien d'un passage utilisé par tous",
+      "members": [
+        {"id":"ren_vai.sela","name":"Sela Ren-Vaï","period":"~ -720","role":"passeuse devenue arbitre","relation":"founding_record","legacy":"impose que l'aval soit entendu avant modification d'un quai"},
+        {"id":"ren_vai.orien","name":"Orien Vaï","period":"~ -410","role":"médiateur public","relation":"adopted_descendant","legacy":"ouvre les registres familiaux aux correctifs de bateliers extérieurs"},
+        {"id":"ren_vai.lio","name":"Lio Ren","period":"~ -45 à +8","role":"inspecteur de ponts","relation":"late_branch","legacy":"disparaît pendant les premiers mois post-Chute; statut longtemps INCONNU"}
+      ],
+      "internal_split": "branche des propriétaires de barges contre branche des médiateurs refusant d'arbitrer leurs propres intérêts",
+      "cross_links": ["family.tessen.nera_tai", "family.orun_sai.esh_var"],
+      "post_fall": "la maison de rive devient dépôt de noms, outils et cartes corrigées; l'autorité de la famille s'effondre mais ses archives restent utiles",
+      "quest_seed": "Deux actes authentiques attribuent le même embarcadère à deux communautés parce qu'ils décrivent deux états différents du fleuve."
+    },
+    {
+      "id": "family.jian_lu.hao_sen",
+      "name": "Maison de compte Hao-Sen",
+      "city": "jian_lu",
+      "type": "cargo_insurance_and_mutual_aid_network",
+      "public_reputation": "assureurs de cargaisons, parfois accusés de transformer le risque commun en rente",
+      "material_base": ["caisses mutuelles", "registres de sinistres", "entrepôts partagés"],
+      "political_axis": "solidarité mutualisée contre profit privé",
+      "members": [
+        {"id":"hao_sen.miren","name":"Miren Hao","period":"~ -630","role":"comptable de crue","relation":"founder","legacy":"premières tables distinguant perte évitable et catastrophe commune"},
+        {"id":"hao_sen.tava","name":"Tava Sen","period":"~ -270","role":"réformatrice de caisse","relation":"spouse_network","legacy":"rend publics les refus d'indemnisation"},
+        {"id":"hao_sen.eshar","name":"Eshar Hao-Sen","period":"~ -18 à +14","role":"gardien de réserves","relation":"late_descendant","legacy":"ouvre les entrepôts après la Chute au prix de la faillite du réseau"}
+      ],
+      "internal_split": "mutualistes contre gestionnaires voulant tarifer chaque risque individuellement",
+      "cross_links": ["family.dhor_khal.var_dan"],
+      "post_fall": "les reconnaissances de dette servent de preuves de distribution mais aussi de prétextes à des prédations",
+      "quest_seed": "Un coffre de reçus prouve qu'un groupe accusé de pillage avait reçu légalement les réserves."
+    },
+    {
+      "id": "family.jian_lu.mei_tor",
+      "name": "Lignée d'ouvrage Mei-Tor",
+      "city": "jian_lu",
+      "type": "bridge_engineering_apprenticeship_lineage",
+      "public_reputation": "constructeurs de ponts qui forment davantage par apprentissage que par parenté",
+      "material_base": ["ateliers", "plans annotés", "outils de levage"],
+      "political_axis": "ouvrage monumental contre maintenance quotidienne",
+      "members": [
+        {"id":"mei_tor.kae","name":"Kae Mei-Tor","period":"~ -580","role":"maîtresse d'ouvrage","relation":"founder","legacy":"refuse un pont prestigieux sans budget de maintenance"},
+        {"id":"mei_tor.sorin","name":"Sorin Tor","period":"~ -190","role":"apprenti puis inspecteur","relation":"apprentice_successor","legacy":"formalise le droit d'arrêter un chantier dangereux"},
+        {"id":"mei_tor.iva","name":"Iva Mei","period":"~ -12 à +19","role":"charpentière de secours","relation":"institutional_successor","legacy":"réemploie les pièces de ponts détruits pour les évacuations"}
+      ],
+      "internal_split": "architectes de prestige contre mainteneurs de quartier",
+      "cross_links": ["family.dhor_khal.var_dan", "family.sorye.orel_tan"],
+      "post_fall": "les marques d'atelier deviennent un langage de survie pour identifier ce qui peut encore porter une charge",
+      "quest_seed": "Une travée effondrée porte deux marques de sécurité contradictoires; une troisième main a peut-être modifié l'ouvrage."
+    },
+    {
+      "id": "family.sorye.vey_ran",
+      "name": "Maison Vey-Ran",
+      "city": "sorye",
+      "type": "medical_archive_family_and_school",
+      "public_reputation": "soignants et archivistes connus pour documenter les échecs autant que les réussites",
+      "material_base": ["maison de soin", "copies anatomiques", "fonds de convalescence"],
+      "political_axis": "secret médical contre apprentissage public",
+      "members": [
+        {"id":"vey_ran.elian","name":"Élian Vey","period":"~ -690","role":"chirurgien de quartier","relation":"founder","legacy":"interdit d'enseigner un cas identifiable sans consentement ou anonymisation"},
+        {"id":"vey_ran.mara","name":"Mara Ran","period":"~ -330","role":"copiste médicale","relation":"adopted_child","legacy":"conserve les corrections des patients dans leurs propres dossiers"},
+        {"id":"vey_ran.taren","name":"Taren Vey-Ran","period":"~ -28 à +6","role":"médecin d'évacuation","relation":"late_descendant","legacy":"meurt après avoir refusé d'abandonner une annexe de convalescents; la légende simplifie ensuite son choix"}
+      ],
+      "internal_split": "publication des cas rares contre protection stricte de l'identité",
+      "cross_links": ["family.lhaor.omi_ren", "family.orun_sai.vesh_ara"],
+      "post_fall": "les archives médicales deviennent à la fois manuel de soin et risque de stigmatisation",
+      "quest_seed": "Un remède attribué à Vey-Ran est efficace mais le texte copié a supprimé la contre-indication écrite par un patient."
+    },
+    {
+      "id": "family.sorye.orel_tan",
+      "name": "Cercle Orel-Tan",
+      "city": "sorye",
+      "type": "legal_commentary_network",
+      "public_reputation": "juristes qui conservent les versions successives d'une règle au lieu d'effacer l'ancienne",
+      "material_base": ["bibliothèque juridique", "tables de concordance", "salles d'arbitrage"],
+      "political_axis": "cohérence du droit contre capacité à corriger une règle injuste",
+      "members": [
+        {"id":"orel_tan.orel","name":"Orel Tan","period":"~ -610","role":"commentateur","relation":"founder","legacy":"popularise la marge obligatoire pour objections et exceptions"},
+        {"id":"orel_tan.sava","name":"Sava Orel","period":"~ -250","role":"arbitre","relation":"descendant","legacy":"annule une règle appliquée correctement mais produisant un résultat contraire à son objet"},
+        {"id":"orel_tan.neri","name":"Neri Tan","period":"~ -5 à +22","role":"juriste sans tribunal","relation":"late_branch","legacy":"transforme les commentaires juridiques en médiation de survie après la Chute"}
+      ],
+      "internal_split": "textualistes contre contextualistes",
+      "cross_links": ["family.jian_lu.mei_tor", "family.tessen.nera_tai"],
+      "post_fall": "les recueils servent moins à imposer l'ancien droit qu'à retrouver pourquoi certaines protections existaient",
+      "quest_seed": "Une clause d'exception sauvait autrefois une minorité locale; une copie abrégée l'a supprimée."
+    },
+    {
+      "id": "family.sorye.sael_om",
+      "name": "Maison Saël-Om",
+      "city": "sorye",
+      "type": "astronomy_calendar_teaching_network",
+      "public_reputation": "calculateurs de saisons souvent sollicités, parfois accusés de transformer mesure en présage",
+      "material_base": ["observatoire", "tables saisonnières", "instruments de visée"],
+      "political_axis": "expertise utile contre autorité indue de l'expert",
+      "members": [
+        {"id":"sael_om.sael","name":"Saël Om","period":"~ -540","role":"enseignante du ciel","relation":"founder","legacy":"sépare dans ses tables OBSERVÉ et INTERPRÉTÉ"},
+        {"id":"sael_om.iran","name":"Iran Saël","period":"~ -180","role":"réviseur de calendriers","relation":"grandchild","legacy":"corrige une prédiction devenue doctrine locale"},
+        {"id":"sael_om.omi","name":"Omi Saël-Om","period":"~ -22 à +17","role":"gardienne de tables","relation":"late_descendant","legacy":"utilise les cycles célestes pour recaler des communautés après l'effondrement des administrations"}
+      ],
+      "internal_split": "calcul rigoureux contre branches religieuses lisant davantage de signes",
+      "cross_links": ["family.lhaor.eren_lha"],
+      "post_fall": "les calendriers deviennent outils agricoles et repères communs, pas preuve que le ciel avait annoncé la Chute",
+      "quest_seed": "Une communauté croit qu'une table annonçait la catastrophe; l'original montre qu'elle prévoyait seulement une saison sèche."
+    },
+    {
+      "id": "family.dhor_khal.var_dan",
+      "name": "Réseau Var-Dan",
+      "city": "dhor_khal",
+      "type": "forge_stewardship_lineage",
+      "public_reputation": "maîtres de forge et responsables de sécurité des ateliers communs",
+      "material_base": ["halls de forge", "outillage lourd", "fonds d'indemnisation"],
+      "political_axis": "production nécessaire contre droit d'arrêter une chaîne dangereuse",
+      "members": [
+        {"id":"var_dan.dara","name":"Dara Var","period":"~ -650","role":"forgeronne","relation":"founder","legacy":"fait inscrire le droit d'arrêt de l'ouvrier face à un danger immédiat"},
+        {"id":"var_dan.kalen","name":"Kalen Dan","period":"~ -310","role":"intendant de forge","relation":"spouse_branch","legacy":"crée un fonds commun pour blessures de travail"},
+        {"id":"var_dan.ren","name":"Ren Var-Dan","period":"~ -30 à +11","role":"mainteneur","relation":"late_descendant","legacy":"convertit des presses et palans en matériel de sauvetage"}
+      ],
+      "internal_split": "priorité aux commandes continentales contre priorité à la sécurité locale",
+      "cross_links": ["family.jian_lu.hao_sen", "family.jian_lu.mei_tor", "family.lhaor.var_lhun"],
+      "post_fall": "les ateliers deviennent centres de réparation mais aussi cibles de groupes voulant monopoliser l'outillage",
+      "quest_seed": "Une machine meurtrière est accusée d'avoir été sabotée; le registre de maintenance montre plutôt des reports successifs connus de tous."
+    },
+    {
+      "id": "family.dhor_khal.amar_kesh",
+      "name": "Maison Amar-Kesh",
+      "city": "dhor_khal",
+      "type": "mine_safety_and_rescue_network",
+      "public_reputation": "sauveteurs de mine et cartographes de galeries",
+      "material_base": ["plans de mine", "équipes de sauvetage", "réserves de soutènement"],
+      "political_axis": "rentabilité d'extraction contre coût humain caché",
+      "members": [
+        {"id":"amar_kesh.kesh","name":"Kesh Amar","period":"~ -570","role":"chef de sauvetage","relation":"founder","legacy":"exige que tout plan comporte aussi voies de fuite et volumes d'air"},
+        {"id":"amar_kesh.tei","name":"Tei Kesh","period":"~ -220","role":"cartographe","relation":"adopted_descendant","legacy":"conserve les galeries abandonnées au lieu de les effacer des plans"},
+        {"id":"amar_kesh.ves","name":"Ves Amar-Kesh","period":"~ -16 à +9","role":"chercheuse de survivants","relation":"late_branch","legacy":"disparaît dans un réseau inférieur après la Chute; plusieurs faux récits la déclarent revenue"}
+      ],
+      "internal_split": "cartes ouvertes contre secrets d'exploitation",
+      "cross_links": ["family.lhaor.var_lhun"],
+      "post_fall": "les vieux plans permettent des refuges mais contiennent des secteurs volontairement marqués comme instables",
+      "quest_seed": "Des réfugiés occupent une galerie que la carte familiale dit condamnée; un plan plus récent a disparu."
+    },
+    {
+      "id": "family.dhor_khal.sen_kar",
+      "name": "Lignée Sen-Kar",
+      "city": "dhor_khal",
+      "type": "heavy_transport_coordination_network",
+      "public_reputation": "coordinateurs de convois lourds et de ponts suspendus",
+      "material_base": ["attelages", "dépôts", "cordages", "contrats de transport"],
+      "political_axis": "priorité des infrastructures stratégiques contre besoins civils immédiats",
+      "members": [
+        {"id":"sen_kar.uma","name":"Uma Sen","period":"~ -500","role":"maîtresse de convoi","relation":"founder","legacy":"établit qu'un chargement peut être abandonné pour préserver équipages et bêtes"},
+        {"id":"sen_kar.kari","name":"Kari Sen-Kar","period":"~ -160","role":"responsable de pont","relation":"descendant","legacy":"introduit des inspections croisées par équipes étrangères au chantier"},
+        {"id":"sen_kar.mel","name":"Mel Kar","period":"~ -8 à +13","role":"convoyeuse","relation":"late_branch","legacy":"maintient une route de nourriture post-Chute jusqu'à perdre ses bêtes de trait"}
+      ],
+      "internal_split": "réquisitions de crise contre autonomie des convoyeurs",
+      "cross_links": ["family.orun_sai.esh_var"],
+      "post_fall": "leurs bornes logistiques deviennent des repères recherchés même quand les dépôts sont vides",
+      "quest_seed": "Un convoi disparu a laissé ses marques de délestage, indiquant qu'il a choisi de sauver les personnes avant la cargaison."
+    },
+    {
+      "id": "family.lhaor.eren_lha",
+      "name": "Maison Eren-Lha",
+      "city": "lhaor",
+      "type": "seed_stewardship_family_network",
+      "public_reputation": "gardiens de semences accusés selon les époques d'être trop prudents ou trop ouverts",
+      "material_base": ["banques de semences", "vergers d'essai", "registres de provenance"],
+      "political_axis": "préserver une lignée contre partager une ressource vitale",
+      "members": [
+        {"id":"eren_lha.eren","name":"Eren Lha","period":"~ -700","role":"horticultrice","relation":"founder","legacy":"impose de conserver origine, sélection et échecs d'une lignée"},
+        {"id":"eren_lha.somi","name":"Somi Eren","period":"~ -300","role":"gardienne de semences","relation":"descendant","legacy":"ouvre des collections pendant une famine avec obligation de retour de graines"},
+        {"id":"eren_lha.lae","name":"Laë Eren-Lha","period":"~ -26 à +20","role":"semeuse itinérante","relation":"late_descendant","legacy":"disperse volontairement les réserves après la Chute pour éviter un point de perte unique"}
+      ],
+      "internal_split": "conservation stricte contre diffusion adaptative",
+      "cross_links": ["family.sorye.sael_om", "family.tessen.oss_kel"],
+      "post_fall": "les sachets portant provenance et année valent parfois plus que l'or",
+      "quest_seed": "Une semence réputée sacrée est surtout une variété agricole rare dont l'histoire a été simplifiée."
+    },
+    {
+      "id": "family.lhaor.omi_ren",
+      "name": "Réseau Omi-Ren",
+      "city": "lhaor",
+      "type": "care_garden_household_network",
+      "public_reputation": "soignants mêlant médecine de terrain, plantes et convalescence sans revendiquer une méthode unique",
+      "material_base": ["jardins de soin", "séchoirs", "maisons de repos"],
+      "political_axis": "savoir familial contre validation publique des remèdes",
+      "members": [
+        {"id":"omi_ren.omi","name":"Omi Ren","period":"~ -620","role":"soignante","relation":"founder","legacy":"sépare remède utile, tradition et cause supposée"},
+        {"id":"omi_ren.varel","name":"Varel Omi","period":"~ -240","role":"herboriste","relation":"apprentice_successor","legacy":"publie les échecs et toxicités de préparations populaires"},
+        {"id":"omi_ren.tali","name":"Tali Ren","period":"~ -19 à +16","role":"convalescente devenue soignante","relation":"adopted_child","legacy":"adapte les gestes de soin après une lésion permanente de la main"}
+      ],
+      "internal_split": "transmission orale contre dossiers reproductibles",
+      "cross_links": ["family.sorye.vey_ran"],
+      "post_fall": "leurs maisons accueillent malades, blessés et personnes refusées ailleurs, créant des tensions de ressources",
+      "quest_seed": "Une formule efficace circule sans la note précisant qu'elle ne remplace pas le traitement d'une infection profonde."
+    },
+    {
+      "id": "family.lhaor.var_lhun",
+      "name": "Cercle Var-Lhun",
+      "city": "lhaor",
+      "type": "forest_extraction_arbitration_network",
+      "public_reputation": "médiateurs entre forestiers, forges, bâtisseurs et communautés riveraines",
+      "material_base": ["cartes de coupe", "bornes forestières", "archives de régénération"],
+      "political_axis": "besoin de bois contre temps écologique",
+      "members": [
+        {"id":"var_lhun.lhun","name":"Lhun Var","period":"~ -560","role":"forestier arbitre","relation":"founder","legacy":"introduit des parcelles témoins non exploitées"},
+        {"id":"var_lhun.sera","name":"Sera Lhun","period":"~ -210","role":"médiatrice","relation":"descendant","legacy":"fait payer la restauration d'un bassin par les bénéficiaires lointains de l'extraction"},
+        {"id":"var_lhun.or","name":"Or Var-Lhun","period":"~ -14 à +7","role":"garde de lisière","relation":"late_descendant","legacy":"meurt lors d'un incendie sans savoir si celui-ci vient de la Chute ou d'un accident local"}
+      ],
+      "internal_split": "quotas continentaux contre autonomie locale",
+      "cross_links": ["family.dhor_khal.var_dan", "family.dhor_khal.amar_kesh"],
+      "post_fall": "les cartes de régénération aident à distinguer forêt ancienne, repousse récente et zones devenues dangereuses",
+      "quest_seed": "Une coupe illégale apparente correspond à un ancien coupe-feu oublié des registres civiques."
+    },
+    {
+      "id": "family.tessen.nera_tai",
+      "name": "Maison civique Nera-Taï",
+      "city": "tessen",
+      "type": "delegate_and_public_record_network",
+      "public_reputation": "orateurs, scribes et facilitateurs régulièrement accusés de devenir une élite du débat",
+      "material_base": ["salles de quartier", "archives de délégation", "écoles de prise de parole"],
+      "political_axis": "compétence procédurale contre égalité de participation",
+      "members": [
+        {"id":"nera_tai.nera","name":"Nera Taï","period":"~ -680","role":"facilitatrice","relation":"founder","legacy":"introduit la reformulation obligatoire d'une position adverse avant réfutation"},
+        {"id":"nera_tai.vesi","name":"Vesi Nera","period":"~ -260","role":"scribe public","relation":"descendant","legacy":"rend visibles abstentions, absences et objections minoritaires"},
+        {"id":"nera_tai.kao","name":"Kao Taï","period":"~ -20 à +12","role":"délégué de quartier","relation":"late_branch","legacy":"abandonne son titre après la Chute mais continue à organiser des assemblées de ravitaillement"}
+      ],
+      "internal_split": "professionnalisation des délégués contre rotation stricte",
+      "cross_links": ["family.jian_lu.ren_vai", "family.sorye.orel_tan"],
+      "post_fall": "la forme d'assemblée survit mieux que les anciennes institutions centrales",
+      "quest_seed": "Un procès-verbal légal a exclu les personnes absentes parce que le quartier était coupé par un incendie."
+    },
+    {
+      "id": "family.tessen.oss_kel",
+      "name": "Réseau Oss-Kel",
+      "city": "tessen",
+      "type": "food_cooperative_network",
+      "public_reputation": "organisateurs de greniers et cuisines de quartier",
+      "material_base": ["greniers", "cuisines", "moulins", "bons de ration"],
+      "political_axis": "ration égale contre besoins différents",
+      "members": [
+        {"id":"oss_kel.ossa","name":"Ossa Kel","period":"~ -600","role":"meunière","relation":"founder","legacy":"distingue part commune et supplément médical ou de travail"},
+        {"id":"oss_kel.hera","name":"Hera Oss","period":"~ -230","role":"intendante","relation":"adopted_descendant","legacy":"publie les pertes de stockage au lieu de les cacher"},
+        {"id":"oss_kel.men","name":"Men Kel","period":"~ -11 à +24","role":"cuisinier de refuge","relation":"late_descendant","legacy":"transforme les recettes de fête en aliments de ration accessibles"}
+      ],
+      "internal_split": "égalité stricte contre distribution selon besoin",
+      "cross_links": ["family.lhaor.eren_lha"],
+      "post_fall": "les anciens jetons de ration deviennent à la fois monnaies de confiance et objets de fraude",
+      "quest_seed": "Une réserve semble détournée; les registres montrent qu'elle a été distribuée à une infirmerie non comptée comme quartier."
+    },
+    {
+      "id": "family.tessen.mar_vesh",
+      "name": "Ateliers Mar-Vesh",
+      "city": "tessen",
+      "type": "textile_guild_family_network",
+      "public_reputation": "teinturiers et tisserands dont les motifs sont utilisés dans les manifestations civiques",
+      "material_base": ["ateliers textiles", "plantes tinctoriales", "archives de motifs"],
+      "political_axis": "expression publique contre récupération politique",
+      "members": [
+        {"id":"mar_vesh.mara","name":"Mara Vesh","period":"~ -520","role":"tisserande","relation":"founder","legacy":"refuse qu'un motif de deuil soit déposé comme propriété exclusive"},
+        {"id":"mar_vesh.torin","name":"Torin Mar","period":"~ -170","role":"teinturier","relation":"spouse_branch","legacy":"documente les pigments pour empêcher les faux mémoriaux"},
+        {"id":"mar_vesh.seli","name":"Seli Mar-Vesh","period":"~ -9 à +18","role":"réparatrice textile","relation":"late_descendant","legacy":"coud des fragments de vêtements identifiés dans des bannières de noms"}
+      ],
+      "internal_split": "artisanat comme bien commun contre marques d'atelier protectrices du travail",
+      "cross_links": ["family.orun_sai.vesh_ara"],
+      "post_fall": "les tissus deviennent preuves d'identité quand les papiers ont brûlé",
+      "quest_seed": "Un vêtement présenté comme preuve d'origine utilise un pigment qui n'existait pas encore à la date revendiquée."
+    },
+    {
+      "id": "family.orun_sai.esh_var",
+      "name": "Maison de route Esh-Var",
+      "city": "orun_sai",
+      "type": "caravan_host_and_route_mediation_network",
+      "public_reputation": "hôtes de caravanes, traducteurs et médiateurs de dettes de passage",
+      "material_base": ["caravansérail", "puits", "entrepôts", "carnets de route"],
+      "political_axis": "hospitalité comme devoir contre capacité réelle d'accueil",
+      "members": [
+        {"id":"esh_var.esha","name":"Esha Var","period":"~ -640","role":"hôtesse de route","relation":"founder","legacy":"formalise le principe eau avant question sans supprimer le droit de refuser un danger immédiat"},
+        {"id":"esh_var.ran","name":"Ran Esh","period":"~ -280","role":"médiateur caravanier","relation":"adopted_child","legacy":"introduit des contrats de dette à expiration explicite"},
+        {"id":"esh_var.tara","name":"Tara Esh-Var","period":"~ -17 à +23","role":"gardienne de relais","relation":"late_descendant","legacy":"maintient un registre des personnes reparties afin de ne pas transformer tout réfugié en résident forcé"}
+      ],
+      "internal_split": "accueil maximal contre seuils de capacité",
+      "cross_links": ["family.jian_lu.ren_vai", "family.dhor_khal.sen_kar"],
+      "post_fall": "les anciens relais deviennent refuges mais aussi points de contrôle convoités",
+      "quest_seed": "Un groupe refuse de quitter un relais en invoquant une ancienne dette d'hospitalité dont la durée exacte est contestée."
+    },
+    {
+      "id": "family.orun_sai.vesh_ara",
+      "name": "Réseau Vesh-Ara",
+      "city": "orun_sai",
+      "type": "road_care_and_refuge_network",
+      "public_reputation": "soignants de route et organisateurs d'évacuation",
+      "material_base": ["postes de soin", "civières", "réserves d'eau", "listes de disparus"],
+      "political_axis": "urgence médicale contre continuité du convoi",
+      "members": [
+        {"id":"vesh_ara.ara","name":"Ara Vesh","period":"~ -590","role":"soignante de route","relation":"founder","legacy":"interdit de reprendre une personne inconsciente comme dette de transport"},
+        {"id":"vesh_ara.jen","name":"Jen Ara","period":"~ -200","role":"organisateur d'évacuation","relation":"apprentice_successor","legacy":"crée des fiches de séparation familiale copiables rapidement"},
+        {"id":"vesh_ara.sen","name":"Sen Vesh-Ara","period":"~ -10 à +15","role":"secouriste","relation":"late_descendant","legacy":"refuse de promettre le retour de disparus après la Chute tout en poursuivant les recherches"}
+      ],
+      "internal_split": "priorité au plus grave contre priorité au plus transportable",
+      "cross_links": ["family.sorye.vey_ran", "family.tessen.mar_vesh"],
+      "post_fall": "leurs carnets deviennent sources majeures sur migrations, blessures et séparations",
+      "quest_seed": "Une personne présumée morte apparaît dans deux listes de route avec des descriptions incompatibles."
+    },
+    {
+      "id": "family.orun_sai.qamar_sel",
+      "name": "Lignée Qamar-Sel",
+      "city": "orun_sai",
+      "type": "caravan_security_and_negotiation_network",
+      "public_reputation": "protecteurs de convois connus pour privilégier négociation et sortie avant affrontement",
+      "material_base": ["équipes de garde", "cartes de danger", "animaux de bât", "contrats de passage"],
+      "political_axis": "protéger une route contre militariser le passage",
+      "members": [
+        {"id":"qamar_sel.qamar","name":"Qamar Sel","period":"~ -550","role":"chef de garde","relation":"founder","legacy":"définit la réussite comme arrivée du convoi plutôt que victoire sur un adversaire"},
+        {"id":"qamar_sel.ilen","name":"Ilen Qamar","period":"~ -150","role":"négociatrice","relation":"descendant","legacy":"documente les accords temporaires avec des groupes considérés ennemis ailleurs"},
+        {"id":"qamar_sel.ros","name":"Ros Sel","period":"~ -13 à +21","role":"éclaireuse","relation":"former_household_member","legacy":"quitte publiquement le réseau après qu'une branche accepte une protection autoritaire"}
+      ],
+      "internal_split": "sécurité négociée contre contrôle armé des routes",
+      "cross_links": ["family.jian_lu.hao_sen"],
+      "post_fall": "certaines branches deviennent milices de refuge, d'autres refusent toute prétention territoriale",
+      "quest_seed": "Une ancienne escorte est accusée de collaboration parce qu'elle avait négocié avec un groupe ensuite devenu hostile."
+    }
+  ],
+  "cross_city_patterns": [
+    {"id":"pattern.marriage_without_annexation","rule":"Un mariage entre réseaux ne transfère ni quartier, ni charge, ni dette publique."},
+    {"id":"pattern.apprenticeship_migration","rule":"Des apprentis changent de ville et peuvent transmettre technique sans transporter l'institution d'origine."},
+    {"id":"pattern.adoption_and_household","rule":"Des lignées politiquement importantes comprennent enfants adoptés, foyers recomposés et successeurs sans lien de sang."},
+    {"id":"pattern.conflict_of_interest","rule":"Un membre doit pouvoir être récusé lorsque son réseau familial bénéficie directement d'un arbitrage."},
+    {"id":"pattern.name_reuse","rule":"Deux personnes partageant Ren, Var, Vesh, Sen ou autre élément de nom ne sont pas automatiquement parentes."},
+    {"id":"pattern.post_fall_fragmentation","rule":"Après la Chute, les survivants peuvent conserver un nom sans conserver richesse, institution ou autorité associée."}
+  ],
+  "gameplay_hooks": {
+    "reputation": "Les familles modifient accès, confiance ou soupçon localement, jamais comme score moral universel.",
+    "documents": "Actes, arbres familiaux, registres d'apprentissage et lettres peuvent se contredire par date ou définition du lien.",
+    "quests": "Les conflits doivent opposer des obligations réelles: soin, ressource, mémoire, sécurité, droit, entretien ou accueil.",
+    "remanence": "Une légende familiale peut conserver un fait juste mais déplacer le mérite d'un collectif vers un nom célèbre.",
+    "created_protagonist": "Le protagoniste n'est jamais forcé d'admirer ou mépriser une famille en raison de son nom."
+  }
+}
