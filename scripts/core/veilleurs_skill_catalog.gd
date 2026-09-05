@@ -8,7 +8,6 @@ const DATA_PATHS := {
 }
 const COSTS: Array[int] = [1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5]
 const EXPECTED_LEVELS: Array[int] = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 35, 39, 44, 49]
-const MANUAL_TYPES := ["Active", "Posture", "Maîtresse"]
 
 var catalogs: Dictionary = {}
 var load_errors: Array[String] = []
@@ -91,6 +90,12 @@ func skill_nodes(hero: Dictionary, branch: String) -> Array:
             "production_state": "canonical",
             "available_in_current_release": true
         }
+        if Engine.has_singleton("VeilleursSkillResolverRouter"):
+            node = VeilleursSkillResolverRouter.normalize_node(node)
+        else:
+            node["resolver_id"] = "unavailable"
+            node["resolver_status"] = "required"
+            node["activation_mode"] = "action"
         node["manual_combat_usable"] = manual_combat_usable(node)
         node["contextual_only"] = _contextual_only(node)
         result.append(node)
@@ -107,7 +112,9 @@ func ultimate_for(hero: Dictionary, branch: String) -> Dictionary:
     ultimate["unlock_level"] = 16
     ultimate["available_charges"] = ultimate_charges(int(hero.get("level", 1)))
     ultimate["activation_limit_per_encounter"] = 1
-    ultimate["execution_state"] = "metadata_ready_runtime_pending"
+    ultimate["execution_state"] = "dedicated_resolver_required"
+    ultimate["resolver_id"] = "ultimate_sequence"
+    ultimate["resolver_status"] = "required"
     return ultimate
 
 func ultimate_charges(level: int) -> int:
@@ -120,77 +127,24 @@ func ultimate_charges(level: int) -> int:
     return 0
 
 func manual_combat_usable(node: Dictionary) -> bool:
-    if str(node.get("canonical_type", "")) not in MANUAL_TYPES:
-        return false
-    if _contextual_only(node):
-        return false
-    return true
+    if Engine.has_singleton("VeilleursSkillResolverRouter"):
+        return VeilleursSkillResolverRouter.can_manual_equip(node)
+    return false
 
 func combat_profile(hero: Dictionary, node: Dictionary) -> Dictionary:
     if not is_watcher(hero) or node.is_empty():
         return {}
-    var result := {
+    if Engine.has_singleton("VeilleursSkillResolverRouter"):
+        return VeilleursSkillResolverRouter.combat_profile(hero, node)
+    return {
         "id": str(node.get("id", "")),
         "name": str(node.get("name", "Technique")),
         "description": str(node.get("description", "")),
-        "branch": str(node.get("branch", "")),
-        "canonical_type": str(node.get("canonical_type", "")),
-        "canonical_function": str(node.get("canonical_function", "")),
-        "canonical_positions": str(node.get("canonical_positions", "")),
-        "canonical_target": str(node.get("canonical_target", "")),
-        "canonical_impacts": str(node.get("canonical_impacts", "")),
-        "canonical_tags": (node.get("canonical_tags", []) as Array).duplicate(),
-        "canonical_conditions": str(node.get("canonical_conditions", "")),
-        "base_accuracy_pct": int(node.get("base_accuracy_pct", 100)),
-        "power_0_5": float(node.get("power_0_5", 0.0)),
-        "manual_combat_usable": manual_combat_usable(node),
-        "contextual_only": _contextual_only(node)
+        "effect": "resolver_required",
+        "target": "none",
+        "manual_combat_usable": false,
+        "resolver_status": "required"
     }
-    if not bool(result.get("manual_combat_usable", false)):
-        result["effect"] = "passive_or_context"
-        result["target"] = "none"
-        return result
-
-    var tags: Array = result.get("canonical_tags", [])
-    var target_text := str(result.get("canonical_target", "")).to_lower()
-    var power := float(result.get("power_0_5", 0.0))
-    if target_text.contains("allié") and not target_text.contains("ennemi"):
-        if tags.has("GARDE") or tags.has("INTERCEPTION") or tags.has("PROTECTION"):
-            result["effect"] = "guard"
-            result["target"] = "ally"
-            result["guard_bonus"] = 10 + int(round(power * 4.0))
-        else:
-            result["effect"] = "support"
-            result["target"] = "ally"
-            if tags.has("STABILISATION") or tags.has("SAIGNEMENT") or tags.has("HÉMORRAGIE"):
-                result["heal"] = maxi(1, int(round(5.0 + power * 5.0)))
-            if tags.has("ESPOIR") or tags.has("PEUR"):
-                result["hope_gain"] = maxi(1, int(round(2.0 + power * 3.0)))
-                result["fear_reduction"] = maxi(1, int(round(2.0 + power * 2.0)))
-        return result
-
-    if target_text.contains("soi") and not target_text.contains("ennemi"):
-        result["effect"] = "guard" if tags.has("GARDE") or tags.has("COUVERTURE") else "support"
-        result["target"] = "self"
-        result["guard_bonus"] = 8 + int(round(power * 3.0)) if result["effect"] == "guard" else 0
-        return result
-
-    result["effect"] = "attack"
-    result["target"] = "enemy"
-    result["power"] = maxf(0.55, 0.65 + power * 0.20)
-    result["accuracy_bonus"] = int(result.get("base_accuracy_pct", 100)) - 85
-    if tags.has("SAIGNEMENT") or tags.has("HÉMORRAGIE"):
-        result["status"] = "bleed"
-        result["status_chance"] = clampi(25 + int(round(power * 8.0)), 25, 75)
-    elif tags.has("INTERRUPTION") or tags.has("INTERROMPU") or tags.has("AU_SOL"):
-        result["status"] = "stun"
-        result["status_chance"] = clampi(20 + int(round(power * 7.0)), 20, 70)
-    elif tags.has("ARMURE_BRISÉE") or tags.has("FRACTURE"):
-        result["status"] = "break"
-        result["status_chance"] = clampi(20 + int(round(power * 7.0)), 20, 70)
-    if tags.has("PRÉCISION") or tags.has("FAIBLESSE"):
-        result["critical_bonus"] = maxi(1, int(round(power * 2.0)))
-    return result
 
 func catalog_summary() -> Dictionary:
     var skill_count := 0
@@ -230,12 +184,11 @@ func _split_tags(text: String) -> Array[String]:
     var result: Array[String] = []
     for part: String in text.split(";", false):
         var tag := part.strip_edges()
+        if tag == "MEMRE_BLESSÉ":
+            tag = "MEMBRE_BLESSÉ"
         if tag != "" and not result.has(tag):
             result.append(tag)
     return result
 
 func _contextual_only(node: Dictionary) -> bool:
-    var target := str(node.get("canonical_target", "")).to_lower()
-    if target.contains("cadavre") or target.contains("information") or target.contains("position"):
-        return true
-    return false
+    return str(node.get("activation_mode", "")) == "context_action"
