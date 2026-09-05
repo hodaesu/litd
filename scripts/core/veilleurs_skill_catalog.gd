@@ -90,12 +90,7 @@ func skill_nodes(hero: Dictionary, branch: String) -> Array:
             "production_state": "canonical",
             "available_in_current_release": true
         }
-        if Engine.has_singleton("VeilleursSkillResolverRouter"):
-            node = VeilleursSkillResolverRouter.normalize_node(node)
-        else:
-            node["resolver_id"] = "unavailable"
-            node["resolver_status"] = "required"
-            node["activation_mode"] = "action"
+        node = VeilleursSkillResolverRouter.normalize_node(node)
         node["manual_combat_usable"] = manual_combat_usable(node)
         node["contextual_only"] = _contextual_only(node)
         result.append(node)
@@ -127,24 +122,12 @@ func ultimate_charges(level: int) -> int:
     return 0
 
 func manual_combat_usable(node: Dictionary) -> bool:
-    if Engine.has_singleton("VeilleursSkillResolverRouter"):
-        return VeilleursSkillResolverRouter.can_manual_equip(node)
-    return false
+    return VeilleursSkillResolverRouter.can_manual_equip(node)
 
 func combat_profile(hero: Dictionary, node: Dictionary) -> Dictionary:
     if not is_watcher(hero) or node.is_empty():
         return {}
-    if Engine.has_singleton("VeilleursSkillResolverRouter"):
-        return VeilleursSkillResolverRouter.combat_profile(hero, node)
-    return {
-        "id": str(node.get("id", "")),
-        "name": str(node.get("name", "Technique")),
-        "description": str(node.get("description", "")),
-        "effect": "resolver_required",
-        "target": "none",
-        "manual_combat_usable": false,
-        "resolver_status": "required"
-    }
+    return VeilleursSkillResolverRouter.combat_profile(hero, node)
 
 func catalog_summary() -> Dictionary:
     var skill_count := 0
