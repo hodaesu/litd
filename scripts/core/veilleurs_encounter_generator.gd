@@ -15,6 +15,15 @@ func _init() -> void:
 func reset_history() -> void:
     recent_template_ids.clear()
 
+func restore_history(history: Array) -> void:
+    recent_template_ids.clear()
+    for value: Variant in history:
+        var template_id := str(value)
+        if template_id != "":
+            recent_template_ids.append(template_id)
+    while recent_template_ids.size() > 5:
+        recent_template_ids.pop_front()
+
 func template_count() -> int:
     return templates.size()
 
@@ -85,7 +94,7 @@ func generate(act_id: String, depth: int, seed: int, memory_candidates: Array = 
         return {"ok": false, "reason": "selection_failed"}
 
     var rule := depth_rule(act_id, depth)
-    var actors: Array[Dictionary] = []
+    var actors: Array = []
     var actor_index := 0
     for species_value: Variant in selected.get("species", []):
         var species := str(species_value)
@@ -97,7 +106,8 @@ func generate(act_id: String, depth: int, seed: int, memory_candidates: Array = 
         actor_index += 1
 
     var memory_result := inject_memory(actors, memory_candidates)
-    actors = memory_result.get("actors", actors)
+    var memory_actors: Array = memory_result.get("actors", actors)
+    actors = memory_actors
     _register_template(str(selected.get("template_id", "")))
     return {
         "ok": true,
