@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.1.0",
+  "id": "cultural_depth_v2",
+  "status": "canon_depth_atlas_v2",
+  "rules": {
+    "subschool_is_build_tree": false,
+    "subschool_is_ethnicity": false,
+    "artist_represents_entire_region": false,
+    "recipe_is_fixed_authenticity_test": false,
+    "festival_is_single_religious_truth": false,
+    "local_variants_can_conflict": true,
+    "litd2_mature_forms_retrojected": false
+  },
+  "martial_micro_lineages": [
+    {"id":"micro_martial.jian_lu.rain_step","parent":"martial.jian_lu.three_supports","name":"Pas de Pluie","focus":"micro-ajustements sur sol glissant","signature":"changer d'appui sans croiser les pieds","limit":"peu utile sur terrain parfaitement stable"},
+    {"id":"micro_martial.jian_lu.rope_gate","parent":"martial.jian_lu.three_supports","name":"Porte de Corde","focus":"contrôle d'espace avec corde courte ou sangle","signature":"créer un seuil sans étrangler ni lier par défaut","limit":"risque d'enchevêtrement"},
+    {"id":"micro_martial.jian_lu.low_ferry","parent":"martial.jian_lu.three_supports","name":"Bac Bas","focus":"protéger une personne en franchissant une zone étroite","signature":"corps placé entre menace et tiers","limit":"réduit l'offensive directe"},
+    {"id":"micro_martial.jian_lu.split_current","parent":"martial.jian_lu.three_supports","name":"Courant Divisé","focus":"faire choisir deux mauvaises directions à un adversaire","signature":"feinte de voie puis redirection","limit":"échoue si l'adversaire refuse de poursuivre"},
+
+    {"id":"micro_martial.sorye.white_margin","parent":"martial.sorye.body_measure","name":"Marge Blanche","focus":"frapper autour d'une zone lésée sans l'aggraver","signature":"marquage corporel avant exercice","limit":"demande diagnostic fiable"},
+    {"id":"micro_martial.sorye.three_pulses","parent":"martial.sorye.body_measure","name":"Trois Pouls","focus":"lire fatigue respiratoire, tremblement et déséquilibre","signature":"annoncer l'observation avant l'action","limit":"ne prédit pas l'intention"},
+    {"id":"micro_martial.sorye.closed_joint","parent":"martial.sorye.body_measure","name":"Articulation Fermée","focus":"immobilisation contrôlée","signature":"seuil d'arrêt déclaré","limit":"une lutte chaotique peut dépasser le seuil"},
+    {"id":"micro_martial.sorye.recovery_measure","parent":"martial.sorye.body_measure","name":"Mesure de Reprise","focus":"retour au combat après blessure","signature":"réduire amplitude et vitesse avant puissance","limit":"ne remplace pas le soin"},
+
+    {"id":"micro_martial.dhor_khal.two_anchors","parent":"martial.dhor_khal.forge_anchor","name":"Deux Ancrages","focus":"porter ou retenir à deux","signature":"charge annoncée et redistribuée","limit":"exige coordination"},
+    {"id":"micro_martial.dhor_khal.dead_hammer","parent":"martial.dhor_khal.forge_anchor","name":"Marteau Mort","focus":"laisser tomber le poids au lieu de forcer musculairement","signature":"impact court depuis position stable","limit":"télégraphie forte"},
+    {"id":"micro_martial.dhor_khal.mobile_shore","parent":"martial.dhor_khal.forge_anchor","name":"Étai Mobile","focus":"protéger un allié tout en avançant","signature":"garde partagée","limit":"fatigue cumulative"},
+    {"id":"micro_martial.dhor_khal.lift_without_pride","parent":"martial.dhor_khal.forge_anchor","name":"Lever Sans Orgueil","focus":"leviers, sangles et terrain avant force brute","signature":"chercher l'outil avant l'effort maximal","limit":"plus lent à improviser"},
+
+    {"id":"micro_martial.lhaor.reed_shadow","parent":"martial.lhaor.flexible_branch","name":"Ombre du Roseau","focus":"petites esquives dans végétation dense","signature":"déplacer juste assez","limit":"mauvaise contre attaques de zone"},
+    {"id":"micro_martial.lhaor.open_orchard","parent":"martial.lhaor.flexible_branch","name":"Verger Ouvert","focus":"combat sans détruire environnement ni tiers","signature":"trajets prédéfinis entre obstacles","limit":"contraint fortement les angles"},
+    {"id":"micro_martial.lhaor.returning_branch","parent":"martial.lhaor.flexible_branch","name":"Branche de Retour","focus":"déflexion puis contre minimal","signature":"utiliser l'élan résiduel","limit":"faible si la première force est très courte"},
+    {"id":"micro_martial.lhaor.soft_root","parent":"martial.lhaor.flexible_branch","name":"Racine Souple","focus":"stabilité sans verrouillage rigide","signature":"genoux et bassin toujours disponibles","limit":"demande endurance posturale"},
+
+    {"id":"micro_martial.tessen.four_exits","parent":"martial.tessen.open_circles","name":"Quatre Sorties","focus":"échapper à l'encerclement","signature":"identifier deux sorties réelles et deux leurres","limit":"nécessite lecture périphérique"},
+    {"id":"micro_martial.tessen.shared_center","parent":"martial.tessen.open_circles","name":"Centre Partagé","focus":"rotation des rôles dans un groupe","signature":"personne ne reste gardien permanent","limit":"peut perdre efficacité avec inconnus"},
+    {"id":"micro_martial.tessen.market_tools","parent":"martial.tessen.open_circles","name":"Outils du Marché","focus":"objets improvisés non tranchants","signature":"protéger et séparer avec paniers, bâtons, tissus","limit":"objets fragiles"},
+    {"id":"micro_martial.tessen.no_duel","parent":"martial.tessen.open_circles","name":"Pas de Duel","focus":"refus tactique de l'isolement","signature":"rompre immédiatement une ligne qui sépare le groupe","limit":"moins performant en duel formel"},
+
+    {"id":"micro_martial.orun_sai.loaded_step","parent":"martial.orun_sai.long_step","name":"Pas Chargé","focus":"combattre avec sac ou civière","signature":"ne jamais supposer mains libres","limit":"réduit vitesse maximale"},
+    {"id":"micro_martial.orun_sai.last_mile","parent":"martial.orun_sai.long_step","name":"Dernière Lieue","focus":"techniques répétables sous fatigue","signature":"mêmes gestes après longue marche","limit":"sacrifie sophistication"},
+    {"id":"micro_martial.orun_sai.convoy_arc","parent":"martial.orun_sai.long_step","name":"Arc du Convoi","focus":"garde en demi-cercle autour de civils","signature":"recul coordonné","limit":"fragile si le groupe panique"},
+    {"id":"micro_martial.orun_sai.wounded_return","parent":"martial.orun_sai.long_step","name":"Retour du Blessé","focus":"extraire une personne sans abandonner toute défense","signature":"prise de transport alternée","limit":"dépend de l'état du blessé"}
+  ],
+  "artists_and_works": [
+    {"id":"artist.jian_lu.vesa_ren","name":"Vesa Ren","region":"Jian-Lu","discipline":"gravure sur planches de pont","work":"Les Cent Réparations","work_form":"série montrant chaque reprise d'un même pont","historical_tension":"les copies tardives effacent certaines réparations jugées disgracieuses"},
+    {"id":"artist.jian_lu.mei_sor","name":"Mei Sor","region":"Jian-Lu","discipline":"chant de bateliers","work":"Aval avant nous","work_form":"chant responsorial de travail","historical_tension":"refrain repris comme hymne civique sans ses couplets sur les accidents"},
+    {"id":"artist.jian_lu.tor_ila","name":"Tor Ila","region":"Jian-Lu","discipline":"théâtre de quai","work":"Le Pont qui voulait choisir","work_form":"farce politique","historical_tension":"interdite brièvement par un assureur caricaturé"},
+    {"id":"artist.jian_lu.sen_ora","name":"Sen Ora","region":"Jian-Lu","discipline":"jardin suspendu","work":"Sept Niveaux d'Eau","work_form":"installation vivante","historical_tension":"une sécheresse transforme l'œuvre en débat sur l'usage de l'eau"},
+
+    {"id":"artist.sorye.ila_orel","name":"Ila Orel","region":"Sorye","discipline":"essai dialogué","work":"Deux Notes dans la Marge","work_form":"texte à deux voix contradictoires","historical_tension":"une édition scolaire imprime une seule voix"},
+    {"id":"artist.sorye.kael_ves","name":"Kaël Ves","region":"Sorye","discipline":"musique pour cordes courtes","work":"Mesure sans Réponse","work_form":"pièce dont chaque reprise change une mesure","historical_tension":"souvent interprétée à tort comme code mathématique"},
+    {"id":"artist.sorye.mara_lun","name":"Mara Lun","region":"Sorye","discipline":"dessin anatomique","work":"Ce que la Main Peut Encore","work_form":"portraits de personnes blessées en activité","historical_tension":"certains catalogues recadrent les images sur la lésion et perdent le propos"},
+    {"id":"artist.sorye.sen_om","name":"Sen Om","region":"Sorye","discipline":"poésie astronomique","work":"Le Ciel ne Répond Pas","work_form":"poèmes associés à mesures célestes","historical_tension":"récupérée par des écoles prophétiques malgré le titre"},
+
+    {"id":"artist.dhor_khal.dara_var","name":"Dara Var","region":"Dhor-Khal","discipline":"sculpture de récupération","work":"Poids Porté à Deux","work_form":"deux blocs impossibles à stabiliser seuls","historical_tension":"une restauration fixe les blocs et annule l'idée originale"},
+    {"id":"artist.dhor_khal.ren_kesh","name":"Ren Kesh","region":"Dhor-Khal","discipline":"chants d'atelier","work":"La Relève Entend","work_form":"cycle rythmique signalant pauses et dangers","historical_tension":"des patrons le transforment en chant de productivité"},
+    {"id":"artist.dhor_khal.ves_lun","name":"Ves Lun","region":"Dhor-Khal","discipline":"gravure métallique","work":"Marques de ceux qui reprennent","work_form":"plaques portant noms des réparateurs successifs","historical_tension":"les commanditaires veulent parfois ne garder que le premier maître"},
+    {"id":"artist.dhor_khal.ori_dan","name":"Ori Dan","region":"Dhor-Khal","discipline":"danse de poids","work":"Ancrage interrompu","work_form":"danse où chaque chute devient appui partagé","historical_tension":"prise pour démonstration martiale alors qu'elle naît d'une convalescence"},
+
+    {"id":"artist.lhaor.eren_omi","name":"Eren Omi","region":"Lhaor","discipline":"jardins narratifs","work":"Le Verger des Absents","work_form":"arbres plantés pour absents non déclarés morts","historical_tension":"des générations suivantes changent certains arbres en mémoriaux de morts confirmés"},
+    {"id":"artist.lhaor.mari_lha","name":"Mari Lha","region":"Lhaor","discipline":"tissage végétal","work":"Fibres de Saison","work_form":"tenture variant selon récoltes annuelles","historical_tension":"les musées tardifs figent une version comme modèle définitif"},
+    {"id":"artist.lhaor.sela_var","name":"Sela Var","region":"Lhaor","discipline":"flûtes de roseau","work":"Canaux Basses Eaux","work_form":"suite jouée seulement quand certains canaux sont praticables","historical_tension":"après la Chute la pièce survit hors de son contexte hydraulique"},
+    {"id":"artist.lhaor.ves_ren","name":"Ves Ren","region":"Lhaor","discipline":"dessin botanique","work":"Greffes Imparfaites","work_form":"herbier montrant échecs et reprises","historical_tension":"certaines copies ne conservent que les réussites"},
+
+    {"id":"artist.tessen.nera_mar","name":"Nera Mar","region":"Tessen","discipline":"bannières participatives","work":"Mille Voix, Aucun Centre","work_form":"bannière faite de fragments de quartiers","historical_tension":"une institution tente ensuite d'en faire emblème officiel"},
+    {"id":"artist.tessen.oss_ila","name":"Oss Ila","region":"Tessen","discipline":"théâtre d'assemblée","work":"Dix-Sept Minutes","work_form":"pièce rejouant un vote contesté","historical_tension":"chaque quartier termine différemment"},
+    {"id":"artist.tessen.kel_ves","name":"Kel Ves","region":"Tessen","discipline":"teinture","work":"Couleur sans Propriétaire","work_form":"pigment publié sans formule secrète","historical_tension":"des ateliers revendiquent ensuite l'invention"},
+    {"id":"artist.tessen.tor_sai","name":"Tor Saï","region":"Tessen","discipline":"percussion de place","work":"Le Tour Passe","work_form":"motif transmis au suivant avant d'être terminé","historical_tension":"spectacles professionnels suppriment le passage au public"},
+
+    {"id":"artist.orun_sai.ila_qam","name":"Ila Qam","region":"Orun-Saï","discipline":"collecte de chants de route","work":"Refrains sans Frontière","work_form":"recueil multilingue attribuant chaque source","historical_tension":"certaines sources deviennent introuvables et leur attribution est contestée"},
+    {"id":"artist.orun_sai.esh_mara","name":"Esh Mara","region":"Orun-Saï","discipline":"cartes dessinées","work":"Cartes de Ceux qui Repartent","work_form":"cartes basées sur récits de voyageurs","historical_tension":"deux routes incompatibles sont toutes deux authentiques à des dates différentes"},
+    {"id":"artist.orun_sai.qamar_sel","name":"Qamar Sel","region":"Orun-Saï","discipline":"danse de bâton de voyage","work":"Dernière Lieue","work_form":"pièce jouée après marche réelle","historical_tension":"les scènes urbaines raccourcissent la marche et transforment l'endurance en esthétique"},
+    {"id":"artist.orun_sai.vesh_ara","name":"Vesh Ara","region":"Orun-Saï","discipline":"broderie de route","work":"Noms Temporaires","work_form":"manteau portant noms de route cousus puis décousus","historical_tension":"un collectionneur tente de figer tous les noms comme identités permanentes"}
+  ],
+  "recipes": [
+    {"id":"recipe.jian_lu.river_bowl","name":"Bol des Deux Rives","region":"Jian-Lu","base":["grain cuit","légumes de rive","bouillon"],"variants":["poisson","tofu/caillé local","œuf","herbes"],"social_use":"repas de quai","post_fall_adaptation":"peut devenir soupe de ration"},
+    {"id":"recipe.jian_lu.bridge_cakes","name":"Galettes de Pont","region":"Jian-Lu","base":["farine","eau","huile"],"variants":["salé","sucré léger","graines"],"social_use":"aliment portable","post_fall_adaptation":"cuisson sur plaque improvisée"},
+    {"id":"recipe.jian_lu.flood_pickles","name":"Légumes de Crue","region":"Jian-Lu","base":["légumes fermes","saumure"],"variants":["épices de marché"],"social_use":"réserves saisonnières","post_fall_adaptation":"utile mais dépend d'eau sûre"},
+
+    {"id":"recipe.sorye.student_pot","name":"Marmite des Cours","region":"Sorye","base":["légumineuses","grain","oignon"],"variants":["restes de légumes","herbes"],"social_use":"repas collectif d'étudiants","post_fall_adaptation":"très robuste aux substitutions"},
+    {"id":"recipe.sorye.clear_broth","name":"Bouillon Clair de Convalescence","region":"Sorye","base":["bouillon léger","grain tendre"],"variants":["plantes tolérées"],"social_use":"soin","post_fall_adaptation":"ne devient pas remède universel"},
+    {"id":"recipe.sorye.night_flatbread","name":"Pain Plat de Veille","region":"Sorye","base":["farine","eau","sel"],"variants":["huile","graines"],"social_use":"observatoires et gardes","post_fall_adaptation":"conservation courte mais simple"},
+
+    {"id":"recipe.dhor_khal.forge_stew","name":"Ragoût de Forge","region":"Dhor-Khal","base":["racines","légumineuses","viande ou champignons"],"variants":["sel renforcé selon travail"],"social_use":"équipes de chaleur","post_fall_adaptation":"portion ajustée au travail réel"},
+    {"id":"recipe.dhor_khal.plateau_cheese","name":"Fromage de Plateau","region":"Dhor-Khal","base":["lait de chèvre","sel"],"variants":["affinages"],"social_use":"transport","post_fall_adaptation":"source dense mais dépend des troupeaux"},
+    {"id":"recipe.dhor_khal.ash_roots","name":"Racines sous Cendre","region":"Dhor-Khal","base":["tubercules"],"variants":["graisse","herbes"],"social_use":"cuisson d'atelier","post_fall_adaptation":"nom ancien sans lien nécessaire avec la Terre des Cendres"},
+
+    {"id":"recipe.lhaor.orchard_pot","name":"Marmite du Verger","region":"Lhaor","base":["légumes","fruit peu sucré","grain"],"variants":["herbes","noix"],"social_use":"repas saisonnier","post_fall_adaptation":"fonction avant fidélité de recette"},
+    {"id":"recipe.lhaor.seed_bread","name":"Pain de Semences Partagées","region":"Lhaor","base":["farine","petite quantité de graines"],"variants":["selon récolte"],"social_use":"fête de semences","post_fall_adaptation":"les graines rares ne doivent pas être consommées si nécessaires à plantation"},
+    {"id":"recipe.lhaor.recovery_tea","name":"Infusion de Reprise","region":"Lhaor","base":["plantes aromatiques sûres"],"variants":["locales"],"social_use":"repos","post_fall_adaptation":"confort, pas traitement miracle"},
+
+    {"id":"recipe.tessen.common_table_stew","name":"Ragoût de Table Commune","region":"Tessen","base":["ce que chaque quartier apporte"],"variants":["presque infinies"],"social_use":"fêtes civiques","post_fall_adaptation":"devient cuisine de mutualisation"},
+    {"id":"recipe.tessen.dyeworker_buns","name":"Petits Pains des Teinturiers","region":"Tessen","base":["pâte","légumineuse ou légumes"],"variants":["formes de quartier"],"social_use":"pause d'atelier","post_fall_adaptation":"facile à portionner"},
+    {"id":"recipe.tessen.mill_porridge","name":"Bouillie du Moulin","region":"Tessen","base":["grain cassé","eau"],"variants":["salé","sucré rare"],"social_use":"quotidien","post_fall_adaptation":"base de ration"},
+
+    {"id":"recipe.orun_sai.first_water_soup","name":"Soupe de la Première Eau","region":"Orun-Saï","base":["eau sûre","grain","légume sec"],"variants":["épices de route"],"social_use":"accueil","post_fall_adaptation":"l'eau offerte reste prioritaire à la symbolique"},
+    {"id":"recipe.orun_sai.caravan_cakes","name":"Galettes de Caravane","region":"Orun-Saï","base":["farine","graisse","fruit sec ou légumineuse"],"variants":["sucré/salé"],"social_use":"voyage","post_fall_adaptation":"ration longue"},
+    {"id":"recipe.orun_sai.last_fire_pot","name":"Marmite du Dernier Feu","region":"Orun-Saï","base":["restes compatibles","grain"],"variants":["selon convoi"],"social_use":"dernier repas avant séparation","post_fall_adaptation":"rituel parfois conservé sans théologie"}
+  ],
+  "festival_programs": [
+    {"id":"festival.jian_lu.returned_current","name":"Jours du Courant Rendu","region":"Jian-Lu","duration_days":3,"program":["inspection publique des quais","courses non militaires de passeurs","repas des deux rives","lecture des accidents et réparations de l'année","travaux volontaires de rive"],"conflict":"les marchands veulent parfois privilégier spectacle et commerce au travail d'entretien"},
+    {"id":"festival.sorye.open_margin","name":"Semaine de la Marge Ouverte","region":"Sorye","duration_days":5,"program":["cours publics","présentation d'erreurs célèbres","consultations de soin","débats contradictoires","nuit d'observation du ciel","copie et correction d'archives"],"conflict":"les écoles prestigieuses monopolisent facilement les meilleures scènes"},
+    {"id":"festival.dhor_khal.shared_weight","name":"Fête du Poids Partagé","region":"Dhor-Khal","duration_days":3,"program":["revue des accidents de travail","démonstrations de levage collectif","réparations publiques","repas de relève","compétitions d'outillage non létales"],"conflict":"risque de glorifier l'endurance au lieu de la sécurité"},
+    {"id":"festival.lhaor.first_seed","name":"Premières Semences","region":"Lhaor","duration_days":4,"program":["échange de graines documentées","greffes publiques","repas saisonnier","musique de canaux","inventaire des pertes de lignées","travaux de jardin commun"],"conflict":"tension entre conserver les rares variétés et les distribuer"},
+    {"id":"festival.tessen.open_table","name":"Tables Ouvertes","region":"Tessen","duration_days":4,"program":["repas de quartier","assemblées courtes","théâtre civique","bannières participatives","marché d'artisanat","table sans invitation nominative"],"conflict":"les quartiers plus riches peuvent dominer par abondance plutôt que par droit"},
+    {"id":"festival.orun_sai.routes_return","name":"Retours de Route","region":"Orun-Saï","duration_days":4,"program":["lecture de nouvelles de route","réparation de matériel de voyage","chants multilingues","échange de cartes datées","repas du dernier feu","cérémonies de départ sans dette cachée"],"conflict":"les récits lointains peuvent devenir spectacle au détriment des voyageurs présents"}
+  ]
+}
