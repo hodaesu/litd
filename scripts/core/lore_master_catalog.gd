@@ -16,6 +16,11 @@ const PROJECT_THRESHOLD_PATH := "res://data/canon/project_threshold_and_fall.jso
 const POST_FALL_PATH := "res://data/canon/post_fall_litd1.json"
 const COMPLETION_PATH := "res://data/canon/lore_completion_manifest.json"
 const WORLD_GEOGRAPHY_PATH := "res://universe/lore/world_geography.json"
+const LANGUAGE_ATLAS_PATH := "res://universe/lore/language_atlas.json"
+const CULTURAL_ATLAS_PATH := "res://universe/lore/concorde_cultural_atlas.json"
+const HISTORICAL_BESTIARY_PATH := "res://universe/lore/historical_bestiary.json"
+const SEVEN_BIOGRAPHIES_PATH := "res://universe/lore/legendary_seven_biographies.json"
+const ENCYCLOPEDIA_COMPLETION_PATH := "res://universe/lore/encyclopedia_completion_manifest.json"
 
 static func _load_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
@@ -76,6 +81,21 @@ static func completion_manifest() -> Dictionary:
 static func world_geography() -> Dictionary:
     return _load_json(WORLD_GEOGRAPHY_PATH)
 
+static func language_atlas() -> Dictionary:
+    return _load_json(LANGUAGE_ATLAS_PATH)
+
+static func cultural_atlas() -> Dictionary:
+    return _load_json(CULTURAL_ATLAS_PATH)
+
+static func historical_bestiary() -> Dictionary:
+    return _load_json(HISTORICAL_BESTIARY_PATH)
+
+static func legendary_seven_biographies() -> Dictionary:
+    return _load_json(SEVEN_BIOGRAPHIES_PATH)
+
+static func encyclopedia_completion_manifest() -> Dictionary:
+    return _load_json(ENCYCLOPEDIA_COMPLETION_PATH)
+
 static func master_chronology() -> Array[Dictionary]:
     var result: Array[Dictionary] = []
     var values: Variant = completion_manifest().get("master_chronology", [])
@@ -87,6 +107,9 @@ static func master_chronology() -> Array[Dictionary]:
 
 static func core_lore_complete() -> bool:
     return bool(completion_manifest().get("core_canon_completion", false))
+
+static func encyclopedia_v1_complete() -> bool:
+    return bool(encyclopedia_completion_manifest().get("encyclopedia_v1_complete", false))
 
 static func intentionally_bounded_unknowns() -> Array[String]:
     var result: Array[String] = []
@@ -112,6 +135,14 @@ static func still_expandable_topics() -> Array[String]:
             result.append(str(value))
     return result
 
+static func encyclopedia_intentionally_open() -> Array[String]:
+    var result: Array[String] = []
+    var values: Variant = encyclopedia_completion_manifest().get("intentionally_open_after_v1", [])
+    if values is Array:
+        for value: Variant in values:
+            result.append(str(value))
+    return result
+
 static func mystery(mystery_id: String) -> Dictionary:
     var values: Variant = ancient_periods_and_mysteries().get("mysteries", [])
     if values is Array:
@@ -131,6 +162,60 @@ static func concorde_city(city_id: String) -> Dictionary:
         for value: Variant in values:
             var item: Dictionary = value if value is Dictionary else {}
             if str(item.get("id", "")) == city_id:
+                return item.duplicate(true)
+    return {}
+
+static func cultural_city(city_id: String) -> Dictionary:
+    var values: Variant = cultural_atlas().get("cities", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == city_id:
+                return item.duplicate(true)
+    return {}
+
+static func regional_language(language_id: String) -> Dictionary:
+    var values: Variant = language_atlas().get("regional_languages", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == language_id:
+                return item.duplicate(true)
+    return {}
+
+static func religious_tradition(tradition_id: String) -> Dictionary:
+    var values: Variant = cultural_atlas().get("religious_traditions", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == tradition_id:
+                return item.duplicate(true)
+    return {}
+
+static func martial_lineage(lineage_id: String) -> Dictionary:
+    var values: Variant = cultural_atlas().get("martial_lineages", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == lineage_id:
+                return item.duplicate(true)
+    return {}
+
+static func historical_bestiary_entry(entry_id: String) -> Dictionary:
+    var values: Variant = historical_bestiary().get("entries", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == entry_id:
+                return item.duplicate(true)
+    return {}
+
+static func legendary_biography(hero_id: String) -> Dictionary:
+    var values: Variant = legendary_seven_biographies().get("heroes", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == hero_id:
                 return item.duplicate(true)
     return {}
 
