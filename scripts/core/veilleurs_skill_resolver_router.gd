@@ -2,12 +2,17 @@ extends Node
 
 const CONTRACT_PATH := "res://data/veilleurs/skills/resolver_contract.json"
 const OVERRIDES_PATH := "res://data/veilleurs/skills/canonical_overrides.json"
+const CLINICAL_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_clinical_combat_runtime.gd")
 
 var contract: Dictionary = {}
 var overrides: Dictionary = {}
 var load_errors: Array[String] = []
+var clinical_runtime: Node = null
 
 func _ready() -> void:
+    clinical_runtime = CLINICAL_RUNTIME_SCRIPT.new()
+    clinical_runtime.name = "ClinicalRuntime"
+    add_child(clinical_runtime)
     reload()
 
 func reload() -> void:
@@ -102,7 +107,7 @@ func combat_profile(hero: Dictionary, node: Dictionary) -> Dictionary:
         result["target"] = "none"
         return result
 
-    var runtime: Node = get_node_or_null("/root/VeilleursClinicalCombatRuntime")
+    var runtime := _clinical_runtime()
     if runtime != null and runtime.has_method("handles") and bool(runtime.call("handles", result)) and runtime.has_method("profile_for"):
         var runtime_profile: Dictionary = runtime.call("profile_for", hero, result)
         for key_value: Variant in runtime_profile.keys():
@@ -114,6 +119,18 @@ func combat_profile(hero: Dictionary, node: Dictionary) -> Dictionary:
     result["target"] = "none"
     result["manual_combat_usable"] = false
     return result
+
+func resolve_combat(hero: Dictionary, target: Dictionary, skill: Dictionary, damage: int = 0, party: Array = []) -> Dictionary:
+    var runtime := _clinical_runtime()
+    if runtime == null or not runtime.has_method("resolve") or not runtime.has_method("handles") or not bool(runtime.call("handles", skill)):
+        return {"ok": false, "reason": "clinical_runtime_unavailable", "skill_id": str(skill.get("id", ""))}
+    return runtime.call("resolve", hero, target, skill, damage, party)
+
+func select_medical_target(party: Array) -> Dictionary:
+    var runtime := _clinical_runtime()
+    if runtime == null or not runtime.has_method("select_medical_target"):
+        return {}
+    return runtime.call("select_medical_target", party)
 
 func ultimate_contract(hero: Dictionary, branch: String) -> Dictionary:
     var ultimate := VeilleursSkillCatalog.ultimate_for(hero, branch)
@@ -129,8 +146,14 @@ func summary() -> Dictionary:
     return {
         "tree_families": (contract.get("tree_families", {}) as Dictionary).size(),
         "skill_overrides": (contract.get("skill_overrides", {}) as Dictionary).size(),
+        "clinical_runtime": clinical_runtime != null,
         "load_errors": load_errors.duplicate()
     }
+
+func _clinical_runtime() -> Node:
+    if clinical_runtime == null:
+        clinical_runtime = get_node_or_null("ClinicalRuntime")
+    return clinical_runtime
 
 func _load_dictionary(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
