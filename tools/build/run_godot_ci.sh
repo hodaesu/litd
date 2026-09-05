@@ -74,6 +74,7 @@ run_checked "Les Veilleurs cadavres : revisite, brûlure et assimilation T15-T17
 run_checked "Les Veilleurs information : lumière, psychologie et Rémanence T18-T22" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_information_psychology_contract_smoke.tscn
 run_checked "Les Veilleurs capture : conditions, échec mémoriel et auxiliaire T23-T25" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_capture_contract_smoke.tscn
 run_checked "Les Veilleurs rencontres : budget, anti-répétition, mémoriels et variantes T26-T32" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_encounter_contract_smoke.tscn
+run_checked "Les Veilleurs production bestiaire : 24 espèces, 8 familles et variantes canoniques" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_production_bestiary_smoke.tscn
 run_checked "Les Veilleurs IA : cible blessée accessible, gestes et Archiviste T33-T35" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_enemy_ai_contract_smoke.tscn
 run_checked "Les Veilleurs boss : Ishar, Orateur, Mère, Porte-Cendres et Copiste T36-T47" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_boss_contract_smoke.tscn
 run_checked "Les Veilleurs checkpoint pré-boss : état critique complet T48" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_preboss_checkpoint_smoke.tscn
