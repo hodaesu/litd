@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "policy": {
     "no_silent_generic_fallback": true,
     "unlock_without_runtime_execution_allowed": true,
@@ -37,6 +37,15 @@
     "resolver_id": "ultimate_sequence",
     "status": "required",
     "systems": ["charges","encounter_limit","body_functions","timeline","animation","haptics","audio","camera"]
+  },
+  "ultimate_overrides": {
+    "aisha_maren:hemocorde": {
+      "resolver_id": "ultimate_sequence",
+      "status": "implemented",
+      "entrypoint": "VeilleursUltimateRuntime.resolve",
+      "systems": ["charges","encounter_limit","blood_flow","bleeding","shock","anatomy","knowledge","timeline","animation","haptics","audio","camera"],
+      "guardrails": ["known_physiology_required","severe_compromise_required","one_use_per_encounter","finite_dungeon_charges","boss_hp_floor"]
+    }
   },
   "semantic_guardrails": {
     "Traque": "L'information reste incertaine et acquise; aucune omniscience.",
