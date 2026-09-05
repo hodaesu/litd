@@ -241,7 +241,6 @@ static func geography_open_cartography() -> Array[String]:
     return result
 
 static func effective_pending_lore_topics() -> Array[String]:
-    # The historical file can preserve old pending lists for traceability.
-    # Effective pending topics are now only expandable encyclopedic detail,
-    # not the resolved spine or intentionally bounded mysteries.
-    return still_expandable_topics()
+    # V1 encyclopedic domains are complete. What remains here is deliberately open,
+    # production-level, or infinitely extensible rather than missing core lore.
+    return encyclopedia_intentionally_open()
