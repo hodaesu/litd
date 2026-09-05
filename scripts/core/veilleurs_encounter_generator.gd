@@ -4,15 +4,18 @@ const TEMPLATES_PATH := "res://data/veilleurs/encounter_templates_64.json"
 const DEPTH_RULES_PATH := "res://data/veilleurs/encounter_depth_rules.json"
 const VARIANTS_PATH := "res://data/veilleurs/enemy_variant_rules.json"
 const ProductionRegistry := preload("res://scripts/core/veilleurs_enemy_production_registry.gd")
+const SynergyRuntime := preload("res://scripts/core/veilleurs_enemy_synergy_runtime.gd")
 
 var templates: Array = []
 var depth_rules: Array = []
 var variant_data: Dictionary = {}
 var recent_template_ids: Array[String] = []
 var production_registry: RefCounted
+var synergy_runtime: RefCounted
 
 func _init() -> void:
     production_registry = ProductionRegistry.new()
+    synergy_runtime = SynergyRuntime.new()
     _load_data()
 
 func reset_history() -> void:
@@ -41,6 +44,12 @@ func production_profile(species: String) -> Dictionary:
 
 func production_contract() -> Dictionary:
     return production_registry.call("validate_contract")
+
+func synergy_contract() -> Dictionary:
+    return synergy_runtime.call("validate_contract")
+
+func evaluate_synergies(actors: Array, act_id: String = "") -> Dictionary:
+    return synergy_runtime.call("evaluate", actors, act_id)
 
 func depth_rule(act_id: String, depth: int) -> Dictionary:
     for value: Variant in depth_rules:
@@ -124,6 +133,7 @@ func generate(act_id: String, depth: int, seed: int, memory_candidates: Array = 
     var memory_result := inject_memory(actors, memory_candidates)
     var memory_actors: Array = memory_result.get("actors", actors)
     actors = memory_actors
+    var synergy_result: Dictionary = synergy_runtime.call("evaluate", actors, act_id)
     _register_template(str(selected.get("template_id", "")))
     return {
         "ok": true,
@@ -137,6 +147,9 @@ func generate(act_id: String, depth: int, seed: int, memory_candidates: Array = 
         "actor_count": actors.size(),
         "memory_injected": int(memory_result.get("injected", 0)),
         "nemesis_injected": int(memory_result.get("nemesis_injected", 0)),
+        "active_synergies": synergy_result.get("active", []),
+        "synergy_count": int(synergy_result.get("active_count", 0)),
+        "hidden_synergy_stat_bonus": bool(synergy_result.get("hidden_stat_bonus", true)),
         "recent_template_ids": recent_template_ids.duplicate()
     }
 
