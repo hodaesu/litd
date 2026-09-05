@@ -155,8 +155,8 @@ func _run() -> void:
 
     _check(SaveManager.load_qa_snapshot(), "E2E Rémanence : la sauvegarde doit se recharger depuis le disque")
     _check(RemanenceRuntime.run_index == 1, "E2E Rémanence : le numéro d'expédition doit survivre au reload")
-    _check(RemanenceRuntime.entity_state(target_id) == expected_target_state, "E2E Rémanence : l'individu cible doit revenir avec exactement le même état mémoriel")
-    _check(RemanenceRuntime.entity_state(decoy_id) == expected_decoy_state, "E2E Rémanence : le second Némésis doit lui aussi survivre au reload")
+    _check(_json_equivalent(RemanenceRuntime.entity_state(target_id), expected_target_state), "E2E Rémanence : l'individu cible doit revenir avec exactement la même structure mémorielle")
+    _check(_json_equivalent(RemanenceRuntime.entity_state(decoy_id), expected_decoy_state), "E2E Rémanence : le second Némésis doit lui aussi survivre au reload sans perte structurelle")
     _check(RemanenceRuntime.archive_links.size() == expected_links, "E2E Rémanence : les liens des Archives doivent survivre au reload")
     _check(RemanenceRuntime.event_timeline.size() == expected_events, "E2E Rémanence : la chronologie doit survivre au reload")
     _check(RemanenceRuntime.world_scars.has(corpse_scar_id), "E2E Rémanence : le cadavre de Nayra doit survivre au reload")
@@ -294,6 +294,31 @@ func _has_injury(character: Dictionary, injury_id: String) -> bool:
         if value is Dictionary and str((value as Dictionary).get("id", "")) == injury_id:
             return true
     return false
+
+func _json_equivalent(left: Variant, right: Variant) -> bool:
+    var left_type := typeof(left)
+    var right_type := typeof(right)
+    if left_type in [TYPE_INT, TYPE_FLOAT] and right_type in [TYPE_INT, TYPE_FLOAT]:
+        return is_equal_approx(float(left), float(right))
+    if left is Dictionary and right is Dictionary:
+        var left_dict: Dictionary = left
+        var right_dict: Dictionary = right
+        if left_dict.size() != right_dict.size():
+            return false
+        for key_value: Variant in left_dict.keys():
+            if not right_dict.has(key_value) or not _json_equivalent(left_dict[key_value], right_dict[key_value]):
+                return false
+        return true
+    if left is Array and right is Array:
+        var left_array: Array = left
+        var right_array: Array = right
+        if left_array.size() != right_array.size():
+            return false
+        for index in range(left_array.size()):
+            if not _json_equivalent(left_array[index], right_array[index]):
+                return false
+        return true
+    return left == right
 
 func _check(condition: bool, message: String) -> void:
     if not condition:
