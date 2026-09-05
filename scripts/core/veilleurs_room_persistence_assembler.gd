@@ -63,6 +63,8 @@ func assemble_room(room: Dictionary, encounter: Dictionary = {}, context: Dictio
         "remembered_enemies": int(actor_result.get("remembered_enemies", 0)),
         "nemesis_enemies": int(actor_result.get("nemesis_enemies", 0)),
         "knowledge_profiles": int(actor_result.get("knowledge_profiles", 0)),
+        "required_nemesis_entity_id": str(actor_result.get("required_nemesis_entity_id", output_room.get("nemesis_entity_id", ""))),
+        "required_nemesis_resolved": bool(actor_result.get("required_nemesis_resolved", str(output_room.get("nemesis_entity_id", "")) == "")),
         "device_profile": str(context.get("device_profile", "mobile")),
         "consequence_over_mesh": true
     }
@@ -134,10 +136,24 @@ func bind_scar_to_room(scar_id: String, room: Dictionary) -> bool:
 
 func _assemble_encounter_actors(room: Dictionary, encounter: Dictionary, context: Dictionary) -> Dictionary:
     if encounter.is_empty():
-        return {"encounter": encounter, "remembered_enemies": 0, "nemesis_enemies": 0, "knowledge_profiles": 0}
+        return {
+            "encounter": encounter,
+            "remembered_enemies": 0,
+            "nemesis_enemies": 0,
+            "knowledge_profiles": 0,
+            "required_nemesis_entity_id": str(room.get("nemesis_entity_id", "")),
+            "required_nemesis_resolved": str(room.get("nemesis_entity_id", "")) == ""
+        }
     var actors_value: Variant = encounter.get("actors", [])
     if not (actors_value is Array):
-        return {"encounter": encounter, "remembered_enemies": 0, "nemesis_enemies": 0, "knowledge_profiles": 0}
+        return {
+            "encounter": encounter,
+            "remembered_enemies": 0,
+            "nemesis_enemies": 0,
+            "knowledge_profiles": 0,
+            "required_nemesis_entity_id": str(room.get("nemesis_entity_id", "")),
+            "required_nemesis_resolved": str(room.get("nemesis_entity_id", "")) == ""
+        }
 
     var actors: Array = (actors_value as Array).duplicate(true)
     for index in range(actors.size()):
@@ -149,15 +165,36 @@ func _assemble_encounter_actors(room: Dictionary, encounter: Dictionary, context
         actors[index] = actor
 
     var forced_nemesis_id: String = str(room.get("nemesis_entity_id", ""))
+    var forced_result: Dictionary = {"resolved": forced_nemesis_id == "", "index": -1, "species_id": ""}
     if forced_nemesis_id != "":
-        _inject_specific_entity(actors, forced_nemesis_id)
+        forced_result = _inject_specific_entity(actors, forced_nemesis_id)
+        if not bool(forced_result.get("resolved", false)):
+            var required_species_id: String = str(room.get("nemesis_species_id", forced_result.get("species_id", "")))
+            _lock_required_species_slot(actors, required_species_id, forced_nemesis_id)
 
     var battle_context: Dictionary = {
         "combat_id": str(context.get("combat_id", encounter.get("template_id", room.get("id", "")))),
         "zone_id": str(context.get("zone_id", context.get("dungeon_id", ""))),
         "region_id": str(context.get("region_id", context.get("act_id", encounter.get("act_id", ""))))
     }
-    world_director.call("prepare_battle", actors, battle_context)
+
+    # Une identité explicitement imposée par une Rémanence de salle ne doit jamais être
+    # remplacée par le candidat générique le mieux classé de la même espèce. On ne passe
+    # au directeur générique que les emplacements qui ne sont pas verrouillés.
+    var generic_actors: Array = []
+    var generic_indices: Array[int] = []
+    for index in range(actors.size()):
+        if not (actors[index] is Dictionary):
+            continue
+        var actor: Dictionary = actors[index]
+        if bool(actor.get("remanence_identity_locked", false)):
+            continue
+        generic_indices.append(index)
+        generic_actors.append(actor)
+    if not generic_actors.is_empty():
+        world_director.call("prepare_battle", generic_actors, battle_context)
+        for generic_index in range(generic_indices.size()):
+            actors[generic_indices[generic_index]] = generic_actors[generic_index]
 
     var remembered_count: int = 0
     var nemesis_count: int = 0
@@ -184,22 +221,29 @@ func _assemble_encounter_actors(room: Dictionary, encounter: Dictionary, context
         knowledge_count += 1
         actors[index] = actor
 
+    var forced_resolved: bool = bool(forced_result.get("resolved", forced_nemesis_id == ""))
     encounter["actors"] = actors
     encounter["room_persistence_applied"] = true
     encounter["remembered_enemy_count"] = remembered_count
     encounter["nemesis_enemy_count"] = nemesis_count
     encounter["knowledge_profile_count"] = knowledge_count
+    encounter["required_nemesis_entity_id"] = forced_nemesis_id
+    encounter["required_nemesis_resolved"] = forced_resolved
+    if forced_nemesis_id != "" and not forced_resolved:
+        encounter["persistence_blocked_reason"] = "required_nemesis_identity_unresolved"
     return {
         "encounter": encounter,
         "remembered_enemies": remembered_count,
         "nemesis_enemies": nemesis_count,
-        "knowledge_profiles": knowledge_count
+        "knowledge_profiles": knowledge_count,
+        "required_nemesis_entity_id": forced_nemesis_id,
+        "required_nemesis_resolved": forced_resolved
     }
 
-func _inject_specific_entity(actors: Array, entity_id: String) -> bool:
+func _inject_specific_entity(actors: Array, entity_id: String) -> Dictionary:
     var record: Dictionary = RemanenceRuntime.entity_state(entity_id)
     if record.is_empty() or str(record.get("status", "active")) != "active":
-        return false
+        return {"resolved": false, "index": -1, "species_id": str(record.get("species_id", ""))}
     var species_id: String = str(record.get("species_id", ""))
     for index in range(actors.size()):
         if not (actors[index] is Dictionary):
@@ -208,9 +252,27 @@ func _inject_specific_entity(actors: Array, entity_id: String) -> bool:
         if str(actor.get("species_id", actor.get("species", ""))) != species_id:
             continue
         world_director.call("apply_entity_memory_to_enemy", actor, entity_id)
+        actor["remanence_identity_locked"] = true
+        actor["required_remanence_id"] = entity_id
+        actor["required_remanence_resolved"] = true
         actors[index] = actor
-        return true
-    return false
+        return {"resolved": true, "index": index, "species_id": species_id}
+    return {"resolved": false, "index": -1, "species_id": species_id}
+
+func _lock_required_species_slot(actors: Array, species_id: String, entity_id: String) -> void:
+    if species_id == "":
+        return
+    for index in range(actors.size()):
+        if not (actors[index] is Dictionary):
+            continue
+        var actor: Dictionary = actors[index]
+        if str(actor.get("species_id", actor.get("species", ""))) != species_id:
+            continue
+        actor["remanence_identity_locked"] = true
+        actor["required_remanence_id"] = entity_id
+        actor["required_remanence_resolved"] = false
+        actors[index] = actor
+        return
 
 func _matching_active_scars(room: Dictionary) -> Array[Dictionary]:
     var result: Array[Dictionary] = []
@@ -288,6 +350,17 @@ func _apply_scar_effect(room: Dictionary, scar: Dictionary, effect: Dictionary) 
     var scar_type: String = str(scar.get("type", ""))
     if scar_type == "persistent_corpse":
         room["corpse_interaction_available"] = true
+    elif scar_type == "nemesis_mark":
+        var payload: Dictionary = scar.get("payload", {})
+        var entity_id: String = str(payload.get("nemesis_entity_id", scar.get("origin_entity_id", payload.get("origin_entity_id", ""))))
+        if entity_id != "":
+            room["nemesis_entity_id"] = entity_id
+            room["nemesis_required"] = true
+            room["nemesis_scar_id"] = str(scar.get("id", ""))
+            var entity: Dictionary = RemanenceRuntime.entity_state(entity_id)
+            var species_id: String = str(entity.get("species_id", payload.get("species_id", "")))
+            if species_id != "":
+                room["nemesis_species_id"] = species_id
 
 func _proxy_budget(device_profile: String) -> Dictionary:
     var key: String = "pc_proxy_budget" if _is_pc_profile(device_profile) else "mobile_proxy_budget"
