@@ -116,7 +116,8 @@ func _run() -> void:
     _check(str(reaction_profile.get("effect", "")) == "resolver_required", "Retour sanguin must remain an automatic reaction hook rather than a manual action")
     _check(not bool(reaction_profile.get("manual_combat_usable", true)), "Hemocorde reactions must never become manual buttons")
     var ultimate := VeilleursSkillResolverRouter.ultimate_contract(aisha, "hemocorde")
-    _check(str(ultimate.get("status", "")) == "required", "Le Dernier Battement must remain on the dedicated ultimate sequence contract")
+    _check(str(ultimate.get("status", "")) == "implemented", "Le Dernier Battement must now use its dedicated implemented ultimate sequence")
+    _check(str(ultimate.get("entrypoint", "")) == "VeilleursUltimateRuntime.resolve", "Le Dernier Battement must remain outside normal Hemocorde action resolution")
 
     _finish(original_ids)
 
