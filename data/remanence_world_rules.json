@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "corpse_policy": {
     "watcher_corpses_always_persist": true,
     "enemy_minimum_stage": "memorial",
@@ -127,6 +127,46 @@
       "environment_tags": ["missing_relic"],
       "resource_state": "removed",
       "may_change_navigation": false
+    }
+  },
+  "aging_presentations": {
+    "persistent_corpse": {
+      "fresh": {"representation": "fresh_body", "environment_tags": ["corpse_fresh"], "interactive": true},
+      "weathered": {"representation": "decomposed_body", "environment_tags": ["corpse_decomposing"], "interactive": true},
+      "remnant": {"representation": "skeletal_remains", "environment_tags": ["corpse_bones"], "interactive": true},
+      "archive": {"representation": "memory_trace", "environment_tags": ["corpse_trace"], "interactive": false}
+    },
+    "old_blood": {
+      "fresh": {"representation": "wet_blood", "environment_tags": ["blood_fresh"], "visible": true},
+      "weathered": {"representation": "darkened_blood", "environment_tags": ["blood_darkened"], "visible": true},
+      "remnant": {"representation": "dry_stain", "environment_tags": ["blood_stain"], "visible": true},
+      "archive": {"representation": "washed_away", "environment_tags": [], "visible": false}
+    },
+    "burned_area": {
+      "fresh": {"representation": "fresh_burn", "environment_tags": ["burn_fresh"], "visible": true},
+      "weathered": {"representation": "weathered_soot", "environment_tags": ["burn_soot"], "visible": true},
+      "remnant": {"representation": "fire_scar", "environment_tags": ["burn_scar"], "visible": true},
+      "archive": {"representation": "faint_fire_trace", "environment_tags": ["burn_faint"], "visible": false}
+    },
+    "major_item_removed": {
+      "fresh": {"representation": "recent_absence", "environment_tags": ["object_recently_missing"], "visible": true},
+      "weathered": {"representation": "remembered_absence", "environment_tags": ["object_missing_memory"], "visible": true},
+      "remnant": {"representation": "historic_absence", "environment_tags": ["object_missing_history"], "visible": true},
+      "archive": {"representation": "archived_absence", "environment_tags": ["object_missing_archive"], "visible": false}
+    },
+    "nemesis_mark": {
+      "fresh": {"representation": "fresh_nemesis_mark", "environment_tags": ["nemesis_mark_fresh"], "visible": true},
+      "weathered": {"representation": "weathered_nemesis_mark", "environment_tags": ["nemesis_mark_weathered"], "visible": true},
+      "remnant": {"representation": "historic_nemesis_mark", "environment_tags": ["nemesis_mark_historic"], "visible": true},
+      "archive": {"representation": "legendary_nemesis_mark", "environment_tags": ["nemesis_mark_legendary"], "visible": true}
+    }
+  },
+  "special_presentations": {
+    "watcher_great_remanence_grave": {
+      "representation": "memorial_grave",
+      "environment_tags": ["watcher_grave", "great_remanence"],
+      "interactive": true,
+      "visible": true
     }
   },
   "great_remanence": {
