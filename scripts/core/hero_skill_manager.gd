@@ -104,8 +104,8 @@ func can_unlock(hero: Dictionary, skill_id: String) -> bool:
     if branch == "": return false
     if VeilleursSkillCatalog.is_watcher(hero):
         if specialization != "" and specialization != branch: return false
-    elif not multi_tree_enabled() and specialization != "" and specialization != branch:
-        return false
+    else:
+        if not multi_tree_enabled() and specialization != "" and specialization != branch: return false
     var node: Dictionary = _node(hero, skill_id)
     if node.is_empty() or not bool(node.get("available_in_current_release", false)): return false
     if hero.get("unlocked_skills", []).has(skill_id): return false
