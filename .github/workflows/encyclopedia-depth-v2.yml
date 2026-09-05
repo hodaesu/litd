@@ -15,6 +15,9 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+          cache: pip
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
       - name: Audit encyclopedia depth V2
         run: python -m tools.qa.encyclopedia_depth_v2_audit
       - name: Contract tests encyclopedia depth V2
