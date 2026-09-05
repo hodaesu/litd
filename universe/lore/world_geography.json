@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.0.0",
+  "id": "world_geography",
+  "status": "core_topology_locked_metric_cartography_open",
+  "dating_reference": "chute_year_zero",
+  "purpose": "Relier les lieux, routes, régions, cultures et couches historiques de LITD Universe sans transformer une carte d'époque en géographie éternelle.",
+  "cartographic_rules": {
+    "map_is_historical_source": true,
+    "single_eternal_political_map": false,
+    "political_border_is_geological_truth": false,
+    "city_is_single_language": false,
+    "region_is_ethnicity": false,
+    "civilization_is_biological_homeland": false,
+    "two_authentic_maps_may_conflict": true,
+    "map_must_carry_period_or_provenance": true,
+    "exact_coordinates_locked": false,
+    "exact_distances_locked": false,
+    "final_coastline_locked": false,
+    "post_fall_external_world_complete_map_known": false,
+    "design_rule": "La topologie, les fonctions géographiques et les relations historiques peuvent être canoniques avant que les coordonnées, distances et silhouettes de côtes soient figées par la cartographie artistique."
+  },
+  "macro_world": {
+    "main_concorde_continent": {
+      "diegetic_continent_name": null,
+      "name_status": "open",
+      "description": "Principal espace continental suivi de la Dernière Guerre à la Concorde, aux Veilleurs, au Projet Seuil puis à la Terre des Cendres.",
+      "historical_layers": ["ancient_civilizations", "great_closure", "last_war", "post_sarn_concorde", "mature_concorde", "project_threshold", "post_fall"],
+      "not_uniform": true
+    },
+    "external_regions_and_continents": {
+      "exist": true,
+      "pre_fall_contact": true,
+      "project_threshold_participation": true,
+      "complete_layout_locked": false,
+      "post_fall_complete_state": "intentionally_bounded_unknown",
+      "guardrail": "Aucune région extérieure n'est la cause morale unique de la Chute et aucune population n'hérite d'une culpabilité collective."
+    },
+    "terre_des_cendres": {
+      "kind": "post_fall_historical_and_affective_region_name",
+      "starts_after_year": 0,
+      "covers_every_surface_uniformly": false,
+      "meaning": "Désignation progressivement appliquée aux espaces profondément marqués par ruines, poussières, incendies, sols dégradés, routes brisées et perte des anciennes catégories politiques.",
+      "map_rule": "La Terre des Cendres ne doit pas être représentée comme un désert de cendre homogène."
+    }
+  },
+  "ancient_geography": {
+    "principle": "Les sept civilisations se chevauchent dans l'espace et le temps. Leurs zones d'influence sont des couches historiques, pas sept territoires éternellement séparés.",
+    "known_anchors": [
+      {"id":"fond_de_nhal","name":"Fond de Nhal","linked_civilization":"ashai_de_nhal","kind":"research_and_trace_site","location_precision":"regional_only","facts":["lieu de la Première Rupture vers -3700","présence d'installations liées aux Chambres de Trace"]},
+      {"id":"reseau_des_seuils","name":"Réseau des Seuils","linked_civilization":"or_silex","kind":"distributed_infrastructure","location_precision":"distributed","facts":["réseau multi-site","plusieurs fragments survivent après la fin politique d'Or-Silex","la Grande Fermeture sectionne une partie de ses connexions"]},
+      {"id":"noeud_de_saan","name":"Nœud de Saan sous l'Arbre du Premier Voile","linked_civilization":"saan","kind":"class_v_watch_site","location_precision":"site_known_region_open","facts":["site volontairement non activé","classé plus tard sous veille permanente","n'est pas un Sanctuaire des Trois Éveils"]},
+      {"id":"dhal","name":"Dhal","linked_civilization":null,"kind":"great_closure_disaster_site","location_precision":"regional_only","facts":["312 disparus","19 retours","mécanisme volontairement non résolu"]},
+      {"id":"var_silem","name":"Var-Silem","linked_civilization":null,"kind":"three_incidents_site","location_precision":"open","facts":["l'un des Trois Incidents précédant la Grande Fermeture"]},
+      {"id":"esh","name":"Esh","linked_civilization":null,"kind":"three_incidents_site","location_precision":"open","facts":["lieu associé aux Dormeurs d'Esh"]}
+    ],
+    "open_fields": ["capitales exactes des sept civilisations","frontières par siècle","réseaux côtiers de Lyr-Mar","réserves d'Ydris","principaux centres sahm-iriens","géographie interne de Vaor-Khal"]
+  },
+  "last_war_geography": {
+    "date_window": [-1128, -1112],
+    "political_spaces": [
+      {"id":"last_war.azravel","name":"Azravel","kind":"political_power","terrain_profile":"not_locked_by_core_geography","geographic_role":"bloc politique participant aux tensions pré-guerre"},
+      {"id":"last_war.erhal","name":"Ligue d'Erhal","kind":"merchant_confederation","terrain_profile":"route_and_trade_network","geographic_role":"espace de cités marchandes dont la puissance dépend des corridors"},
+      {"id":"last_war.kharad","name":"Kharad","kind":"territorial_power","terrain_profile":"not_locked_by_core_geography","geographic_role":"puissance territoriale et militaire soucieuse de ses frontières"},
+      {"id":"last_war.sarn","name":"République de Sarn","kind":"urban_republic","terrain_profile":"major_urban_pivot","geographic_role":"cité de médiation devenue point de convergence finale de la guerre"},
+      {"id":"last_war.namar","name":"États de Namar","kind":"agricultural_river_states","terrain_profile":"agricultural_and_fluvial","geographic_role":"espace fragmenté essentiel au grain, aux fleuves et aux routes"},
+      {"id":"last_war.odran","name":"Couronne d'Odran","kind":"maritime_monarchy","terrain_profile":"ports_and_maritime_routes","geographic_role":"puissance maritime contrôlant flotte et échanges longue distance"}
+    ],
+    "battle_corridor": [
+      {"order":1,"id":"passage_de_tal","name":"Passage de Tal","kind":"mountain_corridor","relation":"entre zones d'influence de Kharad et d'Erhal","importance":"contrôle de passage et premier affrontement symbolique"},
+      {"order":2,"id":"vergers_rouges","name":"Les Vergers Rouges","kind":"agricultural_belt","relation":"région de Namar","importance":"grenier, récoltes et illusion de guerre courte"},
+      {"order":3,"id":"vesh","name":"Vesh","kind":"river_crossing_and_supply_node","relation":"grand pont fluvial","importance":"croisement armées, réfugiés, blessés et nourriture"},
+      {"order":4,"id":"dareth","name":"Dareth — Quartier Silencieux","kind":"border_city","relation":"ville ayant changé plusieurs fois d'autorité","importance":"survivants, détentions et preuves contradictoires"},
+      {"order":5,"id":"camp_blanc","name":"Camp Blanc","kind":"refugee_camp_on_former_fairground","relation":"grand espace de déplacement civil","importance":"rumeur, information partielle et ordre public"},
+      {"order":6,"id":"amar","name":"Amar","kind":"fortified_evacuating_valley","relation":"position couvrant une vallée en évacuation","importance":"tenir assez longtemps sans sacrifier automatiquement la garnison"},
+      {"order":7,"id":"marche_des_cendres","name":"Marché des Cendres","kind":"former_trade_crossroads","relation":"zone d'échanges de prisonniers et marché noir","importance":"réseaux civils transfrontaliers"},
+      {"order":8,"id":"sarn_three_bells","name":"Faubourgs de Sarn — Trois Cloches","kind":"urban_periphery","relation":"trois quartiers, voies de fuite, dépôt d'archives et centre de décision","importance":"entrée dans la Nuit de Sarn"}
+    ],
+    "map_truth": "Les cartes militaires de la Dernière Guerre doivent être datées par phase; les fronts des Fronts Brisés ne constituent pas des frontières durables."
+  },
+  "concorde_geography": {
+    "period": [-1050, 0],
+    "political_form": "network_not_unitary_state",
+    "principle": "La Concorde relie communautés, routes, fleuves, ports, Sanctuaires, cours de passage et réserves communes sans supprimer les géographies locales.",
+    "six_reference_cities": [
+      {
+        "id":"jian_lu","name":"Jian-Lu — Cité des Ponts","environment":"grande cité fluviale sur des îles","built_form":["terrasses fluviales","ponts de pierre et de bois","ponts habités","quais étagés","marchés couverts","jardins suspendus"],"regional_network":["communautés de passeurs","agriculture de rive","digues et quais","routes fluviales"],"major_flows":["denrées","personnes","langues","assurances de cargaisons","informations"],"known_relations":["échanges avec Sorye","échanges avec Dhor-Khal","soutien fréquent à Orun-Saï","tensions sur certaines voies commerciales avec Lhaor et Tessen"],"exact_coordinates":null
+      },
+      {
+        "id":"sorye","name":"Sorye — Cité des Cent Écoles","environment":"terrain exact encore ouvert; organisation urbaine en terrasses confirmée","built_form":["bibliothèques en terrasses","cours d'étude","observatoires","ateliers","amphithéâtres","jardins de méditation","archives souterraines"],"regional_network":["écoles","médecine","archives","formation de médiateurs"],"major_flows":["étudiants","juristes","soignants","copies","instruments scientifiques"],"known_relations":["partenaire de savoir de Jian-Lu","débats réguliers avec Dhor-Khal"],"exact_coordinates":null
+      },
+      {
+        "id":"dhor_khal","name":"Dhor-Khal — Cité de la Forge Commune","environment":"falaises, mines et hauts plateaux","built_form":["fortifications basses","halls de forge","canaux hydrauliques","ateliers collectifs","ponts suspendus","places d'entraînement"],"regional_network":["villages de carrières","mines","charbonnage et foresterie","ateliers satellites","transport lourd"],"major_flows":["métaux","outils","armures","machines de levage","maintenance"],"known_relations":["dépend des échanges de Jian-Lu","dépend de ressources forestières gérées autour de Lhaor","débat technique avec Sorye"],"exact_coordinates":null
+      },
+      {
+        "id":"lhaor","name":"Lhaor — Cité-Jardin","environment":"vallée forestière","built_form":["quartiers dispersés","vergers","canaux","pierre claire","bois vivant","toitures végétalisées","passerelles contournant les arbres anciens"],"regional_network":["communautés de semences","agriculture spécialisée","médecine végétale","gestion forestière"],"major_flows":["semences","plantes médicinales","fibres","bois géré","savoir écologique"],"known_relations":["arbitrages récurrents avec Dhor-Khal sur l'extraction","arbitrages avec Jian-Lu sur l'extension des voies"],"exact_coordinates":null
+      },
+      {
+        "id":"tessen","name":"Tessen — Cité des Mille Voix","environment":"terrain exact encore ouvert; urbanisme polycentrique confirmé","built_form":["petites places civiques","maisons communautaires","salles circulaires","marchés de quartier","absence de centre monumental unique"],"regional_network":["anneaux artisanaux et agricoles","marchés périodiques","quartiers autonomes"],"major_flows":["textile","alimentation","services civiques","artisanat","débats et délégations"],"known_relations":["défend la subsidiarité","résiste aux extensions durables du pouvoir continental"],"exact_coordinates":null
+      },
+      {
+        "id":"orun_sai","name":"Orun-Saï — Cité du Seuil","environment":"grand nœud terrestre sur des routes vers des régions extérieures au cœur de la Concorde","built_form":["portes monumentales non royales","caravansérails","jardins d'accueil","postes de soin","maisons de médiation","entrepôts de secours"],"regional_network":["caravanes","relais","routes de refuge","élevage et transport","médiation de passage"],"major_flows":["voyageurs","marchandises lointaines","traductions","migrations","informations de route"],"known_relations":["soutenue fréquemment par Jian-Lu","point de friction sur le coût commun des politiques d'accueil"],"exact_coordinates":null
+      }
+    ],
+    "sanctuary_distribution": {
+      "centralized_in_one_city": false,
+      "regional_forms_vary": true,
+      "functions_influence_location": ["routes","soins","archives","formation","médiation","veille de sites dangereux"],
+      "not_all_sanctuaries_identical": true
+    },
+    "rural_mobile_links": ["réseau fluvial de Jian-Lu","bassin jardinier de Lhaor","villages-ateliers de Dhor-Khal","anneaux artisanaux-agricoles de Tessen","réseaux caravaniers d'Orun-Saï","réseaux pastoraux transhumants transrégionaux"]
+  },
+  "external_geography_reconciliation": {
+    "principle": "Les anciens fichiers décrivent Varkhane, une Namar maritime, Azravel et Kor-Em comme puissances extérieures tardives. Le core canon récent utilise aussi Namar et Azravel comme noms politiques pendant la Dernière Guerre. La continuité exacte entre ces occurrences ne doit pas être inventée rétroactivement.",
+    "records": [
+      {"name":"Varkhane","late_register":"vaste empire continental extérieur","core_status":"existing_enrichment","exact_relation_to_main_continent":"open","post_fall_state":"partially_known_only"},
+      {"name":"Kor-Em","late_register":"confédération de principautés, académies et cités savantes","core_status":"existing_enrichment","exact_relation_to_main_continent":"open","post_fall_state":"partially_known_only"},
+      {"name":"Namar","last_war_record":"États agricoles et fluviaux de Namar","late_external_record":"thalassocratie de cités portuaires et d'îles","continuity_status":"requires_dedicated_lineage_reconciliation","rule":"Ne pas supposer identité politique inchangée, homonymie pure ou filiation directe sans futur verrou."},
+      {"name":"Azravel","last_war_record":"puissance théocratique pluraliste","late_external_record":"royaume sacré théocratique","continuity_status":"requires_dedicated_lineage_reconciliation","rule":"Une continuité culturelle est plausible mais une continuité étatique millénaire n'est pas automatiquement canonique."}
+    ],
+    "post_fall_guardrail":"L'état complet de toutes les régions extérieures après l'an 0 demeure volontairement inconnu."
+  },
+  "map_history": [
+    {"id":"closure_red_maps","era":"great_closure","purpose":"localiser, classer et traiter sites dangereux","truth_rule":"les cartes évoluent pendant les opérations et peuvent omettre volontairement certains sites sensibles"},
+    {"id":"three_maps_war","era":"heritages","purpose":"revendications territoriales","truth_rule":"trois cartes authentiques de périodes différentes deviennent faussement exclusives lorsqu'elles sont lues sans date"},
+    {"id":"last_war_operational_maps","era":"last_war","purpose":"routes, fronts, ravitaillement et évacuations","truth_rule":"forte obsolescence; carte correcte un jour peut devenir dangereuse quelques semaines plus tard"},
+    {"id":"concorde_passage_maps","era":"concorde","purpose":"circulation, arbitrage, eau, secours et droits de passage","truth_rule":"privilégient réseaux et responsabilités plutôt qu'une frontière politique unique"},
+    {"id":"project_threshold_network_maps","era":"late_concorde","purpose":"nœuds physiques, partenaires et connexions du Projet Seuil","truth_rule":"aucune équipe ne possède une vue parfaitement complète du système distribué"},
+    {"id":"post_fall_recovery_maps","era":"litd1","purpose":"eau, refuges, ruines, routes encore praticables, dangers et archives","truth_rule":"la connaissance locale récente peut valoir davantage qu'une carte pré-Chute précise mais obsolète"}
+  ],
+  "post_fall_geography": {
+    "period_focus": [0,35],
+    "network_state":"fragmented_but_not_empty",
+    "reliable_anchors":["Sanctuaires survivants","sources d'eau","réserves locales","routes réparables","ponts et cols encore contrôlables","villages et hubs reconstruits","ruines utilisées comme repères"],
+    "unstable_features":["routes coupées","zones de Manifestation","effondrements","incendies persistants","sols dégradés","anciens relais du Projet Seuil","cartes rendues fausses par les destructions"],
+    "social_geography":"Les nouvelles frontières suivent souvent sécurité, eau, ravitaillement et capacité de soin plus que les anciennes limites politiques.",
+    "litd1_campaign_center":24,
+    "external_world_map":"unknown_by_design"
+  },
+  "gameplay_translation": {
+    "map_is_never_omniscient": true,
+    "player_can_compare_map_layers": true,
+    "local_knowledge_can_correct_archive": true,
+    "route_can_change_between_runs": true,
+    "persistent_region_scars_can_change_navigation": true,
+    "geography_can_be_knowledge_remanence_source": true,
+    "valid_source_types":["carte datée","borne","pont","trace de route","journal de voyage","registre de péage","carte corrigée","témoignage de passeur","mémoire de caravane","itinéraire animal observé"],
+    "forbidden_shortcuts":["GPS omniscient diégétique","frontière éternelle sans date","couleur de carte assimilée à une ethnie","carte post-Chute parfaite des régions extérieures"]
+  },
+  "open_cartography": [
+    "nom diégétique du continent principal",
+    "coordonnées exactes des six grandes cités",
+    "distances de voyage finales",
+    "orientation cardinale définitive de chaque cité",
+    "silhouette exacte des côtes",
+    "réseau hydrographique complet",
+    "chaînes montagneuses nommées hors lieux déjà établis",
+    "frontières par décennie de la Dernière Guerre",
+    "emplacement précis de la majorité des sites de Grande Fermeture",
+    "géographie complète des régions et continents extérieurs",
+    "état cartographique extérieur après la Chute"
+  ],
+  "sources": [
+    "data/canonical_history.json",
+    "data/canon/ancient_periods_and_mysteries.json",
+    "data/canon/last_war.json",
+    "data/canon/last_war_battles.json",
+    "data/canon/post_sarn_concorde.json",
+    "data/canon/project_threshold_and_fall.json",
+    "data/canon/post_fall_litd1.json",
+    "docs/CONCORDE_MONDE_POLITIQUE.md",
+    "universe/lore/living_cultures.json",
+    "universe/lore/rural_nomadic_cultures.json",
+    "universe/lore/regional_martial_schools.json",
+    "universe/lore/artistic_musical_traditions.json"
+  ]
+}
