@@ -183,7 +183,7 @@ static func _build_watcher_relationships(record: Dictionary, killed_watchers: Ar
         else:
             for fallen_id: String in killed_watchers:
                 var bond: Dictionary = (hero.get("relationships", {}) as Dictionary).get(fallen_id, {})
-                resentment += 8 + int(bond.get("trust", 0)) / 8 + int(bond.get("admiration", 0)) / 10
+                resentment += 8 + int(float(bond.get("trust", 0)) / 8.0) + int(float(bond.get("admiration", 0)) / 10.0)
             resentment = mini(85, resentment)
         if not relic_ids.is_empty():
             resentment = mini(100, resentment + 5)
