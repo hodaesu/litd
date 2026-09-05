@@ -15,6 +15,7 @@ const VEILLEURS_QUARTET_PATH := "res://data/canon/les_veilleurs_quartet.json"
 const PROJECT_THRESHOLD_PATH := "res://data/canon/project_threshold_and_fall.json"
 const POST_FALL_PATH := "res://data/canon/post_fall_litd1.json"
 const COMPLETION_PATH := "res://data/canon/lore_completion_manifest.json"
+const WORLD_GEOGRAPHY_PATH := "res://universe/lore/world_geography.json"
 
 static func _load_json(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
@@ -72,6 +73,9 @@ static func post_fall_litd1() -> Dictionary:
 static func completion_manifest() -> Dictionary:
     return _load_json(COMPLETION_PATH)
 
+static func world_geography() -> Dictionary:
+    return _load_json(WORLD_GEOGRAPHY_PATH)
+
 static func master_chronology() -> Array[Dictionary]:
     var result: Array[Dictionary] = []
     var values: Variant = completion_manifest().get("master_chronology", [])
@@ -116,6 +120,40 @@ static func mystery(mystery_id: String) -> Dictionary:
             if str(item.get("id", "")) == mystery_id:
                 return item.duplicate(true)
     return {}
+
+static func concorde_city(city_id: String) -> Dictionary:
+    var geography: Dictionary = world_geography()
+    var concorde: Variant = geography.get("concorde_geography", {})
+    if concorde is not Dictionary:
+        return {}
+    var values: Variant = concorde.get("six_reference_cities", [])
+    if values is Array:
+        for value: Variant in values:
+            var item: Dictionary = value if value is Dictionary else {}
+            if str(item.get("id", "")) == city_id:
+                return item.duplicate(true)
+    return {}
+
+static func historical_battle_locations() -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
+    var geography: Dictionary = world_geography()
+    var war: Variant = geography.get("last_war_geography", {})
+    if war is not Dictionary:
+        return result
+    var values: Variant = war.get("battle_corridor", [])
+    if values is Array:
+        for value: Variant in values:
+            if value is Dictionary:
+                result.append(value.duplicate(true))
+    return result
+
+static func geography_open_cartography() -> Array[String]:
+    var result: Array[String] = []
+    var values: Variant = world_geography().get("open_cartography", [])
+    if values is Array:
+        for value: Variant in values:
+            result.append(str(value))
+    return result
 
 static func effective_pending_lore_topics() -> Array[String]:
     # The historical file can preserve old pending lists for traceability.
