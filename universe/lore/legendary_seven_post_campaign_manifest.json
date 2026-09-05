@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.1.0",
+  "id": "legendary_seven_post_campaign_manifest",
+  "status": "explicit_canon_decision_precedence",
+  "primary_source": "universe/lore/legendary_seven_post_campaign_fates.json",
+  "source_precedence": {
+    "supersedes_only": [
+      "legendary_seven_biographies.rules.post_campaign_fates_are_not_invented",
+      "legendary_seven_biographies.heroes[*].fate_after_campaign=open",
+      "legendary_seven_biographies.remaining_open: destins après la campagne"
+    ],
+    "preserves": [
+      "formation order",
+      "all established body injuries and functional consequences",
+      "all existing relationship axes",
+      "romance not inferred from trust",
+      "Anouk La Trame origin unconfirmed",
+      "all protected unknowns of Èffrie and her tribe",
+      "legendary status acquired rather than predestined",
+      "ordinary collaborators remain part of history"
+    ],
+    "rule": "The older biography file remains the source of the formation-era biographical spine. Its open post-campaign placeholders are now intentionally resolved by the dedicated post-campaign file and are not treated as contradictory canon."
+  },
+  "resolution_level": "trajectory_and_legacy_locked_final_death_and_late_endpoint_open",
+  "death_dates_locked": false,
+  "romances_locked_by_this_pass": false,
+  "future_story_space_preserved": true,
+  "complete": true
+}
