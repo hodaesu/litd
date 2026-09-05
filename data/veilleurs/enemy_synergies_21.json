@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "source": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx/Synergies_ennemis",
+  "synergy_count": 21,
+  "synergies": [
+    {"id":"syn_i_delie_mass_hunger","act_id":"I","species":["Délié Boursouflé","Délié Affamé"],"strength":3,"mechanic":"Le Boursouflé bloque/comprime; l’Affamé cible le blessé rendu accessible.","counterplay":"Briser la ligne ou déplacer le Boursouflé avant de laisser une cible faible derrière."},
+    {"id":"syn_i_fendu_censor_flagellant","act_id":"I","species":["Censeur Fendu","Flagellant Fendu"],"strength":3,"mechanic":"Le Censeur punit les préparations; le Flagellant profite des échanges répétés.","counterplay":"Changer de rythme et cibler le Censeur en priorité."},
+    {"id":"syn_i_stone_threshold_execution","act_id":"I","species":["Sentinelle du Seuil","Exécuteur de Pierre"],"strength":3,"mechanic":"La Sentinelle immobilise le passage; l’Exécuteur prépare la frappe lourde.","counterplay":"Créer une voie alternative ou casser l’ancrage avant la frappe."},
+    {"id":"syn_i_soot_mark_collision","act_id":"I","species":["Traque-Suie","Brise-Os de Suie"],"strength":3,"mechanic":"Traque-Suie fixe/marque; Brise-Os convertit l’alignement en collision/fracture.","counterplay":"Rompre la marque, changer d’axe, utiliser un obstacle."},
+    {"id":"syn_i_censor_threshold","act_id":"I","species":["Censeur Fendu","Sentinelle du Seuil"],"strength":2,"mechanic":"Contrôle simultané des intentions et du passage.","counterplay":"Utiliser une action simple/universelle pour ouvrir la ligne."},
+    {"id":"syn_ii_sign_walker","act_id":"II","species":["Porte-Signe","Marcheur Aphone"],"strength":3,"mechanic":"Le soutien désigne la cible à isoler; le Marcheur saisit et coupe la formation.","counterplay":"Neutraliser les mains du Porte-Signe ou permuter avant saisie."},
+    {"id":"syn_ii_listener_breath","act_id":"II","species":["Écouteur Creux","Reteneur de Souffle"],"strength":3,"mechanic":"L’Écouteur suit mouvement/respiration; le Reteneur charge une décharge sur cible prévisible.","counterplay":"Limiter le mouvement inutile, puis interrompre la charge."},
+    {"id":"syn_ii_sign_breath","act_id":"II","species":["Porte-Signe","Reteneur de Souffle"],"strength":3,"mechanic":"Une charge sans signal sonore devient très fiable grâce aux gestes.","counterplay":"Lire les mains plutôt que le son."},
+    {"id":"syn_ii_listener_walker","act_id":"II","species":["Écouteur Creux","Marcheur Aphone"],"strength":2,"mechanic":"L’Écouteur révèle la cible cachée; le Marcheur ferme la distance.","counterplay":"Couverture physique + contrôle de rang."},
+    {"id":"syn_iii_blood_node","act_id":"III","species":["Porte-Sang","Nœud-Écorché"],"strength":3,"mechanic":"Le Porte-Sang redistribue les pertes; le Nœud transforme le temps gagné en sustain.","counterplay":"Couper le lien avant de frapper le Nœud."},
+    {"id":"syn_iii_seed_node","act_id":"III","species":["Germe Artériel","Nœud-Écorché"],"strength":3,"mechanic":"Le Nœud fixe les Veilleurs pendant que les germes mûrissent.","counterplay":"Détruire/neutraliser les germes précocement."},
+    {"id":"syn_iii_vein_blood","act_id":"III","species":["Veine Rampante","Porte-Sang"],"strength":3,"mechanic":"La Veine ouvre les plaies; le Porte-Sang exploite les pertes circulatoires.","counterplay":"Protéger les plaies et casser le réseau."},
+    {"id":"syn_iii_vein_seed","act_id":"III","species":["Veine Rampante","Germe Artériel"],"strength":2,"mechanic":"Le réseau facilite le déplacement autour des germes.","counterplay":"Créer une zone sèche/non vascularisée."},
+    {"id":"syn_iv_shroud_eraser","act_id":"IV","species":["Porte-Linceul","Effaceur de Traces"],"strength":3,"mechanic":"Le Linceul cache; l’Effaceur retire les informations déjà acquises.","counterplay":"Créer des repères physiques persistants et déplacer la source de lumière."},
+    {"id":"syn_iv_march_sleeper","act_id":"IV","species":["Marche-Pâle","Dormeur de Cendre"],"strength":3,"mechanic":"La procession compresse le groupe vers la zone de réveil du Dormeur.","counterplay":"Refuser la compression et choisir le moment du réveil."},
+    {"id":"syn_iv_shroud_sleeper","act_id":"IV","species":["Porte-Linceul","Dormeur de Cendre"],"strength":2,"mechanic":"Le voile masque l’état dormant et son axe de réveil.","counterplay":"Observer le terrain plutôt que la silhouette."},
+    {"id":"syn_iv_march_eraser","act_id":"IV","species":["Marche-Pâle","Effaceur de Traces"],"strength":2,"mechanic":"La pression de rang force des décisions rapides tandis que les marques disparaissent.","counterplay":"Conserver un plan simple et des cicatrices de terrain."},
+    {"id":"syn_v_archivist_copy","act_id":"V","species":["Archiviste de Version","Copie Lacunaire"],"strength":3,"mechanic":"L’Archiviste corrige les mauvaises copies en mémorisant les familles d’actions.","counterplay":"Varier volontairement les familles d’action."},
+    {"id":"syn_v_rature_double","act_id":"V","species":["Rature Vivante","Double du Seuil"],"strength":3,"mechanic":"La Rature corrige le terrain pour maintenir la symétrie du Double.","counterplay":"Créer deux ruptures simultanées que la Rature ne peut corriger à la fois."},
+    {"id":"syn_v_archivist_double","act_id":"V","species":["Archiviste de Version","Double du Seuil"],"strength":3,"mechanic":"Le Double imite; l’Archiviste fournit les réponses aux actions déjà vues.","counterplay":"Leurrer avec une action faible puis changer de logique."},
+    {"id":"syn_v_copy_rature","act_id":"V","species":["Copie Lacunaire","Rature Vivante"],"strength":2,"mechanic":"La Rature efface les états qui rendent la mauvaise copie punissable.","counterplay":"Privilégier les conséquences physiques persistantes."}
+  ]
+}

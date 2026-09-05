@@ -67,6 +67,21 @@ run_checked "Parcours campagne I→X, fin, postgame et NG+" godot --headless --p
 run_checked "Opérations joueur : scènes, expédition, équipement, capture et sauvegarde disque" godot --headless --path . res://scenes/tests/runtime_player_smoke.tscn
 run_checked "Première Descente : tentative unique, chronique et anti-farm" godot --headless --path . res://scenes/tests/first_descent_smoke.tscn
 run_checked "Les Veilleurs VS001 : recrutement, lumière, bruit, Goules et loot" godot --headless --path . res://scenes/tests/veilleurs_vs001_smoke.tscn
+run_checked "Les Veilleurs pré-PC : timeline canonique, ralliement corporel et mémoire du sceau" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_prepc_contract_smoke.tscn
+run_checked "Les Veilleurs formation : cadavre P1, projection et boss 2 rangs" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_formation_contract_smoke.tscn
+run_checked "Les Veilleurs physique : anatomie, armure, blessures et extraction T07-T14" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_physical_contract_smoke.tscn
+run_checked "Les Veilleurs cadavres : revisite, brûlure et assimilation T15-T17" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_corpse_contract_smoke.tscn
+run_checked "Les Veilleurs information : lumière, psychologie et Rémanence T18-T22" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_information_psychology_contract_smoke.tscn
+run_checked "Les Veilleurs capture : conditions, échec mémoriel et auxiliaire T23-T25" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_capture_contract_smoke.tscn
+run_checked "Les Veilleurs rencontres : budget, anti-répétition, mémoriels et variantes T26-T32" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_encounter_contract_smoke.tscn
+run_checked "Les Veilleurs production bestiaire : 24 espèces, 8 familles et variantes canoniques" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_production_bestiary_smoke.tscn
+run_checked "Les Veilleurs production synergies : 21 relations tactiques visibles et cassables" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_production_synergy_smoke.tscn
+run_checked "Les Veilleurs IA : cible blessée accessible, gestes et Archiviste T33-T35" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_enemy_ai_contract_smoke.tscn
+run_checked "Les Veilleurs boss : Ishar, Orateur, Mère, Porte-Cendres et Copiste T36-T47" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_boss_contract_smoke.tscn
+run_checked "Les Veilleurs production boss : routage actes, pré-boss, non-recrutabilité et phases" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_boss_production_smoke.tscn
+run_checked "Les Veilleurs Rémanence salle : cadavres, cicatrices, Némésis, savoir et compression mobile" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_room_persistence_smoke.tscn
+run_checked "Les Veilleurs Rémanence salle massive : 2250 seeds et plus de 20000 projections mobile/PC" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_room_persistence_mass_smoke.tscn
+run_checked "Les Veilleurs checkpoint pré-boss : état critique complet T48" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_preboss_checkpoint_smoke.tscn
 run_checked "Les Veilleurs VS001 physique : S1-S8, collisions, retour et passage secret" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_vs001_physical_smoke.tscn
 run_checked "Les Veilleurs VS001 jouable : quatuor, exploration physique, interactions, combats et secret S8" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_vs001_playable_smoke.tscn
 run_checked "Les Veilleurs VS001 persistance : corps, blessures, recrue, carte et reprise" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_vs001_persistence_ui_smoke.tscn

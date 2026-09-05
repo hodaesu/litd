@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "source": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx/Tests_48 + Bestiaire_narratif_29",
+  "profiles": {
+    "Délié Affamé": {
+      "target_priority": "wounded_accessible",
+      "requires_accessibility": true,
+      "default_accessible_positions": [0, 1]
+    },
+    "Porte-Signe": {
+      "coordination_function": "gesture",
+      "replan_when_function_lost": true,
+      "fallback_plan": "self_preservation"
+    },
+    "Archiviste de Version": {
+      "perfect_counter_family_limit": 3,
+      "saturation_family_count": 4,
+      "saturated_counter_confidence": 0.55,
+      "saturated_response": "mixed_partial"
+    }
+  }
+}
