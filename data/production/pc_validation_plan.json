@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "target": {
+    "platform": "Windows",
+    "godot_required_prefix": "4.3",
+    "blender_min_major": 4,
+    "export_preset": "Windows Desktop"
+  },
+  "godot_groups": {
+    "foundation": [
+      "scenes/tests/core_smoke.tscn",
+      "scenes/tests/campaign_e2e_smoke.tscn",
+      "scenes/tests/runtime_player_smoke.tscn",
+      "scenes/tests/qa_validation_room_smoke.tscn"
+    ],
+    "visual_collision": [
+      "scenes/tests/body_state_visual_smoke.tscn",
+      "scenes/tests/visual_vertical_slice_smoke.tscn",
+      "scenes/tests/visual_slice_runtime_smoke.tscn",
+      "scenes/tests/physical_dungeon_smoke.tscn",
+      "scenes/tests/first_veil_proxy_smoke.tscn"
+    ],
+    "controls": [
+      "scenes/tests/ui_player_journey_smoke.tscn",
+      "scenes/tests/mobile_touch_smoke.tscn"
+    ],
+    "audio": [
+      "scenes/tests/music_library_smoke.tscn",
+      "scenes/tests/sfx_library_smoke.tscn",
+      "scenes/tests/audio_director_smoke.tscn",
+      "scenes/tests/adaptive_music_smoke.tscn",
+      "scenes/tests/layered_music_smoke.tscn",
+      "scenes/tests/audio_runtime_smoke.tscn",
+      "scenes/tests/narrative_audio_smoke.tscn",
+      "scenes/tests/dialogue_director_smoke.tscn",
+      "scenes/tests/voice_runtime_smoke.tscn"
+    ]
+  },
+  "automated_tools": {
+    "capture": "tools/godot/capture_vertical_slice.py",
+    "profile": "tools/godot/profile_vertical_slice.py",
+    "blender_preflight": "tools/blender/vertical_slice_session.py",
+    "blender_build": "tools/blender/build_vertical_slice.py"
+  },
+  "manual_acceptance": [
+    {
+      "id": "visual_review",
+      "label": "Valider cadrage, lisibilité, matériaux, silhouettes, blessures et absence d'artefacts visuels dans les captures Godot."
+    },
+    {
+      "id": "collision_review",
+      "label": "Parcourir la salle QA et le blockout avec un personnage réel pour confirmer murs, sols, escaliers, passages étroits, obstacles et absence de blocage invisible."
+    },
+    {
+      "id": "keyboard_mouse",
+      "label": "Valider clavier et souris sur Windows: déplacement, interaction, menus, combat, retour, zoom et raccourcis."
+    },
+    {
+      "id": "controller",
+      "label": "Valider une manette physique: navigation complète, combat, retour, focus UI et absence d'impasse de navigation."
+    },
+    {
+      "id": "touch_device",
+      "label": "Valider sur un vrai appareil tactile les tailles de cibles, confirmations, gestes et lisibilité; le smoke test ne remplace pas cette vérification."
+    },
+    {
+      "id": "audio_listening",
+      "label": "Écouter au casque et sur haut-parleurs les musiques, SFX, voix, spatialisation, crossfades, silences et niveaux relatifs."
+    },
+    {
+      "id": "windows_performance",
+      "label": "Comparer le rapport de profiling au comportement réel sur le PC Windows: stabilité FPS, pics, chargements et mémoire."
+    },
+    {
+      "id": "blender_art_gate",
+      "label": "Approuver visuellement Darius, la Goule et l'arène avant toute publication des GLB vers Godot."
+    }
+  ]
+}

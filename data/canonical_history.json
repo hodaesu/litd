@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "dating": {
+    "reference": "chute_year_zero",
+    "rule": "Les dates négatives précèdent la Chute; les dates positives la suivent.",
+    "uncertainty_policy": "Les dates non verrouillées restent approximatives ou sans année exacte."
+  },
+  "canon_rules": [
+    "Les Trois Éveils n'existent pas comme doctrine constituée avant la Nuit de Sarn.",
+    "Les Sanctuaires institutionnels sont postérieurs à la Nuit de Sarn; les sites anciens restent distincts.",
+    "Les civilisations anciennes sont des ensembles culturels et politiques, pas des races biologiques.",
+    "Les religions existent socialement sans confirmation automatique d'une métaphysique objective.",
+    "Le créateur du Vestige reste inconnu.",
+    "La Rémanence de la connaissance, la Rémanence du Vestige et la Rémanence des blessures sont des systèmes distincts.",
+    "Les catastrophes n'effacent pas parfaitement le passé: technologies, mots, bâtiments, pratiques, erreurs et traumatismes se sédimentent."
+  ],
+  "knowledge_remanence": {
+    "stages": ["trace", "echo", "memoire", "concordance"],
+    "principle": "Une connaissance fiable se reconstruit par accumulation, comparaison des sources, contradictions et contexte plutôt que par exposition omnisciente."
+  },
+  "ancient_civilizations": [
+    {
+      "id": "ashai_de_nhal",
+      "name": "Ashaï de Nhal",
+      "period": {"start": -4450, "end": -3520, "approximate": true},
+      "axis": "verite_connaissance",
+      "question": "Avons-nous le droit de rechercher une vérité dont nous ne sommes pas capables de supporter les conséquences ?",
+      "maxims": ["Rien ne disparaît entièrement.", "Une mémoire sans contradiction n'est qu'un monument."],
+      "institutions": ["Maisons de Transmission", "Chambres de Trace"],
+      "places": ["Fond de Nhal"],
+      "symbol": "cercle_interrompu",
+      "symbol_original_meaning": "Rien n'est totalement clos.",
+      "legacy": ["culture de la trace", "archives contradictoires", "étude de la persistance", "premières recherches sur les phénomènes de Rupture"],
+      "failure_mode": "confondre possibilité de recherche et capacité à supporter ses conséquences",
+      "author_truth": "La Première Rupture est réelle mais ne prouve ni âme ni vie après la mort; elle montre que matière, information, perception et événement ne sont pas aussi séparés qu'attendu."
+    },
+    {
+      "id": "or_silex",
+      "name": "Or-Silex",
+      "period": {"start": -3260, "end": -2470, "approximate": true},
+      "axis": "technique_progres",
+      "question": "Une société peut-elle encore choisir lorsque son progrès est devenu une nécessité ?",
+      "maxims": ["Ce qui ne peut être reproduit n'est pas encore un savoir."],
+      "institutions": ["Corps de Fonction", "Réseau des Seuils"],
+      "technologies": ["chambres de rémanence artificielle", "standardisation des protocoles de persistance"],
+      "incidents": ["Kel-Or", "Silence de Varr", "Les Onze Corps"],
+      "symbol": "deux_carres_relies",
+      "symbol_original_meaning": "Une chose comprise peut être reproduite ailleurs.",
+      "legacy": ["standardisation", "infrastructures", "reproductibilité", "propagation à longue distance de phénomènes auparavant surtout locaux"],
+      "failure_mode": "dépendance à un système plus puissant que la compréhension disponible",
+      "author_truth": "Or-Silex n'a pas créé les phénomènes de Rupture et n'a pas réalisé la Grande Fermeture; son Réseau des Seuils a rendu possibles des interactions et propagations à grande échelle."
+    },
+    {
+      "id": "saan",
+      "name": "Saan",
+      "period": {"start": -2910, "end": -1980, "approximate": true},
+      "axis": "prudence_responsabilite",
+      "question": "Avons-nous le droit d'interdire aux générations futures ce dont nous avons nous-mêmes eu peur ?",
+      "maxims": ["Savoir qu'une chose est possible ne nous oblige pas à la faire.", "Construis pour ceux qui devront réparer après ta mort."],
+      "principles": ["responsabilité envers soi", "responsabilité envers les autres", "responsabilité envers ceux qui viendront"],
+      "institutions": ["Archives à Deux Voix", "observateurs de sites dangereux"],
+      "places": ["nœud sous l'Arbre du Premier Voile"],
+      "legacy": ["résilience", "limitation volontaire", "conservation de l'opposition", "blessures persistantes comme racine antique de la Rémanence des blessures"],
+      "failure_mode": "la prudence peut devenir interdiction dogmatique",
+      "author_truth": "Le Voile est d'abord une séparation éthique entre ce qui peut être fait et ce qui est volontairement refusé; le nœud de Saan est distinct des futurs Sanctuaires."
+    },
+    {
+      "id": "vaor_khal",
+      "name": "Vaor-Khal",
+      "period": {"start": null, "end": null, "approximate": true},
+      "axis": "pouvoir_societe",
+      "question": "Combien de liberté sommes-nous prêts à abandonner pour ne plus avoir peur les uns des autres ?",
+      "maxims": ["Nul ne doit être assez puissant pour que son voisin ait à vivre dans la peur de lui."],
+      "institutions": ["Khal", "Protecteurs du Commun", "assemblées à Place Vide"],
+      "laws": ["droit commun minimal", "droit de visage", "principe que la loi s'applique à celui qui l'édicte"],
+      "legacy": ["cosmopolitisme", "participation civique", "échanges entre traditions martiales", "festivals martiaux et artistiques", "pouvoir comme responsabilité"],
+      "failure_mode": "la sécurité commune devient justification d'une concentration permanente du pouvoir",
+      "author_truth": "Khal désigne originellement la charge commune, pas un roi; les pratiques corporelles, artistiques et civiques sont des ancêtres culturels lointains, pas les Trois Éveils."
+    },
+    {
+      "id": "lyr_mar",
+      "name": "Lyr-Mar",
+      "period": {"start": null, "end": null, "approximate": true},
+      "axis": "identite_art_intimite",
+      "question": "Que devons-nous aux autres sans cesser de nous appartenir à nous-mêmes ?",
+      "principles": ["identité construite", "parenté par responsabilité", "l'expérience ne suffit pas à établir son explication", "se souvenir n'oblige pas à refuser l'absence"],
+      "traditions": ["noms de passage", "Jour des Absents", "œuvres anonymes", "réparations visibles"],
+      "legacy": ["art comme pratique quotidienne", "diversité familiale", "consentement", "attention à l'enfance", "deuil humain et contradictoire", "souffrance de l'esprit non réduite à une faute morale"],
+      "failure_mode": "l'expression de soi peut dériver vers individualisme, marchandisation de l'identité et confusion entre ressenti et vérité factuelle"
+    },
+    {
+      "id": "sahm_ir",
+      "name": "Sahm-Ir",
+      "period": {"start": null, "end": null, "approximate": true},
+      "axis": "travail_richesse_valeur",
+      "question": "Tout ce qui possède une valeur doit-il nécessairement avoir un prix ?",
+      "institutions": ["réseaux de crédit", "maisons de garantie", "tribunaux commerciaux"],
+      "movements": ["Brise-Comptes"],
+      "legacy": ["crédit", "réputation contractuelle", "faillite", "standardisation monétaire de l'or", "débats sur dette et propriété", "réseaux logistiques continentaux"],
+      "failure_mode": "la richesse libère des hiérarchies anciennes puis devient elle-même une hiérarchie",
+      "author_truth": "Sahm-Ir n'invente pas l'or comme matériau monétaire mais standardise son usage à grande échelle; le mot 'or' finit par survivre comme unité monétaire."
+    },
+    {
+      "id": "ydris",
+      "name": "Ydris",
+      "period": {"start": null, "end": null, "approximate": true},
+      "axis": "vivant_medecine",
+      "question": "Pouvoir améliorer la vie nous donne-t-il le droit de décider ce qu'elle devrait devenir ?",
+      "institutions": ["Réserves", "Charte du Vivant"],
+      "principles": ["observation clinique", "comparaison de traitements", "consentement", "responsabilité du chercheur"],
+      "legacy": ["agriculture sélectionnée", "médecine expérimentale", "écologie", "domestication", "zones de retrait", "classification des Altérés"],
+      "failure_mode": "traiter le vivant comme matériau optimisable et l'expérimentation comme justification suffisante",
+      "bestiary_origin_categories": ["naturelle", "domestiquee", "anciennement_alteree", "artificiellement_selectionnee", "post_chute"],
+      "author_truth": "La Chute n'a pas créé toute la vie étrange du monde; plusieurs lignées possèdent une histoire naturelle, domestique ou altérée bien antérieure à l'an 0."
+    }
+  ],
+  "timeline": [
+    {"id":"first_rupture_ashai","year":-3700,"approximate":true,"era":"ancient","name":"Première Rupture d'Ashaï","tags":["rupture","ashai"],"summary":"Au Fond de Nhal, présence, mémoire et événement deviennent brièvement instables; l'événement reste ontologiquement incomplet."},
+    {"id":"or_silex_end","year":-2470,"approximate":true,"era":"ancient","name":"Fin politique d'Or-Silex","tags":["or_silex"],"summary":"Or-Silex cesse d'exister comme civilisation politique unifiée mais ses infrastructures persistent."},
+    {"id":"three_incidents","year":-2297,"approximate":true,"era":"great_closure","name":"Les Trois Incidents","tags":["var_silem","migration_blanche","dormeurs_esh"],"summary":"Trois crises éloignées révèlent des corrélations entre anciennes infrastructures et phénomènes contemporains."},
+    {"id":"council_limits","year":-2296,"approximate":true,"era":"great_closure","name":"Concile des Limites","tags":["saan","politics"],"summary":"Ingénieurs, observateurs, juristes, médecins, marchands et populations affectées débattent de continuer, détruire, isoler ou maintenir sous contrôle."},
+    {"id":"closure_pact","year":-2295,"approximate":true,"era":"great_closure","name":"Pacte de Fermeture","tags":["containment"],"summary":"Adoption des cinq classes de traitement des sites et lancement du programme de confinement."},
+    {"id":"closure_mapping","year":-2294,"approximate":true,"era":"great_closure","name":"Cartographie de la Fermeture","tags":["archives","mapping"],"summary":"Campagne massive de localisation, comparaison d'archives et classification de structures dispersées."},
+    {"id":"mass_closures","year":-2293,"approximate":true,"era":"great_closure","name":"Premières Fermetures massives","tags":["containment"],"summary":"Démantèlements, neutralisations, effondrements de galeries, évacuations et zones de retrait commencent à grande échelle."},
+    {"id":"dhal_catastrophe","year":-2292,"approximate":true,"era":"great_closure","name":"Catastrophe de Dhal","tags":["dhal","nineteen","mystery"],"summary":"312 personnes disparaissent lors d'une neutralisation; 19 reviennent avec des expériences temporelles et mémorielles incompatibles."},
+    {"id":"network_sectioning","year":-2291,"approximate":true,"era":"great_closure","name":"Sectionnement du Réseau","tags":["or_silex","containment"],"summary":"Plusieurs nœuds majeurs du Réseau des Seuils sont isolés et les anomalies mesurées diminuent."},
+    {"id":"great_closure_memorial","year":-2290,"approximate":true,"era":"great_closure","name":"Basculement de la Grande Fermeture","tags":["containment"],"summary":"Neutralisation des principaux nœuds; cette année devient la date mémorielle de la Grande Fermeture."},
+    {"id":"false_closed_scandal","year":-2286,"approximate":true,"era":"great_closure","name":"Scandale des Faux Fermés","tags":["corruption","research"],"summary":"Des sites officiellement neutralisés sont découverts actifs, pour corruption, recherche clandestine, échec caché ou intérêts économiques."},
+    {"id":"great_closure_end","year":-2284,"approximate":true,"era":"great_closure","name":"Fin conventionnelle de la Grande Fermeture","tags":["containment"],"summary":"Le programme central est dissous, tandis que des structures de veille subsistent."},
+    {"id":"saan_fragmentation","year":-1980,"approximate":true,"era":"heritages","name":"Fragmentation de Saan","tags":["saan"],"summary":"Saan cesse progressivement d'exister comme ensemble unifié; ses traditions survivent sous d'autres formes."},
+    {"id":"age_of_roads","year":-1950,"approximate":true,"era":"heritages","name":"Âge des Routes","tags":["trade","cosmopolitanism"],"summary":"Reconstruction des échanges et multiplication des cités composites mêlant les héritages des anciennes civilisations."},
+    {"id":"great_leagues","year":-1900,"approximate":true,"era":"heritages","name":"Premières Grandes Ligues","tags":["politics","diplomacy"],"summary":"Des cités forment des alliances décentralisées commerciales, défensives et juridiques."},
+    {"id":"heritage_wars","year":-1750,"approximate":true,"era":"heritages","name":"Guerres des Héritages","tags":["war","history"],"summary":"Des puissances instrumentalisent anciennes infrastructures, archives et filiations politiques pour légitimer des revendications contemporaines."},
+    {"id":"three_maps_war","year":-1650,"approximate":true,"era":"heritages","name":"Guerre des Trois Cartes","tags":["war","knowledge_remanence"],"summary":"Trois cartes authentiques mais produites à des époques différentes sont prises pour des vérités territoriales incompatibles; la guerre devient un cas fondateur de critique des sources."},
+    {"id":"masters_meetings","year":-1500,"approximate":true,"era":"heritages","name":"Rencontres de Maîtres","tags":["martial_arts","culture"],"summary":"Les traditions martiales circulent et des rencontres codifiées commencent à remplacer certains affrontements limités."},
+    {"id":"centuries_of_opening","year":-1400,"approximate":true,"era":"heritages","name":"Siècles d'Ouverture","tags":["prosperity","cosmopolitanism"],"summary":"Longue phase de prospérité, urbanisation, échanges culturels, sciences, arts et diplomatie."},
+    {"id":"regional_powers_rise","year":-1300,"approximate":true,"era":"pre_last_war","name":"Montée des nouvelles puissances","tags":["geopolitics"],"summary":"De grands blocs régionaux concurrents émergent dans un monde culturellement intégré mais politiquement fragmenté."},
+    {"id":"first_fractures","year":-1200,"approximate":true,"era":"pre_last_war","name":"Premières fractures générales","tags":["food","trade","migration","identity"],"summary":"Récoltes difficiles, crises commerciales, migrations et rivalités renforcent la polarisation et l'instrumentalisation du passé."},
+    {"id":"mediation_failures","year":-1150,"approximate":true,"era":"pre_last_war","name":"Échec des médiations traditionnelles","tags":["diplomacy","tournaments"],"summary":"Tournois, arbitrages et diplomatie ne suffisent plus à régler des conflits de ressources, populations et routes continentales."},
+    {"id":"last_war_trigger","year":null,"approximate":true,"era":"last_war","name":"Affaire des Trois Bannières et déclenchement de la Dernière Guerre","tags":["war","three_banners"],"summary":"Une attaque contre un convoi international déclenche mobilisations et affrontement frontalier; les alliances transforment la crise en guerre générale."}
+  ],
+  "great_closure": {
+    "period": {"start": -2297, "center": -2290, "end": -2284, "approximate": true},
+    "contemporary_name": "Pacte de Fermeture et opérations associées",
+    "historical_name": "Grande Fermeture",
+    "site_classes": [
+      {"id":"I","name":"Démantèlement","rule":"Technologies pouvant être détruites sans risque connu."},
+      {"id":"II","name":"Neutralisation","rule":"Retrait des composants essentiels sans destruction complète."},
+      {"id":"III","name":"Isolement","rule":"Condamnation physique d'un site."},
+      {"id":"IV","name":"Retrait","rule":"Abandon du site et de son territoire environnant."},
+      {"id":"V","name":"Veille","rule":"Installation impossible ou trop dangereuse à fermer totalement."}
+    ],
+    "survival_channels": ["sites_introuvables", "sites_sous_veille", "faux_fermes", "artefacts_voles", "archives_sauvees", "vivant_altere"],
+    "author_truth": "La Grande Fermeture a fonctionné et a probablement évité une catastrophe beaucoup plus précoce; elle a contenu sans éliminer le problème.",
+    "unresolved_mysteries": ["nature exacte de Dhal", "mécanisme complet des connexions non physiques", "liste exhaustive des sites jamais retrouvés"]
+  },
+  "pre_last_war_powers": [
+    {"id":"azravel","name":"Azravel","system":"puissance théocratique pluraliste","strengths":["droit","diplomatie","institutions religieuses"],"fear":"érosion de l'ordre moral commun"},
+    {"id":"erhal","name":"Ligue d'Erhal","system":"confédération de cités marchandes et industrielles","strengths":["commerce","crédit","routes"],"fear":"dépendance commerciale aux décisions territoriales d'autrui"},
+    {"id":"kharad","name":"Kharad","system":"puissance territoriale centralisée à tradition militaire","strengths":["armée professionnelle","agriculture","service collectif"],"fear":"encerclement économique et stratégique"},
+    {"id":"sarn","name":"République de Sarn","system":"république urbaine","strengths":["arts","philosophie","arts martiaux","diplomatie"],"fear":"perdre ses libertés ou devenir dépendante d'un bloc","role":"pivot géopolitique et futur lieu de la Nuit de Sarn"},
+    {"id":"namar","name":"États de Namar","system":"constellation d'États agricoles et fluviaux","strengths":["céréales","fleuves","production agricole"],"fear":"être réduits à un territoire d'influence et une réserve alimentaire"},
+    {"id":"odran","name":"Couronne d'Odran","system":"monarchie maritime","strengths":["flotte","ports","échanges longue distance"],"fear":"effondrement de l'équilibre maritime et commercial"}
+  ],
+  "pre_last_war_alliances": [
+    {"id":"pacte_des_routes","name":"Pacte des Routes","core":["erhal","odran"],"purpose":"liberté commerciale, circulation et sécurité maritime"},
+    {"id":"ligue_des_frontieres","name":"Ligue des Frontières","core":["kharad"],"partners":["azravel"],"purpose":"souveraineté territoriale et résistance à une domination économique extérieure"}
+  ],
+  "last_war_causes": ["contrôle des routes", "sécurité alimentaire", "dette souveraine", "course aux armements", "politisation des tournois", "polarisation identitaire", "instrumentalisation des archives et frontières anciennes", "effondrement de la confiance entre alliances"],
+  "pre_last_war_crises": [
+    {"id":"passage_tal","name":"Passage de Tal","summary":"Déploiement de Kharad dans un col stratégique; médiation temporaire de Sarn sans résolution du conflit de fond."},
+    {"id":"grain_riots","name":"Émeutes du Grain","summary":"Pénuries et flambée des prix provoquent pillages, accusations de stockage et restrictions d'exportation."},
+    {"id":"odran_blockade","name":"Blocus limité d'Odran","summary":"Mesure économique maritime vécue par les populations affectées comme un acte de guerre."},
+    {"id":"sarn_conference","name":"Conférence de Sarn","summary":"Dernière grande tentative de désarmement, restructuration de dette, garanties alimentaires et réouverture des routes."},
+    {"id":"three_banners","name":"Affaire des Trois Bannières","summary":"Un convoi international de grain, archives diplomatiques et représentants est attaqué par des assaillants portant des signes de trois puissances."}
+  ],
+  "three_banners_author_truth": "Aucune puissance centrale n'a ordonné l'attaque. Un réseau radical mêlant anciens combattants, nationalistes et agents de plusieurs milieux a voulu détruire le processus de paix; plusieurs services possédaient des indices partiels et certains ne les ont pas transmis afin d'exploiter politiquement la crise.",
+  "pending_not_implemented_as_canon": [
+    "dates exactes de Vaor-Khal, Lyr-Mar, Sahm-Ir et Ydris",
+    "déroulement détaillé de la Dernière Guerre",
+    "positions exactes de Sahra, Ilyan et Tala pendant chaque phase",
+    "Nuit de Sarn détaillée et naissance des Trois Éveils",
+    "Projet Seuil détaillé",
+    "causalité complète de la Chute"
+  ]
+}

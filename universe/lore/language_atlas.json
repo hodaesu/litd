@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.0.0",
+  "id": "language_atlas",
+  "status": "canon_production_atlas",
+  "naming_policy": {
+    "catalog_names_are_canonical": true,
+    "catalog_names_are_not_necessarily_historical_endonyms": true,
+    "family_endonyms_remain_open": true,
+    "full_grammars_remain_expandable": true,
+    "effrie_tribe_language": "unconfirmed",
+    "nonhuman_communication_systems": "open"
+  },
+  "core_rules": {
+    "language_is_not_ethnicity": true,
+    "city_can_be_multilingual": true,
+    "polity_can_be_multilingual": true,
+    "accent_has_no_biological_stats": true,
+    "ancient_language_is_not_automatic_modern_ancestor": true,
+    "critical_plot_has_nonlinguistic_resolution": true
+  },
+  "families": [
+    {
+      "id": "family.narel",
+      "catalog_name": "famille narélienne",
+      "historical_profile": "réseau fluvial, marchés, migrations et anciennes routes de grain",
+      "main_attestations": ["Jian-Lu", "Vesh", "Tessen", "anciens États fluviaux de Namar"],
+      "languages": ["lang.jian_river", "lang.veshan", "lang.tessen_common"],
+      "guardrail": "La famille n'est ni le peuple de Jian-Lu ni une identité biologique."
+    },
+    {
+      "id": "family.khadren",
+      "catalog_name": "famille khadrène",
+      "historical_profile": "hauts plateaux, corridors militaires, mines et migrations de frontière",
+      "main_attestations": ["Kharad", "Dhor-Khal", "Amar"],
+      "languages": ["lang.kharadi", "lang.dhoran", "lang.amari"],
+      "guardrail": "Les institutions militaires ont diffusé du vocabulaire sans rendre les langues identiques."
+    },
+    {
+      "id": "family.soryn",
+      "catalog_name": "famille soryne",
+      "historical_profile": "villes centrales, écoles, archives, droit et administrations urbaines",
+      "main_attestations": ["Sorye", "Sarn", "Dareth"],
+      "languages": ["lang.soryen", "lang.sarnic", "lang.dareth"],
+      "guardrail": "La proximité savante ne prouve pas une origine politique commune."
+    },
+    {
+      "id": "family.orevan",
+      "catalog_name": "famille orévane",
+      "historical_profile": "routes longues, caravanes, ports et diasporas de passage",
+      "main_attestations": ["Orun-Saï", "anciens réseaux d'Odran", "comptoirs de longue distance"],
+      "languages": ["lang.oruni", "lang.odrani_route"],
+      "guardrail": "Les variétés de route sont fortement mélangées et ne définissent pas une population unique."
+    },
+    {
+      "id": "family.lhaen",
+      "catalog_name": "famille lhaène",
+      "historical_profile": "vallées forestières, communautés horticoles, savoirs du vivant et migrations saisonnières",
+      "main_attestations": ["Lhaor", "bassins agricoles voisins"],
+      "languages": ["lang.lhaori", "lang.lhaen_valley"],
+      "guardrail": "L'écologie partagée n'implique ni religion commune ni isolement culturel."
+    }
+  ],
+  "regional_languages": [
+    {
+      "id": "lang.jian_river",
+      "catalog_name": "jian fluvial",
+      "family": "family.narel",
+      "regions": ["Jian-Lu", "communautés de rive"],
+      "dialects": ["îles centrales", "quais aval", "passeurs amont"],
+      "accent_profile": "enchaînements rapides et nombreuses réductions dans les échanges quotidiens; articulation plus explicite dans la négociation publique",
+      "scripts": ["script.bridge_line", "script.public_concordance"],
+      "registers": ["transport", "assurance_de_cargaison", "médiation", "marché"]
+    },
+    {
+      "id": "lang.veshan",
+      "catalog_name": "veshan",
+      "family": "family.narel",
+      "regions": ["Vesh", "vallée du grand pont"],
+      "dialects": ["rive orientale", "rive occidentale", "ancien registre des convois"],
+      "accent_profile": "oppositions de longueur vocalique plus conservées que dans le jian fluvial",
+      "scripts": ["script.bridge_line"],
+      "registers": ["convoi", "grain", "batellerie"]
+    },
+    {
+      "id": "lang.tessen_common",
+      "catalog_name": "tessen commun",
+      "family": "family.narel",
+      "regions": ["Tessen"],
+      "dialects": ["quartiers nord", "quartiers des teinturiers", "anneaux agricoles", "registre d'assemblée"],
+      "accent_profile": "grande variation de quartier; le registre d'assemblée ralentit volontairement les enchaînements pour l'intercompréhension",
+      "scripts": ["script.bridge_line", "script.civic_round"],
+      "registers": ["assemblée", "textile", "marché", "artisanat"]
+    },
+    {
+      "id": "lang.kharadi",
+      "catalog_name": "kharadi",
+      "family": "family.khadren",
+      "regions": ["anciens territoires de Kharad"],
+      "dialects": ["frontière", "garnison", "vallées civiles"],
+      "accent_profile": "contrastes consonantiques nets dans les ordres de terrain; parole civile plus diverse que le stéréotype militaire tardif",
+      "scripts": ["script.square_record", "script.field_marks"],
+      "registers": ["logistique", "frontière", "juridiction locale"]
+    },
+    {
+      "id": "lang.dhoran",
+      "catalog_name": "dhoran",
+      "family": "family.khadren",
+      "regions": ["Dhor-Khal", "villages-ateliers"],
+      "dialects": ["hauts plateaux", "mines", "ateliers hydrauliques"],
+      "accent_profile": "rythme syllabique régulier dans les ateliers afin de rester intelligible dans le bruit",
+      "scripts": ["script.workshop_notch", "script.square_record"],
+      "registers": ["forge", "mine", "sécurité", "mesure", "maintenance"]
+    },
+    {
+      "id": "lang.amari",
+      "catalog_name": "amari",
+      "family": "family.khadren",
+      "regions": ["vallée d'Amar"],
+      "dialects": ["haut-val", "bourg fortifié", "registre d'évacuation"],
+      "accent_profile": "prosodie montante fréquente dans les appels à distance; non utilisée comme marque de caractère",
+      "scripts": ["script.square_record", "script.field_marks"],
+      "registers": ["évacuation", "élevage", "fortification"]
+    },
+    {
+      "id": "lang.soryen",
+      "catalog_name": "soryen",
+      "family": "family.soryn",
+      "regions": ["Sorye"],
+      "dialects": ["quotidien urbain", "académique", "médical", "juridique"],
+      "accent_profile": "les registres savants conservent davantage de distinctions morphologiques; l'oral quotidien est plus contracté",
+      "scripts": ["script.square_record", "script.annotated_hand", "script.public_concordance"],
+      "registers": ["médecine", "droit", "archive", "enseignement"]
+    },
+    {
+      "id": "lang.sarnic",
+      "catalog_name": "sarnien",
+      "family": "family.soryn",
+      "regions": ["Sarn et anciens faubourgs"],
+      "dialects": ["centre civique", "Trois Cloches", "diaspora post-guerre"],
+      "accent_profile": "forte alternance entre style public soigneux et oral populaire contracté",
+      "scripts": ["script.civic_round", "script.square_record"],
+      "registers": ["débat", "administration", "archive_de_guerre"]
+    },
+    {
+      "id": "lang.dareth",
+      "catalog_name": "dareth",
+      "family": "family.soryn",
+      "regions": ["Dareth"],
+      "dialects": ["ancien centre", "quartiers de frontière", "diaspora"],
+      "accent_profile": "emprunts nombreux aux langues voisines; certaines formes deviennent indices de la date d'un témoignage",
+      "scripts": ["script.square_record", "script.field_marks"],
+      "registers": ["commerce_de_frontière", "administration_changeante"]
+    },
+    {
+      "id": "lang.oruni",
+      "catalog_name": "oruni",
+      "family": "family.orevan",
+      "regions": ["Orun-Saï", "relais caravaniers"],
+      "dialects": ["porte occidentale", "porte orientale", "caravanier", "diplomatique"],
+      "accent_profile": "grande tolérance aux variantes; les locuteurs habitués au passage reformulent plus qu'ils ne corrigent",
+      "scripts": ["script.road_cursive", "script.public_concordance"],
+      "registers": ["caravane", "diplomatie", "hospitalité", "soin_de_route"]
+    },
+    {
+      "id": "lang.odrani_route",
+      "catalog_name": "odrani de route",
+      "family": "family.orevan",
+      "regions": ["anciens réseaux d'Odran", "ports et diasporas"],
+      "dialects": ["portuaire", "naval", "diaspora intérieure"],
+      "accent_profile": "formes de commandement courtes en contexte naval; variété civile plus ample",
+      "scripts": ["script.road_cursive", "script.maritime_tally"],
+      "registers": ["navigation", "commerce", "charpente_navale"]
+    },
+    {
+      "id": "lang.lhaori",
+      "catalog_name": "lhaori",
+      "family": "family.lhaen",
+      "regions": ["Lhaor"],
+      "dialects": ["vallée centrale", "vergers", "lisières forestières"],
+      "accent_profile": "vocabulaire très précis pour états du sol, croissance et saisons; la précision lexicale ne signifie pas croyance religieuse",
+      "scripts": ["script.garden_hand", "script.public_concordance"],
+      "registers": ["botanique", "semences", "médecine_végétale", "eau"]
+    },
+    {
+      "id": "lang.lhaen_valley",
+      "catalog_name": "lhaène des vallées",
+      "family": "family.lhaen",
+      "regions": ["bassins ruraux voisins de Lhaor"],
+      "dialects": ["hautes vallées", "canaux", "communautés saisonnières"],
+      "accent_profile": "conservation de termes saisonniers absents du lhaori urbain",
+      "scripts": ["script.garden_hand"],
+      "registers": ["agriculture", "irrigation", "transhumance_locale"]
+    }
+  ],
+  "writing_systems": [
+    {"id":"script.bridge_line","catalog_name":"écriture des lignes liées","type":"alphasyllabic_or_mixed_practical","uses":["commerce","quais","lettres","étiquettes"],"visual_rule":"traits liés adaptés au pinceau, calame ou craie; dessin exact à produire ultérieurement","shared_by_multiple_languages":true},
+    {"id":"script.square_record","catalog_name":"main carrée des registres","type":"formal_segmental","uses":["administration","droit","inventaires","archives"],"visual_rule":"signes séparés, faciles à numéroter et annoter; glyphes exacts ouverts","shared_by_multiple_languages":true},
+    {"id":"script.annotated_hand","catalog_name":"main annotée","type":"scholarly_extension","uses":["médecine","commentaires","variantes","citations"],"visual_rule":"signes de marge et niveaux de correction distincts","shared_by_multiple_languages":true},
+    {"id":"script.workshop_notch","catalog_name":"marques d'atelier","type":"technical_symbol_set","uses":["mesures","lots","sécurité","assemblage"],"visual_rule":"lisible gravé sur métal, bois ou pierre; n'est pas une langue complète","shared_by_multiple_languages":true},
+    {"id":"script.civic_round","catalog_name":"main civique ronde","type":"public_hand","uses":["assemblées","affiches","procès-verbaux"],"visual_rule":"formes espacées destinées à la lecture publique","shared_by_multiple_languages":true},
+    {"id":"script.road_cursive","catalog_name":"cursive de route","type":"fast_hand","uses":["carnets","relais","itinéraires","messages de convoi"],"visual_rule":"écriture rapide avec abréviations conventionnelles","shared_by_multiple_languages":true},
+    {"id":"script.garden_hand","catalog_name":"main des jardins","type":"mixed_text_and_botanical_marks","uses":["semences","herbiers","parcelles","soins végétaux"],"visual_rule":"texte accompagné de signes de cycle et d'état; ne prouve aucune religion","shared_by_multiple_languages":true},
+    {"id":"script.field_marks","catalog_name":"marques de terrain","type":"symbol_system","uses":["danger","direction","ravitaillement","évacuation"],"visual_rule":"compréhensible partiellement sans langue complète","shared_by_multiple_languages":true},
+    {"id":"script.public_concordance","catalog_name":"conventions publiques de Concordance","type":"multilingual_annotation_layer","uses":["source","traduction","incertitude","date","correctif"],"visual_rule":"ne remplace pas les scripts locaux; ajoute provenance et niveau de confiance","shared_by_multiple_languages":true},
+    {"id":"script.maritime_tally","catalog_name":"marques de bord","type":"numeric_and_logistical_marks","uses":["cargaison","quart","cap","réserves"],"visual_rule":"système fonctionnel partageable au-delà d'une langue","shared_by_multiple_languages":true}
+  ],
+  "professional_registers": [
+    {"id":"register.medical","name":"registre médical","features":["localisation corporelle précise","degré de certitude","distinction symptôme/interprétation","consentement"],"risk":"transformer une personne en dossier"},
+    {"id":"register.legal","name":"registre juridique","features":["attribution de responsabilité","exceptions","citations de versions","délais"],"risk":"faire passer une traduction contestée pour neutralité"},
+    {"id":"register.martial","name":"registre martial","features":["ordres courts","intentions corporelles","signes visuels","appels de sécurité"],"risk":"un terme de tournoi peut être lu comme ordre militaire"},
+    {"id":"register.forge","name":"registre de forge et maintenance","features":["mesures","tolérances","séquences","signaux dans le bruit"],"risk":"une unité ancienne mal convertie peut provoquer un accident"},
+    {"id":"register.caravan","name":"registre caravanier","features":["eau","distance relative","état de route","hospitalité","danger"],"risk":"un refuge secret peut devenir vulnérable si le vocabulaire est rendu public"},
+    {"id":"register.archive","name":"registre archivistique","features":["source","copie","traduction","interpolation","niveau de confiance"],"risk":"la synthèse peut effacer une contradiction"},
+    {"id":"register.maritime","name":"registre maritime","features":["quart","charge","cap","météo","manœuvre"],"risk":"homonymie entre charge-cargaison et charge-devoir"},
+    {"id":"register.botanical","name":"registre botanique","features":["stade de croissance","sol","eau","toxicité","préparation"],"risk":"un nom populaire peut regrouper plusieurs espèces"}
+  ],
+  "ancient_documents": [
+    {"tradition":"Ashaï de Nhal","direct_modern_ancestor":"unconfirmed","common_states":["partially_deciphered","translated_copy","contradictory_versions"],"recognition_clues":["formules de provenance","structures répétitives de trace","symbole du cercle interrompu"],"forbidden_inference":"Ne pas déduire une langue moderne directe à partir de ressemblances isolées."},
+    {"tradition":"Or-Silex","direct_modern_ancestor":"unconfirmed","common_states":["understood_technical_fragment","translated_copy","mistranslated_unit"],"recognition_clues":["numérotation","répétition procédurale","marques de réseau"],"forbidden_inference":"Comprendre une procédure ne signifie pas comprendre sa théorie ontologique."},
+    {"tradition":"Saan","direct_modern_ancestor":"unconfirmed","common_states":["parallel_versions","commented_copy","partially_deciphered"],"recognition_clues":["deux voix documentaires","interdits conditionnels","formules de responsabilité"],"forbidden_inference":"Ne pas appeler Trois Éveils une structure saanienne."},
+    {"tradition":"Vaor-Khal","direct_modern_ancestor":"unconfirmed","common_states":["legal_copy","later_commentary","fragment"],"recognition_clues":["responsabilité attribuable","droit de visage","charges communes"],"forbidden_inference":"Une formule juridique survivante ne prouve pas continuité étatique."},
+    {"tradition":"Lyr-Mar","direct_modern_ancestor":"unconfirmed","common_states":["song_fragment","name_record","translated_port_copy"],"recognition_clues":["noms de passage","récits de migration","versions portuaires"],"forbidden_inference":"Une chanson tardive n'est pas une transcription littérale de l'original."},
+    {"tradition":"Sahm-Ir","direct_modern_ancestor":"unconfirmed","common_states":["contract","ledger","weight_table","later_copy"],"recognition_clues":["garanties","poids","dettes","or"],"forbidden_inference":"Le terme or ne garantit pas le même poids monétaire à toutes les époques."},
+    {"tradition":"Ydris","direct_modern_ancestor":"unconfirmed","common_states":["medical_note","breeding_record","field_copy"],"recognition_clues":["état du vivant","générations","soins","sélection"],"forbidden_inference":"Une lignée décrite n'est pas automatiquement artificiellement créée."}
+  ],
+  "semantic_drift": [
+    {"term":"seuil","litd2":"limite, accès ou point de passage selon contexte","veilleurs":"terme de passage et de danger ancien, encore non univoque","late_concorde":"terme technique, juridique et scientifique fréquent","litd1":"souvent compris comme porte matérielle ou ouverture surnaturelle","remanence_hook":"Une archive du Projet Seuil peut être faussement lue comme instruction d'ouvrir une porte physique."},
+    {"term":"veille","litd2":"garde, surveillance ou tour de service","veilleurs":"surveillance assortie d'obligation de documenter et parfois de se retirer","late_concorde":"famille institutionnelle de surveillance des limites","litd1":"peut être confondu avec ordre militaire ou nom propre des anciens Veilleurs","remanence_hook":"Un survivant peut prendre une note de veille pour un ordre de tenir une position."},
+    {"term":"charge","litd2":"devoir, poids, fonction ou cargaison","veilleurs":"responsabilité attribuée et possibilité de refus","late_concorde":"terme juridique et logistique très polysémique","litd1":"souvent réduit à dette ou fardeau","remanence_hook":"Une liste de charges peut être interprétée comme inventaire plutôt que responsabilités humaines."},
+    {"term":"visage","litd2":"face, identité ou présence personnelle","veilleurs":"personne affectée qu'une décision doit rendre visible","late_concorde":"terme juridique du Droit de visage","litd1":"parfois pris littéralement dans des rites ou masques","remanence_hook":"Un texte sur rendre le visage peut être pris pour une instruction funéraire."},
+    {"term":"fermé","litd2":"clos, inaccessible ou interdit","veilleurs":"peut désigner un site sectionné ou une décision révisable","late_concorde":"terme technique hérité de la Grande Fermeture","litd1":"souvent compris comme maudit ou définitivement condamné","remanence_hook":"Un Faux Fermé peut être évité pendant des années pour une mauvaise raison."},
+    {"term":"rallié","litd2":"personne ayant rejoint un camp, parfois après reddition","veilleurs":"ancien adversaire coopérant ou recruté sans effacement de son histoire","late_concorde":"statut social variable, non synonyme de converti","litd1":"peut être compris comme captif soumis","remanence_hook":"Une archive des Quartiers des ralliés peut être lue comme registre de prisonniers."},
+    {"term":"concordance","litd2":"accord ou correspondance ordinaire selon langue","veilleurs":"reconstruction provisoire à partir de traces contradictoires en voie de formalisation","late_concorde":"méthode archivistique stabilisée","litd1":"souvent confondue avec consensus ou vérité finale","remanence_hook":"Le joueur doit pouvoir découvrir qu'une Concordance ancienne conservait explicitement des désaccords."},
+    {"term":"absent","litd2":"disparu, non localisé ou absent d'une liste","veilleurs":"catégorie mémorielle distincte du mort confirmé","late_concorde":"statut civique et mémoriel documenté","litd1":"souvent assimilé à mort","remanence_hook":"Un nom d'Absent peut appartenir à quelqu'un ayant survécu ailleurs."}
+  ],
+  "translation_error_patterns": [
+    {"id":"error.false_cognate","name":"faux apparenté","example":"deux mots ressemblants hérités de routes différentes sont traités comme identiques","gameplay":"ouvre une hypothèse erronée mais révisable"},
+    {"id":"error.unit_shift","name":"unité déplacée","example":"une mesure d'Or-Silex est convertie avec une table sahm-irienne tardive","gameplay":"produit distance, dose ou charge incorrecte"},
+    {"id":"error.title_as_name","name":"titre pris pour un nom","example":"un office religieux ou civique est attribué à une personne unique","gameplay":"crée un faux personnage historique"},
+    {"id":"error.negation_loss","name":"négation perdue","example":"copie endommagée d'une interdiction conditionnelle saanienne","gameplay":"peut transformer un avertissement en autorisation"},
+    {"id":"error.ritual_literalization","name":"métaphore ritualisée littéralement","example":"rendre le visage devient instruction de couvrir ou modeler le visage","gameplay":"explique un rite tardif sans valider sa théologie"},
+    {"id":"error.register_confusion","name":"registre confondu","example":"charge logistique lue comme obligation juridique","gameplay":"modifie responsabilité, dette ou objectif de quête"},
+    {"id":"error.dated_dialect","name":"dialecte daté ignoré","example":"un mot de Dareth appartient à une période d'occupation précise","gameplay":"permet de dater ou falsifier un témoignage"},
+    {"id":"error.translation_smoothing","name":"traduction lissée","example":"deux formulations contradictoires deviennent une phrase élégante unique","gameplay":"efface une source de Rémanence jusqu'à comparaison avec les originaux"}
+  ],
+  "game_integration": {
+    "litd2": "Utiliser interprètes, vocabulaires de contact, signes et erreurs sans registre continental stabilisé.",
+    "les_veilleurs": "Montrer la formation du registre de passage, les variantes et les premières pratiques de Concordance sans attribuer aux quatre protagonistes une biographie linguistique non établie.",
+    "litd1": "Utiliser ruines multilingues, traductions cassées, dialectes datables et glissements sémantiques comme voies d'enquête horizontales.",
+    "ui_rule": "Si le personnage comprend, afficher la traduction lisible; conserver seulement les termes source dont la forme compte pour la Rémanence."
+  },
+  "remaining_open": [
+    "autonymes complets de toutes les langues et familles",
+    "grammaires exhaustives au-delà des besoins de production",
+    "glyphes finaux et calligraphies artistiques",
+    "langue de la tribu d'Èffrie",
+    "systèmes de communication non humains",
+    "microdialectes de chaque village"
+  ]
+}

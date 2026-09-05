@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "id": "les_veilleurs_enemy_recruitment",
+  "status": "design_locked",
+  "game": "LITD: Les Veilleurs",
+  "design_goal": "Faire des ennemis rencontrés une source majeure de recrues sans transformer la gestion du roster en jeu de collection lourd pour mobile.",
+  "core_rules": [
+    "Les quatre Veilleurs restent les protagonistes permanents et ne sont pas remplacés narrativement par les recrues.",
+    "Le hub ne repose pas sur l'embauche répétée de mercenaires génériques: les nouvelles recrues combattantes proviennent principalement des ennemis rencontrés pendant les expéditions.",
+    "Recruter n'est jamais équivalent à dompter instantanément: l'état physique, la motivation, le lien et les actes du joueur restent persistants.",
+    "Les boss narratifs sont non recrutables par défaut; une exception doit être explicitement écrite comme contenu canonique.",
+    "Une créature portant le trait manifestation_destructrice est non recrutabile pendant l'expédition concernée.",
+    "La mutilation ou une blessure critique peut faciliter une reddition physique mais détériore fortement le lien initial et impose une convalescence; ce n'est jamais la stratégie optimale sans coût.",
+    "Aucun échec de recrutement n'est rerollable par recharge: les résolutions aléatoires utilisent la seed de l'expédition.",
+    "Le joueur doit pouvoir comprendre pourquoi une cible est ou n'est pas recrutabile grâce à des états lisibles, sans afficher une feuille de calcul en combat."
+  ],
+  "mobile_scope": {
+    "combat_party_size": 4,
+    "minimum_veilleurs_per_expedition": 2,
+    "maximum_enemy_recruits_per_expedition": 2,
+    "initial_enemy_roster_capacity": 3,
+    "maximum_enemy_roster_capacity": 8,
+    "roster_capacity_upgrade_steps": [3, 4, 5, 6, 8],
+    "reasoning": "Deux recrues maximum par groupe préservent l'identité du quatuor, réduisent la surcharge d'interface et permettent malgré tout des compositions hybrides fortes.",
+    "no_duplicate_management_rule": "Plusieurs individus d'une même famille peuvent exister dans le monde, mais le roster n'affiche jamais une collection encyclopédique de doublons; les doublons sont limités par capacité et traits individuels."
+  },
+  "encounter_states": [
+    {"id":"hostile","name":"Hostile","meaning":"combat normalement et refuse tout contact"},
+    {"id":"shaken","name":"Ébranlé","meaning":"sa volonté ou sa cohésion est entamée; des actions de recrutement deviennent possibles"},
+    {"id":"yielding","name":"Cède","meaning":"la cible peut se rendre, négocier, accepter une dette ou rechercher une issue"},
+    {"id":"recruitable","name":"Ralliable","meaning":"au moins une voie de recrutement valide est ouverte"},
+    {"id":"resolved","name":"Résolu","meaning":"recrutée, relâchée, enfuie, morte ou devenue définitivement hostile pour cette expédition"}
+  ],
+  "recruitment_vectors": [
+    {
+      "id":"surrender",
+      "name":"Reddition",
+      "best_for":["humanoïdes","ennemis organisés","combattants isolés"],
+      "requirements":["cible en état yielding","voie de retraite ou de survie crédible","absence d'exécution d'un proche sous ses yeux si ce trait l'interdit"],
+      "cost":"aucune monnaie obligatoire",
+      "primary_effect":"lien initial moyen à bon si la reddition est respectée"
+    },
+    {
+      "id":"persuasion",
+      "name":"Persuasion",
+      "best_for":["ennemis sentients","dissidents","mercenaires","factions divisées"],
+      "requirements":["information ou argument pertinent découvert dans le run","fenêtre de dialogue ouverte"],
+      "cost":"temps, risque tactique ou ressource narrative",
+      "primary_effect":"lien initial élevé si les motivations sont réellement respectées"
+    },
+    {
+      "id":"debt",
+      "name":"Dette",
+      "best_for":["prisonniers libérés","ennemis sauvés d'un danger","créatures protégées contre leur propre camp"],
+      "requirements":["acte de secours enregistré avant la tentative"],
+      "cost":"avoir renoncé à un avantage immédiat pour sauver la cible",
+      "primary_effect":"forte disposition initiale mais dette susceptible d'être rejetée si elle est utilisée comme chantage"
+    },
+    {
+      "id":"interest",
+      "name":"Intérêt commun",
+      "best_for":["opportunistes","prédateurs intelligents","ennemis ayant un rival commun"],
+      "requirements":["objectif compatible identifié"],
+      "cost":"contrepartie, partage de butin, accès ou promesse limitée",
+      "primary_effect":"alliance pratique; lien faible tant que la relation n'a pas survécu à plusieurs expéditions"
+    },
+    {
+      "id":"fear",
+      "name":"Crainte",
+      "best_for":["ennemis sensibles à la domination","unités démoralisées"],
+      "requirements":["supériorité manifeste ou rupture morale de la cible"],
+      "cost":"lien initial très faible et risque de départ élevé",
+      "primary_effect":"voie rapide mais instable; ne peut pas produire seule la fidélité"
+    },
+    {
+      "id":"binding",
+      "name":"Lien contraint",
+      "best_for":["créatures non négociables mais compatibles avec les règles du monde"],
+      "requirements":["famille explicitement autorisée","ressource ou procédure dédiée"],
+      "cost":"ressource rare, soins et coût moral/narratif",
+      "primary_effect":"contrôle fonctionnel limité; la progression vers un véritable lien dépend ensuite du traitement reçu"
+    }
+  ],
+  "recruitability_model": {
+    "hidden_score": false,
+    "presentation": "Le jeu affiche un état qualitatif et jusqu'à trois raisons principales plutôt qu'un pourcentage permanent.",
+    "factors_positive":["PV bas sans exécution","isolement","chef vaincu","secours antérieur","motivation compatible","preuve ou information pertinente","action non létale","respect d'une reddition"],
+    "factors_negative":["boss narratif","manifestation_destructrice","fanatisme ou serment incompatible","massacre de proches","mutilation excessive","trahison antérieure","capacité du roster pleine","condition narrative non remplie"],
+    "resolution_rule":"Quand une part d'incertitude est voulue, le résultat utilise une seed persistante de l'expédition et ne change pas après rechargement.",
+    "no_blind_spam":"Une tentative consomme la fenêtre de recrutement de la cible sauf si une compétence ou un événement précise le contraire."
+  },
+  "wounds_and_recruitment": {
+    "principle":"Les blessures sont conservées lors du passage ennemi vers recrue.",
+    "lost_part_effect":"facilite la neutralisation mais réduit fortement le lien initial et augmente la durée de convalescence",
+    "critical_injury_effect":"facilite légèrement la reddition mais ajoute soins et séquelles potentielles",
+    "prohibited_shortcut":"aucun bonus de capture ne peut rendre rentable la mutilation systématique de toutes les recrues",
+    "persistent_outputs":["cicatrices","limitations fonctionnelles","besoins de soins","dialogues","méfiance","adaptations de compétences"]
+  },
+  "post_recruitment": {
+    "hub_module_id":"recruited_enemy_quarters",
+    "hub_module_working_name":"Quartier des ralliés",
+    "states":[
+      {"id":"convalescent","name":"Convalescent","deployable":false},
+      {"id":"wary","name":"Méfiant","deployable":true},
+      {"id":"tolerant","name":"Tolérant","deployable":true},
+      {"id":"allied","name":"Allié","deployable":true},
+      {"id":"trusted","name":"Fiable","deployable":true}
+    ],
+    "bond_inputs_positive":["soins","tenir une promesse","combattre ensemble","respecter sa motivation","épargner une personne importante","lui permettre un désaccord"],
+    "bond_inputs_negative":["privation volontaire","promesse rompue","utiliser une dette comme chantage","abandon injustifié","violence contre son groupe d'origine sans nécessité reconnue","mutilation infligée pendant la capture"],
+    "departure_rule":"Une recrue ne trahit ni ne quitte le groupe sur un pur jet aléatoire; un départ doit être causé par des états persistants et télégraphié avant de devenir définitif.",
+    "death_rule":"La mort en expédition est persistante sauf système explicitement canonique contraire."
+  },
+  "progression": {
+    "principle":"Une recrue conserve son identité d'ennemi; elle ne devient pas un héros humain avec une copie des arbres des Veilleurs.",
+    "family_paths": 3,
+    "nodes_per_path": 5,
+    "total_nodes_per_recruitable_family": 15,
+    "choice_rule":"À partir du premier palier majeur, une voie principale est choisie; les autres deviennent inaccessibles pour cet individu.",
+    "path_archetypes":["instinct_offensif","survie_protection","singularite_de_famille"],
+    "individual_variation":["trait de naissance ou d'origine","blessure persistante","trait acquis","relation avec un Veilleur","événement de rémanence vécu"],
+    "evolution_rule":"Les évolutions visuelles ou nominales doivent refléter progression, blessures et histoire; elles ne sont pas de simples changements de statistiques."
+  },
+  "combat_integration": {
+    "same_rules_as_enemies":"Une recrue utilise autant que possible les mêmes actions, portées et contraintes que sa version ennemie afin de limiter le coût de production.",
+    "ally_adaptation":"Certaines compétences reçoivent une variante alliée uniquement lorsque leur version ennemie serait illisible, incontrôlable ou incompatible avec le groupe.",
+    "friendly_fire":"Les attaques de zone dangereuses conservent leur risque si cela fait partie de l'identité de la créature.",
+    "ai_assist":"Le joueur contrôle la recrue; une option mobile d'action recommandée peut proposer une action sans l'exécuter automatiquement.",
+    "body_state_persistence":"Les blessures et parties manquantes affectent les actions disponibles comme pour les autres combattants."
+  },
+  "ui_flow": {
+    "combat":"Icône discrète de ralliement visible uniquement lorsqu'une voie est réellement ouverte; appui affiche raisons, coût et conséquence probable en une fiche courte.",
+    "resolution":"Après succès, trois choix maximum: accueillir, relâcher, ou différer si la fiction permet une extraction.",
+    "hub":"Une seule vue de roster avec portrait, famille, niveau, état de lien, blessure principale et voie choisie; les détails restent dans une fiche secondaire.",
+    "expedition_setup":"Glisser ou toucher pour composer quatre combattants; avertissement immédiat si moins de deux Veilleurs ou plus de deux recrues ennemies.",
+    "mobile_rule":"Aucune sous-interface de négociation en plus de deux écrans successifs pendant une expédition."
+  },
+  "narrative_outputs": [
+    "Une recrue peut commenter une zone qu'elle habitait ou combattait auparavant.",
+    "Des ennemis de sa famille peuvent hésiter, la reconnaître, la haïr ou tenter de la convaincre de partir.",
+    "Les archives du hub conservent le contexte de sa rencontre et non seulement ses statistiques.",
+    "Sa version des événements peut contredire celle des Veilleurs et alimenter Trace, Écho, Mémoire puis Concordance.",
+    "Une recrue morte laisse une trace persistante dans les archives et peut être reconnue par des personnages ultérieurs.",
+    "Le joueur peut découvrir qu'un type d'ennemi présenté d'abord comme monstrueux possède des motivations ou une histoire sans que toutes les créatures de cette famille deviennent moralement identiques."
+  ],
+  "anti_collection_rules": [
+    "Pas de rareté gacha des individus recrutés.",
+    "Pas de bonus de puissance pour posséder toutes les familles.",
+    "Pas de récompense quotidienne de recrutement.",
+    "Pas de fusion de doublons pour augmenter une unité.",
+    "La valeur d'une recrue vient de son histoire, de son kit et de ses conséquences, pas d'une checklist de collection."
+  ],
+  "content_contract_per_recruitable_family": [
+    "identité et motivation",
+    "voies de recrutement autorisées",
+    "conditions de refus",
+    "3 voies de progression x 5 nœuds",
+    "au moins 2 réactions narratives au retour dans sa zone d'origine",
+    "au moins 1 interaction spécifique avec chacun des quatre Veilleurs pertinent pour cette famille",
+    "règles de blessures et anatomie",
+    "évolution visuelle ou comportementale",
+    "trace d'archive de recrutement, départ et mort"
+  ],
+  "balance_targets": {
+    "recruitment_frequency":"Une opportunité significative doit être suffisamment rare pour créer un choix, mais assez fréquente pour que le système soit rencontré naturellement dans les premières expéditions.",
+    "power_rule":"Une recrue ennemie ne doit pas être automatiquement plus forte qu'un Veilleur; elle apporte surtout des capacités et contraintes différentes.",
+    "failure_rule":"Échouer à recruter ne doit jamais rendre un run perdu; le recrutement est une branche de valeur, pas une obligation de progression.",
+    "roster_pressure":"La capacité limitée doit provoquer des choix d'attachement et de composition, pas pousser à supprimer constamment des recrues après chaque run."
+  },
+  "next_design_blocks":[
+    "liste des familles recrutables du bestiaire des Veilleurs",
+    "définition des 15 nœuds par famille recrutabile",
+    "règles exactes de calcul du lien et de la convalescence",
+    "maquette mobile du recrutement en combat et du Quartier des ralliés",
+    "événements narratifs de départ, retour et reconnaissance par famille"
+  ]
+}

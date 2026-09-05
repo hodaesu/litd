@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "id": "les_veilleurs_pre_pc_handoff",
+  "status": "ready_for_pc_validation",
+  "branch": "feat/godot-pending-canon",
+  "scope": "Frontière explicite entre le travail de conception/intégration statique terminé sans PC et les validations qui exigent Godot, Blender ou du matériel réel.",
+  "completed_without_pc": [
+    "canon historique partagé et garde-fous LITD Universe",
+    "Dernière Guerre et batailles nommées structurées",
+    "trajectoires Sahra/Ilyan/Tala structurées jusqu'aux conditions d'entrée vers Sarn",
+    "système de recrutement des ennemis pour Les Veilleurs",
+    "familles de bestiaire, rôles manquants, rangs et kits de combat",
+    "compositions tactiques des Actes I à V",
+    "Actes I-II: zones, choix humains, chaînes de recrues, quatre enquêtes de Rémanence et hub initial",
+    "Actes III-V: Veines, Porte-Cendres, transmission/Copiste, douze zones et transitions",
+    "rencontres non combattantes des Actes III-V",
+    "Rémanence avancée avec provenance, qualité de source et questions non résolues",
+    "progression du hub du Poste de lisière à l'Archive ouverte",
+    "finale du Copiste avec trois états de gouvernance de la mémoire",
+    "quatuor canonique Nayra Orun, Tarek Senn, Aïsha Maren et Idris Vael avec mécaniques, arbres, ultimes et pressions narratives par acte",
+    "catalogue narratif Godot dédié couvrant les cinq actes et le quatuor canonique",
+    "tests Python de contrat par système et test transversal cinq actes",
+    "plan de validation PC et orchestrateur de validation déjà présents dans le dépôt"
+  ],
+  "static_contracts": {
+    "narrative_early": "data/canon/les_veilleurs_acts_1_2.json",
+    "narrative_late": "data/canon/les_veilleurs_acts_3_5.json",
+    "quartet": "data/canon/les_veilleurs_quartet.json",
+    "narrative_godot_catalog": "scripts/core/les_veilleurs_narrative_catalog.gd",
+    "encounters": "data/canon/les_veilleurs_encounter_compositions.json",
+    "recruitment": "data/canon/les_veilleurs_enemy_recruitment.json",
+    "bestiary": [
+      "data/canon/les_veilleurs_bestiary_families.json",
+      "data/canon/les_veilleurs_bestiary_missing_roles.json",
+      "data/canon/les_veilleurs_bestiary_rank_ladders.json",
+      "data/canon/les_veilleurs_combat_kits.json"
+    ],
+    "pc_plan": "data/production/pc_validation_plan.json",
+    "pc_orchestrator": "tools/build/pc_validation.py"
+  },
+  "pc_required": [
+    {
+      "id": "godot_strict_import",
+      "reason": "seul le moteur Godot peut confirmer parsing GDScript, autoloads, ressources et imports dans le projet réel",
+      "acceptance": "aucune erreur de parsing/import et parcours critique chargeable"
+    },
+    {
+      "id": "touch_validation",
+      "reason": "la lisibilité et les gestes doivent être testés sur iPhone/iPad réels",
+      "acceptance": "zones tactiles fiables, absence de recouvrement, lecture des fiches Rémanence et recrutement sans friction"
+    },
+    {
+      "id": "pc_controls",
+      "reason": "clavier, souris et manette exigent des périphériques réels",
+      "acceptance": "navigation complète et cohérente sans dépendre de l'interface mobile agrandie"
+    },
+    {
+      "id": "persistent_corpses_navigation",
+      "reason": "navigation, collisions, couvertures et lisibilité des cadavres persistants doivent être jouées",
+      "acceptance": "aucun blocage de pathfinding ou surcharge visuelle critique"
+    },
+    {
+      "id": "combat_balance",
+      "reason": "dégâts, précision, cooldowns, télégraphes, densité et convalescence nécessitent mesures et playtests",
+      "acceptance": "valeurs issues de télémétrie et non d'un verrou théorique"
+    },
+    {
+      "id": "memoried_enemy_budget",
+      "reason": "la mémoire bornée Normal/Mémoriel/Vétéran/Élite/Némésis doit être profilée sur mobile",
+      "acceptance": "persistance lisible sans dépassement du budget CPU/mémoire"
+    },
+    {
+      "id": "audio_haptics",
+      "reason": "mix, spatialisation, dynamique, vibrations et haptique doivent être entendus/ressentis",
+      "acceptance": "signaux tactiques audibles sans masquer narration ou dialogue"
+    },
+    {
+      "id": "performance",
+      "reason": "FPS, mémoire, chauffe et consommation ne peuvent être validés sans matériel",
+      "acceptance": "budget de performance mobile et PC respecté dans le vertical slice"
+    },
+    {
+      "id": "blender_art_gate",
+      "reason": "silhouettes, matériaux, rig, animations, LOD et export GLB exigent Blender et revue visuelle",
+      "acceptance": "art approuvé avant publication des assets définitifs"
+    },
+    {
+      "id": "windows_export",
+      "reason": "l'export Windows Desktop et son exécution doivent être réalisés sur le pipeline réel",
+      "acceptance": "build démarrable, contrôlable et profilable"
+    }
+  ],
+  "first_pc_commands": [
+    "py tools/build/pc_validation.py --execute --build-blender",
+    "py tools/build/pc_validation.py --execute --build-blender --approve-art"
+  ],
+  "do_not_lock_before_measurement": [
+    "dégâts et précision finaux",
+    "cooldowns et durées de télégraphe",
+    "densité exacte des rencontres",
+    "durées chiffrées de convalescence",
+    "budget exact de mémoire IA",
+    "valeurs finales de Détermination, Traque, Diagnostic et Autorité",
+    "taille définitive des zones tactiles",
+    "mix audio final",
+    "budgets LOD et textures définitifs"
+  ],
+  "handoff_rule": "Si un problème peut encore être détecté par cohérence de données, tests Python, provenance du canon ou contrat statique, il doit être corrigé avant le PC. Les éléments restants ci-dessus nécessitent une exécution ou une perception réelle et constituent donc la frontière PC légitime."
+}

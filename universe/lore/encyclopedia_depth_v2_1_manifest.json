@@ -1,0 +1,53 @@
+{
+  "schema_version":1,
+  "universe_id":"litd_universe",
+  "canon_version":"1.1.0",
+  "id":"encyclopedia_depth_v2_1_manifest",
+  "status":"depth_v2_1_complete_for_district_and_external_writing",
+  "extends":"universe/lore/encyclopedia_depth_v2_manifest.json",
+  "files":{
+    "district_history":"universe/lore/city_district_history_v2.json",
+    "late_foreign_microhistory":"universe/lore/late_foreign_microhistory_v2.json",
+    "regional_daily_life":"universe/lore/regional_daily_life_v2_1.json"
+  },
+  "counts":{
+    "concorde_cities":6,
+    "city_districts":36,
+    "existing_npcs_linked_to_districts":48,
+    "late_foreign_polities":4,
+    "late_foreign_major_cities":16,
+    "late_foreign_microhistory_events":16,
+    "satellite_settlements":18,
+    "trades":24,
+    "everyday_objects":30,
+    "quest_bridges":18
+  },
+  "completion":{
+    "district_by_district_history":"complete_depth_v2_1",
+    "late_varkhane_microhistory":"complete_depth_v2_1",
+    "late_kor_em_microhistory":"complete_depth_v2_1",
+    "late_namar_microhistory":"complete_with_historical_continuity_guardrail",
+    "late_azravel_microhistory":"complete_with_historical_continuity_guardrail",
+    "satellite_settlements":"complete_seed_network",
+    "invisible_and_daily_trades":"complete_seed_network",
+    "everyday_material_culture_objects":"complete_seed_network",
+    "district_and_external_quest_bridges":"complete_seed_network"
+  },
+  "guardrails":[
+    "late_namar and last-war Namar are not automatically the same polity",
+    "late_azravel and last-war Azravel are not automatically the same polity",
+    "the Pacte de l'Horizon Fermé is not the single cause of the Fall",
+    "foreign populations are not collectively guilty for Project Threshold",
+    "districts are social and historical layers, not single ethnic/class biomes",
+    "LITD2 remains paused and mature Concorde urban forms are not retrojected"
+  ],
+  "still_open":[
+    "metric street maps and exact district boundaries",
+    "complete post-Fall state of external regions",
+    "exact historical lineage between late Namar/Azravel and earlier homonyms",
+    "infinite additional local population and microhistory when production needs it",
+    "Destin des Sept as a separate explicit canon decision"
+  ],
+  "depth_v2_1_complete":true,
+  "litd2_status":"paused_no_new_litd2_narrative"
+}

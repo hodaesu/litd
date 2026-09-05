@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "id": "litd2_epilogue",
+  "status": "canon_locked",
+  "dating": {
+    "reference": "chute_year_zero",
+    "starts_after": -1112,
+    "scope": "Des lendemains de Sarn aux premières décennies des Longues Assemblées."
+  },
+  "core_truth": "Sahra, Ilyan et Tala ne deviennent ni souverains, ni saints, ni fondateurs omnipotents. Leur importance vient du fait que leurs expériences deviennent des outils transmis, discutés et parfois déformés par d'autres.",
+  "shared_after_sarn": [
+    "Tous trois survivent à la Nuit de Sarn.",
+    "Ils participent aux premières assemblées de reconstruction mais refusent que la légitimité des nouvelles institutions repose uniquement sur leur prestige personnel.",
+    "Ils continuent de se contredire publiquement après Sarn.",
+    "Ils refusent une proposition visant à constituer un Conseil permanent des Trois placé au-dessus des autres assemblées.",
+    "Leur désaccord devient lui-même un exemple historique de Concordance fragile: agir ensemble sans penser la même chose."
+  ],
+  "characters": [
+    {
+      "id":"sahra",
+      "future_resonance":"Corps",
+      "postwar_path":"Sahra refuse un commandement militaire continental. Elle participe à la démobilisation, à la réintégration de combattants, à l'enseignement martial et aux débats sur le droit de refuser un ordre injustifiable.",
+      "major_contributions":[
+        "protocoles de désarmement où remettre une arme n'implique pas l'humiliation publique",
+        "formation d'instructeurs capables d'enseigner défense, retenue et responsabilité",
+        "défense du droit de repos et de retrait pour les personnes utilisées comme protecteurs permanents",
+        "opposition aux projets de garde continentale placée sous un commandement unique"
+      ],
+      "major_disagreement":"Elle reproche parfois aux assemblées de construire des procédures trop lentes face à une violence immédiate.",
+      "later_life":"Elle quitte progressivement les grandes assemblées pour travailler dans des écoles et communautés de frontière. Sa mort exacte n'est pas un événement politique majeur et les sources tardives se contredisent sur son lieu de fin de vie.",
+      "author_truth":"Elle ne cherche pas à devenir symbole du Corps et se méfie de sa propre héroïsation."
+    },
+    {
+      "id":"ilyan",
+      "future_resonance":"Esprit",
+      "postwar_path":"Ilyan participe à la récupération des archives de guerre, au recueil de témoignages et à la création de pratiques qui conduiront aux Maisons de Concordance.",
+      "major_contributions":[
+        "refus d'une histoire officielle unique de la Dernière Guerre",
+        "conservation systématique de témoignages ennemis et minoritaires",
+        "formation d'archivistes à distinguer source, interprétation et synthèse",
+        "défense des arts comme moyens de mémoire, de deuil et de critique plutôt que simples instruments d'unité"
+      ],
+      "major_disagreement":"Il s'oppose aux premières tentatives d'utiliser la nécessité de reconstruction pour justifier la suppression de documents jugés trop dangereux politiquement.",
+      "later_life":"Il produit plusieurs recueils anonymes ou collectifs plutôt qu'une œuvre fondatrice signée. Les textes tardivement attribués à Ilyan comprennent de nombreux faux ou réemplois.",
+      "author_truth":"Il accepte qu'une société ait besoin de récits communs, mais jamais au prix de la destruction des sources permettant de les corriger."
+    },
+    {
+      "id":"tala",
+      "future_resonance":"Politique",
+      "postwar_path":"Tala joue le rôle public le plus important dans les Longues Assemblées, précisément parce qu'elle cherche à organiser une transition hors de l'urgence sans devenir dirigeante permanente.",
+      "major_contributions":[
+        "mandats d'urgence avec expiration explicite",
+        "rotation des sièges et pluralité des autorités",
+        "mécanismes de contestation pour les communautés minoritaires",
+        "séparation entre coordination commune et souveraineté locale",
+        "préparation des principes qui formeront le Premier Pacte"
+      ],
+      "major_disagreement":"Elle entre souvent en conflit avec Sahra sur la lenteur nécessaire à la légitimité et avec Ilyan sur le moment où une institution doit agir malgré une information incomplète.",
+      "later_life":"Elle quitte toute fonction exécutive avant que la Concorde ne soit considérée comme fondée. Elle participe encore à des assemblées comme médiatrice sans mandat supérieur.",
+      "author_truth":"Elle refuse que le Premier Pacte porte son nom ou celui des trois protagonistes."
+    }
+  ],
+  "final_shared_scene": {
+    "name":"La Place Vide de Sarn",
+    "date":"plusieurs décennies après la Nuit de Sarn, avant la stabilisation complète de la Concorde",
+    "event":"Les trois assistent à une assemblée où un siège reste volontairement vide pour les absents, les non représentés et ceux qui subiront les conséquences futures des décisions. Aucun d'eux ne parle en dernier.",
+    "meaning":"La scène referme LITD 2 sur une institution qui a appris à laisser une place à ceux qu'elle ne peut pas entendre directement.",
+    "historical_echo":"La pratique rappelle Vaor-Khal sans être présentée comme une restauration pure de cette civilisation."
+  },
+  "mythification": {
+    "later_simplifications":[
+      "les trois auraient prononcé ensemble une doctrine complète pendant la Nuit de Sarn",
+      "ils auraient fondé eux-mêmes la Concorde",
+      "ils auraient été amis sans désaccord durable",
+      "chaque Éveil aurait été inventé par une seule personne dans sa forme définitive",
+      "Sarn aurait mis fin instantanément à tous les combats"
+    ],
+    "author_correction":"Ces récits sont historiquement faux ou simplifiés. Les Trois Éveils sont nés de leurs trajectoires mais ont été développés par des milliers de personnes pendant les décennies suivantes.",
+    "religion_guard":"Aucune canonisation religieuse des trois n'est objectivement confirmée; des traditions locales peuvent néanmoins les honorer comme personnages historiques."
+  },
+  "litd2_ending_rule":"La macro-histoire mène toujours à Sarn, aux Trois Éveils et aux Longues Assemblées. Les choix du joueur déterminent la mémoire humaine de cette histoire: relations, survivants, archives, formulations, blessures, réputations et témoignages.",
+  "handoff":"post_sarn_concorde"
+}

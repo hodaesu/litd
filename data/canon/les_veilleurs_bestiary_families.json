@@ -1,0 +1,357 @@
+{
+  "schema_version": 1,
+  "id": "les_veilleurs_bestiary_families",
+  "status": "design_locked",
+  "game": "LITD: Les Veilleurs",
+  "scope": "Première architecture canonique du bestiaire par familles, compatible mobile, recrutement ennemi, gore systémique et Rémanence de la connaissance.",
+  "canon_rules": [
+    "Les familles humaines décrivent des rôles sociaux ou institutionnels, jamais des races biologiques.",
+    "Les catégories d'origine héritées d'Ydris sont natural, domesticated, anciently_altered et artificially_selected; post_chute est interdit dans Les Veilleurs puisque le jeu précède la Chute.",
+    "Une classification biologique peut rester unresolved lorsqu'aucune source fiable ne permet de trancher.",
+    "Une manifestation inexpliquée ne doit pas être attribuée automatiquement au Vestige, à une religion, à la Première Rupture ou à une civilisation ancienne.",
+    "Les boss narratifs sont non recrutables par défaut et ne deviennent recrutables que par exception canonique explicite.",
+    "Les blessures modifient réellement les fonctions disponibles; aucune recrue n'est restaurée magiquement au retour au hub.",
+    "Les évolutions de rang humaines représentent expérience, équipement, doctrine ou position sociale, pas une métamorphose biologique.",
+    "Pour une famille animale ou altérée, toute transformation corporelle doit rester biologiquement ou historiquement justifiée."
+  ],
+  "family_count": 7,
+  "recruitable_family_count": 6,
+  "families": [
+    {
+      "id": "gardes_de_convoi",
+      "name": "Gardes de convoi",
+      "kind": "human_social_role",
+      "presence": {"scope":"transversal","primary_contexts":["routes","postes de contrôle","colonnes civiles","approches des Sanctuaires"]},
+      "origin_categories": ["natural"],
+      "recruitable": true,
+      "recruitment_vectors": ["surrender","persuasion","debt","common_interest"],
+      "recruitment_notes": "Ils cèdent surtout lorsque protéger les personnes sous leur responsabilité devient incompatible avec poursuivre le combat.",
+      "anatomy": {
+        "model":"humanoid_standard",
+        "zones":[
+          {"id":"head","functions":["perception","command"],"critical_consequences":["désorientation","perte de précision"]},
+          {"id":"torso","functions":["endurance","respiration"],"critical_consequences":["essoufflement","hémorragie","incapacité à tenir la ligne"]},
+          {"id":"weapon_arm","functions":["attaque","interception"],"critical_consequences":["désarmement fonctionnel","attaques lourdes interdites"]},
+          {"id":"guard_arm","functions":["garde","protection"],"critical_consequences":["garde réduite","protection d'allié limitée"]},
+          {"id":"legs","functions":["déplacement","ancrage"],"critical_consequences":["initiative de déplacement réduite","interception limitée"]}
+        ]
+      },
+      "combat_role": "frontline_control_guard",
+      "ai_priorities": ["protéger une cible désignée","bloquer les déplacements","préserver les civils ou le convoi","se replier si la mission protégée est perdue"],
+      "progression_paths": [
+        {"id":"ligne","name":"Ligne","skills":[
+          {"id":"tenir_la_ligne","name":"Tenir la ligne","tags":["guard","anchor"]},
+          {"id":"bouclier_lie","name":"Bouclier lié","tags":["ally_guard"]},
+          {"id":"pas_d_ancrage","name":"Pas d'ancrage","tags":["position_control"]},
+          {"id":"releve","name":"Relève","tags":["guard_transfer","fatigue"]},
+          {"id":"mur_de_passage","name":"Mur de passage","tags":["area_denial","guard"]}
+        ]},
+        {"id":"interception","name":"Interception","skills":[
+          {"id":"lecture_d_elan","name":"Lecture d'élan","tags":["accuracy","reaction"]},
+          {"id":"crochet_de_hampe","name":"Crochet de hampe","tags":["pull","disrupt"]},
+          {"id":"briser_l_approche","name":"Briser l'approche","tags":["interrupt"]},
+          {"id":"contre_marche","name":"Contre-marche","tags":["riposte","reposition"]},
+          {"id":"aucun_ne_passe","name":"Aucun ne passe","tags":["intercept","area_denial"]}
+        ]},
+        {"id":"devoir","name":"Devoir","skills":[
+          {"id":"appel_bref","name":"Appel bref","tags":["coordination"]},
+          {"id":"partage_de_garde","name":"Partage de garde","tags":["protect","bond"]},
+          {"id":"priorite_aux_civils","name":"Priorité aux civils","tags":["mission","morale"]},
+          {"id":"refus_d_abandon","name":"Refus d'abandon","tags":["rescue","stress_resist"]},
+          {"id":"garde_commune","name":"Garde commune","tags":["team_guard","bond"]}
+        ]}
+      ],
+      "hub_behavior": ["aide spontanément à organiser les entrées et sorties","réagit aux prisonniers et aux blessés","supporte mal qu'une promesse de protection soit rompue"],
+      "narrative_reactions": ["reconnaît des procédures de contrôle","peut identifier un ordre irrégulier","peut être reconnu par d'anciens convois ou collègues"],
+      "evolution": ["Vigie de route","Garde de convoi","Rempart de passage"],
+      "remanence_hooks": ["ordres de mission","listes de passagers","marques de péage","témoignages sur des passages fermés"]
+    },
+    {
+      "id": "molosses_de_convoi",
+      "name": "Molosses de convoi",
+      "kind": "domesticated_animal",
+      "presence": {"scope":"transversal","primary_contexts":["routes","entrepôts","camps","postes de garde"]},
+      "origin_categories": ["domesticated","artificially_selected"],
+      "recruitable": true,
+      "recruitment_vectors": ["debt","common_interest","constrained_bond"],
+      "recruitment_notes": "Ils ne sont pas persuadés par dialogue. Le recrutement vient d'une rupture avec un ancien groupe, de soins, d'habitudes partagées et de comportements cohérents.",
+      "anatomy": {
+        "model":"quadruped_canid",
+        "zones":[
+          {"id":"head_jaw","functions":["bite","scent","perception"],"critical_consequences":["morsure réduite","pistage perturbé"]},
+          {"id":"thorax","functions":["endurance","respiration"],"critical_consequences":["course limitée","fatigue accrue"]},
+          {"id":"forelegs","functions":["interception","stability"],"critical_consequences":["interception limitée","vitesse réduite"]},
+          {"id":"hindlegs","functions":["sprint","pounce"],"critical_consequences":["bond interdit","repli ralenti"]}
+        ]
+      },
+      "combat_role": "tracker_interceptor",
+      "ai_priorities": ["marquer une cible","protéger le membre lié du groupe","intercepter une menace mobile","éviter de rester encerclé"],
+      "progression_paths": [
+        {"id":"piste","name":"Piste","skills":[
+          {"id":"flair_de_passage","name":"Flair de passage","tags":["track","reveal"]},
+          {"id":"marque_odorante","name":"Marque odorante","tags":["mark"]},
+          {"id":"poursuite_basse","name":"Poursuite basse","tags":["chase","bleed_light"]},
+          {"id":"retrouver_la_trace","name":"Retrouver la trace","tags":["exploration","anti_ambush"]},
+          {"id":"chasse_silencieuse","name":"Chasse silencieuse","tags":["initiative","mark"]}
+        ]},
+        {"id":"protection","name":"Protection","skills":[
+          {"id":"se_placer","name":"Se placer","tags":["intercept"]},
+          {"id":"mordre_l_arme","name":"Mordre l'arme","tags":["disarm_light"]},
+          {"id":"garder_le_blesse","name":"Garder le blessé","tags":["ally_guard"]},
+          {"id":"cercle_de_meute","name":"Cercle de meute","tags":["zone_guard"]},
+          {"id":"dernier_rempart","name":"Dernier rempart","tags":["sacrifice_guard"]}
+        ]},
+        {"id":"lien","name":"Lien","skills":[
+          {"id":"reconnaitre_la_voix","name":"Reconnaître la voix","tags":["bond","stress_resist"]},
+          {"id":"habitude_du_camp","name":"Habitude du camp","tags":["recovery"]},
+          {"id":"alerte_de_meute","name":"Alerte de meute","tags":["initiative_team"]},
+          {"id":"retour_au_groupe","name":"Retour au groupe","tags":["reposition","bond"]},
+          {"id":"meute_choisie","name":"Meute choisie","tags":["team_synergy","bond"]}
+        ]}
+      ],
+      "hub_behavior": ["choisit des lieux de repos fixes","réagit fortement aux odeurs de certaines recrues","peut refuser un ancien maître violent sans devenir arbitrairement hostile au joueur"],
+      "narrative_reactions": ["signale une présence avant que le joueur sache l'interpréter","reconnaît d'anciens trajets","son comportement peut contredire un témoignage humain"],
+      "evolution": ["Pisteur de route","Molosse de convoi","Gardien de meute"],
+      "remanence_hooks": ["colliers gravés","harnais réparés","réactions olfactives","itinéraires appris"]
+    },
+    {
+      "id": "porteurs_des_veines",
+      "name": "Porteurs des Veines",
+      "kind": "human_institutional_role",
+      "presence": {"scope":"act_specific","primary_act":"III","primary_contexts":["Veines","relais","stations de charge","couloirs de transfert"]},
+      "origin_categories": ["natural"],
+      "recruitable": true,
+      "recruitment_vectors": ["persuasion","debt","common_interest","surrender"],
+      "recruitment_notes": "Leur difficulté vient moins d'une loyauté idéologique que d'une identité progressivement confondue avec leur fonction dans le réseau.",
+      "anatomy": {
+        "model":"humanoid_load_adapted",
+        "zones":[
+          {"id":"head","functions":["orientation","routine_memory"],"critical_consequences":["désorientation","rupture de séquence"]},
+          {"id":"thorax","functions":["respiration","endurance"],"critical_consequences":["charge maximale réduite","fatigue accrue"]},
+          {"id":"shoulders_back","functions":["carry","brace"],"critical_consequences":["port de charge interdit","garde réduite"]},
+          {"id":"hands_arms","functions":["grip","transfer"],"critical_consequences":["transfert d'objet limité","attaque de saisie réduite"]},
+          {"id":"legs","functions":["brace","movement"],"critical_consequences":["ancrage réduit","déplacement ralenti"]}
+        ]
+      },
+      "combat_role": "tank_reposition_logistics",
+      "ai_priorities": ["absorber une poussée","déplacer alliés ou objets","maintenir une ligne de transfert","protéger une fonction avant sa propre sécurité tant que son conditionnement n'est pas brisé"],
+      "progression_paths": [
+        {"id":"charge","name":"Charge","skills":[
+          {"id":"epaule_basse","name":"Épaule basse","tags":["push"]},
+          {"id":"masse_du_fardeau","name":"Masse du fardeau","tags":["impact"]},
+          {"id":"percee_portee","name":"Percée portée","tags":["push","move"]},
+          {"id":"transfert_de_poids","name":"Transfert de poids","tags":["guard_transfer"]},
+          {"id":"mur_mobile","name":"Mur mobile","tags":["tank","reposition"]}
+        ]},
+        {"id":"endurance","name":"Endurance","skills":[
+          {"id":"souffle_compte","name":"Souffle compté","tags":["fatigue_resist"]},
+          {"id":"sangle_improvisee","name":"Sangle improvisée","tags":["wound_compensation"]},
+          {"id":"continuer_blesse","name":"Continuer blessé","tags":["injury_resist"]},
+          {"id":"repartition_du_fardeau","name":"Répartition du fardeau","tags":["team_fatigue"]},
+          {"id":"ancre_des_veines","name":"Ancre des Veines","tags":["anchor","guard"]}
+        ]},
+        {"id":"reseau","name":"Réseau","skills":[
+          {"id":"lire_les_veines","name":"Lire les Veines","tags":["exploration","route_read"]},
+          {"id":"relais_humain","name":"Relais humain","tags":["resource_transfer"]},
+          {"id":"changer_la_file","name":"Changer la file","tags":["party_reposition"]},
+          {"id":"entendre_la_tension","name":"Entendre la tension","tags":["hazard_detect"]},
+          {"id":"rompre_la_fonction","name":"Rompre la fonction","tags":["autonomy","network_disrupt"]}
+        ]}
+      ],
+      "hub_behavior": ["cherche spontanément une tâche permanente","peut se sentir inutile lorsqu'il n'est assigné à rien","progresse narrativement lorsqu'il choisit lui-même une activité au lieu de recevoir une fonction"],
+      "narrative_reactions": ["identifie les sons et rythmes du réseau","reconnaît des personnes-fonctions","peut défendre une institution qui l'a pourtant abîmé parce qu'elle lui a aussi donné une place"],
+      "evolution": ["Porteur","Porte-fardeau","Ancre des Veines"],
+      "remanence_hooks": ["registres de rotations","sangles personnelles","noms remplacés par fonctions","témoignages contradictoires sur le consentement"]
+    },
+    {
+      "id": "fouisseurs_des_veines",
+      "name": "Fouisseurs des Veines",
+      "kind": "subterranean_fauna",
+      "presence": {"scope":"act_specific","primary_act":"III","primary_contexts":["galeries latérales","zones effondrées","abords des stations profondes"]},
+      "origin_categories": ["natural","anciently_altered"],
+      "recruitable": true,
+      "recruitment_vectors": ["debt","common_interest","constrained_bond"],
+      "recruitment_notes": "Leur altération ancienne est une hypothèse forte issue de comparaisons anatomiques, pas une preuve d'une civilisation créatrice précise.",
+      "anatomy": {
+        "model":"low_quadruped_burrower",
+        "zones":[
+          {"id":"skull_mandibles","functions":["bite","dig"],"critical_consequences":["attaque réduite","creusement lent"]},
+          {"id":"forelimbs","functions":["dig","brace"],"critical_consequences":["creusement interdit","stabilité réduite"]},
+          {"id":"thorax","functions":["endurance","armor_core"],"critical_consequences":["fatigue","protection réduite"]},
+          {"id":"hindlimbs","functions":["pounce","retreat"],"critical_consequences":["bond interdit","repli réduit"]},
+          {"id":"dorsal_plates","functions":["armor"],"critical_consequences":["vulnérabilité accrue si plaques brisées"]}
+        ]
+      },
+      "combat_role": "ambush_breacher",
+      "ai_priorities": ["attaquer depuis un angle protégé","ouvrir ou condamner un passage","se retirer sous couvert","éviter le combat frontal prolongé"],
+      "progression_paths": [
+        {"id":"embuscade","name":"Embuscade","skills":[
+          {"id":"sous_pierre","name":"Sous-pierre","tags":["stealth"]},
+          {"id":"bond_lateral","name":"Bond latéral","tags":["flank"]},
+          {"id":"morsure_de_joint","name":"Morsure de joint","tags":["armor_gap"]},
+          {"id":"retrait_sous_couvert","name":"Retrait sous couvert","tags":["retreat"]},
+          {"id":"surgissement_profond","name":"Surgissement profond","tags":["ambush","initiative"]}
+        ]},
+        {"id":"carapace","name":"Carapace","skills":[
+          {"id":"plaques_serrees","name":"Plaques serrées","tags":["armor"]},
+          {"id":"repli_cuirasse","name":"Repli cuirassé","tags":["guard"]},
+          {"id":"abri_creuse","name":"Abri creusé","tags":["cover"]},
+          {"id":"encaisser_l_effondrement","name":"Encaisser l'effondrement","tags":["environment_resist"]},
+          {"id":"cuirasse_profonde","name":"Cuirasse profonde","tags":["armor","anchor"]}
+        ]},
+        {"id":"terrier","name":"Terrier","skills":[
+          {"id":"sentir_les_vibrations","name":"Sentir les vibrations","tags":["detect"]},
+          {"id":"ouvrir_un_passage","name":"Ouvrir un passage","tags":["exploration"]},
+          {"id":"effondrement_dirige","name":"Effondrement dirigé","tags":["environment_control"]},
+          {"id":"detour_souterrain","name":"Détour souterrain","tags":["shortcut"]},
+          {"id":"memoire_des_galeries","name":"Mémoire des galeries","tags":["map_memory","anti_ambush"]}
+        ]}
+      ],
+      "hub_behavior": ["creuse ou réorganise son espace si le hub le permet","supporte mal le confinement sans issue","réagit aux vibrations et travaux avant les humains"],
+      "narrative_reactions": ["peut révéler un tunnel par comportement plutôt que parole","évite certains matériaux sans que la cause soit immédiatement connue","constitue une preuve vivante des effets anciens possibles sur le vivant"],
+      "evolution": ["Fouisseur clair","Fouisseur profond","Fouisseur cuirassé"],
+      "remanence_hooks": ["traces de griffes anciennes","ossements comparatifs","galeries antérieures au réseau","réactions à certains sites"]
+    },
+    {
+      "id": "brules_de_porte_cendres",
+      "name": "Brûlés de Porte-Cendres",
+      "kind": "human_survivor_role",
+      "presence": {"scope":"act_specific","primary_act":"IV","primary_contexts":["Porte-Cendres","zones de relève","stations de traitement","postes de sacrifice temporaire"]},
+      "origin_categories": ["natural"],
+      "recruitable": true,
+      "recruitment_vectors": ["persuasion","debt","common_interest","surrender"],
+      "recruitment_notes": "Ce nom décrit des survivants marqués par l'exposition et l'institution; il ne signifie ni espèce distincte ni être surnaturel.",
+      "anatomy": {
+        "model":"humanoid_scarred",
+        "persistent_baseline":"cicatrices thermiques ou chimiques variables, lésions respiratoires possibles, mobilité parfois réduite avant même la rencontre",
+        "zones":[
+          {"id":"head_face","functions":["perception","breathing_support"],"critical_consequences":["perception réduite","stress respiratoire"]},
+          {"id":"thorax_lungs","functions":["respiration","endurance"],"critical_consequences":["fatigue sévère","actions longues limitées"]},
+          {"id":"arms_hands","functions":["weapon","handling"],"critical_consequences":["prise réduite","compétences d'outil limitées"]},
+          {"id":"legs","functions":["movement","brace"],"critical_consequences":["déplacement réduit","esquive limitée"]},
+          {"id":"scar_fields","functions":["mobility","pain_tolerance"],"critical_consequences":["douleur accrue","amplitude réduite selon localisation"]}
+        ]
+      },
+      "combat_role": "high_risk_frontliner_morale_support",
+      "ai_priorities": ["tenir un objectif malgré le coût","protéger ceux qui doivent être relevés","réagir fortement aux mécanismes reproduisant le sacrifice institutionnel","se surmener si son rapport à la fonction n'a pas évolué"],
+      "progression_paths": [
+        {"id":"impact","name":"Impact","skills":[
+          {"id":"frappe_courte","name":"Frappe courte","tags":["impact"]},
+          {"id":"epaule_marquee","name":"Épaule marquée","tags":["push"]},
+          {"id":"tenir_la_douleur","name":"Tenir la douleur","tags":["injury_resist"]},
+          {"id":"poussee_de_releve","name":"Poussée de relève","tags":["reposition"]},
+          {"id":"rester_debout","name":"Rester debout","tags":["last_stand"]}
+        ]},
+        {"id":"survie","name":"Survie","skills":[
+          {"id":"bandage_appris","name":"Bandage appris","tags":["self_care"]},
+          {"id":"souffle_court","name":"Souffle court","tags":["fatigue_control"]},
+          {"id":"mobilite_des_cicatrices","name":"Mobilité des cicatrices","tags":["wound_compensation"]},
+          {"id":"relayer_avant_la_chute","name":"Relayer avant la chute","tags":["swap","survival"]},
+          {"id":"survivre_n_est_pas_servir","name":"Survivre n'est pas servir","tags":["autonomy","stress_resist"]}
+        ]},
+        {"id":"temoignage","name":"Témoignage","skills":[
+          {"id":"nommer_le_cout","name":"Nommer le coût","tags":["morale","truth"]},
+          {"id":"reconnaitre_le_rite","name":"Reconnaître le rite","tags":["hazard_detect"]},
+          {"id":"refuser_son_tour","name":"Refuser son tour","tags":["autonomy","protect"]},
+          {"id":"avertissement_des_marques","name":"Avertissement des marques","tags":["team_resist"]},
+          {"id":"personne_n_est_un_combustible","name":"Personne n'est un combustible","tags":["team_morale","anti_sacrifice"]}
+        ]}
+      ],
+      "hub_behavior": ["surveille les systèmes de relève","peut avoir du mal à accepter le repos","réagit aux décisions où une personne est réduite à son utilité"],
+      "narrative_reactions": ["reconnaît des procédures présentées comme temporaires mais devenues permanentes","contredit parfois les archives officielles de coûts","peut défendre certains travailleurs de Porte-Cendres tout en condamnant le système"] ,
+      "evolution": ["Marqué de la Porte","Endurant de la Porte","Témoin des braises"],
+      "remanence_hooks": ["registres de relève","cicatrices datables","objets laissés avant exposition","listes de volontaires et de remplaçants"]
+    },
+    {
+      "id": "gardiens_des_versions",
+      "name": "Gardiens des versions",
+      "kind": "human_archive_role",
+      "presence": {"scope":"act_specific","primary_act":"V","primary_contexts":["archives","dépôts de copies","routes de transmission","ateliers de transcription"]},
+      "origin_categories": ["natural"],
+      "recruitable": true,
+      "recruitment_vectors": ["persuasion","common_interest","surrender","debt"],
+      "recruitment_notes": "Ils ne forment pas un ordre omniscient. Certains protègent les copies, d'autres contrôlent leur circulation, d'autres craignent surtout la falsification.",
+      "anatomy": {
+        "model":"humanoid_standard",
+        "zones":[
+          {"id":"head_eyes","functions":["reading","observation"],"critical_consequences":["lecture précise réduite","identification de cible limitée"]},
+          {"id":"torso","functions":["endurance"],"critical_consequences":["fatigue","mobilité de terrain réduite"]},
+          {"id":"dominant_hand","functions":["writing","precision_weapon"],"critical_consequences":["annotation impossible ou lente","précision réduite"]},
+          {"id":"off_hand","functions":["document_handling","guard"],"critical_consequences":["manipulation d'archive limitée","garde réduite"]},
+          {"id":"legs","functions":["movement","courier"],"critical_consequences":["relais et repositionnement réduits"]}
+        ]
+      },
+      "combat_role": "information_support_disruption",
+      "ai_priorities": ["identifier une faiblesse","protéger ou détruire une information selon sa faction","désorganiser les priorités adverses","se retirer avec une archive importante"],
+      "progression_paths": [
+        {"id":"precision","name":"Précision","skills":[
+          {"id":"observer_avant_d_ecrire","name":"Observer avant d'écrire","tags":["accuracy","reveal"]},
+          {"id":"marque_de_faiblesse","name":"Marque de faiblesse","tags":["mark"]},
+          {"id":"corriger_la_lecture","name":"Corriger la lecture","tags":["cleanse_error"]},
+          {"id":"cible_confirmee","name":"Cible confirmée","tags":["team_accuracy"]},
+          {"id":"preuve_croisee","name":"Preuve croisée","tags":["reveal","critical_setup"]}
+        ]},
+        {"id":"conservation","name":"Conservation","skills":[
+          {"id":"proteger_la_source","name":"Protéger la source","tags":["guard_objective"]},
+          {"id":"copie_de_secours","name":"Copie de secours","tags":["mission_recovery"]},
+          {"id":"transmission_courte","name":"Transmission courte","tags":["buff_transfer"]},
+          {"id":"archive_sous_le_manteau","name":"Archive sous le manteau","tags":["preserve_on_retreat"]},
+          {"id":"rien_ne_repose_sur_un_exemplaire","name":"Rien ne repose sur un exemplaire","tags":["redundancy","mission_resist"]}
+        ]},
+        {"id":"contradiction","name":"Contradiction","skills":[
+          {"id":"version_adverse","name":"Version adverse","tags":["debuff_certainty"]},
+          {"id":"note_marginale","name":"Note marginale","tags":["counter"]},
+          {"id":"seconde_source","name":"Seconde source","tags":["verify","resist_deception"]},
+          {"id":"faux_evident","name":"Faux évident","tags":["expose_falsehood"]},
+          {"id":"garder_deux_versions","name":"Garder deux versions","tags":["knowledge_remanence","team_resist"]}
+        ]}
+      ],
+      "hub_behavior": ["copie certains documents sans ordre","demande où sont conservées les versions rejetées","peut entrer en conflit avec une gestion du hub qui efface les contradictions"],
+      "narrative_reactions": ["repère les formulations recopiées","identifie des variantes textuelles","peut être personnellement impliqué dans une chaîne de copie sans en connaître l'origine"] ,
+      "evolution": ["Copieur de terrain","Conservateur de marche","Gardien des versions"],
+      "remanence_hooks": ["copies divergentes","notes marginales","sceaux incompatibles","chaînes de transmission incomplètes"]
+    },
+    {
+      "id": "manifestations_destructrices",
+      "name": "Manifestations destructrices",
+      "kind": "unresolved_phenomenon",
+      "presence": {"scope":"conditional","primary_contexts":["sites instables","événements rares","zones où les procédures ordinaires cessent d'être fiables"]},
+      "origin_categories": [],
+      "origin_classification": "unresolved",
+      "recruitable": false,
+      "non_recruitable_trait": "manifestation_destructrice",
+      "recruitment_vectors": [],
+      "recruitment_notes": "Elles ne doivent jamais devenir une collection de compagnons. Leur fonction est de rappeler que tout ce qui agit ou possède une forme n'est pas nécessairement une personne, une espèce ou un artefact compréhensible.",
+      "anatomy": {
+        "model":"unstable_target_zones",
+        "rule":"Le gameplay peut présenter des points de cohésion, excroissances ou structures destructibles, mais le texte ne doit pas les appeler organes si leur nature n'est pas établie.",
+        "zones":[
+          {"id":"cohesion_node","functions":["stability"],"critical_consequences":["forme moins stable"]},
+          {"id":"projection_mass","functions":["attack"],"critical_consequences":["capacité offensive réduite"]},
+          {"id":"anchor_contact","functions":["environment_hold"],"critical_consequences":["déplacement ou maintien perturbé"]}
+        ]
+      },
+      "combat_role": "environmental_pressure_unknown",
+      "ai_priorities": ["non décrites comme intentions lorsque l'intention n'est pas démontrée","produire des comportements reconnaissables sans confirmer une conscience","interagir fortement avec le terrain"],
+      "progression_paths": [],
+      "hub_behavior": [],
+      "narrative_reactions": ["les témoins proposent des interprétations incompatibles","les archives peuvent utiliser plusieurs noms pour le même phénomène","aucune version n'est automatiquement la vérité d'auteur"] ,
+      "evolution": [],
+      "encounter_severity": ["Frémissement","Rupture locale","Déchaînement"],
+      "remanence_hooks": ["traces physiques incompatibles","témoignages contradictoires","mesures partielles","zones modifiées après disparition"]
+    }
+  ],
+  "roster_design": {
+    "goal":"Chaque famille recrutabile doit changer réellement la composition d'un groupe de quatre sans remplacer les Veilleurs.",
+    "current_roles":["frontline_control_guard","tracker_interceptor","tank_reposition_logistics","ambush_breacher","high_risk_frontliner_morale_support","information_support_disruption"],
+    "coverage_rule":"Les prochaines familles doivent prioritairement compléter soin, attaque à distance, contrôle psychologique et interaction environnementale avant d'ajouter de nouveaux tanks."
+  },
+  "next_bestiary_work": [
+    "décliner chaque famille en ennemis communs, vétérans et élites",
+    "définir les valeurs de combat mobile et probabilités de comportement",
+    "lier chaque famille aux zones exactes et rencontres des actes",
+    "concevoir mini-boss et boss non recrutables associés",
+    "ajouter les familles manquantes pour soin, distance, pression psychologique et environnement",
+    "brancher blessures, démembrements permis et animations par profil anatomique"
+  ]
+}

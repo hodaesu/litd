@@ -1,0 +1,23 @@
+name: Legendary Seven Fates
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  legendary-seven-fates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Audit post-campaign destinies of the Seven
+        run: python -m tools.qa.legendary_seven_post_campaign_audit
+      - name: Contract tests post-campaign destinies of the Seven
+        run: python -m pytest -q tests/test_legendary_seven_post_campaign.py tests/test_legendary_seven_fate_catalog.py

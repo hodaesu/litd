@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.1.0",
+  "id": "late_foreign_microhistory_v2",
+  "status": "canon_depth_atlas_v2_1_with_continuity_guardrails",
+  "scope": ["late_mature_concorde", "project_threshold", "post_fall_external_world"],
+  "core_rules": {
+    "foreign_polity_equals_population": false,
+    "collective_guilt_by_origin": false,
+    "horizon_pact_is_single_cause_of_fall": false,
+    "project_threshold_has_distributed_causality": true,
+    "late_namar_equals_last_war_namar": "unresolved",
+    "late_azravel_equals_last_war_azravel": "unresolved",
+    "post_fall_external_world_fully_mapped": false,
+    "religious_or_imperial_propaganda_is_not_author_truth": true
+  },
+  "reconciliation": {
+    "horizon_pact": "Le Pacte de l'Horizon Fermé est conservé comme nom historique d'une coordination tardive entre responsables, équipes et intérêts extérieurs impliqués dans certaines branches du Projet Seuil. Il n'est ni l'unique réseau du projet ni la cause suffisante de la Chute.",
+    "fall": "La Chute résulte de la reconnexion distribuée d'infrastructures, relais et phénomènes que la Grande Fermeture avait séparés; les acteurs étrangers ont contribué à des branches de cette reconnexion sans constituer une population moralement coupable.",
+    "name_collisions": "Les occurrences tardives de Namar et Azravel utilisent des identifiants late_namar et late_azravel. Leur filiation avec les puissances homonymes de la Dernière Guerre reste une question historique à documenter, pas une identité présumée."
+  },
+  "polities": [
+    {
+      "id":"late_varkhane","name":"Empire de Varkhane","political_form":"empire continental à centre dynastique et provinces diverses","continuity_status":"late_external_polity_confirmed; relation exacte aux couches politiques plus anciennes ouverte","internal_axes":["centre impérial contre autonomie provinciale","hiérarchie militaire contre institutions civiles","stabilité contre droit de désobéir"],
+      "cities":[
+        {"id":"varkhane.khar_vor","name":"Khar-Vor","role":"capitale impériale","microhistory":["Les archives de campagne et les réserves militaires sont longtemps administrées par des chaînes séparées afin d'empêcher un général unique de contrôler les deux.","Une réforme tardive renforce le centre après plusieurs crises provinciales, mais rend l'empire plus dépendant de messages réguliers."],"post_fall":"incendies intérieurs et fermeture des portes confirmés par plusieurs sources; destruction totale non confirmée"},
+        {"id":"varkhane.selkai","name":"Selkaï","role":"ville-grenier et irrigation","microhistory":["Des communautés de canal obtiennent des droits d'entretien indépendants des gouverneurs après une famine aggravée par des ordres contradictoires.","Les grands domaines restent puissants mais dépendent d'ouvriers et de villages capables de bloquer les canaux."],"post_fall":"plusieurs districts agricoles survivent mieux en ignorant l'attente d'ordres centraux"},
+        {"id":"varkhane.orvak","name":"Orvak","role":"frontière, académies d'officiers et fonderies","microhistory":["Une école d'officiers enseigne officiellement l'obéissance rapide mais conserve officieusement des cas où un ordre légal a produit un désastre.","Les ateliers civils et militaires partagent des réparateurs, créant des réseaux que l'administration ne contrôle jamais complètement."],"post_fall":"unités autonomes protègent certains quartiers tandis que d'autres se disputent dépôts et moyens de communication"},
+        {"id":"varkhane.mera_tal","name":"Mera-Tal","role":"pèlerinage dynastique et mémoire impériale","microhistory":["Les tombes royales attirent à la fois cultes dynastiques, familles de soldats et mémoires provinciales critiques.","Des gardiens de sépultures conservent parallèlement les noms de serviteurs, ouvriers et victimes de campagnes, malgré des tentatives d'effacement."],"post_fall":"certaines enceintes funéraires deviennent refuges et sources de légitimité concurrentes"}
+      ],
+      "events":[
+        {"id":"foreign.varkhane.01_provincial_refusal","period":"~ -180","event":"Trois provinces refusent simultanément une levée exceptionnelle sans rompre avec l'empire.","public_memory":"quasi-rébellion écrasée par la sagesse impériale","source_tension":"des concessions juridiques expliquent davantage le retour au calme que la menace militaire"},
+        {"id":"foreign.varkhane.02_officers_letters","period":"~ -71","event":"Des lettres d'officiers discutent anonymement de limites de mandat observées dans la Concorde.","public_memory":"contagion étrangère","source_tension":"plusieurs auteurs cherchent surtout à éviter les ordres impossibles, pas à abolir l'empire"},
+        {"id":"foreign.varkhane.03_threshold_logistics","period":"~ -12 à 0","event":"Des corps logistiques varkhane participent à certaines branches du Projet Seuil sans connaître tous les objectifs du réseau.","public_memory":"participation uniforme de l'armée","source_tension":"niveaux d'information très différents entre responsables, ingénieurs, escortes et ouvriers"},
+        {"id":"foreign.varkhane.04_orders_without_center","period":"0 à +4","event":"Des unités attendent des ordres tandis que des communautés réquisitionnent localement nourriture et outils.","public_memory":"effondrement de la discipline","source_tension":"les zones survivant le mieux sont parfois celles qui cessent le plus tôt d'attendre le centre"}
+      ]
+    },
+    {
+      "id":"late_namar","name":"Thalassocratie tardive de Namar","political_form":"réseau de cités portuaires, îles et Maisons marchandes","continuity_status":"homonymie/filiation avec les États agricoles et fluviaux de Namar de la Dernière Guerre non résolue","internal_axes":["Maisons de crédit contre travailleurs endettés","ports ouverts contre fermeture protectrice","commerce commun contre contrôle privé des routes"],
+      "cities":[
+        {"id":"late_namar.namaris","name":"Namaris","role":"capitale commerciale insulaire","microhistory":["Des quais superposés appartiennent à des autorités et Maisons différentes; aucun plan unique ne décrit parfaitement leur juridiction.","Des mutuelles de marins concurrencent les assurances des grandes Maisons après plusieurs naufrages non indemnisés."],"post_fall":"plusieurs îlots ferment leurs ponts; autorité centrale fragmentée et état complet inconnu"},
+        {"id":"late_namar.vey_lor","name":"Vey-Lor","role":"chantier naval et cartographie","microhistory":["Les charpentiers navals conservent des gabarits d'anciens navires même quand les Maisons imposent de nouveaux standards.","Une controverse cartographique impose de distinguer route observée, route saisonnière et route assurée."],"post_fall":"certains chantiers deviennent refuges flottants; plusieurs cartes sont inutilisables après changements de courants et pertes de balises"},
+        {"id":"late_namar.sahrin","name":"Sahrin","role":"entrepôts, assurances et tribunaux commerciaux","microhistory":["Des dockers obtiennent que les délais de chargement incluent la récupération après travail de nuit.","Les tribunaux publient tardivement les propriétaires réels de certaines cargaisons après des faillites en chaîne."],"post_fall":"archives de crédit deviennent à la fois preuves, menaces et moyens de retrouver des personnes déplacées"},
+        {"id":"late_namar.ilyara","name":"Ilyara","role":"port cosmopolite et diasporas","microhistory":["Les communautés étrangères maintiennent des maisons de langue et de culte sans être regroupées en un seul quartier ethnique.","Des équipages mixtes développent des signaux manuels communs sans créer une langue universelle."],"post_fall":"probable grand refuge maritime; aucune autorité unique n'est confirmée"}
+      ],
+      "events":[
+        {"id":"foreign.namar.01_dockers_credit","period":"~ -240","event":"Une coalition de dockers bloque les quais pour contester des dettes de travail transmises par contrat.","public_memory":"crise du crédit","source_tension":"les contrats étaient légaux mais traduisaient différemment la durée de dette selon les ports"},
+        {"id":"foreign.namar.02_open_port_debate","period":"~ -88","event":"Ilyara refuse de fermer ses quais à des réfugiés d'une guerre extérieure malgré la pression de plusieurs Maisons.","public_memory":"triomphe de la tradition d'accueil","source_tension":"l'accueil repose surtout sur quartiers pauvres, marins et associations locales"},
+        {"id":"foreign.namar.03_threshold_routes","period":"~ -9 à 0","event":"Des routes maritimes et relais préparés pour certaines branches du Projet Seuil accélèrent la propagation de la catastrophe.","public_memory":"la mer apporte la Chute","source_tension":"les relais techniques, et non la mer en elle-même, constituent la connexion déterminante"},
+        {"id":"foreign.namar.04_captains_break","period":"0 à +6","event":"Des capitaines rompent leurs contrats avec les Maisons pour transformer leurs navires en refuges ou convois de sauvetage.","public_memory":"piraterie ou héroïsme selon les archives","source_tension":"les mêmes actes peuvent être qualifiés de vol, mutinerie ou secours selon le propriétaire du journal"}
+      ]
+    },
+    {
+      "id":"late_azravel","name":"Royaume sacré tardif d'Azravel","political_form":"théocratie à souverain sacré, clergés multiples et domaines locaux","continuity_status":"filiation avec l'Azravel de la Dernière Guerre non résolue; aucun millénaire de continuité politique n'est présumé","internal_axes":["autorité centrale contre conscience religieuse","orthodoxie contre pluralité d'interprétation","domaines ecclésiastiques contre communautés d'entraide"],
+      "cities":[
+        {"id":"late_azravel.azh_meran","name":"Azh-Meran","role":"capitale-temple autour d'une montagne sacrée","microhistory":["Le centre cérémoniel masque une ville de marchés, ateliers, logements de pèlerins et services d'eau administrés par plusieurs institutions.","Des litiges anciens reconnaissent que le souverain sacré ne peut pas décider seul de certains biens de fondation."],"post_fall":"plusieurs autorités rivales interprètent la catastrophe; statut du souverain et du centre exact non confirmé"},
+        {"id":"late_azravel.vel_or","name":"Vel Or","role":"copie, études religieuses et monastères","microhistory":["Les copistes conservent des commentaires contradictoires autour de mêmes textes malgré des périodes de censure.","Une tradition de copie en double place les corrections doctrinales à côté de la version antérieure au lieu de la détruire."],"post_fall":"certains monastères évacuent les bibliothèques; d'autres les ferment ou brûlent des dossiers liés au Projet Seuil"},
+        {"id":"late_azravel.serekh","name":"Serekh","role":"agriculture et grands domaines religieux","microhistory":["Les fêtes de redistribution coexistent avec des dettes paysannes persistantes.","Plusieurs communautés obtiennent un droit de réserve de grain non saisissable après une famine liée aux prélèvements."],"post_fall":"temples et granges deviennent refuges ou centres de coercition selon les responsables locaux"},
+        {"id":"late_azravel.damar_az","name":"Damar Az","role":"frontière et courants hétérodoxes","microhistory":["Des interprétations religieuses centrées sur protection des faibles survivent clandestinement puis deviennent semi-publiques.","Les gardes de frontière apprennent à négocier avec communautés de foi différentes malgré les doctrines officielles."],"post_fall":"plusieurs ordres se retournent contre des autorités ayant participé aux branches du Projet Seuil"}
+      ],
+      "events":[
+        {"id":"foreign.azravel.01_grain_sanctuary","period":"~ -310","event":"Des communautés de Serekh refusent une saisie de réserves consacrées aux famines.","public_memory":"miracle de la grange préservée","source_tension":"la protection tient surtout à un compromis juridique et à une mobilisation locale"},
+        {"id":"foreign.azravel.02_commentary_trial","period":"~ -130","event":"Un théologien est jugé pour avoir soutenu qu'une autorité peut perdre sa légitimité en commandant une cruauté évitable.","public_memory":"procès d'hérésie","source_tension":"plusieurs juges religieux reconnaissent partiellement son argument sans accepter sa conclusion politique"},
+        {"id":"foreign.azravel.03_threshold_factions","period":"~ -15 à 0","event":"Des responsables liés au pouvoir soutiennent des branches du Projet Seuil tandis que des religieux, gardes et communautés s'y opposent pour des raisons différentes.","public_memory":"Azravel a voulu la Chute ou l'a subie","source_tension":"aucune de ces formulations ne décrit correctement la distribution des décisions"},
+        {"id":"foreign.azravel.04_war_of_meaning","period":"0 à +10","event":"La catastrophe produit simultanément refuges religieux, purges, réformes, accusations et désertions d'ordres militaires.","public_memory":"apocalypse ou trahison selon les groupes","source_tension":"les conséquences matérielles sont observables; leur sens théologique reste non confirmé"}
+      ]
+    },
+    {
+      "id":"late_kor_em","name":"Ligue tardive de Kor-Em","political_form":"confédération de principautés, académies et cités savantes","continuity_status":"late_external_polity_confirmed; frontières et composition changeantes","internal_axes":["savoir public contre mécénat privé","prestige académique contre travail technique","coordination confédérale contre autonomie des cités"],
+      "cities":[
+        {"id":"kor_em.core_city","name":"Kor-Em","role":"centre universitaire polycentrique","microhistory":["Les académies partagent bibliothèques et instruments tout en dépendant de mécènes différents.","Une série de scandales impose de publier le financement des démonstrations publiques sans supprimer le mécénat."],"post_fall":"plusieurs académies deviennent forteresses de savoir; aucune autorité urbaine unifiée confirmée"},
+        {"id":"kor_em.deyra","name":"Deyra","role":"médecine, anatomie et pharmacologie","microhistory":["Des écoles rivales se disputent longtemps l'accès aux corps avant l'établissement de règles de consentement et de provenance.","Les artisans de prothèses obtiennent leur propre statut face aux médecins qui voulaient les subordonner."],"post_fall":"des maisons de soin évacuent manuels, médicaments et patients selon des priorités souvent contestées"},
+        {"id":"kor_em.tal_ves","name":"Tal-Ves","role":"observatoires et mathématiques","microhistory":["Des tables concurrentes restent publiques pour permettre reproduction plutôt que sélection d'une seule autorité.","Un mécène tente de monopoliser une méthode de calcul de navigation et déclenche une fuite collective de copistes."],"post_fall":"certains observatoires conservent des mesures utiles du Projet Seuil, mais leur interprétation diverge"},
+        {"id":"kor_em.brannor","name":"Brannor","role":"hydraulique, mécanique et métallurgie","microhistory":["Les ateliers de démonstration deviennent aussi écoles ouvrières lorsque les techniciens refusent de rester invisibles derrière les inventeurs.","Des dispositifs liés à des recherches dangereuses sont démontés par leurs propres équipes avant plusieurs décisions officielles."],"post_fall":"des ateliers isolés possèdent probablement les meilleures traces techniques de certaines branches du Projet Seuil"}
+      ],
+      "events":[
+        {"id":"foreign.kor_em.01_public_demonstration","period":"~ -260","event":"Une démonstration célèbre échoue et blesse des assistants dont les noms disparaissent des récits ultérieurs.","public_memory":"échec héroïque d'un savant","source_tension":"les carnets d'atelier montrent des alertes ignorées et des responsabilités collectives"},
+        {"id":"foreign.kor_em.02_library_exodus","period":"~ -96","event":"Des étudiants déplacent clandestinement une collection menacée par un conflit de mécènes.","public_memory":"sauvetage romantique du savoir","source_tension":"des ouvriers, porteurs et familles locales rendent l'opération matériellement possible"},
+        {"id":"foreign.kor_em.03_threshold_split","period":"~ -20 à 0","event":"Les chercheurs Veyra Oss et Bram Torgun deviennent emblèmes tardifs de deux orientations opposées face aux dangers du Seuil.","public_memory":"duel intellectuel entre deux personnes","source_tension":"les décisions reposent en réalité sur plusieurs laboratoires, commanditaires, techniciens et opposants"},
+        {"id":"foreign.kor_em.04_fragmented_survival","period":"0 à +12","event":"La faible coordination de la Ligue empêche une réponse commune mais limite aussi l'activation uniforme de certains relais.","public_memory":"Kor-Em survit grâce au génie de ses savants","source_tension":"la fragmentation institutionnelle, souvent critiquée avant, explique une partie de la survie"}
+      ]
+    }
+  ],
+  "counts": {"late_polities":4,"major_cities":16,"microhistory_events":16},
+  "gameplay_use": ["rencontres étrangères non automatiquement hostiles", "enquêtes sur responsabilités distribuées", "sources contradictoires du Projet Seuil", "politique post-catastrophe", "routes possibles vers une phase étrangère tardive"],
+  "protected_unknowns": ["état complet des quatre régions après la Chute", "continuité exacte des Namar et Azravel tardifs avec leurs homonymes de la Dernière Guerre", "sort exact de plusieurs dirigeants", "cartographie métrique extérieure"],
+  "litd2_status":"paused_no_new_litd2_narrative"
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "universe_id": "litd_universe",
+  "canon_version": "1.1.0",
+  "id": "encyclopedia_depth_v2_manifest",
+  "status": "depth_v2_complete_for_writing_and_prototyping",
+  "purpose": "Déclare la première grande couche de profondeur ajoutée après l'encyclopédie V1 sans transformer la micro-histoire extensible ou les mystères protégés en tâches obligatoires.",
+  "files": {
+    "political_families":"universe/lore/political_families_genealogies.json",
+    "npcs_microhistory":"universe/lore/living_world_npcs_microhistory.json",
+    "language_depth":"universe/lore/language_depth_v2.json",
+    "cultural_depth":"universe/lore/cultural_depth_v2.json",
+    "bestiary_depth":"universe/lore/bestiary_depth_v2.json",
+    "quest_seeds":"universe/lore/quest_seed_library_v2.json"
+  },
+  "counts": {
+    "political_family_networks":18,
+    "named_ordinary_npcs":48,
+    "microhistory_events":18,
+    "spoken_language_varieties":13,
+    "core_pronounceable_lexemes":195,
+    "martial_micro_lineages":24,
+    "artists_and_named_works":24,
+    "regional_recipes":18,
+    "full_festival_programs":6,
+    "new_bestiary_entries":70,
+    "encyclopedia_driven_quest_seeds":36
+  },
+  "completion": {
+    "genealogies_and_political_families":"complete_depth_v2",
+    "secondary_npcs":"complete_depth_v2_seed_population",
+    "regional_microhistory":"complete_depth_v2",
+    "pronounceable_lexicons":"complete_depth_v2_core_lexicon",
+    "deeper_grammar":"complete_depth_v2_production_grammar",
+    "village_variants":"complete_depth_v2_seed_variants",
+    "neighborhood_and_daily_history":"covered_by_npcs_and_microhistory",
+    "additional_martial_subschools":"complete_depth_v2",
+    "artists_and_works":"complete_depth_v2",
+    "detailed_recipes":"complete_depth_v2",
+    "festival_programs":"complete_depth_v2",
+    "additional_species":"complete_depth_v2_large_seed_catalog",
+    "encyclopedia_quests":"complete_depth_v2"
+  },
+  "still_intentionally_open": [
+    "centaines supplémentaires de PNJ, espèces, villages, familles, recettes et œuvres lorsque la production en aura besoin",
+    "grammaires exhaustives et dictionnaires complets",
+    "autonymes historiques de toutes les langues",
+    "glyphes et calligraphies finales",
+    "langue, territoire, théologie, rites et symboles de la tribu d'Èffrie",
+    "communication non humaine non établie",
+    "destins futurs des Sept non déjà verrouillés",
+    "coordonnées métriques et carte visuelle finale",
+    "mystères métaphysiques protégés"
+  ],
+  "not_missing_rule": "Les contenus extensibles restants ne constituent pas des trous de canon. V2 fournit assez de densité pour écrire des scènes, PNJ, enquêtes, quêtes et environnements sans créer une encyclopédie infinie avant production.",
+  "litd2_status":"paused_no_new_litd2_narrative_in_this_pass",
+  "depth_v2_complete":true
+}

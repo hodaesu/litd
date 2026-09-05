@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "id": "litd2_triad",
+  "status": "canon",
+  "scope": "Sahra, Ilyan et Tala pendant la Dernière Guerre, avant la Nuit de Sarn",
+  "canon_rules": [
+    "Aucun des trois n'incarne encore un Éveil constitué.",
+    "Corps, Esprit et Politique émergeront de leurs expériences et de leurs relations; ils ne sont pas des classes prédestinées.",
+    "Le joueur peut rapprocher ou opposer les trois sans annuler la naissance historique des Trois Éveils.",
+    "Les affinités modifient la manière dont les idées sont formulées, les souvenirs transmis et certaines scènes; elles ne transforment pas une relation en simple jauge romantique.",
+    "La Nuit de Sarn reste un fichier canonique distinct à écrire après validation de ces trajectoires."
+  ],
+  "characters": [
+    {
+      "id": "sahra",
+      "name": "Sahra",
+      "dramatic_axis": "agir_sans_devenir_instrument",
+      "initial_role": "combattante et protectrice de terrain issue d'une culture où la maîtrise martiale avait longtemps servi à contenir la violence",
+      "initial_belief": "Une force maîtrisée peut empêcher qu'une situation dégénère.",
+      "war_wound": "Elle découvre que l'obéissance, la compétence et même la victoire peuvent servir une décision injuste.",
+      "emerging_question": "À quoi sert de savoir vaincre si l'on ne sait pas quand refuser de frapper ?",
+      "trajectory": [
+        {"phase":"mobilisation","state":"protège des civils et croit encore que la mobilisation empêchera l'adversaire d'attaquer","gameplay":"défense, extraction, combat non létal possible"},
+        {"phase":"short_war_illusion","state":"devient reconnue pour son efficacité; la célébrité militaire la met mal à l'aise","gameplay":"duels, commandement local, choix entre objectif prestigieux et protection"},
+        {"phase":"war_of_roads","state":"voit des victoires tactiques provoquer famine et déplacements","gameplay":"tenir un corridor, ravitailler, refuser ou exécuter une destruction d'infrastructure"},
+        {"phase":"fractured_fronts","state":"protège ponctuellement des personnes considérées comme ennemies et rencontre directement les conséquences des ordres de son propre camp","gameplay":"capturer sans tuer, escorter un ancien adversaire, désobéir sous coût"},
+        {"phase":"exhaustion","state":"cesse de confondre discipline et obéissance; commence à penser la maîtrise du corps comme responsabilité envers autrui","gameplay":"fatigue, blessures persistantes, protection active, sacrifice mesuré"},
+        {"phase":"sarn_convergence","state":"arrive à Sarn avec la conviction qu'une civilisation doit apprendre à former des êtres capables d'agir sans abandonner leur jugement","gameplay":"protéger une foule, retenir plutôt que poursuivre, arbitrage par l'action"}
+      ],
+      "future_resonance": "corps",
+      "future_resonance_rule": "Cette résonance ne devient l'Éveil du Corps qu'après la Nuit de Sarn."
+    },
+    {
+      "id": "ilyan",
+      "name": "Ilyan",
+      "dramatic_axis": "comprendre_sans_se_cacher_dans_les_idees",
+      "initial_role": "observateur, lettré et praticien des arts engagé dans les réseaux de communication, de mémoire et d'interprétation de la guerre",
+      "initial_belief": "Si les personnes disposent d'informations suffisantes, elles peuvent éviter les décisions absurdes.",
+      "war_wound": "Il voit des faits exacts devenir propagande par sélection, et des œuvres sincères devenir outils de mobilisation.",
+      "emerging_question": "Comment rester capable de comprendre lorsque la peur nous pousse à ne retenir que ce qui confirme notre camp ?",
+      "trajectory": [
+        {"phase":"mobilisation","state":"collecte témoignages et messages en pensant que clarifier les faits désamorcera la crise","gameplay":"reconnaissance, récupération d'archives, comparaison de versions"},
+        {"phase":"short_war_illusion","state":"participe à des récits publics destinés à soutenir le moral puis découvre ce qu'ils taisent","gameplay":"choisir ce qui est publié, préserver une source contradictoire"},
+        {"phase":"war_of_roads","state":"voit les communications coupées produire rumeurs et massacres évitables","gameplay":"porter une information, restaurer un relais, décider quelle vérité transmettre en urgence"},
+        {"phase":"fractured_fronts","state":"rencontre des personnes dont le récit ennemi est aussi cohérent que le sien","gameplay":"interroger, traduire, préserver des témoignages incompatibles"},
+        {"phase":"exhaustion","state":"comprend que l'art et la pensée ne valent pas comme refuge mais comme moyens de supporter la contradiction sans cesser d'agir","gameplay":"rémanence Trace-Écho-Mémoire, scènes de deuil et choix de transmission"},
+        {"phase":"sarn_convergence","state":"arrive à Sarn persuadé qu'une société doit apprendre à regarder ses propres récits comme des constructions révisables","gameplay":"reconstituer des événements, contrer une rumeur sans omniscience"}
+      ],
+      "future_resonance": "esprit",
+      "future_resonance_rule": "Cette résonance ne devient l'Éveil de l'Esprit qu'après la Nuit de Sarn."
+    },
+    {
+      "id": "tala",
+      "name": "Tala",
+      "dramatic_axis": "decider_sans_confisquer_la_decision",
+      "initial_role": "médiatrice et organisatrice civile confrontée aux institutions, aux réfugiés, au ravitaillement et aux compromis entre communautés",
+      "initial_belief": "Des institutions suffisamment justes peuvent transformer les conflits en décisions communes.",
+      "war_wound": "Elle découvre que la procédure peut devenir une manière propre de laisser mourir quelqu'un et que l'urgence peut justifier une autorité qui ne se rend plus.",
+      "emerging_question": "Comment décider à temps sans faire du pouvoir une propriété ?",
+      "trajectory": [
+        {"phase":"mobilisation","state":"travaille à maintenir passages, accueils et négociations locales","gameplay":"négocier sous pression, répartir ressources, arbitrer priorités"},
+        {"phase":"short_war_illusion","state":"voit les institutions repousser les décisions difficiles en attendant une victoire rapide","gameplay":"choisir entre procédure et action immédiate avec conséquences"},
+        {"phase":"war_of_roads","state":"organise ravitaillement et évacuations; chaque allocation sauve certains et expose d'autres","gameplay":"gestion de ressources, convois, choix entre objectifs incompatibles"},
+        {"phase":"fractured_fronts","state":"travaille avec des autorités rivales et constate que la légitimité ne correspond plus toujours aux frontières","gameplay":"coalitions temporaires, prisonniers, civils, accords locaux"},
+        {"phase":"exhaustion","state":"cherche des mécanismes où pouvoir, opposition et responsabilité restent liés même en crise","gameplay":"conseils, concessions, coût politique des décisions"},
+        {"phase":"sarn_convergence","state":"arrive à Sarn convaincue qu'aucun ordre durable ne peut dépendre seulement de la vertu de ceux qui gouvernent","gameplay":"médiation multi-factions, décision sous délai, protection de la voix minoritaire"}
+      ],
+      "future_resonance": "politique",
+      "future_resonance_rule": "Cette résonance ne devient l'Éveil du Politique qu'après la Nuit de Sarn."
+    }
+  ],
+  "encounters": [
+    {
+      "id":"sahra_ilyan_first",
+      "participants":["sahra","ilyan"],
+      "phase":"fractured_fronts",
+      "premise":"Une opération militaire et une mission de récupération de témoignages revendiquent le même lieu avant son évacuation.",
+      "conflict":"Sahra veut sortir les vivants immédiatement; Ilyan refuse que des preuves permettant d'expliquer un massacre soient abandonnées.",
+      "player_tension":"temps contre mémoire",
+      "possible_resolution_tags":["sauver_d_abord","preserver_preuves","partager_risque"],
+      "lasting_effect":"Chacun découvre que la priorité de l'autre n'est pas de l'indifférence mais une autre forme de responsabilité."
+    },
+    {
+      "id":"ilyan_tala_first",
+      "participants":["ilyan","tala"],
+      "phase":"fractured_fronts",
+      "premise":"Une rumeur vérifiable en partie risque de provoquer une émeute dans un centre de réfugiés.",
+      "conflict":"Ilyan veut publier ce qui est établi avec ses incertitudes; Tala craint qu'une information vraie mais incomplète ne tue avant que le contexte arrive.",
+      "player_tension":"transparence contre responsabilité immédiate",
+      "possible_resolution_tags":["publier","retarder","publier_avec_contexte"],
+      "lasting_effect":"Ils comprennent que vérité et décision publique ne sont ni identiques ni séparables."
+    },
+    {
+      "id":"tala_sahra_first",
+      "participants":["tala","sahra"],
+      "phase":"exhaustion",
+      "premise":"Une évacuation négociée impose d'abandonner une position défendue par des combattants épuisés.",
+      "conflict":"Tala considère le retrait nécessaire pour sauver la population; Sahra refuse que les soldats soient simplement traités comme une ressource échangeable.",
+      "player_tension":"décision collective contre dignité individuelle",
+      "possible_resolution_tags":["evacuation_imposee","retrait_negocie","tenir_pour_evacuations"],
+      "lasting_effect":"Leur désaccord devient une base de réflexion sur les limites mutuelles de la force et du pouvoir."
+    },
+    {
+      "id":"triad_before_sarn",
+      "participants":["sahra","ilyan","tala"],
+      "phase":"sarn_convergence",
+      "premise":"Les trois doivent résoudre une crise locale où aucune solution ne peut simultanément protéger toutes les personnes, préserver toutes les preuves et respecter toutes les procédures.",
+      "conflict":"Le jeu confronte directement agir, comprendre et décider sans présenter encore ces verbes comme les Trois Éveils.",
+      "player_tension":"responsabilites_incompatibles",
+      "lasting_effect":"Ils entrent dans la Nuit de Sarn en sachant qu'aucune de leurs réponses ne suffit seule."
+    }
+  ],
+  "affinity_system": {
+    "principle":"Les affinités mémorisent comment les protagonistes apprennent à faire confiance, contester et se corriger; elles ne mesurent pas simplement l'affection.",
+    "pair_axes":[
+      {"pair":["sahra","ilyan"],"axes":["confiance","respect_du_desaccord","risque_partage"]},
+      {"pair":["ilyan","tala"],"axes":["confiance","transparence","responsabilite_de_la_parole"]},
+      {"pair":["tala","sahra"],"axes":["confiance","legitimite","protection_mutuelle"]}
+    ],
+    "conviction_axes":["force_et_limite","verite_et_interpretation","pouvoir_et_responsabilite"],
+    "states":["fracture","tension","respect","confiance","concordance_fragile"],
+    "rules":[
+      "Un désaccord assumé peut augmenter le respect même s'il réduit l'accord immédiat.",
+      "Mentir pour protéger peut sauver une scène et détériorer durablement la confiance.",
+      "Sacrifier systématiquement sa propre priorité pour plaire à un autre personnage ne produit pas automatiquement la meilleure relation.",
+      "Les conséquences de terrain sont mémorisées séparément des dialogues.",
+      "La concordance fragile signifie être capable d'agir ensemble malgré une divergence persistante, pas penser la même chose."
+    ],
+    "outputs":["variantes_de_dialogue","aides_en_combat","priorites_IA","scenes_de_camp","temoignages_post_guerre","formulation_future_des_eveils"]
+  },
+  "sarn_entry_conditions": {
+    "fixed":"Les trois convergent vers Sarn et participent à la séquence historique menant aux Trois Éveils.",
+    "variable":["niveau de confiance entre chaque paire","désaccords non résolus","personnes sauvées ou perdues","archives préservées","ordres refusés ou exécutés","réputation auprès des civils et institutions"],
+    "design_goal":"La macro-histoire reste canonique tandis que la mémoire humaine de cette histoire porte les choix du joueur."
+  },
+  "pending_after_this_file":["batailles nommées reliant les rencontres","Nuit de Sarn détaillée","naissance explicite des Trois Éveils","épilogue historique de LITD 2"]
+}
