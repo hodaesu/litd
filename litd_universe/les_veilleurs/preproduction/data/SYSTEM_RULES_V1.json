@@ -1,0 +1,67 @@
+{
+  "version": 2,
+  "status": "CURRENT_SYSTEM_BASELINE",
+  "canonical_source": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx",
+  "party": {"max_size": 4, "min_veilleurs": 1},
+  "refuge": {
+    "capacity_by_level": {"I": 4, "II": 6, "III": 8, "IV": 10, "V": 12},
+    "status": "system_design_retained_pending_godot_validation",
+    "event_families": ["COHABITATION","CONFLIT","RAPPROCHEMENT","SOUVENIR","BESOIN_BIOLOGIQUE","BESOIN_PSYCHOLOGIQUE","TRANSFORMATION","TRAVAIL","DECOUVERTE","DEPART","CRISE","POLITIQUE"]
+  },
+  "relationships": {"axes": ["CONFIANCE","RESPECT","PEUR","RESSENTIMENT"],"status":"system_design_retained"},
+  "knowledge": {"is_currency":false,"states":["UNKNOWN","SUSPECTED","OBSERVED","CONFIRMED","UNDERSTOOD"]},
+  "encounter_reward_baseline": {
+    "source_sheet": "Recompenses_capture",
+    "columns_present": ["Or cible", "Essence cible", "Rémanence cible", "Butin", "Capture", "Bonus connaissance"],
+    "essence_status": "PRESENT_IN_LATEST_REFERENCE_FUNCTION_TO_VALIDATE",
+    "note": "Conserver l'Essence dans les données importées. Sa fonction économique globale doit être consolidée avant d'en faire une monnaie persistante dépensable."
+  },
+  "ralliement": {
+    "display_capture_probability": false,
+    "capture_is_recruitment": false,
+    "injuries_reset_on_rally": false,
+    "bosses_recruitable": false,
+    "act_i_rule": "Les huit ennemis ordinaires de l'Acte I sont marqués 'Auxiliaire possible; ne remplace jamais un Veilleur'. La source maîtresse ne fournit pas de condition numérique plus précise : ne pas en inventer.",
+    "current_conditions": {
+      "enemy.ecouteur_creux":"Sous 30 % de vitalité + rompre son suivi sonore deux fois dans le même combat",
+      "enemy.porte_signe":"Sous 35 % + neutraliser ses deux mains sans les détruire",
+      "enemy.marcheur_aphone":"Sous 25 % + l’isoler de tout autre Silencieux pendant un round complet",
+      "enemy.reteneur_de_souffle":"Sous 30 % + interrompre sa troisième retenue sans l’achever",
+      "enemy.veine_rampante":"Sous 35 % + couper son lien au réseau sans détruire son noyau",
+      "enemy.noeud_ecorche":"Sous 25 % + empêcher toute absorption de cadavre durant deux rounds",
+      "enemy.porte_sang":"Sous 30 % + déconnecter ses liens de transfert sans provoquer d’hémorragie létale",
+      "enemy.germe_arteriel":"Sous 40 % + détruire toutes ses vrilles actives mais préserver le bulbe",
+      "enemy.marche_pale":"Sous 25 % + interrompre sa procession sans le mettre au sol",
+      "enemy.porte_linceul":"Sous 35 % + révéler sa vraie position trois fois dans le même combat",
+      "enemy.effaceur_de_traces":"Sous 30 % + conserver une marque ou un indice malgré deux tentatives d’effacement",
+      "enemy.dormeur_de_cendre":"Sous 30 % + le rendormir ou l’apaiser après son réveil sans le tuer",
+      "enemy.copie_lacunaire":"Sous 25 % + provoquer trois échecs de copie différents sans la détruire",
+      "enemy.rature_vivante":"Sous 35 % + maintenir un état de terrain qu’elle tente de rayer pendant deux rounds",
+      "enemy.archiviste_de_version":"Sous 30 % + saturer sa mémoire en utilisant quatre familles d’actions distinctes",
+      "enemy.double_du_seuil":"Sous 25 % + rompre sa symétrie de position trois fois"
+    },
+    "auxiliary_roles": {
+      "enemy.ecouteur_creux":"Reconnaissance : Observation et détection d’embuscade",
+      "enemy.porte_signe":"Coordination : signaux muets, préparation et camp",
+      "enemy.marcheur_aphone":"Garde : tenir un passage ou escorter",
+      "enemy.reteneur_de_souffle":"Halte : respiration, Peur et récupération",
+      "enemy.veine_rampante":"Pistage souterrain : passages organiques et ressources",
+      "enemy.noeud_ecorche":"Défense du Sanctuaire : ancrage et barricade organique temporaire",
+      "enemy.porte_sang":"Médical risqué : connaissances vasculaires et ressources biologiques",
+      "enemy.germe_arteriel":"Culture : matériaux organiques et sols fertiles/anormaux",
+      "enemy.marche_pale":"Convoi : déplacement, retrait et logistique",
+      "enemy.porte_linceul":"Dissimulation : réduction de détection sur certaines expéditions",
+      "enemy.effaceur_de_traces":"Contre-pistage : protection des routes et réduction d’embuscades",
+      "enemy.dormeur_de_cendre":"Garde du Sanctuaire : sentinelle immobile",
+      "enemy.copie_lacunaire":"Entraînement : reproduction limitée de gestes connus",
+      "enemy.rature_vivante":"Entretien : suppression de certaines traces dangereuses au Sanctuaire",
+      "enemy.archiviste_de_version":"Archives : conservation et comparaison des Rémanences",
+      "enemy.double_du_seuil":"Défense : copie d’une posture défensive choisie au début d’une mission"
+    },
+    "non_recruitable": ["boss.ishar_gardien_du_passage","boss.orateur_sans_voix","boss.mere_des_veines","boss.porte_cendres_blanc","boss.le_copiste"]
+  },
+  "legacy": {
+    "bestiary_25_75":"legacy/BESTIARY_REGISTRY_LEGACY_25_75.json",
+    "ralliement_25_75":"legacy/SYSTEM_RULES_LEGACY_25_75.json"
+  }
+}

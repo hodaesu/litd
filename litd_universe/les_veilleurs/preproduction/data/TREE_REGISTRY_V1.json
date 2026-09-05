@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "canonical_source": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx::Ultimes_12",
+  "scope": "VEILLEURS_ONLY",
+  "trees": [
+    {"id":"tree.v01.bastion","owner_id":"veilleur.v01","owner_name":"Nayra Orun","name":"Bastion","skill_slots":15,"ultimate_id":"ultimate.v01.bastion","ultimate_title":"La Ligne ne rompt pas","title_status":"canonical_current"},
+    {"id":"tree.v01.brisure","owner_id":"veilleur.v01","owner_name":"Nayra Orun","name":"Brisure","skill_slots":15,"ultimate_id":"ultimate.v01.brisure","ultimate_title":"Le Poids du Mur","title_status":"canonical_current"},
+    {"id":"tree.v01.serment","owner_id":"veilleur.v01","owner_name":"Nayra Orun","name":"Serment","skill_slots":15,"ultimate_id":"ultimate.v01.serment","ultimate_title":"Pas un de plus","title_status":"canonical_current"},
+
+    {"id":"tree.v02.traque","owner_id":"veilleur.v02","owner_name":"Tarek Senn","name":"Traque","skill_slots":15,"ultimate_id":"ultimate.v02.traque","ultimate_title":"La Proie n’a plus d’ombre","title_status":"canonical_current"},
+    {"id":"tree.v02.entaille","owner_id":"veilleur.v02","owner_name":"Tarek Senn","name":"Entaille","skill_slots":15,"ultimate_id":"ultimate.v02.entaille","ultimate_title":"Les Sept Ouvertures","title_status":"canonical_current"},
+    {"id":"tree.v02.disparition","owner_id":"veilleur.v02","owner_name":"Tarek Senn","name":"Disparition","skill_slots":15,"ultimate_id":"ultimate.v02.disparition","ultimate_title":"Là où nul ne regarde","title_status":"canonical_current"},
+
+    {"id":"tree.v03.anatomie","owner_id":"veilleur.v03","owner_name":"Aïsha Maren","name":"Anatomie","skill_slots":15,"ultimate_id":"ultimate.v03.anatomie","ultimate_title":"Carte parfaite du vivant","title_status":"canonical_current"},
+    {"id":"tree.v03.suture","owner_id":"veilleur.v03","owner_name":"Aïsha Maren","name":"Suture","skill_slots":15,"ultimate_id":"ultimate.v03.suture","ultimate_title":"Tout ce qui peut être sauvé","title_status":"canonical_current"},
+    {"id":"tree.v03.hemocorde","owner_id":"veilleur.v03","owner_name":"Aïsha Maren","name":"Hémocorde","skill_slots":15,"ultimate_id":"ultimate.v03.hemocorde","ultimate_title":"Le Dernier Battement","title_status":"canonical_current"},
+
+    {"id":"tree.v04.sentence","owner_id":"veilleur.v04","owner_name":"Idris Vael","name":"Sentence","skill_slots":15,"ultimate_id":"ultimate.v04.sentence","ultimate_title":"Le Verdict tombe","title_status":"canonical_current"},
+    {"id":"tree.v04.concorde","owner_id":"veilleur.v04","owner_name":"Idris Vael","name":"Concorde","skill_slots":15,"ultimate_id":"ultimate.v04.concorde","ultimate_title":"Un seul mouvement","title_status":"canonical_current"},
+    {"id":"tree.v04.dissidence","owner_id":"veilleur.v04","owner_name":"Idris Vael","name":"Dissidence","skill_slots":15,"ultimate_id":"ultimate.v04.dissidence","ultimate_title":"Que l’ordre se brise","title_status":"canonical_current"}
+  ],
+  "expected_tree_count": 12,
+  "expected_skill_count": 180,
+  "expected_ultimate_count": 12,
+  "ultimate_charge_baseline": {
+    "level_16": 1,
+    "level_32": 2,
+    "level_48": 3,
+    "same_ultimate_max_uses_per_encounter": 1,
+    "status": "prototype_baseline_from_master_reference"
+  },
+  "enemy_boss_registry": {
+    "entity_count": 29,
+    "tree_count": 87,
+    "normal_skill_count": 1305,
+    "ultimate_count": 87,
+    "source_sheets": ["Bestiaire_confirmé", "Comp_bestiaire_585", "Ult_bestiaire_39", "Actes_II_V_bestiaire", "Comp_II_V_720", "Ult_II_V_48"]
+  },
+  "superseded": {
+    "legacy_315_stage": ["Barek Thann", "Ilya Kesh", "Oshren Vaïr"],
+    "note": "Preserved in CANON_RECOVERY_2026-09-03.md only; not current validation data"
+  }
+}

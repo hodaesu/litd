@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "canonical_source": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx",
+  "stable_ids": {
+    "veilleurs": ["veilleur.v01", "veilleur.v02", "veilleur.v03", "veilleur.v04"],
+    "rule": "display names are never persistence keys"
+  },
+  "enums": {
+    "impact_type": ["BLUNT", "CUTTING", "PIERCING", "TEARING", "CRUSHING", "THERMAL", "CHEMICAL_BIOLOGICAL", "PRESSURE_RESPIRATORY"],
+    "lesion_type": ["CONTUSION", "LACERATION", "PUNCTURE", "FRACTURE", "DISLOCATION", "MUSCLE_TENDON_RUPTURE", "EXTERNAL_BLEEDING", "INTERNAL_BLEEDING", "BURN", "CRUSH_INJURY", "SEVERANCE", "ORGAN_TRAUMA"],
+    "sensory_channel": ["VISUAL", "NOISE", "ODOR", "VIBRATION", "BIOLOGICAL"],
+    "memory_importance": ["TRIVIAL", "MINOR", "SIGNIFICANT", "MAJOR", "FOUNDATIONAL"],
+    "vigilance": ["UNAWARE", "CURIOUS", "SUSPICIOUS", "SEARCHING", "CONFIRMED", "ENGAGED"],
+    "will_state": ["COMPOSED", "PRESSURED", "SHAKEN", "BREAKING", "BROKEN"],
+    "rally_method": ["SUBMISSION", "SURRENDER", "RESCUE", "PACT", "ACCLIMATION"],
+    "knowledge_state": ["UNKNOWN", "SUSPECTED", "OBSERVED", "CONFIRMED", "UNDERSTOOD"]
+  },
+  "ability_definition": {
+    "source_columns": ["ID", "Veilleur", "Arbre", "Niveau", "Nom", "Type", "Fonction", "Positions", "Cible", "Impacts", "Zones privilégiées", "Puissance qual.", "Puissance 0-5", "Précision qual.", "Précision base %", "Lésions possibles", "Conséquences fonctionnelles", "Démembrement", "Interaction armure", "Interaction environnement", "Risque utilisateur", "Tags", "Cooldown", "Charges", "Conditions", "Variante si blessé", "Variante équipement", "Note Godot"],
+    "constraints": ["ability ids must be unique", "exactly 15 normal skills per tree", "all references must resolve", "body and equipment limitations must remain systemic", "dismemberment cannot be a free proc"]
+  },
+  "ultimate_definition": {
+    "source_columns": ["Veilleur", "Arbre", "Ultime", "Mécanique", "Charges", "Limite combat", "Condition", "Puissance", "Garde-fou", "Beat 1", "Beat 2", "Beat 3", "Beat 4", "Beat 5", "Beat 6", "Beat 7", "Beat 8"],
+    "constraints": ["ultimate is separate from normal skills", "body requirements apply", "no invulnerability", "no resurrection"]
+  },
+  "content_count_contract": {
+    "veilleurs": 4,
+    "veilleur_skill_trees": 12,
+    "skills_per_tree": 15,
+    "veilleur_normal_skills": 180,
+    "veilleur_ultimates": 12,
+    "ordinary_enemy_entities": 24,
+    "boss_entities": 5,
+    "enemy_boss_entities": 29,
+    "enemy_boss_skill_trees": 87,
+    "enemy_boss_normal_skills": 1305,
+    "enemy_boss_ultimates": 87,
+    "current_total_skill_trees": 99,
+    "current_total_normal_skills": 1485,
+    "current_total_ultimates": 99,
+    "encounter_templates": 64,
+    "boss_phases": 16,
+    "combat_hazards": 12,
+    "acceptance_tests": 48,
+    "standard_mobile_enemy_actor_max": 4,
+    "party_max": 4,
+    "party_min_veilleurs": 1,
+    "refuge_capacity_legacy_design": {"I": 4, "II": 6, "III": 8, "IV": 10, "V": 12}
+  },
+  "superseded_contracts": [
+    {
+      "name": "315-stage",
+      "normal_skills": 315,
+      "ultimates": 21,
+      "status": "legacy_only",
+      "note": "Barek Thann / Ilya Kesh / Oshren Vaïr stage; not valid for current count validation"
+    },
+    {
+      "name": "25-archetypes-75-orientations",
+      "status": "legacy_concept_reserve",
+      "note": "Preserve design ideas, but do not use as current combat roster count"
+    }
+  ],
+  "save_game": {
+    "required": ["save_version", "campaign", "veilleur_states", "recruit_registry", "enemy_memory_registry", "corpse_registry", "refuge", "knowledge", "world_scars", "narrative_flags", "rng_state"]
+  }
+}
