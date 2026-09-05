@@ -4,6 +4,7 @@ const EncounterGenerator := preload("res://scripts/core/veilleurs_encounter_gene
 const ProductionRegistry := preload("res://scripts/core/veilleurs_enemy_production_registry.gd")
 
 const ACTS := ["I", "II", "III", "IV", "V"]
+const TIERS: Array[String] = ["N1", "N20", "N40"]
 const EXPECTED_FAMILIES := [
     "Bêtes de Suie",
     "Déliés",
@@ -79,7 +80,8 @@ func _test_all_templates_reference_production_species() -> void:
     _check(referenced.size() == 24, "Production/Rencontres : les 64 compositions doivent référencer les 24 espèces ordinaires de production")
 
 func _test_all_24_variant_rules_are_explicit() -> void:
-    for species_value: Variant in registry.get("profiles_by_species").keys():
+    var profiles: Dictionary = registry.get("profiles_by_species")
+    for species_value: Variant in profiles.keys():
         var species := str(species_value)
         var n1: Dictionary = generator.call("variant_profile", species, "N1")
         var n20: Dictionary = generator.call("variant_profile", species, "N20")
@@ -99,7 +101,7 @@ func _test_locked_evolution_names() -> void:
         var species := str(species_value)
         var expected: Array = LOCKED_EVOLUTIONS[species]
         for index in range(3):
-            var tier := ["N1", "N20", "N40"][index]
+            var tier: String = TIERS[index]
             var form: Dictionary = registry.call("variant_form", species, tier)
             _check(bool(form.get("named_form_locked", false)), "Production/Variantes : la forme %s de %s doit être verrouillée par le référentiel" % [tier, species])
             _check(str(form.get("form", "")) == str(expected[index]), "Production/Variantes : nom %s incorrect pour %s" % [tier, species])
