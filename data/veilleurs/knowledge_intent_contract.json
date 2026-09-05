@@ -1,0 +1,144 @@
+{
+  "version": 1,
+  "contract_id": "les_veilleurs_knowledge_intent_v1",
+  "principle": "Displayed intent is derived from persistent Knowledge, current Perception and authoritative AI Truth. The UI never becomes omniscient.",
+  "layers": {
+    "truth": "Authoritative planned enemy action, target, timing, condition and effects.",
+    "knowledge": "Persistent learned facts about a family/species, boss phase or memorable individual.",
+    "perception": "Current sensory access from light, line of sight, noise, posture, concealment and contextual checks.",
+    "presentation": "Only the intersection of truth, learned facts and currently perceivable cues."
+  },
+  "knowledge_levels": [
+    {"level": 0, "id": "unknown", "label": "Inconnu", "points_min": 0, "points_max": 0, "gate": "none"},
+    {"level": 1, "id": "spotted", "label": "Repéré", "points_min": 1, "points_max": 14, "gate": "encountered_or_identified"},
+    {"level": 2, "id": "observed", "label": "Observé", "points_min": 15, "points_max": 34, "gate": "unique_actions_observed >= 1"},
+    {"level": 3, "id": "understood", "label": "Compris", "points_min": 35, "points_max": 59, "gate": "unique_actions_observed >= 2 and survived_encounter"},
+    {"level": 4, "id": "studied", "label": "Étudié", "points_min": 60, "points_max": 84, "gate": "deep_study_evidence >= 1"},
+    {"level": 5, "id": "mastered", "label": "Maîtrisé", "points_min": 85, "points_max": 100, "gate": "unique_actions_observed >= 4 and mastery_evidence >= 2"}
+  ],
+  "knowledge_gain": {
+    "per_species_per_expedition_cap": 24,
+    "same_action_repeat_full_gain_count": 1,
+    "same_action_repeat_reduced_gain_count": 2,
+    "same_action_repeat_after_reduced_gain": 0,
+    "events": {
+      "first_encounter": 3,
+      "first_observation_of_action": 4,
+      "repeated_action_observation": 1,
+      "survive_encounter": 4,
+      "successful_anatomical_observation": 3,
+      "field_trace_analysis": 5,
+      "corpse_analysis": 8,
+      "recruit_or_deescalation_testimony": 10,
+      "archive_discovery": 6,
+      "boss_phase_observed": 7
+    },
+    "deep_study_sources": ["corpse_analysis", "recruit_or_deescalation_testimony", "field_trace_analysis", "archive_discovery"],
+    "mastery_sources": ["repeated_distinct_encounters", "corpse_analysis", "recruited_member_knowledge", "boss_phase_study", "memorable_individual_history"],
+    "anti_farm_rule": "Repeated identical actions stop generating knowledge after the reduced-gain allowance; level gates require varied evidence."
+  },
+  "scope": {
+    "family_knowledge": "Shared broad cues and behavior families.",
+    "species_knowledge": "Primary persistent bestiary progression.",
+    "individual_knowledge": "Only for memorable/veteran/elite/nemesis entities and only for habits actually witnessed.",
+    "boss_phase_knowledge": "Stored per phase; mastering one phase never reveals an unseen phase."
+  },
+  "intent_classes": [
+    "assault",
+    "control",
+    "reposition",
+    "defense",
+    "support",
+    "environment",
+    "hunt_ambush",
+    "flee_surrender_recruitment"
+  ],
+  "truth_fields": [
+    "intent_id",
+    "actor_uid",
+    "intent_class",
+    "action_id",
+    "action_family",
+    "target_uid",
+    "target_group",
+    "body_zone",
+    "effects",
+    "movement",
+    "timing",
+    "condition",
+    "damage_band",
+    "deception_mode"
+  ],
+  "reveal_by_level": {
+    "0": ["presence_or_activity_if_perceived"],
+    "1": ["intent_class"],
+    "2": ["intent_class", "target_group", "probable_target"],
+    "3": ["intent_class", "action_family", "action_name_if_observed", "target_uid"],
+    "4": ["intent_class", "action_name", "target_uid", "body_zone_if_telegraphed", "effects", "damage_band"],
+    "5": ["intent_class", "action_name", "target_uid", "body_zone_if_telegraphed", "effects", "damage_band", "timing", "condition", "counterplay_hint", "confidence"]
+  },
+  "never_revealed": [
+    "exact_rng_roll",
+    "exact_hidden_probability_when_probability_display_is_off",
+    "unseen_future_boss_phase",
+    "information_blocked_by_current_perception",
+    "enemy_private_memory_not_inferred_from_behavior"
+  ],
+  "perception": {
+    "light_detail_delta": {
+      "clear": 0,
+      "stable": 0,
+      "low": -1,
+      "critical": -2,
+      "darkness": -3
+    },
+    "minimum_display_level": 0,
+    "maximum_display_level": 5,
+    "line_of_sight_required_for_exact_body_zone": true,
+    "concealed_target_can_mask_target_uid": true,
+    "auditory_telegraphs_can_survive_visual_downgrade": true,
+    "deafening_or_masking_noise_can_remove_auditory_fields": true,
+    "rule": "Perception may downgrade presentation detail but never erases stored Knowledge."
+  },
+  "confidence_labels": [
+    {"min": 0, "max": 34, "label": "Incertain"},
+    {"min": 35, "max": 64, "label": "Probable"},
+    {"min": 65, "max": 89, "label": "Très probable"},
+    {"min": 90, "max": 100, "label": "Presque certain"}
+  ],
+  "remanence_deception": {
+    "normal": {"adaptation_slots": 0, "intent_feint_allowed": false},
+    "memorial": {"adaptation_slots": 0, "intent_feint_allowed": false},
+    "veteran": {"adaptation_slots": 1, "intent_feint_allowed": true},
+    "elite": {"adaptation_slots": 2, "intent_feint_allowed": true},
+    "nemesis": {"adaptation_slots": 2, "intent_feint_allowed": true},
+    "requirements": [
+      "feint_must_be_supported_by_lived_history",
+      "feint_must_match_enemy_archetype_or_learned_adaptation",
+      "feint_never_changes_authoritative_truth_after_player_commit_unless_the_action_explicitly_retargets",
+      "mastered_knowledge_may_show_incoherence_warning_but_never guarantees detection"
+    ]
+  },
+  "watcher_affinities": {
+    "nayra_orun": "Structural/protective observations can improve confidence about defense, heavy assault and room-interaction intents.",
+    "tarek_senn": "Tracking/scouting can restore one presentation detail step for a tracked enemy when a valid sensory cue exists.",
+    "aisha_maren": "Anatomy/corpse analysis accelerates anatomical facts and body-zone consequence knowledge.",
+    "idris_vael": "Authority/de-escalation can reveal flee, surrender or recruitment intent one knowledge step earlier when behavior supports it."
+  },
+  "known_slice_bindings": {
+    "hungry_ghoul": {
+      "default_intent_profile": ["assault", "hunt_ambush", "flee_surrender_recruitment"],
+      "knowledge_signature": "Predatory movement, blood response, target preference and recruitability become progressively readable."
+    },
+    "c01_boss_ash_witness": {
+      "default_intent_profile": ["control", "environment", "assault"],
+      "boss_phase_knowledge": true,
+      "knowledge_signature": "Memory-repetition gestures may become readable per phase but later phases remain hidden until witnessed."
+    }
+  },
+  "serialization": {
+    "knowledge_record_fields": ["species_id", "points", "level", "evidence_flags", "unique_actions_observed", "anatomy_facts", "behavior_facts", "deep_study_evidence", "mastery_evidence", "last_seen_run"],
+    "individual_record_fields": ["entity_uid", "species_id", "remanence_stage", "encounters", "known_habits", "known_scars", "known_adaptations", "last_seen_run"],
+    "scene_snapshot_forbidden": true
+  }
+}

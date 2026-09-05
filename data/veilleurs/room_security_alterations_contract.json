@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "contract_id": "les_veilleurs_room_security_alterations_v1",
+  "room_state_machine": {
+    "core_states": ["unknown", "sensed", "opened", "explored", "cleared", "secured"],
+    "transitions": {
+      "unknown_to_sensed": "party_detects_valid_cue_without_opening",
+      "sensed_to_opened": "entry_is_opened_or_crossed",
+      "unknown_to_opened": "entry_is_opened_or_crossed_without_prior_detection",
+      "opened_to_explored": "meaningful_room_features_are_resolved_or_identified",
+      "explored_to_cleared": "no_active_hostile_or_immediate_unresolved_room_threat",
+      "cleared_to_secured": "security_requirements_met_and_security_action_resolves",
+      "secured_to_cleared": "security_is_compromised"
+    },
+    "overlay_flags": ["compromised", "contaminated", "collapsed", "scarred", "patrol_interest", "temporary_hazard"],
+    "rule": "Permanent world scars and structural changes are stored as flags/history, never full scene snapshots."
+  },
+  "pre_door_information": {
+    "possible_cues": ["sound", "airflow", "odor", "blood_or_tracks", "heat", "light_leak", "structural_stress", "known_enemy_trace"],
+    "quality_sources": ["perception", "tracking", "trapcraft", "anatomy", "light_state", "noise_state", "known_room_history"],
+    "presentation": "Only detected cues are shown; absence of a displayed cue is never proof of safety."
+  },
+  "security": {
+    "purpose": "Create a temporary field anchor, not a tower-defense base and not a frozen safe room.",
+    "requirements": ["core_state == cleared", "no_active_hostile", "structural_viability", "one_available_marker_slot"],
+    "base_cost": {"pulse": 2, "noise": 8, "light": 3, "marker_slots": 1},
+    "party_check": "protective_interaction_or_structural_hazard_or_trapcraft",
+    "benefits": {
+      "ambush_resistance": 15,
+      "local_event_risk_percent_modifier": -20,
+      "patrol_warning": true,
+      "inventory_access": true,
+      "body_inspection": true,
+      "field_treatment": true,
+      "short_rest_uses": 1,
+      "map_review": true
+    },
+    "restrictions": [
+      "security_does_not_restore_lost_body_parts",
+      "security_does_not_reset_fear_or_injuries",
+      "treatment_still_uses_global_injury_costs",
+      "short_rest_is_limited_to_one_use_per_security_cycle",
+      "security_does_not_create_an_extraction_point_unless_a_valid_shortcut_or_exit_exists",
+      "enemy_patrols_continue_to_move"
+    ],
+    "compromise_triggers": ["hostile_enters_room", "violent_combat_in_room", "security_marker_destroyed", "major_collapse", "scripted_world_change"],
+    "compromise_result": {"core_state": "cleared", "set_flag": "compromised", "short_rest_uses": 0, "requires_resecure": true},
+    "watcher_affinities": {
+      "nayra_orun": {"noise_modifier": -3, "structural_viability_bonus": 15},
+      "tarek_senn": {"patrol_warning_detail_bonus": 1, "ambush_resistance_bonus": 5},
+      "aisha_maren": {"first_complex_treatment_pulse_reduction": 1},
+      "idris_vael": {"party_fear_relief_on_first_security_per_expedition": 2}
+    }
+  },
+  "expedition_alterations": {
+    "principle": "Temporary run adaptations modify decisions and synergies without duplicating permanent 45-skill progression.",
+    "categories": ["technique", "memory", "cohesion", "field", "corporeal"],
+    "caps": {"personal_active_per_actor": 2, "party_active": 1, "per_skill": 1},
+    "lifetime": "until_extraction_or_death_unless_explicitly_removed_earlier",
+    "permanent_conversion_rule": "A remarkable alteration may unlock a Technique candidate in progression/Archives, but never grants a free permanent stat bonus.",
+    "stacking": {
+      "multiplicative_runaway_forbidden": true,
+      "same_tag_requires_explicit_stack_rule": true,
+      "conflicts_are_declared_by_id_or_tag": true
+    },
+    "selection": {"choices_default": 3, "choices_min": 2, "show_conflict_before_commit": true, "irreversible_choice_requires_confirmation": true},
+    "examples": [
+      {
+        "id": "nayra_quiet_bastion",
+        "owner": "nayra_orun",
+        "category": "field",
+        "label": "Bastion silencieux",
+        "effect": {"secure_room_noise_delta": -4},
+        "tags": ["security", "protection"]
+      },
+      {
+        "id": "tarek_read_the_step",
+        "owner": "tarek_senn",
+        "category": "memory",
+        "label": "Lire le pas",
+        "effect": {"tracked_enemy_intent_detail_delta": 1, "duration_pulses": 2, "requires_valid_sensory_cue": true},
+        "tags": ["tracking", "knowledge", "intent"]
+      },
+      {
+        "id": "aisha_residual_anatomy",
+        "owner": "aisha_maren",
+        "category": "memory",
+        "label": "Anatomie résiduelle",
+        "effect": {"corpse_analysis_extra_knowledge": 4, "reveal_one_unknown_anatomy_fact_if_available": true},
+        "tags": ["anatomy", "corpse", "knowledge"]
+      },
+      {
+        "id": "idris_before_the_blow",
+        "owner": "idris_vael",
+        "category": "cohesion",
+        "label": "Avant le coup",
+        "effect": {"social_intent_reveal_level_delta": 1, "eligible_intents": ["flee_surrender_recruitment"]},
+        "tags": ["authority", "deescalation", "intent"]
+      },
+      {
+        "id": "party_cross_watch",
+        "owner": "party",
+        "category": "field",
+        "label": "Veille croisée",
+        "effect": {"secured_room_patrol_warning": true, "warning_lead_pulses": 1},
+        "tags": ["security", "cohesion"]
+      }
+    ]
+  },
+  "serialization": {
+    "room_fields": ["room_id", "core_state", "overlay_flags", "security_active", "security_marker_id", "short_rest_uses", "known_cues", "resolved_features"],
+    "alteration_fields": ["alteration_id", "owner_uid", "category", "target_skill_id", "tags", "acquired_pulse", "expiry", "runtime_payload"],
+    "scene_snapshot_forbidden": true
+  }
+}
