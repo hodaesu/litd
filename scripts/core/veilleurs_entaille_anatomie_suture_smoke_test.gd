@@ -121,7 +121,7 @@ func _run() -> void:
     var selected_patient := VeilleursSkillResolverRouter.select_medical_target(GameState.alive_heroes())
     _check(str(selected_patient.get("id", "")) == "nayra_orun", "Medical target selection must prioritize the genuinely injured ally")
 
-    var unsupported := _skill_node(aisha, "AÏ-HEM-01")
+    var unsupported := _skill_node(aisha, "AÏ-HÉM-01")
     var unsupported_profile := VeilleursSkillResolverRouter.combat_profile(aisha, unsupported)
     _check(str(unsupported_profile.get("effect", "")) == "resolver_required", "Hémocorde must remain blocked until its own resolver exists")
 
