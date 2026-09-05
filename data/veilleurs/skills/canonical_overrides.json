@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "source": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx",
+  "reason": "Corrections minimales appliquées au runtime lorsqu'une transcription JSON diverge du classeur maître. Le classeur garde la priorité.",
+  "skill_overrides": {
+    "TA-ENT-03": {
+      "Tags": "SAIGNEMENT;TENDON;MEMBRE_BLESSÉ;EXPOSÉ",
+      "note": "Corrige MEMRE_BLESSÉ dans l'export JSON initial."
+    }
+  }
+}
