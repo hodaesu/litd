@@ -15,8 +15,9 @@ def test_item_use_costs_action_but_transfer_is_free_for_both_sides():
     assert transfer["heroes_and_enemies_share_rule"] is True
 
 
-def test_v34_separates_use_from_give_and_keeps_give_action_free():
+def test_v34_item_rules_survive_the_current_main_ui_layer():
     ui = (ROOT / "scripts/ui/main_v34.gd").read_text(encoding="utf-8")
+    current_ui = (ROOT / "scripts/ui/main_v35.gd").read_text(encoding="utf-8")
     scene = (ROOT / "scenes/Main.tscn").read_text(encoding="utf-8")
 
     for marker in (
@@ -43,7 +44,11 @@ def test_v34_separates_use_from_give_and_keeps_give_action_free():
     use_body = ui[use_start:use_end]
     assert "battle_locked = true" in use_body
     assert "_complete_active_hero_turn()" in use_body
-    assert 'res://scripts/ui/main_v34.gd' in scene
+
+    # The active UI may add a thin specialized layer, but it must inherit v34 so
+    # the established use-vs-give action-cost contract remains authoritative.
+    assert 'res://scripts/ui/main_v35.gd' in scene
+    assert 'extends "res://scripts/ui/main_v34.gd"' in current_ui
 
 
 def test_transfer_changes_carrier_without_applying_item_effect():

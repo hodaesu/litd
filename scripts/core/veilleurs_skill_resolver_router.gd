@@ -2,12 +2,17 @@ extends Node
 
 const CONTRACT_PATH := "res://data/veilleurs/skills/resolver_contract.json"
 const OVERRIDES_PATH := "res://data/veilleurs/skills/canonical_overrides.json"
+const CLINICAL_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_clinical_combat_runtime.gd")
 
 var contract: Dictionary = {}
 var overrides: Dictionary = {}
 var load_errors: Array[String] = []
+var clinical_runtime: Node = null
 
 func _ready() -> void:
+    clinical_runtime = CLINICAL_RUNTIME_SCRIPT.new()
+    clinical_runtime.name = "ClinicalRuntime"
+    add_child(clinical_runtime)
     reload()
 
 func reload() -> void:
@@ -41,6 +46,7 @@ func normalize_node(node: Dictionary) -> Dictionary:
     result["resolver_status"] = str(resolver.get("status", "required"))
     result["activation_mode"] = str(resolver.get("activation_mode", activation_mode_for(result)))
     result["runtime_entrypoint"] = str(resolver.get("entrypoint", ""))
+    result["resolver_coverage"] = (resolver.get("coverage", {}) as Dictionary).duplicate(true)
     return result
 
 func contract_for(node: Dictionary) -> Dictionary:
@@ -79,6 +85,7 @@ func combat_profile(hero: Dictionary, node: Dictionary) -> Dictionary:
         "name": str(normalized.get("name", "Technique")),
         "description": str(normalized.get("description", "")),
         "branch": str(normalized.get("branch", "")),
+        "branch_name": str(normalized.get("branch_name", "")),
         "canonical_type": str(normalized.get("canonical_type", "")),
         "canonical_function": str(normalized.get("canonical_function", "")),
         "canonical_positions": str(normalized.get("canonical_positions", "")),
@@ -90,18 +97,40 @@ func combat_profile(hero: Dictionary, node: Dictionary) -> Dictionary:
         "power_0_5": float(normalized.get("power_0_5", 0.0)),
         "resolver_id": str(normalized.get("resolver_id", "")),
         "resolver_status": str(normalized.get("resolver_status", "required")),
+        "resolver_coverage": (normalized.get("resolver_coverage", {}) as Dictionary).duplicate(true),
         "activation_mode": str(normalized.get("activation_mode", "action")),
+        "runtime_entrypoint": str(normalized.get("runtime_entrypoint", "")),
         "manual_combat_usable": can_manual_equip(normalized)
     }
     if not bool(result.get("manual_combat_usable", false)):
         result["effect"] = "resolver_required"
         result["target"] = "none"
         return result
-    # A prototype bridge may be added later only by changing resolver_contract.json.
-    # Until then, canonical skills never silently collapse into generic damage/heal.
+
+    var runtime := _clinical_runtime()
+    if runtime != null and runtime.has_method("handles") and bool(runtime.call("handles", result)) and runtime.has_method("profile_for"):
+        var runtime_profile: Dictionary = runtime.call("profile_for", hero, result)
+        for key_value: Variant in runtime_profile.keys():
+            result[str(key_value)] = runtime_profile.get(key_value)
+        return result
+
+    # Un resolver déclaré jouable mais absent du runtime reste volontairement bloqué.
     result["effect"] = "resolver_required"
     result["target"] = "none"
+    result["manual_combat_usable"] = false
     return result
+
+func resolve_combat(hero: Dictionary, target: Dictionary, skill: Dictionary, damage: int = 0, party: Array = []) -> Dictionary:
+    var runtime := _clinical_runtime()
+    if runtime == null or not runtime.has_method("resolve") or not runtime.has_method("handles") or not bool(runtime.call("handles", skill)):
+        return {"ok": false, "reason": "clinical_runtime_unavailable", "skill_id": str(skill.get("id", ""))}
+    return runtime.call("resolve", hero, target, skill, damage, party)
+
+func select_medical_target(party: Array) -> Dictionary:
+    var runtime := _clinical_runtime()
+    if runtime == null or not runtime.has_method("select_medical_target"):
+        return {}
+    return runtime.call("select_medical_target", party)
 
 func ultimate_contract(hero: Dictionary, branch: String) -> Dictionary:
     var ultimate := VeilleursSkillCatalog.ultimate_for(hero, branch)
@@ -117,8 +146,14 @@ func summary() -> Dictionary:
     return {
         "tree_families": (contract.get("tree_families", {}) as Dictionary).size(),
         "skill_overrides": (contract.get("skill_overrides", {}) as Dictionary).size(),
+        "clinical_runtime": clinical_runtime != null,
         "load_errors": load_errors.duplicate()
     }
+
+func _clinical_runtime() -> Node:
+    if clinical_runtime == null:
+        clinical_runtime = get_node_or_null("ClinicalRuntime")
+    return clinical_runtime
 
 func _load_dictionary(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
