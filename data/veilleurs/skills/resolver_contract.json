@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "policy": {
     "no_silent_generic_fallback": true,
     "unlock_without_runtime_execution_allowed": true,
@@ -20,10 +20,10 @@
     "Brisure": {"resolver_id":"impact_environment_anatomy","status":"required","systems":["contact","armor","anatomy","push","environment","user_risk"]},
     "Serment": {"resolver_id":"formation_guard_commitment","status":"required","systems":["formation","ally_state","interception","fear_hope","relationship","extraction"]},
     "Traque": {"resolver_id":"tracking_knowledge_remanence","status":"required","systems":["perception","uncertainty","bestiarity_knowledge","remanence","intent_preview"]},
-    "Entaille": {"resolver_id":"anatomical_lesion","status":"prototype_bridge","entrypoint":"VeilleursClinicalCombatRuntime.resolve","systems":["anatomy","lesion","tendon","bleeding","functional_consequence","dismemberment"],"coverage":{"manual_actions":true,"posture":true,"passive_readthrough":true,"reaction_hooks":false,"transformation_hooks":false}},
+    "Entaille": {"resolver_id":"anatomical_lesion","status":"prototype_bridge","entrypoint":"VeilleursClinicalCombatRuntime.resolve","reaction_entrypoint":"VeilleursClinicalReactionRuntime","systems":["anatomy","lesion","tendon","bleeding","functional_consequence","dismemberment"],"coverage":{"manual_actions":true,"posture":true,"passive_readthrough":true,"reaction_hooks":true,"transformation_hooks":true}},
     "Disparition": {"resolver_id":"stealth_position_environment","status":"required","systems":["position","cover","light","noise","perception_certainty","enemy_targeting"]},
-    "Anatomie": {"resolver_id":"anatomical_diagnostic","status":"prototype_bridge","entrypoint":"VeilleursClinicalCombatRuntime.resolve","systems":["anatomy","diagnostic","weakness","knowledge","functional_consequence"],"coverage":{"manual_actions":true,"posture":true,"corpse_action":true,"passive_readthrough":true,"reaction_hooks":false,"transformation_hooks":false}},
-    "Suture": {"resolver_id":"medical_treatment","status":"prototype_bridge","entrypoint":"VeilleursClinicalCombatRuntime.resolve","systems":["injury","persistent_injury","bleeding","fracture","resources","time"],"coverage":{"manual_actions":true,"posture":true,"passive_readthrough":true,"reaction_hooks":false,"transformation_hooks":false}},
+    "Anatomie": {"resolver_id":"anatomical_diagnostic","status":"prototype_bridge","entrypoint":"VeilleursClinicalCombatRuntime.resolve","reaction_entrypoint":"VeilleursClinicalReactionRuntime","systems":["anatomy","diagnostic","weakness","knowledge","functional_consequence"],"coverage":{"manual_actions":true,"posture":true,"corpse_action":true,"passive_readthrough":true,"reaction_hooks":true,"transformation_hooks":true}},
+    "Suture": {"resolver_id":"medical_treatment","status":"prototype_bridge","entrypoint":"VeilleursClinicalCombatRuntime.resolve","reaction_entrypoint":"VeilleursClinicalReactionRuntime","systems":["injury","persistent_injury","bleeding","fracture","resources","time"],"coverage":{"manual_actions":true,"posture":true,"passive_readthrough":true,"reaction_hooks":true,"transformation_hooks":true}},
     "Hémocorde": {"resolver_id":"vascular_bleeding","status":"required","systems":["blood_flow","bleeding","shock","anatomy","user_risk"]},
     "Sentence": {"resolver_id":"authority_intent_timeline","status":"required","systems":["intent","timeline","interrupt","priority","decision_memory"]},
     "Concorde": {"resolver_id":"formation_coordination","status":"required","systems":["formation","initiative","shared_reaction","guard","team_state"]},
