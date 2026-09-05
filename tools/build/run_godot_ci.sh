@@ -80,6 +80,7 @@ run_checked "Les Veilleurs IA : cible blessée accessible, gestes et Archiviste 
 run_checked "Les Veilleurs boss : Ishar, Orateur, Mère, Porte-Cendres et Copiste T36-T47" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_boss_contract_smoke.tscn
 run_checked "Les Veilleurs production boss : routage actes, pré-boss, non-recrutabilité et phases" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_boss_production_smoke.tscn
 run_checked "Les Veilleurs Rémanence salle : cadavres, cicatrices, Némésis, savoir et compression mobile" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_room_persistence_smoke.tscn
+run_checked "Les Veilleurs Rémanence salle massive : 2250 seeds et plus de 20000 projections mobile/PC" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_room_persistence_mass_smoke.tscn
 run_checked "Les Veilleurs checkpoint pré-boss : état critique complet T48" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_preboss_checkpoint_smoke.tscn
 run_checked "Les Veilleurs VS001 physique : S1-S8, collisions, retour et passage secret" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_vs001_physical_smoke.tscn
 run_checked "Les Veilleurs VS001 jouable : quatuor, exploration physique, interactions, combats et secret S8" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_vs001_playable_smoke.tscn
