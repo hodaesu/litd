@@ -22,8 +22,9 @@ def test_hero_skill_manager_keeps_single_tree_initial_cycle_but_opens_ngplus():
     manager = (ROOT / 'scripts/core/hero_skill_manager.gd').read_text()
     assert 'func multi_tree_enabled() -> bool:' in manager
     assert 'return EndgameState.active_cycle >= 1' in manager
+    assert 'if VeilleursSkillCatalog.is_watcher(hero):' in manager
     assert 'if not multi_tree_enabled() and specialization != "" and specialization != branch: return false' in manager
-    assert 'if not multi_tree_enabled() and str(hero.get("specialization","")) == ""' in manager
+    assert 'VeilleursSkillCatalog.is_watcher(hero) or not multi_tree_enabled()' in manager
     assert 'str(node.requires) == "" or hero.get("unlocked_skills", []).has(str(node.requires))' in manager
 
 
