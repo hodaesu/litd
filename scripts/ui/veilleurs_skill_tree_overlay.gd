@@ -46,6 +46,7 @@ func _build() -> void:
     frame.offset_bottom = -18
     overlay.add_child(frame)
     var root := VBoxContainer.new()
+    root.name = "Root"
     root.add_theme_constant_override("separation", 8)
     frame.add_child(root)
 
@@ -109,14 +110,14 @@ func _toggle() -> void:
         _refresh()
 
 func _refresh() -> void:
-    var hero := _selected_hero()
+    var hero: Dictionary = _selected_hero()
     if hero.is_empty():
         overlay.visible = false
         open_button.visible = false
         return
     open_button.visible = true
     _refresh_watchers()
-    var branches := HeroSkillManager.branches_for(hero)
+    var branches: Array[String] = HeroSkillManager.branches_for(hero)
     if selected_branch == "" or not branches.has(selected_branch):
         selected_branch = str(branches[0]) if not branches.is_empty() else ""
     _refresh_branches(hero)
@@ -134,14 +135,14 @@ func _refresh_watchers() -> void:
         var id := str(hero.get("id", ""))
         var button := Button.new()
         button.text = ("◆ " if id == selected_watcher_id else "") + str(hero.get("name", id))
-        button.custom_minimum_size = Vector2(190, 50)
+        button.custom_minimum_size = Vector2(190, 54)
         button.pressed.connect(_select_watcher.bind(id))
         watcher_row.add_child(button)
 
 func _refresh_branches(hero: Dictionary) -> void:
     _clear(branch_row)
     var specialization := str(hero.get("specialization", ""))
-    for branch in HeroSkillManager.branches_for(hero):
+    for branch: String in HeroSkillManager.branches_for(hero):
         var branch_id := str(branch)
         var suffix := ""
         if specialization == branch_id:
@@ -150,13 +151,13 @@ func _refresh_branches(hero: Dictionary) -> void:
             suffix = " · VERROUILLÉ"
         var button := Button.new()
         button.text = ("◆ " if branch_id == selected_branch else "") + HeroSkillManager.branch_label(hero, branch_id).to_upper() + suffix
-        button.custom_minimum_size = Vector2(230, 50)
+        button.custom_minimum_size = Vector2(230, 54)
         button.pressed.connect(_select_branch.bind(branch_id))
         branch_row.add_child(button)
 
 func _refresh_skills(hero: Dictionary) -> void:
     _clear(skill_list)
-    var nodes := HeroSkillManager.skill_nodes(hero, selected_branch)
+    var nodes: Array = HeroSkillManager.skill_nodes(hero, selected_branch)
     for value: Variant in nodes:
         var node: Dictionary = value
         var id := str(node.get("id", ""))
@@ -172,7 +173,7 @@ func _refresh_skills(hero: Dictionary) -> void:
 
 func _refresh_detail(hero: Dictionary) -> void:
     _clear(detail)
-    var node := _node_by_id(hero, selected_skill_id)
+    var node: Dictionary = _node_by_id(hero, selected_skill_id)
     if node.is_empty():
         detail.add_child(_label("Sélectionnez une compétence.", 17))
         _append_ultimate(hero)
@@ -199,11 +200,10 @@ func _refresh_detail(hero: Dictionary) -> void:
 func _append_ultimate(hero: Dictionary) -> void:
     if selected_branch == "":
         return
-    var ultimate := HeroSkillManager.ultimate_for(hero, selected_branch)
+    var ultimate: Dictionary = HeroSkillManager.ultimate_for(hero, selected_branch)
     if ultimate.is_empty():
         return
-    var sep := HSeparator.new()
-    detail.add_child(sep)
+    detail.add_child(HSeparator.new())
     detail.add_child(_label("ULTIME · %s" % str(ultimate.get("name", "")), 18))
     detail.add_child(_label("Charges disponibles : %d · maximum 1 activation du même ultime par rencontre\n%s" % [int(ultimate.get("available_charges", 0)), str(ultimate.get("mechanic", ""))], 13))
     detail.add_child(_label("Resolver : ultimate_sequence · requis", 12))
@@ -224,7 +224,7 @@ func _select_skill(skill_id: String) -> void:
     _refresh()
 
 func _unlock_selected() -> void:
-    var hero := _selected_hero()
+    var hero: Dictionary = _selected_hero()
     if hero.is_empty() or selected_skill_id == "":
         return
     HeroSkillManager.unlock(hero, selected_skill_id)
@@ -240,8 +240,8 @@ func _selected_hero() -> Dictionary:
 func _node_by_id(hero: Dictionary, skill_id: String) -> Dictionary:
     if skill_id == "":
         return {}
-    for branch in HeroSkillManager.branches_for(hero):
-        for value: Variant in HeroSkillManager.skill_nodes(hero, str(branch)):
+    for branch: String in HeroSkillManager.branches_for(hero):
+        for value: Variant in HeroSkillManager.skill_nodes(hero, branch):
             if value is Dictionary and str((value as Dictionary).get("id", "")) == skill_id:
                 return value
     return {}
@@ -258,11 +258,11 @@ func _clear(parent: Node) -> void:
         child.queue_free()
 
 func _apply_layout() -> void:
-    if overlay == null:
+    if overlay == null or open_button == null:
         return
-    var phone := get_viewport().get_visible_rect().size.x < 950
-    var body := overlay.get_node_or_null("SkillTreeFrame/VBoxContainer/SkillTreeBody")
-    if body is HBoxContainer:
-        (body as HBoxContainer).vertical = false if "vertical" in body else false
-    # On phone, the overlay remains full-screen and scrollable; all actions stay >= 50 px.
-    open_button.custom_minimum_size = Vector2(118, 54 if phone else 54)
+    var phone := get_viewport().get_visible_rect().size.x < 950.0
+    open_button.custom_minimum_size = Vector2(118.0, 54.0)
+    open_button.offset_left = -260.0 if phone else -396.0
+    open_button.offset_right = -138.0 if phone else -274.0
+    open_button.offset_top = -72.0
+    open_button.offset_bottom = -16.0
