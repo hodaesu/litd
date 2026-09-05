@@ -1,0 +1,23 @@
+name: Encyclopedia Depth V2.1
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  encyclopedia-depth-v2-1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Audit encyclopedia depth V2.1
+        run: python -m tools.qa.encyclopedia_depth_v2_1_audit
+      - name: Contract tests encyclopedia depth V2.1
+        run: python -m pytest -q tests/test_encyclopedia_depth_v2_1.py tests/test_lore_depth_v2_1_catalog.py
