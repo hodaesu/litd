@@ -48,8 +48,9 @@ func _seed_pressure_scars() -> void:
     RemanenceRuntime.create_world_scar("stress.approach.blood2", "old_blood", "trace", common.merged({"summary":"Trace de sang B."}, true))
 
 func _simulate_profile(device_profile: String, seed_count: int, visible_cap: int, interactive_cap: int) -> void:
+    var generator: RefCounted = HybridDungeonGenerator.new()
+    var mirror_generator: RefCounted = HybridDungeonGenerator.new()
     for seed_index in range(seed_count):
-        var generator: RefCounted = HybridDungeonGenerator.new()
         var seed_value: int = 100000 + seed_index * 7919 + (5000000 if device_profile == "pc" else 0)
         var result: Dictionary = generator.call("generate", seed_value, "first_veil_crypts", {
             "visit_kind":"revisit",
@@ -90,7 +91,6 @@ func _simulate_profile(device_profile: String, seed_count: int, visible_cap: int
             pc_approach_rooms += 1
 
         if seed_index % 250 == 0:
-            var mirror_generator: RefCounted = HybridDungeonGenerator.new()
             var mirror: Dictionary = mirror_generator.call("generate", seed_value, "first_veil_crypts", {
                 "visit_kind":"revisit",
                 "device_profile":device_profile,
