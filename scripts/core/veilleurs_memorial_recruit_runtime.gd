@@ -54,17 +54,22 @@ static func on_recruited(enemy: Dictionary, creature: Dictionary) -> Dictionary:
     output["remanence_relationships"] = _build_watcher_relationships(record, killed_watchers, relic_ids, escaped_captures)
     output["family_memory"] = {
         "origin_species_id": str(record.get("species_id", output.get("species_id", ""))),
+        "origin_family_id": str(enemy.get("family_id", enemy.get("enemy_family_id", enemy.get("origin_family_id", "")))),
         "origin_region_id": str(record.get("region_id", "")),
         "former_nemesis": hostile_stage == "nemesis",
         "recognition_enabled": true,
         "betrayal_randomized": false
     }
+    output["origin_family_id"] = str((output.get("family_memory", {}) as Dictionary).get("origin_family_id", ""))
+
     for key in ["persistent_injuries", "body_state", "dismembered_parts", "anatomy_injuries", "anatomy_part_states", "anatomy_part_trauma"]:
         var value: Variant = body_snapshot.get(key)
         if value is Array:
             output[key] = (value as Array).duplicate(true)
         elif value is Dictionary:
             output[key] = (value as Dictionary).duplicate(true)
+
+    _preserve_hostile_skill_state(enemy, output)
 
     RemanenceRuntime.set_entity_status(entity_id, "recruited")
     var allied_record := RemanenceRuntime.entity_state(entity_id)
@@ -73,6 +78,8 @@ static func on_recruited(enemy: Dictionary, creature: Dictionary) -> Dictionary:
     allied_record["recruited_run"] = RemanenceRuntime.run_index
     allied_record["recruited_instance_id"] = str(output.get("instance_id", ""))
     allied_record["hostile_history_preserved"] = true
+    allied_record["hostile_skill_state"] = (output.get("hostile_skill_state", {}) as Dictionary).duplicate(true)
+    allied_record["three_tree_continuity"] = bool(output.get("three_tree_continuity", false))
     if hostile_stage == "nemesis":
         allied_record["stage"] = "former_nemesis"
     RemanenceRuntime.entities[entity_id] = allied_record
@@ -80,7 +87,9 @@ static func on_recruited(enemy: Dictionary, creature: Dictionary) -> Dictionary:
         "historical_stage": hostile_stage,
         "run_index": RemanenceRuntime.run_index,
         "killed_watchers": killed_watchers.duplicate(),
-        "relic_ids": relic_ids.duplicate()
+        "relic_ids": relic_ids.duplicate(),
+        "specialization": str(output.get("specialization", "")),
+        "unlocked_skills": (output.get("unlocked_skills", []) as Array).duplicate(true)
     })
     RemanenceRuntime.remanence_changed.emit()
     return {
@@ -88,7 +97,8 @@ static func on_recruited(enemy: Dictionary, creature: Dictionary) -> Dictionary:
         "memory_preserved": true,
         "entity_id": entity_id,
         "historical_stage": hostile_stage,
-        "allied_status": str(output.get("allied_status", ""))
+        "allied_status": str(output.get("allied_status", "")),
+        "skill_state_preserved": bool(output.get("three_tree_continuity", false))
     }
 
 static func family_reaction(creature: Dictionary, encountered_enemy: Dictionary) -> Dictionary:
@@ -160,6 +170,41 @@ static func create_memorial_death_scar(creature: Dictionary, world_director: Nod
         "former_nemesis": bool(creature.get("former_nemesis", false))
     })
     return scar_id
+
+static func _preserve_hostile_skill_state(enemy: Dictionary, output: Dictionary) -> void:
+    var original_level := maxi(1, int(enemy.get("level", output.get("level", 1))))
+    var original_xp := maxi(0, int(enemy.get("xp", 0)))
+    var original_points := maxi(0, int(enemy.get("skill_points", output.get("skill_points", original_level))))
+    var original_unlocked: Array = []
+    var unlocked_value: Variant = enemy.get("unlocked_skills", [])
+    if unlocked_value is Array:
+        original_unlocked = (unlocked_value as Array).duplicate(true)
+    var original_specialization := str(enemy.get("specialization", enemy.get("active_doctrine", "")))
+    if original_specialization not in ["offense", "defense", "special"]:
+        original_specialization = str(output.get("specialization", ""))
+    var tree_progress: Dictionary = {}
+    var progress_value: Variant = enemy.get("skill_tree_progress", enemy.get("tree_progress", {}))
+    if progress_value is Dictionary:
+        tree_progress = (progress_value as Dictionary).duplicate(true)
+
+    output["level"] = original_level
+    output["xp"] = original_xp
+    output["skill_points"] = original_points
+    if not original_unlocked.is_empty():
+        output["unlocked_skills"] = original_unlocked
+    output["specialization"] = original_specialization
+    output["skill_tree_progress"] = tree_progress
+    output["hostile_skill_state"] = {
+        "level": original_level,
+        "xp": original_xp,
+        "skill_points": original_points,
+        "unlocked_skills": original_unlocked.duplicate(true),
+        "specialization": original_specialization,
+        "tree_progress": tree_progress.duplicate(true),
+        "active_doctrine": str(enemy.get("active_doctrine", original_specialization))
+    }
+    output["three_tree_continuity"] = true
+    output["tree_lock_preserved"] = original_specialization != ""
 
 static func _build_watcher_relationships(record: Dictionary, killed_watchers: Array[String], relic_ids: Array[String], escaped_captures: int) -> Dictionary:
     var relationships := {}
