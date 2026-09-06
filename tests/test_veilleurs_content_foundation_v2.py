@@ -40,9 +40,41 @@ def test_content_foundation_counts_and_ids():
 
     bosses = data["bosses"]
     assert bosses["count"] == 5
-    assert bosses["recruitable"] is False
+    assert bosses["recruitable"] is True
     assert [boss["act"] for boss in bosses["roster"]] == [1, 2, 3, 4, 5]
+    assert all(boss["recruitable"] is True for boss in bosses["roster"])
     assert len({boss["id"] for boss in bosses["roster"]}) == 5
+
+
+def test_recovered_species_are_canonical_partial_not_placeholders():
+    data = load("species_catalog_recovered_v1.json")
+    assert data["target_species"] == 24
+    assert data["recovered_species"] == 16
+    assert data["unresolved_species"] == 8
+    assert data["placeholder_names_forbidden"] is True
+    assert len(data["families"]) == 8
+
+    recovered = [
+        species
+        for family in data["families"]
+        for species in family["species"]
+    ]
+    assert len(recovered) == 16
+    assert len({species["id"] for species in recovered}) == 16
+    assert all(species["name"].strip() for species in recovered)
+
+    unresolved = [
+        family
+        for family in data["families"]
+        if family["species_names_locked"] is False
+    ]
+    assert {family["id"] for family in unresolved} == {
+        "delies",
+        "pelerins_fendus",
+        "gardiens_de_pierre",
+        "betes_de_suie",
+    }
+    assert all(family["species"] == [] for family in unresolved)
 
 
 def test_party_refuge_and_recruitment_guardrails():
@@ -50,7 +82,8 @@ def test_party_refuge_and_recruitment_guardrails():
     assert data["party"]["max_combatants"] == 4
     assert data["party"]["min_watchers"] == 1
     assert data["refuge"]["recruit_capacity"] == 12
-    assert data["eligibility"]["boss"] is False
+    assert data["eligibility"]["boss"] is True
+    assert data["eligibility"]["boss_rule"] == "canonical_story_rule_only"
     assert data["eligibility"]["miniboss"] is False
     assert data["ui"]["capture_probability_visible"] is False
     assert data["monetization_guardrails"] == {
