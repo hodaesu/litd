@@ -45,6 +45,9 @@
     "archive_visibility_requires_observation": true
   },
   "knowledge_rules": {
+    "canonical_source_states": ["UNKNOWN", "SUSPECTED", "OBSERVED", "CONFIRMED", "UNDERSTOOD"],
+    "six_detail_levels_are_ui_projection_only": true,
+    "knowledge_is_currency": false,
     "boss_phase_scoped": true,
     "unseen_future_phase_hidden": true,
     "current_perception_can_reduce_displayed_detail": true,
@@ -53,8 +56,8 @@
   "content_population": {
     "encounters_status": "64_recovered_hash_locked_and_runtime_bound",
     "synergies_status": "21_recovered_catalogued_and_runtime_bound",
-    "boss_phases_status": "16_recovered_and_knowledge_bound",
-    "archives_status": "29_source_entries_bound_to_six_level_knowledge",
+    "boss_phases_status": "16_recovered_and_phase_scoped_presentation_bound",
+    "archives_status": "29_source_entries_bound_to_six_level_ui_projection",
     "placeholder_names_forbidden": true
   }
 }
