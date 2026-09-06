@@ -1,31 +1,29 @@
 {
-  "version": 1,
+  "version": 2,
   "status": "production_contract",
   "language": "fr",
   "dialogue_mode": "text_only",
   "voice_acting": false,
   "main_protagonists_exact": 4,
-  "protagonists": [
-    "nayra_orun",
-    "tarek_senn",
-    "aisha_maren",
-    "idris_vael"
-  ],
+  "protagonists": ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"],
+  "canonical_corpus": {
+    "manifest": "res://data/veilleurs/canonical_prepc_2026_09_03/canonical_source_manifest_v1.json",
+    "watcher_barks": "res://data/veilleurs/canonical_prepc_2026_09_03/current/barks_veilleurs.json",
+    "boss_dialogues": "res://data/veilleurs/canonical_prepc_2026_09_03/current/dialogues_boss.json",
+    "narrative_events": "res://data/veilleurs/narrative_event_catalog_v1.json",
+    "bestiary_narrative": "res://data/veilleurs/canonical_prepc_2026_09_03/current/bestiaire_narratif_29.json",
+    "remanence_ii_v": "res://data/veilleurs/canonical_prepc_2026_09_03/current/remanence_ii_v.json",
+    "counts": {"watcher_barks":68, "boss_dialogue_lines":30, "narrative_events":15, "bestiary_entries":29}
+  },
   "chronology": {
     "after": "LITD II / Dernière Guerre",
     "before": "LITD I",
     "era": "premiers_temps_de_la_Concorde_et_des_Sanctuaires"
   },
-  "narrative_pillars": [
-    "creation_de_personnages",
-    "gore_systemique_et_consequences_corporelles",
-    "philosophie_et_psychologie",
-    "profondeur_humaine_accessible",
-    "narration_forte",
-    "interconnexion_des_jeux",
-    "remanence_de_la_connaissance"
-  ],
+  "narrative_pillars": ["creation_de_personnages", "gore_systemique_et_consequences_corporelles", "philosophie_et_psychologie", "profondeur_humaine_accessible", "narration_forte", "interconnexion_des_jeux", "remanence_de_la_connaissance"],
   "epistemic_rules": {
+    "observation_is_not_certainty": true,
+    "light_stabilizes_shared_reference_not_absolute_truth": true,
     "distinguish_fact_hypothesis": true,
     "omniscient_exposition_forbidden": true,
     "uncertainty_can_persist": true,
@@ -34,7 +32,7 @@
     "body_state_can_change_future_dialogue": true,
     "relationship_history_can_change_future_dialogue": true
   },
-  "voice_contract_source": "res://data/veilleurs/vs001_dialogues.json",
+  "vertical_voice_contract_source": "res://data/veilleurs/vs001_dialogues.json",
   "voice_anchors": {
     "nayra_orun": ["securite_du_groupe", "structure", "risque", "phrases_courtes"],
     "tarek_senn": ["traces", "distance", "sensoriel_concret", "economie_de_mots"],
@@ -47,16 +45,7 @@
     "repeat_cooldown_pulses": 4,
     "max_lines_per_micro_event": 2
   },
-  "remanence_hooks": [
-    "knowledge_confirmed",
-    "knowledge_contradicted",
-    "persistent_injury_added",
-    "entity_promoted",
-    "recruitment_resolved",
-    "relationship_threshold_crossed",
-    "world_scar_created",
-    "important_object_state_changed"
-  ],
+  "remanence_hooks": ["knowledge_confirmed", "knowledge_contradicted", "persistent_injury_added", "entity_promoted", "recruitment_resolved", "relationship_threshold_crossed", "world_scar_created", "important_object_state_changed"],
   "writing_guardrails": {
     "explain_systems_through_observation_before_tutorial_text": true,
     "gore_complacency_forbidden": true,
