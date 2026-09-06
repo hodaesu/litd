@@ -6,6 +6,8 @@ signal runtime_event(event_type: String, payload: Dictionary)
 var content_runtime: VeilleursContentRuntime = null
 var encounter_director: VeilleursEncounterDirector = null
 var boss_director: VeilleursBossDirector = null
+var intent_resolver := VeilleursIntentResolver.new()
+var remanence_policy := VeilleursRemanencePolicy.new()
 
 func bind(content: VeilleursContentRuntime, encounters: VeilleursEncounterDirector, bosses: VeilleursBossDirector) -> void:
     _disconnect_sources()
@@ -40,10 +42,83 @@ func finish_boss(victory: bool, body_snapshot: Dictionary = {}) -> Dictionary:
         return {"success": false, "reason": "boss_director_unbound"}
     return boss_director.finish_boss(victory, body_snapshot)
 
+func resolve_enemy_intent(entity_id: String, skill: Dictionary, stored_detail: int, perception: String = "clear") -> Dictionary:
+    var resolved := intent_resolver.resolve_skill_intent(entity_id, skill)
+    if not bool(resolved.get("ok", false)):
+        return {"ok": false, "resolved": resolved, "telegraph": {"visible": false, "detail_level": 0}}
+    var telegraph := intent_resolver.telegraph(resolved, stored_detail, perception)
+    runtime_event.emit("enemy_intent_resolved", {
+        "entity_id": entity_id,
+        "intent_family": resolved.get("intent_family", ""),
+        "action_channel": resolved.get("action_channel", ""),
+        "detail_level": telegraph.get("detail_level", 0),
+        "perception": perception
+    })
+    return {"ok": true, "resolved": resolved, "telegraph": telegraph}
+
+func resolve_enemy_state_intent(state_intent: String, payload: Dictionary = {}) -> Dictionary:
+    var resolved := intent_resolver.resolve_state_intent(state_intent, payload)
+    if bool(resolved.get("ok", false)):
+        runtime_event.emit("enemy_state_intent", resolved.duplicate(true))
+    return resolved
+
+func note_enemy_memory_event(entity_id: String, event_type: String, payload: Dictionary = {}) -> Dictionary:
+    var previous_rank := remanence_policy.rank(entity_id)
+    var result := remanence_policy.note_event(entity_id, event_type, payload)
+    if not bool(result.get("ok", false)):
+        return result
+    var state: Dictionary = result.get("state", {})
+    var current_rank := str(state.get("memory_rank", "normal"))
+    _archive_hook(entity_id, "remanence_lived_event", {
+        "event_type": event_type,
+        "memory_rank": current_rank,
+        "evidence": payload.duplicate(true)
+    })
+    _emit_promotion_if_needed(entity_id, previous_rank, current_rank, state)
+    return result
+
+func apply_enemy_lesson(entity_id: String, channel: String, context: Dictionary = {}) -> Dictionary:
+    var previous_rank := remanence_policy.rank(entity_id)
+    var result := remanence_policy.apply_lesson(entity_id, channel, context)
+    if not bool(result.get("ok", false)):
+        return result
+    var state: Dictionary = result.get("state", {})
+    var current_rank := str(state.get("memory_rank", previous_rank))
+    _archive_hook(entity_id, "remanence_lesson_applied", {
+        "channel": channel,
+        "memory_rank": current_rank,
+        "context": context.duplicate(true)
+    })
+    _emit_promotion_if_needed(entity_id, previous_rank, current_rank, state)
+    return result
+
+func note_enemy_group_influence(entity_id: String, channel: String, context: Dictionary = {}) -> Dictionary:
+    var previous_rank := remanence_policy.rank(entity_id)
+    var result := remanence_policy.note_group_influence(entity_id, channel, context)
+    if not bool(result.get("ok", false)):
+        return result
+    var state: Dictionary = result.get("state", {})
+    var current_rank := str(state.get("memory_rank", previous_rank))
+    _archive_hook(entity_id, "remanence_group_influence", {
+        "channel": channel,
+        "memory_rank": current_rank,
+        "context": context.duplicate(true)
+    })
+    _emit_promotion_if_needed(entity_id, previous_rank, current_rank, state)
+    return result
+
+func enemy_memory_state(entity_id: String) -> Dictionary:
+    return remanence_policy.state(entity_id)
+
 func create_rally_candidate(enemy: Dictionary, act_token: String = "", context: Dictionary = {}) -> Dictionary:
     if content_runtime == null:
         return {"ok": false, "reason": "content_runtime_unbound"}
-    return content_runtime.create_rally_candidate(enemy, act_token, context)
+    var runtime_enemy := enemy.duplicate(true)
+    var entity_id := str(runtime_enemy.get("remanence_id", runtime_enemy.get("instance_id", "")))
+    var policy_state := remanence_policy.state(entity_id)
+    if not policy_state.is_empty():
+        runtime_enemy["memory_rank"] = str(policy_state.get("memory_rank", runtime_enemy.get("memory_rank", "normal")))
+    return content_runtime.create_rally_candidate(runtime_enemy, act_token, context)
 
 func resolve_rally(rally_id: String, player_accepts: bool, resolution: Dictionary = {}) -> Dictionary:
     if content_runtime == null:
@@ -85,6 +160,21 @@ func _archive_hook(entity_id: String, hook: String, payload: Dictionary) -> Dict
     var entry := content_runtime.record_archive_hook(entity_id, hook, payload)
     runtime_event.emit(hook, {"entity_id": entity_id, "payload": payload.duplicate(true)})
     return entry
+
+func _emit_promotion_if_needed(entity_id: String, previous_rank: String, current_rank: String, state: Dictionary) -> void:
+    if previous_rank == current_rank:
+        return
+    _archive_hook(entity_id, "entity_promoted", {
+        "from": previous_rank,
+        "to": current_rank,
+        "promotion_policy": "lived_events",
+        "state": state.duplicate(true)
+    })
+    runtime_event.emit("enemy_memory_rank_changed", {
+        "entity_id": entity_id,
+        "from": previous_rank,
+        "to": current_rank
+    })
 
 func _on_encounter_selected(runtime_encounter: Dictionary) -> void:
     # Selection is not observation: no knowledge is granted before the encounter is actually perceived.
