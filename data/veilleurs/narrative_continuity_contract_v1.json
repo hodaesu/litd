@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "status": "production_contract",
+  "language": "fr",
+  "dialogue_mode": "text_only",
+  "voice_acting": false,
+  "main_protagonists_exact": 4,
+  "protagonists": [
+    "nayra_orun",
+    "tarek_senn",
+    "aisha_maren",
+    "idris_vael"
+  ],
+  "chronology": {
+    "after": "LITD II / Dernière Guerre",
+    "before": "LITD I",
+    "era": "premiers_temps_de_la_Concorde_et_des_Sanctuaires"
+  },
+  "narrative_pillars": [
+    "creation_de_personnages",
+    "gore_systemique_et_consequences_corporelles",
+    "philosophie_et_psychologie",
+    "profondeur_humaine_accessible",
+    "narration_forte",
+    "interconnexion_des_jeux",
+    "remanence_de_la_connaissance"
+  ],
+  "epistemic_rules": {
+    "distinguish_fact_hypothesis": true,
+    "omniscient_exposition_forbidden": true,
+    "uncertainty_can_persist": true,
+    "contradictions_can_update_archives": true,
+    "knowledge_can_change_future_dialogue": true,
+    "body_state_can_change_future_dialogue": true,
+    "relationship_history_can_change_future_dialogue": true
+  },
+  "voice_contract_source": "res://data/veilleurs/vs001_dialogues.json",
+  "voice_anchors": {
+    "nayra_orun": ["securite_du_groupe", "structure", "risque", "phrases_courtes"],
+    "tarek_senn": ["traces", "distance", "sensoriel_concret", "economie_de_mots"],
+    "aisha_maren": ["precision_clinique", "fait_vs_hypothese", "corps_comme_information", "humanite_sans_sentimentalisme"],
+    "idris_vael": ["causes_et_consequences", "coordination", "desescalade", "formulation_mesuree"]
+  },
+  "micro_event_rules": {
+    "primary_speaker": "highest_context_affinity_then_seeded_tie_break",
+    "reply_speaker": "different_watcher_with_complementary_affinity",
+    "repeat_cooldown_pulses": 4,
+    "max_lines_per_micro_event": 2
+  },
+  "remanence_hooks": [
+    "knowledge_confirmed",
+    "knowledge_contradicted",
+    "persistent_injury_added",
+    "entity_promoted",
+    "recruitment_resolved",
+    "relationship_threshold_crossed",
+    "world_scar_created",
+    "important_object_state_changed"
+  ],
+  "writing_guardrails": {
+    "explain_systems_through_observation_before_tutorial_text": true,
+    "gore_complacency_forbidden": true,
+    "philosophy_must_attach_to_concrete_choice_or_observation": true,
+    "no_character_speaks_outside_known_information": true,
+    "no_dialogue_choice_erases_physical_consequence": true,
+    "main_cast_cannot_expand_beyond_four": true
+  }
+}
