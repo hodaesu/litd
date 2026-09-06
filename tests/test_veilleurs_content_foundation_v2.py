@@ -30,6 +30,10 @@ def test_content_foundation_counts_and_ids():
     assert len(bestiary["family_ids"]) == 8
     assert len(set(bestiary["family_ids"])) == 8
     assert len(bestiary["family_names"]) == 8
+    assert bestiary["species_names_status"] == "24_locked"
+    assert bestiary["normalization_manifest"].endswith(
+        "canonical_bestiary_normalization_v1.json"
+    )
 
     encounters = data["encounters"]
     assert encounters["canonical_template_target"] == 64
@@ -46,35 +50,104 @@ def test_content_foundation_counts_and_ids():
     assert len({boss["id"] for boss in bosses["roster"]}) == 5
 
 
-def test_recovered_species_are_canonical_partial_not_placeholders():
+def test_species_catalog_is_complete_canonical_and_unique():
     data = load("species_catalog_recovered_v1.json")
+    assert data["status"] == "canonical_complete"
     assert data["target_species"] == 24
-    assert data["recovered_species"] == 16
-    assert data["unresolved_species"] == 8
+    assert data["recovered_species"] == 24
+    assert data["unresolved_species"] == 0
     assert data["placeholder_names_forbidden"] is True
     assert len(data["families"]) == 8
+    assert all(family["species_names_locked"] is True for family in data["families"])
 
-    recovered = [
+    species = [
         species
         for family in data["families"]
         for species in family["species"]
     ]
-    assert len(recovered) == 16
-    assert len({species["id"] for species in recovered}) == 16
-    assert all(species["name"].strip() for species in recovered)
+    assert len(species) == 24
+    assert len({item["id"] for item in species}) == 24
+    assert len({item["name"] for item in species}) == 24
+    assert all(item["name"].strip() for item in species)
 
-    unresolved = [
-        family
-        for family in data["families"]
-        if family["species_names_locked"] is False
-    ]
-    assert {family["id"] for family in unresolved} == {
-        "delies",
-        "pelerins_fendus",
-        "gardiens_de_pierre",
-        "betes_de_suie",
+    family_counts = {family["id"]: len(family["species"]) for family in data["families"]}
+    assert family_counts == {
+        "delies": 2,
+        "pelerins_fendus": 2,
+        "gardiens_de_pierre": 2,
+        "betes_de_suie": 2,
+        "silencieux": 4,
+        "veines": 4,
+        "porte_cendres": 4,
+        "gardiens_de_version": 4,
     }
-    assert all(family["species"] == [] for family in unresolved)
+
+    assert [s["name"] for s in data["families"][0]["species"]] == [
+        "Délié Affamé",
+        "Délié Boursouflé",
+    ]
+    assert [s["name"] for s in data["families"][1]["species"]] == [
+        "Censeur Fendu",
+        "Flagellant Fendu",
+    ]
+    assert [s["name"] for s in data["families"][2]["species"]] == [
+        "Sentinelle du Seuil",
+        "Exécuteur de Pierre",
+    ]
+    assert [s["name"] for s in data["families"][3]["species"]] == [
+        "Traque-Suie",
+        "Brise-Os de Suie",
+    ]
+
+
+def test_canonical_bestiary_normalization_is_complete_and_bindable():
+    data = load("canonical_bestiary_normalization_v1.json")
+    assert data["status"] == "canonical_production_binding"
+    assert data["counts"] == {
+        "ordinary_species": 24,
+        "families": 8,
+        "bosses": 5,
+        "total_entities": 29,
+    }
+    assert len(data["intent_taxonomy"]) == 8
+    assert list(data["knowledge_scale"]) == ["0", "1", "2", "3", "4", "5"]
+    assert data["global_rules"]["knowledge_never_overrides_current_perception"] is True
+    assert data["global_rules"]["unseen_boss_phase_never_revealed"] is True
+    assert data["global_rules"]["remanence_learning_only_from_lived_events"] is True
+
+    ordinary = data["ordinary_species"]
+    assert len(ordinary) == 24
+    assert len({item["id"] for item in ordinary}) == 24
+    for item in ordinary:
+        assert item["family_id"] in data["family_defaults"]
+        assert item["act"] == data["family_defaults"][item["family_id"]]["act"]
+        assert item["role"]
+        assert item["anatomy_profile"]
+        assert 2 <= len(item["intent_classes"]) <= 4
+        assert set(item["intent_classes"]).issubset(set(data["intent_taxonomy"]))
+        assert set(item["telegraphs"]) == {"visual", "audio", "environmental"}
+        assert all(item["telegraphs"][channel] for channel in item["telegraphs"])
+        assert set(item["knowledge"]) == {"1", "2", "3", "4", "5"}
+        assert item["recruitment_profile"]
+        assert item["memory_ceiling"] == "nemesis"
+
+    catalog = load("species_catalog_recovered_v1.json")
+    catalog_ids = {
+        species["id"]
+        for family in catalog["families"]
+        for species in family["species"]
+    }
+    assert {item["id"] for item in ordinary} == catalog_ids
+
+    bosses = data["bosses"]
+    foundation = load("content_foundation_v2.json")
+    assert len(bosses) == 5
+    assert [boss["id"] for boss in bosses] == [
+        boss["id"] for boss in foundation["bosses"]["roster"]
+    ]
+    assert all(boss["phase_knowledge_scoped"] is True for boss in bosses)
+    assert all(boss["recruitment"] == "canonical_story_rule_only" for boss in bosses)
+    assert all(set(boss["intent_classes"]).issubset(set(data["intent_taxonomy"])) for boss in bosses)
 
 
 def test_party_refuge_and_recruitment_guardrails():
