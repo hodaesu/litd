@@ -131,3 +131,42 @@ def test_encounter_generation_contract():
     assert data["synergy_rules"]["visible_to_player"] is True
     assert data["synergy_rules"]["breakable_by_player"] is True
     assert data["content_population"]["placeholder_names_forbidden"] is True
+
+
+def test_archives_and_refuge_ui_keep_platform_parity():
+    data = load("archives_refuge_ui_contract_v1.json")
+    assert data["inherits"] == "res://data/veilleurs/vs001_ui_input_contract.json"
+    assert data["principles"]["same_gameplay_all_platforms"] is True
+    assert data["principles"]["touch_target_min_points"] == 48
+    assert data["principles"]["long_press_required"] is False
+    assert data["principles"]["hover_required"] is False
+    assert data["refuge"]["recruit_capacity"] == 12
+    assert data["refuge"]["party_max"] == 4
+    assert data["refuge"]["party_min_watchers"] == 1
+    assert data["archives"]["entity_primary_sections"] == [
+        "identite_connaissance",
+        "corps",
+        "combat",
+        "histoire",
+        "traces",
+    ]
+    assert data["recruitment_interaction"]["show_capture_percentage"] is False
+    assert data["profiles"]["controller"]["pointer_dependency"] is False
+
+
+def test_narrative_contract_preserves_four_text_only_voices():
+    data = load("narrative_continuity_contract_v1.json")
+    assert data["dialogue_mode"] == "text_only"
+    assert data["voice_acting"] is False
+    assert data["main_protagonists_exact"] == 4
+    assert data["protagonists"] == [
+        "nayra_orun",
+        "tarek_senn",
+        "aisha_maren",
+        "idris_vael",
+    ]
+    assert len(data["narrative_pillars"]) == 7
+    assert data["epistemic_rules"]["distinguish_fact_hypothesis"] is True
+    assert data["epistemic_rules"]["omniscient_exposition_forbidden"] is True
+    assert data["writing_guardrails"]["main_cast_cannot_expand_beyond_four"] is True
+    assert data["voice_contract_source"] == "res://data/veilleurs/vs001_dialogues.json"
