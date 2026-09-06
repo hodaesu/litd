@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "status": "production_contract",
+  "canonical_template_target": 64,
+  "enemy_synergy_target": 21,
+  "composition_rules": {
+    "max_standard_enemies": 4,
+    "max_memorial_enemies": 1,
+    "artificial_nemesis_spawn_forbidden": true,
+    "bosses_use_dedicated_encounters": true,
+    "minibosses_use_dedicated_rules": true
+  },
+  "anti_repetition": {
+    "same_template_twice_in_a_row_forbidden": true,
+    "history_window_rooms": 5,
+    "repeat_threshold_in_window": 2,
+    "weight_multiplier_after_threshold": 0.4
+  },
+  "hybrid_dungeon_pipeline": [
+    "room_catalog",
+    "layout_generation",
+    "encounter_composition",
+    "remanence_projection",
+    "runtime"
+  ],
+  "remanence_integration": {
+    "memorial_enemy_slot_is_runtime_selected": true,
+    "world_scars_project_after_layout": true,
+    "full_scene_snapshots_forbidden": true,
+    "seed_reproducibility_required": true
+  },
+  "synergy_rules": {
+    "visible_to_player": true,
+    "breakable_by_player": true,
+    "hidden_unbreakable_aura_forbidden": true,
+    "must_declare_trigger": true,
+    "must_declare_break_condition": true,
+    "must_declare_observable_feedback": true
+  },
+  "content_population": {
+    "template_names_status": "recover_latest_canonical_64_before_population",
+    "synergy_names_status": "recover_latest_canonical_21_before_population",
+    "placeholder_names_forbidden": true
+  }
+}
