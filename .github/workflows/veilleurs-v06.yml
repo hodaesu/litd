@@ -41,8 +41,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Strict Godot import
-        run: godot --headless --path . --import --quit
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --path . --import --quit 2>&1 | tee /tmp/veilleurs-import.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-import.log
       - name: Run Veilleurs v0.6 tactical smoke
-        run: timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v06_tactical_smoke.tscn
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v06_tactical_smoke.tscn 2>&1 | tee /tmp/veilleurs-smoke.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V06_TACTICAL_SMOKE_FAILED' /tmp/veilleurs-smoke.log
+          grep -F 'VEILLEURS_V06_TACTICAL_SMOKE_OK' /tmp/veilleurs-smoke.log
       - name: Instantiate playable tactical demo
-        run: timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v06_tactical_demo.tscn
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v06_tactical_demo.tscn 2>&1 | tee /tmp/veilleurs-demo.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-demo.log
