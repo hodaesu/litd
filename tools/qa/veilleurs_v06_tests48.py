@@ -26,6 +26,7 @@ def main() -> int:
     constants_path = DATA / "combat_constants.json"
     catalog_path = DATA / "watcher_tree_catalog.json"
     loadouts_path = DATA / "starter_loadouts_watchers.json"
+    encounters_path = DATA / "encounters_64.json"
 
     test("01 watchers file", watchers_path.is_file())
     test("02 enemies file", enemies_path.is_file())
@@ -38,7 +39,7 @@ def main() -> int:
     constants = load("combat_constants.json")
     catalog = load("watcher_tree_catalog.json")
     loadouts = load("starter_loadouts_watchers.json")
-    test("06 all JSON parsed", all(isinstance(x, dict) for x in [watchers_payload, enemies_payload, constants, catalog, loadouts]))
+    test("06 all core JSON parsed", all(isinstance(x, dict) for x in [watchers_payload, enemies_payload, constants, catalog, loadouts]))
 
     watchers = watchers_payload["watchers"]
     enemies = enemies_payload["enemies"]
@@ -102,10 +103,62 @@ def main() -> int:
     test("42 four starter loadouts", len(loadouts) == 4)
     test("43 starter loadouts reference canonical Watchers", set(loadouts) == set(EXPECTED_WATCHERS))
 
-    test("44 BodyComponent exists", (ROOT / "scripts/core/veilleurs_body_component.gd").is_file())
-    test("45 TacticalGrid exists", (ROOT / "scripts/core/veilleurs_tactical_grid.gd").is_file())
-    test("46 TacticalRuntime exists", (ROOT / "scripts/core/veilleurs_tactical_combat_runtime.gd").is_file())
-    test("47 TacticalSession exists", (ROOT / "scripts/core/veilleurs_tactical_session.gd").is_file())
+    runtime_paths = [
+        "scripts/core/veilleurs_body_component.gd",
+        "scripts/core/veilleurs_tactical_grid.gd",
+        "scripts/core/veilleurs_tactical_combat_runtime.gd",
+        "scripts/core/veilleurs_tactical_session.gd",
+        "scripts/core/veilleurs_enemy_ai_v2.gd",
+        "scripts/core/veilleurs_tactical_save_bridge.gd",
+        "scripts/core/veilleurs_hybrid_generation_bridge.gd",
+        "scripts/core/veilleurs_refuge_runtime.gd",
+    ]
+    test("44 tactical runtime components exist", all((ROOT / p).is_file() for p in runtime_paths))
+
+    encounters_payload = load("encounters_64.json") if encounters_path.is_file() else {}
+    encounters = encounters_payload.get("encounters", [])
+    encounter_ids = [row.get("encounter_id") for row in encounters]
+    archetypes = {row.get("archetype") for row in encounters}
+    tiers_by_archetype = {
+        archetype: {int(row.get("tier", 0)) for row in encounters if row.get("archetype") == archetype}
+        for archetype in archetypes
+    }
+    test(
+        "45 exactly 64 encounters across eight 1-8 archetypes",
+        encounters_payload.get("count") == 64
+        and len(encounters) == 64
+        and len(encounter_ids) == len(set(encounter_ids)) == 64
+        and len(archetypes) == 8
+        and all(tiers == set(range(1, 9)) for tiers in tiers_by_archetype.values()),
+    )
+
+    threat_by_enemy = {row["entity_id"]: float(row["threat_value"]) for row in enemies}
+    encounter_refs_valid = True
+    for row in encounters:
+        ids = row.get("enemy_ids", [])
+        if not ids or not all(enemy_id in threat_by_enemy for enemy_id in ids):
+            encounter_refs_valid = False
+            break
+        computed = sum(threat_by_enemy[enemy_id] for enemy_id in ids)
+        if abs(computed - float(row.get("threat_budget", computed))) > 0.75:
+            encounter_refs_valid = False
+            break
+        if not bool(row.get("retreat_viable", False)) or not str(row.get("counterplay", "")).strip():
+            encounter_refs_valid = False
+            break
+        if row.get("archetype") == "mixed_memory" and not bool(row.get("memoriel_allowed", False)):
+            encounter_refs_valid = False
+            break
+    test("46 encounter references threat retreat and counterplay valid", encounter_refs_valid)
+
+    playable_paths = [
+        "scripts/ui/veilleurs_tactical_demo.gd",
+        "scripts/ui/veilleurs_tactical_ui.gd",
+        "scenes/veilleurs/v06_tactical_demo.tscn",
+        "scenes/veilleurs/v06_tactical_combat.tscn",
+        "scripts/core/veilleurs_tactical_save_bridge.gd",
+    ]
+    test("47 playable save surface exists", all((ROOT / p).is_file() for p in playable_paths))
     test("48 Godot smoke scene exists", (ROOT / "scenes/tests/veilleurs_v06_tactical_smoke.tscn").is_file())
 
     if len(results) != 48:
