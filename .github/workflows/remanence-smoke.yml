@@ -28,3 +28,5 @@ jobs:
         run: godot --headless --path . res://scenes/tests/veilleurs_runtime_coordinator_smoke.tscn
       - name: Refuge et Archives responsive Les Veilleurs
         run: godot --headless --path . res://scenes/tests/veilleurs_refuge_archive_presenter_smoke.tscn
+      - name: Arbres et ultimes des boss Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_boss_kit_runtime_smoke.tscn
