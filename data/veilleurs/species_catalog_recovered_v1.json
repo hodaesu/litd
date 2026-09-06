@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "status": "partial_canonical_recovery",
+  "target_species": 24,
+  "recovered_species": 16,
+  "unresolved_species": 8,
+  "placeholder_names_forbidden": true,
+  "families": [
+    {
+      "id": "delies",
+      "name": "Déliés",
+      "species_names_locked": false,
+      "species": []
+    },
+    {
+      "id": "pelerins_fendus",
+      "name": "Pèlerins Fendus",
+      "species_names_locked": false,
+      "species": []
+    },
+    {
+      "id": "gardiens_de_pierre",
+      "name": "Gardiens de Pierre",
+      "species_names_locked": false,
+      "species": []
+    },
+    {
+      "id": "betes_de_suie",
+      "name": "Bêtes de Suie",
+      "species_names_locked": false,
+      "species": []
+    },
+    {
+      "id": "silencieux",
+      "name": "Silencieux",
+      "species_names_locked": true,
+      "species": [
+        {"id": "ecouteur_creux", "name": "Écouteur Creux"},
+        {"id": "porte_signe", "name": "Porte-Signe"},
+        {"id": "marcheur_aphone", "name": "Marcheur Aphone"},
+        {"id": "reteneur_de_souffle", "name": "Reteneur de Souffle"}
+      ]
+    },
+    {
+      "id": "veines",
+      "name": "Veines",
+      "species_names_locked": true,
+      "species": [
+        {"id": "veine_rampante", "name": "Veine Rampante"},
+        {"id": "noeud_ecorche", "name": "Nœud-Écorché"},
+        {"id": "porte_sang", "name": "Porte-Sang"},
+        {"id": "germe_arteriel", "name": "Germe Artériel"}
+      ]
+    },
+    {
+      "id": "porte_cendres",
+      "name": "Porte-Cendres",
+      "species_names_locked": true,
+      "species": [
+        {"id": "marche_pale", "name": "Marche-Pâle"},
+        {"id": "porte_linceul", "name": "Porte-Linceul"},
+        {"id": "effaceur_de_traces", "name": "Effaceur de Traces"},
+        {"id": "dormeur_de_cendre", "name": "Dormeur de Cendre"}
+      ]
+    },
+    {
+      "id": "gardiens_de_version",
+      "name": "Gardiens de Version",
+      "species_names_locked": true,
+      "species": [
+        {"id": "copie_lacunaire", "name": "Copie Lacunaire"},
+        {"id": "rature_vivante", "name": "Rature Vivante"},
+        {"id": "archiviste_de_version", "name": "Archiviste de Version"},
+        {"id": "double_du_seuil", "name": "Double du Seuil"}
+      ]
+    }
+  ],
+  "guardrail": "Do not create names for unresolved Act I species. Recover the latest canonical source first."
+}
