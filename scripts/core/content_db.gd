@@ -1,4 +1,5 @@
 extends Node
+class_name VeilleursContentDB
 
 const ROOT := "res://data/veilleurs/v06"
 const WATCHERS_PATH := ROOT + "/watchers.json"
@@ -122,21 +123,21 @@ func _target_for(action: String) -> String:
     return "enemy_single"
 
 func _precision_for(profile: String, index: int) -> int:
-    var tier := 1 + index / 3
+    var tier: int = 1 + int(index / 3)
     match profile:
         "impact": return -4 + tier
         "anatomy": return 7 + tier
         "observe": return 3 + tier * 2
         "mobility": return 4 + tier
         "psych": return 5 + tier
-        _ : return 0
+        _: return 0
 
 func _dismemberment_for(profile: String, index: int) -> Dictionary:
     var allowed := profile == "anatomy" and index >= 11
     return {"allowed": allowed, "min_body_state": "L4" if allowed else "", "power": 2 + int(index >= 12) + int(index >= 14) if allowed else 0}
 
 func _effect_for(profile: String, index: int) -> Dictionary:
-    var tier := 1 + index / 3
+    var tier: int = 1 + int(index / 3)
     var scale := float(index) / 14.0
     var result := {"damage_multiplier": 0.0, "trauma_multiplier": 0.0, "forced_move": 0, "knowledge_reveal": 0, "guard_delta": 0, "resolve_delta": 0}
     match profile:
