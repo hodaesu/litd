@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "status": "production_contract",
+  "inherits": "res://data/veilleurs/vs001_ui_input_contract.json",
+  "principles": {
+    "same_gameplay_all_platforms": true,
+    "touch_target_min_points": 48,
+    "long_press_required": false,
+    "hover_required": false,
+    "safe_area_required_on_mobile": true,
+    "no_color_only_critical_information": true,
+    "irreversible_action_requires_explicit_validation": true
+  },
+  "refuge": {
+    "screens": [
+      "refuge_home",
+      "active_party",
+      "recruit_roster",
+      "recruit_detail",
+      "archives",
+      "expedition_prepare"
+    ],
+    "recruit_capacity": 12,
+    "party_max": 4,
+    "party_min_watchers": 1,
+    "roster_card_fields": [
+      "identity",
+      "species",
+      "memory_rank",
+      "injury_summary",
+      "relationship_summary",
+      "availability"
+    ],
+    "forbidden_roster_fields": [
+      "hidden_capture_probability",
+      "omniscient_ai_memory"
+    ]
+  },
+  "archives": {
+    "entity_primary_sections": [
+      "identite_connaissance",
+      "corps",
+      "combat",
+      "histoire",
+      "traces"
+    ],
+    "knowledge_certainty_states": [
+      "observe",
+      "suppose",
+      "confirme",
+      "contredit"
+    ],
+    "show_unknown_as_unknown": true,
+    "show_memory_rank": true,
+    "show_persistent_injuries": true,
+    "show_relationship_history": true,
+    "show_world_trace_links": true
+  },
+  "profiles": {
+    "phone": {
+      "layout": "single_focus_stack",
+      "navigation": "top_level_tabs_plus_context_bottom_sheet",
+      "archive_entity": "identity_header_plus_one_subview_at_a_time",
+      "persistent_side_panels": 0,
+      "max_primary_actions_visible": 5
+    },
+    "tablet": {
+      "layout": "master_detail",
+      "navigation": "entity_list_plus_detail_panel",
+      "archive_entity": "identity_header_plus_one_or_two_subviews",
+      "persistent_side_panels": 1
+    },
+    "desktop": {
+      "layout": "dense_master_detail",
+      "navigation": "mouse_keyboard_or_controller_focus",
+      "archive_entity": "entity_list_plus_identity_and_multiple_subviews",
+      "persistent_side_panels": 2,
+      "hover_preview": "optional_information_only"
+    },
+    "controller": {
+      "layout": "focus_navigation",
+      "pointer_dependency": false,
+      "section_cycle": "shoulder_buttons",
+      "subview_cycle": "triggers_or_dpad"
+    }
+  },
+  "recruitment_interaction": {
+    "show_capture_percentage": false,
+    "observable_state_fields": [
+      "volonte",
+      "blessures",
+      "posture",
+      "relation",
+      "contexte_de_ralliement"
+    ],
+    "boss_recruitment": "story_condition_surface_only_when_canonically_available",
+    "confirmation_required_for": [
+      "finalize_recruitment",
+      "release_recruit",
+      "replace_when_refuge_full"
+    ]
+  },
+  "remanence_feedback": {
+    "new_knowledge": "archive_delta_badge",
+    "new_injury": "body_delta_badge",
+    "new_relationship_event": "history_delta_badge",
+    "new_world_scar": "trace_delta_badge",
+    "promotion": "memory_rank_transition_summary",
+    "feedback_must_not_block_input": true
+  }
+}
