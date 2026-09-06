@@ -1,147 +1,131 @@
 # LITD : Les Veilleurs — Fondation de contenu v2
 
-Cette couche raccorde les décisions de contenu de **Les Veilleurs** à l’architecture déjà présente dans `data/veilleurs/`.
+Cette couche raccorde **Les Veilleurs** à l’architecture déjà présente dans `data/veilleurs/` en utilisant le référentiel maître récupéré le 3 septembre 2026 comme source prioritaire.
 
-## Déjà autoritaire dans le dépôt
+## Source de vérité vérifiée
 
-- quatre Veilleurs : Nayra Orun, Tarek Senn, Aïsha Maren, Idris Vael ;
-- 3 arbres de 15 compétences par Veilleur, soit 180 compétences ;
-- contrats de verticale `vs001_*` ;
-- contrats de finition, accessibilité et parité mobile/PC.
+Source : `LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx`.
 
-Les fichiers de compétences existants ne doivent pas être dupliqués.
+Pack d’archive : `/LITD/Les_Veilleurs/PrePC_Canonical_2026-09-03/LITD_Les_Veilleurs_Canonical_PrePC_Pack_2026-09-03.zip`.
 
-## Fondation canonique ajoutée
+SHA-256 : `0739666c23b6aad99d79128147b84322155bbdd5ff49c62b0990eaf11fec8919`.
 
-### Bestiaire
+Les fichiers de provenance de la PR #163 sont vendus dans `data/veilleurs/canonical_prepc_2026_09_03/` et `docs/veilleurs/canonical_prepc_2026_09_03/`.
 
-La référence actuelle est désormais verrouillée à :
+## Bestiaire verrouillé
 
-- 24 espèces ordinaires ;
-- 8 familles de combat : Déliés, Pèlerins Fendus, Gardiens de Pierre, Bêtes de Suie, Silencieux, Veines, Porte-Cendres, Gardiens de Version ;
-- 5 boss canoniques ;
-- 29 entités de référence au total.
+- 24 ennemis ordinaires ;
+- 8 familles : Déliés, Pèlerins Fendus, Gardiens de Pierre, Bêtes de Suie, Silencieux, Veines, Porte-Cendres, Gardiens de Version ;
+- 5 boss ;
+- 29 entités de combat au total.
 
-Les anciennes structures 5/25, 6/24 et 7/15 sont rejetées.
+Les 24 noms ordinaires sont dans `species_catalog_recovered_v1.json`. Le registre maître 29 entités est dans `canonical_prepc_2026_09_03/bestiary_registry_v1.json`.
 
-`species_catalog_recovered_v1.json` contient désormais les 24 noms canoniques :
+Les anciennes structures 5/25, 6/24 et 7/15 restent archivales et ne doivent pas repeupler les données de production.
 
-- Déliés : Délié Affamé, Délié Boursouflé ;
-- Pèlerins Fendus : Censeur Fendu, Flagellant Fendu ;
-- Gardiens de Pierre : Sentinelle du Seuil, Exécuteur de Pierre ;
-- Bêtes de Suie : Traque-Suie, Brise-Os de Suie ;
-- Silencieux : Écouteur Creux, Porte-Signe, Marcheur Aphone, Reteneur de Souffle ;
-- Veines : Veine Rampante, Nœud-Écorché, Porte-Sang, Germe Artériel ;
-- Porte-Cendres : Marche-Pâle, Porte-Linceul, Effaceur de Traces, Dormeur de Cendre ;
-- Gardiens de Version : Copie Lacunaire, Rature Vivante, Archiviste de Version, Double du Seuil.
+## Rencontres et synergies
 
-`canonical_bestiary_normalization_v1.json` lie individuellement les 24 espèces et les 5 boss à :
+Les **64 rencontres** sont verrouillées par nom, type, nombre d’acteurs et composition dans `encounter_index_v1.json`.
 
-- rôle de combat ;
-- famille anatomique et profil corporel ;
-- classes d’intention ;
-- télégraphes visuels, sonores et environnementaux ;
-- logique de ciblage ;
-- cinq niveaux de connaissance ;
-- profil de ralliement ;
-- Rémanence jusqu’au rang Némésis pour les espèces ordinaires ;
-- connaissance de boss limitée aux phases réellement observées.
+Le maximum observé dans le référentiel est de 4 acteurs ennemis dans une composition, compatible avec le budget mobile actuel.
 
-La connaissance ne remplace jamais la perception actuelle : obscurité, absence de ligne de vue ou masquage sonore peuvent réduire l’information affichée sans effacer ce qui a été appris.
+Les **21 synergies ennemies** sont dans `enemy_synergy_catalog_v1.json`. Le référentiel ne leur donne pas de noms séparés : chacune est définie par une paire, une force 1–3, un fonctionnement et un contre-jeu. Aucun nom de synergie artificiel n’est ajouté.
 
-### Rencontres
+Le générateur hybride conserve ses règles d’anti-répétition et projette la Rémanence après le layout. Il ne crée jamais artificiellement une Némésis.
 
-- 64 compositions canoniques ;
-- 4 ennemis standards maximum ;
-- 1 ennemi Mémoriel maximum ;
-- une Némésis n’est jamais créée artificiellement par le générateur ;
-- pas deux fois le même template de suite ;
-- après deux occurrences dans les cinq dernières salles, poids ×0,4 ;
-- génération reproductible par seed ;
-- Rémanence projetée après le layout.
+## Boss — canon actuel
 
-### Synergies ennemies
+1. **Ishar, Gardien du Passage** — 3 phases ;
+2. **Orateur Sans Voix** — 3 phases ;
+3. **Mère des Veines** — 3 phases ;
+4. **Porte-Cendres Blanc** — 3 phases ;
+5. **Le Copiste** — 4 phases.
 
-Cible : 21 synergies canoniques. Toute synergie doit être visible, compréhensible et cassable, avec trigger, condition de rupture et feedback observable.
+Total : **16 phases**, détaillées dans `boss_phase_catalog_v1.json` avec doctrine, déclenchement, mécanique, contre-jeu, arène, intentions, erreur punie, transition et récompense.
 
-La liste nominale complète des 21 synergies doit encore être restaurée depuis sa source canonique. Aucun nom provisoire n’est autorisé.
+Les cinq boss sont **non recrutables**. Leur connaissance reste limitée aux phases effectivement observées.
 
-### Boss
+## Recrutement et Refuge
 
-1. Ishar I — **Le Veilleur des Seuils**
-2. Orateur II — **La Voix Incarnée**
-3. Mère III — **La Matrice des Refuges**
-4. Porte-Cendres IV — **Le Gardien de la Cendre**
-5. Copiste V — **L’Archiviste des Cicatrices**
+Le référentiel distingue explicitement **capture/neutralisation** et **ralliement** : capturer ne recrute jamais automatiquement.
 
-Les cinq boss sont recrutables uniquement selon leur règle narrative canonique. Les mini-boss restent non recrutables. Leur connaissance est phase-scopée : maîtriser une phase ne révèle jamais une phase encore non vécue.
+Les blessures ne sont pas effacées lors du ralliement.
 
-### Recrutement et Refuge
+Capacité du Refuge :
 
-- équipe : 4 combattants maximum ;
-- au moins 1 Veilleur ;
-- Refuge : 12 recrues maximum ;
-- voies : soumission, reddition, sauvetage, pacte, apprivoisement ;
-- aucun pourcentage de capture affiché ;
-- l’UI montre plutôt Volonté, blessures, posture, relation et contexte de ralliement ;
-- les boss utilisent une condition narrative dédiée ;
-- les Némésis utilisent une règle de ralliement au cas par cas.
+- Acte I : 4 ;
+- Acte II : 6 ;
+- Acte III : 8 ;
+- Acte IV : 10 ;
+- Acte V : 12.
 
-### Rémanence
+Équipe active : 4 combattants maximum avec au moins 1 Veilleur.
 
-`Normal → Mémoriel → Vétéran → Élite → Némésis`
+Pour les huit ennemis ordinaires de l’Acte I, la source dit seulement `Auxiliaire possible; ne remplace jamais un Veilleur`. **Aucune condition numérique ne doit être inventée.** Les Actes II–V disposent de conditions précises dans `canonical_prepc_2026_09_03/system_rules_v1.json`.
 
-Une adaptation ennemie doit provenir de faits réellement vécus. La mémoire omnisciente est interdite. Les cicatrices du monde sont stockées comme états/flags/références, jamais comme snapshots complets de scènes.
+Le Refuge utilise 12 familles d’événements et quatre axes relationnels : Confiance, Respect, Peur, Ressentiment. Le contrat runtime est `refuge_runtime_contract_v1.json`.
 
-Les 24 espèces ordinaires sont maintenant compatibles avec cette chaîne. Un individu Normal reste générique ; à partir de Mémoriel, identité, blessures, relations et histoire peuvent persister. Les adaptations de Vétéran/Élite/Némésis restent bornées à ce que l’individu a effectivement vécu.
+## Archives et Rémanence
 
-### Archives et interface Refuge
+États de connaissance canoniques :
 
-Le contrat `archives_refuge_ui_contract_v1.json` prolonge `vs001_ui_input_contract.json` sans changer les règles de jeu :
+`UNKNOWN → SUSPECTED → OBSERVED → CONFIRMED → UNDERSTOOD`
 
-- cible tactile minimale : 48 points ;
-- aucun long-press ou hover obligatoire ;
-- mobile : une information principale à la fois ;
-- tablette : master/detail ;
-- PC : disposition plus dense ;
-- manette : navigation par focus sans pointeur obligatoire ;
-- fiche d’entité : Identité/Connaissance, Corps, Combat, Histoire, Traces ;
-- les inconnues restent affichées comme inconnues ;
-- les changements de Rémanence produisent des badges de delta non bloquants.
+La Connaissance n’est pas une monnaie. **Observation ≠ certitude** et la Lumière stabilise le référentiel partagé sans créer de vérité absolue.
 
-### Continuité narrative
+Les Archives gardent cinq vues : Identité/Connaissance, Corps, Combat, Histoire, Traces.
 
-Le contrat `narrative_continuity_contract_v1.json` verrouille :
+Le pack apporte :
 
-- quatre protagonistes principaux exactement ;
-- dialogues 100 % textuels, sans doublage ;
-- continuité située après LITD II et avant LITD I, aux premiers temps de la Concorde et des Sanctuaires ;
-- réutilisation des voix déjà définies dans `vs001_dialogues.json` ;
-- distinction systématique entre fait, hypothèse et incertitude ;
-- pas d’exposition omnisciente ;
-- la connaissance, les blessures, relations et cicatrices peuvent modifier les futurs textes ;
-- philosophie liée à une observation ou un choix concret, jamais à un sermon détaché du jeu.
+- 29 fiches narratives de bestiaire ;
+- 16 jeux de fragments Rémanence Corps/Esprit/Politique pour les ennemis des Actes II–V ;
+- acquisition canonique : observation en combat, analyse/cadavre, recrutement/coexistence ;
+- usages : bestiaire avancé, interactions régionales, dialogues et bonus auxiliaires.
 
-## Fichiers
+Le contrat `remanence_archive_runtime_contract_v1.json` relie ces données aux blessures persistantes, promotions mémorielles, relations, cicatrices du monde et sauvegarde par états/flags plutôt que snapshots complets.
 
-- `data/veilleurs/content_foundation_v2.json`
-- `data/veilleurs/species_catalog_recovered_v1.json`
-- `data/veilleurs/canonical_bestiary_normalization_v1.json`
-- `data/veilleurs/recruitment_refuge_contract_v1.json`
-- `data/veilleurs/remanence_entity_contract_v1.json`
-- `data/veilleurs/encounter_generation_contract_v1.json`
-- `data/veilleurs/archives_refuge_ui_contract_v1.json`
-- `data/veilleurs/narrative_continuity_contract_v1.json`
+## Narration et dialogues
+
+Le corpus maître maintenant raccordé contient :
+
+- **68 barks** des quatre Veilleurs ;
+- **30 lignes de dialogues de boss** ;
+- **15 événements narratifs régionaux** ;
+- **29 entrées narratives de bestiaire** ;
+- 64 rencontres narratives dans le pack d’archive.
+
+Les barks et dialogues de boss exacts sont vendus sous `canonical_prepc_2026_09_03/current/`. Les 15 événements sont dans `narrative_event_catalog_v1.json`.
+
+Les dialogues restent 100 % textuels, sans doublage. Les textes doivent distinguer fait, hypothèse et incertitude ; les blessures, relations, connaissances et cicatrices peuvent modifier les futurs hooks narratifs.
+
+## Principaux fichiers de production
+
+- `content_foundation_v2.json`
+- `species_catalog_recovered_v1.json`
+- `canonical_bestiary_normalization_v2.json`
+- `encounter_index_v1.json`
+- `enemy_synergy_catalog_v1.json`
+- `boss_phase_catalog_v1.json`
+- `recruitment_refuge_contract_v1.json`
+- `refuge_runtime_contract_v1.json`
+- `remanence_entity_contract_v1.json`
+- `remanence_archive_runtime_contract_v1.json`
+- `archives_refuge_ui_contract_v1.json`
+- `narrative_continuity_contract_v1.json`
+- `narrative_event_catalog_v1.json`
 - `tests/test_veilleurs_content_foundation_v2.py`
 
-## Ordre de continuation sans inventer le canon
+## Ce qui nécessite encore le PC / Godot
 
-1. Restaurer les 64 templates nominaux de rencontres.
-2. Restaurer les 21 synergies nominales.
-3. Affecter les 21 synergies aux 24 espèces et aux 5 boss.
-4. Détailler les phases des 5 boss et leurs paliers de connaissance spécifiques.
-5. Brancher les catalogues sur le générateur hybride.
-6. Brancher recrutement et persistance d’identité.
-7. Implémenter le Refuge et les Archives à partir du contrat UI.
-8. Étendre les dialogues par hooks de Rémanence.
-9. Faire passer les tests Godot + Python + QA avant fusion.
+Le canon de contenu n’est plus le blocage principal. Restent à valider dans le runtime :
+
+1. chargement des catalogues et des 64 rencontres ;
+2. génération hybride et injection des cicatrices ;
+3. machine d’état capture → ralliement → Refuge ;
+4. capacité progressive du Refuge et sauvegarde des recrues ;
+5. événements de Refuge et relations ;
+6. mise à jour des Archives par Rémanence ;
+7. visibilité phase-scopée des boss ;
+8. résolution des hooks de dialogues ;
+9. navigation tactile/manette ;
+10. tests Godot, Python, Remanence Smoke, Balance Telemetry et QA avant fusion.
