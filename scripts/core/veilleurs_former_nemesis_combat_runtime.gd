@@ -19,6 +19,7 @@ static func prepare_family_encounter(enemies: Array, context: Dictionary = {}) -
     var hesitating := 0
     var surrender_available := 0
     var dialogue_lines: Array[String] = []
+    var new_dialogue_lines: Array[String] = []
 
     for enemy_value: Variant in enemies:
         if not (enemy_value is Dictionary):
@@ -31,22 +32,27 @@ static func prepare_family_encounter(enemies: Array, context: Dictionary = {}) -
             continue
 
         recognized += 1
+        var already_applied := bool(enemy.get("former_kin_recognition_applied", false)) and str(enemy.get("former_kin_source_id", "")) == source_id
         var fear_before := int(enemy.get("enemy_fear", enemy.get("fear_gauge", 0)))
-        var fear_delta := 28 if bool(recruit.get("former_nemesis", false)) else 12
-        var historical_score := int(recruit.get("historical_score", 0))
-        fear_delta += mini(12, int(historical_score / 4))
-        var fear_after := clampi(fear_before + fear_delta, 0, 100)
-        enemy["enemy_fear"] = fear_after
+        var fear_after := fear_before
+        if not already_applied:
+            var fear_delta := 28 if bool(recruit.get("former_nemesis", false)) else 12
+            var historical_score := int(recruit.get("historical_score", 0))
+            fear_delta += mini(12, int(historical_score / 4))
+            fear_after = clampi(fear_before + fear_delta, 0, 100)
+            enemy["enemy_fear"] = fear_after
+            enemy["former_kin_recognition_applied"] = true
         enemy["former_kin_recognition"] = str(reaction.get("reaction", "recognition"))
         enemy["former_kin_source_id"] = source_id
         enemy["former_kin_source_name"] = str(recruit.get("name", "Ancien Némésis"))
         enemy["former_kin_telegraphed"] = bool(reaction.get("telegraphed", true))
         enemy["former_kin_betrayal_allowed"] = false
         enemy["former_kin_player_control_preserved"] = true
-        enemy["former_kin_respect"] = clampi(35 + historical_score * 2, 0, 100)
+        enemy["former_kin_respect"] = clampi(35 + int(recruit.get("historical_score", 0)) * 2, 0, 100)
         enemy["former_kin_hesitate_first_turn"] = int(reaction.get("enemy_hesitation_window", 0)) > 0
-        enemy["former_kin_hesitation_consumed"] = false
-        if bool(enemy.get("former_kin_hesitate_first_turn", false)):
+        if not enemy.has("former_kin_hesitation_consumed"):
+            enemy["former_kin_hesitation_consumed"] = false
+        if bool(enemy.get("former_kin_hesitate_first_turn", false)) and not bool(enemy.get("former_kin_hesitation_consumed", false)):
             hesitating += 1
 
         var hp_ratio := float(enemy.get("hp", 0)) / maxf(1.0, float(enemy.get("max_hp", enemy.get("hp", 1))))
@@ -59,19 +65,14 @@ static func prepare_family_encounter(enemies: Array, context: Dictionary = {}) -
         var dialogue := _dialogue_for(recruit, enemy, str(enemy.get("former_kin_social_state", "recognition_shock")))
         enemy["former_kin_dialogue"] = dialogue
         dialogue_lines.append(dialogue)
+        if not already_applied:
+            new_dialogue_lines.append(dialogue)
 
         var enemy_entity_id := str(enemy.get("remanence_id", ""))
         if enemy_entity_id == "":
             enemy_entity_id = RemanenceRuntime.prepare_enemy(enemy, region_id)
-        if source_id != "" and RemanenceRuntime.entities.has(source_id):
-            RemanenceRuntime.record_event(source_id, "former_kin_recognition", {
-                "region_id": region_id,
-                "object_id": enemy_entity_id,
-                "summary": dialogue,
-                "reaction": str(enemy.get("former_kin_social_state", "")),
-                "fear_delta": fear_after - fear_before,
-                "surrender_available": surrender_ready
-            })
+        if source_id != "" and RemanenceRuntime.entities.has(source_id) and not already_applied:
+            _append_allied_social_memory(source_id, enemy_entity_id, region_id, dialogue, str(enemy.get("former_kin_social_state", "")), fear_after - fear_before, surrender_ready)
             if enemy_entity_id != "":
                 RemanenceRuntime.link_archive_nodes(source_id, enemy_entity_id, "recognized_by_former_kin", {
                     "run_index": RemanenceRuntime.run_index,
@@ -79,8 +80,8 @@ static func prepare_family_encounter(enemies: Array, context: Dictionary = {}) -
                     "social_state": str(enemy.get("former_kin_social_state", ""))
                 })
 
-    if recognized > 0 and not bool(context.get("silent", false)):
-        GameState.add_log(dialogue_lines[0])
+    if not new_dialogue_lines.is_empty() and not bool(context.get("silent", false)):
+        GameState.add_log(new_dialogue_lines[0])
 
     var successor := regional_successor_state(region_id)
     _link_successor_if_needed(source_id, successor, region_id)
@@ -146,6 +147,27 @@ static func apply_first_cycle_hesitation(timeline: Node, enemies: Array) -> Dict
         enemy["former_kin_hesitation_consumed"] = true
         applied += 1
     return {"applied": applied, "first_turn_only": true}
+
+static func _append_allied_social_memory(source_id: String, enemy_entity_id: String, region_id: String, dialogue: String, social_state: String, fear_delta: int, surrender_ready: bool) -> void:
+    var record := RemanenceRuntime.entity_state(source_id)
+    if record.is_empty():
+        return
+    var history: Array = (record.get("allied_social_history", []) as Array).duplicate(true)
+    history.append({
+        "run_index": RemanenceRuntime.run_index,
+        "enemy_entity_id": enemy_entity_id,
+        "region_id": region_id,
+        "social_state": social_state,
+        "fear_delta": fear_delta,
+        "surrender_available": surrender_ready,
+        "summary": dialogue
+    })
+    while history.size() > 16:
+        history.pop_front()
+    record["allied_social_history"] = history
+    record["last_family_recognition_run"] = RemanenceRuntime.run_index
+    RemanenceRuntime.entities[source_id] = record
+    RemanenceRuntime.remanence_changed.emit()
 
 static func _social_state(fear: int, respect: int, surrender_ready: bool) -> String:
     if surrender_ready:
