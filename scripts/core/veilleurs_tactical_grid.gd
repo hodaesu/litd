@@ -43,7 +43,8 @@ func position_of(entity_id: String) -> Vector2i:
         var key := str(key_value)
         if str(occupants[key]) == entity_id:
             var parts := key.split(":")
-            return Vector2i(int(parts[0]), int(parts[1]))
+            if parts.size() == 2:
+                return Vector2i(int(parts[0]), int(parts[1]))
     return Vector2i(-1, -1)
 
 func distance(a: String, b: String) -> int:
@@ -63,6 +64,23 @@ func neighbors(cell: Vector2i) -> Array[Vector2i]:
 
 func snapshot() -> Dictionary:
     return occupants.duplicate(true)
+
+func restore(payload: Dictionary) -> bool:
+    var restored: Dictionary = {}
+    for key_value: Variant in payload.keys():
+        var key := str(key_value)
+        var parts := key.split(":")
+        if parts.size() != 2:
+            return false
+        var cell := Vector2i(int(parts[0]), int(parts[1]))
+        if not inside(cell):
+            return false
+        var entity_id := str(payload.get(key_value, ""))
+        if entity_id == "" or restored.values().has(entity_id):
+            return false
+        restored[key] = entity_id
+    occupants = restored
+    return true
 
 func _key(cell: Vector2i) -> String:
     return "%d:%d" % [cell.x, cell.y]
