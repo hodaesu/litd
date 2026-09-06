@@ -6,6 +6,9 @@ const SESSION_SCRIPT := preload("res://scripts/core/veilleurs_tactical_session.g
 const BODY_SCRIPT := preload("res://scripts/core/veilleurs_body_component.gd")
 const SKILL_RESOURCE_SCRIPT := preload("res://scripts/core/veilleurs_skill_definition.gd")
 const ENTITY_RESOURCE_SCRIPT := preload("res://scripts/core/veilleurs_entity_definition.gd")
+const HYBRID_SCRIPT := preload("res://scripts/core/veilleurs_hybrid_generation_bridge.gd")
+const REFUGE_SCRIPT := preload("res://scripts/core/veilleurs_refuge_runtime.gd")
+const UI_SCENE := preload("res://scenes/veilleurs/v06_tactical_combat.tscn")
 
 var failures: Array[String] = []
 
@@ -75,6 +78,27 @@ func _run() -> void:
     _check(restored.grid.snapshot() == runtime.grid.snapshot(), "Grid must survive tactical serialization")
     _check(restored.combatants.size() == runtime.combatants.size(), "Combatant roster must survive tactical serialization")
 
+    var hybrid: VeilleursHybridGenerationBridge = HYBRID_SCRIPT.new() as VeilleursHybridGenerationBridge
+    var dungeon_plan := hybrid.generate_plan("DUNGEON_ASH_RUINS", 60601)
+    _check(not dungeon_plan.is_empty(), "Hybrid generation must produce an authored/procedural dungeon plan")
+    _check(int(dungeon_plan.get("room_count", 0)) >= 10 and int(dungeon_plan.get("room_count", 0)) <= 18, "Ash Ruins must respect authored room bounds")
+    _check((dungeon_plan.get("rooms", []) as Array).size() == int(dungeon_plan.get("room_count", 0)), "Hybrid plan must materialize every room")
+
+    var refuge: VeilleursRefugeRuntime = REFUGE_SCRIPT.new() as VeilleursRefugeRuntime
+    _check(refuge.recruit_slots() == 6, "Refuge must begin with six recruit slots")
+    refuge.add_rewards(1000, 100, 0)
+    var quarters_upgrade := refuge.upgrade("BUILDING_QUARTERS")
+    _check(bool(quarters_upgrade.get("ok", false)) and refuge.recruit_slots() == 8, "Quarters upgrade must increase recruit slots to eight")
+    var refuge_copy: VeilleursRefugeRuntime = REFUGE_SCRIPT.new() as VeilleursRefugeRuntime
+    refuge_copy.deserialize(refuge.serialize())
+    _check(refuge_copy.current_level("BUILDING_QUARTERS") == 2, "Refuge state must survive serialization")
+
+    var ui: VeilleursTacticalUI = UI_SCENE.instantiate() as VeilleursTacticalUI
+    add_child(ui)
+    ui.bind_snapshot({"runtime":runtime.serialize()})
+    _check(ui.touch_contract_ok(), "Touch UI must expose 30 cells, six body zones and four large skill slots")
+    _check(ui.cell_buttons.size() == 30, "Touch UI grid must contain exactly 30 cells")
+
     var session: Node = SESSION_SCRIPT.new()
     add_child(session)
     var session_setup: Dictionary = session.call("start_first_combat")
@@ -85,13 +109,20 @@ func _run() -> void:
     session_copy.call("deserialize", session_snapshot)
     _check(bool(session_copy.call("is_active")), "Tactical session must restore as active")
     _check((session_copy.call("snapshot") as Dictionary).get("runtime", {}) != {}, "Restored session must contain runtime state")
+    _check(bool(session.call("save_snapshot")), "Tactical session must write a checksum save")
+    var disk_copy: Node = SESSION_SCRIPT.new()
+    add_child(disk_copy)
+    _check(bool(disk_copy.call("load_snapshot")), "Tactical session must reload its checksum save")
+    _check(bool(disk_copy.call("delete_snapshot")), "Tactical QA save must be removable")
     var finish: Dictionary = session.call("finish", "resolved")
     _check(bool(finish.get("ok", false)), "Finishing combat must succeed")
     _check(RemanenceRuntime.event_timeline.size() >= 6, "First combat must write encounter and resolution events to Remanence")
 
+    ui.queue_free()
     session.queue_free()
     session_copy.queue_free()
-    db.queue_free()
+    disk_copy.queue_free()
+    db.free()
     _finish()
 
 func _check(condition: bool, message: String) -> void:
