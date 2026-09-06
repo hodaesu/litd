@@ -4,9 +4,11 @@ class_name VeilleursTacticalCombatRuntime
 const GRID_SCRIPT := preload("res://scripts/core/veilleurs_tactical_grid.gd")
 const BODY_SCRIPT := preload("res://scripts/core/veilleurs_body_component.gd")
 const CONTENT_DB_SCRIPT := preload("res://scripts/core/content_db.gd")
+const AI_SCRIPT := preload("res://scripts/core/veilleurs_enemy_ai_v2.gd")
 const WATCHER_IDS: Array[String] = ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]
 
 var content_db: VeilleursContentDB
+var enemy_ai: VeilleursEnemyAIV2
 var grid: VeilleursTacticalGrid
 var combatants: Dictionary = {}
 var round_index := 1
@@ -15,6 +17,7 @@ var action_log: Array[Dictionary] = []
 func _init() -> void:
     content_db = CONTENT_DB_SCRIPT.new() as VeilleursContentDB
     content_db.reload()
+    enemy_ai = AI_SCRIPT.new() as VeilleursEnemyAIV2
     grid = GRID_SCRIPT.new() as VeilleursTacticalGrid
 
 func setup_first_combat(enemy_ids: Array[String] = ["ENT_ENEMY_GOULE_AFFAMEE", "ENT_ENEMY_ECORCHEUSE", "ENT_ENEMY_FOUISSEUSE"]) -> Dictionary:
@@ -80,27 +83,34 @@ func resolve_skill(attacker_id: String, target_id: String, skill_id: String, zon
 func enemy_step(enemy_id: String) -> Dictionary:
     if not combatants.has(enemy_id) or str((combatants[enemy_id] as Dictionary).get("team", "")) != "enemy":
         return {"ok": false, "reason": "not_enemy"}
-    var target_id := _nearest_alive(enemy_id, "watcher")
-    if target_id == "":
-        return {"ok": false, "reason": "no_target"}
-    if grid.distance(enemy_id, target_id) <= 1:
-        return _enemy_basic_attack(enemy_id, target_id)
-    var origin := grid.position_of(enemy_id)
-    var target_pos := grid.position_of(target_id)
-    var best_cell := Vector2i(-1, -1)
-    var best_distance := 999
-    for cell: Vector2i in grid.neighbors(origin):
-        if grid.occupied(cell):
-            continue
-        var distance := _cell_distance(cell, target_pos)
-        if distance < best_distance:
-            best_cell = cell
-            best_distance = distance
-    if best_cell.x >= 0 and grid.move(enemy_id, best_cell):
-        var result := {"ok": true, "action": "move", "enemy": enemy_id, "target": target_id, "to": [best_cell.x, best_cell.y]}
-        action_log.append(result.duplicate(true))
-        return result
-    return {"ok": false, "reason": "blocked"}
+    var decision := enemy_ai.decide(self, enemy_id)
+    var action := str(decision.get("action", "none"))
+    match action:
+        "attack":
+            var target_id := str(decision.get("target", ""))
+            if target_id == "" or not combatants.has(target_id):
+                return {"ok": false, "reason": "ai_invalid_target"}
+            var result := _enemy_basic_attack(enemy_id, target_id)
+            result["decision_reason"] = str(decision.get("reason", "tactical_attack"))
+            return result
+        "move", "flee":
+            var cell_value: Variant = decision.get("cell", Vector2i(-1, -1))
+            if not (cell_value is Vector2i):
+                return {"ok": false, "reason": "ai_invalid_cell"}
+            var cell: Vector2i = cell_value
+            if cell.x >= 0 and grid.move(enemy_id, cell):
+                var result := {"ok": true, "action": action, "enemy": enemy_id, "target": str(decision.get("target", "")), "to": [cell.x, cell.y], "decision_reason": str(decision.get("reason", ""))}
+                action_log.append(result.duplicate(true))
+                return result
+            return {"ok": false, "reason": "ai_move_blocked"}
+        "support":
+            return _enemy_support(enemy_id, str(decision.get("target", "")), str(decision.get("reason", "ally_critical")))
+        "hold":
+            var hold := {"ok": true, "action": "hold", "enemy": enemy_id, "target": str(decision.get("target", "")), "decision_reason": str(decision.get("reason", "blocked"))}
+            action_log.append(hold.duplicate(true))
+            return hold
+        _:
+            return {"ok": false, "reason": str(decision.get("reason", "ai_no_action"))}
 
 func next_round() -> void:
     round_index += 1
@@ -159,6 +169,10 @@ func _register(definition: Dictionary, team: String) -> void:
         "entity_id": entity_id,
         "name": str(definition.get("name_fr", entity_id)),
         "team": team,
+        "family": str(definition.get("family", "WATCHERS" if team == "watcher" else "")),
+        "combat_role": str(definition.get("combat_role", "watcher" if team == "watcher" else "assault")),
+        "threat_value": float(definition.get("threat_value", 1.0)),
+        "remanence_stage": str(definition.get("remanence_stage", "normal")),
         "stats": stats,
         "hp": 80 + vigor,
         "max_hp": 80 + vigor,
@@ -211,19 +225,20 @@ func _push_away(attacker_id: String, target_id: String, distance: int) -> int:
             moved += 1
     return moved
 
-func _nearest_alive(source_id: String, team: String) -> String:
-    var best := ""
-    var best_distance := 999
-    for entity_id_value: Variant in combatants.keys():
-        var entity_id := str(entity_id_value)
-        var row: Dictionary = combatants[entity_id]
-        if str(row.get("team", "")) != team or int(row.get("hp", 0)) <= 0:
-            continue
-        var distance := grid.distance(source_id, entity_id)
-        if distance < best_distance:
-            best = entity_id
-            best_distance = distance
-    return best
+func _enemy_support(attacker_id: String, target_id: String, reason: String) -> Dictionary:
+    if target_id == "" or not combatants.has(target_id):
+        return {"ok": false, "reason": "support_target_missing"}
+    var target: Dictionary = combatants[target_id]
+    if str(target.get("team", "")) != "enemy" or int(target.get("hp", 0)) <= 0:
+        return {"ok": false, "reason": "support_target_invalid"}
+    var before := int(target.get("hp", 0))
+    var amount := maxi(4, int(round(float(target.get("max_hp", 1)) * 0.10)))
+    target["hp"] = mini(int(target.get("max_hp", 1)), before + amount)
+    target["guard_bonus"] = maxi(int(target.get("guard_bonus", 0)), 8)
+    combatants[target_id] = target
+    var result := {"ok": true, "action": "support", "enemy": attacker_id, "target": target_id, "healed": int(target["hp"]) - before, "guard_bonus": 8, "decision_reason": reason, "persistent_injury_healed": false}
+    action_log.append(result.duplicate(true))
+    return result
 
 func _enemy_basic_attack(attacker_id: String, target_id: String) -> Dictionary:
     var attacker: Dictionary = combatants[attacker_id]
@@ -235,8 +250,11 @@ func _enemy_basic_attack(attacker_id: String, target_id: String) -> Dictionary:
     var result := {"ok": true, "action": "attack", "attacker": attacker_id, "target": target_id, "roll": roll, "hit_chance": chance, "hit": roll <= chance}
     if bool(result["hit"]):
         var armor := float(target.get("armor", 0))
-        var damage := maxi(1, int(round(float(attacker.get("weapon_power", 20)) * (1.0 - armor / (armor + 100.0)))))
+        var guard_bonus := float(target.get("guard_bonus", 0))
+        var effective_armor := armor + guard_bonus
+        var damage := maxi(1, int(round(float(attacker.get("weapon_power", 20)) * (1.0 - effective_armor / (effective_armor + 100.0)))))
         target["hp"] = maxi(0, int(target.get("hp", 1)) - damage)
+        target["guard_bonus"] = 0
         result["damage"] = damage
         result["target_hp"] = int(target["hp"])
         var body: VeilleursBodyComponent = target.get("body") as VeilleursBodyComponent
@@ -247,6 +265,3 @@ func _enemy_basic_attack(attacker_id: String, target_id: String) -> Dictionary:
 
 func _deterministic_roll(a: String, b: String, c: String) -> int:
     return posmod((a + "|" + b + "|" + c + "|" + str(round_index)).hash(), 100) + 1
-
-func _cell_distance(a: Vector2i, b: Vector2i) -> int:
-    return absi(a.x - b.x) + absi(a.y - b.y)
