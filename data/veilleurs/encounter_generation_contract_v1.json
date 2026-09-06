@@ -1,8 +1,9 @@
 {
-  "version": 3,
+  "version": 4,
   "status": "production_contract",
   "canonical_template_target": 64,
   "enemy_synergy_target": 21,
+  "enemy_skill_target": 1305,
   "source": {
     "manifest": "res://data/veilleurs/canonical_prepc_2026_09_03/canonical_source_manifest_v1.json",
     "encounter_sheet": "Compositions_64",
@@ -13,9 +14,13 @@
   },
   "runtime_catalogs": {
     "encounters": "res://data/veilleurs/encounter_catalog_64_v1.json",
+    "encounter_narrative_rewards": "res://data/veilleurs/encounter_narrative_reward_contract_v1.json",
     "synergies": "res://data/veilleurs/enemy_synergy_binding_v1.json",
+    "enemy_skill_intents": "res://data/veilleurs/enemy_skill_intent_contract_v1.json",
+    "enemy_skill_id_normalization": "res://data/veilleurs/enemy_skill_id_normalization_v1.json",
     "boss_phases": "res://data/veilleurs/boss_phase_knowledge_v1.json",
-    "archives": "res://data/veilleurs/archives_bestiary_29_v1.json"
+    "archives": "res://data/veilleurs/archives_bestiary_29_v1.json",
+    "remanence_adaptation": "res://data/veilleurs/remanence_adaptation_hooks_v1.json"
   },
   "composition_rules": {
     "max_standard_enemies": 4,
@@ -34,7 +39,8 @@
     "memorial_enemy_slot_is_runtime_selected": true,
     "world_scars_project_after_layout": true,
     "full_scene_snapshots_forbidden": true,
-    "seed_reproducibility_required": true
+    "seed_reproducibility_required": true,
+    "promotion_and_adaptation_require_lived_events": true
   },
   "synergy_rules": {
     "source_schema": "pair_strength_function_counterplay",
@@ -43,6 +49,14 @@
     "hidden_unbreakable_aura_forbidden": true,
     "counterplay_required": true,
     "archive_visibility_requires_observation": true
+  },
+  "intent_rules": {
+    "families": ["assaut", "controle", "repositionnement", "defense", "soutien", "environnement", "chasse_embuscade", "fuite_cession_recrutement"],
+    "skill_tree_bindings": 87,
+    "skills_covered": 1305,
+    "fuite_cession_recrutement_is_state_intent": true,
+    "raw_source_skill_ids_are_not_globally_unique": true,
+    "runtime_skill_id_uses_entity_plus_source_id": true
   },
   "knowledge_rules": {
     "canonical_source_states": ["UNKNOWN", "SUSPECTED", "OBSERVED", "CONFIRMED", "UNDERSTOOD"],
@@ -55,9 +69,12 @@
   },
   "content_population": {
     "encounters_status": "64_recovered_hash_locked_and_runtime_bound",
+    "encounter_narrative_rewards_status": "64_name_joined_and_hash_locked",
     "synergies_status": "21_recovered_catalogued_and_runtime_bound",
+    "enemy_skill_intents_status": "1305_source_rows_covered_by_87_tree_bindings",
     "boss_phases_status": "16_recovered_and_phase_scoped_presentation_bound",
     "archives_status": "29_source_entries_bound_to_six_level_ui_projection",
+    "remanence_promotion_status": "lived_event_hooks_defined_for_memorial_veteran_elite_nemesis",
     "placeholder_names_forbidden": true
   }
 }
