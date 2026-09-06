@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "status": "production_contract",
+  "party": {
+    "max_combatants": 4,
+    "min_watchers": 1,
+    "validation": "party_size <= 4 && watcher_count >= 1"
+  },
+  "refuge": {
+    "recruit_capacity": 12,
+    "overflow_policy": "block_new_recruit_until_slot_is_freed",
+    "persistent_identity_required": true
+  },
+  "eligibility": {
+    "ordinary_enemy": true,
+    "memorial_enemy": true,
+    "veteran_enemy": true,
+    "elite_enemy": true,
+    "nemesis_enemy": "case_by_case_story_rule",
+    "miniboss": false,
+    "boss": false
+  },
+  "paths": {
+    "soumission": {"requires": ["will_broken", "enemy_alive"]},
+    "reddition": {"requires": ["enemy_alive", "surrender_state"]},
+    "sauvetage": {"requires": ["rescue_context", "enemy_alive"]},
+    "pacte": {"requires": ["relationship_or_story_condition"]},
+    "apprivoisement": {"requires": ["species_allows_taming", "enemy_alive"]}
+  },
+  "systems": {
+    "will": true,
+    "restraints": true,
+    "persistent_injuries": true,
+    "relationship_memory": true,
+    "individual_history": true,
+    "traits": true,
+    "identity_seed": true
+  },
+  "ui": {
+    "capture_probability_visible": false,
+    "show_observable_state_instead": [
+      "volonte",
+      "blessures",
+      "posture",
+      "relation",
+      "contexte_de_ralliement"
+    ],
+    "irreversible_confirmation": true
+  },
+  "monetization_guardrails": {
+    "gacha": false,
+    "paid_reroll": false,
+    "paid_recruitment": false
+  }
+}
