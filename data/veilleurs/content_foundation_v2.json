@@ -46,8 +46,9 @@
       "Porte-Cendres",
       "Gardiens de Version"
     ],
-    "species_names_status": "16_recovered_8_act1_names_not_locked",
+    "species_names_status": "24_locked",
     "species_catalog": "res://data/veilleurs/species_catalog_recovered_v1.json",
+    "normalization_manifest": "res://data/veilleurs/canonical_bestiary_normalization_v1.json",
     "obsolete_structures_rejected": [
       "5 families / 25 archetypes",
       "6 families / 24 species",
