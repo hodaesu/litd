@@ -5,6 +5,7 @@ signal session_changed(snapshot: Dictionary)
 signal session_finished(summary: Dictionary)
 
 const RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_runtime.gd")
+const SNAPSHOT_PATH := "user://veilleurs_v06_tactical_snapshot.json"
 
 var runtime: VeilleursTacticalCombatRuntime = null
 var active := false
@@ -87,6 +88,43 @@ func deserialize(payload: Dictionary) -> void:
     encounter_id = str(payload.get("encounter_id", "veilleurs_v06_first_combat"))
     region_id = str(payload.get("region_id", "khar_sen"))
     session_changed.emit(snapshot())
+
+func save_snapshot(path: String = SNAPSHOT_PATH) -> bool:
+    var payload := {"version":"0.6", "session":serialize(), "remanence":RemanenceRuntime.serialize()}
+    var body := JSON.stringify(payload)
+    var envelope := JSON.stringify({"checksum":body.sha256_text(), "body":body})
+    var file := FileAccess.open(path, FileAccess.WRITE)
+    if file == null:
+        return false
+    file.store_string(envelope)
+    file.flush()
+    file.close()
+    return true
+
+func load_snapshot(path: String = SNAPSHOT_PATH) -> bool:
+    if not FileAccess.file_exists(path):
+        return false
+    var envelope_value: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+    if not (envelope_value is Dictionary):
+        return false
+    var envelope: Dictionary = envelope_value
+    var body := str(envelope.get("body", ""))
+    if body == "" or str(envelope.get("checksum", "")) != body.sha256_text():
+        return false
+    var payload_value: Variant = JSON.parse_string(body)
+    if not (payload_value is Dictionary):
+        return false
+    var payload: Dictionary = payload_value
+    if str(payload.get("version", "")) != "0.6":
+        return false
+    RemanenceRuntime.deserialize(payload.get("remanence", {}))
+    deserialize(payload.get("session", {}))
+    return is_active()
+
+func delete_snapshot(path: String = SNAPSHOT_PATH) -> bool:
+    if not FileAccess.file_exists(path):
+        return true
+    return DirAccess.remove_absolute(ProjectSettings.globalize_path(path)) == OK
 
 func _note_enemy_encounters() -> void:
     if runtime == null:
