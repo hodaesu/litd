@@ -4,6 +4,7 @@ const PERSISTENCE_SCRIPT := preload("res://scripts/world/veilleurs_vs001_persist
 const CONTENT_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_content_runtime.gd")
 const ENCOUNTER_DIRECTOR_SCRIPT := preload("res://scripts/core/veilleurs_encounter_director.gd")
 const BOSS_DIRECTOR_SCRIPT := preload("res://scripts/core/veilleurs_boss_director.gd")
+const RUNTIME_COORDINATOR_SCRIPT := preload("res://scripts/core/veilleurs_runtime_coordinator.gd")
 
 const WATCHER_DEFS: Array[Dictionary] = [
     {"id": "nayra_orun", "name": "Nayra Orun", "role": "La Garde", "template_index": 3},
@@ -18,6 +19,7 @@ var persistence_bridge: VeilleursVS001PersistenceBridge = null
 var content_runtime: VeilleursContentRuntime = null
 var encounter_director: VeilleursEncounterDirector = null
 var boss_director: VeilleursBossDirector = null
+var runtime_coordinator: VeilleursRuntimeCoordinator = null
 var launch_canvas: CanvasLayer = null
 var launch_button: Button = null
 var saved_party_position: Array = []
@@ -36,6 +38,10 @@ func _ready() -> void:
     boss_director = BOSS_DIRECTOR_SCRIPT.new() as VeilleursBossDirector
     boss_director.name = "VeilleursBossDirector"
     add_child(boss_director)
+    runtime_coordinator = RUNTIME_COORDINATOR_SCRIPT.new() as VeilleursRuntimeCoordinator
+    runtime_coordinator.name = "VeilleursRuntimeCoordinator"
+    add_child(runtime_coordinator)
+    runtime_coordinator.bind(content_runtime, encounter_director, boss_director)
     if not VeilleursVS001WorldRuntime.session_started.is_connected(_on_session_started):
         VeilleursVS001WorldRuntime.session_started.connect(_on_session_started)
     if not VeilleursVS001WorldRuntime.session_changed.is_connected(_on_session_changed):
@@ -93,6 +99,9 @@ func canonical_encounter_director() -> VeilleursEncounterDirector:
 
 func canonical_boss_director() -> VeilleursBossDirector:
     return boss_director
+
+func canonical_runtime_coordinator() -> VeilleursRuntimeCoordinator:
+    return runtime_coordinator
 
 func activate_watchers_party() -> Array:
     if not watchers_active:
