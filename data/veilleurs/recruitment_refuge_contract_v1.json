@@ -18,7 +18,8 @@
     "elite_enemy": true,
     "nemesis_enemy": "case_by_case_story_rule",
     "miniboss": false,
-    "boss": false
+    "boss": true,
+    "boss_rule": "canonical_story_rule_only"
   },
   "paths": {
     "soumission": {"requires": ["will_broken", "enemy_alive"]},
