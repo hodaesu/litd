@@ -20,6 +20,8 @@ jobs:
         run: godot --headless --path . res://scenes/tests/remanence_smoke.tscn
       - name: Politique Rémanence vécue Les Veilleurs
         run: godot --headless --path . res://scenes/tests/veilleurs_remanence_policy_smoke.tscn
+      - name: Intentions et télégraphes Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_intent_resolver_smoke.tscn
       - name: Contenu canonique Les Veilleurs
         run: godot --headless --path . res://scenes/tests/veilleurs_content_runtime_smoke.tscn
       - name: Rencontres canoniques Les Veilleurs
