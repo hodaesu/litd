@@ -15,21 +15,39 @@ Les fichiers de compétences existants ne doivent pas être dupliqués.
 
 ### Bestiaire
 
-La référence actuelle attend :
+La référence actuelle est désormais verrouillée à :
 
 - 24 espèces ordinaires ;
-- 8 familles de combat : Déliés, Pèlerins Fendus, Gardiens de Pierre, Bêtes de Suie, Silencieux, Veines, Porte-Cendres, Gardiens de Version.
+- 8 familles de combat : Déliés, Pèlerins Fendus, Gardiens de Pierre, Bêtes de Suie, Silencieux, Veines, Porte-Cendres, Gardiens de Version ;
+- 5 boss canoniques ;
+- 29 entités de référence au total.
 
 Les anciennes structures 5/25, 6/24 et 7/15 sont rejetées.
 
-`species_catalog_recovered_v1.json` restaure les 16 noms canoniques actuellement récupérables :
+`species_catalog_recovered_v1.json` contient désormais les 24 noms canoniques :
 
+- Déliés : Délié Affamé, Délié Boursouflé ;
+- Pèlerins Fendus : Censeur Fendu, Flagellant Fendu ;
+- Gardiens de Pierre : Sentinelle du Seuil, Exécuteur de Pierre ;
+- Bêtes de Suie : Traque-Suie, Brise-Os de Suie ;
 - Silencieux : Écouteur Creux, Porte-Signe, Marcheur Aphone, Reteneur de Souffle ;
 - Veines : Veine Rampante, Nœud-Écorché, Porte-Sang, Germe Artériel ;
 - Porte-Cendres : Marche-Pâle, Porte-Linceul, Effaceur de Traces, Dormeur de Cendre ;
 - Gardiens de Version : Copie Lacunaire, Rature Vivante, Archiviste de Version, Double du Seuil.
 
-Les noms des 8 espèces restantes des familles Déliés, Pèlerins Fendus, Gardiens de Pierre et Bêtes de Suie ne sont pas verrouillés dans la source récupérable. Aucun placeholder n’est autorisé.
+`canonical_bestiary_normalization_v1.json` lie individuellement les 24 espèces et les 5 boss à :
+
+- rôle de combat ;
+- famille anatomique et profil corporel ;
+- classes d’intention ;
+- télégraphes visuels, sonores et environnementaux ;
+- logique de ciblage ;
+- cinq niveaux de connaissance ;
+- profil de ralliement ;
+- Rémanence jusqu’au rang Némésis pour les espèces ordinaires ;
+- connaissance de boss limitée aux phases réellement observées.
+
+La connaissance ne remplace jamais la perception actuelle : obscurité, absence de ligne de vue ou masquage sonore peuvent réduire l’information affichée sans effacer ce qui a été appris.
 
 ### Rencontres
 
@@ -56,7 +74,7 @@ La liste nominale complète des 21 synergies doit encore être restaurée depuis
 4. Porte-Cendres IV — **Le Gardien de la Cendre**
 5. Copiste V — **L’Archiviste des Cicatrices**
 
-Les cinq boss sont recrutables uniquement selon leur règle narrative canonique. Les mini-boss restent non recrutables.
+Les cinq boss sont recrutables uniquement selon leur règle narrative canonique. Les mini-boss restent non recrutables. Leur connaissance est phase-scopée : maîtriser une phase ne révèle jamais une phase encore non vécue.
 
 ### Recrutement et Refuge
 
@@ -66,13 +84,16 @@ Les cinq boss sont recrutables uniquement selon leur règle narrative canonique.
 - voies : soumission, reddition, sauvetage, pacte, apprivoisement ;
 - aucun pourcentage de capture affiché ;
 - l’UI montre plutôt Volonté, blessures, posture, relation et contexte de ralliement ;
-- les boss utilisent une condition narrative dédiée.
+- les boss utilisent une condition narrative dédiée ;
+- les Némésis utilisent une règle de ralliement au cas par cas.
 
 ### Rémanence
 
 `Normal → Mémoriel → Vétéran → Élite → Némésis`
 
 Une adaptation ennemie doit provenir de faits réellement vécus. La mémoire omnisciente est interdite. Les cicatrices du monde sont stockées comme états/flags/références, jamais comme snapshots complets de scènes.
+
+Les 24 espèces ordinaires sont maintenant compatibles avec cette chaîne. Un individu Normal reste générique ; à partir de Mémoriel, identité, blessures, relations et histoire peuvent persister. Les adaptations de Vétéran/Élite/Némésis restent bornées à ce que l’individu a effectivement vécu.
 
 ### Archives et interface Refuge
 
@@ -105,6 +126,7 @@ Le contrat `narrative_continuity_contract_v1.json` verrouille :
 
 - `data/veilleurs/content_foundation_v2.json`
 - `data/veilleurs/species_catalog_recovered_v1.json`
+- `data/veilleurs/canonical_bestiary_normalization_v1.json`
 - `data/veilleurs/recruitment_refuge_contract_v1.json`
 - `data/veilleurs/remanence_entity_contract_v1.json`
 - `data/veilleurs/encounter_generation_contract_v1.json`
@@ -114,11 +136,12 @@ Le contrat `narrative_continuity_contract_v1.json` verrouille :
 
 ## Ordre de continuation sans inventer le canon
 
-1. Restaurer les 8 noms d’espèces encore non verrouillés.
-2. Restaurer les 64 templates nominaux.
-3. Restaurer les 21 synergies nominales.
-4. Brancher les catalogues sur le générateur hybride.
-5. Brancher recrutement et persistance d’identité.
-6. Implémenter le Refuge et les Archives à partir du contrat UI.
-7. Étendre les dialogues par hooks de Rémanence.
-8. Faire passer les tests Godot + Python + QA avant fusion.
+1. Restaurer les 64 templates nominaux de rencontres.
+2. Restaurer les 21 synergies nominales.
+3. Affecter les 21 synergies aux 24 espèces et aux 5 boss.
+4. Détailler les phases des 5 boss et leurs paliers de connaissance spécifiques.
+5. Brancher les catalogues sur le générateur hybride.
+6. Brancher recrutement et persistance d’identité.
+7. Implémenter le Refuge et les Archives à partir du contrat UI.
+8. Étendre les dialogues par hooks de Rémanence.
+9. Faire passer les tests Godot + Python + QA avant fusion.
