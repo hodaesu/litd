@@ -4,11 +4,11 @@ class_name VeilleursCombatMemoryAdapter
 signal canonical_event_forwarded(entity_id: String, event_type: String, payload: Dictionary)
 signal canonical_event_rejected(entity_id: String, event_type: String, reason: String)
 
-var coordinator: VeilleursRuntimeCoordinator = null
+var coordinator: Node = null
 var meaningful_exchange: Dictionary = {}
 var encounter_open: Dictionary = {}
 
-func bind(runtime_coordinator: VeilleursRuntimeCoordinator) -> void:
+func bind(runtime_coordinator: Node) -> void:
     coordinator = runtime_coordinator
     if RemanenceRuntime != null and not RemanenceRuntime.event_recorded.is_connected(_on_remanence_event_recorded):
         RemanenceRuntime.event_recorded.connect(_on_remanence_event_recorded)
@@ -156,9 +156,9 @@ func _on_remanence_event_recorded(event: Dictionary) -> void:
             })
 
 func _forward(entity_id: String, event_type: String, payload: Dictionary) -> Dictionary:
-    if coordinator == null:
+    if coordinator == null or not coordinator.has_method("note_enemy_memory_event"):
         return {"ok": false, "reason": "coordinator_unbound"}
-    var result := coordinator.note_enemy_memory_event(entity_id, event_type, payload)
+    var result: Dictionary = coordinator.call("note_enemy_memory_event", entity_id, event_type, payload)
     if bool(result.get("ok", false)):
         canonical_event_forwarded.emit(entity_id, event_type, payload.duplicate(true))
     else:
