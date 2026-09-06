@@ -10,7 +10,7 @@ const SAFE_CONTEXT_KEYS := [
 ]
 const RANK_BIAS := {
     "normal": 0.0,
-    "memorial": 0.0,
+    "memorial": 12.0,
     "veteran": 18.0,
     "elite": 28.0,
     "nemesis": 36.0
