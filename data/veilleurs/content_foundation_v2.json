@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "status": "canonical_integration_contract",
   "scope": "LITD : Les Veilleurs",
   "canonical_source": {
@@ -34,13 +34,29 @@
     "family_names": ["Déliés", "Pèlerins Fendus", "Gardiens de Pierre", "Bêtes de Suie", "Silencieux", "Veines", "Porte-Cendres", "Gardiens de Version"],
     "obsolete_structures_rejected": ["5 families / 25 archetypes", "6 families / 24 species", "7 families / 15 enemies"]
   },
+  "enemy_skills": {
+    "canonical_target": 1305,
+    "trees": 87,
+    "skills_per_tree": 15,
+    "intent_contract": "res://data/veilleurs/enemy_skill_intent_contract_v1.json",
+    "id_normalization": "res://data/veilleurs/enemy_skill_id_normalization_v1.json",
+    "runtime_generation_tool": "res://tools/veilleurs/build_runtime_bindings_from_prepc_pack.py"
+  },
+  "enemy_intents": {
+    "families": ["assaut", "controle", "repositionnement", "defense", "soutien", "environnement", "chasse_embuscade", "fuite_cession_recrutement"],
+    "skill_intent_families": 7,
+    "state_intent_family": "fuite_cession_recrutement",
+    "passives_are_queued_intentions": false,
+    "knowledge_and_perception_are_separate": true
+  },
   "encounters": {
     "canonical_template_target": 64,
     "source_sheet": "Compositions_64",
     "source_sha256": "2a3246778559b6750a9afe37e9a304c5d80c8c9801fba6a626aed73bba46dc92",
     "max_standard_enemies": 4,
     "max_memorial_enemy": 1,
-    "artificial_nemesis_spawn_forbidden": true
+    "artificial_nemesis_spawn_forbidden": true,
+    "narrative_reward_contract": "res://data/veilleurs/encounter_narrative_reward_contract_v1.json"
   },
   "enemy_synergies": {
     "canonical_target": 21,
@@ -77,5 +93,12 @@
     "display_capture_percentage": false,
     "act_i_numeric_conditions_status": "not_defined_do_not_invent"
   },
-  "memory_ranks": ["normal", "memorial", "veteran", "elite", "nemesis"]
+  "memory_ranks": ["normal", "memorial", "veteran", "elite", "nemesis"],
+  "remanence_adaptation": {
+    "contract": "res://data/veilleurs/remanence_adaptation_hooks_v1.json",
+    "learn_only_from_lived_events": true,
+    "veteran_requires_applied_lesson": true,
+    "elite_requires_group_influence": true,
+    "nemesis_requires_rare_shared_history": true
+  }
 }
