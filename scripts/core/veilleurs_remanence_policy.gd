@@ -23,6 +23,14 @@ const MAJOR_ANCHORS := [
     "important_item_taken_or_recovered",
     "forced_retreat"
 ]
+const REQUIRES_ALIVE := [
+    "survival",
+    "watcher_kill",
+    "mutilation",
+    "escape",
+    "failed_capture",
+    "forced_retreat"
+]
 const CHANNELS := ["threat_family", "positioning", "capture", "relationship"]
 
 var contract: Dictionary = {}
@@ -35,6 +43,43 @@ func _init() -> void:
 func reset() -> void:
     entity_states.clear()
     sequence = 0
+
+func serialize() -> Dictionary:
+    return {
+        "version": 1,
+        "sequence": sequence,
+        "entity_states": entity_states.duplicate(true)
+    }
+
+func deserialize(payload: Dictionary) -> void:
+    reset()
+    if payload.is_empty():
+        return
+    sequence = maxi(0, int(payload.get("sequence", 0)))
+    var incoming: Dictionary = payload.get("entity_states", {})
+    for entity_id_value: Variant in incoming.keys():
+        restore_entity_state(str(entity_id_value), incoming.get(entity_id_value, {}))
+
+func restore_entity_state(entity_id: String, payload: Dictionary) -> bool:
+    if entity_id.is_empty() or payload.is_empty():
+        return false
+    var restored := payload.duplicate(true)
+    restored["entity_id"] = entity_id
+    var rank_value := str(restored.get("memory_rank", "normal"))
+    if not rank_value in RANK_ORDER:
+        restored["memory_rank"] = "normal"
+    var channels: Dictionary = restored.get("memory_channels", {})
+    for channel: String in CHANNELS:
+        if not channels.has(channel) or not (channels.get(channel) is Dictionary):
+            channels[channel] = {}
+    restored["memory_channels"] = channels
+    for array_key: String in ["events", "applied_lessons", "group_influence", "major_anchors"]:
+        if not (restored.get(array_key, []) is Array):
+            restored[array_key] = []
+    restored["last_promotion_seq"] = maxi(0, int(restored.get("last_promotion_seq", 0)))
+    entity_states[entity_id] = restored
+    sequence = maxi(sequence, _max_state_sequence(restored))
+    return true
 
 func ensure_entity(entity_id: String, species_id: String = "") -> Dictionary:
     if entity_id.is_empty():
@@ -65,6 +110,8 @@ func ensure_entity(entity_id: String, species_id: String = "") -> Dictionary:
 func note_event(entity_id: String, event_type: String, payload: Dictionary = {}) -> Dictionary:
     if entity_id.is_empty() or not event_type in PROMOTION_EVENTS:
         return {"ok": false, "reason": "invalid_promotion_event", "entity_id": entity_id, "event_type": event_type}
+    if event_type in REQUIRES_ALIVE and payload.has("entity_alive") and not bool(payload.get("entity_alive", false)):
+        return {"ok": false, "reason": "event_requires_living_entity", "entity_id": entity_id, "event_type": event_type}
     ensure_entity(entity_id, str(payload.get("species_id", "")))
     sequence += 1
     var current: Dictionary = entity_states[entity_id]
@@ -236,6 +283,17 @@ func _promote(entity_id: String, new_rank: String) -> void:
     current["last_promotion_seq"] = sequence
     entity_states[entity_id] = current
     rank_changed.emit(entity_id, previous, new_rank, state(entity_id))
+
+func _max_state_sequence(payload: Dictionary) -> int:
+    var maximum := int(payload.get("last_promotion_seq", 0))
+    for array_key: String in ["events", "applied_lessons", "group_influence", "major_anchors"]:
+        for value: Variant in payload.get(array_key, []):
+            if value is Dictionary:
+                maximum = maxi(maximum, int((value as Dictionary).get("seq", 0)))
+    for channel_value: Variant in (payload.get("memory_channels", {}) as Dictionary).values():
+        if channel_value is Dictionary:
+            maximum = maxi(maximum, int((channel_value as Dictionary).get("source_seq", 0)))
+    return maximum
 
 func _load_dictionary(path: String) -> Dictionary:
     if not FileAccess.file_exists(path):
