@@ -1,9 +1,11 @@
 extends Control
 
 const SESSION_SCRIPT := preload("res://scripts/core/veilleurs_tactical_session.gd")
+const SAVE_SCRIPT := preload("res://scripts/core/veilleurs_tactical_save_bridge.gd")
 const UI_SCENE := preload("res://scenes/veilleurs/v06_tactical_combat.tscn")
 
 var session: Node
+var save_bridge: VeilleursTacticalSaveBridge
 var tactical_ui: VeilleursTacticalUI
 var selected_watcher := "ENT_WATCHER_SAHEN"
 var selected_target := "ENT_ENEMY_GOULE_AFFAMEE"
@@ -13,6 +15,7 @@ var message_label: Label
 
 func _ready() -> void:
     _build_shell()
+    save_bridge = SAVE_SCRIPT.new() as VeilleursTacticalSaveBridge
     session = SESSION_SCRIPT.new()
     add_child(session)
     var setup: Dictionary = session.call("start_first_combat")
@@ -33,6 +36,7 @@ func _build_shell() -> void:
     header.offset_top = 8
     header.offset_right = -16
     header.offset_bottom = 58
+    header.add_theme_constant_override("separation", 8)
     add_child(header)
 
     var title := Label.new()
@@ -40,6 +44,18 @@ func _build_shell() -> void:
     title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     title.add_theme_font_size_override("font_size", 22)
     header.add_child(title)
+
+    var save_button := Button.new()
+    save_button.text = "Sauvegarder"
+    save_button.custom_minimum_size = Vector2(120, 48)
+    save_button.pressed.connect(_on_save)
+    header.add_child(save_button)
+
+    var load_button := Button.new()
+    load_button.text = "Reprendre"
+    load_button.custom_minimum_size = Vector2(110, 48)
+    load_button.pressed.connect(_on_load)
+    header.add_child(load_button)
 
     var back := Button.new()
     back.text = "Retour menu"
@@ -68,7 +84,7 @@ func _build_shell() -> void:
     add_child(message_label)
 
 func _refresh() -> void:
-    if not bool(session.call("is_active")):
+    if session == null or not bool(session.call("is_active")):
         return
     var runtime: VeilleursTacticalCombatRuntime = session.runtime
     tactical_ui.bind_snapshot(session.call("snapshot"))
@@ -88,7 +104,7 @@ func _refresh() -> void:
     message_label.text = "%s — cible : %s — zone : %s. Touchez une case libre adjacente pour vous déplacer." % [_display(selected_watcher), _display(selected_target), _zone_name(selected_zone)]
 
 func _on_cell(cell: Vector2i) -> void:
-    if not bool(session.call("is_active")):
+    if session == null or not bool(session.call("is_active")):
         return
     var runtime: VeilleursTacticalCombatRuntime = session.runtime
     var occupant := runtime.grid.occupant(cell)
@@ -113,7 +129,7 @@ func _on_zone(zone: String) -> void:
     _refresh()
 
 func _on_skill(slot: int) -> void:
-    if slot < 0 or slot >= skill_ids.size() or not bool(session.call("is_active")):
+    if slot < 0 or slot >= skill_ids.size() or session == null or not bool(session.call("is_active")):
         return
     var runtime: VeilleursTacticalCombatRuntime = session.runtime
     var skill_id := skill_ids[slot]
@@ -139,7 +155,7 @@ func _on_skill(slot: int) -> void:
     _refresh()
 
 func _enemy_phase() -> void:
-    if not bool(session.call("is_active")):
+    if session == null or not bool(session.call("is_active")):
         return
     var runtime: VeilleursTacticalCombatRuntime = session.runtime
     for enemy_id: String in runtime.alive_ids("enemy"):
@@ -150,15 +166,49 @@ func _check_end_or_enemy_phase() -> void:
     var runtime: VeilleursTacticalCombatRuntime = session.runtime
     if runtime.alive_ids("enemy").is_empty():
         var finish: Dictionary = session.call("finish", "victory")
-        message_label.text = "Victoire. %d Veilleurs sont encore debout. Retournez au menu pour poursuivre le développement." % (finish.get("watchers_alive", []) as Array).size()
+        message_label.text = "Victoire. %d Veilleurs sont encore debout." % (finish.get("watchers_alive", []) as Array).size()
         return
     _enemy_phase()
     if runtime.alive_ids("watcher").is_empty():
         session.call("finish", "defeat")
         message_label.text = "L'équipe est tombée. Les conséquences ont été transmises à la Rémanence."
 
+func _on_save() -> void:
+    if save_bridge == null or session == null or not bool(session.call("is_active")):
+        message_label.text = "Aucun combat actif à sauvegarder."
+        return
+    message_label.text = "Combat sauvegardé." if save_bridge.save_session(session) else "Échec de la sauvegarde tactique."
+
+func _on_load() -> void:
+    if save_bridge == null or not save_bridge.has_save():
+        message_label.text = "Aucune sauvegarde tactique disponible."
+        return
+    if session != null:
+        session.queue_free()
+    session = SESSION_SCRIPT.new()
+    add_child(session)
+    if not save_bridge.load_into(session):
+        message_label.text = "Sauvegarde tactique invalide ou incompatible."
+        return
+    _repair_selection_after_load()
+    _refresh()
+    message_label.text = "Combat repris : positions, blessures et Rémanence restaurées."
+
+func _repair_selection_after_load() -> void:
+    if session == null or session.runtime == null:
+        return
+    var runtime: VeilleursTacticalCombatRuntime = session.runtime
+    if not runtime.combatants.has(selected_watcher) or int((runtime.combatants[selected_watcher] as Dictionary).get("hp", 0)) <= 0:
+        var watchers := runtime.alive_ids("watcher")
+        if not watchers.is_empty():
+            selected_watcher = watchers[0]
+    if not runtime.combatants.has(selected_target) or int((runtime.combatants[selected_target] as Dictionary).get("hp", 0)) <= 0:
+        var enemies := runtime.alive_ids("enemy")
+        if not enemies.is_empty():
+            selected_target = enemies[0]
+
 func _on_retreat() -> void:
-    if bool(session.call("is_active")):
+    if session != null and bool(session.call("is_active")):
         session.call("finish", "retreat")
     message_label.text = "Retraite enregistrée. Les survivants ennemis peuvent désormais revenir par la Rémanence."
 
