@@ -6,7 +6,7 @@ const RANGED_ROLES: Array[String] = ["ranged", "psych", "psych_support", "contro
 const SUPPORT_ROLES: Array[String] = ["support", "psych_support", "tank_support"]
 const STOIC_ROLES: Array[String] = ["brute", "tank", "controller_tank", "tank_support"]
 
-func decide(runtime: RefCounted, enemy_id: String) -> Dictionary:
+func decide(runtime, enemy_id: String) -> Dictionary:
     if runtime == null or not runtime.combatants.has(enemy_id):
         return {"action":"none", "reason":"unknown_enemy"}
     var enemy: Dictionary = runtime.combatants[enemy_id]
@@ -43,7 +43,7 @@ func decide(runtime: RefCounted, enemy_id: String) -> Dictionary:
         return {"action":"move", "cell":move_cell, "target":target, "reason":"close_distance"}
     return {"action":"hold", "target":target, "reason":"blocked"}
 
-func _choose_target(runtime: RefCounted, enemy_id: String, role: String) -> String:
+func _choose_target(runtime, enemy_id: String, role: String) -> String:
     var candidates: Array[String] = runtime.alive_ids("watcher")
     if candidates.is_empty():
         return ""
@@ -67,7 +67,7 @@ func _choose_target(runtime: RefCounted, enemy_id: String, role: String) -> Stri
             best = target_id
     return best
 
-func _most_wounded_ally(runtime: RefCounted, enemy_id: String) -> String:
+func _most_wounded_ally(runtime, enemy_id: String) -> String:
     var best := ""
     var best_ratio := 2.0
     for ally_id: String in runtime.alive_ids("enemy"):
@@ -95,7 +95,7 @@ func _attack_reason(role: String, target: Dictionary) -> String:
         return "resolve_pressure"
     return "tactical_attack"
 
-func _best_step_toward(runtime: RefCounted, source_id: String, target_id: String) -> Vector2i:
+func _best_step_toward(runtime, source_id: String, target_id: String) -> Vector2i:
     var origin := runtime.grid.position_of(source_id)
     var target := runtime.grid.position_of(target_id)
     var best := Vector2i(-1, -1)
@@ -109,7 +109,7 @@ func _best_step_toward(runtime: RefCounted, source_id: String, target_id: String
             best = cell
     return best
 
-func _best_step_away(runtime: RefCounted, source_id: String, target_id: String) -> Vector2i:
+func _best_step_away(runtime, source_id: String, target_id: String) -> Vector2i:
     var origin := runtime.grid.position_of(source_id)
     var target := runtime.grid.position_of(target_id)
     var best := Vector2i(-1, -1)
@@ -123,7 +123,7 @@ func _best_step_away(runtime: RefCounted, source_id: String, target_id: String) 
             best = cell
     return best
 
-func _best_escape_cell(runtime: RefCounted, source_id: String) -> Vector2i:
+func _best_escape_cell(runtime, source_id: String) -> Vector2i:
     var origin := runtime.grid.position_of(source_id)
     var watchers: Array[String] = runtime.alive_ids("watcher")
     var best := Vector2i(-1, -1)
