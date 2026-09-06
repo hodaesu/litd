@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "status": "implementation_contract_pending_godot_validation",
+  "canonical_source": "res://data/veilleurs/canonical_prepc_2026_09_03/system_rules_v1.json",
+  "party": {"max_size": 4, "min_watchers": 1},
+  "capacity_by_act": {"I": 4, "II": 6, "III": 8, "IV": 10, "V": 12},
+  "relationship_axes": ["CONFIANCE", "RESPECT", "PEUR", "RESSENTIMENT"],
+  "event_families": ["COHABITATION", "CONFLIT", "RAPPROCHEMENT", "SOUVENIR", "BESOIN_BIOLOGIQUE", "BESOIN_PSYCHOLOGIQUE", "TRANSFORMATION", "TRAVAIL", "DECOUVERTE", "DEPART", "CRISE", "POLITIQUE"],
+  "rallying": {
+    "capture_is_recruitment": false,
+    "injuries_reset_on_rally": false,
+    "capture_probability_visible": false,
+    "bosses_recruitable": false,
+    "act_i_numeric_conditions": "not_defined_do_not_invent",
+    "acts_ii_v_conditions_source": "res://data/veilleurs/canonical_prepc_2026_09_03/system_rules_v1.json"
+  },
+  "runtime_flow": [
+    "encounter_resolution",
+    "capture_or_neutralization_state",
+    "rallying_condition_evaluation",
+    "explicit_player_choice",
+    "refuge_capacity_check",
+    "persistent_entity_commit",
+    "relationship_initialization",
+    "refuge_event_eligibility_refresh"
+  ],
+  "commit_guardrails": {
+    "never_convert_capture_to_recruitment_implicitly": true,
+    "never_clear_injuries_on_rally": true,
+    "never_replace_required_watcher_with_auxiliary": true,
+    "never_exceed_capacity": true,
+    "never_offer_boss_recruitment": true
+  },
+  "save_fields": [
+    "entity_id",
+    "identity_seed",
+    "species_id",
+    "memory_rank",
+    "injuries",
+    "traits",
+    "relationships",
+    "history",
+    "availability",
+    "refuge_event_flags"
+  ],
+  "ui_observable_fields": ["volonte", "blessures", "posture", "relation", "contexte_de_ralliement"],
+  "pc_validation_needed": ["runtime_state_machine", "save_load_roundtrip", "capacity_upgrade_flow", "touch_and_controller_navigation"]
+}
