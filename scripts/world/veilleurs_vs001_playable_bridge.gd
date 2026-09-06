@@ -2,6 +2,7 @@ extends Node
 
 const PERSISTENCE_SCRIPT := preload("res://scripts/world/veilleurs_vs001_persistence_bridge.gd")
 const CONTENT_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_content_runtime.gd")
+const ENCOUNTER_DIRECTOR_SCRIPT := preload("res://scripts/core/veilleurs_encounter_director.gd")
 
 const WATCHER_DEFS: Array[Dictionary] = [
     {"id": "nayra_orun", "name": "Nayra Orun", "role": "La Garde", "template_index": 3},
@@ -14,6 +15,7 @@ var previous_party: Array = []
 var watchers_active := false
 var persistence_bridge: VeilleursVS001PersistenceBridge = null
 var content_runtime: VeilleursContentRuntime = null
+var encounter_director: VeilleursEncounterDirector = null
 var launch_canvas: CanvasLayer = null
 var launch_button: Button = null
 var saved_party_position: Array = []
@@ -26,6 +28,9 @@ func _ready() -> void:
     content_runtime = CONTENT_RUNTIME_SCRIPT.new() as VeilleursContentRuntime
     content_runtime.name = "VeilleursContentRuntime"
     add_child(content_runtime)
+    encounter_director = ENCOUNTER_DIRECTOR_SCRIPT.new() as VeilleursEncounterDirector
+    encounter_director.name = "VeilleursEncounterDirector"
+    add_child(encounter_director)
     if not VeilleursVS001WorldRuntime.session_started.is_connected(_on_session_started):
         VeilleursVS001WorldRuntime.session_started.connect(_on_session_started)
     if not VeilleursVS001WorldRuntime.session_changed.is_connected(_on_session_changed):
@@ -78,6 +83,9 @@ func watcher_names() -> Array[String]:
 func canonical_content_runtime() -> VeilleursContentRuntime:
     return content_runtime
 
+func canonical_encounter_director() -> VeilleursEncounterDirector:
+    return encounter_director
+
 func activate_watchers_party() -> Array:
     if not watchers_active:
         previous_party = GameState.party.duplicate(true)
@@ -122,7 +130,7 @@ func serialize() -> Dictionary:
         saved_party_position = live_position.duplicate()
     var session_state: Dictionary = VeilleursVS001WorldRuntime.session.call("serialize")
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "watchers_active": watchers_active,
         "previous_party": previous_party.duplicate(true),
         "party_position": saved_party_position.duplicate(),
@@ -134,7 +142,8 @@ func serialize() -> Dictionary:
             "last_interaction": VeilleursVS001WorldRuntime.last_interaction.duplicate(true)
         },
         "persistence": persistence_bridge.serialize() if persistence_bridge != null else {},
-        "content_runtime": content_runtime.serialize() if content_runtime != null else {}
+        "content_runtime": content_runtime.serialize() if content_runtime != null else {},
+        "encounter_director": encounter_director.serialize() if encounter_director != null else {}
     }
 
 func deserialize(payload: Dictionary) -> void:
@@ -146,6 +155,8 @@ func deserialize(payload: Dictionary) -> void:
             persistence_bridge.reset()
         if content_runtime != null:
             content_runtime.reset()
+        if encounter_director != null:
+            encounter_director.reset()
         _sync_launch_button()
         return
     previous_party = payload.get("previous_party", []).duplicate(true)
@@ -163,6 +174,8 @@ func deserialize(payload: Dictionary) -> void:
         persistence_bridge.deserialize(payload.get("persistence", {}))
     if content_runtime != null:
         content_runtime.deserialize(payload.get("content_runtime", {}))
+    if encounter_director != null:
+        encounter_director.deserialize(payload.get("encounter_director", {}))
     if watchers_active and not _party_matches_watchers(GameState.party):
         GameState.party = _build_watchers_party()
         GameState.selected_hero = 0
@@ -273,4 +286,6 @@ func _on_new_game_reset() -> void:
         persistence_bridge.reset()
     if content_runtime != null:
         content_runtime.reset()
+    if encounter_director != null:
+        encounter_director.reset()
     _sync_launch_button()
