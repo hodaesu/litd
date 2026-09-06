@@ -28,9 +28,16 @@ La référence actuelle attend :
   7. Porte-Cendres
   8. Gardiens de Version
 
-Les anciennes structures 5/25, 6/24 et 7/15 sont explicitement rejetées par `content_foundation_v2.json`.
+Les anciennes structures 5/25, 6/24 et 7/15 sont rejetées.
 
-**Important :** la liste nominale complète des 24 espèces n’est pas présente de façon récupérable sur `main` au moment de ce lot. Aucun nom de remplacement ne doit être inventé. Elle doit être restaurée depuis la dernière source canonique avant création d’un catalogue autoritaire.
+`species_catalog_recovered_v1.json` restaure les 16 noms canoniques actuellement récupérables :
+
+- Silencieux : Écouteur Creux, Porte-Signe, Marcheur Aphone, Reteneur de Souffle ;
+- Veines : Veine Rampante, Nœud-Écorché, Porte-Sang, Germe Artériel ;
+- Porte-Cendres : Marche-Pâle, Porte-Linceul, Effaceur de Traces, Dormeur de Cendre ;
+- Gardiens de Version : Copie Lacunaire, Rature Vivante, Archiviste de Version, Double du Seuil.
+
+Les noms des 8 espèces restantes des familles Déliés, Pèlerins Fendus, Gardiens de Pierre et Bêtes de Suie ne sont pas verrouillés dans la source récupérable. Aucun placeholder n’est autorisé.
 
 ### Rencontres
 
@@ -47,28 +54,21 @@ Contrat :
 
 ### Synergies ennemies
 
-Cible : 21 synergies canoniques. Toute synergie doit être :
+Cible : 21 synergies canoniques. Toute synergie doit être visible, compréhensible et cassable, avec trigger, condition de rupture et feedback observable.
 
-- visible ;
-- compréhensible ;
-- cassable ;
-- munie d’un trigger explicite ;
-- munie d’une condition de rupture ;
-- munie d’un feedback observable.
-
-La liste nominale complète des 21 synergies doit être récupérée avant population : aucun placeholder n’est autorisé.
+La liste nominale complète des 21 synergies doit encore être restaurée depuis sa source canonique. Aucun nom provisoire n’est autorisé.
 
 ### Boss
 
-Cinq slots canoniques :
+Canon actuel :
 
-1. Ishar
-2. Orateur
-3. Mère
-4. Porte-Cendres
-5. Copiste
+1. Ishar I — **Le Veilleur des Seuils**
+2. Orateur II — **La Voix Incarnée**
+3. Mère III — **La Matrice des Refuges**
+4. Porte-Cendres IV — **Le Gardien de la Cendre**
+5. Copiste V — **L’Archiviste des Cicatrices**
 
-Boss et mini-boss ne sont pas recrutables.
+Les cinq boss sont **recrutables**, mais uniquement selon leur règle narrative canonique. Les mini-boss restent non recrutables.
 
 ### Recrutement et Refuge
 
@@ -77,7 +77,8 @@ Boss et mini-boss ne sont pas recrutables.
 - Refuge : 12 recrues maximum ;
 - voies de ralliement : soumission, reddition, sauvetage, pacte, apprivoisement ;
 - pas de pourcentage de capture affiché ;
-- l’UI expose les états observables : Volonté, blessures, posture, relation, contexte de ralliement.
+- l’UI expose les états observables : Volonté, blessures, posture, relation, contexte de ralliement ;
+- les boss utilisent une condition narrative dédiée plutôt qu’un ralliement générique.
 
 ### Rémanence
 
@@ -90,14 +91,15 @@ Une adaptation ennemie doit provenir de faits réellement vécus. La mémoire om
 ## Fichiers
 
 - `data/veilleurs/content_foundation_v2.json`
+- `data/veilleurs/species_catalog_recovered_v1.json`
 - `data/veilleurs/recruitment_refuge_contract_v1.json`
 - `data/veilleurs/remanence_entity_contract_v1.json`
 - `data/veilleurs/encounter_generation_contract_v1.json`
 - `tests/test_veilleurs_content_foundation_v2.py`
 
-## Ordre de continuation
+## Ordre de continuation sans inventer le canon
 
-1. Restaurer la liste canonique complète des 24 espèces.
+1. Restaurer les 8 noms d’espèces encore non verrouillés.
 2. Restaurer les 64 templates nominaux.
 3. Restaurer les 21 synergies nominales.
 4. Brancher les catalogues sur le générateur hybride.
