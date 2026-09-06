@@ -3,14 +3,18 @@ class_name VeilleursTacticalCombatRuntime
 
 const GRID_SCRIPT := preload("res://scripts/core/veilleurs_tactical_grid.gd")
 const BODY_SCRIPT := preload("res://scripts/core/veilleurs_body_component.gd")
+const CONTENT_DB_SCRIPT := preload("res://scripts/core/content_db.gd")
 const WATCHER_IDS: Array[String] = ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]
 
+var content_db: VeilleursContentDB
 var grid: VeilleursTacticalGrid
 var combatants: Dictionary = {}
 var round_index := 1
 var action_log: Array[Dictionary] = []
 
 func _init() -> void:
+    content_db = CONTENT_DB_SCRIPT.new() as VeilleursContentDB
+    content_db.reload()
     grid = GRID_SCRIPT.new() as VeilleursTacticalGrid
 
 func setup_first_combat(enemy_ids: Array[String] = ["ENT_ENEMY_GOULE_AFFAMEE", "ENT_ENEMY_ECORCHEUSE", "ENT_ENEMY_FOUISSEUSE"]) -> Dictionary:
@@ -20,7 +24,7 @@ func setup_first_combat(enemy_ids: Array[String] = ["ENT_ENEMY_GOULE_AFFAMEE", "
     grid = GRID_SCRIPT.new() as VeilleursTacticalGrid
     for index in range(WATCHER_IDS.size()):
         var entity_id := WATCHER_IDS[index]
-        var definition := ContentDB.watcher(entity_id)
+        var definition := content_db.watcher(entity_id)
         if definition.is_empty():
             return {"ok": false, "reason": "missing_watcher", "entity_id": entity_id}
         _register(definition, "watcher")
@@ -30,7 +34,7 @@ func setup_first_combat(enemy_ids: Array[String] = ["ENT_ENEMY_GOULE_AFFAMEE", "
     var enemy_cells: Array[Vector2i] = [Vector2i(5, 1), Vector2i(5, 2), Vector2i(5, 3)]
     for index in range(enemy_ids.size()):
         var enemy_id := enemy_ids[index]
-        var definition := ContentDB.enemy(enemy_id)
+        var definition := content_db.enemy(enemy_id)
         if definition.is_empty():
             return {"ok": false, "reason": "missing_enemy", "entity_id": enemy_id}
         _register(definition, "enemy")
@@ -41,7 +45,7 @@ func setup_first_combat(enemy_ids: Array[String] = ["ENT_ENEMY_GOULE_AFFAMEE", "
 func resolve_skill(attacker_id: String, target_id: String, skill_id: String, zone: String = "torso", forced_roll: int = -1) -> Dictionary:
     if not combatants.has(attacker_id) or not combatants.has(target_id):
         return {"ok": false, "reason": "unknown_combatant"}
-    var skill := ContentDB.skill(skill_id)
+    var skill := content_db.skill(skill_id)
     if skill.is_empty() or str(skill.get("entity_id", "")) != attacker_id:
         return {"ok": false, "reason": "skill_not_owned"}
     var attacker: Dictionary = combatants[attacker_id]
@@ -130,12 +134,13 @@ func deserialize(payload: Dictionary) -> bool:
     if not grid.restore(payload.get("grid", {})):
         return false
     round_index = maxi(1, int(payload.get("round", 1)))
-    for entity_id_value: Variant in (payload.get("combatants", {}) as Dictionary).keys():
+    var source_rows: Dictionary = payload.get("combatants", {})
+    for entity_id_value: Variant in source_rows.keys():
         var entity_id := str(entity_id_value)
-        var source: Dictionary = (payload.get("combatants", {}) as Dictionary).get(entity_id, {})
+        var source: Dictionary = source_rows.get(entity_id, {})
         var row := source.duplicate(true)
         var body_payload: Dictionary = source.get("body", {})
-        var integrity: Dictionary = body_payload.get("maximum", ContentDB.combat_constants.get("body_integrity_reference", {}))
+        var integrity: Dictionary = body_payload.get("maximum", content_db.combat_constants.get("body_integrity_reference", {}))
         var body: VeilleursBodyComponent = BODY_SCRIPT.new(integrity) as VeilleursBodyComponent
         body.deserialize(body_payload)
         row["body"] = body
@@ -148,7 +153,7 @@ func deserialize(payload: Dictionary) -> bool:
 func _register(definition: Dictionary, team: String) -> void:
     var entity_id := str(definition.get("entity_id", ""))
     var stats: Dictionary = (definition.get("stats", {}) as Dictionary).duplicate(true)
-    var body_integrity: Dictionary = (definition.get("body_integrity", ContentDB.combat_constants.get("body_integrity_reference", {})) as Dictionary).duplicate(true)
+    var body_integrity: Dictionary = (definition.get("body_integrity", content_db.combat_constants.get("body_integrity_reference", {})) as Dictionary).duplicate(true)
     var vigor := int(stats.get("VIG", 60))
     combatants[entity_id] = {
         "entity_id": entity_id,
@@ -165,12 +170,12 @@ func _register(definition: Dictionary, team: String) -> void:
 func _hit_chance(attacker: Dictionary, target: Dictionary, skill: Dictionary, zone: String) -> int:
     var attacker_stats: Dictionary = attacker.get("stats", {})
     var target_stats: Dictionary = target.get("stats", {})
-    var zone_mods: Dictionary = ContentDB.combat_constants.get("zone_accuracy_mod", {})
+    var zone_mods: Dictionary = content_db.combat_constants.get("zone_accuracy_mod", {})
     var chance := 75.0
     chance += (float(attacker_stats.get("PRE", 50)) - float(target_stats.get("MOB", 50))) * 0.45
     chance += float(skill.get("precision_mod", 0))
     chance += float(zone_mods.get(zone, 0))
-    var clamps: Dictionary = ContentDB.combat_constants.get("hit_clamp", {})
+    var clamps: Dictionary = content_db.combat_constants.get("hit_clamp", {})
     return clampi(int(round(chance)), int(clamps.get("min_percent", 10)), int(clamps.get("max_percent", 97)))
 
 func _damage(attacker: Dictionary, target: Dictionary, skill: Dictionary) -> int:
