@@ -84,6 +84,7 @@ run_checked "Les Veilleurs Rémanence salle massive : 2250 seeds et plus de 2000
 run_checked "Les Veilleurs Rémanence E2E : fuite, mort, sauvegarde, revisite, identité Némésis et Archives" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_remanence_e2e_smoke.tscn
 run_checked "Les Veilleurs Rémanence temporelle : 2/5/10 runs, relique déplacée et ancien Némésis recruté" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_temporal_recruit_smoke.tscn
 run_checked "Les Veilleurs projection temporelle : ossements, feu vieilli et absence de relique" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_temporal_room_projection_smoke.tscn
+run_checked "Les Veilleurs ancien Némésis : reconnaissance, succession, Archives et arbres" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_former_nemesis_successor_smoke.tscn
 run_checked "Les Veilleurs checkpoint pré-boss : état critique complet T48" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_preboss_checkpoint_smoke.tscn
 run_checked "Les Veilleurs VS001 physique : S1-S8, collisions, retour et passage secret" timeout 60s godot --headless --path . res://scenes/tests/veilleurs_vs001_physical_smoke.tscn
 run_checked "Les Veilleurs VS001 jouable : quatuor, exploration physique, interactions, combats et secret S8" timeout 90s godot --headless --path . res://scenes/tests/veilleurs_vs001_playable_smoke.tscn
