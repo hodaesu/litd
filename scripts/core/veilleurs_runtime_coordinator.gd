@@ -8,6 +8,17 @@ var encounter_director: VeilleursEncounterDirector = null
 var boss_director: VeilleursBossDirector = null
 var intent_resolver := VeilleursIntentResolver.new()
 var remanence_policy := VeilleursRemanencePolicy.new()
+var decision_matrix := VeilleursEnemyDecisionMatrix.new()
+var combat_memory_adapter: VeilleursCombatMemoryAdapter = null
+
+func _ready() -> void:
+    combat_memory_adapter = VeilleursCombatMemoryAdapter.new()
+    combat_memory_adapter.name = "VeilleursCombatMemoryAdapter"
+    add_child(combat_memory_adapter)
+    combat_memory_adapter.bind(self)
+    if RemanenceRuntime != null and not RemanenceRuntime.remanence_changed.is_connected(_on_global_remanence_changed):
+        RemanenceRuntime.remanence_changed.connect(_on_global_remanence_changed)
+    call_deferred("hydrate_memory_from_remanence")
 
 func bind(content: VeilleursContentRuntime, encounters: VeilleursEncounterDirector, bosses: VeilleursBossDirector) -> void:
     _disconnect_sources()
@@ -62,6 +73,67 @@ func resolve_enemy_state_intent(state_intent: String, payload: Dictionary = {}) 
         runtime_event.emit("enemy_state_intent", resolved.duplicate(true))
     return resolved
 
+func rank_enemy_skill_choices(entity_id: String, owned_skills: Array, context: Dictionary = {}) -> Dictionary:
+    var memory_state := remanence_policy.state(entity_id)
+    if memory_state.is_empty():
+        memory_state = {
+            "entity_id": entity_id,
+            "species_id": str(context.get("species_id", "")),
+            "memory_rank": "normal",
+            "memory_channels": {}
+        }
+    var result := decision_matrix.rank_owned_skills(memory_state, owned_skills, context)
+    runtime_event.emit("enemy_skill_choices_ranked", {
+        "entity_id": entity_id,
+        "memory_rank": result.get("memory_rank", "normal"),
+        "owned_skill_count": result.get("owned_skill_count", 0),
+        "eligible_skill_count": result.get("eligible_skill_count", 0),
+        "selected_skill_id": str((result.get("selected", {}) as Dictionary).get("skill_id", "")),
+        "changed_by_memory": bool(result.get("changed_by_memory", false))
+    })
+    return result
+
+func commit_enemy_skill_choice(entity_id: String, ranked_result: Dictionary, context: Dictionary = {}) -> Dictionary:
+    if not bool(ranked_result.get("ok", false)):
+        return {"ok": false, "reason": "invalid_ranked_result"}
+    var selected: Dictionary = ranked_result.get("selected", {})
+    var selected_skill_id := str(selected.get("skill_id", ""))
+    if selected_skill_id.is_empty():
+        return {"ok": false, "reason": "no_selected_owned_skill"}
+    var applied_result: Dictionary = {}
+    if bool(ranked_result.get("changed_by_memory", false)):
+        var used_channels: Array = selected.get("used_memory_channels", [])
+        if not used_channels.is_empty():
+            var apply_context := context.duplicate(true)
+            apply_context["later_encounter"] = true
+            apply_context["changed_decision"] = true
+            apply_context["selected_skill_id"] = selected_skill_id
+            apply_context["baseline_skill_id"] = str((ranked_result.get("baseline_selected", {}) as Dictionary).get("skill_id", ""))
+            applied_result = apply_enemy_lesson(entity_id, str(used_channels[0]), apply_context)
+    runtime_event.emit("enemy_skill_choice_committed", {
+        "entity_id": entity_id,
+        "skill_id": selected_skill_id,
+        "memory_changed_choice": bool(ranked_result.get("changed_by_memory", false)),
+        "lesson_application": applied_result.duplicate(true)
+    })
+    return {
+        "ok": true,
+        "skill_id": selected_skill_id,
+        "skill": (selected.get("skill", {}) as Dictionary).duplicate(true),
+        "memory_changed_choice": bool(ranked_result.get("changed_by_memory", false)),
+        "lesson_application": applied_result
+    }
+
+func note_actual_enemy_escape(entity_id: String, payload: Dictionary = {}) -> Dictionary:
+    if combat_memory_adapter == null:
+        return {"ok": false, "reason": "combat_memory_adapter_unbound"}
+    return combat_memory_adapter.note_actual_escape(entity_id, payload)
+
+func note_actual_important_item_event(entity_id: String, payload: Dictionary = {}) -> Dictionary:
+    if combat_memory_adapter == null:
+        return {"ok": false, "reason": "combat_memory_adapter_unbound"}
+    return combat_memory_adapter.note_actual_important_item_event(entity_id, payload)
+
 func note_enemy_memory_event(entity_id: String, event_type: String, payload: Dictionary = {}) -> Dictionary:
     var previous_rank := remanence_policy.rank(entity_id)
     var result := remanence_policy.note_event(entity_id, event_type, payload)
@@ -75,6 +147,7 @@ func note_enemy_memory_event(entity_id: String, event_type: String, payload: Dic
         "evidence": payload.duplicate(true)
     })
     _emit_promotion_if_needed(entity_id, previous_rank, current_rank, state)
+    _sync_memory_state_to_global(entity_id)
     return result
 
 func apply_enemy_lesson(entity_id: String, channel: String, context: Dictionary = {}) -> Dictionary:
@@ -90,6 +163,7 @@ func apply_enemy_lesson(entity_id: String, channel: String, context: Dictionary 
         "context": context.duplicate(true)
     })
     _emit_promotion_if_needed(entity_id, previous_rank, current_rank, state)
+    _sync_memory_state_to_global(entity_id)
     return result
 
 func note_enemy_group_influence(entity_id: String, channel: String, context: Dictionary = {}) -> Dictionary:
@@ -105,10 +179,27 @@ func note_enemy_group_influence(entity_id: String, channel: String, context: Dic
         "context": context.duplicate(true)
     })
     _emit_promotion_if_needed(entity_id, previous_rank, current_rank, state)
+    _sync_memory_state_to_global(entity_id)
     return result
 
 func enemy_memory_state(entity_id: String) -> Dictionary:
     return remanence_policy.state(entity_id)
+
+func hydrate_memory_from_remanence() -> int:
+    if RemanenceRuntime == null:
+        return 0
+    var restored := 0
+    for entity_id_value: Variant in RemanenceRuntime.entities.keys():
+        var entity_id := str(entity_id_value)
+        var global_state: Dictionary = RemanenceRuntime.entities.get(entity_id, {})
+        var stored: Dictionary = global_state.get("veilleurs_memory_state", {})
+        if stored.is_empty():
+            continue
+        var local := remanence_policy.state(entity_id)
+        if local.is_empty() or _state_evidence_count(stored) >= _state_evidence_count(local):
+            if remanence_policy.restore_entity_state(entity_id, stored):
+                restored += 1
+    return restored
 
 func create_rally_candidate(enemy: Dictionary, act_token: String = "", context: Dictionary = {}) -> Dictionary:
     if content_runtime == null:
@@ -175,6 +266,26 @@ func _emit_promotion_if_needed(entity_id: String, previous_rank: String, current
         "from": previous_rank,
         "to": current_rank
     })
+
+func _sync_memory_state_to_global(entity_id: String) -> void:
+    if RemanenceRuntime == null or not RemanenceRuntime.entities.has(entity_id):
+        return
+    var record: Dictionary = RemanenceRuntime.entities[entity_id]
+    var state := remanence_policy.state(entity_id)
+    record["veilleurs_memory_state"] = state.duplicate(true)
+    record["veilleurs_memory_rank"] = str(state.get("memory_rank", "normal"))
+    RemanenceRuntime.entities[entity_id] = record
+
+func _on_global_remanence_changed() -> void:
+    hydrate_memory_from_remanence()
+
+func _state_evidence_count(state: Dictionary) -> int:
+    return (
+        (state.get("events", []) as Array).size()
+        + (state.get("applied_lessons", []) as Array).size()
+        + (state.get("group_influence", []) as Array).size()
+        + (state.get("major_anchors", []) as Array).size()
+    )
 
 func _on_encounter_selected(runtime_encounter: Dictionary) -> void:
     # Selection is not observation: no knowledge is granted before the encounter is actually perceived.
