@@ -26,3 +26,5 @@ jobs:
         run: godot --headless --path . res://scenes/tests/veilleurs_boss_director_smoke.tscn
       - name: Coordination runtime Les Veilleurs
         run: godot --headless --path . res://scenes/tests/veilleurs_runtime_coordinator_smoke.tscn
+      - name: Refuge et Archives responsive Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_refuge_archive_presenter_smoke.tscn
