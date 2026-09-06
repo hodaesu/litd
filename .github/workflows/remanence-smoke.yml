@@ -18,3 +18,5 @@ jobs:
         run: godot --headless --path . --import --quit
       - name: Rémanence des Veilleurs
         run: godot --headless --path . res://scenes/tests/remanence_smoke.tscn
+      - name: Contenu canonique Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_content_runtime_smoke.tscn
