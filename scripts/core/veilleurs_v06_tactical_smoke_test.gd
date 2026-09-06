@@ -3,6 +3,7 @@ extends Node
 const DB_SCRIPT := preload("res://scripts/core/content_db.gd")
 const RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_runtime.gd")
 const SESSION_SCRIPT := preload("res://scripts/core/veilleurs_tactical_session.gd")
+const SAVE_SCRIPT := preload("res://scripts/core/veilleurs_tactical_save_bridge.gd")
 const BODY_SCRIPT := preload("res://scripts/core/veilleurs_body_component.gd")
 const SKILL_RESOURCE_SCRIPT := preload("res://scripts/core/veilleurs_skill_definition.gd")
 const ENTITY_RESOURCE_SCRIPT := preload("res://scripts/core/veilleurs_entity_definition.gd")
@@ -47,6 +48,15 @@ func _run() -> void:
     _check(runtime.grid.position_of("ENT_WATCHER_SAHEN") == Vector2i(0, 1), "Sahen must start at his authored grid cell")
     _check(runtime.grid.position_of("ENT_ENEMY_GOULE_AFFAMEE") == Vector2i(5, 1), "Hungry Ghoul must start opposite the Watchers")
 
+    var sahen_row: Dictionary = runtime.combatants["ENT_WATCHER_SAHEN"]
+    sahen_row["hp"] = 30
+    var sahen_body: VeilleursBodyComponent = sahen_row.get("body") as VeilleursBodyComponent
+    sahen_body.apply_trauma("left_arm", 60)
+    runtime.combatants["ENT_WATCHER_SAHEN"] = sahen_row
+    var predator_decision := runtime.enemy_ai.decide(runtime, "ENT_ENEMY_GOULE_AFFAMEE")
+    _check(str(predator_decision.get("target", "")) == "ENT_WATCHER_SAHEN", "Predator AI must prefer the visibly wounded Watcher when tactically plausible")
+    _check(str(predator_decision.get("reason", "")) in ["exploit_wounded_target", "close_distance"], "Predator AI decision must remain readable")
+
     _check(runtime.grid.move("ENT_WATCHER_SAHEN", Vector2i(1, 1)), "Sahen must be movable on the 6x5 grid")
     _check(runtime.grid.move("ENT_ENEMY_GOULE_AFFAMEE", Vector2i(2, 1)), "Test Ghoul must be movable to contact range")
     var hit := runtime.resolve_skill("ENT_WATCHER_SAHEN", "ENT_ENEMY_GOULE_AFFAMEE", "SK_SAHEN_BRISEUR_LIGNES_01", "torso", 1)
@@ -69,8 +79,17 @@ func _run() -> void:
     var before_enemy := runtime.grid.position_of("ENT_ENEMY_ECORCHEUSE")
     var enemy_action := runtime.enemy_step("ENT_ENEMY_ECORCHEUSE")
     var after_enemy := runtime.grid.position_of("ENT_ENEMY_ECORCHEUSE")
-    _check(bool(enemy_action.get("ok", false)), "Enemy AI must produce an action")
-    _check(before_enemy != after_enemy or str(enemy_action.get("action", "")) == "attack", "Enemy AI must approach or attack")
+    _check(bool(enemy_action.get("ok", false)), "Enemy AI v2 must produce an action")
+    _check(before_enemy != after_enemy or str(enemy_action.get("action", "")) in ["attack", "hold"], "Enemy AI must approach, attack or explicitly hold")
+
+    var support_runtime: VeilleursTacticalCombatRuntime = RUNTIME_SCRIPT.new() as VeilleursTacticalCombatRuntime
+    _check(bool(support_runtime.setup_first_combat(["ENT_ENEMY_CHIRURGIEN_NOIR", "ENT_ENEMY_MARAUDEUR", "ENT_ENEMY_TIREUR"]).get("ok", false)), "Support AI test encounter must initialize")
+    var marauder: Dictionary = support_runtime.combatants["ENT_ENEMY_MARAUDEUR"]
+    marauder["hp"] = 20
+    support_runtime.combatants["ENT_ENEMY_MARAUDEUR"] = marauder
+    var support_decision := support_runtime.enemy_ai.decide(support_runtime, "ENT_ENEMY_CHIRURGIEN_NOIR")
+    _check(str(support_decision.get("target", "")) == "ENT_ENEMY_MARAUDEUR", "Support AI must recognize a critically wounded adjacent ally")
+    _check(str(support_decision.get("action", "")) == "support", "Chirurgien noir must choose bounded support when the ally is adjacent and critical")
 
     var serialized := runtime.serialize()
     var restored: VeilleursTacticalCombatRuntime = RUNTIME_SCRIPT.new() as VeilleursTacticalCombatRuntime
@@ -79,6 +98,13 @@ func _run() -> void:
     _check(restored.combatants.size() == runtime.combatants.size(), "Combatant roster must survive tactical serialization")
 
     var hybrid: VeilleursHybridGenerationBridge = HYBRID_SCRIPT.new() as VeilleursHybridGenerationBridge
+    _check(hybrid.load_errors.is_empty(), "Hybrid bridge must validate all authored encounter references")
+    _check(hybrid.encounter_count() == 64, "Hybrid bridge must expose exactly 64 authored encounters")
+    var memorial_template := hybrid.encounter("ENC_V06_049")
+    _check(str(memorial_template.get("archetype", "")) == "mixed_memory" and bool(memorial_template.get("memoriel_allowed", false)), "Mixed-memory encounter must reserve a Mémoriel slot")
+    var generated_low := hybrid.generate_encounter("GOULES", "LOW", 1, 60601)
+    _check(not generated_low.is_empty() and bool(generated_low.get("escape_route_required", false)), "Generated encounter must retain a viable retreat route")
+    _check(not str(generated_low.get("counterplay", "")).is_empty(), "Generated encounter must expose authored counterplay")
     var dungeon_plan := hybrid.generate_plan("DUNGEON_ASH_RUINS", 60601)
     _check(not dungeon_plan.is_empty(), "Hybrid generation must produce an authored/procedural dungeon plan")
     _check(int(dungeon_plan.get("room_count", 0)) >= 10 and int(dungeon_plan.get("room_count", 0)) <= 18, "Ash Ruins must respect authored room bounds")
@@ -114,6 +140,16 @@ func _run() -> void:
     add_child(disk_copy)
     _check(bool(disk_copy.call("load_snapshot")), "Tactical session must reload its checksum save")
     _check(bool(disk_copy.call("delete_snapshot")), "Tactical QA save must be removable")
+
+    var save_bridge: VeilleursTacticalSaveBridge = SAVE_SCRIPT.new() as VeilleursTacticalSaveBridge
+    save_bridge.clear()
+    _check(save_bridge.save_session(session), "Playable tactical save bridge must atomically save combat plus Remanence")
+    var bridge_copy: Node = SESSION_SCRIPT.new()
+    add_child(bridge_copy)
+    _check(save_bridge.load_into(bridge_copy), "Playable tactical save bridge must restore the active combat")
+    _check((bridge_copy.call("snapshot") as Dictionary).get("runtime", {}) != {}, "Bridge-restored session must contain tactical runtime")
+    _check(save_bridge.clear(), "Playable tactical save must be removable")
+
     var finish: Dictionary = session.call("finish", "resolved")
     _check(bool(finish.get("ok", false)), "Finishing combat must succeed")
     _check(RemanenceRuntime.event_timeline.size() >= 6, "First combat must write encounter and resolution events to Remanence")
@@ -122,6 +158,7 @@ func _run() -> void:
     session.queue_free()
     session_copy.queue_free()
     disk_copy.queue_free()
+    bridge_copy.queue_free()
     db.free()
     _finish()
 
