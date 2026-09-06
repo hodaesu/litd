@@ -3,19 +3,16 @@ class_name VeilleursEncounterDirector
 
 signal encounter_selected(runtime_encounter: Dictionary)
 
-const ENCOUNTERS_PATH := "res://data/veilleurs/encounter_index_v1.json"
+const CATALOG_PATH := "res://data/veilleurs/encounter_catalog_64_v1.json"
 const SPECIES_PATH := "res://data/veilleurs/species_catalog_recovered_v1.json"
-const SYNERGIES_PATH := "res://data/veilleurs/enemy_synergy_catalog_v1.json"
+const SYNERGY_BINDING_PATH := "res://data/veilleurs/enemy_synergy_binding_v1.json"
 const CONTRACT_PATH := "res://data/veilleurs/encounter_generation_contract_v1.json"
-const HISTORY_WINDOW := 5
-const REPEAT_THRESHOLD := 2
-const REPEAT_WEIGHT := 0.4
-const MAX_STANDARD_ENEMIES := 4
 
-var encounter_data: Dictionary = {}
+var catalog_data: Dictionary = {}
 var species_data: Dictionary = {}
 var synergy_data: Dictionary = {}
 var contract_data: Dictionary = {}
+var encounter_records: Array[Dictionary] = []
 var recent_history: Array[String] = []
 var selection_count := 0
 
@@ -23,37 +20,53 @@ func _ready() -> void:
     reload_content()
 
 func reload_content() -> Dictionary:
-    encounter_data = _load_dictionary(ENCOUNTERS_PATH)
+    catalog_data = _load_dictionary(CATALOG_PATH)
     species_data = _load_dictionary(SPECIES_PATH)
-    synergy_data = _load_dictionary(SYNERGIES_PATH)
+    synergy_data = _load_dictionary(SYNERGY_BINDING_PATH)
     contract_data = _load_dictionary(CONTRACT_PATH)
+    encounter_records.clear()
+    for file_value: Variant in catalog_data.get("act_files", []):
+        if not (file_value is Dictionary):
+            continue
+        var path := str((file_value as Dictionary).get("path", ""))
+        var act_file := _load_dictionary(path)
+        for record_value: Variant in act_file.get("records", []):
+            if record_value is Dictionary:
+                encounter_records.append((record_value as Dictionary).duplicate(true))
     return validation_report()
 
 func validation_report() -> Dictionary:
     var errors: Array[String] = []
-    var all: Array[Dictionary] = _all_encounters()
+    if encounter_records.size() != 64:
+        errors.append("encounters:%d" % encounter_records.size())
     var synergies: Array = synergy_data.get("records", [])
-    if all.size() != 64:
-        errors.append("encounters:%d" % all.size())
     if synergies.size() != 21:
         errors.append("synergies:%d" % synergies.size())
-    for encounter: Dictionary in all:
-        if int(encounter.get("actors", 0)) < 1 or int(encounter.get("actors", 0)) > MAX_STANDARD_ENEMIES:
-            errors.append("actor_cap:%s" % str(encounter.get("name", "unknown")))
-        var spawn_entries := _spawn_entries(str(encounter.get("composition", "")))
-        if spawn_entries.size() != int(encounter.get("actors", 0)):
-            errors.append("composition_count:%s" % str(encounter.get("name", "unknown")))
-        for spawn: Dictionary in spawn_entries:
-            if str(spawn.get("species_id", "")).is_empty():
-                errors.append("unknown_species:%s" % str(spawn.get("name", "")))
+    var rules: Dictionary = catalog_data.get("rules", {})
+    var max_standard := int(rules.get("max_standard_enemies", 4))
+    for encounter: Dictionary in encounter_records:
+        var actors := int(encounter.get("actors", 0))
+        var species_ids: Array = encounter.get("species_ids", [])
+        var names: Array = encounter.get("composition_names", [])
+        if actors < 1 or actors > max_standard:
+            errors.append("actor_cap:%s" % str(encounter.get("id", "unknown")))
+        if species_ids.size() != actors or names.size() != actors:
+            errors.append("composition_count:%s" % str(encounter.get("id", "unknown")))
+        for species_id: Variant in species_ids:
+            if species_entry(str(species_id)).is_empty():
+                errors.append("unknown_species:%s:%s" % [str(encounter.get("id", "unknown")), str(species_id)])
+        for synergy_id: Variant in encounter.get("synergy_ids", []):
+            if synergy_by_id(str(synergy_id)).is_empty():
+                errors.append("unknown_synergy:%s:%s" % [str(encounter.get("id", "unknown")), str(synergy_id)])
     return {
         "ok": errors.is_empty(),
         "errors": errors,
-        "encounters": all.size(),
+        "encounters": encounter_records.size(),
         "synergies": synergies.size(),
-        "max_standard_enemies": MAX_STANDARD_ENEMIES,
-        "anti_repeat_window": HISTORY_WINDOW,
-        "repeat_weight": REPEAT_WEIGHT
+        "max_standard_enemies": max_standard,
+        "anti_repeat_window": 5,
+        "repeat_weight": float(rules.get("repeat_weight_after_two_in_five", 0.4)),
+        "runtime_binding": CATALOG_PATH
     }
 
 func select_encounter(seed_value: int, act_token: String, context: Dictionary = {}) -> Dictionary:
@@ -70,6 +83,15 @@ func select_encounter(seed_value: int, act_token: String, context: Dictionary = 
         if not typed.is_empty():
             candidates = typed
 
+    if context.has("depth"):
+        var depth := int(context.get("depth", 1))
+        var depth_candidates: Array[Dictionary] = []
+        for candidate: Dictionary in candidates:
+            if depth >= int(candidate.get("depth_min", 1)) and depth <= int(candidate.get("depth_max", 5)):
+                depth_candidates.append(candidate)
+        if not depth_candidates.is_empty():
+            candidates = depth_candidates
+
     var previous := recent_history[-1] if not recent_history.is_empty() else ""
     if candidates.size() > 1 and not previous.is_empty():
         var without_previous: Array[Dictionary] = []
@@ -79,19 +101,20 @@ func select_encounter(seed_value: int, act_token: String, context: Dictionary = 
         if not without_previous.is_empty():
             candidates = without_previous
 
+    var rules: Dictionary = catalog_data.get("rules", {})
+    var repeat_weight := float(rules.get("repeat_weight_after_two_in_five", 0.4))
     var weights: Array[float] = []
     var total_weight := 0.0
     for candidate: Dictionary in candidates:
-        var name := str(candidate.get("name", ""))
-        var recent_count := recent_history.count(name)
-        var weight := REPEAT_WEIGHT if recent_count >= REPEAT_THRESHOLD else 1.0
+        var recent_count := recent_history.count(str(candidate.get("name", "")))
+        var weight := repeat_weight if recent_count >= 2 else 1.0
         weights.append(weight)
         total_weight += weight
     if total_weight <= 0.0:
         return {"success": false, "reason": "no_positive_weight"}
 
     var rng := RandomNumberGenerator.new()
-    rng.seed = seed_value * 104729 + int(_act_token(act_token).hash()) * 31 + selection_count * 8191
+    rng.seed = seed_value * 104729 + _act_int(act_token) * 8191 + selection_count * 131
     var roll := rng.randf() * total_weight
     var picked_index := candidates.size() - 1
     var cursor := 0.0
@@ -101,11 +124,10 @@ func select_encounter(seed_value: int, act_token: String, context: Dictionary = 
             picked_index = index
             break
 
-    var picked: Dictionary = candidates[picked_index].duplicate(true)
-    var runtime := _build_runtime_encounter(picked, context)
+    var runtime := _build_runtime_encounter(candidates[picked_index], context)
     if not bool(runtime.get("success", false)):
         return runtime
-    _remember(str(picked.get("name", "")))
+    _remember(str(runtime.get("name", "")))
     selection_count += 1
     runtime["selection_index"] = selection_count
     runtime["history_after"] = recent_history.duplicate()
@@ -113,106 +135,35 @@ func select_encounter(seed_value: int, act_token: String, context: Dictionary = 
     return runtime
 
 func runtime_for_named_encounter(encounter_name: String, context: Dictionary = {}) -> Dictionary:
-    for encounter: Dictionary in _all_encounters():
+    for encounter: Dictionary in encounter_records:
         if str(encounter.get("name", "")) == encounter_name:
             return _build_runtime_encounter(encounter, context)
     return {"success": false, "reason": "unknown_encounter", "name": encounter_name}
 
 func active_synergies_for_spawn(spawn_entries: Array) -> Array[Dictionary]:
-    var names: Array[String] = []
+    var species_ids: Array[String] = []
     for value: Variant in spawn_entries:
         if value is Dictionary:
-            names.append(str((value as Dictionary).get("name", "")))
+            species_ids.append(str((value as Dictionary).get("species_id", "")))
     var result: Array[Dictionary] = []
     for value: Variant in synergy_data.get("records", []):
         if not (value is Dictionary):
             continue
         var record: Dictionary = value
-        var pair := str(record.get("pair", "")).split(" + ")
         var all_present := true
-        for required_name: String in pair:
-            if not names.has(required_name):
+        for required_id: Variant in record.get("species_ids", []):
+            if not species_ids.has(str(required_id)):
                 all_present = false
                 break
         if all_present:
             result.append(record.duplicate(true))
     return result
 
-func serialize() -> Dictionary:
-    return {
-        "schema_version": 1,
-        "recent_history": recent_history.duplicate(),
-        "selection_count": selection_count
-    }
-
-func deserialize(payload: Dictionary) -> void:
-    recent_history.clear()
-    for value: Variant in payload.get("recent_history", []):
-        recent_history.append(str(value))
-    while recent_history.size() > HISTORY_WINDOW:
-        recent_history.pop_front()
-    selection_count = maxi(0, int(payload.get("selection_count", 0)))
-
-func reset() -> void:
-    recent_history.clear()
-    selection_count = 0
-
-func _build_runtime_encounter(source: Dictionary, context: Dictionary) -> Dictionary:
-    var spawn_entries := _spawn_entries(str(source.get("composition", "")))
-    if spawn_entries.size() != int(source.get("actors", 0)):
-        return {"success": false, "reason": "canonical_composition_mismatch", "name": source.get("name", "")}
-    if spawn_entries.size() > MAX_STANDARD_ENEMIES:
-        return {"success": false, "reason": "mobile_actor_cap_exceeded", "name": source.get("name", "")}
-
-    var memorial_overlay := _memorial_overlay(context.get("memorial_candidate", {}), spawn_entries.size())
-    if bool(memorial_overlay.get("insert", false)):
-        spawn_entries.append(memorial_overlay.get("spawn", {}).duplicate(true))
-    var synergies := active_synergies_for_spawn(spawn_entries)
-    return {
-        "success": true,
-        "canonical": true,
-        "name": str(source.get("name", "")),
-        "type": str(source.get("type", "Standard")),
-        "act": _act_token(str(source.get("act_label", context.get("act", "")))),
-        "source_composition": str(source.get("composition", "")),
-        "source_actor_count": int(source.get("actors", 0)),
-        "spawn_entries": spawn_entries,
-        "runtime_actor_count": spawn_entries.size(),
-        "synergies": synergies,
-        "synergy_feedback": _synergy_feedback(synergies),
-        "memorial_overlay": memorial_overlay,
-        "party_counterpick_used": false,
-        "seeded_selection": true
-    }
-
-func _memorial_overlay(candidate_value: Variant, source_actor_count: int) -> Dictionary:
-    if not (candidate_value is Dictionary) or (candidate_value as Dictionary).is_empty():
-        return {"insert": false, "reason": "none"}
-    if source_actor_count >= MAX_STANDARD_ENEMIES:
-        return {"insert": false, "reason": "actor_cap_full"}
-    var candidate: Dictionary = candidate_value
-    var entity_id := str(candidate.get("entity_id", candidate.get("remanence_id", "")))
-    var species_id := _normalize_species_id(str(candidate.get("species_id", "")))
-    var rank := str(candidate.get("memory_rank", "normal")).to_lower()
-    if entity_id.is_empty() or species_id.is_empty() or not rank in ["memorial", "veteran", "elite", "nemesis"]:
-        return {"insert": false, "reason": "not_persistent_memorial_entity"}
-    if species_entry(species_id).is_empty():
-        return {"insert": false, "reason": "unknown_species"}
-    if rank == "nemesis" and not bool(candidate.get("shared_history", false)):
-        return {"insert": false, "reason": "artificial_nemesis_forbidden"}
-    var species := species_entry(species_id)
-    return {
-        "insert": true,
-        "reason": "persistent_entity_insertion",
-        "spawn": {
-            "species_id": species_id,
-            "name": str(candidate.get("name", species.get("name", species_id))),
-            "family_id": str(species.get("family_id", "")),
-            "memory_rank": rank,
-            "entity_id": entity_id,
-            "persistent_entity": true
-        }
-    }
+func synergy_by_id(synergy_id: String) -> Dictionary:
+    for value: Variant in synergy_data.get("records", []):
+        if value is Dictionary and str((value as Dictionary).get("id", "")) == synergy_id:
+            return (value as Dictionary).duplicate(true)
+    return {}
 
 func species_entry(species_id: String) -> Dictionary:
     var normalized := _normalize_species_id(species_id)
@@ -231,67 +182,129 @@ func species_entry(species_id: String) -> Dictionary:
                 return result
     return {}
 
-func _spawn_entries(composition: String) -> Array[Dictionary]:
-    var result: Array[Dictionary] = []
-    if composition.is_empty():
-        return result
-    for name_value: String in composition.split(" + "):
-        var found := _species_by_name(name_value)
-        result.append({
-            "species_id": str(found.get("id", "")),
-            "name": name_value,
-            "family_id": str(found.get("family_id", "")),
+func serialize() -> Dictionary:
+    return {"schema_version": 2, "recent_history": recent_history.duplicate(), "selection_count": selection_count}
+
+func deserialize(payload: Dictionary) -> void:
+    recent_history.clear()
+    for value: Variant in payload.get("recent_history", []):
+        recent_history.append(str(value))
+    while recent_history.size() > 5:
+        recent_history.pop_front()
+    selection_count = maxi(0, int(payload.get("selection_count", 0)))
+
+func reset() -> void:
+    recent_history.clear()
+    selection_count = 0
+
+func _build_runtime_encounter(source: Dictionary, context: Dictionary) -> Dictionary:
+    var names: Array = source.get("composition_names", [])
+    var ids: Array = source.get("species_ids", [])
+    if names.size() != ids.size() or names.size() != int(source.get("actors", 0)):
+        return {"success": false, "reason": "canonical_composition_mismatch", "name": source.get("name", "")}
+    var spawn_entries: Array[Dictionary] = []
+    for index: int in range(ids.size()):
+        var species := species_entry(str(ids[index]))
+        spawn_entries.append({
+            "species_id": str(ids[index]),
+            "name": str(names[index]),
+            "family_id": str(species.get("family_id", "")),
             "memory_rank": "normal",
             "persistent_entity": false
         })
-    return result
+    var max_standard := int((catalog_data.get("rules", {}) as Dictionary).get("max_standard_enemies", 4))
+    if spawn_entries.size() > max_standard:
+        return {"success": false, "reason": "mobile_actor_cap_exceeded", "name": source.get("name", "")}
 
-func _species_by_name(species_name: String) -> Dictionary:
-    for family_value: Variant in species_data.get("families", []):
-        if not (family_value is Dictionary):
-            continue
-        var family: Dictionary = family_value
-        for species_value: Variant in family.get("species", []):
-            if species_value is Dictionary and str((species_value as Dictionary).get("name", "")) == species_name:
-                var result := (species_value as Dictionary).duplicate(true)
-                result["family_id"] = str(family.get("id", ""))
-                result["act"] = int(family.get("act", 0))
-                return result
-    return {}
+    var memorial_overlay := _memorial_overlay(context.get("memorial_candidate", {}), spawn_entries.size(), max_standard)
+    if bool(memorial_overlay.get("insert", false)):
+        spawn_entries.append((memorial_overlay.get("spawn", {}) as Dictionary).duplicate(true))
 
-func _all_encounters() -> Array[Dictionary]:
-    var result: Array[Dictionary] = []
-    var acts: Dictionary = encounter_data.get("acts", {})
-    for label: Variant in acts.keys():
-        for value: Variant in acts.get(label, []):
-            if value is Dictionary:
-                var record := (value as Dictionary).duplicate(true)
-                record["act_label"] = str(label)
-                result.append(record)
-    return result
+    var synergies: Array[Dictionary] = []
+    for synergy_id: Variant in source.get("synergy_ids", []):
+        var synergy := synergy_by_id(str(synergy_id))
+        if not synergy.is_empty():
+            synergies.append(synergy)
+
+    return {
+        "success": true,
+        "canonical": true,
+        "id": str(source.get("id", "")),
+        "name": str(source.get("name", "")),
+        "type": str(source.get("type", "Standard")),
+        "act": int(source.get("act", 0)),
+        "act_name": str(source.get("act_name", "")),
+        "depth_min": int(source.get("depth_min", 1)),
+        "depth_max": int(source.get("depth_max", 5)),
+        "threat": int(source.get("threat", 0)),
+        "terrain_danger": str(source.get("terrain_danger", "—")),
+        "tactical_lesson": str(source.get("tactical_lesson", "")),
+        "source_actor_count": int(source.get("actors", 0)),
+        "source_composition": " + ".join(names),
+        "spawn_entries": spawn_entries,
+        "runtime_actor_count": spawn_entries.size(),
+        "synergy_ids": (source.get("synergy_ids", []) as Array).duplicate(),
+        "synergies": synergies,
+        "synergy_feedback": _synergy_feedback(synergies),
+        "memorial_overlay": memorial_overlay,
+        "party_counterpick_used": false,
+        "seeded_selection": true,
+        "runtime_remanence": (source.get("runtime_remanence", {}) as Dictionary).duplicate(true)
+    }
+
+func _memorial_overlay(candidate_value: Variant, source_actor_count: int, max_standard: int) -> Dictionary:
+    if not (candidate_value is Dictionary) or (candidate_value as Dictionary).is_empty():
+        return {"insert": false, "reason": "none"}
+    if source_actor_count >= max_standard:
+        return {"insert": false, "reason": "actor_cap_full"}
+    var candidate: Dictionary = candidate_value
+    var entity_id := str(candidate.get("entity_id", candidate.get("remanence_id", "")))
+    var species_id := _normalize_species_id(str(candidate.get("species_id", "")))
+    var rank := str(candidate.get("memory_rank", "normal")).to_lower()
+    if entity_id.is_empty() or species_id.is_empty() or not rank in ["memorial", "veteran", "elite", "nemesis"]:
+        return {"insert": false, "reason": "not_persistent_memorial_entity"}
+    var species := species_entry(species_id)
+    if species.is_empty():
+        return {"insert": false, "reason": "unknown_species"}
+    if rank == "nemesis" and not bool(candidate.get("shared_history", false)):
+        return {"insert": false, "reason": "artificial_nemesis_forbidden"}
+    return {
+        "insert": true,
+        "reason": "persistent_entity_insertion",
+        "spawn": {
+            "species_id": species_id,
+            "name": str(candidate.get("name", species.get("name", species_id))),
+            "family_id": str(species.get("family_id", "")),
+            "memory_rank": rank,
+            "entity_id": entity_id,
+            "persistent_entity": true
+        }
+    }
 
 func _encounters_for_act(act_token: String) -> Array[Dictionary]:
-    var token := _act_token(act_token)
+    var act_number := _act_int(act_token)
     var result: Array[Dictionary] = []
-    for encounter: Dictionary in _all_encounters():
-        if _act_token(str(encounter.get("act_label", ""))) == token:
+    for encounter: Dictionary in encounter_records:
+        if int(encounter.get("act", 0)) == act_number:
             result.append(encounter.duplicate(true))
     return result
 
 func _remember(encounter_name: String) -> void:
     recent_history.append(encounter_name)
-    while recent_history.size() > HISTORY_WINDOW:
+    while recent_history.size() > 5:
         recent_history.pop_front()
 
 func _synergy_feedback(records: Array[Dictionary]) -> Array[Dictionary]:
     var result: Array[Dictionary] = []
     for record: Dictionary in records:
         result.append({
-            "pair": str(record.get("pair", "")),
+            "id": str(record.get("id", "")),
+            "pair": " + ".join(record.get("pair_names", [])),
             "function": str(record.get("function", "")),
             "counterplay": str(record.get("counterplay", "")),
-            "visible": true,
-            "breakable": true
+            "visible": bool(record.get("visible_to_player", true)),
+            "breakable": bool(record.get("breakable", true)),
+            "knowledge_rule": str(record.get("knowledge_rule", ""))
         })
     return result
 
@@ -301,15 +314,24 @@ func _normalize_species_id(value: String) -> String:
         normalized = normalized.substr(6)
     return normalized
 
-func _act_token(value: String) -> String:
+func _act_int(value: String) -> int:
     var text := value.strip_edges()
-    for token: String in ["I", "II", "III", "IV", "V"]:
-        if text == token or text.begins_with(token + " ") or text.begins_with(token + " —"):
-            return token
-    return text
+    if text.is_valid_int():
+        return int(text)
+    if text.begins_with("V"):
+        return 5
+    if text.begins_with("IV"):
+        return 4
+    if text.begins_with("III"):
+        return 3
+    if text.begins_with("II"):
+        return 2
+    if text.begins_with("I"):
+        return 1
+    return 0
 
 func _load_dictionary(path: String) -> Dictionary:
-    if not FileAccess.file_exists(path):
+    if path.is_empty() or not FileAccess.file_exists(path):
         push_error("VeilleursEncounterDirector missing data: %s" % path)
         return {}
     var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
