@@ -1,7 +1,12 @@
 {
-  "version": 2,
+  "version": 3,
   "status": "canonical_integration_contract",
   "scope": "LITD : Les Veilleurs",
+  "canonical_source": {
+    "manifest": "res://data/veilleurs/canonical_prepc_2026_09_03/canonical_source_manifest_v1.json",
+    "workbook": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx",
+    "zip_sha256": "0739666c23b6aad99d79128147b84322155bbdd5ff49c62b0990eaf11fec8919"
+  },
   "principles": {
     "main_protagonists_exact": 4,
     "dialogues_text_only": true,
@@ -10,12 +15,7 @@
     "no_ads": true,
     "no_microtransactions": true
   },
-  "watchers": [
-    "nayra_orun",
-    "tarek_senn",
-    "aisha_maren",
-    "idris_vael"
-  ],
+  "watchers": ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"],
   "skills": {
     "trees_per_watcher": 3,
     "nodes_per_tree": 15,
@@ -26,88 +26,56 @@
   "bestiary": {
     "ordinary_species_target": 24,
     "combat_families_target": 8,
-    "family_ids": [
-      "delies",
-      "pelerins_fendus",
-      "gardiens_de_pierre",
-      "betes_de_suie",
-      "silencieux",
-      "veines",
-      "porte_cendres",
-      "gardiens_de_version"
-    ],
-    "family_names": [
-      "Déliés",
-      "Pèlerins Fendus",
-      "Gardiens de Pierre",
-      "Bêtes de Suie",
-      "Silencieux",
-      "Veines",
-      "Porte-Cendres",
-      "Gardiens de Version"
-    ],
     "species_names_status": "24_locked",
     "species_catalog": "res://data/veilleurs/species_catalog_recovered_v1.json",
-    "normalization_manifest": "res://data/veilleurs/canonical_bestiary_normalization_v1.json",
-    "obsolete_structures_rejected": [
-      "5 families / 25 archetypes",
-      "6 families / 24 species",
-      "7 families / 15 enemies"
-    ]
+    "normalization_manifest": "res://data/veilleurs/canonical_bestiary_normalization_v2.json",
+    "canonical_registry": "res://data/veilleurs/canonical_prepc_2026_09_03/bestiary_registry_v1.json",
+    "family_ids": ["delies", "pelerins_fendus", "gardiens_de_pierre", "betes_de_suie", "silencieux", "veines", "porte_cendres", "gardiens_de_version"],
+    "family_names": ["Déliés", "Pèlerins Fendus", "Gardiens de Pierre", "Bêtes de Suie", "Silencieux", "Veines", "Porte-Cendres", "Gardiens de Version"],
+    "obsolete_structures_rejected": ["5 families / 25 archetypes", "6 families / 24 species", "7 families / 15 enemies"]
   },
   "encounters": {
     "canonical_template_target": 64,
+    "source_sheet": "Compositions_64",
+    "source_sha256": "2a3246778559b6750a9afe37e9a304c5d80c8c9801fba6a626aed73bba46dc92",
     "max_standard_enemies": 4,
     "max_memorial_enemy": 1,
-    "artificial_nemesis_spawn_forbidden": true,
-    "anti_repeat": {
-      "same_template_twice_in_a_row_forbidden": true,
-      "weight_after_two_occurrences_in_five_rooms": 0.4
-    }
+    "artificial_nemesis_spawn_forbidden": true
   },
   "enemy_synergies": {
     "canonical_target": 21,
+    "catalog": "res://data/veilleurs/enemy_synergy_catalog_v1.json",
+    "source_sheet": "Synergies_ennemis",
+    "source_sha256": "56a91c2deff2f4a190660172021a1258db0be24365e3fcf87052b638f8446eef",
+    "schema": "pair_strength_function_counterplay",
     "must_be_visible": true,
-    "must_be_breakable": true,
-    "names_status": "must_be_recovered_from_latest_canonical_reference_before_population"
+    "must_be_breakable": true
   },
   "bosses": {
     "count": 5,
-    "recruitable": true,
-    "recruitment_rule": "canonical_story_rule",
+    "phase_count": 16,
+    "recruitable": false,
+    "source_sheet": "Boss_5_phases",
     "roster": [
-      {"act": 1, "id": "ishar_i", "name": "Ishar I", "title": "Le Veilleur des Seuils", "recruitable": true},
-      {"act": 2, "id": "orateur_ii", "name": "Orateur II", "title": "La Voix Incarnée", "recruitable": true},
-      {"act": 3, "id": "mere_iii", "name": "Mère III", "title": "La Matrice des Refuges", "recruitable": true},
-      {"act": 4, "id": "porte_cendres_iv", "name": "Porte-Cendres IV", "title": "Le Gardien de la Cendre", "recruitable": true},
-      {"act": 5, "id": "copiste_v", "name": "Copiste V", "title": "L’Archiviste des Cicatrices", "recruitable": true}
+      {"act": 1, "id": "ishar_gardien_du_passage", "name": "Ishar, Gardien du Passage", "phases": 3, "recruitable": false},
+      {"act": 2, "id": "orateur_sans_voix", "name": "Orateur Sans Voix", "phases": 3, "recruitable": false},
+      {"act": 3, "id": "mere_des_veines", "name": "Mère des Veines", "phases": 3, "recruitable": false},
+      {"act": 4, "id": "porte_cendres_blanc", "name": "Porte-Cendres Blanc", "phases": 3, "recruitable": false},
+      {"act": 5, "id": "le_copiste", "name": "Le Copiste", "phases": 4, "recruitable": false}
     ]
   },
-  "party": {
-    "max_combatants": 4,
-    "min_watchers": 1
-  },
+  "party": {"max_combatants": 4, "min_watchers": 1},
   "refuge": {
-    "recruit_capacity": 12
+    "capacity_by_act": {"I": 4, "II": 6, "III": 8, "IV": 10, "V": 12},
+    "max_recruit_capacity": 12
   },
   "recruitment": {
     "primary_source": "encountered_enemies",
-    "bosses_recruitable": true,
-    "minibosses_recruitable": false,
+    "capture_is_recruitment": false,
+    "injuries_reset_on_rally": false,
+    "bosses_recruitable": false,
     "display_capture_percentage": false,
-    "paths": [
-      "soumission",
-      "reddition",
-      "sauvetage",
-      "pacte",
-      "apprivoisement"
-    ]
+    "act_i_numeric_conditions_status": "not_defined_do_not_invent"
   },
-  "memory_ranks": [
-    "normal",
-    "memorial",
-    "veteran",
-    "elite",
-    "nemesis"
-  ]
+  "memory_ranks": ["normal", "memorial", "veteran", "elite", "nemesis"]
 }
