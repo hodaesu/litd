@@ -173,8 +173,8 @@ func _band_for_room(index: int, room_count: int) -> String:
     return "SEVERE"
 
 func _tier_for_band(band: String, variant: int) -> int:
-    var base := {"LOW":1, "STANDARD":3, "HIGH":5, "SEVERE":7}.get(band, 3)
-    return clampi(int(base) + clampi(variant, 1, 2) - 1, 1, 8)
+    var base: int = int({"LOW":1, "STANDARD":3, "HIGH":5, "SEVERE":7}.get(band, 3))
+    return clampi(base + clampi(variant, 1, 2) - 1, 1, 8)
 
 func _pick_family(values: Array, rng: RandomNumberGenerator) -> String:
     return _pick_string(values, rng)
