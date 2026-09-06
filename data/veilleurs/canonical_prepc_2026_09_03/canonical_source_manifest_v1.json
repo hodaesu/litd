@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "status": "verified_from_library_zip_and_pr163",
+  "source_workbook": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx",
+  "recovered_date": "2026-09-03",
+  "library_zip_path": "/LITD/Les_Veilleurs/PrePC_Canonical_2026-09-03/LITD_Les_Veilleurs_Canonical_PrePC_Pack_2026-09-03.zip",
+  "zip_sha256": "0739666c23b6aad99d79128147b84322155bbdd5ff49c62b0990eaf11fec8919",
+  "precedence": [
+    "Référentiel Combat Maître Narratif 2026-09-03",
+    "Référentiel Combat Maître antérieur",
+    "Décisions textuelles validées plus anciennes",
+    "Propositions exploratoires"
+  ],
+  "counts": {
+    "ordinary_enemies": 24,
+    "bosses": 5,
+    "combat_entities": 29,
+    "encounters": 64,
+    "enemy_synergies": 21,
+    "boss_phases": 16,
+    "bestiary_narrative": 29,
+    "watcher_barks": 68,
+    "boss_dialogue_lines": 30,
+    "narrative_events": 15,
+    "regional_encounter_narratives": 64
+  },
+  "files": {
+    "compositions_64.json": {"sha256": "2a3246778559b6750a9afe37e9a304c5d80c8c9801fba6a626aed73bba46dc92", "rows": 64},
+    "synergies_ennemis.json": {"sha256": "56a91c2deff2f4a190660172021a1258db0be24365e3fcf87052b638f8446eef", "rows": 21},
+    "boss_5_phases.json": {"sha256": "3af23c46f8bfa108d446a604e4e06de76b9c2198f0709f4302246e84ca070bc7", "rows": 16},
+    "evenements_narratifs.json": {"sha256": "a3fd3b96c47fcfe070929f00957c74ba957be36c1e1f817a91b2d68e4020e31a", "rows": 15},
+    "dialogues_boss.json": {"sha256": "c5e42db776ecd9e290ad82559faa9def9288fbedccc7d9044bcc38e66974fc0f", "rows": 30},
+    "barks_veilleurs.json": {"sha256": "047f3a5939c3fdfe4e820c6c2a3817b6241bb74dcf0b79404ecda3782525d5c1", "rows": 68},
+    "bestiaire_narratif_29.json": {"sha256": "5a794a4c48c65e39038eb19287229cb667e68ca59094bd89fa8da0f30de2cdb6", "rows": 29},
+    "remanence_ii_v.json": {"sha256": "a5655d281c5a02eb752ee189b31f9fc28a3ea60cb17f3cd6f8e375401fdf6f65", "rows": 16},
+    "recompenses_capture.json": {"sha256": "28806a47068f65897e689cce0eec98b3b943a89ed96006dd3dcb780f9a8b608e", "rows": 64},
+    "rencontres_narratives_64.json": {"sha256": "2ce678cc8977c6aa4c21418e0ce5dcee3921c045588673ab3d7d8021a9809cf4", "rows": 64}
+  }
+}
