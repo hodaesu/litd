@@ -1,0 +1,48 @@
+name: Veilleurs v0.6 Tactical
+
+on:
+  push:
+    branches:
+      - feat/veilleurs-v06-tactical-core
+  pull_request:
+    paths:
+      - 'data/veilleurs/v06/**'
+      - 'scripts/core/veilleurs_*'
+      - 'scripts/core/content_db.gd'
+      - 'scripts/ui/veilleurs_tactical_*'
+      - 'scenes/veilleurs/**'
+      - 'scenes/tests/veilleurs_v06_*'
+      - 'tools/qa/veilleurs_v06_*'
+      - '.github/workflows/veilleurs-v06.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-contract:
+    name: Tests_48 and balance baseline
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate Veilleurs Tests_48
+        run: python tools/qa/veilleurs_v06_tests48.py
+      - name: Simulate first tactical encounter
+        run: python tools/qa/veilleurs_v06_balance_sim.py --check --runs 250
+
+  godot-tactical:
+    name: Godot 4.3 tactical smoke
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Strict Godot import
+        run: godot --headless --path . --import --quit
+      - name: Run Veilleurs v0.6 tactical smoke
+        run: timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v06_tactical_smoke.tscn
+      - name: Instantiate playable tactical demo
+        run: timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v06_tactical_demo.tscn
