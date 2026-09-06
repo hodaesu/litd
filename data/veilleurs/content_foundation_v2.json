@@ -1,0 +1,110 @@
+{
+  "version": 2,
+  "status": "canonical_integration_contract",
+  "scope": "LITD : Les Veilleurs",
+  "principles": {
+    "main_protagonists_exact": 4,
+    "dialogues_text_only": true,
+    "mobile_first_pc_parity": true,
+    "no_gacha": true,
+    "no_ads": true,
+    "no_microtransactions": true
+  },
+  "watchers": [
+    "nayra_orun",
+    "tarek_senn",
+    "aisha_maren",
+    "idris_vael"
+  ],
+  "skills": {
+    "trees_per_watcher": 3,
+    "nodes_per_tree": 15,
+    "total_watcher_skills": 180,
+    "max_level": 50,
+    "source_contract": "res://data/veilleurs/skills/source_contract.json"
+  },
+  "bestiary": {
+    "ordinary_species_target": 24,
+    "combat_families_target": 8,
+    "family_ids": [
+      "delies",
+      "pelerins_fendus",
+      "gardiens_de_pierre",
+      "betes_de_suie",
+      "silencieux",
+      "veines",
+      "porte_cendres",
+      "gardiens_de_version"
+    ],
+    "family_names": [
+      "Déliés",
+      "Pèlerins Fendus",
+      "Gardiens de Pierre",
+      "Bêtes de Suie",
+      "Silencieux",
+      "Veines",
+      "Porte-Cendres",
+      "Gardiens de Version"
+    ],
+    "species_names_status": "must_be_recovered_from_latest_canonical_reference_before_population",
+    "obsolete_structures_rejected": [
+      "5 families / 25 archetypes",
+      "6 families / 24 species",
+      "7 families / 15 enemies"
+    ]
+  },
+  "encounters": {
+    "canonical_template_target": 64,
+    "max_standard_enemies": 4,
+    "max_memorial_enemy": 1,
+    "artificial_nemesis_spawn_forbidden": true,
+    "anti_repeat": {
+      "same_template_twice_in_a_row_forbidden": true,
+      "weight_after_two_occurrences_in_five_rooms": 0.4
+    }
+  },
+  "enemy_synergies": {
+    "canonical_target": 21,
+    "must_be_visible": true,
+    "must_be_breakable": true,
+    "names_status": "must_be_recovered_from_latest_canonical_reference_before_population"
+  },
+  "bosses": {
+    "count": 5,
+    "recruitable": false,
+    "roster": [
+      {"act": 1, "id": "ishar", "name": "Ishar"},
+      {"act": 2, "id": "orateur", "name": "Orateur"},
+      {"act": 3, "id": "mere", "name": "Mère"},
+      {"act": 4, "id": "porte_cendres_boss", "name": "Porte-Cendres"},
+      {"act": 5, "id": "copiste", "name": "Copiste"}
+    ]
+  },
+  "party": {
+    "max_combatants": 4,
+    "min_watchers": 1
+  },
+  "refuge": {
+    "recruit_capacity": 12
+  },
+  "recruitment": {
+    "primary_source": "encountered_enemies",
+    "bosses_recruitable": false,
+    "minibosses_recruitable": false,
+    "display_capture_percentage": false,
+    "paths": [
+      "soumission",
+      "reddition",
+      "sauvetage",
+      "pacte",
+      "apprivoisement"
+    ]
+  },
+  "memory_ranks": [
+    "normal",
+    "memorial",
+    "veteran",
+    "elite",
+    "nemesis"
+  ]
+}
