@@ -22,3 +22,5 @@ jobs:
         run: godot --headless --path . res://scenes/tests/veilleurs_content_runtime_smoke.tscn
       - name: Rencontres canoniques Les Veilleurs
         run: godot --headless --path . res://scenes/tests/veilleurs_encounter_director_smoke.tscn
+      - name: Boss canoniques Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_boss_director_smoke.tscn
