@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "status": "production_contract",
   "canonical_template_target": 64,
   "enemy_synergy_target": 21,
@@ -10,6 +10,12 @@
     "synergy_catalog": "res://data/veilleurs/enemy_synergy_catalog_v1.json",
     "synergy_sheet": "Synergies_ennemis",
     "synergy_sha256": "56a91c2deff2f4a190660172021a1258db0be24365e3fcf87052b638f8446eef"
+  },
+  "runtime_catalogs": {
+    "encounters": "res://data/veilleurs/encounter_catalog_64_v1.json",
+    "synergies": "res://data/veilleurs/enemy_synergy_binding_v1.json",
+    "boss_phases": "res://data/veilleurs/boss_phase_knowledge_v1.json",
+    "archives": "res://data/veilleurs/archives_bestiary_29_v1.json"
   },
   "composition_rules": {
     "max_standard_enemies": 4,
@@ -35,11 +41,20 @@
     "visible_to_player": true,
     "breakable_by_player": true,
     "hidden_unbreakable_aura_forbidden": true,
-    "counterplay_required": true
+    "counterplay_required": true,
+    "archive_visibility_requires_observation": true
+  },
+  "knowledge_rules": {
+    "boss_phase_scoped": true,
+    "unseen_future_phase_hidden": true,
+    "current_perception_can_reduce_displayed_detail": true,
+    "stored_knowledge_is_not_erased_by_low_perception": true
   },
   "content_population": {
-    "encounters_status": "64_recovered_and_hash_locked",
-    "synergies_status": "21_recovered_and_catalogued",
+    "encounters_status": "64_recovered_hash_locked_and_runtime_bound",
+    "synergies_status": "21_recovered_catalogued_and_runtime_bound",
+    "boss_phases_status": "16_recovered_and_knowledge_bound",
+    "archives_status": "29_source_entries_bound_to_six_level_knowledge",
     "placeholder_names_forbidden": true
   }
 }
