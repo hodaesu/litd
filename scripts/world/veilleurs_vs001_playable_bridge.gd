@@ -3,6 +3,7 @@ extends Node
 const PERSISTENCE_SCRIPT := preload("res://scripts/world/veilleurs_vs001_persistence_bridge.gd")
 const CONTENT_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_content_runtime.gd")
 const ENCOUNTER_DIRECTOR_SCRIPT := preload("res://scripts/core/veilleurs_encounter_director.gd")
+const BOSS_DIRECTOR_SCRIPT := preload("res://scripts/core/veilleurs_boss_director.gd")
 
 const WATCHER_DEFS: Array[Dictionary] = [
     {"id": "nayra_orun", "name": "Nayra Orun", "role": "La Garde", "template_index": 3},
@@ -16,6 +17,7 @@ var watchers_active := false
 var persistence_bridge: VeilleursVS001PersistenceBridge = null
 var content_runtime: VeilleursContentRuntime = null
 var encounter_director: VeilleursEncounterDirector = null
+var boss_director: VeilleursBossDirector = null
 var launch_canvas: CanvasLayer = null
 var launch_button: Button = null
 var saved_party_position: Array = []
@@ -31,6 +33,9 @@ func _ready() -> void:
     encounter_director = ENCOUNTER_DIRECTOR_SCRIPT.new() as VeilleursEncounterDirector
     encounter_director.name = "VeilleursEncounterDirector"
     add_child(encounter_director)
+    boss_director = BOSS_DIRECTOR_SCRIPT.new() as VeilleursBossDirector
+    boss_director.name = "VeilleursBossDirector"
+    add_child(boss_director)
     if not VeilleursVS001WorldRuntime.session_started.is_connected(_on_session_started):
         VeilleursVS001WorldRuntime.session_started.connect(_on_session_started)
     if not VeilleursVS001WorldRuntime.session_changed.is_connected(_on_session_changed):
@@ -86,6 +91,9 @@ func canonical_content_runtime() -> VeilleursContentRuntime:
 func canonical_encounter_director() -> VeilleursEncounterDirector:
     return encounter_director
 
+func canonical_boss_director() -> VeilleursBossDirector:
+    return boss_director
+
 func activate_watchers_party() -> Array:
     if not watchers_active:
         previous_party = GameState.party.duplicate(true)
@@ -130,7 +138,7 @@ func serialize() -> Dictionary:
         saved_party_position = live_position.duplicate()
     var session_state: Dictionary = VeilleursVS001WorldRuntime.session.call("serialize")
     return {
-        "schema_version": 3,
+        "schema_version": 4,
         "watchers_active": watchers_active,
         "previous_party": previous_party.duplicate(true),
         "party_position": saved_party_position.duplicate(),
@@ -143,7 +151,8 @@ func serialize() -> Dictionary:
         },
         "persistence": persistence_bridge.serialize() if persistence_bridge != null else {},
         "content_runtime": content_runtime.serialize() if content_runtime != null else {},
-        "encounter_director": encounter_director.serialize() if encounter_director != null else {}
+        "encounter_director": encounter_director.serialize() if encounter_director != null else {},
+        "boss_director": boss_director.serialize() if boss_director != null else {}
     }
 
 func deserialize(payload: Dictionary) -> void:
@@ -157,6 +166,8 @@ func deserialize(payload: Dictionary) -> void:
             content_runtime.reset()
         if encounter_director != null:
             encounter_director.reset()
+        if boss_director != null:
+            boss_director.reset()
         _sync_launch_button()
         return
     previous_party = payload.get("previous_party", []).duplicate(true)
@@ -176,6 +187,8 @@ func deserialize(payload: Dictionary) -> void:
         content_runtime.deserialize(payload.get("content_runtime", {}))
     if encounter_director != null:
         encounter_director.deserialize(payload.get("encounter_director", {}))
+    if boss_director != null:
+        boss_director.deserialize(payload.get("boss_director", {}))
     if watchers_active and not _party_matches_watchers(GameState.party):
         GameState.party = _build_watchers_party()
         GameState.selected_hero = 0
@@ -288,4 +301,6 @@ func _on_new_game_reset() -> void:
         content_runtime.reset()
     if encounter_director != null:
         encounter_director.reset()
+    if boss_director != null:
+        boss_director.reset()
     _sync_launch_button()
