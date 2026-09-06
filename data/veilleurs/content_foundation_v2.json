@@ -46,7 +46,8 @@
       "Porte-Cendres",
       "Gardiens de Version"
     ],
-    "species_names_status": "must_be_recovered_from_latest_canonical_reference_before_population",
+    "species_names_status": "16_recovered_8_act1_names_not_locked",
+    "species_catalog": "res://data/veilleurs/species_catalog_recovered_v1.json",
     "obsolete_structures_rejected": [
       "5 families / 25 archetypes",
       "6 families / 24 species",
@@ -71,13 +72,14 @@
   },
   "bosses": {
     "count": 5,
-    "recruitable": false,
+    "recruitable": true,
+    "recruitment_rule": "canonical_story_rule",
     "roster": [
-      {"act": 1, "id": "ishar", "name": "Ishar"},
-      {"act": 2, "id": "orateur", "name": "Orateur"},
-      {"act": 3, "id": "mere", "name": "Mère"},
-      {"act": 4, "id": "porte_cendres_boss", "name": "Porte-Cendres"},
-      {"act": 5, "id": "copiste", "name": "Copiste"}
+      {"act": 1, "id": "ishar_i", "name": "Ishar I", "title": "Le Veilleur des Seuils", "recruitable": true},
+      {"act": 2, "id": "orateur_ii", "name": "Orateur II", "title": "La Voix Incarnée", "recruitable": true},
+      {"act": 3, "id": "mere_iii", "name": "Mère III", "title": "La Matrice des Refuges", "recruitable": true},
+      {"act": 4, "id": "porte_cendres_iv", "name": "Porte-Cendres IV", "title": "Le Gardien de la Cendre", "recruitable": true},
+      {"act": 5, "id": "copiste_v", "name": "Copiste V", "title": "L’Archiviste des Cicatrices", "recruitable": true}
     ]
   },
   "party": {
@@ -89,7 +91,7 @@
   },
   "recruitment": {
     "primary_source": "encountered_enemies",
-    "bosses_recruitable": false,
+    "bosses_recruitable": true,
     "minibosses_recruitable": false,
     "display_capture_percentage": false,
     "paths": [
