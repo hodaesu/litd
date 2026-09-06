@@ -47,7 +47,7 @@ func resolve_skill(attacker_id: String, target_id: String, skill_id: String, zon
     var attacker: Dictionary = combatants[attacker_id]
     var target: Dictionary = combatants[target_id]
     var action_type := str(skill.get("action_type", "attack"))
-    if action_type in ["observe", "support", "guard", "heal", "passive_modifier"]:
+    if action_type in ["observe", "support", "guard", "heal", "passive_modifier", "psychological", "control", "transform"]:
         return _resolve_non_damage(attacker_id, target_id, skill)
     var chance := _hit_chance(attacker, target, skill, zone)
     var roll := forced_roll if forced_roll >= 1 else _deterministic_roll(attacker_id, target_id, skill_id)
@@ -83,17 +83,35 @@ func enemy_step(enemy_id: String) -> Dictionary:
         return _enemy_basic_attack(enemy_id, target_id)
     var origin := grid.position_of(enemy_id)
     var target_pos := grid.position_of(target_id)
-    var candidates := grid.neighbors(origin)
-    candidates.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return _cell_distance(a, target_pos) < _cell_distance(b, target_pos))
-    for cell: Vector2i in candidates:
-        if not grid.occupied(cell) and grid.move(enemy_id, cell):
-            var result := {"ok": true, "action": "move", "enemy": enemy_id, "target": target_id, "to": [cell.x, cell.y]}
-            action_log.append(result.duplicate(true))
-            return result
+    var best_cell := Vector2i(-1, -1)
+    var best_distance := 999
+    for cell: Vector2i in grid.neighbors(origin):
+        if grid.occupied(cell):
+            continue
+        var distance := _cell_distance(cell, target_pos)
+        if distance < best_distance:
+            best_cell = cell
+            best_distance = distance
+    if best_cell.x >= 0 and grid.move(enemy_id, best_cell):
+        var result := {"ok": true, "action": "move", "enemy": enemy_id, "target": target_id, "to": [best_cell.x, best_cell.y]}
+        action_log.append(result.duplicate(true))
+        return result
     return {"ok": false, "reason": "blocked"}
 
 func next_round() -> void:
     round_index += 1
+
+func alive_ids(team: String = "") -> Array[String]:
+    var result: Array[String] = []
+    for entity_id_value: Variant in combatants.keys():
+        var entity_id := str(entity_id_value)
+        var row: Dictionary = combatants[entity_id]
+        if int(row.get("hp", 0)) <= 0:
+            continue
+        if team != "" and str(row.get("team", "")) != team:
+            continue
+        result.append(entity_id)
+    return result
 
 func serialize() -> Dictionary:
     var rows: Dictionary = {}
@@ -104,6 +122,28 @@ func serialize() -> Dictionary:
         row["body"] = body.serialize()
         rows[entity_id] = row
     return {"round": round_index, "grid": grid.snapshot(), "combatants": rows, "action_log": action_log.duplicate(true)}
+
+func deserialize(payload: Dictionary) -> bool:
+    combatants.clear()
+    action_log.clear()
+    grid = GRID_SCRIPT.new() as VeilleursTacticalGrid
+    if not grid.restore(payload.get("grid", {})):
+        return false
+    round_index = maxi(1, int(payload.get("round", 1)))
+    for entity_id_value: Variant in (payload.get("combatants", {}) as Dictionary).keys():
+        var entity_id := str(entity_id_value)
+        var source: Dictionary = (payload.get("combatants", {}) as Dictionary).get(entity_id, {})
+        var row := source.duplicate(true)
+        var body_payload: Dictionary = source.get("body", {})
+        var integrity: Dictionary = body_payload.get("maximum", ContentDB.combat_constants.get("body_integrity_reference", {}))
+        var body: VeilleursBodyComponent = BODY_SCRIPT.new(integrity) as VeilleursBodyComponent
+        body.deserialize(body_payload)
+        row["body"] = body
+        combatants[entity_id] = row
+    for value: Variant in payload.get("action_log", []):
+        if value is Dictionary:
+            action_log.append((value as Dictionary).duplicate(true))
+    return not combatants.is_empty()
 
 func _register(definition: Dictionary, team: String) -> void:
     var entity_id := str(definition.get("entity_id", ""))
@@ -154,7 +194,9 @@ func _push_away(attacker_id: String, target_id: String, distance: int) -> int:
     var delta := target_pos - attacker_pos
     if delta == Vector2i.ZERO:
         return 0
-    var step := Vector2i(signi(delta.x), 0) if absi(delta.x) >= absi(delta.y) else Vector2i(0, signi(delta.y))
+    var x_step := 1 if delta.x > 0 else -1
+    var y_step := 1 if delta.y > 0 else -1
+    var step := Vector2i(x_step, 0) if absi(delta.x) >= absi(delta.y) else Vector2i(0, y_step)
     var moved := 0
     for _index in range(distance):
         var destination := grid.position_of(target_id) + step
@@ -182,7 +224,8 @@ func _enemy_basic_attack(attacker_id: String, target_id: String) -> Dictionary:
     var attacker: Dictionary = combatants[attacker_id]
     var target: Dictionary = combatants[target_id]
     var stats: Dictionary = attacker.get("stats", {})
-    var chance := clampi(70 + int(round((float(stats.get("PRE", 50)) - float((target.get("stats", {}) as Dictionary).get("MOB", 50))) * 0.35)), 15, 95)
+    var target_stats: Dictionary = target.get("stats", {})
+    var chance := clampi(70 + int(round((float(stats.get("PRE", 50)) - float(target_stats.get("MOB", 50))) * 0.35)), 15, 95)
     var roll := _deterministic_roll(attacker_id, target_id, "basic")
     var result := {"ok": true, "action": "attack", "attacker": attacker_id, "target": target_id, "roll": roll, "hit_chance": chance, "hit": roll <= chance}
     if bool(result["hit"]):
@@ -191,6 +234,8 @@ func _enemy_basic_attack(attacker_id: String, target_id: String) -> Dictionary:
         target["hp"] = maxi(0, int(target.get("hp", 1)) - damage)
         result["damage"] = damage
         result["target_hp"] = int(target["hp"])
+        var body: VeilleursBodyComponent = target.get("body") as VeilleursBodyComponent
+        result["body"] = body.apply_trauma("torso", maxi(1, int(round(float(damage) * 0.75))))
         combatants[target_id] = target
     action_log.append(result.duplicate(true))
     return result
