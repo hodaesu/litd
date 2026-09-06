@@ -1,5 +1,7 @@
 extends Node
 
+const FormerNemesisCombat := preload("res://scripts/core/veilleurs_former_nemesis_combat_runtime.gd")
+
 var round_index := 1
 var initiative: Array[Dictionary] = []
 var cycle_queue: Array[Dictionary] = []
@@ -69,6 +71,14 @@ func begin_cycle(heroes: Array, enemies: Array) -> Array[Dictionary]:
     cycle_status.clear()
     _cycle_sequence = 0
 
+    # La Rémanence sociale est appliquée avant la création des jetons : la peur,
+    # l'intention lisible et l'hésitation du premier tour font donc partie du vrai
+    # cycle de combat, sans retirer le contrôle de l'auxiliaire au joueur.
+    FormerNemesisCombat.prepare_family_encounter(enemies, {
+        "region_id": AshlandsRuntime.current_zone_id,
+        "round_index": round_index
+    })
+
     var primaries: Array[Dictionary] = []
     var boss_extras: Array[Dictionary] = []
     for hero_value: Variant in heroes:
@@ -95,6 +105,7 @@ func begin_cycle(heroes: Array, enemies: Array) -> Array[Dictionary]:
     # ensuite les avancer/retarder explicitement via apply_cycle_shifts().
     cycle_queue.append_array(primaries)
     cycle_queue.append_array(boss_extras)
+    FormerNemesisCombat.apply_first_cycle_hesitation(self, enemies)
     return cycle_snapshot()
 
 func cycle_snapshot() -> Array[Dictionary]:
@@ -138,12 +149,22 @@ func consume_cycle_action() -> Dictionary:
 
     var actor_id := str(token.get("id", ""))
     var status: Dictionary = cycle_status.get(actor_id, {})
+    var hesitation_turns := maxi(0, int(status.get("former_kin_hesitation_turns", 0)))
     var stun_turns := maxi(0, int(status.get("stun_turns", 0)))
     var result := token.duplicate(true)
     result["valid"] = true
     result["skipped"] = false
     result["reason"] = "action"
     result["recovered"] = false
+    if hesitation_turns > 0:
+        hesitation_turns -= 1
+        status["former_kin_hesitation_turns"] = hesitation_turns
+        cycle_status[actor_id] = status
+        result["skipped"] = true
+        result["reason"] = "former_kin_hesitation"
+        result["recovered"] = hesitation_turns == 0
+        result["social_memory"] = true
+        return result
     if stun_turns > 0:
         stun_turns -= 1
         status["stun_turns"] = stun_turns
