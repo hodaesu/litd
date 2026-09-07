@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "status": "post_playtest_parallel_detail_manifest",
+  "enabled_by_default": false,
+  "runtime_wiring": "none_until_explicit_post_playtest_decision",
+  "source_playtest_pr": 173,
+  "source_playtest_commit": "0c905800ec21e646e9252f1c14430ed8ad36ada3",
+  "files": {
+    "refuge_events": {"path":"res://data/veilleurs/parallel_content/refuge_event_templates_v1.json","expected_count":24,"canonical_family_count":12},
+    "narrative_triggers": {"path":"res://data/veilleurs/parallel_content/narrative_trigger_binding_v1.json","source_counts":{"barks":68,"boss_dialogues":30,"remanence_ii_v":16}},
+    "ux_screen_flow": {"path":"res://data/veilleurs/parallel_content/ux_screen_flow_v1.json","refuge_screen_count":6,"combat_context_overlay_count":4},
+    "playtest_telemetry": {"path":"res://data/veilleurs/parallel_content/playtest_telemetry_matrix_v1.json","structured_event_count":33,"free_text_capture":false},
+    "expedition_alterations": {"path":"res://data/veilleurs/parallel_content/expedition_alteration_candidates_v2.json","candidate_count":18,"family_count":6},
+    "remanence_variants": {"path":"res://data/veilleurs/parallel_content/remanence_nemesis_variants_v2.json","candidate_count":16}
+  },
+  "canonical_invariants": {
+    "knowledge_source_states": ["UNKNOWN","SUSPECTED","OBSERVED","CONFIRMED","UNDERSTOOD"],
+    "knowledge_is_currency": false,
+    "capture_is_recruitment": false,
+    "injuries_reset_on_rally": false,
+    "bosses_recruitable": false,
+    "refuge_capacity_by_act": {"I":4,"II":6,"III":8,"IV":10,"V":12},
+    "party_max": 4,
+    "party_min_watchers": 1,
+    "max_memorial_enemies_per_encounter": 1,
+    "artificial_nemesis_spawn_forbidden": true,
+    "full_scene_snapshot_forbidden": true,
+    "act_i_numeric_rallying_conditions_must_not_be_invented": true
+  },
+  "merge_gate": {
+    "draft_only_before_pc_playtest": true,
+    "active_playtest_contracts_must_not_reference_this_manifest": true,
+    "requires_pc_feedback_before_activation": true,
+    "requires_latest_head_ci_green": true
+  }
+}
