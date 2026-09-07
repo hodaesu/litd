@@ -156,6 +156,22 @@ def main() -> int:
     if not checks["essential_smokes_wired"]:
         fail(errors, "Les smokes essentiels v0.6→v0.9/mobile/UI ne sont pas tous câblés dans le pipeline rapide")
 
+    # Les Veilleurs ne doivent pas hériter des dépendances lourdes du préflight LITD principal.
+    pc_preflight_path = ROOT / "tools/workstation/veilleurs_pc_preflight.py"
+    pc_preflight_text = pc_preflight_path.read_text(encoding="utf-8") if pc_preflight_path.exists() else ""
+    tools_match = re.search(r"REQUIRED_TOOLS\s*=\s*\{(.*?)\n\}", pc_preflight_text, re.DOTALL)
+    first_pc_tools: list[str] = []
+    if tools_match:
+        first_pc_tools = re.findall(r'^\s*"([^"]+)"\s*:', tools_match.group(1), re.MULTILINE)
+    checks["dedicated_pc_preflight"] = first_pc_tools == contract.get("required_first_pc_tools", [])
+    if not checks["dedicated_pc_preflight"]:
+        fail(errors, f"Préflight PC Veilleurs trop lourd ou incomplet: {first_pc_tools}")
+
+    launcher_text = (ROOT / "tools/workstation/LITD_VEILLEURS_PC_PREPARE.cmd").read_text(encoding="utf-8")
+    checks["pc_preflight_launcher"] = "veilleurs_pc_preflight.py --run-tests" in launcher_text
+    if not checks["pc_preflight_launcher"]:
+        fail(errors, "Le lanceur PC Veilleurs n'appelle pas le préflight dédié avec les tests")
+
     hardware_gates = contract.get("hardware_only_gates", [])
     checks["hardware_boundary_declared"] = len(hardware_gates) >= 8 and all(g.get("id") and g.get("reason") for g in hardware_gates)
     if not checks["hardware_boundary_declared"]:
