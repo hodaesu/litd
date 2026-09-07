@@ -11,6 +11,7 @@
   "priority_order": ["critical", "high", "medium", "low"],
   "selection": {
     "critical_eligible_events_are_queued_before_random_selection": true,
+    "critical_events_do_not_consume_family_random_budgets": true,
     "max_auto_presented_on_arrival": 2,
     "max_total_new_events_queued_per_return": 5,
     "max_social_events_selected_per_return": 2,
@@ -31,7 +32,7 @@
     "one_shot_or_cooldown_allows_event",
     "event_not_contradicted_by_saved_outcome",
     "critical_story_layer_allows_event",
-    "family_budget_allows_event"
+    "family_budget_allows_noncritical_event"
   ],
   "presentation": {
     "critical": "modal_or_full_focus_scene",
