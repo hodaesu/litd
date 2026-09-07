@@ -12,6 +12,7 @@ FORBIDDEN_OBSOLETE_PATHS = (
     "docs/MIGRATION_STATUS.md",
     "docs/GITHUB_SETUP.md",
     "docs/FILE_MANIFEST.json",
+    "docs/ROADMAP_STUDIO.md",
 )
 
 FORBIDDEN_TRACKED_NAMES = {".DS_Store"}
@@ -57,4 +58,4 @@ def test_release_notes_do_not_depend_on_retired_version_file():
     script = (ROOT / "tools/release/generate_notes.py").read_text(encoding="utf-8")
     assert '"VERSION"' not in script
     assert "'VERSION'" not in script
-    assert "git\", \"describe" in script
+    assert '["git", "describe"' in script
