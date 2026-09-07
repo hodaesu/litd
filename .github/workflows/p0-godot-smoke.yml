@@ -53,3 +53,12 @@ jobs:
             --headless \
             --path p0_impact \
             --quit-after 5
+
+      - name: Run P0 gameplay tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          .godot-bin/Godot_v4.3-stable_linux.x86_64 \
+            --headless \
+            --path p0_impact \
+            --script res://tests/p0_gameplay_test.gd
