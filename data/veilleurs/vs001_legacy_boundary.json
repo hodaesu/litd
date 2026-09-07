@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "status": "frozen_legacy_compatibility",
+  "legacy_id": "VS001",
+  "replacement": {
+    "runtime": "res://scripts/core/veilleurs_production_runtime.gd",
+    "implementation": "res://scripts/core/veilleurs_vertical_slice_runtime_v09.gd",
+    "runtime_version": "0.9.0",
+    "save_key": "veilleurs_v09"
+  },
+  "compatibility": {
+    "save_key": "veilleurs_vs001",
+    "read_support_required": true,
+    "regression_tests_required": true,
+    "new_gameplay_dependencies_allowed": false,
+    "new_content_allowed": false,
+    "automatic_save_deletion_allowed": false
+  },
+  "allowed_active_reference_files": [
+    "project.godot",
+    "scripts/core/save_manager.gd"
+  ],
+  "legacy_path_prefixes": [
+    "scripts/core/veilleurs_vs001_",
+    "scripts/world/veilleurs_vs001_",
+    "scenes/tests/veilleurs_vs001_",
+    "scenes/world/veilleurs/voices_under_sanctuary_playable",
+    "data/veilleurs/vertical_slice_001"
+  ],
+  "migration_policy": [
+    "All new Les Veilleurs runtime state is written under veilleurs_v09.",
+    "Existing veilleurs_vs001 payloads remain readable until an explicit tested migration exists.",
+    "VS001 regression scenes remain executable while compatibility is supported.",
+    "No unrelated production script may preload, call or autoload a VS001 implementation directly."
+  ]
+}
