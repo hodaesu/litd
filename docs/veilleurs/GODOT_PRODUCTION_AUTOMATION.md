@@ -41,10 +41,13 @@ Il effectue :
 4. audit du verrou pré-PC ;
 5. audits Veilleurs v0.6 → v0.9 présents dans le dépôt ;
 6. import Godot 4.3 strict ;
-7. smoke Wave 3 ;
-8. scène QA six donjons ;
-9. régression tactile mobile ;
-10. régression du parcours UI joueur.
+7. smoke tactique v0.6 ;
+8. smoke production v0.7 ;
+9. smoke Wave 2 v0.8 ;
+10. smoke Wave 3 v0.9 ;
+11. scène QA six donjons ;
+12. régression tactile mobile ;
+13. régression du parcours UI joueur.
 
 ### `changed`
 
@@ -123,6 +126,7 @@ Une production n'est pas considérée comme intégrée parce qu'un fichier exist
 9. Les systèmes existants `DataLoader`, sauvegarde, blessures/capture, Rémanence, rencontres et génération de donjon doivent être étendus plutôt que dupliqués.
 10. Les anciennes vagues validées restent protégées par régression.
 11. Une tâche n'est reportée au PC que si elle nécessite réellement matériel, SDK/signature externe ou jugement sensoriel.
+12. L'ancien quatuor Sahen/Mira/Narem/Ysra ne peut apparaître dans le runtime courant ; ses références éventuelles sont limitées aux tests négatifs explicitement autorisés et aux contrats historiques gelés.
 
 ## Utilisation Windows
 
@@ -155,7 +159,7 @@ L'addon est maintenant déclaré dans `[editor_plugins]` de `project.godot`. Apr
 
 Le document détaillé est `docs/veilleurs/PRE_PC_LOCK.md`.
 
-Le verrou vérifie ce qui est objectivable avant appareil réel : roster canonique, absence d'IDs obsolètes, contrats des six donjons, QA v0.9, 12 ultimes, slots d'assets, presets d'export, câblage du pipeline et séparation des validations matérielles.
+Le verrou vérifie ce qui est objectivable avant appareil réel : roster canonique, absence d'IDs obsolètes hors exceptions historiques contrôlées, contrats des six donjons, QA v0.9, 12 ultimes, slots d'assets, presets d'export, smokes v0.6→v0.9, câblage du pipeline et séparation des validations matérielles.
 
 Il ne déclare pas les assets visuels/audio finaux « terminés » : il garantit que leur contrat de production est prêt avant le handoff artistique et matériel.
 
@@ -164,9 +168,9 @@ Il ne déclare pas les assets visuels/audio finaux « terminés » : il garantit
 À chaque pull request touchant Les Veilleurs, la CI lance :
 
 1. `Content contracts and production index` ;
-2. `Godot 4.3 strict import and Veilleurs smokes`.
+2. `Godot 4.3 pre-PC production smokes`.
 
-Le premier job exécute désormais aussi l'audit pré-PC via la configuration du pipeline.
+Le premier job exécute aussi l'audit pré-PC via la configuration du pipeline. Le second rejoue les quatre vagues techniques v0.6, v0.7, v0.8 et v0.9 avant la QA six donjons, le tactile logique et le parcours UI.
 
 Le workflow manuel permet en plus d'activer `full_suite`, qui exécute la suite Godot historique complète.
 
