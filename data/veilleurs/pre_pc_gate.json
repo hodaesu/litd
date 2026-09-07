@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "stage": "pre_pc_lock",
   "godot_version": "4.3",
   "canonical_watchers": [
@@ -10,6 +10,11 @@
   ],
   "forbidden_stale_runtime_ids": [
     "ENT_WATCHER_SAHEN"
+  ],
+  "allowed_stale_reference_files": [
+    "scripts/core/veilleurs_v06_tactical_smoke_test.gd",
+    "scripts/core/veilleurs_v08_wave2_smoke_test_round2.gd",
+    "data/veilleurs/v07/ultimates_99.json"
   ],
   "production_dungeons": [
     "DUNGEON_KHAR_SEN",
