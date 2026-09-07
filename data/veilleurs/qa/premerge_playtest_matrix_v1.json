@@ -1,0 +1,439 @@
+{
+  "schema_version": "1.0",
+  "protocol_id": "VEILLEURS_PR173_PREMERGE_V1",
+  "pull_request": 173,
+  "branch": "feature/veilleurs-content-foundation-v2",
+  "godot_version": "4.3",
+  "canonical_watchers": [
+    "Sahen Varo",
+    "Mira Sen",
+    "Narem Osh",
+    "Ysra Nahal"
+  ],
+  "forbidden_legacy_watchers_in_v06": [
+    "Nayra Orun",
+    "Tarek Senn",
+    "Aïsha Maren",
+    "Idris Vael"
+  ],
+  "required_input_modes": [
+    "windows_keyboard_mouse",
+    "windows_gamepad",
+    "windows_touch_emulation_landscape"
+  ],
+  "required_viewports": [
+    "1280x720",
+    "1920x1080",
+    "mobile_landscape_19_5_9_safe_area"
+  ],
+  "severity": ["BLOCKER", "MAJOR", "MINOR", "POLISH"],
+  "merge_gate": {
+    "required_workflows": ["CI", "Remanence Smoke", "Balance Telemetry", "Veilleurs v0.6 Tactical"],
+    "max_open_blocker": 0,
+    "max_open_reproducible_major_core": 0,
+    "all_merge_blocking_cases_must_pass": true,
+    "khar_sen_both_routes_required": true,
+    "retreat_persistence_required": true,
+    "save_roundtrip_required": true,
+    "all_four_watchers_active_play_required": true,
+    "actual_ios_device_required_for_pr173": false,
+    "actual_ios_device_required_for_mobile_alpha": true
+  },
+  "results_schema": {
+    "allowed": ["NOT_RUN", "PASS", "FAIL", "BLOCKED"],
+    "default": "NOT_RUN",
+    "bug_id_format": "VPR173-XXX"
+  },
+  "cases": [
+    {
+      "id": "PRE-01",
+      "category": "preflight",
+      "title": "Boot salle QA sans erreur script",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Ouvrir res://scenes/qa/qa_validation_room.tscn",
+      "expected": "Aucun crash, softlock ou SCRIPT ERROR; panneau QA interactif.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "PRE-02",
+      "category": "preflight",
+      "title": "Checklist salle QA complète",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Tester déplacement, dialogue, coffre, butin, combat, consommables, psychologie, blessure, cendres, save/load.",
+      "expected": "Tous les contrôles intégrés passent au moins une fois.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "CTRL-01",
+      "category": "controls_ui",
+      "title": "Parcours complet clavier/souris",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Combat v0.6.1",
+      "expected": "Sélection, compétence, cible, validation, annulation, inspection et pause accessibles; annulation ne consomme pas le tour.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "CTRL-02",
+      "category": "controls_ui",
+      "title": "Parcours complet manette sans souris",
+      "mode": "windows_gamepad",
+      "setup": "Même parcours que CTRL-01",
+      "expected": "Focus visible, aucune boucle de focus, aucune action obligatoire inaccessible.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "CTRL-03",
+      "category": "controls_ui",
+      "title": "Parcours tactile simulé paysage",
+      "mode": "windows_touch_emulation_landscape",
+      "setup": "Viewport mobile 19.5:9 avec safe areas simulées",
+      "expected": "Aucune action obligatoire ne dépend du hover; cibles et confirmations restent distinctes et accessibles.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "CTRL-04",
+      "category": "controls_ui",
+      "title": "Responsive trois viewports",
+      "mode": "all_required_input_modes",
+      "setup": "Tester 1280x720, 1920x1080 et mobile landscape.",
+      "expected": "Aucun panneau essentiel hors écran ou chevauchement bloquant.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "KHAR-01",
+      "category": "khar_sen",
+      "title": "Route Archive jusqu'à l'objectif",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Seed 606101; KHAR_01>02>03>05>06 puis une branche>09.",
+      "expected": "Archive CODEX_REMANENCE_FIRST_TRACE acquise; objectif recover_messenger_trace atteignable.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "KHAR-02",
+      "category": "khar_sen",
+      "title": "Route Cour du sang sec jusqu'à l'objectif",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Seed 606101; KHAR_01>02>04>05>06 puis autre branche>09.",
+      "expected": "Corpse field fonctionnel et objectif atteignable.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "KHAR-03",
+      "category": "khar_sen",
+      "title": "Embranchement KHAR_06 réellement valide",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Prendre gauche sur un run et droite sur un second.",
+      "expected": "Les deux routes convergent vers KHAR_09 sans cul-de-sac incohérent.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "KHAR-04",
+      "category": "khar_sen",
+      "title": "Retraite conserve conséquences",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Retraiter d'un nœud extraction=true puis revenir.",
+      "expected": "Blessures, cicatrices ancrées, flags et états persistants attendus ne sont pas réinitialisés.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "KHAR-05",
+      "category": "khar_sen",
+      "title": "Nœud Mémoriel KHAR_05 réutilise l'individu",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Présenter une entité persistante disponible au Lanternier qui se souvient.",
+      "expected": "Même identité/histoire/blessures/relations; pas de clone générique silencieux.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "KHAR-06",
+      "category": "khar_sen",
+      "title": "Hazards lisibles et utiles",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Observer narrow_lane, corpse_field, ash_drift, overwatch_lane, broken_cover.",
+      "expected": "Chaque hazard modifie une décision sans effet caché impossible à anticiper.",
+      "merge_blocking": false,
+      "severity_if_fail": "MINOR"
+    },
+    {
+      "id": "WATCH-01",
+      "category": "watchers",
+      "title": "Sahen Varo rôle distinct",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Tester ligne, rupture/repositionnement et protection.",
+      "expected": "Au moins une décision utile propre au rôle; pas seulement davantage de dégâts.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "WATCH-02",
+      "category": "watchers",
+      "title": "Mira Sen rôle distinct",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Tester précision, mobilité et observation.",
+      "expected": "Information/positionnement créent un avantage compréhensible sans omniscience.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "WATCH-03",
+      "category": "watchers",
+      "title": "Narem Osh rôle distinct",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Tester garde, protection et maintien sous blessure.",
+      "expected": "Protection réelle sans invulnérabilité ni annulation des conséquences corporelles.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "WATCH-04",
+      "category": "watchers",
+      "title": "Ysra Nahal rôle distinct",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Tester intentions, Rémanence et psychologie.",
+      "expected": "Meilleure compréhension sans révéler automatiquement les données non observées.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "INT-01",
+      "category": "intent_knowledge",
+      "title": "Télégraphes précèdent les effets",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Comparer au moins huit actions de plusieurs familles d'intention.",
+      "expected": "Télégraphe avant résolution; information possiblement incomplète mais non mensongère.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "INT-02",
+      "category": "intent_knowledge",
+      "title": "Faible lumière réduit affichage sans effacer connaissance",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Observer une intention, puis réduire visibilité.",
+      "expected": "Détail courant réduit; connaissance persistante conservée.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "INT-03",
+      "category": "intent_knowledge",
+      "title": "Archives sans omniscience",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Inspecter Identité/Connaissance, Corps, Combat, Histoire, Traces.",
+      "expected": "Information non observée reste inconnue; information confirmée reste mémorisée.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "BODY-01",
+      "category": "body_injuries",
+      "title": "Blessure de bras persistante",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Injecter ou subir blessure sérieuse puis combat, retraite, save/load.",
+      "expected": "Blessure et conséquence fonctionnelle persistent jusqu'à vraie résolution.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "BODY-02",
+      "category": "body_injuries",
+      "title": "Blessure ennemi persistant conservée",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Blesser fonctionnellement un ennemi persistant puis le revoir.",
+      "expected": "La promotion de mémoire ne soigne pas gratuitement l'individu.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "BODY-03",
+      "category": "body_injuries",
+      "title": "Cicatrices monde par ancrages et flags",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Créer brisure/cadavre/état persistant puis revisiter.",
+      "expected": "Conséquence prévue restaurée sans exiger un snapshot complet de scène.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "REM-01",
+      "category": "remanence",
+      "title": "Normal vers Mémoriel exige vécu",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Créer survie, mutilation, fuite, failed_capture, objet, retraite ou rencontre répétée.",
+      "expected": "Spawn seul insuffisant; Mémoriel possède identité et histoire persistantes.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "REM-02",
+      "category": "remanence",
+      "title": "Mémoriel vers Vétéran apprend seulement du vécu",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Rencontre ultérieure après événement vécu exploitable.",
+      "expected": "Une décision tactique change à cause de l'événement vécu, pas du build global joueur.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "REM-03",
+      "category": "remanence",
+      "title": "Vétéran vers Élite influence le groupe avec ses propres capacités",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Créer un cas où l'enseignement vécu peut influencer allié/formation.",
+      "expected": "Influence réelle sans nouveau pouvoir gratuit hors arbre.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "REM-04",
+      "category": "remanence",
+      "title": "Némésis exige histoire partagée et reste lisible",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Créer ancrage majeur puis confrontation ultérieure.",
+      "expected": "Pas de Némésis aléatoire; blessures conservées; pas de HP sponge comme identité; pas d'omniscience.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "REC-01",
+      "category": "recruitment_refuge",
+      "title": "Capture distincte du recrutement",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Capturer un ennemi ordinaire admissible.",
+      "expected": "Capture ne rallie pas automatiquement l'individu.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "REC-02",
+      "category": "recruitment_refuge",
+      "title": "Aucun pourcentage de capture affiché",
+      "mode": "all_required_input_modes",
+      "setup": "Ouvrir UI capture/ralliement.",
+      "expected": "Afficher états observables; aucun taux numérique de capture.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "REC-03",
+      "category": "recruitment_refuge",
+      "title": "Ralliement conserve identité et blessures",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Rallier un ennemi admissible.",
+      "expected": "Identité, blessures, traits, relations et histoire conservés.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "REC-04",
+      "category": "recruitment_refuge",
+      "title": "Capacité Refuge bloque le débordement",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Atteindre capacité de l'acte puis tenter un recrutement supplémentaire.",
+      "expected": "Nouveau recrutement bloqué jusqu'à libération d'une place; aucun résident supprimé silencieusement.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "REC-05",
+      "category": "recruitment_refuge",
+      "title": "Boss jamais recrutables",
+      "mode": "all_required_input_modes",
+      "setup": "Inspecter fin de combat et UI des cinq boss.",
+      "expected": "Aucune option ou suggestion de recrutement de boss.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "BOSS-01",
+      "category": "bosses",
+      "title": "Ishar trois phases test profond",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Jouer les trois phases et varier les méthodes de franchissement.",
+      "expected": "Mémoire limitée lisible, routes/blessures persistent, aucune immunité finale cachée.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "BOSS-02",
+      "category": "bosses",
+      "title": "Copiste quatre phases test profond",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Tester Copie, Correction, Palimpseste et Synthèse.",
+      "expected": "Copie méthodes pas stats; cicatrices lourdes non réparées; finale punissable mais solvable.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "BOSS-03",
+      "category": "bosses",
+      "title": "Orateur, Mère, Porte-Cendres transitions",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Franchir toutes leurs transitions de phase au moins une fois.",
+      "expected": "Transitions atteignables et lisibles; contre-jeu cohérent; aucune phase cachée ou recrutement.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "SAVE-01",
+      "category": "save_load",
+      "title": "Roundtrip sauvegarde après états persistants",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Sauver après blessure + changement Khar-Sen + connaissance + identité Mémorielle si disponible.",
+      "expected": "Identités, blessures, flags, cicatrices, connaissance et états pertinents sont identiques au rechargement.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    },
+    {
+      "id": "BAL-01",
+      "category": "balance",
+      "title": "Échantillon LOW STANDARD HIGH",
+      "mode": "windows_keyboard_mouse",
+      "setup": "3 combats LOW, 3 STANDARD, 3 HIGH.",
+      "expected": "Pas de rencontre obligatoire impossible avec contre-jeu visible; retraite réellement viable quand annoncée.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "BAL-02",
+      "category": "balance",
+      "title": "Détection stratégie dominante",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Relever familles d'actions sur l'échantillon BAL-01.",
+      "expected": "Aucune famille unique >60% des actions efficaces tout en restant meilleure dans LOW/STANDARD/HIGH sans contrepartie.",
+      "merge_blocking": false,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "BAL-03",
+      "category": "balance",
+      "title": "Deux runs Khar-Sen complets et une retraite",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Un run par branche KHAR_06 + un run/segment avec retraite volontaire.",
+      "expected": "Progression solvable, décisions variées, conséquences de retraite cohérentes.",
+      "merge_blocking": true,
+      "severity_if_fail": "MAJOR"
+    },
+    {
+      "id": "PERF-01",
+      "category": "stability_performance",
+      "title": "Stabilité longue session et transitions",
+      "mode": "windows_keyboard_mouse",
+      "setup": "Répéter combats/exploration et atteindre au moins 10 save/load QA sur la campagne de test.",
+      "expected": "Aucun crash, corruption, freeze reproductible bloquant ou dégradation continue rendant le combat injouable.",
+      "merge_blocking": true,
+      "severity_if_fail": "BLOCKER"
+    }
+  ]
+}
