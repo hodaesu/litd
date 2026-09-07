@@ -62,6 +62,9 @@ def main() -> int:
     checks["godot_version"] = 'config/features=PackedStringArray("4.3")' in project_text
     if not checks["godot_version"]:
         fail(errors, "project.godot ne verrouille pas Godot 4.3")
+    checks["android_etc2_astc"] = "textures/vram_compression/import_etc2_astc=true" in project_text
+    if not checks["android_etc2_astc"]:
+        fail(errors, "La compression ETC2/ASTC requise pour l'export Android Godot 4.3 n'est pas activée")
 
     plugin_entry = 'res://addons/veilleurs_pipeline/plugin.cfg'
     checks["editor_pipeline_enabled"] = "[editor_plugins]" in project_text and plugin_entry in project_text
@@ -73,6 +76,9 @@ def main() -> int:
     checks["export_presets"] = not missing_presets
     if missing_presets:
         fail(errors, "Presets d'export absents: " + ", ".join(missing_presets))
+    checks["android_package_identity"] = 'package/unique_name="com.hodaesu.lightinthedark"' in export_text
+    if not checks["android_package_identity"]:
+        fail(errors, "L'identité de package Android stable com.hodaesu.lightinthedark est absente")
 
     workflow_path = ROOT / ".github/workflows/veilleurs-production-automation.yml"
     workflow_text = workflow_path.read_text(encoding="utf-8") if workflow_path.is_file() else ""
@@ -158,6 +164,29 @@ def main() -> int:
     if not checks["pre_pc_audit_wired"]:
         fail(errors, "L'audit pré-PC n'est pas câblé dans le pipeline Veilleurs")
 
+    intake_audit = "tools/qa/veilleurs_content_intake_audit.py"
+    checks["content_intake_audit_wired"] = intake_audit in pipeline.get("python_audits", [])
+    if not checks["content_intake_audit_wired"]:
+        fail(errors, "L'audit d'intake de contenu n'est pas câblé dans le pipeline Veilleurs")
+
+    intake = load_json(ROOT / "data/veilleurs/content_intake_contract.json")
+    expected_intake_types = {"watcher", "enemy", "boss", "dungeon", "ui_screen", "ultimate", "generic"}
+    checks["content_intake_types"] = set(intake.get("supported_types", {})) == expected_intake_types
+    if not checks["content_intake_types"]:
+        fail(errors, "Les types d'intake de contenu sont incomplets")
+    intake_rules = intake.get("rules", {})
+    required_intake_rules = {
+        "presentation_never_decides_gameplay",
+        "reservation_never_mutates_canonical_gameplay",
+        "work_order_presence_reserves_id",
+        "duplicate_canonical_ids_forbidden",
+        "duplicate_reserved_ids_forbidden",
+        "path_traversal_forbidden",
+    }
+    checks["content_intake_guardrails"] = required_intake_rules.issubset(intake_rules)
+    if not checks["content_intake_guardrails"]:
+        fail(errors, "Les garde-fous de réservation d'intake sont incomplets")
+
     smoke_scenes = {row.get("scene") for row in pipeline.get("quick_godot_smokes", [])}
     essential_smokes = {
         "res://scenes/tests/veilleurs_v06_tactical_smoke.tscn",
@@ -172,7 +201,6 @@ def main() -> int:
     if not checks["essential_smokes_wired"]:
         fail(errors, "Les smokes essentiels v0.6→v0.9/mobile/UI ne sont pas tous câblés dans le pipeline rapide")
 
-    # Les Veilleurs ne doivent pas hériter des dépendances lourdes du préflight LITD principal.
     pc_preflight_path = ROOT / "tools/workstation/veilleurs_pc_preflight.py"
     pc_preflight_text = pc_preflight_path.read_text(encoding="utf-8") if pc_preflight_path.exists() else ""
     tools_match = re.search(r"REQUIRED_TOOLS\s*=\s*\{(.*?)\n\}", pc_preflight_text, re.DOTALL)
