@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 7,
   "godot_version": "4.3",
   "project_file": "project.godot",
   "report_dir": "build/automation",
@@ -33,6 +33,7 @@
   },
   "python_audits": [
     "tools/qa/veilleurs_pre_pc_audit.py",
+    "tools/qa/veilleurs_content_intake_audit.py",
     "tools/qa/veilleurs_final_asset_handoff_audit.py",
     "tools/qa/veilleurs_asset_handoff_tracker_audit.py",
     "tools/qa/veilleurs_hardware_contract_audit.py",
