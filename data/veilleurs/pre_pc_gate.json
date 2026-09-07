@@ -1,5 +1,5 @@
 {
-  "schema_version": 10,
+  "schema_version": 11,
   "stage": "pre_pc_lock",
   "godot_version": "4.7",
   "canonical_watchers": [
@@ -66,6 +66,7 @@
     "tools/workstation/veilleurs_asset_handoff.py",
     "tools/workstation/LITD_VEILLEURS_ASSET_HANDOFF.cmd",
     "tools/workstation/LITD_VEILLEURS_CONTENT_INTAKE.cmd",
+    "tools/qa/veilleurs_repository_integrity_audit.py",
     "tools/qa/veilleurs_content_intake_audit.py",
     "tools/qa/veilleurs_final_asset_handoff_audit.py",
     "tools/qa/veilleurs_asset_handoff_tracker_audit.py",
@@ -100,6 +101,7 @@
   ],
   "expected_ultimate_count": 12,
   "automated_gates": [
+    "repository_integrity",
     "json_contracts",
     "canonical_roster",
     "stale_runtime_id_scan",
