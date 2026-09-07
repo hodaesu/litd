@@ -58,6 +58,9 @@ def damage(attacker: Unit, defender: Unit, multiplier: float = 1.0) -> int:
 def make_units() -> tuple[list[Unit], list[Unit]]:
     watchers = load("watchers.json")["watchers"]
     enemies_by_id = {e["entity_id"]: e for e in load("enemies_24_definitions.json")["enemies"]}
+    balance = load("combat_constants.json").get("v061_balance", {})
+    watcher_weapon = int(balance.get("watcher_weapon_power", 30))
+    enemy_weapon = int(balance.get("enemy_weapon_power", 42))
     enemy_ids = ["ENT_ENEMY_GOULE_AFFAMEE", "ENT_ENEMY_ECORCHEUSE", "ENT_ENEMY_FOUISSEUSE"]
     party: list[Unit] = []
     watcher_roles = {
@@ -68,12 +71,12 @@ def make_units() -> tuple[list[Unit], list[Unit]]:
     }
     for w in watchers:
         s = w["stats"]
-        party.append(Unit(w["entity_id"], "watcher", watcher_roles[w["entity_id"]], 80 + s["VIG"], 80 + s["VIG"], s["FOR"], s["PRE"], s["MOB"], s["RES"], 30, 30))
+        party.append(Unit(w["entity_id"], "watcher", watcher_roles[w["entity_id"]], 80 + s["VIG"], 80 + s["VIG"], s["FOR"], s["PRE"], s["MOB"], s["RES"], 30, watcher_weapon))
     foes: list[Unit] = []
     for eid in enemy_ids:
         e = enemies_by_id[eid]
         s = e["stats"]
-        foes.append(Unit(eid, "enemy", e["combat_role"], 80 + s["VIG"], 80 + s["VIG"], s["FOR"], s["PRE"], s["MOB"], s["RES"], 20, 27))
+        foes.append(Unit(eid, "enemy", e["combat_role"], 80 + s["VIG"], 80 + s["VIG"], s["FOR"], s["PRE"], s["MOB"], s["RES"], 20, enemy_weapon))
     return party, foes
 
 
@@ -185,20 +188,32 @@ def main() -> int:
     avg_alive = sum(r["watchers_alive"] for r in rows) / runs
     avg_damage = sum(r["damage_taken"] for r in rows) / runs
     trauma_rate = 100.0 * sum(r["severe_trauma_watchers"] for r in rows) / (runs * 4)
+    balance = load("combat_constants.json").get("v061_balance", {})
+    win_band = balance.get("first_encounter_target_win_rate_percent", [65, 92])
+    round_band = balance.get("first_encounter_target_rounds", [4, 14])
+    alive_band = balance.get("first_encounter_target_watchers_alive", [1.4, 3.8])
     report = {
         "runs": runs,
         "encounter": ["Goule affamée", "Écorcheuse", "Fouisseuse"],
         "watcher_win_rate_percent": round(win_rate, 1),
-        "target_win_band_percent": [65.0, 92.0],
+        "target_win_band_percent": win_band,
         "average_rounds": round(avg_rounds, 2),
+        "target_round_band": round_band,
         "average_watchers_alive": round(avg_alive, 2),
+        "target_watchers_alive_band": alive_band,
         "average_damage_taken": round(avg_damage, 2),
         "severe_trauma_incidence_percent": round(trauma_rate, 1),
+        "watcher_weapon_power": int(balance.get("watcher_weapon_power", 30)),
+        "enemy_weapon_power": int(balance.get("enemy_weapon_power", 42)),
         "interpretation": "Pre-playtest tactical model: guard, heal, observation, focus-fire and trauma are represented. Human tactile playtest remains authoritative.",
     }
     print(json.dumps(report, ensure_ascii=False, indent=2))
     if args.check:
-        healthy = 65.0 <= win_rate <= 92.0 and 4.0 <= avg_rounds <= 14.0 and 1.4 <= avg_alive <= 3.8
+        healthy = (
+            float(win_band[0]) <= win_rate <= float(win_band[1])
+            and float(round_band[0]) <= avg_rounds <= float(round_band[1])
+            and float(alive_band[0]) <= avg_alive <= float(alive_band[1])
+        )
         if not healthy:
             print("VEILLEURS_V061_BALANCE_OUT_OF_TARGET")
             return 1
