@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "legacy_id": "VS001",
   "status": "contained_active_compatibility",
   "purpose": "Preserve the original playable vertical-slice implementation only while canonical Les Veilleurs runtime/save/UI bindings are migrated away from VS001 names and contracts.",
@@ -14,7 +14,6 @@
     "scenes/world/veilleurs/voices_under_sanctuary_playable.tscn"
   ],
   "persistence_critical": [
-    "scripts/core/save_manager.gd",
     "scripts/world/veilleurs_vs001_playable_bridge.gd",
     "scripts/world/veilleurs_vs001_persistence_bridge.gd"
   ],
@@ -31,9 +30,14 @@
     "scenes/tests/veilleurs_vs001_physical_smoke.tscn",
     "scenes/tests/veilleurs_vs001_persistence_ui_smoke.tscn"
   ],
+  "canonical_bridge_allowlist": [
+    "scripts/core/veilleurs_runtime_facade.gd"
+  ],
+  "legacy_read_compatibility": [
+    "scripts/core/save_manager.gd"
+  ],
   "external_consumer_allowlist": [
     "project.godot",
-    "scripts/core/save_manager.gd",
     ".github/workflows/balance-telemetry.yml"
   ],
   "legacy_namespace_prefixes": [
