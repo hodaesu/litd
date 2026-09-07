@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "status": "implementation_contract_pending_godot_validation",
+  "canonical_sources": {
+    "system_rules": "res://data/veilleurs/canonical_prepc_2026_09_03/system_rules_v1.json",
+    "bestiary_narrative": "res://data/veilleurs/canonical_prepc_2026_09_03/current/bestiaire_narratif_29.json",
+    "remanence_ii_v": "res://data/veilleurs/canonical_prepc_2026_09_03/current/remanence_ii_v.json",
+    "narrative_events": "res://data/veilleurs/narrative_event_catalog_v1.json"
+  },
+  "knowledge": {
+    "is_currency": false,
+    "states": ["UNKNOWN", "SUSPECTED", "OBSERVED", "CONFIRMED", "UNDERSTOOD"],
+    "observation_is_not_certainty": true,
+    "current_perception_can_reduce_presented_information": true
+  },
+  "canonical_acquisition_acts_ii_v": {
+    "combat_observation": "1 fragment",
+    "analysis_or_corpse": "1 fragment",
+    "recruitment_or_coexistence": "rare fragment and dialogue"
+  },
+  "canonical_usage_acts_ii_v": [
+    "advanced_bestiary",
+    "regional_interactions",
+    "dialogue_options",
+    "auxiliary_bonus"
+  ],
+  "truth_guardrail": "Remanence never grants absolute truth.",
+  "archive_sections": ["identite_connaissance", "corps", "combat", "histoire", "traces"],
+  "runtime_hooks": {
+    "knowledge_confirmed": ["update_entity_knowledge", "refresh_archive_badge", "reevaluate_dialogue_hooks"],
+    "knowledge_contradicted": ["preserve_previous_claim_as_history", "update_certainty", "refresh_archive_badge"],
+    "persistent_injury_added": ["update_body_section", "commit_entity_state", "reevaluate_combat_knowledge"],
+    "entity_promoted": ["update_memory_rank", "preserve_history", "refresh_archive_badge"],
+    "recruitment_resolved": ["link_refuge_entity", "unlock_coexistence_observation", "preserve_injuries"],
+    "relationship_threshold_crossed": ["update_history_section", "reevaluate_refuge_events", "reevaluate_dialogue_hooks"],
+    "world_scar_created": ["update_trace_section", "link_location", "commit_world_flag"],
+    "important_object_state_changed": ["update_trace_section", "commit_world_flag"]
+  },
+  "boss_rules": {
+    "phase_scoped_knowledge": true,
+    "unseen_phase_reveal_forbidden": true,
+    "boss_recruitment": false
+  },
+  "save_guardrails": {
+    "full_scene_snapshot_forbidden": true,
+    "store_entity_references_and_flags": true,
+    "store_persistent_injuries": true,
+    "store_knowledge_history": true,
+    "store_world_scars": true
+  },
+  "pc_validation_needed": ["event_bus_binding", "archive_refresh", "save_load_roundtrip", "dialogue_hook_resolution", "boss_phase_visibility"]
+}

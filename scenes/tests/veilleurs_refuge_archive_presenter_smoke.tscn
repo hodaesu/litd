@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://scripts/ui/veilleurs_refuge_archive_presenter_smoke_test.gd" type="Script" id="1"]
+
+[node name="VeilleursRefugeArchivePresenterSmoke" type="Node"]
+script = ExtResource("1")

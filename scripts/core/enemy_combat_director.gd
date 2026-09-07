@@ -1,10 +1,14 @@
 extends Node
 
+const VEILLEURS_SKILL_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_enemy_skill_runtime.gd")
+
 var data: Dictionary = {}
 var skills: Array = []
 var archetype_rules: Array = []
+var veilleurs_skill_runtime: VeilleursEnemySkillRuntime
 
 func _ready() -> void:
+    veilleurs_skill_runtime = VEILLEURS_SKILL_RUNTIME_SCRIPT.new() as VeilleursEnemySkillRuntime
     var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/enemy_combat_profiles.json"))
     if parsed is Dictionary:
         data = parsed
@@ -22,7 +26,20 @@ func archetype(enemy: Dictionary) -> String:
                 return String(rule.get("archetype", "any"))
     return String(enemy.get("archetype", "any"))
 
-func choose_action(enemy: Dictionary, heroes: Array) -> Dictionary:
+func prepare_veilleurs_enemy(enemy: Dictionary, seed_value: int) -> Dictionary:
+    if veilleurs_skill_runtime == null:
+        return enemy
+    return veilleurs_skill_runtime.prepare_enemy(enemy, seed_value)
+
+func choose_action(enemy: Dictionary, heroes: Array, context: Dictionary = {}) -> Dictionary:
+    if veilleurs_skill_runtime != null:
+        var entity_id := str(enemy.get("veilleurs_entity_id", enemy.get("species_id", enemy.get("entity_id", enemy.get("creature_id", "")))))
+        if veilleurs_skill_runtime.recognizes_entity(entity_id):
+            prepare_veilleurs_enemy(enemy, int(context.get("seed", enemy.get("seed", enemy.get("identity_seed", 0)))))
+            var canonical_action := veilleurs_skill_runtime.choose_action(enemy, heroes, context)
+            if not canonical_action.is_empty():
+                return canonical_action
+
     var candidates: Array[Dictionary] = []
     var enemy_archetype := archetype(enemy)
     for skill_value: Variant in skills:
@@ -59,6 +76,8 @@ func _apply_remanence_action(enemy: Dictionary, action: Dictionary) -> Dictionar
 
 func apply_secondary(action: Dictionary, enemy: Dictionary, target: Dictionary, all_targets: Array) -> Array[String]:
     var messages: Array[String] = []
+    if bool(action.get("veilleurs_skill", false)):
+        return messages
     if String(action.get("self_status", "")) == "guarding":
         enemy["guarding"] = true
         messages.append("%s renforce sa garde." % String(enemy.get("name", "L’ennemi")))
@@ -75,6 +94,15 @@ func apply_secondary(action: Dictionary, enemy: Dictionary, target: Dictionary, 
     return messages
 
 func intent_preview(enemy: Dictionary) -> String:
+    if veilleurs_skill_runtime != null:
+        var entity_id := str(enemy.get("veilleurs_entity_id", enemy.get("species_id", enemy.get("entity_id", enemy.get("creature_id", "")))))
+        if veilleurs_skill_runtime.recognizes_entity(entity_id):
+            var tree := str(enemy.get("veilleurs_active_tree", ""))
+            if veilleurs_skill_runtime.is_boss_entity(entity_id):
+                return "Doctrine de boss · lecture limitée à la phase vécue"
+            if not tree.is_empty():
+                return "Doctrine active · %s" % tree
+            return "Doctrine ennemie · spécialisation non encore fixée"
     var enemy_archetype := archetype(enemy)
     var fear := int(enemy.get("enemy_fear", enemy.get("fear_gauge", 0)))
     var target_mode := str(enemy.get("remanence_target_mode", ""))
@@ -89,6 +117,13 @@ func intent_preview(enemy: Dictionary) -> String:
     if enemy_archetype in ["humanoid", "undead"]:
         return "Garde, rupture ou attaque directe"
     return "Attaque prédatrice"
+
+func serialize_veilleurs_skills() -> Dictionary:
+    return veilleurs_skill_runtime.serialize() if veilleurs_skill_runtime != null else {}
+
+func deserialize_veilleurs_skills(payload: Dictionary) -> void:
+    if veilleurs_skill_runtime != null:
+        veilleurs_skill_runtime.deserialize(payload)
 
 func _requirements_met(enemy: Dictionary, requirements: Dictionary) -> bool:
     var fear := int(enemy.get("enemy_fear", enemy.get("fear_gauge", 0)))

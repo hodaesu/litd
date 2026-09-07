@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "status": "canonical_source_projection",
+  "source_workbook": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx",
+  "source_sheet": "Synergies_ennemis",
+  "source_pack_sha256": "0739666c23b6aad99d79128147b84322155bbdd5ff49c62b0990eaf11fec8919",
+  "count": 21,
+  "records": [
+    {"act":"I","pair":"Délié Boursouflé + Délié Affamé","strength":3,"function":"Le Boursouflé bloque/comprime; l’Affamé cible le blessé rendu accessible.","counterplay":"Briser la ligne ou déplacer le Boursouflé avant de laisser une cible faible derrière."},
+    {"act":"I","pair":"Censeur Fendu + Flagellant Fendu","strength":3,"function":"Le Censeur punit les préparations; le Flagellant profite des échanges répétés.","counterplay":"Changer de rythme et cibler le Censeur en priorité."},
+    {"act":"I","pair":"Sentinelle du Seuil + Exécuteur de Pierre","strength":3,"function":"La Sentinelle immobilise le passage; l’Exécuteur prépare la frappe lourde.","counterplay":"Créer une voie alternative ou casser l’ancrage avant la frappe."},
+    {"act":"I","pair":"Traque-Suie + Brise-Os de Suie","strength":3,"function":"Traque-Suie fixe/mark; Brise-Os convertit l’alignement en collision/fracture.","counterplay":"Rompre la marque, changer d’axe, utiliser obstacle."},
+    {"act":"I","pair":"Censeur Fendu + Sentinelle du Seuil","strength":2,"function":"Contrôle simultané des intentions et du passage.","counterplay":"Utiliser action simple/universelle pour ouvrir la ligne."},
+    {"act":"II","pair":"Porte-Signe + Marcheur Aphone","strength":3,"function":"Le soutien désigne la cible à isoler; le Marcheur saisit et coupe la formation.","counterplay":"Neutraliser les mains du Porte-Signe ou permuter avant saisie."},
+    {"act":"II","pair":"Écouteur Creux + Reteneur de Souffle","strength":3,"function":"L’Écouteur suit mouvement/respiration; le Reteneur charge une décharge sur cible prévisible.","counterplay":"Limiter mouvement inutile, puis interrompre la charge."},
+    {"act":"II","pair":"Porte-Signe + Reteneur de Souffle","strength":3,"function":"Une charge sans signal sonore devient très fiable grâce aux gestes.","counterplay":"Lire les mains plutôt que le son."},
+    {"act":"II","pair":"Écouteur Creux + Marcheur Aphone","strength":2,"function":"L’Écouteur révèle la cible cachée; le Marcheur ferme la distance.","counterplay":"Couverture physique + contrôle de rang."},
+    {"act":"III","pair":"Porte-Sang + Nœud-Écorché","strength":3,"function":"Le Porte-Sang redistribue les pertes; le Nœud transforme le temps gagné en sustain.","counterplay":"Couper le lien avant de frapper le Nœud."},
+    {"act":"III","pair":"Germe Artériel + Nœud-Écorché","strength":3,"function":"Le Nœud fixe les Veilleurs pendant que les germes mûrissent.","counterplay":"Détruire/neutraliser les germes précocement."},
+    {"act":"III","pair":"Veine Rampante + Porte-Sang","strength":3,"function":"La Veine ouvre les plaies; le Porte-Sang exploite les pertes circulatoires.","counterplay":"Protéger les plaies et casser réseau."},
+    {"act":"III","pair":"Veine Rampante + Germe Artériel","strength":2,"function":"Le réseau facilite le déplacement autour des germes.","counterplay":"Créer une zone sèche/non vascularisée."},
+    {"act":"IV","pair":"Porte-Linceul + Effaceur de Traces","strength":3,"function":"Le Linceul cache; l’Effaceur retire les informations déjà acquises.","counterplay":"Créer des repères physiques persistants et déplacer la source de lumière."},
+    {"act":"IV","pair":"Marche-Pâle + Dormeur de Cendre","strength":3,"function":"La procession compresse le groupe vers la zone de réveil du Dormeur.","counterplay":"Refuser la compression et choisir le moment du réveil."},
+    {"act":"IV","pair":"Porte-Linceul + Dormeur de Cendre","strength":2,"function":"Le voile masque l’état dormant et son axe de réveil.","counterplay":"Observer le terrain plutôt que la silhouette."},
+    {"act":"IV","pair":"Marche-Pâle + Effaceur de Traces","strength":2,"function":"La pression de rang force des décisions rapides tandis que les marques disparaissent.","counterplay":"Conserver un plan simple et des cicatrices de terrain."},
+    {"act":"V","pair":"Archiviste de Version + Copie Lacunaire","strength":3,"function":"L’Archiviste corrige les mauvaises copies en mémorisant les familles d’actions.","counterplay":"Varier volontairement les familles d’action."},
+    {"act":"V","pair":"Rature Vivante + Double du Seuil","strength":3,"function":"La Rature corrige le terrain pour maintenir la symétrie du Double.","counterplay":"Créer deux ruptures simultanées que la Rature ne peut corriger à la fois."},
+    {"act":"V","pair":"Archiviste de Version + Double du Seuil","strength":3,"function":"Le Double imite; l’Archiviste fournit les réponses aux actions déjà vues.","counterplay":"Bait avec action faible puis changer de logique."},
+    {"act":"V","pair":"Copie Lacunaire + Rature Vivante","strength":2,"function":"La Rature efface les états qui rendent la mauvaise copie punissable.","counterplay":"Privilégier conséquences physiques persistantes."}
+  ]
+}

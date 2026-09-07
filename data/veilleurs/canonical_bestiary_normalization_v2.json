@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "status": "canonical_source_backed_binding",
+  "canonical_source": {
+    "registry": "res://data/veilleurs/canonical_prepc_2026_09_03/bestiary_registry_v1.json",
+    "system_rules": "res://data/veilleurs/canonical_prepc_2026_09_03/system_rules_v1.json",
+    "manifest": "res://data/veilleurs/canonical_prepc_2026_09_03/canonical_source_manifest_v1.json"
+  },
+  "counts": {"ordinary_species": 24, "families": 8, "bosses": 5, "total_entities": 29},
+  "ordinary_species_catalog": "res://data/veilleurs/species_catalog_recovered_v1.json",
+  "ordinary_recruitment": {
+    "eligible": true,
+    "act_i_numeric_conditions": "undefined_do_not_invent",
+    "acts_ii_v_conditions": "canonical_system_rules",
+    "capture_is_recruitment": false,
+    "injuries_reset_on_rally": false
+  },
+  "bosses": [
+    {"id":"boss.ishar_gardien_du_passage","runtime_id":"ishar_gardien_du_passage","name":"Ishar, Gardien du Passage","act":1,"phases":3,"recruitable":false},
+    {"id":"boss.orateur_sans_voix","runtime_id":"orateur_sans_voix","name":"Orateur Sans Voix","act":2,"phases":3,"recruitable":false},
+    {"id":"boss.mere_des_veines","runtime_id":"mere_des_veines","name":"Mère des Veines","act":3,"phases":3,"recruitable":false},
+    {"id":"boss.porte_cendres_blanc","runtime_id":"porte_cendres_blanc","name":"Porte-Cendres Blanc","act":4,"phases":3,"recruitable":false},
+    {"id":"boss.le_copiste","runtime_id":"le_copiste","name":"Le Copiste","act":5,"phases":4,"recruitable":false}
+  ],
+  "knowledge": {
+    "source_states": ["UNKNOWN", "SUSPECTED", "OBSERVED", "CONFIRMED", "UNDERSTOOD"],
+    "is_currency": false,
+    "current_perception_can_reduce_displayed_certainty": true,
+    "unseen_boss_phase_reveal_forbidden": true
+  },
+  "remanence": {
+    "learning_only_from_lived_events": true,
+    "individual_identity_persists_when_rank_requires_it": true,
+    "full_scene_snapshot_forbidden": true
+  },
+  "supersedes_for_production": "res://data/veilleurs/canonical_bestiary_normalization_v1.json"
+}

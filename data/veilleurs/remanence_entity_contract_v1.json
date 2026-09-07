@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "status": "production_contract",
+  "identity": {
+    "stable_entity_id": true,
+    "identity_seed": true,
+    "required_fields": [
+      "entity_id",
+      "seed",
+      "species_id",
+      "family_id",
+      "memory_rank",
+      "traits",
+      "injuries",
+      "relationships",
+      "history",
+      "knowledge"
+    ]
+  },
+  "memory_ranks": {
+    "normal": {
+      "persistent_individual": false,
+      "description": "Individu standard sans persistance individuelle complète."
+    },
+    "memorial": {
+      "persistent_individual": true,
+      "persists": ["identity", "history", "injuries", "relationships"]
+    },
+    "veteran": {
+      "persistent_individual": true,
+      "inherits": "memorial",
+      "adaptation": "limited_to_lived_events"
+    },
+    "elite": {
+      "persistent_individual": true,
+      "inherits": "veteran",
+      "group_influence": true,
+      "own_skill_tree_reinforcement": true
+    },
+    "nemesis": {
+      "persistent_individual": true,
+      "inherits": "elite",
+      "rarity": "rare",
+      "requires_shared_history": true,
+      "hp_sponge_design_forbidden": true
+    }
+  },
+  "promotion_events": [
+    "survival",
+    "watcher_kill",
+    "mutilation",
+    "escape",
+    "failed_capture",
+    "important_item_taken_or_recovered",
+    "forced_retreat",
+    "repeated_encounter"
+  ],
+  "adaptation_guardrails": {
+    "omniscient_learning_forbidden": true,
+    "learn_only_from_experienced_events": true,
+    "bounded_memory_for_mobile_readability": true
+  },
+  "world_persistence": {
+    "full_scene_snapshot_forbidden": true,
+    "store": [
+      "anchored_scars",
+      "state_flags",
+      "entity_references",
+      "knowledge_changes",
+      "body_and_injury_changes",
+      "object_state_changes"
+    ]
+  },
+  "archives": {
+    "mobile_tabs": ["identite_connaissance", "corps", "combat", "histoire", "traces"],
+    "pc_denser_layout_allowed": true,
+    "same_game_rules_all_platforms": true
+  }
+}
