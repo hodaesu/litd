@@ -1,0 +1,60 @@
+name: Veilleurs v0.8 Wave 2
+
+on:
+  push:
+    branches:
+      - feat/veilleurs-production-wave-2
+  pull_request:
+    paths:
+      - 'data/veilleurs/v08/**'
+      - 'scripts/core/veilleurs_*v08.gd'
+      - 'scripts/core/veilleurs_enemy_doctrine_runtime.gd'
+      - 'scripts/core/veilleurs_enemy_skill_selector_v2.gd'
+      - 'scenes/tests/veilleurs_v08_*'
+      - 'tools/qa/veilleurs_v08_*'
+      - '.github/workflows/veilleurs-v08-wave2.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: veilleurs-v08-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  wave2-contracts:
+    name: v0.8 Wave 2 contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Audit Wave 2 doctrines and vertical slice
+        run: python tools/qa/veilleurs_v08_wave2_audit.py
+      - name: Preserve v0.7 production content
+        run: python tools/qa/veilleurs_v07_content_audit.py
+      - name: Preserve canonical Tests_48
+        run: python tools/qa/veilleurs_v06_tests48.py
+
+  godot-wave2:
+    name: Godot 4.3 Wave 2 smoke
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Strict Godot import
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --path . --import --quit 2>&1 | tee /tmp/v08-import.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/v08-import.log
+      - name: Run Wave 2 end-to-end smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 120s godot --headless --path . res://scenes/tests/veilleurs_v08_wave2_smoke.tscn 2>&1 | tee /tmp/v08-wave2.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V08_WAVE2_SMOKE_FAILED' /tmp/v08-wave2.log
+          grep -F 'VEILLEURS_V08_WAVE2_SMOKE_OK' /tmp/v08-wave2.log
