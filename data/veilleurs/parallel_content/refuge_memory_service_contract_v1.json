@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "service_name": "VeilleursRefugeMemoryServiceCandidate",
+  "purpose": "Godot-ready deterministic scheduler for lived Refuge memories without altering the active playtest runtime.",
+  "sources": {
+    "event_templates": "res://data/veilleurs/parallel_content/refuge_event_templates_v1.json",
+    "chains": "res://data/veilleurs/parallel_content/refuge_event_chains_v1.json",
+    "execution_contract": "res://data/veilleurs/parallel_content/refuge_chain_execution_contract_v1.json",
+    "cross_reactions": "res://data/veilleurs/parallel_content/refuge_cross_reaction_matrix_v1.json",
+    "regional_echoes": "res://data/veilleurs/parallel_content/regional_event_choice_echoes_v1.json"
+  },
+  "integration_targets": {
+    "content_runtime": "VeilleursContentRuntime",
+    "archive_hook": "record_archive_hook(entity_id, hook, payload)",
+    "refuge_snapshot_signal": "refuge_changed(snapshot)",
+    "existing_save_boundary": "VeilleursContentRuntime.serialize()/deserialize()",
+    "remanence_boundary": "VeilleursRemanencePolicy or VeilleursRuntimeCoordinator lived-event hooks only"
+  },
+  "states": ["DORMANT", "ELIGIBLE", "QUEUED", "SURFACED", "RESOLVED", "EXPIRED", "RETIRED"],
+  "public_api": [
+    {"method":"configure","args":["scheduler_seed:int","expedition_index:int=0"],"returns":"Dictionary validation report"},
+    {"method":"record_source_choice","args":["source_event_id:String","choice_id:String","evidence:Dictionary","participants:Array[String]","context:Dictionary={} "],"returns":"Dictionary memory record"},
+    {"method":"record_regional_choice","args":["regional_event_id:String","choice_id:String","evidence:Dictionary","participants:Array[String]","context:Dictionary={} "],"returns":"Dictionary memory record"},
+    {"method":"advance_expedition","args":["context:Dictionary={} "],"returns":"Dictionary scheduler snapshot"},
+    {"method":"collect_eligible","args":["context:Dictionary={} "],"returns":"Array[Dictionary]"},
+    {"method":"queue_for_return","args":["context:Dictionary={} ","surface_limit:int=-1"],"returns":"Array[Dictionary] queued records"},
+    {"method":"surface_next","args":[],"returns":"Dictionary surfaced record or empty"},
+    {"method":"resolve_memory","args":["memory_id:String","resolution:Dictionary={} "],"returns":"Dictionary resolved record"},
+    {"method":"expire_memory","args":["memory_id:String","reason:String"],"returns":"bool"},
+    {"method":"serialize","args":[],"returns":"Dictionary save payload"},
+    {"method":"deserialize","args":["payload:Dictionary"],"returns":"Dictionary migration report"},
+    {"method":"reset","args":[],"returns":"void"}
+  ],
+  "signals": [
+    {"name":"memory_recorded","args":["memory:Dictionary"]},
+    {"name":"memory_became_eligible","args":["memory:Dictionary"]},
+    {"name":"memory_queued","args":["memory:Dictionary"]},
+    {"name":"memory_surfaced","args":["memory:Dictionary"]},
+    {"name":"memory_resolved","args":["memory:Dictionary"]},
+    {"name":"memory_expired","args":["memory:Dictionary","reason:String"]},
+    {"name":"scheduler_changed","args":["snapshot:Dictionary"]},
+    {"name":"archive_hook_requested","args":["entity_id:String","hook:String","payload:Dictionary"]},
+    {"name":"remanence_hook_requested","args":["entity_id:String","event_type:String","payload:Dictionary"]}
+  ],
+  "arbitration": {
+    "candidate_surface_limit": 2,
+    "candidate_surface_limit_is_canon": false,
+    "sort_order": ["priority_band_desc", "urgency_desc", "age_desc", "deterministic_tiebreak_asc"],
+    "priority_bands": {
+      "CRISIS": 50,
+      "BODY_OR_AVAILABILITY": 40,
+      "RELATIONSHIP_OR_DEPARTURE": 30,
+      "DISCOVERY_OR_ARCHIVE": 20,
+      "ROUTINE_OR_WORK": 10
+    },
+    "deterministic_tiebreak": "sha256(scheduler_seed|memory_id|first_eligible_expedition)",
+    "queued_order_persisted": true,
+    "reload_reroll_forbidden": true,
+    "same_source_event_repeat_cooldown_expeditions": 2,
+    "same_family_soft_cooldown_expeditions": 1,
+    "expired_memory_never_requeued_without_new_lived_source": true
+  },
+  "eligibility": {
+    "requires_written_source_history": true,
+    "requires_all_echo_conditions": true,
+    "requires_participant_or_world_anchor_when_declared": true,
+    "absence_of_required_participant_blocks_not_expires": true,
+    "window_expiry_uses_expedition_index": true,
+    "real_time_clock_forbidden": true,
+    "reload_does_not_advance_time": true
+  },
+  "side_effect_boundary": {
+    "service_may_write": ["its_own_memory_records", "request_signals_for_archive", "request_signals_for_remanence"],
+    "service_may_not_directly_write": ["combat_stats", "knowledge_truth", "boss_phase_knowledge", "recruitment_eligibility", "persistent_injury_reset", "active_balance_values"],
+    "archive_truth_must_be_applied_by_existing_runtime": true,
+    "remanence_adaptation_must_be_applied_by_existing_policy": true
+  },
+  "active_playtest_isolation": {
+    "autoload_registration_forbidden_before_pc_validation": true,
+    "active_content_runtime_reference_forbidden": true,
+    "active_encounter_contract_reference_forbidden": true,
+    "active_archive_ui_contract_reference_forbidden": true
+  }
+}
