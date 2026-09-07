@@ -1,0 +1,141 @@
+name: Veilleurs Godot Production Automation
+
+on:
+  pull_request:
+    paths:
+      - 'data/veilleurs/**'
+      - 'assets/**'
+      - 'scenes/veilleurs/**'
+      - 'scenes/tests/**'
+      - 'scripts/core/**'
+      - 'scripts/ui/**'
+      - 'scripts/world/**'
+      - 'scripts/qa/**'
+      - 'addons/veilleurs_pipeline/**'
+      - 'tools/godot/**'
+      - 'tools/qa/**'
+      - 'tools/art/**'
+      - 'tools/animation/**'
+      - 'tools/audio/**'
+      - 'tools/blender/**'
+      - 'tools/cinematics/**'
+      - 'tools/music_pipeline/**'
+      - 'tools/voice/**'
+      - 'project.godot'
+      - 'export_presets.cfg'
+      - '.github/workflows/veilleurs-production-automation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'data/veilleurs/**'
+      - 'assets/**'
+      - 'scenes/**'
+      - 'scripts/**'
+      - 'addons/**'
+      - 'tools/**'
+      - 'project.godot'
+      - 'export_presets.cfg'
+  workflow_dispatch:
+    inputs:
+      full_suite:
+        description: 'Lancer toute la suite Godot historique après le gate rapide'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: veilleurs-production-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  content-contracts:
+    name: Content contracts and production index
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Run production contract gate
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            git fetch origin "${{ github.base_ref }}"
+            python tools/godot/veilleurs_pipeline.py --mode changed --base-ref "origin/${{ github.base_ref }}" --skip-godot
+          else
+            python tools/godot/veilleurs_pipeline.py --mode quick --skip-godot
+          fi
+      - name: Upload production report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: veilleurs-production-contract-report
+          path: build/automation/
+          if-no-files-found: warn
+
+  godot-quick-gate:
+    name: Godot 4.3 strict import and Veilleurs smokes
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare logs
+        shell: bash
+        run: mkdir -p build/automation
+      - name: Strict Godot import
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --path . --import --quit 2>&1 | tee build/automation/godot-import.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' build/automation/godot-import.log
+      - name: Latest Veilleurs end-to-end smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 120s godot --headless --path . res://scenes/tests/veilleurs_v09_wave3_smoke.tscn 2>&1 | tee build/automation/veilleurs-v09-smoke.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V09_WAVE3_SMOKE_FAILED' build/automation/veilleurs-v09-smoke.log
+          grep -F 'VEILLEURS_V09_WAVE3_SMOKE_OK' build/automation/veilleurs-v09-smoke.log
+      - name: Six-dungeon QA scene
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v09_vertical_slice_qa.tscn 2>&1 | tee build/automation/veilleurs-v09-qa.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/veilleurs-v09-qa.log
+      - name: Mobile touch regression
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 90s godot --headless --path . res://scenes/tests/mobile_touch_smoke.tscn 2>&1 | tee build/automation/mobile-touch.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/mobile-touch.log
+      - name: Player UI journey regression
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 90s godot --headless --path . res://scenes/tests/ui_player_journey_smoke.tscn 2>&1 | tee build/automation/ui-player-journey.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/ui-player-journey.log
+      - name: Upload Godot logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: veilleurs-godot-quick-gate
+          path: build/automation/
+          if-no-files-found: warn
+
+  full-regression:
+    name: Full Godot regression suite
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.full_suite }}
+    needs: [content-contracts, godot-quick-gate]
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run complete repository Godot suite
+        shell: bash
+        run: bash tools/build/run_godot_ci.sh
