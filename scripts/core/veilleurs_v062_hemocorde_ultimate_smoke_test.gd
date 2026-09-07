@@ -80,7 +80,7 @@ func _run() -> void:
     var next_session: VeilleursTacticalSessionV062 = SESSION_SCRIPT.new() as VeilleursTacticalSessionV062
     add_child(next_session)
     var second_encounter := _single_ghoul_encounter("SMOKE_HEMOCORDE_02")
-    _check(bool(next_session.start_authored_encounter(second_encounter, "khar_sen:SMOKE_HEMOCORDE_02", "khar_sen", dungeon_copy.watcher_state).get("ok", false)), "second authored encounter restores Watcher expedition state")
+    _check(bool(next_session.start_authored_encounter_with_state(second_encounter, "khar_sen:SMOKE_HEMOCORDE_02", "khar_sen", dungeon_copy.watcher_state).get("ok", false)), "second authored encounter restores Watcher expedition state")
     _check(_move_aisha_to_contact(next_session.runtime, TARGET_ID), "Aisha reaches contact in second encounter")
     _check(bool(next_session.note_vascular_knowledge(TARGET_ID, "torso", 3).get("ok", false)), "second encounter records new target knowledge")
     _compromise_target(next_session, TARGET_ID, 0.30)
