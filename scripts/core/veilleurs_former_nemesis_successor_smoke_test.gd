@@ -2,6 +2,9 @@ extends Node
 
 const FormerNemesisCombat := preload("res://scripts/core/veilleurs_former_nemesis_combat_runtime.gd")
 const VeilleursCapture := preload("res://scripts/core/veilleurs_capture_runtime.gd")
+const SurrenderRuntime := preload("res://scripts/core/veilleurs_surrender_runtime.gd")
+const SurrenderChoiceUI := preload("res://scripts/ui/veilleurs_surrender_choice_ui.gd")
+const NemesisArchiveChainUI := preload("res://scripts/ui/veilleurs_nemesis_archive_chain_ui.gd")
 
 const REGION_ID := "act_i"
 
@@ -16,6 +19,7 @@ func _run() -> void:
     _prepare()
     var former := _recruit_former_nemesis()
     _test_real_family_recognition(former)
+    _test_surrender_choices(former)
     _test_skill_tree_continuity(former)
     _test_regional_successor_and_archives(former)
     _finish()
@@ -68,17 +72,7 @@ func _recruit_former_nemesis() -> Dictionary:
     return creature
 
 func _test_real_family_recognition(former: Dictionary) -> void:
-    var family_enemy := {
-        "id":101,
-        "species_id":"hungry_ghoul",
-        "family_id":"ghouls",
-        "name":"Goule de l'ancienne meute",
-        "hp":6,
-        "max_hp":24,
-        "speed":16,
-        "enemy_fear":40,
-        "captured":false
-    }
+    var family_enemy := _family_enemy(101, "Goule de l'ancienne meute")
     var enemies: Array = [family_enemy]
     var cycle := ActionTimelineDirector.begin_cycle(GameState.party, enemies)
     _check(not cycle.is_empty(), "Reconnaissance : le vrai cycle de combat doit être construit")
@@ -103,6 +97,52 @@ func _test_real_family_recognition(former: Dictionary) -> void:
     var source_record := RemanenceRuntime.entity_state(str(former.get("source_remanence_id", "")))
     _check(str(source_record.get("stage", "")) == "former_nemesis", "Reconnaissance : mémoriser la scène alliée ne doit jamais repromouvoir l'ancien Némésis en hostile")
     _check(not (source_record.get("allied_social_history", []) as Array).is_empty(), "Reconnaissance : la scène avec son ancienne famille doit rejoindre son histoire alliée")
+
+func _test_surrender_choices(former: Dictionary) -> void:
+    var ui_enemy := _prepare_surrender_enemy(301, "Goule au genou")
+    var surrender_ui := SurrenderChoiceUI.new()
+    add_child(surrender_ui)
+    surrender_ui.open_for_enemy(ui_enemy)
+    _check(surrender_ui.blocker != null and surrender_ui.blocker.visible, "Reddition UI : le choix doit réellement interrompre l'interface de combat")
+    _check(surrender_ui.choices_box != null and surrender_ui.choices_box.get_child_count() == 4, "Reddition UI : Accepter, Refuser, Négocier et Rallier doivent être proposés")
+    surrender_ui.queue_free()
+
+    var accepted := _prepare_surrender_enemy(302, "Goule qui dépose les griffes")
+    var accepted_result := SurrenderRuntime.resolve(accepted, SurrenderRuntime.CHOICE_ACCEPT, {"region_id":REGION_ID})
+    _check(bool(accepted_result.get("resolved", false)) and str(accepted_result.get("outcome", "")) == "surrender_accepted", "Reddition : Accepter doit résoudre réellement la scène")
+    _check(int(accepted.get("hp", 1)) == 0 and bool(accepted.get("surrendered", false)) and not bool(accepted.get("captured", false)), "Reddition : Accepter retire la cible sans la recruter")
+    _check(str(RemanenceRuntime.entity_state(str(accepted.get("remanence_id", ""))).get("status", "")) == "surrendered", "Reddition : une reddition acceptée doit persister dans la Rémanence")
+
+    var refused := _prepare_surrender_enemy(303, "Goule qui attend la réponse")
+    var refused_result := SurrenderRuntime.resolve(refused, SurrenderRuntime.CHOICE_REFUSE, {"region_id":REGION_ID})
+    _check(bool(refused_result.get("resolved", false)) and str(refused_result.get("outcome", "")) == "surrender_refused", "Reddition : Refuser doit être une décision réelle")
+    _check(int(refused.get("hp", 0)) > 0 and str(refused.get("intent", "")) == "desperate_retaliation", "Reddition : Refuser doit maintenir l'ennemi dans le combat avec une riposte lisible")
+    var refused_relation: Dictionary = refused.get("former_kin_relationship", {})
+    _check(int(refused_relation.get("resentment", 0)) >= 38, "Reddition : Refuser doit augmenter durablement le Ressentiment")
+
+    var negotiated := _prepare_surrender_enemy(304, "Goule qui réclame un passage")
+    var negotiated_result := SurrenderRuntime.resolve(negotiated, SurrenderRuntime.CHOICE_NEGOTIATE, {"region_id":REGION_ID})
+    _check(bool(negotiated_result.get("resolved", false)) and str(negotiated_result.get("outcome", "")) == "surrender_negotiated", "Reddition : Négocier doit pouvoir aboutir selon Peur et Respect")
+    _check(int(negotiated.get("hp", 1)) == 0 and bool(negotiated.get("negotiated_surrender", false)), "Reddition : une négociation réussie doit sortir la cible du combat")
+
+    var rallied := _prepare_surrender_enemy(1, "Goule qui choisit le Sanctuaire")
+    var rally_preview := SurrenderRuntime.rally_preview(rallied)
+    _check(bool(rally_preview.get("ready", false)), "Reddition : Rallier doit respecter et exposer les conditions de capture existantes")
+    var captured_before := CreatureManager.captured_creatures.size()
+    var rallied_result := SurrenderRuntime.resolve(rallied, SurrenderRuntime.CHOICE_RALLY, {"region_id":REGION_ID})
+    _check(bool(rallied_result.get("resolved", false)) and bool(rallied_result.get("recruited", false)), "Reddition : Rallier doit créer une vraie recrue lorsque les conditions sont réunies")
+    _check(CreatureManager.captured_creatures.size() == captured_before + 1 and bool(rallied.get("captured", false)), "Reddition : Rallier doit passer par le système réel de capture et rejoindre les auxiliaires")
+
+    var former_record := RemanenceRuntime.entity_state(str(former.get("source_remanence_id", "")))
+    var decisions: Array = former_record.get("surrender_decisions", [])
+    _check(decisions.size() >= 4, "Archives : les quatre décisions de reddition doivent rejoindre l'histoire de l'ancien Némésis")
+    _check(int(former_record.get("allied_reputation", 50)) != 50, "Rémanence sociale : les choix de reddition doivent modifier la réputation alliée de l'ancien Némésis")
+    var has_surrender_link := false
+    for link: Dictionary in RemanenceRuntime.linked_entries(str(former.get("source_remanence_id", ""))):
+        if str(link.get("relation", "")) == "surrender_decision":
+            has_surrender_link = true
+            break
+    _check(has_surrender_link, "Archives : les décisions de reddition doivent être reliées au réseau mémoriel")
 
 func _test_skill_tree_continuity(former: Dictionary) -> void:
     var instance_id := str(former.get("instance_id", ""))
@@ -153,6 +193,34 @@ func _test_regional_successor_and_archives(former: Dictionary) -> void:
     _check(str(RemanenceRuntime.entity_state(former_id).get("status", "")) == "recruited", "Archives : l'ancien Némésis doit rester classé comme recrue")
     _check(str(RemanenceRuntime.entity_state(successor_id).get("status", "")) == "active", "Archives : le successeur doit rester classé comme adversaire actif")
 
+    var chain_ui := NemesisArchiveChainUI.new()
+    var chains := chain_ui.chain_snapshot()
+    _check(not chains.is_empty(), "Archives visuelles : une lignée Némésis doit être construite à partir du réseau mémoriel")
+    if not chains.is_empty():
+        var chain: Dictionary = chains[0]
+        _check(str(chain.get("predecessor_id", "")) == former_id and str(chain.get("successor_id", "")) == successor_id, "Archives visuelles : la chaîne doit montrer ancien Némésis → allié → successeur hostile")
+        _check((chain.get("surrender_decisions", []) as Array).size() >= 4, "Archives visuelles : la lignée doit afficher l'historique des choix de reddition")
+    chain_ui.free()
+
+func _family_enemy(enemy_id: int, enemy_name: String) -> Dictionary:
+    return {
+        "id":enemy_id,
+        "species_id":"hungry_ghoul",
+        "family_id":"ghouls",
+        "name":enemy_name,
+        "hp":6,
+        "max_hp":24,
+        "speed":16,
+        "enemy_fear":40,
+        "captured":false
+    }
+
+func _prepare_surrender_enemy(enemy_id: int, enemy_name: String) -> Dictionary:
+    var enemy := _family_enemy(enemy_id, enemy_name)
+    FormerNemesisCombat.prepare_family_encounter([enemy], {"region_id":REGION_ID, "silent":true})
+    _check(bool(enemy.get("former_kin_surrender_available", false)), "Reddition : la cible de test doit atteindre les conditions de reddition")
+    return enemy
+
 func _promote_to_nemesis(enemy: Dictionary, hero_id: String) -> String:
     var entity_id := RemanenceRuntime.prepare_enemy(enemy, REGION_ID)
     for index in range(4):
@@ -178,7 +246,7 @@ func _check(condition: bool, message: String) -> void:
 
 func _finish() -> void:
     if failures.is_empty():
-        print("VEILLEURS_FORMER_NEMESIS_SUCCESSOR_SMOKE_OK recognition=true first_turn_hesitation=true surrender=true successor=true archives=true skill_continuity=true")
+        print("VEILLEURS_FORMER_NEMESIS_SUCCESSOR_SMOKE_OK recognition=true first_turn_hesitation=true surrender_choices=4 social_axes=true rally_capture=true successor=true archives_chain=true skill_continuity=true")
         get_tree().quit(0)
         return
     for failure: String in failures:
