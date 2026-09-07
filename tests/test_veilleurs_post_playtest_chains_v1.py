@@ -43,6 +43,20 @@ def test_watcher_profiles_are_exact_quartet():
     }
 
 
+def test_cross_reaction_matrix_covers_all_12_families_and_quartet():
+    templates = load("refuge_event_templates_v1.json")
+    matrix = load("refuge_cross_reaction_matrix_v1.json")
+    expected_families = {item["family"] for item in templates["templates"]}
+    assert len(matrix["families"]) == 12
+    assert {item["family"] for item in matrix["families"]} == expected_families
+    for item in matrix["families"]:
+        assert set(item["watchers"]) == {"nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"}
+        assert item["auxiliary_contexts"]
+        assert item["writes"]
+    assert matrix["rules"]["generic_species_personality_forbidden"] is True
+    assert matrix["rules"]["no_new_canonical_dialogue"] is True
+
+
 def test_regional_events_cover_acts_ii_to_v_four_each():
     data = load("regional_event_candidates_acts_ii_v_v1.json")
     assert data["enabled_by_default"] is False
@@ -91,6 +105,7 @@ def test_diagnosis_matrix_is_evidence_gated_and_non_mutating():
 def test_active_playtest_contracts_do_not_reference_new_parallel_files():
     forbidden = [
         "refuge_event_chains_v1.json",
+        "refuge_cross_reaction_matrix_v1.json",
         "regional_event_candidates_acts_ii_v_v1.json",
         "ux_copy_fr_post_playtest_v1.json",
         "playtest_diagnosis_matrix_v1.json",
