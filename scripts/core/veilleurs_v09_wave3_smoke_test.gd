@@ -5,6 +5,7 @@ const TACTICAL_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_r
 const SAVE_SCRIPT := preload("res://scripts/core/veilleurs_vertical_slice_save_v09.gd")
 const BODY_SCRIPT := preload("res://scripts/core/veilleurs_body_component.gd")
 const QA_SCENE := preload("res://scenes/veilleurs/v09_vertical_slice_qa.tscn")
+const PERSISTENCE_WATCHER_ID := "ENT_WATCHER_NAYRA"
 
 const DUNGEONS: Array[String] = [
     "DUNGEON_KHAR_SEN",
@@ -43,12 +44,18 @@ func _run() -> void:
         var returning_body: VeilleursBodyComponent = returning_row.get("body") as VeilleursBodyComponent
         _check(returning_body != null and (returning_body.serialize().get("missing_parts", []) as Array).has("left_arm"), "Returning Nemesis preserves missing limb")
 
-    var sahen: Dictionary = slice.combat.combatants["ENT_WATCHER_SAHEN"]
-    var sahen_body: VeilleursBodyComponent = sahen.get("body") as VeilleursBodyComponent
-    sahen_body.apply_trauma("right_arm", 95, 4, 3)
-    sahen["hp"] = maxi(1, int(sahen.get("max_hp", 1)) - 55)
-    var persisted_hp := int(sahen["hp"])
-    slice.combat.combatants["ENT_WATCHER_SAHEN"] = sahen
+    var watcher: Dictionary = slice.combat.combatants.get(PERSISTENCE_WATCHER_ID, {})
+    _check(not watcher.is_empty(), "Canonical Watcher exists in authored v0.9 combat")
+    var persisted_hp := -1
+    if not watcher.is_empty():
+        var watcher_body: VeilleursBodyComponent = watcher.get("body") as VeilleursBodyComponent
+        _check(watcher_body != null, "Canonical Watcher exposes persistent body state")
+        if watcher_body != null:
+            watcher_body.apply_trauma("right_arm", 95, 4, 3)
+            watcher["body"] = watcher_body
+        watcher["hp"] = maxi(1, int(watcher.get("max_hp", 1)) - 55)
+        persisted_hp = int(watcher["hp"])
+        slice.combat.combatants[PERSISTENCE_WATCHER_ID] = watcher
 
     var submission_target := returning_runtime_id
     if submission_target == "":
@@ -77,10 +84,11 @@ func _run() -> void:
     _check(_advance_to_encounter(slice), "Khar-Sen reaches a second combat node")
     var second_setup: Dictionary = slice.launch_current_encounter()
     _check(bool(second_setup.get("ok", false)), "Second authored encounter launches")
-    var sahen_second: Dictionary = slice.combat.combatants["ENT_WATCHER_SAHEN"]
-    var sahen_second_body: VeilleursBodyComponent = sahen_second.get("body") as VeilleursBodyComponent
-    _check(int(sahen_second.get("hp", -1)) == persisted_hp, "Watcher HP persists between expedition combats")
-    _check(sahen_second_body != null and (sahen_second_body.serialize().get("missing_parts", []) as Array).has("right_arm"), "Watcher mutilation persists between expedition combats")
+    var watcher_second: Dictionary = slice.combat.combatants.get(PERSISTENCE_WATCHER_ID, {})
+    _check(not watcher_second.is_empty(), "Canonical Watcher remains present in second authored combat")
+    var watcher_second_body: VeilleursBodyComponent = watcher_second.get("body") as VeilleursBodyComponent
+    _check(persisted_hp >= 0 and int(watcher_second.get("hp", -1)) == persisted_hp, "Watcher HP persists between expedition combats")
+    _check(watcher_second_body != null and (watcher_second_body.serialize().get("missing_parts", []) as Array).has("right_arm"), "Watcher mutilation persists between expedition combats")
 
     var save_bridge: VeilleursVerticalSliceSaveV09 = SAVE_SCRIPT.new() as VeilleursVerticalSliceSaveV09
     save_bridge.clear()
@@ -88,7 +96,7 @@ func _run() -> void:
     var restored: VeilleursVerticalSliceRuntimeV09 = SLICE_SCRIPT.new() as VeilleursVerticalSliceRuntimeV09
     _check(save_bridge.load_into(restored), "Full v0.9 vertical slice restores checksum save")
     _check(restored.combat != null and restored.combat_kind == "authored", "Active authored combat survives v0.9 save/load")
-    _check((restored.expedition_watcher_state.get("ENT_WATCHER_SAHEN", {}) as Dictionary).has("body"), "Expedition injury state survives save/load")
+    _check((restored.expedition_watcher_state.get(PERSISTENCE_WATCHER_ID, {}) as Dictionary).has("body"), "Expedition injury state survives save/load")
     save_bridge.clear()
 
     var retreat_slice: VeilleursVerticalSliceRuntimeV09 = SLICE_SCRIPT.new() as VeilleursVerticalSliceRuntimeV09

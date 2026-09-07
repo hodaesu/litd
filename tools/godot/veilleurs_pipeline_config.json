@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "godot_version": "4.3",
+  "project_file": "project.godot",
+  "report_dir": "build/automation",
+  "watched_roots": [
+    "data/veilleurs",
+    "assets",
+    "scenes/veilleurs",
+    "scenes/tests",
+    "scripts/core",
+    "scripts/ui",
+    "scripts/world",
+    "scripts/qa",
+    "tools/art",
+    "tools/animation",
+    "tools/audio",
+    "tools/blender",
+    "tools/cinematics",
+    "tools/music_pipeline",
+    "tools/voice"
+  ],
+  "categories": {
+    "data": ["data/veilleurs/**", "data/**/*.json"],
+    "art": ["assets/**", "tools/art/**", "tools/blender/**"],
+    "animation": ["tools/animation/**", "scripts/**/*animation*.gd", "scenes/**/*animation*.tscn"],
+    "audio": ["tools/audio/**", "tools/music_pipeline/**", "tools/voice/**", "assets/audio/**", "assets/music/**", "assets/sfx/**"],
+    "ui": ["scripts/ui/**", "scenes/ui/**", "scenes/veilleurs/**/*ui*.tscn"],
+    "gameplay": ["scripts/core/**", "scripts/world/**", "scenes/veilleurs/**"],
+    "tests": ["scenes/tests/**", "scripts/qa/**", "tools/qa/**"],
+    "project": ["project.godot", "export_presets.cfg", "addons/**"]
+  },
+  "python_audits": [
+    "tools/qa/veilleurs_v09_wave3_audit.py",
+    "tools/qa/veilleurs_v08_wave2_audit.py",
+    "tools/qa/veilleurs_v07_content_audit.py",
+    "tools/qa/veilleurs_v06_tests48.py"
+  ],
+  "quick_godot_smokes": [
+    {"scene": "res://scenes/tests/veilleurs_v09_wave3_smoke.tscn", "timeout": 120},
+    {"scene": "res://scenes/veilleurs/v09_vertical_slice_qa.tscn", "timeout": 30, "quit_after": 5},
+    {"scene": "res://scenes/tests/mobile_touch_smoke.tscn", "timeout": 90},
+    {"scene": "res://scenes/tests/ui_player_journey_smoke.tscn", "timeout": 90}
+  ],
+  "full_suite": "tools/build/run_godot_ci.sh",
+  "fatal_log_patterns": [
+    "SCRIPT ERROR:",
+    "ERROR: Failed to load script",
+    "ERROR: Failed to create an autoload",
+    "ERROR: Failed to instantiate an autoload",
+    "ERROR: FATAL:",
+    "handle_crash: Program crashed"
+  ],
+  "ignored_reference_prefixes": [
+    "res://.godot/",
+    "res://build/"
+  ]
+}
