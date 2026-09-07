@@ -45,16 +45,34 @@ func complete_current(outcome: String = "cleared", context: Dictionary = {}) -> 
     if current_node == "" or not nodes_by_id.has(current_node):
         return {"ok":false, "reason":"no_current_node"}
     var node: Dictionary = nodes_by_id[current_node]
-    node_flags[current_node] = {"completed":true, "outcome":outcome}
+    var flag := {"completed":true, "outcome":outcome}
+    if not context.is_empty():
+        flag["context"] = context.duplicate(true)
+    node_flags[current_node] = flag
     var result := {"ok":true, "node_id":current_node, "outcome":outcome}
     if not active_encounter.is_empty():
         var remanence_outcome := "victory" if outcome in ["cleared", "victory"] else outcome
-        var encounter_result := encounter_director.resolve_encounter(active_encounter, remanence_outcome, "%s:%s" % [str(data.get("slice_id", "slice")), current_node], {
-            "region_id":"khar_sen",
-            "zone_id":current_node,
-            "summary":"Khar-Sen %s — %s" % [str(node.get("title_fr", current_node)), outcome]
-        })
+        var encounter_context := context.duplicate(true)
+        encounter_context["region_id"] = "khar_sen"
+        encounter_context["zone_id"] = current_node
+        encounter_context["summary"] = str(context.get("summary", "Khar-Sen %s — %s" % [str(node.get("title_fr", current_node)), outcome]))
+        var encounter_result := encounter_director.resolve_encounter(active_encounter, remanence_outcome, "%s:%s" % [str(data.get("slice_id", "slice")), current_node], encounter_context)
         result["encounter_result"] = encounter_result
+    var aftermath: Dictionary = context.get("watcher_aftermath", {})
+    var severe_watchers := _severe_watcher_aftermath(aftermath)
+    if not severe_watchers.is_empty():
+        result["watcher_scar_id"] = RemanenceRuntime.create_world_scar(
+            "%s:%s:watchers" % [str(data.get("slice_id", "slice")), current_node],
+            "watcher_battle_wounds",
+            "major",
+            {
+                "region_id":"khar_sen",
+                "zone_id":current_node,
+                "summary":"Des blessures graves des Veilleurs persistent après %s" % str(node.get("title_fr", current_node)),
+                "watchers":severe_watchers.duplicate(true),
+                "protected":true
+            }
+        )
     if str(node.get("kind", "")) in ["archive", "memory", "objective"]:
         var scar_id := RemanenceRuntime.create_world_scar("%s:%s" % [str(data.get("slice_id", "slice")), current_node], "dungeon_%s" % str(node.get("kind", "room")), "trace" if str(node.get("kind", "")) != "objective" else "major", {
             "region_id":"khar_sen",
@@ -120,6 +138,25 @@ func deserialize(payload: Dictionary) -> bool:
     encounter_director.deserialize(payload.get("encounter_director", {}))
     return true
 
+func _severe_watcher_aftermath(aftermath: Dictionary) -> Array[String]:
+    var result: Array[String] = []
+    for watcher_id_value: Variant in aftermath.keys():
+        var watcher_id := str(watcher_id_value)
+        var row: Dictionary = aftermath.get(watcher_id, {})
+        var severe := int(row.get("hp", 0)) <= int(round(float(row.get("max_hp", 1)) * 0.35))
+        var body_payload: Dictionary = row.get("body", {})
+        var missing_parts: Array = body_payload.get("missing_parts", [])
+        if not missing_parts.is_empty():
+            severe = true
+        var states: Dictionary = body_payload.get("states", {})
+        for state_value: Variant in states.values():
+            if str(state_value) in ["L3", "L4", "L5"]:
+                severe = true
+                break
+        if severe:
+            result.append(watcher_id)
+    return result
+
 func _load() -> void:
     if not FileAccess.file_exists(SLICE_PATH):
         load_errors.append("missing_slice")
@@ -158,7 +195,7 @@ func _objective_reachable(entry: String) -> bool:
     var queue: Array[String] = [entry]
     var seen: Dictionary = {}
     while not queue.is_empty():
-        var node_id: String = str(queue.pop_front())
+        var node_id: String = queue.pop_front() as String
         if seen.has(node_id):
             continue
         seen[node_id] = true
