@@ -21,6 +21,8 @@ on:
       - 'tools/cinematics/**'
       - 'tools/music_pipeline/**'
       - 'tools/voice/**'
+      - 'tools/workstation/**'
+      - 'docs/veilleurs/**'
       - 'project.godot'
       - 'export_presets.cfg'
       - '.github/workflows/veilleurs-production-automation.yml'
@@ -33,6 +35,7 @@ on:
       - 'scripts/**'
       - 'addons/**'
       - 'tools/**'
+      - 'docs/veilleurs/**'
       - 'project.godot'
       - 'export_presets.cfg'
   workflow_dispatch:
