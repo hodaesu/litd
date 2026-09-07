@@ -121,6 +121,9 @@ DeepVestigeBossRuntime="*res://scripts/world/deep_vestige_boss_runtime_v2.gd"
 AshlandsPlaytestSession="*res://scripts/world/ashlands_playtest_session.gd"
 QATestRoomState="*res://scripts/qa/qa_test_room_state.gd"
 
+[editor_plugins]
+enabled=PackedStringArray("res://addons/veilleurs_pipeline/plugin.cfg")
+
 [display]
 window/size/viewport_width=1280
 window/size/viewport_height=720
