@@ -229,7 +229,9 @@ static func _select_return_candidate(actors: Array, region_id: String, seed: int
             return str(left.get("id", "")) < str(right.get("id", ""))
         return left_age > right_age
     )
-    var index := abs(seed) % candidates.size() if seed != 0 else 0
+    var index: int = 0
+    if seed != 0:
+        index = absi(seed) % candidates.size()
     return candidates[index].duplicate(true)
 
 static func _project_candidate(record: Dictionary, current_run: int) -> Dictionary:
