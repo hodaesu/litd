@@ -40,7 +40,15 @@ def _inside_legacy_namespace(path: str, prefixes: list[str]) -> bool:
 
 def test_declared_critical_legacy_dependencies_exist():
     contract = _contract()
-    for group in ("runtime_critical", "persistence_critical", "project_bootstrap_critical", "qa_compatibility"):
+    groups = (
+        "runtime_critical",
+        "persistence_critical",
+        "project_bootstrap_critical",
+        "qa_compatibility",
+        "canonical_bridge_allowlist",
+        "legacy_read_compatibility",
+    )
+    for group in groups:
         for relative in contract[group]:
             assert (ROOT / relative).exists(), f"missing declared VS001 dependency: {relative}"
 
@@ -48,6 +56,8 @@ def test_declared_critical_legacy_dependencies_exist():
 def test_vs001_cannot_gain_new_external_consumers():
     contract = _contract()
     allowlist = set(contract["external_consumer_allowlist"])
+    allowlist.update(contract["canonical_bridge_allowlist"])
+    allowlist.update(contract["legacy_read_compatibility"])
     prefixes = list(contract["legacy_namespace_prefixes"])
     unexpected = [
         path
@@ -55,6 +65,14 @@ def test_vs001_cannot_gain_new_external_consumers():
         if path not in allowlist and not _inside_legacy_namespace(path, prefixes)
     ]
     assert unexpected == [], "VS001 leaked outside its compatibility boundary: " + ", ".join(unexpected)
+
+
+def test_only_one_canonical_bridge_may_call_legacy_runtime():
+    contract = _contract()
+    assert contract["canonical_bridge_allowlist"] == ["scripts/core/veilleurs_runtime_facade.gd"]
+    facade = (ROOT / contract["canonical_bridge_allowlist"][0]).read_text(encoding="utf-8")
+    assert "VeilleursVS001WorldRuntime" in facade
+    assert "VeilleursVS001PlayableBridge" in facade
 
 
 def test_migration_has_explicit_removal_gates():
