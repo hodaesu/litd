@@ -1,12 +1,20 @@
 {
-  "schema_version": "0.6.7",
+  "schema_version": "0.6.8",
   "contract_id": "VEILLEURS_REFUGE_EVENT_SCHEDULER_V1",
   "status": "production_locked_before_godot",
+  "event_catalog": "data/veilleurs/v06/refuge_event_catalog_v2.json",
+  "authoritative_event_count": 49,
   "source_libraries": [
     "data/veilleurs/v06/refuge_events_social_v1.json",
     "data/veilleurs/v06/refuge_events_knowledge_v1.json",
     "data/veilleurs/v06/refuge_events_state_v1.json"
   ],
+  "characterization_contracts": {
+    "veilleur_voices": "data/veilleurs/v06/refuge_veilleur_voice_contract_v1.json",
+    "recruit_reactions": "data/veilleurs/v06/recruit_refuge_reactions_24_v1.json"
+  },
+  "chain_contract": "data/veilleurs/v06/refuge_event_chains_v1.json",
+  "staging_contract": "data/veilleurs/v06/refuge_event_staging_49_v1.json",
   "seed_components": ["campaign_seed", "return_index", "story_epoch", "refuge_state", "event_history_hash"],
   "priority_order": ["critical", "high", "medium", "low"],
   "selection": {
@@ -24,16 +32,25 @@
     "same_family_max_auto_presented_consecutive": 2,
     "prefer_unseen_event_weight": 2.0,
     "prefer_event_linked_to_recent_consequence_weight": 1.75,
-    "prefer_event_linked_to_active_relationship_threshold_weight": 2.25
+    "prefer_event_linked_to_active_relationship_threshold_weight": 2.25,
+    "prefer_eligible_pending_chain_act_weight": 2.5,
+    "pending_chain_act_is_never_forced_if_trigger_or_actor_is_invalid": true
   },
   "eligibility_order": [
     "trigger_fields_match_saved_state",
     "required_actors_exist_and_are_available",
     "one_shot_or_cooldown_allows_event",
     "event_not_contradicted_by_saved_outcome",
+    "chain_actor_identity_and_previous_outcome_are_valid_when_applicable",
     "critical_story_layer_allows_event",
     "family_budget_allows_noncritical_event"
   ],
+  "casting": {
+    "veilleur_primary": "highest voice family affinity, then recent-speaking cooldown, then seeded tie-break",
+    "veilleur_secondary": "only when contrasting voice adds new information",
+    "recruit_profile": "exact entity_id reaction profile when available and legally rallied",
+    "nonverbal_profile_never_receives_full_human_dialogue": true
+  },
   "presentation": {
     "critical": "modal_or_full_focus_scene",
     "high": "priority_refuge_card_with_optional_immediate_scene",
@@ -41,13 +58,14 @@
     "low": "ambient_contextual_scene",
     "mobile_rule": "never stack more than one modal; remaining events stay in the Refuge queue",
     "player_can_leave_noncritical_event_unresolved": true,
-    "critical_irreversible_choice_requires_explicit_confirmation": true
+    "critical_irreversible_choice_requires_explicit_confirmation": true,
+    "resolve_camera_audio_blocking_from_staging_contract": true
   },
   "save_resume": {
     "save_before_presenting_event": true,
     "save_after_choice_resolution": true,
-    "persist": ["queued_event_ids", "completed_one_shot_ids", "cooldowns", "last_presented_family", "event_history", "active_event_id", "active_choice_state"],
-    "reload_rule": "resume the same active event and options; never reroll an unresolved event"
+    "persist": ["queued_event_ids", "completed_one_shot_ids", "cooldowns", "last_presented_family", "event_history", "active_event_id", "active_choice_state", "active_chain_states", "cast_entity_ids", "staging_profile_id"],
+    "reload_rule": "resume the same active event, cast, staging and options; never reroll an unresolved event"
   },
   "interaction_with_post_expedition": {
     "queue_build_after": "SUMMARY",
@@ -59,9 +77,12 @@
   },
   "telemetry": {
     "minimum_simulated_returns": 1000,
-    "report": ["events_per_return", "family_frequency", "priority_frequency", "unseen_event_rate", "repeat_rate", "critical_queue_latency", "unresolved_noncritical_rate", "choice_distribution"],
+    "report": ["events_per_return", "family_frequency", "priority_frequency", "unseen_event_rate", "repeat_rate", "critical_queue_latency", "unresolved_noncritical_rate", "choice_distribution", "voice_cast_frequency", "recruit_profile_frequency", "chain_act_latency", "chain_completion_rate", "staging_profile_frequency"],
     "fail_if_one_shot_repeats": true,
     "fail_if_unresolved_event_rerolls_after_reload": true,
-    "warn_if_same_family_share_gt": 0.45
+    "fail_if_catalog_event_has_no_staging_binding": true,
+    "fail_if_illegal_recruit_profile_grants_recruitability": true,
+    "warn_if_same_family_share_gt": 0.45,
+    "warn_if_one_veilleur_voice_share_gt": 0.40
   }
 }
