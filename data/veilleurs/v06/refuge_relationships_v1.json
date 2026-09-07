@@ -1,0 +1,60 @@
+{
+  "schema_version": "0.6.6",
+  "contract_id": "VEILLEURS_REFUGE_RELATIONSHIPS_V1",
+  "status": "production_locked_before_godot",
+  "axes": {
+    "TRUST": {"min": 0, "max": 100, "meaning": "accepts vulnerability, shared risk and care"},
+    "RESPECT": {"min": 0, "max": 100, "meaning": "recognizes competence, consistency and legitimacy"},
+    "FEAR": {"min": 0, "max": 100, "meaning": "anticipates coercion, danger or uncontrollable power"},
+    "RESENTMENT": {"min": 0, "max": 100, "meaning": "remembers humiliation, abandonment, exploitation or preventable harm"}
+  },
+  "initial_state_by_rally_method": {
+    "neutralization": {"TRUST": 20, "RESPECT": 40, "FEAR": 45, "RESENTMENT": 35},
+    "surrender": {"TRUST": 30, "RESPECT": 35, "FEAR": 35, "RESENTMENT": 25},
+    "rescue": {"TRUST": 50, "RESPECT": 40, "FEAR": 15, "RESENTMENT": 10},
+    "pact": {"TRUST": 40, "RESPECT": 50, "FEAR": 20, "RESENTMENT": 15},
+    "taming": {"TRUST": 35, "RESPECT": 45, "FEAR": 20, "RESENTMENT": 10}
+  },
+  "relationship_memory": {
+    "persistent_event_history": true,
+    "max_recent_weighted_events": 12,
+    "older_events_are_compacted_not_deleted": true,
+    "death_betrayal_rescue_and_release_events_are_never_compacted_away": true
+  },
+  "common_deltas": {
+    "shared_success": {"TRUST": 3, "RESPECT": 4, "FEAR": -1, "RESENTMENT": -1},
+    "protected_while_wounded": {"TRUST": 7, "RESPECT": 3, "FEAR": -2, "RESENTMENT": -3},
+    "abandoned_while_wounded": {"TRUST": -12, "RESPECT": -6, "FEAR": 4, "RESENTMENT": 14},
+    "kept_pact": {"TRUST": 8, "RESPECT": 6, "FEAR": -2, "RESENTMENT": -5},
+    "broke_pact": {"TRUST": -18, "RESPECT": -10, "FEAR": 8, "RESENTMENT": 20},
+    "voluntary_release": {"TRUST": 2, "RESPECT": 7, "FEAR": -4, "RESENTMENT": -5},
+    "coercive_treatment": {"TRUST": -8, "RESPECT": -2, "FEAR": 10, "RESENTMENT": 8},
+    "care_received": {"TRUST": 5, "RESPECT": 2, "FEAR": -2, "RESENTMENT": -2}
+  },
+  "threshold_events": [
+    {"id": "REL_TRUST_BOND", "requires": {"TRUST": 70, "RESENTMENT_max": 35}, "effect": "unlock personal confidence scene and one cooperation perk"},
+    {"id": "REL_RESPECT_ROLE", "requires": {"RESPECT": 70, "FEAR_max": 60}, "effect": "unlock refuge duty/role event"},
+    {"id": "REL_FEAR_WITHDRAWAL", "requires": {"FEAR": 75}, "effect": "unlock withdrawal/crisis event; no forced betrayal roll"},
+    {"id": "REL_RESENTMENT_CONFLICT", "requires": {"RESENTMENT": 75}, "effect": "unlock confrontation event with authored choices"},
+    {"id": "REL_COMPLEX_LOYALTY", "requires": {"TRUST": 60, "RESPECT": 60, "RESENTMENT": 50}, "effect": "unlock conflicted-loyalty dialogue rather than flattening the axes into one score"}
+  ],
+  "refuge_event_domains": ["cohabitation", "conflict", "rapprochement", "memory", "transformation", "crisis", "freedom", "security", "resources", "death", "authority", "care"],
+  "deployment_rules": {
+    "relationship_never_directly_makes_a_recruit_unselectable_except_authored_crisis": true,
+    "fear_is_not_loyalty": true,
+    "high_resentment_does_not_randomly_delete_a_character": true,
+    "events_present_consequences_before irreversible player choices": true
+  },
+  "release": {
+    "released_entity_remains_existing_and_addressable": true,
+    "release_preserves_entity_id_seed_injuries_orientation_relationship_memory": true,
+    "released_entity_may_be_encountered_again_when_authored": true,
+    "release_is_not_death": true
+  },
+  "death": {
+    "permanent": true,
+    "entity_identity_preserved_in_archive": true,
+    "relationship_shock_propagates_to_witnesses_and_close_bonds": true,
+    "dead_entity_never_returns_as_normal_recruit_without_explicit_story_exception": true
+  }
+}
