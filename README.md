@@ -1,8 +1,19 @@
-# Light in the Dark — Studio Sprint 1
+# Light in the Dark — LITD Universe
 
-Fondation professionnelle du prototype Godot de **Light in the Dark**.
+Dépôt Godot principal de **Light in the Dark**, regroupant les systèmes, contenus, outils QA et branches de production de LITD Universe. La cible technique active de **LITD : Les Veilleurs** est Godot 4.7.x, avec CI épinglée sur Godot 4.7.2.
 
-## Documentation
+## LITD : Les Veilleurs
+
+- [Verrou pré-PC](docs/veilleurs/PRE_PC_LOCK.md)
+- [Automatisation de production Godot](docs/veilleurs/GODOT_PRODUCTION_AUTOMATION.md)
+- [Validation matérielle](docs/veilleurs/HARDWARE_VALIDATION_PROTOCOL.md)
+- [Handoff final des assets](docs/veilleurs/FINAL_ASSET_HANDOFF.md)
+- [Automatisation d’intégration de contenu](docs/veilleurs/CONTENT_INTAKE_AUTOMATION.md)
+- [Export Android CI](docs/veilleurs/ANDROID_CI_EXPORT.md)
+- [Audit d’intégrité du dépôt](docs/veilleurs/REPOSITORY_INTEGRITY_AUDIT.md)
+- [Politique de nettoyage des fichiers obsolètes](docs/veilleurs/OBSOLETE_CLEANUP_POLICY.md)
+
+## Documentation LITD Universe
 
 - [Bible du lore — Trois Éveils](docs/LORE_BIBLE.md)
 - [Monde extérieur, Voile et Chute](docs/LORE_MONDE_VOILE_ET_CHUTE.md)
@@ -53,9 +64,9 @@ python -m tools.qa.combat_economy_sim_v2
 
 `tools.qa.cross_system_audit` vérifie les relations entre systèmes : campagne I→X, scènes et routes, contrats des boss, sept Vestiges Profonds, sauvegarde, autoloads, postgame et règles du Nouveau Cycle+.
 
-`tools.qa.balance_audit` vérifie la progression 1→50, le coût et les prérequis des arbres, les ascensions des compagnons, les six fins, les soft-locks économiques du postgame, le scaling NG+ et les 34 recrutements de boss/mini-boss.
+`tools.qa.balance_audit` vérifie la progression 1→50, le coût et les prérequis des arbres, les ascensions des compagnons, les six fins, les soft-locks économiques du postgame, le scaling NG+ et les recrutements de boss/mini-boss.
 
-`tools.qa.combat_turn_audit` verrouille le moteur de rounds à quatre héros conservé par la chaîne **v13 → v12 → v11 → v10 → v9 → v8 → v7 → v6 → v5 → v4 → v3 → v2** : chaque héros vivant agit une fois par round, le compagnon agit une seule fois après le groupe, puis les ennemis.
+`tools.qa.combat_turn_audit` verrouille le moteur de rounds à quatre héros conservé par la chaîne historique de compatibilité : chaque héros vivant agit une fois par round, le compagnon agit une seule fois après le groupe, puis les ennemis.
 
 `tools.qa.tactical_combat_audit` vérifie les rangs, déplacements, techniques propres aux héros, ciblage avant/arrière et synergies de formation.
 
@@ -63,17 +74,17 @@ python -m tools.qa.combat_economy_sim_v2
 
 `tools.qa.displacement_combat_audit` vérifie poussées/tractions, recul sous Peur et manœuvres de boss liées à leurs parties anatomiques uniques.
 
-`tools.qa.enemy_family_tactics_audit` vérifie les 37 ennemis génériques non-boss, les familles tactiques, les comportements élite/boss et les réactions aux pertes de fonctions.
+`tools.qa.enemy_family_tactics_audit` vérifie les familles tactiques, les comportements élite/boss et les réactions aux pertes de fonctions.
 
-`tools.qa.anatomy_system_audit` verrouille les dix couches d'anatomie avancée : ciblage volontaire, Trauma par partie, spécialisations de héros, onze anatomies de boss, IA adaptative, Peur/Folie, capture et convalescence, blessures fonctionnelles sans démembrement, interface anatomique et contrat Blender/VFX. Le v13 ajoute une **Infirmerie réellement accessible depuis le Sanctuaire** pour traiter les créatures liées en convalescence.
+`tools.qa.anatomy_system_audit` verrouille l’anatomie avancée : ciblage volontaire, Trauma par partie, spécialisations, anatomies de boss, IA adaptative, Peur/Folie, capture, convalescence, blessures fonctionnelles, interface anatomique et contrats Blender/VFX.
 
-`tools.qa.combat_economy_sim_v2` reste le modèle numérique de base pour les checkpoints de niveaux 1/10/20/30/40/50, les boss/mini-boss, les compagnons recrutés, les cycles NG+ 0→5, la vitesse d'XP et l'économie Or/Essence.
+`tools.qa.combat_economy_sim_v2` reste une couche de compatibilité du modèle numérique ; les simulateurs plus récents peuvent l’importer au lieu de dupliquer toute la logique historique.
 
-Les rapports sont écrits notamment dans `reports/qa-report.json`, `reports/cross-system-report.json`, `reports/balance-report.json`, `reports/combat-turn-report.json`, `reports/tactical-combat-report.json`, `reports/dismemberment-report.json`, `reports/displacement-combat-report.json`, `reports/enemy-family-tactics-report.json`, `reports/anatomy-system-report.json` et `reports/combat-economy-report.json`.
+Les rapports QA sont écrits dans `reports/`.
 
-Le pipeline Blender anatomique est préparé par `data/blender/dismemberment_contract.json` et `tools/blender/generate_dismemberment_jobs.py`. Il définit bones, sockets de séparation, meshes détachables, caps, VFX, blessures, animations et modes `full / reduced / off` sans nécessiter Blender pour la préparation des jobs.
+Le pipeline Blender anatomique est préparé par `data/blender/dismemberment_contract.json` et `tools/blender/generate_dismemberment_jobs.py`.
 
-Ou sous macOS/Linux :
+Sous macOS/Linux :
 
 ```bash
 bash ./tools/build/run_ci.sh
@@ -83,15 +94,19 @@ Le script exécute également le smoke test Godot si `godot` est disponible loca
 
 ## GitHub Actions
 
-- **CI** : tests Python, audits de structure/équilibrage, moteur de tours, rangs/synergies, démembrements, déplacements forcés/phases de boss, familles ennemies, anatomie avancée, simulation combat-économie et smoke test Godot headless.
-- **Builds** : exports Web, Windows et Linux.
-- **Nightly QA** : régression quotidienne avec les mêmes audits, la simulation et le smoke test Godot.
+- **CI** : tests Python, audits de structure/équilibrage et smoke Godot headless.
+- **Production Veilleurs** : contrats, import strict Godot 4.7, smokes v0.6→v0.9, six donjons, régression tactile/UI et export Android debug.
+- **Nightly QA** : régressions automatisées.
 - **Release** : création d’une release lors d’un tag `v*`.
 
-## Premier envoi sur GitHub
+## État technique actuel
 
-Décompressez l'archive, envoyez tout son contenu à la racine d'un dépôt vide, y compris le dossier `.github`. Consultez `docs/GITHUB_SETUP.md`.
+Le dépôt n’est plus un bootstrap de Sprint 1. Les fichiers d’import Working Copy, anciens rapports statiques, manifeste Sprint 1 et guides d’initialisation déjà accomplis ont été retirés. Les composants historiques encore importés par le runtime, les sauvegardes, les tests ou les simulateurs restent conservés jusqu’à leur migration réelle.
 
-## Limites du Sprint 1
+Pour préparer une session PC Les Veilleurs :
 
-La CI est prête à exécuter les validations dans GitHub. Les exports Android/iOS nécessitent toujours leurs SDK et signatures et sont prévus dans un sprint ultérieur.
+```bash
+python tools/workstation/veilleurs_pc_preflight.py --run-tests
+```
+
+Sous Windows, le lanceur `tools/workstation/LITD_VEILLEURS_PC_PREPARE.cmd` fournit le même point d’entrée pratique.
