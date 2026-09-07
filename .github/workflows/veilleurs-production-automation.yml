@@ -83,10 +83,10 @@ jobs:
           if-no-files-found: warn
 
   godot-quick-gate:
-    name: Godot 4.3 pre-PC production smokes
+    name: Godot 4.7 pre-PC production smokes
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.3
+      image: barichello/godot-ci:4.7.2
     steps:
       - uses: actions/checkout@v4
       - name: Prepare logs
@@ -156,7 +156,7 @@ jobs:
     name: Android debug APK export
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.3
+      image: barichello/godot-ci:4.7.2
     steps:
       - uses: actions/checkout@v4
       - name: Configure Android exporter
@@ -165,7 +165,7 @@ jobs:
           HOME: /root
         run: |
           set -euo pipefail
-          EXPECTED_TEMPLATES="$HOME/.local/share/godot/export_templates/4.3.stable"
+          EXPECTED_TEMPLATES="$HOME/.local/share/godot/export_templates/4.7.2.stable"
           if [[ ! -f "$EXPECTED_TEMPLATES/android_debug.apk" ]]; then
             SOURCE_DEBUG="$(find /root/.local/share/godot /opt /usr/local /usr/share -type f -name android_debug.apk -print -quit 2>/dev/null || true)"
             if [[ -z "$SOURCE_DEBUG" ]]; then
@@ -191,7 +191,7 @@ jobs:
           mkdir -p "$HOME/.config/godot" "$HOME/.android"
           SETTINGS="$(find "$HOME/.config/godot" -maxdepth 1 -type f -name 'editor_settings-4*.tres' -print -quit 2>/dev/null || true)"
           if [[ -z "$SETTINGS" ]]; then
-            SETTINGS="$HOME/.config/godot/editor_settings-4.3.tres"
+            SETTINGS="$HOME/.config/godot/editor_settings-4.7.tres"
             printf '[gd_resource format=3]\n\n[resource]\n' > "$SETTINGS"
           fi
           sed -i '/^export\/android\/java_sdk_path = /d;/^export\/android\/android_sdk_path = /d' "$SETTINGS"
@@ -243,7 +243,7 @@ jobs:
     needs: [content-contracts, godot-quick-gate, android-debug-export]
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.3
+      image: barichello/godot-ci:4.7.2
     steps:
       - uses: actions/checkout@v4
       - name: Run complete repository Godot suite
