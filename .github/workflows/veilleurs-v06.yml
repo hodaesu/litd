@@ -46,6 +46,8 @@ jobs:
         run: python tools/qa/veilleurs_v062_canonical_audit.py
       - name: Validate 12 ultimate choreography contracts
         run: python tools/qa/veilleurs_ultimate_choreography_audit.py
+      - name: Validate Hemocorde v0.6.2 runtime contract
+        run: python tools/qa/veilleurs_v062_hemocorde_runtime_audit.py
       - name: Preserve original first-encounter baseline
         run: python tools/qa/veilleurs_v06_balance_sim.py --check --runs 250
       - name: Validate v0.6.1 tactical balance target
