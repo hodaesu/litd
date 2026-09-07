@@ -9,6 +9,8 @@ MANIFEST = ROOT / "data/veilleurs/art/art_preproduction_manifest_v1.json"
 SHOTLIST = ROOT / "data/veilleurs/art/concept_shotlist_v1.json"
 REFERENCE_PRESETS = ROOT / "data/veilleurs/art/art_reference_presets_v1.json"
 REFERENCE_LIBRARY = ROOT / "data/art_reference_library.json"
+TECHNICAL_HANDOFF = ROOT / "data/veilleurs/art/technical_art_handoff_v1.json"
+REVIEW_GATE = ROOT / "data/veilleurs/art/art_review_gate_v1.json"
 PLAYTEST_HEAD = "0c905800ec21e646e9252f1c14430ed8ad36ada3"
 
 EXPECTED_ORDINARY = {
@@ -85,7 +87,7 @@ def test_future_art_does_not_lock_playtest_sensitive_values():
 
 def test_art_manifest_is_isolated_and_all_indexed_files_exist():
     data = load(MANIFEST)
-    assert data["version"] >= 3
+    assert data["version"] >= 4
     assert data["status"] == "art_preproduction_manifest"
     assert data["runtime_wiring"] == "none"
     assert data["source_playtest_pr"] == 173
@@ -172,3 +174,29 @@ def test_reference_policy_matches_central_library_policy():
     assert manifest_policy["abstract_principles_only"] is True
     assert manifest_policy["rights_recheck_before_export"] is True
     assert manifest_policy["copy_trace_signature_imitation_forbidden"] is True
+
+
+def test_technical_handoff_does_not_invent_unprofiled_device_budgets():
+    data = load(TECHNICAL_HANDOFF)
+    assert data["status"] == "technical_art_preproduction_contract"
+    assert data["runtime_wiring"] == "none"
+    assert data["characters_and_creatures"]["rallied_unit_injuries_reset_visually"] is False
+    assert data["bosses"]["boss_count"] == 5
+    assert data["bosses"]["phase_count"] == 16
+    assert data["lod_contract"]["gameplay_state_may_not_disappear_at_lower_lod"] is True
+    assert data["collision_and_targeting"]["render_mesh_is_not_targeting_truth"] is True
+    for budget_value in data["budgets"].values():
+        if isinstance(budget_value, str) and budget_value != data["budgets"]["rule"]:
+            assert "not_fixed_before_device_profile" in budget_value
+
+
+def test_art_review_gate_matches_shotlist_and_is_not_merge_approval():
+    gate = load(REVIEW_GATE)
+    assert gate["status"] == "art_preproduction_review_gate"
+    assert gate["runtime_wiring"] == "none"
+    assert gate["verdicts"] == ["PASS", "REVISE", "BLOCKED_BY_PLAYTEST"]
+    assert gate["automatic_blocked_until_playtest"] == ["ART-006", "ART-007", "ART-008"]
+    assert "not approved for gameplay merge" in gate["preproduction_rule"]
+    universal = {check["id"]: check for check in gate["universal_checks"]}
+    assert all(check["blocking"] for check in universal.values())
+    assert {"canon", "silhouette", "function", "reference_transformation", "mobile", "pc_no_extra_info"} <= set(universal)
