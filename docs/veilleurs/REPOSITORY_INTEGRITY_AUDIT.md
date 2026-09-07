@@ -12,10 +12,10 @@ Le gate vérifie notamment :
 - alignement `project.godot` / contrat pré-PC / pipeline sur Godot 4.7 ;
 - workflows Godot alignés sur l’image CI 4.7.2 et template Android correspondant ;
 - existence de tous les fichiers requis par le verrou pré-PC ;
-- absence de dérive vers l’ancien quatuor hors exceptions historiques autorisées ;
+- absence de dérive vers l’ancien quatuor hors exceptions historiques et fichiers de garde négative autorisés ;
 - résolution des références `res://` statiques des scènes et scripts Les Veilleurs ;
 - absence de fichiers texte actifs vides.
 
-Les marqueurs `TODO` / `FIXME` et les références `VS001` encore présentes sont reportés comme avertissements afin de distinguer dette technique et rupture de contrat.
+Les marqueurs explicites de dette de code et les références `VS001` encore présentes sont reportés comme avertissements afin de distinguer dette technique et rupture de contrat.
 
 Le contrôle est exécuté à la fois par `pytest` et par le pipeline de production Les Veilleurs. Son rapport est écrit dans `build/automation/veilleurs_repository_integrity.json`.
