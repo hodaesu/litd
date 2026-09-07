@@ -159,8 +159,37 @@ jobs:
       image: barichello/godot-ci:4.3
     steps:
       - uses: actions/checkout@v4
+      - name: Configure Android exporter
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.local/share/godot/export_templates" "$HOME/.config" "$HOME/.android"
+          cp -a /root/.local/share/godot/templates/4.3.stable "$HOME/.local/share/godot/export_templates/4.3.stable"
+          if [[ -d /root/.config/godot ]]; then
+            cp -a /root/.config/godot "$HOME/.config/godot"
+          else
+            mkdir -p "$HOME/.config/godot"
+          fi
+          SETTINGS="$HOME/.config/godot/editor_settings-4.3.tres"
+          touch "$SETTINGS"
+          printf '\nexport/android/java_sdk_path = "/usr/lib/jvm/java-17-openjdk-amd64"\n' >> "$SETTINGS"
+          printf 'export/android/android_sdk_path = "/usr/lib/android-sdk"\n' >> "$SETTINGS"
+          if [[ ! -f "$HOME/.android/debug.keystore" ]]; then
+            /usr/lib/jvm/java-17-openjdk-amd64/bin/keytool -genkeypair -v \
+              -keystore "$HOME/.android/debug.keystore" \
+              -storepass android -alias androiddebugkey -keypass android \
+              -dname "CN=Android Debug,O=Android,C=US" \
+              -keyalg RSA -keysize 2048 -validity 10000
+          fi
+          test -f "$HOME/.local/share/godot/export_templates/4.3.stable/android_debug.apk"
+          test -x /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+          test -f "$HOME/.android/debug.keystore"
       - name: Export Android debug APK
         shell: bash
+        env:
+          GODOT_ANDROID_KEYSTORE_DEBUG_PATH: /github/home/.android/debug.keystore
+          GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
+          GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: android
         run: |
           set -o pipefail
           mkdir -p build/android build/automation
