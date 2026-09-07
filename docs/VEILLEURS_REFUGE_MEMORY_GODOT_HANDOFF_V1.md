@@ -7,7 +7,11 @@ Ce document décrit une **implémentation candidate post-playtest**. Les classes
 Classes candidates :
 
 - `VeilleursRefugeMemoryServiceCandidate`
+- `VeilleursRefugeMemoryMigrationAuditCandidate`
+- `VeilleursRefugeMemoryProjectionAdapterCandidate`
 - `VeilleursAuxiliaryReactionResolverCandidate`
+- `VeilleursPostPlaytestFeatureFlagsCandidate`
+- `VeilleursMultiActArchiveVisualFixtureCandidate`
 
 ## 1. Responsabilités
 
@@ -27,9 +31,19 @@ Il **n'est pas propriétaire** :
 
 Il demande les écritures aux propriétaires existants via `archive_hook_requested` et `remanence_hook_requested`.
 
+### VeilleursRefugeMemoryMigrationAuditCandidate
+
+Cette couche audite le payload avant désérialisation puis préserve les normalisations importantes dans `migration_log`. Un état invalide ramené à `DORMANT` conserve explicitement `memory_id`, `old_state`, `new_state` et le code `invalid_state_reset_to_DORMANT`.
+
+Le journal est idempotent : recharger un payload déjà normalisé ne duplique pas le même avertissement.
+
 ### VeilleursAuxiliaryReactionResolverCandidate
 
 Le résolveur détermine quels auxiliaires individuels peuvent réagir à un événement, à partir de leur `entity_id`, de leur historique vécu et de leur implication précise. Il ne génère aucune réplique et ne déduit aucune personnalité de l'espèce.
+
+### VeilleursMultiActArchiveVisualFixtureCandidate
+
+Le présentateur charge les huit fixtures Archives multi-actes et peut produire une vue structurelle pour téléphone, tablette, PC ou manette. Il ne génère aucun texte canonique et ne change jamais l'état de connaissance fourni par les Archives.
 
 ## 2. Intégration prévue dans VeilleursContentRuntime
 
@@ -40,7 +54,7 @@ Après validation PC uniquement :
 3. connecter `remanence_hook_requested` au `VeilleursRuntimeCoordinator` / `VeilleursRemanencePolicy` ;
 4. ne jamais écrire directement dans `archive_entries` ou les données Rémanence depuis le service ;
 5. ajouter la racine `veilleurs_refuge_memory` au dictionnaire retourné par `VeilleursContentRuntime.serialize()` ;
-6. transmettre cette racine à `service.deserialize()` pendant `VeilleursContentRuntime.deserialize()` ;
+6. transmettre cette racine à la couche migration/audit puis au service pendant `VeilleursContentRuntime.deserialize()` ;
 7. appeler `service.reset()` depuis `VeilleursContentRuntime.reset()`.
 
 Le runtime existant expose déjà `record_archive_hook()`, `serialize()`, `deserialize()`, `reset()` et `refuge_changed`, donc aucune seconde infrastructure globale n'est nécessaire.
@@ -77,6 +91,8 @@ Le même événement source possède un cooldown candidat de deux expéditions. 
 
 La file sélectionnée et les clés de départage sont sauvegardées. Recharger ne reroll donc pas le Refuge.
 
+Six profils candidats existent dans `refuge_memory_arbitration_variants_v1.json`, mais `active_profile` reste `none` avant playtest PC.
+
 ## 5. Sauvegarde
 
 Racine candidate :
@@ -95,9 +111,31 @@ Interdits : NodePath, snapshot de scène, horloge réelle comme source temporell
 - payload v0/non versionné : normalise les champs manquants sans réouvrir RESOLVED/EXPIRED ;
 - schema futur > 1 : refuse la mutation avec rapport `future_schema_unsupported`.
 
-La migration doit rester idempotente.
+Le corpus `refuge_memory_migration_corpus_v1.json` couvre 16 cas. La migration doit rester idempotente.
 
-## 6. Signaux Godot
+### Audit de migration
+
+Le smoke `veilleurs_refuge_memory_migration_audit_candidate_smoke.tscn` vérifie qu'un état invalide devient `DORMANT` **et** laisse une trace explicite dans `migration_log`, puis qu'un second chargement ne duplique pas cet avertissement.
+
+## 6. Feature flags et rollback
+
+Tous les flags post-playtest restent `false` avant validation PC.
+
+`post_playtest_feature_flag_rollback_scenarios_v1.json` définit huit scénarios. Principe : **rollback d'exécution ≠ rollback de l'histoire**.
+
+Désactiver un flag :
+
+- stoppe les nouvelles exécutions de la couche ;
+- ne supprime aucun record mémoire ;
+- ne modifie ni `memory_id` ni `deterministic_tiebreak` ;
+- ne rétrograde pas la connaissance Archives ;
+- ne répare pas une blessure réelle ;
+- ne supprime pas une cicatrice du monde ;
+- ne rétrograde pas un rang de Rémanence déjà acquis.
+
+Le smoke `veilleurs_post_playtest_feature_flag_rollback_candidate_smoke.tscn` crée réellement un historique, désactive les flags, vérifie une sérialisation mémoire identique, puis réactive le maître + mémoire et confirme les mêmes IDs et tiebreaks.
+
+## 7. Signaux Godot
 
 Le service émet :
 
@@ -113,7 +151,7 @@ Le service émet :
 
 Le résolveur auxiliaire n'a besoin d'aucun signal global : il reçoit un snapshot d'auxiliaire et un contexte d'événement puis renvoie une décision pure.
 
-## 7. Archives
+## 8. Archives
 
 Une résolution peut demander un hook `refuge_memory_resolved` avec :
 
@@ -127,7 +165,23 @@ Une résolution peut demander un hook `refuge_memory_resolved` avec :
 
 Le service n'a jamais le droit d'augmenter seul `UNKNOWN/SUSPECTED/OBSERVED/CONFIRMED/UNDERSTOOD`. Seul le runtime Archives applique un changement de connaissance si de nouvelles preuves l'autorisent.
 
-## 8. Rémanence
+### Fixtures visuelles multi-actes
+
+`multi_act_archive_visual_fixtures_v1.json` contient huit fixtures correspondant exactement aux huit chaînes de `multi_act_archive_projection_v1.json`.
+
+Chaque fixture fixe :
+
+- sections visibles ;
+- ordre et type des cartes ;
+- badges de provenance/certitude ;
+- assertions visuelles ;
+- profil téléphone/tablette/PC/manette.
+
+Les contraintes restent : cibles tactiles ≥48 pt, aucun long press requis, aucun hover requis, aucune dépendance au pointeur pour la manette, versions contradictoires non fusionnées, cicatrice physique seulement si elle existe, même `entity_id` pour l'histoire Rémanente, état de connaissance courant préservé.
+
+Le smoke `veilleurs_multi_act_archive_visual_fixture_candidate_smoke.tscn` parcourt 8 chaînes × 4 profils.
+
+## 9. Rémanence
 
 Une demande Rémanence n'est émise que si :
 
@@ -135,9 +189,11 @@ Une demande Rémanence n'est émise que si :
 - la résolution fournit `shared_lived_history=true` ;
 - un `entity_id` stable existe.
 
+L'adaptateur ne transmet vers `note_enemy_memory_event()` qu'un événement canonique vécu, avec preuve non vide et `evidence_verified=true`.
+
 Cette demande ne peut ni promouvoir automatiquement une entité ni créer une Némésis. Le `VeilleursRemanencePolicy` reste propriétaire de ces décisions.
 
-## 9. Auxiliaires individuels
+## 10. Auxiliaires individuels
 
 Un auxiliaire peut réagir seulement s'il possède :
 
@@ -149,7 +205,7 @@ Le contexte utilise des listes d'IDs (`direct_participants`, `direct_observers`,
 
 Deux Déliés Affamés différents peuvent donc avoir des réactions totalement différentes en fonction de leur histoire.
 
-## 10. Chaînes multi-actes
+## 11. Chaînes multi-actes
 
 `multi_act_consequence_chains_v1.json` définit 8 chaînes candidates. Elles peuvent préserver :
 
@@ -164,30 +220,41 @@ Deux Déliés Affamés différents peuvent donc avoir des réactions totalement 
 
 Une étape manquée ne bloque jamais la campagne. Aucune chaîne ne fournit de bonus caché et aucune Némésis n'est générée pour satisfaire une chaîne.
 
-## 11. Tests déterministes
+## 12. Tests déterministes
 
-Fixtures : `refuge_memory_fixtures_v1.json` — 8 cas.
+Fixtures mémoire : `refuge_memory_fixtures_v1.json` — 8 cas.
 
 Collisions : `refuge_memory_collision_scenarios_v1.json` — 8 cas.
+
+Rollbacks : `post_playtest_feature_flag_rollback_scenarios_v1.json` — 8 cas.
+
+Fixtures Archives : `multi_act_archive_visual_fixtures_v1.json` — 8 chaînes × 4 profils.
 
 Smokes Godot :
 
 - `veilleurs_refuge_memory_service_candidate_smoke.tscn`
+- `veilleurs_refuge_memory_migration_corpus_candidate_smoke.tscn`
+- `veilleurs_refuge_memory_migration_audit_candidate_smoke.tscn`
+- `veilleurs_post_playtest_feature_flag_rollback_candidate_smoke.tscn`
+- `veilleurs_refuge_memory_projection_adapter_candidate_smoke.tscn`
 - `veilleurs_auxiliary_reaction_resolver_candidate_smoke.tscn`
+- `veilleurs_multi_act_archive_visual_fixture_candidate_smoke.tscn`
 
 Ils sont lancés par `Remanence Smoke` sur la PR #180 mais ne sont utilisés par aucune scène de jeu.
 
-## 12. Ordre d'activation après playtest
+## 13. Ordre d'activation après playtest
 
 1. valider le plafond de rappels par retour ;
 2. valider les priorités/cooldowns ;
 3. brancher le service à `VeilleursContentRuntime` derrière un feature flag ;
-4. valider save/load/migration sur copies de sauvegardes ;
-5. brancher les requêtes Archives ;
-6. brancher les requêtes Rémanence ;
-7. brancher le résolveur d'auxiliaires ;
-8. activer une seule famille d'événements Refuge ;
-9. playtest ;
-10. seulement ensuite étendre aux événements régionaux et chaînes multi-actes.
+4. valider save/load/migration + journal d'audit sur copies de sauvegardes ;
+5. valider le rollback avec historique ;
+6. brancher les requêtes Archives ;
+7. vérifier les fixtures visuelles ;
+8. brancher les requêtes Rémanence ;
+9. brancher le résolveur d'auxiliaires ;
+10. activer une seule famille d'événements Refuge ;
+11. playtest ;
+12. seulement ensuite étendre aux événements régionaux et chaînes multi-actes.
 
 Aucune activation en masse avant validation de chaque étape.
