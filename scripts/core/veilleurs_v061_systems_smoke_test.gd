@@ -46,6 +46,7 @@ func _run() -> void:
     var sahen_row: Dictionary = runtime.combatants["ENT_WATCHER_SAHEN"]
     sahen_row["hp"] = 20
     runtime.combatants["ENT_WATCHER_SAHEN"] = sahen_row
+    _check(runtime.grid.move("ENT_ENEMY_ECORCHEUSE", Vector2i(1, 0)), "Ecorcheuse moves into attack range for memory-aware AI test")
     var ai_decision: Dictionary = runtime.enemy_ai.decide(runtime, "ENT_ENEMY_ECORCHEUSE")
     _check(str(ai_decision.get("target", "")) == "ENT_WATCHER_SAHEN" and bool(ai_decision.get("memory_used", false)), "AI v3 uses veteran memory against wounded Watcher")
     _check(str(ai_decision.get("zone", "")) in ["head", "torso", "left_arm", "right_arm", "left_leg", "right_leg"], "AI v3 selects a body zone")
