@@ -1,9 +1,14 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "legacy_id": "VS001",
   "status": "contained_active_compatibility",
   "purpose": "Preserve the original playable vertical-slice implementation only while canonical Les Veilleurs runtime/save/UI bindings are migrated away from VS001 names and contracts.",
   "authoritative_rule": "No new production system may depend directly on a VS001 symbol, path or save key. Existing dependencies must shrink monotonically until removal.",
+  "canonical_runtime_facade": "scripts/core/veilleurs_runtime.gd",
+  "canonical_runtime_singleton": "VeilleursRuntime",
+  "canonical_runtime_implementation": "scripts/core/veilleurs_vertical_slice_runtime_v09.gd",
+  "canonical_save_key": "veilleurs",
+  "legacy_read_key": "veilleurs_vs001",
   "runtime_critical": [
     "scripts/core/veilleurs_vs001_runtime.gd",
     "scripts/core/veilleurs_vs001_session_runtime.gd",
@@ -46,6 +51,13 @@
     "tools/qa/veilleurs_vs001_",
     "scenes/tests/veilleurs_vs001_",
     "tests/test_veilleurs_vs001_"
+  ],
+  "completed_migration_steps": [
+    "canonical neutral VeilleursRuntime facade added over v0.9 runtime",
+    "canonical VeilleursRuntime singleton added to project autoloads",
+    "new saves write Les Veilleurs state under neutral veilleurs key",
+    "legacy veilleurs_vs001 top-level save payloads migrate into veilleurs.legacy_vs001 on load",
+    "new saves no longer write a top-level veilleurs_vs001 key"
   ],
   "migration_order": [
     "introduce canonical runtime facade and make new code depend only on it",
