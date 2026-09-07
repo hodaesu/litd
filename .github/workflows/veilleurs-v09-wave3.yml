@@ -1,0 +1,69 @@
+name: Veilleurs v0.9 Wave 3
+
+on:
+  push:
+    branches:
+      - feat/veilleurs-production-wave-3
+  pull_request:
+    paths:
+      - 'data/veilleurs/v09/**'
+      - 'scripts/core/veilleurs_*v09.gd'
+      - 'scripts/core/veilleurs_v09_*'
+      - 'scripts/ui/veilleurs_vertical_slice_qa_v09.gd'
+      - 'scenes/veilleurs/v09_*'
+      - 'scenes/tests/veilleurs_v09_*'
+      - 'tools/qa/veilleurs_v09_*'
+      - '.github/workflows/veilleurs-v09-wave3.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: veilleurs-v09-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    name: Wave 3 contracts and regressions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Audit Wave 3 contract
+        run: python tools/qa/veilleurs_v09_wave3_audit.py
+      - name: Preserve Wave 2 contracts
+        run: python tools/qa/veilleurs_v08_wave2_audit.py
+      - name: Preserve v0.7 production contracts
+        run: python tools/qa/veilleurs_v07_content_audit.py
+      - name: Preserve Tests_48
+        run: python tools/qa/veilleurs_v06_tests48.py
+
+  godot-wave3:
+    name: Godot 4.3 Wave 3 smoke
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Strict Godot import
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --path . --import --quit 2>&1 | tee /tmp/v09-import.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/v09-import.log
+      - name: Run Wave 3 end-to-end smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 120s godot --headless --path . res://scenes/tests/veilleurs_v09_wave3_smoke.tscn 2>&1 | tee /tmp/v09-smoke.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V09_WAVE3_SMOKE_FAILED' /tmp/v09-smoke.log
+          grep -F 'VEILLEURS_V09_WAVE3_SMOKE_OK' /tmp/v09-smoke.log
+      - name: Instantiate six-dungeon QA scene
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v09_vertical_slice_qa.tscn 2>&1 | tee /tmp/v09-qa.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' /tmp/v09-qa.log
