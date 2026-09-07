@@ -1,0 +1,39 @@
+{
+  "schema_version":"0.6.9",
+  "contract_id":"VEILLEURS_REFUGE_LOCALIZATION_SUBTITLE_V1",
+  "status":"production_locked_before_pc",
+  "source_locale":"fr-FR",
+  "protected_terms":["Sahen Varo","Mira Sen","Narem Osh","Ysra Nahal","Khar-Sen","Rémanence","Mémoriel","Némésis","Terre des Cendres","Corps","Esprit","Politique","Refuge","Veilleur","Veilleurs","Porte-Cendres","Porte-Flamme","Carapacier"],
+  "rules":{
+    "source_french_is_canonical_meaning":true,
+    "names_never_translated":true,
+    "system_terms_require_glossary_entry_before_translation":true,
+    "subtitles_follow_spoken_resolution_not_template_source":true,
+    "line_breaks_are_localization_specific":true,
+    "do_not_translate_relationship_axes_as_single_loyalty_score":true,
+    "do_not_translate_fear_as_loyalty":true,
+    "do_not_euphemize_mutilation_or_death_when_source_is_explicit":true,
+    "do_not_intensify_gore_beyond_source":true,
+    "do_not_turn_hypothesis_into_fact":true,
+    "do_not_gender_nonhuman_entity_without_canonical_entity_gender":true,
+    "nonverbal_reactions_have_no_dialogue_subtitle":true,
+    "accessibility_sound_caption_is_separate_from_dialogue_subtitle":true,
+    "mobile_subtitles_take_priority_over_decorative_hud":true
+  },
+  "glossary":[
+    {"term_fr":"Rémanence","meaning":"persistance active des traces, conséquences et connaissances dans le monde et entre les passages","translation_note":"éviter simple 'memory' si la langue cible dispose d'un terme exprimant persistance/empreinte"},
+    {"term_fr":"Mémoriel","meaning":"entité ou phénomène de mémoire persistante pouvant présenter une forme de réponse ou de continuité","translation_note":"ne pas réduire automatiquement à memorial/monument"},
+    {"term_fr":"Némésis","meaning":"menace adaptative persistante dont l'intention et la nature peuvent rester incertaines","translation_note":"conserver l'incertitude; ne pas introduire conscience ou vengeance non confirmée"},
+    {"term_fr":"Corps","meaning":"pilier de pratique corporelle, arts martiaux, limites et adaptation","translation_note":"capitaliser selon convention UI locale quand il s'agit du pilier"},
+    {"term_fr":"Esprit","meaning":"pilier des arts, mémoire, psychologie, pensée et interprétation","translation_note":"ne pas réduire à intelligence statistique"},
+    {"term_fr":"Politique","meaning":"pilier du bien commun, gouvernance, autorité, règles et responsabilité collective","translation_note":"ne pas associer automatiquement à politique partisane contemporaine"},
+    {"term_fr":"Refuge","meaning":"hub vivant des Veilleurs, communauté et lieu physique","translation_note":"garder distinction entre simple abri générique et nom fonctionnel du hub"},
+    {"term_fr":"Confiance","meaning":"axe relationnel indépendant","translation_note":"ne pas fusionner avec Respect"},
+    {"term_fr":"Respect","meaning":"axe relationnel indépendant","translation_note":"ne pas fusionner avec Confiance"},
+    {"term_fr":"Peur","meaning":"axe relationnel indépendant qui mesure anticipation de danger/contrainte","translation_note":"ne jamais traduire comme loyauté négative"},
+    {"term_fr":"Ressentiment","meaning":"axe relationnel indépendant qui mémorise humiliation, abandon, exploitation ou tort évitable","translation_note":"ne pas réduire à simple colère momentanée"}
+  ],
+  "subtitle_style":{"speaker_label_format":"<Nom> : texte only when offscreen/ambiguous","punctuation":"French source punctuation; localization may adapt typography only","ellipsis":"… only for genuine trailing or interruption","dash":"— may mark interrupted turn in transcript, not required in rendered subtitle","max_lines":2,"target_chars_per_line":42,"hard_chars_per_line":48,"avoid_single_word_second_line":true,"minimum_display_ms":1100,"maximum_display_ms":7000,"target_cps":17,"audio_tail_ms":250},
+  "accessibility_sound_caption_examples":[["Pleureuse","[plainte brève]"],["Murmure","[fragments de voix indistincts]"],["Nid ambulant","[vibration sourde]"],["Carapacier","[carapace qui se referme]"]],
+  "qa_checks":["protected terms unchanged where required","every spoken line has subtitle text","every subtitle maps to one resolved audio line id","no subtitle for null/nonlexical reaction unless accessibility caption track","hypothesis markers preserved","relationship-axis terminology preserved","line lengths mobile-safe","interruptions visually match audio","speaker attribution unambiguous"]
+}
