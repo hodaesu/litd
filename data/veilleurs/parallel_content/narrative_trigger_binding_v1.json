@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive_source_backed",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "policy": {
+    "canonical_text_rewrite_forbidden": true,
+    "source_key_is_authoritative": true,
+    "future_boss_phase_spoiler_forbidden": true,
+    "current_perception_may_reduce_delivery_detail": true,
+    "stored_knowledge_erasure_forbidden": true
+  },
+  "sources": {
+    "barks": {"path":"res://data/veilleurs/canonical_prepc_2026_09_03/current/barks_veilleurs.json","row_count":68,"key_field":"Clé","trigger_field":"Déclencheur"},
+    "boss_dialogues": {"path":"res://data/veilleurs/canonical_prepc_2026_09_03/current/dialogues_boss.json","row_count":30,"key_field":"Clé","moment_field":"Moment"},
+    "remanence_ii_v": {"path":"res://data/veilleurs/canonical_prepc_2026_09_03/current/remanence_ii_v.json","row_count":16,"entity_field":"Ennemi"}
+  },
+  "bark_trigger_contract": {
+    "selection": "select exact source rows whose Déclencheur equals emitted trigger; then filter to Veilleurs currently present; apply cooldown/priority only in future runtime layer",
+    "generic_triggers": [
+      {"trigger":"combat_start","event":"combat.encounter_started","gate":"watcher_present_and_can_speak","repeat":"once_per_encounter_per_watcher"},
+      {"trigger":"ally_hurt","event":"body.ally_became_wounded","gate":"source_watcher_is_not_the_wounded_actor","repeat":"bounded_by_runtime_cooldown"},
+      {"trigger":"ally_critical","event":"body.ally_became_critical","gate":"critical_transition_is_new","repeat":"once_per_critical_transition"},
+      {"trigger":"light_low","event":"exploration.light_band_entered_low_or_worse","gate":"band_transition_is_new","repeat":"once_per_band_descent"},
+      {"trigger":"enemy_observed","event":"knowledge.enemy_state_promoted_to_OBSERVED","gate":"promotion_is_new_for_entity_or_phase","repeat":"once_per_knowledge_promotion"},
+      {"trigger":"retreat","event":"combat.retreat_committed","gate":"retreat_is_irreversible","repeat":"once_per_retreat"},
+      {"trigger":"corpse_ally","event":"corpse.ally_created_or_rediscovered","gate":"corpse_identity_known","repeat":"once_per_new_corpse_context"},
+      {"trigger":"corpse_enemy","event":"corpse.enemy_created_or_selected_for_analysis","gate":"corpse_is_physically_present","repeat":"once_per_new_corpse_context"},
+      {"trigger":"capture_ready","event":"rallying.observable_opening_detected","gate":"ordinary_enemy_only_and_no_probability_reveal","repeat":"once_per_opening_state"},
+      {"trigger":"boss_phase","event":"boss.phase_transition_confirmed","gate":"new_phase_has_been_entered_not_predicted","repeat":"once_per_phase_transition"},
+      {"trigger":"victory","event":"combat.encounter_resolved_victory","gate":"watcher_survived_and_present","repeat":"once_per_encounter"},
+      {"trigger":"camp","event":"refuge_or_field_camp.entered","gate":"watcher_available","repeat":"once_per_camp_visit_per_watcher"}
+    ],
+    "act_entry_triggers": [
+      {"trigger":"act_entry::i_les_marches_du_sanctuaire","event":"campaign.act_entered","act":"I","repeat":"once_per_campaign_entry_per_watcher"},
+      {"trigger":"act_entry::ii_les_routes_muettes","event":"campaign.act_entered","act":"II","repeat":"once_per_campaign_entry_per_watcher"},
+      {"trigger":"act_entry::iii_ce_qui_pousse_sous_nous","event":"campaign.act_entered","act":"III","repeat":"once_per_campaign_entry_per_watcher"},
+      {"trigger":"act_entry::iv_les_cendres_de_la_paix","event":"campaign.act_entered","act":"IV","repeat":"once_per_campaign_entry_per_watcher"},
+      {"trigger":"act_entry::v_les_versions","event":"campaign.act_entered","act":"V","repeat":"once_per_campaign_entry_per_watcher"}
+    ],
+    "expected_shape": {"watchers":4,"generic_rows_per_watcher":12,"act_entry_rows_per_watcher":5,"total":68}
+  },
+  "boss_dialogue_bindings": [
+    {"key":"boss.ishar_gardien_du_passage.intro.ishar","boss_id":"ishar_gardien_du_passage","moment":"intro","runtime_trigger":"boss_encounter_started","phase":1},
+    {"key":"boss.ishar_gardien_du_passage.phase_2.ishar","boss_id":"ishar_gardien_du_passage","moment":"phase_2","runtime_trigger":"boss_phase_entered","phase":2},
+    {"key":"boss.ishar_gardien_du_passage.phase_3.ishar","boss_id":"ishar_gardien_du_passage","moment":"phase_3","runtime_trigger":"boss_phase_entered","phase":3},
+    {"key":"boss.ishar_gardien_du_passage.reply.idris","boss_id":"ishar_gardien_du_passage","moment":"reply","runtime_trigger":"boss_intro_reply_window","requires_watcher":"idris_vael","phase":1},
+    {"key":"boss.ishar_gardien_du_passage.victory.ishar","boss_id":"ishar_gardien_du_passage","moment":"victory","runtime_trigger":"boss_defeated","phase":3},
+    {"key":"boss.orateur_sans_voix.intro.idris","boss_id":"orateur_sans_voix","moment":"intro","runtime_trigger":"boss_encounter_started","requires_watcher":"idris_vael","phase":1},
+    {"key":"boss.orateur_sans_voix.intro_reply.nayra","boss_id":"orateur_sans_voix","moment":"intro_reply","runtime_trigger":"boss_intro_reply_window","requires_watcher":"nayra_orun","phase":1},
+    {"key":"boss.orateur_sans_voix.phase_2.tarek","boss_id":"orateur_sans_voix","moment":"phase_2","runtime_trigger":"boss_phase_entered","requires_watcher":"tarek_senn","phase":2},
+    {"key":"boss.orateur_sans_voix.phase_3.aisha","boss_id":"orateur_sans_voix","moment":"phase_3","runtime_trigger":"boss_phase_entered","requires_watcher":"aisha_maren","phase":3},
+    {"key":"boss.orateur_sans_voix.victory.idris","boss_id":"orateur_sans_voix","moment":"victory","runtime_trigger":"boss_defeated","requires_watcher":"idris_vael","phase":3},
+    {"key":"boss.mere_des_veines.intro.aisha","boss_id":"mere_des_veines","moment":"intro","runtime_trigger":"boss_encounter_started","requires_watcher":"aisha_maren","phase":1},
+    {"key":"boss.mere_des_veines.phase_2.tarek","boss_id":"mere_des_veines","moment":"phase_2","runtime_trigger":"boss_phase_entered","requires_watcher":"tarek_senn","phase":2},
+    {"key":"boss.mere_des_veines.phase_3.nayra","boss_id":"mere_des_veines","moment":"phase_3","runtime_trigger":"boss_phase_entered","requires_watcher":"nayra_orun","phase":3},
+    {"key":"boss.mere_des_veines.reply.idris","boss_id":"mere_des_veines","moment":"reply","runtime_trigger":"boss_phase_reply_window","requires_watcher":"idris_vael","phase":3},
+    {"key":"boss.mere_des_veines.victory.aisha","boss_id":"mere_des_veines","moment":"victory","runtime_trigger":"boss_defeated","requires_watcher":"aisha_maren","phase":3},
+    {"key":"boss.porte_cendres_blanc.intro.idris","boss_id":"porte_cendres_blanc","moment":"intro","runtime_trigger":"boss_encounter_started","requires_watcher":"idris_vael","phase":1},
+    {"key":"boss.porte_cendres_blanc.phase_2.nayra","boss_id":"porte_cendres_blanc","moment":"phase_2","runtime_trigger":"boss_phase_entered","requires_watcher":"nayra_orun","phase":2},
+    {"key":"boss.porte_cendres_blanc.phase_3.tarek","boss_id":"porte_cendres_blanc","moment":"phase_3","runtime_trigger":"boss_phase_entered","requires_watcher":"tarek_senn","phase":3},
+    {"key":"boss.porte_cendres_blanc.reply.aisha","boss_id":"porte_cendres_blanc","moment":"reply","runtime_trigger":"boss_phase_reply_window","requires_watcher":"aisha_maren","phase":3},
+    {"key":"boss.porte_cendres_blanc.victory.idris","boss_id":"porte_cendres_blanc","moment":"victory","runtime_trigger":"boss_defeated","requires_watcher":"idris_vael","phase":3},
+    {"key":"boss.le_copiste.intro.le_copiste","boss_id":"le_copiste","moment":"intro","runtime_trigger":"boss_encounter_started","phase":1},
+    {"key":"boss.le_copiste.reply_1.idris","boss_id":"le_copiste","moment":"reply_1","runtime_trigger":"boss_intro_reply_window","requires_watcher":"idris_vael","phase":1},
+    {"key":"boss.le_copiste.phase_2.le_copiste","boss_id":"le_copiste","moment":"phase_2","runtime_trigger":"boss_phase_entered","phase":2},
+    {"key":"boss.le_copiste.reply_2.aisha","boss_id":"le_copiste","moment":"reply_2","runtime_trigger":"boss_phase_reply_window","requires_watcher":"aisha_maren","phase":2},
+    {"key":"boss.le_copiste.phase_3.le_copiste","boss_id":"le_copiste","moment":"phase_3","runtime_trigger":"boss_phase_entered","phase":3},
+    {"key":"boss.le_copiste.reply_3.tarek","boss_id":"le_copiste","moment":"reply_3","runtime_trigger":"boss_phase_reply_window","requires_watcher":"tarek_senn","phase":3},
+    {"key":"boss.le_copiste.phase_4.le_copiste","boss_id":"le_copiste","moment":"phase_4","runtime_trigger":"boss_phase_entered","phase":4},
+    {"key":"boss.le_copiste.reply_4.nayra","boss_id":"le_copiste","moment":"reply_4","runtime_trigger":"boss_phase_reply_window","requires_watcher":"nayra_orun","phase":4},
+    {"key":"boss.le_copiste.victory.le_copiste","boss_id":"le_copiste","moment":"victory","runtime_trigger":"boss_defeated","phase":4},
+    {"key":"boss.le_copiste.victory_reply.idris","boss_id":"le_copiste","moment":"victory_reply","runtime_trigger":"boss_victory_reply_window","requires_watcher":"idris_vael","phase":4}
+  ],
+  "remanence_fragment_bindings": [
+    {"entity_id":"ecouteur_creux","source_name":"Écouteur Creux","act":"II"},{"entity_id":"porte_signe","source_name":"Porte-Signe","act":"II"},{"entity_id":"marcheur_aphone","source_name":"Marcheur Aphone","act":"II"},{"entity_id":"reteneur_de_souffle","source_name":"Reteneur de Souffle","act":"II"},
+    {"entity_id":"veine_rampante","source_name":"Veine Rampante","act":"III"},{"entity_id":"noeud_ecorche","source_name":"Nœud-Écorché","act":"III"},{"entity_id":"porte_sang","source_name":"Porte-Sang","act":"III"},{"entity_id":"germe_arteriel","source_name":"Germe Artériel","act":"III"},
+    {"entity_id":"marche_pale","source_name":"Marche-Pâle","act":"IV"},{"entity_id":"porte_linceul","source_name":"Porte-Linceul","act":"IV"},{"entity_id":"effaceur_de_traces","source_name":"Effaceur de Traces","act":"IV"},{"entity_id":"dormeur_de_cendre","source_name":"Dormeur de Cendre","act":"IV"},
+    {"entity_id":"copie_lacunaire","source_name":"Copie Lacunaire","act":"V"},{"entity_id":"rature_vivante","source_name":"Rature Vivante","act":"V"},{"entity_id":"archiviste_de_version","source_name":"Archiviste de Version","act":"V"},{"entity_id":"double_du_seuil","source_name":"Double du Seuil","act":"V"}
+  ],
+  "remanence_acquisition_triggers": [
+    {"mode":"observation","runtime_trigger":"knowledge.observation_confirmed","max_fragment_award_candidate":1},
+    {"mode":"corpse_analysis","runtime_trigger":"archives.corpse_analysis_completed","max_fragment_award_candidate":1},
+    {"mode":"recruitment_or_coexistence","runtime_trigger":"refuge.coexistence_history_written","rarity":"rare","requires_actual_coexistence":true}
+  ],
+  "boss_rules": {"bosses_recruitable":false,"dialogue_phase_scoped":true,"unseen_phase_delivery_forbidden":true}
+}
