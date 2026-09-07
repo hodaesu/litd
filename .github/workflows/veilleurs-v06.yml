@@ -13,7 +13,7 @@ on:
       - 'scripts/qa/qa_test_room_controller.gd'
       - 'scenes/veilleurs/**'
       - 'scenes/qa/qa_validation_room.tscn'
-      - 'scenes/tests/veilleurs_v06_*'
+      - 'scenes/tests/veilleurs_v06*'
       - 'tools/qa/veilleurs_v06_*'
       - '.github/workflows/veilleurs-v06.yml'
   workflow_dispatch:
@@ -55,6 +55,13 @@ jobs:
           timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v06_tactical_smoke.tscn 2>&1 | tee /tmp/veilleurs-smoke.log
           ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V06_TACTICAL_SMOKE_FAILED' /tmp/veilleurs-smoke.log
           grep -F 'VEILLEURS_V06_TACTICAL_SMOKE_OK' /tmp/veilleurs-smoke.log
+      - name: Run Veilleurs v0.6.1 systems smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v061_systems_smoke.tscn 2>&1 | tee /tmp/veilleurs-v061.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V061_SYSTEMS_SMOKE_FAILED' /tmp/veilleurs-v061.log
+          grep -F 'VEILLEURS_V061_SYSTEMS_SMOKE_OK' /tmp/veilleurs-v061.log
       - name: Instantiate playable tactical demo
         shell: bash
         run: |
