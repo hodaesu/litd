@@ -1,7 +1,7 @@
 [application]
 config/name="Light in the Dark"
 run/main_scene="res://scenes/Main.tscn"
-config/features=PackedStringArray("4.3")
+config/features=PackedStringArray("4.7")
 
 [autoload]
 GameSettings="*res://scripts/core/game_settings.gd"

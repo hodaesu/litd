@@ -1,6 +1,6 @@
 {
-  "version": 7,
-  "godot_version": "4.3",
+  "version": 8,
+  "godot_version": "4.7",
   "project_file": "project.godot",
   "report_dir": "build/automation",
   "watched_roots": [

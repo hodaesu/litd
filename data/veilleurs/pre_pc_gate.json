@@ -1,7 +1,7 @@
 {
-  "schema_version": 9,
+  "schema_version": 10,
   "stage": "pre_pc_lock",
-  "godot_version": "4.3",
+  "godot_version": "4.7",
   "canonical_watchers": [
     "ENT_WATCHER_NAYRA",
     "ENT_WATCHER_TAREK",
