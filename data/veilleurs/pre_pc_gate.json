@@ -17,6 +17,12 @@
   "allowed_stale_reference_files": [
     "scripts/core/veilleurs_v06_tactical_smoke_test.gd",
     "scripts/core/veilleurs_v08_wave2_smoke_test_round2.gd",
+    "scripts/core/veilleurs_v081_canonical_smoke_test.gd",
+    "scripts/core/veilleurs_ultimate_state_runtime.gd",
+    "scripts/core/veilleurs_tactical_combat_runtime_v062.gd",
+    "scripts/core/veilleurs_v062_hemocorde_ultimate_smoke_test.gd",
+    "scripts/core/veilleurs_hemocorde_ultimate_runtime_v2.gd",
+    "scripts/core/veilleurs_authored_encounter_runtime_v062.gd",
     "data/veilleurs/v07/ultimates_99.json"
   ],
   "production_dungeons": [
