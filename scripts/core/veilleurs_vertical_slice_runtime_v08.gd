@@ -4,7 +4,6 @@ class_name VeilleursVerticalSliceRuntimeV08
 const CAMPAIGN_SCRIPT := preload("res://scripts/core/veilleurs_campaign_runtime_v07.gd")
 const TACTICAL_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_runtime_v08.gd")
 const AUTHORED_SCRIPT := preload("res://scripts/core/veilleurs_authored_encounter_runtime_v08.gd")
-const CANONICAL_WATCHERS: Array[String] = ["ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"]
 
 var campaign: VeilleursCampaignRuntimeV07
 var combat: Variant = null
@@ -106,7 +105,9 @@ func deserialize(payload: Dictionary) -> bool:
 
 func _watcher_aftermath() -> Dictionary:
     var result: Dictionary = {}
-    for watcher_id: String in CANONICAL_WATCHERS:
+    for watcher_id: String in combat.alive_ids("watcher"):
+        pass
+    for watcher_id: String in ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]:
         if not combat.combatants.has(watcher_id):
             continue
         var row: Dictionary = combat.combatants[watcher_id]

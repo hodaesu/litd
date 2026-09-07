@@ -1,4 +1,4 @@
-extends "res://scripts/core/veilleurs_content_db_v07.gd"
+extends "res://scripts/core/veilleurs_content_db_v07_runtime.gd"
 class_name VeilleursContentDBV081Canonical
 
 const CANONICAL_WATCHER_ULTIMATES_PATH := "res://data/veilleurs/v08/canonical_watcher_ultimates_12.json"
@@ -7,8 +7,8 @@ func _load_ultimates() -> void:
     ultimates_by_id.clear()
     ultimates_by_entity.clear()
 
-    # v0.7 apporte 87 ultimes ennemis/boss valides, mais ses 12 lignes Veilleurs
-    # appartiennent à un quatuor obsolète. Elles sont volontairement ignorées.
+    # v0.7 fournit les Ultimes ennemis/boss. Les lignes Veilleurs de ce registre
+    # sont ignorées : le quatuor canonique vient du manifeste v0.8.1 ci-dessus.
     var legacy_payload: Dictionary = _load_v07_dictionary(ULTIMATES_PATH)
     for value: Variant in legacy_payload.get("ultimates", []):
         if not (value is Dictionary):
