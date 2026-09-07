@@ -49,6 +49,7 @@ func launch_current_encounter(context: Dictionary = {}) -> Dictionary:
         combat_kind = ""
         combat_node_id = ""
         return setup
+    _apply_campaign_progress_to_combat()
     _restore_expedition_watcher_state()
     setup["expedition_wounds_restored"] = not expedition_watcher_state.is_empty()
     setup["nemesis_injected"] = bool(last_materialized_encounter.get("nemesis_injected", false))
@@ -61,7 +62,11 @@ func resolve_active_combat(outcome: String, extra_context: Dictionary = {}) -> D
         return {"ok":false, "reason":"no_active_combat"}
     expedition_watcher_state = _watcher_aftermath().duplicate(true)
     var result: Dictionary = super.resolve_active_combat(outcome, extra_context)
-    pending_recruit_candidates = _build_recruit_candidates(result.get("enemy_aftermath", []))
+    _sync_expedition_progress_to_campaign()
+    if outcome in ["victory", "cleared"]:
+        pending_recruit_candidates = _build_recruit_candidates(result.get("enemy_aftermath", []))
+    else:
+        pending_recruit_candidates.clear()
     result["recruitment_candidates"] = pending_recruit_candidates.duplicate(true)
     result["expedition_watcher_state"] = expedition_watcher_state.duplicate(true)
     result["nemesis_return"] = {
@@ -99,7 +104,7 @@ func resolve_recruitment_decision(candidate_index: int, action: String, context:
                 "zone_id":str(last_resolution.get("node_id", "")),
                 "summary":"Post-combat decision: %s" % action
             })
-        if campaign.archives != null:
+        if campaign.archives != null and remanence_id != "":
             campaign.archives.record_history_event(remanence_id, {
                 "event_id":"SPARED" if action == "spare" else "LEFT_BEHIND",
                 "dungeon_id":campaign.current_dungeon_id,
@@ -153,6 +158,20 @@ func deserialize(payload: Dictionary) -> bool:
         return combat.deserialize(combat_payload)
     return true
 
+func _apply_campaign_progress_to_combat() -> void:
+    if combat == null:
+        return
+    for watcher_id_value: Variant in campaign.watcher_progress.keys():
+        var watcher_id := str(watcher_id_value)
+        if not combat.combatants.has(watcher_id):
+            continue
+        var progress: Dictionary = campaign.watcher_progress[watcher_id]
+        var row: Dictionary = combat.combatants[watcher_id]
+        row["level"] = int(progress.get("level", row.get("level", 1)))
+        row["chosen_tree"] = str(progress.get("chosen_tree", row.get("chosen_tree", "")))
+        row["ultimate_charges"] = int(progress.get("ultimate_charges", row.get("ultimate_charges", 0)))
+        combat.combatants[watcher_id] = row
+
 func _restore_expedition_watcher_state() -> void:
     if combat == null or expedition_watcher_state.is_empty():
         return
@@ -172,6 +191,19 @@ func _restore_expedition_watcher_state() -> void:
         row["chosen_tree"] = str(saved.get("chosen_tree", row.get("chosen_tree", "")))
         row["ultimate_charges"] = int(saved.get("ultimate_charges", row.get("ultimate_charges", 0)))
         combat.combatants[watcher_id] = row
+
+func _sync_expedition_progress_to_campaign() -> void:
+    for watcher_id_value: Variant in expedition_watcher_state.keys():
+        var watcher_id := str(watcher_id_value)
+        if not campaign.watcher_progress.has(watcher_id):
+            continue
+        var aftermath: Dictionary = expedition_watcher_state[watcher_id]
+        var progress: Dictionary = campaign.watcher_progress[watcher_id]
+        progress["level"] = maxi(int(progress.get("level", 1)), int(aftermath.get("level", 1)))
+        if str(aftermath.get("chosen_tree", "")) != "":
+            progress["chosen_tree"] = str(aftermath.get("chosen_tree", ""))
+        progress["ultimate_charges"] = int(aftermath.get("ultimate_charges", progress.get("ultimate_charges", 0)))
+        campaign.watcher_progress[watcher_id] = progress
 
 func _build_recruit_candidates(values: Variant) -> Array[Dictionary]:
     var candidates: Array[Dictionary] = []
