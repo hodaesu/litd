@@ -1,0 +1,40 @@
+{
+  "schema_version":"0.6.8",
+  "contract_id":"VEILLEURS_REFUGE_EVENT_CHAINS_V1",
+  "status":"production_locked_before_godot",
+  "rules":{
+    "acts_per_chain_min":2,
+    "acts_per_chain_max":3,
+    "never_force_next_act_without_trigger":true,
+    "choice_outcome_changes_later_act_context":true,
+    "one_shot_act_never_replayed":true,
+    "dead_or_released_actor_invalidates_or_rebinds_only_when_authored":true,
+    "same_entity_ids_preserved_across_acts":true,
+    "minimum_return_gap_default":1,
+    "critical_grief_chain_can_ignore_normal_family_cooldown":true
+  },
+  "chains":[
+    {"id":"CHAIN_FEAR_TO_AGENCY","theme":"fear","acts":["REL_FEAR_WITHDRAWAL","REL_TRUST_BOND","REL_COMPLEX_LOYALTY"],"branch_notes":{"COERCE":"trust gate becomes harder and resentment context is retained","ALLOW_DISTANCE":"trust scene gains voluntary-return framing","LISTEN":"later dialogue can name the original fear precisely"}},
+    {"id":"CHAIN_RESENTMENT_TO_ROLE","theme":"authority","acts":["REL_RESENTMENT_CONFLICT","REF_DEBATE_POLITICS_AUTHORITY","REL_RESPECT_ROLE"],"branch_notes":{"APOLOGIZE":"debate begins from acknowledged harm","ASSERT_BOUNDARY":"authority legitimacy remains contested","SHARED_DUTY":"role event may unlock earlier when respect threshold is met"}},
+    {"id":"CHAIN_PACT_NOT_PROPERTY","theme":"freedom","acts":["REF_CONFLICT_PACT_REMINDER","REL_TRUST_BOND","REL_COMPLEX_LOYALTY"],"branch_notes":{"COERCE":"complex-loyalty act keeps explicit coercion memory","MEDIATED_COMPROMISE":"trust gain uses renegotiated pact flag","APOLOGIZE":"future pact dialogue cites restored terms"}},
+    {"id":"CHAIN_SHARED_LIFE","theme":"cohabitation","acts":["REF_CONFLICT_QUARTERS","REF_BOND_SHARED_MEAL","REF_BOND_REPAIR_TOGETHER"],"branch_notes":{"MEDIATED_COMPROMISE":"shared meal may use same actors","ALLOW_DISTANCE":"meal can occur without reconciliation","SHARED_DUTY":"repair becomes practical continuation of compromise"}},
+
+    {"id":"CHAIN_BODY_AFTER_LOSS","theme":"mutilation","acts":["REF_MUTILATION_FIRST_LOOK","REF_MUTILATION_ADAPTATION_REQUEST","REF_MUTILATION_COMBAT_IDENTITY"],"branch_notes":{"ADAPT_BODY":"act 2 exposes concrete adaptation options","ALLOW_DISTANCE":"next act waits until actor reopens subject","REHAB_COMMIT":"combat identity references chosen rehabilitation"}},
+    {"id":"CHAIN_REFUSAL_IS_A_CHOICE","theme":"autonomy","acts":["REF_MUTILATION_REFUSE_PROSTHESIS","REF_MUTILATION_GROUP_REACTION","REF_MUTILATION_COMBAT_IDENTITY"],"branch_notes":{"REFUSE_ADAPTATION":"later combat identity must support no-prosthetic route","COERCE":"group reaction includes remembered pressure","ASSERT_BOUNDARY":"group learns actor-defined limits"}},
+    {"id":"CHAIN_REHAB_SETBACK","theme":"rehabilitation","acts":["REF_MUTILATION_REHAB_FAILURE","REF_MUTILATION_PHANTOM_PAIN","REF_MUTILATION_COMBAT_IDENTITY"],"branch_notes":{"REHAB_COMMIT":"setback becomes adaptation data not failure state","ALLOW_DISTANCE":"phantom-pain act can occur before renewed training","BODY_REFRAME":"final act references changed body map"}},
+
+    {"id":"CHAIN_BODY_RETURNED","theme":"grief","acts":["REF_GRIEF_RETURNED_BODY","REF_GRIEF_EMPTY_BED","REF_GRIEF_SHARED_NAME"],"branch_notes":{"RITUAL_MOURNING":"empty-bed scene includes ritual object","PRIVATE_MOURNING":"second act remains private until actor chooses otherwise","NAME_THE_DEAD":"Archives cross-link appears in final act"}},
+    {"id":"CHAIN_BODY_LEFT_BEHIND","theme":"guilt","acts":["REF_GRIEF_BODY_LEFT_BEHIND","REF_GRIEF_WITNESS_GUILT","REF_GRIEF_SHARED_NAME"],"branch_notes":{"ACCEPT_GUILT":"witness scene distinguishes responsibility from omnipotence","PRIVATE_MOURNING":"witness act waits until SHAKE condition permits","NAME_THE_DEAD":"location/corpse scar becomes archive anchor"}},
+    {"id":"CHAIN_MOURNING_IS_POLITICAL","theme":"community","acts":["REF_GRIEF_FUNERAL_ARGUMENT","REF_DEBATE_POLITICS_COMMON_GOOD","REF_STATE_REBATIR"],"branch_notes":{"DEBATE_POLITICS":"common-good debate references funeral resource choice","ASSERT_BOUNDARY":"later debate exposes cost of utilitarian rule","MEDIATED_COMPROMISE":"rebuild state can include modest memorial space"}},
+
+    {"id":"CHAIN_MEMORY_CONTRADICTION","theme":"knowledge","acts":["REF_MEMORIEL_CONTRADICTION","REF_DEBATE_MIND_MEMORY","REF_MEMORIEL_PUBLIC_DISPLAY"],"branch_notes":{"MEMORIEL_QUESTION":"both conflicting versions remain visible","MEMORIEL_ACCEPT":"testimony gains weight but not automatic truth","DEBATE_MIND":"public-display act cites unresolved epistemic status"}},
+    {"id":"CHAIN_MEMORY_PERSONHOOD","theme":"personhood","acts":["REF_MEMORIEL_PERSONHOOD","REF_MEMORIEL_BURDEN","REF_STATE_TRANSMETTRE"],"branch_notes":{"MEMORIEL_ACCEPT":"transmission requires consent when source can respond","ASSERT_BOUNDARY":"burden limits consultation without deleting memory","TRANSMIT_KNOWLEDGE":"state transition can surface collective memory practice"}},
+
+    {"id":"CHAIN_NEMESIS_LEARNS","theme":"nemesis","acts":["REF_NEMESIS_PATTERN","REF_NEMESIS_FEAR","REF_NEMESIS_PERSON_OR_SYSTEM"],"branch_notes":{"NEMESIS_STUDY":"later acts expose confirmed pattern separately from intent","NEMESIS_FEAR":"fear remains rational response, not loyalty penalty","DEBATE_MIND":"final act can preserve multiple models"}},
+    {"id":"CHAIN_NEMESIS_AFTER_DEATH","theme":"revenge","acts":["REF_NEMESIS_REVENGE","REF_DEBATE_POLITICS_AUTHORITY","REF_NEMESIS_PATTERN"],"branch_notes":{"ACCEPT_GUILT":"vengeance stays desire until authorized mission choice","DEBATE_POLITICS":"authority act asks who can commit the Refuge to pursuit","NEMESIS_STUDY":"pattern act can redirect revenge into preparation"}},
+
+    {"id":"CHAIN_REFUGE_FROM_SURVIVAL_TO_ORDER","theme":"refuge_state","acts":["REF_STATE_SURVIVRE","REF_STATE_ORGANISER","REF_STATE_COMPRENDRE"],"branch_notes":{"CARE_BOND":"organization visibly keeps infirmary priority","REFUGE_BUILD":"security infrastructure persists into ORGANISER","DEBATE_POLITICS":"COMPRENDRE gains institutional debate space"}},
+    {"id":"CHAIN_REFUGE_FROM_KNOWLEDGE_TO_TRANSMISSION","theme":"refuge_state","acts":["REF_STATE_COMPRENDRE","REF_STATE_REBATIR","REF_STATE_TRANSMETTRE"],"branch_notes":{"TRANSMIT_KNOWLEDGE":"rebuild integrates Archives into public teaching","DEBATE_OPEN":"new common space supports visible disagreement","SYNTHESIZE_THREE":"final state displays Corps/Esprit/Politique together"}}
+  ],
+  "chain_count":16
+}
