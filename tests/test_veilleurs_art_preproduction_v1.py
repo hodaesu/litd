@@ -7,6 +7,8 @@ CATALOG = ROOT / "data/veilleurs/art/asset_catalog_preproduction_v1.json"
 FUTURE = ROOT / "data/veilleurs/art/future_content_packets_v1.json"
 MANIFEST = ROOT / "data/veilleurs/art/art_preproduction_manifest_v1.json"
 SHOTLIST = ROOT / "data/veilleurs/art/concept_shotlist_v1.json"
+REFERENCE_PRESETS = ROOT / "data/veilleurs/art/art_reference_presets_v1.json"
+REFERENCE_LIBRARY = ROOT / "data/art_reference_library.json"
 PLAYTEST_HEAD = "0c905800ec21e646e9252f1c14430ed8ad36ada3"
 
 EXPECTED_ORDINARY = {
@@ -83,7 +85,7 @@ def test_future_art_does_not_lock_playtest_sensitive_values():
 
 def test_art_manifest_is_isolated_and_all_indexed_files_exist():
     data = load(MANIFEST)
-    assert data["version"] >= 2
+    assert data["version"] >= 3
     assert data["status"] == "art_preproduction_manifest"
     assert data["runtime_wiring"] == "none"
     assert data["source_playtest_pr"] == 173
@@ -101,6 +103,7 @@ def test_art_manifest_is_isolated_and_all_indexed_files_exist():
         "acts": 5,
         "archive_knowledge_states": 5,
         "concept_shots": 36,
+        "reference_presets": 10,
     }
 
 
@@ -141,3 +144,31 @@ def test_playtest_blocked_shots_are_only_vfx_prototypes():
     assert {shot["id"] for shot in blocked} == {"ART-006", "ART-007", "ART-008"}
     assert {shot["category"] for shot in blocked} == {"vfx"}
     assert all(shot["priority"] == "P0" for shot in blocked)
+
+
+def test_reference_presets_use_existing_sources_and_minimum_three():
+    presets_data = load(REFERENCE_PRESETS)
+    library = load(REFERENCE_LIBRARY)
+    source_ids = {ref["id"] for ref in library["references"]}
+    presets = presets_data["presets"]
+    assert presets_data["runtime_wiring"] == "none"
+    assert len(presets) == 10
+    assert presets_data["policy"]["minimum_sources_per_preset"] == 3
+    assert presets_data["policy"]["extract_abstract_principles_only"] is True
+    assert presets_data["policy"]["copying_forbidden"] is True
+    for preset in presets:
+        assert len(preset["reference_ids"]) >= 3
+        assert set(preset["reference_ids"]) <= source_ids, preset["id"]
+        assert preset["extract"]
+        assert preset["transform"]
+        assert preset["forbid"]
+
+
+def test_reference_policy_matches_central_library_policy():
+    manifest_policy = load(MANIFEST)["reference_policy"]
+    library_policy = load(REFERENCE_LIBRARY)["usage_policy"]
+    assert manifest_policy["source_library"] == "data/art_reference_library.json"
+    assert manifest_policy["minimum_sources_per_creation"] == library_policy["minimum_sources_per_creation"] == 3
+    assert manifest_policy["abstract_principles_only"] is True
+    assert manifest_policy["rights_recheck_before_export"] is True
+    assert manifest_policy["copy_trace_signature_imitation_forbidden"] is True
