@@ -1,0 +1,55 @@
+name: P0 Godot Smoke
+
+on:
+  push:
+    branches: [p0-impact]
+    paths:
+      - 'p0_impact/**'
+      - '.github/workflows/p0-godot-smoke.yml'
+  pull_request:
+    paths:
+      - 'p0_impact/**'
+      - '.github/workflows/p0-godot-smoke.yml'
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Godot 4.3 stable
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .godot-bin
+          curl -L --fail --retry 3 \
+            -o .godot-bin/godot.zip \
+            https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+          unzip -q .godot-bin/godot.zip -d .godot-bin
+          chmod +x .godot-bin/Godot_v4.3-stable_linux.x86_64
+
+      - name: Verify Godot version
+        run: .godot-bin/Godot_v4.3-stable_linux.x86_64 --version
+
+      - name: Import and parse P0 project
+        shell: bash
+        run: |
+          set -euo pipefail
+          .godot-bin/Godot_v4.3-stable_linux.x86_64 \
+            --headless \
+            --editor \
+            --path p0_impact \
+            --quit
+
+      - name: Start P0 main scene headless
+        shell: bash
+        run: |
+          set -euo pipefail
+          .godot-bin/Godot_v4.3-stable_linux.x86_64 \
+            --headless \
+            --path p0_impact \
+            --quit-after 5
