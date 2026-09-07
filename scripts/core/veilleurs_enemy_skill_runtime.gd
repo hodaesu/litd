@@ -3,6 +3,8 @@ class_name VeilleursEnemySkillRuntime
 
 const CATALOG_PATH := "res://data/veilleurs/skills/enemy_skill_runtime_catalog_v1.json"
 const INTENT_RESOLVER_SCRIPT := preload("res://scripts/core/veilleurs_intent_resolver.gd")
+const EXACT_CATALOG_SCRIPT := preload("res://scripts/core/veilleurs_enemy_skill_runtime_catalog.gd")
+const DECISION_MATRIX_SCRIPT := preload("res://scripts/core/veilleurs_enemy_decision_matrix.gd")
 
 var catalog: Dictionary = {}
 var node_schema: Dictionary = {}
@@ -12,9 +14,13 @@ var entity_names: Dictionary = {}
 var boss_entities: Dictionary = {}
 var assigned_trees: Dictionary = {}
 var intent_resolver: VeilleursIntentResolver
+var exact_catalog: VeilleursEnemySkillRuntimeCatalog
+var decision_matrix: VeilleursEnemyDecisionMatrix
 
 func _init() -> void:
     intent_resolver = INTENT_RESOLVER_SCRIPT.new() as VeilleursIntentResolver
+    exact_catalog = EXACT_CATALOG_SCRIPT.new() as VeilleursEnemySkillRuntimeCatalog
+    decision_matrix = DECISION_MATRIX_SCRIPT.new() as VeilleursEnemyDecisionMatrix
     reload_content()
 
 func reload_content() -> Dictionary:
@@ -24,6 +30,8 @@ func reload_content() -> Dictionary:
     skills_by_runtime_id.clear()
     entity_names.clear()
     boss_entities.clear()
+    if exact_catalog != null:
+        exact_catalog.reload()
     var source: Dictionary = catalog.get("canonical_source", {})
     for file_value: Variant in source.get("tree_files", []):
         if not (file_value is Dictionary):
@@ -50,19 +58,20 @@ func validation_report() -> Dictionary:
         errors.append("skills:%d" % skills_by_runtime_id.size())
     var tree_count := 0
     var boss_skill_count := 0
-    for entity_id: Variant in trees_by_entity.keys():
+    for entity_id_value: Variant in trees_by_entity.keys():
+        var entity_id := str(entity_id_value)
         var trees: Array = trees_by_entity[entity_id]
         tree_count += trees.size()
         if trees.size() != 3:
-            errors.append("tree_count:%s:%d" % [str(entity_id), trees.size()])
+            errors.append("tree_count:%s:%d" % [entity_id, trees.size()])
         for tree_value: Variant in trees:
             if not (tree_value is Dictionary):
                 continue
             var tree: Dictionary = tree_value
             var skills: Array = tree.get("skills", [])
             if skills.size() != 15:
-                errors.append("skill_count:%s:%s:%d" % [str(entity_id), str(tree.get("tree", "")), skills.size()])
-            if boss_entities.has(str(entity_id)):
+                errors.append("skill_count:%s:%s:%d" % [entity_id, str(tree.get("tree", "")), skills.size()])
+            if boss_entities.has(entity_id):
                 boss_skill_count += skills.size()
     if tree_count != int(expected.get("trees", 87)):
         errors.append("trees:%d" % tree_count)
@@ -70,6 +79,21 @@ func validation_report() -> Dictionary:
         errors.append("bosses:%d" % boss_entities.size())
     if boss_skill_count != int(expected.get("boss_skills", 225)):
         errors.append("boss_skills:%d" % boss_skill_count)
+
+    var exact_report: Dictionary = exact_catalog.last_report if exact_catalog != null else {}
+    if exact_report.is_empty() or not bool(exact_report.get("ok", false)):
+        errors.append("exact_catalog_invalid")
+    else:
+        if int(exact_report.get("records", 0)) != 1305:
+            errors.append("exact_catalog_records:%d" % int(exact_report.get("records", 0)))
+        if int(exact_report.get("entities", 0)) != 29:
+            errors.append("exact_catalog_entities:%d" % int(exact_report.get("entities", 0)))
+        for runtime_id_value: Variant in skills_by_runtime_id.keys():
+            var runtime_id := str(runtime_id_value)
+            if exact_catalog.skill_by_runtime_id(runtime_id).is_empty():
+                errors.append("exact_catalog_missing_runtime_id:%s" % runtime_id)
+                break
+
     return {
         "ok": errors.is_empty(),
         "errors": errors,
@@ -78,11 +102,14 @@ func validation_report() -> Dictionary:
         "skills": skills_by_runtime_id.size(),
         "bosses": boss_entities.size(),
         "boss_skills": boss_skill_count,
-        "runtime_id_collisions": maxi(0, 1305 - skills_by_runtime_id.size())
+        "runtime_id_collisions": maxi(0, 1305 - skills_by_runtime_id.size()),
+        "exact_catalog": exact_report,
+        "decision_source": "canonical_prepc_pack_exact_cache",
+        "memory_ai": true
     }
 
 func recognizes_entity(entity_id: String) -> bool:
-    return trees_by_entity.has(entity_id)
+    return trees_by_entity.has(entity_id) and exact_catalog != null and not exact_catalog.skills_for_entity(entity_id).is_empty()
 
 func is_boss_entity(entity_id: String) -> bool:
     return boss_entities.has(entity_id)
@@ -95,6 +122,8 @@ func trees_for_entity(entity_id: String) -> Array[Dictionary]:
     return result
 
 func skills_for_entity(entity_id: String) -> Array[Dictionary]:
+    if exact_catalog != null:
+        return exact_catalog.skills_for_entity(entity_id)
     var result: Array[Dictionary] = []
     for tree: Dictionary in trees_for_entity(entity_id):
         for value: Variant in tree.get("skills", []):
@@ -103,22 +132,23 @@ func skills_for_entity(entity_id: String) -> Array[Dictionary]:
     return result
 
 func skill(runtime_id: String) -> Dictionary:
+    if exact_catalog != null:
+        var exact := exact_catalog.skill_by_runtime_id(runtime_id)
+        if not exact.is_empty():
+            return exact
     var value: Variant = skills_by_runtime_id.get(runtime_id, {})
     return (value as Dictionary).duplicate(true) if value is Dictionary else {}
 
 func select_active_tree(entity_id: String, seed_value: int, preserved_tree: String = "") -> String:
-    var trees := trees_for_entity(entity_id)
+    var trees := exact_catalog.trees_for_entity(entity_id) if exact_catalog != null else []
     if trees.is_empty():
         return ""
-    if not preserved_tree.is_empty() and _tree_exists(entity_id, preserved_tree):
+    if not preserved_tree.is_empty() and trees.has(preserved_tree):
         return preserved_tree
-    var names: Array[String] = []
-    for tree: Dictionary in trees:
-        names.append(str(tree.get("tree", "")))
-    names.sort()
+    trees.sort()
     var rng := RandomNumberGenerator.new()
     rng.seed = int(seed_value) * 104729 + int(entity_id.hash())
-    return names[rng.randi_range(0, names.size() - 1)]
+    return trees[rng.randi_range(0, trees.size() - 1)]
 
 func prepare_enemy(enemy: Dictionary, seed_value: int) -> Dictionary:
     var entity_id := _entity_id(enemy)
@@ -126,6 +156,7 @@ func prepare_enemy(enemy: Dictionary, seed_value: int) -> Dictionary:
         return enemy
     enemy["veilleurs_entity_id"] = entity_id
     enemy["veilleurs_skill_runtime"] = true
+    enemy["veilleurs_canonical_skill_count"] = skills_for_entity(entity_id).size()
     if is_boss_entity(entity_id):
         return enemy
     var current_tree := str(enemy.get("veilleurs_active_tree", ""))
@@ -140,30 +171,34 @@ func prepare_enemy(enemy: Dictionary, seed_value: int) -> Dictionary:
 
 func candidate_actions(entity_id: String, allowed_trees: Array, context: Dictionary = {}) -> Array[Dictionary]:
     var result: Array[Dictionary] = []
+    if exact_catalog == null:
+        return result
     var allowed: Dictionary = {}
     for tree_value: Variant in allowed_trees:
         allowed[str(tree_value)] = true
-    for tree: Dictionary in trees_for_entity(entity_id):
-        var tree_name := str(tree.get("tree", ""))
+    for skill_value: Variant in exact_catalog.skills_for_entity(entity_id):
+        if not (skill_value is Dictionary):
+            continue
+        var source_skill: Dictionary = (skill_value as Dictionary).duplicate(true)
+        var tree_name := str(source_skill.get("tree", ""))
         if not allowed.is_empty() and not allowed.has(tree_name):
             continue
-        for skill_value: Variant in tree.get("skills", []):
-            if not (skill_value is Dictionary):
-                continue
-            var source_skill: Dictionary = skill_value
-            if not _channel_allowed(source_skill, context):
-                continue
-            if not _position_allowed(source_skill, context):
-                continue
-            var intent := intent_resolver.resolve_skill_intent(entity_id, source_skill)
-            if not bool(intent.get("ok", false)):
-                continue
-            var action := source_skill.duplicate(true)
-            action["intent"] = str(intent.get("intent_family", ""))
-            action["secondary_intent"] = str(intent.get("secondary_intent", ""))
-            action["action_channel"] = str(intent.get("action_channel", ""))
-            action["queued"] = bool(intent.get("queued", false))
-            result.append(action)
+        if not _channel_allowed(source_skill, context):
+            continue
+        if not _position_allowed(source_skill, context):
+            continue
+        var intent := intent_resolver.resolve_skill_intent(entity_id, source_skill)
+        if not bool(intent.get("ok", false)):
+            continue
+        var legacy: Dictionary = skills_by_runtime_id.get(str(source_skill.get("runtime_skill_id", "")), {})
+        source_skill["node"] = int(legacy.get("node", 0))
+        source_skill["level"] = int(legacy.get("level", 0))
+        source_skill["entity_name"] = str(legacy.get("entity_name", entity_id))
+        source_skill["intent_family"] = str(intent.get("intent_family", ""))
+        source_skill["secondary_intent"] = str(intent.get("secondary_intent", ""))
+        source_skill["action_channel"] = str(intent.get("action_channel", ""))
+        source_skill["queued"] = bool(intent.get("queued", false))
+        result.append(source_skill)
     return result
 
 func choose_action(enemy: Dictionary, heroes: Array, context: Dictionary = {}) -> Dictionary:
@@ -174,20 +209,38 @@ func choose_action(enemy: Dictionary, heroes: Array, context: Dictionary = {}) -
     if allowed_trees.is_empty():
         var active_tree := str(enemy.get("veilleurs_active_tree", ""))
         if active_tree.is_empty() and not is_boss_entity(entity_id):
-            var seed_value := int(context.get("seed", enemy.get("seed", enemy.get("identity_seed", 0))))
-            active_tree = select_active_tree(entity_id, seed_value)
+            var prepare_seed := int(context.get("seed", enemy.get("seed", enemy.get("identity_seed", 0))))
+            active_tree = select_active_tree(entity_id, prepare_seed)
         if not active_tree.is_empty():
             allowed_trees = [active_tree]
     if is_boss_entity(entity_id) and allowed_trees.is_empty():
         return {"blocked": true, "reason": "boss_phase_tree_required", "veilleurs_skill": true, "entity_id": entity_id}
+
     var candidates := candidate_actions(entity_id, allowed_trees, context)
     if candidates.is_empty():
         return {"blocked": true, "reason": "no_canonical_skill_available_in_context", "veilleurs_skill": true, "entity_id": entity_id}
+
     var seed_value := int(context.get("seed", enemy.get("seed", enemy.get("identity_seed", 0))))
     var turn_index := int(context.get("turn_index", context.get("round", 0)))
+    candidates = _seed_baseline_priorities(candidates, seed_value, turn_index, entity_id)
+    var memory_entity_id := _memory_entity_id(enemy, entity_id)
+    var memory_state := _memory_state(enemy, memory_entity_id, entity_id)
+    var decision_context := context.duplicate(true)
+    if not decision_context.has("body_functions"):
+        decision_context["body_functions"] = _body_functions(enemy)
+    decision_context["species_id"] = entity_id
+    decision_context["later_encounter"] = int((memory_state.get("events", []) as Array).size()) > 0
+    var ranked := decision_matrix.rank_owned_skills(memory_state, candidates, decision_context)
+    if not bool(ranked.get("ok", false)):
+        return {"blocked": true, "reason": "memory_matrix_no_owned_skill", "veilleurs_skill": true, "entity_id": entity_id}
+    var selected: Dictionary = ranked.get("selected", {})
+    var chosen: Dictionary = (selected.get("skill", {}) as Dictionary).duplicate(true)
+    if chosen.is_empty():
+        return {"blocked": true, "reason": "memory_matrix_empty_selection", "veilleurs_skill": true, "entity_id": entity_id}
+
+    var lesson_application := _commit_memory_choice(memory_entity_id, ranked, decision_context)
     var rng := RandomNumberGenerator.new()
     rng.seed = seed_value * 104729 + turn_index * 1009 + int(entity_id.hash())
-    var chosen: Dictionary = candidates[rng.randi_range(0, candidates.size() - 1)].duplicate(true)
     var target := _target_for(chosen, heroes, rng)
     return {
         "id": str(chosen.get("runtime_skill_id", "")),
@@ -201,7 +254,7 @@ func choose_action(enemy: Dictionary, heroes: Array, context: Dictionary = {}) -
         "level": int(chosen.get("level", 0)),
         "skill_type": str(chosen.get("skill_type", "")),
         "node_role": str(chosen.get("node_role", "")),
-        "intent": str(chosen.get("intent", "")),
+        "intent": str(chosen.get("intent_family", "")),
         "secondary_intent": str(chosen.get("secondary_intent", "")),
         "action_channel": str(chosen.get("action_channel", "")),
         "veilleurs_power_0_5": float(chosen.get("power_0_5", 0.0)),
@@ -214,7 +267,12 @@ func choose_action(enemy: Dictionary, heroes: Array, context: Dictionary = {}) -
         "resolver_required": true,
         "mechanical_resolution": "canonical_resolver_required",
         "generic_damage_fallback_forbidden": true,
-        "party_counterpick_used": false
+        "party_counterpick_used": false,
+        "canonical_skill_source": "prepc_pack_exact_cache",
+        "owned_candidate_count": candidates.size(),
+        "memory_rank": str(memory_state.get("memory_rank", "normal")),
+        "memory_changed_choice": bool(ranked.get("changed_by_memory", false)),
+        "memory_lesson_application": lesson_application
     }
 
 func serialize() -> Dictionary:
@@ -272,6 +330,60 @@ func _register_tree(tree_source: Dictionary, is_boss: bool) -> void:
     expanded["skills"] = expanded_skills
     (trees_by_entity[entity_id] as Array).append(expanded)
 
+func _seed_baseline_priorities(candidates: Array[Dictionary], seed_value: int, turn_index: int, entity_id: String) -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
+    var rng := RandomNumberGenerator.new()
+    rng.seed = seed_value * 104729 + turn_index * 1009 + int(entity_id.hash())
+    for candidate: Dictionary in candidates:
+        var enriched := candidate.duplicate(true)
+        enriched["base_priority"] = rng.randf_range(0.0, 8.0)
+        result.append(enriched)
+    return result
+
+func _memory_entity_id(enemy: Dictionary, species_id: String) -> String:
+    for key: String in ["remanence_id", "instance_id"]:
+        var value := str(enemy.get(key, ""))
+        if not value.is_empty():
+            return value
+    return species_id
+
+func _memory_state(enemy: Dictionary, memory_entity_id: String, species_id: String) -> Dictionary:
+    if enemy.get("veilleurs_memory_state", {}) is Dictionary and not (enemy.get("veilleurs_memory_state", {}) as Dictionary).is_empty():
+        return (enemy.get("veilleurs_memory_state", {}) as Dictionary).duplicate(true)
+    if RemanenceRuntime != null and RemanenceRuntime.entities.has(memory_entity_id):
+        var record: Dictionary = RemanenceRuntime.entities[memory_entity_id]
+        var stored: Dictionary = record.get("veilleurs_memory_state", {})
+        if not stored.is_empty():
+            return stored.duplicate(true)
+    return {
+        "entity_id": memory_entity_id,
+        "species_id": species_id,
+        "memory_rank": "normal",
+        "events": [],
+        "memory_channels": {}
+    }
+
+func _body_functions(enemy: Dictionary) -> Dictionary:
+    for key: String in ["body_functions", "anatomy_functions", "functional_state"]:
+        if enemy.get(key, {}) is Dictionary and not (enemy.get(key, {}) as Dictionary).is_empty():
+            return (enemy.get(key, {}) as Dictionary).duplicate(true)
+    return {}
+
+func _commit_memory_choice(memory_entity_id: String, ranked: Dictionary, context: Dictionary) -> Dictionary:
+    if not bool(ranked.get("changed_by_memory", false)):
+        return {}
+    var main_loop := Engine.get_main_loop()
+    if not (main_loop is SceneTree):
+        return {}
+    var root := (main_loop as SceneTree).root
+    var bridge := root.get_node_or_null("VeilleursVS001PlayableBridge")
+    if bridge == null or not bridge.has_method("canonical_runtime_coordinator"):
+        return {}
+    var coordinator: Variant = bridge.call("canonical_runtime_coordinator")
+    if coordinator == null or not coordinator.has_method("commit_enemy_skill_choice"):
+        return {}
+    return coordinator.call("commit_enemy_skill_choice", memory_entity_id, ranked, context)
+
 func _channel_allowed(skill_record: Dictionary, context: Dictionary) -> bool:
     var skill_type := str(skill_record.get("skill_type", ""))
     match skill_type:
@@ -293,7 +405,7 @@ func _position_allowed(skill_record: Dictionary, context: Dictionary) -> bool:
     return positions.contains("P%d" % rank)
 
 func _target_for(action: Dictionary, heroes: Array, rng: RandomNumberGenerator) -> Dictionary:
-    var intent := str(action.get("intent", ""))
+    var intent := str(action.get("intent_family", action.get("intent", "")))
     if intent in ["defense", "repositionnement"]:
         return {"side": "self", "index": -1}
     if intent == "soutien":
@@ -320,16 +432,10 @@ func _target_for(action: Dictionary, heroes: Array, rng: RandomNumberGenerator) 
         return {"side": "hero", "index": weakest}
     return {"side": "hero", "index": living[rng.randi_range(0, living.size() - 1)]}
 
-func _tree_exists(entity_id: String, tree_name: String) -> bool:
-    for tree: Dictionary in trees_for_entity(entity_id):
-        if str(tree.get("tree", "")) == tree_name:
-            return true
-    return false
-
 func _entity_id(enemy: Dictionary) -> String:
     for key: String in ["veilleurs_entity_id", "species_id", "entity_id", "creature_id"]:
         var value := str(enemy.get(key, ""))
-        if recognizes_entity(value):
+        if exact_catalog != null and not exact_catalog.skills_for_entity(value).is_empty():
             return value
     return ""
 
