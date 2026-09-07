@@ -1,5 +1,5 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "stage": "pre_pc_lock",
   "godot_version": "4.3",
   "canonical_watchers": [
@@ -44,6 +44,11 @@
     "iOS",
     "Linux/X11"
   ],
+  "required_first_pc_tools": [
+    "git",
+    "python",
+    "godot"
+  ],
   "required_files": [
     "project.godot",
     "export_presets.cfg",
@@ -54,6 +59,8 @@
     "tools/godot/run_veilleurs_pipeline.ps1",
     "tools/godot/run_veilleurs_pipeline.sh",
     "tools/build/run_godot_ci.sh",
+    "tools/workstation/veilleurs_pc_preflight.py",
+    "tools/workstation/LITD_VEILLEURS_PC_PREPARE.cmd",
     "data/veilleurs/polish_manifest.json",
     "data/veilleurs/ultimate_choreography_contract.json",
     "data/veilleurs/v09/wave3_contract.json",
@@ -89,6 +96,7 @@
     "ultimate_handoff_contract",
     "export_preset_contract",
     "editor_pipeline_enabled",
+    "dedicated_veilleurs_pc_preflight",
     "strict_godot_import",
     "v06_tactical_smoke",
     "v07_production_smoke",
