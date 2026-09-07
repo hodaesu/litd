@@ -6,6 +6,7 @@ signal session_changed(snapshot: Dictionary)
 signal session_finished(summary: Dictionary)
 
 const RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_runtime_v2.gd")
+const AUTHORED_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_authored_encounter_runtime.gd")
 const SNAPSHOT_PATH := "user://veilleurs_v061_tactical_snapshot.json"
 
 var runtime: VeilleursTacticalCombatRuntimeV2 = null
@@ -21,6 +22,21 @@ func start_first_combat() -> Dictionary:
     active = bool(result.get("ok", false))
     encounter_id = "veilleurs_v061_first_combat"
     region_id = "khar_sen"
+    major_mutilation_keys.clear()
+    watcher_kill_keys.clear()
+    if active:
+        _note_enemy_encounters()
+        session_started.emit(snapshot())
+        session_changed.emit(snapshot())
+    return result
+
+func start_authored_encounter(encounter: Dictionary, encounter_id_value: String, region_id_value: String = "khar_sen") -> Dictionary:
+    var authored: VeilleursAuthoredEncounterRuntime = AUTHORED_RUNTIME_SCRIPT.new() as VeilleursAuthoredEncounterRuntime
+    runtime = authored
+    var result := authored.setup_authored_encounter(encounter)
+    active = bool(result.get("ok", false))
+    encounter_id = encounter_id_value if encounter_id_value != "" else str(encounter.get("template_id", "veilleurs_v061_authored"))
+    region_id = region_id_value
     major_mutilation_keys.clear()
     watcher_kill_keys.clear()
     if active:
@@ -91,8 +107,13 @@ func deserialize(payload: Dictionary) -> void:
     reset()
     if payload.is_empty() or not bool(payload.get("active", false)):
         return
-    var restored: VeilleursTacticalCombatRuntimeV2 = RUNTIME_SCRIPT.new() as VeilleursTacticalCombatRuntimeV2
-    if not restored.deserialize(payload.get("runtime", {})):
+    var runtime_payload: Dictionary = payload.get("runtime", {})
+    var restored: VeilleursTacticalCombatRuntimeV2
+    if runtime_payload.has("encounter_template"):
+        restored = AUTHORED_RUNTIME_SCRIPT.new() as VeilleursAuthoredEncounterRuntime
+    else:
+        restored = RUNTIME_SCRIPT.new() as VeilleursTacticalCombatRuntimeV2
+    if restored == null or not restored.deserialize(runtime_payload):
         return
     runtime = restored
     active = true
@@ -140,13 +161,39 @@ func delete_snapshot(path: String = SNAPSHOT_PATH) -> bool:
         return true
     return DirAccess.remove_absolute(ProjectSettings.globalize_path(path)) == OK
 
+func watcher_aftermath() -> Dictionary:
+    var result: Dictionary = {}
+    if runtime == null:
+        return result
+    for watcher_id: String in runtime.alive_ids("watcher"):
+        var row: Dictionary = runtime.combatants.get(watcher_id, {})
+        var body: VeilleursBodyComponent = row.get("body") as VeilleursBodyComponent
+        result[watcher_id] = {
+            "hp":int(row.get("hp", 0)),
+            "max_hp":int(row.get("max_hp", 1)),
+            "resolve":int(row.get("resolve_current", 0)),
+            "body":body.serialize() if body != null else {}
+        }
+    for entity_id_value: Variant in runtime.combatants.keys():
+        var watcher_id := str(entity_id_value)
+        var row: Dictionary = runtime.combatants[watcher_id]
+        if str(row.get("team", "")) == "watcher" and not result.has(watcher_id):
+            var body: VeilleursBodyComponent = row.get("body") as VeilleursBodyComponent
+            result[watcher_id] = {
+                "hp":int(row.get("hp", 0)),
+                "max_hp":int(row.get("max_hp", 1)),
+                "resolve":int(row.get("resolve_current", 0)),
+                "body":body.serialize() if body != null else {}
+            }
+    return result
+
 func _note_enemy_encounters() -> void:
     if runtime == null:
         return
     for enemy_id: String in runtime.alive_ids("enemy"):
         var row: Dictionary = runtime.combatants.get(enemy_id, {})
         var bridge_enemy := _remanence_enemy(row)
-        RemanenceRuntime.note_encounter(bridge_enemy, region_id, {"summary":"Premier combat tactique v0.6.1", "encounter_id":encounter_id})
+        RemanenceRuntime.note_encounter(bridge_enemy, region_id, {"summary":"Rencontre tactique v0.6.1", "encounter_id":encounter_id})
         var remanence_id := str(bridge_enemy.get("remanence_id", ""))
         row["remanence_id"] = remanence_id
         runtime.combatants[enemy_id] = row
@@ -270,7 +317,7 @@ func _sync_runtime_remanence(enemy_id: String) -> void:
 func _remanence_enemy(row: Dictionary) -> Dictionary:
     return {
         "id":str(row.get("entity_id", "unknown")),
-        "species_id":str(row.get("entity_id", "unknown")),
+        "species_id":str(row.get("definition_id", row.get("entity_id", "unknown"))),
         "name":str(row.get("name", "Adversaire")),
         "hp":int(row.get("hp", 0)),
         "max_hp":int(row.get("max_hp", 1)),
