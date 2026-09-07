@@ -1,0 +1,51 @@
+{
+  "schema_version":"0.6.9",
+  "audit_id":"VEILLEURS_PRE_PC_HANDOFF_READINESS_V1",
+  "status":"ready_for_pc_implementation",
+  "scope":"production-critical design/data work that can be completed without running Godot, Blender, audio tools or device builds",
+  "summary":{"dungeon_archetypes":6,"reference_room_modules":59,"dungeon_interactions":119,"refuge_active_scenes":49,"canonical_veilleurs":4,"voice_alternate_lines":392,"recruit_types":24,"recruit_contextual_micro_reactions":192,"multi_act_refuge_chains":16,"scene_staging_bindings":49},
+  "completed_domains":[
+    "six hybrid dungeon topology contracts",
+    "room content, hazards, loot, props, materials, lighting, audio and variation rules",
+    "dungeon interaction exact outcomes and French microtexts",
+    "balance targets and seed telemetry contracts",
+    "Rémanence anchors, scars and persistence rules",
+    "post-expedition transaction order and save boundaries",
+    "Refuge capacity, economy, recovery, mutilation and mental-state persistence",
+    "recruit relationships, release, death and EntityID persistence",
+    "Archives knowledge states and knowledge-to-Rémanence propagation",
+    "49 active Refuge event scenes with choices and outcomes",
+    "deterministic event scheduler and save/reload behavior",
+    "canonical Refuge voices for Sahen Varo, Mira Sen, Narem Osh and Ysra Nahal",
+    "392 canonical alternate Veilleur lines across 49 events",
+    "24 recruit Refuge behavior profiles",
+    "192 contextual recruit micro-reactions",
+    "16 two-to-three-act event chains with persistent actor identity",
+    "49 camera/audio/blocking scene direction bindings",
+    "final VO direction script with intention, pauses, breaths, interruption policy and take naming",
+    "French pronunciation sheet",
+    "localization and mobile subtitle contract",
+    "tests for coverage, legacy quartet exclusion, nonverbal integrity and semantic safety"
+  ],
+  "remaining_without_pc":[],
+  "optional_non_blocking_future_writing":[
+    "additional flavor-only alternate lines beyond the two locked variants per Veilleur/event",
+    "future localization translations after target languages are chosen",
+    "non-canonical marketing copy or codex flavor expansions",
+    "new story content outside the currently locked v0.6 production scope"
+  ],
+  "pc_required_next":[
+    "compile data contracts into Godot Resources and runtime models",
+    "create/generate room .tscn shells and physical sockets/anchors",
+    "implement Refuge SceneDirector, CastResolver, EventChain state and subtitle resolver",
+    "implement cameras, blocking markers, animation hooks and audio snapshots",
+    "record/import or synthesize actual VO audio and bind take IDs",
+    "bake and validate NavigationRegion3D",
+    "run physical retreat, collision and deterministic generation tests",
+    "run at least 500 seeds per dungeon slice",
+    "run at least 1000 Refuge return-event simulations including save/reload and chain latency",
+    "profile iPhone/Android rendering, memory, audio and touch UI",
+    "perform visual/animation polish and PC-only detail passes without topology/collision drift"
+  ],
+  "handoff_rule":"No production-critical pre-PC content/design task remains in this scope. New work should begin with runtime implementation or be explicitly added as new scope."
+}
