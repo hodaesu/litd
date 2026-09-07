@@ -59,12 +59,12 @@ def main() -> int:
         fail(errors, "Fichiers requis absents: " + ", ".join(missing))
 
     project_text = (ROOT / "project.godot").read_text(encoding="utf-8")
-    checks["godot_version"] = 'config/features=PackedStringArray("4.3")' in project_text
+    checks["godot_version"] = 'config/features=PackedStringArray("4.7")' in project_text
     if not checks["godot_version"]:
-        fail(errors, "project.godot ne verrouille pas Godot 4.3")
+        fail(errors, "project.godot ne verrouille pas Godot 4.7")
     checks["android_etc2_astc"] = "textures/vram_compression/import_etc2_astc=true" in project_text
     if not checks["android_etc2_astc"]:
-        fail(errors, "La compression ETC2/ASTC requise pour l'export Android Godot 4.3 n'est pas activée")
+        fail(errors, "La compression ETC2/ASTC requise pour l'export Android Godot 4.7 n'est pas activée")
 
     plugin_entry = 'res://addons/veilleurs_pipeline/plugin.cfg'
     checks["editor_pipeline_enabled"] = "[editor_plugins]" in project_text and plugin_entry in project_text
@@ -159,6 +159,10 @@ def main() -> int:
         errors.extend(ultimate_errors)
 
     pipeline = load_json(ROOT / "tools/godot/veilleurs_pipeline_config.json")
+    checks["pipeline_godot_version"] = pipeline.get("godot_version") == contract.get("godot_version") == "4.7"
+    if not checks["pipeline_godot_version"]:
+        fail(errors, f"Version Godot incohérente entre contrat et pipeline: {contract.get('godot_version')} / {pipeline.get('godot_version')}")
+
     this_audit = "tools/qa/veilleurs_pre_pc_audit.py"
     checks["pre_pc_audit_wired"] = this_audit in pipeline.get("python_audits", [])
     if not checks["pre_pc_audit_wired"]:
@@ -210,6 +214,9 @@ def main() -> int:
     checks["dedicated_pc_preflight"] = first_pc_tools == contract.get("required_first_pc_tools", [])
     if not checks["dedicated_pc_preflight"]:
         fail(errors, f"Préflight PC Veilleurs trop lourd ou incomplet: {first_pc_tools}")
+    checks["pc_preflight_godot_47"] = 'godot_compatible = "4.7" in godot_version' in pc_preflight_text
+    if not checks["pc_preflight_godot_47"]:
+        fail(errors, "Le préflight PC n'accepte pas explicitement la famille Godot 4.7.x")
 
     launcher_text = (ROOT / "tools/workstation/LITD_VEILLEURS_PC_PREPARE.cmd").read_text(encoding="utf-8")
     checks["pc_preflight_launcher"] = "veilleurs_pc_preflight.py --run-tests" in launcher_text
