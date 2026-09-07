@@ -5,10 +5,12 @@ on:
     branches:
       - feat/veilleurs-v06-tactical-core
       - fix/veilleurs-v061-canonical-quartet
+      - feature/veilleurs-v062-hemocorde-ultimate
   pull_request:
     paths:
       - 'data/veilleurs/v06/**'
       - 'data/veilleurs/skills/**'
+      - 'data/veilleurs/ultimate_choreography_contract.json'
       - 'scripts/core/veilleurs_*'
       - 'scripts/core/content_db.gd'
       - 'scripts/ui/veilleurs_tactical_*'
@@ -17,6 +19,8 @@ on:
       - 'scenes/qa/qa_validation_room.tscn'
       - 'scenes/tests/veilleurs_v06*'
       - 'tools/qa/veilleurs_v06*'
+      - 'tools/qa/veilleurs_ultimate*'
+      - 'tests/test_veilleurs_ultimate*'
       - '.github/workflows/veilleurs-v06.yml'
   workflow_dispatch:
 
@@ -40,6 +44,8 @@ jobs:
         run: python tools/qa/veilleurs_v06_tests48.py
       - name: Reject alternate quartet drift
         run: python tools/qa/veilleurs_v062_canonical_audit.py
+      - name: Validate 12 ultimate choreography contracts
+        run: python tools/qa/veilleurs_ultimate_choreography_audit.py
       - name: Preserve original first-encounter baseline
         run: python tools/qa/veilleurs_v06_balance_sim.py --check --runs 250
       - name: Validate v0.6.1 tactical balance target
@@ -72,6 +78,13 @@ jobs:
           timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v061_systems_smoke.tscn 2>&1 | tee /tmp/veilleurs-v061.log
           ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V061_SYSTEMS_SMOKE_FAILED' /tmp/veilleurs-v061.log
           grep -F 'VEILLEURS_V061_SYSTEMS_SMOKE_OK' /tmp/veilleurs-v061.log
+      - name: Run Veilleurs v0.6.2 Hemocorde ultimate smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v062_hemocorde_ultimate_smoke.tscn 2>&1 | tee /tmp/veilleurs-v062-hemocorde.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V062_HEMOCORDE_ULTIMATE_SMOKE_FAILED' /tmp/veilleurs-v062-hemocorde.log
+          grep -F 'VEILLEURS_V062_HEMOCORDE_ULTIMATE_SMOKE_OK' /tmp/veilleurs-v062-hemocorde.log
       - name: Instantiate playable tactical demo v0.6
         shell: bash
         run: |
