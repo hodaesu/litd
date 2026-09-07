@@ -7,6 +7,7 @@ const CATALOG_PATH := "res://data/veilleurs/encounter_catalog_64_v1.json"
 const SPECIES_PATH := "res://data/veilleurs/species_catalog_recovered_v1.json"
 const SYNERGY_BINDING_PATH := "res://data/veilleurs/enemy_synergy_binding_v1.json"
 const CONTRACT_PATH := "res://data/veilleurs/encounter_generation_contract_v1.json"
+const NARRATIVE_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_encounter_narrative_runtime.gd")
 
 var catalog_data: Dictionary = {}
 var species_data: Dictionary = {}
@@ -15,8 +16,10 @@ var contract_data: Dictionary = {}
 var encounter_records: Array[Dictionary] = []
 var recent_history: Array[String] = []
 var selection_count := 0
+var narrative_runtime: VeilleursEncounterNarrativeRuntime
 
 func _ready() -> void:
+    narrative_runtime = NARRATIVE_RUNTIME_SCRIPT.new() as VeilleursEncounterNarrativeRuntime
     reload_content()
 
 func reload_content() -> Dictionary:
@@ -24,6 +27,10 @@ func reload_content() -> Dictionary:
     species_data = _load_dictionary(SPECIES_PATH)
     synergy_data = _load_dictionary(SYNERGY_BINDING_PATH)
     contract_data = _load_dictionary(CONTRACT_PATH)
+    if narrative_runtime == null:
+        narrative_runtime = NARRATIVE_RUNTIME_SCRIPT.new() as VeilleursEncounterNarrativeRuntime
+    else:
+        narrative_runtime.reload()
     encounter_records.clear()
     for file_value: Variant in catalog_data.get("act_files", []):
         if not (file_value is Dictionary):
@@ -42,31 +49,45 @@ func validation_report() -> Dictionary:
     var synergies: Array = synergy_data.get("records", [])
     if synergies.size() != 21:
         errors.append("synergies:%d" % synergies.size())
+    var narrative_report: Dictionary = narrative_runtime.last_report if narrative_runtime != null else {}
+    if narrative_report.is_empty() or not bool(narrative_report.get("ok", false)):
+        errors.append("narrative_runtime_invalid")
+    elif int(narrative_report.get("records", 0)) != 64:
+        errors.append("narrative_runtime_count:%d" % int(narrative_report.get("records", 0)))
     var rules: Dictionary = catalog_data.get("rules", {})
     var max_standard := int(rules.get("max_standard_enemies", 4))
     for encounter: Dictionary in encounter_records:
+        var encounter_id := str(encounter.get("id", ""))
         var actors := int(encounter.get("actors", 0))
         var species_ids: Array = encounter.get("species_ids", [])
         var names: Array = encounter.get("composition_names", [])
         if actors < 1 or actors > max_standard:
-            errors.append("actor_cap:%s" % str(encounter.get("id", "unknown")))
+            errors.append("actor_cap:%s" % encounter_id)
         if species_ids.size() != actors or names.size() != actors:
-            errors.append("composition_count:%s" % str(encounter.get("id", "unknown")))
+            errors.append("composition_count:%s" % encounter_id)
         for species_id: Variant in species_ids:
             if species_entry(str(species_id)).is_empty():
-                errors.append("unknown_species:%s:%s" % [str(encounter.get("id", "unknown")), str(species_id)])
+                errors.append("unknown_species:%s:%s" % [encounter_id, str(species_id)])
         for synergy_id: Variant in encounter.get("synergy_ids", []):
             if synergy_by_id(str(synergy_id)).is_empty():
-                errors.append("unknown_synergy:%s:%s" % [str(encounter.get("id", "unknown")), str(synergy_id)])
+                errors.append("unknown_synergy:%s:%s" % [encounter_id, str(synergy_id)])
+        if narrative_runtime != null:
+            var detail := narrative_runtime.entry_by_id(encounter_id)
+            if detail.is_empty():
+                errors.append("missing_narrative_reward:%s" % encounter_id)
+            elif str(detail.get("name", "")) != str(encounter.get("name", "")):
+                errors.append("narrative_name_mismatch:%s" % encounter_id)
     return {
         "ok": errors.is_empty(),
         "errors": errors,
         "encounters": encounter_records.size(),
         "synergies": synergies.size(),
+        "narrative_reward_records": int(narrative_report.get("records", 0)),
         "max_standard_enemies": max_standard,
         "anti_repeat_window": 5,
         "repeat_weight": float(rules.get("repeat_weight_after_two_in_five", 0.4)),
-        "runtime_binding": CATALOG_PATH
+        "runtime_binding": CATALOG_PATH,
+        "narrative_runtime_binding": str(narrative_report.get("runtime_binding", ""))
     }
 
 func select_encounter(seed_value: int, act_token: String, context: Dictionary = {}) -> Dictionary:
@@ -183,7 +204,7 @@ func species_entry(species_id: String) -> Dictionary:
     return {}
 
 func serialize() -> Dictionary:
-    return {"schema_version": 2, "recent_history": recent_history.duplicate(), "selection_count": selection_count}
+    return {"schema_version": 3, "recent_history": recent_history.duplicate(), "selection_count": selection_count}
 
 func deserialize(payload: Dictionary) -> void:
     recent_history.clear()
@@ -226,6 +247,14 @@ func _build_runtime_encounter(source: Dictionary, context: Dictionary) -> Dictio
         if not synergy.is_empty():
             synergies.append(synergy)
 
+    var narrative_reward: Dictionary = narrative_runtime.entry_by_id(str(source.get("id", ""))) if narrative_runtime != null else {}
+    if narrative_reward.is_empty():
+        return {"success": false, "reason": "missing_canonical_narrative_reward", "id": source.get("id", ""), "name": source.get("name", "")}
+    if str(narrative_reward.get("name", "")) != str(source.get("name", "")):
+        return {"success": false, "reason": "canonical_narrative_reward_name_mismatch", "id": source.get("id", ""), "name": source.get("name", "")}
+    var narrative: Dictionary = narrative_reward.get("narrative", {})
+    var reward: Dictionary = narrative_reward.get("reward", {})
+
     return {
         "success": true,
         "canonical": true,
@@ -249,7 +278,12 @@ func _build_runtime_encounter(source: Dictionary, context: Dictionary) -> Dictio
         "memorial_overlay": memorial_overlay,
         "party_counterpick_used": false,
         "seeded_selection": true,
-        "runtime_remanence": (source.get("runtime_remanence", {}) as Dictionary).duplicate(true)
+        "runtime_remanence": (source.get("runtime_remanence", {}) as Dictionary).duplicate(true),
+        "narrative": narrative.duplicate(true),
+        "reward": reward.duplicate(true),
+        "capture_rule": str(reward.get("capture_rule", "")),
+        "knowledge_bonus": str(reward.get("knowledge_bonus", "")),
+        "generated_binding_verified": true
     }
 
 func _memorial_overlay(candidate_value: Variant, source_actor_count: int, max_standard: int) -> Dictionary:
