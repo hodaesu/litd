@@ -7,6 +7,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: remanence-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   remanence-smoke:
     runs-on: ubuntu-latest
