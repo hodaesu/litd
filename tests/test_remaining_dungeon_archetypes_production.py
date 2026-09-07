@@ -179,13 +179,15 @@ def test_shared_godot_contract_keeps_mobile_desktop_topology_identical():
     assert "mobile and desktop use identical topology and collision" in shared["invariants"]
 
 
-def test_production_registry_covers_all_six_archetypes_and_unique_seeds():
+def test_production_registry_covers_all_six_archetypes_unique_seeds_and_59_rooms():
     registry = load(V06 / "dungeon_production_registry.json")
     generic_ids = {item["id"] for item in generic_v06()["archetypes"]}
     entries = registry["archetypes"]
     assert {entry["archetype_id"] for entry in entries} == generic_ids
     seeds = [entry["seed"] for entry in entries]
     assert len(seeds) == len(set(seeds)) == 6
+    assert sum(entry["reference_room_count"] for entry in entries) == 59
+    assert registry["production_room_modules_total"] == 59
     assert next(entry for entry in entries if entry["archetype_id"] == "DUNGEON_ASH_RUINS")["production_status"] == "canonical_slice_locked"
     assert all(entry["production_status"].endswith("slice_locked") for entry in entries)
 
