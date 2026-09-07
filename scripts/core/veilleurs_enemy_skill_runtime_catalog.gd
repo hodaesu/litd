@@ -99,9 +99,13 @@ func _decode_act(act_entry: Dictionary, errors: Array[String]) -> Array[Dictiona
     if encoded.is_empty():
         errors.append("empty_payload:%d" % act)
         return result
-    var compressed := Marshalls.base64_to_raw(encoded)
+    var zlib_stream := Marshalls.base64_to_raw(encoded)
+    var raw_deflate := _unwrap_python_zlib(zlib_stream)
+    if raw_deflate.is_empty():
+        errors.append("invalid_zlib_stream:%d" % act)
+        return result
     var expected_bytes := int(cache.get("uncompressed_bytes", 0))
-    var raw := compressed.decompress_dynamic(-1, FileAccess.COMPRESSION_DEFLATE)
+    var raw := raw_deflate.decompress(expected_bytes, FileAccess.COMPRESSION_DEFLATE)
     if raw.is_empty():
         errors.append("decompress_failed:%d" % act)
         return result
@@ -144,6 +148,21 @@ func _decode_act(act_entry: Dictionary, errors: Array[String]) -> Array[Dictiona
         record["tags"] = _tags(str(record.get("tags", "")))
         result.append(record)
     return result
+
+func _unwrap_python_zlib(stream: PackedByteArray) -> PackedByteArray:
+    # Python zlib.compress() emits RFC 1950: 2-byte zlib header + raw DEFLATE + 4-byte Adler-32.
+    # Godot 4.3 COMPRESSION_DEFLATE expects the RFC 1951 payload, so keep the cache untouched
+    # and strip only the transport wrapper at read time.
+    if stream.size() <= 6:
+        return PackedByteArray()
+    var cmf := int(stream[0])
+    var flg := int(stream[1])
+    if (cmf & 0x0F) != 8 or ((cmf << 8) + flg) % 31 != 0:
+        return PackedByteArray()
+    if (flg & 0x20) != 0:
+        # Preset dictionaries are forbidden because the canonical cache generator never uses one.
+        return PackedByteArray()
+    return stream.slice(2, stream.size() - 4)
 
 func _index_record(record: Dictionary, errors: Array[String]) -> void:
     var runtime_id := str(record.get("runtime_skill_id", ""))
