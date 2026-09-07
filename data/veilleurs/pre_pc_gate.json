@@ -1,5 +1,5 @@
 {
-  "schema_version": 5,
+  "schema_version": 6,
   "stage": "pre_pc_lock",
   "godot_version": "4.3",
   "canonical_watchers": [
@@ -61,6 +61,11 @@
     "tools/build/run_godot_ci.sh",
     "tools/workstation/veilleurs_pc_preflight.py",
     "tools/workstation/LITD_VEILLEURS_PC_PREPARE.cmd",
+    "tools/workstation/veilleurs_asset_handoff.py",
+    "tools/workstation/LITD_VEILLEURS_ASSET_HANDOFF.cmd",
+    "tools/qa/veilleurs_final_asset_handoff_audit.py",
+    "docs/veilleurs/FINAL_ASSET_HANDOFF.md",
+    "data/veilleurs/final_asset_handoff_contract.json",
     "data/veilleurs/polish_manifest.json",
     "data/veilleurs/ultimate_choreography_contract.json",
     "data/veilleurs/v09/wave3_contract.json",
@@ -94,6 +99,7 @@
     "six_dungeon_contract",
     "v09_qa_contract",
     "ultimate_handoff_contract",
+    "final_asset_handoff_contract",
     "export_preset_contract",
     "editor_pipeline_enabled",
     "dedicated_veilleurs_pc_preflight",
