@@ -1,0 +1,242 @@
+{
+  "schema_version": "0.6.3",
+  "registry_id": "VEILLEURS_REMAINING_DUNGEON_ARCHETYPES_V1",
+  "status": "production_ready_before_godot_modeling",
+  "narrative_policy": "These are production-reference slices. Topology, sockets, hazards, persistence and mobile budgets are locked; place names and story events may be rebound later without changing the spatial contract.",
+  "shared_contract": {
+    "generic_module_schema": "data/dungeons/hybrid_module_contract.schema.json",
+    "generic_generation_rules": "data/dungeons/hybrid_generation_rules.json",
+    "godot_base_contract": "data/veilleurs/v06/khar_sen_godot_scene_contract.json",
+    "metrics": {
+      "grid_unit_m": 2.0,
+      "floor_height_m": 3.2,
+      "connector_width_m": 2.4,
+      "connector_height_m": 2.8,
+      "nav_agent_clearance_m": 0.55,
+      "camera_safe_margin_m": 1.5
+    },
+    "scene_nodes": ["Geometry", "Collision", "Sockets", "Anchors", "VariationSlots", "Navigation", "Remanence"],
+    "socket_node_type": "Marker3D",
+    "anchor_node_type": "Marker3D",
+    "variation_seed_inputs": ["run_seed", "slice_id", "node_id", "module_id", "visit_index"],
+    "compiler_contract": {
+      "module_id": "<node_id>_MODULE",
+      "connector_record": "ID:TYPE:ORIENTATION:LEVEL; width/height and compatibility tags come from shared metrics + archetype_id",
+      "variation_record": "KIND=variant_a|variant_b|...",
+      "anchor_record": "scar/encounter/resource/lore arrays contain globally stable Marker3D anchor ids",
+      "mobile_cost_record": "[geometry, materials, lights, particles, decals, dynamic_bodies] on a 0..5 scale",
+      "derived_fields": ["biome_tags", "theme_tags", "elevation_profile", "camera_profile", "combat_profile", "scar_anchors", "encounter_anchors", "resource_anchors", "lore_anchors"]
+    },
+    "invariants": [
+      "critical socket transforms are immutable after room approval",
+      "protected anchor transforms are immutable across variants and revisits",
+      "procedural variation cannot break navigation solvability",
+      "saved narrative outcomes override procedural dressing",
+      "physical retreat remains possible",
+      "scars rehydrate before procedural decoration and encounter spawning",
+      "mobile and desktop use identical topology and collision"
+    ]
+  },
+  "record_fields": {
+    "node": ["id", "title_fr", "role", "hazard", "family", "band", "size_class", "authored_mode", "connectors", "variation_slots", "anchors", "mobile_cost", "pc_detail_tier"],
+    "edge": ["from", "from_socket", "to", "to_socket", "optional", "requires_flag"]
+  },
+  "packs": [
+    {
+      "pack_id": "BURIED_GALLERIES_PRODUCTION_V1",
+      "archetype_id": "DUNGEON_BURIED_GALLERIES",
+      "slice_id": "REF_BURIED_GALLERIES_01",
+      "name_fr": "Galeries enfouies — coupe de production",
+      "seed": 606201,
+      "room_bounds": [8, 16],
+      "families": ["GOULES", "PARASITES", "BETES_ALTEREES", "ECHOS"],
+      "camera_profile": {"mode": "tactical_oblique", "occlusion": "aggressive_ceiling_and_wall_cull", "vertical_behavior": "conservative", "phone_readability": "critical"},
+      "environment": {
+        "none": {"movement_cost": 0, "vision": 0, "injury_risk": "none", "telegraph": "clear"},
+        "narrow_passage": {"movement_cost": 1, "vision": 0, "injury_risk": "low", "telegraph": "converging walls, low ceiling, rubble", "rule": "never reduce the navigable lane below nav-agent clearance"},
+        "unstable_floor": {"movement_cost": 1, "vision": 0, "injury_risk": "medium", "telegraph": "cracks, falling grit, hollow audio", "rule": "stagger or authored short drop only; never instant death or softlock"},
+        "tunnel_ambush": {"movement_cost": 0, "vision": 1, "injury_risk": "high", "telegraph": "side apertures, scrape marks, displaced ash", "rule": "spawns use declared encounter anchors only"}
+      },
+      "critical_path": ["BG_01", "BG_02", "BG_03", "BG_04", "BG_05", "BG_06", "BG_08", "BG_09"],
+      "edges": [
+        ["BG_01", "OUT", "BG_02", "IN", false, null],
+        ["BG_02", "OUT", "BG_03", "IN", false, null],
+        ["BG_03", "OUT", "BG_04", "IN", false, null],
+        ["BG_04", "OUT", "BG_05", "IN", false, null],
+        ["BG_05", "LEFT", "BG_06", "IN", false, null],
+        ["BG_05", "RIGHT", "BG_07", "IN", false, null],
+        ["BG_06", "OUT", "BG_08", "IN_1", false, null],
+        ["BG_07", "OUT", "BG_08", "IN_2", false, null],
+        ["BG_08", "OUT", "BG_09", "IN", false, null]
+      ],
+      "nodes": [
+        ["BG_01", "Puits de descente", "entry", "none", "GOULES", "LOW", "m", "authored_critical", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["lighting=dead_rope_lamps|weak_embers", "prop=winch_intact|winch_broken"], {"scar": ["BG_01_SCAR_A"], "encounter": [], "resource": [], "lore": ["BG_01_LORE_A"]}, [2,2,1,1,2,1], "enhanced"],
+        ["BG_02", "Boyau des épaules", "transit", "narrow_passage", "GOULES", "LOW", "m", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["cover=rubble_left|rubble_right", "prop=timber_sparse|timber_dense"], {"scar": ["BG_02_SCAR_A"], "encounter": [], "resource": [], "lore": []}, [2,2,1,1,2,1], "same"],
+        ["BG_03", "Plancher qui sonne creux", "hazard", "unstable_floor", "PARASITES", "LOW", "m", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["hazard=crack_spine|crack_islands", "route_state=edge_safe|center_safe"], {"scar": ["BG_03_SCAR_A"], "encounter": [], "resource": [], "lore": []}, [2,2,1,1,2,1], "same"],
+        ["BG_04", "Croisement des griffures", "combat", "tunnel_ambush", "PARASITES", "STANDARD", "l", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["encounter_geometry=left_burrows|right_burrows|split_burrows", "cover=stone_piles|support_posts"], {"scar": ["BG_04_SCAR_A"], "encounter": ["BG_04_ENC_A"], "resource": [], "lore": []}, [3,2,1,1,2,1], "same"],
+        ["BG_05", "Fourche noyée de cendre", "choice", "narrow_passage", "ECHOS", "STANDARD", "l", "authored_critical", ["IN:corridor:south:0", "LEFT:corridor:free:0", "RIGHT:corridor:free:0"], ["route_state=left_clear|right_clear|both_clear", "lighting=low_blue|low_amber"], {"scar": ["BG_05_SCAR_A"], "encounter": [], "resource": [], "lore": ["BG_05_LORE_A"]}, [3,2,1,1,2,1], "enhanced"],
+        ["BG_06", "Citerne fossile", "resource", "unstable_floor", "BETES_ALTEREES", "STANDARD", "m", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["resource_geometry=central_pool|side_pool", "prop=bone_racks|broken_tools"], {"scar": ["BG_06_SCAR_A"], "encounter": [], "resource": ["BG_06_RES_A"], "lore": []}, [2,2,1,1,2,1], "same"],
+        ["BG_07", "Galerie des coups gravés", "narrative", "narrow_passage", "ECHOS", "STANDARD", "m", "authored_critical", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["prop=marks_dense|marks_sparse", "lighting=raking_light|memory_glow"], {"scar": ["BG_07_SCAR_A"], "encounter": [], "resource": [], "lore": ["BG_07_LORE_A"]}, [2,3,2,1,2,1], "enhanced"],
+        ["BG_08", "Nid sous la voûte", "elite", "tunnel_ambush", "BETES_ALTEREES", "HIGH", "xl", "rule_generated_support", ["IN_1:corridor:free:0", "IN_2:corridor:free:0", "OUT:corridor:north:0"], ["encounter_geometry=high_nest|split_nest", "hazard=falling_debris|burrow_openings"], {"scar": ["BG_08_SCAR_A"], "encounter": ["BG_08_ENC_A"], "resource": [], "lore": []}, [3,2,1,1,2,1], "same"],
+        ["BG_09", "Treuil du jour perdu", "exit", "unstable_floor", "GOULES", "HIGH", "xl", "authored_critical", ["IN:corridor:south:0", "EXTRACT:corridor:north:0"], ["cover=winch_ring|broken_platforms", "route_state=extract_open|extract_damaged"], {"scar": ["BG_09_SCAR_A"], "encounter": [], "resource": ["BG_09_RES_OBJECTIVE"], "lore": ["BG_09_LORE_A"]}, [3,3,1,1,2,1], "hero"]
+      ],
+      "remanence": {
+        "scar_types": ["collapsed_bridge", "persistent_corpse", "old_blood", "discovered_passage", "opened_shortcut", "burned_area", "nemesis_mark", "enemy_occupation_change"],
+        "protected_overrides": {"BG_05": ["IN", "LEFT", "RIGHT", "BG_05_LORE_A"], "BG_07": ["BG_07_LORE_A"], "BG_09": ["IN", "EXTRACT", "BG_09_RES_OBJECTIVE"]},
+        "special": "unstable-floor scars can change visual damage or landing state but never delete the only route"
+      },
+      "performance": {"shadowed_lights": 1, "dynamic_bodies": 6, "particle_lod_levels": 3, "pool_decals": true, "occlusion_required": true},
+      "acceptance_tests": ["9 rooms instantiate from seed 606201", "both BG_05 branches converge on BG_08", "narrow passages remain navigable on mobile", "tunnel ambushes use declared anchors", "unstable floors preserve progression and retreat", "scars rehydrate before encounters"]
+    },
+    {
+      "pack_id": "FRACTURED_SANCTUARY_PRODUCTION_V1",
+      "archetype_id": "DUNGEON_FRACTURED_SANCTUARY",
+      "slice_id": "REF_FRACTURED_SANCTUARY_01",
+      "name_fr": "Sanctuaire fracturé — coupe de production",
+      "seed": 606301,
+      "room_bounds": [10, 20],
+      "families": ["ECHOS", "PORTE_CENDRES", "HUMAINS_DEVOYES", "PARASITES"],
+      "camera_profile": {"mode": "tactical_oblique", "occlusion": "required", "vertical_behavior": "stable_inside_ritual_spaces", "phone_readability": "critical"},
+      "environment": {
+        "none": {"movement_cost": 0, "vision": 0, "injury_risk": "none", "telegraph": "clear"},
+        "memory_zone": {"movement_cost": 0, "vision": 1, "injury_risk": "psychological", "telegraph": "repeated silhouettes, resonant audio, desaturated edge", "rule": "may alter presentation, never controls, collision or legal actions"},
+        "sealed_door": {"movement_cost": 0, "vision": 0, "injury_risk": "none", "telegraph": "massive door and visible lock language", "rule": "every required lock exposes an authored valid solution"},
+        "ritual_space": {"movement_cost": 0, "vision": 0, "injury_risk": "medium", "telegraph": "floor geometry, ash circles, hanging relics", "rule": "hazard zones never occupy all safe tactical tiles"}
+      },
+      "critical_path": ["FS_01", "FS_02", "FS_03", "FS_04", "FS_06", "FS_07", "FS_08", "FS_09", "FS_10"],
+      "edges": [
+        ["FS_01", "OUT", "FS_02", "IN", false, null], ["FS_02", "OUT", "FS_03", "IN", false, null], ["FS_03", "OUT", "FS_04", "IN", false, null],
+        ["FS_04", "LEFT", "FS_05", "IN", false, null], ["FS_04", "RIGHT", "FS_06", "IN", false, null], ["FS_05", "OUT", "FS_08", "IN_1", false, null],
+        ["FS_06", "OUT", "FS_07", "IN", false, null], ["FS_07", "OUT", "FS_08", "IN_2", false, null], ["FS_08", "OUT", "FS_09", "IN", false, null], ["FS_09", "OUT", "FS_10", "IN", false, null]
+      ],
+      "nodes": [
+        ["FS_01", "Parvis fendu", "entry", "none", "HUMAINS_DEVOYES", "LOW", "m", "authored_critical", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["lighting=cold_day|late_amber", "prop=fallen_banners|broken_statues"], {"scar": ["FS_01_SCAR_A"], "encounter": [], "resource": [], "lore": ["FS_01_LORE_A"]}, [2,3,2,1,2,1], "enhanced"],
+        ["FS_02", "Galerie des voix doublées", "narrative", "memory_zone", "ECHOS", "LOW", "m", "authored_critical", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["lighting=echo_pulses|steady_dim", "prop=memory_shards|empty_niches"], {"scar": ["FS_02_SCAR_A"], "encounter": [], "resource": [], "lore": ["FS_02_LORE_A"]}, [2,3,2,2,3,1], "enhanced"],
+        ["FS_03", "Porte des trois verrous", "combat", "sealed_door", "PORTE_CENDRES", "STANDARD", "l", "rule_generated_support", ["IN:corridor:south:0", "OUT:door:north:0"], ["route_state=outer_lock|inner_lock", "cover=benches|fallen_steles"], {"scar": ["FS_03_SCAR_A"], "encounter": ["FS_03_ENC_A"], "resource": [], "lore": []}, [3,2,1,1,2,1], "same"],
+        ["FS_04", "Transept des choix", "choice", "ritual_space", "ECHOS", "STANDARD", "l", "authored_critical", ["IN:corridor:south:0", "LEFT:corridor:free:0", "RIGHT:corridor:free:0"], ["route_state=left_rite|right_rite|both_open", "lighting=body_focus|mind_focus|civic_focus"], {"scar": ["FS_04_SCAR_A"], "encounter": [], "resource": [], "lore": ["FS_04_LORE_A"]}, [3,3,2,2,3,1], "enhanced"],
+        ["FS_05", "Chambre du sceau brisé", "puzzle", "sealed_door", "PARASITES", "STANDARD", "m", "authored_critical", ["IN:door:south:0", "OUT:door:north:0"], ["prop=seal_fragments_a|seal_fragments_b", "route_state=puzzle_a|puzzle_b"], {"scar": ["FS_05_SCAR_A"], "encounter": [], "resource": [], "lore": ["FS_05_LORE_A"]}, [2,3,2,1,3,1], "enhanced"],
+        ["FS_06", "Nef des souvenirs adverses", "combat", "memory_zone", "ECHOS", "STANDARD", "l", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["encounter_geometry=mirror_lines|cross_lines", "lighting=memory_surge|memory_fade"], {"scar": ["FS_06_SCAR_A"], "encounter": ["FS_06_ENC_A"], "resource": [], "lore": []}, [3,2,2,2,3,1], "same"],
+        ["FS_07", "Sacristie des offrandes froides", "resource", "ritual_space", "HUMAINS_DEVOYES", "STANDARD", "m", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["resource_geometry=altar_left|altar_right", "prop=reliquaries|cloth_wrappings"], {"scar": ["FS_07_SCAR_A"], "encounter": [], "resource": ["FS_07_RES_A"], "lore": []}, [2,3,2,1,3,1], "same"],
+        ["FS_08", "Cœur rituel fendu", "elite", "ritual_space", "PARASITES", "HIGH", "xl", "rule_generated_support", ["IN_1:corridor:free:0", "IN_2:corridor:free:0", "OUT:corridor:north:0"], ["encounter_geometry=ring|triad|broken_circle", "hazard=ash_circle|relic_shards"], {"scar": ["FS_08_SCAR_A"], "encounter": ["FS_08_ENC_A"], "resource": [], "lore": []}, [3,3,2,2,3,1], "same"],
+        ["FS_09", "Salle où les noms reviennent", "narrative", "memory_zone", "ECHOS", "HIGH", "m", "authored_critical", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["prop=name_steles|hanging_tablets", "lighting=focused_memory|diffuse_memory"], {"scar": ["FS_09_SCAR_A"], "encounter": [], "resource": [], "lore": ["FS_09_LORE_A"]}, [2,3,2,2,3,1], "enhanced"],
+        ["FS_10", "Autel de la fracture", "boss", "ritual_space", "PORTE_CENDRES", "SEVERE", "boss", "authored_critical", ["IN:corridor:south:0", "EXTRACT:corridor:north:0"], ["encounter_geometry=altar_axis|broken_triad", "cover=ritual_pillars|collapsed_steps"], {"scar": ["FS_10_SCAR_A"], "encounter": ["FS_10_ENC_A"], "resource": ["FS_10_RES_OBJECTIVE"], "lore": ["FS_10_LORE_A"]}, [4,3,2,2,3,2], "hero"]
+      ],
+      "remanence": {"scar_types": ["defiled_altar", "destroyed_door", "persistent_corpse", "old_blood", "discovered_passage", "major_item_removed", "nemesis_mark", "enemy_occupation_change"], "protected_overrides": {"FS_02": ["FS_02_LORE_A"], "FS_04": ["IN", "LEFT", "RIGHT"], "FS_05": ["FS_05_LORE_A"], "FS_09": ["FS_09_LORE_A"], "FS_10": ["IN", "EXTRACT", "FS_10_RES_OBJECTIVE", "FS_10_ENC_A"]}, "special": "memory presentation may vary; saved lore/objective state and lock solutions do not"},
+      "performance": {"shadowed_lights": 2, "dynamic_bodies": 6, "particle_lod_levels": 3, "pool_decals": true, "occlusion_required": true},
+      "acceptance_tests": ["10 rooms instantiate from seed 606301", "both FS_04 branches converge before FS_09", "memory effects never alter controls or collision", "required sealed doors always have a solution", "ritual hazards leave safe tiles", "boss geometry and critical sockets are authored"]
+    },
+    {
+      "pack_id": "ABANDONED_QUARTERS_PRODUCTION_V1",
+      "archetype_id": "DUNGEON_ABANDONED_QUARTERS",
+      "slice_id": "REF_ABANDONED_QUARTERS_01",
+      "name_fr": "Quartiers abandonnés — coupe de production",
+      "seed": 606401,
+      "room_bounds": [9, 17],
+      "families": ["HUMAINS_DEVOYES", "GOULES", "ECHOS", "PORTE_CENDRES"],
+      "camera_profile": {"mode": "tactical_oblique", "occlusion": "roof_hide_required", "vertical_behavior": "street_roof_transition_authored", "phone_readability": "critical"},
+      "environment": {
+        "none": {"movement_cost": 0, "vision": 0, "injury_risk": "none", "telegraph": "clear"},
+        "barricade": {"movement_cost": 1, "vision": 0, "injury_risk": "low", "telegraph": "furniture, carts, rope, nailed planks", "rule": "destruction changes cover but never removes all retreat cover"},
+        "civilian_trace": {"movement_cost": 0, "vision": 0, "injury_risk": "contextual", "telegraph": "domestic objects, writing, warm-cold contrast", "rule": "procedural props never contradict saved civilian outcomes"},
+        "roof_access": {"movement_cost": 1, "vision": -1, "injury_risk": "medium", "telegraph": "stairs, ladders, broken eaves", "rule": "falls resolve to authored landings or injury; never off-map death"}
+      },
+      "critical_path": ["AQ_01", "AQ_02", "AQ_03", "AQ_04", "AQ_06", "AQ_07", "AQ_08", "AQ_09"],
+      "edges": [
+        ["AQ_01", "OUT", "AQ_02", "IN", false, null], ["AQ_02", "OUT", "AQ_03", "IN", false, null], ["AQ_03", "OUT", "AQ_04", "IN", false, null],
+        ["AQ_04", "LEFT", "AQ_05", "IN", false, null], ["AQ_04", "RIGHT", "AQ_06", "IN", false, null], ["AQ_05", "OUT", "AQ_07", "IN_1", false, null],
+        ["AQ_06", "OUT", "AQ_07", "IN_2", false, null], ["AQ_07", "OUT", "AQ_08", "IN", false, null], ["AQ_08", "OUT", "AQ_09", "IN", false, null]
+      ],
+      "nodes": [
+        ["AQ_01", "Rue des portes ouvertes", "entry", "none", "HUMAINS_DEVOYES", "LOW", "m", "authored_critical", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["prop=doors_open|doors_broken", "lighting=overcast|ash_sun"], {"scar": ["AQ_01_SCAR_A"], "encounter": [], "resource": [], "lore": ["AQ_01_LORE_A"]}, [2,3,1,1,2,1], "enhanced"],
+        ["AQ_02", "Cuisine laissée tiède", "narrative", "civilian_trace", "ECHOS", "LOW", "m", "authored_critical", ["IN:door:south:0", "OUT:door:north:0"], ["prop=meal_set|meal_scattered", "lighting=warm_trace|cold_empty"], {"scar": ["AQ_02_SCAR_A"], "encounter": [], "resource": [], "lore": ["AQ_02_LORE_A"]}, [2,3,2,1,3,1], "enhanced"],
+        ["AQ_03", "Carrefour des meubles cloués", "combat", "barricade", "HUMAINS_DEVOYES", "STANDARD", "l", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["cover=barricade_cross|barricade_offset", "destructible=light|medium"], {"scar": ["AQ_03_SCAR_A"], "encounter": ["AQ_03_ENC_A"], "resource": [], "lore": []}, [3,2,1,1,2,2], "same"],
+        ["AQ_04", "Escalier vers les toits", "choice", "roof_access", "PORTE_CENDRES", "STANDARD", "l", "authored_critical", ["IN:corridor:south:0", "LEFT:corridor:free:0", "RIGHT:stairs:up:1"], ["route_state=street_route|roof_route|both", "prop=ladders|stairs"], {"scar": ["AQ_04_SCAR_A"], "encounter": [], "resource": [], "lore": ["AQ_04_LORE_A"]}, [3,2,1,1,2,1], "enhanced"],
+        ["AQ_05", "Cellier des réserves oubliées", "resource", "civilian_trace", "GOULES", "STANDARD", "m", "rule_generated_support", ["IN:door:south:0", "OUT:corridor:north:0"], ["resource_geometry=shelves|floor_cache", "prop=jars|crates"], {"scar": ["AQ_05_SCAR_A"], "encounter": [], "resource": ["AQ_05_RES_A"], "lore": []}, [2,2,1,1,3,1], "same"],
+        ["AQ_06", "Toits aux tuiles fendues", "combat", "roof_access", "PORTE_CENDRES", "HIGH", "l", "rule_generated_support", ["IN:stairs:down:1", "OUT:stairs:down:0"], ["cover=chimneys|roof_ridges", "encounter_geometry=near_roof|far_roof"], {"scar": ["AQ_06_SCAR_A"], "encounter": ["AQ_06_ENC_A"], "resource": [], "lore": []}, [3,2,1,1,2,1], "same"],
+        ["AQ_07", "Chambre aux noms rayés", "narrative", "civilian_trace", "ECHOS", "STANDARD", "m", "authored_critical", ["IN_1:corridor:free:0", "IN_2:stairs:free:0", "OUT:door:north:0"], ["prop=wall_names|family_tokens", "lighting=window_slit|memory_warmth"], {"scar": ["AQ_07_SCAR_A"], "encounter": [], "resource": [], "lore": ["AQ_07_LORE_A"]}, [2,3,2,1,3,1], "enhanced"],
+        ["AQ_08", "Place des dernières barricades", "elite", "barricade", "HUMAINS_DEVOYES", "HIGH", "xl", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["cover=ring|zigzag|split", "destructible=doors|carts"], {"scar": ["AQ_08_SCAR_A"], "encounter": ["AQ_08_ENC_A"], "resource": [], "lore": []}, [3,2,1,1,2,2], "same"],
+        ["AQ_09", "Maison du guet vide", "exit", "roof_access", "PORTE_CENDRES", "HIGH", "xl", "authored_critical", ["IN:corridor:south:0", "EXTRACT:corridor:north:0"], ["route_state=street_extract|roof_extract", "cover=watch_post|collapsed_balcony"], {"scar": ["AQ_09_SCAR_A"], "encounter": [], "resource": ["AQ_09_RES_OBJECTIVE"], "lore": ["AQ_09_LORE_A"]}, [3,3,2,1,3,1], "hero"]
+      ],
+      "remanence": {"scar_types": ["built_barricade", "destroyed_door", "persistent_corpse", "old_blood", "discovered_passage", "opened_shortcut", "burned_area", "major_item_removed", "nemesis_mark", "enemy_occupation_change"], "protected_overrides": {"AQ_02": ["AQ_02_LORE_A"], "AQ_04": ["IN", "LEFT", "RIGHT"], "AQ_07": ["AQ_07_LORE_A"], "AQ_09": ["IN", "EXTRACT", "AQ_09_RES_OBJECTIVE"]}, "special": "civilian outcomes and discovered roof/street routes are state flags; dressing only reflects them"},
+      "performance": {"shadowed_lights": 2, "dynamic_bodies": 8, "particle_lod_levels": 3, "pool_decals": true, "occlusion_required": true},
+      "acceptance_tests": ["9 rooms instantiate from seed 606401", "street and roof routes both reach AQ_07", "roof landings are authored", "civilian traces cannot contradict saved outcomes", "barricade destruction preserves retreat", "AQ_09 extraction stays visible"]
+    },
+    {
+      "pack_id": "BLACK_QUARRY_PRODUCTION_V1",
+      "archetype_id": "DUNGEON_BLACK_QUARRY",
+      "slice_id": "REF_BLACK_QUARRY_01",
+      "name_fr": "Carrière noire — coupe de production",
+      "seed": 606501,
+      "room_bounds": [10, 19],
+      "families": ["BETES_ALTEREES", "PORTE_CENDRES", "HUMAINS_DEVOYES", "GOULES"],
+      "camera_profile": {"mode": "tactical_oblique_vertical", "occlusion": "required", "vertical_behavior": "authored_elevation_steps_and_focus_clamps", "phone_readability": "critical"},
+      "environment": {
+        "none": {"movement_cost": 0, "vision": 0, "injury_risk": "none", "telegraph": "clear"},
+        "height": {"movement_cost": 1, "vision": -1, "injury_risk": "high", "telegraph": "railings, ledges, depth fog, falling grit", "rule": "falls resolve to authored lower platforms or injury; no arbitrary void death"},
+        "crushing_hazard": {"movement_cost": 0, "vision": 0, "injury_risk": "high", "telegraph": "moving counterweights, cracked supports, warning audio", "rule": "each activation exposes a readable safe refuge"},
+        "long_sightline": {"movement_cost": 0, "vision": -1, "injury_risk": "high", "telegraph": "open quarry benches and elevated firing positions", "rule": "minimum cover cadence enforced"}
+      },
+      "critical_path": ["BQ_01", "BQ_02", "BQ_03", "BQ_04", "BQ_05", "BQ_07", "BQ_08", "BQ_09", "BQ_10"],
+      "edges": [
+        ["BQ_01", "OUT", "BQ_02", "IN", false, null], ["BQ_02", "OUT", "BQ_03", "IN", false, null], ["BQ_03", "OUT", "BQ_04", "IN", false, null], ["BQ_04", "OUT", "BQ_05", "IN", false, null],
+        ["BQ_05", "LEFT", "BQ_06", "IN", false, null], ["BQ_05", "RIGHT", "BQ_07", "IN", false, null], ["BQ_06", "OUT", "BQ_08", "IN_1", false, null], ["BQ_07", "OUT", "BQ_08", "IN_2", false, null],
+        ["BQ_08", "OUT", "BQ_09", "IN", false, null], ["BQ_09", "OUT", "BQ_10", "IN", false, null]
+      ],
+      "nodes": [
+        ["BQ_01", "Rampe des carriers absents", "entry", "none", "HUMAINS_DEVOYES", "LOW", "m", "authored_critical", ["IN:corridor:south:0", "OUT:stairs:up:1"], ["prop=tools|empty_carts", "lighting=ash_day|late_day"], {"scar": ["BQ_01_SCAR_A"], "encounter": [], "resource": [], "lore": ["BQ_01_LORE_A"]}, [2,2,1,1,2,1], "enhanced"],
+        ["BQ_02", "Corniche du premier vide", "transit", "long_sightline", "PORTE_CENDRES", "LOW", "m", "rule_generated_support", ["IN:stairs:down:0", "OUT:corridor:north:1"], ["cover=stone_blocks|cart_wrecks", "prop=rails_intact|rails_broken"], {"scar": ["BQ_02_SCAR_A"], "encounter": [], "resource": [], "lore": []}, [2,2,1,1,2,1], "same"],
+        ["BQ_03", "Escaliers taillés à pic", "combat", "height", "BETES_ALTEREES", "STANDARD", "l", "rule_generated_support", ["IN:corridor:south:1", "OUT:stairs:down:0"], ["encounter_geometry=upper_bias|lower_bias", "cover=ledge_blocks|support_posts"], {"scar": ["BQ_03_SCAR_A"], "encounter": ["BQ_03_ENC_A"], "resource": [], "lore": []}, [3,2,1,1,2,1], "same"],
+        ["BQ_04", "Machinerie des contrepoids", "hazard", "crushing_hazard", "GOULES", "STANDARD", "m", "rule_generated_support", ["IN:corridor:south:0", "OUT:stairs:up:1"], ["hazard=counterweight_left|counterweight_right|alternating", "route_state=safe_bays_a|safe_bays_b"], {"scar": ["BQ_04_SCAR_A"], "encounter": [], "resource": [], "lore": []}, [2,2,1,1,2,2], "same"],
+        ["BQ_05", "Plateforme des deux treuils", "choice", "long_sightline", "PORTE_CENDRES", "STANDARD", "l", "authored_critical", ["IN:stairs:down:0", "LEFT:stairs:down:0", "RIGHT:bridge:free:1"], ["route_state=upper_route|lower_route|both", "cover=winches|stone_piles"], {"scar": ["BQ_05_SCAR_A"], "encounter": [], "resource": [], "lore": ["BQ_05_LORE_A"]}, [3,2,1,1,2,1], "enhanced"],
+        ["BQ_06", "Dépôt des charges mortes", "resource", "crushing_hazard", "HUMAINS_DEVOYES", "STANDARD", "m", "rule_generated_support", ["IN:stairs:up:1", "OUT:corridor:north:0"], ["resource_geometry=tool_lockers|ore_cache", "prop=rope_coils|broken_crates"], {"scar": ["BQ_06_SCAR_A"], "encounter": [], "resource": ["BQ_06_RES_A"], "lore": []}, [2,2,1,1,2,1], "same"],
+        ["BQ_07", "Pont de taille", "combat", "height", "BETES_ALTEREES", "HIGH", "l", "rule_generated_support", ["IN:bridge:free:1", "OUT:stairs:down:0"], ["cover=bridge_blocks|side_buttresses", "encounter_geometry=front_back|crossfire"], {"scar": ["BQ_07_SCAR_A"], "encounter": ["BQ_07_ENC_A"], "resource": [], "lore": []}, [3,2,1,1,2,1], "same"],
+        ["BQ_08", "Fosse du broyeur", "elite", "crushing_hazard", "GOULES", "HIGH", "xl", "rule_generated_support", ["IN_1:corridor:free:0", "IN_2:stairs:free:0", "OUT:stairs:up:1"], ["hazard=crusher_cycle_a|crusher_cycle_b", "encounter_geometry=ring|split"], {"scar": ["BQ_08_SCAR_A"], "encounter": ["BQ_08_ENC_A"], "resource": [], "lore": []}, [3,2,1,1,2,2], "same"],
+        ["BQ_09", "Registre des équipes", "narrative", "long_sightline", "HUMAINS_DEVOYES", "HIGH", "m", "authored_critical", ["IN:stairs:down:0", "OUT:corridor:north:1"], ["prop=ledger_table|wall_roster", "lighting=focused_lamp|open_sky"], {"scar": ["BQ_09_SCAR_A"], "encounter": [], "resource": [], "lore": ["BQ_09_LORE_A"]}, [2,3,1,1,3,1], "enhanced"],
+        ["BQ_10", "Treuil noir", "boss", "height", "PORTE_CENDRES", "SEVERE", "boss", "authored_critical", ["IN:corridor:south:1", "EXTRACT:stairs:down:0"], ["encounter_geometry=upper_lower|central_spindle", "cover=stone_teeth|winch_housings"], {"scar": ["BQ_10_SCAR_A"], "encounter": ["BQ_10_ENC_A"], "resource": ["BQ_10_RES_OBJECTIVE"], "lore": ["BQ_10_LORE_A"]}, [4,3,1,1,3,2], "hero"]
+      ],
+      "remanence": {"scar_types": ["collapsed_bridge", "built_barricade", "persistent_corpse", "old_blood", "burned_area", "major_item_removed", "nemesis_mark", "enemy_occupation_change"], "protected_overrides": {"BQ_05": ["IN", "LEFT", "RIGHT"], "BQ_09": ["BQ_09_LORE_A"], "BQ_10": ["IN", "EXTRACT", "BQ_10_RES_OBJECTIVE", "BQ_10_ENC_A"]}, "special": "collapsed-bridge scars may close optional geometry but never the only critical route or retreat"},
+      "performance": {"shadowed_lights": 1, "dynamic_bodies": 8, "particle_lod_levels": 3, "pool_decals": true, "occlusion_required": false},
+      "acceptance_tests": ["10 rooms instantiate from seed 606501", "upper and lower routes converge at BQ_08", "every fall has an authored resolution", "crushing hazards expose a safe refuge", "long sightlines preserve cover cadence", "boss vertical navigation is valid on mobile and desktop"]
+    },
+    {
+      "pack_id": "MEMORY_RIFT_PRODUCTION_V1",
+      "archetype_id": "DUNGEON_MEMORY_RIFT",
+      "slice_id": "REF_MEMORY_RIFT_01",
+      "name_fr": "Faille de mémoire — coupe de production",
+      "seed": 606601,
+      "room_bounds": [12, 22],
+      "families": ["ECHOS", "PARASITES", "BETES_ALTEREES", "PORTE_CENDRES"],
+      "camera_profile": {"mode": "tactical_oblique_locked", "occlusion": "required", "vertical_behavior": "camera transform never distorted by memory effects", "phone_readability": "critical"},
+      "environment": {
+        "none": {"movement_cost": 0, "vision": 0, "injury_risk": "none", "telegraph": "clear"},
+        "remanence_scar": {"movement_cost": 0, "vision": 1, "injury_risk": "contextual", "telegraph": "scar silhouette and anchored decal language", "rule": "saved anchor state resolves before procedural dressing"},
+        "repeated_room_variant": {"movement_cost": 0, "vision": 1, "injury_risk": "psychological", "telegraph": "recognizable geometry with controlled differences", "rule": "critical sockets and anchor transforms are identical between repetitions"},
+        "unstable_intention": {"movement_cost": 0, "vision": 1, "injury_risk": "psychological", "telegraph": "targeting-preview distortion and audio dissonance", "rule": "presentation may be uncertain, but confirmed legal actions and input mapping never change"}
+      },
+      "critical_path": ["MR_01", "MR_02", "MR_03", "MR_04", "MR_06", "MR_07", "MR_08", "MR_09", "MR_10", "MR_11", "MR_12"],
+      "edges": [
+        ["MR_01", "OUT", "MR_02", "IN", false, null], ["MR_02", "OUT", "MR_03", "IN_1", false, null], ["MR_03", "OUT", "MR_04", "IN", false, null],
+        ["MR_04", "LEFT", "MR_05", "IN", false, null], ["MR_04", "RIGHT", "MR_06", "IN", false, null], ["MR_05", "OUT", "MR_08", "IN_1", false, null],
+        ["MR_06", "OUT", "MR_07", "IN", false, null], ["MR_07", "OUT", "MR_08", "IN_2", false, null], ["MR_08", "OUT", "MR_09", "IN", false, null],
+        ["MR_08", "LOOP", "MR_03", "IN_2", true, "opened_shortcut"], ["MR_09", "OUT", "MR_10", "IN", false, null], ["MR_10", "OUT", "MR_11", "IN", false, null], ["MR_11", "OUT", "MR_12", "IN", false, null]
+      ],
+      "nodes": [
+        ["MR_01", "Lèvre de la faille", "entry", "none", "ECHOS", "LOW", "m", "authored_critical", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["lighting=cold_edge|ashen_edge", "prop=scar_marks|broken_stones"], {"scar": ["MR_01_SCAR_A"], "encounter": [], "resource": [], "lore": ["MR_01_LORE_A"]}, [2,3,2,2,3,1], "enhanced"],
+        ["MR_02", "Salle déjà traversée", "narrative", "remanence_scar", "ECHOS", "LOW", "m", "authored_critical", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["prop=scar_a|scar_b", "lighting=memory_low|memory_pulse"], {"scar": ["MR_02_SCAR_A"], "encounter": [], "resource": [], "lore": ["MR_02_LORE_A"]}, [2,3,2,2,3,1], "enhanced"],
+        ["MR_03", "Couloir qui revient", "combat", "repeated_room_variant", "PARASITES", "STANDARD", "l", "rule_generated_support", ["IN_1:corridor:free:0", "IN_2:corridor:free:0", "OUT:corridor:north:0"], ["encounter_geometry=variant_a|variant_b|variant_c", "cover=same_shape_a|same_shape_b"], {"scar": ["MR_03_SCAR_A"], "encounter": ["MR_03_ENC_A"], "resource": [], "lore": []}, [3,2,2,2,2,1], "same"],
+        ["MR_04", "Choix avant le souvenir", "choice", "unstable_intention", "PORTE_CENDRES", "STANDARD", "l", "authored_critical", ["IN:corridor:south:0", "LEFT:corridor:free:0", "RIGHT:corridor:free:0"], ["route_state=left_truth|right_truth|both_uncertain", "lighting=split_memory|flat_memory"], {"scar": ["MR_04_SCAR_A"], "encounter": [], "resource": [], "lore": ["MR_04_LORE_A"]}, [3,3,2,2,3,1], "enhanced"],
+        ["MR_05", "Cicatrice occupée", "combat", "remanence_scar", "BETES_ALTEREES", "STANDARD", "l", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["encounter_geometry=scar_center|scar_edge", "corpse=none|light|heavy"], {"scar": ["MR_05_SCAR_A"], "encounter": ["MR_05_ENC_A"], "resource": [], "lore": []}, [3,2,2,2,3,1], "same"],
+        ["MR_06", "Chambre en double", "puzzle", "repeated_room_variant", "ECHOS", "STANDARD", "m", "authored_critical", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["route_state=pattern_a|pattern_b", "prop=duplicate_markers|missing_markers"], {"scar": ["MR_06_SCAR_A"], "encounter": [], "resource": [], "lore": ["MR_06_LORE_A"]}, [2,3,2,2,3,1], "enhanced"],
+        ["MR_07", "Dépôt d’intentions perdues", "resource", "unstable_intention", "PARASITES", "STANDARD", "m", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["resource_geometry=visible_true|visible_false_then_reveal", "lighting=soft_distortion|hard_distortion"], {"scar": ["MR_07_SCAR_A"], "encounter": [], "resource": ["MR_07_RES_A"], "lore": []}, [2,2,2,2,2,1], "same"],
+        ["MR_08", "Boucle de l’observateur", "loop_gate", "repeated_room_variant", "PORTE_CENDRES", "HIGH", "l", "authored_critical", ["IN_1:corridor:free:0", "IN_2:corridor:free:0", "OUT:corridor:north:0", "LOOP:corridor:free:0"], ["route_state=loop_closed|loop_open", "prop=recognition_markers|scar_markers"], {"scar": ["MR_08_SCAR_A"], "encounter": [], "resource": [], "lore": ["MR_08_LORE_A"]}, [3,3,2,2,3,1], "enhanced"],
+        ["MR_09", "Nœud de Rémanence", "elite", "remanence_scar", "ECHOS", "HIGH", "xl", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["encounter_geometry=anchor_ring|anchor_cross", "lighting=scar_focus|scar_pulse"], {"scar": ["MR_09_SCAR_A"], "encounter": ["MR_09_ENC_A"], "resource": [], "lore": []}, [3,3,2,2,3,1], "same"],
+        ["MR_10", "Salle de l’intention étrangère", "narrative", "unstable_intention", "PORTE_CENDRES", "HIGH", "m", "authored_critical", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["prop=foreign_trace|empty_trace", "lighting=directional_doubt|steady_reveal"], {"scar": ["MR_10_SCAR_A"], "encounter": [], "resource": [], "lore": ["MR_10_LORE_A"]}, [2,3,2,2,3,1], "enhanced"],
+        ["MR_11", "Retour impossible", "combat", "repeated_room_variant", "BETES_ALTEREES", "HIGH", "l", "rule_generated_support", ["IN:corridor:south:0", "OUT:corridor:north:0"], ["encounter_geometry=echo_previous|inverted_previous", "cover=known|shifted_noncritical"], {"scar": ["MR_11_SCAR_A"], "encounter": ["MR_11_ENC_A"], "resource": [], "lore": []}, [3,2,2,2,2,1], "same"],
+        ["MR_12", "Plaie qui se souvient", "boss", "remanence_scar", "ECHOS", "SEVERE", "boss", "authored_critical", ["IN:corridor:south:0", "EXTRACT:corridor:north:0"], ["encounter_geometry=scar_axis|scar_ring", "lighting=memory_storm|memory_still"], {"scar": ["MR_12_SCAR_A"], "encounter": ["MR_12_ENC_A"], "resource": ["MR_12_RES_OBJECTIVE"], "lore": ["MR_12_LORE_A"]}, [4,3,2,2,3,1], "hero"]
+      ],
+      "remanence": {"scar_types": ["persistent_corpse", "old_blood", "discovered_passage", "opened_shortcut", "nemesis_mark", "enemy_occupation_change", "burned_area", "defiled_altar"], "protected_overrides": {"MR_02": ["MR_02_SCAR_A", "MR_02_LORE_A"], "MR_03": ["IN_1", "IN_2", "OUT"], "MR_04": ["IN", "LEFT", "RIGHT"], "MR_06": ["MR_06_LORE_A"], "MR_08": ["IN_1", "IN_2", "OUT", "LOOP", "MR_08_SCAR_A"], "MR_10": ["MR_10_LORE_A"], "MR_12": ["IN", "EXTRACT", "MR_12_SCAR_A", "MR_12_RES_OBJECTIVE"]}, "special": "repeated rooms can change noncritical cover and dressing only; scar and critical connector transforms stay identical"},
+      "performance": {"shadowed_lights": 2, "dynamic_bodies": 4, "particle_lod_levels": 3, "pool_decals": true, "occlusion_required": true},
+      "acceptance_tests": ["12 rooms instantiate from seed 606601", "critical path remains solvable with the MR_08 loop closed", "optional loop opens only from saved shortcut state", "repeated variants keep critical transforms identical", "scars apply before procedural dressing", "unstable-intention effects never change legal actions or controls", "boss scar anchors stay authored"]
+    }
+  ]
+}
