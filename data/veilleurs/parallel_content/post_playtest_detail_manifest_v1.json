@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "status": "post_playtest_parallel_detail_manifest",
   "enabled_by_default": false,
   "runtime_wiring": "none_until_explicit_post_playtest_decision",
@@ -13,6 +13,7 @@
     "refuge_memory_save_schema": {"path":"res://data/veilleurs/parallel_content/refuge_memory_save_schema_v1.json","root_key":"veilleurs_refuge_memory","schema_version":1,"full_scene_snapshot_forbidden":true},
     "refuge_memory_fixtures": {"path":"res://data/veilleurs/parallel_content/refuge_memory_fixtures_v1.json","fixture_count":8,"deterministic_seed":731903},
     "refuge_memory_collisions": {"path":"res://data/veilleurs/parallel_content/refuge_memory_collision_scenarios_v1.json","scenario_count":8,"surface_limit_is_canon":false},
+    "refuge_memory_projection_adapter": {"path":"res://data/veilleurs/parallel_content/refuge_memory_projection_adapter_contract_v1.json","candidate_class":"VeilleursRefugeMemoryProjectionAdapterCandidate","script":"res://scripts/core/veilleurs_refuge_memory_projection_adapter_candidate.gd","archive_owner":"VeilleursContentRuntime","remanence_owner":"VeilleursRuntimeCoordinator / VeilleursRemanencePolicy","reference_only_default":true,"godot_smoke":true},
     "refuge_cross_reactions": {"path":"res://data/veilleurs/parallel_content/refuge_cross_reaction_matrix_v1.json","canonical_family_count":12,"watcher_count":4,"auxiliary_context_required":true},
     "auxiliary_individual_reactions": {"path":"res://data/veilleurs/parallel_content/auxiliary_individual_reaction_contract_v1.json","candidate_class":"VeilleursAuxiliaryReactionResolverCandidate","script":"res://scripts/core/veilleurs_auxiliary_reaction_resolver_candidate.gd","reaction_dimension_count":9,"species_personality_forbidden":true,"godot_smoke":true},
     "regional_events_acts_ii_v": {"path":"res://data/veilleurs/parallel_content/regional_event_candidates_acts_ii_v_v1.json","expected_count":16,"per_act":4,"canon_status":"candidate_only"},
@@ -45,6 +46,7 @@
     "active_playtest_contracts_must_not_reference_this_manifest": true,
     "requires_pc_feedback_before_activation": true,
     "requires_latest_head_ci_green": true,
-    "candidate_services_may_compile_and_smoke_but_must_not_be_autoloaded": true
+    "candidate_services_may_compile_and_smoke_but_must_not_be_autoloaded": true,
+    "projection_adapter_may_forward_only_verified_canonical_lived_events_to_remanence_policy": true
   }
 }
