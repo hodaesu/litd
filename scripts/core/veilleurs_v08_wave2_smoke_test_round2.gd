@@ -16,7 +16,7 @@ func _test_doctrines_and_real_skills() -> void:
     _check(runtime.set_enemy_level("ENT_ENEMY_GOULE_AFFAMEE", 50), "test Ghoul reaches full skill unlock")
     _check(runtime.set_enemy_tree("ENT_ENEMY_GOULE_AFFAMEE", "TREE_GOULE_AFFAMEE_ODEUR_SANG"), "test Ghoul selects authored hunter tree")
     runtime.round_index = 2
-    _check(runtime.grid.move("ENT_ENEMY_GOULE_AFFAMEE", Vector2i(1, 0)), "Ghoul enters tactical range")
+    _check(runtime.grid.move("ENT_ENEMY_GOULE_AFFAMEE", Vector2i(1, 1)), "Ghoul enters tactical range")
     var sahen: Dictionary = runtime.combatants["ENT_WATCHER_SAHEN"]
     sahen["hp"] = 25
     var sahen_body: VeilleursBodyComponent = sahen.get("body") as VeilleursBodyComponent
