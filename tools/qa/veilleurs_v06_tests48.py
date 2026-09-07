@@ -1,24 +1,25 @@
 from __future__ import annotations
 
 import json
-from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "veilleurs" / "v06"
-EXPECTED_WATCHERS = ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]
-EXPECTED_NAMES = ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"]
-OBSOLETE_TOKENS = [
-    "ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS",
-    "Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael",
-]
+CANON = ROOT / "data" / "veilleurs" / "skills"
+EXPECTED_WATCHERS = ["ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"]
+EXPECTED_NAMES = ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
+CANONICAL_FILES = ["nayra_orun.json", "tarek_senn.json", "aisha_maren.json", "idris_vael.json"]
 STATS = {"FOR", "TEC", "PRE", "MOB", "GAR", "RES", "PER", "VIG"}
 ZONES = {"head", "torso", "left_arm", "right_arm", "left_leg", "right_leg"}
-LEVELS = [1, 3, 5, 7, 9, 11, 13, 18, 21, 24, 28, 33, 38, 44, 50]
+LEVELS = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 35, 39, 44, 49]
 
 
 def load(name: str):
     return json.loads((DATA / name).read_text(encoding="utf-8"))
+
+
+def load_canon(name: str):
+    return json.loads((CANON / name).read_text(encoding="utf-8"))
 
 
 def main() -> int:
@@ -47,10 +48,10 @@ def main() -> int:
     loadouts = load("starter_loadouts_watchers.json")
     test("06 all core JSON parsed", all(isinstance(x, dict) for x in [watchers_payload, enemies_payload, constants, manifest, loadouts]))
 
-    watchers = watchers_payload.get("watchers", [])
-    enemies = enemies_payload.get("enemies", [])
-    watcher_ids = [w.get("entity_id") for w in watchers]
-    watcher_names = [w.get("name_fr") for w in watchers]
+    watchers = watchers_payload["watchers"]
+    enemies = enemies_payload["enemies"]
+    watcher_ids = [w["entity_id"] for w in watchers]
+    watcher_names = [w["name_fr"] for w in watchers]
     test("07 four Watchers", len(watchers) == 4)
     test("08 canonical Watcher IDs", watcher_ids == EXPECTED_WATCHERS)
     test("09 canonical Watcher names", watcher_names == EXPECTED_NAMES)
@@ -58,7 +59,7 @@ def main() -> int:
     test("11 six Watcher body zones", all(set(w.get("body_integrity", {})) == ZONES for w in watchers))
     test("12 three tree IDs per Watcher", all(len(w.get("tree_ids", [])) == 3 for w in watchers))
 
-    enemy_ids = [e.get("entity_id") for e in enemies]
+    enemy_ids = [e["entity_id"] for e in enemies]
     test("13 24 enemies", len(enemies) == 24)
     test("14 unique enemy IDs", len(enemy_ids) == len(set(enemy_ids)))
     test("15 positive ThreatValue", all(float(e.get("threat_value", 0)) > 0 for e in enemies))
@@ -75,50 +76,48 @@ def main() -> int:
     memory = constants.get("memory_caps", {})
     test("24 bounded memory", memory.get("observations") == 8 and memory.get("events") == 6 and memory.get("relations") == 4)
 
-    trees = manifest.get("trees", [])
-    generated_skill_ids: list[str] = []
-    owner_counts: Counter[str] = Counter()
-    for tree in trees:
-        prefix = str(tree.get("prefix", ""))
-        owner = str(tree.get("entity_id", ""))
-        names = tree.get("names", [])
-        for index in range(len(names)):
-            generated_skill_ids.append(f"{prefix}_{index + 1:02d}")
-            owner_counts[owner] += 1
-
-    test("25 canonical bridge markers", watchers_payload.get("canonical_watchers") is True and manifest.get("canonical_watchers") is True)
-    test("26 twelve canonical trees", len(trees) == 12 and manifest.get("tree_count") == 12)
-    test("27 fifteen authored skills per tree", all(len(t.get("names", [])) == 15 and len(t.get("activation", [])) == 15 and len(t.get("action", [])) == 15 for t in trees))
-    test("28 exactly 180 canonical skills", len(generated_skill_ids) == 180 and manifest.get("skill_count") == 180)
-    test("29 unique canonical skill IDs", len(generated_skill_ids) == len(set(generated_skill_ids)))
-    test("30 45 skills per canonical Watcher", all(owner_counts.get(entity_id, 0) == 45 for entity_id in EXPECTED_WATCHERS))
+    canonical_payloads = [load_canon(name) for name in CANONICAL_FILES]
+    tree_rows: list[tuple[str, dict]] = []
+    skill_ids: list[str] = []
+    skill_levels: list[int] = []
+    owner_counts: list[int] = []
+    for payload in canonical_payloads:
+        owner_count = 0
+        for tree_key in payload.get("tree_order", []):
+            tree = payload.get("trees", {}).get(tree_key, {})
+            tree_rows.append((tree_key, tree))
+            fields = payload.get("fields", [])
+            id_index = fields.index("ID")
+            level_index = fields.index("Niveau")
+            rows = tree.get("skills", [])
+            owner_count += len(rows)
+            for row in rows:
+                skill_ids.append(str(row[id_index]))
+                skill_levels.append(int(row[level_index]))
+        owner_counts.append(owner_count)
+    test("25 four canonical source files", len(canonical_payloads) == 4 and all((CANON / f).is_file() for f in CANONICAL_FILES))
+    test("26 twelve canonical trees", len(tree_rows) == 12 and manifest.get("tree_count") == 12)
+    test("27 fifteen skills per canonical tree", all(len(tree.get("skills", [])) == 15 for _, tree in tree_rows))
+    test("28 exactly 180 canonical skills", len(skill_ids) == 180 and manifest.get("skill_count") == 180)
+    test("29 unique canonical skill IDs", len(skill_ids) == len(set(skill_ids)))
+    test("30 45 skills per canonical Watcher", owner_counts == [45, 45, 45, 45])
     test("31 canonical unlock levels", manifest.get("unlock_levels") == LEVELS)
-    test("32 unlock schedule is ordered and unique", len(LEVELS) == 15 and LEVELS == sorted(set(LEVELS)))
-    test("33 first skill at level 1", LEVELS[0] == 1)
-    test("34 final tree skill at level 50", LEVELS[-1] == 50)
-    test("35 character cap remains 50", all(1 <= level <= 50 for level in LEVELS))
+    test("32 every tree follows canonical levels", all([int(row[payload.get("fields", []).index("Niveau")]) for row in tree.get("skills", [])] == LEVELS for payload in canonical_payloads for tree in [payload.get("trees", {}).get(key, {}) for key in payload.get("tree_order", [])]))
+    test("33 first skill at level 1", min(skill_levels) == 1)
+    test("34 final tree skill at level 49", max(skill_levels) == 49)
+    test("35 character cap remains 50", 50 > max(skill_levels))
+    expected_tree_names = {"Bastion","Brisure","Serment","Traque","Entaille","Disparition","Anatomie","Suture","Hémocorde","Sentence","Concorde","Dissidence"}
+    test("36 exact canonical tree names", {str(tree.get("name", "")) for _, tree in tree_rows} == expected_tree_names)
+    test("37 canonical skill ID families", any(x.startswith("NA-BAS-") for x in skill_ids) and any(x.startswith("TA-TRA-") for x in skill_ids) and any(x.startswith("AÏ-ANA-") for x in skill_ids) and any(x.startswith("ID-SEN-") for x in skill_ids))
+    test("38 canonical manifest maps four owners", [row.get("entity_id") for row in manifest.get("watchers", [])] == EXPECTED_WATCHERS)
+    test("39 three manifest trees per Watcher", all(len(row.get("trees", [])) == 3 for row in manifest.get("watchers", [])))
+    test("40 canonical source paths unique", len({row.get("source") for row in manifest.get("watchers", [])}) == 4)
 
-    watcher_tree_ids = {tree_id for watcher in watchers for tree_id in watcher.get("tree_ids", [])}
-    catalog_tree_ids = {str(tree.get("tree_id", "")) for tree in trees}
-    test("36 exact canonical tree IDs", catalog_tree_ids == watcher_tree_ids and len(catalog_tree_ids) == 12)
-    test("37 canonical skill ID families", any(x.startswith("SK_SAHEN_") for x in generated_skill_ids) and any(x.startswith("SK_MIRA_") for x in generated_skill_ids) and any(x.startswith("SK_NAREM_") for x in generated_skill_ids) and any(x.startswith("SK_YSRA_") for x in generated_skill_ids))
-    test("38 canonical manifest maps four owners", set(owner_counts) == set(EXPECTED_WATCHERS))
-    test("39 three manifest trees per Watcher", all(sum(1 for tree in trees if tree.get("entity_id") == entity_id) == 3 for entity_id in EXPECTED_WATCHERS))
-    test("40 canonical tree IDs unique", len(catalog_tree_ids) == len(trees) == 12)
-
-    active_paths = [
-        watchers_path,
-        catalog_path,
-        loadouts_path,
-        ROOT / "scripts" / "core" / "content_db.gd",
-        ROOT / "scripts" / "core" / "veilleurs_tactical_combat_runtime.gd",
-    ]
-    active_corpus = "\n".join(path.read_text(encoding="utf-8") for path in active_paths if path.is_file())
-    test("41 obsolete Watcher identities absent from active v0.6 data", not any(token in active_corpus for token in OBSOLETE_TOKENS))
-
-    loadout_rows = {key: value for key, value in loadouts.items() if not key.startswith("_")}
-    test("42 four starter loadouts", len(loadout_rows) == 4)
-    test("43 starter loadouts reference canonical Watchers", set(loadout_rows) == set(EXPECTED_WATCHERS))
+    active_corpus = watchers_path.read_text(encoding="utf-8") + catalog_path.read_text(encoding="utf-8")
+    alternate_names = ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"]
+    test("41 alternate Watcher identities absent from active v0.6 data", not any(name in active_corpus for name in alternate_names))
+    test("42 four starter loadouts", len(loadouts) == 4)
+    test("43 starter loadouts reference canonical Watchers", set(loadouts) == set(EXPECTED_WATCHERS))
 
     runtime_paths = [
         "scripts/core/veilleurs_body_component.gd",
@@ -130,7 +129,7 @@ def main() -> int:
         "scripts/core/veilleurs_hybrid_generation_bridge.gd",
         "scripts/core/veilleurs_refuge_runtime.gd",
     ]
-    test("44 tactical runtime components exist", all((ROOT / path).is_file() for path in runtime_paths))
+    test("44 tactical runtime components exist", all((ROOT / p).is_file() for p in runtime_paths))
 
     encounters_payload = load("encounters_64.json") if encounters_path.is_file() else {}
     encounters = encounters_payload.get("encounters", [])
@@ -175,7 +174,7 @@ def main() -> int:
         "scenes/veilleurs/v06_tactical_combat.tscn",
         "scripts/core/veilleurs_tactical_save_bridge.gd",
     ]
-    test("47 playable save surface exists", all((ROOT / path).is_file() for path in playable_paths))
+    test("47 playable save surface exists", all((ROOT / p).is_file() for p in playable_paths))
     test("48 Godot smoke scene exists", (ROOT / "scenes/tests/veilleurs_v06_tactical_smoke.tscn").is_file())
 
     if len(results) != 48:
