@@ -1,7 +1,8 @@
 {
-  "schema_version": "0.6.6",
+  "schema_version": "0.6.7",
   "contract_id": "VEILLEURS_REFUGE_RELATIONSHIPS_V1",
   "status": "production_locked_before_godot",
+  "event_library": "data/veilleurs/v06/refuge_events_social_v1.json",
   "axes": {
     "TRUST": {"min": 0, "max": 100, "meaning": "accepts vulnerability, shared risk and care"},
     "RESPECT": {"min": 0, "max": 100, "meaning": "recognizes competence, consistency and legitimacy"},
@@ -32,11 +33,11 @@
     "care_received": {"TRUST": 5, "RESPECT": 2, "FEAR": -2, "RESENTMENT": -2}
   },
   "threshold_events": [
-    {"id": "REL_TRUST_BOND", "requires": {"TRUST": 70, "RESENTMENT_max": 35}, "effect": "unlock personal confidence scene and one cooperation perk"},
-    {"id": "REL_RESPECT_ROLE", "requires": {"RESPECT": 70, "FEAR_max": 60}, "effect": "unlock refuge duty/role event"},
-    {"id": "REL_FEAR_WITHDRAWAL", "requires": {"FEAR": 75}, "effect": "unlock withdrawal/crisis event; no forced betrayal roll"},
-    {"id": "REL_RESENTMENT_CONFLICT", "requires": {"RESENTMENT": 75}, "effect": "unlock confrontation event with authored choices"},
-    {"id": "REL_COMPLEX_LOYALTY", "requires": {"TRUST": 60, "RESPECT": 60, "RESENTMENT": 50}, "effect": "unlock conflicted-loyalty dialogue rather than flattening the axes into one score"}
+    {"id": "REL_TRUST_BOND", "requires": {"TRUST": 70, "RESENTMENT_max": 35}, "effect": "queue event REL_TRUST_BOND from refuge_events_social_v1.json"},
+    {"id": "REL_RESPECT_ROLE", "requires": {"RESPECT": 70, "FEAR_max": 60}, "effect": "queue event REL_RESPECT_ROLE from refuge_events_social_v1.json"},
+    {"id": "REL_FEAR_WITHDRAWAL", "requires": {"FEAR": 75}, "effect": "queue event REL_FEAR_WITHDRAWAL from refuge_events_social_v1.json; no forced betrayal roll"},
+    {"id": "REL_RESENTMENT_CONFLICT", "requires": {"RESENTMENT": 75}, "effect": "queue event REL_RESENTMENT_CONFLICT from refuge_events_social_v1.json"},
+    {"id": "REL_COMPLEX_LOYALTY", "requires": {"TRUST": 60, "RESPECT": 60, "RESENTMENT": 50}, "effect": "queue event REL_COMPLEX_LOYALTY from refuge_events_social_v1.json"}
   ],
   "refuge_event_domains": ["cohabitation", "conflict", "rapprochement", "memory", "transformation", "crisis", "freedom", "security", "resources", "death", "authority", "care"],
   "deployment_rules": {
