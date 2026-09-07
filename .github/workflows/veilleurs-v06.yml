@@ -1,0 +1,90 @@
+name: Veilleurs v0.6 Tactical
+
+on:
+  push:
+    branches:
+      - feat/veilleurs-v06-tactical-core
+  pull_request:
+    paths:
+      - 'data/veilleurs/v06/**'
+      - 'scripts/core/veilleurs_*'
+      - 'scripts/core/content_db.gd'
+      - 'scripts/ui/veilleurs_tactical_*'
+      - 'scripts/qa/qa_test_room_controller.gd'
+      - 'scenes/veilleurs/**'
+      - 'scenes/qa/qa_validation_room.tscn'
+      - 'scenes/tests/veilleurs_v06*'
+      - 'tools/qa/veilleurs_v06*'
+      - '.github/workflows/veilleurs-v06.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-contract:
+    name: Tests_48 and balance baseline
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate Veilleurs Tests_48
+        run: python tools/qa/veilleurs_v06_tests48.py
+      - name: Preserve original first-encounter baseline
+        run: python tools/qa/veilleurs_v06_balance_sim.py --check --runs 250
+      - name: Validate v0.6.1 tactical balance target
+        run: python tools/qa/veilleurs_v061_balance_sim.py --check --runs 500
+
+  godot-tactical:
+    name: Godot 4.3 tactical smoke
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Strict Godot import
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --path . --import --quit 2>&1 | tee /tmp/veilleurs-import.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-import.log
+      - name: Run Veilleurs v0.6 tactical smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v06_tactical_smoke.tscn 2>&1 | tee /tmp/veilleurs-smoke.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V06_TACTICAL_SMOKE_FAILED' /tmp/veilleurs-smoke.log
+          grep -F 'VEILLEURS_V06_TACTICAL_SMOKE_OK' /tmp/veilleurs-smoke.log
+      - name: Run Veilleurs v0.6.1 systems smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v061_systems_smoke.tscn 2>&1 | tee /tmp/veilleurs-v061.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V061_SYSTEMS_SMOKE_FAILED' /tmp/veilleurs-v061.log
+          grep -F 'VEILLEURS_V061_SYSTEMS_SMOKE_OK' /tmp/veilleurs-v061.log
+      - name: Instantiate playable tactical demo v0.6
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v06_tactical_demo.tscn 2>&1 | tee /tmp/veilleurs-demo.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-demo.log
+      - name: Instantiate playable tactical demo v0.6.1
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v061_tactical_demo.tscn 2>&1 | tee /tmp/veilleurs-demo-v061.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-demo-v061.log
+      - name: Instantiate Khar-Sen dungeon slice
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v061_khar_sen_slice.tscn 2>&1 | tee /tmp/veilleurs-khar-sen.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-khar-sen.log
+      - name: Instantiate QA validation entry
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path . --quit-after 5 res://scenes/qa/qa_validation_room.tscn 2>&1 | tee /tmp/veilleurs-qa-entry.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-qa-entry.log
