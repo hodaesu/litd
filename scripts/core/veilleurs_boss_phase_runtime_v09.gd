@@ -82,11 +82,15 @@ func _desired_phase(hp_ratio: float) -> int:
 
 func _apply_phase(runtime: Variant, phase: int) -> Dictionary:
     var row: Dictionary = runtime.combatants[boss_id]
-    var event := {"ok":true, "boss":boss_id, "phase":phase, "state":"applied", "telegraph":_phase_name(boss_id, phase)}
+    var event: Dictionary = {"ok":true, "boss":boss_id, "phase":phase, "state":"applied", "telegraph":_phase_name(boss_id, phase)}
     match boss_id:
         "ENT_BOSS_GARDIEN_SEUIL":
             row["guard_bonus"] = maxi(int(row.get("guard_bonus", 0)), 8 + phase * 4)
-            var cells: Array[Vector2i] = [Vector2i(2, 0), Vector2i(2, 4)] if phase == 2 else [Vector2i(2, 0), Vector2i(2, 4), Vector2i(3, 1), Vector2i(3, 3)]
+            var cells: Array[Vector2i] = []
+            if phase == 2:
+                cells = [Vector2i(2, 0), Vector2i(2, 4)]
+            else:
+                cells = [Vector2i(2, 0), Vector2i(2, 4), Vector2i(3, 1), Vector2i(3, 3)]
             var applied := 0
             for cell: Vector2i in cells:
                 if runtime.grid.inside(cell) and not runtime.grid.occupied(cell):
@@ -128,7 +132,7 @@ func _telegraph_for(value: String, phase: int) -> String:
         _: return "Le combat change de phase."
 
 func _phase_name(value: String, phase: int) -> String:
-    var names := {
+    var names: Dictionary = {
         "ENT_BOSS_GARDIEN_SEUIL":["seuil_mobile","quadrillage","fermeture"],
         "ENT_BOSS_CHOEUR_FENDU":["voix_distinctes","polyphonie","saturation"],
         "ENT_BOSS_MERE_MUES":["forme_initiale","mue_reactive","forme_predatrice"],
