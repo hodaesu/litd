@@ -1,8 +1,6 @@
 extends "res://scripts/core/veilleurs_encounter_director.gd"
 class_name VeilleursCanonicalEncounterDirector
 
-signal encounter_selected(runtime_encounter: Dictionary)
-
 const CATALOG_PATH := "res://data/veilleurs/encounter_catalog_64_v1.json"
 const SPECIES_PATH := "res://data/veilleurs/species_catalog_recovered_v1.json"
 const SYNERGY_BINDING_PATH := "res://data/veilleurs/enemy_synergy_binding_v1.json"
@@ -19,7 +17,6 @@ var selection_count := 0
 var narrative_runtime: VeilleursEncounterNarrativeRuntime
 
 func _ready() -> void:
-    narrative_runtime = NARRATIVE_RUNTIME_SCRIPT.new() as VeilleursEncounterNarrativeRuntime
     reload_content()
 
 func reload_content() -> Dictionary:
@@ -94,7 +91,6 @@ func select_encounter(seed_value: int, act_token: String, context: Dictionary = 
     var candidates := _encounters_for_act(act_token)
     if candidates.is_empty():
         return {"success": false, "reason": "no_encounter_for_act"}
-
     var desired_type := str(context.get("type", ""))
     if not desired_type.is_empty():
         var typed: Array[Dictionary] = []
@@ -103,7 +99,6 @@ func select_encounter(seed_value: int, act_token: String, context: Dictionary = 
                 typed.append(candidate)
         if not typed.is_empty():
             candidates = typed
-
     if context.has("depth"):
         var depth := int(context.get("depth", 1))
         var depth_candidates: Array[Dictionary] = []
@@ -112,7 +107,6 @@ func select_encounter(seed_value: int, act_token: String, context: Dictionary = 
                 depth_candidates.append(candidate)
         if not depth_candidates.is_empty():
             candidates = depth_candidates
-
     var previous := recent_history[-1] if not recent_history.is_empty() else ""
     if candidates.size() > 1 and not previous.is_empty():
         var without_previous: Array[Dictionary] = []
@@ -121,19 +115,15 @@ func select_encounter(seed_value: int, act_token: String, context: Dictionary = 
                 without_previous.append(candidate)
         if not without_previous.is_empty():
             candidates = without_previous
-
-    var rules: Dictionary = catalog_data.get("rules", {})
-    var repeat_weight := float(rules.get("repeat_weight_after_two_in_five", 0.4))
+    var repeat_weight := float((catalog_data.get("rules", {}) as Dictionary).get("repeat_weight_after_two_in_five", 0.4))
     var weights: Array[float] = []
     var total_weight := 0.0
     for candidate: Dictionary in candidates:
-        var recent_count := recent_history.count(str(candidate.get("name", "")))
-        var weight := repeat_weight if recent_count >= 2 else 1.0
+        var weight := repeat_weight if recent_history.count(str(candidate.get("name", ""))) >= 2 else 1.0
         weights.append(weight)
         total_weight += weight
     if total_weight <= 0.0:
         return {"success": false, "reason": "no_positive_weight"}
-
     var rng := RandomNumberGenerator.new()
     rng.seed = seed_value * 104729 + _act_int(act_token) * 8191 + selection_count * 131
     var roll := rng.randf() * total_weight
@@ -144,11 +134,10 @@ func select_encounter(seed_value: int, act_token: String, context: Dictionary = 
         if roll <= cursor:
             picked_index = index
             break
-
-    var runtime := _build_runtime_encounter(candidates[picked_index], context)
+    var runtime: Dictionary = _build_runtime_encounter(candidates[picked_index], context)
     if not bool(runtime.get("success", false)):
         return runtime
-    _remember(str(runtime.get("name", "")))
+    _remember_canonical(str(runtime.get("name", "")))
     selection_count += 1
     runtime["selection_index"] = selection_count
     runtime["history_after"] = recent_history.duplicate()
@@ -160,25 +149,6 @@ func runtime_for_named_encounter(encounter_name: String, context: Dictionary = {
         if str(encounter.get("name", "")) == encounter_name:
             return _build_runtime_encounter(encounter, context)
     return {"success": false, "reason": "unknown_encounter", "name": encounter_name}
-
-func active_synergies_for_spawn(spawn_entries: Array) -> Array[Dictionary]:
-    var species_ids: Array[String] = []
-    for value: Variant in spawn_entries:
-        if value is Dictionary:
-            species_ids.append(str((value as Dictionary).get("species_id", "")))
-    var result: Array[Dictionary] = []
-    for value: Variant in synergy_data.get("records", []):
-        if not (value is Dictionary):
-            continue
-        var record: Dictionary = value
-        var all_present := true
-        for required_id: Variant in record.get("species_ids", []):
-            if not species_ids.has(str(required_id)):
-                all_present = false
-                break
-        if all_present:
-            result.append(record.duplicate(true))
-    return result
 
 func synergy_by_id(synergy_id: String) -> Dictionary:
     for value: Variant in synergy_data.get("records", []):
@@ -236,17 +206,14 @@ func _build_runtime_encounter(source: Dictionary, context: Dictionary) -> Dictio
     var max_standard := int((catalog_data.get("rules", {}) as Dictionary).get("max_standard_enemies", 4))
     if spawn_entries.size() > max_standard:
         return {"success": false, "reason": "mobile_actor_cap_exceeded", "name": source.get("name", "")}
-
     var memorial_overlay := _memorial_overlay(context.get("memorial_candidate", {}), spawn_entries.size(), max_standard)
     if bool(memorial_overlay.get("insert", false)):
         spawn_entries.append((memorial_overlay.get("spawn", {}) as Dictionary).duplicate(true))
-
     var synergies: Array[Dictionary] = []
     for synergy_id: Variant in source.get("synergy_ids", []):
         var synergy := synergy_by_id(str(synergy_id))
         if not synergy.is_empty():
             synergies.append(synergy)
-
     var narrative_reward: Dictionary = narrative_runtime.entry_by_id(str(source.get("id", ""))) if narrative_runtime != null else {}
     if narrative_reward.is_empty():
         return {"success": false, "reason": "missing_canonical_narrative_reward", "id": source.get("id", ""), "name": source.get("name", "")}
@@ -254,7 +221,6 @@ func _build_runtime_encounter(source: Dictionary, context: Dictionary) -> Dictio
         return {"success": false, "reason": "canonical_narrative_reward_name_mismatch", "id": source.get("id", ""), "name": source.get("name", "")}
     var narrative: Dictionary = narrative_reward.get("narrative", {})
     var reward: Dictionary = narrative_reward.get("reward", {})
-
     return {
         "success": true,
         "canonical": true,
@@ -323,7 +289,7 @@ func _encounters_for_act(act_token: String) -> Array[Dictionary]:
             result.append(encounter.duplicate(true))
     return result
 
-func _remember(encounter_name: String) -> void:
+func _remember_canonical(encounter_name: String) -> void:
     recent_history.append(encounter_name)
     while recent_history.size() > 5:
         recent_history.pop_front()
