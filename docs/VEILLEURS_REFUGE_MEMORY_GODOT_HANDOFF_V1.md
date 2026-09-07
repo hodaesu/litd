@@ -4,6 +4,8 @@
 
 Ce document décrit une **implémentation candidate post-playtest**. Les classes compilent et possèdent des smokes dédiés, mais elles ne doivent pas être enregistrées comme autoload ni référencées par les contrats actifs avant validation du playtest PC de la PR #173.
 
+Référence actuelle : `post_playtest_detail_manifest_v1.json` **v8**.
+
 Classes candidates :
 
 - `VeilleursRefugeMemoryServiceCandidate`
@@ -19,15 +21,7 @@ Classes candidates :
 
 Le service est propriétaire uniquement de la planification et de l'état de ses souvenirs : création, fenêtre temporelle en nombre d'expéditions, éligibilité, file, apparition, résolution, expiration, sérialisation et migration.
 
-Il **n'est pas propriétaire** :
-
-- de la vérité des Archives ;
-- des rangs de connaissance ;
-- de la Rémanence ;
-- du recrutement ;
-- des blessures persistantes ;
-- des valeurs d'équilibrage ;
-- des scènes du Refuge.
+Il **n'est pas propriétaire** de la vérité des Archives, des rangs de connaissance, de la Rémanence, du recrutement, des blessures persistantes, des valeurs d'équilibrage ni des scènes du Refuge.
 
 Il demande les écritures aux propriétaires existants via `archive_hook_requested` et `remanence_hook_requested`.
 
@@ -61,27 +55,15 @@ Le runtime existant expose déjà `record_archive_hook()`, `serialize()`, `deser
 
 ## 3. Cycle d'un souvenir
 
-Cycle candidat :
+Cycle candidat : `DORMANT → ELIGIBLE → QUEUED → SURFACED → RESOLVED → RETIRED`.
 
-`DORMANT → ELIGIBLE → QUEUED → SURFACED → RESOLVED → RETIRED`
-
-Branche d'expiration :
-
-`DORMANT/ELIGIBLE/QUEUED → EXPIRED → RETIRED`
+Branche d'expiration : `DORMANT/ELIGIBLE/QUEUED → EXPIRED → RETIRED`.
 
 Un souvenir ne peut jamais apparaître directement depuis DORMANT. Une histoire source doit avoir été écrite et les conditions observables doivent être satisfaites.
 
-`confirm_projection_committed(memory_id)` fait passer RESOLVED ou EXPIRED vers RETIRED uniquement après confirmation que les propriétaires Archives/Rémanence ont traité les demandes d'écriture.
-
 ## 4. Arbitrage
 
-Ordre candidat :
-
-1. crise ;
-2. corps/disponibilité ;
-3. relation/départ ;
-4. découverte/Archives ;
-5. routine/travail.
+Ordre candidat : crise → corps/disponibilité → relation/départ → découverte/Archives → routine/travail.
 
 À priorité identique : urgence → ancienneté → clé déterministe SHA-256.
 
@@ -89,31 +71,15 @@ La proposition actuelle autorise au maximum **2 souvenirs surfacés par retour**
 
 Le même événement source possède un cooldown candidat de deux expéditions. La même famille possède un cooldown doux d'une expédition : elle est dépriorisée, jamais effacée.
 
-La file sélectionnée et les clés de départage sont sauvegardées. Recharger ne reroll donc pas le Refuge.
-
 Six profils candidats existent dans `refuge_memory_arbitration_variants_v1.json`, mais `active_profile` reste `none` avant playtest PC.
 
-## 5. Sauvegarde
+## 5. Sauvegarde, migration et audit
 
-Racine candidate :
+Racine candidate : `veilleurs_refuge_memory`.
 
-`veilleurs_refuge_memory`
+Le payload contient uniquement seed, index d'expédition, index de retour, séquence, enregistrements mémoire, ordre de file, souvenir actuellement surfacé, cooldowns et journal de migration. Aucun NodePath, snapshot de scène ou horloge réelle.
 
-Schéma : `refuge_memory_save_schema_v1.json`, version 1.
-
-Le payload contient uniquement : seed, index d'expédition, index de retour, séquence, enregistrements mémoire, ordre de file, souvenir actuellement surfacé, cooldowns et journal de migration.
-
-Interdits : NodePath, snapshot de scène, horloge réelle comme source temporelle, connaissance cachée, vérité de phase boss.
-
-### Migration
-
-- sauvegarde sans racine mémoire : initialise un état v1 vide ;
-- payload v0/non versionné : normalise les champs manquants sans réouvrir RESOLVED/EXPIRED ;
-- schema futur > 1 : refuse la mutation avec rapport `future_schema_unsupported`.
-
-Le corpus `refuge_memory_migration_corpus_v1.json` couvre 16 cas. La migration doit rester idempotente.
-
-### Audit de migration
+Le corpus `refuge_memory_migration_corpus_v1.json` couvre 16 cas et un schéma futur inconnu est refusé.
 
 Le smoke `veilleurs_refuge_memory_migration_audit_candidate_smoke.tscn` vérifie qu'un état invalide devient `DORMANT` **et** laisse une trace explicite dans `migration_log`, puis qu'un second chargement ne duplique pas cet avertissement.
 
@@ -123,112 +89,45 @@ Tous les flags post-playtest restent `false` avant validation PC.
 
 `post_playtest_feature_flag_rollback_scenarios_v1.json` définit huit scénarios. Principe : **rollback d'exécution ≠ rollback de l'histoire**.
 
-Désactiver un flag :
-
-- stoppe les nouvelles exécutions de la couche ;
-- ne supprime aucun record mémoire ;
-- ne modifie ni `memory_id` ni `deterministic_tiebreak` ;
-- ne rétrograde pas la connaissance Archives ;
-- ne répare pas une blessure réelle ;
-- ne supprime pas une cicatrice du monde ;
-- ne rétrograde pas un rang de Rémanence déjà acquis.
+Désactiver un flag stoppe les nouvelles exécutions de la couche mais ne supprime aucun record mémoire, ne modifie ni `memory_id` ni `deterministic_tiebreak`, ne rétrograde pas la connaissance Archives, ne répare pas une blessure réelle, ne supprime pas une cicatrice du monde et ne rétrograde pas un rang de Rémanence déjà acquis.
 
 Le smoke `veilleurs_post_playtest_feature_flag_rollback_candidate_smoke.tscn` crée réellement un historique, désactive les flags, vérifie une sérialisation mémoire identique, puis réactive le maître + mémoire et confirme les mêmes IDs et tiebreaks.
 
-## 7. Signaux Godot
-
-Le service émet :
-
-- `memory_recorded`
-- `memory_became_eligible`
-- `memory_queued`
-- `memory_surfaced`
-- `memory_resolved`
-- `memory_expired`
-- `scheduler_changed`
-- `archive_hook_requested`
-- `remanence_hook_requested`
-
-Le résolveur auxiliaire n'a besoin d'aucun signal global : il reçoit un snapshot d'auxiliaire et un contexte d'événement puis renvoie une décision pure.
-
-## 8. Archives
-
-Une résolution peut demander un hook `refuge_memory_resolved` avec :
-
-- `memory_id` ;
-- événement source ;
-- choix ;
-- lien d'Archive ;
-- canaux d'écriture ;
-- résolution ;
-- preuves vécues.
+## 7. Archives et fixtures visuelles
 
 Le service n'a jamais le droit d'augmenter seul `UNKNOWN/SUSPECTED/OBSERVED/CONFIRMED/UNDERSTOOD`. Seul le runtime Archives applique un changement de connaissance si de nouvelles preuves l'autorisent.
 
-### Fixtures visuelles multi-actes
-
 `multi_act_archive_visual_fixtures_v1.json` contient huit fixtures correspondant exactement aux huit chaînes de `multi_act_archive_projection_v1.json`.
 
-Chaque fixture fixe :
+Chaque fixture fixe sections visibles, ordre/type des cartes, badges de provenance/certitude, assertions visuelles et profil téléphone/tablette/PC/manette.
 
-- sections visibles ;
-- ordre et type des cartes ;
-- badges de provenance/certitude ;
-- assertions visuelles ;
-- profil téléphone/tablette/PC/manette.
-
-Les contraintes restent : cibles tactiles ≥48 pt, aucun long press requis, aucun hover requis, aucune dépendance au pointeur pour la manette, versions contradictoires non fusionnées, cicatrice physique seulement si elle existe, même `entity_id` pour l'histoire Rémanente, état de connaissance courant préservé.
+Contraintes : cibles tactiles ≥48 pt, aucun long press requis, aucun hover requis, aucune dépendance au pointeur pour la manette, versions contradictoires non fusionnées, cicatrice physique seulement si elle existe, même `entity_id` pour l'histoire Rémanente, état de connaissance courant préservé.
 
 Le smoke `veilleurs_multi_act_archive_visual_fixture_candidate_smoke.tscn` parcourt 8 chaînes × 4 profils.
 
-## 9. Rémanence
+## 8. Rémanence
 
-Une demande Rémanence n'est émise que si :
+Une demande Rémanence n'est émise que si le souvenir possède un `remanence_link`, la résolution fournit `shared_lived_history=true` et un `entity_id` stable existe.
 
-- le souvenir possède un `remanence_link` ;
-- la résolution fournit `shared_lived_history=true` ;
-- un `entity_id` stable existe.
+L'adaptateur ne transmet vers `note_enemy_memory_event()` qu'un événement canonique vécu, avec preuve non vide et `evidence_verified=true`. Il ne peut ni promouvoir automatiquement une entité ni créer une Némésis.
 
-L'adaptateur ne transmet vers `note_enemy_memory_event()` qu'un événement canonique vécu, avec preuve non vide et `evidence_verified=true`.
+## 9. Auxiliaires individuels
 
-Cette demande ne peut ni promouvoir automatiquement une entité ni créer une Némésis. Le `VeilleursRemanencePolicy` reste propriétaire de ces décisions.
+Un auxiliaire peut réagir seulement s'il possède un `entity_id` stable, un `identity_seed` et une implication individuelle : participation, observation, histoire partagée ou conséquence matérielle.
 
-## 10. Auxiliaires individuels
+Deux individus de la même espèce peuvent donc avoir des réactions différentes en fonction de leur histoire.
 
-Un auxiliaire peut réagir seulement s'il possède :
+## 10. Chaînes multi-actes
 
-- un `entity_id` stable ;
-- un `identity_seed` ;
-- une implication individuelle : participation, observation, histoire partagée ou conséquence matérielle.
+`multi_act_consequence_chains_v1.json` définit 8 chaînes candidates. Une étape manquée ne bloque jamais la campagne. Aucune chaîne ne fournit de bonus caché et aucune Némésis n'est générée pour satisfaire une chaîne.
 
-Le contexte utilise des listes d'IDs (`direct_participants`, `direct_observers`, `materially_affected_entities`, `shared_history_entities`) afin qu'un booléen collectif ne rende pas automatiquement tous les auxiliaires admissibles.
+## 11. Tests déterministes
 
-Deux Déliés Affamés différents peuvent donc avoir des réactions totalement différentes en fonction de leur histoire.
-
-## 11. Chaînes multi-actes
-
-`multi_act_consequence_chains_v1.json` définit 8 chaînes candidates. Elles peuvent préserver :
-
-- versions concurrentes ;
-- référentiels de route ;
-- méthodes de coordination ;
-- preuves corporelles ;
-- apprentissages de terrain ;
-- usage de la lumière comme référentiel local ;
-- importance du contexte face aux copies ;
-- histoire partagée avec une entité de Rémanence.
-
-Une étape manquée ne bloque jamais la campagne. Aucune chaîne ne fournit de bonus caché et aucune Némésis n'est générée pour satisfaire une chaîne.
-
-## 12. Tests déterministes
-
-Fixtures mémoire : `refuge_memory_fixtures_v1.json` — 8 cas.
-
-Collisions : `refuge_memory_collision_scenarios_v1.json` — 8 cas.
-
-Rollbacks : `post_playtest_feature_flag_rollback_scenarios_v1.json` — 8 cas.
-
-Fixtures Archives : `multi_act_archive_visual_fixtures_v1.json` — 8 chaînes × 4 profils.
+- Fixtures mémoire : 8 cas.
+- Collisions : 8 cas.
+- Corpus migrations : 16 cas.
+- Rollbacks : 8 cas.
+- Fixtures Archives : 8 chaînes × 4 profils.
 
 Smokes Godot :
 
@@ -242,19 +141,17 @@ Smokes Godot :
 
 Ils sont lancés par `Remanence Smoke` sur la PR #180 mais ne sont utilisés par aucune scène de jeu.
 
-## 13. Ordre d'activation après playtest
+## 12. Ordre d'activation après playtest
 
-1. valider le plafond de rappels par retour ;
-2. valider les priorités/cooldowns ;
-3. brancher le service à `VeilleursContentRuntime` derrière un feature flag ;
-4. valider save/load/migration + journal d'audit sur copies de sauvegardes ;
-5. valider le rollback avec historique ;
-6. brancher les requêtes Archives ;
-7. vérifier les fixtures visuelles ;
-8. brancher les requêtes Rémanence ;
-9. brancher le résolveur d'auxiliaires ;
-10. activer une seule famille d'événements Refuge ;
-11. playtest ;
-12. seulement ensuite étendre aux événements régionaux et chaînes multi-actes.
+1. valider plafond/priorités/cooldowns ;
+2. brancher le service derrière feature flag ;
+3. valider save/load/migration + audit sur copies ;
+4. valider rollback avec historique ;
+5. brancher Archives et vérifier les fixtures ;
+6. brancher Rémanence ;
+7. brancher auxiliaires ;
+8. activer une seule famille Refuge ;
+9. playtest ;
+10. seulement ensuite régional/multi-actes.
 
 Aucune activation en masse avant validation de chaque étape.
