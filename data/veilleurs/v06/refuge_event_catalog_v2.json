@@ -1,0 +1,20 @@
+{
+  "schema_version":"0.6.8",
+  "catalog_id":"VEILLEURS_REFUGE_EVENT_CATALOG_V2",
+  "status":"authoritative",
+  "reason":"The active source libraries contain 49 unique scenes. A previous summary counted the mutilation family as 6 although 7 scenes are present. No useful scene is removed to preserve an obsolete count.",
+  "source_libraries":["refuge_events_social_v1.json","refuge_events_knowledge_v1.json","refuge_events_state_v1.json"],
+  "total_active_events":49,
+  "family_counts":{"conflict":7,"rapprochement":7,"grief":6,"mutilation":7,"debate":9,"memoriel":4,"nemesis":4,"refuge_state":5},
+  "source_metadata_override":{"refuge_events_social_v1.json":{"actual_event_count":27,"actual_families":{"conflict":7,"rapprochement":7,"grief":6,"mutilation":7}}},
+  "events":[
+    ["REL_RESENTMENT_CONFLICT","conflict"],["REF_CONFLICT_QUARTERS","conflict"],["REF_CONFLICT_RESOURCES","conflict"],["REF_CONFLICT_AUTHORITY","conflict"],["REF_CONFLICT_PAIN_ANGER","conflict"],["REF_CONFLICT_PACT_REMINDER","conflict"],["REL_FEAR_WITHDRAWAL","conflict"],
+    ["REL_TRUST_BOND","rapprochement"],["REL_RESPECT_ROLE","rapprochement"],["REL_COMPLEX_LOYALTY","rapprochement"],["REF_BOND_SHARED_MEAL","rapprochement"],["REF_BOND_CARE_THANKS","rapprochement"],["REF_BOND_NIGHT_WATCH","rapprochement"],["REF_BOND_REPAIR_TOGETHER","rapprochement"],
+    ["REF_GRIEF_RETURNED_BODY","grief"],["REF_GRIEF_BODY_LEFT_BEHIND","grief"],["REF_GRIEF_EMPTY_BED","grief"],["REF_GRIEF_WITNESS_GUILT","grief"],["REF_GRIEF_SHARED_NAME","grief"],["REF_GRIEF_FUNERAL_ARGUMENT","grief"],
+    ["REF_MUTILATION_FIRST_LOOK","mutilation"],["REF_MUTILATION_ADAPTATION_REQUEST","mutilation"],["REF_MUTILATION_REFUSE_PROSTHESIS","mutilation"],["REF_MUTILATION_REHAB_FAILURE","mutilation"],["REF_MUTILATION_COMBAT_IDENTITY","mutilation"],["REF_MUTILATION_GROUP_REACTION","mutilation"],["REF_MUTILATION_PHANTOM_PAIN","mutilation"],
+    ["REF_DEBATE_BODY_LIMIT","debate"],["REF_DEBATE_BODY_VIOLENCE","debate"],["REF_DEBATE_BODY_TRAINING","debate"],["REF_DEBATE_MIND_ART","debate"],["REF_DEBATE_MIND_TRAUMA","debate"],["REF_DEBATE_MIND_MEMORY","debate"],["REF_DEBATE_POLITICS_AUTHORITY","debate"],["REF_DEBATE_POLITICS_COMMON_GOOD","debate"],["REF_DEBATE_POLITICS_OUTSIDER","debate"],
+    ["REF_MEMORIEL_CONTRADICTION","memoriel"],["REF_MEMORIEL_PERSONHOOD","memoriel"],["REF_MEMORIEL_BURDEN","memoriel"],["REF_MEMORIEL_PUBLIC_DISPLAY","memoriel"],
+    ["REF_NEMESIS_PATTERN","nemesis"],["REF_NEMESIS_FEAR","nemesis"],["REF_NEMESIS_REVENGE","nemesis"],["REF_NEMESIS_PERSON_OR_SYSTEM","nemesis"],
+    ["REF_STATE_SURVIVRE","refuge_state"],["REF_STATE_ORGANISER","refuge_state"],["REF_STATE_COMPRENDRE","refuge_state"],["REF_STATE_REBATIR","refuge_state"],["REF_STATE_TRANSMETTRE","refuge_state"]
+  ]
+}
