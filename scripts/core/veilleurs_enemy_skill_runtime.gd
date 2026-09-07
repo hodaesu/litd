@@ -104,7 +104,7 @@ func validation_report() -> Dictionary:
         "boss_skills": boss_skill_count,
         "runtime_id_collisions": maxi(0, 1305 - skills_by_runtime_id.size()),
         "exact_catalog": exact_report,
-        "decision_source": "canonical_prepc_pack_exact_cache",
+        "decision_source": "canonical_prepc_pack_uncompressed_tree_json",
         "memory_ai": true
     }
 
@@ -268,7 +268,7 @@ func choose_action(enemy: Dictionary, heroes: Array, context: Dictionary = {}) -
         "mechanical_resolution": "canonical_resolver_required",
         "generic_damage_fallback_forbidden": true,
         "party_counterpick_used": false,
-        "canonical_skill_source": "prepc_pack_exact_cache",
+        "canonical_skill_source": "prepc_pack_uncompressed_tree_json",
         "owned_candidate_count": candidates.size(),
         "memory_rank": str(memory_state.get("memory_rank", "normal")),
         "memory_changed_choice": bool(ranked.get("changed_by_memory", false)),
@@ -277,7 +277,6 @@ func choose_action(enemy: Dictionary, heroes: Array, context: Dictionary = {}) -
 
 func serialize() -> Dictionary:
     return {"assigned_trees": assigned_trees.duplicate(true)}
-
 func deserialize(payload: Dictionary) -> void:
     assigned_trees = payload.get("assigned_trees", {}).duplicate(true)
 
