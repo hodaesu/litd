@@ -38,6 +38,7 @@ on:
       - 'docs/veilleurs/**'
       - 'project.godot'
       - 'export_presets.cfg'
+      - '.github/workflows/veilleurs-production-automation.yml'
   workflow_dispatch:
     inputs:
       full_suite:
@@ -151,10 +152,95 @@ jobs:
           path: build/automation/
           if-no-files-found: warn
 
+  android-debug-export:
+    name: Android debug APK export
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Android exporter
+        shell: bash
+        env:
+          HOME: /root
+        run: |
+          set -euo pipefail
+          EXPECTED_TEMPLATES="$HOME/.local/share/godot/export_templates/4.3.stable"
+          if [[ ! -f "$EXPECTED_TEMPLATES/android_debug.apk" ]]; then
+            SOURCE_DEBUG="$(find /root/.local/share/godot /opt /usr/local /usr/share -type f -name android_debug.apk -print -quit 2>/dev/null || true)"
+            if [[ -z "$SOURCE_DEBUG" ]]; then
+              echo "Android debug export template not found in godot-ci image" >&2
+              find /root/.local/share/godot /opt /usr/local /usr/share -maxdepth 6 -type f -name '*android*' -print 2>/dev/null | head -200 || true
+              exit 1
+            fi
+            SOURCE_TEMPLATES="$(dirname "$SOURCE_DEBUG")"
+            mkdir -p "$(dirname "$EXPECTED_TEMPLATES")"
+            cp -a "$SOURCE_TEMPLATES" "$EXPECTED_TEMPLATES"
+          fi
+
+          JAVA_BIN="$(command -v java || true)"
+          if [[ -z "$JAVA_BIN" ]]; then
+            JAVA_BIN="$(find /usr/lib/jvm -type f -path '*/bin/java' -print -quit 2>/dev/null || true)"
+          fi
+          test -n "$JAVA_BIN"
+          JAVA_BIN="$(readlink -f "$JAVA_BIN")"
+          JAVA_HOME_DETECTED="$(dirname "$(dirname "$JAVA_BIN")")"
+          KEYTOOL="$JAVA_HOME_DETECTED/bin/keytool"
+          test -x "$KEYTOOL"
+
+          mkdir -p "$HOME/.config/godot" "$HOME/.android"
+          SETTINGS="$(find "$HOME/.config/godot" -maxdepth 1 -type f -name 'editor_settings-4*.tres' -print -quit 2>/dev/null || true)"
+          if [[ -z "$SETTINGS" ]]; then
+            SETTINGS="$HOME/.config/godot/editor_settings-4.3.tres"
+            printf '[gd_resource format=3]\n\n[resource]\n' > "$SETTINGS"
+          fi
+          sed -i '/^export\/android\/java_sdk_path = /d;/^export\/android\/android_sdk_path = /d' "$SETTINGS"
+          printf 'export/android/java_sdk_path = "%s"\n' "$JAVA_HOME_DETECTED" >> "$SETTINGS"
+          printf 'export/android/android_sdk_path = "/usr/lib/android-sdk"\n' >> "$SETTINGS"
+
+          if [[ ! -f "$HOME/.android/debug.keystore" ]]; then
+            "$KEYTOOL" -genkeypair -v \
+              -keystore "$HOME/.android/debug.keystore" \
+              -storepass android -alias androiddebugkey -keypass android \
+              -dname "CN=Android Debug,O=Android,C=US" \
+              -keyalg RSA -keysize 2048 -validity 10000
+          fi
+
+          test -f "$EXPECTED_TEMPLATES/android_debug.apk"
+          test -x "$JAVA_BIN"
+          test -f "$HOME/.android/debug.keystore"
+          echo "ANDROID_CI_ENV_OK java=$JAVA_HOME_DETECTED template=$EXPECTED_TEMPLATES/android_debug.apk"
+      - name: Export Android debug APK
+        shell: bash
+        env:
+          HOME: /root
+          GODOT_ANDROID_KEYSTORE_DEBUG_PATH: /root/.android/debug.keystore
+          GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
+          GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: android
+        run: |
+          set -o pipefail
+          mkdir -p build/android build/automation
+          godot --headless --path . --export-debug "Android" build/android/LightInTheDark.apk 2>&1 | tee build/automation/android-export.log
+          test -s build/android/LightInTheDark.apk
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/android-export.log
+      - name: Publish Android debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: veilleurs-android-debug-apk
+          path: build/android/LightInTheDark.apk
+          if-no-files-found: error
+      - name: Publish Android export log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: veilleurs-android-export-log
+          path: build/automation/android-export.log
+          if-no-files-found: warn
+
   full-regression:
     name: Full Godot regression suite
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.full_suite }}
-    needs: [content-contracts, godot-quick-gate]
+    needs: [content-contracts, godot-quick-gate, android-debug-export]
     runs-on: ubuntu-latest
     container:
       image: barichello/godot-ci:4.3
