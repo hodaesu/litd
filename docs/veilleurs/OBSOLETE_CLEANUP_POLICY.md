@@ -14,11 +14,14 @@ Un fichier `legacy` n’est pas automatiquement obsolète. Tant qu’un composan
 | --- | --- | --- |
 | `00_LIRE_AVANT_IMPORT_WORKING_COPY.md` | bootstrap Working Copy iPhone terminé | dépôt GitHub actuel |
 | `WORKING_COPY_IMPORT_READY.txt` | marqueur d’import Working Copy terminé | dépôt GitHub actuel |
+| `VERSION` | version globale figée sur `0.13.0-sprint1` | tags Git ; fallback local via `git describe` |
 | `docs/SPRINT_1_ACCEPTANCE.md` | critères du premier sprint supersédés | CI active et gates pré-PC |
 | `docs/TEST_REPORT.md` | rapport statique V0.11 figé | GitHub Actions + audit d’intégrité |
 | `docs/MIGRATION_STATUS.md` | ancien état de migration ne décrivant plus Les Veilleurs | `data/veilleurs/pre_pc_gate.json` et `docs/veilleurs/PRE_PC_LOCK.md` |
 | `docs/GITHUB_SETUP.md` | procédure de création initiale du dépôt déjà accomplie | dépôt et workflows actuels |
 | `docs/FILE_MANIFEST.json` | manifeste Sprint 1 figé (`0.13.0-sprint1`) devenu faux | Git + audit d’intégrité du dépôt |
+
+Le générateur `tools/release/generate_notes.py` ne dépend plus de `VERSION` : un tag fourni reste prioritaire et, en exécution locale sans argument, le fallback est dérivé de Git avec `git describe`.
 
 ## Éléments volontairement conservés
 
