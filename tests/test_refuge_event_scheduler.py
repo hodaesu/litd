@@ -34,8 +34,10 @@ def test_critical_and_state_events_cannot_be_lost_to_random_selection():
     data = load("refuge_event_scheduler_v1.json")
     selection = data["selection"]
     assert selection["critical_eligible_events_are_queued_before_random_selection"] is True
+    assert selection["critical_events_do_not_consume_family_random_budgets"] is True
     assert selection["state_transition_event_always_queued_when_new_state_entered"] is True
     assert data["priority_order"][0] == "critical"
+    assert data["eligibility_order"][-1] == "family_budget_allows_noncritical_event"
 
 
 def test_save_reload_never_rerolls_active_event():
