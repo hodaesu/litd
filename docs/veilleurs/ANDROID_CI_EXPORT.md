@@ -1,6 +1,6 @@
 # LITD : Les Veilleurs — export Android en CI
 
-Le pipeline Veilleurs construit désormais un APK Android **debug** dans GitHub Actions avec Godot 4.3.
+Le pipeline Veilleurs construit un APK Android **debug** dans GitHub Actions avec **Godot 4.7.2**, version CI épinglée pour la famille projet Godot 4.7.x.
 
 ## Ce que le gate prouve
 
