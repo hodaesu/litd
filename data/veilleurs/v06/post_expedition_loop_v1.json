@@ -1,0 +1,59 @@
+{
+  "schema_version": "0.6.6",
+  "contract_id": "VEILLEURS_POST_EXPEDITION_LOOP_V1",
+  "status": "production_locked_before_godot",
+  "return_sequence": ["RETURNED", "DEAD", "INJURIES", "KNOWLEDGE", "LOOT", "PROGRESSION", "WORLD_CHANGES", "SUMMARY"],
+  "hub_flow": ["PLACE", "VISIBLE_CONSEQUENCES", "CARE", "EQUIPMENT", "PROGRESSION", "PREPARATION", "DEPARTURE"],
+  "rules": {
+    "death_is_processed_before_statistics": true,
+    "critical_death_or_permadeath_routes_through_critical_event_layer": true,
+    "injuries_mutilations_and_mental_states_persist_after_return": true,
+    "return_never_auto_heals_to_pristine_state": true,
+    "knowledge_is_committed_before_loot_is_spent": true,
+    "world_changes_are_committed_before_next_expedition_seed": true,
+    "save_after_each_stage": true,
+    "no_full_scene_snapshot": true
+  },
+  "stages": {
+    "RETURNED": {
+      "inputs": ["expedition_id", "returned_entity_ids", "extracted_items", "room_flags", "scar_records"],
+      "outputs": ["return_manifest", "hub_arrival_flags"],
+      "ui_priority": ["who_returned", "who_is_missing", "major_visible_changes"]
+    },
+    "DEAD": {
+      "inputs": ["death_records", "corpse_records", "source_entity_ids"],
+      "outputs": ["permadeath_flags", "persistent_corpse_identity", "relation_shock_events", "archive_death_records"],
+      "invariants": ["dead entities are never silently restored", "corpse identity remains addressable when persistence rules allow it"]
+    },
+    "INJURIES": {
+      "inputs": ["body_integrity_deltas", "lesions", "mutilations", "mental_states"],
+      "outputs": ["care_queue", "deployment_restrictions", "adaptation_options"],
+      "invariants": ["stabilization prevents bookkeeping death after extraction", "mutilation is never removed by ordinary care"]
+    },
+    "KNOWLEDGE": {
+      "inputs": ["interaction_outcomes", "observed_enemy_facts", "identified_people", "archive_fragments", "memoriel_records"],
+      "outputs": ["knowledge_transactions", "archive_updates", "remanence_unlocks"],
+      "invariants": ["unobserved information remains unknown", "knowledge cannot be sold or converted to gold"]
+    },
+    "LOOT": {
+      "inputs": ["gold", "equipment", "accessories", "materials", "consumables", "objective_rewards"],
+      "outputs": ["storage_transactions", "economy_ledger"],
+      "invariants": ["seeded item identity and seed are preserved", "single-use rewards cannot be duplicated"]
+    },
+    "PROGRESSION": {
+      "inputs": ["xp", "level_unlocks", "skill_points", "orientation_state", "relationship_changes"],
+      "outputs": ["character_progression", "recruit_progression", "refuge_events_unlocked"],
+      "invariants": ["chosen exclusive tree rules remain enforced", "recruit orientation at level 10 is definitive"]
+    },
+    "WORLD_CHANGES": {
+      "inputs": ["node_flags", "scar_records", "opened_shortcuts", "survivor_outcomes", "enemy_occupation_changes", "nemesis_traces"],
+      "outputs": ["campaign_world_state", "hub_visible_consequences", "next_run_seed_context"],
+      "invariants": ["saved authored outcomes override procedural dressing", "critical progression remains solvable"]
+    },
+    "SUMMARY": {
+      "must_show": ["returned", "dead", "major_injuries", "new_knowledge", "gold_and_notable_loot", "relationship_changes", "world_changes", "new_refuge_events", "next_expedition_constraints"],
+      "mobile_rule": "one priority card per category; detailed drill-down is optional"
+    }
+  },
+  "save_payload": ["return_stage", "return_manifest", "entity_states", "care_queue", "knowledge_transactions", "archive_state", "economy_ledger", "relationship_state", "refuge_state", "world_flags", "scar_records", "persistent_entity_ids"]
+}
