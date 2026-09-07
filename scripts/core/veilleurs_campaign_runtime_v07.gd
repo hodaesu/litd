@@ -7,7 +7,7 @@ const RECRUITMENT_SCRIPT := preload("res://scripts/core/veilleurs_recruitment_ru
 const ARCHIVES_SCRIPT := preload("res://scripts/core/veilleurs_archives_runtime.gd")
 const REFUGE_SCRIPT := preload("res://scripts/core/veilleurs_refuge_runtime.gd")
 const DUNGEON_SCRIPT := preload("res://scripts/core/veilleurs_dungeon_runtime_v07.gd")
-const WATCHERS: Array[String] = ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]
+const WATCHERS: Array[String] = ["ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"]
 
 var content_db: VeilleursContentDBV07Runtime
 var progression: VeilleursProgressionRuntime
