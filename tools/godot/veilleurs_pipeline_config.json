@@ -34,6 +34,7 @@
   "python_audits": [
     "tools/qa/veilleurs_pre_pc_audit.py",
     "tools/qa/veilleurs_hardware_contract_audit.py",
+    "tools/qa/veilleurs_hardware_session_audit.py",
     "tools/qa/veilleurs_v09_wave3_audit.py",
     "tools/qa/veilleurs_v08_wave2_audit.py",
     "tools/qa/veilleurs_v07_content_audit.py",
