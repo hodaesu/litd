@@ -56,3 +56,5 @@ jobs:
         run: godot --headless --path . res://scenes/tests/veilleurs_refuge_memory_migration_audit_candidate_smoke.tscn
       - name: Rollback feature flags post-playtest candidat (inactif)
         run: godot --headless --path . res://scenes/tests/veilleurs_post_playtest_feature_flag_rollback_candidate_smoke.tscn
+      - name: Fixtures visuelles Archives multi-actes (inactives)
+        run: godot --headless --path . res://scenes/tests/veilleurs_multi_act_archive_visual_fixture_candidate_smoke.tscn
