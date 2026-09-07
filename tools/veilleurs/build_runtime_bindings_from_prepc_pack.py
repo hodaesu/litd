@@ -1,20 +1,15 @@
 #!/usr/bin/env python3
 import argparse
-import base64
 import hashlib
 import json
 from pathlib import Path
 import re
 import unicodedata
 import zipfile
-import zlib
 
 PACK_SHA = "0739666c23b6aad99d79128147b84322155bbdd5ff49c62b0990eaf11fec8919"
 PREFIX = "litd_canonical_pack_2026-09-03/current/"
-SKILL_SCHEMA = [
-    "rid", "sid", "entity", "tree", "name", "type",
-    "node_role", "positions", "power", "precision", "tags",
-]
+ENCOUNTER_CHUNK_SIZE = 8
 
 
 def load_json(path: Path):
@@ -29,29 +24,10 @@ def compact_bytes(payload) -> bytes:
     return json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
 
 
-def compressed_cache(raw: bytes, *, record_count: int, act: int | None = None) -> dict:
-    cache = {
-        "version": 1,
-        "status": "generated_runtime_cache",
-        "source_pack_sha256": PACK_SHA,
-        "record_count": record_count,
-        "uncompressed_bytes": len(raw),
-        "raw_json_sha256": sha256_bytes(raw),
-        "compression": "zlib_deflate_base64",
-        "payload": base64.b64encode(zlib.compress(raw, 9)).decode("ascii"),
-    }
-    if act is not None:
-        cache = {"version": 1, "status": "generated_runtime_cache", "act": act, **{
-            key: value for key, value in cache.items() if key not in ("version", "status")
-        }}
-    return cache
-
-
-def write_compact(path: Path, payload) -> None:
-    path.write_text(
-        json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
-        encoding="utf-8",
-    )
+def write_compact(path: Path, payload) -> bytes:
+    raw = compact_bytes(payload)
+    path.write_bytes(raw)
+    return raw
 
 
 def read_pack_json(zf: zipfile.ZipFile, name: str, expected_sha=None):
@@ -69,14 +45,6 @@ def normalize_entity_id(value: str) -> str:
         .lower()
     )
     return re.sub(r"[^a-z0-9]+", "_", ascii_value).strip("_")
-
-
-def act_number(value: str) -> int:
-    text = str(value).strip()
-    for roman, number in (("V", 5), ("IV", 4), ("III", 3), ("II", 2), ("I", 1)):
-        if text.startswith(roman):
-            return number
-    raise SystemExit(f"Unknown act label: {value}")
 
 
 def build(repo: Path, pack: Path, output_dir: Path):
@@ -133,7 +101,6 @@ def build(repo: Path, pack: Path, output_dir: Path):
         )
 
     skill_bindings = []
-    compact_rows_by_act = {act: [] for act in range(1, 6)}
     seen_runtime_ids = set()
     tree_counts = {}
 
@@ -181,29 +148,13 @@ def build(repo: Path, pack: Path, output_dir: Path):
                     "effect": row["Effet"],
                 }
             )
-
-            act = act_number(row.get("Acte/Région") or row.get("Acte"))
-            compact_rows_by_act[act].append(
-                [
-                    runtime_id,
-                    row["ID"],
-                    entity_id,
-                    row["Arbre"],
-                    row["Compétence"],
-                    skill_type,
-                    node_role,
-                    row["Positions"],
-                    row["Puissance 0-5"],
-                    row["Précision %"],
-                    row["Tags"],
-                ]
-            )
             tree_counts[tree_key] = tree_counts.get(tree_key, 0) + 1
 
     if len(skill_bindings) != 1305 or len(seen_runtime_ids) != 1305:
         raise SystemExit("Skill binding must contain 1305 unique runtime skill IDs")
     if len(tree_counts) != 87 or set(tree_counts.values()) != {15}:
         raise SystemExit("Skill source must contain exactly 87 trees with 15 skills each")
+
     per_entity = {}
     for record in skill_bindings:
         per_entity[record["entity_id"]] = per_entity.get(record["entity_id"], 0) + 1
@@ -254,63 +205,39 @@ def build(repo: Path, pack: Path, output_dir: Path):
         raise SystemExit("Encounter narrative/reward binding must contain 64 unique runtime IDs")
 
     output_dir.mkdir(parents=True, exist_ok=True)
-
     write_compact(
         output_dir / "enemy_skill_intent_binding_1305_v1.json",
         {"version": 1, "count": 1305, "records": skill_bindings},
     )
 
-    manifest_acts = []
-    act_distribution = {1: 405, 2: 225, 3: 225, 4: 225, 5: 225}
-    for act in range(1, 6):
-        rows = compact_rows_by_act[act]
-        if len(rows) != act_distribution[act]:
-            raise SystemExit(f"Unexpected skill count for act {act}: {len(rows)}")
-        raw = compact_bytes({"schema": SKILL_SCHEMA, "records": rows})
-        cache = compressed_cache(raw, record_count=len(rows), act=act)
-        filename = f"enemy_skill_ai_catalog_act_{act}_v1.json"
-        write_compact(output_dir / filename, cache)
-        manifest_acts.append(
+    chunk_manifest = []
+    for chunk_index, start in enumerate(range(0, len(merged_encounters), ENCOUNTER_CHUNK_SIZE), 1):
+        records = merged_encounters[start:start + ENCOUNTER_CHUNK_SIZE]
+        filename = f"encounter_narrative_reward_chunk_{chunk_index:02d}_v1.json"
+        raw = write_compact(
+            output_dir / filename,
+            {"version": 1, "chunk": chunk_index, "count": len(records), "records": records},
+        )
+        chunk_manifest.append(
             {
-                "act": act,
                 "path": f"res://data/veilleurs/generated/{filename}",
-                "count": len(rows),
-                "raw_json_sha256": cache["raw_json_sha256"],
+                "count": len(records),
+                "sha256": sha256_bytes(raw),
             }
         )
 
-    manifest = {
-        "version": 1,
-        "status": "generated_runtime_cache_manifest",
-        "source_pack_sha256": PACK_SHA,
-        "total_records": 1305,
-        "entity_count": 29,
-        "skills_per_entity": 45,
-        "trees_per_entity": 3,
-        "skills_per_tree": 15,
-        "schema": [
-            "runtime_skill_id", "source_skill_id", "entity_id", "tree", "skill_name",
-            "skill_type", "node_role", "positions", "power_0_5", "precision_pct", "tags",
-        ],
-        "acts": manifest_acts,
-        "generation": {
-            "source_files": ["comp_bestiaire_585.json", "comp_ii_v_720.json"],
-            "runtime_id_format": "{entity_id}:{source_skill_id}",
-            "entity_id_normalization": "unicode_nfkd_ascii_lower_non_alnum_to_underscore",
-            "payload": "compact_json_zlib_deflate_base64",
-            "source_is_authoritative": True,
-            "cache_is_reproducible": True,
-        },
-    }
-    write_compact(output_dir / "enemy_skill_ai_catalog_manifest_v1.json", manifest)
+    if len(chunk_manifest) != 8 or sum(item["count"] for item in chunk_manifest) != 64:
+        raise SystemExit("Encounter runtime must contain exactly 8 uncompressed chunks / 64 records")
 
-    encounter_raw = compact_bytes(
-        {"version": 1, "count": 64, "records": merged_encounters}
-    )
-    encounter_cache = compressed_cache(encounter_raw, record_count=64)
     write_compact(
-        output_dir / "encounter_narrative_reward_64_v1.json",
-        encounter_cache,
+        output_dir / "encounter_narrative_reward_64_manifest_v1.json",
+        {
+            "version": 2,
+            "status": "canonical_uncompressed_runtime_manifest",
+            "source_pack_sha256": PACK_SHA,
+            "count": 64,
+            "chunks": chunk_manifest,
+        },
     )
 
     return {
@@ -318,10 +245,11 @@ def build(repo: Path, pack: Path, output_dir: Path):
         "encounters": len(merged_encounters),
         "entities": len(per_entity),
         "trees": len(tree_counts),
-        "skill_cache_hashes": {
-            str(entry["act"]): entry["raw_json_sha256"] for entry in manifest_acts
+        "runtime_format": "canonical_uncompressed_json",
+        "encounter_chunks": len(chunk_manifest),
+        "encounter_chunk_hashes": {
+            str(index + 1): item["sha256"] for index, item in enumerate(chunk_manifest)
         },
-        "encounter_cache_hash": encounter_cache["raw_json_sha256"],
     }
 
 
