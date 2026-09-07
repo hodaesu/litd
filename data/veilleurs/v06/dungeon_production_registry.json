@@ -10,6 +10,7 @@
       "production_status": "canonical_slice_locked",
       "reference_slice": "SLICE_KHAR_SEN_01",
       "seed": 606101,
+      "reference_room_count": 9,
       "files": [
         "data/veilleurs/v06/dungeon_slice_01_khar_sen.json",
         "data/veilleurs/v06/khar_sen_module_catalog.json",
@@ -23,6 +24,7 @@
       "production_status": "reference_slice_locked",
       "reference_slice": "REF_BURIED_GALLERIES_01",
       "seed": 606201,
+      "reference_room_count": 9,
       "container_file": "data/veilleurs/v06/remaining_dungeon_archetypes_production_v1.json"
     },
     {
@@ -30,6 +32,7 @@
       "production_status": "reference_slice_locked",
       "reference_slice": "REF_FRACTURED_SANCTUARY_01",
       "seed": 606301,
+      "reference_room_count": 10,
       "container_file": "data/veilleurs/v06/remaining_dungeon_archetypes_production_v1.json"
     },
     {
@@ -37,6 +40,7 @@
       "production_status": "reference_slice_locked",
       "reference_slice": "REF_ABANDONED_QUARTERS_01",
       "seed": 606401,
+      "reference_room_count": 9,
       "container_file": "data/veilleurs/v06/remaining_dungeon_archetypes_production_v1.json"
     },
     {
@@ -44,6 +48,7 @@
       "production_status": "reference_slice_locked",
       "reference_slice": "REF_BLACK_QUARRY_01",
       "seed": 606501,
+      "reference_room_count": 10,
       "container_file": "data/veilleurs/v06/remaining_dungeon_archetypes_production_v1.json"
     },
     {
@@ -51,9 +56,11 @@
       "production_status": "reference_slice_locked",
       "reference_slice": "REF_MEMORY_RIFT_01",
       "seed": 606601,
+      "reference_room_count": 12,
       "container_file": "data/veilleurs/v06/remaining_dungeon_archetypes_production_v1.json"
     }
   ],
+  "production_room_modules_total": 59,
   "pc_handoff_order": [
     "compile normalized reference records into room-module resources",
     "create or generate the Godot .tscn room shells",
