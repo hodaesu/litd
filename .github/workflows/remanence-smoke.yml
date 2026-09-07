@@ -44,3 +44,5 @@ jobs:
         run: godot --headless --path . res://scenes/tests/veilleurs_boss_kit_runtime_smoke.tscn
       - name: Handoff mémoire Refuge candidat (inactif)
         run: godot --headless --path . res://scenes/tests/veilleurs_refuge_memory_service_candidate_smoke.tscn
+      - name: Handoff réactions auxiliaires candidat (inactif)
+        run: godot --headless --path . res://scenes/tests/veilleurs_auxiliary_reaction_resolver_candidate_smoke.tscn
