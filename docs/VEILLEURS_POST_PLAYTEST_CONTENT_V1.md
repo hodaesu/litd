@@ -41,46 +41,27 @@ Classes candidates, compilées/testées mais non autoloadées :
 - `VeilleursAuxiliaryReactionResolverCandidate`
 - `VeilleursRefugeMemoryProjectionAdapterCandidate`
 - `VeilleursPostPlaytestFeatureFlagsCandidate`
+- `VeilleursMultiActArchiveVisualFixtureCandidate`
 
 Le service mémoire est propriétaire uniquement de ses enregistrements et de leur planification. L'adaptateur conserve `VeilleursContentRuntime` comme propriétaire des Archives et `VeilleursRuntimeCoordinator` / `VeilleursRemanencePolicy` comme propriétaires de la Rémanence.
 
 Une mémoire sociale est une **référence seulement** par défaut. Un événement ne peut être transmis à la politique de Rémanence que s'il s'agit d'un événement canonique vécu, avec preuve non vide et `evidence_verified=true`.
 
-## Feature flags
+## Feature flags et rollback
 
-`post_playtest_feature_flags_v1.json`
+`post_playtest_feature_flags_v1.json` garde tous les flags à `false`, y compris le maître `veilleurs.post_playtest.enabled`.
 
-Tous les flags sont `false`, y compris le maître `veilleurs.post_playtest.enabled`. Une sauvegarde, une migration ou une donnée de contenu ne peut jamais les activer. Un override candidat exige une autorisation développeur explicite.
+`post_playtest_feature_flag_rollback_scenarios_v1.json` contient 8 scénarios. Désactiver un flag arrête l'exécution future de la couche mais ne supprime jamais l'histoire déjà écrite : souvenirs, IDs, tiebreaks, Archives, blessures, cicatrices et Rémanence légitimement acquise restent persistants. Une réactivation reprend les mêmes données sans reroll ni duplication.
 
-Ordre candidat : maître → mémoire Refuge → Archives → Rémanence → auxiliaires → régional → multi-actes. Les altérations d'expédition restent séparées.
+## Corpus et audit de migrations
 
-### Rollback après historique
+`refuge_memory_migration_corpus_v1.json` contient 16 cas : absence de racine, v0, v1, file valide, références orphelines, entrée non-QUEUED, souvenir SURFACED valide/invalide, état invalide, enregistrement malformé, RESOLVED/EXPIRED, schéma futur, limite de surface, cooldowns et idempotence.
 
-`post_playtest_feature_flag_rollback_scenarios_v1.json` contient 8 scénarios de rollback.
-
-Désactiver un flag signifie **arrêter l'exécution future de la couche**, jamais effacer l'histoire qu'elle a déjà produite. Les souvenirs, IDs, clés de départage, entrées Archives, blessures réelles, cicatrices du monde et rangs de Rémanence déjà légitimement acquis restent persistants. Une réactivation doit reprendre depuis les mêmes données persistées, sans reroll ni duplication.
-
-Le smoke `veilleurs_post_playtest_feature_flag_rollback_candidate_smoke.tscn` crée réellement un historique, désactive tous les flags, vérifie que la sérialisation n'a pas changé, puis réactive la mémoire Refuge et confirme les mêmes `memory_id` et `deterministic_tiebreak`.
-
-## Corpus de migrations
-
-`refuge_memory_migration_corpus_v1.json`
-
-Le corpus contient 16 cas : absence de racine, v0, v1, file valide, références orphelines, entrée non-QUEUED, souvenir SURFACED valide/invalide, état invalide, enregistrement malformé, RESOLVED/EXPIRED, schéma futur, limite de surface, cooldowns et idempotence.
-
-Le corpus est exécuté par `veilleurs_refuge_memory_migration_corpus_candidate_smoke.tscn` sans brancher le service au jeu.
-
-### Journal d'audit de migration
-
-`VeilleursRefugeMemoryMigrationAuditCandidate` préserve explicitement dans `migration_log` les normalisations importantes détectées avant `deserialize()`. En particulier, un état inconnu ramené à `DORMANT` écrit `invalid_state_reset_to_DORMANT` avec `memory_id`, ancien état et nouvel état.
-
-Le smoke `veilleurs_refuge_memory_migration_audit_candidate_smoke.tscn` vérifie aussi l'idempotence : recharger une sauvegarde déjà normalisée ne duplique pas l'avertissement.
+`VeilleursRefugeMemoryMigrationAuditCandidate` préserve explicitement les normalisations importantes dans `migration_log`. Un état inconnu ramené à `DORMANT` conserve `memory_id`, `old_state`, `new_state` et `warning=invalid_state_reset_to_DORMANT`, sans duplication au second chargement.
 
 ## Variantes priorité / cooldown
 
-`refuge_memory_arbitration_variants_v1.json`
-
-Six profils sont préparés et **aucun n'est actif** : conservateur, candidat actuel, relations prioritaires, Archives prioritaires, faible cooldown et conséquences fortes seulement.
+`refuge_memory_arbitration_variants_v1.json` contient six profils candidats et **aucun n'est actif** : conservateur, candidat actuel, relations prioritaires, Archives prioritaires, faible cooldown et conséquences fortes seulement.
 
 Toute comparaison doit conserver seed, build et snapshot de sauvegarde. Une seule famille de paramètres doit être modifiée à la fois autant que possible.
 
@@ -92,7 +73,7 @@ Toute comparaison doit conserver seed, build et snapshot de sauvegarde. Une seul
 
 Aucune nouvelle réplique canonique n'est générée par ces systèmes.
 
-## Actes II–V — événements et conséquences
+## Actes II–V — événements, conséquences et Archives
 
 - `regional_event_candidates_acts_ii_v_v1.json` : 16 événements candidats, 4 par acte II–V.
 - `regional_event_choice_echoes_v1.json` : 32 conséquences différées, une par choix.
@@ -104,7 +85,7 @@ Une conséquence peut confirmer, compliquer ou réfuter une lecture antérieure.
 
 Les projections Archives peuvent ajouter de l'histoire sans augmenter la connaissance. CONFIRMED ou UNDERSTOOD exige toujours une nouvelle preuve compatible avec les règles Archives existantes.
 
-Les fixtures visuelles n'inventent aucun texte canonique : elles fixent seulement sections visibles, ordre des cartes, badges de provenance/certitude et dispositions par profil. Elles imposent notamment les versions contradictoires distinctes, les cicatrices physiques seulement si elles existent, l'identité stable pour une histoire Rémanente et la conservation de l'état de connaissance courant.
+Les fixtures visuelles n'inventent aucun texte canonique : elles fixent sections visibles, ordre des cartes, badges de provenance/certitude et dispositions par profil. Elles préservent toujours l'état de connaissance courant.
 
 ## Narration source-backed
 
@@ -167,7 +148,8 @@ Smokes Godot candidats :
 - feature flags ;
 - corpus de migrations ;
 - audit du journal de migration ;
-- rollback des feature flags avec historique persistant.
+- rollback des feature flags avec historique persistant ;
+- fixtures visuelles Archives multi-actes.
 
 Les smokes compilent/exécutent le handoff sur la PR #180 mais aucune scène de jeu ne référence ces classes.
 
@@ -177,11 +159,12 @@ Les smokes compilent/exécutent le handoff sur la PR #180 mais aucune scène de 
 2. valider priorités et cooldowns ;
 3. activer le service mémoire derrière le feature flag, sur une branche de test ;
 4. tester les 16 migrations sur copies de sauvegardes ;
-5. vérifier le journal d'audit et les rollbacks sur des copies réelles ;
-6. brancher Archives puis Rémanence ;
-7. brancher le résolveur auxiliaire ;
-8. activer une seule famille d'événements ;
-9. rejouer et comparer ;
-10. seulement ensuite envisager événements régionaux et chaînes multi-actes.
+5. vérifier journal d'audit et rollback sur copies réelles ;
+6. brancher Archives puis vérifier les fixtures visuelles ;
+7. brancher Rémanence ;
+8. brancher le résolveur auxiliaire ;
+9. activer une seule famille d'événements ;
+10. rejouer et comparer ;
+11. seulement ensuite envisager événements régionaux et chaînes multi-actes.
 
 La PR #180 ne doit pas être fusionnée avant ces validations.
