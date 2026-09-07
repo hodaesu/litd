@@ -52,3 +52,7 @@ jobs:
         run: godot --headless --path . res://scenes/tests/veilleurs_post_playtest_feature_flags_candidate_smoke.tscn
       - name: Corpus migrations mémoire Refuge candidat (inactif)
         run: godot --headless --path . res://scenes/tests/veilleurs_refuge_memory_migration_corpus_candidate_smoke.tscn
+      - name: Audit journal migration mémoire Refuge candidat (inactif)
+        run: godot --headless --path . res://scenes/tests/veilleurs_refuge_memory_migration_audit_candidate_smoke.tscn
+      - name: Rollback feature flags post-playtest candidat (inactif)
+        run: godot --headless --path . res://scenes/tests/veilleurs_post_playtest_feature_flag_rollback_candidate_smoke.tscn
