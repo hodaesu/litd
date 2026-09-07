@@ -7,12 +7,6 @@ on:
   pull_request:
     paths:
       - 'data/veilleurs/v09/**'
-      - 'data/veilleurs/v06/watchers.json'
-      - 'data/veilleurs/v06/watcher_tree_catalog.json'
-      - 'data/veilleurs/v06/starter_loadouts_watchers.json'
-      - 'data/veilleurs/v08/canonical_watcher_ultimates_12.json'
-      - 'scripts/core/content_db.gd'
-      - 'scripts/core/veilleurs_content_db_v081_canonical.gd'
       - 'scripts/core/veilleurs_*v09.gd'
       - 'scripts/core/veilleurs_v09_*'
       - 'scripts/ui/veilleurs_vertical_slice_qa_v09.gd'

@@ -5,7 +5,7 @@ const GRID_SCRIPT := preload("res://scripts/core/veilleurs_tactical_grid.gd")
 const BODY_SCRIPT := preload("res://scripts/core/veilleurs_body_component.gd")
 const CONTENT_DB_SCRIPT := preload("res://scripts/core/content_db.gd")
 const AI_SCRIPT := preload("res://scripts/core/veilleurs_enemy_ai_v2.gd")
-const WATCHER_IDS: Array[String] = ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]
+const WATCHER_IDS: Array[String] = ["ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"]
 
 var content_db: VeilleursContentDB
 var enemy_ai: VeilleursEnemyAIV2

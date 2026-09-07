@@ -7,6 +7,7 @@ on:
   pull_request:
     paths:
       - 'data/veilleurs/v07/**'
+      - 'data/veilleurs/v08/canonical_watcher_ultimates_12.json'
       - 'scripts/core/veilleurs_*.gd'
       - 'scenes/tests/veilleurs_v07_*'
       - 'tools/qa/veilleurs_v07_*'

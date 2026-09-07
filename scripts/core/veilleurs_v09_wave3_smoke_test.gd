@@ -5,7 +5,7 @@ const TACTICAL_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_r
 const SAVE_SCRIPT := preload("res://scripts/core/veilleurs_vertical_slice_save_v09.gd")
 const BODY_SCRIPT := preload("res://scripts/core/veilleurs_body_component.gd")
 const QA_SCENE := preload("res://scenes/veilleurs/v09_vertical_slice_qa.tscn")
-const PERSISTENCE_WATCHER_ID := "ENT_WATCHER_SAHEN"
+const PERSISTENCE_WATCHER_ID := "ENT_WATCHER_NAYRA"
 
 const DUNGEONS: Array[String] = [
     "DUNGEON_KHAR_SEN",
