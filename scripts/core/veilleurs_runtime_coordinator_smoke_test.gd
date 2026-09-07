@@ -7,11 +7,11 @@ const COORDINATOR_SCRIPT := preload("res://scripts/core/veilleurs_runtime_coordi
 
 func _ready() -> void:
     var content := CONTENT_SCRIPT.new() as VeilleursContentRuntime
-    var encounters := ENCOUNTER_SCRIPT.new() as VeilleursEncounterDirector
+    var encounters := ENCOUNTER_SCRIPT.new() as VeilleursCanonicalEncounterDirector
+    encounters.reload_content()
     var bosses := BOSS_SCRIPT.new() as VeilleursBossDirector
     var coordinator := COORDINATOR_SCRIPT.new() as VeilleursRuntimeCoordinator
     add_child(content)
-    add_child(encounters)
     add_child(bosses)
     add_child(coordinator)
     coordinator.bind(content, encounters, bosses)
