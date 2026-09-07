@@ -1,0 +1,69 @@
+{
+  "schema_version": "0.6.3",
+  "registry_id": "VEILLEURS_DUNGEON_PRODUCTION_REGISTRY_V1",
+  "coverage": "all_six_v06_archetypes",
+  "generic_rules": "data/veilleurs/v06/hybrid_generation_rules.json",
+  "generic_module_contract": "data/dungeons/hybrid_module_contract.schema.json",
+  "archetypes": [
+    {
+      "archetype_id": "DUNGEON_ASH_RUINS",
+      "production_status": "canonical_slice_locked",
+      "reference_slice": "SLICE_KHAR_SEN_01",
+      "seed": 606101,
+      "files": [
+        "data/veilleurs/v06/dungeon_slice_01_khar_sen.json",
+        "data/veilleurs/v06/khar_sen_module_catalog.json",
+        "data/veilleurs/v06/khar_sen_environment_rules.json",
+        "data/veilleurs/v06/khar_sen_remanence_matrix.json",
+        "data/veilleurs/v06/khar_sen_godot_scene_contract.json"
+      ]
+    },
+    {
+      "archetype_id": "DUNGEON_BURIED_GALLERIES",
+      "production_status": "reference_slice_locked",
+      "reference_slice": "REF_BURIED_GALLERIES_01",
+      "seed": 606201,
+      "container_file": "data/veilleurs/v06/remaining_dungeon_archetypes_production_v1.json"
+    },
+    {
+      "archetype_id": "DUNGEON_FRACTURED_SANCTUARY",
+      "production_status": "reference_slice_locked",
+      "reference_slice": "REF_FRACTURED_SANCTUARY_01",
+      "seed": 606301,
+      "container_file": "data/veilleurs/v06/remaining_dungeon_archetypes_production_v1.json"
+    },
+    {
+      "archetype_id": "DUNGEON_ABANDONED_QUARTERS",
+      "production_status": "reference_slice_locked",
+      "reference_slice": "REF_ABANDONED_QUARTERS_01",
+      "seed": 606401,
+      "container_file": "data/veilleurs/v06/remaining_dungeon_archetypes_production_v1.json"
+    },
+    {
+      "archetype_id": "DUNGEON_BLACK_QUARRY",
+      "production_status": "reference_slice_locked",
+      "reference_slice": "REF_BLACK_QUARRY_01",
+      "seed": 606501,
+      "container_file": "data/veilleurs/v06/remaining_dungeon_archetypes_production_v1.json"
+    },
+    {
+      "archetype_id": "DUNGEON_MEMORY_RIFT",
+      "production_status": "reference_slice_locked",
+      "reference_slice": "REF_MEMORY_RIFT_01",
+      "seed": 606601,
+      "container_file": "data/veilleurs/v06/remaining_dungeon_archetypes_production_v1.json"
+    }
+  ],
+  "pc_handoff_order": [
+    "compile normalized reference records into room-module resources",
+    "create or generate the Godot .tscn room shells",
+    "place stable Socket_<ID> and anchor Marker3D nodes",
+    "author protected critical geometry",
+    "author support-room variation scenes",
+    "bake/validate NavigationRegion3D",
+    "wire deterministic generator and remanence rehydration",
+    "run seed suites and physical-retreat tests",
+    "profile iPhone/Android budgets",
+    "add PC-only detail without changing topology or collision"
+  ]
+}
