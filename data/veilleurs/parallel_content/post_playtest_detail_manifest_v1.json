@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "status": "post_playtest_parallel_detail_manifest",
   "enabled_by_default": false,
   "runtime_wiring": "none_until_explicit_post_playtest_decision",
@@ -8,8 +8,10 @@
   "files": {
     "refuge_events": {"path":"res://data/veilleurs/parallel_content/refuge_event_templates_v1.json","expected_count":24,"canonical_family_count":12},
     "refuge_event_chains": {"path":"res://data/veilleurs/parallel_content/refuge_event_chains_v1.json","expected_count":24,"source_event_coverage":"exact","watcher_reaction_profile_count":4},
+    "refuge_chain_execution": {"path":"res://data/veilleurs/parallel_content/refuge_chain_execution_contract_v1.json","state_count":7,"history_gated":true,"deterministic_arbitration":true,"active_runtime_wiring":false},
     "refuge_cross_reactions": {"path":"res://data/veilleurs/parallel_content/refuge_cross_reaction_matrix_v1.json","canonical_family_count":12,"watcher_count":4,"auxiliary_context_required":true},
     "regional_events_acts_ii_v": {"path":"res://data/veilleurs/parallel_content/regional_event_candidates_acts_ii_v_v1.json","expected_count":16,"per_act":4,"canon_status":"candidate_only"},
+    "regional_choice_echoes": {"path":"res://data/veilleurs/parallel_content/regional_event_choice_echoes_v1.json","expected_event_count":16,"expected_choice_echo_count":32,"source_choice_coverage":"exact","active_runtime_wiring":false},
     "narrative_triggers": {"path":"res://data/veilleurs/parallel_content/narrative_trigger_binding_v1.json","source_counts":{"barks":68,"boss_dialogues":30,"remanence_ii_v":16}},
     "ux_screen_flow": {"path":"res://data/veilleurs/parallel_content/ux_screen_flow_v1.json","refuge_screen_count":6,"combat_context_overlay_count":4},
     "ux_copy_fr": {"path":"res://data/veilleurs/parallel_content/ux_copy_fr_post_playtest_v1.json","copy_status":"frozen_candidate_wording_pending_pc_validation"},
