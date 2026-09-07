@@ -1,7 +1,7 @@
 extends RefCounted
 class_name VeilleursEncounterNarrativeRuntime
 
-const CACHE_PATH := "res://data/veilleurs/generated/encounter_narrative_reward_64_v1.json"
+const MANIFEST_PATH := "res://data/veilleurs/generated/encounter_narrative_reward_64_manifest_v1.json"
 const PACK_SHA := "0739666c23b6aad99d79128147b84322155bbdd5ff49c62b0990eaf11fec8919"
 
 var records: Array[Dictionary] = []
@@ -17,70 +17,54 @@ func reload() -> Dictionary:
     by_id.clear()
     by_name.clear()
     var errors: Array[String] = []
-    var cache := _load_dictionary(CACHE_PATH)
-    if cache.is_empty():
-        errors.append("missing_cache")
+    var manifest := _load_dictionary(MANIFEST_PATH)
+    if manifest.is_empty():
+        errors.append("missing_manifest")
         return _finish(errors)
-    if str(cache.get("source_pack_sha256", "")) != PACK_SHA:
+    if str(manifest.get("source_pack_sha256", "")) != PACK_SHA:
         errors.append("source_pack_sha_mismatch")
-    if int(cache.get("record_count", 0)) != 64:
-        errors.append("cache_record_count:%d" % int(cache.get("record_count", 0)))
-    var encoded := str(cache.get("payload", ""))
-    if encoded.is_empty():
-        errors.append("empty_payload")
-        return _finish(errors)
-    var zlib_stream := Marshalls.base64_to_raw(encoded)
-    var raw_deflate := _unwrap_python_zlib(zlib_stream)
-    if raw_deflate.is_empty():
-        errors.append("invalid_zlib_stream")
-        return _finish(errors)
-    var expected_bytes := int(cache.get("uncompressed_bytes", 0))
-    var raw := raw_deflate.decompress(expected_bytes, FileAccess.COMPRESSION_DEFLATE)
-    if raw.is_empty():
-        errors.append("decompress_failed")
-        return _finish(errors)
-    if raw.size() != expected_bytes:
-        errors.append("uncompressed_size:%d" % raw.size())
-        return _finish(errors)
-    if _sha256(raw) != str(cache.get("raw_json_sha256", "")):
-        errors.append("raw_sha_mismatch")
-        return _finish(errors)
-    var decoded: Variant = JSON.parse_string(raw.get_string_from_utf8())
-    if not (decoded is Dictionary):
-        errors.append("invalid_json")
-        return _finish(errors)
-    var payload: Dictionary = decoded
-    if int(payload.get("count", 0)) != 64:
-        errors.append("payload_count:%d" % int(payload.get("count", 0)))
-    for value: Variant in payload.get("records", []):
-        if not (value is Dictionary):
-            errors.append("invalid_record")
+    if int(manifest.get("count", 0)) != 64:
+        errors.append("manifest_count:%d" % int(manifest.get("count", 0)))
+
+    var total_declared := 0
+    for chunk_value: Variant in manifest.get("chunks", []):
+        if not (chunk_value is Dictionary):
+            errors.append("invalid_chunk_manifest")
             continue
-        var record: Dictionary = (value as Dictionary).duplicate(true)
-        var encounter_id := str(record.get("encounter_id", ""))
-        var name := str(record.get("name", ""))
-        if encounter_id.is_empty() or name.is_empty():
-            errors.append("missing_identity")
+        var chunk_ref: Dictionary = chunk_value
+        var path := str(chunk_ref.get("path", ""))
+        var declared_count := int(chunk_ref.get("count", 0))
+        total_declared += declared_count
+        if path.is_empty() or not FileAccess.file_exists(path):
+            errors.append("missing_chunk:%s" % path)
             continue
-        if by_id.has(encounter_id):
-            errors.append("duplicate_id:%s" % encounter_id)
+        var raw := FileAccess.get_file_as_bytes(path)
+        var expected_sha := str(chunk_ref.get("sha256", ""))
+        if not expected_sha.is_empty() and _sha256(raw) != expected_sha:
+            errors.append("chunk_sha_mismatch:%s" % path)
             continue
-        if by_name.has(name):
-            errors.append("duplicate_name:%s" % name)
+        var parsed: Variant = JSON.parse_string(raw.get_string_from_utf8())
+        if not (parsed is Dictionary):
+            errors.append("invalid_chunk_json:%s" % path)
             continue
-        var narrative: Dictionary = record.get("narrative", {})
-        var reward: Dictionary = record.get("reward", {})
-        for key: String in ["intro", "combat_beat", "victory", "retreat", "remanence_hint"]:
-            if str(narrative.get(key, "")).is_empty():
-                errors.append("missing_narrative:%s:%s" % [encounter_id, key])
-        for key: String in ["loot", "capture_rule", "knowledge_bonus"]:
-            if str(reward.get(key, "")).is_empty():
-                errors.append("missing_reward:%s:%s" % [encounter_id, key])
-        by_id[encounter_id] = record
-        by_name[name] = record
-        records.append(record)
+        var chunk: Dictionary = parsed
+        var chunk_records: Array = chunk.get("records", [])
+        if int(chunk.get("count", -1)) != declared_count or chunk_records.size() != declared_count:
+            errors.append("chunk_count:%s:%d" % [path, chunk_records.size()])
+        for value: Variant in chunk_records:
+            if value is Dictionary:
+                _index_record((value as Dictionary).duplicate(true), errors)
+            else:
+                errors.append("invalid_record:%s" % path)
+
+    if total_declared != 64:
+        errors.append("declared_total:%d" % total_declared)
     if records.size() != 64:
         errors.append("records:%d" % records.size())
+    if by_id.size() != 64:
+        errors.append("unique_ids:%d" % by_id.size())
+    if by_name.size() != 64:
+        errors.append("unique_names:%d" % by_name.size())
     return _finish(errors)
 
 func entry_by_id(encounter_id: String) -> Dictionary:
@@ -92,16 +76,29 @@ func entry_by_name(encounter_name: String) -> Dictionary:
 func all_entries() -> Array[Dictionary]:
     return records.duplicate(true)
 
-func _unwrap_python_zlib(stream: PackedByteArray) -> PackedByteArray:
-    if stream.size() <= 6:
-        return PackedByteArray()
-    var cmf := int(stream[0])
-    var flg := int(stream[1])
-    if (cmf & 0x0F) != 8 or ((cmf << 8) + flg) % 31 != 0:
-        return PackedByteArray()
-    if (flg & 0x20) != 0:
-        return PackedByteArray()
-    return stream.slice(2, stream.size() - 4)
+func _index_record(record: Dictionary, errors: Array[String]) -> void:
+    var encounter_id := str(record.get("encounter_id", ""))
+    var name := str(record.get("name", ""))
+    if encounter_id.is_empty() or name.is_empty():
+        errors.append("missing_identity")
+        return
+    if by_id.has(encounter_id):
+        errors.append("duplicate_id:%s" % encounter_id)
+        return
+    if by_name.has(name):
+        errors.append("duplicate_name:%s" % name)
+        return
+    var narrative: Dictionary = record.get("narrative", {})
+    var reward: Dictionary = record.get("reward", {})
+    for key: String in ["intro", "combat_beat", "victory", "retreat", "remanence_hint"]:
+        if str(narrative.get(key, "")).is_empty():
+            errors.append("missing_narrative:%s:%s" % [encounter_id, key])
+    for key: String in ["loot", "capture_rule", "knowledge_bonus"]:
+        if str(reward.get(key, "")).is_empty():
+            errors.append("missing_reward:%s:%s" % [encounter_id, key])
+    by_id[encounter_id] = record
+    by_name[name] = record
+    records.append(record)
 
 func _finish(errors: Array[String]) -> Dictionary:
     last_report = {
@@ -111,7 +108,8 @@ func _finish(errors: Array[String]) -> Dictionary:
         "unique_ids": by_id.size(),
         "unique_names": by_name.size(),
         "source_pack_sha256": PACK_SHA,
-        "runtime_binding": CACHE_PATH
+        "runtime_binding": MANIFEST_PATH,
+        "source_mode": "canonical_uncompressed_chunks"
     }
     return last_report.duplicate(true)
 
@@ -122,7 +120,7 @@ func _sha256(raw: PackedByteArray) -> String:
     return context.finish().hex_encode()
 
 func _load_dictionary(path: String) -> Dictionary:
-    if not FileAccess.file_exists(path):
+    if path.is_empty() or not FileAccess.file_exists(path):
         return {}
     var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
     return parsed if parsed is Dictionary else {}
