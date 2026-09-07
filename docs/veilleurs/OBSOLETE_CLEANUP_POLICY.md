@@ -20,6 +20,7 @@ Un fichier `legacy` n’est pas automatiquement obsolète. Tant qu’un composan
 | `docs/MIGRATION_STATUS.md` | ancien état de migration ne décrivant plus Les Veilleurs | `data/veilleurs/pre_pc_gate.json` et `docs/veilleurs/PRE_PC_LOCK.md` |
 | `docs/GITHUB_SETUP.md` | procédure de création initiale du dépôt déjà accomplie | dépôt et workflows actuels |
 | `docs/FILE_MANIFEST.json` | manifeste Sprint 1 figé (`0.13.0-sprint1`) devenu faux | Git + audit d’intégrité du dépôt |
+| `docs/ROADMAP_STUDIO.md` | roadmap Foundation V0.12→V0.16 entièrement dépassée | gates, workflows et documentation de production actuels |
 
 Le générateur `tools/release/generate_notes.py` ne dépend plus de `VERSION` : un tag fourni reste prioritaire et, en exécution locale sans argument, le fallback est dérivé de Git avec `git describe`.
 
