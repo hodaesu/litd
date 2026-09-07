@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "candidate_class": "VeilleursRefugeMemoryProjectionAdapterCandidate",
+  "purpose": "Bridge candidate Refuge-memory requests to existing Archive and Remanence owners without duplicating state or inventing promotions.",
+  "owners": {
+    "archive": "VeilleursContentRuntime.record_archive_hook",
+    "remanence": "VeilleursRuntimeCoordinator / VeilleursRemanencePolicy",
+    "memory": "VeilleursRefugeMemoryServiceCandidate"
+  },
+  "archive_policy": {
+    "accepted_request_hook": "refuge_memory_resolved",
+    "target_hook": "refuge_memory_resolved",
+    "missing_entity_id_fallback": "anonymous archive id handled by VeilleursContentRuntime",
+    "knowledge_upgrade_automatic": false,
+    "future_boss_phase_write_forbidden": true,
+    "stored_knowledge_erasure_forbidden": true
+  },
+  "remanence_policy": {
+    "reference_request_event": "refuge_memory_shared_history",
+    "reference_only_default": true,
+    "reference_output_event": "refuge_remanence_reference",
+    "reference_does_not_mutate_rank": true,
+    "canonical_lived_event_forwarding_requires": [
+      "payload.canonical_event_type in canonical promotion events",
+      "payload.evidence_verified == true",
+      "stable entity_id",
+      "payload.evidence contains lived facts"
+    ],
+    "canonical_promotion_events": [
+      "survival",
+      "watcher_kill",
+      "mutilation",
+      "escape",
+      "failed_capture",
+      "important_item_taken_or_recovered",
+      "forced_retreat",
+      "repeated_encounter"
+    ],
+    "unknown_or_social_event_never_forwarded_to_policy": true,
+    "nemesis_spawn_forbidden": true
+  },
+  "binding": {
+    "service_signal_archive": "archive_hook_requested",
+    "service_signal_remanence": "remanence_hook_requested",
+    "bind_requires_content_runtime": true,
+    "bind_requires_coordinator_for_remanence": false,
+    "unbind_disconnects_all": true
+  },
+  "active_playtest_isolation": {
+    "autoload_forbidden": true,
+    "active_runtime_instantiation_forbidden_before_pc_validation": true,
+    "smoke_test_allowed": true
+  }
+}
