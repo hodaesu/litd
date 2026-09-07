@@ -7,8 +7,7 @@ on:
   pull_request:
     paths:
       - 'data/veilleurs/v07/**'
-      - 'scripts/core/veilleurs_content_db_v07.gd'
-      - 'scripts/core/veilleurs_v07_*'
+      - 'scripts/core/veilleurs_*.gd'
       - 'scenes/tests/veilleurs_v07_*'
       - 'tools/qa/veilleurs_v07_*'
       - '.github/workflows/veilleurs-v07-production.yml'
