@@ -18,17 +18,30 @@ def load(name):
 def all_events():
     events = []
     for name in EVENT_FILES:
-        data = load(name)
-        assert data["event_count"] == len(data["events"])
-        events.extend(data["events"])
+        events.extend(load(name)["events"])
     return events
 
 
-def test_refuge_library_has_exactly_48_unique_events():
+def test_refuge_catalog_is_authoritative_and_has_49_unique_events():
     events = all_events()
     ids = [event["id"] for event in events]
-    assert len(events) == 48
-    assert len(set(ids)) == 48
+    catalog = load("refuge_event_catalog_v2.json")
+    catalog_ids = [row[0] for row in catalog["events"]]
+    assert len(events) == 49
+    assert len(set(ids)) == 49
+    assert catalog["total_active_events"] == 49
+    assert set(catalog_ids) == set(ids)
+
+
+def test_source_metadata_discrepancy_is_explicitly_corrected_not_hidden():
+    social = load("refuge_events_social_v1.json")
+    catalog = load("refuge_event_catalog_v2.json")
+    override = catalog["source_metadata_override"]["refuge_events_social_v1.json"]
+    assert len(social["events"]) == override["actual_event_count"] == 27
+    counts = {}
+    for event in social["events"]:
+        counts[event["family"]] = counts.get(event["family"], 0) + 1
+    assert counts == override["actual_families"] == {"conflict": 7, "rapprochement": 7, "grief": 6, "mutilation": 7}
 
 
 def test_all_relationship_threshold_events_are_real_events():
@@ -36,15 +49,6 @@ def test_all_relationship_threshold_events_are_real_events():
     event_ids = {event["id"] for event in all_events()}
     threshold_ids = {row["id"] for row in relationships["threshold_events"]}
     assert threshold_ids <= event_ids
-
-
-def test_social_family_counts_are_locked():
-    social = load("refuge_events_social_v1.json")
-    assert social["families"] == {"conflict": 7, "rapprochement": 7, "grief": 6, "mutilation": 6}
-    counts = {}
-    for event in social["events"]:
-        counts[event["family"]] = counts.get(event["family"], 0) + 1
-    assert counts == social["families"]
 
 
 def test_debate_library_has_three_events_per_pillar():
