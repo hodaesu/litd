@@ -1,24 +1,35 @@
 from __future__ import annotations
 
 import json
+import unicodedata
 from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "veilleurs" / "v06"
-EXPECTED_WATCHERS = ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]
-EXPECTED_NAMES = ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"]
+EXPECTED_WATCHERS = ["ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"]
+EXPECTED_NAMES = ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
 OBSOLETE_TOKENS = [
-    "ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS",
-    "Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael",
+    "ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA",
+    "Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal",
 ]
 STATS = {"FOR", "TEC", "PRE", "MOB", "GAR", "RES", "PER", "VIG"}
 ZONES = {"head", "torso", "left_arm", "right_arm", "left_leg", "right_leg"}
-LEVELS = [1, 3, 5, 7, 9, 11, 13, 18, 21, 24, 28, 33, 38, 44, 50]
+LEVELS = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 35, 39, 44, 49]
 
 
 def load(name: str):
     return json.loads((DATA / name).read_text(encoding="utf-8"))
+
+
+def _ascii_upper(value: str) -> str:
+    normalized = unicodedata.normalize("NFKD", value)
+    return "".join(char for char in normalized if not unicodedata.combining(char)).upper().replace(" ", "_")
+
+
+def _source_path(source: str) -> Path:
+    text = source.removeprefix("res://")
+    return ROOT / text
 
 
 def main() -> int:
@@ -75,36 +86,68 @@ def main() -> int:
     memory = constants.get("memory_caps", {})
     test("24 bounded memory", memory.get("observations") == 8 and memory.get("events") == 6 and memory.get("relations") == 4)
 
-    trees = manifest.get("trees", [])
-    generated_skill_ids: list[str] = []
-    owner_counts: Counter[str] = Counter()
-    for tree in trees:
-        prefix = str(tree.get("prefix", ""))
-        owner = str(tree.get("entity_id", ""))
-        names = tree.get("names", [])
-        for index in range(len(names)):
-            generated_skill_ids.append(f"{prefix}_{index + 1:02d}")
-            owner_counts[owner] += 1
+    manifest_watchers = manifest.get("watchers", [])
+    source_payloads: dict[str, dict] = {}
+    source_load_ok = True
+    for row in manifest_watchers:
+        entity_id = str(row.get("entity_id", ""))
+        path = _source_path(str(row.get("source", "")))
+        try:
+            source_payloads[entity_id] = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            source_load_ok = False
 
-    test("25 canonical bridge markers", watchers_payload.get("canonical_watchers") is True and manifest.get("canonical_watchers") is True)
-    test("26 twelve canonical trees", len(trees) == 12 and manifest.get("tree_count") == 12)
-    test("27 fifteen authored skills per tree", all(len(t.get("names", [])) == 15 and len(t.get("activation", [])) == 15 and len(t.get("action", [])) == 15 for t in trees))
+    generated_skill_ids: list[str] = []
+    generated_tree_ids: set[str] = set()
+    owner_counts: Counter[str] = Counter()
+    all_tree_rows: list[tuple[str, str, dict]] = []
+    canonical_ownership_ok = source_load_ok
+    for row in manifest_watchers:
+        entity_id = str(row.get("entity_id", ""))
+        payload = source_payloads.get(entity_id, {})
+        owner_name = str(payload.get("watcher_name", ""))
+        short_id = entity_id.removeprefix("ENT_WATCHER_")
+        trees = payload.get("trees", {})
+        order = payload.get("tree_order", [])
+        if not isinstance(trees, dict) or not isinstance(order, list):
+            canonical_ownership_ok = False
+            continue
+        for tree_key in order:
+            tree = trees.get(tree_key, {})
+            all_tree_rows.append((entity_id, str(tree_key), tree))
+            generated_tree_ids.add(f"TREE_{short_id}_{_ascii_upper(str(tree_key))}")
+            for skill in tree.get("skills", []):
+                if not isinstance(skill, list) or len(skill) < 4:
+                    canonical_ownership_ok = False
+                    continue
+                generated_skill_ids.append(str(skill[0]))
+                owner_counts[entity_id] += 1
+                if str(skill[1]) != owner_name:
+                    canonical_ownership_ok = False
+
+    test(
+        "25 canonical bridge markers",
+        str(watchers_payload.get("schema_version", "")).startswith("0.6.2-canonical")
+        and str(manifest.get("schema_version", "")).startswith("0.6.2-canonical")
+        and source_load_ok,
+    )
+    test("26 twelve canonical trees", len(all_tree_rows) == 12 and manifest.get("tree_count") == 12)
+    test("27 fifteen authored skills per tree", all(len(tree.get("skills", [])) == 15 for _, _, tree in all_tree_rows))
     test("28 exactly 180 canonical skills", len(generated_skill_ids) == 180 and manifest.get("skill_count") == 180)
     test("29 unique canonical skill IDs", len(generated_skill_ids) == len(set(generated_skill_ids)))
     test("30 45 skills per canonical Watcher", all(owner_counts.get(entity_id, 0) == 45 for entity_id in EXPECTED_WATCHERS))
-    test("31 canonical unlock levels", manifest.get("unlock_levels") == LEVELS)
+    test("31 canonical unlock levels", manifest.get("unlock_levels") == LEVELS and all(sorted({int(skill[3]) for skill in tree.get("skills", [])}) == LEVELS for _, _, tree in all_tree_rows))
     test("32 unlock schedule is ordered and unique", len(LEVELS) == 15 and LEVELS == sorted(set(LEVELS)))
     test("33 first skill at level 1", LEVELS[0] == 1)
-    test("34 final tree skill at level 50", LEVELS[-1] == 50)
+    test("34 final tree skill at level 49", LEVELS[-1] == 49)
     test("35 character cap remains 50", all(1 <= level <= 50 for level in LEVELS))
 
     watcher_tree_ids = {tree_id for watcher in watchers for tree_id in watcher.get("tree_ids", [])}
-    catalog_tree_ids = {str(tree.get("tree_id", "")) for tree in trees}
-    test("36 exact canonical tree IDs", catalog_tree_ids == watcher_tree_ids and len(catalog_tree_ids) == 12)
-    test("37 canonical skill ID families", any(x.startswith("SK_SAHEN_") for x in generated_skill_ids) and any(x.startswith("SK_MIRA_") for x in generated_skill_ids) and any(x.startswith("SK_NAREM_") for x in generated_skill_ids) and any(x.startswith("SK_YSRA_") for x in generated_skill_ids))
-    test("38 canonical manifest maps four owners", set(owner_counts) == set(EXPECTED_WATCHERS))
-    test("39 three manifest trees per Watcher", all(sum(1 for tree in trees if tree.get("entity_id") == entity_id) == 3 for entity_id in EXPECTED_WATCHERS))
-    test("40 canonical tree IDs unique", len(catalog_tree_ids) == len(trees) == 12)
+    test("36 exact canonical tree IDs", generated_tree_ids == watcher_tree_ids and len(generated_tree_ids) == 12)
+    test("37 canonical skill ownership", canonical_ownership_ok and all(bool(skill_id) for skill_id in generated_skill_ids))
+    test("38 canonical manifest maps four owners", {str(row.get("entity_id", "")) for row in manifest_watchers} == set(EXPECTED_WATCHERS) and set(owner_counts) == set(EXPECTED_WATCHERS))
+    test("39 three manifest trees per Watcher", all(len(row.get("trees", [])) == 3 for row in manifest_watchers))
+    test("40 canonical tree IDs unique", len(generated_tree_ids) == 12)
 
     active_paths = [
         watchers_path,

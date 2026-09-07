@@ -1,7 +1,7 @@
 extends "res://scripts/core/veilleurs_tactical_combat_runtime_v2.gd"
 class_name VeilleursTacticalCombatRuntimeV07
 
-const CONTENT_DB_V07_SCRIPT := preload("res://scripts/core/veilleurs_content_db_v07_runtime.gd")
+const CONTENT_DB_V07_SCRIPT := preload("res://scripts/core/veilleurs_content_db_v081_canonical.gd")
 const BEHAVIOR_V07_SCRIPT := preload("res://scripts/core/veilleurs_skill_behavior_runtime_v07.gd")
 const SELECTOR_SCRIPT := preload("res://scripts/core/veilleurs_enemy_skill_selector.gd")
 const BOSS_RULE_SCRIPT := preload("res://scripts/core/veilleurs_boss_rule_runtime.gd")

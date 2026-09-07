@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "godot_version": "4.3",
   "project_file": "project.godot",
   "report_dir": "build/automation",
@@ -18,7 +18,8 @@
     "tools/blender",
     "tools/cinematics",
     "tools/music_pipeline",
-    "tools/voice"
+    "tools/voice",
+    "tools/workstation"
   ],
   "categories": {
     "data": ["data/veilleurs/**", "data/**/*.json"],
@@ -28,10 +29,12 @@
     "ui": ["scripts/ui/**", "scenes/ui/**", "scenes/veilleurs/**/*ui*.tscn"],
     "gameplay": ["scripts/core/**", "scripts/world/**", "scenes/veilleurs/**"],
     "tests": ["scenes/tests/**", "scripts/qa/**", "tools/qa/**"],
-    "project": ["project.godot", "export_presets.cfg", "addons/**"]
+    "project": ["project.godot", "export_presets.cfg", "addons/**", "tools/workstation/**"]
   },
   "python_audits": [
     "tools/qa/veilleurs_pre_pc_audit.py",
+    "tools/qa/veilleurs_hardware_contract_audit.py",
+    "tools/qa/veilleurs_hardware_session_audit.py",
     "tools/qa/veilleurs_v09_wave3_audit.py",
     "tools/qa/veilleurs_v08_wave2_audit.py",
     "tools/qa/veilleurs_v07_content_audit.py",

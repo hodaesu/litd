@@ -22,6 +22,8 @@ func prepare(runtime: Variant, attacker_id: String, target_id: String, progress_
         return {"ok":false, "reason":"no_ultimate_for_tree"}
     if not _can_use(progress_state):
         return {"ok":false, "reason":"ultimate_unavailable"}
+    if bool(ultimate.get("resolver_required", false)):
+        return {"ok":false, "reason":"ultimate_resolver_required", "ultimate_id":str(ultimate.get("ultimate_id", "")), "resolver_id":str(ultimate.get("resolver_id", "")), "charge_spent":false}
     if bool(ultimate.get("telegraph_required", false)):
         pending[attacker_id] = {"ultimate":ultimate, "target_id":target_id, "round":int(runtime.round_index)}
         return {"ok":true, "prepared":true, "ultimate_id":str(ultimate.get("ultimate_id", "")), "name_fr":str(ultimate.get("name_fr", "")), "target":target_id, "telegraph":_telegraph_for(ultimate), "charge_spent":false}
