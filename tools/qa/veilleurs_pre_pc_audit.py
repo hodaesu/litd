@@ -95,7 +95,6 @@ def main() -> int:
     if not checks["canonical_roster"]:
         fail(errors, f"Roster canonique runtime différent: {roster}")
 
-    # Old IDs may remain only in explicit negative tests or frozen legacy contracts.
     allowed_stale_files = set(contract.get("allowed_stale_reference_files", []))
     stale_hits: dict[str, list[str]] = {}
     for path in scan_runtime_files():
@@ -145,6 +144,9 @@ def main() -> int:
 
     smoke_scenes = {row.get("scene") for row in pipeline.get("quick_godot_smokes", [])}
     essential_smokes = {
+        "res://scenes/tests/veilleurs_v06_tactical_smoke.tscn",
+        "res://scenes/tests/veilleurs_v07_production_smoke.tscn",
+        "res://scenes/tests/veilleurs_v08_wave2_smoke.tscn",
         "res://scenes/tests/veilleurs_v09_wave3_smoke.tscn",
         "res://scenes/veilleurs/v09_vertical_slice_qa.tscn",
         "res://scenes/tests/mobile_touch_smoke.tscn",
@@ -152,7 +154,7 @@ def main() -> int:
     }
     checks["essential_smokes_wired"] = essential_smokes.issubset(smoke_scenes)
     if not checks["essential_smokes_wired"]:
-        fail(errors, "Les smokes essentiels ne sont pas tous câblés dans le pipeline rapide")
+        fail(errors, "Les smokes essentiels v0.6→v0.9/mobile/UI ne sont pas tous câblés dans le pipeline rapide")
 
     hardware_gates = contract.get("hardware_only_gates", [])
     checks["hardware_boundary_declared"] = len(hardware_gates) >= 8 and all(g.get("id") and g.get("reason") for g in hardware_gates)
