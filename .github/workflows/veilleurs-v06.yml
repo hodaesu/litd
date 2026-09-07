@@ -18,6 +18,10 @@ on:
       - '.github/workflows/veilleurs-v06.yml'
   workflow_dispatch:
 
+concurrency:
+  group: veilleurs-v06-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
