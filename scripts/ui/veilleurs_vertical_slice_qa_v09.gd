@@ -224,7 +224,7 @@ func _on_cell(cell: Vector2i) -> void:
     if slice == null or slice.combat == null:
         return
     var runtime: Variant = slice.combat
-    var occupant := runtime.grid.occupant(cell)
+    var occupant: String = str(runtime.grid.occupant(cell))
     if occupant.begins_with("ENT_WATCHER_"):
         selected_watcher = occupant
         _refresh_combat()
@@ -323,7 +323,7 @@ func _render_recruitment() -> void:
             button.text = {"recruit":"Recruter", "spare":"Épargner", "leave":"Laisser"}[action]
             button.custom_minimum_size = Vector2(96, 40)
             var captured_index := index
-            var captured_action := action
+            var captured_action: String = str(action)
             button.pressed.connect(func() -> void: _decide_recruitment(captured_index, captured_action))
             row.add_child(button)
         recruit_actions.add_child(row)
