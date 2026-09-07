@@ -14,6 +14,7 @@ func setup_authored_encounter(encounter: Dictionary) -> Dictionary:
     action_log.clear()
     round_index = 1
     grid = GRID_SCRIPT.new() as VeilleursTacticalGrid
+    var balance: Dictionary = content_db.combat_constants.get("v061_balance", {})
 
     for index in range(WATCHER_IDS.size()):
         var watcher_id := WATCHER_IDS[index]
@@ -21,6 +22,9 @@ func setup_authored_encounter(encounter: Dictionary) -> Dictionary:
         if watcher_definition.is_empty():
             return {"ok":false, "reason":"missing_watcher", "entity_id":watcher_id}
         _register(watcher_definition, "watcher")
+        var watcher_row: Dictionary = combatants[watcher_id]
+        watcher_row["weapon_power"] = int(balance.get("watcher_weapon_power", 30))
+        combatants[watcher_id] = watcher_row
         var pos: Array = watcher_definition.get("starter_position", [0, index])
         if not grid.place(watcher_id, Vector2i(int(pos[0]), int(pos[1]))):
             return {"ok":false, "reason":"watcher_placement", "entity_id":watcher_id}
@@ -42,7 +46,7 @@ func setup_authored_encounter(encounter: Dictionary) -> Dictionary:
         var count := int(spawn_counts.get(definition_id, 0)) + 1
         spawn_counts[definition_id] = count
         var runtime_id := definition_id if count == 1 else "%s#%02d" % [definition_id, count]
-        _register_as(definition, "enemy", runtime_id)
+        _register_as(definition, "enemy", runtime_id, int(balance.get("enemy_weapon_power", 42)))
         if member.has("remanence_id"):
             var row: Dictionary = combatants[runtime_id]
             row["remanence_id"] = str(member.get("remanence_id", ""))
@@ -87,7 +91,7 @@ func deserialize(payload: Dictionary) -> bool:
     encounter_template = (payload.get("encounter_template", {}) as Dictionary).duplicate(true)
     return true
 
-func _register_as(definition: Dictionary, team: String, runtime_id: String) -> void:
+func _register_as(definition: Dictionary, team: String, runtime_id: String, weapon_power: int) -> void:
     var stats: Dictionary = (definition.get("stats", {}) as Dictionary).duplicate(true)
     var body_integrity: Dictionary = (definition.get("body_integrity", content_db.combat_constants.get("body_integrity_reference", {})) as Dictionary).duplicate(true)
     var vigor := int(stats.get("VIG", 60))
@@ -104,6 +108,6 @@ func _register_as(definition: Dictionary, team: String, runtime_id: String) -> v
         "hp":80 + vigor,
         "max_hp":80 + vigor,
         "armor":20,
-        "weapon_power":24,
+        "weapon_power":weapon_power,
         "body":BODY_SCRIPT.new(body_integrity)
     }
