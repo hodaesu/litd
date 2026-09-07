@@ -1,6 +1,7 @@
 extends Node
 
 const VEILLEURS_SKILL_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_enemy_skill_runtime.gd")
+const CANONICAL_LEGACY_POWER := [0.35, 0.55, 0.75, 1.0, 1.2, 1.4]
 
 var data: Dictionary = {}
 var skills: Array = []
@@ -38,7 +39,7 @@ func choose_action(enemy: Dictionary, heroes: Array, context: Dictionary = {}) -
             prepare_veilleurs_enemy(enemy, int(context.get("seed", enemy.get("seed", enemy.get("identity_seed", 0)))))
             var canonical_action := veilleurs_skill_runtime.choose_action(enemy, heroes, context)
             if not canonical_action.is_empty():
-                return canonical_action
+                return _bridge_canonical_action(enemy, canonical_action, heroes)
 
     var candidates: Array[Dictionary] = []
     var enemy_archetype := archetype(enemy)
@@ -62,6 +63,22 @@ func choose_action(enemy: Dictionary, heroes: Array, context: Dictionary = {}) -
     chosen = NgPlusCycleDirector.modify_enemy_action(chosen, enemy, heroes)
     chosen["target_index"] = _target_index(heroes, String(chosen.get("target", "random")))
     return chosen
+
+func _bridge_canonical_action(enemy: Dictionary, action: Dictionary, heroes: Array) -> Dictionary:
+    var result := action.duplicate(true)
+    if bool(result.get("blocked", false)):
+        return result
+    if str(result.get("target_side", "")) == "hero" and float(result.get("power", 0.0)) <= 0.0:
+        var qualitative_power := clampi(int(round(float(result.get("veilleurs_power_0_5", 0.0)))), 0, 5)
+        result["power"] = float(CANONICAL_LEGACY_POWER[qualitative_power])
+        result["canonical_legacy_power_bridge"] = true
+        result["canonical_legacy_power_source"] = "power_0_5"
+    result = _apply_remanence_action(enemy, result)
+    result = NgPlusCycleDirector.modify_enemy_action(result, enemy, heroes)
+    var target_mode := str(result.get("target", ""))
+    if not target_mode.is_empty():
+        result["target_index"] = _target_index(heroes, target_mode)
+    return result
 
 func _apply_remanence_action(enemy: Dictionary, action: Dictionary) -> Dictionary:
     var result := action.duplicate(true)
