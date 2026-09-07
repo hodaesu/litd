@@ -38,6 +38,7 @@ on:
       - 'docs/veilleurs/**'
       - 'project.godot'
       - 'export_presets.cfg'
+      - '.github/workflows/veilleurs-production-automation.yml'
   workflow_dispatch:
     inputs:
       full_suite:
@@ -151,10 +152,39 @@ jobs:
           path: build/automation/
           if-no-files-found: warn
 
+  android-debug-export:
+    name: Android debug APK export
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Export Android debug APK
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p build/android build/automation
+          godot --headless --path . --export-debug "Android" build/android/LightInTheDark.apk 2>&1 | tee build/automation/android-export.log
+          test -s build/android/LightInTheDark.apk
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/android-export.log
+      - name: Publish Android debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: veilleurs-android-debug-apk
+          path: build/android/LightInTheDark.apk
+          if-no-files-found: error
+      - name: Publish Android export log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: veilleurs-android-export-log
+          path: build/automation/android-export.log
+          if-no-files-found: warn
+
   full-regression:
     name: Full Godot regression suite
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.full_suite }}
-    needs: [content-contracts, godot-quick-gate]
+    needs: [content-contracts, godot-quick-gate, android-debug-export]
     runs-on: ubuntu-latest
     container:
       image: barichello/godot-ci:4.3
