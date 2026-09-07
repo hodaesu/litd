@@ -4,8 +4,14 @@ class_name VeilleursTacticalCombatRuntimeV07
 const CONTENT_DB_V07_SCRIPT := preload("res://scripts/core/veilleurs_content_db_v07_runtime.gd")
 const BEHAVIOR_V07_SCRIPT := preload("res://scripts/core/veilleurs_skill_behavior_runtime_v07.gd")
 const SELECTOR_SCRIPT := preload("res://scripts/core/veilleurs_enemy_skill_selector.gd")
+const BOSS_RULE_SCRIPT := preload("res://scripts/core/veilleurs_boss_rule_runtime.gd")
+const ULTIMATE_SCRIPT := preload("res://scripts/core/veilleurs_ultimate_runtime.gd")
 
 var skill_selector: VeilleursEnemySkillSelector
+var boss_rules: VeilleursBossRuleRuntime
+var ultimate_runtime: VeilleursUltimateRuntime
+var active_boss_id := ""
+var last_boss_rule: Dictionary = {}
 
 func _init() -> void:
     super()
@@ -13,8 +19,12 @@ func _init() -> void:
     content_db.reload()
     skill_behavior = BEHAVIOR_V07_SCRIPT.new() as VeilleursSkillBehaviorRuntimeV07
     skill_selector = SELECTOR_SCRIPT.new() as VeilleursEnemySkillSelector
+    boss_rules = BOSS_RULE_SCRIPT.new() as VeilleursBossRuleRuntime
+    ultimate_runtime = ULTIMATE_SCRIPT.new() as VeilleursUltimateRuntime
 
 func setup_first_combat(enemy_ids: Array[String] = ["ENT_ENEMY_GOULE_AFFAMEE", "ENT_ENEMY_ECORCHEUSE", "ENT_ENEMY_FOUISSEUSE"]) -> Dictionary:
+    active_boss_id = ""
+    last_boss_rule.clear()
     var result: Dictionary = super.setup_first_combat(enemy_ids)
     if not bool(result.get("ok", false)):
         return result
@@ -24,13 +34,14 @@ func setup_first_combat(enemy_ids: Array[String] = ["ENT_ENEMY_GOULE_AFFAMEE", "
             continue
         var row: Dictionary = combatants[enemy_id]
         row["level"] = _initial_enemy_level(row)
+        row["ultimate_charges"] = _ultimate_charges_for_level(int(row["level"]))
         combatants[enemy_id] = row
         chosen_trees[enemy_id] = skill_selector.ensure_tree(self, enemy_id)
     result["chosen_trees"] = chosen_trees
     result["version"] = "0.7.0"
     return result
 
-func setup_boss_combat(boss_id: String) -> Dictionary:
+func setup_boss_combat(boss_id: String, context: Dictionary = {}) -> Dictionary:
     var no_enemies: Array[String] = []
     var result: Dictionary = super.setup_first_combat(no_enemies)
     if not bool(result.get("ok", false)):
@@ -54,14 +65,47 @@ func setup_boss_combat(boss_id: String) -> Dictionary:
     row["weapon_power"] = int(balance.get("enemy_weapon_power", 42)) + 8
     row["level"] = 50
     row["boss"] = true
+    row["ultimate_charges"] = 3
     combatants[boss_id] = row
-    var chosen_tree := skill_selector.ensure_tree(self, boss_id)
-    return {"ok":true, "watchers":WATCHER_IDS.duplicate(), "boss":boss_id, "chosen_tree":chosen_tree, "grid":grid.snapshot(), "version":"0.7.0"}
+    var chosen_tree: String = skill_selector.ensure_tree(self, boss_id)
+    active_boss_id = boss_id
+    last_boss_rule = boss_rules.begin(boss_id, context)
+    return {"ok":true, "watchers":WATCHER_IDS.duplicate(), "boss":boss_id, "chosen_tree":chosen_tree, "boss_rule":last_boss_rule.duplicate(true), "grid":grid.snapshot(), "version":"0.7.0"}
+
+func resolve_skill(attacker_id: String, target_id: String, skill_id: String, zone: String = "torso", forced_roll: int = -1) -> Dictionary:
+    var result: Dictionary = super.resolve_skill(attacker_id, target_id, skill_id, zone, forced_roll)
+    if not bool(result.get("ok", false)):
+        return result
+    if active_boss_id != "" and combatants.has(attacker_id) and str((combatants[attacker_id] as Dictionary).get("team", "")) == "watcher":
+        var skill: Dictionary = content_db.skill(skill_id)
+        boss_rules.register_player_action(str(skill.get("action_type", "attack")))
+    if active_boss_id != "" and target_id == active_boss_id and bool(result.get("hit", false)):
+        var mutation: Dictionary = boss_rules.after_body_change(self)
+        if not mutation.is_empty():
+            result["boss_body_response"] = mutation
+    return result
 
 func enemy_step(enemy_id: String) -> Dictionary:
     if not combatants.has(enemy_id) or str((combatants[enemy_id] as Dictionary).get("team", "")) != "enemy":
         return {"ok":false, "reason":"not_enemy"}
     var decision: Dictionary = enemy_ai.decide(self, enemy_id)
+    var row: Dictionary = combatants[enemy_id]
+    var level := int(row.get("level", 1))
+    var progress_state := _progress_state_for(enemy_id)
+    if level >= 16:
+        if ultimate_runtime.pending.has(enemy_id):
+            var executed: Dictionary = ultimate_runtime.execute_pending(self, enemy_id, progress_state)
+            if bool(executed.get("ok", false)):
+                _apply_progress_state(enemy_id, executed.get("progress_state", {}))
+                executed["generated_ultimate"] = true
+                return executed
+        elif round_index % 4 == 1 and str(decision.get("target", "")) != "":
+            var prepared: Dictionary = ultimate_runtime.prepare(self, enemy_id, str(decision.get("target", "")), progress_state)
+            if bool(prepared.get("ok", false)) and bool(prepared.get("prepared", false)):
+                prepared["generated_ultimate"] = true
+                action_log.append(prepared.duplicate(true))
+                return prepared
+
     var action := str(decision.get("action", "none"))
     if action not in ["attack", "support"]:
         return super.enemy_step(enemy_id)
@@ -93,11 +137,27 @@ func enemy_step(enemy_id: String) -> Dictionary:
     result["memory_used"] = bool(decision.get("memory_used", false))
     return result
 
+func use_ultimate(attacker_id: String, target_id: String, progress_state: Dictionary) -> Dictionary:
+    var result: Dictionary = ultimate_runtime.prepare(self, attacker_id, target_id, progress_state)
+    if bool(result.get("ok", false)) and result.has("progress_state"):
+        _apply_progress_state(attacker_id, result.get("progress_state", {}))
+    if bool(result.get("ok", false)) and combatants.has(attacker_id) and str((combatants[attacker_id] as Dictionary).get("team", "")) == "watcher":
+        boss_rules.register_player_action("ultimate")
+    action_log.append(result.duplicate(true))
+    return result
+
+func next_round() -> void:
+    super.next_round()
+    if active_boss_id != "" and combatants.has(active_boss_id) and int((combatants[active_boss_id] as Dictionary).get("hp", 0)) > 0:
+        last_boss_rule = boss_rules.before_round(self)
+        action_log.append({"ok":true, "action":"boss_rule", "boss":active_boss_id, "state":last_boss_rule.duplicate(true)})
+
 func set_enemy_level(enemy_id: String, level: int) -> bool:
     if not combatants.has(enemy_id):
         return false
     var row: Dictionary = combatants[enemy_id]
     row["level"] = clampi(level, 1, 50)
+    row["ultimate_charges"] = _ultimate_charges_for_level(int(row["level"]))
     combatants[enemy_id] = row
     return true
 
@@ -115,6 +175,50 @@ func set_enemy_tree(enemy_id: String, tree_id: String) -> bool:
     row["chosen_tree"] = tree_id
     combatants[enemy_id] = row
     return true
+
+func serialize() -> Dictionary:
+    var payload: Dictionary = super.serialize()
+    payload["v07_active_boss_id"] = active_boss_id
+    payload["v07_boss_rules"] = boss_rules.snapshot()
+    payload["v07_ultimates"] = ultimate_runtime.serialize()
+    payload["v07_last_boss_rule"] = last_boss_rule.duplicate(true)
+    return payload
+
+func deserialize(payload: Dictionary) -> bool:
+    if not super.deserialize(payload):
+        return false
+    active_boss_id = str(payload.get("v07_active_boss_id", ""))
+    boss_rules.restore(payload.get("v07_boss_rules", {}))
+    ultimate_runtime.deserialize(payload.get("v07_ultimates", {}))
+    last_boss_rule = (payload.get("v07_last_boss_rule", {}) as Dictionary).duplicate(true)
+    return true
+
+func _progress_state_for(entity_id: String) -> Dictionary:
+    var row: Dictionary = combatants.get(entity_id, {})
+    return {
+        "entity_id":entity_id,
+        "level":int(row.get("level", 1)),
+        "chosen_tree":str(row.get("chosen_tree", "")),
+        "ultimate_charges":int(row.get("ultimate_charges", _ultimate_charges_for_level(int(row.get("level", 1)))))
+    }
+
+func _apply_progress_state(entity_id: String, state: Dictionary) -> void:
+    if not combatants.has(entity_id) or state.is_empty():
+        return
+    var row: Dictionary = combatants[entity_id]
+    row["level"] = int(state.get("level", row.get("level", 1)))
+    row["chosen_tree"] = str(state.get("chosen_tree", row.get("chosen_tree", "")))
+    row["ultimate_charges"] = int(state.get("ultimate_charges", row.get("ultimate_charges", 0)))
+    combatants[entity_id] = row
+
+func _ultimate_charges_for_level(level: int) -> int:
+    if level >= 48:
+        return 3
+    if level >= 32:
+        return 2
+    if level >= 16:
+        return 1
+    return 0
 
 func _initial_enemy_level(row: Dictionary) -> int:
     var threat := float(row.get("threat_value", 1.0))
