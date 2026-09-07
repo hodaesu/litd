@@ -31,12 +31,18 @@ func _free_game(game) -> void:
     game.queue_free()
     await process_frame
 
+func _wait_for_player_turn(game, label: String) -> void:
+    var elapsed := 0.0
+    var timeout := 3.0
+    while (not game.player_turn or game.busy) and elapsed < timeout:
+        await create_timer(0.02).timeout
+        elapsed += 0.02
+    _assert_true(game.player_turn and not game.busy, label)
+
 func _run() -> void:
     print("=== P0 GAMEPLAY + REGRESSION TESTS ===")
 
-    # ------------------------------------------------------------------
     # Baseline setup and canonical wall-collision sequence.
-    # ------------------------------------------------------------------
     var game = await _new_game()
     _assert_eq(game.sahen_cell, Vector2i(2, 2), "initial Sahen cell")
     _assert_eq(game.rampant_cell, Vector2i(3, 2), "initial Rampant cell")
@@ -45,28 +51,25 @@ func _run() -> void:
     _assert_eq(game.rampant_post, 38, "initial Rampant POST")
     _assert_true(game.player_turn, "initial player turn")
 
-    # First shoulder bash: one free push tile, then wall collision.
     await game._try_shoulder_bash()
+    await _wait_for_player_turn(game, "player turn restored after shoulder #1")
     _assert_eq(game.rampant_vit, 28, "shoulder #1 total VIT after collision")
     _assert_eq(game.rampant_post, 10, "shoulder #1 POST after enemy-turn recovery")
     _assert_eq(game.rampant_cell, Vector2i(3, 2), "enemy returns adjacent after shoulder #1")
     _assert_true(not game.rampant_downed, "shoulder #1 does not down Rampant")
-    _assert_true(game.player_turn, "player turn restored after enemy turn")
 
-    # Second shoulder bash repeats the collision and must break posture.
     await game._try_shoulder_bash()
+    await _wait_for_player_turn(game, "player turn restored with enemy down")
     _assert_eq(game.rampant_vit, 10, "shoulder #2 total VIT")
     _assert_eq(game.rampant_post, 0, "shoulder #2 breaks POST")
     _assert_eq(game.rampant_cell, Vector2i(4, 2), "downed Rampant stays at collision cell")
     _assert_true(game.rampant_downed, "shoulder #2 downs Rampant")
-    _assert_true(game.player_turn, "player turn restored with enemy down")
     await _free_game(game)
 
-    # ------------------------------------------------------------------
     # Basic attack + retaliation + posture recovery cap.
-    # ------------------------------------------------------------------
     game = await _new_game()
     await game._try_basic_attack()
+    await _wait_for_player_turn(game, "player turn restored after basic attack")
     _assert_eq(game.rampant_vit, 32, "basic attack Rampant VIT")
     _assert_eq(game.rampant_post, 32, "basic attack Rampant POST after recovery")
     _assert_eq(game.sahen_vit, 111, "enemy retaliation Sahen VIT")
@@ -74,51 +77,43 @@ func _run() -> void:
     _assert_true(not game.rampant_downed, "basic attack does not down Rampant")
     await _free_game(game)
 
-    # ------------------------------------------------------------------
     # Valid movement + minimal enemy chase.
-    # ------------------------------------------------------------------
     game = await _new_game()
     await game._try_move(Vector2i(1, 2))
+    await _wait_for_player_turn(game, "turn returns after movement/enemy turn")
     _assert_eq(game.sahen_cell, Vector2i(1, 2), "Sahen moves one tile")
     _assert_eq(game.rampant_cell, Vector2i(2, 2), "Rampant advances toward Sahen")
-    _assert_true(game.player_turn, "turn returns after movement/enemy turn")
     await _free_game(game)
 
-    # ------------------------------------------------------------------
     # Push 2 with no obstacle: no collision damage should be added.
-    # The enemy then advances one tile on its turn.
-    # ------------------------------------------------------------------
     game = await _new_game()
     game.wall_cell = Vector2i(0, 0)
     game.sahen_cell = Vector2i(1, 2)
     game.rampant_cell = Vector2i(2, 2)
     game._refresh_visuals()
     await game._try_shoulder_bash()
+    await _wait_for_player_turn(game, "turn returns after free Push 2")
     _assert_eq(game.rampant_vit, 34, "free Push 2 only applies shoulder VIT")
     _assert_eq(game.rampant_post, 22, "free Push 2 POST after recovery")
     _assert_eq(game.rampant_cell, Vector2i(3, 2), "enemy advances after free Push 2")
     _assert_true(not game.rampant_downed, "free Push 2 does not down Rampant")
     await _free_game(game)
 
-    # ------------------------------------------------------------------
     # Grid edge behaves as a solid boundary for unfulfilled Push.
-    # One tile is travelled, one Push remains and becomes collision.
-    # ------------------------------------------------------------------
     game = await _new_game()
     game.wall_cell = Vector2i(0, 0)
     game.sahen_cell = Vector2i(3, 2)
     game.rampant_cell = Vector2i(4, 2)
     game._refresh_visuals()
     await game._try_shoulder_bash()
+    await _wait_for_player_turn(game, "turn returns after edge collision")
     _assert_eq(game.rampant_vit, 28, "edge collision adds one collision VIT step")
     _assert_eq(game.rampant_post, 10, "edge collision POST after recovery")
     _assert_eq(game.rampant_cell, Vector2i(4, 2), "enemy returns one tile after edge collision")
     _assert_true(not game.rampant_downed, "single edge collision does not down Rampant")
     await _free_game(game)
 
-    # ------------------------------------------------------------------
     # Shoulder bash must do nothing when target is not adjacent.
-    # ------------------------------------------------------------------
     game = await _new_game()
     game.sahen_cell = Vector2i(0, 0)
     game.rampant_cell = Vector2i(3, 2)
@@ -133,9 +128,7 @@ func _run() -> void:
     _assert_true(game.player_turn, "invalid shoulder does not consume turn")
     await _free_game(game)
 
-    # ------------------------------------------------------------------
     # Shoulder bash must not hit an already downed target.
-    # ------------------------------------------------------------------
     game = await _new_game()
     game.rampant_downed = true
     game.rampant_vit = 10
@@ -149,10 +142,7 @@ func _run() -> void:
     _assert_true(game.player_turn, "invalid downed-target shoulder does not consume turn")
     await _free_game(game)
 
-    # ------------------------------------------------------------------
-    # Movement validation: cannot move more than one tile or into an
-    # occupied standing-enemy tile, and invalid movement does not spend turn.
-    # ------------------------------------------------------------------
+    # Movement validation: distance and occupancy.
     game = await _new_game()
     game._try_move(Vector2i(0, 0))
     await process_frame
@@ -165,9 +155,7 @@ func _run() -> void:
     _assert_true(game.player_turn, "occupied move does not consume turn")
     await _free_game(game)
 
-    # ------------------------------------------------------------------
-    # No player action should execute while it is not the player's turn.
-    # ------------------------------------------------------------------
+    # No player movement should execute outside the player's turn.
     game = await _new_game()
     game.player_turn = false
     game._try_move(Vector2i(1, 2))
@@ -175,9 +163,7 @@ func _run() -> void:
     _assert_eq(game.sahen_cell, Vector2i(2, 2), "movement blocked outside player turn")
     await _free_game(game)
 
-    # ------------------------------------------------------------------
     # Pure posture recovery is capped at maximum.
-    # ------------------------------------------------------------------
     game = await _new_game()
     game.sahen_post = 64
     game.rampant_downed = true
@@ -186,9 +172,7 @@ func _run() -> void:
     _assert_true(game.player_turn, "turn restored after recovery-only enemy phase")
     await _free_game(game)
 
-    # ------------------------------------------------------------------
     # Reset restores every canonical P0 combat value.
-    # ------------------------------------------------------------------
     game = await _new_game()
     game.sahen_cell = Vector2i(0, 0)
     game.rampant_cell = Vector2i(4, 4)
