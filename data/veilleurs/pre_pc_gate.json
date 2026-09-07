@@ -1,0 +1,146 @@
+{
+  "schema_version": 5,
+  "stage": "pre_pc_lock",
+  "godot_version": "4.3",
+  "canonical_watchers": [
+    "ENT_WATCHER_NAYRA",
+    "ENT_WATCHER_TAREK",
+    "ENT_WATCHER_AISHA",
+    "ENT_WATCHER_IDRIS"
+  ],
+  "forbidden_stale_runtime_ids": [
+    "ENT_WATCHER_SAHEN",
+    "ENT_WATCHER_MIRA",
+    "ENT_WATCHER_NAREM",
+    "ENT_WATCHER_YSRA"
+  ],
+  "allowed_stale_reference_files": [
+    "scripts/core/veilleurs_v06_tactical_smoke_test.gd",
+    "scripts/core/veilleurs_v08_wave2_smoke_test_round2.gd",
+    "data/veilleurs/v07/ultimates_99.json"
+  ],
+  "production_dungeons": [
+    "DUNGEON_KHAR_SEN",
+    "DUNGEON_SEUIL_ERODE",
+    "DUNGEON_CLOITRE_VOIX",
+    "DUNGEON_JARDIN_MUES",
+    "DUNGEON_TRIBUNAL_CENDRES",
+    "DUNGEON_ARCHIVES_AVEUGLES"
+  ],
+  "v09_qa_requires": [
+    "dungeon_selection",
+    "node_navigation",
+    "real_tactical_combat",
+    "nonlethal_submission",
+    "post_combat_recruitment",
+    "nemesis_return_visibility",
+    "boss_phase_visibility",
+    "save_resume"
+  ],
+  "required_export_presets": [
+    "Web",
+    "Windows Desktop",
+    "Android",
+    "iOS",
+    "Linux/X11"
+  ],
+  "required_first_pc_tools": [
+    "git",
+    "python",
+    "godot"
+  ],
+  "required_files": [
+    "project.godot",
+    "export_presets.cfg",
+    "addons/veilleurs_pipeline/plugin.cfg",
+    "addons/veilleurs_pipeline/plugin.gd",
+    "tools/godot/veilleurs_pipeline.py",
+    "tools/godot/veilleurs_pipeline_config.json",
+    "tools/godot/run_veilleurs_pipeline.ps1",
+    "tools/godot/run_veilleurs_pipeline.sh",
+    "tools/build/run_godot_ci.sh",
+    "tools/workstation/veilleurs_pc_preflight.py",
+    "tools/workstation/LITD_VEILLEURS_PC_PREPARE.cmd",
+    "data/veilleurs/polish_manifest.json",
+    "data/veilleurs/ultimate_choreography_contract.json",
+    "data/veilleurs/v09/wave3_contract.json",
+    "scenes/tests/veilleurs_v06_tactical_smoke.tscn",
+    "scenes/tests/veilleurs_v07_production_smoke.tscn",
+    "scenes/tests/veilleurs_v08_wave2_smoke.tscn",
+    "scenes/tests/veilleurs_v09_wave3_smoke.tscn",
+    "scenes/veilleurs/v09_vertical_slice_qa.tscn",
+    "scenes/tests/mobile_touch_smoke.tscn",
+    "scenes/tests/ui_player_journey_smoke.tscn"
+  ],
+  "required_ultimate_asset_slots": [
+    "animation",
+    "camera",
+    "audio",
+    "haptic",
+    "vfx"
+  ],
+  "required_ultimate_validation_targets": [
+    "readable_phone",
+    "readable_tablet",
+    "readable_desktop",
+    "controller_focus",
+    "reduced_motion"
+  ],
+  "expected_ultimate_count": 12,
+  "automated_gates": [
+    "json_contracts",
+    "canonical_roster",
+    "stale_runtime_id_scan",
+    "six_dungeon_contract",
+    "v09_qa_contract",
+    "ultimate_handoff_contract",
+    "export_preset_contract",
+    "editor_pipeline_enabled",
+    "dedicated_veilleurs_pc_preflight",
+    "strict_godot_import",
+    "v06_tactical_smoke",
+    "v07_production_smoke",
+    "v08_wave2_smoke",
+    "wave3_end_to_end",
+    "six_dungeon_qa_scene",
+    "mobile_touch_logic",
+    "ui_player_journey",
+    "save_resume_logic",
+    "historic_regression_suite"
+  ],
+  "hardware_only_gates": [
+    {
+      "id": "real_mobile_touch",
+      "reason": "Gestes, friction et confort exigent un appareil tactile physique."
+    },
+    {
+      "id": "safe_areas_real_devices",
+      "reason": "Encoche, Dynamic Island, barres système et formats réels doivent être vus sur appareil."
+    },
+    {
+      "id": "haptics_real_devices",
+      "reason": "Intensité et signature haptique ne sont pas évaluables en headless."
+    },
+    {
+      "id": "gpu_cpu_thermal_performance",
+      "reason": "FPS, chauffe, mémoire et batterie nécessitent les appareils cibles."
+    },
+    {
+      "id": "final_visual_readability",
+      "reason": "Lisibilité, contraste, densité et qualité finale doivent être jugés à taille réelle."
+    },
+    {
+      "id": "physical_controller",
+      "reason": "Navigation et sensation manette nécessitent un contrôleur physique."
+    },
+    {
+      "id": "real_audio_output",
+      "reason": "Mixage final et intelligibilité doivent être contrôlés sur haut-parleurs et casque réels."
+    },
+    {
+      "id": "ios_signed_device_build",
+      "reason": "Installation iPhone finale nécessite Xcode, signature Apple et appareil ou environnement macOS approprié."
+    }
+  ],
+  "completion_rule": "Le jalon pré-PC est vert lorsque tous les automated_gates sont vérifiables et passent. Les hardware_only_gates restent explicitement hors du verrou pré-PC."
+}

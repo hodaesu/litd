@@ -79,7 +79,7 @@ jobs:
           if-no-files-found: warn
 
   godot-quick-gate:
-    name: Godot 4.3 strict import and Veilleurs smokes
+    name: Godot 4.3 pre-PC production smokes
     runs-on: ubuntu-latest
     container:
       image: barichello/godot-ci:4.3
@@ -94,7 +94,28 @@ jobs:
           set -o pipefail
           godot --headless --path . --import --quit 2>&1 | tee build/automation/godot-import.log
           ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' build/automation/godot-import.log
-      - name: Latest Veilleurs end-to-end smoke
+      - name: Veilleurs v0.6 tactical smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v06_tactical_smoke.tscn 2>&1 | tee build/automation/veilleurs-v06-smoke.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V06_TACTICAL_SMOKE_FAILED' build/automation/veilleurs-v06-smoke.log
+          grep -F 'VEILLEURS_V06_TACTICAL_SMOKE_OK' build/automation/veilleurs-v06-smoke.log
+      - name: Veilleurs v0.7 production smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v07_production_smoke.tscn 2>&1 | tee build/automation/veilleurs-v07-smoke.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V07_PRODUCTION_SMOKE_FAILED' build/automation/veilleurs-v07-smoke.log
+          grep -F 'VEILLEURS_V07_PRODUCTION_SMOKE_OK' build/automation/veilleurs-v07-smoke.log
+      - name: Veilleurs v0.8 Wave 2 smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 120s godot --headless --path . res://scenes/tests/veilleurs_v08_wave2_smoke.tscn 2>&1 | tee build/automation/veilleurs-v08-smoke.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V08_WAVE2_SMOKE_FAILED' build/automation/veilleurs-v08-smoke.log
+          grep -F 'VEILLEURS_V08_WAVE2_SMOKE_OK' build/automation/veilleurs-v08-smoke.log
+      - name: Veilleurs v0.9 Wave 3 smoke
         shell: bash
         run: |
           set -o pipefail
