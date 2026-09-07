@@ -5,6 +5,7 @@ const AUTHORED_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_authored_
 const SESSION_V2_SCRIPT := preload("res://scripts/core/veilleurs_tactical_session_v2.gd")
 const DUNGEON_SCRIPT := preload("res://scripts/core/veilleurs_dungeon_slice_runtime.gd")
 const ENCOUNTER_DIRECTOR_SCRIPT := preload("res://scripts/core/veilleurs_encounter_director.gd")
+const FLOW_SCRIPT := preload("res://scripts/core/veilleurs_khar_sen_flow_bridge.gd")
 
 var failures: Array[String] = []
 
@@ -76,6 +77,32 @@ func _run() -> void:
     var after_state := RemanenceRuntime.entity_state(tracked_id)
     _check(int(after_state.get("score", 0)) >= before_score + 2, "forced retreat writes weighted Remanence progression")
     rem_session.queue_free()
+
+    var flow_dungeon: VeilleursDungeonSliceRuntime = DUNGEON_SCRIPT.new() as VeilleursDungeonSliceRuntime
+    _check(bool(flow_dungeon.start().get("ok", false)), "Khar-Sen flow starts")
+    _check(bool(flow_dungeon.choose_next("KHAR_02").get("ok", false)), "Khar-Sen flow reaches real combat node")
+    var flow: VeilleursKharSenFlowBridge = FLOW_SCRIPT.new() as VeilleursKharSenFlowBridge
+    flow.clear()
+    _check(flow.begin_combat(flow_dungeon.serialize(), flow_dungeon.active_encounter, flow_dungeon.current_node), "Khar-Sen writes combat handoff")
+    var pending: Dictionary = flow.pending()
+    _check(str(pending.get("node_id", "")) == "KHAR_02" and not (pending.get("encounter", {}) as Dictionary).is_empty(), "combat handoff preserves node and authored encounter")
+    var authored_session: VeilleursTacticalSessionV2 = SESSION_V2_SCRIPT.new() as VeilleursTacticalSessionV2
+    add_child(authored_session)
+    _check(bool(authored_session.start_authored_encounter(pending.get("encounter", {}), "khar_sen:KHAR_02", "khar_sen").get("ok", false)), "session launches authored Khar-Sen encounter")
+    _check(authored_session.runtime.alive_ids("enemy").size() == ((pending.get("encounter", {}) as Dictionary).get("composition", []) as Array).size(), "authored Khar-Sen session spawns full composition")
+    var aftermath := authored_session.watcher_aftermath()
+    _check(aftermath.size() == 4, "combat captures four-Watcher aftermath")
+    var flow_summary := authored_session.finish("retreat")
+    _check(flow.finish_combat("retreat", flow_summary, authored_session.runtime.serialize(), aftermath), "combat writes Khar-Sen result handoff")
+    authored_session.queue_free()
+    var returned: Dictionary = flow.consume_result()
+    _check(str(returned.get("outcome", "")) == "retreat" and str(returned.get("node_id", "")) == "KHAR_02", "Khar-Sen consumes real combat outcome")
+    var resumed: VeilleursDungeonSliceRuntime = DUNGEON_SCRIPT.new() as VeilleursDungeonSliceRuntime
+    _check(resumed.deserialize(returned.get("dungeon_state", {})), "Khar-Sen restores pre-combat dungeon state")
+    var resume_result := resumed.complete_current(str(returned.get("outcome", "retreat")), {"watcher_aftermath":returned.get("watcher_aftermath", {})})
+    _check(bool(resume_result.get("ok", false)) and str((resumed.node_flags.get("KHAR_02", {}) as Dictionary).get("outcome", "")) == "retreat", "returned combat resolves original dungeon node")
+    _check((resumed.node_flags.get("KHAR_02", {}) as Dictionary).has("context"), "Watcher aftermath persists in dungeon node context")
+    flow.clear()
 
     var dungeon: VeilleursDungeonSliceRuntime = DUNGEON_SCRIPT.new() as VeilleursDungeonSliceRuntime
     _check(dungeon.load_errors.is_empty(), "Khar-Sen slice validates")
