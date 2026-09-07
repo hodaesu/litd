@@ -1,0 +1,32 @@
+{
+  "schema_version":"0.6.9",
+  "sheet_id":"VEILLEURS_REFUGE_PRONUNCIATION_FR_V1",
+  "status":"production_locked_before_recording",
+  "locale":"fr-FR",
+  "rules":{"names_keep_same_pronunciation_across_emotion_and_speaker":true,"liaison_never_changes_proper_name_boundary":true,"actors_may_reduce_unstressed_vowels_only_if_name_remains_identifiable":true,"do_not_anglicize_french_system_terms":true,"pronunciation_changes_require_canonical_review":true},
+  "entries":[
+    {"term":"Sahen Varo","ipa":"/sa.ɛn va.ʁo/","actor_hint_fr":"sa-EN va-RO ; h non aspiré, r français ou r roulé naturel de l'acteur si cohérent sur toutes les prises","protected":true},
+    {"term":"Mira Sen","ipa":"/mi.ʁa sɛn/","actor_hint_fr":"MI-ra SEN","protected":true},
+    {"term":"Narem Osh","ipa":"/na.ʁɛm ɔʃ/","actor_hint_fr":"na-REM OCH","protected":true},
+    {"term":"Ysra Nahal","ipa":"/iz.ʁa na.al/","actor_hint_fr":"IZ-ra na-AL ; deux voyelles audibles dans Nahal","protected":true},
+    {"term":"Khar-Sen","ipa":"/kaʁ.sɛn/","actor_hint_fr":"KAR-SEN ; une seule unité rythmique, tiret non marqué par une pause","protected":true},
+    {"term":"Rémanence","ipa":"/ʁe.ma.nɑ̃s/","actor_hint_fr":"ré-ma-NANCE","protected":true},
+    {"term":"Mémoriel","ipa":"/me.mɔ.ʁjɛl/","actor_hint_fr":"mé-mo-RIEL","protected":true},
+    {"term":"Némésis","ipa":"/ne.me.zis/","actor_hint_fr":"né-mé-ZISS","protected":true},
+    {"term":"Terre des Cendres","ipa":"/tɛʁ de sɑ̃dʁ/","actor_hint_fr":"prononciation française naturelle, majuscules sans emphase automatique","protected":true},
+    {"term":"Sanctuaire","ipa":"/sɑ̃k.tɥɛʁ/","actor_hint_fr":"sanctuaire français standard","protected":false},
+    {"term":"Corps","ipa":"/kɔʁ/","actor_hint_fr":"s final muet ; lorsqu'il désigne le pilier, aucune emphase religieuse obligatoire","protected":true},
+    {"term":"Esprit","ipa":"/ɛs.pʁi/","actor_hint_fr":"français standard","protected":true},
+    {"term":"Politique","ipa":"/pɔ.li.tik/","actor_hint_fr":"français standard ; lorsqu'il désigne le pilier, sens de bien commun/gouvernance, pas politique partisane contemporaine","protected":true},
+    {"term":"Refuge","ipa":"/ʁə.fyʒ/","actor_hint_fr":"français standard ; majuscule éditoriale n'impose pas d'emphase","protected":true},
+    {"term":"Veilleur","ipa":"/vɛ.jœʁ/","actor_hint_fr":"français standard","protected":true},
+    {"term":"Veilleurs","ipa":"/vɛ.jœʁ/","actor_hint_fr":"s muet","protected":true},
+    {"term":"Goule","ipa":"/gul/","actor_hint_fr":"goul, pas gou-lé","protected":false},
+    {"term":"Porte-Cendres","ipa":"/pɔʁt.sɑ̃dʁ/","actor_hint_fr":"Porte puis Cendres sans pause forte","protected":true},
+    {"term":"Échos","ipa":"/e.ko/","actor_hint_fr":"s final muet","protected":false},
+    {"term":"Carapacier","ipa":"/ka.ʁa.pa.sje/","actor_hint_fr":"ca-ra-pa-CIÉ","protected":true},
+    {"term":"Porte-Flamme","ipa":"/pɔʁt.flam/","actor_hint_fr":"unité composée, pas de pause au tiret","protected":true},
+    {"term":"Chirurgien noir","ipa":"/ʃi.ʁyʁ.ʒjɛ̃ nwaʁ/","actor_hint_fr":"français standard","protected":true}
+  ],
+  "recording_check":"actor reads all protected entries once neutral, once under tension, once whispered; pronunciation must remain stable"
+}
