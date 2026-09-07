@@ -44,7 +44,7 @@ func select_skill(runtime: Variant, enemy_id: String, decision: Dictionary) -> D
             continue
         if int(skill.get("unlock_level", 99)) > level:
             continue
-        var action := runtime.skill_behavior.effective_action(skill)
+        var action: String = str(runtime.skill_behavior.effective_action(skill))
         if action == "passive_modifier":
             continue
         fallback.append(skill)
@@ -52,7 +52,7 @@ func select_skill(runtime: Variant, enemy_id: String, decision: Dictionary) -> D
             candidates.append(skill)
     if candidates.is_empty():
         for skill: Dictionary in fallback:
-            var action := runtime.skill_behavior.effective_action(skill)
+            var action: String = str(runtime.skill_behavior.effective_action(skill))
             if _range_valid(runtime, enemy_id, target_id, skill, action):
                 candidates.append(skill)
     if candidates.is_empty():
@@ -80,5 +80,5 @@ func _range_valid(runtime: Variant, source_id: String, target_id: String, skill:
         return true
     if target_id == "" or not runtime.combatants.has(target_id):
         return false
-    var distance := runtime.grid.distance(source_id, target_id)
+    var distance: int = int(runtime.grid.distance(source_id, target_id))
     return distance >= 0 and distance <= runtime.skill_behavior.range_for(skill)
