@@ -5,6 +5,7 @@ const PARTY_SCENE := preload("res://scenes/world/terre_des_cendres/exploration_p
 const NPC_SCRIPT := preload("res://scripts/qa/qa_test_dialogue_npc.gd")
 const CHEST_SCRIPT := preload("res://scripts/qa/qa_test_loot_chest.gd")
 const MAIN_SCENE := "res://scenes/Main.tscn"
+const VEILLEURS_V06_TACTICAL_SCENE := "res://scenes/veilleurs/v06_tactical_demo.tscn"
 
 var status_label: Label
 var checklist_label: Label
@@ -123,6 +124,7 @@ func _build_panel() -> void:
     checklist_label = _label("", 12, Color("#c9c0b1"))
     checklist_label.custom_minimum_size = Vector2(300, 210)
     column.add_child(checklist_label)
+    column.add_child(_button("COMBAT VEILLEURS v0.6", _open_veilleurs_v06_tactical))
     column.add_child(_button("POSTURES PEUR / ESPOIR", _inject_psychology))
     column.add_child(_button("BLESSURE PERSISTANTE", _inject_injury))
     column.add_child(_button("DEMANDER LES CENDRES", _test_ash_guidance))
@@ -130,6 +132,18 @@ func _build_panel() -> void:
     column.add_child(_button("CHARGER SNAPSHOT QA", _load_qa_snapshot))
     column.add_child(_button("RÉINITIALISER LA SALLE", _reset_room))
     column.add_child(_button("RETOUR AU MENU", _return_to_title))
+
+func _open_veilleurs_v06_tactical() -> void:
+    if not ResourceLoader.exists(VEILLEURS_V06_TACTICAL_SCENE):
+        _set_status("Prototype tactique Veilleurs v0.6 introuvable.")
+        return
+    QATestRoomState.active = false
+    GameState.current_screen = "qa_veilleurs_v06"
+    var error := get_tree().change_scene_to_file(VEILLEURS_V06_TACTICAL_SCENE)
+    if error != OK:
+        QATestRoomState.active = true
+        GameState.current_screen = "exploration"
+        _set_status("Impossible d'ouvrir le prototype tactique Veilleurs v0.6.")
 
 func _inject_psychology() -> void:
     if GameState.party.size() < 2:
