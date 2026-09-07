@@ -28,10 +28,10 @@ func resolve(auxiliary: Dictionary, event_context: Dictionary, memory_context: D
     if not auxiliary.has("identity_seed"):
         return {"eligible": false, "reason": "identity_seed_required", "entity_id": entity_id}
 
-    var direct_participation := bool(event_context.get("direct_participation", false))
-    var direct_observation := bool(event_context.get("direct_observation", false))
-    var shared_history := bool(event_context.get("shared_history", false)) or _has_shared_history(auxiliary, memory_context)
-    var materially_affected := bool(event_context.get("materially_affected", false))
+    var direct_participation := _entity_flag(entity_id, event_context, "direct_participation", "direct_participants")
+    var direct_observation := _entity_flag(entity_id, event_context, "direct_observation", "direct_observers")
+    var shared_history := _entity_flag(entity_id, event_context, "shared_history", "shared_history_entities") or _has_shared_history(auxiliary, memory_context)
+    var materially_affected := _entity_flag(entity_id, event_context, "materially_affected", "materially_affected_entities")
     if not (direct_participation or direct_observation or shared_history or materially_affected):
         return {"eligible": false, "reason": "individual_evidence_required", "entity_id": entity_id}
 
@@ -72,7 +72,11 @@ func resolve(auxiliary: Dictionary, event_context: Dictionary, memory_context: D
         "canonical_dialogue_key": str(event_context.get("canonical_dialogue_key", "")),
         "species_personality_used": false,
         "generated_dialogue": false,
-        "score": _score(auxiliary, event_context, memory_context)
+        "direct_participation": direct_participation,
+        "direct_observation": direct_observation,
+        "shared_history": shared_history,
+        "materially_affected": materially_affected,
+        "score": _score(entity_id, event_context, memory_context, direct_participation, direct_observation, shared_history, materially_affected)
     }
 
 func rank_candidates(auxiliaries: Array[Dictionary], event_context: Dictionary, memory_contexts: Dictionary = {}, limit: int = -1) -> Array[Dictionary]:
@@ -97,19 +101,26 @@ func _candidate_before(a: Dictionary, b: Dictionary) -> bool:
         return a_score > b_score
     return str(a.get("entity_id", "")) < str(b.get("entity_id", ""))
 
-func _score(auxiliary: Dictionary, event_context: Dictionary, memory_context: Dictionary) -> int:
+func _score(entity_id: String, event_context: Dictionary, memory_context: Dictionary, direct_participation: bool, direct_observation: bool, shared_history: bool, materially_affected: bool) -> int:
     var score := 0
-    if bool(event_context.get("materially_affected", false)):
+    if materially_affected:
         score += 4000
-    if bool(event_context.get("direct_participation", false)):
+    if direct_participation:
         score += 3000
-    if bool(event_context.get("direct_observation", false)):
+    if direct_observation:
         score += 2000
-    if bool(event_context.get("shared_history", false)) or _has_shared_history(auxiliary, memory_context):
+    if shared_history:
         score += 1000
     score += mini(99, int(memory_context.get("shared_history_strength", 0)))
-    score += mini(99, int(event_context.get("recency", 0)))
+    var recency_by_entity: Dictionary = event_context.get("recency_by_entity", {})
+    score += mini(99, int(recency_by_entity.get(entity_id, event_context.get("recency", 0))))
     return score
+
+func _entity_flag(entity_id: String, context: Dictionary, legacy_bool_key: String, entity_list_key: String) -> bool:
+    for value: Variant in context.get(entity_list_key, []):
+        if str(value) == entity_id:
+            return true
+    return bool(context.get(legacy_bool_key, false)) and bool(context.get("legacy_boolean_applies_to_all_candidates", false))
 
 func _has_shared_history(auxiliary: Dictionary, memory_context: Dictionary) -> bool:
     if bool(memory_context.get("shared_history", false)):
