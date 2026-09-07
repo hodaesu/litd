@@ -2,12 +2,7 @@ extends RefCounted
 class_name VeilleursSkillBehaviorRuntime
 
 const DAMAGE_ACTIONS: Array[String] = ["attack", "attack_move"]
-const ACTION_OVERRIDES := {
-    "SK_MIRA_OEIL_VEILLEUR_05":"attack",
-    "SK_MIRA_OEIL_VEILLEUR_14":"attack",
-    "SK_MIRA_ANATOMIE_MOUVEMENT_01":"observe",
-    "SK_NAREM_BASTION_VIVANT_09":"heal"
-}
+const ACTION_OVERRIDES := {}
 
 func effective_action(skill: Dictionary) -> String:
     var skill_id := str(skill.get("skill_id", ""))
@@ -48,6 +43,8 @@ func passive_payload(skill: Dictionary) -> Dictionary:
             payload["ally_guard_bonus"] = 2 + tier
         "psych":
             payload["resolve_pressure_bonus"] = 2 + tier * 2
+        "control":
+            payload["timeline_pressure"] = 1 + tier
         _:
             payload["power_bonus"] = tier
     return payload
@@ -75,12 +72,18 @@ func resolve_non_damage(runtime: Variant, attacker_id: String, target_id: String
             runtime.combatants[attacker_id] = attacker
             result["guard_delta"] = guard_amount
         "heal":
-            var before := int(attacker.get("hp", 0))
+            var patient_id := target_id
+            var patient: Dictionary = target
+            if patient.is_empty() or str(patient.get("team", "")) != str(attacker.get("team", "")):
+                patient_id = attacker_id
+                patient = attacker
+            var before := int(patient.get("hp", 0))
             var amount := 6 + tier * 4
-            attacker["hp"] = mini(int(attacker.get("max_hp", 1)), before + amount)
-            attacker["statuses"] = _apply_status(attacker.get("statuses", {}), "STABILIZED", 1, tier)
-            runtime.combatants[attacker_id] = attacker
-            result["healed"] = int(attacker["hp"]) - before
+            patient["hp"] = mini(int(patient.get("max_hp", 1)), before + amount)
+            patient["statuses"] = _apply_status(patient.get("statuses", {}), "STABILIZED", 1, tier)
+            runtime.combatants[patient_id] = patient
+            result["target"] = patient_id
+            result["healed"] = int(patient["hp"]) - before
             result["persistent_injury_healed"] = false
         "support":
             if target.is_empty() or str(target.get("team", "")) != str(attacker.get("team", "")):
@@ -89,8 +92,6 @@ func resolve_non_damage(runtime: Variant, attacker_id: String, target_id: String
                 result["target"] = target_id
             target["guard_bonus"] = maxi(int(target.get("guard_bonus", 0)), 5 + tier * 3)
             target["resolve_current"] = mini(int((target.get("stats", {}) as Dictionary).get("RES", 60)), int(target.get("resolve_current", 60)) + 3 + tier * 2)
-            if skill_id == "SK_NAREM_GARDIEN_AUTRES_01":
-                target["protected_by"] = attacker_id
             runtime.combatants[target_id] = target
             result["guard_delta"] = 5 + tier * 3
             result["resolve_restored"] = 3 + tier * 2
