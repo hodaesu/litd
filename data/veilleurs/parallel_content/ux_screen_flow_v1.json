@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "inherits": "res://data/veilleurs/archives_refuge_ui_contract_v1.json",
+  "global_rules": {
+    "landscape_first": true,
+    "touch_target_min_points": 48,
+    "safe_area_required": true,
+    "long_press_required": false,
+    "hover_required": false,
+    "color_only_critical_information_forbidden": true,
+    "irreversible_action_requires_confirmation": true,
+    "phone_max_primary_actions_visible": 5,
+    "controller_pointer_dependency": false,
+    "knowledge_source_states": ["UNKNOWN","SUSPECTED","OBSERVED","CONFIRMED","UNDERSTOOD"],
+    "detail_0_5_is_projection_only": true
+  },
+  "screens": [
+    {
+      "id":"refuge_home",
+      "purpose":"Lire l'état du Refuge et choisir la prochaine activité sans transformer le hub en tableau de bord permanent.",
+      "primary_blocks":["party_summary","injury_attention","recent_history","available_destinations"],
+      "primary_actions":["Préparer l'expédition","Groupe actif","Recrues","Archives"],
+      "contextual_actions":["Voir les événements récents"],
+      "phone":{"layout":"single_focus_stack","default_focus":"party_summary","secondary":"bottom_sheet"},
+      "tablet":{"layout":"summary_plus_detail","persistent_detail":1},
+      "desktop":{"layout":"dense_master_detail","persistent_detail":2},
+      "controller":{"initial_focus":"Préparer l'expédition","cycle":"dpad_or_shoulders"},
+      "must_not_show":["capture_percentage","hidden_ai_memory","permanent_hope_meter","permanent_folie_meter"]
+    },
+    {
+      "id":"active_party",
+      "purpose":"Composer jusqu'à quatre membres avec au moins un Veilleur et rendre les conséquences corporelles visibles avant le départ.",
+      "primary_blocks":["party_slots_4","member_injury_summary","member_role","availability"],
+      "primary_actions":["Ajouter","Retirer","Voir le corps","Confirmer le groupe"],
+      "validation":["party_size_max_4","party_contains_watcher","persistent_injury_warning_if_relevant"],
+      "phone":{"layout":"four_slot_vertical_cards","member_detail":"context_bottom_sheet"},
+      "tablet":{"layout":"roster_left_party_right"},
+      "desktop":{"layout":"roster_party_detail_three_column"},
+      "controller":{"focus_order":"party_slots_then_roster_then_confirm"}
+    },
+    {
+      "id":"recruit_roster",
+      "purpose":"Présenter les auxiliaires comme des individus ayant une histoire, pas comme un stock interchangeable.",
+      "card_fields":["identity","species","memory_rank","injury_summary","relationship_summary","availability"],
+      "filters":["Disponible","Blessé","Mémoriel+","Rôle auxiliaire"],
+      "primary_actions":["Examiner","Comparer","Retour"],
+      "phone":{"layout":"single_column_cards","filters":"horizontal_scroll_or_sheet"},
+      "tablet":{"layout":"list_plus_preview"},
+      "desktop":{"layout":"dense_list_plus_preview"},
+      "controller":{"focus_order":"filters_then_cards_then_detail"},
+      "must_not_show":["hidden_capture_probability","omniscient_ai_memory"]
+    },
+    {
+      "id":"recruit_detail",
+      "purpose":"Séparer clairement capture, état observable, relation et ralliement.",
+      "sections":["identity","observable_state","body","shared_history","relationship","auxiliary_role"],
+      "observable_fields":["volonte","blessures","posture","relation","contexte_de_ralliement"],
+      "primary_actions":["Rallier si disponible","Libérer","Retour"],
+      "confirmations":["finalize_recruitment","release_recruit","replace_when_refuge_full"],
+      "phone":{"layout":"identity_header_plus_one_section","section_nav":"tabs"},
+      "tablet":{"layout":"identity_plus_two_sections"},
+      "desktop":{"layout":"identity_plus_multi_section"},
+      "controller":{"section_cycle":"shoulders"},
+      "rules":{"capture_is_recruitment":false,"capture_percentage_visible":false,"boss_recruitment_available":false,"injury_reset_on_rally":false}
+    },
+    {
+      "id":"archives",
+      "purpose":"Montrer ce qui a été réellement appris et conserver explicitement les inconnues.",
+      "sections":["identite_connaissance","corps","combat","histoire","traces"],
+      "primary_actions":["Changer d'entité","Changer de section","Comparer une trace","Retour"],
+      "knowledge_ui":{"states":{"UNKNOWN":"Inconnu","SUSPECTED":"Soupçonné","OBSERVED":"Observé","CONFIRMED":"Confirmé","UNDERSTOOD":"Compris"},"unknown_remains_unknown":true,"current_perception_can_reduce_visible_detail":true,"stored_knowledge_remains":true},
+      "boss_rules":{"phase_scoped":true,"unseen_phase_hidden":true},
+      "phone":{"layout":"identity_header_plus_one_subview","entity_picker":"sheet"},
+      "tablet":{"layout":"entity_master_plus_detail","subviews_visible_max":2},
+      "desktop":{"layout":"entity_list_plus_multi_subview","subviews_visible_max":3},
+      "controller":{"section_cycle":"shoulders","subview_cycle":"triggers_or_dpad"}
+    },
+    {
+      "id":"expedition_prepare",
+      "purpose":"Rendre explicites groupe, blessures, objectif, lumière, connaissances pertinentes et risques connus avant le départ.",
+      "blocks":["party","injury_summary","objective","known_route_information","light_loadout","candidate_alterations_if_enabled_later"],
+      "primary_actions":["Modifier le groupe","Voir les blessures","Voir la route","Partir"],
+      "departure_confirmation_fields":["persistent_injuries","known_high_risk_trace","party_rule_valid"],
+      "phone":{"layout":"review_stack","depart_action":"bottom_safe_area"},
+      "tablet":{"layout":"review_master_detail"},
+      "desktop":{"layout":"review_dense_two_column"},
+      "controller":{"initial_focus":"review","final_focus":"Partir"}
+    }
+  ],
+  "combat_context_overlays": [
+    {"id":"intent_detail","open":"tap_or_focus_intent","close":"back_or_tap_outside","blocking":false,"shows":["known_intent_family","known_targeting","known_anatomical_implication"],"unknown_fields_render":"Inconnu"},
+    {"id":"body_target","open":"skill_requires_or_allows_explicit_body_target","close":"target_confirmed_or_cancelled","blocking":true,"shows":["known_zones","accessibility","known_consequence_preview"],"auto_target_available":true},
+    {"id":"extraction_confirm","open":"player_requests_extraction","blocking":true,"shows":["survivors","persistent_injuries","known_route_pressure"],"requires_confirmation":true},
+    {"id":"archive_delta","open":"post_encounter_or_explicit_archive_action","blocking":false,"shows":["knowledge_delta","body_delta","history_delta","trace_delta"],"auto_dismiss_allowed":true}
+  ],
+  "accessibility": {
+    "reduced_motion": true,
+    "text_scaling": true,
+    "left_handed_controls": true,
+    "focus_visible_controller": true,
+    "critical_state_redundancy":["icon","text","shape_or_pattern"]
+  }
+}
