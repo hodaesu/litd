@@ -2,7 +2,7 @@
 """Préflight poste de travail dédié à LITD : Les Veilleurs.
 
 Contrairement au préflight général de LITD Universe, celui-ci ne demande ni
-Unreal, ni Blender, ni Reaper, ni MuseScore. Les Veilleurs ciblent Godot 4.3 et
+Unreal, ni Blender, ni Reaper, ni MuseScore. Les Veilleurs ciblent Godot 4.7 et
 mobile : Git, Python et Godot suffisent pour la première session technique.
 """
 
@@ -25,8 +25,10 @@ REQUIRED_TOOLS = {
     "godot": [
         "godot4",
         "godot",
-        "Godot_v4.3-stable_win64_console.exe",
-        "Godot_v4.3-stable_win64.exe",
+        "Godot_v4.7.2-stable_win64_console.exe",
+        "Godot_v4.7.2-stable_win64.exe",
+        "Godot_v4.7-stable_win64_console.exe",
+        "Godot_v4.7-stable_win64.exe",
     ],
 }
 OPTIONAL_TOOLS = {
@@ -34,7 +36,8 @@ OPTIONAL_TOOLS = {
 }
 WINDOWS_HINTS = {
     "godot": [
-        r"C:\Program Files\Godot\Godot_v4.3-stable_win64.exe",
+        r"C:\Program Files\Godot\Godot_v4.7.2-stable_win64.exe",
+        r"C:\Program Files\Godot\Godot_v4.7-stable_win64.exe",
         r"C:\Program Files\Godot\Godot.exe",
     ],
 }
@@ -166,7 +169,7 @@ def main() -> int:
     files = {path: (root / path).exists() for path in REQUIRED_FILES}
     hardware = hardware_snapshot(root)
     godot_version = str(required_tools["godot"].get("version") or "")
-    godot_compatible = "4.3" in godot_version
+    godot_compatible = "4.7" in godot_version
 
     checks = [
         run_check(
@@ -200,13 +203,13 @@ def main() -> int:
     report = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "project": "LITD : Les Veilleurs",
-        "engine": "Godot 4.3",
+        "engine": "Godot 4.7",
         "repo": str(root),
         "ready": ready,
         "required_tools": required_tools,
         "optional_tools": optional_tools,
         "required_files": files,
-        "godot_43_compatible": godot_compatible,
+        "godot_47_compatible": godot_compatible,
         "hardware": hardware,
         "minimum_free_gb": args.minimum_free_gb,
         "checks": checks,
