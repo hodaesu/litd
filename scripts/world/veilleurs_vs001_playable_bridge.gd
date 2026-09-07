@@ -2,7 +2,7 @@ extends Node
 
 const PERSISTENCE_SCRIPT := preload("res://scripts/world/veilleurs_vs001_persistence_bridge.gd")
 const CONTENT_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_content_runtime.gd")
-const ENCOUNTER_DIRECTOR_SCRIPT := preload("res://scripts/core/veilleurs_encounter_director.gd")
+const ENCOUNTER_DIRECTOR_SCRIPT := preload("res://scripts/core/veilleurs_canonical_encounter_director.gd")
 const BOSS_DIRECTOR_SCRIPT := preload("res://scripts/core/veilleurs_boss_director.gd")
 const RUNTIME_COORDINATOR_SCRIPT := preload("res://scripts/core/veilleurs_runtime_coordinator.gd")
 
