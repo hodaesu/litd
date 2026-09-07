@@ -74,6 +74,22 @@ def main() -> int:
     if missing_presets:
         fail(errors, "Presets d'export absents: " + ", ".join(missing_presets))
 
+    workflow_path = ROOT / ".github/workflows/veilleurs-production-automation.yml"
+    workflow_text = workflow_path.read_text(encoding="utf-8") if workflow_path.is_file() else ""
+    android_markers = [
+        "android-debug-export:",
+        "Android debug APK export",
+        'godot --headless --path . --export-debug "Android" build/android/LightInTheDark.apk',
+        "test -s build/android/LightInTheDark.apk",
+        "veilleurs-android-debug-apk",
+    ]
+    checks["android_debug_export_ci"] = all(marker in workflow_text for marker in android_markers)
+    if not checks["android_debug_export_ci"]:
+        fail(errors, "Le gate CI d'export Android debug est absent ou incomplet")
+    checks["android_ci_not_fake_ios"] = '--export-debug "iOS"' not in workflow_text and '--export-release "iOS"' not in workflow_text
+    if not checks["android_ci_not_fake_ios"]:
+        fail(errors, "Le workflow Linux prétend valider un export iOS signé")
+
     wave3 = load_json(ROOT / "data/veilleurs/v09/wave3_contract.json")
     actual_dungeons = wave3.get("vertical_slice", {}).get("dungeon_ids", [])
     checks["six_dungeons"] = actual_dungeons == contract["production_dungeons"]
