@@ -1,6 +1,6 @@
 extends Node
 
-const DIRECTOR_SCRIPT := preload("res://scripts/core/veilleurs_encounter_director.gd")
+const DIRECTOR_SCRIPT := preload("res://scripts/core/veilleurs_canonical_encounter_director.gd")
 
 func _ready() -> void:
     var director := DIRECTOR_SCRIPT.new() as VeilleursEncounterDirector
