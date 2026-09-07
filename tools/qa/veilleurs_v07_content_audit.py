@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 V06 = ROOT / "data" / "veilleurs" / "v06"
 V07 = ROOT / "data" / "veilleurs" / "v07"
+V08 = ROOT / "data" / "veilleurs" / "v08"
 DUNGEON_FILES = [
     "dungeon_khar_sen_expanded.json",
     "dungeon_02_seuil_erode.json",
@@ -14,6 +15,7 @@ DUNGEON_FILES = [
     "dungeon_archives_aveugles.json",
 ]
 ALLOWED_BANDS = {"LOW", "STANDARD", "HIGH", "SEVERE"}
+CANONICAL_WATCHERS = {"ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"}
 
 
 def load(path: Path):
@@ -64,7 +66,9 @@ def main():
     bosses = load(V07 / "bosses_5_definitions.json")["bosses"]
     boss_ids = {row["entity_id"] for row in bosses}
     boss_trees = load(V07 / "boss_tree_catalog.json")
-    ultimates = load(V07 / "ultimates_99.json")
+    legacy_ultimates = load(V07 / "ultimates_99.json").get("ultimates", [])
+    watcher_ultimates = load(V08 / "canonical_watcher_ultimates_12.json").get("ultimates", [])
+    ultimate_rows = [row for row in legacy_ultimates if not str(row.get("entity_id", "")).startswith("ENT_WATCHER_")] + watcher_ultimates
     recruitment = load(V07 / "recruitment_rules.json")
     progression = load(V07 / "progression_1_50.json")
     archives = load(V07 / "archives_system.json")
@@ -72,7 +76,7 @@ def main():
     roadmap = load(V07 / "dungeon_roadmap.json")
     dungeons = [load(V07 / filename) for filename in DUNGEON_FILES]
 
-    check(len(watcher_ids) == 4, "expected four Watchers", failures)
+    check(watcher_ids == CANONICAL_WATCHERS, f"canonical Watchers mismatch: {sorted(watcher_ids)}", failures)
     check(len(enemy_ids) == 24, "expected 24 standard enemies", failures)
     check(len(enemy_trees["trees"]) == 72, "expected 72 enemy trees", failures)
     check(enemy_trees.get("skill_count") == 1080, "expected 1080 enemy skills", failures)
@@ -80,6 +84,7 @@ def main():
     check(len(boss_trees["trees"]) == 15, "expected 15 boss trees", failures)
     check(boss_trees.get("skill_count") == 225, "expected 225 boss skills", failures)
     check(watcher_trees.get("skill_count") == 180, "expected 180 Watcher skills", failures)
+    check(watcher_trees.get("unlock_levels") == [1,4,7,10,13,16,19,22,25,28,31,35,39,44,49], "canonical Watcher unlock schedule drift", failures)
     check(180 + 1080 + 225 == 1485, "normal skill arithmetic mismatch", failures)
 
     seen_tree_ids = set()
@@ -113,15 +118,13 @@ def main():
         check(count == 3, f"enemy {entity_id} has {count} trees", failures)
     for entity_id, count in boss_partition.items():
         check(count == 3, f"boss {entity_id} has {count} trees", failures)
-
     for profile_id, profile in profiles.items():
         for key in ("names", "activation", "action"):
             check(len(profile.get(key, [])) == 15, f"profile {profile_id} invalid {key}", failures)
         check(int(profile.get("range", 0)) >= 1, f"profile {profile_id} invalid range", failures)
 
     all_entity_ids = watcher_ids | enemy_ids | boss_ids
-    ultimate_rows = ultimates.get("ultimates", [])
-    check(ultimates.get("count") == 99 and len(ultimate_rows) == 99, "expected 99 Ultimates", failures)
+    check(len(ultimate_rows) == 99, f"expected 99 active Ultimates, got {len(ultimate_rows)}", failures)
     ultimate_ids = [row.get("ultimate_id") for row in ultimate_rows]
     check(len(set(ultimate_ids)) == 99, "Ultimate IDs must be unique", failures)
     ultimate_partition = {entity_id: [] for entity_id in all_entity_ids}
@@ -135,6 +138,9 @@ def main():
         if entity_id in enemy_ids | boss_ids:
             check(row.get("telegraph_required") is True, f"{row.get('ultimate_id')} must telegraph", failures)
             check(row.get("counterplay_required") is True, f"{row.get('ultimate_id')} needs counterplay", failures)
+        if entity_id in watcher_ids:
+            check(row.get("resolver_required") is True, f"{row.get('ultimate_id')} must require canonical resolver", failures)
+            check(row.get("profile") == "canonical_resolver_required", f"{row.get('ultimate_id')} cannot use generic production profile", failures)
     for entity_id, rows in ultimate_partition.items():
         check(len(rows) == 3, f"{entity_id} must have three Ultimates", failures)
         check(sorted(row.get("tree_slot") for row in rows) == [1, 2, 3], f"{entity_id} Ultimate slots invalid", failures)
@@ -164,9 +170,9 @@ def main():
             print("FAIL:", failure)
         raise SystemExit(1)
     print("VEILLEURS_V07_CONTENT_AUDIT_OK")
-    print("4 Watchers | 24 enemies | 5 bosses")
+    print("4 canonical Watchers | 24 enemies | 5 bosses")
     print("72 enemy trees | 15 boss trees | 1485 normal skills")
-    print("99 Ultimates | 6 validated dungeon graphs")
+    print("99 active Ultimates: 12 canonical Watcher resolvers + 87 enemy/boss Ultimates")
     print("Recruitment, progression, Archives and Refuge contracts valid")
 
 

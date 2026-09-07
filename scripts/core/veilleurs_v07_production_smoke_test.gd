@@ -1,6 +1,6 @@
 extends Node
 
-const DB_SCRIPT := preload("res://scripts/core/veilleurs_content_db_v07.gd")
+const DB_SCRIPT := preload("res://scripts/core/veilleurs_content_db_v081_canonical.gd")
 const PROGRESSION_SCRIPT := preload("res://scripts/core/veilleurs_progression_runtime.gd")
 const RECRUITMENT_SCRIPT := preload("res://scripts/core/veilleurs_recruitment_runtime.gd")
 const ARCHIVES_SCRIPT := preload("res://scripts/core/veilleurs_archives_runtime.gd")
@@ -8,6 +8,7 @@ const REFUGE_SCRIPT := preload("res://scripts/core/veilleurs_refuge_runtime.gd")
 const TACTICAL_V07_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_runtime_v07.gd")
 const DUNGEON_V07_SCRIPT := preload("res://scripts/core/veilleurs_dungeon_runtime_v07.gd")
 const CAMPAIGN_V07_SCRIPT := preload("res://scripts/core/veilleurs_campaign_runtime_v07.gd")
+const CANONICAL_WATCHERS: Array[String] = ["ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"]
 
 var failures: Array[String] = []
 
@@ -15,11 +16,12 @@ func _ready() -> void:
     call_deferred("_run")
 
 func _run() -> void:
-    var db: VeilleursContentDBV07 = DB_SCRIPT.new() as VeilleursContentDBV07
+    var db: VeilleursContentDBV081Canonical = DB_SCRIPT.new() as VeilleursContentDBV081Canonical
     db.reload()
     var summary: Dictionary = db.production_summary()
     _check((summary.get("errors", []) as Array).is_empty(), "production ContentDB loads without errors")
     _check(int(summary.get("watchers", 0)) == 4, "four Watchers remain loaded")
+    _check(db.watchers_by_id.keys().all(func(id): return CANONICAL_WATCHERS.has(str(id))), "production roster contains only canonical Watchers")
     _check(int(summary.get("standard_enemies", 0)) == 24, "24 standard enemies remain loaded")
     _check(int(summary.get("bosses", 0)) == 5, "five bosses load")
     _check(int(summary.get("watcher_skills", 0)) == 180, "180 Watcher skills remain available")
@@ -42,8 +44,10 @@ func _run() -> void:
         _check(db.production_skills_for(boss_id).size() == 45, "%s has 45 generated skills" % boss_id)
         _check(db.ultimates_for(boss_id).size() == 3, "%s has three Ultimates" % boss_id)
         _check(not bool(db.boss(boss_id).get("recruitable", true)), "%s cannot be recruited" % boss_id)
-    for watcher_id_value: Variant in db.watchers_by_id.keys():
-        _check(db.ultimates_for(str(watcher_id_value)).size() == 3, "%s has three Ultimates" % str(watcher_id_value))
+    for watcher_id: String in CANONICAL_WATCHERS:
+        _check(db.ultimates_for(watcher_id).size() == 3, "%s has three canonical Ultimates" % watcher_id)
+        for ultimate_value: Variant in db.ultimates_for(watcher_id):
+            _check(bool((ultimate_value as Dictionary).get("resolver_required", false)), "%s canonical Ultimate requires explicit resolver" % watcher_id)
 
     var dungeon_runtime: VeilleursDungeonRuntimeV07 = DUNGEON_V07_SCRIPT.new() as VeilleursDungeonRuntimeV07
     for dungeon_id_value: Variant in db.dungeons_by_id.keys():
@@ -54,10 +58,10 @@ func _run() -> void:
 
     var progression: VeilleursProgressionRuntime = PROGRESSION_SCRIPT.new() as VeilleursProgressionRuntime
     progression.configure(db.progression)
-    var progress_state := progression.new_state("ENT_WATCHER_SAHEN", 1)
-    progress_state = progression.unlock_skill(progress_state, db.skill("SK_SAHEN_BRISEUR_LIGNES_01"))
-    _check(str(progress_state.get("chosen_tree", "")) == "TREE_SAHEN_BRISEUR_LIGNES", "first spent point locks Sahen tree")
-    var blocked_state := progression.unlock_skill(progress_state, db.skill("SK_SAHEN_GARDIEN_MARTIAL_01"))
+    var progress_state := progression.new_state("ENT_WATCHER_NAYRA", 1)
+    progress_state = progression.unlock_skill(progress_state, db.skill("NA-BAS-01"))
+    _check(str(progress_state.get("chosen_tree", "")) == "TREE_NAYRA_BASTION", "first spent point locks Nayra Bastion tree")
+    var blocked_state := progression.unlock_skill(progress_state, db.skill("NA-BRI-01"))
     _check(str(blocked_state.get("last_error", "")) == "tree_locked", "second Watcher tree is rejected")
     _check(progression.ultimate_charges_for_level(15) == 0, "ultimate unavailable before 16")
     _check(progression.ultimate_charges_for_level(16) == 1, "one ultimate charge at 16")
@@ -107,18 +111,20 @@ func _run() -> void:
     var tactical: VeilleursTacticalCombatRuntimeV07 = TACTICAL_V07_SCRIPT.new() as VeilleursTacticalCombatRuntimeV07
     var tactical_setup := tactical.setup_first_combat(["ENT_ENEMY_GOULE_AFFAMEE"])
     _check(bool(tactical_setup.get("ok", false)), "v0.7 tactical runtime initializes")
+    _check(tactical.combatants.has("ENT_WATCHER_NAYRA") and tactical.combatants.has("ENT_WATCHER_AISHA"), "v0.7 tactical runtime uses canonical Watchers")
     _check(str((tactical.combatants["ENT_ENEMY_GOULE_AFFAMEE"] as Dictionary).get("chosen_tree", "")) != "", "enemy receives persistent personal tree")
     tactical.grid.move("ENT_ENEMY_GOULE_AFFAMEE", Vector2i(1, 0))
     var ghoul_action := tactical.enemy_step("ENT_ENEMY_GOULE_AFFAMEE")
     _check(bool(ghoul_action.get("generated_skill", false)), "Ghoul executes a generated skill instead of generic basic attack")
     _check(str(ghoul_action.get("skill_id", "")).begins_with("SK_GOULE_AFFAMEE_"), "Ghoul action exposes authored generated skill ID")
 
-    var sahen_ult_state := progression.new_state("ENT_WATCHER_SAHEN", 16)
-    sahen_ult_state["chosen_tree"] = "TREE_SAHEN_BRISEUR_LIGNES"
-    sahen_ult_state["ultimate_charges"] = 1
-    var sahen_ultimate := tactical.use_ultimate("ENT_WATCHER_SAHEN", "ENT_ENEMY_GOULE_AFFAMEE", sahen_ult_state)
-    _check(bool(sahen_ultimate.get("ok", false)) and bool(sahen_ultimate.get("charge_spent", false)), "Watcher Ultimate executes immediately")
-    _check(int((sahen_ultimate.get("progress_state", {}) as Dictionary).get("ultimate_charges", 9)) == 0, "Watcher Ultimate consumes one charge")
+    var nayra_ult_state := progression.new_state("ENT_WATCHER_NAYRA", 16)
+    nayra_ult_state["chosen_tree"] = "TREE_NAYRA_BASTION"
+    nayra_ult_state["ultimate_charges"] = 1
+    var nayra_ultimate := tactical.use_ultimate("ENT_WATCHER_NAYRA", "ENT_ENEMY_GOULE_AFFAMEE", nayra_ult_state)
+    _check(not bool(nayra_ultimate.get("ok", false)) and str(nayra_ultimate.get("reason", "")) == "ultimate_resolver_required", "generic production runtime refuses unresolved canonical Watcher Ultimate")
+    _check(not bool(nayra_ultimate.get("charge_spent", true)), "refused canonical Watcher Ultimate spends no charge")
+    _check(int(nayra_ult_state.get("ultimate_charges", 0)) == 1, "refused canonical Watcher Ultimate preserves charge")
 
     var ranged: VeilleursTacticalCombatRuntimeV07 = TACTICAL_V07_SCRIPT.new() as VeilleursTacticalCombatRuntimeV07
     var ranged_setup := ranged.setup_first_combat(["ENT_ENEMY_TIREUR"])
@@ -156,7 +162,7 @@ func _run() -> void:
     _check(bool(campaign_start.get("ok", false)), "campaign runtime starts Khar-Sen through generic dungeon runtime")
     var entry_result := campaign.resolve_current_node("cleared", {"threat_value":1.0, "watcher_aftermath":{}, "enemy_aftermath":[]})
     _check(bool(entry_result.get("ok", false)), "campaign resolves dungeon node and progression together")
-    _check(int((campaign.watcher_progress["ENT_WATCHER_SAHEN"] as Dictionary).get("xp", 0)) > 0, "campaign combat result grants Watcher progression")
+    _check(int((campaign.watcher_progress["ENT_WATCHER_NAYRA"] as Dictionary).get("xp", 0)) > 0, "campaign combat result grants canonical Watcher progression")
     _check(bool(campaign.dungeon.choose_next("KHAR7_02").get("ok", false)), "campaign advances to authored Khar-Sen combat node")
     var campaign_candidate := {"entity_id":"ENT_ENEMY_GOULE_AFFAMEE", "family":"GOULES", "hp":10, "alive":true, "level":4, "traits":[], "remanence_id":"REM_CAMPAIGN_GHoul"}
     var campaign_recruit := campaign.attempt_recruit(campaign_candidate, {"condition_flags":["fed_without_exploitation","corpse_denied_then_spared"], "respect":2, "knowledge_level":1})

@@ -20,6 +20,15 @@ func prepare(runtime: Variant, attacker_id: String, target_id: String, progress_
     var ultimate: Dictionary = ultimate_for_tree(runtime.content_db, attacker_id, chosen_tree)
     if ultimate.is_empty():
         return {"ok":false, "reason":"no_ultimate_for_tree"}
+    if bool(ultimate.get("resolver_required", false)):
+        return {
+            "ok":false,
+            "reason":"ultimate_resolver_required",
+            "ultimate_id":str(ultimate.get("ultimate_id", "")),
+            "name_fr":str(ultimate.get("name_fr", "")),
+            "resolver_id":str(ultimate.get("resolver_id", "")),
+            "charge_spent":false
+        }
     if not _can_use(progress_state):
         return {"ok":false, "reason":"ultimate_unavailable"}
     if bool(ultimate.get("telegraph_required", false)):
@@ -39,6 +48,15 @@ func execute_pending(runtime: Variant, attacker_id: String, progress_state: Dict
     return execute(runtime, attacker_id, target_id, progress_state, ultimate)
 
 func execute(runtime: Variant, attacker_id: String, target_id: String, progress_state: Dictionary, ultimate: Dictionary) -> Dictionary:
+    if bool(ultimate.get("resolver_required", false)):
+        return {
+            "ok":false,
+            "reason":"ultimate_resolver_required",
+            "ultimate_id":str(ultimate.get("ultimate_id", "")),
+            "name_fr":str(ultimate.get("name_fr", "")),
+            "resolver_id":str(ultimate.get("resolver_id", "")),
+            "charge_spent":false
+        }
     if not _can_use(progress_state):
         return {"ok":false, "reason":"ultimate_unavailable"}
     if not runtime.combatants.has(attacker_id):
@@ -47,9 +65,14 @@ func execute(runtime: Variant, attacker_id: String, target_id: String, progress_
     var expected: Dictionary = ultimate_for_tree(runtime.content_db, attacker_id, chosen_tree)
     if expected.is_empty() or str(expected.get("ultimate_id", "")) != str(ultimate.get("ultimate_id", "")):
         return {"ok":false, "reason":"ultimate_tree_mismatch"}
+
+    # Le coût n'est engagé qu'après un effet autoritaire effectivement appliqué.
+    var result := _apply(runtime, attacker_id, target_id, ultimate, int(progress_state.get("level", 16)))
+    if not bool(result.get("ok", false)):
+        result["charge_spent"] = false
+        return result
     var next_state := progress_state.duplicate(true)
     next_state["ultimate_charges"] = maxi(0, int(next_state.get("ultimate_charges", 0)) - 1)
-    var result := _apply(runtime, attacker_id, target_id, ultimate, int(next_state.get("level", 16)))
     result["progress_state"] = next_state
     result["charge_spent"] = true
     return result

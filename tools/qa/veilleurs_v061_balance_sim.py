@@ -63,12 +63,12 @@ def make_units() -> tuple[list[Unit], list[Unit]]:
     enemy_weapon = int(balance.get("enemy_weapon_power", 42))
     enemy_ids = ["ENT_ENEMY_GOULE_AFFAMEE", "ENT_ENEMY_ECORCHEUSE", "ENT_ENEMY_FOUISSEUSE"]
     party: list[Unit] = []
-    # Keep the four validated tactical archetypes while assigning them to the canonical quartet.
+    # Preserve the validated v0.6.1 role/stat pairings while restoring canonical identities.
     watcher_roles = {
-        "ENT_WATCHER_SAHEN": "frontline",
-        "ENT_WATCHER_MIRA": "precision",
-        "ENT_WATCHER_NAREM": "guardian",
-        "ENT_WATCHER_YSRA": "observer",
+        "ENT_WATCHER_NAYRA": "guardian",
+        "ENT_WATCHER_TAREK": "precision",
+        "ENT_WATCHER_AISHA": "observer",
+        "ENT_WATCHER_IDRIS": "frontline",
     }
     for w in watchers:
         s = w["stats"]
@@ -206,7 +206,7 @@ def main() -> int:
         "severe_trauma_incidence_percent": round(trauma_rate, 1),
         "watcher_weapon_power": int(balance.get("watcher_weapon_power", 30)),
         "enemy_weapon_power": int(balance.get("enemy_weapon_power", 42)),
-        "interpretation": "Pre-playtest tactical model: canonical quartet with validated v0.6.1 tactical archetypes. Human tactile playtest remains authoritative.",
+        "interpretation": "Pre-playtest tactical model: canonical quartet with the validated v0.6.1 role/stat pairings. Human tactile playtest remains authoritative.",
     }
     print(json.dumps(report, ensure_ascii=False, indent=2))
     if args.check:
