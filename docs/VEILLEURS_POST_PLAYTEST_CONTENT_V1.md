@@ -10,7 +10,7 @@ La référence de départ reste le commit `0c905800ec21e646e9252f1c14430ed8ad36a
 
 `data/veilleurs/parallel_content/post_playtest_detail_manifest_v1.json`
 
-Le manifeste v3 indexe désormais les événements du Refuge, leurs chaînes persistantes, les réactions croisées, les événements régionaux des actes II–V, la narration source-backed, les écrans UX, les textes UX français, la télémétrie, la matrice de diagnostic, les altérations et les variantes de Rémanence/Némésis.
+Le manifeste v4 indexe les événements du Refuge, leurs chaînes persistantes, leur contrat d'exécution, les réactions croisées, les événements régionaux des actes II–V et leurs conséquences par choix, la narration source-backed, les écrans UX, les textes UX français, la télémétrie, la matrice de diagnostic, les altérations et les variantes de Rémanence/Némésis.
 
 ## Refuge — 24 événements + 24 chaînes persistantes
 
@@ -26,11 +26,25 @@ Un rappel ne peut survenir que si une histoire pertinente a réellement été é
 
 Chaque branche peut écrire dans les Archives, l'histoire du Refuge, les relations, le corps, les routes ou la Rémanence. Elle ne crée jamais de vérité absolue, ne remet jamais une blessure persistante à zéro et ne rend jamais un boss recrutable.
 
+## Exécution des chaînes du Refuge
+
+`refuge_chain_execution_contract_v1.json`
+
+La mémoire d'un événement possède désormais un cycle d'exécution candidat formel :
+
+`DORMANT → ELIGIBLE → QUEUED → SURFACED → RESOLVED → RETIRED`, avec une branche `EXPIRED → RETIRED` lorsque la fenêtre se ferme sans que les conditions vécues aient été réunies.
+
+Un souvenir ne peut jamais passer directement de DORMANT à SURFACED ou RESOLVED. Les conditions sont évaluées uniquement à partir de l'historique persisté et des états observables. L'arbitrage entre plusieurs souvenirs admissibles est déterministe à partir de la seed, du retour au Refuge et de l'identifiant mémoire ; un rechargement ne peut donc pas reroll un rappel.
+
+La proposition actuelle limite à deux rappels surfacés par retour au Refuge. Cette valeur reste une **candidate post-playtest**, pas une règle canonique active. Les souvenirs non choisis restent admissibles jusqu'à expiration de leur fenêtre ou disparition de leurs conditions.
+
+La sauvegarde sérialise des enregistrements de mémoire stables, jamais des nœuds ou snapshots complets de scène. Une entrée mémoire invalide ne doit invalider que cette entrée, jamais toute la sauvegarde.
+
 ## Réactions croisées — quatre Veilleurs + auxiliaires
 
 `refuge_cross_reaction_matrix_v1.json`
 
-Les 12 familles du Refuge possèdent désormais une matrice de réaction pour :
+Les 12 familles du Refuge possèdent une matrice de réaction pour :
 
 - Nayra Orun — sécurité, protection, formation, conséquences concrètes ;
 - Tarek Senn — traces, répétitions, routes, faits observables ;
@@ -51,6 +65,14 @@ Ils s'appuient uniquement sur des éléments déjà établis : gestes et silence
 
 Ces événements restent explicitement non canoniques tant qu'ils n'ont pas été validés après playtest. Ils ne peuvent ni inventer une règle de ralliement, ni révéler une mécanique ennemie non observée, ni exposer une phase future de boss.
 
+## Conséquences régionales par choix
+
+`regional_event_choice_echoes_v1.json`
+
+Les 16 événements régionaux possèdent maintenant **32 conséquences différées**, une pour chacun de leurs deux choix source. Chaque branche possède sa propre fenêtre, ses conditions d'historique, ses écritures et plusieurs issues possibles.
+
+Une conséquence peut confirmer, compliquer ou réfuter une lecture précédente : le choix du joueur n'invente jamais la vérité du monde. Les échos restent bornés par la connaissance déjà observée, ne révèlent aucune phase future de boss, ne changent aucune règle de recrutement et ne modifient aucun chiffre d'équilibrage.
+
 ## Narration source-backed
 
 `narrative_trigger_binding_v1.json`
@@ -65,7 +87,7 @@ Six écrans Refuge/Archives et quatre overlays de combat restent définis pour t
 
 `ux_copy_fr_post_playtest_v1.json`
 
-Le wording français est désormais gelé comme **candidat prêt à tester**. Il couvre les cinq états canoniques de connaissance, l'incertitude, les phases de boss, les intentions, le ciblage anatomique, les blessures persistantes, lumière/bruit, extraction, Refuge, ralliement, Archives, Rémanence et règles de groupe.
+Le wording français est gelé comme **candidat prêt à tester**. Il couvre les cinq états canoniques de connaissance, l'incertitude, les phases de boss, les intentions, le ciblage anatomique, les blessures persistantes, lumière/bruit, extraction, Refuge, ralliement, Archives, Rémanence et règles de groupe.
 
 Il reste inactif tant que le playtest PC n'a pas validé la compréhension réelle des textes. Aucun pourcentage de capture, aucune jauge permanente d'Espoir/Folie, aucune vérité ennemie omnisciente et aucun spoiler de phase future n'y sont autorisés.
 
@@ -81,7 +103,7 @@ Elle ne collecte ni texte libre, ni donnée personnelle, ni identifiant de compt
 
 `playtest_diagnosis_matrix_v1.json`
 
-La télémétrie est désormais reliée à une matrice « observation → diagnostic possible → modification candidate → conclusion interdite ».
+La télémétrie est reliée à une matrice « observation → diagnostic possible → modification candidate → conclusion interdite ».
 
 Les cas couvrent notamment : décisions trop lentes ou trop rapides, annulations, consultation des intentions, ciblage anatomique, pression hémorragique, blessures persistantes, lumière, bruit, densité de rencontres, extraction trop tôt/trop tard, compréhension du ralliement et de la capacité du Refuge, événements qui semblent aléatoires, usage des Archives, mauvaise lecture de l'incertitude, télégraphes de boss, reconnaissance de la Rémanence/Némésis et friction tactile/manette.
 
@@ -120,9 +142,10 @@ Les suites :
 
 - `tests/test_veilleurs_post_playtest_content_v1.py` ;
 - `tests/test_veilleurs_post_playtest_detail_v1.py` ;
-- `tests/test_veilleurs_post_playtest_chains_v1.py`.
+- `tests/test_veilleurs_post_playtest_chains_v1.py` ;
+- `tests/test_veilleurs_post_playtest_execution_v1.py`.
 
-La dernière vérifie notamment la couverture exacte des 24 événements par 24 chaînes, deux rappels correspondant aux deux choix de chaque événement, les 12 familles et les quatre Veilleurs dans la matrice de réactions croisées, 16 événements régionaux répartis 4/4/4/4, les cinq états de connaissance, la matrice de diagnostic et surtout l'absence de référence à ces fichiers dans les contrats actifs du playtest.
+La dernière vérifie le cycle mémoire du Refuge, l'absence de raccourcis illégitimes, l'arbitrage déterministe, la sauvegarde sans snapshot de scène, la couverture exacte des 16 événements régionaux et de leurs 32 branches de choix, ainsi que l'absence de référence à ces deux nouvelles couches dans les contrats actifs du playtest.
 
 ## Après le playtest PC
 
