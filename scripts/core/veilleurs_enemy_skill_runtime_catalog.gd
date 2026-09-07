@@ -1,23 +1,11 @@
 extends RefCounted
 class_name VeilleursEnemySkillRuntimeCatalog
 
-const MANIFEST_PATH := "res://data/veilleurs/generated/enemy_skill_ai_catalog_manifest_v1.json"
+const CATALOG_PATH := "res://data/veilleurs/skills/enemy_skill_runtime_catalog_v1.json"
 const PACK_SHA := "0739666c23b6aad99d79128147b84322155bbdd5ff49c62b0990eaf11fec8919"
-const FIELD_NAMES := [
-    "runtime_skill_id",
-    "source_skill_id",
-    "entity_id",
-    "tree",
-    "skill_name",
-    "skill_type",
-    "node_role",
-    "positions",
-    "power_0_5",
-    "precision_pct",
-    "tags"
-]
 
-var manifest: Dictionary = {}
+var catalog: Dictionary = {}
+var node_schema: Dictionary = {}
 var records: Array[Dictionary] = []
 var by_runtime_id: Dictionary = {}
 var by_entity: Dictionary = {}
@@ -33,24 +21,41 @@ func reload() -> Dictionary:
     by_runtime_id.clear()
     by_entity.clear()
     by_entity_tree.clear()
+    node_schema.clear()
     loaded = false
-    manifest = _load_dictionary(MANIFEST_PATH)
+    catalog = _load_dictionary(CATALOG_PATH)
     var errors: Array[String] = []
-    if manifest.is_empty():
-        errors.append("missing_manifest")
+    if catalog.is_empty():
+        errors.append("missing_catalog")
         return _finish_report(errors)
-    if str(manifest.get("source_pack_sha256", "")) != PACK_SHA:
-        errors.append("manifest_pack_sha_mismatch")
+    var canonical_source: Dictionary = catalog.get("canonical_source", {})
+    if str(canonical_source.get("pack_sha256", "")) != PACK_SHA:
+        errors.append("catalog_pack_sha_mismatch")
 
-    var act_entries: Array = manifest.get("acts", [])
-    for act_value: Variant in act_entries:
-        if not (act_value is Dictionary):
-            errors.append("invalid_act_manifest_entry")
+    for file_value: Variant in canonical_source.get("tree_files", []):
+        if not (file_value is Dictionary):
+            errors.append("invalid_tree_file_entry")
             continue
-        var act_entry: Dictionary = act_value
-        var act_records := _decode_act(act_entry, errors)
-        for record: Dictionary in act_records:
-            _index_record(record, errors)
+        var file_entry: Dictionary = file_value
+        var path := str(file_entry.get("path", ""))
+        var source := _load_dictionary(path)
+        if source.is_empty():
+            errors.append("missing_tree_file:%s" % path)
+            continue
+        if node_schema.is_empty():
+            node_schema = (source.get("node_schema", {}) as Dictionary).duplicate(true)
+        var source_tree_count := 0
+        var source_skill_count := 0
+        for tree_value: Variant in source.get("trees", []):
+            if not (tree_value is Dictionary):
+                errors.append("invalid_tree:%s" % path)
+                continue
+            source_tree_count += 1
+            source_skill_count += _register_tree(tree_value as Dictionary, errors)
+        if source_tree_count != int(file_entry.get("trees", source_tree_count)):
+            errors.append("tree_file_count:%s:%d" % [path, source_tree_count])
+        if source_skill_count != int(file_entry.get("skills", source_skill_count)):
+            errors.append("skill_file_count:%s:%d" % [path, source_skill_count])
 
     _validate_shape(errors)
     return _finish_report(errors)
@@ -77,132 +82,87 @@ func skills_for_entity_tree(entity_id: String, tree: String) -> Array[Dictionary
 
 func trees_for_entity(entity_id: String) -> Array[String]:
     var result: Array[String] = []
-    for skill: Dictionary in skills_for_entity(entity_id):
-        var tree := str(skill.get("tree", ""))
-        if not tree.is_empty() and not result.has(tree):
-            result.append(tree)
+    for value: Variant in by_entity_tree.keys():
+        var key := str(value)
+        var prefix := "%s|" % entity_id
+        if key.begins_with(prefix):
+            result.append(key.substr(prefix.length()))
+    result.sort()
     return result
 
-func _decode_act(act_entry: Dictionary, errors: Array[String]) -> Array[Dictionary]:
-    var result: Array[Dictionary] = []
-    var path := str(act_entry.get("path", ""))
-    var cache := _load_dictionary(path)
-    if cache.is_empty():
-        errors.append("missing_cache:%s" % path)
-        return result
-    var act := int(act_entry.get("act", 0))
-    if int(cache.get("act", -1)) != act:
-        errors.append("act_mismatch:%d" % act)
-    if str(cache.get("source_pack_sha256", "")) != PACK_SHA:
-        errors.append("cache_pack_sha_mismatch:%d" % act)
-    var encoded := str(cache.get("payload", ""))
-    if encoded.is_empty():
-        errors.append("empty_payload:%d" % act)
-        return result
-    var zlib_stream := Marshalls.base64_to_raw(encoded)
-    var raw_deflate := _unwrap_python_zlib(zlib_stream)
-    if raw_deflate.is_empty():
-        errors.append("invalid_zlib_stream:%d" % act)
-        return result
-    var expected_bytes := int(cache.get("uncompressed_bytes", 0))
-    var raw := raw_deflate.decompress(expected_bytes, FileAccess.COMPRESSION_DEFLATE)
-    if raw.is_empty():
-        errors.append("decompress_failed:%d" % act)
-        return result
-    if raw.size() != expected_bytes:
-        errors.append("uncompressed_size:%d:%d" % [act, raw.size()])
-    var expected_hash := str(cache.get("raw_json_sha256", ""))
-    if _sha256(raw) != expected_hash:
-        errors.append("raw_sha_mismatch:%d" % act)
-        return result
-    if expected_hash != str(act_entry.get("raw_json_sha256", "")):
-        errors.append("manifest_raw_sha_mismatch:%d" % act)
-    var decoded: Variant = JSON.parse_string(raw.get_string_from_utf8())
-    if not (decoded is Dictionary):
-        errors.append("invalid_json:%d" % act)
-        return result
-    var source: Dictionary = decoded
-    var schema: Array = source.get("schema", [])
-    if schema.size() != FIELD_NAMES.size():
-        errors.append("schema_size:%d" % act)
-        return result
-    var expected_schema := ["rid", "sid", "entity", "tree", "name", "type", "node_role", "positions", "power", "precision", "tags"]
-    for index: int in range(FIELD_NAMES.size()):
-        if str(schema[index]) != str(expected_schema[index]):
-            errors.append("schema_field:%d:%d" % [act, index])
-            return result
-    var rows: Array = source.get("records", [])
-    if rows.size() != int(cache.get("record_count", -1)) or rows.size() != int(act_entry.get("count", -1)):
-        errors.append("act_count:%d:%d" % [act, rows.size()])
-    for row_value: Variant in rows:
-        if not (row_value is Array):
-            errors.append("invalid_row:%d" % act)
+func _register_tree(tree_source: Dictionary, errors: Array[String]) -> int:
+    var entity_id := str(tree_source.get("entity_id", ""))
+    var tree_name := str(tree_source.get("tree", ""))
+    if entity_id.is_empty() or tree_name.is_empty():
+        errors.append("tree_missing_identity")
+        return 0
+    var source_ids: Array = tree_source.get("source_skill_ids", [])
+    var names: Array = tree_source.get("names", [])
+    var powers: Array = tree_source.get("power_0_5", [])
+    var precisions: Array = tree_source.get("precision_pct", [])
+    var levels: Array = node_schema.get("levels", [])
+    var types: Array = node_schema.get("types", [])
+    var roles: Array = node_schema.get("roles", [])
+    if source_ids.size() != 15 or names.size() != 15 or powers.size() != 15 or precisions.size() != 15:
+        errors.append("tree_shape:%s:%s" % [entity_id, tree_name])
+        return 0
+    var tags := _split_tags(str(tree_source.get("tags", "")))
+    var tree_records: Array[Dictionary] = []
+    for index: int in range(15):
+        var source_id := str(source_ids[index])
+        var runtime_id := "%s:%s" % [entity_id, source_id]
+        if by_runtime_id.has(runtime_id):
+            errors.append("duplicate_runtime_id:%s" % runtime_id)
             continue
-        var row: Array = row_value
-        if row.size() != FIELD_NAMES.size():
-            errors.append("row_size:%d:%d" % [act, row.size()])
-            continue
-        var record: Dictionary = {"act": act}
-        for index: int in range(FIELD_NAMES.size()):
-            record[FIELD_NAMES[index]] = row[index]
-        record["tags"] = _tags(str(record.get("tags", "")))
-        result.append(record)
-    return result
-
-func _unwrap_python_zlib(stream: PackedByteArray) -> PackedByteArray:
-    # Python zlib.compress() emits RFC 1950: 2-byte zlib header + raw DEFLATE + 4-byte Adler-32.
-    # Godot 4.3 COMPRESSION_DEFLATE expects the RFC 1951 payload, so keep the cache untouched
-    # and strip only the transport wrapper at read time.
-    if stream.size() <= 6:
-        return PackedByteArray()
-    var cmf := int(stream[0])
-    var flg := int(stream[1])
-    if (cmf & 0x0F) != 8 or ((cmf << 8) + flg) % 31 != 0:
-        return PackedByteArray()
-    if (flg & 0x20) != 0:
-        # Preset dictionaries are forbidden because the canonical cache generator never uses one.
-        return PackedByteArray()
-    return stream.slice(2, stream.size() - 4)
-
-func _index_record(record: Dictionary, errors: Array[String]) -> void:
-    var runtime_id := str(record.get("runtime_skill_id", ""))
-    var entity_id := str(record.get("entity_id", ""))
-    var tree := str(record.get("tree", ""))
-    if runtime_id.is_empty() or entity_id.is_empty() or tree.is_empty():
-        errors.append("missing_identity:%s" % runtime_id)
-        return
-    if by_runtime_id.has(runtime_id):
-        errors.append("duplicate_runtime_id:%s" % runtime_id)
-        return
-    by_runtime_id[runtime_id] = record
-    if not by_entity.has(entity_id):
-        by_entity[entity_id] = []
-    (by_entity[entity_id] as Array).append(record)
-    var tree_key := _tree_key(entity_id, tree)
-    if not by_entity_tree.has(tree_key):
-        by_entity_tree[tree_key] = []
-    (by_entity_tree[tree_key] as Array).append(record)
-    records.append(record)
+        var record := {
+            "runtime_skill_id": runtime_id,
+            "source_skill_id": source_id,
+            "entity_id": entity_id,
+            "tree": tree_name,
+            "skill_name": str(names[index]),
+            "skill_type": str(types[index]) if index < types.size() else "",
+            "node_role": str(roles[index]) if index < roles.size() else "",
+            "positions": str(tree_source.get("positions", "")),
+            "power_0_5": float(powers[index]),
+            "precision_pct": int(precisions[index]),
+            "tags": tags.duplicate(),
+            "level": int(levels[index]) if index < levels.size() else 0,
+            "node": index + 1,
+            "source_backed": true
+        }
+        by_runtime_id[runtime_id] = record
+        records.append(record)
+        tree_records.append(record)
+        if not by_entity.has(entity_id):
+            by_entity[entity_id] = []
+        (by_entity[entity_id] as Array).append(record)
+    by_entity_tree[_tree_key(entity_id, tree_name)] = tree_records
+    return tree_records.size()
 
 func _validate_shape(errors: Array[String]) -> void:
-    if records.size() != int(manifest.get("total_records", 1305)):
+    var expected: Dictionary = catalog.get("counts", {})
+    if records.size() != int(expected.get("skills", 1305)):
         errors.append("total_records:%d" % records.size())
     if by_runtime_id.size() != records.size():
         errors.append("runtime_id_uniqueness:%d" % by_runtime_id.size())
-    if by_entity.size() != int(manifest.get("entity_count", 29)):
+    if by_entity.size() != int(expected.get("entities", 29)):
         errors.append("entity_count:%d" % by_entity.size())
+    var total_trees := 0
     for entity_id_value: Variant in by_entity.keys():
         var entity_id := str(entity_id_value)
         var skills: Array = by_entity[entity_id]
-        if skills.size() != int(manifest.get("skills_per_entity", 45)):
+        if skills.size() != int(expected.get("skills_per_entity", 45)):
             errors.append("entity_skill_count:%s:%d" % [entity_id, skills.size()])
         var trees := trees_for_entity(entity_id)
-        if trees.size() != int(manifest.get("trees_per_entity", 3)):
+        total_trees += trees.size()
+        if trees.size() != 3:
             errors.append("entity_tree_count:%s:%d" % [entity_id, trees.size()])
         for tree: String in trees:
             var tree_skills := skills_for_entity_tree(entity_id, tree)
-            if tree_skills.size() != int(manifest.get("skills_per_tree", 15)):
+            if tree_skills.size() != int(expected.get("skills_per_tree", 15)):
                 errors.append("tree_skill_count:%s:%s:%d" % [entity_id, tree, tree_skills.size()])
+    if total_trees != int(expected.get("trees", 87)):
+        errors.append("total_trees:%d" % total_trees)
 
 func _finish_report(errors: Array[String]) -> Dictionary:
     loaded = errors.is_empty()
@@ -212,29 +172,24 @@ func _finish_report(errors: Array[String]) -> Dictionary:
         "records": records.size(),
         "runtime_ids": by_runtime_id.size(),
         "entities": by_entity.size(),
-        "source_pack_sha256": str(manifest.get("source_pack_sha256", ""))
+        "source_pack_sha256": str((catalog.get("canonical_source", {}) as Dictionary).get("pack_sha256", "")),
+        "source_mode": "canonical_uncompressed_tree_files"
     }
     return last_report.duplicate(true)
 
-func _tags(raw: String) -> Array[String]:
+func _split_tags(text: String) -> Array[String]:
     var result: Array[String] = []
-    for value: String in raw.split(";"):
-        var tag := value.strip_edges()
-        if not tag.is_empty():
-            result.append(tag)
+    for part: String in text.split(";"):
+        var value := part.strip_edges()
+        if not value.is_empty():
+            result.append(value)
     return result
 
 func _tree_key(entity_id: String, tree: String) -> String:
     return "%s|%s" % [entity_id, tree]
 
-func _sha256(raw: PackedByteArray) -> String:
-    var context := HashingContext.new()
-    context.start(HashingContext.HASH_SHA256)
-    context.update(raw)
-    return context.finish().hex_encode()
-
 func _load_dictionary(path: String) -> Dictionary:
-    if not FileAccess.file_exists(path):
+    if path.is_empty() or not FileAccess.file_exists(path):
         return {}
     var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
     return parsed if parsed is Dictionary else {}
