@@ -22,16 +22,18 @@
   "states": ["DORMANT", "ELIGIBLE", "QUEUED", "SURFACED", "RESOLVED", "EXPIRED", "RETIRED"],
   "public_api": [
     {"method":"configure","args":["scheduler_seed:int","expedition_index:int=0"],"returns":"Dictionary validation report"},
-    {"method":"record_source_choice","args":["source_event_id:String","choice_id:String","evidence:Dictionary","participants:Array[String]","context:Dictionary={} "],"returns":"Dictionary memory record"},
-    {"method":"record_regional_choice","args":["regional_event_id:String","choice_id:String","evidence:Dictionary","participants:Array[String]","context:Dictionary={} "],"returns":"Dictionary memory record"},
-    {"method":"advance_expedition","args":["context:Dictionary={} "],"returns":"Dictionary scheduler snapshot"},
-    {"method":"collect_eligible","args":["context:Dictionary={} "],"returns":"Array[Dictionary]"},
-    {"method":"queue_for_return","args":["context:Dictionary={} ","surface_limit:int=-1"],"returns":"Array[Dictionary] queued records"},
-    {"method":"surface_next","args":[],"returns":"Dictionary surfaced record or empty"},
-    {"method":"resolve_memory","args":["memory_id:String","resolution:Dictionary={} "],"returns":"Dictionary resolved record"},
+    {"method":"record_source_choice","args":["source_event_id:String","choice_id:String","evidence:Dictionary","participants:Array[String]","context:Dictionary={}"],"returns":"Dictionary memory record"},
+    {"method":"record_regional_choice","args":["regional_event_id:String","choice_id:String","evidence:Dictionary","participants:Array[String]","context:Dictionary={}"],"returns":"Dictionary memory record"},
+    {"method":"advance_expedition","args":["context:Dictionary={}"],"returns":"Dictionary scheduler snapshot"},
+    {"method":"collect_eligible","args":["context:Dictionary={}"],"returns":"Array[Dictionary]"},
+    {"method":"queue_for_return","args":["context:Dictionary={}","surface_limit:int=-1"],"returns":"Array[Dictionary] queued records"},
+    {"method":"surface_next","args":[],"returns":"Dictionary surfaced record or error"},
+    {"method":"resolve_memory","args":["memory_id:String","resolution:Dictionary={}"],"returns":"Dictionary resolved record"},
+    {"method":"confirm_projection_committed","args":["memory_id:String"],"returns":"bool; RESOLVED/EXPIRED -> RETIRED after existing Archive/Remanence owners commit requested writes"},
     {"method":"expire_memory","args":["memory_id:String","reason:String"],"returns":"bool"},
     {"method":"serialize","args":[],"returns":"Dictionary save payload"},
     {"method":"deserialize","args":["payload:Dictionary"],"returns":"Dictionary migration report"},
+    {"method":"snapshot","args":[],"returns":"Dictionary scheduler diagnostics"},
     {"method":"reset","args":[],"returns":"void"}
   ],
   "signals": [
@@ -76,7 +78,8 @@
     "service_may_write": ["its_own_memory_records", "request_signals_for_archive", "request_signals_for_remanence"],
     "service_may_not_directly_write": ["combat_stats", "knowledge_truth", "boss_phase_knowledge", "recruitment_eligibility", "persistent_injury_reset", "active_balance_values"],
     "archive_truth_must_be_applied_by_existing_runtime": true,
-    "remanence_adaptation_must_be_applied_by_existing_policy": true
+    "remanence_adaptation_must_be_applied_by_existing_policy": true,
+    "retirement_requires_projection_commit_acknowledgement": true
   },
   "active_playtest_isolation": {
     "autoload_registration_forbidden_before_pc_validation": true,
