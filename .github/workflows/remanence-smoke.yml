@@ -46,3 +46,5 @@ jobs:
         run: godot --headless --path . res://scenes/tests/veilleurs_refuge_memory_service_candidate_smoke.tscn
       - name: Handoff réactions auxiliaires candidat (inactif)
         run: godot --headless --path . res://scenes/tests/veilleurs_auxiliary_reaction_resolver_candidate_smoke.tscn
+      - name: Handoff projection Archives Rémanence candidat (inactif)
+        run: godot --headless --path . res://scenes/tests/veilleurs_refuge_memory_projection_adapter_candidate_smoke.tscn
