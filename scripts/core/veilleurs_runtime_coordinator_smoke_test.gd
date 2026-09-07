@@ -1,7 +1,7 @@
 extends Node
 
 const CONTENT_SCRIPT := preload("res://scripts/core/veilleurs_content_runtime.gd")
-const ENCOUNTER_SCRIPT := preload("res://scripts/core/veilleurs_encounter_director.gd")
+const ENCOUNTER_SCRIPT := preload("res://scripts/core/veilleurs_canonical_encounter_director.gd")
 const BOSS_SCRIPT := preload("res://scripts/core/veilleurs_boss_director.gd")
 const COORDINATOR_SCRIPT := preload("res://scripts/core/veilleurs_runtime_coordinator.gd")
 
