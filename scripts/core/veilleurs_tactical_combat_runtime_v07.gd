@@ -12,6 +12,8 @@ var boss_rules: VeilleursBossRuleRuntime
 var ultimate_runtime: VeilleursUltimateRuntime
 var active_boss_id := ""
 var last_boss_rule: Dictionary = {}
+var terrain_effects: Dictionary = {}
+var summon_requests: Array[Dictionary] = []
 
 func _init() -> void:
     super()
@@ -25,6 +27,8 @@ func _init() -> void:
 func setup_first_combat(enemy_ids: Array[String] = ["ENT_ENEMY_GOULE_AFFAMEE", "ENT_ENEMY_ECORCHEUSE", "ENT_ENEMY_FOUISSEUSE"]) -> Dictionary:
     active_boss_id = ""
     last_boss_rule.clear()
+    terrain_effects.clear()
+    summon_requests.clear()
     var result: Dictionary = super.setup_first_combat(enemy_ids)
     if not bool(result.get("ok", false)):
         return result
@@ -42,6 +46,10 @@ func setup_first_combat(enemy_ids: Array[String] = ["ENT_ENEMY_GOULE_AFFAMEE", "
     return result
 
 func setup_boss_combat(boss_id: String, context: Dictionary = {}) -> Dictionary:
+    active_boss_id = ""
+    last_boss_rule.clear()
+    terrain_effects.clear()
+    summon_requests.clear()
     var no_enemies: Array[String] = []
     var result: Dictionary = super.setup_first_combat(no_enemies)
     if not bool(result.get("ok", false)):
@@ -146,8 +154,21 @@ func use_ultimate(attacker_id: String, target_id: String, progress_state: Dictio
     action_log.append(result.duplicate(true))
     return result
 
+func register_terrain_effect(cell: Vector2i, skill_id: String, owner_id: String, duration: int) -> Dictionary:
+    var key := "%d:%d" % [cell.x, cell.y]
+    terrain_effects[key] = {"cell":[cell.x, cell.y], "skill_id":skill_id, "owner_id":owner_id, "remaining":maxi(1, duration)}
+    return (terrain_effects[key] as Dictionary).duplicate(true)
+
+func request_summon(owner_id: String, count: int, skill_id: String) -> Dictionary:
+    var request := {"owner_id":owner_id, "count":clampi(count, 1, 2), "skill_id":skill_id, "round":round_index}
+    summon_requests.append(request)
+    while summon_requests.size() > 4:
+        summon_requests.pop_front()
+    return request.duplicate(true)
+
 func next_round() -> void:
     super.next_round()
+    _decay_terrain_effects()
     if active_boss_id != "" and combatants.has(active_boss_id) and int((combatants[active_boss_id] as Dictionary).get("hp", 0)) > 0:
         last_boss_rule = boss_rules.before_round(self)
         action_log.append({"ok":true, "action":"boss_rule", "boss":active_boss_id, "state":last_boss_rule.duplicate(true)})
@@ -182,6 +203,8 @@ func serialize() -> Dictionary:
     payload["v07_boss_rules"] = boss_rules.snapshot()
     payload["v07_ultimates"] = ultimate_runtime.serialize()
     payload["v07_last_boss_rule"] = last_boss_rule.duplicate(true)
+    payload["v07_terrain_effects"] = terrain_effects.duplicate(true)
+    payload["v07_summon_requests"] = summon_requests.duplicate(true)
     return payload
 
 func deserialize(payload: Dictionary) -> bool:
@@ -191,7 +214,38 @@ func deserialize(payload: Dictionary) -> bool:
     boss_rules.restore(payload.get("v07_boss_rules", {}))
     ultimate_runtime.deserialize(payload.get("v07_ultimates", {}))
     last_boss_rule = (payload.get("v07_last_boss_rule", {}) as Dictionary).duplicate(true)
+    terrain_effects = (payload.get("v07_terrain_effects", {}) as Dictionary).duplicate(true)
+    summon_requests.clear()
+    for value: Variant in payload.get("v07_summon_requests", []):
+        if value is Dictionary:
+            summon_requests.append((value as Dictionary).duplicate(true))
     return true
+
+func _push_away(attacker_id: String, target_id: String, distance: int) -> int:
+    if not combatants.has(target_id):
+        return 0
+    var row: Dictionary = combatants[target_id]
+    var resist := maxi(0, int(row.get("forced_move_resist", 0)))
+    var blocked_steps := mini(distance, int(resist / 10))
+    var effective_distance := maxi(0, distance - blocked_steps)
+    row["forced_move_resist"] = maxi(0, resist - distance * 10)
+    combatants[target_id] = row
+    if effective_distance <= 0:
+        return 0
+    return super._push_away(attacker_id, target_id, effective_distance)
+
+func _decay_terrain_effects() -> void:
+    var remove_keys: Array[String] = []
+    for key_value: Variant in terrain_effects.keys():
+        var key := str(key_value)
+        var state: Dictionary = terrain_effects[key]
+        state["remaining"] = int(state.get("remaining", 1)) - 1
+        if int(state["remaining"]) <= 0:
+            remove_keys.append(key)
+        else:
+            terrain_effects[key] = state
+    for key: String in remove_keys:
+        terrain_effects.erase(key)
 
 func _progress_state_for(entity_id: String) -> Dictionary:
     var row: Dictionary = combatants.get(entity_id, {})
