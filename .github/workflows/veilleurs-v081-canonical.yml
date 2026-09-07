@@ -1,0 +1,66 @@
+name: Veilleurs v0.8.1 Canonical Quartet
+
+on:
+  push:
+    branches:
+      - fix/veilleurs-restore-sahen-mira-narem-ysra
+  pull_request:
+    paths:
+      - 'data/veilleurs/v06/**'
+      - 'data/veilleurs/v08/canonical_watcher_ultimates_12.json'
+      - 'scripts/core/content_db.gd'
+      - 'scripts/core/veilleurs_content_db_v081_canonical.gd'
+      - 'scripts/core/veilleurs_v081_canonical_smoke_test.gd'
+      - 'scenes/tests/veilleurs_v081_canonical_smoke.tscn'
+      - 'tools/qa/veilleurs_v081_canonical_production_audit.py'
+      - 'tests/test_veilleurs_v081_canonical_production_audit.py'
+      - '.github/workflows/veilleurs-v081-canonical.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: veilleurs-v081-canonical-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  canonical-contract:
+    name: Canonical quartet contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Audit Sahen Mira Narem Ysra contract
+        run: python tools/qa/veilleurs_v081_canonical_production_audit.py
+      - name: Run canonical audit regression test
+        run: python -m pytest -q tests/test_veilleurs_v081_canonical_production_audit.py
+      - name: Preserve Tests_48
+        run: python tools/qa/veilleurs_v06_tests48.py
+      - name: Preserve v0.7 production contract
+        run: python tools/qa/veilleurs_v07_content_audit.py
+      - name: Preserve v0.9 Wave 3 contract
+        run: python tools/qa/veilleurs_v09_wave3_audit.py
+
+  godot-canonical:
+    name: Godot 4.3 canonical quartet smoke
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Strict Godot import
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --path . --import --quit 2>&1 | tee /tmp/v081-import.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/v081-import.log
+      - name: Run canonical quartet and Ultimate smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 120s godot --headless --path . res://scenes/tests/veilleurs_v081_canonical_smoke.tscn 2>&1 | tee /tmp/v081-smoke.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V081_CANONICAL_SMOKE_FAILED' /tmp/v081-smoke.log
+          grep -F 'VEILLEURS_V081_CANONICAL_SMOKE_OK' /tmp/v081-smoke.log
