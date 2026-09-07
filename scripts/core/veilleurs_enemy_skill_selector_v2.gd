@@ -8,6 +8,30 @@ var doctrine: VeilleursEnemyDoctrineRuntime
 func _init() -> void:
     doctrine = DOCTRINE_SCRIPT.new() as VeilleursEnemyDoctrineRuntime
 
+func ensure_tree(runtime: Variant, enemy_id: String) -> String:
+    if not runtime.combatants.has(enemy_id):
+        return ""
+    var row: Dictionary = runtime.combatants[enemy_id]
+    var chosen := str(row.get("chosen_tree", ""))
+    if chosen != "":
+        return chosen
+    var definition_id := str(row.get("definition_id", enemy_id))
+    var tree_ids: Array[String] = []
+    for value: Variant in runtime.content_db.skills_for(definition_id):
+        if not (value is Dictionary):
+            continue
+        var tree_id := str((value as Dictionary).get("tree_id", ""))
+        if tree_id != "" and not tree_ids.has(tree_id):
+            tree_ids.append(tree_id)
+    tree_ids.sort()
+    if tree_ids.is_empty():
+        return ""
+    var identity_seed := str(row.get("remanence_id", enemy_id))
+    chosen = tree_ids[posmod(identity_seed.hash(), tree_ids.size())]
+    row["chosen_tree"] = chosen
+    runtime.combatants[enemy_id] = row
+    return chosen
+
 func refine_decision(runtime: Variant, enemy_id: String, decision: Dictionary) -> Dictionary:
     var refined := decision.duplicate(true)
     if doctrine.should_retreat(runtime, enemy_id) and str(refined.get("action", "")) != "support":
