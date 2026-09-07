@@ -16,15 +16,23 @@ Le gate pré-PC contrôle automatiquement :
 - présence des fichiers de production essentiels ;
 - activation par défaut de l'addon `Veilleurs Production Pipeline` ;
 - roster canonique des quatre Veilleurs : Nayra, Tarek, Aïsha et Idris ;
-- absence d'identifiants runtime obsolètes dans les fichiers Veilleurs de production ;
+- absence du quatuor runtime obsolète Sahen/Mira/Narem/Ysra hors tests négatifs ou contrats historiques explicitement autorisés ;
 - contrat des six donjons v0.9 ;
 - contrat QA v0.9 ;
 - définition des 12 ultimes et de leurs cinq slots d'assets obligatoires ;
 - cibles de validation téléphone, tablette, desktop, contrôleur et mouvement réduit pour les ultimes ;
 - presets d'export Web, Windows, Android, iOS et Linux ;
-- câblage des smokes Wave 3, six donjons, tactile et parcours UI ;
+- smoke tactique v0.6 ;
+- smoke de production v0.7 ;
+- smoke Wave 2 v0.8 ;
+- smoke Wave 3 v0.9 ;
+- instanciation de la QA des six donjons ;
+- régression tactile logique ;
+- parcours UI joueur ;
 - intégration de l'audit dans le pipeline de production ;
 - séparation explicite des validations automatiques et matérielles.
+
+Les références à l'ancien quatuor ne sont tolérées que lorsqu'elles ont une fonction explicite : vérifier qu'il ne peut pas réentrer dans le runtime actuel, ou préserver un contrat historique gelé. Elles ne sont jamais autorisées comme sélection ou combattant actif de la production courante.
 
 ## Pipeline automatique
 
