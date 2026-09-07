@@ -1,0 +1,41 @@
+{
+  "schema_version": "0.8.0",
+  "stage_modifiers": {
+    "normal": {"memory_weight": 0, "adaptation_weight": 0},
+    "memorial": {"memory_weight": 4, "adaptation_weight": 1},
+    "veteran": {"memory_weight": 7, "adaptation_weight": 3},
+    "elite": {"memory_weight": 10, "adaptation_weight": 5},
+    "nemesis": {"memory_weight": 14, "adaptation_weight": 8}
+  },
+  "enemies": {
+    "ENT_ENEMY_GOULE_AFFAMEE": {"doctrine":"predator", "preferred_profiles":["hunter","execution","assault"], "target_priority":["wounded","low_hp","isolated"], "retreat_hp_ratio":0.12, "corpse_interest":3},
+    "ENT_ENEMY_ECORCHEUSE": {"doctrine":"anatomist", "preferred_profiles":["anatomy","execution","hunter"], "target_priority":["wounded_zone","disabled_limb","low_hp"], "retreat_hp_ratio":0.18, "corpse_interest":1},
+    "ENT_ENEMY_FOUISSEUSE": {"doctrine":"ambusher", "preferred_profiles":["mobility","control","assault"], "target_priority":["backline","isolated","marked"], "retreat_hp_ratio":0.24, "corpse_interest":0},
+    "ENT_ENEMY_DEVOREUSE": {"doctrine":"devourer", "preferred_profiles":["sustain","impact","execution"], "target_priority":["corpse_adjacent","wounded","frontline"], "retreat_hp_ratio":0.08, "corpse_interest":5},
+
+    "ENT_ENEMY_GUETTEUR": {"doctrine":"spotter", "preferred_profiles":["observe","ranged","support"], "target_priority":["high_threat","unobserved","backline"], "retreat_hp_ratio":0.28, "corpse_interest":0},
+    "ENT_ENEMY_BRISEUR": {"doctrine":"breaker", "preferred_profiles":["impact","control","assault"], "target_priority":["guarded","frontline","high_armor"], "retreat_hp_ratio":0.14, "corpse_interest":0},
+    "ENT_ENEMY_PORTE_FLAMME": {"doctrine":"area_denial", "preferred_profiles":["terrain","area","ranged"], "target_priority":["cluster","chokepoint","backline"], "retreat_hp_ratio":0.22, "corpse_interest":0},
+    "ENT_ENEMY_PENITENT": {"doctrine":"counterfighter", "preferred_profiles":["guard","risk","impact"], "target_priority":["recent_attacker","frontline","high_damage"], "retreat_hp_ratio":0.06, "corpse_interest":0},
+
+    "ENT_ENEMY_MURMURE": {"doctrine":"psychological", "preferred_profiles":["psych","observe","control"], "target_priority":["low_resolve","isolated","observed"], "retreat_hp_ratio":0.30, "corpse_interest":0},
+    "ENT_ENEMY_IMITATEUR": {"doctrine":"adaptive", "preferred_profiles":["adaptive","observe","control"], "target_priority":["repetitive_actor","high_threat","observed"], "retreat_hp_ratio":0.20, "corpse_interest":0},
+    "ENT_ENEMY_PLEUREUSE": {"doctrine":"fear_support", "preferred_profiles":["psych","support","area"], "target_priority":["low_resolve","cluster","bereaved"], "retreat_hp_ratio":0.26, "corpse_interest":2},
+    "ENT_ENEMY_ANCRE": {"doctrine":"space_control", "preferred_profiles":["control","terrain","guard"], "target_priority":["mobile","chokepoint","frontline"], "retreat_hp_ratio":0.10, "corpse_interest":0},
+
+    "ENT_ENEMY_SANGSUE_PALE": {"doctrine":"drainer", "preferred_profiles":["drain","contaminate","hunter"], "target_priority":["bleeding","wounded","low_hp"], "retreat_hp_ratio":0.18, "corpse_interest":1},
+    "ENT_ENEMY_NID_AMBULANT": {"doctrine":"spawner", "preferred_profiles":["summon","guard","area"], "target_priority":["cluster","frontline","summon_threat"], "retreat_hp_ratio":0.16, "corpse_interest":0},
+    "ENT_ENEMY_ENKYSTE": {"doctrine":"tank", "preferred_profiles":["tank","guard","impact"], "target_priority":["frontline","high_damage","guarded"], "retreat_hp_ratio":0.04, "corpse_interest":0},
+    "ENT_ENEMY_HOTE": {"doctrine":"mutator", "preferred_profiles":["adaptive","contaminate","risk"], "target_priority":["wounded","high_threat","isolated"], "retreat_hp_ratio":0.12, "corpse_interest":0},
+
+    "ENT_ENEMY_TRAQUEUR": {"doctrine":"pack_hunter", "preferred_profiles":["hunter","mobility","execution"], "target_priority":["marked","isolated","wounded"], "retreat_hp_ratio":0.20, "corpse_interest":1},
+    "ENT_ENEMY_CARAPACIER": {"doctrine":"mobile_tank", "preferred_profiles":["tank","impact","guard"], "target_priority":["frontline","chokepoint","high_damage"], "retreat_hp_ratio":0.06, "corpse_interest":0},
+    "ENT_ENEMY_BONDISSEUR": {"doctrine":"disruptor", "preferred_profiles":["mobility","area","control"], "target_priority":["backline","cluster","low_mobility"], "retreat_hp_ratio":0.22, "corpse_interest":0},
+    "ENT_ENEMY_EVENTREUR": {"doctrine":"limb_hunter", "preferred_profiles":["anatomy","execution","hunter"], "target_priority":["severe_wound","disabled_limb","bleeding"], "retreat_hp_ratio":0.10, "corpse_interest":2},
+
+    "ENT_ENEMY_MARAUDEUR": {"doctrine":"opportunist", "preferred_profiles":["assault","mobility","risk"], "target_priority":["low_hp","isolated","low_guard"], "retreat_hp_ratio":0.24, "corpse_interest":0},
+    "ENT_ENEMY_TIREUR": {"doctrine":"marksman", "preferred_profiles":["ranged","observe","hunter"], "target_priority":["backline","marked","low_mobility"], "retreat_hp_ratio":0.30, "corpse_interest":0},
+    "ENT_ENEMY_PORTE_BOUCLIER": {"doctrine":"protector", "preferred_profiles":["guard","support","control"], "target_priority":["ally_threatened","frontline","chokepoint"], "retreat_hp_ratio":0.12, "corpse_interest":0},
+    "ENT_ENEMY_CHIRURGIEN_NOIR": {"doctrine":"cruel_support", "preferred_profiles":["support","sustain","anatomy"], "target_priority":["ally_critical","wounded_enemy","disabled_limb"], "retreat_hp_ratio":0.28, "corpse_interest":1}
+  }
+}
