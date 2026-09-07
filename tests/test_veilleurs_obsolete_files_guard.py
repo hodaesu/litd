@@ -6,6 +6,7 @@ ROOT = Path(__file__).parents[1]
 FORBIDDEN_OBSOLETE_PATHS = (
     "00_LIRE_AVANT_IMPORT_WORKING_COPY.md",
     "WORKING_COPY_IMPORT_READY.txt",
+    "VERSION",
     "docs/SPRINT_1_ACCEPTANCE.md",
     "docs/TEST_REPORT.md",
     "docs/MIGRATION_STATUS.md",
@@ -50,3 +51,10 @@ def test_readme_does_not_reference_retired_bootstrap_material():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     for marker in FORBIDDEN_README_MARKERS:
         assert marker not in readme, marker
+
+
+def test_release_notes_do_not_depend_on_retired_version_file():
+    script = (ROOT / "tools/release/generate_notes.py").read_text(encoding="utf-8")
+    assert '"VERSION"' not in script
+    assert "'VERSION'" not in script
+    assert "git\", \"describe" in script
