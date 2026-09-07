@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "godot_version": "4.3",
   "project_file": "project.godot",
   "report_dir": "build/automation",
@@ -38,6 +38,9 @@
     "tools/qa/veilleurs_v06_tests48.py"
   ],
   "quick_godot_smokes": [
+    {"scene": "res://scenes/tests/veilleurs_v06_tactical_smoke.tscn", "timeout": 90},
+    {"scene": "res://scenes/tests/veilleurs_v07_production_smoke.tscn", "timeout": 90},
+    {"scene": "res://scenes/tests/veilleurs_v08_wave2_smoke.tscn", "timeout": 120},
     {"scene": "res://scenes/tests/veilleurs_v09_wave3_smoke.tscn", "timeout": 120},
     {"scene": "res://scenes/veilleurs/v09_vertical_slice_qa.tscn", "timeout": 30, "quit_after": 5},
     {"scene": "res://scenes/tests/mobile_touch_smoke.tscn", "timeout": 90},
