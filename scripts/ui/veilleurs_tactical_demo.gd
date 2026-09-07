@@ -7,7 +7,7 @@ const UI_SCENE := preload("res://scenes/veilleurs/v06_tactical_combat.tscn")
 var session: Node
 var save_bridge: VeilleursTacticalSaveBridge
 var tactical_ui: VeilleursTacticalUI
-var selected_watcher := "ENT_WATCHER_NAYRA"
+var selected_watcher := "ENT_WATCHER_SAHEN"
 var selected_target := "ENT_ENEMY_GOULE_AFFAMEE"
 var selected_zone := "torso"
 var skill_ids: Array[String] = []
