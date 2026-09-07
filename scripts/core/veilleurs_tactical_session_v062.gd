@@ -4,9 +4,22 @@ class_name VeilleursTacticalSessionV062
 const RUNTIME_V062_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_runtime_v062.gd")
 const AUTHORED_V062_SCRIPT := preload("res://scripts/core/veilleurs_authored_encounter_runtime_v062.gd")
 
-func start_first_combat(watcher_state: Dictionary = {}) -> Dictionary:
-    runtime = RUNTIME_V062_SCRIPT.new() as VeilleursTacticalCombatRuntimeV2
-    var result: Dictionary = runtime.call("setup_first_combat")
+func start_first_combat() -> Dictionary:
+    return _start_first_combat({})
+
+func start_first_combat_with_state(watcher_state: Dictionary) -> Dictionary:
+    return _start_first_combat(watcher_state)
+
+func start_authored_encounter(encounter: Dictionary, encounter_id_value: String, region_id_value: String = "khar_sen") -> Dictionary:
+    return _start_authored_encounter(encounter, encounter_id_value, region_id_value, {})
+
+func start_authored_encounter_with_state(encounter: Dictionary, encounter_id_value: String, region_id_value: String, watcher_state: Dictionary) -> Dictionary:
+    return _start_authored_encounter(encounter, encounter_id_value, region_id_value, watcher_state)
+
+func _start_first_combat(watcher_state: Dictionary) -> Dictionary:
+    var tactical: VeilleursTacticalCombatRuntimeV062 = RUNTIME_V062_SCRIPT.new() as VeilleursTacticalCombatRuntimeV062
+    runtime = tactical
+    var result: Dictionary = tactical.setup_first_combat()
     active = bool(result.get("ok", false))
     encounter_id = "veilleurs_v062_first_combat"
     region_id = "khar_sen"
@@ -19,10 +32,10 @@ func start_first_combat(watcher_state: Dictionary = {}) -> Dictionary:
         session_changed.emit(snapshot())
     return result
 
-func start_authored_encounter(encounter: Dictionary, encounter_id_value: String, region_id_value: String = "khar_sen", watcher_state: Dictionary = {}) -> Dictionary:
+func _start_authored_encounter(encounter: Dictionary, encounter_id_value: String, region_id_value: String, watcher_state: Dictionary) -> Dictionary:
     var authored: VeilleursAuthoredEncounterRuntimeV062 = AUTHORED_V062_SCRIPT.new() as VeilleursAuthoredEncounterRuntimeV062
     runtime = authored
-    var result := authored.setup_authored_encounter(encounter)
+    var result: Dictionary = authored.setup_authored_encounter(encounter)
     active = bool(result.get("ok", false))
     encounter_id = encounter_id_value if encounter_id_value != "" else str(encounter.get("template_id", "veilleurs_v062_authored"))
     region_id = region_id_value
@@ -90,7 +103,8 @@ func watcher_aftermath() -> Dictionary:
         var aftermath_row: Dictionary = result.get(watcher_id, {})
         aftermath_row["level"] = int(row.get("level", 1))
         aftermath_row["specialization"] = str(row.get("specialization", ""))
-        aftermath_row["ultimate_state"] = (row.get("ultimate_state", {}) as Dictionary).duplicate(true)
+        var ultimate_value: Variant = row.get("ultimate_state", {})
+        aftermath_row["ultimate_state"] = (ultimate_value as Dictionary).duplicate(true) if ultimate_value is Dictionary else {}
         result[watcher_id] = aftermath_row
     return result
 
@@ -128,8 +142,9 @@ func _apply_watcher_state(watcher_state: Dictionary) -> void:
         row["resolve_current"] = maxi(0, int(saved.get("resolve", row.get("resolve_current", 0))))
         row["level"] = clampi(int(saved.get("level", row.get("level", 1))), 1, 50)
         row["specialization"] = str(saved.get("specialization", row.get("specialization", "")))
-        if saved.has("ultimate_state"):
-            row["ultimate_state"] = (saved.get("ultimate_state", {}) as Dictionary).duplicate(true)
+        var ultimate_value: Variant = saved.get("ultimate_state", {})
+        if ultimate_value is Dictionary:
+            row["ultimate_state"] = (ultimate_value as Dictionary).duplicate(true)
         var body_payload: Dictionary = saved.get("body", {})
         var body: VeilleursBodyComponent = row.get("body") as VeilleursBodyComponent
         if body != null and not body_payload.is_empty():
