@@ -15,6 +15,12 @@ FORBIDDEN_OBSOLETE_PATHS = (
 
 FORBIDDEN_TRACKED_NAMES = {".DS_Store"}
 FORBIDDEN_TRACKED_SUFFIXES = (".bak", ".orig", ".tmp")
+FORBIDDEN_README_MARKERS = (
+    "Studio Sprint 1",
+    "docs/GITHUB_SETUP.md",
+    "Limites du Sprint 1",
+    "Premier envoi sur GitHub",
+)
 
 
 def _tracked_files() -> list[str]:
@@ -38,3 +44,9 @@ def test_no_transient_editor_or_backup_files_are_tracked():
         path = Path(relative_path)
         assert path.name not in FORBIDDEN_TRACKED_NAMES, relative_path
         assert not relative_path.endswith(FORBIDDEN_TRACKED_SUFFIXES), relative_path
+
+
+def test_readme_does_not_reference_retired_bootstrap_material():
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    for marker in FORBIDDEN_README_MARKERS:
+        assert marker not in readme, marker
