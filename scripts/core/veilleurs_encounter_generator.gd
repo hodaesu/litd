@@ -5,6 +5,7 @@ const DEPTH_RULES_PATH := "res://data/veilleurs/encounter_depth_rules.json"
 const VARIANTS_PATH := "res://data/veilleurs/enemy_variant_rules.json"
 const ProductionRegistry := preload("res://scripts/core/veilleurs_enemy_production_registry.gd")
 const SynergyRuntime := preload("res://scripts/core/veilleurs_enemy_synergy_runtime.gd")
+const SurrenderAfterlife := preload("res://scripts/core/veilleurs_surrender_afterlife_runtime.gd")
 
 var templates: Array = []
 var depth_rules: Array = []
@@ -133,6 +134,9 @@ func generate(act_id: String, depth: int, seed: int, memory_candidates: Array = 
     var memory_result := inject_memory(actors, memory_candidates)
     var memory_actors: Array = memory_result.get("actors", actors)
     actors = memory_actors
+    var social_result := SurrenderAfterlife.prepare_encounter(actors, act_id, seed ^ (depth * 19349663))
+    var social_actors: Array = social_result.get("actors", actors)
+    actors = social_actors
     var synergy_result: Dictionary = synergy_runtime.call("evaluate", actors, act_id)
     _register_template(str(selected.get("template_id", "")))
     return {
@@ -147,6 +151,11 @@ func generate(act_id: String, depth: int, seed: int, memory_candidates: Array = 
         "actor_count": actors.size(),
         "memory_injected": int(memory_result.get("injected", 0)),
         "nemesis_injected": int(memory_result.get("nemesis_injected", 0)),
+        "surrender_survivor_projected": bool(social_result.get("survivor_projected", false)),
+        "surrender_survivor": (social_result.get("survivor_projection", {}) as Dictionary).duplicate(true),
+        "resentful_return_injected": bool(social_result.get("hostile_return_injected", false)),
+        "family_reputation_effects": (social_result.get("family_reputation_effects", []) as Array).duplicate(true),
+        "family_reputation_effect_count": int(social_result.get("family_effect_count", 0)),
         "active_synergies": synergy_result.get("active", []),
         "synergy_count": int(synergy_result.get("active_count", 0)),
         "hidden_synergy_stat_bonus": bool(synergy_result.get("hidden_stat_bonus", true)),
