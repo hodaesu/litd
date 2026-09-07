@@ -2,138 +2,95 @@
 
 ## Objectif
 
-Ce jalon fixe la frontière entre ce qui peut être préparé, contrôlé et sécurisé automatiquement dans le dépôt et ce qui nécessite réellement un poste de travail ou un appareil physique.
-
-La règle est volontairement stricte : **une tâche n'est reportée au PC que si sa qualité dépend du matériel, du rendu réel, d'un SDK/signature externe ou d'un jugement visuel/auditif impossible en headless**.
-
-## Ce qui est verrouillé avant PC
+Ce jalon sépare ce qui peut être contrôlé automatiquement dans le dépôt de ce qui exige réellement un PC ou un appareil physique.
 
 Le contrat machine est `data/veilleurs/pre_pc_gate.json` et son audit est `tools/qa/veilleurs_pre_pc_audit.py`.
 
-Le gate pré-PC contrôle automatiquement :
+## Ce qui est verrouillé automatiquement
 
-- Godot 4.3 comme version projet ;
-- présence des fichiers de production essentiels ;
-- activation par défaut de l'addon `Veilleurs Production Pipeline` ;
-- roster canonique des quatre Veilleurs : Nayra, Tarek, Aïsha et Idris ;
-- absence du quatuor runtime obsolète Sahen/Mira/Narem/Ysra hors tests négatifs ou contrats historiques explicitement autorisés ;
-- contrat des six donjons v0.9 ;
-- contrat QA v0.9 ;
-- définition des 12 ultimes et de leurs cinq slots d'assets obligatoires ;
-- cibles de validation téléphone, tablette, desktop, contrôleur et mouvement réduit pour les ultimes ;
-- presets d'export Web, Windows, Android, iOS et Linux ;
-- smoke tactique v0.6 ;
-- smoke de production v0.7 ;
-- smoke Wave 2 v0.8 ;
-- smoke Wave 3 v0.9 ;
-- instanciation de la QA des six donjons ;
+Le gate pré-PC contrôle notamment :
+
+- famille moteur **Godot 4.7.x** pour le projet ;
+- CI Godot épinglée sur **4.7.2** ;
+- fichiers de production essentiels ;
+- addon `Veilleurs Production Pipeline` ;
+- quatuor canonique Nayra, Tarek, Aïsha et Idris ;
+- absence du quatuor obsolète Sahen/Mira/Narem/Ysra hors tests négatifs et exceptions historiques autorisées ;
+- six donjons de production ;
+- contrats QA v0.6 → v0.9 ;
+- 12 ultimes et leurs slots de production ;
+- presets Web, Windows, Android, iOS et Linux ;
+- import Godot strict ;
+- smokes v0.6, v0.7, v0.8 et v0.9 ;
+- QA six donjons ;
 - régression tactile logique ;
 - parcours UI joueur ;
-- préflight PC dédié aux Veilleurs ;
-- intégration de l'audit dans le pipeline de production ;
-- séparation explicite des validations automatiques et matérielles.
+- sauvegarde/reprise et Rémanence selon les gates associés ;
+- séparation des validations automatiques et matérielles.
 
-Les références à l'ancien quatuor ne sont tolérées que lorsqu'elles ont une fonction explicite : vérifier qu'il ne peut pas réentrer dans le runtime actuel, ou préserver un contrat historique gelé. Elles ne sont jamais autorisées comme sélection ou combattant actif de la production courante.
+Les références à l’ancien quatuor ne sont tolérées que lorsqu’elles servent explicitement de garde négative ou de trace historique gelée. Elles ne sont jamais autorisées comme combattants actifs.
 
-## Pipeline automatique
+## Pipeline
 
 Toute production Veilleurs suit :
 
 `source canonique -> données/assets -> intégration Godot -> contrat -> smoke -> rapport -> PR -> fusion`
 
-Le mode `quick` couvre la validation quotidienne. Le mode `changed` cible une PR. Le mode `full` appelle la suite de régression historique complète.
+- `quick` : validation quotidienne ;
+- `changed` : validation ciblée d’une PR ;
+- `full` : régression historique complète.
 
-Le rapport du verrou pré-PC est écrit dans :
+Rapports :
 
-`build/automation/veilleurs_pre_pc_status.json`
+- `build/automation/veilleurs_pre_pc_status.json` ;
+- `build/automation/veilleurs_pipeline_report.json` ;
+- `build/automation/veilleurs_repository_integrity.json`.
 
-Le rapport général reste :
+## Ce qui exige encore du matériel réel
 
-`build/automation/veilleurs_pipeline_report.json`
+Les contrôles headless ne remplacent pas :
 
-## Handoff des ultimes avant production d'assets finaux
-
-Les 12 ultimes sont déjà décrits comme contrats de production. Chaque ultime doit conserver :
-
-- sa mécanique ;
-- ses conditions et garde-fous ;
-- sa chorégraphie en beats ;
-- un slot animation ;
-- un slot caméra ;
-- un slot audio ;
-- un slot haptique ;
-- un slot VFX ;
-- une variante ou vérification mouvement réduit ;
-- une validation de lisibilité téléphone/tablette/desktop.
-
-Le verrou pré-PC vérifie ces obligations sans prétendre que les assets artistiques finaux existent déjà. Leur réalisation et leur jugement final appartiennent au handoff matériel/artistique.
-
-## Ce qui doit attendre un PC ou un appareil réel
-
-### Tactile réel
-
-Le smoke vérifie les événements et les tailles/cibles logiques. Le confort d'un pouce, la friction des gestes, les erreurs involontaires et l'accessibilité réelle doivent être essayés sur téléphone/tablette.
-
-### Safe areas
-
-Les contraintes logiques peuvent être prévues, mais encoche, Dynamic Island, barres système et variations réelles doivent être vues sur plusieurs appareils.
-
-### Haptique
-
-Les événements et intensités demandées peuvent être contractuels. Leur sensation et leur différenciation doivent être validées physiquement.
-
-### Performance et thermique
-
-La CI peut détecter des erreurs et certains budgets. FPS réel, chauffe, mémoire, consommation et throttling demandent les appareils cibles.
-
-### Qualité visuelle finale
-
-La CI ne peut pas décider si un HUD est trop petit, un contraste trop faible, un VFX trop envahissant ou une animation assez lisible sur un écran réel.
-
-### Contrôleur physique
-
-Le focus et les actions peuvent être simulés ; la sensation, les conflits de mapping et les périphériques réels doivent être vérifiés sur matériel.
-
-### Audio réel
-
-Le runtime et les fichiers peuvent être testés automatiquement. Mixage, intelligibilité, dynamique et fatigue doivent être contrôlés sur haut-parleurs et casque.
-
-### Build iOS signé
-
-Le preset iOS peut être verrouillé dans le dépôt. L'installation finale sur iPhone dépend de l'environnement Apple approprié, de Xcode et de la signature.
+- confort tactile réel sur iPhone/Android ;
+- safe areas, encoche et Dynamic Island ;
+- haptique ;
+- FPS, mémoire, chauffe et throttling ;
+- qualité visuelle et lisibilité finales ;
+- contrôleur physique ;
+- mixage sur haut-parleurs/casque ;
+- build iOS signé et installé sur iPhone.
 
 ## Première ouverture sur PC
 
-Pour **Les Veilleurs**, le préflight général de LITD Universe n'est pas requis. La première session technique ne demande que :
+Prérequis pour Les Veilleurs :
 
 - Git ;
 - Python 3 ;
-- Godot 4.3.
+- **Godot 4.7.x**.
 
-Un lanceur dédié est préparé :
+Le lanceur Windows est :
 
 `tools/workstation/LITD_VEILLEURS_PC_PREPARE.cmd`
 
-Il exécute `tools/workstation/veilleurs_pc_preflight.py --run-tests`, vérifie le verrou pré-PC puis lance le pipeline rapide avec le Godot installé. Son rapport est écrit dans :
+Équivalent direct :
+
+```bash
+python tools/workstation/veilleurs_pc_preflight.py --run-tests
+```
+
+Le rapport est écrit dans :
 
 `local/reports/veilleurs_pc_preflight.json`
 
-Blender, Reaper, MuseScore, Visual Studio et Unreal Engine ne sont **pas requis pour cette première session des Veilleurs**.
-
-L'addon de production est déjà activé dans `project.godot`. Il ne doit donc plus être nécessaire de l'activer manuellement dans les réglages du projet.
+Blender, Reaper, MuseScore, Visual Studio et Unreal Engine ne sont pas requis pour cette première session.
 
 Après un préflight vert :
 
-1. ouvrir le projet avec Godot 4.3 ;
-2. laisser l'import terminer ;
+1. ouvrir `project.godot` avec Godot 4.7.x ;
+2. laisser l’import terminer ;
 3. lancer **Veilleurs QA** ;
 4. pour un jalon, lancer **Veilleurs QA complète** ;
-5. passer ensuite seulement aux validations physiques listées ci-dessus.
-
-Si le gate automatique est vert, aucune phase de conception ou de recopie de données ne doit être réintroduite pendant cette étape.
+5. poursuivre avec les validations visuelles, tactiles, audio et performance sur matériel réel.
 
 ## Définition de « prêt pour PC »
 
-**Prêt pour PC** signifie : tous les contrôles automatisables passent, les contrats de production sont cohérents et les seuls éléments restant ouverts exigent un rendu, un appareil, un périphérique, un SDK/signature ou un jugement sensoriel réel.
-
-Cela ne signifie pas « jeu terminé ». Cela signifie que le travail restant n'est plus reporté au PC par commodité : il y est envoyé parce qu'il a réellement besoin du PC ou du matériel cible.
+**Prêt pour PC** signifie que les contrôles automatisables sont cohérents et que les éléments encore ouverts exigent réellement un rendu, un périphérique, un SDK/signature ou un jugement sensoriel. Cela ne signifie pas que le jeu est terminé.
