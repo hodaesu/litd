@@ -23,37 +23,37 @@ func _run() -> void:
     var balance: Dictionary = runtime.content_db.combat_constants.get("v061_balance", {})
     _check(int((runtime.combatants["ENT_ENEMY_GOULE_AFFAMEE"] as Dictionary).get("weapon_power", 0)) == int(balance.get("enemy_weapon_power", 42)), "runtime v2 consumes authored balance reference")
 
-    _check(runtime.grid.move("ENT_WATCHER_NAYRA", Vector2i(1, 1)), "Nayra moves for skill smoke")
-    _check(runtime.grid.move("ENT_ENEMY_GOULE_AFFAMEE", Vector2i(2, 1)), "Ghoul moves to Nayra")
-    var impact := runtime.resolve_skill("ENT_WATCHER_NAYRA", "ENT_ENEMY_GOULE_AFFAMEE", "NA-BRI-01", "torso", 1)
-    _check(bool(impact.get("hit", false)) and str(impact.get("status_applied", "")) == "STAGGER", "Nayra Brisure impact causes real STAGGER")
+    _check(runtime.grid.move("ENT_WATCHER_SAHEN", Vector2i(1, 1)), "Sahen moves for skill smoke")
+    _check(runtime.grid.move("ENT_ENEMY_GOULE_AFFAMEE", Vector2i(2, 1)), "Ghoul moves to Sahen")
+    var impact := runtime.resolve_skill("ENT_WATCHER_SAHEN", "ENT_ENEMY_GOULE_AFFAMEE", "SK_SAHEN_BRISEUR_LIGNES_01", "torso", 1)
+    _check(bool(impact.get("hit", false)) and str(impact.get("status_applied", "")) == "STAGGER", "Sahen Briseur de lignes impact causes real STAGGER")
 
-    var guard := runtime.resolve_skill("ENT_WATCHER_NAYRA", "ENT_WATCHER_NAYRA", "NA-BAS-01", "torso", 1)
-    _check(int(guard.get("guard_delta", 0)) > 0 and int((runtime.combatants["ENT_WATCHER_NAYRA"] as Dictionary).get("guard_bonus", 0)) > 0, "Nayra Bastion guard changes combat state")
+    var guard := runtime.resolve_skill("ENT_WATCHER_SAHEN", "ENT_WATCHER_SAHEN", "SK_SAHEN_GARDIEN_MARTIAL_01", "torso", 1)
+    _check(int(guard.get("guard_delta", 0)) > 0 and int((runtime.combatants["ENT_WATCHER_SAHEN"] as Dictionary).get("guard_bonus", 0)) > 0, "Sahen Gardien martial changes combat state")
 
-    var observe := runtime.resolve_skill("ENT_WATCHER_TAREK", "ENT_ENEMY_ECORCHEUSE", "TA-TRA-01", "head", 1)
-    _check(int(observe.get("knowledge_reveal", 0)) >= 1 and (runtime.combatants["ENT_ENEMY_ECORCHEUSE"] as Dictionary).has("observed_by"), "Tarek Traque persists tactical knowledge")
+    var observe := runtime.resolve_skill("ENT_WATCHER_MIRA", "ENT_ENEMY_ECORCHEUSE", "SK_MIRA_OEIL_VEILLEUR_01", "head", 1)
+    _check(int(observe.get("knowledge_reveal", 0)) >= 1 and (runtime.combatants["ENT_ENEMY_ECORCHEUSE"] as Dictionary).has("observed_by"), "Mira Œil du Veilleur persists tactical knowledge")
 
-    var psych := runtime.resolve_skill("ENT_WATCHER_IDRIS", "ENT_ENEMY_FOUISSEUSE", "ID-DIS-01", "head", 1)
-    _check(int(psych.get("resolve_delta", 0)) < 0 and str(psych.get("status_applied", "")) == "DOUBT", "Idris Dissidence pressures resolve")
+    var psych := runtime.resolve_skill("ENT_WATCHER_YSRA", "ENT_ENEMY_FOUISSEUSE", "SK_YSRA_PAROLE_BRISE_01", "head", 1)
+    _check(int(psych.get("resolve_delta", 0)) < 0 and str(psych.get("status_applied", "")) == "DOUBT", "Ysra Parole qui brise pressures resolve")
 
-    var passive := runtime.resolve_skill("ENT_WATCHER_TAREK", "ENT_WATCHER_TAREK", "TA-TRA-03", "torso", 1)
+    var passive := runtime.resolve_skill("ENT_WATCHER_MIRA", "ENT_WATCHER_MIRA", "SK_MIRA_OEIL_VEILLEUR_02", "torso", 1)
     _check((passive.get("passive_effect", {}) as Dictionary).get("profile", "") == "observe", "canonical passive skill exposes a mechanical payload")
 
     var enemy_row: Dictionary = runtime.combatants["ENT_ENEMY_ECORCHEUSE"]
     enemy_row["remanence_stage"] = "veteran"
     enemy_row["adaptations"] = ["pressure_wounded"]
     runtime.combatants["ENT_ENEMY_ECORCHEUSE"] = enemy_row
-    var nayra_row: Dictionary = runtime.combatants["ENT_WATCHER_NAYRA"]
-    nayra_row["hp"] = 20
-    runtime.combatants["ENT_WATCHER_NAYRA"] = nayra_row
+    var sahen_row: Dictionary = runtime.combatants["ENT_WATCHER_SAHEN"]
+    sahen_row["hp"] = 20
+    runtime.combatants["ENT_WATCHER_SAHEN"] = sahen_row
     _check(runtime.grid.move("ENT_ENEMY_ECORCHEUSE", Vector2i(1, 0)), "Ecorcheuse moves into attack range for memory-aware AI test")
     var ai_decision: Dictionary = runtime.enemy_ai.decide(runtime, "ENT_ENEMY_ECORCHEUSE")
-    _check(str(ai_decision.get("target", "")) == "ENT_WATCHER_NAYRA" and bool(ai_decision.get("memory_used", false)), "AI v3 uses veteran memory against wounded Nayra")
+    _check(str(ai_decision.get("target", "")) == "ENT_WATCHER_SAHEN" and bool(ai_decision.get("memory_used", false)), "AI v3 uses veteran memory against wounded Sahen")
     _check(str(ai_decision.get("zone", "")) in ["head", "torso", "left_arm", "right_arm", "left_leg", "right_leg"], "AI v3 selects a body zone")
 
     runtime.next_round()
-    _check(not ((runtime.combatants["ENT_WATCHER_NAYRA"] as Dictionary).get("statuses", {}) as Dictionary).has("GUARDED"), "round decay removes one-turn guard state")
+    _check(not ((runtime.combatants["ENT_WATCHER_SAHEN"] as Dictionary).get("statuses", {}) as Dictionary).has("GUARDED"), "round decay removes one-turn guard state")
 
     var encounter_director: VeilleursEncounterDirector = ENCOUNTER_DIRECTOR_SCRIPT.new() as VeilleursEncounterDirector
     var encounter := encounter_director.next_encounter("GOULES", "LOW", 1, 76101)
@@ -92,7 +92,7 @@ func _run() -> void:
     _check(authored_session.runtime.alive_ids("enemy").size() == ((pending.get("encounter", {}) as Dictionary).get("composition", []) as Array).size(), "authored Khar-Sen session spawns full composition")
     var aftermath := authored_session.watcher_aftermath()
     _check(aftermath.size() == 4, "combat captures four-Watcher aftermath")
-    _check(aftermath.has("ENT_WATCHER_NAYRA") and aftermath.has("ENT_WATCHER_TAREK") and aftermath.has("ENT_WATCHER_AISHA") and aftermath.has("ENT_WATCHER_IDRIS"), "aftermath is keyed by canonical quartet")
+    _check(aftermath.has("ENT_WATCHER_SAHEN") and aftermath.has("ENT_WATCHER_MIRA") and aftermath.has("ENT_WATCHER_NAREM") and aftermath.has("ENT_WATCHER_YSRA"), "aftermath is keyed by canonical quartet")
     var flow_summary := authored_session.finish("retreat")
     _check(flow.finish_combat("retreat", flow_summary, authored_session.runtime.serialize(), aftermath), "combat writes Khar-Sen result handoff")
     authored_session.queue_free()
