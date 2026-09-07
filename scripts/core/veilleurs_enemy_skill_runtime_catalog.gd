@@ -101,7 +101,7 @@ func _decode_act(act_entry: Dictionary, errors: Array[String]) -> Array[Dictiona
         return result
     var compressed := Marshalls.base64_to_raw(encoded)
     var expected_bytes := int(cache.get("uncompressed_bytes", 0))
-    var raw := compressed.decompress(expected_bytes, FileAccess.COMPRESSION_DEFLATE)
+    var raw := compressed.decompress_dynamic(-1, FileAccess.COMPRESSION_DEFLATE)
     if raw.is_empty():
         errors.append("decompress_failed:%d" % act)
         return result
@@ -122,8 +122,9 @@ func _decode_act(act_entry: Dictionary, errors: Array[String]) -> Array[Dictiona
     if schema.size() != FIELD_NAMES.size():
         errors.append("schema_size:%d" % act)
         return result
+    var expected_schema := ["rid", "sid", "entity", "tree", "name", "type", "node_role", "positions", "power", "precision", "tags"]
     for index: int in range(FIELD_NAMES.size()):
-        if str(schema[index]) != str(["rid", "sid", "entity", "tree", "name", "type", "node_role", "positions", "power", "precision", "tags"][index]):
+        if str(schema[index]) != str(expected_schema[index]):
             errors.append("schema_field:%d:%d" % [act, index])
             return result
     var rows: Array = source.get("records", [])
