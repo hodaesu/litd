@@ -13,6 +13,20 @@ DOCTRINES = V08 / "enemy_doctrines_24.json"
 PROFILE_FILE = V07 / "enemy_skill_profiles.json"
 ROADMAP_FILE = V07 / "dungeon_roadmap.json"
 ENEMIES_FILE = V06 / "enemies_24_definitions.json"
+WATCHERS_FILE = V06 / "watchers.json"
+
+CANONICAL_WATCHERS = {
+    "ENT_WATCHER_NAYRA",
+    "ENT_WATCHER_TAREK",
+    "ENT_WATCHER_AISHA",
+    "ENT_WATCHER_IDRIS",
+}
+OBSOLETE_WATCHERS = {
+    "ENT_WATCHER_SAHEN",
+    "ENT_WATCHER_MIRA",
+    "ENT_WATCHER_NAREM",
+    "ENT_WATCHER_YSRA",
+}
 
 REQUIRED_RUNTIME_FILES = [
     ROOT / "scripts" / "core" / "veilleurs_enemy_doctrine_runtime.gd",
@@ -31,7 +45,7 @@ def load(path: Path):
 
 def main() -> int:
     errors: list[str] = []
-    for path in [DOCTRINES, PROFILE_FILE, ROADMAP_FILE, ENEMIES_FILE]:
+    for path in [DOCTRINES, PROFILE_FILE, ROADMAP_FILE, ENEMIES_FILE, WATCHERS_FILE]:
         if not path.is_file():
             errors.append(f"missing:{path.relative_to(ROOT)}")
     for path in REQUIRED_RUNTIME_FILES:
@@ -46,9 +60,15 @@ def main() -> int:
     profiles = load(PROFILE_FILE).get("profiles", {})
     roadmap = load(ROADMAP_FILE)
     enemy_rows = load(ENEMIES_FILE).get("enemies", [])
+    watcher_rows = load(WATCHERS_FILE).get("watchers", [])
     enemy_ids = {str(row.get("entity_id", "")) for row in enemy_rows}
+    watcher_ids = {str(row.get("entity_id", "")) for row in watcher_rows}
     doctrine_rows = doctrines.get("enemies", {})
 
+    if watcher_ids != CANONICAL_WATCHERS:
+        errors.append(f"watcher_quartet:{sorted(watcher_ids)}")
+    if watcher_ids & OBSOLETE_WATCHERS:
+        errors.append(f"obsolete_watcher_data:{sorted(watcher_ids & OBSOLETE_WATCHERS)}")
     if doctrines.get("schema_version") != "0.8.0":
         errors.append("schema_version")
     if len(enemy_ids) != 24:
@@ -88,9 +108,8 @@ def main() -> int:
     if roadmap.get("production_order") != ids:
         errors.append("production_order")
 
-    obsolete_tokens = ["ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"]
     active_wave2_text = "\n".join(path.read_text(encoding="utf-8") for path in REQUIRED_RUNTIME_FILES)
-    for token in obsolete_tokens:
+    for token in OBSOLETE_WATCHERS:
         if token in active_wave2_text:
             errors.append(f"obsolete_watcher_in_wave2:{token}")
 
@@ -101,7 +120,7 @@ def main() -> int:
         return 1
     print(
         "VEILLEURS_V08_WAVE2_AUDIT_OK: "
-        f"enemies={len(enemy_ids)} doctrines={len(doctrine_rows)} "
+        f"watchers={len(watcher_ids)} enemies={len(enemy_ids)} doctrines={len(doctrine_rows)} "
         f"profiles={len(used_profiles)} dungeons={len(ids)} runtimes={len(REQUIRED_RUNTIME_FILES)}"
     )
     return 0
