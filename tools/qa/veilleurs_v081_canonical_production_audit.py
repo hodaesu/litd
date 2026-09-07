@@ -14,7 +14,7 @@ CANONICAL = {
     "ENT_WATCHER_IDRIS": "Idris Vael",
 }
 OBSOLETE = ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]
-ACTIVE_FILES = [
+ACTIVE_RUNTIME_FILES = [
     V06 / "watchers.json",
     V06 / "starter_loadouts_watchers.json",
     V06 / "watcher_tree_catalog.json",
@@ -23,8 +23,6 @@ ACTIVE_FILES = [
     ROOT / "scripts" / "core" / "veilleurs_content_db_v081_canonical.gd",
     ROOT / "scripts" / "core" / "veilleurs_content_db_v07_runtime.gd",
     ROOT / "scripts" / "core" / "veilleurs_campaign_runtime_v07.gd",
-    ROOT / "scripts" / "core" / "veilleurs_v07_production_smoke_test.gd",
-    ROOT / "scripts" / "core" / "veilleurs_v08_wave2_smoke_test_round2.gd",
     V08 / "canonical_watcher_ultimates_12.json",
 ]
 
@@ -69,7 +67,7 @@ def main() -> int:
         if len(values) != 3 or sorted(int(v.get("tree_slot", 0)) for v in values) != [1,2,3]:
             errors.append(f"ultimate_partition:{entity_id}")
 
-    for path in ACTIVE_FILES:
+    for path in ACTIVE_RUNTIME_FILES:
         if not path.is_file():
             errors.append(f"missing_active_file:{path.relative_to(ROOT)}")
             continue
@@ -79,14 +77,20 @@ def main() -> int:
                 errors.append(f"obsolete_active_token:{path.relative_to(ROOT)}:{token}")
 
     ultimate_runtime = (ROOT / "scripts" / "core" / "veilleurs_ultimate_runtime.gd").read_text(encoding="utf-8")
-    if 'reason":"ultimate_resolver_required"' not in ultimate_runtime.replace(" ", ""):
+    compact = ultimate_runtime.replace(" ", "")
+    if 'reason":"ultimate_resolver_required"' not in compact:
         errors.append("generic_ultimate_guard_missing")
-    if 'charge_spent":false' not in ultimate_runtime.replace(" ", ""):
+    if 'charge_spent":false' not in compact:
         errors.append("generic_ultimate_charge_guard_missing")
 
     overlay = (ROOT / "scripts" / "core" / "veilleurs_content_db_v081_canonical.gd").read_text(encoding="utf-8")
     if 'begins_with("ENT_WATCHER_")' not in overlay or "canonical_watcher_ultimates_12.json" not in overlay:
         errors.append("production_overlay_contract")
+
+    campaign = (ROOT / "scripts" / "core" / "veilleurs_campaign_runtime_v07.gd").read_text(encoding="utf-8")
+    for entity_id in CANONICAL:
+        if entity_id not in campaign:
+            errors.append(f"campaign_missing:{entity_id}")
 
     if errors:
         for error in errors:
