@@ -39,10 +39,10 @@ jobs:
         run: python tools/qa/veilleurs_v06_tests48.py
 
   godot-wave2:
-    name: Godot 4.3 Wave 2 smoke
+    name: Godot 4.7 Wave 2 smoke
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.3
+      image: barichello/godot-ci:4.7.2
     steps:
       - uses: actions/checkout@v4
       - name: Strict Godot import
