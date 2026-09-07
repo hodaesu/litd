@@ -1,5 +1,7 @@
 extends Node
 
+const SurrenderAfterlife := preload("res://scripts/core/veilleurs_surrender_afterlife_runtime.gd")
+
 var layer: CanvasLayer
 var launch_button: Button
 var panel: PanelContainer
@@ -140,7 +142,9 @@ func chain_snapshot() -> Array[Dictionary]:
             "successor_id": successor_id,
             "region_id": str(predecessor.get("region_id", successor.get("region_id", ""))),
             "allied_reputation": int(predecessor.get("allied_reputation", 50)),
-            "surrender_decisions": (predecessor.get("surrender_decisions", []) as Array).duplicate(true)
+            "surrender_decisions": (predecessor.get("surrender_decisions", []) as Array).duplicate(true),
+            "family_reputation_ledger": (predecessor.get("family_reputation_ledger", {}) as Dictionary).duplicate(true),
+            "family_testimonies": (predecessor.get("family_testimonies", []) as Array).duplicate(true)
         })
     result.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
         return int((left.get("predecessor", {}) as Dictionary).get("recruited_run", 0)) > int((right.get("predecessor", {}) as Dictionary).get("recruited_run", 0))
@@ -167,6 +171,26 @@ func _on_selected(index: int) -> void:
         lines.append("Aucun successeur Némésis actif relié pour le moment.")
     else:
         lines.append("%s · stade %s · statut %s · score %d" % [str(successor.get("name", "Successeur")), str(successor.get("stage", "nemesis")), str(successor.get("status", "active")), int(successor.get("score", 0))])
+
+    lines.append("")
+    lines.append("MÉMOIRE DE FAMILLE")
+    var ledger: Dictionary = chain.get("family_reputation_ledger", {})
+    if ledger.is_empty():
+        lines.append("Aucun témoignage collectif n'a encore circulé dans une famille.")
+    else:
+        var families: Array[String] = []
+        for family_value: Variant in ledger.keys():
+            families.append(str(family_value))
+        families.sort()
+        for family_id: String in families:
+            var family_state := SurrenderAfterlife.family_reputation_state(family_id)
+            lines.append("• %s · réputation %d/100 · %s · %d témoignages" % [
+                family_id,
+                int(family_state.get("score", 50)),
+                str(family_state.get("attitude", "wary")),
+                int(family_state.get("testimony_count", 0))
+            ])
+
     lines.append("")
     lines.append("DÉCISIONS DE REDDITION")
     var decisions: Array = chain.get("surrender_decisions", [])
@@ -187,6 +211,31 @@ func _on_selected(index: int) -> void:
                 int(relation.get("fear", 0)),
                 int(relation.get("resentment", 0))
             ])
+
     lines.append("")
-    lines.append("La chaîne reste historique : recruter le prédécesseur ne supprime ni ses actes passés ni le successeur qui émerge ensuite.")
+    lines.append("SURVIVANTS ET RETOURS")
+    var survivor_count := 0
+    for decision_value: Variant in decisions:
+        if not (decision_value is Dictionary):
+            continue
+        var decision: Dictionary = decision_value
+        var entity_id := str(decision.get("target_entity_id", ""))
+        var survivor := RemanenceRuntime.entity_state(entity_id)
+        if survivor.is_empty():
+            continue
+        survivor_count += 1
+        var current_role := SurrenderAfterlife.role_for_entity(entity_id)
+        var role_history: Array = survivor.get("future_role_history", [])
+        lines.append("• %s · %s · rôle actuel %s · retours %d · retour possible dès run %d" % [
+            str(survivor.get("name", "Survivant")),
+            str(survivor.get("surrender_outcome", "inconnu")),
+            current_role,
+            role_history.size(),
+            int(survivor.get("return_eligible_run", -1))
+        ])
+    if survivor_count == 0:
+        lines.append("Aucun individu issu d'une reddition n'a encore de trajectoire future enregistrée.")
+
+    lines.append("")
+    lines.append("La chaîne reste historique : recruter le prédécesseur ne supprime ni ses actes passés, ni les témoins qu'il a laissés dans sa famille, ni le successeur qui émerge ensuite.")
     detail.text = "\n".join(lines)
