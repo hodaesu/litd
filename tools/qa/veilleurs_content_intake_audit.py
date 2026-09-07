@@ -81,6 +81,15 @@ def main() -> int:
             errors.append(f"no tests planned for {content_type}")
         if not order.get("validation", {}).get("required_gates"):
             errors.append(f"no gates planned for {content_type}")
+        planned_files = order.get("planned_files", [])
+        if not planned_files:
+            errors.append(f"no concrete integration files planned for {content_type}")
+        for row in planned_files:
+            path = str(row.get("path", ""))
+            if not path or "{" in path or "}" in path or ".." in Path(path).parts:
+                errors.append(f"unsafe or unresolved planned path for {content_type}: {path}")
+            if row.get("status") != "pending" or not row.get("action"):
+                errors.append(f"planned file state/action invalid for {content_type}: {row}")
 
     generic = previews.get("generic", {})
     if generic.get("constraints", {}).get("cannot_canonicalize") is not True:
@@ -143,7 +152,7 @@ def main() -> int:
         return 1
 
     print("VEILLEURS_CONTENT_INTAKE_AUDIT_OK")
-    print("7 types; deterministic IDs; canonical collision and reservation guards verified.")
+    print("7 types; deterministic IDs; planned files; collision and reservation guards verified.")
     return 0
 
 
