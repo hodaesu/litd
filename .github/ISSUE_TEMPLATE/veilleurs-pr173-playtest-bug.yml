@@ -1,0 +1,142 @@
+name: "Les Veilleurs — Bug playtest PR #173"
+description: "Signaler un défaut trouvé avec le protocole VEILLEURS_PR173_PREMERGE_V1"
+title: "[VPR173] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Utiliser ce formulaire pour les défauts trouvés pendant le playtest pré-fusion de LITD : Les Veilleurs.
+        Un BLOCKER ou un MAJOR reproductible sur le cœur empêche la fusion de la PR #173 jusqu'au retest.
+
+  - type: input
+    id: bug_id
+    attributes:
+      label: ID VPR173
+      description: "Format VPR173-XXX"
+      placeholder: "VPR173-001"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Sévérité
+      options:
+        - BLOCKER
+        - MAJOR
+        - MINOR
+        - POLISH
+    validations:
+      required: true
+
+  - type: input
+    id: scenario
+    attributes:
+      label: Cas de matrice
+      description: "ID du cas dans premerge_playtest_matrix_v1.json"
+      placeholder: "KHAR-04"
+    validations:
+      required: true
+
+  - type: input
+    id: commit
+    attributes:
+      label: Commit testé
+      placeholder: "SHA complet ou court"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environnement
+      description: "OS, Godot, résolution, périphérique, CPU/GPU si pertinent"
+      placeholder: "Windows 11 / Godot 4.3 / 1920x1080 / manette Xbox"
+    validations:
+      required: true
+
+  - type: input
+    id: seed
+    attributes:
+      label: Seed
+      description: "606101 pour le parcours de référence Khar-Sen, ou seed réellement utilisée"
+      placeholder: "606101"
+    validations:
+      required: false
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Étapes de reproduction
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: observed
+    attributes:
+      label: Résultat observé
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Résultat attendu
+      description: "Reprendre si possible l'expected du cas de matrice."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: reproducibility
+    attributes:
+      label: Reproductibilité sur 3 essais
+      options:
+        - "3/3"
+        - "2/3"
+        - "1/3"
+        - "0/3 / non retesté"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: core_system
+    attributes:
+      label: Système cœur affecté ?
+      description: "Contrôles, Khar-Sen, save/load, blessures, Rémanence, recrutement/Refuge, boss."
+      options:
+        - "Oui"
+        - "Non"
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Preuves / pièces jointes
+      description: "Capture, vidéo, logs, snapshot QA, chemin de sauvegarde ou autre élément utile."
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / hypothèse facultative
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Vérifications
+      options:
+        - label: "Le scénario a été identifié dans la matrice."
+          required: true
+        - label: "Les étapes décrivent ce qui a réellement été fait, sans supposer la cause."
+          required: true
+        - label: "Si le défaut touche un état persistant, sauvegarde/chargement a été testé ou sera inclus au retest."
+          required: false
