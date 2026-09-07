@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "status": "art_preproduction_manifest",
   "runtime_wiring": "none",
   "source_playtest_pr": 173,
@@ -12,6 +12,7 @@
     "future_content_packets": "data/veilleurs/art/future_content_packets_v1.json",
     "concept_asset_briefs": "docs/art/VEILLEURS_CONCEPT_ASSET_BRIEFS_V1.md",
     "concept_shotlist": "data/veilleurs/art/concept_shotlist_v1.json",
+    "art_reference_presets": "data/veilleurs/art/art_reference_presets_v1.json",
     "guard_test": "tests/test_veilleurs_art_preproduction_v1.py"
   },
   "canonical_counts": {
@@ -21,7 +22,8 @@
     "boss_phases": 16,
     "acts": 5,
     "archive_knowledge_states": 5,
-    "concept_shots": 36
+    "concept_shots": 36,
+    "reference_presets": 10
   },
   "visual_contract": {
     "palette_family": ["ash_black", "brown", "worn_bronze", "deep_red", "amber", "bone_light"],
@@ -32,6 +34,13 @@
     "required_long_press": false,
     "controller_pointer_dependency": false,
     "desktop_is_stretched_mobile": false
+  },
+  "reference_policy": {
+    "source_library": "data/art_reference_library.json",
+    "minimum_sources_per_creation": 3,
+    "abstract_principles_only": true,
+    "rights_recheck_before_export": true,
+    "copy_trace_signature_imitation_forbidden": true
   },
   "deferred_until_pc_playtest": [
     "final_telegraph_scale",
@@ -47,6 +56,7 @@
     "no_pr_180_dependency": true,
     "art_can_be_reviewed_before_pc_playtest": true,
     "playtest_sensitive_values_must_remain_deferred": true,
-    "shotlist_must_remain_preproduction_only": true
+    "shotlist_must_remain_preproduction_only": true,
+    "reference_presets_must_resolve_to_source_library": true
   }
 }
