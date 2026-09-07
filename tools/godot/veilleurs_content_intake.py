@@ -61,6 +61,8 @@ def derive_id(content_type: str, display_name: str, contract: dict[str, Any], ex
     candidate = explicit_id.strip().upper() if explicit_id else prefix + canonical_token(display_name)
     if not ID_RE.fullmatch(candidate):
         raise ValueError(f"invalid canonical id: {candidate}")
+    if len(candidate) > 100:
+        raise ValueError("canonical id exceeds 100 characters")
     if not candidate.startswith(prefix):
         raise ValueError(f"canonical id for {content_type} must start with {prefix}")
     if candidate == prefix.rstrip("_") or candidate == prefix:
@@ -80,11 +82,7 @@ def safe_work_order_path(canonical_id: str, work_order_root: Path = DEFAULT_WORK
 
 def render_planned_files(spec: dict[str, Any], slug: str, canonical_id: str) -> list[dict[str, str]]:
     result: list[dict[str, str]] = []
-    values = {
-        "slug": slug,
-        "canonical_id": canonical_id,
-        "canonical_id_lower": canonical_id.lower(),
-    }
+    values = {"slug": slug, "canonical_id": canonical_id, "canonical_id_lower": canonical_id.lower()}
     for row in spec.get("planned_files", []):
         path = str(row.get("path", ""))
         for key, value in values.items():
@@ -119,12 +117,13 @@ def _iter_scan_files(repository_root: Path = ROOT):
 
 def canonical_id_occurrences(canonical_id: str, repository_root: Path = ROOT) -> list[str]:
     hits: list[str] = []
+    exact_id = re.compile(rf"(?<![A-Z0-9_]){re.escape(canonical_id)}(?![A-Z0-9_])")
     for path in _iter_scan_files(repository_root):
         try:
             text = path.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
             continue
-        if canonical_id in text:
+        if exact_id.search(text):
             try:
                 hits.append(path.relative_to(repository_root).as_posix())
             except ValueError:
@@ -209,9 +208,12 @@ def reserve_work_order(order: dict[str, Any], work_order_root: Path = DEFAULT_WO
     canonical_id = str(order.get("canonical_id", ""))
     path = safe_work_order_path(canonical_id, work_order_root)
     path.parent.mkdir(parents=True, exist_ok=True)
-    if path.exists():
-        raise ValueError(f"work order already exists: {path}")
-    path.write_text(json.dumps(order, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    try:
+        with path.open("x", encoding="utf-8") as handle:
+            json.dump(order, handle, ensure_ascii=False, indent=2)
+            handle.write("\n")
+    except FileExistsError as exc:
+        raise ValueError(f"work order already exists: {path}") from exc
     return path
 
 
