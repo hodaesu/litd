@@ -1,0 +1,141 @@
+# LITD : Les Veilleurs — activation post-playtest v1
+
+## Statut
+
+Cette couche est **préparée mais inactive**. Elle appartient à la PR #180 en brouillon et ne doit pas modifier la version de playtest de la PR #173.
+
+Aucun fichier de cette couche n'est autoloadé. Aucun contrat actif du playtest ne doit les référencer avant validation PC.
+
+## 1. Feature flags
+
+Source : `data/veilleurs/parallel_content/post_playtest_feature_flags_v1.json`.
+
+Résolveur candidat : `VeilleursPostPlaytestFeatureFlagsCandidate`.
+
+Le flag maître est :
+
+`veilleurs.post_playtest.enabled`
+
+Il est `false` par défaut, comme tous ses enfants. Une sauvegarde, une migration ou une donnée de contenu ne peut pas l'activer. Un override n'est accepté que par un appel explicitement autorisé développeur.
+
+Ordre candidat :
+
+1. maître ;
+2. mémoire du Refuge ;
+3. projection Archives ;
+4. projection Rémanence ;
+5. réactions auxiliaires ;
+6. échos régionaux ;
+7. chaînes multi-actes.
+
+Les altérations d'expédition possèdent un flag séparé et ne doivent être activées qu'après observation d'équilibrage.
+
+## 2. Rollback
+
+Désactiver un feature flag ne supprime jamais l'histoire déjà écrite. Le service cesse de produire de nouveaux rappels/projections, mais les Archives, blessures, traces et historiques déjà validés restent dans leurs systèmes propriétaires.
+
+Rollback interdit : effacer une connaissance, réparer une blessure, supprimer une histoire de Rémanence ou reroll une file de souvenirs simplement parce qu'un flag change.
+
+## 3. Corpus de migrations
+
+`refuge_memory_migration_corpus_v1.json` contient 16 cas :
+
+- sauvegarde sans racine mémoire ;
+- payload v0/non versionné ;
+- v1 vide ;
+- file valide ;
+- entrée orpheline de file ;
+- entrée non QUEUED dans la file ;
+- souvenir SURFACED valide ;
+- référence SURFACED invalide ;
+- état mémoire invalide ;
+- enregistrement malformé isolé ;
+- RESOLVED non réouvert ;
+- EXPIRED non réouvert ;
+- schéma futur refusé ;
+- limite de surface ramenée au minimum sûr ;
+- cooldowns conservés ;
+- migration idempotente v0 → v1 → v1.
+
+Le smoke `veilleurs_refuge_memory_migration_corpus_candidate_smoke.tscn` exécute ce corpus dans Godot sans brancher le service au jeu.
+
+## 4. Variantes priorité / cooldown
+
+`refuge_memory_arbitration_variants_v1.json` contient six profils candidats :
+
+- conservateur ;
+- candidat actuel ;
+- relations prioritaires ;
+- Archives prioritaires ;
+- faible cooldown ;
+- conséquences fortes seulement.
+
+**Aucun profil n'est actif.**
+
+Le profil actuel sert seulement de référence comparative : 2 rappels maximum, cooldown source 2 expéditions, cooldown doux famille 1 expédition.
+
+Une comparaison doit conserver la même seed, le même build et le même snapshot de sauvegarde. Une seule famille de paramètres doit être modifiée à la fois sauf lorsqu'un profil nommé décrit explicitement la combinaison testée.
+
+Mesures principales : densité des rappels, répétitions source/famille, temps au Refuge, rappel de l'événement source, perception de hasard, rappel important manqué ou retardé.
+
+## 5. Projection Archives des huit chaînes multi-actes
+
+Source : `multi_act_archive_projection_v1.json`.
+
+Les huit chaînes sont couvertes exactement :
+
+1. versions concurrentes → Identité/Connaissance + Histoire ;
+2. référentiel de route → Traces + Histoire ;
+3. coordination sans voix → Combat + Histoire ;
+4. preuves corps/réseau → Corps + Histoire ;
+5. croissance et ruptures simultanées → Traces + Combat + Histoire ;
+6. lumière comme référentiel → Identité/Connaissance + Histoire + Traces ;
+7. contexte avant copie → Combat + Histoire ;
+8. histoire Rémanente partagée → Histoire + Traces + Combat.
+
+Chaque étape exige que son `write` source existe déjà. Une projection peut ajouter de l'histoire sans augmenter la connaissance. Tout passage vers CONFIRMED ou UNDERSTOOD exige de nouvelles preuves compatibles avec les règles Archives existantes.
+
+Interdits : vérité cachée, phase de boss non vue, spawn artificiel de Némésis, bonus statistique caché et mémoire partagée par espèce.
+
+## 6. Archives / Rémanence
+
+L'adaptateur candidat reste borné :
+
+- Archives : projection historique via `VeilleursContentRuntime.record_archive_hook()` ;
+- Rémanence : référence historique par défaut ;
+- transmission à `VeilleursRuntimeCoordinator.note_enemy_memory_event()` seulement pour un événement canonique vécu, avec preuve non vide et `evidence_verified=true`.
+
+Les rangs Mémoriel/Vétéran/Élite/Némésis restent la propriété de `VeilleursRemanencePolicy`.
+
+## 7. Ordre d'activation après playtest PC
+
+1. obtenir les résultats de la PR #173 ;
+2. décider si le système mémoire mérite activation ;
+3. activer uniquement le flag maître + mémoire du Refuge sur une branche de test ;
+4. exécuter les 16 migrations sur copies de sauvegardes ;
+5. tester un seul profil d'arbitrage ;
+6. activer projection Archives ;
+7. vérifier connaissance/incertitude ;
+8. activer projection Rémanence ;
+9. vérifier qu'aucune promotion artificielle n'est possible ;
+10. activer réactions auxiliaires ;
+11. activer une seule famille Refuge ;
+12. playtest ;
+13. seulement ensuite régional puis multi-actes.
+
+## 8. Gate
+
+Avant toute activation dans une branche jouable :
+
+- CI vert ;
+- Remanence Smoke vert ;
+- Tactical vert ;
+- Balance Telemetry vert ;
+- tous les flags `false` sur la branche de base ;
+- corpus migration vert ;
+- aucun autoload candidat ;
+- aucune référence depuis les contrats actifs ;
+- feedback PC documenté ;
+- rollback défini.
+
+La PR #180 reste en brouillon tant que ces conditions d'activation n'ont pas été décidées après le playtest.
