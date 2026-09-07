@@ -5,14 +5,21 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "veilleurs" / "v06"
-EXPECTED_WATCHERS = ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]
+CANON = ROOT / "data" / "veilleurs" / "skills"
+EXPECTED_WATCHERS = ["ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"]
+EXPECTED_NAMES = ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
+CANONICAL_FILES = ["nayra_orun.json", "tarek_senn.json", "aisha_maren.json", "idris_vael.json"]
 STATS = {"FOR", "TEC", "PRE", "MOB", "GAR", "RES", "PER", "VIG"}
 ZONES = {"head", "torso", "left_arm", "right_arm", "left_leg", "right_leg"}
-LEVELS = [1, 3, 5, 7, 9, 11, 13, 18, 21, 24, 28, 33, 38, 44, 50]
+LEVELS = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 35, 39, 44, 49]
 
 
 def load(name: str):
     return json.loads((DATA / name).read_text(encoding="utf-8"))
+
+
+def load_canon(name: str):
+    return json.loads((CANON / name).read_text(encoding="utf-8"))
 
 
 def main() -> int:
@@ -31,22 +38,23 @@ def main() -> int:
     test("01 watchers file", watchers_path.is_file())
     test("02 enemies file", enemies_path.is_file())
     test("03 combat constants file", constants_path.is_file())
-    test("04 tree catalog file", catalog_path.is_file())
+    test("04 canonical tree manifest file", catalog_path.is_file())
     test("05 starter loadouts file", loadouts_path.is_file())
 
     watchers_payload = load("watchers.json")
     enemies_payload = load("enemies_24_definitions.json")
     constants = load("combat_constants.json")
-    catalog = load("watcher_tree_catalog.json")
+    manifest = load("watcher_tree_catalog.json")
     loadouts = load("starter_loadouts_watchers.json")
-    test("06 all core JSON parsed", all(isinstance(x, dict) for x in [watchers_payload, enemies_payload, constants, catalog, loadouts]))
+    test("06 all core JSON parsed", all(isinstance(x, dict) for x in [watchers_payload, enemies_payload, constants, manifest, loadouts]))
 
     watchers = watchers_payload["watchers"]
     enemies = enemies_payload["enemies"]
     watcher_ids = [w["entity_id"] for w in watchers]
+    watcher_names = [w["name_fr"] for w in watchers]
     test("07 four Watchers", len(watchers) == 4)
     test("08 canonical Watcher IDs", watcher_ids == EXPECTED_WATCHERS)
-    test("09 Watcher names", all(w.get("name_fr") for w in watchers))
+    test("09 canonical Watcher names", watcher_names == EXPECTED_NAMES)
     test("10 eight Watcher stats", all(set(w.get("stats", {})) == STATS for w in watchers))
     test("11 six Watcher body zones", all(set(w.get("body_integrity", {})) == ZONES for w in watchers))
     test("12 three tree IDs per Watcher", all(len(w.get("tree_ids", [])) == 3 for w in watchers))
@@ -68,38 +76,46 @@ def main() -> int:
     memory = constants.get("memory_caps", {})
     test("24 bounded memory", memory.get("observations") == 8 and memory.get("events") == 6 and memory.get("relations") == 4)
 
-    trees = catalog["trees"]
-    test("25 12 Watcher trees", len(trees) == 12 and catalog.get("tree_count") == 12)
-    test("26 15 names per tree", all(len(t.get("names", [])) == 15 for t in trees))
-    test("27 15 activation modes per tree", all(len(t.get("activation", [])) == 15 for t in trees))
-    test("28 15 action types per tree", all(len(t.get("action", [])) == 15 for t in trees))
-    prefixes = [t.get("prefix") for t in trees]
-    test("29 unique tree prefixes", len(prefixes) == len(set(prefixes)))
-
+    canonical_payloads = [load_canon(name) for name in CANONICAL_FILES]
+    tree_rows: list[tuple[str, dict]] = []
     skill_ids: list[str] = []
-    skills_by_owner = {wid: 0 for wid in EXPECTED_WATCHERS}
-    for tree in trees:
-        prefix = tree["prefix"]
-        owner = tree["entity_id"]
-        for index in range(1, 16):
-            skill_ids.append(f"{prefix}_{index:02d}")
-            skills_by_owner[owner] += 1
-    test("30 unique generated skill IDs", len(skill_ids) == len(set(skill_ids)))
-    test("31 exactly 180 generated skills", len(skill_ids) == 180 and catalog.get("skill_count") == 180)
-    test("32 45 skills per Watcher", all(count == 45 for count in skills_by_owner.values()))
-    test("33 canonical unlock levels", catalog.get("unlock_levels") == LEVELS)
-    test("34 unlock levels strictly increase", all(a < b for a, b in zip(LEVELS, LEVELS[1:])))
-    test("35 level cap reached", LEVELS[-1] == 50)
-    test("36 first skill at level 1", LEVELS[0] == 1)
-    tree_owner_counts = {wid: sum(1 for t in trees if t.get("entity_id") == wid) for wid in EXPECTED_WATCHERS}
-    test("37 three catalog trees per Watcher", all(count == 3 for count in tree_owner_counts.values()))
-    test("38 two anatomy trees", sum(1 for t in trees if t.get("profile") == "anatomy") == 2)
-    test("39 three observation trees", sum(1 for t in trees if t.get("profile") == "observe") == 3)
-    test("40 two guard trees", sum(1 for t in trees if t.get("profile") == "guard") == 2)
+    skill_levels: list[int] = []
+    owner_counts: list[int] = []
+    for payload in canonical_payloads:
+        owner_count = 0
+        for tree_key in payload.get("tree_order", []):
+            tree = payload.get("trees", {}).get(tree_key, {})
+            tree_rows.append((tree_key, tree))
+            fields = payload.get("fields", [])
+            id_index = fields.index("ID")
+            level_index = fields.index("Niveau")
+            rows = tree.get("skills", [])
+            owner_count += len(rows)
+            for row in rows:
+                skill_ids.append(str(row[id_index]))
+                skill_levels.append(int(row[level_index]))
+        owner_counts.append(owner_count)
+    test("25 four canonical source files", len(canonical_payloads) == 4 and all((CANON / f).is_file() for f in CANONICAL_FILES))
+    test("26 twelve canonical trees", len(tree_rows) == 12 and manifest.get("tree_count") == 12)
+    test("27 fifteen skills per canonical tree", all(len(tree.get("skills", [])) == 15 for _, tree in tree_rows))
+    test("28 exactly 180 canonical skills", len(skill_ids) == 180 and manifest.get("skill_count") == 180)
+    test("29 unique canonical skill IDs", len(skill_ids) == len(set(skill_ids)))
+    test("30 45 skills per canonical Watcher", owner_counts == [45, 45, 45, 45])
+    test("31 canonical unlock levels", manifest.get("unlock_levels") == LEVELS)
+    test("32 every tree follows canonical levels", all([int(row[payload.get("fields", []).index("Niveau")]) for row in tree.get("skills", [])] == LEVELS for payload in canonical_payloads for tree in [payload.get("trees", {}).get(key, {}) for key in payload.get("tree_order", [])]))
+    test("33 first skill at level 1", min(skill_levels) == 1)
+    test("34 final tree skill at level 49", max(skill_levels) == 49)
+    test("35 character cap remains 50", 50 > max(skill_levels))
+    expected_tree_names = {"Bastion","Brisure","Serment","Traque","Entaille","Disparition","Anatomie","Suture","Hémocorde","Sentence","Concorde","Dissidence"}
+    test("36 exact canonical tree names", {str(tree.get("name", "")) for _, tree in tree_rows} == expected_tree_names)
+    test("37 canonical skill ID families", any(x.startswith("NA-BAS-") for x in skill_ids) and any(x.startswith("TA-TRA-") for x in skill_ids) and any(x.startswith("AÏ-ANA-") for x in skill_ids) and any(x.startswith("ID-SEN-") for x in skill_ids))
+    test("38 canonical manifest maps four owners", [row.get("entity_id") for row in manifest.get("watchers", [])] == EXPECTED_WATCHERS)
+    test("39 three manifest trees per Watcher", all(len(row.get("trees", [])) == 3 for row in manifest.get("watchers", [])))
+    test("40 canonical source paths unique", len({row.get("source") for row in manifest.get("watchers", [])}) == 4)
 
-    corpus = watchers_path.read_text(encoding="utf-8") + catalog_path.read_text(encoding="utf-8")
-    legacy_names = ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
-    test("41 no legacy Watcher identities in v0.6 data", not any(name in corpus for name in legacy_names))
+    active_corpus = watchers_path.read_text(encoding="utf-8") + catalog_path.read_text(encoding="utf-8")
+    alternate_names = ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"]
+    test("41 alternate Watcher identities absent from active v0.6 data", not any(name in active_corpus for name in alternate_names))
     test("42 four starter loadouts", len(loadouts) == 4)
     test("43 starter loadouts reference canonical Watchers", set(loadouts) == set(EXPECTED_WATCHERS))
 
