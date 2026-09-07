@@ -34,7 +34,10 @@ func ensure_tree(runtime: Variant, enemy_id: String) -> String:
 
 func refine_decision(runtime: Variant, enemy_id: String, decision: Dictionary) -> Dictionary:
     var refined := decision.duplicate(true)
-    if doctrine.should_retreat(runtime, enemy_id) and str(refined.get("action", "")) != "support":
+    var action := str(refined.get("action", ""))
+    if action == "support":
+        return refined
+    if doctrine.should_retreat(runtime, enemy_id):
         var flee_cell := _best_escape_cell(runtime, enemy_id)
         if flee_cell.x >= 0:
             refined["action"] = "flee"
@@ -75,13 +78,13 @@ func select_skill(runtime: Variant, enemy_id: String, decision: Dictionary) -> D
             continue
         if int(skill.get("unlock_level", 99)) > level:
             continue
-        var action := str(runtime.skill_behavior.effective_action(skill))
-        if action == "passive_modifier":
+        var skill_action := str(runtime.skill_behavior.effective_action(skill))
+        if skill_action == "passive_modifier":
             continue
-        if not _range_valid(runtime, enemy_id, target_id, skill, action):
+        if not _range_valid(runtime, enemy_id, target_id, skill, skill_action):
             continue
         var score := doctrine.score_skill(runtime, enemy_id, skill, decision)
-        if desired.has(action):
+        if desired.has(skill_action):
             score += 12
         var scored := skill.duplicate(true)
         scored["_doctrine_score"] = score
