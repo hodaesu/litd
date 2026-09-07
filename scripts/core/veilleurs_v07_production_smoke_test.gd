@@ -5,6 +5,7 @@ const PROGRESSION_SCRIPT := preload("res://scripts/core/veilleurs_progression_ru
 const RECRUITMENT_SCRIPT := preload("res://scripts/core/veilleurs_recruitment_runtime.gd")
 const ARCHIVES_SCRIPT := preload("res://scripts/core/veilleurs_archives_runtime.gd")
 const REFUGE_SCRIPT := preload("res://scripts/core/veilleurs_refuge_runtime.gd")
+const TACTICAL_V07_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_runtime_v07.gd")
 
 var failures: Array[String] = []
 
@@ -87,6 +88,31 @@ func _run() -> void:
     refuge.resources["gold"] = 0
     var emergency := refuge.emergency_recovery(false)
     _check(bool(emergency.get("ok", false)) and int(refuge.resources.get("gold", 0)) > 0, "catastrophic softlock recovery grants emergency stock")
+
+    var tactical: VeilleursTacticalCombatRuntimeV07 = TACTICAL_V07_SCRIPT.new() as VeilleursTacticalCombatRuntimeV07
+    var tactical_setup := tactical.setup_first_combat(["ENT_ENEMY_GOULE_AFFAMEE"])
+    _check(bool(tactical_setup.get("ok", false)), "v0.7 tactical runtime initializes")
+    _check(str((tactical.combatants["ENT_ENEMY_GOULE_AFFAMEE"] as Dictionary).get("chosen_tree", "")) != "", "enemy receives persistent personal tree")
+    tactical.grid.move("ENT_ENEMY_GOULE_AFFAMEE", Vector2i(1, 0))
+    var ghoul_action := tactical.enemy_step("ENT_ENEMY_GOULE_AFFAMEE")
+    _check(bool(ghoul_action.get("generated_skill", false)), "Ghoul executes a generated skill instead of generic basic attack")
+    _check(str(ghoul_action.get("skill_id", "")).begins_with("SK_GOULE_AFFAMEE_"), "Ghoul action exposes authored generated skill ID")
+
+    var ranged: VeilleursTacticalCombatRuntimeV07 = TACTICAL_V07_SCRIPT.new() as VeilleursTacticalCombatRuntimeV07
+    var ranged_setup := ranged.setup_first_combat(["ENT_ENEMY_TIREUR"])
+    _check(bool(ranged_setup.get("ok", false)), "ranged v0.7 encounter initializes")
+    _check(ranged.set_enemy_level("ENT_ENEMY_TIREUR", 50), "Tireur level can be configured")
+    _check(ranged.set_enemy_tree("ENT_ENEMY_TIREUR", "TREE_TIREUR_TIR_ANATOMIQUE"), "Tireur can use ranged personal tree")
+    ranged.grid.move("ENT_ENEMY_TIREUR", Vector2i(4, 0))
+    var ranged_action := ranged.enemy_step("ENT_ENEMY_TIREUR")
+    _check(bool(ranged_action.get("generated_skill", false)), "Tireur executes generated ranged skill")
+    _check(str(ranged_action.get("skill_id", "")).begins_with("SK_TIREUR_TIR_ANATOMIQUE_"), "Tireur uses ranged tree skill at distance")
+
+    var boss_runtime: VeilleursTacticalCombatRuntimeV07 = TACTICAL_V07_SCRIPT.new() as VeilleursTacticalCombatRuntimeV07
+    var boss_setup := boss_runtime.setup_boss_combat("ENT_BOSS_GARDIEN_SEUIL")
+    _check(bool(boss_setup.get("ok", false)), "boss tactical setup initializes")
+    _check(str(boss_setup.get("chosen_tree", "")) != "", "boss receives one of three personal trees")
+    _check(boss_runtime.content_db.skills_for("ENT_BOSS_GARDIEN_SEUIL").size() == 45, "boss exposes 45 generated skills to tactical runtime")
 
     _check(int(db.recruitment.get("max_recruits_per_expedition", 0)) == 2, "recruitment cap per expedition is two")
     _check(int(db.recruitment.get("refuge_recruit_cap", 0)) == 12, "Refuge hard recruit cap is twelve")
