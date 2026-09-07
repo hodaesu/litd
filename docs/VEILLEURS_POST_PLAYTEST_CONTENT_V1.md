@@ -10,7 +10,7 @@ La référence de départ reste le commit `0c905800ec21e646e9252f1c14430ed8ad36a
 
 `data/veilleurs/parallel_content/post_playtest_detail_manifest_v1.json`
 
-Le manifeste v7 indexe les événements du Refuge, leurs chaînes, leur exécution, le service mémoire candidat, la sauvegarde/migration, les fixtures/collisions, les réactions individuelles des auxiliaires, l'adaptateur Archives/Rémanence, les feature flags inactifs, les profils d'arbitrage, les événements régionaux, les huit chaînes multi-actes et leurs projections Archives, la narration, l'UX, la télémétrie, le diagnostic, les altérations et les variantes de Rémanence/Némésis.
+Le manifeste v8 indexe les événements du Refuge, leurs chaînes, leur exécution, le service mémoire candidat, la sauvegarde/migration, les fixtures/collisions, les réactions individuelles des auxiliaires, l'adaptateur Archives/Rémanence, les feature flags inactifs, les scénarios de rollback, l'audit du journal de migration, les profils d'arbitrage, les événements régionaux, les huit chaînes multi-actes, leurs projections Archives et leurs fixtures visuelles, la narration, l'UX, la télémétrie, le diagnostic, les altérations et les variantes de Rémanence/Némésis.
 
 ## Refuge — 24 événements et mémoire persistante
 
@@ -37,6 +37,7 @@ Documents dédiés :
 Classes candidates, compilées/testées mais non autoloadées :
 
 - `VeilleursRefugeMemoryServiceCandidate`
+- `VeilleursRefugeMemoryMigrationAuditCandidate`
 - `VeilleursAuxiliaryReactionResolverCandidate`
 - `VeilleursRefugeMemoryProjectionAdapterCandidate`
 - `VeilleursPostPlaytestFeatureFlagsCandidate`
@@ -53,6 +54,14 @@ Tous les flags sont `false`, y compris le maître `veilleurs.post_playtest.enabl
 
 Ordre candidat : maître → mémoire Refuge → Archives → Rémanence → auxiliaires → régional → multi-actes. Les altérations d'expédition restent séparées.
 
+### Rollback après historique
+
+`post_playtest_feature_flag_rollback_scenarios_v1.json` contient 8 scénarios de rollback.
+
+Désactiver un flag signifie **arrêter l'exécution future de la couche**, jamais effacer l'histoire qu'elle a déjà produite. Les souvenirs, IDs, clés de départage, entrées Archives, blessures réelles, cicatrices du monde et rangs de Rémanence déjà légitimement acquis restent persistants. Une réactivation doit reprendre depuis les mêmes données persistées, sans reroll ni duplication.
+
+Le smoke `veilleurs_post_playtest_feature_flag_rollback_candidate_smoke.tscn` crée réellement un historique, désactive tous les flags, vérifie que la sérialisation n'a pas changé, puis réactive la mémoire Refuge et confirme les mêmes `memory_id` et `deterministic_tiebreak`.
+
 ## Corpus de migrations
 
 `refuge_memory_migration_corpus_v1.json`
@@ -60,6 +69,12 @@ Ordre candidat : maître → mémoire Refuge → Archives → Rémanence → aux
 Le corpus contient 16 cas : absence de racine, v0, v1, file valide, références orphelines, entrée non-QUEUED, souvenir SURFACED valide/invalide, état invalide, enregistrement malformé, RESOLVED/EXPIRED, schéma futur, limite de surface, cooldowns et idempotence.
 
 Le corpus est exécuté par `veilleurs_refuge_memory_migration_corpus_candidate_smoke.tscn` sans brancher le service au jeu.
+
+### Journal d'audit de migration
+
+`VeilleursRefugeMemoryMigrationAuditCandidate` préserve explicitement dans `migration_log` les normalisations importantes détectées avant `deserialize()`. En particulier, un état inconnu ramené à `DORMANT` écrit `invalid_state_reset_to_DORMANT` avec `memory_id`, ancien état et nouvel état.
+
+Le smoke `veilleurs_refuge_memory_migration_audit_candidate_smoke.tscn` vérifie aussi l'idempotence : recharger une sauvegarde déjà normalisée ne duplique pas l'avertissement.
 
 ## Variantes priorité / cooldown
 
@@ -83,10 +98,13 @@ Aucune nouvelle réplique canonique n'est générée par ces systèmes.
 - `regional_event_choice_echoes_v1.json` : 32 conséquences différées, une par choix.
 - `multi_act_consequence_chains_v1.json` : 8 chaînes candidates qui peuvent traverser plusieurs actes.
 - `multi_act_archive_projection_v1.json` : projection exacte des 8 chaînes vers les cinq sections Archives.
+- `multi_act_archive_visual_fixtures_v1.json` : 8 fixtures visuelles structurelles, une par chaîne, pour téléphone/tablette/PC/manette.
 
 Une conséquence peut confirmer, compliquer ou réfuter une lecture antérieure. Le choix du joueur ne crée jamais la vérité du monde. Une chaîne multi-actes peut rester incomplète pour toujours sans bloquer la campagne ; elle ne donne aucun bonus caché et ne crée aucune Némésis pour satisfaire son scénario.
 
 Les projections Archives peuvent ajouter de l'histoire sans augmenter la connaissance. CONFIRMED ou UNDERSTOOD exige toujours une nouvelle preuve compatible avec les règles Archives existantes.
+
+Les fixtures visuelles n'inventent aucun texte canonique : elles fixent seulement sections visibles, ordre des cartes, badges de provenance/certitude et dispositions par profil. Elles imposent notamment les versions contradictoires distinctes, les cicatrices physiques seulement si elles existent, l'identité stable pour une histoire Rémanente et la conservation de l'état de connaissance courant.
 
 ## Narration source-backed
 
@@ -126,6 +144,8 @@ Une seule session ne suffit jamais à modifier une règle fondamentale. Une seul
 - Aucun Némésis artificiel.
 - Aucun snapshot complet de scène.
 - Aucune condition numérique inventée pour le ralliement de l'Acte I.
+- Rollback de feature flag ≠ rollback de l'histoire vécue.
+- Normalisation de migration importante = trace explicite dans le journal.
 
 ## Tests
 
@@ -137,6 +157,7 @@ Suites Python :
 - `test_veilleurs_post_playtest_execution_v1.py`
 - `test_veilleurs_post_playtest_handoff_v1.py`
 - `test_veilleurs_post_playtest_activation_v1.py`
+- `test_veilleurs_post_playtest_secondary_hardening_v1.py`
 
 Smokes Godot candidats :
 
@@ -144,7 +165,9 @@ Smokes Godot candidats :
 - réactions auxiliaires ;
 - projection Archives/Rémanence ;
 - feature flags ;
-- corpus de migrations.
+- corpus de migrations ;
+- audit du journal de migration ;
+- rollback des feature flags avec historique persistant.
 
 Les smokes compilent/exécutent le handoff sur la PR #180 mais aucune scène de jeu ne référence ces classes.
 
@@ -154,10 +177,11 @@ Les smokes compilent/exécutent le handoff sur la PR #180 mais aucune scène de 
 2. valider priorités et cooldowns ;
 3. activer le service mémoire derrière le feature flag, sur une branche de test ;
 4. tester les 16 migrations sur copies de sauvegardes ;
-5. brancher Archives puis Rémanence ;
-6. brancher le résolveur auxiliaire ;
-7. activer une seule famille d'événements ;
-8. rejouer et comparer ;
-9. seulement ensuite envisager événements régionaux et chaînes multi-actes.
+5. vérifier le journal d'audit et les rollbacks sur des copies réelles ;
+6. brancher Archives puis Rémanence ;
+7. brancher le résolveur auxiliaire ;
+8. activer une seule famille d'événements ;
+9. rejouer et comparer ;
+10. seulement ensuite envisager événements régionaux et chaînes multi-actes.
 
 La PR #180 ne doit pas être fusionnée avant ces validations.
