@@ -6,6 +6,7 @@ const VARIANTS_PATH := "res://data/veilleurs/enemy_variant_rules.json"
 const ProductionRegistry := preload("res://scripts/core/veilleurs_enemy_production_registry.gd")
 const SynergyRuntime := preload("res://scripts/core/veilleurs_enemy_synergy_runtime.gd")
 const SurrenderAfterlife := preload("res://scripts/core/veilleurs_surrender_afterlife_runtime.gd")
+const SurrenderSocialEvent := preload("res://scripts/core/veilleurs_surrender_social_event_runtime.gd")
 
 var templates: Array = []
 var depth_rules: Array = []
@@ -51,6 +52,9 @@ func synergy_contract() -> Dictionary:
 
 func evaluate_synergies(actors: Array, act_id: String = "") -> Dictionary:
     return synergy_runtime.call("evaluate", actors, act_id)
+
+func build_surrender_social_event(projection: Dictionary, context: Dictionary = {}) -> Dictionary:
+    return SurrenderSocialEvent.build_event(projection, context)
 
 func depth_rule(act_id: String, depth: int) -> Dictionary:
     for value: Variant in depth_rules:
@@ -137,6 +141,8 @@ func generate(act_id: String, depth: int, seed: int, memory_candidates: Array = 
     var social_result := SurrenderAfterlife.prepare_encounter(actors, act_id, seed ^ (depth * 19349663))
     var social_actors: Array = social_result.get("actors", actors)
     actors = social_actors
+    var survivor_projection: Dictionary = social_result.get("survivor_projection", {})
+    var surrender_social_event := build_surrender_social_event(survivor_projection, {"region_id": act_id})
     var synergy_result: Dictionary = synergy_runtime.call("evaluate", actors, act_id)
     _register_template(str(selected.get("template_id", "")))
     return {
@@ -152,7 +158,10 @@ func generate(act_id: String, depth: int, seed: int, memory_candidates: Array = 
         "memory_injected": int(memory_result.get("injected", 0)),
         "nemesis_injected": int(memory_result.get("nemesis_injected", 0)),
         "surrender_survivor_projected": bool(social_result.get("survivor_projected", false)),
-        "surrender_survivor": (social_result.get("survivor_projection", {}) as Dictionary).duplicate(true),
+        "surrender_survivor": survivor_projection.duplicate(true),
+        "surrender_social_event_projected": not surrender_social_event.is_empty(),
+        "surrender_social_event_available": bool(surrender_social_event.get("can_resolve", false)),
+        "surrender_social_event": surrender_social_event.duplicate(true),
         "resentful_return_injected": bool(social_result.get("hostile_return_injected", false)),
         "family_reputation_effects": (social_result.get("family_reputation_effects", []) as Array).duplicate(true),
         "family_reputation_effect_count": int(social_result.get("family_effect_count", 0)),
