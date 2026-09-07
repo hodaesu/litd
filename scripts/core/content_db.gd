@@ -7,6 +7,7 @@ const ENEMIES_PATH := ROOT + "/enemies_24_definitions.json"
 const CONSTANTS_PATH := ROOT + "/combat_constants.json"
 const LOADOUTS_PATH := ROOT + "/starter_loadouts_watchers.json"
 const SKILL_CATALOG_PATH := ROOT + "/watcher_tree_catalog.json"
+const CANONICAL_WATCHER_IDS: Array[String] = ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]
 
 var watchers_by_id: Dictionary = {}
 var enemies_by_id: Dictionary = {}
@@ -191,6 +192,13 @@ func _watcher_skill_counts() -> Dictionary:
 func _validate() -> void:
     if watchers_by_id.size() != 4:
         load_errors.append("watcher_count:%d" % watchers_by_id.size())
+    for canonical_id: String in CANONICAL_WATCHER_IDS:
+        if not watchers_by_id.has(canonical_id):
+            load_errors.append("canonical_watcher_missing:%s" % canonical_id)
+    for entity_id_value: Variant in watchers_by_id.keys():
+        var entity_id := str(entity_id_value)
+        if not CANONICAL_WATCHER_IDS.has(entity_id):
+            load_errors.append("noncanonical_watcher:%s" % entity_id)
     if enemies_by_id.size() != 24:
         load_errors.append("enemy_count:%d" % enemies_by_id.size())
     if skills_by_id.size() != 180:
