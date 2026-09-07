@@ -41,7 +41,7 @@ Deux événements existent pour chacune des 12 familles canoniques :
 
 Chaque événement exige un état réellement vécu ou observable : expédition commune, retraite, blessure persistante, ralliement, cadavre ramené, panique vécue, transformation corporelle, promotion de Rémanence, découverte contradictoire, Refuge plein, etc.
 
-Les choix écrivent des historiques, traces, règles de Refuge ou hooks de préparation. Les effets numériques relationnels restent volontairement indéfinis jusqu’au playtest. Un événement ne peut ni effacer une blessure persistante ni rendre un boss recrut able.
+Les choix écrivent des historiques, traces, règles de Refuge ou hooks de préparation. Les effets numériques relationnels restent volontairement indéfinis jusqu’au playtest. Un événement ne peut ni effacer une blessure persistante ni rendre un boss recrutable.
 
 ### 2. Narration — 68 barks, 30 dialogues de boss, 16 fragments de Rémanence
 
@@ -152,7 +152,7 @@ Le paquet général et le manifeste détaillé sont tous deux désactivés et no
 - liaison exacte des 30 clés de dialogues de boss ;
 - liaison des 16 entrées de Rémanence II–V ;
 - garde-fous UX mobile/PC/manette ;
-- 33 événements de télémétrie sans texte libre ni PII ;
+- 33 événements de télémétrie sans texte libre ni donnée personnelle ;
 - 18 altérations temporaires et contre-jouables ;
 - 16 variantes de Rémanence fondées sur le vécu ;
 - absence de référence à cette couche dans les contrats actifs du playtest.
