@@ -1,5 +1,5 @@
 {
-  "version": 7,
+  "version": 8,
   "status": "post_playtest_parallel_detail_manifest",
   "enabled_by_default": false,
   "runtime_wiring": "none_until_explicit_post_playtest_decision",
@@ -15,7 +15,9 @@
     "refuge_memory_collisions": {"path":"res://data/veilleurs/parallel_content/refuge_memory_collision_scenarios_v1.json","scenario_count":8,"surface_limit_is_canon":false},
     "refuge_memory_projection_adapter": {"path":"res://data/veilleurs/parallel_content/refuge_memory_projection_adapter_contract_v1.json","candidate_class":"VeilleursRefugeMemoryProjectionAdapterCandidate","script":"res://scripts/core/veilleurs_refuge_memory_projection_adapter_candidate.gd","archive_owner":"VeilleursContentRuntime","remanence_owner":"VeilleursRuntimeCoordinator / VeilleursRemanencePolicy","reference_only_default":true,"godot_smoke":true},
     "post_playtest_feature_flags": {"path":"res://data/veilleurs/parallel_content/post_playtest_feature_flags_v1.json","candidate_class":"VeilleursPostPlaytestFeatureFlagsCandidate","script":"res://scripts/core/veilleurs_post_playtest_feature_flags_candidate.gd","master_default":false,"all_children_default":false,"autoload":false,"godot_smoke":true},
+    "post_playtest_feature_flag_rollbacks": {"path":"res://data/veilleurs/parallel_content/post_playtest_feature_flag_rollback_scenarios_v1.json","scenario_count":8,"history_preserved":true,"reroll_forbidden":true,"godot_smoke":true},
     "refuge_memory_migration_corpus": {"path":"res://data/veilleurs/parallel_content/refuge_memory_migration_corpus_v1.json","case_count":16,"future_schema_rejected":true,"idempotence_case":true},
+    "refuge_memory_migration_audit": {"candidate_class":"VeilleursRefugeMemoryMigrationAuditCandidate","script":"res://scripts/core/veilleurs_refuge_memory_migration_audit_candidate.gd","invalid_state_warning_persisted":true,"idempotent_warning":true,"godot_smoke":true},
     "refuge_memory_arbitration_variants": {"path":"res://data/veilleurs/parallel_content/refuge_memory_arbitration_variants_v1.json","profile_count":6,"active_profile":"none","candidate_only":true},
     "refuge_cross_reactions": {"path":"res://data/veilleurs/parallel_content/refuge_cross_reaction_matrix_v1.json","canonical_family_count":12,"watcher_count":4,"auxiliary_context_required":true},
     "auxiliary_individual_reactions": {"path":"res://data/veilleurs/parallel_content/auxiliary_individual_reaction_contract_v1.json","candidate_class":"VeilleursAuxiliaryReactionResolverCandidate","script":"res://scripts/core/veilleurs_auxiliary_reaction_resolver_candidate.gd","reaction_dimension_count":9,"species_personality_forbidden":true,"godot_smoke":true},
@@ -23,6 +25,7 @@
     "regional_choice_echoes": {"path":"res://data/veilleurs/parallel_content/regional_event_choice_echoes_v1.json","expected_event_count":16,"expected_choice_echo_count":32,"source_choice_coverage":"exact","active_runtime_wiring":false},
     "multi_act_consequence_chains": {"path":"res://data/veilleurs/parallel_content/multi_act_consequence_chains_v1.json","chain_count":8,"campaign_blocking":false,"hidden_stat_bonus":false,"active_runtime_wiring":false},
     "multi_act_archive_projection": {"path":"res://data/veilleurs/parallel_content/multi_act_archive_projection_v1.json","chain_count":8,"archive_sections":5,"knowledge_upgrade_requires_new_evidence":true,"active_runtime_wiring":false},
+    "multi_act_archive_visual_fixtures": {"path":"res://data/veilleurs/parallel_content/multi_act_archive_visual_fixtures_v1.json","fixture_count":8,"profiles":["phone","tablet","desktop","controller"],"canonical_text_generation_forbidden":true,"knowledge_upgrade_forbidden":true},
     "narrative_triggers": {"path":"res://data/veilleurs/parallel_content/narrative_trigger_binding_v1.json","source_counts":{"barks":68,"boss_dialogues":30,"remanence_ii_v":16}},
     "ux_screen_flow": {"path":"res://data/veilleurs/parallel_content/ux_screen_flow_v1.json","refuge_screen_count":6,"combat_context_overlay_count":4},
     "ux_copy_fr": {"path":"res://data/veilleurs/parallel_content/ux_copy_fr_post_playtest_v1.json","copy_status":"frozen_candidate_wording_pending_pc_validation"},
@@ -54,6 +57,9 @@
     "projection_adapter_may_forward_only_verified_canonical_lived_events_to_remanence_policy": true,
     "all_feature_flags_must_remain_false_before_pc_playtest": true,
     "arbitration_profile_must_remain_none_before_pc_playtest": true,
-    "multi_act_archive_projection_must_not_upgrade_knowledge_without_new_evidence": true
+    "multi_act_archive_projection_must_not_upgrade_knowledge_without_new_evidence": true,
+    "migration_normalization_warning_must_remain_explicit": true,
+    "feature_flag_rollback_must_preserve_history": true,
+    "archive_visual_fixtures_must_preserve_current_knowledge_state": true
   }
 }
