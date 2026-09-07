@@ -1,0 +1,69 @@
+{
+  "schema_version": "0.6.6",
+  "contract_id": "VEILLEURS_KNOWLEDGE_ARCHIVES_REMANENCE_V1",
+  "status": "production_locked_before_godot",
+  "knowledge_states": ["UNKNOWN", "SUSPECTED", "OBSERVED", "CONFIRMED", "UNDERSTOOD", "TRANSMITTED"],
+  "rules": {
+    "selecting_or_targeting_an_entity_reveals_nothing_by_itself": true,
+    "observation_only_records_what_was_actually_seen": true,
+    "contradictory_evidence_can_coexist_until_resolved": true,
+    "knowledge_is_not_currency": true,
+    "knowledge_survives_death_when_it_has_been_returned_or_transmitted": true,
+    "knowledge_carried_only_by_a_dead_or_missing_expedition_member_can_be_lost_if_never_committed": true,
+    "archive_entries_distinguish_fact_hypothesis_memory_and_testimony": true,
+    "remanence_can_make_known_information physically_visible_but_never_invent_unearned_facts": true
+  },
+  "archive_domains": ["BESTIARY", "PEOPLE", "PLACES", "EVENTS", "MEMORIELS", "NEMESIS", "REMANENCE", "BODY", "MIND", "POLITICS", "ANCIENT_TEXTS"],
+  "evidence_types": {
+    "TRACE": {"default_state": "OBSERVED", "can_confirm_alone": false},
+    "DIRECT_OBSERVATION": {"default_state": "OBSERVED", "can_confirm_alone": "only simple visible facts"},
+    "DOCUMENT": {"default_state": "OBSERVED", "can_confirm_alone": false},
+    "TESTIMONY": {"default_state": "SUSPECTED", "can_confirm_alone": false},
+    "MEMORIEL": {"default_state": "OBSERVED", "can_confirm_alone": false},
+    "SYNTHESIS": {"default_state": "CONFIRMED", "can_confirm_alone": true},
+    "REPEATED_VERIFICATION": {"default_state": "CONFIRMED", "can_confirm_alone": true},
+    "SANCTUARY_INTERPRETATION": {"default_state": "UNDERSTOOD", "can_confirm_alone": true}
+  },
+  "interaction_outcome_propagation": {
+    "OBSERVE_LORE": ["PLACES", "EVENTS"],
+    "READ_ARCHIVE": ["ANCIENT_TEXTS", "EVENTS"],
+    "BODY_TRACE": ["PEOPLE", "BODY", "BESTIARY"],
+    "MEMORY_BIND": ["MEMORIELS", "REMANENCE", "PEOPLE"],
+    "IDENTIFY_PERSON": ["PEOPLE"],
+    "INTEL_SIGNAL": ["BESTIARY", "PLACES"],
+    "CIVILIAN_TALK": ["PEOPLE", "EVENTS", "POLITICS"],
+    "OBSERVE_CIVILIAN": ["PEOPLE", "EVENTS"],
+    "TRACK_TRACE": ["BESTIARY", "PLACES"],
+    "KNOWLEDGE_SYNTH": ["EVENTS", "REMANENCE"],
+    "IDENTIFY_SYMBOL": ["ANCIENT_TEXTS", "POLITICS"],
+    "MEMORY_LISTEN": ["MEMORIELS", "EVENTS"],
+    "MEMORY_ANALYZE": ["REMANENCE", "MIND"],
+    "READ_NAMES": ["PEOPLE", "EVENTS"],
+    "READ_TRACE": ["EVENTS", "PLACES"],
+    "CIVILIAN_INFER": ["PEOPLE", "EVENTS"],
+    "INTEL_MAP": ["PLACES", "POLITICS"],
+    "TOUCH_SCAR": ["REMANENCE", "PLACES"],
+    "PUZZLE_SOLVE": ["ANCIENT_TEXTS", "MIND"],
+    "FINAL_SCAR": ["REMANENCE", "EVENTS"]
+  },
+  "return_commit": {
+    "stage": "KNOWLEDGE",
+    "transaction_order": ["collect_evidence", "deduplicate_by_source_and_fact", "advance_state", "write_archive", "unlock_cross_links", "emit_remanence_visibility", "queue_refuge_dialogue_events"],
+    "dedupe_key": ["fact_id", "source_id", "story_epoch"],
+    "first_discovery_keeps_discoverer_entity_id": true
+  },
+  "remanence_outputs": {
+    "known_persistent_corpse": "show identity/name marker only after identity is known",
+    "known_shortcut": "display learned route immediately on revisit if world state still permits it",
+    "known_hazard": "show authored telegraph earlier; never remove danger unless a persistent secure/disable outcome exists",
+    "known_enemy_fact": "surface only confirmed observed traits; do not reveal full stats from first sight",
+    "known_person": "link corpse, testimony, memorial and archive references through persistent entity id",
+    "known_world_change": "update hub and map presentation after WORLD_CHANGES stage"
+  },
+  "transmission": {
+    "at_archives": "commits expedition knowledge to the collective record",
+    "at_sanctuary": "can elevate eligible CONFIRMED knowledge to UNDERSTOOD or TRANSMITTED through authored Corps/Esprit/Politique interpretation",
+    "transmitted_effect": "knowledge can affect future characters, dialogue, tutorials and inter-game continuity without granting unexplained combat stats"
+  },
+  "save_payload": ["fact_id", "state", "domain", "sources", "first_discoverer_entity_id", "first_discovered_run", "last_verified_run", "contradictions", "linked_entity_ids", "linked_place_ids", "transmission_flags"]
+}
