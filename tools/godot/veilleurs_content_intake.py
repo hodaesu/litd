@@ -78,6 +78,23 @@ def safe_work_order_path(canonical_id: str, work_order_root: Path = DEFAULT_WORK
     return path
 
 
+def render_planned_files(spec: dict[str, Any], slug: str, canonical_id: str) -> list[dict[str, str]]:
+    result: list[dict[str, str]] = []
+    values = {
+        "slug": slug,
+        "canonical_id": canonical_id,
+        "canonical_id_lower": canonical_id.lower(),
+    }
+    for row in spec.get("planned_files", []):
+        path = str(row.get("path", ""))
+        for key, value in values.items():
+            path = path.replace("{" + key + "}", value)
+        if not path or path.startswith("/") or ".." in Path(path).parts:
+            raise ValueError(f"unsafe planned path: {path}")
+        result.append({"path": path, "action": str(row.get("action", "review")), "status": "pending"})
+    return result
+
+
 def _iter_scan_files(repository_root: Path = ROOT):
     intake_root = (repository_root / "data/veilleurs/intake/work_orders").resolve()
     for base in CANONICAL_SCAN_ROOTS:
@@ -116,11 +133,10 @@ def canonical_id_occurrences(canonical_id: str, repository_root: Path = ROOT) ->
 
 
 def reserved_id_occurrences(canonical_id: str, work_order_root: Path = DEFAULT_WORK_ORDER_ROOT) -> list[str]:
-    root = work_order_root
-    if not root.exists():
+    if not work_order_root.exists():
         return []
     hits: list[str] = []
-    for path in root.glob("*.json"):
+    for path in work_order_root.glob("*.json"):
         try:
             payload = json.loads(path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, UnicodeDecodeError, OSError):
@@ -156,7 +172,7 @@ def build_work_order(
     output_root = str(spec.get("output_root_pattern", "")).replace("{slug}", slug)
     state = str(contract.get("rules", {}).get("new_work_order_state", "intake_reserved"))
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "state": state,
         "content_type": content_type,
         "canonical_id": canonical_id,
@@ -164,6 +180,7 @@ def build_work_order(
         "slug": slug,
         "canonical_sources": list(spec.get("canonical_sources", [])),
         "integration_targets": list(spec.get("integration_targets", [])),
+        "planned_files": render_planned_files(spec, slug, canonical_id),
         "production": {
             "output_root": output_root,
             "required_assets": list(spec.get("required_assets", [])),
@@ -221,12 +238,7 @@ def main(argv: list[str] | None = None) -> int:
         print("ERROR: content_type and display_name are required (or use --list-types)", file=sys.stderr)
         return 2
     try:
-        order = build_work_order(
-            args.content_type,
-            args.display_name,
-            explicit_id=args.explicit_id,
-            contract=contract,
-        )
+        order = build_work_order(args.content_type, args.display_name, explicit_id=args.explicit_id, contract=contract)
         if args.reserve:
             path = reserve_work_order(order)
             order["reservation_path"] = path.relative_to(ROOT).as_posix()
