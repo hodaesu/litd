@@ -14,7 +14,7 @@ on:
       - 'scenes/veilleurs/**'
       - 'scenes/qa/qa_validation_room.tscn'
       - 'scenes/tests/veilleurs_v06*'
-      - 'tools/qa/veilleurs_v06_*'
+      - 'tools/qa/veilleurs_v06*'
       - '.github/workflows/veilleurs-v06.yml'
   workflow_dispatch:
 
@@ -32,8 +32,10 @@ jobs:
           python-version: '3.12'
       - name: Validate Veilleurs Tests_48
         run: python tools/qa/veilleurs_v06_tests48.py
-      - name: Simulate first tactical encounter
+      - name: Preserve original first-encounter baseline
         run: python tools/qa/veilleurs_v06_balance_sim.py --check --runs 250
+      - name: Validate v0.6.1 tactical balance target
+        run: python tools/qa/veilleurs_v061_balance_sim.py --check --runs 500
 
   godot-tactical:
     name: Godot 4.3 tactical smoke
