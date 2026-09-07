@@ -6,6 +6,8 @@ Cette couche est **préparée mais inactive**. Elle appartient à la PR #180 en 
 
 Aucun fichier de cette couche n'est autoloadé. Aucun contrat actif du playtest ne doit les référencer avant validation PC.
 
+Référence de handoff : manifeste `post_playtest_detail_manifest_v1.json` **v8**.
+
 ## 1. Feature flags
 
 Source : `data/veilleurs/parallel_content/post_playtest_feature_flags_v1.json`.
