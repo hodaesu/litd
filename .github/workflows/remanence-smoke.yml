@@ -24,6 +24,8 @@ jobs:
         run: godot --headless --path . res://scenes/tests/veilleurs_intent_resolver_smoke.tscn
       - name: Mémoire de combat et matrice IA Les Veilleurs
         run: godot --headless --path . res://scenes/tests/veilleurs_combat_memory_ai_smoke.tscn
+      - name: Catalogue exact 1305 et Délié Affamé Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_canonical_skill_catalog_smoke.tscn
       - name: Contenu canonique Les Veilleurs
         run: godot --headless --path . res://scenes/tests/veilleurs_content_runtime_smoke.tscn
       - name: Rencontres canoniques Les Veilleurs
