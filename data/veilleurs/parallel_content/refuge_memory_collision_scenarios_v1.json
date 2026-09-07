@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_fixture",
+  "enabled_by_default": false,
+  "rules": {
+    "selection_must_be_deterministic": true,
+    "queued_order_persisted": true,
+    "reload_reroll_forbidden": true,
+    "same_family_soft_cooldown": true,
+    "same_source_hard_cooldown": true,
+    "surface_limit_candidate": 2,
+    "surface_limit_is_canon": false
+  },
+  "scenarios": [
+    {
+      "id":"collision.crisis_vs_work",
+      "candidates":[
+        {"memory_id":"m.work.repair","priority_band":"ROUTINE_OR_WORK","urgency":40,"age":3,"family":"TRAVAIL"},
+        {"memory_id":"m.crisis.wounds","priority_band":"CRISIS","urgency":60,"age":1,"family":"CRISE"}
+      ],
+      "expected_order":["m.crisis.wounds","m.work.repair"],
+      "reason":"priority_band_before_age"
+    },
+    {
+      "id":"collision.body_vs_discovery",
+      "candidates":[
+        {"memory_id":"m.discovery.corpse","priority_band":"DISCOVERY_OR_ARCHIVE","urgency":85,"age":2,"family":"DECOUVERTE"},
+        {"memory_id":"m.body.rest","priority_band":"BODY_OR_AVAILABILITY","urgency":30,"age":1,"family":"BESOIN_BIOLOGIQUE"}
+      ],
+      "expected_order":["m.body.rest","m.discovery.corpse"],
+      "reason":"body_availability_priority_over_archive_even_if_archive_urgency_higher"
+    },
+    {
+      "id":"collision.same_band_urgency",
+      "candidates":[
+        {"memory_id":"m.rel.depart","priority_band":"RELATIONSHIP_OR_DEPARTURE","urgency":90,"age":1,"family":"DEPART"},
+        {"memory_id":"m.rel.conflict","priority_band":"RELATIONSHIP_OR_DEPARTURE","urgency":55,"age":4,"family":"CONFLIT"}
+      ],
+      "expected_order":["m.rel.depart","m.rel.conflict"],
+      "reason":"urgency_before_age_inside_same_band"
+    },
+    {
+      "id":"collision.same_band_same_urgency_age",
+      "scheduler_seed":731903,
+      "candidates":[
+        {"memory_id":"m.a","priority_band":"DISCOVERY_OR_ARCHIVE","urgency":50,"age":2,"family":"DECOUVERTE","first_eligible_expedition":12},
+        {"memory_id":"m.b","priority_band":"DISCOVERY_OR_ARCHIVE","urgency":50,"age":2,"family":"SOUVENIR","first_eligible_expedition":12}
+      ],
+      "expected":"stable_sha256_tiebreak_not_input_order",
+      "repeat_runs":5
+    },
+    {
+      "id":"collision.same_source_cooldown",
+      "source_cooldowns":{"ref.decouverte.corpse_analysis":40},
+      "current_expedition":41,
+      "candidates":[
+        {"memory_id":"m.corpse.new","source_event_id":"ref.decouverte.corpse_analysis","priority_band":"DISCOVERY_OR_ARCHIVE","family":"DECOUVERTE"},
+        {"memory_id":"m.route.old","source_event_id":"ref.besoin_psychologique.before_return","priority_band":"DISCOVERY_OR_ARCHIVE","family":"BESOIN_PSYCHOLOGIQUE"}
+      ],
+      "expected_queue_contains":["m.route.old"],
+      "expected_queue_excludes":["m.corpse.new"]
+    },
+    {
+      "id":"collision.same_family_soft_cooldown",
+      "family_cooldowns":{"SOUVENIR":50},
+      "current_expedition":51,
+      "candidates":[
+        {"memory_id":"m.souvenir.one","priority_band":"DISCOVERY_OR_ARCHIVE","urgency":40,"family":"SOUVENIR"},
+        {"memory_id":"m.discovery.one","priority_band":"DISCOVERY_OR_ARCHIVE","urgency":35,"family":"DECOUVERTE"}
+      ],
+      "expected_first":"m.discovery.one",
+      "reason":"soft_cooldown_penalizes_repeated_family_without_erasing_memory"
+    },
+    {
+      "id":"collision.regional_vs_refuge_crisis",
+      "candidates":[
+        {"memory_id":"m.region.a4.trace","source_type":"regional_event","priority_band":"DISCOVERY_OR_ARCHIVE","urgency":80,"family":"REGIONAL"},
+        {"memory_id":"m.refuge.crisis","source_type":"refuge_event","priority_band":"CRISIS","urgency":45,"family":"CRISE"}
+      ],
+      "expected_first":"m.refuge.crisis",
+      "reason":"source_type_never_overrides_priority_band"
+    },
+    {
+      "id":"collision.surface_limit_preserves_remainder",
+      "surface_limit":2,
+      "candidates":[
+        {"memory_id":"m.1","priority_band":"CRISIS","urgency":80,"family":"CRISE"},
+        {"memory_id":"m.2","priority_band":"BODY_OR_AVAILABILITY","urgency":60,"family":"BESOIN_BIOLOGIQUE"},
+        {"memory_id":"m.3","priority_band":"RELATIONSHIP_OR_DEPARTURE","urgency":50,"family":"CONFLIT"}
+      ],
+      "expected_surfaced":["m.1","m.2"],
+      "expected_remaining_state":{"m.3":"QUEUED"},
+      "reload_must_preserve_remaining_order":true
+    }
+  ]
+}
