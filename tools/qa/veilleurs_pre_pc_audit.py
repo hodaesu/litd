@@ -95,15 +95,20 @@ def main() -> int:
     if not checks["canonical_roster"]:
         fail(errors, f"Roster canonique runtime différent: {roster}")
 
+    # Old IDs may remain only in explicit negative tests or frozen legacy contracts.
+    allowed_stale_files = set(contract.get("allowed_stale_reference_files", []))
     stale_hits: dict[str, list[str]] = {}
     for path in scan_runtime_files():
+        relative = path.relative_to(ROOT).as_posix()
+        if relative in allowed_stale_files:
+            continue
         try:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
         for stale_id in contract["forbidden_stale_runtime_ids"]:
             if stale_id in text:
-                stale_hits.setdefault(stale_id, []).append(path.relative_to(ROOT).as_posix())
+                stale_hits.setdefault(stale_id, []).append(relative)
     checks["stale_runtime_ids"] = not stale_hits
     if stale_hits:
         for stale_id, paths in stale_hits.items():
