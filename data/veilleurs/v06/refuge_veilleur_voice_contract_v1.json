@@ -1,0 +1,93 @@
+{
+  "schema_version":"0.6.8",
+  "contract_id":"VEILLEURS_REFUGE_CANONICAL_VOICES_V1",
+  "status":"production_locked_before_godot",
+  "canonical_quartet":["SAHEN_VARO","MIRA_SEN","NAREM_OSH","YSRA_NAHAL"],
+  "rules":{
+    "voice_layer_does_not_override_combat_class_or_skill_canon":true,
+    "legacy_vs001_names_are_not_current_quartet":true,
+    "never_assign_legacy_names_to_new_refuge_scenes":true,
+    "facts_and_hypotheses_are_distinguished":true,
+    "no_character_delivers_authorial_truth":true,
+    "max_primary_veilleur_lines_per_event":3,
+    "second_veilleur_only_when_contrast_adds_information":true,
+    "silence_is_valid_characterization":true
+  },
+  "voices":{
+    "SAHEN_VARO":{
+      "name_fr":"Sahen Varo",
+      "core":"retenu, concret, protecteur sans paternalisme; pense d'abord aux conséquences immédiates et à ce que le groupe devra assumer ensuite",
+      "syntax":["phrases_courtes","verbes_d_action","peu_de_metaphores","questions_pratiques"],
+      "emotional_tells":["raccourcit_encore_ses_phrases_sous_stress","nomme_les_personnes_avant_les_principes_dans_le_deuil","reconnait_une_faute_sans_longue_justification"],
+      "avoid":["grand_discours","cruaute_gratuite","promesse_qu_il_ne_peut_pas_tenir","certitude_metaphysique"],
+      "family_lines":{
+        "conflict":"On règle ce qui met quelqu'un en danger. Le reste, on le parle sans arme à la main.",
+        "rapprochement":"Tu n'as rien à me devoir pour être resté vivant.",
+        "grief":"On garde son nom. Et on ne transforme pas sa mort en ordre pour les suivants.",
+        "mutilation":"Dis-moi ce que tu peux faire aujourd'hui. On construira depuis là.",
+        "debate":"Une idée vaut aussi par ce qu'elle oblige les corps à payer.",
+        "memoriel":"On écoute. On note. On ne prétend pas savoir plus que ce qui nous répond.",
+        "nemesis":"Préparez le retour avant de préparer la vengeance.",
+        "refuge_state":"Si ce lieu change, il faut que ceux qui y vivent puissent le sentir avant de le lire."
+      }
+    },
+    "MIRA_SEN":{
+      "name_fr":"Mira Sen",
+      "core":"précise, attentive aux contradictions, humaine sans sentimentalisme; sépare observation, interprétation et désir",
+      "syntax":["phrases_precises","vocabulaire_sensoriel_ou_factuel","reformulation_avant_conclusion","questions_qui_testent_les_hypotheses"],
+      "emotional_tells":["devient_plus_douce_sans_devenir_vague","admet_explicitement_ce_qu_elle_ignore","corrige_un_mot_si_le_mot_blesse_ou_trahit_le_fait"],
+      "avoid":["gore_complaisant","diagnostic_moral","mysticisme_affirme_sans_preuve","fausse_neutralite_face_a_la_souffrance"],
+      "family_lines":{
+        "conflict":"Je peux entendre deux versions sans décider qu'elles ont le même poids. Commençons par ce qui s'est passé.",
+        "rapprochement":"Tu peux me dire moins. Je préfère une limite claire à une confidence arrachée.",
+        "grief":"Le souvenir n'est pas une preuve parfaite. C'est quand même quelque chose que la mort ne devrait pas simplifier.",
+        "mutilation":"Une adaptation ne remplace pas ce qui manque. Elle répond à une fonction présente.",
+        "debate":"Avant de conclure, séparons ce que nous observons de ce que nous voulons que cela signifie.",
+        "memoriel":"Il répond comme une mémoire. Cela suffit pour la prudence, pas pour une définition.",
+        "nemesis":"Nous avons un motif confirmé. Pas encore une intention confirmée.",
+        "refuge_state":"Un Refuge qui comprend mieux doit aussi mieux afficher ses incertitudes."
+      }
+    },
+    "NAREM_OSH":{
+      "name_fr":"Narem Osh",
+      "core":"direct, sensoriel, instinctivement attentif aux distances, aux gestes et aux sorties; humour sec rare qui relâche la tension sans nier le danger",
+      "syntax":["images_concretes","phrases_orales","comparaisons_physiques","silence_quand_un_geste_suffit"],
+      "emotional_tells":["regarde_les_issues_quand_il_est_inquiet","plaisante_seulement_quand_personne_n_est_en_danger_immediat","parle_plus_lentement_avec_les_blesses_ou_les_effrayes"],
+      "avoid":["theorie_abstraite_trop_longue","moquerie_d_un_traumatisme","autorite_morale","romantisation_de_la_chasse_ou_de_la_violence"],
+      "family_lines":{
+        "conflict":"Vous êtes assez proches pour vous frapper et trop loin pour vous entendre. Changez au moins une des deux choses.",
+        "rapprochement":"On peut partager une garde sans partager tout le reste.",
+        "grief":"Je me souviens de sa façon de marcher. C'est idiot. C'est ce qui revient.",
+        "mutilation":"Ton équilibre a changé. Pas ta valeur. On recommence par les appuis.",
+        "debate":"Une règle qui ne tient que loin du danger n'est peut-être pas encore une règle.",
+        "memoriel":"Les voix mentent parfois. Les traces aussi. Alors on compare.",
+        "nemesis":"Elle change ses habitudes. Nous aussi. Sinon ce n'est pas de l'apprentissage, c'est une offrande.",
+        "refuge_state":"Quand je peux trouver l'eau, la sortie et l'infirmerie dans le noir, je sais qu'on a construit quelque chose."
+      }
+    },
+    "YSRA_NAHAL":{
+      "name_fr":"Ysra Nahal",
+      "core":"mesurée, politique au sens du bien commun, attentive aux causes, aux règles et à qui supporte leur coût; cherche la désescalade sans esquiver les décisions",
+      "syntax":["phrases_equilibrees","questions_de_legitimite","cause_puis_consequence","formulations_qui_laissent_une_place_a_la_contestation"],
+      "emotional_tells":["abandonne_la_formulation_formelle_en_cas_de_deuil_intime","nomme_le_pouvoir_quand_les_autres_le_traitent_comme_une_habitude","se_mefie_des_mots_unanimite_et_necessite"],
+      "avoid":["sermon","passivite_face_au_danger","fausse_equivalence","faire_du_bien_commun_un_calcul_sans_personnes"],
+      "family_lines":{
+        "conflict":"Une règle imposée peut arrêter une dispute. Elle ne crée pas pour autant un accord légitime.",
+        "rapprochement":"Appartenir ici ne devrait pas exiger de cesser d'être en désaccord.",
+        "grief":"Ce que nous devons aux morts dit aussi quel monde nous demandons aux vivants de défendre.",
+        "mutilation":"L'autonomie ne consiste pas à refuser l'aide. Elle consiste à pouvoir décider ce qu'on fait de son propre corps.",
+        "debate":"Séparons l'urgence, qui demande parfois un commandement, du gouvernement, qui doit pouvoir être contesté.",
+        "memoriel":"Une mémoire collective n'autorise pas automatiquement la collectivité à posséder chaque souvenir individuel.",
+        "nemesis":"Si nous répondons à chaque perte par davantage de pouvoir sans contrôle, la Némésis aura changé notre politique sans entrer ici.",
+        "refuge_state":"Reconstruire ne signifie pas seulement bâtir des murs; cela signifie décider ensemble de ce qu'ils protègent."
+      }
+    }
+  },
+  "casting_affinity":{
+    "SAHEN_VARO":["conflict","grief","mutilation","refuge_state"],
+    "MIRA_SEN":["mutilation","debate","memoriel","nemesis"],
+    "NAREM_OSH":["conflict","rapprochement","grief","nemesis"],
+    "YSRA_NAHAL":["conflict","debate","memoriel","refuge_state"]
+  },
+  "selection_rule":"highest_family_affinity_then_recent_speaking_cooldown_then_seeded_tie_break"
+}
