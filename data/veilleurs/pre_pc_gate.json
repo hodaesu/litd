@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "stage": "pre_pc_lock",
   "godot_version": "4.3",
   "canonical_watchers": [
@@ -54,6 +54,9 @@
     "data/veilleurs/polish_manifest.json",
     "data/veilleurs/ultimate_choreography_contract.json",
     "data/veilleurs/v09/wave3_contract.json",
+    "scenes/tests/veilleurs_v06_tactical_smoke.tscn",
+    "scenes/tests/veilleurs_v07_production_smoke.tscn",
+    "scenes/tests/veilleurs_v08_wave2_smoke.tscn",
     "scenes/tests/veilleurs_v09_wave3_smoke.tscn",
     "scenes/veilleurs/v09_vertical_slice_qa.tscn",
     "scenes/tests/mobile_touch_smoke.tscn",
@@ -84,6 +87,9 @@
     "export_preset_contract",
     "editor_pipeline_enabled",
     "strict_godot_import",
+    "v06_tactical_smoke",
+    "v07_production_smoke",
+    "v08_wave2_smoke",
     "wave3_end_to_end",
     "six_dungeon_qa_scene",
     "mobile_touch_logic",
