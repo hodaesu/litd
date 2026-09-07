@@ -121,7 +121,7 @@ Une session n'est verte que lorsque tous les gates applicables à sa plateforme 
 
 ## Ordre conseillé sur PC/appareils
 
-1. Import Godot 4.3 et QA rapide.
+1. Import **Godot 4.7.x** et QA rapide ; utiliser idéalement 4.7.2 pour rester identique à la CI.
 2. Lisibilité/qualité visuelle desktop.
 3. Contrôleur physique.
 4. Performance Windows.
