@@ -7,12 +7,20 @@ on:
   pull_request:
     paths:
       - 'data/veilleurs/v09/**'
+      - 'data/veilleurs/legacy/vs001_dependency_contract.json'
       - 'scripts/core/veilleurs_*v09.gd'
       - 'scripts/core/veilleurs_v09_*'
+      - 'scripts/core/veilleurs_runtime.gd'
       - 'scripts/ui/veilleurs_vertical_slice_qa_v09.gd'
+      - 'scripts/ui/veilleurs_vertical_slice.gd'
+      - 'scripts/world/veilleurs_playable_bridge.gd'
+      - 'scripts/world/veilleurs_vs001_playable_bridge.gd'
       - 'scenes/veilleurs/v09_*'
+      - 'scenes/veilleurs/vertical_slice.tscn'
       - 'scenes/tests/veilleurs_v09_*'
+      - 'tests/test_veilleurs_vs001_*'
       - 'tools/qa/veilleurs_v09_*'
+      - 'project.godot'
       - '.github/workflows/veilleurs-v09-wave3.yml'
   workflow_dispatch:
 
@@ -67,3 +75,9 @@ jobs:
           set -o pipefail
           timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v09_vertical_slice_qa.tscn 2>&1 | tee /tmp/v09-qa.log
           ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' /tmp/v09-qa.log
+      - name: Instantiate canonical player scene
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/vertical_slice.tscn 2>&1 | tee /tmp/veilleurs-player.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-player.log
