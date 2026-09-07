@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "veilleurs"
 GENERATED = DATA / "generated"
+SKILLS = DATA / "skills"
 PACK_SHA = "0739666c23b6aad99d79128147b84322155bbdd5ff49c62b0990eaf11fec8919"
 
 
@@ -14,30 +15,50 @@ def load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def test_exact_skill_binding_is_direct_json_1305_unique_and_29_by_45():
-    binding = load(GENERATED / "enemy_skill_intent_binding_1305_v1.json")
-    assert binding["version"] == 1
-    assert binding["count"] == 1305
-    records = binding["records"]
-    assert len(records) == 1305
-    assert len({record["runtime_skill_id"] for record in records}) == 1305
+def test_exact_skill_runtime_uses_direct_tree_json_1305_unique_and_29_by_45():
+    catalog = load(SKILLS / "enemy_skill_runtime_catalog_v1.json")
+    assert catalog["version"] == 1
+    assert catalog["status"] == "source_backed_runtime_catalog"
+    assert catalog["canonical_source"]["pack_sha256"] == PACK_SHA
+    assert catalog["counts"]["skills"] == 1305
+    assert catalog["counts"]["entities"] == 29
+    assert catalog["counts"]["trees"] == 87
+    assert catalog["counts"]["runtime_id_collisions"] == 0
 
-    by_entity = Counter(record["entity_id"] for record in records)
-    assert len(by_entity) == 29
-    assert set(by_entity.values()) == {45}
+    runtime_ids = []
+    entity_counts = Counter()
+    tree_counts = Counter()
+    delie_tree_counts = Counter()
 
-    by_tree = Counter((record["entity_id"], record["tree"]) for record in records)
-    assert len(by_tree) == 87
-    assert set(by_tree.values()) == {15}
+    for file_ref in catalog["canonical_source"]["tree_files"]:
+        path = ROOT / file_ref["path"].removeprefix("res://")
+        source = load(path)
+        trees = source["trees"]
+        assert len(trees) == file_ref["trees"]
+        assert sum(len(tree["source_skill_ids"]) for tree in trees) == file_ref["skills"]
+        for tree in trees:
+            entity_id = tree["entity_id"]
+            tree_name = tree["tree"]
+            source_ids = tree["source_skill_ids"]
+            assert len(source_ids) == 15
+            tree_counts[(entity_id, tree_name)] += len(source_ids)
+            entity_counts[entity_id] += len(source_ids)
+            if entity_id == "delie_affame":
+                delie_tree_counts[tree_name] += len(source_ids)
+            runtime_ids.extend(f"{entity_id}:{source_id}" for source_id in source_ids)
 
-    delie = [record for record in records if record["entity_id"] == "delie_affame"]
-    assert len(delie) == 45
-    assert Counter(record["tree"] for record in delie) == {
+    assert len(runtime_ids) == 1305
+    assert len(set(runtime_ids)) == 1305
+    assert len(entity_counts) == 29
+    assert set(entity_counts.values()) == {45}
+    assert len(tree_counts) == 87
+    assert set(tree_counts.values()) == {15}
+    assert delie_tree_counts == Counter({
         "Chair ouverte": 15,
         "Faim basse": 15,
         "Fuite des cendres": 15,
-    }
-    assert all(record["runtime_skill_id"].startswith("delie_affame:") for record in delie)
+    })
+    assert all(runtime_id.startswith("delie_affame:") for runtime_id in runtime_ids if runtime_id.startswith("delie_affame:"))
 
 
 def test_encounter_manifest_loads_64_records_from_eight_uncompressed_json_chunks():
