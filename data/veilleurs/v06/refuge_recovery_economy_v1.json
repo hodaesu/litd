@@ -1,0 +1,85 @@
+{
+  "schema_version": "0.6.6",
+  "contract_id": "VEILLEURS_REFUGE_RECOVERY_ECONOMY_V1",
+  "status": "production_locked_before_godot",
+  "refuge": {
+    "active_capacity_by_level": [4, 6, 8, 10, 12],
+    "team_size_max": 4,
+    "minimum_veilleurs_in_team": 1,
+    "full_refuge_options": ["release", "transfer_when_authored", "refuse_recruitment"],
+    "forbidden": ["magical_overflow_storage", "automatic_replacement_of_dead_recruits"],
+    "spaces": ["Quartiers", "Forge", "Infirmerie", "Archives", "Salle_des_Veilleurs", "Atelier", "Sanctuaire"],
+    "visual_states": ["SURVIVRE", "ORGANISER", "COMPRENDRE", "REBATIR", "TRANSMETTRE"],
+    "capacity_upgrades": [
+      {"to_capacity": 6, "gold": 60, "materials": 4, "requires": "refuge_story_stage_2"},
+      {"to_capacity": 8, "gold": 120, "materials": 8, "requires": "refuge_story_stage_3"},
+      {"to_capacity": 10, "gold": 210, "materials": 14, "requires": "refuge_story_stage_4"},
+      {"to_capacity": 12, "gold": 320, "materials": 22, "requires": "refuge_story_stage_5"}
+    ]
+  },
+  "economy": {
+    "spendable_currency": "or",
+    "noncurrency_resources": ["materials", "consumables", "equipment", "accessories"],
+    "knowledge_is_nonspendable_unlock_state": true,
+    "essence_role": "remanence_and_sanctuary_progression_resource; never ordinary shop currency",
+    "rules": [
+      "no mandatory daily upkeep timer",
+      "no debt death spiral",
+      "life-saving stabilization is free",
+      "gold is spent on improvement, advanced care, repair and fabrication rather than basic survival taxation",
+      "expedition route gold remains the source of truth from dungeon_balance_v1.json"
+    ],
+    "service_costs_gold": {
+      "advanced_wound_care": 8,
+      "major_wound_care": 18,
+      "critical_recovery_plan": 28,
+      "rehabilitation_session": 16,
+      "simple_prosthetic_or_adaptation": 24,
+      "advanced_prosthetic_or_adaptation": 42,
+      "repair_common": 4,
+      "repair_uncommon": 7,
+      "repair_rare": 11,
+      "repair_epic": 17,
+      "repair_legendary": 24
+    },
+    "service_material_costs": {
+      "simple_prosthetic_or_adaptation": 2,
+      "advanced_prosthetic_or_adaptation": 4,
+      "refuge_repairs_after_major_world_event": 6
+    },
+    "anti_grind": {
+      "basic_stabilization_never_requires_gold": true,
+      "knowledge_rewards_cannot_be_farmed": true,
+      "single_use_resource_interactions_remain_depleted": true,
+      "refuge_capacity_requires_story_gate_plus_resources": true
+    }
+  },
+  "physical_recovery": {
+    "severity_order": ["SUPERFICIAL", "SIGNIFICANT", "MAJOR", "CRITICAL", "MUTILATION"],
+    "on_return": {
+      "SUPERFICIAL": {"deployable": true, "free_stabilization": true, "advanced_care_cost": 0},
+      "SIGNIFICANT": {"deployable": true, "free_stabilization": true, "advanced_care_cost": 8},
+      "MAJOR": {"deployable": false, "free_stabilization": true, "advanced_care_cost": 18},
+      "CRITICAL": {"deployable": false, "free_stabilization": true, "advanced_care_cost": 28},
+      "MUTILATION": {"deployable": "depends_on_functional_loss", "free_stabilization": true, "advanced_care_cost": 0}
+    },
+    "care_rules": [
+      "advanced care may reduce active lesion severity but never erase recorded injury history",
+      "major and critical injuries require at least one completed care action before redeployment",
+      "mutilation creates a permanent anatomical record",
+      "prosthetic/adaptation changes function, not history",
+      "scar and impairment tags remain available to dialogue, animation and gameplay"
+    ]
+  },
+  "mental_recovery": {
+    "states": ["STABLE", "STRAINED", "SHAKEN", "FRACTURED", "CRISIS"],
+    "rules": [
+      "return does not reset mental state",
+      "safe refuge interaction can reduce acute strain by one step when authored conditions are met",
+      "CRISIS blocks deployment until a stabilizing event or care action resolves it",
+      "persistent trauma tags can remain after acute state improves",
+      "relationships and remembered events can accelerate or hinder recovery"
+    ],
+    "paid_specialized_care_gold": 12
+  }
+}
