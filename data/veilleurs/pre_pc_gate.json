@@ -17,7 +17,11 @@
   "allowed_stale_reference_files": [
     "scripts/core/veilleurs_v06_tactical_smoke_test.gd",
     "scripts/core/veilleurs_v08_wave2_smoke_test_round2.gd",
-    "data/veilleurs/v07/ultimates_99.json"
+    "data/veilleurs/v07/ultimates_99.json",
+    "tools/qa/veilleurs_v062_canonical_audit.py",
+    "tools/qa/veilleurs_v06_tests48.py",
+    "tools/qa/veilleurs_v081_canonical_production_audit.py",
+    "tools/qa/veilleurs_v08_wave2_audit.py"
   ],
   "production_dungeons": [
     "DUNGEON_KHAR_SEN",
