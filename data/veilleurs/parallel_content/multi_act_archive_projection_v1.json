@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "source": "res://data/veilleurs/parallel_content/multi_act_consequence_chains_v1.json",
+  "knowledge_states": ["UNKNOWN","SUSPECTED","OBSERVED","CONFIRMED","UNDERSTOOD"],
+  "rules": {
+    "all_8_chains_must_be_covered": true,
+    "projection_requires_completed_source_stage": true,
+    "projection_can_add_history_without_upgrading_knowledge": true,
+    "knowledge_upgrade_requires_new_supporting_observation": true,
+    "conflicting_versions_must_be_preservable": true,
+    "unseen_boss_phase_hidden": true,
+    "stored_knowledge_never_erased": true,
+    "archive_projection_does_not_change_combat_stats": true,
+    "archive_projection_does_not_create_enemy_truth": true,
+    "world_scar_projection_requires_existing_scar": true,
+    "remanence_projection_requires_same_entity_reference": true
+  },
+  "archive_sections": ["IDENTITE_CONNAISSANCE","CORPS","COMBAT","HISTOIRE","TRACES"],
+  "chains": [
+    {
+      "chain_id": "chain.competing_versions",
+      "primary_sections": ["IDENTITE_CONNAISSANCE","HISTOIRE"],
+      "summary_mode": "parallel_versions",
+      "stages": [
+        {"stage":1,"source":"region.a2.signal_without_voice","requires_write":"archive_history:competing_interpretations","project_to":["IDENTITE_CONNAISSANCE","HISTOIRE"],"entry_kind":"competing_hypotheses","knowledge_effect":"none","display_rule":"show both interpretations as unresolved"},
+        {"stage":2,"source":"region.a4.missing_trace","requires_write":"archive_history:absence_as_observation","project_to":["IDENTITE_CONNAISSANCE","HISTOIRE"],"entry_kind":"absence_observation","knowledge_effect":"none_without_new_evidence","display_rule":"append absence as evidence, do not delete prior interpretation"},
+        {"stage":3,"source":"region.a5.two_versions","requires_write":"archive_history:coexisting_versions","project_to":["IDENTITE_CONNAISSANCE","HISTOIRE"],"entry_kind":"coexisting_versions","knowledge_effect":"candidate_only_if_new_observation_supports_transition","display_rule":"show evidence lineage and unresolved branches"}
+      ]
+    },
+    {
+      "chain_id": "chain.route_reference",
+      "primary_sections": ["TRACES","HISTOIRE"],
+      "summary_mode": "physical_reference_lineage",
+      "stages": [
+        {"stage":1,"source":"region.a2.breathing_route","requires_write":"route_history:measured_progression","project_to":["HISTOIRE"],"entry_kind":"route_method","knowledge_effect":"none","display_rule":"record the method used, not unseen route truth"},
+        {"stage":2,"source":"region.a4.missing_trace","requires_write":"world_scar_reference:physical_anchor_if_present","project_to":["TRACES","HISTOIRE"],"entry_kind":"physical_anchor","knowledge_effect":"none","display_rule":"only render anchor if referenced scar/object still exists"},
+        {"stage":3,"source":"region.a5.two_versions","requires_write":"archive_history:shared_anchor_method","project_to":["IDENTITE_CONNAISSANCE","HISTOIRE","TRACES"],"entry_kind":"shared_reference_method","knowledge_effect":"none_without_observation","display_rule":"explain that an anchor stabilizes comparison locally, not globally"}
+      ]
+    },
+    {
+      "chain_id": "chain.coordination_without_voice",
+      "primary_sections": ["COMBAT","HISTOIRE"],
+      "summary_mode": "party_method_history",
+      "stages": [
+        {"stage":1,"source":"region.a2.after_silence","requires_write":"relationship_history:shared_signal_method","project_to":["HISTOIRE"],"entry_kind":"shared_method_origin","knowledge_effect":"none","display_rule":"record who used the method and where"},
+        {"stage":2,"source":"region.a4.procession_pressure","requires_write":"combat_history:coordinated_axis_break","project_to":["COMBAT","HISTOIRE"],"entry_kind":"method_application","knowledge_effect":"none","display_rule":"record successful/failed application without stat bonus"},
+        {"stage":3,"source":"region.a5.change_before_copy","requires_write":"combat_history:deliberate_method_variation","project_to":["COMBAT","HISTOIRE"],"entry_kind":"method_variation","knowledge_effect":"none_without_enemy_observation","display_rule":"show lineage of party method; never expose hidden copy logic"}
+      ]
+    },
+    {
+      "chain_id": "chain.body_network_evidence",
+      "primary_sections": ["CORPS","HISTOIRE"],
+      "summary_mode": "evidence_ladder",
+      "stages": [
+        {"stage":1,"source":"region.a3.cut_connection","requires_write":"archive_history:network_connection_observed","project_to":["CORPS","HISTOIRE"],"entry_kind":"anatomical_connection_observed","knowledge_effect":"at_most_OBSERVED","display_rule":"connection observed; function remains unknown unless separately supported"},
+        {"stage":2,"source":"region.a3.after_network","requires_write":"body_history:function_change_observed","project_to":["CORPS","HISTOIRE"],"entry_kind":"functional_change_observed","knowledge_effect":"candidate_CONFIRMED_only_with_matching_repeated_evidence","display_rule":"separate observed function change from inferred cause"},
+        {"stage":3,"source":"region.a4.what_remains","requires_write":"archive_history:persistent_physical_evidence","project_to":["CORPS","TRACES","HISTOIRE"],"entry_kind":"persistent_body_evidence","knowledge_effect":"candidate_UNDERSTOOD_only_if_archive_rules_already_allow","display_rule":"retain physical evidence and uncertainty independently"}
+      ]
+    },
+    {
+      "chain_id": "chain.growth_and_simultaneous_breaks",
+      "primary_sections": ["TRACES","COMBAT","HISTOIRE"],
+      "summary_mode": "terrain_method_lineage",
+      "stages": [
+        {"stage":1,"source":"region.a3.growth_underfoot","requires_write":"world_scar_trace:dead_growth_zone_if_persistent","project_to":["TRACES","HISTOIRE"],"entry_kind":"persistent_terrain_trace","knowledge_effect":"none","display_rule":"render only if scar persistence is verified"},
+        {"stage":2,"source":"region.a3.dry_ground","requires_write":"combat_history:physical_break_method","project_to":["COMBAT","HISTOIRE"],"entry_kind":"physical_break_method","knowledge_effect":"none","display_rule":"record party-created break and its actual result"},
+        {"stage":3,"source":"region.a5.two_breaks","requires_write":"combat_history:simultaneous_break_method","project_to":["COMBAT","HISTOIRE"],"entry_kind":"simultaneous_break_method","knowledge_effect":"none_without_observed_enemy_response","display_rule":"show learned party method; enemy prioritization remains unknown until seen"}
+      ]
+    },
+    {
+      "chain_id": "chain.light_as_reference",
+      "primary_sections": ["IDENTITE_CONNAISSANCE","HISTOIRE","TRACES"],
+      "summary_mode": "local_reference_history",
+      "stages": [
+        {"stage":1,"source":"region.a4.low_contour","requires_write":"expedition_history:light_reference_used","project_to":["HISTOIRE"],"entry_kind":"light_reference_use","knowledge_effect":"none","display_rule":"record that light improved current comparison, not stored knowledge"},
+        {"stage":2,"source":"region.a4.what_remains","requires_write":"archive_history:persistent_vs_temporary","project_to":["IDENTITE_CONNAISSANCE","TRACES","HISTOIRE"],"entry_kind":"persistence_comparison","knowledge_effect":"candidate_only_with_matching_observation","display_rule":"distinguish persistent and temporary evidence"},
+        {"stage":3,"source":"region.a5.two_versions","requires_write":"archive_history:common_reference_under_versions","project_to":["IDENTITE_CONNAISSANCE","HISTOIRE"],"entry_kind":"common_local_reference","knowledge_effect":"none_without_new_evidence","display_rule":"state explicitly that light stabilizes local referential certainty, never absolute truth"}
+      ]
+    },
+    {
+      "chain_id": "chain.context_before_copy",
+      "primary_sections": ["COMBAT","HISTOIRE"],
+      "summary_mode": "contextual_counterplay_lineage",
+      "stages": [
+        {"stage":1,"source":"region.a2.read_the_hands","requires_write":"combat_history:contextual_spacing_observation","project_to":["COMBAT","HISTOIRE"],"entry_kind":"spacing_observation","knowledge_effect":"at_most_OBSERVED","display_rule":"record observed spacing relation only"},
+        {"stage":2,"source":"region.a3.dry_ground","requires_write":"combat_history:terrain_context_matters","project_to":["COMBAT","HISTOIRE"],"entry_kind":"terrain_context_observation","knowledge_effect":"none","display_rule":"record that context changed an outcome; do not generalize automatically"},
+        {"stage":3,"source":"region.a5.bad_copy","requires_write":"combat_history:copy_context_counterplay","project_to":["COMBAT","HISTOIRE"],"entry_kind":"copy_context_counterplay","knowledge_effect":"candidate_CONFIRMED_only_after_demonstrated_counterplay","display_rule":"unlock counterplay text only after the copy behavior and response were actually observed"}
+      ]
+    },
+    {
+      "chain_id": "chain.remanence_shared_history",
+      "primary_sections": ["HISTOIRE","TRACES","COMBAT"],
+      "summary_mode": "same_entity_shared_history",
+      "entity_identity_required": true,
+      "stages": [
+        {"stage":1,"source":"remanence_event:survival_or_failed_capture","requires_write":"remanence_history:shared_entity_history","project_to":["HISTOIRE","TRACES"],"entry_kind":"shared_entity_origin","knowledge_effect":"none","display_rule":"bind history to stable entity_id; never species-wide"},
+        {"stage":2,"source":"ref.transformation.memory_rank","requires_write":"archive_history:observed_memory_rank_change","project_to":["HISTOIRE","TRACES","COMBAT"],"entry_kind":"observed_adaptation","knowledge_effect":"none_without_observed_action","display_rule":"record only adaptations actually shown by the same individual"},
+        {"stage":3,"source":"ref.crise.nemesis_nearby","requires_write":"expedition_prepare_note:known_nemesis_counterplay_only","project_to":["HISTOIRE","COMBAT","TRACES"],"entry_kind":"known_nemesis_preparation","knowledge_effect":"none","display_rule":"show only known counterplay and known world trace; never spawn or reveal unseen capability"}
+      ]
+    }
+  ],
+  "projection_payload": {
+    "required_fields": ["chain_id","stage","source","source_history_refs","completed_expedition_index","project_to","entry_kind"],
+    "optional_fields": ["entity_id","world_scar_id","observed_evidence_refs","knowledge_state_before","knowledge_state_after_candidate"],
+    "forbidden_fields": ["hidden_absolute_truth","unseen_boss_phase","synthetic_nemesis_spawn","hidden_stat_bonus","species_shared_memory"]
+  }
+}

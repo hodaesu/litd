@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "scope": "LITD : Les Veilleurs — staged post-playtest activation",
+  "master_flag": {
+    "id": "veilleurs.post_playtest.enabled",
+    "default": false,
+    "required_for_all_children": true,
+    "may_not_be_enabled_by_save_migration": true,
+    "may_not_be_enabled_by_remote_data": true,
+    "explicit_developer_activation_required": true
+  },
+  "flags": [
+    {
+      "id": "veilleurs.post_playtest.refuge_memory",
+      "default": false,
+      "requires": ["veilleurs.post_playtest.enabled"],
+      "activates": ["VeilleursRefugeMemoryServiceCandidate"],
+      "save_root": "veilleurs_refuge_memory",
+      "activation_gate": ["pc_playtest_reviewed", "save_migration_smoke_green", "refuge_memory_smoke_green"]
+    },
+    {
+      "id": "veilleurs.post_playtest.archive_projection",
+      "default": false,
+      "requires": ["veilleurs.post_playtest.enabled", "veilleurs.post_playtest.refuge_memory"],
+      "activates": ["VeilleursRefugeMemoryProjectionAdapterCandidate.archive"],
+      "activation_gate": ["archive_projection_contract_green", "knowledge_guardrails_green"]
+    },
+    {
+      "id": "veilleurs.post_playtest.remanence_projection",
+      "default": false,
+      "requires": ["veilleurs.post_playtest.enabled", "veilleurs.post_playtest.refuge_memory"],
+      "activates": ["VeilleursRefugeMemoryProjectionAdapterCandidate.remanence"],
+      "activation_gate": ["verified_lived_event_gate_green", "artificial_nemesis_forbidden_green"]
+    },
+    {
+      "id": "veilleurs.post_playtest.auxiliary_reactions",
+      "default": false,
+      "requires": ["veilleurs.post_playtest.enabled", "veilleurs.post_playtest.refuge_memory"],
+      "activates": ["VeilleursAuxiliaryReactionResolverCandidate"],
+      "activation_gate": ["individual_identity_gate_green", "species_personality_forbidden_green"]
+    },
+    {
+      "id": "veilleurs.post_playtest.regional_echoes",
+      "default": false,
+      "requires": ["veilleurs.post_playtest.enabled", "veilleurs.post_playtest.refuge_memory", "veilleurs.post_playtest.archive_projection"],
+      "activates": ["regional_event_choice_echoes_v1"],
+      "activation_gate": ["one_refuge_family_playtested_first", "regional_choice_echoes_reviewed"]
+    },
+    {
+      "id": "veilleurs.post_playtest.multi_act_chains",
+      "default": false,
+      "requires": ["veilleurs.post_playtest.enabled", "veilleurs.post_playtest.regional_echoes", "veilleurs.post_playtest.archive_projection"],
+      "activates": ["multi_act_consequence_chains_v1", "multi_act_archive_projection_v1"],
+      "activation_gate": ["regional_echoes_playtested", "campaign_blocking_false_verified"]
+    },
+    {
+      "id": "veilleurs.post_playtest.expedition_alterations",
+      "default": false,
+      "requires": ["veilleurs.post_playtest.enabled"],
+      "activates": ["expedition_alteration_candidates_v2"],
+      "activation_gate": ["pc_balance_observation_exists", "single_family_only"]
+    }
+  ],
+  "evaluation": {
+    "unknown_flag": "false",
+    "missing_parent": "false",
+    "cyclic_dependency": "invalid_configuration",
+    "default_resolution": "all_false",
+    "save_payload_may_record_used_flags_but_may_not_enable_them": true,
+    "feature_flag_state_is_build_or_developer_configuration_not_player_progression": true
+  },
+  "activation_order": [
+    "veilleurs.post_playtest.enabled",
+    "veilleurs.post_playtest.refuge_memory",
+    "veilleurs.post_playtest.archive_projection",
+    "veilleurs.post_playtest.remanence_projection",
+    "veilleurs.post_playtest.auxiliary_reactions",
+    "veilleurs.post_playtest.regional_echoes",
+    "veilleurs.post_playtest.multi_act_chains"
+  ],
+  "guardrails": {
+    "all_flags_false_before_pc_playtest": true,
+    "no_flag_reference_in_active_playtest_contracts": true,
+    "no_autoload_activation": true,
+    "no_hidden_balance_change": true,
+    "no_save_migration_auto_activation": true,
+    "rollback_must_be_possible_without_deleting_memory_history": true
+  }
+}

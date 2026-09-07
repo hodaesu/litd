@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "schema_under_test": "refuge_memory_save_schema_v1.json",
+  "supported_schema_version": 1,
+  "rules": {
+    "migration_must_be_idempotent": true,
+    "invalid_record_does_not_invalidate_whole_save": true,
+    "future_schema_is_rejected_without_mutation": true,
+    "resolved_or_expired_records_never_reopened": true,
+    "queued_order_preserved_when_valid": true,
+    "reload_reroll_forbidden": true,
+    "feature_flags_must_not_be_enabled_by_migration": true,
+    "full_scene_snapshot_forbidden": true
+  },
+  "cases": [
+    {
+      "id": "migration.missing_root",
+      "input": {},
+      "expected": {"ok": true, "migrated": true, "from": "missing", "to": 1, "record_count": 0}
+    },
+    {
+      "id": "migration.unversioned_empty",
+      "input": {"scheduler_seed": 42, "expedition_index": 3},
+      "expected": {"ok": true, "migrated": true, "from": 0, "to": 1, "record_count": 0, "queue": []}
+    },
+    {
+      "id": "migration.v1_empty_roundtrip",
+      "input": {"schema_version":1,"scheduler_seed":77,"expedition_index":5,"return_index":2,"sequence":0,"records":{},"queue":[],"surfaced_memory_id":"","source_cooldowns":{},"family_cooldowns":{},"migration_log":[],"current_surface_limit":2,"surfaced_count_this_return":0},
+      "expected": {"ok":true,"migrated":false,"from":1,"to":1,"record_count":0,"scheduler_seed":77,"expedition_index":5}
+    },
+    {
+      "id": "migration.valid_queued_order",
+      "input": {"schema_version":1,"scheduler_seed":91,"expedition_index":4,"return_index":1,"sequence":2,"records":{"rmem:a":{"memory_id":"rmem:a","state":"QUEUED","source_event_id":"ref.a","choice_id":"x"},"rmem:b":{"memory_id":"rmem:b","state":"QUEUED","source_event_id":"ref.b","choice_id":"y"}},"queue":["rmem:b","rmem:a"],"surfaced_memory_id":"","source_cooldowns":{},"family_cooldowns":{},"migration_log":[],"current_surface_limit":2,"surfaced_count_this_return":0},
+      "expected": {"ok":true,"queue":["rmem:b","rmem:a"],"reroll_forbidden":true}
+    },
+    {
+      "id": "migration.orphan_queue_entry_dropped",
+      "input": {"schema_version":1,"scheduler_seed":11,"expedition_index":2,"return_index":1,"sequence":1,"records":{"rmem:a":{"memory_id":"rmem:a","state":"QUEUED"}},"queue":["rmem:missing","rmem:a"],"surfaced_memory_id":"","source_cooldowns":{},"family_cooldowns":{},"migration_log":[],"current_surface_limit":2,"surfaced_count_this_return":0},
+      "expected": {"ok":true,"queue":["rmem:a"]}
+    },
+    {
+      "id": "migration.queue_nonqueued_record_dropped",
+      "input": {"schema_version":1,"scheduler_seed":12,"expedition_index":2,"return_index":1,"sequence":1,"records":{"rmem:a":{"memory_id":"rmem:a","state":"ELIGIBLE"}},"queue":["rmem:a"],"surfaced_memory_id":"","source_cooldowns":{},"family_cooldowns":{},"migration_log":[],"current_surface_limit":2,"surfaced_count_this_return":0},
+      "expected": {"ok":true,"queue":[]}
+    },
+    {
+      "id": "migration.valid_surfaced_preserved",
+      "input": {"schema_version":1,"scheduler_seed":13,"expedition_index":3,"return_index":2,"sequence":1,"records":{"rmem:a":{"memory_id":"rmem:a","state":"SURFACED"}},"queue":[],"surfaced_memory_id":"rmem:a","source_cooldowns":{},"family_cooldowns":{},"migration_log":[],"current_surface_limit":2,"surfaced_count_this_return":1},
+      "expected": {"ok":true,"surfaced_memory_id":"rmem:a","surfaced_count_this_return":1}
+    },
+    {
+      "id": "migration.invalid_surfaced_reference_cleared",
+      "input": {"schema_version":1,"scheduler_seed":14,"expedition_index":3,"return_index":2,"sequence":1,"records":{"rmem:a":{"memory_id":"rmem:a","state":"ELIGIBLE"}},"queue":[],"surfaced_memory_id":"rmem:a","source_cooldowns":{},"family_cooldowns":{},"migration_log":[],"current_surface_limit":2,"surfaced_count_this_return":1},
+      "expected": {"ok":true,"surfaced_memory_id":""}
+    },
+    {
+      "id": "migration.invalid_state_isolated",
+      "input": {"schema_version":1,"scheduler_seed":15,"expedition_index":1,"return_index":0,"sequence":1,"records":{"rmem:a":{"memory_id":"rmem:a","state":"IMPOSSIBLE_STATE"},"rmem:b":{"memory_id":"rmem:b","state":"RESOLVED"}},"queue":[],"surfaced_memory_id":"","source_cooldowns":{},"family_cooldowns":{},"migration_log":[],"current_surface_limit":2,"surfaced_count_this_return":0},
+      "expected": {"ok":true,"states":{"rmem:a":"DORMANT","rmem:b":"RESOLVED"},"warning_contains":"invalid_state_reset_to_DORMANT"}
+    },
+    {
+      "id": "migration.malformed_record_isolated",
+      "input": {"schema_version":1,"scheduler_seed":16,"expedition_index":1,"return_index":0,"sequence":1,"records":{"rmem:bad":"not_a_dictionary","rmem:good":{"memory_id":"rmem:good","state":"DORMANT"}},"queue":[],"surfaced_memory_id":"","source_cooldowns":{},"family_cooldowns":{},"migration_log":[],"current_surface_limit":2,"surfaced_count_this_return":0},
+      "expected": {"ok":true,"record_count":1,"contains":["rmem:good"],"excludes":["rmem:bad"]}
+    },
+    {
+      "id": "migration.resolved_never_reopened",
+      "input": {"schema_version":0,"scheduler_seed":17,"expedition_index":4,"records":{"rmem:a":{"memory_id":"rmem:a","state":"RESOLVED"}},"queue":["rmem:a"]},
+      "expected": {"ok":true,"migrated":true,"state":"RESOLVED","queue":[]}
+    },
+    {
+      "id": "migration.expired_never_reopened",
+      "input": {"schema_version":0,"scheduler_seed":18,"expedition_index":4,"records":{"rmem:a":{"memory_id":"rmem:a","state":"EXPIRED"}},"queue":["rmem:a"]},
+      "expected": {"ok":true,"migrated":true,"state":"EXPIRED","queue":[]}
+    },
+    {
+      "id": "migration.future_schema_rejected",
+      "input": {"schema_version":99,"scheduler_seed":19,"records":{"rmem:a":{"memory_id":"rmem:a","state":"QUEUED"}},"queue":["rmem:a"]},
+      "expected": {"ok":false,"reason":"future_schema_unsupported","incoming":99,"supported":1,"mutate_save":false}
+    },
+    {
+      "id": "migration.surface_limit_floor",
+      "input": {"schema_version":1,"scheduler_seed":20,"expedition_index":1,"return_index":0,"sequence":0,"records":{},"queue":[],"surfaced_memory_id":"","source_cooldowns":{},"family_cooldowns":{},"migration_log":[],"current_surface_limit":0,"surfaced_count_this_return":0},
+      "expected": {"ok":true,"current_surface_limit":1}
+    },
+    {
+      "id": "migration.cooldowns_preserved",
+      "input": {"schema_version":1,"scheduler_seed":21,"expedition_index":9,"return_index":3,"sequence":3,"records":{},"queue":[],"surfaced_memory_id":"","source_cooldowns":{"ref.a":8},"family_cooldowns":{"CRISE":9},"migration_log":[],"current_surface_limit":2,"surfaced_count_this_return":0},
+      "expected": {"ok":true,"source_cooldowns":{"ref.a":8},"family_cooldowns":{"CRISE":9}}
+    },
+    {
+      "id": "migration.idempotent_v0_then_v1",
+      "input": {"scheduler_seed":22,"expedition_index":6,"records":{"rmem:a":{"memory_id":"rmem:a","state":"DORMANT"}},"queue":[]},
+      "expected": {"first_load_migrated":true,"second_load_migrated":false,"same_record_ids":true,"same_queue":true,"same_scheduler_seed":true}
+    }
+  ]
+}

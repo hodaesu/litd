@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "rules": {
+    "no_new_canonical_dialogue": true,
+    "reaction_requires_participation_observation_or_shared_history": true,
+    "auxiliary_reaction_requires_specific_auxiliary_context": true,
+    "generic_species_personality_forbidden": true,
+    "diagnosis_language_forbidden": true,
+    "numeric_relationship_delta_deferred": true
+  },
+  "families": [
+    {"family":"COHABITATION","watchers":{"nayra_orun":["safety","shared_duty"],"tarek_senn":["routine_pattern","space_use"],"aisha_maren":["body_needs","rest_constraints"],"idris_vael":["shared_rule","fair_access"]},"auxiliary_contexts":["new_recruit","former_opponent","mixed_needs"],"writes":["relationship_history","refuge_history"]},
+    {"family":"CONFLIT","watchers":{"nayra_orun":["prevent_immediate_harm","protect_vulnerable_member"],"tarek_senn":["reconstruct_sequence","separate_fact_from_claim"],"aisha_maren":["injury_context","observable_consequence"],"idris_vael":["responsibility","documented_disagreement"]},"auxiliary_contexts":["former_opponent","person_implicated_in_retreat","recent_rallying"],"writes":["relationship_history","archive_history"]},
+    {"family":"RAPPROCHEMENT","watchers":{"nayra_orun":["protective_act","reliable_presence"],"tarek_senn":["repeatable_cooperation","shared_method"],"aisha_maren":["care_act","rescue_consequence"],"idris_vael":["reciprocity","acknowledged_responsibility"]},"auxiliary_contexts":["rescued_auxiliary","rescuer_auxiliary","shared_method_partner"],"writes":["relationship_history"]},
+    {"family":"SOUVENIR","watchers":{"nayra_orun":["who_was_carried_or_lost","concrete_memory"],"tarek_senn":["place_trace","sequence_recall"],"aisha_maren":["wound_history","cause_uncertainty"],"idris_vael":["name_and_facts","avoid_symbolic_appropriation"]},"auxiliary_contexts":["shared_survivor","witness","person_linked_to_world_scar"],"writes":["archive_history","relationship_history"]},
+    {"family":"BESOIN_BIOLOGIQUE","watchers":{"nayra_orun":["who_can_still_function","protection_priority"],"tarek_senn":["resource_route","repeat_pressure"],"aisha_maren":["stabilization","functional_risk"],"idris_vael":["allocation_rule","visible_tradeoff"]},"auxiliary_contexts":["wounded_auxiliary","caregiver_auxiliary","resource_dependent_auxiliary"],"writes":["care_priority_history","body_history"]},
+    {"family":"BESOIN_PSYCHOLOGIQUE","watchers":{"nayra_orun":["presence","concrete_support"],"tarek_senn":["context_trigger","route_association"],"aisha_maren":["avoid_diagnosis","describe_observed_reaction"],"idris_vael":["consent_to_discuss","group_obligation"]},"auxiliary_contexts":["shared_fear_event_survivor","route_witness","supporting_companion"],"writes":["psychological_trace_history","relationship_history"]},
+    {"family":"TRANSFORMATION","watchers":{"nayra_orun":["new_protection_need","changed_role"],"tarek_senn":["changed_movement_or_pattern","observable_adaptation"],"aisha_maren":["body_function","persistent_change"],"idris_vael":["person_preference","role_not_imposed"]},"auxiliary_contexts":["permanently_wounded_auxiliary","remanence_promoted_auxiliary","adapted_auxiliary"],"writes":["body_history","work_history","relationship_history"]},
+    {"family":"TRAVAIL","watchers":{"nayra_orun":["shared_burden","field_readiness"],"tarek_senn":["specialized_method","efficiency_pattern"],"aisha_maren":["safe_task_assignment","body_limit"],"idris_vael":["recognition","role_without_substitution"]},"auxiliary_contexts":["known_auxiliary_role","specialist_auxiliary","injured_worker"],"writes":["work_history","relationship_history"]},
+    {"family":"DECOUVERTE","watchers":{"nayra_orun":["operational_consequence","immediate_safety"],"tarek_senn":["trace_comparison","repeatability"],"aisha_maren":["evidence_strength","body_function"],"idris_vael":["who_can_claim_confirmation","preserve_dissent"]},"auxiliary_contexts":["species_witness","corpse_source_link","coexistence_source"],"writes":["archive_history","archive_delta"]},
+    {"family":"DEPART","watchers":{"nayra_orun":["safe_departure","remaining_group_risk"],"tarek_senn":["route_or_trace_after_departure","future_reference"],"aisha_maren":["injury_and_capacity_to_leave","no_forced_medical_claim"],"idris_vael":["voluntary_terms","non_coercion"]},"auxiliary_contexts":["departing_auxiliary","replacement_candidate","former_companion"],"writes":["roster_history","relationship_history"]},
+    {"family":"CRISE","watchers":{"nayra_orun":["immediate_protection","task_priority"],"tarek_senn":["threat_trace","route_options"],"aisha_maren":["stabilization_order","critical_body_state"],"idris_vael":["temporary_rule","responsibility_distribution"]},"auxiliary_contexts":["critical_auxiliary","nemesis_witness","essential_worker"],"writes":["refuge_crisis_history","archive_history"]},
+    {"family":"POLITIQUE","watchers":{"nayra_orun":["rule_must_work_under_pressure","protect_minor_voice"],"tarek_senn":["rule_effect_observable","exceptions_recorded"],"aisha_maren":["evidence_standard","body_facts_not_vote"],"idris_vael":["participation","legitimacy","documented_dissent"]},"auxiliary_contexts":["ordinary_recruit","affected_auxiliary","witness_with_relevant_observation"],"writes":["refuge_rule_trace","relationship_history","archive_history"]}
+  ]
+}

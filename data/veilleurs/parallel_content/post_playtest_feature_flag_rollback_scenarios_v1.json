@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "rules": {
+    "rollback_disables_execution_not_history": true,
+    "rollback_must_not_delete_memory_records": true,
+    "rollback_must_not_reroll_memory_ids": true,
+    "rollback_must_not_change_deterministic_tiebreak": true,
+    "rollback_must_not_downgrade_archive_knowledge": true,
+    "rollback_must_not_reverse_real_injuries": true,
+    "rollback_must_not_remove_world_scars": true,
+    "rollback_must_not_demote_existing_remanence_rank": true,
+    "reenable_may_resume_only_from_persisted_history": true,
+    "save_payload_may_record_used_flags_but_may_not_enable_them": true
+  },
+  "scenarios": [
+    {
+      "id": "rollback.master_after_memory_history",
+      "disable": ["veilleurs.post_playtest.enabled"],
+      "history": "refuge_memory_record_exists",
+      "expected": ["all_child_execution_disabled", "memory_record_preserved", "memory_id_preserved", "queue_and_tiebreak_preserved"]
+    },
+    {
+      "id": "rollback.refuge_memory_after_resolved_callback",
+      "disable": ["veilleurs.post_playtest.refuge_memory"],
+      "history": "resolved_refuge_memory_exists",
+      "expected": ["no_new_refuge_memory_execution", "resolved_history_preserved", "cooldowns_preserved"]
+    },
+    {
+      "id": "rollback.archive_projection_after_history_written",
+      "disable": ["veilleurs.post_playtest.archive_projection"],
+      "history": "archive_projection_already_committed",
+      "expected": ["future_projection_paused", "existing_archive_entry_preserved", "knowledge_state_not_downgraded"]
+    },
+    {
+      "id": "rollback.remanence_projection_after_verified_event",
+      "disable": ["veilleurs.post_playtest.remanence_projection"],
+      "history": "verified_lived_remanence_event_already_committed",
+      "expected": ["future_refuge_projection_to_remanence_paused", "existing_memory_rank_preserved", "existing_wounds_preserved"]
+    },
+    {
+      "id": "rollback.auxiliary_reactions_after_individual_history",
+      "disable": ["veilleurs.post_playtest.auxiliary_reactions"],
+      "history": "individual_auxiliary_history_exists",
+      "expected": ["future_reaction_resolution_paused", "entity_history_preserved", "no_species_wide_fallback"]
+    },
+    {
+      "id": "rollback.regional_echoes_after_choice_echo",
+      "disable": ["veilleurs.post_playtest.regional_echoes"],
+      "history": "regional_choice_echo_already_recorded",
+      "expected": ["future_regional_echo_generation_paused", "existing_echo_history_preserved", "stored_knowledge_preserved"]
+    },
+    {
+      "id": "rollback.multi_act_after_stage_progress",
+      "disable": ["veilleurs.post_playtest.multi_act_chains"],
+      "history": "one_or_more_chain_stages_completed",
+      "expected": ["future_chain_projection_paused", "completed_stage_ids_preserved", "written_history_refs_preserved", "campaign_not_blocked"]
+    },
+    {
+      "id": "rollback.reenable_same_build_same_history",
+      "disable": ["veilleurs.post_playtest.enabled"],
+      "reenable": ["veilleurs.post_playtest.enabled", "veilleurs.post_playtest.refuge_memory"],
+      "history": "queued_or_resolved_memory_exists",
+      "expected": ["same_memory_ids", "same_deterministic_tiebreaks", "no_reload_reroll", "no_duplicate_history", "resume_from_persisted_state_only"]
+    }
+  ]
+}

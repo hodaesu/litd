@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "purpose": "Candidate scheduling profiles to compare only after PC playtest evidence exists.",
+  "rules": {
+    "no_profile_is_canon": true,
+    "active_profile": "none",
+    "only_one_profile_may_be_tested_at_a_time": true,
+    "same_seed_required_for_comparison": true,
+    "same_save_snapshot_required_for_comparison": true,
+    "profile_change_must_not_recompute_existing_tiebreak_keys": true,
+    "profile_change_must_not_reopen_resolved_or_expired_memories": true,
+    "priority_never_overrides_lived_history_gate": true,
+    "cooldown_never_deletes_memory": true
+  },
+  "profiles": [
+    {
+      "id": "arb.conservative",
+      "label": "Conservateur",
+      "surface_limit": 1,
+      "source_cooldown_expeditions": 3,
+      "family_soft_cooldown_expeditions": 2,
+      "priority_weights": {"CRISIS":50,"BODY_OR_AVAILABILITY":40,"RELATIONSHIP_OR_DEPARTURE":30,"DISCOVERY_OR_ARCHIVE":20,"ROUTINE_OR_WORK":10},
+      "soft_family_penalty": 700,
+      "intent": "Reduce callback density and repetition when Refuge feels too busy."
+    },
+    {
+      "id": "arb.baseline_candidate",
+      "label": "Candidat actuel",
+      "surface_limit": 2,
+      "source_cooldown_expeditions": 2,
+      "family_soft_cooldown_expeditions": 1,
+      "priority_weights": {"CRISIS":50,"BODY_OR_AVAILABILITY":40,"RELATIONSHIP_OR_DEPARTURE":30,"DISCOVERY_OR_ARCHIVE":20,"ROUTINE_OR_WORK":10},
+      "soft_family_penalty": 500,
+      "intent": "Match the current candidate service for controlled comparison."
+    },
+    {
+      "id": "arb.relationship_forward",
+      "label": "Relations prioritaires",
+      "surface_limit": 2,
+      "source_cooldown_expeditions": 2,
+      "family_soft_cooldown_expeditions": 1,
+      "priority_weights": {"CRISIS":50,"BODY_OR_AVAILABILITY":38,"RELATIONSHIP_OR_DEPARTURE":42,"DISCOVERY_OR_ARCHIVE":20,"ROUTINE_OR_WORK":10},
+      "soft_family_penalty": 500,
+      "intent": "Test whether relationship/departure consequences need stronger visibility without changing their mechanics."
+    },
+    {
+      "id": "arb.archive_forward",
+      "label": "Archives prioritaires",
+      "surface_limit": 2,
+      "source_cooldown_expeditions": 2,
+      "family_soft_cooldown_expeditions": 1,
+      "priority_weights": {"CRISIS":50,"BODY_OR_AVAILABILITY":40,"RELATIONSHIP_OR_DEPARTURE":30,"DISCOVERY_OR_ARCHIVE":35,"ROUTINE_OR_WORK":10},
+      "soft_family_penalty": 500,
+      "intent": "Test whether evidence/Archive callbacks are being buried by social callbacks."
+    },
+    {
+      "id": "arb.low_cooldown",
+      "label": "Rappels plus fréquents",
+      "surface_limit": 2,
+      "source_cooldown_expeditions": 1,
+      "family_soft_cooldown_expeditions": 0,
+      "priority_weights": {"CRISIS":50,"BODY_OR_AVAILABILITY":40,"RELATIONSHIP_OR_DEPARTURE":30,"DISCOVERY_OR_ARCHIVE":20,"ROUTINE_OR_WORK":10},
+      "soft_family_penalty": 0,
+      "intent": "Stress-test repetition perception; never a default recommendation."
+    },
+    {
+      "id": "arb.high_pressure_only",
+      "label": "Conséquences fortes seulement",
+      "surface_limit": 1,
+      "source_cooldown_expeditions": 2,
+      "family_soft_cooldown_expeditions": 1,
+      "priority_weights": {"CRISIS":60,"BODY_OR_AVAILABILITY":50,"RELATIONSHIP_OR_DEPARTURE":25,"DISCOVERY_OR_ARCHIVE":15,"ROUTINE_OR_WORK":5},
+      "soft_family_penalty": 600,
+      "minimum_priority_band_to_surface": "RELATIONSHIP_OR_DEPARTURE",
+      "intent": "Test whether only strong consequences should interrupt Refuge flow."
+    }
+  ],
+  "selection_metrics": [
+    "callbacks_surfaced_per_refuge_return",
+    "callbacks_skipped_or_ignored_by_player",
+    "same_family_repeat_rate",
+    "same_source_repeat_rate",
+    "time_spent_before_leaving_refuge",
+    "player_can_recall_source_event",
+    "callback_perceived_as_random",
+    "important_callback_missed_or_delayed"
+  ],
+  "decision_rules": {
+    "do_not_select_from_single_session": true,
+    "prefer_smallest_change_that_resolves_repeated_observation": true,
+    "do_not_change_priority_and_cooldown_in_same_comparison_except_named_profile": true,
+    "record_seed_build_and_save_snapshot": true
+  }
+}

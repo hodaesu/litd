@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "purpose": "Carry player-authored history across acts without turning earlier choices into hidden power or absolute truth.",
+  "rules": {
+    "candidate_not_canon_until_playtest": true,
+    "chain_progress_requires_recorded_prior_stage": true,
+    "skipping_a_stage_must_not_block_campaign_progress": true,
+    "choices_may_change_context_not_enemy_truth": true,
+    "no_hidden_stat_bonus": true,
+    "no_boss_phase_spoiler": true,
+    "no_recruitment_rule_override": true,
+    "knowledge_upgrade_requires_new_evidence": true,
+    "archive_may_preserve_conflicting_versions": true,
+    "world_scar_reference_requires_existing_scar": true
+  },
+  "chains": [
+    {
+      "id":"chain.competing_versions",
+      "theme":"Conserver l'incertitude jusqu'à ce que de nouveaux faits permettent de comparer les versions.",
+      "stages":[
+        {"act":"II","source":"region.a2.signal_without_voice","preferred_choice":"keep_uncertain","writes":["archive_history:competing_interpretations"]},
+        {"act":"IV","source":"region.a4.missing_trace","preferred_choice":"record_absence","requires":["archive_history:competing_interpretations"],"writes":["archive_history:absence_as_observation"]},
+        {"act":"V","source":"region.a5.two_versions","preferred_choice":"preserve_both_routes","requires":["archive_history:absence_as_observation"],"writes":["archive_history:coexisting_versions"]}
+      ],
+      "payoff":"Archive can display the sequence of observations side by side; no version is auto-promoted to truth."
+    },
+    {
+      "id":"chain.route_reference",
+      "theme":"Transformer une route vécue en référentiel concret plutôt qu'en connaissance omnisciente.",
+      "stages":[
+        {"act":"II","source":"region.a2.breathing_route","preferred_choice":"reduce_movement","writes":["route_history:measured_progression"]},
+        {"act":"IV","source":"region.a4.missing_trace","preferred_choice":"anchor_physical","requires":["route_history:measured_progression"],"writes":["world_scar_reference:physical_anchor_if_present"]},
+        {"act":"V","source":"region.a5.two_versions","preferred_choice":"seek_common_anchor","requires":["world_scar_reference:physical_anchor_if_present"],"writes":["archive_history:shared_anchor_method"]}
+      ],
+      "payoff":"Later route decisions may cite the known anchor; they do not reveal unseen paths."
+    },
+    {
+      "id":"chain.coordination_without_voice",
+      "theme":"Faire évoluer une méthode de coordination par expériences successives, sans créer un bonus d'équipe abstrait.",
+      "stages":[
+        {"act":"II","source":"region.a2.after_silence","preferred_choice":"compare_shared_signals","writes":["relationship_history:shared_signal_method"]},
+        {"act":"IV","source":"region.a4.procession_pressure","preferred_choice":"break_axis","requires":["relationship_history:shared_signal_method"],"writes":["combat_history:coordinated_axis_break"]},
+        {"act":"V","source":"region.a5.change_before_copy","preferred_choice":"plan_deliberate_change","requires":["combat_history:coordinated_axis_break"],"writes":["combat_history:deliberate_method_variation"]}
+      ],
+      "payoff":"Barks/Archive may reference the learned method; combat numbers remain unchanged until separately validated."
+    },
+    {
+      "id":"chain.body_network_evidence",
+      "theme":"Suivre la différence entre une connexion observée et les fonctions réellement confirmées.",
+      "stages":[
+        {"act":"III","source":"region.a3.cut_connection","preferred_choice":"mark_connection","writes":["archive_history:network_connection_observed"]},
+        {"act":"III","source":"region.a3.after_network","preferred_choice":"document_function_loss","requires":["archive_history:network_connection_observed"],"writes":["body_history:function_change_observed"]},
+        {"act":"IV","source":"region.a4.what_remains","preferred_choice":"catalog_persistent","requires":["body_history:function_change_observed"],"writes":["archive_history:persistent_physical_evidence"]}
+      ],
+      "payoff":"Archive Corps can distinguish observed connection, observed function change and persistent physical evidence."
+    },
+    {
+      "id":"chain.growth_and_simultaneous_breaks",
+      "theme":"Faire naître une méthode tactique d'une propriété de terrain réellement expérimentée.",
+      "stages":[
+        {"act":"III","source":"region.a3.growth_underfoot","preferred_choice":"map_dead_zones","writes":["world_scar_trace:dead_growth_zone_if_persistent"]},
+        {"act":"III","source":"region.a3.dry_ground","preferred_choice":"break_path","requires":["world_scar_trace:dead_growth_zone_if_persistent"],"writes":["combat_history:physical_break_method"]},
+        {"act":"V","source":"region.a5.two_breaks","preferred_choice":"split_breaks","requires":["combat_history:physical_break_method"],"writes":["combat_history:simultaneous_break_method"]}
+      ],
+      "payoff":"The group can remember having learned to create multiple physical breaks; enemy priorities remain unknown until observed."
+    },
+    {
+      "id":"chain.light_as_reference",
+      "theme":"Utiliser la lumière comme référentiel local sans lui attribuer le pouvoir de créer la vérité.",
+      "stages":[
+        {"act":"IV","source":"region.a4.low_contour","preferred_choice":"move_light","writes":["expedition_history:light_reference_used"]},
+        {"act":"IV","source":"region.a4.what_remains","preferred_choice":"catalog_persistent","requires":["expedition_history:light_reference_used"],"writes":["archive_history:persistent_vs_temporary"]},
+        {"act":"V","source":"region.a5.two_versions","preferred_choice":"seek_common_anchor","requires":["archive_history:persistent_vs_temporary"],"writes":["archive_history:common_reference_under_versions"]}
+      ],
+      "payoff":"UX/Archive may explain that light stabilizes what can be compared now; stored knowledge is not erased in darkness."
+    },
+    {
+      "id":"chain.context_before_copy",
+      "theme":"Apprendre que reproduire une action n'est pas reproduire son contexte.",
+      "stages":[
+        {"act":"II","source":"region.a2.read_the_hands","preferred_choice":"watch_spacing","writes":["combat_history:contextual_spacing_observation"]},
+        {"act":"III","source":"region.a3.dry_ground","preferred_choice":"seek_dry_zone","requires":["combat_history:contextual_spacing_observation"],"writes":["combat_history:terrain_context_matters"]},
+        {"act":"V","source":"region.a5.bad_copy","preferred_choice":"bait_weak_context","requires":["combat_history:terrain_context_matters"],"writes":["combat_history:copy_context_counterplay"]}
+      ],
+      "payoff":"The archive may reveal the lineage of the tactic after it was actually demonstrated; no predictive counter is granted beforehand."
+    },
+    {
+      "id":"chain.remanence_shared_history",
+      "theme":"Faire traverser les actes à une histoire avec une entité persistante sans forcer sa présence.",
+      "stages":[
+        {"act":"II-V","source":"remanence_event:survival_or_failed_capture","writes":["remanence_history:shared_entity_history"]},
+        {"act":"II-V","source":"ref.transformation.memory_rank","requires":["remanence_history:shared_entity_history","same_entity_present"],"preferred_choice":"observe_change","writes":["archive_history:observed_memory_rank_change"]},
+        {"act":"II-V","source":"ref.crise.nemesis_nearby","requires":["archive_history:observed_memory_rank_change","known_nemesis_world_trace_active"],"preferred_choice":"prepare_counterplay","writes":["expedition_prepare_note:known_nemesis_counterplay_only"]}
+      ],
+      "payoff":"If the same individual genuinely returns, the Refuge can refer to the shared history. No Nemesis is spawned to satisfy the chain."
+    }
+  ],
+  "save_projection": {
+    "store_completed_stage_ids": true,
+    "store_written_history_refs": true,
+    "store_last_progress_expedition": true,
+    "do_not_store_scene_snapshot": true,
+    "chain_can_remain_incomplete_forever": true
+  }
+}

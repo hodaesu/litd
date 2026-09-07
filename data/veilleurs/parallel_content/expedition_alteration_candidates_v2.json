@@ -1,0 +1,52 @@
+{
+  "version": 2,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "scope": "single_expedition_only",
+  "rules": {
+    "seed_reproducible": true,
+    "visible_before_or_when_effect_becomes_relevant": true,
+    "duplicates_forbidden": true,
+    "max_simultaneous_candidates_if_activated_later": 2,
+    "persistent_runtime_modifier_forbidden": true,
+    "permanent_stat_inflation_forbidden": true,
+    "stored_knowledge_erasure_forbidden": true,
+    "forced_no_win_state_forbidden": true,
+    "alternative_route_or_counterplay_required": true,
+    "playtest_validation_required_before_activation": true
+  },
+  "families": {
+    "light": [
+      {"id":"alt.light.long_shadows","title":"Ombres longues","mechanical_hook":"light_decay_pressure","effect":"Les transitions vers les bandes de lumière basses surviennent plus vite après certaines actions coûteuses.","counterplay":"Réduire les actions lumineuses coûteuses ou préparer davantage de lumière.","telemetry_focus":["light_low_exposure","extraction_timing"]},
+      {"id":"alt.light.stubborn_flame","title":"Flamme tenace","mechanical_hook":"light_recovery_friction","effect":"Remonter d'une bande de lumière demande une situation plus stable qu'en règle normale.","counterplay":"Sécuriser la pièce avant de tenter de rétablir la lumière.","telemetry_focus":["room_dwell_time","light_band_changes"]},
+      {"id":"alt.light.false_relief","title":"Clarté trompeuse","mechanical_hook":"local_light_stability","effect":"Certaines zones restent visuellement lisibles tout en offrant moins de stabilité aux lectures d'intention.","counterplay":"Distinguer visibilité locale et certitude tactique ; les connaissances stockées restent intactes.","telemetry_focus":["intent_lookup_rate","perception_downgrades"]}
+    ],
+    "noise": [
+      {"id":"alt.noise.long_echo","title":"Échos longs","mechanical_hook":"noise_room_carry","effect":"Une partie du bruit persiste lors du passage vers la pièce suivante.","counterplay":"Créer une pièce tampon ou attendre une baisse avant de franchir un seuil.","telemetry_focus":["noise_high_exposure","patrol_state_changes"]},
+      {"id":"alt.noise.brittle_ground","title":"Sol cassant","mechanical_hook":"movement_noise","effect":"Certains déplacements sur terrain marqué produisent davantage de bruit.","counterplay":"Lire le terrain et choisir un axe plus lent ou plus sûr.","telemetry_focus":["route_choice","noise_band_changes"]},
+      {"id":"alt.noise.hunted_silence","title":"Silence traqué","mechanical_hook":"low_noise_patrol_attention","effect":"Rester longtemps parfaitement silencieux peut attirer l'attention d'un chasseur déjà actif sans révéler automatiquement sa position.","counterplay":"Varier rythme et route ; aucune embuscade garantie.","telemetry_focus":["patrol_investigate_rate","room_dwell_time"]}
+    ],
+    "body": [
+      {"id":"alt.body.bad_stabilization","title":"Stabilisation difficile","mechanical_hook":"field_stabilization_friction","effect":"Les stabilisations de terrain demandent une fenêtre tactique plus sûre.","counterplay":"Créer du contrôle ou extraire plus tôt.","telemetry_focus":["critical_duration","retreat_before_collapse"]},
+      {"id":"alt.body.old_pain","title":"Vieilles douleurs","mechanical_hook":"persistent_injury_context","effect":"Une blessure persistante déjà connue influence plus fortement certaines décisions de posture, sans créer une nouvelle blessure gratuitement.","counterplay":"Adapter composition et positionnement avant le départ.","telemetry_focus":["injury_persistence_pressure","party_composition_changes"]},
+      {"id":"alt.body.scar_tension","title":"Cicatrices sous tension","mechanical_hook":"functional_consequence_visibility","effect":"Les conséquences fonctionnelles des zones déjà fragiles deviennent plus faciles à déclencher mais restent entièrement télégraphiées.","counterplay":"Protéger les zones fragiles ou changer de rôle temporairement.","telemetry_focus":["body_zone_targeting","functional_consequence_rate"]}
+    ],
+    "environment": [
+      {"id":"alt.environment.stubborn_doors","title":"Seuils récalcitrants","mechanical_hook":"obstacle_resistance","effect":"Certains seuils exigent davantage de préparation ou une autre interaction.","counterplay":"Toujours proposer au moins une route ou méthode alternative.","telemetry_focus":["route_choice","obstacle_interactions"]},
+      {"id":"alt.environment.unstable_cover","title":"Abris instables","mechanical_hook":"cover_persistence","effect":"Un couvert utilisé plusieurs fois peut devenir une trace physique modifiée pour le reste de l'expédition.","counterplay":"Changer d'axe avant l'effondrement annoncé.","telemetry_focus":["cover_reuse","position_changes"]},
+      {"id":"alt.environment.claimed_corpses","title":"Corps disputés","mechanical_hook":"corpse_resource_pressure","effect":"Certaines familles ennemies accordent plus d'importance aux cadavres déjà présents sans les faire apparaître artificiellement.","counterplay":"Déplacer, protéger ou abandonner le corps selon la situation.","telemetry_focus":["carry_started","corpse_interactions"]}
+    ],
+    "knowledge": [
+      {"id":"alt.knowledge.partial_signs","title":"Signes partiels","mechanical_hook":"presentation_detail_downgrade","effect":"La perception courante peut afficher un niveau de détail inférieur à la connaissance stockée dans certaines pièces.","counterplay":"Améliorer lumière, ligne de vue ou position ; l'Archive conserve l'acquis.","telemetry_focus":["intent_lookup_rate","perception_downgrades"]},
+      {"id":"alt.knowledge.conflicting_trace","title":"Traces contradictoires","mechanical_hook":"hypothesis_coexistence","effect":"Deux indices compatibles avec des explications différentes restent affichés comme hypothèses concurrentes.","counterplay":"Observer ou analyser davantage au lieu de recevoir une vérité automatique.","telemetry_focus":["archive_contextual_use","knowledge_promotions"]},
+      {"id":"alt.knowledge.phase_blindspot","title":"Angle mort","mechanical_hook":"boss_phase_readability","effect":"Une phase déjà rencontrée reste connue mais certains détails contextuels sont moins lisibles sous mauvaise perception.","counterplay":"Stabiliser la perception ; aucune phase future n'est révélée.","telemetry_focus":["boss_intent_inspection","phase_damage_or_failure"]}
+    ],
+    "extraction": [
+      {"id":"alt.extraction.long_way_home","title":"Le retour s'allonge","mechanical_hook":"return_route_pressure","effect":"L'extraction demande de retraverser davantage de contexte déjà visité, sans créer de combat obligatoire.","counterplay":"Préserver lumière et ressources pour le retour ou partir plus tôt.","telemetry_focus":["extraction_timing","return_route_duration"]},
+      {"id":"alt.extraction.closing_route","title":"Route qui se ferme","mechanical_hook":"telegraphed_route_change","effect":"Une voie de retour connue se dégrade progressivement et annonce son changement avant de devenir indisponible.","counterplay":"Extraire avant la fermeture ou sécuriser une seconde route.","telemetry_focus":["route_choice","late_extraction_rate"]},
+      {"id":"alt.extraction.heavy_return","title":"Retour chargé","mechanical_hook":"carry_and_loot_pressure","effect":"Transporter un corps ou une charge importante rend certains choix de retour plus coûteux sans interdire le sauvetage.","counterplay":"Répartir les charges, abandonner du butin ou choisir une route plus sûre.","telemetry_focus":["carry_started","loot_abandonment_candidate","extraction_duration"]}
+    ]
+  },
+  "candidate_count": 18
+}

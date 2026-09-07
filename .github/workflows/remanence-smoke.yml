@@ -42,3 +42,19 @@ jobs:
         run: godot --headless --path . res://scenes/tests/veilleurs_refuge_archive_presenter_smoke.tscn
       - name: Arbres et ultimes des boss Les Veilleurs
         run: godot --headless --path . res://scenes/tests/veilleurs_boss_kit_runtime_smoke.tscn
+      - name: Handoff mémoire Refuge candidat (inactif)
+        run: godot --headless --path . res://scenes/tests/veilleurs_refuge_memory_service_candidate_smoke.tscn
+      - name: Handoff réactions auxiliaires candidat (inactif)
+        run: godot --headless --path . res://scenes/tests/veilleurs_auxiliary_reaction_resolver_candidate_smoke.tscn
+      - name: Handoff projection Archives Rémanence candidat (inactif)
+        run: godot --headless --path . res://scenes/tests/veilleurs_refuge_memory_projection_adapter_candidate_smoke.tscn
+      - name: Feature flags post-playtest candidats (inactifs)
+        run: godot --headless --path . res://scenes/tests/veilleurs_post_playtest_feature_flags_candidate_smoke.tscn
+      - name: Corpus migrations mémoire Refuge candidat (inactif)
+        run: godot --headless --path . res://scenes/tests/veilleurs_refuge_memory_migration_corpus_candidate_smoke.tscn
+      - name: Audit journal migration mémoire Refuge candidat (inactif)
+        run: godot --headless --path . res://scenes/tests/veilleurs_refuge_memory_migration_audit_candidate_smoke.tscn
+      - name: Rollback feature flags post-playtest candidat (inactif)
+        run: godot --headless --path . res://scenes/tests/veilleurs_post_playtest_feature_flag_rollback_candidate_smoke.tscn
+      - name: Fixtures visuelles Archives multi-actes (inactives)
+        run: godot --headless --path . res://scenes/tests/veilleurs_multi_act_archive_visual_fixture_candidate_smoke.tscn

@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "purpose": "Generate reaction eligibility for individual auxiliaries from lived identity/history without assigning species-wide personality.",
+  "identity_requirements": {
+    "stable_entity_id_required": true,
+    "identity_seed_required": true,
+    "species_id_is_context_not_personality": true,
+    "memory_rank_may_affect_available_history_but_not_personality": true,
+    "persistent_injuries_are_facts_not_character_traits": true
+  },
+  "individual_state": {
+    "entity_id": "String",
+    "identity_seed": "int",
+    "species_id": "String",
+    "rallied_act": "I|II|III|IV|V",
+    "history_tags": "Array<String lived facts>",
+    "relationship_history": "Array<Dictionary>",
+    "work_history": "Array<Dictionary>",
+    "care_history": "Array<Dictionary>",
+    "capture_history": "Array<Dictionary>",
+    "departure_history": "Array<Dictionary>",
+    "remanence_history": "Array<Dictionary>",
+    "persistent_injuries": "Array<Dictionary>",
+    "known_roles": "Array<String observed roles only>",
+    "consent_flags": "Dictionary for optional social participation"
+  },
+  "reaction_gate": {
+    "requires_specific_entity_present": true,
+    "requires_at_least_one": ["direct_participation", "direct_observation", "shared_history", "event_materially_affects_entity"],
+    "species_membership_alone_never_sufficient": true,
+    "same_species_does_not_share_memory": true,
+    "unobserved_watcher_history_forbidden": true,
+    "diagnosis_or_fixed_personality_label_forbidden": true,
+    "reaction_text_generation_from_species_archetype_forbidden": true
+  },
+  "reaction_dimensions": [
+    {"id":"safety","evidence":["was_protected","protected_someone","injury_changed_role","shared_retreat"]},
+    {"id":"trust","evidence":["promise_kept","rescue","shared_work","negotiated_boundary","failed_or_successful_cooperation"]},
+    {"id":"responsibility","evidence":["caused_or_witnessed_consequence","accepted_task","refused_task","participated_in_rule"]},
+    {"id":"body","evidence":["persistent_injury","care_received","care_given","functional_adaptation"]},
+    {"id":"knowledge","evidence":["witnessed_species_behavior","corpse_analysis_participation","conflicting_observation","verification_attempt"]},
+    {"id":"capture_rallying","evidence":["own_capture","failed_capture","rallied_after_conflict","witnessed_other_rallying"]},
+    {"id":"work","evidence":["known_role_used","shared_repair","specialist_task","task_failed_or_completed"]},
+    {"id":"departure","evidence":["asked_to_leave","chose_to_leave","someone_left_for_capacity","returned_after_departure_reference"]},
+    {"id":"remanence","evidence":["own_promotion","witnessed_promotion","known_nemesis_shared_history"]}
+  ],
+  "selection": {
+    "max_auxiliary_reactions_per_event_candidate": 2,
+    "max_is_canon": false,
+    "ranking": ["directly_affected_desc", "direct_participation_desc", "shared_history_strength_desc", "recency_desc", "stable_entity_id_asc"],
+    "random_selection_forbidden_when_evidence_differs": true,
+    "deterministic_tie_break_allowed_when_evidence_equal": true
+  },
+  "output": {
+    "entity_id": "String",
+    "eligible": "bool",
+    "evidence_refs": "Array<String event/history ids>",
+    "reaction_dimensions": "Array<String>",
+    "allowed_response_mode": "acknowledge|question|disagree|refuse|assist|observe|remain_silent",
+    "archive_write_candidate": "Dictionary or empty",
+    "relationship_write_candidate": "Dictionary or empty",
+    "canonical_dialogue_key": "String or empty; never synthesized here"
+  },
+  "examples": [
+    {
+      "id":"aux.example.former_opponent_boundary",
+      "requires":["specific_auxiliary_is_former_opponent","specific_auxiliary_rallied","refuge_event=ref.conflit.recruit_friction"],
+      "dimensions":["capture_rallying","trust","responsibility"],
+      "forbidden":"All recruits of this species react identically."
+    },
+    {
+      "id":"aux.example.injured_worker",
+      "requires":["specific_auxiliary_has_persistent_injury","specific_auxiliary_known_role_conflicts_with_injury","refuge_event_family=TRAVAIL"],
+      "dimensions":["body","work","responsibility"],
+      "forbidden":"Injury implies a personality or diagnosis."
+    },
+    {
+      "id":"aux.example.shared_nemesis_history",
+      "requires":["specific_auxiliary_witnessed_or_suffered_nemesis_event","same_nemesis_trace_returns"],
+      "dimensions":["remanence","safety","knowledge"],
+      "forbidden":"Auxiliary knows the Nemesis current build or location without a trace."
+    }
+  ],
+  "integration_plan": {
+    "resolver_class_candidate": "VeilleursAuxiliaryReactionResolverCandidate",
+    "reads_refuge_roster_from": "VeilleursContentRuntime.refuge_snapshot().roster",
+    "reads_memory_from": "VeilleursRefugeMemoryServiceCandidate",
+    "writes_only_requests": true,
+    "active_runtime_wiring_requires_pc_validation": true
+  }
+}
