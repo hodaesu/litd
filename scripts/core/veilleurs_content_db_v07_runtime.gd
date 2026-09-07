@@ -1,4 +1,4 @@
-extends "res://scripts/core/veilleurs_content_db_v07.gd"
+extends "res://scripts/core/veilleurs_content_db_v081_canonical.gd"
 class_name VeilleursContentDBV07Runtime
 
 func skill(skill_id: String) -> Dictionary:
