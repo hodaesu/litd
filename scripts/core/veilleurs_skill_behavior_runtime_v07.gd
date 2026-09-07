@@ -129,11 +129,11 @@ func _pull_toward(runtime: Variant, attacker_id: String, target_id: String) -> b
     var attacker_pos: Vector2i = runtime.grid.position_of(attacker_id)
     var target_pos: Vector2i = runtime.grid.position_of(target_id)
     var best := Vector2i(-1, -1)
-    var best_distance := runtime.grid.distance(attacker_id, target_id)
+    var best_distance: int = int(runtime.grid.distance(attacker_id, target_id))
     for cell: Vector2i in runtime.grid.neighbors(target_pos):
         if runtime.grid.occupied(cell):
             continue
-        var distance := absi(cell.x - attacker_pos.x) + absi(cell.y - attacker_pos.y)
+        var distance: int = absi(cell.x - attacker_pos.x) + absi(cell.y - attacker_pos.y)
         if distance < best_distance:
             best_distance = distance
             best = cell
