@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "authority": "presentation_contract_only",
+  "rules": {
+    "charges_by_level": {"16": 1, "32": 2, "48": 3},
+    "max_same_ultimate_per_encounter": 1,
+    "consume_charge_at": "ULTIMATE_RESOLVE",
+    "presentation_never_decides_gameplay": true,
+    "no_free_invulnerability": true,
+    "no_resurrection": true,
+    "body_state_remains_causal": true,
+    "short_mode_changes_mechanics": false,
+    "accessibility": ["reduced_motion", "no_screen_shake", "haptics_off", "reduced_gore", "short_ultimate_mode"]
+  },
+  "ultimates": {
+    "nayra_orun:bastion": {
+      "name": "La Ligne ne rompt pas",
+      "full_duration_s": 2.2,
+      "short_duration_s": 1.2,
+      "signature": "multi_real_impacts",
+      "states": ["ULTIMATE_FOCUS", "ULTIMATE_SET_LINE", "ULTIMATE_BRACE", "ULTIMATE_WINDOW", "ULTIMATE_INTERCEPT_RESOLVE", "ULTIMATE_AFTERMATH"],
+      "camera": "low_over_shoulder_anchor",
+      "audio": ["breath", "boots", "shield_material", "resolved_weapon_impacts"],
+      "haptics": "one_impulse_per_resolved_impact_scaled_by_force",
+      "variants": ["absorbed", "recoil", "fracture", "function_loss_stops_window", "non_interceptable_area_attack"]
+    },
+    "nayra_orun:brisure": {
+      "name": "Le Poids du Mur",
+      "full_duration_s": 3.1,
+      "short_duration_s": 1.5,
+      "signature": "mass_ramp_then_collision",
+      "states": ["ULTIMATE_MEASURE", "ULTIMATE_LOAD", "ULTIMATE_DRIVE", "ULTIMATE_COLLISION", "ULTIMATE_TRANSFER", "ULTIMATE_RECOVER"],
+      "camera": "low_continuous_collision_line",
+      "audio": ["armor_rattle", "breath_ramp", "heavy_steps", "material_collision"],
+      "haptics": "ramping_steps_then_heavy_collision",
+      "variants": ["light_target_projection", "heavy_target_trauma", "environment_collision", "boss_stop_countertrauma", "nayra_support_limb_limit"]
+    },
+    "nayra_orun:serment": {
+      "name": "Pas un de plus",
+      "full_duration_s": 2.8,
+      "short_duration_s": 1.4,
+      "signature": "wounded_breath_and_shield_reposition",
+      "states": ["ULTIMATE_TRIAGE_VIEW", "ULTIMATE_VOW", "ULTIMATE_REPOSITION", "ULTIMATE_RESCUE_WINDOW", "ULTIMATE_END"],
+      "camera": "formation_wide",
+      "audio": ["wounded_breath", "shield_shift", "short_vow"],
+      "haptics": "firm_vow_then_small_rescue_impulses",
+      "variants": ["downed_ally", "critical_ally", "extraction_open", "dead_ally_not_recoverable", "nayra_function_loss"]
+    },
+    "tarek_senn:traque": {
+      "name": "La Proie n’a plus d’ombre",
+      "full_duration_s": 3.0,
+      "short_duration_s": 1.4,
+      "signature": "confirmed_clues_reconnect",
+      "states": ["ULTIMATE_RECALL", "ULTIMATE_CONNECT", "ULTIMATE_LOCK", "ULTIMATE_SHARE", "ULTIMATE_RESOLVE"],
+      "camera": "target_focus_with_confirmed_clue_inserts",
+      "audio": ["footstep_clue", "breath_clue", "armor_clue", "bow_string_clue"],
+      "haptics": "three_light_taps_then_lock",
+      "variants": ["highly_studied", "partially_studied", "insufficient_knowledge"]
+    },
+    "tarek_senn:entaille": {
+      "name": "Les Sept Ouvertures",
+      "full_duration_s": 3.4,
+      "short_duration_s": 1.7,
+      "signature": "conditional_staccato_hits",
+      "states": ["ULTIMATE_COUNT_OPENINGS", "ULTIMATE_STEP_IN", "ULTIMATE_CHAIN", "ULTIMATE_BREAK_CHAIN", "ULTIMATE_EXIT"],
+      "camera": "close_continuous_no_seven_cuts",
+      "audio": ["blade", "cloth", "breath", "wound_specific_impacts"],
+      "haptics": "one_short_impulse_per_resolved_hit",
+      "variants": ["tendon_failure", "disarm", "old_wound_bleed", "intact_function_low_value", "threshold_dismemberment_only"]
+    },
+    "tarek_senn:disparition": {
+      "name": "Là où nul ne regarde",
+      "full_duration_s": 2.7,
+      "short_duration_s": 1.3,
+      "signature": "old_position_empty_and_missing_steps",
+      "states": ["ULTIMATE_BREAK_ATTENTION", "ULTIMATE_MOVE", "ULTIMATE_OLD_POSITION", "ULTIMATE_NEW_POSITION", "ULTIMATE_CERTAINTY_RESOLVE"],
+      "camera": "natural_occlusion_no_magic_fade",
+      "audio": ["held_breath", "soft_footing", "cloth", "temporary_missing_steps"],
+      "haptics": "light_slide_then_footing_tap",
+      "variants": ["bright_open_space_reduced", "valid_cover", "high_attention_enemy", "boss_certainty_reduction_only"]
+    },
+    "aisha_maren:anatomie": {
+      "name": "Carte parfaite du vivant",
+      "full_duration_s": 3.4,
+      "short_duration_s": 1.6,
+      "signature": "observable_body_signs_shared",
+      "states": ["ULTIMATE_OBSERVE", "ULTIMATE_MAP", "ULTIMATE_CALL_OUT", "ULTIMATE_PARTY_READ", "ULTIMATE_RESOLVE"],
+      "camera": "short_real_body_sign_inserts_no_xray",
+      "audio": ["target_breath", "joint_friction", "armor", "aisha_callouts"],
+      "haptics": "small_confirmation_taps",
+      "variants": ["known_anatomy", "partly_inferred_anatomy", "covered_unknown_zone"]
+    },
+    "aisha_maren:suture": {
+      "name": "Tout ce qui peut être sauvé",
+      "full_duration_s": 4.0,
+      "short_duration_s": 1.9,
+      "signature": "triage_gestures_and_stabilized_breath",
+      "states": ["ULTIMATE_TRIAGE", "ULTIMATE_SELECT", "ULTIMATE_INTERVENTIONS", "ULTIMATE_RESOLVE", "ULTIMATE_REASSESS"],
+      "camera": "dynamic_party_wide_no_heal_aura",
+      "audio": ["bandage_tension", "breath", "short_clinical_orders", "buckles", "pain_response"],
+      "haptics": "tap_per_intervention_longer_on_critical_stabilization",
+      "variants": ["dead_ignored", "lost_limb_not_restored", "fracture_splinted", "hemorrhage_reduced", "multi_patient_priority"]
+    },
+    "aisha_maren:hemocorde": {
+      "name": "Le Dernier Battement",
+      "full_duration_s": 3.8,
+      "short_duration_s": 1.8,
+      "signature": "silence_then_heartbeat",
+      "states": ["ULTIMATE_REQUEST", "ULTIMATE_VALIDATE", "ULTIMATE_FOCUS", "ULTIMATE_READ", "ULTIMATE_APPROACH", "ULTIMATE_CONTACT", "ULTIMATE_SILENCE", "ULTIMATE_RESOLVE", "ULTIMATE_AFTERMATH", "ULTIMATE_RETURN_TO_COMBAT"],
+      "camera": "subtle_vascular_focus",
+      "audio": ["breath", "cloth", "contact", "heartbeat", "near_total_silence"],
+      "haptics": "contact_tap_then_heartbeat_pattern",
+      "variants": ["nonfatal_collapse", "terminal_nonboss_fatal", "boss_survives_floor"]
+    },
+    "idris_vael:sentence": {
+      "name": "Le Verdict tombe",
+      "full_duration_s": 3.0,
+      "short_duration_s": 1.4,
+      "signature": "staff_strike_and_timeline_reorder",
+      "states": ["ULTIMATE_READ_INTENTS", "ULTIMATE_JUDGMENT", "ULTIMATE_REORDER", "ULTIMATE_CONFIRM"],
+      "camera": "side_view_idris_and_affected_enemies",
+      "audio": ["staff_strike", "short_verdict", "subtle_timeline_ticks"],
+      "haptics": "firm_verdict_then_small_reorder_ticks",
+      "variants": ["revealed_intent_only", "irreversible_action_not_cancelled", "animal_physical_interrupt_only", "boss_resistance"]
+    },
+    "idris_vael:concorde": {
+      "name": "Un seul mouvement",
+      "full_duration_s": 4.2,
+      "short_duration_s": 2.0,
+      "signature": "one_shared_rhythm_four_real_actions",
+      "states": ["ULTIMATE_SEQUENCE_SELECT", "ULTIMATE_IDRIS_CUE", "ULTIMATE_ACTOR_1_RESOLVE", "ULTIMATE_ACTOR_2_RESOLVE", "ULTIMATE_ACTOR_3_RESOLVE", "ULTIMATE_ACTOR_4_RESOLVE", "ULTIMATE_RETURN"],
+      "camera": "continuous_group_travelling",
+      "audio": ["shared_low_rhythm", "real_actor_action_sounds"],
+      "haptics": "actor_specific_signatures_bound_by_common_pattern",
+      "variants": ["order_changes_synergy", "injury_changes_action", "target_invalidated_mid_sequence", "all_four_must_be_eligible"]
+    },
+    "idris_vael:dissidence": {
+      "name": "Que l’ordre se brise",
+      "full_duration_s": 3.3,
+      "short_duration_s": 1.5,
+      "signature": "enemy_collective_rhythm_desynchronizes",
+      "states": ["ULTIMATE_IDENTIFY_STRUCTURE", "ULTIMATE_CHALLENGE", "ULTIMATE_BREAK_LINKS", "ULTIMATE_REACTION", "ULTIMATE_RESOLVE"],
+      "camera": "enemy_formation_wide",
+      "audio": ["enemy_orders", "overlap", "desynchronization", "broken_rhythm"],
+      "haptics": "three_regular_small_impulses_then_abrupt_break",
+      "variants": ["unstructured_group_low_value", "known_leader_strong_break", "partial_structure_partial_break", "solo_boss_low_value", "commanding_boss_no_mind_control"]
+    }
+  }
+}
