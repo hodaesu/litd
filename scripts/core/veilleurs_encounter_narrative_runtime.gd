@@ -31,7 +31,10 @@ func reload() -> Dictionary:
         return _finish(errors)
     var compressed := Marshalls.base64_to_raw(encoded)
     var expected_bytes := int(cache.get("uncompressed_bytes", 0))
-    var raw := compressed.decompress(expected_bytes, FileAccess.COMPRESSION_DEFLATE)
+    var raw := compressed.decompress_dynamic(-1, FileAccess.COMPRESSION_DEFLATE)
+    if raw.is_empty():
+        errors.append("decompress_failed")
+        return _finish(errors)
     if raw.size() != expected_bytes:
         errors.append("uncompressed_size:%d" % raw.size())
         return _finish(errors)
