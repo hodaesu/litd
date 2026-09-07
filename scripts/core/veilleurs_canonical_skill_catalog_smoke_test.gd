@@ -2,9 +2,15 @@ extends Node
 
 const SKILL_RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_enemy_skill_runtime.gd")
 
+var finished := false
+
 func _ready() -> void:
+    var watchdog := get_tree().create_timer(15.0)
+    watchdog.timeout.connect(_on_watchdog)
+
     var runtime := SKILL_RUNTIME_SCRIPT.new() as VeilleursEnemySkillRuntime
     var report := runtime.validation_report()
+    print("VEILLEURS_SKILL_SMOKE_REPORT:", JSON.stringify(report))
     assert(bool(report.get("ok", false)))
     assert(int(report.get("entities", 0)) == 29)
     assert(int(report.get("trees", 0)) == 87)
@@ -15,6 +21,7 @@ func _ready() -> void:
     assert(bool(exact_report.get("ok", false)))
     assert(int(exact_report.get("records", 0)) == 1305)
     assert(int(exact_report.get("entities", 0)) == 29)
+    print("VEILLEURS_SKILL_SMOKE_STAGE:catalog_ok")
 
     var entity_count := 0
     var all_runtime_ids: Dictionary = {}
@@ -39,6 +46,7 @@ func _ready() -> void:
             assert(int(tree_counts[tree_value]) == 15)
     assert(entity_count == 29)
     assert(all_runtime_ids.size() == 1305)
+    print("VEILLEURS_SKILL_SMOKE_STAGE:29_entities_ok")
 
     var delie_skills := runtime.skills_for_entity("delie_affame")
     assert(delie_skills.size() == 45)
@@ -50,6 +58,7 @@ func _ready() -> void:
     assert(int(delie_tree_counts.get("Chair ouverte", 0)) == 15)
     assert(int(delie_tree_counts.get("Faim basse", 0)) == 15)
     assert(int(delie_tree_counts.get("Fuite des cendres", 0)) == 15)
+    print("VEILLEURS_SKILL_SMOKE_STAGE:delie_45_ok")
 
     var enemy := {
         "species_id": "delie_affame",
@@ -82,16 +91,15 @@ func _ready() -> void:
     }
     var action := runtime.choose_action(enemy, heroes, full_context)
     _assert_canonical_action(action, all_runtime_ids, active_tree)
+    print("VEILLEURS_SKILL_SMOKE_STAGE:direct_runtime_choice_ok")
 
-    # Production path: the autoload used by live combat must resolve the same exact catalog,
-    # and must never fall through to the generic archetype attack for a recognized Veilleurs entity.
     var production_enemy := enemy.duplicate(true)
     EnemyCombatDirector.prepare_veilleurs_enemy(production_enemy, 74031)
     var production_action := EnemyCombatDirector.choose_action(production_enemy, heroes, full_context)
     _assert_canonical_action(production_action, all_runtime_ids, str(production_enemy.get("veilleurs_active_tree", "")))
     assert(str(production_action.get("id", "")) != "basic_attack")
+    print("VEILLEURS_SKILL_SMOKE_STAGE:production_director_choice_ok")
 
-    # Also exercise the normal combat context where only Active skills are immediately eligible.
     var active_only_action := EnemyCombatDirector.choose_action(production_enemy, heroes, {
         "seed": 74031,
         "turn_index": 3,
@@ -99,7 +107,9 @@ func _ready() -> void:
     })
     _assert_canonical_action(active_only_action, all_runtime_ids, str(production_enemy.get("veilleurs_active_tree", "")))
     assert(str(active_only_action.get("skill_type", "")) == "Active")
+    print("VEILLEURS_SKILL_SMOKE_STAGE:production_active_only_ok")
 
+    finished = true
     print("VEILLEURS_CANONICAL_SKILL_CATALOG_SMOKE_OK")
     get_tree().quit(0)
 
@@ -114,3 +124,9 @@ func _assert_canonical_action(action: Dictionary, all_runtime_ids: Dictionary, a
     assert(str(action.get("tree", "")) == active_tree)
     assert(bool(action.get("generic_damage_fallback_forbidden", false)))
     assert(not bool(action.get("party_counterpick_used", true)))
+
+func _on_watchdog() -> void:
+    if finished:
+        return
+    push_error("VEILLEURS_CANONICAL_SKILL_CATALOG_SMOKE_TIMEOUT_OR_ASSERT")
+    get_tree().quit(1)
