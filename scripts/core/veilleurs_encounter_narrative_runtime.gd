@@ -29,9 +29,13 @@ func reload() -> Dictionary:
     if encoded.is_empty():
         errors.append("empty_payload")
         return _finish(errors)
-    var compressed := Marshalls.base64_to_raw(encoded)
+    var zlib_stream := Marshalls.base64_to_raw(encoded)
+    var raw_deflate := _unwrap_python_zlib(zlib_stream)
+    if raw_deflate.is_empty():
+        errors.append("invalid_zlib_stream")
+        return _finish(errors)
     var expected_bytes := int(cache.get("uncompressed_bytes", 0))
-    var raw := compressed.decompress_dynamic(-1, FileAccess.COMPRESSION_DEFLATE)
+    var raw := raw_deflate.decompress(expected_bytes, FileAccess.COMPRESSION_DEFLATE)
     if raw.is_empty():
         errors.append("decompress_failed")
         return _finish(errors)
@@ -87,6 +91,17 @@ func entry_by_name(encounter_name: String) -> Dictionary:
 
 func all_entries() -> Array[Dictionary]:
     return records.duplicate(true)
+
+func _unwrap_python_zlib(stream: PackedByteArray) -> PackedByteArray:
+    if stream.size() <= 6:
+        return PackedByteArray()
+    var cmf := int(stream[0])
+    var flg := int(stream[1])
+    if (cmf & 0x0F) != 8 or ((cmf << 8) + flg) % 31 != 0:
+        return PackedByteArray()
+    if (flg & 0x20) != 0:
+        return PackedByteArray()
+    return stream.slice(2, stream.size() - 4)
 
 func _finish(errors: Array[String]) -> Dictionary:
     last_report = {
