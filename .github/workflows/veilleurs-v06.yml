@@ -54,10 +54,10 @@ jobs:
         run: python tools/qa/veilleurs_v061_balance_sim.py --check --runs 500
 
   godot-tactical:
-    name: Godot 4.3 tactical smoke
+    name: Godot 4.7 tactical smoke
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.3
+      image: barichello/godot-ci:4.7.2
     steps:
       - uses: actions/checkout@v4
       - name: Strict Godot import
