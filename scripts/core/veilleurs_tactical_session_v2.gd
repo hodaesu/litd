@@ -12,6 +12,8 @@ var runtime: VeilleursTacticalCombatRuntimeV2 = null
 var active := false
 var encounter_id := ""
 var region_id := ""
+var major_mutilation_keys: Dictionary = {}
+var watcher_kill_keys: Dictionary = {}
 
 func start_first_combat() -> Dictionary:
     runtime = RUNTIME_SCRIPT.new() as VeilleursTacticalCombatRuntimeV2
@@ -19,6 +21,8 @@ func start_first_combat() -> Dictionary:
     active = bool(result.get("ok", false))
     encounter_id = "veilleurs_v061_first_combat"
     region_id = "khar_sen"
+    major_mutilation_keys.clear()
+    watcher_kill_keys.clear()
     if active:
         _note_enemy_encounters()
         session_started.emit(snapshot())
@@ -42,6 +46,7 @@ func enemy_step(enemy_id: String) -> Dictionary:
         return {"ok":false, "reason":"inactive"}
     var result := runtime.enemy_step(enemy_id)
     if bool(result.get("ok", false)):
+        _record_watcher_kill_if_needed(enemy_id, result)
         session_changed.emit(snapshot())
     return result
 
@@ -66,9 +71,18 @@ func reset() -> void:
     active = false
     encounter_id = ""
     region_id = ""
+    major_mutilation_keys.clear()
+    watcher_kill_keys.clear()
 
 func snapshot() -> Dictionary:
-    return {"active":active, "encounter_id":encounter_id, "region_id":region_id, "runtime":runtime.serialize() if runtime != null else {}}
+    return {
+        "active":active,
+        "encounter_id":encounter_id,
+        "region_id":region_id,
+        "runtime":runtime.serialize() if runtime != null else {},
+        "major_mutilation_keys":major_mutilation_keys.duplicate(true),
+        "watcher_kill_keys":watcher_kill_keys.duplicate(true)
+    }
 
 func serialize() -> Dictionary:
     return snapshot()
@@ -84,6 +98,8 @@ func deserialize(payload: Dictionary) -> void:
     active = true
     encounter_id = str(payload.get("encounter_id", "veilleurs_v061_first_combat"))
     region_id = str(payload.get("region_id", "khar_sen"))
+    major_mutilation_keys = (payload.get("major_mutilation_keys", {}) as Dictionary).duplicate(true)
+    watcher_kill_keys = (payload.get("watcher_kill_keys", {}) as Dictionary).duplicate(true)
     _restore_remanence_into_runtime()
     session_changed.emit(snapshot())
 
@@ -153,15 +169,43 @@ func _record_major_body_event_if_needed(result: Dictionary) -> void:
     var body_result: Dictionary = result.get("body", {})
     if not bool(body_result.get("severed", false)):
         return
+    var zone := str(result.get("zone", ""))
+    var event_key := "%s:%s" % [target_id, zone]
+    if major_mutilation_keys.has(event_key):
+        return
     var bridge_enemy := _remanence_enemy(row)
     bridge_enemy["remanence_id"] = str(row.get("remanence_id", ""))
     RemanenceRuntime.record_enemy_event(bridge_enemy, "major_mutilation", {
         "region_id":region_id,
         "hero_id":str(result.get("attacker", "")),
         "summary":"Mutilation majeure pendant %s" % encounter_id,
-        "zone":str(result.get("zone", ""))
+        "zone":zone,
+        "encounter_id":encounter_id
     })
+    major_mutilation_keys[event_key] = true
     _sync_runtime_remanence(target_id)
+
+func _record_watcher_kill_if_needed(enemy_id: String, result: Dictionary) -> void:
+    var target_id := str(result.get("target", ""))
+    if target_id == "" or not runtime.combatants.has(target_id) or not runtime.combatants.has(enemy_id):
+        return
+    var target: Dictionary = runtime.combatants[target_id]
+    if str(target.get("team", "")) != "watcher" or int(target.get("hp", 0)) > 0:
+        return
+    var event_key := "%s:%s" % [enemy_id, target_id]
+    if watcher_kill_keys.has(event_key):
+        return
+    var enemy: Dictionary = runtime.combatants[enemy_id]
+    var bridge_enemy := _remanence_enemy(enemy)
+    bridge_enemy["remanence_id"] = str(enemy.get("remanence_id", ""))
+    RemanenceRuntime.record_enemy_event(bridge_enemy, "killed_watcher", {
+        "region_id":region_id,
+        "hero_id":target_id,
+        "summary":"%s a tué %s pendant %s" % [str(enemy.get("name", enemy_id)), str(target.get("name", target_id)), encounter_id],
+        "encounter_id":encounter_id
+    })
+    watcher_kill_keys[event_key] = true
+    _sync_runtime_remanence(enemy_id)
 
 func _commit_enemy_remanence(reason: String) -> void:
     if runtime == null:
@@ -191,11 +235,18 @@ func _commit_enemy_remanence(reason: String) -> void:
             "summary":"Combat v0.6.1 : %s" % reason,
             "encounter_id":encounter_id
         })
-        if not (body_payload.get("missing_parts", []) as Array).is_empty():
+        for missing_value: Variant in body_payload.get("missing_parts", []):
+            var missing_zone := str(missing_value)
+            var event_key := "%s:%s" % [entity_id, missing_zone]
+            if major_mutilation_keys.has(event_key):
+                continue
             RemanenceRuntime.record_enemy_event(bridge_enemy, "major_mutilation", {
                 "region_id":region_id,
-                "summary":"Mutilation persistante pendant le combat v0.6.1"
+                "summary":"Mutilation persistante pendant le combat v0.6.1",
+                "zone":missing_zone,
+                "encounter_id":encounter_id
             })
+            major_mutilation_keys[event_key] = true
         _grant_stage_adaptation(entity_id, str(bridge_enemy.get("remanence_id", "")))
         _sync_runtime_remanence(entity_id)
 
