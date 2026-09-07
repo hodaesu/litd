@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "root_key": "veilleurs_refuge_memory",
+  "schema_version": 1,
+  "serialization_rules": {
+    "deep_copy_required": true,
+    "full_scene_snapshot_forbidden": true,
+    "node_path_storage_forbidden": true,
+    "wall_clock_timestamp_required": false,
+    "expedition_index_is_temporal_source": true,
+    "queued_order_must_persist": true,
+    "tiebreak_key_must_persist": true,
+    "resolved_choice_history_must_persist": true,
+    "expired_history_may_be_compacted_after_archive_projection": true
+  },
+  "payload": {
+    "schema_version": "int=1",
+    "scheduler_seed": "int",
+    "expedition_index": "int>=0",
+    "return_index": "int>=0",
+    "sequence": "int>=0",
+    "records": "Dictionary<memory_id, memory_record>",
+    "queue": "Array<memory_id>",
+    "surfaced_memory_id": "String or empty",
+    "source_cooldowns": "Dictionary<source_event_id,last_surface_expedition>",
+    "family_cooldowns": "Dictionary<family,last_surface_expedition>",
+    "regional_records": "Dictionary<memory_id, regional_memory_record>",
+    "migration_log": "Array<Dictionary>"
+  },
+  "memory_record": {
+    "memory_id": "String stable",
+    "source_type": "refuge_event|regional_event",
+    "source_event_id": "String",
+    "choice_id": "String",
+    "family": "String",
+    "state": "DORMANT|ELIGIBLE|QUEUED|SURFACED|RESOLVED|EXPIRED|RETIRED",
+    "created_expedition": "int",
+    "first_eligible_expedition": "int or -1",
+    "last_transition_expedition": "int",
+    "min_surface_expedition": "int",
+    "max_surface_expedition": "int or -1",
+    "priority_band": "String",
+    "urgency": "int 0..100 candidate scale",
+    "deterministic_tiebreak": "String persisted hash",
+    "participants": "Array<String stable entity ids>",
+    "world_anchors": "Array<String stable scar/route/object ids>",
+    "evidence": "Dictionary lived facts only",
+    "requires": "Array<String condition tokens>",
+    "writes": "Array<String projected history channels>",
+    "archive_link": "String or empty",
+    "remanence_link": "String or empty",
+    "resolution": "Dictionary",
+    "source_history_written": "bool"
+  },
+  "migration": {
+    "missing_root_key": {
+      "action": "initialize_empty_v1",
+      "data_loss": false,
+      "reason": "Older saves predate post-playtest memory service."
+    },
+    "schema_0_or_unversioned_candidate": {
+      "action": "normalize_to_v1",
+      "defaults": {
+        "return_index": 0,
+        "queue": [],
+        "surfaced_memory_id": "",
+        "source_cooldowns": {},
+        "family_cooldowns": {},
+        "regional_records": {},
+        "migration_log": []
+      },
+      "rules": [
+        "preserve_existing_memory_ids",
+        "preserve_existing_state_when_valid",
+        "invalid_state_becomes_DORMANT_and_logs_warning",
+        "never_recompute_tiebreak_for_already_queued_records",
+        "never_reopen_RESOLVED_or_EXPIRED_records"
+      ]
+    },
+    "future_schema": {
+      "action": "reject_read_only_with_report",
+      "mutate_save": false
+    }
+  },
+  "integration_plan": {
+    "phase_1_post_playtest": "VeilleursContentRuntime.serialize() adds root_key payload only after explicit activation.",
+    "phase_1_load": "VeilleursContentRuntime.deserialize() forwards root payload to service after service creation.",
+    "phase_1_reset": "VeilleursContentRuntime.reset() calls service.reset().",
+    "migration_must_be_idempotent": true
+  }
+}
