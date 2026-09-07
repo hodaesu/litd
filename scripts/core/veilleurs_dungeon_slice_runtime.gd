@@ -158,7 +158,7 @@ func _objective_reachable(entry: String) -> bool:
     var queue: Array[String] = [entry]
     var seen: Dictionary = {}
     while not queue.is_empty():
-        var node_id := queue.pop_front()
+        var node_id: String = str(queue.pop_front())
         if seen.has(node_id):
             continue
         seen[node_id] = true
