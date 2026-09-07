@@ -229,6 +229,7 @@ static func _select_return_candidate(actors: Array, region_id: String, seed: int
             return str(left.get("id", "")) < str(right.get("id", ""))
         return left_age > right_age
     )
+    # Godot 4.3 strict typing: keep the deterministic candidate index explicitly typed.
     var index: int = 0
     if seed != 0:
         index = absi(seed) % candidates.size()
