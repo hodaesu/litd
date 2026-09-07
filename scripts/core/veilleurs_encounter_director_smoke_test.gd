@@ -7,15 +7,48 @@ func _ready() -> void:
     add_child(director)
 
     var report := director.validation_report()
-    assert(bool(report.get("ok", false)), "64 canonical encounters must bind to 24 species")
+    assert(bool(report.get("ok", false)), "64 canonical encounters must bind to species and narrative/reward source")
     assert(int(report.get("encounters", 0)) == 64)
     assert(int(report.get("synergies", 0)) == 21)
+    assert(int(report.get("narrative_reward_records", 0)) == 64)
     assert(int(report.get("max_standard_enemies", 0)) == 4)
+
+    var bound_ids: Dictionary = {}
+    for source: Dictionary in director.encounter_records:
+        var runtime_entry := director.runtime_for_named_encounter(str(source.get("name", "")))
+        assert(bool(runtime_entry.get("success", false)))
+        var encounter_id := str(runtime_entry.get("id", ""))
+        assert(not encounter_id.is_empty())
+        assert(not bound_ids.has(encounter_id))
+        bound_ids[encounter_id] = true
+        assert(bool(runtime_entry.get("generated_binding_verified", false)))
+        var narrative: Dictionary = runtime_entry.get("narrative", {})
+        var reward: Dictionary = runtime_entry.get("reward", {})
+        for key: String in ["intro", "combat_beat", "victory", "retreat", "remanence_hint"]:
+            assert(not str(narrative.get(key, "")).is_empty())
+        assert(int(reward.get("threat", -1)) >= 0)
+        assert(int(reward.get("gold_target", -1)) >= 0)
+        assert(int(reward.get("essence_target", -1)) >= 0)
+        assert(int(reward.get("remanence_target", -1)) >= 0)
+        assert(not str(reward.get("loot", "")).is_empty())
+        assert(not str(reward.get("capture_rule", "")).is_empty())
+        assert(not str(reward.get("knowledge_bonus", "")).is_empty())
+        assert(str(runtime_entry.get("capture_rule", "")) == str(reward.get("capture_rule", "")))
+        assert(str(runtime_entry.get("knowledge_bonus", "")) == str(reward.get("knowledge_bonus", "")))
+    assert(bound_ids.size() == 64)
+
+    var charognards := director.runtime_for_named_encounter("Charognards du bord")
+    assert(bool(charognards.get("success", false)))
+    assert(str(charognards.get("id", "")) == "enc_a1_01")
+    assert(str((charognards.get("narrative", {}) as Dictionary).get("intro", "")).contains("Délié Affamé"))
+    assert(int((charognards.get("reward", {}) as Dictionary).get("gold_target", 0)) == 22)
+    assert(int((charognards.get("reward", {}) as Dictionary).get("essence_target", 0)) == 2)
 
     var first := director.select_encounter(4242, "I")
     assert(bool(first.get("success", false)))
     assert(int(first.get("runtime_actor_count", 0)) <= 4)
     assert(not bool(first.get("party_counterpick_used", true)))
+    assert(bool(first.get("generated_binding_verified", false)))
     for spawn_value: Variant in first.get("spawn_entries", []):
         assert(spawn_value is Dictionary)
         assert(not str((spawn_value as Dictionary).get("species_id", "")).is_empty())
