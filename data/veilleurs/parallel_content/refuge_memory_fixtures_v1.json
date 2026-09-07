@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_fixture",
+  "enabled_by_default": false,
+  "scheduler_seed": 731903,
+  "fixtures": [
+    {
+      "id": "fixture.no_history_no_memory",
+      "description": "No lived source history means no callback can be scheduled.",
+      "initial_expedition": 4,
+      "records": [],
+      "context": {"present_entities":["nayra_orun","tarek_senn"],"flags":["same_pair_present"]},
+      "expected": {"eligible":[],"queued":[],"surfaced":[]}
+    },
+    {
+      "id": "fixture.short_echo_becomes_eligible",
+      "description": "A shared-watch choice becomes eligible one expedition later when the pair is still present.",
+      "initial_expedition": 8,
+      "record_source": {"source_event_id":"ref.cohabitation.shared_watch","choice_id":"keep_pair","participants":["nayra_orun","tarek_senn"],"evidence":{"shared_history":true}},
+      "advance": 1,
+      "context": {"present_entities":["nayra_orun","tarek_senn"],"flags":["same_pair_present"]},
+      "expected": {"state":"ELIGIBLE","source_event_id":"ref.cohabitation.shared_watch","choice_id":"keep_pair"}
+    },
+    {
+      "id": "fixture.absent_participant_blocks_without_expiring",
+      "description": "A valid memory remains dormant/eligible-pending when a declared participant is absent; absence alone does not destroy history.",
+      "initial_expedition": 10,
+      "record_source": {"source_event_id":"ref.rapprochement.returned_body","choice_id":"acknowledge_act","participants":["nayra_orun","aisha_maren"],"evidence":{"shared_history":true}},
+      "advance": 2,
+      "context": {"present_entities":["nayra_orun"],"flags":["future_rescue_or_carry_decision"]},
+      "expected": {"queued_count":0,"must_not_be_state":"EXPIRED"}
+    },
+    {
+      "id": "fixture.window_expiry",
+      "description": "A memory whose maximum expedition window passed expires rather than surfacing late.",
+      "initial_expedition": 2,
+      "record_source": {"source_event_id":"ref.besoin_biologique.bandage_shortage","choice_id":"triage_function","participants":["aisha_maren","idris_vael"],"evidence":{"shared_history":true}},
+      "advance": 3,
+      "context": {"present_entities":["aisha_maren","idris_vael"],"flags":["care_pressure_repeats"]},
+      "expected": {"state":"EXPIRED","queue_contains":false}
+    },
+    {
+      "id": "fixture.queue_persists_reload",
+      "description": "A queued callback keeps its order and tiebreak after save/load.",
+      "initial_expedition": 14,
+      "record_source": {"source_event_id":"ref.decouverte.conflicting_versions","choice_id":"seek_verification","participants":["tarek_senn","aisha_maren"],"evidence":{"shared_history":true}},
+      "advance": 1,
+      "context": {"present_entities":["tarek_senn","aisha_maren"],"flags":["verification_attempt_completed"]},
+      "operations":["queue_for_return","serialize","deserialize","surface_next"],
+      "expected": {"same_memory_id_before_after":true,"same_tiebreak_before_after":true,"reroll":false}
+    },
+    {
+      "id": "fixture.crisis_outweighs_routine",
+      "description": "A lived unresolved crisis surfaces before ordinary work when both are eligible.",
+      "initial_expedition": 20,
+      "records": [
+        {"source_event_id":"ref.travail.repair_after_expedition","choice_id":"shared_repair","family":"TRAVAIL","priority_band":"ROUTINE_OR_WORK","created_expedition":18,"first_eligible_expedition":20,"source_history_written":true},
+        {"source_event_id":"ref.crise.multiple_critical_wounds","choice_id":"stabilize_first","family":"CRISE","priority_band":"CRISIS","created_expedition":19,"first_eligible_expedition":20,"source_history_written":true}
+      ],
+      "context": {"flags":["same_workers_present","gear_pressure_returns","crisis_resolved_or_persists"]},
+      "expected": {"first_source_event_id":"ref.crise.multiple_critical_wounds"}
+    },
+    {
+      "id": "fixture.same_source_cooldown",
+      "description": "A newly created memory from the same source cannot immediately surface again inside the source cooldown.",
+      "initial_expedition": 30,
+      "source_cooldowns":{"ref.souvenir.old_wound":29},
+      "record_source": {"source_event_id":"ref.souvenir.old_wound","choice_id":"document_memory","participants":["aisha_maren","tarek_senn"],"evidence":{"shared_history":true}},
+      "advance": 1,
+      "context": {"flags":["matching_trace_reencountered"]},
+      "expected": {"queued_count":0,"reason":"source_cooldown"}
+    },
+    {
+      "id": "fixture.regional_echo_preserves_uncertainty",
+      "description": "A regional follow-up writes observation/history but never upgrades stored knowledge merely because a choice was made.",
+      "initial_expedition": 12,
+      "regional_source": {"regional_event_id":"region.a2.signal_without_voice","choice_id":"keep_uncertain","participants":["tarek_senn","idris_vael"],"evidence":{"observed":true}},
+      "context": {"flags":["new_evidence_related_to_claim"]},
+      "expected": {"may_request_archive_hook":true,"knowledge_upgrade_without_new_evidence":false,"absolute_truth":false}
+    }
+  ]
+}
