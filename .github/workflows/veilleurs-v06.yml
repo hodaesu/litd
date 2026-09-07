@@ -64,12 +64,18 @@ jobs:
           timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v061_systems_smoke.tscn 2>&1 | tee /tmp/veilleurs-v061.log
           ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V061_SYSTEMS_SMOKE_FAILED' /tmp/veilleurs-v061.log
           grep -F 'VEILLEURS_V061_SYSTEMS_SMOKE_OK' /tmp/veilleurs-v061.log
-      - name: Instantiate playable tactical demo
+      - name: Instantiate playable tactical demo v0.6
         shell: bash
         run: |
           set -o pipefail
           timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v06_tactical_demo.tscn 2>&1 | tee /tmp/veilleurs-demo.log
           ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-demo.log
+      - name: Instantiate playable tactical demo v0.6.1
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v061_tactical_demo.tscn 2>&1 | tee /tmp/veilleurs-demo-v061.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-demo-v061.log
       - name: Instantiate QA validation entry
         shell: bash
         run: |
