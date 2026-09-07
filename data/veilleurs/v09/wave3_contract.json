@@ -10,8 +10,20 @@
     "boss_encounters_allowed": false,
     "deterministic_tiebreak": ["stage", "score", "encounters", "id"]
   },
+  "submission": {
+    "deterministic": true,
+    "living_nonboss_only": true,
+    "hp_ratio_at_or_below": 0.35,
+    "resolve_at_or_below": 20,
+    "accepted_control_statuses": ["FEAR", "PINNED", "IMMOBILIZED", "STAGGER"],
+    "success_status": "SUBDUED",
+    "subdued_stops_acting": true,
+    "subdued_counts_as_combat_resolved": true,
+    "subdued_remains_alive_for_recruitment": true
+  },
   "recruitment_decision": {
     "post_combat_only": true,
+    "victory_only": true,
     "living_candidates_only": true,
     "max_candidates_presented": 3,
     "actions": ["recruit", "spare", "leave"],
@@ -45,6 +57,7 @@
       "dungeon_selection",
       "node_navigation",
       "real_tactical_combat",
+      "nonlethal_submission",
       "post_combat_recruitment",
       "nemesis_return_visibility",
       "boss_phase_visibility",
