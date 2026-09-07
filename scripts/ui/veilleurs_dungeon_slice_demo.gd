@@ -164,6 +164,5 @@ func _button(text: String, callback: Callable) -> Button:
     var button := Button.new()
     button.text = text
     button.custom_minimum_size = Vector2(390, 56)
-    button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     button.pressed.connect(callback)
     return button
