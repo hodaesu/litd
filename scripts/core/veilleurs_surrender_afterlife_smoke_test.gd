@@ -188,6 +188,7 @@ func _check(condition: bool, message: String) -> void:
 
 func _finish() -> void:
     if failures.is_empty():
+        # This line is intentionally machine-readable in CI: it proves the complete post-surrender chain.
         print("VEILLEURS_SURRENDER_AFTERLIFE_SMOKE_OK survivor=true informant=true potential_recruit=true resentful_return=true same_entity_id=true faction_memory=true testimony_propagation=true save_reload=true archives=true")
         get_tree().quit(0)
         return
