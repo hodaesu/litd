@@ -61,7 +61,7 @@ La production n’est considérée complète que lorsque tous les slots requis d
 
 ## Règles techniques
 
-- Godot 4.3 reste propriétaire de l’import/runtime.
+- **Godot 4.7.x** reste propriétaire de l’import/runtime ; la CI est épinglée sur **4.7.2**.
 - Les assets 3D de combat doivent prévoir LOD et collision proxy séparée du mesh visuel.
 - La baisse de LOD visuel des cadavres ne supprime jamais leur Rémanence logique.
 - Les états de blessures et amputations doivent rester cohérents avec l’anatomie runtime.
