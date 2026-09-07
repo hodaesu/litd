@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "stage": "pre_pc_production_intake",
   "authority": "content_work_order_reservation",
   "rules": {
@@ -20,6 +20,12 @@
       "id_prefix": "ENT_WATCHER_",
       "canonical_sources": ["data/veilleurs/v06/watchers.json", "data/veilleurs/skills"],
       "integration_targets": ["data", "skill_catalog", "runtime", "scene", "save", "ui", "tests", "production_assets"],
+      "planned_files": [
+        {"path":"data/veilleurs/v06/watchers.json","action":"update_existing"},
+        {"path":"data/veilleurs/skills/{slug}.json","action":"create"},
+        {"path":"scenes/veilleurs/characters/{slug}.tscn","action":"create_if_needed"},
+        {"path":"scenes/tests/veilleurs_{slug}_integration_smoke.tscn","action":"create"}
+      ],
       "output_root_pattern": "res://assets/veilleurs/production/watchers/{slug}",
       "required_assets": ["model", "rig", "materials", "textures", "base_animation_set", "equipment", "portrait", "ui_icon", "injury_variants", "corpse_state"],
       "required_tests": ["canonical_roster_contract", "anatomy_body_state", "combat_runtime", "permadeath", "save_resume", "mobile_readability"],
@@ -29,6 +35,11 @@
       "id_prefix": "ENT_ENEMY_",
       "canonical_sources": ["data/veilleurs/v06/enemies_24_definitions.json"],
       "integration_targets": ["data", "combat_runtime", "capture_recruitment", "anatomy", "archive", "scene", "tests", "production_assets"],
+      "planned_files": [
+        {"path":"data/veilleurs/v06/enemies_24_definitions.json","action":"update_existing"},
+        {"path":"scenes/veilleurs/enemies/{slug}.tscn","action":"create_if_needed"},
+        {"path":"scenes/tests/veilleurs_{slug}_enemy_smoke.tscn","action":"create"}
+      ],
       "output_root_pattern": "res://assets/veilleurs/production/enemies/{slug}",
       "required_assets": ["model", "rig_or_procedural_skeleton", "materials", "textures", "base_animation_set", "combat_readability", "injury_variants", "corpse_state", "archive_portrait"],
       "required_tests": ["enemy_definition_contract", "anatomy_body_state", "combat_runtime", "capture_rules", "corpse_remanence", "save_resume"],
@@ -38,6 +49,11 @@
       "id_prefix": "ENT_BOSS_",
       "canonical_sources": ["data/veilleurs/v07/bosses_5_definitions.json"],
       "integration_targets": ["data", "boss_runtime", "phase_rules", "scene", "save", "tests", "production_assets"],
+      "planned_files": [
+        {"path":"data/veilleurs/v07/bosses_5_definitions.json","action":"update_existing"},
+        {"path":"scenes/veilleurs/bosses/{slug}.tscn","action":"create_if_needed"},
+        {"path":"scenes/tests/veilleurs_{slug}_boss_smoke.tscn","action":"create"}
+      ],
       "output_root_pattern": "res://assets/veilleurs/production/bosses/{slug}",
       "required_assets": ["model", "rig", "materials", "textures", "boss_animation_set", "phase_readability", "injury_variants", "corpse_or_defeat_state", "portrait"],
       "required_tests": ["boss_definition_contract", "phase_transitions", "recruitability_rule", "anatomy_body_state", "save_resume", "mobile_readability"],
@@ -47,6 +63,11 @@
       "id_prefix": "DUNGEON_",
       "canonical_sources": ["data/veilleurs/v09/wave3_contract.json"],
       "integration_targets": ["data", "dungeon_graph", "encounters", "navigation", "scene", "save", "tests", "production_assets"],
+      "planned_files": [
+        {"path":"data/veilleurs/v09/wave3_contract.json","action":"update_or_successor_contract"},
+        {"path":"scenes/veilleurs/dungeons/{slug}.tscn","action":"create_if_needed"},
+        {"path":"scenes/tests/veilleurs_{slug}_dungeon_smoke.tscn","action":"create"}
+      ],
       "output_root_pattern": "res://assets/veilleurs/production/dungeons/{slug}",
       "required_assets": ["modular_geometry", "materials", "decals", "lighting_profile", "navigation_proxy", "collision_proxy", "landmarks", "ambient_audio_hooks", "lod_plan"],
       "required_tests": ["deterministic_graph", "node_navigation", "encounter_contract", "save_resume", "mobile_readability", "performance_budget"],
@@ -56,6 +77,11 @@
       "id_prefix": "UI_",
       "canonical_sources": ["data/veilleurs/polish_manifest.json", "scripts/ui", "scenes/ui"],
       "integration_targets": ["ui_scene", "ui_script", "responsive_layout", "touch", "controller", "accessibility", "tests", "production_assets"],
+      "planned_files": [
+        {"path":"scenes/ui/{slug}.tscn","action":"create"},
+        {"path":"scripts/ui/{slug}.gd","action":"create_if_logic_needed"},
+        {"path":"scenes/tests/veilleurs_{slug}_ui_smoke.tscn","action":"create"}
+      ],
       "output_root_pattern": "res://assets/veilleurs/production/ui/{slug}",
       "required_assets": ["frames_or_atlas", "icons", "states", "tutorial_markers", "accessibility_variants"],
       "required_tests": ["phone_layout", "tablet_layout", "desktop_layout", "touch_targets", "controller_focus", "reduced_motion", "safe_area_contract"],
@@ -65,6 +91,11 @@
       "id_prefix": "ULT_",
       "canonical_sources": ["data/veilleurs/v08/canonical_watcher_ultimates_12.json", "data/veilleurs/ultimate_choreography_contract.json"],
       "integration_targets": ["data", "resolver", "combat_runtime", "presentation_hooks", "tests", "production_assets"],
+      "planned_files": [
+        {"path":"data/veilleurs/v08/canonical_watcher_ultimates_12.json","action":"update_or_successor_contract"},
+        {"path":"data/veilleurs/ultimate_choreography_contract.json","action":"update"},
+        {"path":"scenes/tests/veilleurs_{slug}_ultimate_smoke.tscn","action":"create"}
+      ],
       "output_root_pattern": "res://assets/veilleurs/production/ultimates/{slug}",
       "required_assets": ["animation", "camera", "vfx", "audio", "haptic", "ui"],
       "required_tests": ["resolver_contract", "gameplay_presentation_separation", "charge_progression", "reduced_motion", "reduced_gore", "haptics_off", "short_mode"],
@@ -74,6 +105,9 @@
       "id_prefix": "CONTENT_",
       "canonical_sources": [],
       "integration_targets": ["design_review", "type_refinement", "tests_plan", "production_plan"],
+      "planned_files": [
+        {"path":"data/veilleurs/intake/work_orders/{canonical_id_lower}.json","action":"reservation_only"}
+      ],
       "output_root_pattern": "res://assets/veilleurs/production/misc/{slug}",
       "required_assets": [],
       "required_tests": ["type_refinement_required"],
