@@ -1,0 +1,66 @@
+{
+  "schema_version": "0.6.7",
+  "contract_id": "VEILLEURS_REFUGE_EVENT_SCHEDULER_V1",
+  "status": "production_locked_before_godot",
+  "source_libraries": [
+    "data/veilleurs/v06/refuge_events_social_v1.json",
+    "data/veilleurs/v06/refuge_events_knowledge_v1.json",
+    "data/veilleurs/v06/refuge_events_state_v1.json"
+  ],
+  "seed_components": ["campaign_seed", "return_index", "story_epoch", "refuge_state", "event_history_hash"],
+  "priority_order": ["critical", "high", "medium", "low"],
+  "selection": {
+    "critical_eligible_events_are_queued_before_random_selection": true,
+    "max_auto_presented_on_arrival": 2,
+    "max_total_new_events_queued_per_return": 5,
+    "max_social_events_selected_per_return": 2,
+    "max_debate_events_selected_per_return": 1,
+    "max_memoriel_or_nemesis_events_selected_per_return": 1,
+    "state_transition_event_always_queued_when_new_state_entered": true,
+    "one_shot_event_never_selected_after_completed": true,
+    "repeatable_event_default_cooldown_returns": 2,
+    "same_event_max_consecutive_returns": 1,
+    "same_family_max_auto_presented_consecutive": 2,
+    "prefer_unseen_event_weight": 2.0,
+    "prefer_event_linked_to_recent_consequence_weight": 1.75,
+    "prefer_event_linked_to_active_relationship_threshold_weight": 2.25
+  },
+  "eligibility_order": [
+    "trigger_fields_match_saved_state",
+    "required_actors_exist_and_are_available",
+    "one_shot_or_cooldown_allows_event",
+    "event_not_contradicted_by_saved_outcome",
+    "critical_story_layer_allows_event",
+    "family_budget_allows_event"
+  ],
+  "presentation": {
+    "critical": "modal_or_full_focus_scene",
+    "high": "priority_refuge_card_with_optional_immediate_scene",
+    "medium": "refuge_card_or_contextual_scene",
+    "low": "ambient_contextual_scene",
+    "mobile_rule": "never stack more than one modal; remaining events stay in the Refuge queue",
+    "player_can_leave_noncritical_event_unresolved": true,
+    "critical_irreversible_choice_requires_explicit_confirmation": true
+  },
+  "save_resume": {
+    "save_before_presenting_event": true,
+    "save_after_choice_resolution": true,
+    "persist": ["queued_event_ids", "completed_one_shot_ids", "cooldowns", "last_presented_family", "event_history", "active_event_id", "active_choice_state"],
+    "reload_rule": "resume the same active event and options; never reroll an unresolved event"
+  },
+  "interaction_with_post_expedition": {
+    "queue_build_after": "SUMMARY",
+    "knowledge_events_receive_committed_archive_state": true,
+    "grief_events_receive_final_death_records": true,
+    "mutilation_events_receive_final_anatomical_records": true,
+    "relationship_events_receive_post_return_relationship_deltas": true,
+    "state_transition_event_receives_committed_refuge_state": true
+  },
+  "telemetry": {
+    "minimum_simulated_returns": 1000,
+    "report": ["events_per_return", "family_frequency", "priority_frequency", "unseen_event_rate", "repeat_rate", "critical_queue_latency", "unresolved_noncritical_rate", "choice_distribution"],
+    "fail_if_one_shot_repeats": true,
+    "fail_if_unresolved_event_rerolls_after_reload": true,
+    "warn_if_same_family_share_gt": 0.45
+  }
+}
