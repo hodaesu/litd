@@ -1,0 +1,134 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "scope": "LITD : Les Veilleurs — Refuge memory callbacks",
+  "sources": {
+    "templates": "res://data/veilleurs/parallel_content/refuge_event_templates_v1.json",
+    "chains": "res://data/veilleurs/parallel_content/refuge_event_chains_v1.json",
+    "cross_reactions": "res://data/veilleurs/parallel_content/refuge_cross_reaction_matrix_v1.json"
+  },
+  "guardrails": {
+    "requires_written_lived_history": true,
+    "random_callback_without_source_history_forbidden": true,
+    "absolute_truth_from_social_choice_forbidden": true,
+    "persistent_injury_reset_forbidden": true,
+    "boss_recruitment_forbidden": true,
+    "numeric_relationship_effects_deferred_until_playtest": true,
+    "new_canonical_dialogue_forbidden": true,
+    "generic_species_personality_forbidden": true,
+    "full_scene_snapshot_forbidden": true,
+    "active_playtest_wiring_forbidden": true
+  },
+  "memory_record_schema": {
+    "required_fields": [
+      "memory_id",
+      "source_event_id",
+      "memory_key",
+      "chosen_option_id",
+      "created_expedition_index",
+      "window_id",
+      "requirements_snapshot",
+      "history_refs",
+      "state"
+    ],
+    "optional_fields": [
+      "eligible_expedition_index",
+      "last_evaluated_expedition_index",
+      "surfaced_count",
+      "resolved_expedition_index",
+      "resolution_history_refs"
+    ],
+    "forbidden_fields": [
+      "hidden_absolute_truth",
+      "personality_diagnosis",
+      "capture_probability",
+      "future_boss_phase_truth",
+      "full_scene_snapshot"
+    ]
+  },
+  "state_machine": {
+    "states": ["DORMANT", "ELIGIBLE", "QUEUED", "SURFACED", "RESOLVED", "EXPIRED", "RETIRED"],
+    "initial": "DORMANT",
+    "transitions": [
+      {"from":"DORMANT","to":"ELIGIBLE","when":"minimum expedition window reached and history requirements are satisfied"},
+      {"from":"DORMANT","to":"EXPIRED","when":"maximum expedition window passed before requirements became true"},
+      {"from":"ELIGIBLE","to":"QUEUED","when":"deterministic arbitration selects the memory for this Refuge return"},
+      {"from":"QUEUED","to":"SURFACED","when":"the callback is actually presented to the player"},
+      {"from":"SURFACED","to":"RESOLVED","when":"player resolves or acknowledges the callback and writes its consequences"},
+      {"from":"RESOLVED","to":"RETIRED","when":"all declared follow-up writes have been committed"},
+      {"from":"EXPIRED","to":"RETIRED","when":"expiry trace has been recorded without fabricating an event"}
+    ],
+    "forbidden_transitions": [
+      "DORMANT->SURFACED",
+      "DORMANT->RESOLVED",
+      "ELIGIBLE->RESOLVED",
+      "EXPIRED->SURFACED",
+      "RETIRED->SURFACED"
+    ]
+  },
+  "candidate_arbitration_policy": {
+    "status": "candidate_not_canon_until_pc_validation",
+    "maximum_callbacks_surfaced_per_refuge_return": 2,
+    "same_source_event_maximum_per_return": 1,
+    "same_memory_key_maximum_per_return": 1,
+    "priority_order": [
+      "critical_body_or_departure_consequence",
+      "explicit_shared_history_reencounter",
+      "route_or_world_scar_relevance",
+      "relationship_or_refuge_rule_relevance",
+      "ordinary_memory_echo"
+    ],
+    "tie_breaker": "stable_hash(expedition_seed, refuge_return_index, memory_id)",
+    "reroll_on_reload": false,
+    "unselected_eligible_memory": "remain_eligible_until_window_expiry_or_requirements_change"
+  },
+  "evaluation_order": [
+    "load persistent history references",
+    "advance expedition-index windows",
+    "expire memories whose maximum window has passed",
+    "evaluate requirements using observable or written history only",
+    "promote qualifying memories to ELIGIBLE",
+    "apply deterministic arbitration",
+    "resolve watcher and auxiliary reaction context",
+    "surface at most the candidate callback cap",
+    "write Archive, relationship, body, route, Refuge or Remanence history only after resolution",
+    "persist memory state and deterministic arbitration inputs"
+  ],
+  "reaction_resolution": {
+    "watcher_source": "refuge_event_chains_v1.watcher_reaction_profiles + refuge_cross_reaction_matrix_v1",
+    "watcher_must_be_present_or_have_shared_history": true,
+    "auxiliary_must_be_specific_entity": true,
+    "reaction_priority_is_not_dialogue": true,
+    "fallback_if_no_reactor_valid": "surface event without authored reaction line",
+    "no_generated_canonical_quote": true
+  },
+  "archive_and_remanence_write_policy": {
+    "archive_write_requires_event_resolution": true,
+    "archive_can_record_uncertainty": true,
+    "archive_cannot_promote_knowledge_without_supporting_observation": true,
+    "remanence_link_requires_shared_lived_history": true,
+    "remanence_link_cannot_force_promotion": true,
+    "stored_knowledge_never_erased_by_callback": true
+  },
+  "save_contract": {
+    "serialize_memory_records_not_scene_nodes": true,
+    "stable_memory_id_required": true,
+    "expedition_index_required": true,
+    "seed_inputs_required_for_reproducibility": true,
+    "migration_rule": "unknown future fields ignored; missing required fields invalidate only that candidate memory record, never the full save"
+  },
+  "telemetry_candidate": {
+    "enabled_only_if_post_playtest_layer_is_activated": true,
+    "events": [
+      "refuge_memory_became_eligible",
+      "refuge_memory_surfaced",
+      "refuge_memory_resolved",
+      "refuge_memory_expired"
+    ],
+    "fields": ["source_event_id","chosen_option_id","window_id","expedition_age","reaction_context","resolution_domain"],
+    "free_text": false,
+    "personal_data": false
+  }
+}
