@@ -17,6 +17,7 @@ REQUIRED_FILES = [
     "scripts/core/veilleurs_vertical_slice_save_v09.gd",
     "scripts/ui/veilleurs_vertical_slice_qa_v09.gd",
     "scripts/ui/veilleurs_submission_control_v09.gd",
+    "scripts/qa/qa_test_room_controller.gd",
     "scenes/veilleurs/v09_vertical_slice_qa.tscn",
 ]
 EXPECTED_DUNGEONS = {
@@ -111,12 +112,22 @@ def main() -> int:
             if marker not in text:
                 errors.append(f"runtime_submission:{runtime_file}:{marker}")
 
+    qa_room_text = (ROOT / "scripts/qa/qa_test_room_controller.gd").read_text(encoding="utf-8")
+    for marker in [
+        'VEILLEURS_V09_VERTICAL_SLICE_SCENE := "res://scenes/veilleurs/v09_vertical_slice_qa.tscn"',
+        '"VERTICAL SLICE v0.9 — 6 DONJONS"',
+        "_open_veilleurs_v09_vertical_slice",
+        '"qa_veilleurs_v09"',
+    ]:
+        if marker not in qa_room_text:
+            errors.append(f"qa_room_marker:{marker}")
+
     if errors:
         for error in errors:
             print("FAIL", error)
         print(f"VEILLEURS_V09_WAVE3_AUDIT_FAILED: {len(errors)}")
         return 1
-    print("VEILLEURS_V09_WAVE3_AUDIT_OK: dungeons=6 bosses=5 phases=3 nemesis_cap=1 submission=deterministic recruit_actions=3")
+    print("VEILLEURS_V09_WAVE3_AUDIT_OK: dungeons=6 bosses=5 phases=3 nemesis_cap=1 submission=deterministic recruit_actions=3 qa_entry=1")
     return 0
 
 
