@@ -2,8 +2,14 @@ extends Control
 class_name VeilleursDungeonSliceDemo
 
 const RUNTIME_SCRIPT := preload("res://scripts/core/veilleurs_dungeon_slice_runtime.gd")
+const FLOW_SCRIPT := preload("res://scripts/core/veilleurs_khar_sen_flow_bridge.gd")
+const TACTICAL_SCENE := "res://scenes/veilleurs/v061_tactical_demo.tscn"
+const QA_SCENE := "res://scenes/qa/qa_validation_room.tscn"
 
 var runtime: VeilleursDungeonSliceRuntime
+var flow_bridge: VeilleursKharSenFlowBridge
+var terminal_outcome := ""
+var return_message := ""
 var title_label: Label
 var detail_label: Label
 var encounter_label: Label
@@ -12,12 +18,44 @@ var actions: VBoxContainer
 
 func _ready() -> void:
     _build_shell()
+    flow_bridge = FLOW_SCRIPT.new() as VeilleursKharSenFlowBridge
     runtime = RUNTIME_SCRIPT.new() as VeilleursDungeonSliceRuntime
-    var result := runtime.start()
-    if not bool(result.get("ok", false)):
-        status_label.text = "Erreur slice : %s" % ", ".join(runtime.load_errors)
-        return
+    var returned: Dictionary = flow_bridge.consume_result()
+    if not returned.is_empty():
+        _resume_after_combat(returned)
+    else:
+        var result := runtime.start()
+        if not bool(result.get("ok", false)):
+            status_label.text = "Erreur slice : %s" % ", ".join(runtime.load_errors)
+            return
     _refresh()
+
+func _resume_after_combat(payload: Dictionary) -> void:
+    var dungeon_state: Dictionary = payload.get("dungeon_state", {})
+    if not runtime.deserialize(dungeon_state):
+        return_message = "Retour combat illisible : le slice a été réinitialisé."
+        runtime.start()
+        return
+    var expected_node := str(payload.get("node_id", ""))
+    if expected_node == "" or expected_node != runtime.current_node:
+        return_message = "Retour combat incohérent : nœud Khar-Sen non reconnu."
+        runtime.start()
+        return
+    var outcome := str(payload.get("outcome", "defeat"))
+    var context := {
+        "watcher_aftermath":(payload.get("watcher_aftermath", {}) as Dictionary).duplicate(true),
+        "combat_summary":(payload.get("summary", {}) as Dictionary).duplicate(true),
+        "summary":"Khar-Sen %s — combat réel v0.6.1 : %s" % [expected_node, outcome]
+    }
+    var completion := runtime.complete_current(outcome, context)
+    terminal_outcome = outcome if outcome in ["defeat", "retreat"] else ""
+    var summary: Dictionary = payload.get("summary", {})
+    return_message = "Combat %s · tour %d · %d Veilleur(s) debout · Rémanence %s" % [
+        outcome,
+        int(summary.get("round", 0)),
+        (summary.get("watchers_alive", []) as Array).size(),
+        "mise à jour" if bool(completion.get("ok", false)) else "incomplète"
+    ]
 
 func _build_shell() -> void:
     var bg := ColorRect.new()
@@ -44,11 +82,12 @@ func _build_shell() -> void:
     var back := Button.new()
     back.text = "Retour QA"
     back.custom_minimum_size = Vector2(140, 46)
-    back.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/qa/qa_validation_room.tscn"))
+    back.pressed.connect(_return_qa)
     header.add_child(back)
 
     status_label = Label.new()
     status_label.add_theme_font_size_override("font_size", 15)
+    status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     root.add_child(status_label)
 
     var panel := PanelContainer.new()
@@ -95,29 +134,32 @@ func _refresh() -> void:
         RemanenceRuntime.world_scars.size()
     ]
     encounter_label.text = _encounter_text(runtime.active_encounter)
-    status_label.text = "Objectif atteint : %s · Historique rencontres : %d" % ["oui" if bool(runtime.progress_summary().get("objective_reached", false)) else "non", runtime.encounter_director.recent_templates.size()]
+    var base_status := "Objectif atteint : %s · Historique rencontres : %d" % ["oui" if bool(runtime.progress_summary().get("objective_reached", false)) else "non", runtime.encounter_director.recent_templates.size()]
+    status_label.text = "%s\n%s" % [return_message, base_status] if return_message != "" else base_status
     _rebuild_actions(node)
 
 func _rebuild_actions(node: Dictionary) -> void:
     for child: Node in actions.get_children():
         child.queue_free()
+    if terminal_outcome != "":
+        var terminal := Label.new()
+        terminal.text = "EXPÉDITION TERMINÉE : %s" % terminal_outcome.to_upper()
+        terminal.add_theme_font_size_override("font_size", 18)
+        actions.add_child(terminal)
+        actions.add_child(_button("RECOMMENCER KHAR-SEN", _restart))
+        actions.add_child(_button("RETOUR QA", _return_qa))
+        return
     var completed := bool((runtime.node_flags.get(runtime.current_node, {}) as Dictionary).get("completed", false))
     if not completed:
         if bool(node.get("encounter", false)):
-            actions.add_child(_button("RÉSOUDRE : VICTOIRE", func() -> void:
-                runtime.complete_current("victory")
-                _refresh()))
-            actions.add_child(_button("VICTOIRE AVEC MUTILATION", func() -> void:
-                runtime.complete_current("victory_with_mutilation")
-                _refresh()))
+            actions.add_child(_button("LANCER LE COMBAT v0.6.1", _launch_combat))
         else:
             actions.add_child(_button("VALIDER LA SALLE", func() -> void:
                 runtime.complete_current("cleared")
+                return_message = "Salle validée sans combat."
                 _refresh()))
         if runtime.can_extract():
-            actions.add_child(_button("EXTRAIRE MAINTENANT", func() -> void:
-                runtime.complete_current("retreat")
-                status_label.text = "Extraction enregistrée ; les conséquences restent persistantes."))
+            actions.add_child(_button("EXTRAIRE MAINTENANT", _extract_now))
         return
 
     var next_nodes := runtime.available_next()
@@ -132,8 +174,30 @@ func _rebuild_actions(node: Dictionary) -> void:
             var next_row: Dictionary = runtime.nodes_by_id.get(next_id, {})
             actions.add_child(_button("%s\n%s" % [next_id, str(next_row.get("title_fr", "Salle"))], func(id_value = next_id) -> void:
                 runtime.choose_next(id_value)
+                return_message = ""
                 _refresh()))
     actions.add_child(_button("RECOMMENCER LE SLICE", _restart))
+
+func _launch_combat() -> void:
+    if runtime.active_encounter.is_empty():
+        return_message = "Aucune rencontre matérialisée à lancer."
+        _refresh()
+        return
+    if not flow_bridge.begin_combat(runtime.serialize(), runtime.active_encounter, runtime.current_node):
+        return_message = "Impossible de préparer le passage vers le combat."
+        _refresh()
+        return
+    var error := get_tree().change_scene_to_file(TACTICAL_SCENE)
+    if error != OK:
+        flow_bridge.clear()
+        return_message = "Impossible d'ouvrir le combat v0.6.1."
+        _refresh()
+
+func _extract_now() -> void:
+    runtime.complete_current("retreat", {"summary":"Extraction volontaire depuis Khar-Sen"})
+    terminal_outcome = "retreat"
+    return_message = "Extraction enregistrée ; les conséquences restent persistantes."
+    _refresh()
 
 func _encounter_text(encounter: Dictionary) -> String:
     if encounter.is_empty():
@@ -155,10 +219,17 @@ func _encounter_text(encounter: Dictionary) -> String:
     ]
 
 func _restart() -> void:
+    flow_bridge.clear()
     RemanenceRuntime.reset_new_game()
+    terminal_outcome = ""
+    return_message = ""
     runtime = RUNTIME_SCRIPT.new() as VeilleursDungeonSliceRuntime
     runtime.start()
     _refresh()
+
+func _return_qa() -> void:
+    flow_bridge.clear()
+    get_tree().change_scene_to_file(QA_SCENE)
 
 func _button(text: String, callback: Callable) -> Button:
     var button := Button.new()
