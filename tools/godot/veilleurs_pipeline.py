@@ -125,7 +125,7 @@ def resolve_godot() -> str | None:
     env = os.environ.get("GODOT_BIN")
     if env:
         return env
-    for name in ("godot", "godot4", "godot4.3"):
+    for name in ("godot", "godot4", "godot4.7"):
         found = find_command(name)
         if found:
             return found
@@ -261,7 +261,7 @@ def main() -> int:
         if relevant and not args.skip_godot:
             godot = resolve_godot()
             if godot is None:
-                message = "Godot introuvable. Définir GODOT_BIN ou installer Godot 4.3."
+                message = "Godot introuvable. Définir GODOT_BIN ou installer Godot 4.7.x."
                 if args.require_godot:
                     report["errors"].append(message)
                 else:

@@ -20,6 +20,7 @@ WORKFLOWS = [
 ACTIVE_VERSION_FILES = [
     "project.godot",
     "data/veilleurs/pre_pc_gate.json",
+    "tools/godot/veilleurs_pipeline.py",
     "tools/godot/veilleurs_pipeline_config.json",
     "tools/workstation/veilleurs_pc_preflight.py",
     "tools/qa/veilleurs_pre_pc_audit.py",
@@ -48,6 +49,12 @@ def test_pc_preflight_accepts_any_godot_47_patch_release():
     assert "Godot_v4.7.2-stable_win64.exe" in preflight
 
 
+def test_pipeline_resolver_targets_godot_47():
+    pipeline = read("tools/godot/veilleurs_pipeline.py")
+    assert 'for name in ("godot", "godot4", "godot4.7")' in pipeline
+    assert "installer Godot 4.7.x" in pipeline
+
+
 def test_all_active_godot_ci_jobs_use_472():
     for path in WORKFLOWS:
         workflow = read(path)
@@ -61,6 +68,7 @@ def test_no_active_43_version_lock_remains():
         '"godot_version": "4.3"',
         "barichello/godot-ci:4.3",
         "Godot_v4.3-stable_win64",
+        "godot4.3",
         "Godot 4.3",
     )
     for path in ACTIVE_VERSION_FILES:
