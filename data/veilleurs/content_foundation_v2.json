@@ -1,0 +1,104 @@
+{
+  "version": 4,
+  "status": "canonical_integration_contract",
+  "scope": "LITD : Les Veilleurs",
+  "canonical_source": {
+    "manifest": "res://data/veilleurs/canonical_prepc_2026_09_03/canonical_source_manifest_v1.json",
+    "workbook": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx",
+    "zip_sha256": "0739666c23b6aad99d79128147b84322155bbdd5ff49c62b0990eaf11fec8919"
+  },
+  "principles": {
+    "main_protagonists_exact": 4,
+    "dialogues_text_only": true,
+    "mobile_first_pc_parity": true,
+    "no_gacha": true,
+    "no_ads": true,
+    "no_microtransactions": true
+  },
+  "watchers": ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"],
+  "skills": {
+    "trees_per_watcher": 3,
+    "nodes_per_tree": 15,
+    "total_watcher_skills": 180,
+    "max_level": 50,
+    "source_contract": "res://data/veilleurs/skills/source_contract.json"
+  },
+  "bestiary": {
+    "ordinary_species_target": 24,
+    "combat_families_target": 8,
+    "species_names_status": "24_locked",
+    "species_catalog": "res://data/veilleurs/species_catalog_recovered_v1.json",
+    "normalization_manifest": "res://data/veilleurs/canonical_bestiary_normalization_v2.json",
+    "canonical_registry": "res://data/veilleurs/canonical_prepc_2026_09_03/bestiary_registry_v1.json",
+    "family_ids": ["delies", "pelerins_fendus", "gardiens_de_pierre", "betes_de_suie", "silencieux", "veines", "porte_cendres", "gardiens_de_version"],
+    "family_names": ["Déliés", "Pèlerins Fendus", "Gardiens de Pierre", "Bêtes de Suie", "Silencieux", "Veines", "Porte-Cendres", "Gardiens de Version"],
+    "obsolete_structures_rejected": ["5 families / 25 archetypes", "6 families / 24 species", "7 families / 15 enemies"]
+  },
+  "enemy_skills": {
+    "canonical_target": 1305,
+    "trees": 87,
+    "skills_per_tree": 15,
+    "intent_contract": "res://data/veilleurs/enemy_skill_intent_contract_v1.json",
+    "id_normalization": "res://data/veilleurs/enemy_skill_id_normalization_v1.json",
+    "runtime_generation_tool": "res://tools/veilleurs/build_runtime_bindings_from_prepc_pack.py"
+  },
+  "enemy_intents": {
+    "families": ["assaut", "controle", "repositionnement", "defense", "soutien", "environnement", "chasse_embuscade", "fuite_cession_recrutement"],
+    "skill_intent_families": 7,
+    "state_intent_family": "fuite_cession_recrutement",
+    "passives_are_queued_intentions": false,
+    "knowledge_and_perception_are_separate": true
+  },
+  "encounters": {
+    "canonical_template_target": 64,
+    "source_sheet": "Compositions_64",
+    "source_sha256": "2a3246778559b6750a9afe37e9a304c5d80c8c9801fba6a626aed73bba46dc92",
+    "max_standard_enemies": 4,
+    "max_memorial_enemy": 1,
+    "artificial_nemesis_spawn_forbidden": true,
+    "narrative_reward_contract": "res://data/veilleurs/encounter_narrative_reward_contract_v1.json"
+  },
+  "enemy_synergies": {
+    "canonical_target": 21,
+    "catalog": "res://data/veilleurs/enemy_synergy_catalog_v1.json",
+    "source_sheet": "Synergies_ennemis",
+    "source_sha256": "56a91c2deff2f4a190660172021a1258db0be24365e3fcf87052b638f8446eef",
+    "schema": "pair_strength_function_counterplay",
+    "must_be_visible": true,
+    "must_be_breakable": true
+  },
+  "bosses": {
+    "count": 5,
+    "phase_count": 16,
+    "recruitable": false,
+    "source_sheet": "Boss_5_phases",
+    "roster": [
+      {"act": 1, "id": "ishar_gardien_du_passage", "name": "Ishar, Gardien du Passage", "phases": 3, "recruitable": false},
+      {"act": 2, "id": "orateur_sans_voix", "name": "Orateur Sans Voix", "phases": 3, "recruitable": false},
+      {"act": 3, "id": "mere_des_veines", "name": "Mère des Veines", "phases": 3, "recruitable": false},
+      {"act": 4, "id": "porte_cendres_blanc", "name": "Porte-Cendres Blanc", "phases": 3, "recruitable": false},
+      {"act": 5, "id": "le_copiste", "name": "Le Copiste", "phases": 4, "recruitable": false}
+    ]
+  },
+  "party": {"max_combatants": 4, "min_watchers": 1},
+  "refuge": {
+    "capacity_by_act": {"I": 4, "II": 6, "III": 8, "IV": 10, "V": 12},
+    "max_recruit_capacity": 12
+  },
+  "recruitment": {
+    "primary_source": "encountered_enemies",
+    "capture_is_recruitment": false,
+    "injuries_reset_on_rally": false,
+    "bosses_recruitable": false,
+    "display_capture_percentage": false,
+    "act_i_numeric_conditions_status": "not_defined_do_not_invent"
+  },
+  "memory_ranks": ["normal", "memorial", "veteran", "elite", "nemesis"],
+  "remanence_adaptation": {
+    "contract": "res://data/veilleurs/remanence_adaptation_hooks_v1.json",
+    "learn_only_from_lived_events": true,
+    "veteran_requires_applied_lesson": true,
+    "elite_requires_group_influence": true,
+    "nemesis_requires_rare_shared_history": true
+  }
+}

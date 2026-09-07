@@ -7,6 +7,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: remanence-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   remanence-smoke:
     runs-on: ubuntu-latest
@@ -18,3 +22,23 @@ jobs:
         run: godot --headless --path . --import --quit
       - name: Rémanence des Veilleurs
         run: godot --headless --path . res://scenes/tests/remanence_smoke.tscn
+      - name: Politique Rémanence vécue Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_remanence_policy_smoke.tscn
+      - name: Intentions et télégraphes Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_intent_resolver_smoke.tscn
+      - name: Mémoire de combat et matrice IA Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_combat_memory_ai_smoke.tscn
+      - name: Catalogue exact 1305 et Délié Affamé Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_canonical_skill_catalog_smoke.tscn
+      - name: Contenu canonique Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_content_runtime_smoke.tscn
+      - name: Rencontres canoniques Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_encounter_director_smoke.tscn
+      - name: Boss canoniques Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_boss_director_smoke.tscn
+      - name: Coordination runtime Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_runtime_coordinator_smoke.tscn
+      - name: Refuge et Archives responsive Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_refuge_archive_presenter_smoke.tscn
+      - name: Arbres et ultimes des boss Les Veilleurs
+        run: godot --headless --path . res://scenes/tests/veilleurs_boss_kit_runtime_smoke.tscn

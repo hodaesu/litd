@@ -1,0 +1,48 @@
+{
+  "version": 2,
+  "status": "production_contract",
+  "canonical_system_source": "res://data/veilleurs/canonical_prepc_2026_09_03/system_rules_v1.json",
+  "party": {
+    "max_combatants": 4,
+    "min_watchers": 1,
+    "validation": "party_size <= 4 && watcher_count >= 1"
+  },
+  "refuge": {
+    "capacity_by_act": {"I": 4, "II": 6, "III": 8, "IV": 10, "V": 12},
+    "max_recruit_capacity": 12,
+    "overflow_policy": "block_new_recruit_until_slot_is_freed",
+    "persistent_identity_required": true,
+    "event_families": ["COHABITATION", "CONFLIT", "RAPPROCHEMENT", "SOUVENIR", "BESOIN_BIOLOGIQUE", "BESOIN_PSYCHOLOGIQUE", "TRANSFORMATION", "TRAVAIL", "DECOUVERTE", "DEPART", "CRISE", "POLITIQUE"],
+    "relationship_axes": ["CONFIANCE", "RESPECT", "PEUR", "RESSENTIMENT"]
+  },
+  "rallying": {
+    "capture_is_recruitment": false,
+    "injuries_reset_on_rally": false,
+    "display_capture_probability": false,
+    "ordinary_enemy_eligible": true,
+    "bosses_recruitable": false,
+    "act_i_rule": "Les huit ennemis ordinaires de l’Acte I sont Auxiliaire possible; ne remplace jamais un Veilleur. Aucune condition numérique supplémentaire ne doit être inventée.",
+    "acts_ii_v_conditions_source": "res://data/veilleurs/canonical_prepc_2026_09_03/system_rules_v1.json"
+  },
+  "eligibility": {
+    "ordinary_enemy": true,
+    "memorial_enemy": true,
+    "veteran_enemy": true,
+    "elite_enemy": true,
+    "nemesis_enemy": "case_by_case_story_rule",
+    "boss": false
+  },
+  "systems": {
+    "persistent_injuries": true,
+    "relationship_memory": true,
+    "individual_history": true,
+    "traits": true,
+    "identity_seed": true
+  },
+  "ui": {
+    "capture_probability_visible": false,
+    "show_observable_state_instead": ["volonte", "blessures", "posture", "relation", "contexte_de_ralliement"],
+    "irreversible_confirmation": true
+  },
+  "monetization_guardrails": {"gacha": false, "paid_reroll": false, "paid_recruitment": false}
+}

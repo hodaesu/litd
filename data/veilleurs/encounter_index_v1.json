@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "status": "canonical_name_index",
+  "source_sheet": "Compositions_64",
+  "source_sha256": "2a3246778559b6750a9afe37e9a304c5d80c8c9801fba6a626aed73bba46dc92",
+  "count": 64,
+  "acts": {
+    "I — Les Marches du Sanctuaire": [
+      {"name":"Charognards du bord","type":"Standard","actors":2,"composition":"Délié Affamé + Délié Affamé"},
+      {"name":"Suie en chasse","type":"Standard","actors":2,"composition":"Traque-Suie + Traque-Suie"},
+      {"name":"Fendus en patrouille","type":"Standard","actors":2,"composition":"Censeur Fendu + Flagellant Fendu"},
+      {"name":"Gardien isolé","type":"Standard","actors":1,"composition":"Sentinelle du Seuil"},
+      {"name":"Faim derrière la masse","type":"Standard","actors":2,"composition":"Délié Boursouflé + Délié Affamé"},
+      {"name":"Meute de fracture","type":"Standard","actors":2,"composition":"Traque-Suie + Brise-Os de Suie"},
+      {"name":"Garde du passage","type":"Standard","actors":2,"composition":"Sentinelle du Seuil + Exécuteur de Pierre"},
+      {"name":"Procession fendue","type":"Standard","actors":3,"composition":"Censeur Fendu + Flagellant Fendu + Délié Boursouflé"},
+      {"name":"Charnier mobile","type":"Standard","actors":3,"composition":"Délié Boursouflé + Délié Affamé + Délié Affamé"},
+      {"name":"Ligne de pierre","type":"Standard","actors":3,"composition":"Sentinelle du Seuil + Exécuteur de Pierre + Censeur Fendu"},
+      {"name":"Meute noire","type":"Standard","actors":3,"composition":"Traque-Suie + Traque-Suie + Brise-Os de Suie"},
+      {"name":"Douleur ordonnée","type":"Standard","actors":3,"composition":"Flagellant Fendu + Flagellant Fendu + Censeur Fendu"},
+      {"name":"Élite du marteau","type":"Élite","actors":3,"composition":"Exécuteur de Pierre + Sentinelle du Seuil + Traque-Suie"},
+      {"name":"Élite de la mâchoire","type":"Élite","actors":3,"composition":"Brise-Os de Suie + Traque-Suie + Traque-Suie"},
+      {"name":"Le seuil apprend","type":"Pré-boss","actors":2,"composition":"Sentinelle du Seuil + Censeur Fendu"},
+      {"name":"Avant Ishar","type":"Pré-boss","actors":3,"composition":"Sentinelle du Seuil + Exécuteur de Pierre + Flagellant Fendu"}
+    ],
+    "II — Les Routes Muettes": [
+      {"name":"Deux oreilles","type":"Standard","actors":2,"composition":"Écouteur Creux + Écouteur Creux"},
+      {"name":"Ordre des mains","type":"Standard","actors":2,"composition":"Porte-Signe + Écouteur Creux"},
+      {"name":"La marche approche","type":"Standard","actors":2,"composition":"Marcheur Aphone + Écouteur Creux"},
+      {"name":"Souffle codé","type":"Standard","actors":2,"composition":"Reteneur de Souffle + Porte-Signe"},
+      {"name":"Front muet","type":"Standard","actors":2,"composition":"Marcheur Aphone + Porte-Signe"},
+      {"name":"Chasseur du souffle","type":"Standard","actors":2,"composition":"Écouteur Creux + Reteneur de Souffle"},
+      {"name":"Procession silencieuse","type":"Standard","actors":3,"composition":"Marcheur Aphone + Porte-Signe + Écouteur Creux"},
+      {"name":"Souffle sous garde","type":"Standard","actors":3,"composition":"Marcheur Aphone + Porte-Signe + Reteneur de Souffle"},
+      {"name":"Trois pistes muettes","type":"Standard","actors":3,"composition":"Écouteur Creux + Écouteur Creux + Reteneur de Souffle"},
+      {"name":"Élite du signe","type":"Élite","actors":3,"composition":"Porte-Signe + Marcheur Aphone + Écouteur Creux"},
+      {"name":"Élite du souffle","type":"Élite","actors":3,"composition":"Reteneur de Souffle + Écouteur Creux + Écouteur Creux"},
+      {"name":"Avant l’Orateur","type":"Pré-boss","actors":4,"composition":"Marcheur Aphone + Porte-Signe + Reteneur de Souffle + Écouteur Creux"}
+    ],
+    "III — Ce qui pousse sous nous": [
+      {"name":"Fil rouge","type":"Standard","actors":2,"composition":"Veine Rampante + Veine Rampante"},
+      {"name":"Nœud du passage","type":"Standard","actors":2,"composition":"Nœud-Écorché + Veine Rampante"},
+      {"name":"Réserve vivante","type":"Standard","actors":2,"composition":"Porte-Sang + Veine Rampante"},
+      {"name":"Premiers germes","type":"Standard","actors":2,"composition":"Germe Artériel + Veine Rampante"},
+      {"name":"Nœud nourri","type":"Standard","actors":2,"composition":"Nœud-Écorché + Porte-Sang"},
+      {"name":"Jardin artériel","type":"Standard","actors":2,"composition":"Germe Artériel + Germe Artériel"},
+      {"name":"Réseau complet","type":"Standard","actors":3,"composition":"Veine Rampante + Porte-Sang + Nœud-Écorché"},
+      {"name":"Croissance protégée","type":"Standard","actors":3,"composition":"Germe Artériel + Nœud-Écorché + Veine Rampante"},
+      {"name":"Transfusion de masse","type":"Standard","actors":3,"composition":"Porte-Sang + Porte-Sang + Veine Rampante"},
+      {"name":"Élite du nœud","type":"Élite","actors":3,"composition":"Nœud-Écorché + Porte-Sang + Germe Artériel"},
+      {"name":"Élite du germe","type":"Élite","actors":3,"composition":"Germe Artériel + Veine Rampante + Porte-Sang"},
+      {"name":"Avant la Mère","type":"Pré-boss","actors":4,"composition":"Veine Rampante + Nœud-Écorché + Porte-Sang + Germe Artériel"}
+    ],
+    "IV — Les Cendres de la Paix": [
+      {"name":"Première marche","type":"Standard","actors":2,"composition":"Marche-Pâle + Marche-Pâle"},
+      {"name":"Sous le linceul","type":"Standard","actors":2,"composition":"Porte-Linceul + Marche-Pâle"},
+      {"name":"Piste effacée","type":"Standard","actors":2,"composition":"Effaceur de Traces + Marche-Pâle"},
+      {"name":"Statue endormie","type":"Standard","actors":1,"composition":"Dormeur de Cendre"},
+      {"name":"Procession couverte","type":"Standard","actors":3,"composition":"Marche-Pâle + Porte-Linceul + Effaceur de Traces"},
+      {"name":"Réveil sous voile","type":"Standard","actors":2,"composition":"Dormeur de Cendre + Porte-Linceul"},
+      {"name":"Trace impossible","type":"Standard","actors":2,"composition":"Effaceur de Traces + Porte-Linceul"},
+      {"name":"Cortège lourd","type":"Standard","actors":3,"composition":"Marche-Pâle + Marche-Pâle + Dormeur de Cendre"},
+      {"name":"Blanc méthodique","type":"Standard","actors":3,"composition":"Porte-Linceul + Effaceur de Traces + Marche-Pâle"},
+      {"name":"Élite dormante","type":"Élite","actors":3,"composition":"Dormeur de Cendre + Porte-Linceul + Effaceur de Traces"},
+      {"name":"Élite de l’effacement","type":"Élite","actors":3,"composition":"Effaceur de Traces + Porte-Linceul + Marche-Pâle"},
+      {"name":"Avant le Porte-Cendres","type":"Pré-boss","actors":4,"composition":"Marche-Pâle + Porte-Linceul + Effaceur de Traces + Dormeur de Cendre"}
+    ],
+    "V — Les Versions": [
+      {"name":"Première copie","type":"Standard","actors":2,"composition":"Copie Lacunaire + Copie Lacunaire"},
+      {"name":"Correction locale","type":"Standard","actors":2,"composition":"Rature Vivante + Copie Lacunaire"},
+      {"name":"Index vivant","type":"Standard","actors":2,"composition":"Archiviste de Version + Copie Lacunaire"},
+      {"name":"Miroir du rang","type":"Standard","actors":2,"composition":"Double du Seuil + Copie Lacunaire"},
+      {"name":"Archive et rature","type":"Standard","actors":2,"composition":"Archiviste de Version + Rature Vivante"},
+      {"name":"Double corrigé","type":"Standard","actors":2,"composition":"Double du Seuil + Rature Vivante"},
+      {"name":"Version de groupe","type":"Standard","actors":3,"composition":"Copie Lacunaire + Archiviste de Version + Double du Seuil"},
+      {"name":"Page instable","type":"Standard","actors":3,"composition":"Rature Vivante + Archiviste de Version + Copie Lacunaire"},
+      {"name":"Symétrie archivée","type":"Standard","actors":3,"composition":"Double du Seuil + Archiviste de Version + Rature Vivante"},
+      {"name":"Élite de la copie","type":"Élite","actors":3,"composition":"Copie Lacunaire + Archiviste de Version + Double du Seuil"},
+      {"name":"Élite de la rature","type":"Élite","actors":3,"composition":"Rature Vivante + Archiviste de Version + Copie Lacunaire"},
+      {"name":"Avant le Copiste","type":"Pré-boss","actors":4,"composition":"Copie Lacunaire + Rature Vivante + Archiviste de Version + Double du Seuil"}
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "version": 2,
+  "status": "canonical_complete",
+  "target_species": 24,
+  "recovered_species": 24,
+  "unresolved_species": 0,
+  "placeholder_names_forbidden": true,
+  "recovery_note": "The eight Act I names were recovered from the prior master reference and are now locked alongside the sixteen already recovered Act II-V names.",
+  "families": [
+    {
+      "id": "delies",
+      "name": "Déliés",
+      "act": 1,
+      "species_names_locked": true,
+      "species": [
+        {"id": "delie_affame", "name": "Délié Affamé"},
+        {"id": "delie_boursoufle", "name": "Délié Boursouflé"}
+      ]
+    },
+    {
+      "id": "pelerins_fendus",
+      "name": "Pèlerins Fendus",
+      "act": 1,
+      "species_names_locked": true,
+      "species": [
+        {"id": "censeur_fendu", "name": "Censeur Fendu"},
+        {"id": "flagellant_fendu", "name": "Flagellant Fendu"}
+      ]
+    },
+    {
+      "id": "gardiens_de_pierre",
+      "name": "Gardiens de Pierre",
+      "act": 1,
+      "species_names_locked": true,
+      "species": [
+        {"id": "sentinelle_du_seuil", "name": "Sentinelle du Seuil"},
+        {"id": "executeur_de_pierre", "name": "Exécuteur de Pierre"}
+      ]
+    },
+    {
+      "id": "betes_de_suie",
+      "name": "Bêtes de Suie",
+      "act": 1,
+      "species_names_locked": true,
+      "species": [
+        {"id": "traque_suie", "name": "Traque-Suie"},
+        {"id": "brise_os_de_suie", "name": "Brise-Os de Suie"}
+      ]
+    },
+    {
+      "id": "silencieux",
+      "name": "Silencieux",
+      "act": 2,
+      "species_names_locked": true,
+      "species": [
+        {"id": "ecouteur_creux", "name": "Écouteur Creux"},
+        {"id": "porte_signe", "name": "Porte-Signe"},
+        {"id": "marcheur_aphone", "name": "Marcheur Aphone"},
+        {"id": "reteneur_de_souffle", "name": "Reteneur de Souffle"}
+      ]
+    },
+    {
+      "id": "veines",
+      "name": "Veines",
+      "act": 3,
+      "species_names_locked": true,
+      "species": [
+        {"id": "veine_rampante", "name": "Veine Rampante"},
+        {"id": "noeud_ecorche", "name": "Nœud-Écorché"},
+        {"id": "porte_sang", "name": "Porte-Sang"},
+        {"id": "germe_arteriel", "name": "Germe Artériel"}
+      ]
+    },
+    {
+      "id": "porte_cendres",
+      "name": "Porte-Cendres",
+      "act": 4,
+      "species_names_locked": true,
+      "species": [
+        {"id": "marche_pale", "name": "Marche-Pâle"},
+        {"id": "porte_linceul", "name": "Porte-Linceul"},
+        {"id": "effaceur_de_traces", "name": "Effaceur de Traces"},
+        {"id": "dormeur_de_cendre", "name": "Dormeur de Cendre"}
+      ]
+    },
+    {
+      "id": "gardiens_de_version",
+      "name": "Gardiens de Version",
+      "act": 5,
+      "species_names_locked": true,
+      "species": [
+        {"id": "copie_lacunaire", "name": "Copie Lacunaire"},
+        {"id": "rature_vivante", "name": "Rature Vivante"},
+        {"id": "archiviste_de_version", "name": "Archiviste de Version"},
+        {"id": "double_du_seuil", "name": "Double du Seuil"}
+      ]
+    }
+  ],
+  "guardrail": "These 24 names are the canonical ordinary-species roster. Legacy 5/25, 6/24 and 7/15 taxonomies may remain archival only and must not repopulate production data."
+}

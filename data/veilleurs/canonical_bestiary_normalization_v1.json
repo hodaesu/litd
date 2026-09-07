@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "status": "canonical_production_binding",
+  "scope": "LITD : Les Veilleurs",
+  "species_catalog": "res://data/veilleurs/species_catalog_recovered_v1.json",
+  "recruitment_contract": "res://data/veilleurs/recruitment_refuge_contract_v1.json",
+  "remanence_contract": "res://data/veilleurs/remanence_entity_contract_v1.json",
+  "counts": {"ordinary_species": 24, "families": 8, "bosses": 5, "total_entities": 29},
+  "intent_taxonomy": ["assault", "control", "reposition", "defense", "support", "environment", "hunt_ambush", "flee_surrender_recruitment"],
+  "knowledge_scale": {
+    "0": "unknown",
+    "1": "spotted",
+    "2": "observed",
+    "3": "understood",
+    "4": "studied",
+    "5": "mastered"
+  },
+  "global_rules": {
+    "ordinary_recruitment_eligible": true,
+    "ordinary_memory_ranks": ["normal", "memorial", "veteran", "elite", "nemesis"],
+    "nemesis_recruitment": "case_by_case_story_rule",
+    "boss_recruitment": "canonical_story_rule_only",
+    "miniboss_recruitment": false,
+    "knowledge_never_overrides_current_perception": true,
+    "boss_knowledge_is_phase_scoped": true,
+    "unseen_boss_phase_never_revealed": true,
+    "remanence_learning_only_from_lived_events": true,
+    "full_scene_snapshot_forbidden": true
+  },
+  "family_defaults": {
+    "delies": {"act": 1, "anatomy_family": "humanoid_degraded", "recruit_paths": ["soumission", "reddition", "sauvetage"]},
+    "pelerins_fendus": {"act": 1, "anatomy_family": "humanoid", "recruit_paths": ["soumission", "reddition", "sauvetage"]},
+    "gardiens_de_pierre": {"act": 1, "anatomy_family": "humanoid_armored", "recruit_paths": ["soumission", "reddition", "pacte"]},
+    "betes_de_suie": {"act": 1, "anatomy_family": "quadruped", "recruit_paths": ["apprivoisement", "sauvetage"]},
+    "silencieux": {"act": 2, "anatomy_family": "humanoid_altered", "recruit_paths": ["soumission", "reddition", "sauvetage", "pacte"]},
+    "veines": {"act": 3, "anatomy_family": "network_biological", "recruit_paths": ["soumission", "sauvetage", "pacte"]},
+    "porte_cendres": {"act": 4, "anatomy_family": "humanoid_ashbound", "recruit_paths": ["soumission", "reddition", "sauvetage", "pacte"]},
+    "gardiens_de_version": {"act": 5, "anatomy_family": "humanoid_variable", "recruit_paths": ["reddition", "sauvetage", "pacte"]}
+  },
+  "ordinary_species": [
+    {
+      "id": "delie_affame", "name": "Délié Affamé", "family_id": "delies", "act": 1,
+      "role": "predator_opportunist", "anatomy_profile": "humanoid_degraded_light",
+      "intent_classes": ["assault", "hunt_ambush", "flee_surrender_recruitment"],
+      "telegraphs": {"visual": ["poids projeté vers l’avant", "mâchoire et épaules se ferment sur une cible"], "audio": ["souffle haché", "raclement bref"], "environmental": ["trajectoire directe vers le blessé"]},
+      "target_logic": ["bleeding", "low_hp", "isolated"],
+      "knowledge": {"1": "Prédateur de mêlée.", "2": "Privilégie les blessés et isolés.", "3": "Son bond annonce souvent une morsure ou une saisie.", "4": "Les jambes fragilisées réduisent fortement sa poursuite.", "5": "Le briser ou le séparer de sa cible ouvre une reddition/soumission plutôt qu’une exécution obligatoire."},
+      "recruitment_profile": "feral_subdual", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "delie_boursoufle", "name": "Délié Boursouflé", "family_id": "delies", "act": 1,
+      "role": "pressure_tank", "anatomy_profile": "humanoid_degraded_heavy",
+      "intent_classes": ["assault", "control", "environment"],
+      "telegraphs": {"visual": ["torse gonflé", "appui large avant impact"], "audio": ["respiration humide", "grondement interne"], "environmental": ["déplacement lourd de cendres et débris"]},
+      "target_logic": ["frontline", "guarding", "clustered"],
+      "knowledge": {"1": "Masse lente et résistante.", "2": "Cherche le front et les groupes serrés.", "3": "Ses charges préparent des déplacements et écrasements.", "4": "Les appuis et le torse contrôlent l’essentiel de sa puissance.", "5": "Le forcer à tourner ou perdre son appui réduit ses intentions de contrôle."},
+      "recruitment_profile": "subdual_or_rescue", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "censeur_fendu", "name": "Censeur Fendu", "family_id": "pelerins_fendus", "act": 1,
+      "role": "controller_breaker", "anatomy_profile": "humanoid",
+      "intent_classes": ["control", "assault", "support"],
+      "telegraphs": {"visual": ["désigne une cible", "resserre sa garde avant une sentence"], "audio": ["formule rituelle brève", "claquement d’arme"], "environmental": ["alliés fendus se réorientent vers la cible désignée"]},
+      "target_logic": ["highest_hope", "support", "marked"],
+      "knowledge": {"1": "Contrôleur humain fendu.", "2": "Désigne les cibles qui maintiennent le groupe.", "3": "Ses sentences renforcent souvent l’action d’un allié.", "4": "Bras d’arme et voix/respiration sont ses vecteurs principaux.", "5": "Rompre la désignation ou le déplacer coupe une partie de la synergie de groupe."},
+      "recruitment_profile": "surrender_or_rescue", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "flagellant_fendu", "name": "Flagellant Fendu", "family_id": "pelerins_fendus", "act": 1,
+      "role": "bleed_pressure", "anatomy_profile": "humanoid",
+      "intent_classes": ["assault", "control", "reposition"],
+      "telegraphs": {"visual": ["arme décrivant un cercle", "recul avant fouet"], "audio": ["sifflement de lanière", "pas glissé"], "environmental": ["cherche les couloirs de frappe"]},
+      "target_logic": ["backline", "already_wounded", "mobile"],
+      "knowledge": {"1": "Attaquant de portée intermédiaire.", "2": "Cherche les blessés et l’arrière-ligne.", "3": "Le recul de hanche annonce les frappes de traction.", "4": "Un bras compromis réduit portée et contrôle.", "5": "Casser son axe ou avancer sous sa portée neutralise une partie de son jeu de traction."},
+      "recruitment_profile": "surrender_or_subdual", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "sentinelle_du_seuil", "name": "Sentinelle du Seuil", "family_id": "gardiens_de_pierre", "act": 1,
+      "role": "guardian", "anatomy_profile": "humanoid_armored",
+      "intent_classes": ["defense", "control", "assault"],
+      "telegraphs": {"visual": ["abaisse son centre de gravité", "verrouille un passage"], "audio": ["pierre ou métal sous charge"], "environmental": ["occupe volontairement porte et goulot"]},
+      "target_logic": ["frontline", "passage_user", "guard_breaker"],
+      "knowledge": {"1": "Gardien de position.", "2": "Protège un passage avant de chercher le meurtre.", "3": "Sa posture basse annonce blocage ou contre-charge.", "4": "Jambes et bras de garde gouvernent son verrouillage.", "5": "Le contourner, le déplacer ou l’obliger à protéger deux axes brise sa fonction."},
+      "recruitment_profile": "pact_or_surrender", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "executeur_de_pierre", "name": "Exécuteur de Pierre", "family_id": "gardiens_de_pierre", "act": 1,
+      "role": "heavy_finisher", "anatomy_profile": "humanoid_armored_heavy",
+      "intent_classes": ["assault", "control", "defense"],
+      "telegraphs": {"visual": ["arme lourde levée haut", "pied arrière planté"], "audio": ["armure sous tension", "impact préparatoire"], "environmental": ["dégage son espace avant frappe"]},
+      "target_logic": ["guarding", "critical_injury", "immobilized"],
+      "knowledge": {"1": "Finisseur lourd.", "2": "Privilégie les cibles immobilisées ou déjà critiques.", "3": "Son armement impose une préparation lisible avant les coups majeurs.", "4": "Détruire l’appui ou la fonction du bras d’arme réduit fortement la menace.", "5": "Ses attaques majeures peuvent être provoquées puis punies si l’espace de recul est contrôlé."},
+      "recruitment_profile": "surrender_after_break", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "traque_suie", "name": "Traque-Suie", "family_id": "betes_de_suie", "act": 1,
+      "role": "scout_predator", "anatomy_profile": "quadruped_light",
+      "intent_classes": ["hunt_ambush", "reposition", "assault"],
+      "telegraphs": {"visual": ["corps bas", "oreilles ou tête orientées hors axe"], "audio": ["griffes étouffées", "reniflement bref"], "environmental": ["traces circulaires autour du groupe"]},
+      "target_logic": ["isolated", "backline", "low_perception"],
+      "knowledge": {"1": "Bête de traque.", "2": "Tourne autour du groupe avant d’entrer.", "3": "La disparition de ses traces annonce souvent une embuscade proche.", "4": "Pattes avant et perception sont ses fonctions critiques.", "5": "Éclairer ses routes et protéger l’isolé force une attaque moins favorable ou un repli."},
+      "recruitment_profile": "taming_or_rescue", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "brise_os_de_suie", "name": "Brise-Os de Suie", "family_id": "betes_de_suie", "act": 1,
+      "role": "bone_breaker", "anatomy_profile": "quadruped_heavy",
+      "intent_classes": ["assault", "control", "hunt_ambush"],
+      "telegraphs": {"visual": ["épaules montent avant collision", "mâchoire latérale"], "audio": ["grondement grave", "course lourde"], "environmental": ["cendres projetées sur sa ligne de charge"]},
+      "target_logic": ["wounded_limb", "frontline", "knocked_down"],
+      "knowledge": {"1": "Prédateur lourd spécialisé dans la rupture.", "2": "Insiste sur les membres déjà atteints.", "3": "Sa ligne de charge est visible juste avant l’engagement.", "4": "Une patte antérieure critique dégrade charge et esquive.", "5": "Présenter une cible gardée puis casser sa ligne transforme sa puissance en vulnérabilité."},
+      "recruitment_profile": "taming_after_subdual", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "ecouteur_creux", "name": "Écouteur Creux", "family_id": "silencieux", "act": 2,
+      "role": "auditory_scout", "anatomy_profile": "humanoid_altered_sensory",
+      "intent_classes": ["hunt_ambush", "support", "control"],
+      "telegraphs": {"visual": ["immobilité soudaine", "tête inclinée"], "audio": ["silence volontaire autour de lui"], "environmental": ["réagit aux sources de bruit hors vision"]},
+      "target_logic": ["noisiest", "hidden", "isolated"],
+      "knowledge": {"1": "Éclaireur sensoriel.", "2": "Transforme le bruit du groupe en information de chasse.", "3": "Son arrêt complet précède souvent un signal aux alliés.", "4": "Ses organes sensoriels et son équilibre sont des fonctions majeures.", "5": "Créer un bruit leurre peut détourner son information sans rendre l’IA omnisciente."},
+      "recruitment_profile": "rescue_or_pact", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "porte_signe", "name": "Porte-Signe", "family_id": "silencieux", "act": 2,
+      "role": "marker_controller", "anatomy_profile": "humanoid_altered",
+      "intent_classes": ["control", "support", "environment"],
+      "telegraphs": {"visual": ["geste codé vers une cible", "signe tenu une fraction de seconde"], "audio": ["presque aucun"], "environmental": ["alliés changent de priorité après le signe"]},
+      "target_logic": ["support", "marked", "highest_threat"],
+      "knowledge": {"1": "Coordinateur silencieux.", "2": "Marque une cible pour le groupe.", "3": "Les signes distincts correspondent à plusieurs familles d’ordres.", "4": "Le bras ou la ligne de vue peuvent interrompre certaines transmissions.", "5": "Lire le signe permet d’anticiper non seulement son action mais celle de ses alliés liés."},
+      "recruitment_profile": "surrender_or_pact", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "marcheur_aphone", "name": "Marcheur Aphone", "family_id": "silencieux", "act": 2,
+      "role": "flanker", "anatomy_profile": "humanoid_altered_mobile",
+      "intent_classes": ["reposition", "assault", "hunt_ambush"],
+      "telegraphs": {"visual": ["rotation des épaules", "regard hors cible"], "audio": ["pas anormalement silencieux"], "environmental": ["utilise les zones de faible lumière"]},
+      "target_logic": ["backline", "isolated", "low_light"],
+      "knowledge": {"1": "Flanqueur mobile.", "2": "Cherche l’obscurité et les angles morts.", "3": "Ses changements d’appui annoncent ses traversées.", "4": "Les jambes déterminent son niveau de menace.", "5": "Lumière et contrôle des sorties réduisent son avantage avant même le premier coup."},
+      "recruitment_profile": "surrender_or_rescue", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "reteneur_de_souffle", "name": "Reteneur de Souffle", "family_id": "silencieux", "act": 2,
+      "role": "fear_controller", "anatomy_profile": "humanoid_altered_respiratory",
+      "intent_classes": ["control", "defense", "support"],
+      "telegraphs": {"visual": ["thorax se fige", "posture contractée avant relâchement"], "audio": ["absence de respiration puis expiration nette"], "environmental": ["le groupe ennemi se resserre autour de lui"]},
+      "target_logic": ["high_fear", "support", "clustered"],
+      "knowledge": {"1": "Contrôleur de rythme et de peur.", "2": "Cherche les Veilleurs déjà sous pression.", "3": "Le cycle blocage-expiration télégraphie ses actions majeures.", "4": "Torso et concentration conditionnent son contrôle.", "5": "Le forcer à agir hors de son cycle limite les pics de peur et le soutien allié."},
+      "recruitment_profile": "pact_or_rescue", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "veine_rampante", "name": "Veine Rampante", "family_id": "veines", "act": 3,
+      "role": "terrain_spreader", "anatomy_profile": "network_segment",
+      "intent_classes": ["environment", "control", "support"],
+      "telegraphs": {"visual": ["pulsation dans le sol", "ramification qui épaissit"], "audio": ["battement sourd"], "environmental": ["zones du sol deviennent actives"]},
+      "target_logic": ["area_denial", "clustered", "network_link"],
+      "knowledge": {"1": "Segment de réseau biologique.", "2": "Étend le terrain plutôt que poursuivre une cible.", "3": "Les pulsations annoncent quelle branche va agir.", "4": "Les nœuds visibles sont plus importants que la masse périphérique.", "5": "Couper la liaison avant la pulsation peut annuler soutien ou contrôle sans tuer tout le réseau."},
+      "recruitment_profile": "pact_or_rescue_network_fragment", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "noeud_ecorche", "name": "Nœud-Écorché", "family_id": "veines", "act": 3,
+      "role": "network_anchor", "anatomy_profile": "network_anchor",
+      "intent_classes": ["defense", "support", "control"],
+      "telegraphs": {"visual": ["membranes se tendent vers des alliés", "nœud central se contracte"], "audio": ["pulsation multiple"], "environmental": ["liens visibles entre unités"]},
+      "target_logic": ["network_link", "damaged_ally", "chokepoint"],
+      "knowledge": {"1": "Ancre de réseau.", "2": "Redistribue protection et fonction.", "3": "Les liens tendus indiquent qui reçoit son soutien.", "4": "Le nœud central est fonctionnellement plus important que ses excroissances.", "5": "Rompre le bon lien au bon moment peut faire s’effondrer une synergie entière."},
+      "recruitment_profile": "subdual_or_pact", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "porte_sang", "name": "Porte-Sang", "family_id": "veines", "act": 3,
+      "role": "resource_transfer", "anatomy_profile": "humanoid_network_host",
+      "intent_classes": ["support", "assault", "flee_surrender_recruitment"],
+      "telegraphs": {"visual": ["veines superficielles s’illuminent ou gonflent", "bras ou torse orienté vers un allié"], "audio": ["pouls audible à proximité"], "environmental": ["flux visible vers un autre membre du réseau"]},
+      "target_logic": ["damaged_ally", "bleeding_enemy", "network_core"],
+      "knowledge": {"1": "Transporteur de ressources biologiques.", "2": "Soutient un allié ou exploite le sang disponible.", "3": "Le sens du flux indique la destination.", "4": "Torso et conduits principaux déterminent transfert et survie.", "5": "Interrompre le flux peut créer une fenêtre de séparation ou de ralliement plutôt qu’un simple kill."},
+      "recruitment_profile": "rescue_or_pact", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "germe_arteriel", "name": "Germe Artériel", "family_id": "veines", "act": 3,
+      "role": "spawn_hazard", "anatomy_profile": "network_seed",
+      "intent_classes": ["environment", "support", "reposition"],
+      "telegraphs": {"visual": ["sac germinal gonfle", "racines cherchent une fissure"], "audio": ["craquement humide"], "environmental": ["terrain favorable se colore avant germination"]},
+      "target_logic": ["safe_tile", "corpse", "network_gap"],
+      "knowledge": {"1": "Graine mobile du réseau.", "2": "Cherche un emplacement ou un cadavre plus qu’une cible directe.", "3": "Le gonflement précède l’enracinement.", "4": "Le sac germinal est fragile lorsqu’il prépare l’implantation.", "5": "Le déplacer ou lui retirer son terrain/cadavre cible suffit souvent à casser son tour fort."},
+      "recruitment_profile": "containment_or_pact", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "marche_pale", "name": "Marche-Pâle", "family_id": "porte_cendres", "act": 4,
+      "role": "formation_front", "anatomy_profile": "humanoid_ashbound",
+      "intent_classes": ["defense", "reposition", "assault"],
+      "telegraphs": {"visual": ["pas parfaitement mesuré", "arme alignée au groupe"], "audio": ["pas réguliers"], "environmental": ["maintient une ligne avec les autres Porte-Cendres"]},
+      "target_logic": ["frontline", "formation_breaker", "chokepoint"],
+      "knowledge": {"1": "Combattant de formation.", "2": "Sa valeur augmente lorsqu’il garde l’alignement.", "3": "Le rythme des pas indique avance, verrouillage ou frappe.", "4": "Jambes et bras de garde contrôlent la cohésion.", "5": "Déplacer un seul Marche-Pâle peut ouvrir la formation entière."},
+      "recruitment_profile": "surrender_or_pact", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "porte_linceul", "name": "Porte-Linceul", "family_id": "porte_cendres", "act": 4,
+      "role": "concealment_support", "anatomy_profile": "humanoid_ashbound",
+      "intent_classes": ["support", "environment", "control"],
+      "telegraphs": {"visual": ["déploie tissu ou cendre entre alliés", "main haute avant couverture"], "audio": ["tissu sec", "souffle de cendre"], "environmental": ["réduction visible de lisibilité autour des alliés"]},
+      "target_logic": ["damaged_ally", "important_ally", "line_of_sight"],
+      "knowledge": {"1": "Soutien de dissimulation.", "2": "Protège l’information autant que les corps.", "3": "Le déploiement annonce quelle zone va perdre en lisibilité.", "4": "Bras, linceul et position sont ses fonctions clés.", "5": "Le déplacer ou éclairer par un autre angle restaure la perception sans exiger de le tuer."},
+      "recruitment_profile": "surrender_or_rescue", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "effaceur_de_traces", "name": "Effaceur de Traces", "family_id": "porte_cendres", "act": 4,
+      "role": "knowledge_disruptor", "anatomy_profile": "humanoid_ashbound_mobile",
+      "intent_classes": ["environment", "hunt_ambush", "reposition"],
+      "telegraphs": {"visual": ["balayage du sol", "attention portée aux marques plutôt qu’aux Veilleurs"], "audio": ["frottement sec"], "environmental": ["traces et marqueurs disparaissent ou deviennent ambigus"]},
+      "target_logic": ["marker", "recent_trace", "escape_route"],
+      "knowledge": {"1": "Saboteur de traces.", "2": "Attaque la connaissance du terrain et les marqueurs.", "3": "Son orientation indique quelle trace il va supprimer.", "4": "Sa mobilité et son bras d’outil sont prioritaires.", "5": "Le suivre lui-même peut révéler ce qu’il cherche à effacer et produire une nouvelle connaissance."},
+      "recruitment_profile": "surrender_or_pact", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "dormeur_de_cendre", "name": "Dormeur de Cendre", "family_id": "porte_cendres", "act": 4,
+      "role": "latent_ambusher", "anatomy_profile": "humanoid_ashbound_dormant",
+      "intent_classes": ["hunt_ambush", "assault", "environment"],
+      "telegraphs": {"visual": ["cendre se fissure autour du corps", "micro-mouvement avant réveil"], "audio": ["craquement de croûte"], "environmental": ["amas de cendre anormalement régulier"]},
+      "target_logic": ["proximity", "low_light", "isolated"],
+      "knowledge": {"1": "Menace latente pouvant passer pour le décor.", "2": "Réagit à proximité, lumière et perturbation.", "3": "Les fissures de cendre précèdent le réveil.", "4": "Un réveil incomplet le rend plus vulnérable qu’une activation totale.", "5": "Reconnaître ses signes permet de contourner, neutraliser ou approcher socialement certains individus sans combat."},
+      "recruitment_profile": "rescue_or_pact", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "copie_lacunaire", "name": "Copie Lacunaire", "family_id": "gardiens_de_version", "act": 5,
+      "role": "partial_mimic", "anatomy_profile": "humanoid_variable",
+      "intent_classes": ["assault", "control", "reposition"],
+      "telegraphs": {"visual": ["geste familier incomplet", "hésitation au milieu d’une posture"], "audio": ["fragment de souffle ou de phrase"], "environmental": ["reproduit une action déjà observée mais avec un manque"]},
+      "target_logic": ["source_of_copied_action", "similar_role", "random_gap"],
+      "knowledge": {"1": "Imitation incomplète.", "2": "Rejoue des fragments plutôt qu’un kit entier.", "3": "La lacune du geste annonce souvent sa faiblesse fonctionnelle.", "4": "L’anatomie copiée reste humanoïde mais ses fonctions peuvent diverger.", "5": "Comparer la copie à la source révèle à la fois son intention et ce qui manque à sa version."},
+      "recruitment_profile": "rescue_or_pact", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "rature_vivante", "name": "Rature Vivante", "family_id": "gardiens_de_version", "act": 5,
+      "role": "disruptor", "anatomy_profile": "humanoid_variable_unstable",
+      "intent_classes": ["control", "environment", "assault"],
+      "telegraphs": {"visual": ["silhouette se dédouble puis se barre", "membre change brièvement de contour"], "audio": ["rupture sonore courte"], "environmental": ["élément ciblé perd temporairement lisibilité ou fonction"]},
+      "target_logic": ["active_buff", "known_plan", "high_value_action"],
+      "knowledge": {"1": "Perturbateur de version.", "2": "Cherche les actions ou états importants plutôt que les PV seuls.", "3": "La partie de silhouette barrée correspond souvent à la fonction visée.", "4": "Ses zones instables ne suivent pas toujours les vulnérabilités humanoïdes ordinaires.", "5": "Forcer plusieurs changements rapides peut rendre sa prochaine rature incohérente et donc lisible."},
+      "recruitment_profile": "pact_or_rescue", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "archiviste_de_version", "name": "Archiviste de Version", "family_id": "gardiens_de_version", "act": 5,
+      "role": "support_analyst", "anatomy_profile": "humanoid",
+      "intent_classes": ["support", "control", "defense"],
+      "telegraphs": {"visual": ["consulte ou compare deux signes", "regard alterné entre allié et cible"], "audio": ["compte ou récite très bas"], "environmental": ["conserve un état ou une information pour le tour suivant"]},
+      "target_logic": ["ally_with_history", "enemy_repeated_action", "important_state"],
+      "knowledge": {"1": "Analyste de combat.", "2": "Compare ce qui vient d’arriver avec une version conservée.", "3": "Son double regard annonce la relation qu’il va exploiter.", "4": "Interrompre concentration ou support documentaire réduit ses options.", "5": "Varier réellement les actions du groupe réduit la valeur de ses comparaisons sans le rendre stupide."},
+      "recruitment_profile": "surrender_or_pact", "memory_ceiling": "nemesis"
+    },
+    {
+      "id": "double_du_seuil", "name": "Double du Seuil", "family_id": "gardiens_de_version", "act": 5,
+      "role": "counter_mimic", "anatomy_profile": "humanoid_variable_combat",
+      "intent_classes": ["defense", "assault", "reposition"],
+      "telegraphs": {"visual": ["adopte une posture proche d’un Veilleur", "miroir imparfait d’un déplacement"], "audio": ["respiration calée sur une cible"], "environmental": ["se place en réponse à une action répétée"]},
+      "target_logic": ["repeated_actor", "highest_mastery", "last_attacker"],
+      "knowledge": {"1": "Contre-mimétique.", "2": "S’attache à un combattant dont il observe les répétitions.", "3": "La posture copiée indique la famille de contre qu’il prépare.", "4": "Ses limites restent celles du corps qu’il possède réellement, pas de la technique copiée.", "5": "Changer de rythme et de Veilleur actif l’oblige à reconstruire son modèle au lieu de lire l’avenir."},
+      "recruitment_profile": "pact_or_surrender", "memory_ceiling": "nemesis"
+    }
+  ],
+  "bosses": [
+    {
+      "id": "ishar_i", "act": 1, "name": "Ishar I", "title": "Le Veilleur des Seuils",
+      "intent_classes": ["defense", "control", "environment", "assault"],
+      "telegraph_channels": ["posture", "architecture", "impact", "route_control"],
+      "knowledge_signature": ["fonction de seuil", "priorités de verrouillage", "phases et changements d’espace", "contre-jeu par déplacement et lecture structurelle"],
+      "phase_knowledge_scoped": true, "recruitment": "canonical_story_rule_only", "preferred_story_path": "pacte"
+    },
+    {
+      "id": "orateur_ii", "act": 2, "name": "Orateur II", "title": "La Voix Incarnée",
+      "intent_classes": ["control", "support", "hunt_ambush", "environment"],
+      "telegraph_channels": ["silence", "gestes", "réactions des Silencieux", "architecture sonore"],
+      "knowledge_signature": ["autorité sans voix", "réseau de signes", "phases d’identité et de confiance", "contre-jeu par contradiction des signaux"],
+      "phase_knowledge_scoped": true, "recruitment": "canonical_story_rule_only", "preferred_story_path": "pacte"
+    },
+    {
+      "id": "mere_iii", "act": 3, "name": "Mère III", "title": "La Matrice des Refuges",
+      "intent_classes": ["support", "environment", "control", "assault"],
+      "telegraph_channels": ["pulsations", "terrain vivant", "flux vers alliés", "cadavres et réseau"],
+      "knowledge_signature": ["réseau vivant", "assimilation", "croissance du terrain", "contre-jeu par rupture des fonctions plutôt que simple DPS"],
+      "phase_knowledge_scoped": true, "recruitment": "canonical_story_rule_only", "preferred_story_path": "pacte"
+    },
+    {
+      "id": "porte_cendres_iv", "act": 4, "name": "Porte-Cendres IV", "title": "Le Gardien de la Cendre",
+      "intent_classes": ["defense", "environment", "assault", "control"],
+      "telegraph_channels": ["formation", "cendre", "lumière", "effacement de traces"],
+      "knowledge_signature": ["préservation de la cendre", "contrôle des routes et traces", "phases de formation", "contre-jeu par mémoire du terrain et désalignement"],
+      "phase_knowledge_scoped": true, "recruitment": "canonical_story_rule_only", "preferred_story_path": "reddition_or_pacte"
+    },
+    {
+      "id": "copiste_v", "act": 5, "name": "Copiste V", "title": "L’Archiviste des Cicatrices",
+      "intent_classes": ["control", "support", "environment", "reposition"],
+      "telegraph_channels": ["copies", "ratures", "comparaisons", "répétitions historiques"],
+      "knowledge_signature": ["versions contradictoires", "mémoire des actions réellement vues", "phases de copie et correction", "contre-jeu par variation et conservation de plusieurs vérités"],
+      "phase_knowledge_scoped": true, "recruitment": "canonical_story_rule_only", "preferred_story_path": "pacte"
+    }
+  ],
+  "production_acceptance": {
+    "every_ordinary_has_family": true,
+    "every_ordinary_has_role": true,
+    "every_ordinary_has_anatomy": true,
+    "every_ordinary_has_intents": true,
+    "every_ordinary_has_three_telegraph_channels": true,
+    "every_ordinary_has_five_knowledge_steps": true,
+    "every_ordinary_can_enter_remanence": true,
+    "bosses_use_story_recruitment_only": true,
+    "knowledge_and_intent_system_may_bind_by_species_id_without_legacy_enemies_json": true
+  }
+}
