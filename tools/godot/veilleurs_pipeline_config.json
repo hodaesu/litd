@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "godot_version": "4.3",
   "project_file": "project.godot",
   "report_dir": "build/automation",
@@ -31,6 +31,7 @@
     "project": ["project.godot", "export_presets.cfg", "addons/**"]
   },
   "python_audits": [
+    "tools/qa/veilleurs_pre_pc_audit.py",
     "tools/qa/veilleurs_v09_wave3_audit.py",
     "tools/qa/veilleurs_v08_wave2_audit.py",
     "tools/qa/veilleurs_v07_content_audit.py",
