@@ -10,145 +10,117 @@ La référence de départ reste le commit `0c905800ec21e646e9252f1c14430ed8ad36a
 
 `data/veilleurs/parallel_content/post_playtest_detail_manifest_v1.json`
 
-Le manifeste v4 indexe les événements du Refuge, leurs chaînes persistantes, leur contrat d'exécution, les réactions croisées, les événements régionaux des actes II–V et leurs conséquences par choix, la narration source-backed, les écrans UX, les textes UX français, la télémétrie, la matrice de diagnostic, les altérations et les variantes de Rémanence/Némésis.
+Le manifeste v5 indexe désormais les événements du Refuge, leurs chaînes, leur exécution, le handoff Godot du service mémoire, la sauvegarde/migration, les fixtures/collisions, les réactions individuelles des auxiliaires, les événements régionaux et leurs échos, 8 chaînes multi-actes, la narration, l'UX, la télémétrie, le diagnostic, les altérations et les variantes de Rémanence/Némésis.
 
-## Refuge — 24 événements + 24 chaînes persistantes
+## Refuge — 24 événements et mémoire persistante
 
-`refuge_event_templates_v1.json`
+- `refuge_event_templates_v1.json` : 24 événements, deux pour chacune des 12 familles canoniques.
+- `refuge_event_chains_v1.json` : 24 chaînes persistantes, une par événement, avec deux branches correspondant aux deux choix source.
+- `refuge_chain_execution_contract_v1.json` : cycle `DORMANT → ELIGIBLE → QUEUED → SURFACED → RESOLVED/EXPIRED → RETIRED`.
+- `refuge_memory_service_contract_v1.json` : API/signaux/intégration prévus pour Godot.
+- `refuge_memory_save_schema_v1.json` : racine candidate `veilleurs_refuge_memory`, migration v1, aucun snapshot de scène.
+- `refuge_memory_fixtures_v1.json` : 8 fixtures déterministes.
+- `refuge_memory_collision_scenarios_v1.json` : 8 collisions de souvenirs.
 
-Deux événements existent pour chacune des 12 familles canoniques : COHABITATION, CONFLIT, RAPPROCHEMENT, SOUVENIR, BESOIN_BIOLOGIQUE, BESOIN_PSYCHOLOGIQUE, TRANSFORMATION, TRAVAIL, DECOUVERTE, DEPART, CRISE et POLITIQUE.
+Un rappel exige toujours une histoire réellement écrite et des conditions observables. L'arbitrage est déterministe et la file est persistée : recharger ne reroll pas le Refuge.
 
-`refuge_event_chains_v1.json`
+Le plafond actuel de deux rappels surfacés par retour, les priorités et les cooldowns restent **candidats** jusqu'au playtest PC.
 
-Les 24 événements ne sont plus des scènes isolées : chacun possède une clé de mémoire et deux branches de rappel correspondant exactement aux deux choix de l'événement source. Les rappels sont exprimés en nombre d'expéditions : retour suivant, court, moyen ou long terme.
+## Handoff Godot
 
-Un rappel ne peut survenir que si une histoire pertinente a réellement été écrite et qu'un état observable la réactive : même paire présente, route revisitée, blessure réactivée, auxiliaire toujours au Refuge, nouvelle crise, trace de Némésis, preuve contradictoire, etc.
+Document dédié : `docs/VEILLEURS_REFUGE_MEMORY_GODOT_HANDOFF_V1.md`.
 
-Chaque branche peut écrire dans les Archives, l'histoire du Refuge, les relations, le corps, les routes ou la Rémanence. Elle ne crée jamais de vérité absolue, ne remet jamais une blessure persistante à zéro et ne rend jamais un boss recrutable.
+Deux classes candidates existent et sont testées par Godot, sans être autoloadées ni utilisées par le jeu actif :
 
-## Exécution des chaînes du Refuge
+- `VeilleursRefugeMemoryServiceCandidate` ;
+- `VeilleursAuxiliaryReactionResolverCandidate`.
 
-`refuge_chain_execution_contract_v1.json`
+Le service mémoire est propriétaire uniquement de ses enregistrements et de leur planification. Il émet des demandes vers Archives/Rémanence mais ne modifie jamais directement connaissance, rang de Rémanence, recrutement, blessures ou valeurs d'équilibrage.
 
-La mémoire d'un événement possède désormais un cycle d'exécution candidat formel :
+## Réactions croisées et auxiliaires individuels
 
-`DORMANT → ELIGIBLE → QUEUED → SURFACED → RESOLVED → RETIRED`, avec une branche `EXPIRED → RETIRED` lorsque la fenêtre se ferme sans que les conditions vécues aient été réunies.
+`refuge_cross_reaction_matrix_v1.json` décrit les axes de réaction possibles des quatre Veilleurs pour les 12 familles du Refuge.
 
-Un souvenir ne peut jamais passer directement de DORMANT à SURFACED ou RESOLVED. Les conditions sont évaluées uniquement à partir de l'historique persisté et des états observables. L'arbitrage entre plusieurs souvenirs admissibles est déterministe à partir de la seed, du retour au Refuge et de l'identifiant mémoire ; un rechargement ne peut donc pas reroll un rappel.
+`auxiliary_individual_reaction_contract_v1.json` impose qu'un auxiliaire possède un `entity_id` stable et une preuve individuelle de participation, observation, histoire partagée ou conséquence directe. L'espèce n'est jamais utilisée comme personnalité.
 
-La proposition actuelle limite à deux rappels surfacés par retour au Refuge. Cette valeur reste une **candidate post-playtest**, pas une règle canonique active. Les souvenirs non choisis restent admissibles jusqu'à expiration de leur fenêtre ou disparition de leurs conditions.
+Le résolveur candidat reçoit des listes d'IDs précises (`direct_participants`, `direct_observers`, `materially_affected_entities`, `shared_history_entities`) : un événement collectif ne rend donc pas tous les auxiliaires artificiellement concernés.
 
-La sauvegarde sérialise des enregistrements de mémoire stables, jamais des nœuds ou snapshots complets de scène. Une entrée mémoire invalide ne doit invalider que cette entrée, jamais toute la sauvegarde.
+Aucune nouvelle réplique canonique n'est générée par ces systèmes.
 
-## Réactions croisées — quatre Veilleurs + auxiliaires
+## Actes II–V — événements et conséquences
 
-`refuge_cross_reaction_matrix_v1.json`
+- `regional_event_candidates_acts_ii_v_v1.json` : 16 événements candidats, 4 par acte II–V.
+- `regional_event_choice_echoes_v1.json` : 32 conséquences différées, une par choix.
+- `multi_act_consequence_chains_v1.json` : 8 chaînes candidates qui peuvent traverser plusieurs actes.
 
-Les 12 familles du Refuge possèdent une matrice de réaction pour :
-
-- Nayra Orun — sécurité, protection, formation, conséquences concrètes ;
-- Tarek Senn — traces, répétitions, routes, faits observables ;
-- Aïsha Maren — corps, preuve, stabilisation, incertitude ;
-- Idris Vael — règles, responsabilité, participation, désaccord documenté.
-
-Les auxiliaires ne reçoivent jamais une personnalité générique de leur espèce. Une réaction d'auxiliaire exige un contexte individuel : nouvelle recrue, ancien adversaire, survivant d'un événement partagé, blessé, spécialiste, témoin, auxiliaire sur le départ, etc.
-
-Cette couche ne crée aucune nouvelle réplique canonique : elle définit qui peut réagir, sur quel fait et quelle mémoire peut être écrite.
-
-## Actes II–V — 16 événements régionaux candidats
-
-`regional_event_candidates_acts_ii_v_v1.json`
-
-Quatre événements candidats sont préparés pour chacun des actes II, III, IV et V.
-
-Ils s'appuient uniquement sur des éléments déjà établis : gestes et silence de l'Acte II, réseaux et croissance de l'Acte III, effacement et cendre pâle de l'Acte IV, copies et versions de l'Acte V. Chaque événement comporte deux choix contextuels et un rappel futur possible.
-
-Ces événements restent explicitement non canoniques tant qu'ils n'ont pas été validés après playtest. Ils ne peuvent ni inventer une règle de ralliement, ni révéler une mécanique ennemie non observée, ni exposer une phase future de boss.
-
-## Conséquences régionales par choix
-
-`regional_event_choice_echoes_v1.json`
-
-Les 16 événements régionaux possèdent maintenant **32 conséquences différées**, une pour chacun de leurs deux choix source. Chaque branche possède sa propre fenêtre, ses conditions d'historique, ses écritures et plusieurs issues possibles.
-
-Une conséquence peut confirmer, compliquer ou réfuter une lecture précédente : le choix du joueur n'invente jamais la vérité du monde. Les échos restent bornés par la connaissance déjà observée, ne révèlent aucune phase future de boss, ne changent aucune règle de recrutement et ne modifient aucun chiffre d'équilibrage.
+Une conséquence peut confirmer, compliquer ou réfuter une lecture antérieure. Le choix du joueur ne crée jamais la vérité du monde. Une chaîne multi-actes peut rester incomplète pour toujours sans bloquer la campagne ; elle ne donne aucun bonus caché et ne crée aucune Némésis pour satisfaire son scénario.
 
 ## Narration source-backed
 
-`narrative_trigger_binding_v1.json`
+`narrative_trigger_binding_v1.json` conserve l'autorité du référentiel maître : 68 barks canoniques, 30 dialogues de boss et 16 fragments de Rémanence II–V, sans réécriture ni spoiler de phase future.
 
-Les textes du référentiel maître restent autoritaires. La branche couvre les 68 barks canoniques, les 30 dialogues de boss et les 16 fragments de Rémanence II–V sans réécriture de leur texte source.
+## UX
 
-## UX — écrans et texte français gelé
+- `ux_screen_flow_v1.json` : 6 écrans Refuge/Archives + 4 overlays, téléphone/tablette/PC/manette, cible tactile ≥48 pt, aucun long press/hover obligatoire.
+- `ux_copy_fr_post_playtest_v1.json` : wording français candidat pour connaissance, intentions, anatomie, exploration, extraction, Refuge, Archives, Rémanence et groupe.
 
-`ux_screen_flow_v1.json`
+Aucun pourcentage de capture, aucune jauge permanente d'Espoir/Folie, aucune vérité ennemie omnisciente et aucun spoiler de boss futur.
 
-Six écrans Refuge/Archives et quatre overlays de combat restent définis pour téléphone, tablette, PC et manette, avec cible tactile ≥ 48 pt, aucun long press obligatoire, aucun hover obligatoire et confirmation explicite des actions irréversibles.
+## Télémétrie et diagnostic
 
-`ux_copy_fr_post_playtest_v1.json`
+- `playtest_telemetry_matrix_v1.json` : 33 événements structurés sans texte libre, donnée personnelle ni identifiant de compte.
+- `playtest_diagnosis_matrix_v1.json` : observation → diagnostics possibles → modifications candidates → conclusion interdite.
 
-Le wording français est gelé comme **candidat prêt à tester**. Il couvre les cinq états canoniques de connaissance, l'incertitude, les phases de boss, les intentions, le ciblage anatomique, les blessures persistantes, lumière/bruit, extraction, Refuge, ralliement, Archives, Rémanence et règles de groupe.
+Une seule session ne suffit jamais à modifier une règle fondamentale. Une seule famille de paramètres doit être changée à la fois après observations répétées/croisées.
 
-Il reste inactif tant que le playtest PC n'a pas validé la compréhension réelle des textes. Aucun pourcentage de capture, aucune jauge permanente d'Espoir/Folie, aucune vérité ennemie omnisciente et aucun spoiler de phase future n'y sont autorisés.
+## Altérations et Rémanence
 
-## Télémétrie — 33 événements structurés
+`expedition_alteration_candidates_v2.json` contient 18 altérations candidates dans 6 familles : lumière, bruit, corps, environnement, connaissance et extraction. Elles restent temporaires, seed-reproductibles, lisibles et contre-jouables.
 
-`playtest_telemetry_matrix_v1.json`
-
-La matrice couvre session, expédition, pièce, lumière, bruit, rencontre, décision de tour, action, ciblage, intention, corps, peur, portage, retraite/extraction, ralliement, Archives, Rémanence et Refuge.
-
-Elle ne collecte ni texte libre, ni donnée personnelle, ni identifiant de compte.
-
-## Diagnostic post-playtest
-
-`playtest_diagnosis_matrix_v1.json`
-
-La télémétrie est reliée à une matrice « observation → diagnostic possible → modification candidate → conclusion interdite ».
-
-Les cas couvrent notamment : décisions trop lentes ou trop rapides, annulations, consultation des intentions, ciblage anatomique, pression hémorragique, blessures persistantes, lumière, bruit, densité de rencontres, extraction trop tôt/trop tard, compréhension du ralliement et de la capacité du Refuge, événements qui semblent aléatoires, usage des Archives, mauvaise lecture de l'incertitude, télégraphes de boss, reconnaissance de la Rémanence/Némésis et friction tactile/manette.
-
-Aucune modification active n'est produite automatiquement. Une seule session ne peut jamais justifier un changement d'une règle fondamentale ; il faut des observations répétées ou croisées entre seeds/builds, puis modifier une seule famille de paramètres à la fois.
-
-## Altérations — 18 candidates
-
-`expedition_alteration_candidates_v2.json`
-
-Trois candidates existent pour chacune des six familles : lumière, bruit, corps, environnement, connaissance et extraction. Elles restent temporaires, reproductibles par seed, lisibles, contre-jouables et inactives avant validation.
-
-## Rémanence / Némésis — 16 adaptations vécues
-
-`remanence_nemesis_variants_v2.json`
-
-Chaque adaptation exige une histoire réelle : survie, meurtre d'un Veilleur, mutilation, fuite/capture ratée, objet, retraite ou rencontres répétées. Elle conserve les blessures réelles, doit être télégraphiée et contre-jouable, ne lit jamais le build du joueur et ne transforme jamais une Némésis en sac à PV.
+`remanence_nemesis_variants_v2.json` contient 16 adaptations issues uniquement de faits vécus. Aucune omniscience, aucun spawn artificiel de Némésis, aucun gonflement de PV et aucune guérison fictive des blessures.
 
 ## Invariants canoniques protégés
 
 - Connaissance : `UNKNOWN → SUSPECTED → OBSERVED → CONFIRMED → UNDERSTOOD`.
-- Les niveaux 0–5 restent uniquement une projection de détail UI.
-- La connaissance n'est pas une monnaie.
+- 0–5 = projection de détail UI uniquement.
+- Connaissance ≠ monnaie.
 - Capture ≠ recrutement/ralliement.
-- Les blessures ne sont pas remises à zéro au ralliement.
-- Les cinq boss ne sont pas recrutables.
-- Équipe : 4 maximum, au moins un Veilleur.
-- Refuge : capacités I→V = 4 / 6 / 8 / 10 / 12.
-- Une rencontre ne peut contenir qu'un ennemi Mémoriel au maximum.
-- Un Némésis ne peut jamais apparaître artificiellement : il doit avoir une histoire partagée.
-- Pas de snapshot complet de scène pour la Rémanence.
-- Aucune condition numérique de ralliement n'est inventée pour l'Acte I.
+- Blessures persistantes après ralliement.
+- Cinq boss non recrutables.
+- Équipe max 4, au moins un Veilleur.
+- Refuge I→V = 4 / 6 / 8 / 10 / 12.
+- Maximum un ennemi Mémoriel par rencontre.
+- Aucun Némésis artificiel.
+- Aucun snapshot complet de scène.
+- Aucune condition numérique inventée pour le ralliement de l'Acte I.
 
-## Tests et protection du playtest
+## Tests
 
-Les suites :
+Suites Python :
 
-- `tests/test_veilleurs_post_playtest_content_v1.py` ;
-- `tests/test_veilleurs_post_playtest_detail_v1.py` ;
-- `tests/test_veilleurs_post_playtest_chains_v1.py` ;
-- `tests/test_veilleurs_post_playtest_execution_v1.py`.
+- `test_veilleurs_post_playtest_content_v1.py`
+- `test_veilleurs_post_playtest_detail_v1.py`
+- `test_veilleurs_post_playtest_chains_v1.py`
+- `test_veilleurs_post_playtest_execution_v1.py`
+- `test_veilleurs_post_playtest_handoff_v1.py`
 
-La dernière vérifie le cycle mémoire du Refuge, l'absence de raccourcis illégitimes, l'arbitrage déterministe, la sauvegarde sans snapshot de scène, la couverture exacte des 16 événements régionaux et de leurs 32 branches de choix, ainsi que l'absence de référence à ces deux nouvelles couches dans les contrats actifs du playtest.
+Smokes Godot candidats :
+
+- `veilleurs_refuge_memory_service_candidate_smoke.tscn`
+- `veilleurs_auxiliary_reaction_resolver_candidate_smoke.tscn`
+
+Les smokes compilent/exécutent le handoff sur la PR #180 mais aucune scène de jeu ne référence ces classes.
 
 ## Après le playtest PC
 
-Les retours doivent d'abord être classés : lisibilité tactique, durée des combats, pression hémorragique, lumière/bruit, densité de rencontres, extraction, compréhension du ralliement, clarté des boss, utilité de l'anatomie, Rémanence et friction téléphone/manette/PC.
+1. mesurer la fréquence acceptable des rappels ;
+2. valider priorités et cooldowns ;
+3. brancher le service mémoire derrière un feature flag ;
+4. tester sauvegarde/migration sur copies de sauvegardes ;
+5. brancher Archives puis Rémanence ;
+6. brancher le résolveur auxiliaire ;
+7. activer une seule famille d'événements ;
+8. rejouer et comparer ;
+9. seulement ensuite envisager événements régionaux et chaînes multi-actes.
 
-Ensuite seulement, la matrice de diagnostic permet de sélectionner une hypothèse, d'activer au maximum une famille de modifications, de rejouer avec build/seed enregistrés et de comparer le résultat. La PR #180 ne doit pas être fusionnée avant cette étape.
+La PR #180 ne doit pas être fusionnée avant ces validations.
