@@ -69,7 +69,7 @@ func _ready() -> void:
         {"id": "nayra_orun", "hp": 20, "max_hp": 20},
         {"id": "tarek_senn", "hp": 9, "max_hp": 20}
     ]
-    var action := runtime.choose_action(enemy, heroes, {
+    var full_context := {
         "seed": 74031,
         "turn_index": 2,
         "actor_rank": 1,
@@ -79,7 +79,31 @@ func _ready() -> void:
         "synergy_active": true,
         "major_action_window": true,
         "transformation_window": true
+    }
+    var action := runtime.choose_action(enemy, heroes, full_context)
+    _assert_canonical_action(action, all_runtime_ids, active_tree)
+
+    # Production path: the autoload used by live combat must resolve the same exact catalog,
+    # and must never fall through to the generic archetype attack for a recognized Veilleurs entity.
+    var production_enemy := enemy.duplicate(true)
+    EnemyCombatDirector.prepare_veilleurs_enemy(production_enemy, 74031)
+    var production_action := EnemyCombatDirector.choose_action(production_enemy, heroes, full_context)
+    _assert_canonical_action(production_action, all_runtime_ids, str(production_enemy.get("veilleurs_active_tree", "")))
+    assert(str(production_action.get("id", "")) != "basic_attack")
+
+    # Also exercise the normal combat context where only Active skills are immediately eligible.
+    var active_only_action := EnemyCombatDirector.choose_action(production_enemy, heroes, {
+        "seed": 74031,
+        "turn_index": 3,
+        "actor_rank": 1
     })
+    _assert_canonical_action(active_only_action, all_runtime_ids, str(production_enemy.get("veilleurs_active_tree", "")))
+    assert(str(active_only_action.get("skill_type", "")) == "Active")
+
+    print("VEILLEURS_CANONICAL_SKILL_CATALOG_SMOKE_OK")
+    get_tree().quit(0)
+
+func _assert_canonical_action(action: Dictionary, all_runtime_ids: Dictionary, active_tree: String) -> void:
     assert(not action.is_empty())
     assert(not bool(action.get("blocked", false)))
     assert(bool(action.get("veilleurs_skill", false)))
@@ -90,6 +114,3 @@ func _ready() -> void:
     assert(str(action.get("tree", "")) == active_tree)
     assert(bool(action.get("generic_damage_fallback_forbidden", false)))
     assert(not bool(action.get("party_counterpick_used", true)))
-
-    print("VEILLEURS_CANONICAL_SKILL_CATALOG_SMOKE_OK")
-    get_tree().quit(0)
