@@ -115,15 +115,38 @@ Une histoire partagée rare et saillante doit exister, puis une nouvelle confron
 
 Une Némésis n’est jamais tirée au hasard par le générateur. Elle conserve ses vraies blessures, n’obtient pas d’immunité scriptée, ne lit pas le build global du joueur et n’est jamais définie comme un simple sac à PV.
 
-## Génération vérifiable
+## Génération runtime vérifiable — JSON non compressé
 
-`tools/veilleurs/build_runtime_bindings_from_prepc_pack.py` valide le SHA du pack et produit :
+`tools/veilleurs/build_runtime_bindings_from_prepc_pack.py` valide le SHA du pack puis génère exclusivement des JSON directement lisibles par Godot :
 
-- `data/veilleurs/generated/enemy_skill_intent_binding_1305_v1.json` ;
-- `data/veilleurs/generated/encounter_narrative_reward_64_v1.json`.
+- `data/veilleurs/generated/enemy_skill_intent_binding_1305_v1.json` pour les 1 305 bindings d’intentions ;
+- `data/veilleurs/generated/encounter_narrative_reward_64_manifest_v1.json` pour le manifeste des rencontres ;
+- `data/veilleurs/generated/encounter_narrative_reward_chunk_01_v1.json` à `encounter_narrative_reward_chunk_08_v1.json`, huit chunks de huit rencontres.
 
-Il refuse : SHA incorrect, entité inconnue, arbre non lié, type d’action inconnu, ID runtime dupliqué, rencontre absente/dupliquée ou divergence d’ordre/acte entre les trois feuilles canoniques.
+Le manifeste des rencontres contient le SHA-256 exact de chaque chunk. Le runtime lit les octets JSON, vérifie leur SHA, puis les parse directement. Aucun décodage Base64, aucune décompression zlib et aucun cache binaire/compressé n’interviennent dans le chemin de production.
+
+Le catalogue de compétences utilisé par l’IA est lui aussi direct : `scripts/core/veilleurs_enemy_skill_runtime_catalog.gd` charge `data/veilleurs/skills/enemy_skill_runtime_catalog_v1.json` puis les fichiers d’arbres canoniques non compressés. Il contrôle 29 entités, 87 arbres, 1 305 compétences et l’unicité des IDs runtime.
+
+Les anciens artefacts `enemy_skill_ai_catalog_act_*.json`, `enemy_skill_ai_catalog_manifest_v1.json` et `encounter_narrative_reward_64_v1.json` ont été retirés du référentiel runtime.
+
+Le générateur refuse : SHA source incorrect, entité inconnue, arbre non lié, type d’action inconnu, ID runtime dupliqué, rencontre absente/dupliquée, divergence d’ordre/acte entre les trois feuilles canoniques, ou distribution finale autre que 64 rencontres en huit chunks.
+
+## Validation automatisée actuelle
+
+La validation couvre désormais :
+
+- import strict Godot 4.3 ;
+- 1 305 compétences uniques, 29 entités, 87 arbres et Délié Affamé 3 × 15 ;
+- lecture directe des huit chunks de rencontres et vérification SHA-256 ;
+- 64 rencontres uniques et leurs données narration/récompense/capture ;
+- intentions et télégraphes ;
+- mémoire de combat et Rémanence vécue ;
+- directeurs de rencontres et de boss ;
+- coordination runtime ;
+- Refuge et Archives responsive ;
+- arbres et ultimes de boss ;
+- garde-fous VS001, matrices d’équilibrage et v0.6/v0.6.1 tactique.
 
 ## Bloc PC / Godot suivant
 
-La conception data-driven est prête. Le runtime doit maintenant implémenter : IntentResolver, affichage progressif des télégraphes, machine de sortie/capture, injection des hooks Rémanence dans l’IA, génération des fichiers runtime à partir du pack, puis playtests tactile/PC.
+Le raccord data-driven et les smokes automatisés sont implémentés. Le PC n’est plus requis pour construire ou valider statiquement cette couche. Il devient nécessaire pour la validation humaine du jeu : sensations de combat, lisibilité des télégraphes, navigation tactile iPhone/iPad, clavier/souris/manette, rendu, audio, performances, confort des sessions et playtests d’équilibrage en situation réelle.
