@@ -22,7 +22,7 @@ var message_label: Label
 var actions: HFlowContainer
 var recruit_actions: VBoxContainer
 var tactical_ui: VeilleursTacticalUI
-var selected_watcher := "ENT_WATCHER_SAHEN"
+var selected_watcher := "ENT_WATCHER_NAYRA"
 var selected_target := ""
 var selected_zone := "torso"
 var skill_ids: Array[String] = []
@@ -118,7 +118,7 @@ func _start_dungeon(dungeon_id: String) -> void:
     if not bool(result.get("ok", false)):
         message_label.text = "Donjon indisponible : %s" % str(result.get("reason", "inconnu"))
         return
-    selected_watcher = "ENT_WATCHER_SAHEN"
+    selected_watcher = "ENT_WATCHER_NAYRA"
     selected_target = ""
     selected_zone = "torso"
     message_label.text = "%s chargé." % str(DUNGEONS.get(dungeon_id, dungeon_id))
