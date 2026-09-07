@@ -39,6 +39,8 @@ def scan_runtime_files() -> list[Path]:
         if not root.exists():
             continue
         for path in root.rglob("*"):
+            if path == CONTRACT:
+                continue
             if path.is_file() and path.suffix.lower() in {".gd", ".tscn", ".tres", ".json"}:
                 result.append(path)
     return result
@@ -51,13 +53,11 @@ def main() -> int:
 
     contract = load_json(CONTRACT)
 
-    # Required production files.
     missing = [p for p in contract["required_files"] if not (ROOT / p).exists()]
     checks["required_files"] = not missing
     if missing:
         fail(errors, "Fichiers requis absents: " + ", ".join(missing))
 
-    # Project/editor pipeline contract.
     project_text = (ROOT / "project.godot").read_text(encoding="utf-8")
     checks["godot_version"] = 'config/features=PackedStringArray("4.3")' in project_text
     if not checks["godot_version"]:
@@ -68,14 +68,12 @@ def main() -> int:
     if not checks["editor_pipeline_enabled"]:
         fail(errors, "L'addon Veilleurs Production Pipeline n'est pas activé dans project.godot")
 
-    # Export presets: their presence is testable before SDK/signing/device validation.
     export_text = (ROOT / "export_presets.cfg").read_text(encoding="utf-8")
     missing_presets = [name for name in contract["required_export_presets"] if f'name="{name}"' not in export_text]
     checks["export_presets"] = not missing_presets
     if missing_presets:
         fail(errors, "Presets d'export absents: " + ", ".join(missing_presets))
 
-    # v0.9 six-dungeon and QA contract.
     wave3 = load_json(ROOT / "data/veilleurs/v09/wave3_contract.json")
     actual_dungeons = wave3.get("vertical_slice", {}).get("dungeon_ids", [])
     checks["six_dungeons"] = actual_dungeons == contract["production_dungeons"]
@@ -87,7 +85,6 @@ def main() -> int:
     if not checks["v09_qa_contract"]:
         fail(errors, f"Contrat QA v0.9 différent: {actual_qa}")
 
-    # Canonical roster must stay consistent in the runtime that owns it.
     runtime_path = ROOT / "scripts/core/veilleurs_vertical_slice_runtime_v08.gd"
     runtime_text = runtime_path.read_text(encoding="utf-8")
     roster_match = re.search(r"const CANONICAL_WATCHERS: Array\[String\] = \[(.*?)\]", runtime_text)
@@ -98,7 +95,6 @@ def main() -> int:
     if not checks["canonical_roster"]:
         fail(errors, f"Roster canonique runtime différent: {roster}")
 
-    # Stale runtime identifiers are forbidden in shipping Veilleurs code/data/scenes.
     stale_hits: dict[str, list[str]] = {}
     for path in scan_runtime_files():
         try:
@@ -113,7 +109,6 @@ def main() -> int:
         for stale_id, paths in stale_hits.items():
             fail(errors, f"Identifiant obsolète {stale_id}: " + ", ".join(paths))
 
-    # Ultimate handoff: mechanics can be locked before final animation/audio/VFX production.
     polish = load_json(ROOT / "data/veilleurs/polish_manifest.json")
     ultimates = polish.get("ultimate_assets", [])
     checks["ultimate_count"] = len(ultimates) == int(contract["expected_ultimate_count"])
@@ -137,7 +132,6 @@ def main() -> int:
     if ultimate_errors:
         errors.extend(ultimate_errors)
 
-    # Automation config must contain this audit and the essential smokes.
     pipeline = load_json(ROOT / "tools/godot/veilleurs_pipeline_config.json")
     this_audit = "tools/qa/veilleurs_pre_pc_audit.py"
     checks["pre_pc_audit_wired"] = this_audit in pipeline.get("python_audits", [])
