@@ -10,7 +10,9 @@ on:
       - 'scripts/core/veilleurs_*'
       - 'scripts/core/content_db.gd'
       - 'scripts/ui/veilleurs_tactical_*'
+      - 'scripts/qa/qa_test_room_controller.gd'
       - 'scenes/veilleurs/**'
+      - 'scenes/qa/qa_validation_room.tscn'
       - 'scenes/tests/veilleurs_v06_*'
       - 'tools/qa/veilleurs_v06_*'
       - '.github/workflows/veilleurs-v06.yml'
@@ -59,3 +61,9 @@ jobs:
           set -o pipefail
           timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v06_tactical_demo.tscn 2>&1 | tee /tmp/veilleurs-demo.log
           ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-demo.log
+      - name: Instantiate QA validation entry
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path . --quit-after 5 res://scenes/qa/qa_validation_room.tscn 2>&1 | tee /tmp/veilleurs-qa-entry.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-qa-entry.log
