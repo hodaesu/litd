@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "stage": "spec_ready_pc_production_pending",
+  "authority": "production_asset_handoff",
+  "rules": {
+    "gameplay_authority": "runtime_and_data_contracts",
+    "presentation_never_decides_gameplay": true,
+    "final_asset_validation_requires_real_hardware": true,
+    "no_baked_ui_text": true,
+    "mobile_first": true,
+    "lod_required_for_3d_combat_assets": true,
+    "collision_proxy_separate_from_render_mesh": true,
+    "body_damage_variants_preserve_anatomy_state": true,
+    "corpse_visuals_may_lod_but_logical_remanence_persists": true,
+    "runtime_target": "Godot 4.3"
+  },
+  "authoritative_sources": {
+    "watchers": "data/veilleurs/v06/watchers.json",
+    "enemies": "data/veilleurs/v06/enemies_24_definitions.json",
+    "bosses": "data/veilleurs/v07/bosses_5_definitions.json",
+    "dungeons": "data/veilleurs/v09/wave3_contract.json",
+    "canonical_ultimates": "data/veilleurs/v08/canonical_watcher_ultimates_12.json",
+    "ultimate_choreography": "data/veilleurs/ultimate_choreography_contract.json",
+    "polish": "data/veilleurs/polish_manifest.json"
+  },
+  "ultimate_slot_contract": {
+    "required_slots": ["animation", "camera", "vfx", "audio", "haptic", "ui"],
+    "animation_variants": ["full", "short", "reduced_motion"],
+    "camera_variants": ["full", "reduced_motion", "no_screen_shake"],
+    "vfx_variants": ["default", "reduced_gore", "reduce_flashes"],
+    "audio_rules": ["tactical_cues_preserved", "no_clipping", "mobile_speaker_readable"],
+    "haptic_rules": ["signature_per_ultimate", "toggleable", "no_gameplay_dependency"],
+    "ui_rules": ["icon_required", "no_baked_text", "phone_readable"],
+    "validation_targets": ["phone", "tablet", "desktop", "reduced_motion", "reduced_gore", "haptics_off", "short_ultimate_mode"]
+  },
+  "production_groups": [
+    {
+      "group_id": "watchers_4",
+      "expected_count": 4,
+      "source": "data/veilleurs/v06/watchers.json",
+      "output_root": "res://assets/veilleurs/production/watchers",
+      "required_slots": ["model", "rig", "materials", "textures", "base_animation_set", "equipment", "portrait", "ui_icon", "injury_variants", "corpse_state"],
+      "state": "spec_ready_pc_production_pending"
+    },
+    {
+      "group_id": "enemies_24",
+      "expected_count": 24,
+      "source": "data/veilleurs/v06/enemies_24_definitions.json",
+      "output_root": "res://assets/veilleurs/production/enemies",
+      "required_slots": ["model", "rig_or_procedural_skeleton", "materials", "textures", "base_animation_set", "combat_readability", "injury_variants", "corpse_state", "archive_portrait"],
+      "state": "spec_ready_pc_production_pending"
+    },
+    {
+      "group_id": "bosses_5",
+      "expected_count": 5,
+      "source": "data/veilleurs/v07/bosses_5_definitions.json",
+      "output_root": "res://assets/veilleurs/production/bosses",
+      "required_slots": ["model", "rig", "materials", "textures", "boss_animation_set", "phase_readability", "injury_variants", "corpse_or_defeat_state", "portrait"],
+      "state": "spec_ready_pc_production_pending"
+    },
+    {
+      "group_id": "dungeons_6",
+      "expected_count": 6,
+      "source": "data/veilleurs/v09/wave3_contract.json",
+      "output_root": "res://assets/veilleurs/production/dungeons",
+      "required_slots": ["modular_geometry", "materials", "decals", "lighting_profile", "navigation_proxy", "collision_proxy", "landmarks", "ambient_audio_hooks", "lod_plan"],
+      "state": "spec_ready_pc_production_pending"
+    },
+    {
+      "group_id": "refuge_hub",
+      "expected_count": 1,
+      "source": "data/veilleurs/v07/economy_refuge_rules.json",
+      "output_root": "res://assets/veilleurs/production/refuge",
+      "required_slots": ["environment", "interactive_building_states", "materials", "lighting_profile", "navigation_proxy", "ui_signage_without_baked_text", "ambient_audio_hooks"],
+      "state": "spec_ready_pc_production_pending"
+    },
+    {
+      "group_id": "ui_2d",
+      "expected_count": 1,
+      "source": "data/veilleurs/polish_manifest.json",
+      "output_root": "res://assets/veilleurs/production/ui",
+      "required_slots": ["hud_atlas", "icons", "body_zone_indicators", "inventory_frames", "skill_tree_frames", "archive_frames", "modal_frames", "tutorial_markers", "accessibility_icons"],
+      "state": "spec_ready_pc_production_pending"
+    },
+    {
+      "group_id": "body_damage_and_corpses",
+      "expected_count": 1,
+      "source": "data/veilleurs/polish_manifest.json",
+      "output_root": "res://assets/veilleurs/production/body",
+      "required_slots": ["wound_decals", "blood_materials", "amputation_caps", "bandages", "splints", "corpse_lod", "reduced_gore_variants"],
+      "state": "spec_ready_pc_production_pending"
+    }
+  ],
+  "ultimate_packages": [
+    {"ultimate_id":"ULT_WATCHER_NAYRA_BASTION","watcher_id":"ENT_WATCHER_NAYRA","runtime_id":"nayra_orun","tree":"bastion","name_fr":"La Ligne ne rompt pas","resolver_id":"nayra_bastion","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/nayra_orun_bastion","naming":{"animation":"ANIM_ULT_WATCHER_NAYRA_BASTION","camera":"CAM_ULT_WATCHER_NAYRA_BASTION","vfx":"VFX_ULT_WATCHER_NAYRA_BASTION","audio":"AUD_ULT_WATCHER_NAYRA_BASTION","haptic":"HAP_ULT_WATCHER_NAYRA_BASTION","ui":"ICON_ULT_WATCHER_NAYRA_BASTION"}},
+    {"ultimate_id":"ULT_WATCHER_NAYRA_BRISURE","watcher_id":"ENT_WATCHER_NAYRA","runtime_id":"nayra_orun","tree":"brisure","name_fr":"Le Poids du Mur","resolver_id":"nayra_brisure","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/nayra_orun_brisure","naming":{"animation":"ANIM_ULT_WATCHER_NAYRA_BRISURE","camera":"CAM_ULT_WATCHER_NAYRA_BRISURE","vfx":"VFX_ULT_WATCHER_NAYRA_BRISURE","audio":"AUD_ULT_WATCHER_NAYRA_BRISURE","haptic":"HAP_ULT_WATCHER_NAYRA_BRISURE","ui":"ICON_ULT_WATCHER_NAYRA_BRISURE"}},
+    {"ultimate_id":"ULT_WATCHER_NAYRA_SERMENT","watcher_id":"ENT_WATCHER_NAYRA","runtime_id":"nayra_orun","tree":"serment","name_fr":"Pas un de plus","resolver_id":"nayra_serment","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/nayra_orun_serment","naming":{"animation":"ANIM_ULT_WATCHER_NAYRA_SERMENT","camera":"CAM_ULT_WATCHER_NAYRA_SERMENT","vfx":"VFX_ULT_WATCHER_NAYRA_SERMENT","audio":"AUD_ULT_WATCHER_NAYRA_SERMENT","haptic":"HAP_ULT_WATCHER_NAYRA_SERMENT","ui":"ICON_ULT_WATCHER_NAYRA_SERMENT"}},
+    {"ultimate_id":"ULT_WATCHER_TAREK_TRAQUE","watcher_id":"ENT_WATCHER_TAREK","runtime_id":"tarek_senn","tree":"traque","name_fr":"La Proie n’a plus d’ombre","resolver_id":"tarek_traque","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/tarek_senn_traque","naming":{"animation":"ANIM_ULT_WATCHER_TAREK_TRAQUE","camera":"CAM_ULT_WATCHER_TAREK_TRAQUE","vfx":"VFX_ULT_WATCHER_TAREK_TRAQUE","audio":"AUD_ULT_WATCHER_TAREK_TRAQUE","haptic":"HAP_ULT_WATCHER_TAREK_TRAQUE","ui":"ICON_ULT_WATCHER_TAREK_TRAQUE"}},
+    {"ultimate_id":"ULT_WATCHER_TAREK_ENTAILLE","watcher_id":"ENT_WATCHER_TAREK","runtime_id":"tarek_senn","tree":"entaille","name_fr":"Les Sept Ouvertures","resolver_id":"tarek_entaille","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/tarek_senn_entaille","naming":{"animation":"ANIM_ULT_WATCHER_TAREK_ENTAILLE","camera":"CAM_ULT_WATCHER_TAREK_ENTAILLE","vfx":"VFX_ULT_WATCHER_TAREK_ENTAILLE","audio":"AUD_ULT_WATCHER_TAREK_ENTAILLE","haptic":"HAP_ULT_WATCHER_TAREK_ENTAILLE","ui":"ICON_ULT_WATCHER_TAREK_ENTAILLE"}},
+    {"ultimate_id":"ULT_WATCHER_TAREK_DISPARITION","watcher_id":"ENT_WATCHER_TAREK","runtime_id":"tarek_senn","tree":"disparition","name_fr":"Là où nul ne regarde","resolver_id":"tarek_disparition","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/tarek_senn_disparition","naming":{"animation":"ANIM_ULT_WATCHER_TAREK_DISPARITION","camera":"CAM_ULT_WATCHER_TAREK_DISPARITION","vfx":"VFX_ULT_WATCHER_TAREK_DISPARITION","audio":"AUD_ULT_WATCHER_TAREK_DISPARITION","haptic":"HAP_ULT_WATCHER_TAREK_DISPARITION","ui":"ICON_ULT_WATCHER_TAREK_DISPARITION"}},
+    {"ultimate_id":"ULT_WATCHER_AISHA_ANATOMIE","watcher_id":"ENT_WATCHER_AISHA","runtime_id":"aisha_maren","tree":"anatomie","name_fr":"Carte parfaite du vivant","resolver_id":"aisha_anatomie","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/aisha_maren_anatomie","naming":{"animation":"ANIM_ULT_WATCHER_AISHA_ANATOMIE","camera":"CAM_ULT_WATCHER_AISHA_ANATOMIE","vfx":"VFX_ULT_WATCHER_AISHA_ANATOMIE","audio":"AUD_ULT_WATCHER_AISHA_ANATOMIE","haptic":"HAP_ULT_WATCHER_AISHA_ANATOMIE","ui":"ICON_ULT_WATCHER_AISHA_ANATOMIE"}},
+    {"ultimate_id":"ULT_WATCHER_AISHA_SUTURE","watcher_id":"ENT_WATCHER_AISHA","runtime_id":"aisha_maren","tree":"suture","name_fr":"Tout ce qui peut être sauvé","resolver_id":"aisha_suture","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/aisha_maren_suture","naming":{"animation":"ANIM_ULT_WATCHER_AISHA_SUTURE","camera":"CAM_ULT_WATCHER_AISHA_SUTURE","vfx":"VFX_ULT_WATCHER_AISHA_SUTURE","audio":"AUD_ULT_WATCHER_AISHA_SUTURE","haptic":"HAP_ULT_WATCHER_AISHA_SUTURE","ui":"ICON_ULT_WATCHER_AISHA_SUTURE"}},
+    {"ultimate_id":"ULT_WATCHER_AISHA_HEMOCORDE","watcher_id":"ENT_WATCHER_AISHA","runtime_id":"aisha_maren","tree":"hemocorde","name_fr":"Le Dernier Battement","resolver_id":"aisha_hemocorde","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/aisha_maren_hemocorde","naming":{"animation":"ANIM_ULT_WATCHER_AISHA_HEMOCORDE","camera":"CAM_ULT_WATCHER_AISHA_HEMOCORDE","vfx":"VFX_ULT_WATCHER_AISHA_HEMOCORDE","audio":"AUD_ULT_WATCHER_AISHA_HEMOCORDE","haptic":"HAP_ULT_WATCHER_AISHA_HEMOCORDE","ui":"ICON_ULT_WATCHER_AISHA_HEMOCORDE"}},
+    {"ultimate_id":"ULT_WATCHER_IDRIS_SENTENCE","watcher_id":"ENT_WATCHER_IDRIS","runtime_id":"idris_vael","tree":"sentence","name_fr":"Le Verdict tombe","resolver_id":"idris_sentence","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/idris_vael_sentence","naming":{"animation":"ANIM_ULT_WATCHER_IDRIS_SENTENCE","camera":"CAM_ULT_WATCHER_IDRIS_SENTENCE","vfx":"VFX_ULT_WATCHER_IDRIS_SENTENCE","audio":"AUD_ULT_WATCHER_IDRIS_SENTENCE","haptic":"HAP_ULT_WATCHER_IDRIS_SENTENCE","ui":"ICON_ULT_WATCHER_IDRIS_SENTENCE"}},
+    {"ultimate_id":"ULT_WATCHER_IDRIS_CONCORDE","watcher_id":"ENT_WATCHER_IDRIS","runtime_id":"idris_vael","tree":"concorde","name_fr":"Un seul mouvement","resolver_id":"idris_concorde","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/idris_vael_concorde","naming":{"animation":"ANIM_ULT_WATCHER_IDRIS_CONCORDE","camera":"CAM_ULT_WATCHER_IDRIS_CONCORDE","vfx":"VFX_ULT_WATCHER_IDRIS_CONCORDE","audio":"AUD_ULT_WATCHER_IDRIS_CONCORDE","haptic":"HAP_ULT_WATCHER_IDRIS_CONCORDE","ui":"ICON_ULT_WATCHER_IDRIS_CONCORDE"}},
+    {"ultimate_id":"ULT_WATCHER_IDRIS_DISSIDENCE","watcher_id":"ENT_WATCHER_IDRIS","runtime_id":"idris_vael","tree":"dissidence","name_fr":"Que l’ordre se brise","resolver_id":"idris_dissidence","production_state":"spec_ready_pc_production_pending","output_root":"res://assets/veilleurs/production/ultimates/idris_vael_dissidence","naming":{"animation":"ANIM_ULT_WATCHER_IDRIS_DISSIDENCE","camera":"CAM_ULT_WATCHER_IDRIS_DISSIDENCE","vfx":"VFX_ULT_WATCHER_IDRIS_DISSIDENCE","audio":"AUD_ULT_WATCHER_IDRIS_DISSIDENCE","haptic":"HAP_ULT_WATCHER_IDRIS_DISSIDENCE","ui":"ICON_ULT_WATCHER_IDRIS_DISSIDENCE"}}
+  ],
+  "completion_rule": {
+    "before_pc": "all packages are spec_ready_pc_production_pending and audited against canonical gameplay/presentation contracts",
+    "on_pc": "produce/import assets into output roots and attach evidence; no gameplay rule may be changed to make presentation easier",
+    "hardware_closeout": "visual/audio/haptic quality gates remain open until issue #187 hardware evidence passes"
+  }
+}
