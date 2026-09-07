@@ -1,5 +1,7 @@
-extends RefCounted
+extends Node
 class_name VeilleursEncounterDirector
+
+signal encounter_selected(runtime_encounter: Dictionary)
 
 const HYBRID_SCRIPT := preload("res://scripts/core/veilleurs_hybrid_generation_bridge.gd")
 const RECENT_CAP := 6
@@ -41,6 +43,20 @@ func resolve_encounter(encounter: Dictionary, outcome: String, anchor_id: String
         result["scar_id"] = RemanenceRuntime.create_world_scar(anchor_id, "encounter_%s" % outcome, severity, scar_context)
     return result
 
+func select_encounter(_seed_value: int, _act_token: String, _context: Dictionary = {}) -> Dictionary:
+    return {"success": false, "reason": "canonical_selector_not_available"}
+
+func runtime_for_named_encounter(encounter_name: String, _context: Dictionary = {}) -> Dictionary:
+    return {"success": false, "reason": "canonical_selector_not_available", "name": encounter_name}
+
+func validation_report() -> Dictionary:
+    return {
+        "ok": hybrid != null,
+        "mode": "hybrid_tactical",
+        "recent_templates": recent_templates.size(),
+        "resolved_templates": resolved_templates.size()
+    }
+
 func serialize() -> Dictionary:
     return {"recent_templates":recent_templates.duplicate(), "resolved_templates":resolved_templates.duplicate(true)}
 
@@ -51,6 +67,10 @@ func deserialize(payload: Dictionary) -> void:
     while recent_templates.size() > RECENT_CAP:
         recent_templates.remove_at(0)
     resolved_templates = (payload.get("resolved_templates", {}) as Dictionary).duplicate(true)
+
+func reset() -> void:
+    recent_templates.clear()
+    resolved_templates.clear()
 
 func _remember(template_id: String) -> void:
     if template_id == "":
