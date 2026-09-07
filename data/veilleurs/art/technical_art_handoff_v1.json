@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "status": "technical_art_preproduction_contract",
+  "runtime_wiring": "none",
+  "purpose": "contract between concept art, Blender production and Godot integration without fixing device budgets before profiling",
+  "naming": {
+    "pattern": "veilleurs_<act>_<category>_<entity>_<variant>_<lod>",
+    "examples": [
+      "veilleurs_a1_char_nayra_orun_wounded_lod0",
+      "veilleurs_a1_enemy_delie_affame_memorial_lod1",
+      "veilleurs_a5_boss_le_copiste_phase03_lod0",
+      "veilleurs_shared_ui_anatomy_arm_critical"
+    ],
+    "forbid_hidden_truth_in_filename": true
+  },
+  "concept_handoff_required": [
+    "asset_id",
+    "canonical_entity_id_if_any",
+    "functional_gameplay_role",
+    "approved_silhouette",
+    "material_language",
+    "mobile_readability_thumbnail",
+    "injury_states_if_applicable",
+    "remanence_mark_slots_if_applicable",
+    "forbidden_visual_shortcuts",
+    "reference_preset_ids"
+  ],
+  "blender_scene_contract": {
+    "world_scale": "consistent_project_scale_to_be_verified_against_existing_playtest_scene",
+    "origin_rule": "stable gameplay pivot; document exceptions",
+    "forward_axis": "follow repository Godot import convention; verify before first production asset",
+    "transform_rule": "apply intended object transforms before export; keep rig transforms deliberate",
+    "collection_structure": ["GEO", "RIG", "COLLISION", "ATTACHMENTS", "LOD", "EXPORT"],
+    "object_roles": ["render_mesh", "skeleton", "collision_proxy", "attachment_socket", "persistent_injury_variant", "corpse_variant", "lod_variant"],
+    "non_destructive_source_required": true,
+    "modifiers_may_remain_in_source": true,
+    "export_result_must_be_reproducible": true
+  },
+  "characters_and_creatures": {
+    "required": [
+      "stable_root",
+      "body_zone_mapping_head_torso_arms_legs_or_species_equivalent",
+      "functional_limb_separation_plan_if_severable",
+      "equipment_attachment_points",
+      "injury_variant_strategy",
+      "corpse_or_incapacitated_strategy",
+      "mobile_silhouette_lod_strategy"
+    ],
+    "body_state_visuals": ["intact", "fragile", "wounded", "critical", "lost"],
+    "permadeath_visual_continuity": true,
+    "rallied_unit_injuries_reset_visually": false,
+    "same_species_shared_identity_assets_forbidden": true
+  },
+  "bosses": {
+    "boss_count": 5,
+    "phase_count": 16,
+    "phase_strategy": "shared identity plus phase-specific posture/material/attachments/environment relationship",
+    "simple_recolor_phase_forbidden": true,
+    "unseen_phase_asset_may_exist_in_build_but_ui_archive_must_not_reveal_it": true
+  },
+  "materials": {
+    "prefer_shared_material_families": true,
+    "families": ["worn_metal", "leather", "cloth", "stone", "burned_wood", "parchment", "rope", "ash", "bone_ivory", "organic_network"],
+    "mobile_rule": "major value/material separation must survive lower detail",
+    "pc_rule": "higher fidelity may add surface detail but not gameplay information",
+    "texture_resolution": "defer exact sizes until device profiling",
+    "shader_complexity": "defer exact budget until device profiling"
+  },
+  "lod_contract": {
+    "lod0": "authoritative close/gameplay source",
+    "lod1": "preserve silhouette, body zones, equipped identity and major remanence marks",
+    "lod2": "preserve silhouette and gameplay-significant injury/remanence state",
+    "exact_thresholds": "defer until phone/tablet/PC profiling",
+    "gameplay_state_may_not_disappear_at_lower_lod": true
+  },
+  "collision_and_targeting": {
+    "render_mesh_is_not_targeting_truth": true,
+    "body_target_regions_must_map_to_gameplay_zone_ids": ["head", "torso", "arms", "legs"],
+    "click_touch_target_must_not_depend_on_thin_decorative_geometry": true,
+    "lost_limb_must_update_targeting_visual_contract": true,
+    "corpse_collision_must_not_block_required_ui_or_extraction": true
+  },
+  "animation_handoff": {
+    "required_pose_sets": ["idle", "intent", "action", "hit", "injured_idle", "critical_idle", "incapacitated_or_dead"],
+    "prepared_reaction_pose_required_when_applicable": true,
+    "intent_readability_must_not_depend_only_on_ui_card": true,
+    "reduced_motion_variant_or_safe_fallback_required": true,
+    "root_motion_policy": "follow gameplay controller; document any clip using root displacement"
+  },
+  "vfx_handoff": {
+    "source_zone_required_for_bleeding": true,
+    "anatomy_and_intent_occlusion_forbidden": true,
+    "full_screen_persistent_red_forbidden": true,
+    "generic_remanence_aura_forbidden": true,
+    "exact_density_and_camera_shake": "defer until PC playtest"
+  },
+  "godot_import_acceptance": [
+    "imports_without_error",
+    "expected_material_slots_resolve",
+    "expected_skeleton_or_static_role_resolves",
+    "body_target_mapping_resolves_if_applicable",
+    "lod_variants_preserve_gameplay_state",
+    "phone_or_phone_simulation_capture_reviewed",
+    "tablet_capture_reviewed",
+    "desktop_capture_reviewed",
+    "controller_focus_not_occluded_if_ui_related"
+  ],
+  "budgets": {
+    "triangle_counts": "not_fixed_before_device_profile",
+    "texture_sizes": "not_fixed_before_device_profile",
+    "draw_calls": "not_fixed_before_device_profile",
+    "particle_counts": "not_fixed_before_device_profile",
+    "shader_cost": "not_fixed_before_device_profile",
+    "rule": "measure on representative iPhone/iPad and PC before freezing numbers"
+  }
+}

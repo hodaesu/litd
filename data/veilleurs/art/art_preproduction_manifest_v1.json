@@ -1,0 +1,77 @@
+{
+  "version": 4,
+  "status": "art_preproduction_manifest",
+  "runtime_wiring": "none",
+  "source_playtest_pr": 173,
+  "source_playtest_commit": "0c905800ec21e646e9252f1c14430ed8ad36ada3",
+  "parallel_post_playtest_pr_180_dependency": false,
+  "files": {
+    "art_bible": "docs/art/VEILLEURS_ART_DIRECTION_BIBLE_V1.md",
+    "asset_catalog": "data/veilleurs/art/asset_catalog_preproduction_v1.json",
+    "production_roadmap": "docs/art/VEILLEURS_ART_PRODUCTION_ROADMAP_V1.md",
+    "future_content_packets": "data/veilleurs/art/future_content_packets_v1.json",
+    "concept_asset_briefs": "docs/art/VEILLEURS_CONCEPT_ASSET_BRIEFS_V1.md",
+    "concept_shotlist": "data/veilleurs/art/concept_shotlist_v1.json",
+    "art_reference_presets": "data/veilleurs/art/art_reference_presets_v1.json",
+    "technical_art_handoff": "data/veilleurs/art/technical_art_handoff_v1.json",
+    "art_review_gate": "data/veilleurs/art/art_review_gate_v1.json",
+    "guard_test": "tests/test_veilleurs_art_preproduction_v1.py"
+  },
+  "canonical_counts": {
+    "watchers": 4,
+    "ordinary_species": 24,
+    "bosses": 5,
+    "boss_phases": 16,
+    "acts": 5,
+    "archive_knowledge_states": 5,
+    "concept_shots": 36,
+    "reference_presets": 10
+  },
+  "visual_contract": {
+    "palette_family": ["ash_black", "brown", "worn_bronze", "deep_red", "amber", "bone_light"],
+    "material_family": ["worn_metal", "leather", "cloth", "stone", "burned_wood", "parchment", "rope", "ash"],
+    "ui_reference_status": "canonical_board_approved_2026_09_07",
+    "mobile_first": true,
+    "touch_target_min_points": 48,
+    "required_long_press": false,
+    "controller_pointer_dependency": false,
+    "desktop_is_stretched_mobile": false
+  },
+  "reference_policy": {
+    "source_library": "data/art_reference_library.json",
+    "minimum_sources_per_creation": 3,
+    "abstract_principles_only": true,
+    "rights_recheck_before_export": true,
+    "copy_trace_signature_imitation_forbidden": true
+  },
+  "technical_art_policy": {
+    "exact_device_budgets_deferred_until_profiling": true,
+    "lower_lod_may_not_remove_gameplay_state": true,
+    "render_mesh_is_not_targeting_truth": true,
+    "pc_detail_may_not_add_gameplay_information": true
+  },
+  "review_policy": {
+    "verdicts": ["PASS", "REVISE", "BLOCKED_BY_PLAYTEST"],
+    "pass_is_not_gameplay_merge_approval": true,
+    "automatic_playtest_blocked_shots": ["ART-006", "ART-007", "ART-008"]
+  },
+  "deferred_until_pc_playtest": [
+    "final_telegraph_scale",
+    "final_hit_vfx_density",
+    "final_blood_density",
+    "final_camera_shake",
+    "final_combat_decoration_density",
+    "final_secondary_animation_frequency"
+  ],
+  "merge_guard": {
+    "no_gameplay_change": true,
+    "no_runtime_wiring": true,
+    "no_pr_180_dependency": true,
+    "art_can_be_reviewed_before_pc_playtest": true,
+    "playtest_sensitive_values_must_remain_deferred": true,
+    "shotlist_must_remain_preproduction_only": true,
+    "reference_presets_must_resolve_to_source_library": true,
+    "technical_art_contract_must_not_freeze_unprofiled_budgets": true,
+    "art_pass_must_not_equal_gameplay_merge": true
+  }
+}

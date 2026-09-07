@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "status": "art_preproduction_review_gate",
+  "runtime_wiring": "none",
+  "verdicts": ["PASS", "REVISE", "BLOCKED_BY_PLAYTEST"],
+  "universal_checks": [
+    {"id":"canon","blocking":true,"question":"Does the asset match current canonical entity/system data?"},
+    {"id":"silhouette","blocking":true,"question":"Is the gameplay subject readable at intended mobile combat scale?"},
+    {"id":"function","blocking":true,"question":"Does visual design support rather than obscure gameplay function?"},
+    {"id":"reference_transformation","blocking":true,"question":"Were at least three references transformed rather than copied?"},
+    {"id":"mobile","blocking":true,"question":"Does the asset remain legible in the phone crop?"},
+    {"id":"pc_no_extra_info","blocking":true,"question":"Does PC detail avoid revealing additional gameplay information?"}
+  ],
+  "conditional_checks": {
+    "character_or_creature": [
+      "body zones readable if targetable",
+      "injury states planned",
+      "lost limb/adaptation continuity planned when applicable",
+      "identity survives lower LOD",
+      "recruited creature remains same individual/species visually"
+    ],
+    "boss": [
+      "black silhouette distinct",
+      "all phases preserve same-entity continuity",
+      "phase differences are not simple recolors",
+      "future phase is not exposed through player-facing Archives"
+    ],
+    "remanence": [
+      "mark can be traced to a lived event",
+      "no generic aura-only treatment",
+      "no artificial gigantism",
+      "same-species individuals can remain visually distinct"
+    ],
+    "ui": [
+      "touch target at least 48 pt where interactive",
+      "no required long press",
+      "controller focus visible",
+      "controller does not require pointer",
+      "knowledge state not encoded by color alone"
+    ],
+    "environment": [
+      "combat subjects separated from background",
+      "extraction or route cue remains readable when relevant",
+      "persistent corpses/traces have safe visual zones",
+      "decoration can be reduced without losing identity"
+    ],
+    "vfx": [
+      "anatomy not obscured",
+      "intent not obscured",
+      "source of bleeding readable",
+      "reduced motion fallback defined",
+      "final density waits for PC playtest"
+    ]
+  },
+  "automatic_blocked_until_playtest": [
+    "ART-006",
+    "ART-007",
+    "ART-008"
+  ],
+  "approval_sequence": [
+    "concept_function",
+    "silhouette",
+    "mobile_crop",
+    "material_language",
+    "injury_or_state_variants_if_applicable",
+    "technical_art_handoff",
+    "blender_source",
+    "godot_import",
+    "phone_tablet_desktop_capture",
+    "final_review"
+  ],
+  "stop_conditions": [
+    "intent becomes harder to understand",
+    "body target is visually obscured",
+    "enemy or hero loses silhouette identity at mobile scale",
+    "remanence looks like an unrelated new species",
+    "boss phase reads as recolor-only",
+    "PC presentation reveals information unavailable on mobile",
+    "style decoration dominates decision-relevant information",
+    "asset requires a gameplay rule not present in canon"
+  ],
+  "preproduction_rule": "PASS means ready for next art-production stage, not approved for gameplay merge"
+}

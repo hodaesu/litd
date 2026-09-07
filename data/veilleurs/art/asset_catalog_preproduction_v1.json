@@ -1,0 +1,222 @@
+{
+  "version": 1,
+  "status": "art_preproduction_only",
+  "runtime_wiring": "none",
+  "source_playtest_commit": "0c905800ec21e646e9252f1c14430ed8ad36ada3",
+  "rules": {
+    "mobile_first": true,
+    "pc_native_composition": true,
+    "gameplay_readability_over_decoration": true,
+    "bosses_recruitable": false,
+    "recruited_creatures_are_full_playable_units": true,
+    "persistent_injuries_visual_required": true,
+    "gore_modes_preserve_information": true,
+    "no_hidden_gameplay_information_in_high_detail_assets": true,
+    "art_reference_method": "minimum_three_transformed_references"
+  },
+  "priority_definitions": {
+    "P0": "needed to evaluate or correct the current playable slice after PC playtest",
+    "P1": "needed for a presentation-quality Act I vertical slice",
+    "P2": "needed to scale Acts II-V without changing core gameplay",
+    "P3": "polish or breadth after core art readability is validated"
+  },
+  "packages": [
+    {
+      "id": "watchers.core_quartet",
+      "priority": "P1",
+      "category": "characters",
+      "count": 4,
+      "entities": ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"],
+      "deliverables_per_entity": ["silhouette_sheet", "front_3q_back", "combat_pose", "portrait_neutral", "portrait_fear", "portrait_injured", "material_sheet", "equipment_breakdown", "mobile_readability_capture"],
+      "cross_entity_deliverables": ["height_scale_sheet", "party_value_group", "injury_consistency_sheet"]
+    },
+    {
+      "id": "watchers.injury_variants",
+      "priority": "P1",
+      "category": "characters",
+      "count": 4,
+      "deliverables_per_entity": ["fragile_state", "wounded_state", "critical_state", "lost_limb_adaptation_rules", "bandage_splint_suture_set"],
+      "note": "states must change silhouette/posture where function changes"
+    },
+    {
+      "id": "ordinary_species.act_i",
+      "priority": "P1",
+      "category": "enemies",
+      "count": 8,
+      "entities": ["delie_affame", "delie_boursoufle", "censeur_fendu", "flagellant_fendu", "sentinelle_du_seuil", "executeur_de_pierre", "traque_suie", "brise_os_de_suie"],
+      "deliverables_per_entity": ["silhouette", "anatomy_map", "intact", "wounded", "critical", "severable_limb_rules", "intent_pose_set", "corpse_state", "mobile_size_test"]
+    },
+    {
+      "id": "ordinary_species.act_ii",
+      "priority": "P2",
+      "category": "enemies",
+      "count": 4,
+      "entities": ["ecouteur_creux", "porte_signe", "marcheur_aphone", "reteneur_de_souffle"],
+      "deliverables_per_entity": ["silhouette", "anatomy_map", "intent_pose_set", "injury_states", "corpse_state"]
+    },
+    {
+      "id": "ordinary_species.act_iii",
+      "priority": "P2",
+      "category": "enemies",
+      "count": 4,
+      "entities": ["veine_rampante", "noeud_ecorche", "porte_sang", "germe_arteriel"],
+      "deliverables_per_entity": ["silhouette", "network_anatomy", "intent_pose_set", "injury_states", "corpse_state"]
+    },
+    {
+      "id": "ordinary_species.act_iv",
+      "priority": "P2",
+      "category": "enemies",
+      "count": 4,
+      "entities": ["marche_pale", "porte_linceul", "effaceur_de_traces", "dormeur_de_cendre"],
+      "deliverables_per_entity": ["silhouette", "contour_readability_test", "intent_pose_set", "injury_states", "corpse_state"]
+    },
+    {
+      "id": "ordinary_species.act_v",
+      "priority": "P2",
+      "category": "enemies",
+      "count": 4,
+      "entities": ["copie_lacunaire", "rature_vivante", "archiviste_de_version", "double_du_seuil"],
+      "deliverables_per_entity": ["silhouette", "version_difference_rules", "intent_pose_set", "injury_states", "corpse_state"]
+    },
+    {
+      "id": "bosses.all",
+      "priority": "P1",
+      "category": "bosses",
+      "count": 5,
+      "entities": ["ishar_gardien_du_passage", "orateur_sans_voix", "mere_des_veines", "porte_cendres_blanc", "le_copiste"],
+      "phase_counts": {"ishar_gardien_du_passage": 3, "orateur_sans_voix": 3, "mere_des_veines": 3, "porte_cendres_blanc": 3, "le_copiste": 4},
+      "deliverables_per_entity": ["black_silhouette", "phase_progression_sheet", "arena_relationship", "telegraph_language", "injury_response_rules", "victory_state"],
+      "guardrails": ["no_future_phase_spoiler_in_archives", "no_simple_recolor_phase", "no_artificial_hp_sponge_visual_language"]
+    },
+    {
+      "id": "remanence.visual_marks",
+      "priority": "P2",
+      "category": "systemic_character_art",
+      "count": 5,
+      "ranks": ["normal", "memorial", "veteran", "elite", "nemesis"],
+      "deliverables": ["rank_readability_sheet", "event_to_mark_examples", "same_species_individualization_sheet", "nemesis_no_gigantism_rule"]
+    },
+    {
+      "id": "environments.act_i",
+      "priority": "P1",
+      "category": "environment",
+      "count": 1,
+      "deliverables": ["keyframe_refuge", "keyframe_threshold", "modular_stone_kit", "burned_wood_kit", "metal_repair_kit", "ash_dust_decal_set", "corpse_safe_floor_zones", "combat_value_map"]
+    },
+    {
+      "id": "environments.act_ii",
+      "priority": "P2",
+      "category": "environment",
+      "count": 1,
+      "deliverables": ["architecture_of_silence_keyframe", "listening_room_kit", "still_textile_set", "broken_transmission_props", "combat_value_map"]
+    },
+    {
+      "id": "environments.act_iii",
+      "priority": "P2",
+      "category": "environment",
+      "count": 1,
+      "deliverables": ["network_world_keyframe", "channel_kit", "branching_structure_kit", "organic_structural_attachment_set", "combat_value_map"]
+    },
+    {
+      "id": "environments.act_iv",
+      "priority": "P2",
+      "category": "environment",
+      "count": 1,
+      "deliverables": ["erasure_keyframe", "pale_stone_kit", "shroud_set", "missing_trace_decals", "contrast_safety_sheet"]
+    },
+    {
+      "id": "environments.act_v",
+      "priority": "P2",
+      "category": "environment",
+      "count": 1,
+      "deliverables": ["versions_archive_keyframe", "physical_archive_kit", "palimpsest_wall_set", "correction_mark_set", "copy_variation_modules"]
+    },
+    {
+      "id": "refuge.dynamic_states",
+      "priority": "P1",
+      "category": "environment",
+      "count": 5,
+      "act_capacities": [4, 6, 8, 10, 12],
+      "deliverables": ["capacity_growth_plan", "12_event_family_blocking_zones", "injury_presence_variants", "absence_memorialization_rules", "auxiliary_sleep_work_storage_modules"]
+    },
+    {
+      "id": "ui.master_skin",
+      "priority": "P1",
+      "category": "ui",
+      "count": 1,
+      "deliverables": ["frame_9slice_set", "panel_parchment_set", "bronze_interactive_states", "red_danger_states", "amber_attention_states", "typography_hierarchy", "safe_area_examples", "focus_ring_controller", "left_handed_layout_examples"]
+    },
+    {
+      "id": "ui.combat",
+      "priority": "P0",
+      "category": "ui",
+      "count": 1,
+      "deliverables": ["timeline", "body_target_selector", "intent_cards", "status_limit_2_plus_n", "hp_fear_blocks", "reaction_indicator", "extraction_button", "reduced_motion_variant"]
+    },
+    {
+      "id": "ui.refuge_archives",
+      "priority": "P1",
+      "category": "ui",
+      "count": 1,
+      "deliverables": ["phone_master_detail", "tablet_master_detail", "desktop_native", "controller_focus", "five_archive_tabs", "knowledge_state_shapes", "rally_observable_state_card"]
+    },
+    {
+      "id": "ui.icons_anatomy",
+      "priority": "P0",
+      "category": "ui_icons",
+      "count": 4,
+      "entities": ["head", "torso", "arms", "legs"],
+      "deliverables_per_entity": ["intact", "fragile", "wounded", "critical", "lost", "colorblind_safe_shape"]
+    },
+    {
+      "id": "ui.icons_knowledge",
+      "priority": "P1",
+      "category": "ui_icons",
+      "count": 5,
+      "entities": ["UNKNOWN", "SUSPECTED", "OBSERVED", "CONFIRMED", "UNDERSTOOD"],
+      "deliverables_per_entity": ["shape", "text_pair", "small_size_test"]
+    },
+    {
+      "id": "vfx.combat_core",
+      "priority": "P0",
+      "category": "vfx",
+      "count": 1,
+      "deliverables": ["hit_light", "hit_heavy", "bleed_source", "stun", "guard", "riposte", "shock", "critical", "severance", "reduced_motion_versions"],
+      "open_until_playtest": ["particle_density", "camera_shake", "blood_volume", "telegraph_size"]
+    },
+    {
+      "id": "vfx.environmental",
+      "priority": "P2",
+      "category": "vfx",
+      "count": 5,
+      "deliverables": ["ash", "dust", "cloth_motion", "droplets", "fragments"],
+      "guardrail": "no permanent effect may cover anatomy or intent"
+    },
+    {
+      "id": "portraits.core",
+      "priority": "P1",
+      "category": "portraits",
+      "count": 4,
+      "deliverables_per_entity": ["neutral", "concerned", "afraid", "terrified", "injured", "critical", "post_event_refuge"]
+    },
+    {
+      "id": "props.shared",
+      "priority": "P1",
+      "category": "props",
+      "count": 1,
+      "deliverables": ["bandages", "splints", "sutures", "lamps", "rope", "repair_metal", "field_tools", "archive_tablets_scrolls", "food_water_storage", "weapons_racks"]
+    },
+    {
+      "id": "future_content.keyframes",
+      "priority": "P2",
+      "category": "preproduction",
+      "count": 10,
+      "deliverables": ["2_keyframes_per_act", "mobile_crop", "pc_crop", "value_thumbnail", "material_notes", "gameplay_occlusion_notes"]
+    }
+  ],
+  "production_gates": {
+    "before_modeling": ["silhouette_approved", "mobile_readability_approved", "canon_check_passed"],
+    "before_final_texture": ["material_language_approved", "injury_states_defined_if_applicable"],
+    "before_runtime_merge": ["godot_capture_phone_or_phone_simulation", "tablet_capture", "desktop_capture", "no_gameplay_information_regression"]
+  }
+}

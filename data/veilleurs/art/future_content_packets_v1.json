@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "status": "future_art_content_preproduction",
+  "runtime_wiring": "none",
+  "playtest_dependency": "visual execution waits for PC feedback; concept preparation may continue",
+  "acts": [
+    {
+      "act": "I",
+      "theme": "seuils, pierre, cendre, premiers refus",
+      "ordinary_species": ["delie_affame", "delie_boursoufle", "censeur_fendu", "flagellant_fendu", "sentinelle_du_seuil", "executeur_de_pierre", "traque_suie", "brise_os_de_suie"],
+      "boss": "ishar_gardien_du_passage",
+      "boss_phases": ["Le Seuil déclaré", "La Pierre se souvient", "Droit de Refus"],
+      "keyframes": [
+        {"id":"a1.refuge_after_return","purpose":"Refuge des Cendres après une expédition difficile","must_show":["injuries_persist", "repair_not_reset", "warm_amber_against_ash"]},
+        {"id":"a1.ishar_threshold","purpose":"première lecture silhouette/arena d'Ishar","must_show":["threshold_geometry", "stone_memory", "clear_body_targeting"]}
+      ],
+      "future_asset_notes": ["modular thresholds", "stone repair language", "suie trail readability", "portable lamps"]
+    },
+    {
+      "act": "II",
+      "theme": "silence, souffle retenu, transmission cassée",
+      "ordinary_species": ["ecouteur_creux", "porte_signe", "marcheur_aphone", "reteneur_de_souffle"],
+      "boss": "orateur_sans_voix",
+      "boss_phases": ["La Salle sans parole", "L’Écho qui revient", "L’Assemblée se tait"],
+      "keyframes": [
+        {"id":"a2.listening_room","purpose":"salle où l'espace remplace la parole","must_show":["readable_gestures_without_sound", "void_as_composition", "broken_transmission_objects"]},
+        {"id":"a2.orator_assembly","purpose":"Orateur dans un espace social vidé","must_show":["social_geometry", "silent_response", "phase_change_through_blocking"]}
+      ],
+      "future_asset_notes": ["still cloth", "listening devices", "gesture telegraphs", "matte dark surfaces"]
+    },
+    {
+      "act": "III",
+      "theme": "réseau, circulation, corps connecté",
+      "ordinary_species": ["veine_rampante", "noeud_ecorche", "porte_sang", "germe_arteriel"],
+      "boss": "mere_des_veines",
+      "boss_phases": ["Le Réseau nourrit", "Ce qui pousse sous nous", "Toutes les veines convergent"],
+      "keyframes": [
+        {"id":"a3.network_ground","purpose":"réseau sous terrain lisible comme système","must_show":["branching_not_tentacle_noise", "physical_connections", "navigation_clear"]},
+        {"id":"a3.mother_convergence","purpose":"convergence finale de la Mère des Veines","must_show":["central_silhouette", "network_dependency", "body_function_readability"]}
+      ],
+      "future_asset_notes": ["channel modules", "vascular structural joints", "dry vs active network states", "persistent cut traces"]
+    },
+    {
+      "act": "IV",
+      "theme": "effacement, procession, cendre blanche",
+      "ordinary_species": ["marche_pale", "porte_linceul", "effaceur_de_traces", "dormeur_de_cendre"],
+      "boss": "porte_cendres_blanc",
+      "boss_phases": ["Blanc sans contour", "La Procession sans pas", "Effacer jusqu’au nom"],
+      "keyframes": [
+        {"id":"a4.missing_trace","purpose":"absence rendue visible sans perdre les repères tactiques","must_show":["negative_space", "trace_comparison", "clickable_silhouette"]},
+        {"id":"a4.white_procession","purpose":"Porte-Cendres Blanc dans une procession sans mouvement évident","must_show":["pale_layers", "strong_value_edges", "phase_identity_without_recolor"]}
+      ],
+      "future_asset_notes": ["shrouds", "erased decals", "pale stone", "contrast safety variants"]
+    },
+    {
+      "act": "V",
+      "theme": "copie, rature, archive, palimpseste",
+      "ordinary_species": ["copie_lacunaire", "rature_vivante", "archiviste_de_version", "double_du_seuil"],
+      "boss": "le_copiste",
+      "boss_phases": ["Copie conforme", "La Correction", "Palimpseste", "La Version des Veilleurs"],
+      "keyframes": [
+        {"id":"a5.archive_versions","purpose":"archive physique où plusieurs versions coexistent","must_show":["layered_physical_records", "no_digital_glitch", "evidence_lineage"]},
+        {"id":"a5.copist_palimpsest","purpose":"Copiste transformé par correction et superposition","must_show":["same_entity_continuity", "four_phase_progression", "readable_copy_counterplay"]}
+      ],
+      "future_asset_notes": ["physical archive modules", "ink correction marks", "copied architecture variants", "palimpsest materials"]
+    }
+  ],
+  "cross_act_future_sets": [
+    {
+      "id": "remanence_event_marks",
+      "purpose": "transform lived history into visible individual marks",
+      "examples": ["survival scar", "failed_capture_repair", "mutilation_adaptation", "watcher_kill_trophy_or_damage", "forced_retreat_trace", "repeated_encounter_posture"]
+    },
+    {
+      "id": "refuge_growth",
+      "purpose": "show capacity 4/6/8/10/12 without crowding",
+      "deliverables": ["sleeping modules", "work modules", "care modules", "storage modules", "memorial traces", "auxiliary individuality props"]
+    },
+    {
+      "id": "archive_illustration_language",
+      "purpose": "illustrate learned evidence without omniscient art",
+      "rules": ["show only observed anatomy", "future boss phase absent", "uncertainty visible", "conflicting versions may coexist", "same enemy identity preserved in remanence"]
+    },
+    {
+      "id": "expedition_results",
+      "purpose": "make extraction consequences visible",
+      "states": ["successful_extraction", "forced_retreat", "carried_ally", "death", "new_permanent_injury", "new_remanence_history"]
+    }
+  ],
+  "defer_until_playtest": [
+    "final telegraph scale",
+    "final hit VFX density",
+    "camera shake amplitude",
+    "blood amount on simultaneous injuries",
+    "combat decoration density",
+    "secondary animation frequency"
+  ]
+}

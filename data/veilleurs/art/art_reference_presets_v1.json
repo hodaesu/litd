@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "status": "art_reference_presets",
+  "runtime_wiring": "none",
+  "source_library": "data/art_reference_library.json",
+  "policy": {
+    "minimum_sources_per_preset": 3,
+    "extract_abstract_principles_only": true,
+    "copying_forbidden": true,
+    "trace_forbidden": true,
+    "signature_imitation_forbidden": true,
+    "institutional_rights_must_be_rechecked_before_export": true
+  },
+  "presets": [
+    {
+      "id": "veilleurs.refuge_lived_repair",
+      "target": "Refuge des Cendres",
+      "reference_ids": ["met_wen_zhengming_cassia_grove", "met_samoje_lakeside_pavilion", "met_guo_xi_old_trees"],
+      "extract": ["architecture_embedded_in_environment", "active_negative_space", "inhabited_solitude", "layered_depth"],
+      "transform": ["replace_calm_pavilion_with_repaired_refuge_modules", "shift_materials_to_ash_stone_worn_bronze", "compose_for_gameplay_function_zones"],
+      "forbid": ["copy_building_layout", "copy_figures", "copy_exact_palette"]
+    },
+    {
+      "id": "veilleurs.act1_ishar_threshold",
+      "target": "Ishar et géométrie du seuil",
+      "reference_ids": ["met_fan_kuan_style_landscape", "met_jnanadakini_mandala", "met_byzantine_ktisis_mosaic"],
+      "extract": ["human_vs_monumental_scale", "successive_thresholds", "central_hierarchy", "worn_geometric_border"],
+      "transform": ["turn_monumentality_into_combat_arena_scale", "break_symmetry_for_body_target_readability", "translate_border_rhythm_into_stone_thresholds"],
+      "forbid": ["religious_icon_copy", "mandala_replication", "mosaic_portrait_replication"]
+    },
+    {
+      "id": "veilleurs.combat_readable_melee",
+      "target": "composition de combat et intentions",
+      "reference_ids": ["met_arjuna_battle", "met_alexander_darius_battle", "met_korean_hunting_screen"],
+      "extract": ["layered_melee", "directional_diagonals", "identifiable_weapons_and_roles", "multi_panel_motion"],
+      "transform": ["reduce_crowd_to_max_four_enemies", "translate_diagonals_into_rank_and_intent_lines", "preserve_clear_negative_space_around_body_targets"],
+      "forbid": ["copy_costumes", "copy_specific_battle", "copy_historical_figures"]
+    },
+    {
+      "id": "veilleurs.act2_silence",
+      "target": "Acte II — architecture du silence",
+      "reference_ids": ["met_kim_sugyu_rainy_landscape", "met_wen_zhengming_cassia_grove", "met_samoje_lakeside_pavilion"],
+      "extract": ["soft_value_separation", "active_void", "quiet_asymmetry", "path_readability"],
+      "transform": ["remove_pastoral_calm", "introduce_broken_transmission_objects", "make_gesture_and_spacing_carry_threat_without_sound"],
+      "forbid": ["copy_pavilion", "copy_landscape", "reduce_silence_to_desaturation_only"]
+    },
+    {
+      "id": "veilleurs.act3_network",
+      "target": "Acte III — réseau et circulation",
+      "reference_ids": ["met_hokusai_ono_waterfall", "met_chakrasamvara_mandala", "met_wang_hui_landscape"],
+      "extract": ["continuous_flow", "center_to_periphery_structure", "branching_strata", "visual_breathing_between_dense_zones"],
+      "transform": ["translate_water_flow_into_physical_channels", "break_concentric_order_into_anatomical_network", "keep_clear_combat_paths_between_branches"],
+      "forbid": ["mandala_copy", "waterfall_copy", "tentacle_noise"]
+    },
+    {
+      "id": "veilleurs.act4_erasure",
+      "target": "Acte IV — effacement et cendre blanche",
+      "reference_ids": ["met_guo_xi_old_trees", "met_kim_sugyu_rainy_landscape", "met_byzantine_tesserae"],
+      "extract": ["depth_through_mist", "reduced_edge_information", "fragmented_reflection", "mineral_value_changes"],
+      "transform": ["use_missing_edges_around_but_not_on_targets", "turn_fragmented_reflection_into_erased_trace_language", "preserve_clickable_silhouette_contrast"],
+      "forbid": ["make_enemy_invisible", "whiteout_full_screen", "copy_landscape_composition"]
+    },
+    {
+      "id": "veilleurs.act5_physical_archive",
+      "target": "Acte V — copie, correction et palimpseste",
+      "reference_ids": ["met_timur_before_battle", "met_conquest_baghdad", "met_byzantine_ktisis_mosaic", "met_hokusai_children_painting"],
+      "extract": ["layered_narrative_records", "simultaneous_scenes", "worn_precious_surface", "writing_as_physical_action"],
+      "transform": ["turn_manuscript_layering_into_architecture_and_objects", "show_corrections_as_material_replacements", "preserve_evidence_lineage_in_archives"],
+      "forbid": ["digital_glitch", "copy_manuscript_figures", "copy_mosaic_portrait", "copy_calligraphy"]
+    },
+    {
+      "id": "veilleurs.ui_worn_frames",
+      "target": "UI — cadres, hiérarchie et matière",
+      "reference_ids": ["met_byzantine_ktisis_mosaic", "met_byzantine_tesserae", "met_timur_before_battle"],
+      "extract": ["geometric_border_hierarchy", "irregular_precious_reflection", "dense_information_inside_controlled_frame"],
+      "transform": ["simplify_into_9slice_mobile_frames", "replace_gold_dominance_with_worn_bronze", "reserve_red_and_amber_for_gameplay_semantics"],
+      "forbid": ["ornamental_overload", "religious_iconography_copy", "gold_ui_everywhere"]
+    },
+    {
+      "id": "veilleurs.remanence_individual_mark",
+      "target": "Rémanence — individu marqué par l’histoire",
+      "reference_ids": ["met_korean_mountain_god", "met_alexander_darius_battle", "met_byzantine_ktisis_mosaic"],
+      "extract": ["frontality_and_identity", "equipment_as_narrative", "worn_surface_as_history"],
+      "transform": ["replace_iconic_attributes_with_lived_scars_repairs_tools", "bind_every_mark_to_game_event", "keep_species_silhouette_continuity"],
+      "forbid": ["halo", "generic_aura", "gigantism", "copy_identifiable_figure"]
+    },
+    {
+      "id": "veilleurs.world_travel_without_minimap",
+      "target": "exploration et navigation sans minimap permanente",
+      "reference_ids": ["met_guo_xi_old_trees", "met_wang_hui_landscape", "met_hokusai_ono_waterfall"],
+      "extract": ["horizontal_journey", "landmark_rhythm", "vertical_anchor", "layered_route_depth"],
+      "transform": ["create_repeated_physical_landmarks", "use_light_and_structure_as_local_reference", "avoid_hud_dependency"],
+      "forbid": ["copy_landscape", "hide_route_in_decorative_detail"]
+    }
+  ]
+}
