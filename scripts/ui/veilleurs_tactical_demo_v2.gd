@@ -2,25 +2,43 @@ extends Control
 class_name VeilleursTacticalDemoV2
 
 const SESSION_SCRIPT := preload("res://scripts/core/veilleurs_tactical_session_v2.gd")
+const FLOW_SCRIPT := preload("res://scripts/core/veilleurs_khar_sen_flow_bridge.gd")
 const UI_SCENE := preload("res://scenes/veilleurs/v06_tactical_combat.tscn")
+const QA_SCENE := "res://scenes/qa/qa_validation_room.tscn"
+const DUNGEON_SCENE := "res://scenes/veilleurs/v061_khar_sen_slice.tscn"
 
 var session: VeilleursTacticalSessionV2
 var tactical_ui: VeilleursTacticalUI
+var flow_bridge: VeilleursKharSenFlowBridge
+var flow_payload: Dictionary = {}
+var flow_active := false
 var selected_watcher := "ENT_WATCHER_SAHEN"
 var selected_target := "ENT_ENEMY_GOULE_AFFAMEE"
 var selected_zone := "torso"
 var skill_ids: Array[String] = []
 var message_label: Label
 var status_label: Label
+var back_button: Button
 
 func _ready() -> void:
     _build_shell()
+    flow_bridge = FLOW_SCRIPT.new() as VeilleursKharSenFlowBridge
+    flow_payload = flow_bridge.pending()
+    flow_active = not flow_payload.is_empty()
     session = SESSION_SCRIPT.new() as VeilleursTacticalSessionV2
     add_child(session)
-    var setup := session.start_first_combat()
+    var setup: Dictionary
+    if flow_active:
+        var encounter: Dictionary = flow_payload.get("encounter", {})
+        var node_id := str(flow_payload.get("node_id", "KHAR"))
+        setup = session.start_authored_encounter(encounter, "khar_sen:%s" % node_id, "khar_sen")
+        back_button.text = "Retraite"
+    else:
+        setup = session.start_first_combat()
     if not bool(setup.get("ok", false)):
         message_label.text = "Échec d'initialisation : %s" % str(setup.get("reason", "inconnu"))
         return
+    _repair_selection()
     _refresh()
 
 func _build_shell() -> void:
@@ -61,11 +79,11 @@ func _build_shell() -> void:
     load_button.pressed.connect(_on_load)
     header.add_child(load_button)
 
-    var back := Button.new()
-    back.text = "Retour QA"
-    back.custom_minimum_size = Vector2(110, 46)
-    back.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/qa/qa_validation_room.tscn"))
-    header.add_child(back)
+    back_button = Button.new()
+    back_button.text = "Retour QA"
+    back_button.custom_minimum_size = Vector2(110, 46)
+    back_button.pressed.connect(_on_back)
+    header.add_child(back_button)
 
     tactical_ui = UI_SCENE.instantiate() as VeilleursTacticalUI
     tactical_ui.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -107,7 +125,8 @@ func _refresh() -> void:
     tactical_ui.set_skill_labels(names)
     var selected: Dictionary = runtime.combatants.get(selected_watcher, {})
     var target: Dictionary = runtime.combatants.get(selected_target, {})
-    status_label.text = "Tour %d · %s %d/%d · RES %d" % [runtime.round_index, _display(selected_watcher), int(selected.get("hp", 0)), int(selected.get("max_hp", 0)), int(selected.get("resolve_current", 0))]
+    var source := "Khar-Sen" if flow_active else "QA"
+    status_label.text = "%s · Tour %d · %s %d/%d · RES %d" % [source, runtime.round_index, _display(selected_watcher), int(selected.get("hp", 0)), int(selected.get("max_hp", 0)), int(selected.get("resolve_current", 0))]
     message_label.text = "%s → %s · zone %s. Touchez un Veilleur/ennemi pour le sélectionner, ou une case adjacente pour bouger." % [_display(selected_watcher), str(target.get("name", selected_target)), _zone_name(selected_zone)]
 
 func _on_cell(cell: Vector2i) -> void:
@@ -130,6 +149,7 @@ func _on_cell(cell: Vector2i) -> void:
         return
     if runtime.grid.move(selected_watcher, cell):
         _enemy_phase()
+        _check_defeat_after_enemy_phase()
         _refresh()
 
 func _on_zone(zone: String) -> void:
@@ -144,9 +164,7 @@ func _on_skill(slot: int) -> void:
     var skill := runtime.content_db.skill(skill_id)
     var action := runtime.skill_behavior.effective_action(skill)
     var target_id := selected_target
-    if action in ["guard", "heal", "passive_modifier", "move"]:
-        target_id = selected_watcher
-    elif action == "support":
+    if action in ["guard", "heal", "passive_modifier", "move", "support"]:
         target_id = selected_watcher
     var result := session.resolve_skill(selected_watcher, target_id, skill_id, selected_zone, -1)
     if not bool(result.get("ok", false)):
@@ -184,19 +202,46 @@ func _enemy_phase() -> void:
     var runtime: VeilleursTacticalCombatRuntimeV2 = session.runtime
     for enemy_id: String in runtime.alive_ids("enemy"):
         session.enemy_step(enemy_id)
+        if runtime.alive_ids("watcher").is_empty():
+            break
     runtime.next_round()
 
 func _check_end_or_enemy_phase() -> void:
     var runtime: VeilleursTacticalCombatRuntimeV2 = session.runtime
     if runtime.alive_ids("enemy").is_empty():
-        var finish := session.finish("victory")
-        message_label.text = "Victoire · %d Veilleurs debout · conséquences enregistrées." % (finish.get("watchers_alive", []) as Array).size()
+        _finish_combat("victory")
         return
     _enemy_phase()
-    if runtime.alive_ids("watcher").is_empty():
-        session.finish("defeat")
-        message_label.text = "Défaite : les survivants ennemis et les blessures restent dans la Rémanence."
+    if _check_defeat_after_enemy_phase():
+        return
     _repair_selection()
+
+func _check_defeat_after_enemy_phase() -> bool:
+    if session == null or not session.is_active():
+        return false
+    if session.runtime.alive_ids("watcher").is_empty():
+        _finish_combat("defeat")
+        return true
+    return false
+
+func _finish_combat(outcome: String) -> void:
+    if session == null or not session.is_active():
+        return
+    var aftermath := session.watcher_aftermath()
+    var summary := session.finish(outcome)
+    if flow_active:
+        var combat_snapshot := session.runtime.serialize() if session.runtime != null else {}
+        if flow_bridge.finish_combat(outcome, summary, combat_snapshot, aftermath):
+            get_tree().change_scene_to_file(DUNGEON_SCENE)
+        else:
+            message_label.text = "Résultat enregistré, mais retour Khar-Sen impossible."
+        return
+    if outcome == "victory":
+        message_label.text = "Victoire · %d Veilleurs debout · conséquences enregistrées." % (summary.get("watchers_alive", []) as Array).size()
+    elif outcome == "defeat":
+        message_label.text = "Défaite : les survivants ennemis et les blessures restent dans la Rémanence."
+    else:
+        message_label.text = "Retraite : les ennemis survivants gagnent de la Rémanence."
 
 func _on_save() -> void:
     if session == null or not session.is_active():
@@ -217,9 +262,13 @@ func _on_load() -> void:
     message_label.text = "Combat repris : états, blessures et Rémanence restaurés."
 
 func _on_retreat() -> void:
-    if session != null and session.is_active():
-        session.finish("retreat")
-    message_label.text = "Retraite : les ennemis survivants gagnent de la Rémanence."
+    _finish_combat("retreat")
+
+func _on_back() -> void:
+    if flow_active and session != null and session.is_active():
+        _finish_combat("retreat")
+        return
+    get_tree().change_scene_to_file(QA_SCENE)
 
 func _repair_selection() -> void:
     if session == null or session.runtime == null:
