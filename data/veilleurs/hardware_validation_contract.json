@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "project": "LITD : Les Veilleurs",
+  "stage": "hardware_validation",
+  "godot_version": "4.3",
+  "completion_rule": "Le jalon matériel est terminé lorsque les huit gates ont un rapport PASS avec les preuves obligatoires. Un gate FAIL ou non testé bloque la validation de la plateforme concernée.",
+  "required_gate_ids": [
+    "real_mobile_touch",
+    "safe_areas_real_devices",
+    "haptics_real_devices",
+    "gpu_cpu_thermal_performance",
+    "final_visual_readability",
+    "physical_controller",
+    "real_audio_output",
+    "ios_signed_device_build"
+  ],
+  "gates": [
+    {
+      "id": "real_mobile_touch",
+      "title_fr": "Tactile réel",
+      "platforms": ["ios", "android"],
+      "scenarios": [
+        "navigation_hub",
+        "dungeon_navigation",
+        "combat_targeting",
+        "body_zone_selection",
+        "skill_selection",
+        "retreat_and_confirmation",
+        "recruitment_decision",
+        "save_resume"
+      ],
+      "required_evidence": ["device_model", "os_version", "screen_size", "tester_notes", "misinput_count", "blocking_issue_count"],
+      "acceptance": [
+        "Aucune action critique ne nécessite une précision irréaliste au pouce.",
+        "Aucun geste indispensable n'entre en conflit avec les gestes système.",
+        "Aucune erreur de saisie reproductible ne bloque le combat, la navigation ou les confirmations.",
+        "Les commandes essentielles restent utilisables à une main lorsque le contexte le permet."
+      ]
+    },
+    {
+      "id": "safe_areas_real_devices",
+      "title_fr": "Safe areas réelles",
+      "platforms": ["ios", "android"],
+      "scenarios": ["portrait_if_supported", "landscape", "combat_hud", "hub", "modal_dialogs", "context_menus"],
+      "required_evidence": ["device_model", "os_version", "screenshots", "obstruction_count", "blocking_issue_count"],
+      "acceptance": [
+        "Aucun élément interactif ou texte essentiel n'est masqué par une encoche, une Dynamic Island, une barre système ou un arrondi d'écran.",
+        "Les modales et menus contextuels restent entièrement accessibles.",
+        "Le HUD ne chevauche pas les zones système sur les appareils testés."
+      ]
+    },
+    {
+      "id": "haptics_real_devices",
+      "title_fr": "Haptique réelle",
+      "platforms": ["ios", "android"],
+      "scenarios": ["ui_confirm", "ui_error", "light_hit", "heavy_hit", "critical_event", "ultimate", "amputation_or_major_trauma"],
+      "required_evidence": ["device_model", "os_version", "events_tested", "tester_notes", "missing_event_count", "blocking_issue_count"],
+      "acceptance": [
+        "Les événements prévus déclenchent un retour haptique lorsqu'il est supporté.",
+        "Les retours UI, impacts et événements majeurs restent distinguables sans devenir fatigants.",
+        "La désactivation de l'haptique est respectée sans casser le feedback visuel ou audio."
+      ]
+    },
+    {
+      "id": "gpu_cpu_thermal_performance",
+      "title_fr": "Performance, mémoire et thermique",
+      "platforms": ["ios", "android", "windows"],
+      "scenarios": ["cold_launch", "hub_10_min", "combat_20_min", "six_dungeon_traversal", "ultimate_stress", "save_resume_loop"],
+      "required_evidence": ["device_or_pc", "os_version", "build_type", "average_fps", "minimum_fps", "frame_spikes", "memory_peak_mb", "thermal_notes", "crash_count", "blocking_issue_count"],
+      "targets": {
+        "preferred_fps": 60,
+        "hard_floor_fps": 30,
+        "crash_count_max": 0,
+        "blocking_issue_count_max": 0
+      },
+      "acceptance": [
+        "La cible est 60 FPS lorsque le matériel le permet et le jeu ne doit pas rester durablement sous 30 FPS.",
+        "Aucun crash, freeze durable ou fuite mémoire croissante reproductible n'est accepté.",
+        "Une session prolongée ne doit pas rendre le jeu injouable à cause du throttling thermique.",
+        "Les ultimes et combats chargés ne doivent pas provoquer de chute prolongée sous le plancher de jouabilité."
+      ]
+    },
+    {
+      "id": "final_visual_readability",
+      "title_fr": "Lisibilité et qualité visuelle finales",
+      "platforms": ["ios", "android", "windows"],
+      "scenarios": ["hub", "combat", "body_state", "inventory", "skill_tree", "recruitment", "archives", "ultimate", "low_light_scene"],
+      "required_evidence": ["device_or_pc", "resolution", "screenshots", "tester_notes", "unreadable_element_count", "blocking_issue_count"],
+      "acceptance": [
+        "Les informations indispensables sont lisibles à distance normale sans zoom système.",
+        "Les états corporels, cibles, compétences et conséquences sont distinguables sans dépendre uniquement de la couleur.",
+        "Les VFX, le sang, les cadres et les textures n'occultent pas les informations tactiques.",
+        "La direction artistique dark fantasy reste cohérente sur téléphone, tablette et desktop."
+      ]
+    },
+    {
+      "id": "physical_controller",
+      "title_fr": "Contrôleur physique",
+      "platforms": ["windows", "ios", "android"],
+      "scenarios": ["main_menu", "hub", "combat", "body_zone_selection", "skill_selection", "modal_dialogs", "pause", "save_resume"],
+      "required_evidence": ["controller_model", "platform", "mapping_notes", "focus_loss_count", "unreachable_action_count", "blocking_issue_count"],
+      "acceptance": [
+        "Toutes les actions indispensables sont atteignables sans souris ni tactile pendant une session manette.",
+        "Le focus visuel reste toujours identifiable.",
+        "Aucun menu ou dialogue ne piège le focus.",
+        "Déconnexion et reconnexion du contrôleur ne bloquent pas la partie."
+      ]
+    },
+    {
+      "id": "real_audio_output",
+      "title_fr": "Audio sur matériel réel",
+      "platforms": ["ios", "android", "windows"],
+      "scenarios": ["phone_speaker", "headphones", "pc_speakers", "hub_ambience", "combat_mix", "dialogue", "ultimate", "low_volume"],
+      "required_evidence": ["output_device", "platform", "tester_notes", "inaudible_cue_count", "clipping_count", "fatigue_issue_count", "blocking_issue_count"],
+      "acceptance": [
+        "Les signaux tactiques essentiels restent audibles sur haut-parleur de téléphone et casque.",
+        "Les dialogues et signaux UI ne sont pas masqués de façon reproductible par la musique ou les impacts.",
+        "Aucun clipping ou saut de volume agressif reproductible n'est accepté.",
+        "Le mixage reste compréhensible à volume modéré."
+      ]
+    },
+    {
+      "id": "ios_signed_device_build",
+      "title_fr": "Build iOS signé et installé",
+      "platforms": ["ios"],
+      "scenarios": ["signed_export", "install_on_device", "cold_launch", "save_resume", "background_foreground", "combat", "touch", "audio", "haptics"],
+      "required_evidence": ["xcode_version", "ios_version", "device_model", "signing_method", "install_result", "launch_result", "save_resume_result", "blocking_issue_count"],
+      "acceptance": [
+        "Le projet exporte avec la chaîne Apple configurée sans modifier les données de gameplay.",
+        "Le build signé s'installe et démarre sur un iPhone réel.",
+        "Passage arrière-plan/premier plan et sauvegarde/reprise ne corrompent pas la session.",
+        "Les fonctions tactiles, audio et haptiques critiques restent opérationnelles dans le build signé."
+      ]
+    }
+  ]
+}
