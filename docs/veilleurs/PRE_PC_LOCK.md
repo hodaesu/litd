@@ -29,6 +29,7 @@ Le gate pré-PC contrôle automatiquement :
 - instanciation de la QA des six donjons ;
 - régression tactile logique ;
 - parcours UI joueur ;
+- préflight PC dédié aux Veilleurs ;
 - intégration de l'audit dans le pipeline de production ;
 - séparation explicite des validations automatiques et matérielles.
 
@@ -103,9 +104,25 @@ Le preset iOS peut être verrouillé dans le dépôt. L'installation finale sur 
 
 ## Première ouverture sur PC
 
-L'addon de production est désormais activé dans `project.godot`. Il ne doit donc plus être nécessaire de l'activer manuellement dans les réglages du projet.
+Pour **Les Veilleurs**, le préflight général de LITD Universe n'est pas requis. La première session technique ne demande que :
 
-À l'ouverture du dépôt :
+- Git ;
+- Python 3 ;
+- Godot 4.3.
+
+Un lanceur dédié est préparé :
+
+`tools/workstation/LITD_VEILLEURS_PC_PREPARE.cmd`
+
+Il exécute `tools/workstation/veilleurs_pc_preflight.py --run-tests`, vérifie le verrou pré-PC puis lance le pipeline rapide avec le Godot installé. Son rapport est écrit dans :
+
+`local/reports/veilleurs_pc_preflight.json`
+
+Blender, Reaper, MuseScore, Visual Studio et Unreal Engine ne sont **pas requis pour cette première session des Veilleurs**.
+
+L'addon de production est déjà activé dans `project.godot`. Il ne doit donc plus être nécessaire de l'activer manuellement dans les réglages du projet.
+
+Après un préflight vert :
 
 1. ouvrir le projet avec Godot 4.3 ;
 2. laisser l'import terminer ;
