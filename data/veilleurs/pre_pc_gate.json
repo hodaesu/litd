@@ -3,16 +3,16 @@
   "stage": "pre_pc_lock",
   "godot_version": "4.3",
   "canonical_watchers": [
-    "ENT_WATCHER_NAYRA",
-    "ENT_WATCHER_TAREK",
-    "ENT_WATCHER_AISHA",
-    "ENT_WATCHER_IDRIS"
-  ],
-  "forbidden_stale_runtime_ids": [
     "ENT_WATCHER_SAHEN",
     "ENT_WATCHER_MIRA",
     "ENT_WATCHER_NAREM",
     "ENT_WATCHER_YSRA"
+  ],
+  "forbidden_stale_runtime_ids": [
+    "ENT_WATCHER_NAYRA",
+    "ENT_WATCHER_TAREK",
+    "ENT_WATCHER_AISHA",
+    "ENT_WATCHER_IDRIS"
   ],
   "allowed_stale_reference_files": [
     "scripts/core/veilleurs_v06_tactical_smoke_test.gd",

@@ -85,15 +85,11 @@ def main() -> int:
     if not checks["v09_qa_contract"]:
         fail(errors, f"Contrat QA v0.9 différent: {actual_qa}")
 
-    runtime_path = ROOT / "scripts/core/veilleurs_vertical_slice_runtime_v08.gd"
-    runtime_text = runtime_path.read_text(encoding="utf-8")
-    roster_match = re.search(r"const CANONICAL_WATCHERS: Array\[String\] = \[(.*?)\]", runtime_text)
-    roster: list[str] = []
-    if roster_match:
-        roster = re.findall(r'"([^"]+)"', roster_match.group(1))
+    watchers_payload = load_json(ROOT / "data/veilleurs/v06/watchers.json")
+    roster = [str(row.get("entity_id", "")) for row in watchers_payload.get("watchers", [])]
     checks["canonical_roster"] = roster == contract["canonical_watchers"]
     if not checks["canonical_roster"]:
-        fail(errors, f"Roster canonique runtime différent: {roster}")
+        fail(errors, f"Roster canonique watchers.json différent: {roster}")
 
     allowed_stale_files = set(contract.get("allowed_stale_reference_files", []))
     stale_hits: dict[str, list[str]] = {}
