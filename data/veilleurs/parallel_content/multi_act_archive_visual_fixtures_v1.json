@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "status": "post_playtest_candidate_visual_fixture_inactive",
+  "enabled_by_default": false,
+  "runtime_wiring": "none",
+  "source_projection": "res://data/veilleurs/parallel_content/multi_act_archive_projection_v1.json",
+  "purpose": "Provide deterministic Archive layout fixtures for the eight multi-act consequence chains without inventing canonical prose or upgrading knowledge.",
+  "rules": {
+    "fixture_count": 8,
+    "knowledge_state_must_be_preserved_from_archive_entry": true,
+    "visual_fixture_may_not_upgrade_knowledge": true,
+    "canonical_text_generation_forbidden": true,
+    "conflicting_versions_must_remain_visibly_distinct": true,
+    "unseen_boss_phase_hidden": true,
+    "world_scar_card_requires_existing_scar": true,
+    "same_entity_required_for_remanence_history": true,
+    "touch_target_min_points": 48,
+    "long_press_required": false,
+    "hover_required": false
+  },
+  "profiles": {
+    "phone": {"layout":"single_section_stack","secondary_navigation":"tabs","safe_area_required":true,"max_simultaneous_columns":1},
+    "tablet": {"layout":"master_detail","secondary_navigation":"tabs","safe_area_required":true,"max_simultaneous_columns":2},
+    "desktop": {"layout":"two_column_master_detail","secondary_navigation":"direct_tabs","safe_area_required":false,"max_simultaneous_columns":2},
+    "controller": {"layout":"focusable_master_detail","secondary_navigation":"focus_tabs","pointer_dependency":false,"max_simultaneous_columns":2}
+  },
+  "fixtures": [
+    {
+      "id":"archive_fixture.competing_versions",
+      "chain_id":"chain.competing_versions",
+      "summary_mode":"parallel_versions",
+      "primary_sections":["IDENTITE_CONNAISSANCE","HISTOIRE"],
+      "expected_visible_sections":["IDENTITE_CONNAISSANCE","HISTOIRE"],
+      "knowledge_state_source":"PRESERVE_CURRENT_ARCHIVE_STATE",
+      "cards":[
+        {"stage":1,"source":"region.a2.signal_without_voice","entry_kind":"competing_hypotheses","sections":["IDENTITE_CONNAISSANCE","HISTOIRE"],"badge":"UNRESOLVED"},
+        {"stage":2,"source":"region.a4.missing_trace","entry_kind":"absence_observation","sections":["IDENTITE_CONNAISSANCE","HISTOIRE"],"badge":"OBSERVATION"},
+        {"stage":3,"source":"region.a5.two_versions","entry_kind":"coexisting_versions","sections":["IDENTITE_CONNAISSANCE","HISTOIRE"],"badge":"COEXISTING_VERSIONS"}
+      ],
+      "visual_assertions":["parallel_versions_not_collapsed","prior_interpretation_not_deleted","no_truth_badge_without_new_evidence"]
+    },
+    {
+      "id":"archive_fixture.route_reference",
+      "chain_id":"chain.route_reference",
+      "summary_mode":"physical_reference_lineage",
+      "primary_sections":["TRACES","HISTOIRE"],
+      "expected_visible_sections":["IDENTITE_CONNAISSANCE","HISTOIRE","TRACES"],
+      "knowledge_state_source":"PRESERVE_CURRENT_ARCHIVE_STATE",
+      "cards":[
+        {"stage":1,"source":"region.a2.breathing_route","entry_kind":"route_method","sections":["HISTOIRE"],"badge":"METHOD"},
+        {"stage":2,"source":"region.a4.missing_trace","entry_kind":"physical_anchor","sections":["TRACES","HISTOIRE"],"badge":"PHYSICAL_ANCHOR_IF_PRESENT"},
+        {"stage":3,"source":"region.a5.two_versions","entry_kind":"shared_reference_method","sections":["IDENTITE_CONNAISSANCE","HISTOIRE","TRACES"],"badge":"LOCAL_REFERENCE"}
+      ],
+      "visual_assertions":["no_unseen_route_reveal","missing_world_scar_hides_anchor_card","local_reference_not_global_truth"]
+    },
+    {
+      "id":"archive_fixture.coordination_without_voice",
+      "chain_id":"chain.coordination_without_voice",
+      "summary_mode":"party_method_history",
+      "primary_sections":["COMBAT","HISTOIRE"],
+      "expected_visible_sections":["COMBAT","HISTOIRE"],
+      "knowledge_state_source":"PRESERVE_CURRENT_ARCHIVE_STATE",
+      "cards":[
+        {"stage":1,"source":"region.a2.after_silence","entry_kind":"shared_method_origin","sections":["HISTOIRE"],"badge":"PARTY_METHOD"},
+        {"stage":2,"source":"region.a4.procession_pressure","entry_kind":"method_application","sections":["COMBAT","HISTOIRE"],"badge":"APPLICATION_RESULT"},
+        {"stage":3,"source":"region.a5.change_before_copy","entry_kind":"method_variation","sections":["COMBAT","HISTOIRE"],"badge":"METHOD_VARIATION"}
+      ],
+      "visual_assertions":["no_hidden_stat_bonus","success_and_failure_can_both_render","hidden_copy_logic_not_revealed"]
+    },
+    {
+      "id":"archive_fixture.body_network_evidence",
+      "chain_id":"chain.body_network_evidence",
+      "summary_mode":"evidence_ladder",
+      "primary_sections":["CORPS","HISTOIRE"],
+      "expected_visible_sections":["CORPS","HISTOIRE","TRACES"],
+      "knowledge_state_source":"PRESERVE_CURRENT_ARCHIVE_STATE",
+      "cards":[
+        {"stage":1,"source":"region.a3.cut_connection","entry_kind":"anatomical_connection_observed","sections":["CORPS","HISTOIRE"],"badge":"OBSERVED_CONNECTION"},
+        {"stage":2,"source":"region.a3.after_network","entry_kind":"functional_change_observed","sections":["CORPS","HISTOIRE"],"badge":"FUNCTION_CHANGE"},
+        {"stage":3,"source":"region.a4.what_remains","entry_kind":"persistent_body_evidence","sections":["CORPS","TRACES","HISTOIRE"],"badge":"PERSISTENT_EVIDENCE"}
+      ],
+      "visual_assertions":["observed_connection_separate_from_inferred_function","cause_not_auto_confirmed","physical_evidence_and_uncertainty_can_coexist"]
+    },
+    {
+      "id":"archive_fixture.growth_and_simultaneous_breaks",
+      "chain_id":"chain.growth_and_simultaneous_breaks",
+      "summary_mode":"terrain_method_lineage",
+      "primary_sections":["TRACES","COMBAT","HISTOIRE"],
+      "expected_visible_sections":["TRACES","COMBAT","HISTOIRE"],
+      "knowledge_state_source":"PRESERVE_CURRENT_ARCHIVE_STATE",
+      "cards":[
+        {"stage":1,"source":"region.a3.growth_underfoot","entry_kind":"persistent_terrain_trace","sections":["TRACES","HISTOIRE"],"badge":"WORLD_SCAR_IF_PRESENT"},
+        {"stage":2,"source":"region.a3.dry_ground","entry_kind":"physical_break_method","sections":["COMBAT","HISTOIRE"],"badge":"PARTY_CREATED_BREAK"},
+        {"stage":3,"source":"region.a5.two_breaks","entry_kind":"simultaneous_break_method","sections":["COMBAT","HISTOIRE"],"badge":"SIMULTANEOUS_BREAK"}
+      ],
+      "visual_assertions":["world_scar_must_exist","enemy_priority_not_inferred","party_method_lineage_visible"]
+    },
+    {
+      "id":"archive_fixture.light_as_reference",
+      "chain_id":"chain.light_as_reference",
+      "summary_mode":"local_reference_history",
+      "primary_sections":["IDENTITE_CONNAISSANCE","HISTOIRE","TRACES"],
+      "expected_visible_sections":["IDENTITE_CONNAISSANCE","HISTOIRE","TRACES"],
+      "knowledge_state_source":"PRESERVE_CURRENT_ARCHIVE_STATE",
+      "cards":[
+        {"stage":1,"source":"region.a4.low_contour","entry_kind":"light_reference_use","sections":["HISTOIRE"],"badge":"CURRENT_REFERENCE"},
+        {"stage":2,"source":"region.a4.what_remains","entry_kind":"persistence_comparison","sections":["IDENTITE_CONNAISSANCE","TRACES","HISTOIRE"],"badge":"PERSISTENT_VS_TEMPORARY"},
+        {"stage":3,"source":"region.a5.two_versions","entry_kind":"common_local_reference","sections":["IDENTITE_CONNAISSANCE","HISTOIRE"],"badge":"LOCAL_COMMON_REFERENCE"}
+      ],
+      "visual_assertions":["darkness_does_not_erase_stored_knowledge","light_never_creates_absolute_truth","current_visibility_separate_from_archive_state"]
+    },
+    {
+      "id":"archive_fixture.context_before_copy",
+      "chain_id":"chain.context_before_copy",
+      "summary_mode":"contextual_counterplay_lineage",
+      "primary_sections":["COMBAT","HISTOIRE"],
+      "expected_visible_sections":["COMBAT","HISTOIRE"],
+      "knowledge_state_source":"PRESERVE_CURRENT_ARCHIVE_STATE",
+      "cards":[
+        {"stage":1,"source":"region.a2.read_the_hands","entry_kind":"spacing_observation","sections":["COMBAT","HISTOIRE"],"badge":"OBSERVED_SPACING"},
+        {"stage":2,"source":"region.a3.dry_ground","entry_kind":"terrain_context_observation","sections":["COMBAT","HISTOIRE"],"badge":"CONTEXT_CHANGED_OUTCOME"},
+        {"stage":3,"source":"region.a5.bad_copy","entry_kind":"copy_context_counterplay","sections":["COMBAT","HISTOIRE"],"badge":"DEMONSTRATED_COUNTERPLAY_ONLY"}
+      ],
+      "visual_assertions":["counterplay_locked_until_demonstrated","context_not_generalized_automatically","no_unseen_copy_capability"]
+    },
+    {
+      "id":"archive_fixture.remanence_shared_history",
+      "chain_id":"chain.remanence_shared_history",
+      "summary_mode":"same_entity_shared_history",
+      "primary_sections":["HISTOIRE","TRACES","COMBAT"],
+      "expected_visible_sections":["HISTOIRE","TRACES","COMBAT"],
+      "knowledge_state_source":"PRESERVE_CURRENT_ARCHIVE_STATE",
+      "entity_identity_required":true,
+      "cards":[
+        {"stage":1,"source":"remanence_event:survival_or_failed_capture","entry_kind":"shared_entity_origin","sections":["HISTOIRE","TRACES"],"badge":"SAME_ENTITY_HISTORY"},
+        {"stage":2,"source":"ref.transformation.memory_rank","entry_kind":"observed_adaptation","sections":["HISTOIRE","TRACES","COMBAT"],"badge":"OBSERVED_ADAPTATION_ONLY"},
+        {"stage":3,"source":"ref.crise.nemesis_nearby","entry_kind":"known_nemesis_preparation","sections":["HISTOIRE","COMBAT","TRACES"],"badge":"KNOWN_COUNTERPLAY_ONLY"}
+      ],
+      "visual_assertions":["stable_entity_id_required","species_wide_memory_forbidden","no_artificial_nemesis_spawn","unseen_capability_hidden"]
+    }
+  ]
+}
