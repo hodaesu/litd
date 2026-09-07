@@ -1,4 +1,4 @@
-extends "res://scripts/core/veilleurs_content_db_v07.gd"
+extends "res://scripts/core/veilleurs_content_db_v07_runtime.gd"
 class_name VeilleursContentDBV081Canonical
 
 const CANONICAL_WATCHER_ULTIMATES_PATH := "res://data/veilleurs/v08/canonical_watcher_ultimates_12.json"
