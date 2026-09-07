@@ -23,8 +23,10 @@ def load_module():
 def main() -> int:
     module = load_module()
     errors: list[str] = []
+    audit_tmp_parent = ROOT / "build" / "automation"
+    audit_tmp_parent.mkdir(parents=True, exist_ok=True)
 
-    with tempfile.TemporaryDirectory() as tmp:
+    with tempfile.TemporaryDirectory(dir=audit_tmp_parent) as tmp:
         temp_root = Path(tmp)
         module.REPORT_DIR = temp_root
 
