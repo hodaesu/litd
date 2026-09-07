@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "status": "post_playtest_parallel_content",
+  "scope": "LITD : Les Veilleurs",
+  "activation": {
+    "enabled_by_default": false,
+    "runtime_wiring": "none_until_post_playtest_merge",
+    "playtest_branch_must_remain_unchanged": true,
+    "source_playtest_commit": "0c905800ec21e646e9252f1c14430ed8ad36ada3",
+    "source_playtest_pr": 173
+  },
+  "canonical_guardrails": {
+    "knowledge_source_states": ["UNKNOWN", "SUSPECTED", "OBSERVED", "CONFIRMED", "UNDERSTOOD"],
+    "knowledge_is_currency": false,
+    "presentation_detail_levels_are_projection_only": [0, 1, 2, 3, 4, 5],
+    "capture_is_recruitment": false,
+    "injuries_reset_on_rally": false,
+    "bosses_recruitable": false,
+    "party_max": 4,
+    "party_min_watchers": 1,
+    "refuge_capacity_by_act": {"I": 4, "II": 6, "III": 8, "IV": 10, "V": 12},
+    "max_memorial_enemies_per_encounter": 1,
+    "artificial_nemesis_spawn_forbidden": true,
+    "full_scene_snapshot_forbidden": true
+  },
+  "canonical_source_bindings": {
+    "system_rules": "res://data/veilleurs/canonical_prepc_2026_09_03/system_rules_v1.json",
+    "barks_veilleurs": "res://data/veilleurs/canonical_prepc_2026_09_03/current/barks_veilleurs.json",
+    "bestiary_narrative_29": "res://data/veilleurs/canonical_prepc_2026_09_03/current/bestiaire_narratif_29.json",
+    "boss_dialogues": "res://data/veilleurs/canonical_prepc_2026_09_03/current/dialogues_boss.json",
+    "remanence_acts_ii_v": "res://data/veilleurs/canonical_prepc_2026_09_03/current/remanence_ii_v.json",
+    "encounters_64": "res://data/veilleurs/encounter_catalog_64_v1.json",
+    "synergies_21": "res://data/veilleurs/enemy_synergy_binding_v1.json",
+    "boss_phases_16": "res://data/veilleurs/boss_phase_knowledge_v1.json",
+    "archives_29": "res://data/veilleurs/archives_bestiary_29_v1.json",
+    "archives_refuge_ui": "res://data/veilleurs/archives_refuge_ui_contract_v1.json"
+  },
+  "narrative_preparation": {
+    "policy": "bind_existing_canonical_text_before_writing_new_canon",
+    "runtime_status": "not_wired",
+    "sources_ready_for_post_playtest_binding": ["barks_veilleurs", "bestiary_narrative_29", "boss_dialogues", "remanence_acts_ii_v"],
+    "hooks": [
+      {"id": "narrative.pre_combat_bark", "source": "barks_veilleurs", "trigger_contract": "encounter_entered", "blocking": false},
+      {"id": "narrative.post_combat_bark", "source": "barks_veilleurs", "trigger_contract": "encounter_resolved", "blocking": false},
+      {"id": "narrative.boss_phase_dialogue", "source": "boss_dialogues", "trigger_contract": "boss_phase_transition", "future_phase_spoiler_forbidden": true},
+      {"id": "narrative.archive_entity_text", "source": "bestiary_narrative_29", "trigger_contract": "archive_detail_unlocked", "knowledge_gated": true},
+      {"id": "narrative.remanence_fragment", "source": "remanence_acts_ii_v", "trigger_contract": "observation_analysis_or_coexistence", "truth_absolute_forbidden": true}
+    ]
+  },
+  "acts_ii_v_preparation": [
+    {"act": "II", "title": "Les Routes Muettes", "species_ids": ["ecouteur_creux", "porte_signe", "marcheur_aphone", "reteneur_de_souffle"], "encounter_ids": {"first": "enc_a2_01", "last": "enc_a2_12", "count": 12}, "synergy_ids": ["syn_a2_01", "syn_a2_02", "syn_a2_03", "syn_a2_04"], "boss_id": "orateur_sans_voix", "boss_phase_count": 3, "refuge_capacity": 6, "status": "content_ready_runtime_integration_deferred"},
+    {"act": "III", "title": "Ce qui pousse sous nous", "species_ids": ["veine_rampante", "noeud_ecorche", "porte_sang", "germe_arteriel"], "encounter_ids": {"first": "enc_a3_01", "last": "enc_a3_12", "count": 12}, "synergy_ids": ["syn_a3_01", "syn_a3_02", "syn_a3_03", "syn_a3_04"], "boss_id": "mere_des_veines", "boss_phase_count": 3, "refuge_capacity": 8, "status": "content_ready_runtime_integration_deferred"},
+    {"act": "IV", "title": "Les Cendres de la Paix", "species_ids": ["marche_pale", "porte_linceul", "effaceur_de_traces", "dormeur_de_cendre"], "encounter_ids": {"first": "enc_a4_01", "last": "enc_a4_12", "count": 12}, "synergy_ids": ["syn_a4_01", "syn_a4_02", "syn_a4_03", "syn_a4_04"], "boss_id": "porte_cendres_blanc", "boss_phase_count": 3, "refuge_capacity": 10, "status": "content_ready_runtime_integration_deferred"},
+    {"act": "V", "title": "Les Versions", "species_ids": ["copie_lacunaire", "rature_vivante", "archiviste_de_version", "double_du_seuil"], "encounter_ids": {"first": "enc_a5_01", "last": "enc_a5_12", "count": 12}, "synergy_ids": ["syn_a5_01", "syn_a5_02", "syn_a5_03", "syn_a5_04"], "boss_id": "le_copiste", "boss_phase_count": 4, "refuge_capacity": 12, "status": "content_ready_runtime_integration_deferred"}
+  ],
+  "expedition_alteration_pool": {
+    "status": "design_candidates_not_canon_until_validated",
+    "enabled_by_default": false,
+    "scope": "single_expedition_only",
+    "persistence": "record_outcome_or_trace_only_never_persist_runtime_modifier",
+    "selection_rules": {"min": 0, "max": 2, "duplicates": false},
+    "candidates": [
+      {"id": "alt.light_stability", "domain": "light", "knob": "light_decay_or_stability", "player_readability_required": true},
+      {"id": "alt.noise_propagation", "domain": "noise", "knob": "noise_carry_between_rooms", "player_readability_required": true},
+      {"id": "alt.injury_pressure", "domain": "body", "knob": "field_stabilization_difficulty", "mechanical_injury_persistence_unchanged": true},
+      {"id": "alt.environment_resistance", "domain": "environment", "knob": "obstacle_or_route_resistance", "must_preserve_alternative_route": true},
+      {"id": "alt.perception_uncertainty", "domain": "knowledge", "knob": "current_display_detail_downgrade", "stored_knowledge_erasure_forbidden": true},
+      {"id": "alt.extraction_pressure", "domain": "extraction", "knob": "route_or_timing_pressure", "forced_no_win_state_forbidden": true}
+    ]
+  },
+  "archives_future_hooks": {
+    "status": "post_playtest_projection_only",
+    "sections": {
+      "identite_connaissance": ["canonical_state", "presentation_detail", "source_observation"],
+      "corps": ["known_anatomy", "persistent_injuries", "functional_consequences"],
+      "combat": ["observed_intents", "observed_actions", "observed_synergy_counterplay"],
+      "histoire": ["shared_encounters", "rallying_or_coexistence_events", "boss_phase_history"],
+      "traces": ["world_scars", "entity_scars", "adaptations", "relationship_events"]
+    },
+    "boss_rules": {"phase_scoped": true, "unseen_phase_hidden": true},
+    "perception_rule": "current perception may reduce displayed detail but never erase stored knowledge"
+  },
+  "refuge_event_hooks": {
+    "status": "canonical_family_binding_post_playtest",
+    "capacity_by_act": {"I": 4, "II": 6, "III": 8, "IV": 10, "V": 12},
+    "families": [
+      {"id": "COHABITATION", "primary_axes": ["CONFIANCE", "RESPECT"]},
+      {"id": "CONFLIT", "primary_axes": ["PEUR", "RESSENTIMENT"]},
+      {"id": "RAPPROCHEMENT", "primary_axes": ["CONFIANCE", "RESPECT"]},
+      {"id": "SOUVENIR", "primary_axes": ["CONFIANCE", "PEUR"]},
+      {"id": "BESOIN_BIOLOGIQUE", "primary_axes": ["CONFIANCE", "RESSENTIMENT"]},
+      {"id": "BESOIN_PSYCHOLOGIQUE", "primary_axes": ["CONFIANCE", "PEUR"]},
+      {"id": "TRANSFORMATION", "primary_axes": ["PEUR", "RESPECT"]},
+      {"id": "TRAVAIL", "primary_axes": ["RESPECT", "CONFIANCE"]},
+      {"id": "DECOUVERTE", "primary_axes": ["RESPECT", "PEUR"]},
+      {"id": "DEPART", "primary_axes": ["CONFIANCE", "RESSENTIMENT"]},
+      {"id": "CRISE", "primary_axes": ["PEUR", "RESSENTIMENT"]},
+      {"id": "POLITIQUE", "primary_axes": ["RESPECT", "RESSENTIMENT"]}
+    ],
+    "resolution_contract": {"must_reference_lived_state": true, "can_write_relationship_history": true, "can_write_archive_history": true, "can_reset_persistent_injury": false, "can_make_boss_recruitable": false}
+  },
+  "remanence_nemesis_variants": {
+    "status": "post_playtest_templates",
+    "tiers": ["Normal", "Mémoriel", "Vétéran", "Élite", "Némésis"],
+    "promotion_sources": ["survival", "watcher_kill", "mutilation", "escape_or_failed_capture", "item_event", "forced_retreat", "repeated_encounters"],
+    "templates": [
+      {"id": "rem.memory_of_action_family", "requires_shared_history": true, "effect_domain": "decision_preference", "omniscient_learning": false},
+      {"id": "rem.memory_of_wound", "requires_shared_history": true, "effect_domain": "body_posture_or_targeting", "heals_or_resets_wound": false},
+      {"id": "rem.memory_of_retreat", "requires_shared_history": true, "effect_domain": "positioning_or_pursuit", "guaranteed_ambush": false},
+      {"id": "rem.memory_of_failed_capture", "requires_shared_history": true, "effect_domain": "distance_or_rallying_response", "recruitment_lock": false},
+      {"id": "rem.world_scar_reference", "requires_shared_history": true, "effect_domain": "route_or_context", "full_scene_snapshot": false}
+    ],
+    "nemesis_rules": {"rare": true, "requires_shared_history": true, "artificial_spawn": false, "hp_sponge_multiplier_forbidden": true, "omniscient_counters_forbidden": true, "must_remain_counterplay_readable": true}
+  },
+  "ux_microcopy_fr": {
+    "status": "candidate_copy_post_playtest",
+    "strings": {
+      "knowledge_unknown": "Inconnu — aucune certitude acquise.",
+      "knowledge_perception_reduced": "Vos connaissances restent acquises, mais la situation actuelle réduit ce que vous pouvez lire.",
+      "boss_phase_unseen": "Phase inconnue — elle doit être rencontrée avant d’être documentée.",
+      "body_target_auto": "Ciblage anatomique automatique : le jeu choisit une zone cohérente avec l’action.",
+      "body_target_explicit": "Ciblage anatomique : choisissez une zone connue et accessible.",
+      "extraction_risk": "Extraire préserve les survivants et leurs blessures ; poursuivre augmente l’exposition.",
+      "refuge_full": "Refuge complet — libérez une place ou renoncez au ralliement.",
+      "rallying_not_capture": "Capturer ou neutraliser ne recrute pas automatiquement cette créature.",
+      "remanence_seen_again": "Cette présence porte des traces d’une rencontre passée.",
+      "nemesis_shared_history": "Cet adversaire vous connaît par ce qu’il a réellement vécu contre vous."
+    },
+    "forbidden_copy": ["capture percentage", "omniscient enemy truth", "hidden future boss phase details", "hope meter", "folie meter"]
+  },
+  "balance_option_registry": {
+    "status": "telemetry_knobs_post_playtest_only",
+    "enabled_by_default": false,
+    "active_values_mutated": false,
+    "rules": ["change_one_family_at_a_time", "record_build_and_seed", "preserve_readability", "never_use_hidden_unbreakable_aura"],
+    "knobs": [
+      {"id": "bal.enemy_tempo", "domain": "combat", "value_type": "bounded_scalar", "goal": "adjust action pressure without changing core rules"},
+      {"id": "bal.bleeding_pressure", "domain": "body", "value_type": "bounded_scalar", "goal": "tune urgency while preserving injury persistence"},
+      {"id": "bal.light_pressure", "domain": "exploration", "value_type": "bounded_scalar", "goal": "tune uncertainty and route tension"},
+      {"id": "bal.noise_pressure", "domain": "exploration", "value_type": "bounded_scalar", "goal": "tune patrol response"},
+      {"id": "bal.encounter_density", "domain": "exploration", "value_type": "bounded_scalar", "goal": "tune pacing without exceeding encounter caps"},
+      {"id": "bal.rallying_frequency", "domain": "refuge", "value_type": "bounded_scalar", "goal": "tune opportunity frequency without changing canonical eligibility"},
+      {"id": "bal.boss_telegraph_clarity", "domain": "boss", "value_type": "bounded_scalar", "goal": "tune readability without exposing unseen phases"}
+    ],
+    "telemetry_required": ["act", "encounter_id", "seed", "party_state", "light_band", "noise_band", "injury_delta", "retreat_or_extraction", "knowledge_delta"]
+  }
+}
