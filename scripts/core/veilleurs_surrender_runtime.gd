@@ -1,6 +1,7 @@
 extends RefCounted
 
 const VeilleursCapture := preload("res://scripts/core/veilleurs_capture_runtime.gd")
+const SurrenderAfterlife := preload("res://scripts/core/veilleurs_surrender_afterlife_runtime.gd")
 
 const CHOICE_ACCEPT := "accept"
 const CHOICE_REFUSE := "refuse"
@@ -102,7 +103,8 @@ static func resolve(enemy: Dictionary, choice_id: String, context: Dictionary = 
     enemy["surrender_choice_resolved"] = true
     enemy["surrender_choice"] = choice_id
     enemy["surrender_outcome"] = outcome
-    _apply_relationship_memory(enemy, entity_id, former_id, relationship_delta, reputation_delta, outcome, context)
+    var relationship := _apply_relationship_memory(enemy, entity_id, former_id, relationship_delta, reputation_delta, outcome, context)
+    var afterlife := SurrenderAfterlife.register_resolution(enemy, entity_id, former_id, outcome, relationship, reputation_delta, context)
     return {
         "resolved": true,
         "choice": choice_id,
@@ -110,13 +112,17 @@ static func resolve(enemy: Dictionary, choice_id: String, context: Dictionary = 
         "entity_id": entity_id,
         "former_nemesis_id": former_id,
         "relationship_delta": relationship_delta.duplicate(true),
+        "relationship": relationship.duplicate(true),
         "reputation_delta": reputation_delta,
         "removed_from_combat": removed_from_combat,
         "recruited": recruited,
-        "capture_result": capture_result.duplicate(true)
+        "capture_result": capture_result.duplicate(true),
+        "afterlife": afterlife.duplicate(true),
+        "return_eligible_run": int(afterlife.get("return_eligible_run", -1)),
+        "future_role": str(afterlife.get("future_role", ""))
     }
 
-static func _apply_relationship_memory(enemy: Dictionary, entity_id: String, former_id: String, delta: Dictionary, reputation_delta: int, outcome: String, context: Dictionary) -> void:
+static func _apply_relationship_memory(enemy: Dictionary, entity_id: String, former_id: String, delta: Dictionary, reputation_delta: int, outcome: String, context: Dictionary) -> Dictionary:
     var relation: Dictionary = (enemy.get("former_kin_relationship", {}) as Dictionary).duplicate(true)
     for axis in ["trust", "respect", "fear", "resentment"]:
         relation[axis] = clampi(int(relation.get(axis, _relationship_seed(enemy, axis))) + int(delta.get(axis, 0)), 0, 100)
@@ -140,6 +146,7 @@ static func _apply_relationship_memory(enemy: Dictionary, entity_id: String, for
             "outcome": outcome,
             "relationship": relation.duplicate(true),
             "reputation_delta": reputation_delta,
+            "family_id": str(enemy.get("family_id", enemy.get("family", ""))),
             "region_id": str(context.get("region_id", AshlandsRuntime.current_zone_id))
         })
         while decisions.size() > 16:
@@ -150,7 +157,8 @@ static func _apply_relationship_memory(enemy: Dictionary, entity_id: String, for
             "run_index": RemanenceRuntime.run_index,
             "outcome": outcome,
             "relationship": relation.duplicate(true),
-            "reputation_delta": reputation_delta
+            "reputation_delta": reputation_delta,
+            "family_id": str(enemy.get("family_id", enemy.get("family", "")))
         })
 
     if entity_id != "":
@@ -159,9 +167,11 @@ static func _apply_relationship_memory(enemy: Dictionary, entity_id: String, for
             "object_id": former_id,
             "outcome": outcome,
             "relationship": relation.duplicate(true),
-            "reputation_delta": reputation_delta
+            "reputation_delta": reputation_delta,
+            "family_id": str(enemy.get("family_id", enemy.get("family", "")))
         })
     RemanenceRuntime.remanence_changed.emit()
+    return relation.duplicate(true)
 
 static func _relationship_seed(enemy: Dictionary, axis: String) -> int:
     match axis:
