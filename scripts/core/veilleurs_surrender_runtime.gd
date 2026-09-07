@@ -1,7 +1,5 @@
 extends RefCounted
 
-const FormerNemesisCombat := preload("res://scripts/core/veilleurs_former_nemesis_combat_runtime.gd")
-
 const CHOICE_ACCEPT := "accept"
 const CHOICE_REFUSE := "refuse"
 const CHOICE_NEGOTIATE := "negotiate"
@@ -14,7 +12,7 @@ static func choices(enemy: Dictionary) -> Array[Dictionary]:
         {"id": CHOICE_ACCEPT, "label": "Accepter", "summary": "Met fin au combat avec cette cible sans la recruter."},
         {"id": CHOICE_REFUSE, "label": "Refuser", "summary": "Maintient l'affrontement et durcit la mémoire de la cible."},
         {"id": CHOICE_NEGOTIATE, "label": "Négocier", "summary": "Cherche une reddition conditionnelle et améliore la relation si elle aboutit."},
-        {"id": CHOICE_RALLY, "label": "Rallier", "summary": "Tente de transformer la reddition en ralliement durable."}
+        {"id": CHOICE_RALLY, "label": "Rallier", "summary": "Transforme la reddition en ralliement durable si la cible est recrutable."}
     ]
 
 static func resolve(enemy: Dictionary, choice_id: String, context: Dictionary = {}) -> Dictionary:
@@ -70,7 +68,6 @@ static func resolve(enemy: Dictionary, choice_id: String, context: Dictionary = 
                 enemy["intent"] = "negotiation_failed"
                 outcome = "negotiation_failed"
         CHOICE_RALLY:
-            var preview := CreatureManager.capture_readiness(enemy)
             if not CreatureManager.is_capturable(enemy):
                 relationship_delta = {"trust": 0, "respect": 4, "fear": 4, "resentment": 4}
                 outcome = "rally_not_capturable"
@@ -107,8 +104,7 @@ static func resolve(enemy: Dictionary, choice_id: String, context: Dictionary = 
         "relationship_delta": relationship_delta.duplicate(true),
         "reputation_delta": reputation_delta,
         "removed_from_combat": removed_from_combat,
-        "recruited": recruited,
-        "capture_preview": CreatureManager.capture_readiness(enemy) if choice_id == CHOICE_RALLY else {}
+        "recruited": recruited
     }
 
 static func _apply_relationship_memory(enemy: Dictionary, entity_id: String, former_id: String, delta: Dictionary, reputation_delta: int, outcome: String, context: Dictionary) -> void:
