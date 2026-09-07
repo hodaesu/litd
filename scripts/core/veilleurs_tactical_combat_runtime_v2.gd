@@ -15,6 +15,7 @@ func setup_first_combat(enemy_ids: Array[String] = ["ENT_ENEMY_GOULE_AFFAMEE", "
     var result: Dictionary = super.setup_first_combat(enemy_ids)
     if not bool(result.get("ok", false)):
         return result
+    var balance: Dictionary = content_db.combat_constants.get("v061_balance", {})
     for entity_id_value: Variant in combatants.keys():
         var entity_id := str(entity_id_value)
         var row: Dictionary = combatants[entity_id]
@@ -26,6 +27,7 @@ func setup_first_combat(enemy_ids: Array[String] = ["ENT_ENEMY_GOULE_AFFAMEE", "
         row["guard_bonus"] = 0
         row["evasive_bonus"] = 0
         row["adaptations"] = []
+        row["weapon_power"] = int(balance.get("watcher_weapon_power", 30)) if str(row.get("team", "")) == "watcher" else int(balance.get("enemy_weapon_power", 42))
         combatants[entity_id] = row
     return result
 
