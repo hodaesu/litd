@@ -12,8 +12,6 @@ const WATCHER_DEFS: Array[Dictionary] = [
 var previous_party: Array = []
 var watchers_active := false
 var persistence_bridge: VeilleursVS001PersistenceBridge = null
-var launch_canvas: CanvasLayer = null
-var launch_button: Button = null
 var saved_party_position: Array = []
 
 func _ready() -> void:
@@ -27,20 +25,17 @@ func _ready() -> void:
         VeilleursVS001WorldRuntime.session_changed.connect(_on_session_changed)
     if not GameState.new_game_reset.is_connected(_on_new_game_reset):
         GameState.new_game_reset.connect(_on_new_game_reset)
-    if not GameState.screen_requested.is_connected(_on_screen_requested):
-        GameState.screen_requested.connect(_on_screen_requested)
     if not SaveManager.save_finished.is_connected(_on_save_finished):
         SaveManager.save_finished.connect(_on_save_finished)
-    call_deferred("_install_launch_ui")
 
 func start_playable() -> bool:
+    # Kept only for historical regression tests. New player entry is VeilleursPlayableBridge.
     saved_party_position.clear()
     activate_watchers_party()
     VeilleursVS001WorldRuntime.start_new_session()
     if not ExpeditionManager.expedition_active:
         ExpeditionManager.start_expedition()
     AshlandsRuntime.begin_new_expedition()
-    _sync_launch_button()
     return AshlandsSceneRouter.load_zone(VeilleursVS001WorldRuntime.ZONE_ID)
 
 func resume_playable() -> bool:
@@ -55,7 +50,6 @@ func resume_playable() -> bool:
         watchers_active = true
     if not ExpeditionManager.expedition_active:
         ExpeditionManager.start_expedition()
-    _sync_launch_button()
     return AshlandsSceneRouter.load_zone(VeilleursVS001WorldRuntime.ZONE_ID)
 
 func watcher_ids() -> Array[String]:
@@ -80,7 +74,6 @@ func activate_watchers_party() -> Array:
     GameState.battle_rounds = 0
     watchers_active = true
     GameState.state_changed.emit()
-    _sync_launch_button()
     return GameState.party
 
 func restore_previous_party() -> Array:
@@ -94,7 +87,6 @@ func restore_previous_party() -> Array:
     saved_party_position.clear()
     watchers_active = false
     GameState.state_changed.emit()
-    _sync_launch_button()
     return GameState.party
 
 func is_watcher_party_active() -> bool:
@@ -135,7 +127,6 @@ func deserialize(payload: Dictionary) -> void:
         watchers_active = false
         if persistence_bridge != null:
             persistence_bridge.reset()
-        _sync_launch_button()
         return
     previous_party = payload.get("previous_party", []).duplicate(true)
     saved_party_position = payload.get("party_position", []).duplicate(true)
@@ -156,7 +147,6 @@ func deserialize(payload: Dictionary) -> void:
     var state_value: Dictionary = VeilleursVS001WorldRuntime.snapshot()
     VeilleursVS001WorldRuntime.session_changed.emit(state_value.duplicate(true))
     GameState.state_changed.emit()
-    _sync_launch_button()
 
 func _capture_party_position() -> Array:
     if not VeilleursVS001WorldRuntime.is_active():
@@ -208,31 +198,6 @@ func _party_matches_watchers(party_value: Array) -> bool:
         actual.append(str((hero_value as Dictionary).get("id", "")))
     return actual == expected
 
-func _install_launch_ui() -> void:
-    if launch_canvas != null:
-        return
-    launch_canvas = CanvasLayer.new()
-    launch_canvas.name = "VeilleursVS001LaunchUI"
-    launch_canvas.layer = 90
-    add_child(launch_canvas)
-    launch_button = Button.new()
-    launch_button.name = "LaunchVeilleursVS001"
-    launch_button.text = "LES VEILLEURS · VS001"
-    launch_button.custom_minimum_size = Vector2(220.0, 54.0)
-    launch_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-    launch_button.position = Vector2(-244.0, 82.0)
-    launch_button.pressed.connect(_on_launch_pressed)
-    launch_canvas.add_child(launch_button)
-    _sync_launch_button()
-
-func _sync_launch_button() -> void:
-    if launch_button == null:
-        return
-    launch_button.visible = GameState.current_screen in ["title", "sanctuary"] and not watchers_active
-
-func _on_launch_pressed() -> void:
-    start_playable()
-
 func _on_session_started(_snapshot: Dictionary) -> void:
     if not is_watcher_party_active():
         activate_watchers_party()
@@ -240,9 +205,6 @@ func _on_session_started(_snapshot: Dictionary) -> void:
 func _on_session_changed(snapshot_value: Dictionary) -> void:
     if watchers_active and not bool(snapshot_value.get("active", false)):
         restore_previous_party()
-
-func _on_screen_requested(_screen_name: String) -> void:
-    call_deferred("_sync_launch_button")
 
 func _on_save_finished(_slot: int, success: bool, _recovered: bool) -> void:
     if success and SaveManager.last_operation == "load" and GameState.current_screen == "title" and VeilleursVS001WorldRuntime.is_active():
@@ -258,4 +220,3 @@ func _on_new_game_reset() -> void:
     watchers_active = false
     if persistence_bridge != null:
         persistence_bridge.reset()
-    _sync_launch_button()
