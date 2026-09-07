@@ -12,8 +12,5 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="SubmissionControl" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 0
-mouse_filter = 2
+[node name="SubmissionControl" type="Node" parent="."]
 script = ExtResource("2")
