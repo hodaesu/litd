@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif.xlsx/Profondeur_spawn",
+  "depth_rules": [
+    {"act_id":"I","depth":1,"depth_name":"Approche","threat_budget":3,"elite_chance_percent":0,"memorial_chance_percent":0,"variant_weights":{"N1":100,"N20":0,"N40":0},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"I","depth":2,"depth_name":"Entrée","threat_budget":4,"elite_chance_percent":5,"memorial_chance_percent":4,"variant_weights":{"N1":80,"N20":20,"N40":0},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"I","depth":3,"depth_name":"Profond","threat_budget":5,"elite_chance_percent":10,"memorial_chance_percent":7,"variant_weights":{"N1":55,"N20":40,"N40":5},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"I","depth":4,"depth_name":"Noyau","threat_budget":6,"elite_chance_percent":16,"memorial_chance_percent":11,"variant_weights":{"N1":30,"N20":50,"N40":20},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"I","depth":5,"depth_name":"Pré-boss","threat_budget":7,"elite_chance_percent":22,"memorial_chance_percent":15,"variant_weights":{"N1":15,"N20":45,"N40":40},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"II","depth":1,"depth_name":"Approche","threat_budget":4,"elite_chance_percent":0,"memorial_chance_percent":0,"variant_weights":{"N1":100,"N20":0,"N40":0},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"II","depth":2,"depth_name":"Entrée","threat_budget":5,"elite_chance_percent":5,"memorial_chance_percent":4,"variant_weights":{"N1":80,"N20":20,"N40":0},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"II","depth":3,"depth_name":"Profond","threat_budget":6,"elite_chance_percent":10,"memorial_chance_percent":7,"variant_weights":{"N1":55,"N20":40,"N40":5},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"II","depth":4,"depth_name":"Noyau","threat_budget":7,"elite_chance_percent":16,"memorial_chance_percent":11,"variant_weights":{"N1":30,"N20":50,"N40":20},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"II","depth":5,"depth_name":"Pré-boss","threat_budget":8,"elite_chance_percent":22,"memorial_chance_percent":15,"variant_weights":{"N1":15,"N20":45,"N40":40},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"III","depth":1,"depth_name":"Approche","threat_budget":5,"elite_chance_percent":0,"memorial_chance_percent":0,"variant_weights":{"N1":100,"N20":0,"N40":0},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"III","depth":2,"depth_name":"Entrée","threat_budget":6,"elite_chance_percent":5,"memorial_chance_percent":4,"variant_weights":{"N1":80,"N20":20,"N40":0},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"III","depth":3,"depth_name":"Profond","threat_budget":7,"elite_chance_percent":10,"memorial_chance_percent":7,"variant_weights":{"N1":55,"N20":40,"N40":5},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"III","depth":4,"depth_name":"Noyau","threat_budget":8,"elite_chance_percent":16,"memorial_chance_percent":11,"variant_weights":{"N1":30,"N20":50,"N40":20},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"III","depth":5,"depth_name":"Pré-boss","threat_budget":9,"elite_chance_percent":22,"memorial_chance_percent":15,"variant_weights":{"N1":15,"N20":45,"N40":40},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"IV","depth":1,"depth_name":"Approche","threat_budget":6,"elite_chance_percent":0,"memorial_chance_percent":0,"variant_weights":{"N1":100,"N20":0,"N40":0},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"IV","depth":2,"depth_name":"Entrée","threat_budget":7,"elite_chance_percent":5,"memorial_chance_percent":4,"variant_weights":{"N1":80,"N20":20,"N40":0},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"IV","depth":3,"depth_name":"Profond","threat_budget":8,"elite_chance_percent":10,"memorial_chance_percent":7,"variant_weights":{"N1":55,"N20":40,"N40":5},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"IV","depth":4,"depth_name":"Noyau","threat_budget":9,"elite_chance_percent":16,"memorial_chance_percent":11,"variant_weights":{"N1":30,"N20":50,"N40":20},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"IV","depth":5,"depth_name":"Pré-boss","threat_budget":10,"elite_chance_percent":22,"memorial_chance_percent":15,"variant_weights":{"N1":15,"N20":45,"N40":40},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"V","depth":1,"depth_name":"Approche","threat_budget":7,"elite_chance_percent":0,"memorial_chance_percent":0,"variant_weights":{"N1":100,"N20":0,"N40":0},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"V","depth":2,"depth_name":"Entrée","threat_budget":8,"elite_chance_percent":5,"memorial_chance_percent":4,"variant_weights":{"N1":80,"N20":20,"N40":0},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"V","depth":3,"depth_name":"Profond","threat_budget":9,"elite_chance_percent":10,"memorial_chance_percent":7,"variant_weights":{"N1":55,"N20":40,"N40":5},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"V","depth":4,"depth_name":"Noyau","threat_budget":10,"elite_chance_percent":16,"memorial_chance_percent":11,"variant_weights":{"N1":30,"N20":50,"N40":20},"max_standard_actors":4,"max_memorial_injection":1},
+    {"act_id":"V","depth":5,"depth_name":"Pré-boss","threat_budget":11,"elite_chance_percent":22,"memorial_chance_percent":15,"variant_weights":{"N1":15,"N20":45,"N40":40},"max_standard_actors":4,"max_memorial_injection":1}
+  ]
+}

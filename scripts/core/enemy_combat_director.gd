@@ -75,6 +75,16 @@ func apply_secondary(action: Dictionary, enemy: Dictionary, target: Dictionary, 
     return messages
 
 func intent_preview(enemy: Dictionary) -> String:
+    var social_state := str(enemy.get("former_kin_social_state", ""))
+    if bool(enemy.get("former_kin_surrender_available", false)):
+        return "Reconnaissance · reddition possible face à l'ancien Némésis"
+    if bool(enemy.get("former_kin_hesitate_first_turn", false)) and not bool(enemy.get("former_kin_hesitation_consumed", false)):
+        return "Reconnaissance · hésitation au premier tour"
+    if social_state == "fearful_respect":
+        return "Ancienne loyauté · peur et respect"
+    if social_state == "hostile_respect":
+        return "Ancienne loyauté · défi hostile mais respectueux"
+
     var enemy_archetype := archetype(enemy)
     var fear := int(enemy.get("enemy_fear", enemy.get("fear_gauge", 0)))
     var target_mode := str(enemy.get("remanence_target_mode", ""))

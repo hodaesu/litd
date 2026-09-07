@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=13 format=3]
 
 ; main_v37 ajoute le cycle passif/posture d'Hémocorde au-dessus de la couche clinique.
 ; main_v36 ajoute réactions, passifs et transformations des resolvers Entaille / Anatomie / Suture.
@@ -26,6 +26,8 @@
 [ext_resource path="res://scripts/ui/main_v20.gd" type="Script" id="8"]
 [ext_resource path="res://scripts/ui/main_v21.gd" type="Script" id="9"]
 [ext_resource path="res://scripts/ui/main_v22.gd" type="Script" id="10"]
+[ext_resource path="res://scripts/ui/veilleurs_surrender_choice_ui.gd" type="Script" id="11"]
+[ext_resource path="res://scripts/ui/veilleurs_nemesis_archive_chain_ui.gd" type="Script" id="12"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -38,3 +40,9 @@ script = ExtResource("1")
 
 [node name="NGPlusSkillTreeUI" type="Node" parent="."]
 script = ExtResource("2")
+
+[node name="VeilleursSurrenderChoiceUI" type="Node" parent="."]
+script = ExtResource("11")
+
+[node name="VeilleursNemesisArchiveChainUI" type="Node" parent="."]
+script = ExtResource("12")
