@@ -223,7 +223,7 @@ func surface_next() -> Dictionary:
     if surfaced_count_this_return >= current_surface_limit:
         return {"ok": false, "reason": "surface_limit_reached", "limit": current_surface_limit}
     while not queue.is_empty():
-        var memory_id := queue.pop_front()
+        var memory_id: String = str(queue.pop_front())
         var memory: Dictionary = records.get(memory_id, {})
         if memory.is_empty() or str(memory.get("state", "")) != "QUEUED":
             continue
