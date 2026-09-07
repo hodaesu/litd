@@ -1,0 +1,54 @@
+{
+  "schema_version": "0.9.0",
+  "nemesis_return": {
+    "max_injected_per_encounter": 1,
+    "eligible_stages": ["elite", "nemesis"],
+    "eligible_statuses": ["active"],
+    "same_region_preferred": true,
+    "minimum_encounters": 2,
+    "minimum_score": 10,
+    "boss_encounters_allowed": false,
+    "deterministic_tiebreak": ["stage", "score", "encounters", "id"]
+  },
+  "recruitment_decision": {
+    "post_combat_only": true,
+    "living_candidates_only": true,
+    "max_candidates_presented": 3,
+    "actions": ["recruit", "spare", "leave"],
+    "recruit_sets_remanence_status": "recruited",
+    "spare_records_event": "was_spared",
+    "leave_records_event": "left_behind"
+  },
+  "boss_phases": {
+    "thresholds_percent": [70, 35],
+    "phases": 3,
+    "telegraph_rounds": 1,
+    "bosses": {
+      "ENT_BOSS_GARDIEN_SEUIL": ["seuil_mobile", "quadrillage", "fermeture"],
+      "ENT_BOSS_CHOEUR_FENDU": ["voix_distinctes", "polyphonie", "saturation"],
+      "ENT_BOSS_MERE_MUES": ["forme_initiale", "mue_reactive", "forme_predatrice"],
+      "ENT_BOSS_JUGE_SANS_VISAGE": ["lecture", "accusation", "sentence"],
+      "ENT_BOSS_ARCHIVISTE_AVEUGLE": ["observation", "contre_adaptation", "remanence_active"]
+    }
+  },
+  "vertical_slice": {
+    "dungeon_ids": [
+      "DUNGEON_KHAR_SEN",
+      "DUNGEON_SEUIL_ERODE",
+      "DUNGEON_CLOITRE_VOIX",
+      "DUNGEON_JARDIN_MUES",
+      "DUNGEON_TRIBUNAL_CENDRES",
+      "DUNGEON_ARCHIVES_AVEUGLES"
+    ],
+    "save_version": "0.9.0",
+    "qa_requires": [
+      "dungeon_selection",
+      "node_navigation",
+      "real_tactical_combat",
+      "post_combat_recruitment",
+      "nemesis_return_visibility",
+      "boss_phase_visibility",
+      "save_resume"
+    ]
+  }
+}
