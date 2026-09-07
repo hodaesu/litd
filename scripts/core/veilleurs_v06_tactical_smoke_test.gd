@@ -26,7 +26,8 @@ func _run() -> void:
     _check(int(summary.get("watchers", 0)) == 4, "ContentDB must expose four Watchers")
     _check(int(summary.get("enemies", 0)) == 24, "ContentDB must expose 24 enemies")
     _check(int(summary.get("skills", 0)) == 180, "ContentDB must expand 180 Watcher skills")
-    _check((summary.get("grid", {}) as Dictionary) == {"width":6, "height":5}, "Tactical grid contract must be 6x5")
+    var grid_contract: Dictionary = summary.get("grid", {}) as Dictionary
+    _check(int(grid_contract.get("width", 0)) == 6 and int(grid_contract.get("height", 0)) == 5, "Tactical grid contract must be 6x5")
 
     var expected_ids := ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]
     var expected_names := ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"]
