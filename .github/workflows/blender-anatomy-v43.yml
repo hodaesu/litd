@@ -1,0 +1,49 @@
+name: Blender Anatomy v43
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'data/body_visual_runtime_v42.json'
+      - 'data/blender/anatomical_pipeline_v43.json'
+      - 'data/blender/character_jobs.json'
+      - 'data/combat_anatomy_v2.json'
+      - 'tools/blender/generate_anatomical_pipeline_v43.py'
+      - 'tools/blender/anatomical_pipeline_v43.py'
+      - 'tools/qa/anatomical_pipeline_v43_audit.py'
+      - '.github/workflows/blender-anatomy-v43.yml'
+  pull_request:
+    paths:
+      - 'data/body_visual_runtime_v42.json'
+      - 'data/blender/anatomical_pipeline_v43.json'
+      - 'data/blender/character_jobs.json'
+      - 'data/combat_anatomy_v2.json'
+      - 'tools/blender/generate_anatomical_pipeline_v43.py'
+      - 'tools/blender/anatomical_pipeline_v43.py'
+      - 'tools/qa/anatomical_pipeline_v43_audit.py'
+      - '.github/workflows/blender-anatomy-v43.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  anatomy-v43-static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compiler les scripts v43
+        run: python -m py_compile tools/blender/generate_anatomical_pipeline_v43.py tools/blender/anatomical_pipeline_v43.py tools/qa/anatomical_pipeline_v43_audit.py
+      - name: Auditer le pipeline anatomique v43
+        run: python -m tools.qa.anatomical_pipeline_v43_audit
+      - name: Générer le plan complet héros créatures boss
+        run: python -m tools.blender.generate_anatomical_pipeline_v43 --output anatomical_pipeline_jobs_v43.json
+      - name: Vérifier le plan d'un Veilleur sans Blender
+        run: python -m tools.blender.anatomical_pipeline_v43 --job-id aurelien --jobs anatomical_pipeline_jobs_v43.json --print-plan
+      - uses: actions/upload-artifact@v4
+        with:
+          name: anatomical-pipeline-v43-jobs
+          path: anatomical_pipeline_jobs_v43.json
