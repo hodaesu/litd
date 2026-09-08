@@ -1,0 +1,77 @@
+{
+  "version": 52,
+  "order": 2,
+  "id": "construct_biped",
+  "source_v51": "data/blender/master_models_v51/02_construct_biped.json",
+  "source_blend": "art/blender/animation_masters/construct_biped.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire un bipède construct ancien dont plaques, articulations et cassures restent lisibles et réellement destructibles.",
+  "blockout": [
+    "Créer un volume central massif avec bassin, thorax et tête minérale séparés.",
+    "Construire bras et jambes comme assemblages de plaques autour d'articulations visibles, sans pistons ni servo modernes.",
+    "Tester quatre silhouettes dérivables: sentinelle, exécuteur, archiviste et double du seuil.",
+    "Réserver dès le blockout les surfaces de fracture F4 et les emplacements de plaques rituelles.",
+    "Valider lecture mobile en silhouette noire avant détail."
+  ],
+  "runtime_objects": [
+    "BODY_head", "BODY_torso", "BODY_arm_left", "BODY_arm_right", "BODY_hand_left", "BODY_hand_right",
+    "BODY_leg_left", "BODY_leg_right", "BODY_foot_left", "BODY_foot_right"
+  ],
+  "stump_objects": [
+    "STUMP_arm_left", "STUMP_arm_right", "STUMP_hand_left", "STUMP_hand_right",
+    "STUMP_leg_left", "STUMP_leg_right", "STUMP_foot_left", "STUMP_foot_right"
+  ],
+  "separation_rules": [
+    "Chaque grande plaque liée à une zone runtime doit rester assignable au BODY correspondant.",
+    "Les surfaces internes cassées sont modélisées, pas seulement texturées.",
+    "Les articulations principales restent visibles au LOD2 pour expliquer une perte de membre.",
+    "Ne jamais cacher un membre complet de remplacement à l'intérieur du torse."
+  ],
+  "rig_build_order": [
+    "ROOT", "pelvis", "spine_01", "chest", "neck", "head",
+    "upperarm_l", "forearm_l", "hand_l", "upperarm_r", "forearm_r", "hand_r",
+    "thigh_l", "shin_l", "foot_l", "thigh_r", "shin_r", "foot_r"
+  ],
+  "authoring_controls": [
+    "rigid plate parent controls", "IK feet", "arm aim/guard controls", "center-of-mass control",
+    "SOCKET_weapon_l", "SOCKET_weapon_r", "ritual plate attachment controls", "archive module attachment control"
+  ],
+  "f3_pose_set": [
+    "POSE_F3_arm_left", "POSE_F3_arm_right", "POSE_F3_hand_left", "POSE_F3_hand_right",
+    "POSE_F3_leg_left", "POSE_F3_leg_right", "POSE_F3_foot_left", "POSE_F3_foot_right"
+  ],
+  "equipment_build": ["EQUIP_weapon", "EQUIP_shield_or_guard", "EQUIP_ritual_plate", "EQUIP_archive_module"],
+  "materials": {
+    "families": ["basalt", "black_stone", "hand_forged_iron", "tarnished_bronze", "aged_parchment_detail", "fracture_inner_surface"],
+    "emissive": ["muted_amber", "cold_white_when_lore_requires"],
+    "avoid": ["chrome", "clean_robotics", "neon", "modern_scifi_panels", "pistons"]
+  },
+  "lod_plan": {
+    "lod0": "28k-50k triangles depending on plate complexity",
+    "lod1": "~50% LOD0; simplify engraving and small ritual plates first",
+    "lod2": "~22% LOD0; retain joint gaps, BODY boundaries and fracture silhouette; use rigid weighting on major plates"
+  },
+  "f3_tests": [
+    "Bras: plaque présente mais bras bloqué/fissuré, sans participation à l'attaque.",
+    "Jambe: membre présent mais articulation verrouillée, centre de masse déplacé vers le côté sain.",
+    "Main/pied: extrémité présente mais inutilisable, aucune animation ne traverse le verrouillage."
+  ],
+  "f4_tests": [
+    "Remplacer chaque membre détruit par sa géométrie de cassure minérale/mécanique réelle.",
+    "Retirer tout équipement fixé au segment détruit.",
+    "Tester l'arme dans le bras restant compatible uniquement.",
+    "Vérifier que les quatre dérivés restent crédibles avec une perte asymétrique."
+  ],
+  "pc_checklist": [
+    "Créer le .blend canonique et les collections v52.",
+    "Blockout par plaques séparées avant détail.",
+    "Créer surfaces de fracture et STUMP avant UV final.",
+    "Rig avec poids rigides sur plaques majeures et déformation limitée aux joints.",
+    "Créer sockets et modules d'équipement.",
+    "Tester toutes les pertes unilatérales F3/F4.",
+    "Construire LOD1/LOD2 en conservant les joints destructibles.",
+    "Ajouter Actions P0 artistiques puis exporter/valider v49/v50."
+  ],
+  "done_when": "Le vrai construct_biped.blend possède plaques, cassures, rig, BODY/STUMP, LOD et Actions P0 réelles et passe le pipeline Godot.",
+  "gameplay_neutral": true
+}
