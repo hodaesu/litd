@@ -1,0 +1,83 @@
+name: P0 Animation Pipeline v50
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'data/blender/canonical_cast_v46.json'
+      - 'data/blender/animation_production_matrix_v45.json'
+      - 'data/blender/systemic_animation_v44.json'
+      - 'data/body_visual_runtime_v42.json'
+      - 'tools/blender/generate_animation_production_matrix_v46.py'
+      - 'tools/blender/generate_animation_batches_v47.py'
+      - 'tools/blender/generate_animation_export_plan_v48.py'
+      - 'tools/blender/animation_export_bundle_v48.py'
+      - 'tools/blender/run_animation_export_v48.py'
+      - 'tools/godot/generate_animation_import_manifest_v49.py'
+      - 'tools/godot/animation_import_validator_v49.gd'
+      - 'tools/pipeline/run_p0_animation_pipeline_v50.py'
+      - 'tools/qa/canonical_cast_v46_audit.py'
+      - 'tools/qa/animation_batches_v47_audit.py'
+      - 'tools/qa/animation_export_v48_audit.py'
+      - 'tools/qa/animation_import_v49_audit.py'
+      - 'tools/qa/p0_animation_pipeline_v50_audit.py'
+      - '.github/workflows/p0-animation-pipeline-v50.yml'
+  pull_request:
+    paths:
+      - 'tools/blender/**'
+      - 'tools/godot/**'
+      - 'tools/pipeline/**'
+      - 'tools/qa/animation_*'
+      - 'tools/qa/p0_animation_pipeline_v50_audit.py'
+      - 'data/blender/**'
+      - 'data/body_visual_runtime_v42.json'
+      - '.github/workflows/p0-animation-pipeline-v50.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  p0-animation-pipeline-v50:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compiler les scripts v47-v50
+        run: |
+          python -m py_compile \
+            tools/blender/generate_animation_batches_v47.py \
+            tools/blender/generate_animation_export_plan_v48.py \
+            tools/blender/animation_export_bundle_v48.py \
+            tools/blender/run_animation_export_v48.py \
+            tools/godot/generate_animation_import_manifest_v49.py \
+            tools/pipeline/run_p0_animation_pipeline_v50.py \
+            tools/qa/animation_batches_v47_audit.py \
+            tools/qa/animation_export_v48_audit.py \
+            tools/qa/animation_import_v49_audit.py \
+            tools/qa/p0_animation_pipeline_v50_audit.py
+      - name: Audit v47
+        run: python -m tools.qa.animation_batches_v47_audit
+      - name: Audit v48
+        run: python -m tools.qa.animation_export_v48_audit
+      - name: Audit v49
+        run: python -m tools.qa.animation_import_v49_audit
+      - name: Audit final v50
+        run: python -m tools.qa.p0_animation_pipeline_v50_audit
+      - name: Générer les trois manifestes
+        run: |
+          python -m tools.blender.generate_animation_batches_v47 --output animation_batches_v47.json
+          python -m tools.blender.generate_animation_export_plan_v48 --output animation_export_plan_v48.json
+          python -m tools.godot.generate_animation_import_manifest_v49 --output animation_import_manifest_v49.json
+      - name: Vérifier l'orchestrateur en mode sec
+        run: python -m tools.pipeline.run_p0_animation_pipeline_v50 --dry-run --blender blender --godot godot --report p0_animation_pipeline_v50_report.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p0-animation-pipeline-v50-handoff
+          path: |
+            animation_batches_v47.json
+            animation_export_plan_v48.json
+            animation_import_manifest_v49.json
+            p0_animation_pipeline_v50_report.json
