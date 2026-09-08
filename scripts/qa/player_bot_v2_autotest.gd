@@ -6,6 +6,7 @@ const MAX_ROOMS_PER_RUN := 24
 const MAX_ACTIONS_PER_COMBAT := 180
 const NO_PROGRESS_LIMIT := 18
 const MAX_LOCKED_WAIT_FRAMES := 300
+const COMBAT_POSITION_RULES := preload("res://scripts/core/combat_position_rules.gd")
 
 var failures: Array[String] = []
 var runs: Array[Dictionary] = []
@@ -184,9 +185,6 @@ func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
     var start_round := int(controller.combat_round_number)
 
     while not GameState.alive_heroes().is_empty() and not GameState.alive_enemies().is_empty() and actions < MAX_ACTIONS_PER_COMBAT:
-        # Un vrai joueur ne peut pas cliquer pendant le tour ennemi/une transition.
-        # Attendre ici empêche le bot de compter des appels immédiatement refusés
-        # par battle_locked comme des actions ou comme un faux softlock.
         if bool(controller.battle_locked):
             await get_tree().process_frame
             locked_wait_frames += 1
@@ -212,28 +210,31 @@ func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
             continue
 
         _select_lowest_hp_enemy()
-        if ContentScopeDirector.is_unlocked("capture") and _has_capturable_weakened_enemy():
-            var captured_before := CreatureManager.captured_creatures.size()
-            controller._combat_capture()
+        if ContentScopeDirector.is_unlocked("capture") and _try_real_capture():
+            actions += 1
+            _record_skill("__capture__", 0, 0)
+            last_state_signature = _combat_state_signature()
+            no_progress = 0
             await get_tree().process_frame
-            if CreatureManager.captured_creatures.size() > captured_before:
-                actions += 1
-                _record_skill("__capture__", 0, 0)
-                last_state_signature = _combat_state_signature()
-                no_progress = 0
-                continue
+            continue
 
         var choice := _choose_real_skill(hero)
-        var slot := int(choice.get("slot", 0))
-        var skill_id := str(choice.get("skill_id", "basic_strike"))
         var enemy_hp_before := _enemy_hp_total()
         var party_hp_before := _party_hp_total()
-        controller._use_combat_skill(slot)
-        await get_tree().process_frame
-        actions += 1
-        var damage := maxi(0, enemy_hp_before - _enemy_hp_total())
-        var healing := maxi(0, _party_hp_total() - party_hp_before)
-        _record_skill(skill_id, damage, healing)
+        if not bool(choice.get("usable", false)):
+            controller._pass_combat_turn()
+            await get_tree().process_frame
+            actions += 1
+            _record_skill("__pass__", 0, 0)
+        else:
+            var slot := int(choice.get("slot", 0))
+            var skill_id := str(choice.get("skill_id", "basic_strike"))
+            controller._use_combat_skill(slot)
+            await get_tree().process_frame
+            actions += 1
+            var damage := maxi(0, enemy_hp_before - _enemy_hp_total())
+            var healing := maxi(0, _party_hp_total() - party_hp_before)
+            _record_skill(skill_id, damage, healing)
 
         var signature := _combat_state_signature()
         if signature == last_state_signature:
@@ -255,12 +256,12 @@ func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
 func _choose_real_skill(hero: Dictionary) -> Dictionary:
     var loadout: Array[String] = HeroSkillManager.combat_loadout(hero)
     var injured_ratio := _lowest_party_hp_ratio()
-    var best_slot := 0
+    var best_slot := -1
     var best_score := -9999.0
     for slot in range(loadout.size()):
         var skill_id := str(loadout[slot])
         var skill := HeroSkillManager.combat_skill(hero, skill_id)
-        if skill.is_empty():
+        if skill.is_empty() or not COMBAT_POSITION_RULES.is_usable(hero, skill):
             continue
         var effect := str(skill.get("effect", "attack"))
         var score := 0.0
@@ -279,7 +280,9 @@ func _choose_real_skill(hero: Dictionary) -> Dictionary:
         if score > best_score:
             best_score = score
             best_slot = slot
-    return {"slot": best_slot, "skill_id": str(loadout[best_slot]) if best_slot < loadout.size() else "basic_strike"}
+    if best_slot < 0:
+        return {"usable": false}
+    return {"usable": true, "slot": best_slot, "skill_id": str(loadout[best_slot])}
 
 func _select_lowest_hp_enemy() -> void:
     var best_index := -1
@@ -293,14 +296,18 @@ func _select_lowest_hp_enemy() -> void:
     if best_index >= 0:
         controller.selected_enemy = best_index
 
-func _has_capturable_weakened_enemy() -> bool:
-    for enemy_value in GameState.alive_enemies():
-        var enemy: Dictionary = enemy_value
-        if not bool(enemy.get("recruitable", true)):
+func _try_real_capture() -> bool:
+    for index in range(GameState.battle_enemies.size()):
+        var enemy: Dictionary = GameState.battle_enemies[index]
+        if int(enemy.get("hp", 0)) <= 0 or not bool(enemy.get("recruitable", true)):
             continue
         var ratio := float(enemy.get("hp", 0)) / maxf(1.0, float(enemy.get("max_hp", 1)))
-        if ratio <= 0.22:
-            return true
+        if ratio > 0.22:
+            continue
+        controller.selected_enemy = index
+        var before := CreatureManager.captured_creatures.size()
+        controller._combat_capture()
+        return CreatureManager.captured_creatures.size() > before
     return false
 
 func _choose_next_room(layout: Array, current_id: String, visited: Array[String]) -> Dictionary:
