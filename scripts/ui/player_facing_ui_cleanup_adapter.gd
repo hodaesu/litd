@@ -84,7 +84,7 @@ func _bind_header_to_real_menu() -> void:
     if help_button != null:
         help_button.text = "AIDE"
         help_button.tooltip_text = "Ouvrir l'aide"
-        help_button.custom_minimum_size = Vector2(82.0, 48.0)
+        help_button.custom_minimum_size = Vector2(96.0, 48.0)
         _replace_pressed_callback(help_button, Callable(self, "_open_help"), "help_tab")
 
 func _replace_pressed_callback(button: Button, callback: Callable, target_id: String) -> void:
@@ -154,8 +154,9 @@ func _clean_sanctuary_actions() -> void:
         elif button.text == "CARACTÉRISTIQUES DU HÉROS" or button.text == "TRAITS DU VEILLEUR":
             button.text = "TRAITS DU VEILLEUR"
             button.tooltip_text = "Choisir les traits du Veilleur"
-            button.position = Vector2(1010.0, 18.0)
+            button.position = Vector2(930.0, 18.0)
             button.custom_minimum_size = Vector2(230.0, 44.0)
+            button.size = Vector2(280.0, 44.0)
             button.focus_mode = Control.FOCUS_ALL
             button.flat = true
             button.add_theme_font_size_override("font_size", 13)
