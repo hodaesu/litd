@@ -1,0 +1,53 @@
+name: Animation Production v45
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'data/blender/animation_production_matrix_v45.json'
+      - 'data/blender/systemic_animation_v44.json'
+      - 'data/blender/anatomical_pipeline_v43.json'
+      - 'data/blender/character_jobs.json'
+      - 'data/body_visual_runtime_v42.json'
+      - 'tools/blender/generate_animation_production_matrix_v45.py'
+      - 'tools/blender/generate_systemic_animation_v44.py'
+      - 'tools/blender/generate_anatomical_pipeline_v43.py'
+      - 'tools/qa/animation_production_matrix_v45_audit.py'
+      - '.github/workflows/animation-production-v45.yml'
+  pull_request:
+    paths:
+      - 'data/blender/animation_production_matrix_v45.json'
+      - 'data/blender/systemic_animation_v44.json'
+      - 'data/blender/anatomical_pipeline_v43.json'
+      - 'data/blender/character_jobs.json'
+      - 'data/body_visual_runtime_v42.json'
+      - 'tools/blender/generate_animation_production_matrix_v45.py'
+      - 'tools/blender/generate_systemic_animation_v44.py'
+      - 'tools/blender/generate_anatomical_pipeline_v43.py'
+      - 'tools/qa/animation_production_matrix_v45_audit.py'
+      - '.github/workflows/animation-production-v45.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  animation-production-v45:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compiler les scripts v45
+        run: python -m py_compile tools/blender/generate_animation_production_matrix_v45.py tools/qa/animation_production_matrix_v45_audit.py
+      - name: Auditer mutualisation retarget priorites et budget mobile
+        run: python -m tools.qa.animation_production_matrix_v45_audit
+      - name: Générer la matrice de production complète
+        run: python -m tools.blender.generate_animation_production_matrix_v45 --output animation_production_jobs_v45.json
+      - name: Afficher le résumé de production
+        run: python -m tools.blender.generate_animation_production_matrix_v45 --summary
+      - uses: actions/upload-artifact@v4
+        with:
+          name: animation-production-v45-matrix
+          path: animation_production_jobs_v45.json
