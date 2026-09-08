@@ -1,0 +1,173 @@
+{
+  "version": 42,
+  "name": "LITD Les Veilleurs - Corps visuel systemique v42",
+  "purpose": "Relier les etats corporels reels du gameplay aux segments, poses et equipements des modeles sans modifier les regles de combat.",
+  "gameplay_neutral": true,
+  "state_order": ["F0", "F1", "F2", "F3", "F4"],
+  "marker_contract": {
+    "segment_prefix": "BODY_",
+    "stump_prefix": "STUMP_",
+    "f3_pose_prefix": "POSE_F3_",
+    "equipment_prefix": "EQUIP_",
+    "segment_meta": "litd_body_part",
+    "stump_meta": "litd_stump_for",
+    "equipment_part_meta": "litd_equipment_for",
+    "equipment_role_meta": "litd_equipment_role",
+    "weapon_role": "weapon",
+    "weapon_sockets": {
+      "left": "SOCKET_weapon_l",
+      "right": "SOCKET_weapon_r"
+    }
+  },
+  "injury_state_map": {
+    "f0": "F0",
+    "functional": "F0",
+    "healthy": "F0",
+    "fonctionnel": "F0",
+    "minor": "F1",
+    "injured": "F1",
+    "wounded": "F1",
+    "degraded": "F1",
+    "degrade": "F1",
+    "major": "F2",
+    "severe": "F2",
+    "very_degraded": "F2",
+    "tres_degrade": "F2",
+    "critical": "F3",
+    "disabled": "F3",
+    "unusable": "F3",
+    "inutilisable": "F3",
+    "destroyed": "F4",
+    "amputated": "F4",
+    "missing": "F4",
+    "severed": "F4",
+    "detruit": "F4",
+    "ampute": "F4"
+  },
+  "morphologies": {
+    "HUMANOID": {
+      "parts": ["head", "torso", "arm_left", "arm_right", "hand_left", "hand_right", "leg_left", "leg_right", "foot_left", "foot_right"],
+      "aliases": {
+        "head": ["head", "tete"],
+        "torso": ["torso", "trunk", "chest", "thorax", "torse"],
+        "arm_left": ["arm_left", "left_arm", "upper_arm_left", "upper_arm_l", "bras_gauche", "bras_g"],
+        "arm_right": ["arm_right", "right_arm", "upper_arm_right", "upper_arm_r", "bras_droit", "bras_d"],
+        "hand_left": ["hand_left", "left_hand", "hand_l", "main_gauche", "main_g"],
+        "hand_right": ["hand_right", "right_hand", "hand_r", "main_droite", "main_d"],
+        "leg_left": ["leg_left", "left_leg", "thigh_left", "thigh_l", "jambe_gauche", "jambe_g"],
+        "leg_right": ["leg_right", "right_leg", "thigh_right", "thigh_r", "jambe_droite", "jambe_d"],
+        "foot_left": ["foot_left", "left_foot", "foot_l", "pied_gauche", "pied_g"],
+        "foot_right": ["foot_right", "right_foot", "foot_r", "pied_droit", "pied_d"]
+      },
+      "dependencies": {
+        "arm_left": ["hand_left"],
+        "arm_right": ["hand_right"],
+        "leg_left": ["foot_left"],
+        "leg_right": ["foot_right"]
+      },
+      "weapon_transfer": "opposite_functional_hand",
+      "weapon_side_mode": "all",
+      "weapon_side_requirements": {
+        "left": ["arm_left", "hand_left"],
+        "right": ["arm_right", "hand_right"]
+      }
+    },
+    "HUMANOID_ABERRANT": {
+      "inherit": "HUMANOID",
+      "weapon_transfer": "declared_manipulators_only"
+    },
+    "HUMANOID_FLESH": {
+      "inherit": "HUMANOID",
+      "weapon_transfer": "declared_manipulators_only"
+    },
+    "HUMANOID_MASSIVE": {
+      "inherit": "HUMANOID",
+      "weapon_transfer": "opposite_functional_hand"
+    },
+    "CONSTRUCT_HUMANOID": {
+      "inherit": "HUMANOID",
+      "weapon_transfer": "compatible_remaining_arm"
+    },
+    "SERPENTINE_ORGANIC": {
+      "parts": ["head", "anterior", "midbody", "posterior", "tail", "manipulator_left", "manipulator_right"],
+      "aliases": {
+        "head": ["head", "tete"],
+        "anterior": ["anterior", "front_body", "corps_avant"],
+        "midbody": ["midbody", "body_mid", "corps_median"],
+        "posterior": ["posterior", "rear_body", "corps_arriere"],
+        "tail": ["tail", "queue"],
+        "manipulator_left": ["manipulator_left", "left_manipulator", "appendage_left"],
+        "manipulator_right": ["manipulator_right", "right_manipulator", "appendage_right"]
+      },
+      "dependencies": {},
+      "weapon_transfer": "declared_manipulators_only",
+      "weapon_side_mode": "all",
+      "weapon_side_requirements": {
+        "left": ["manipulator_left"],
+        "right": ["manipulator_right"]
+      }
+    },
+    "AMORPHOUS_ORGANIC": {
+      "parts": ["core", "mass_front", "mass_mid", "mass_rear", "organ_1", "organ_2"],
+      "aliases": {
+        "core": ["core", "noyau"],
+        "mass_front": ["mass_front", "masse_avant"],
+        "mass_mid": ["mass_mid", "masse_mediane"],
+        "mass_rear": ["mass_rear", "masse_arriere"],
+        "organ_1": ["organ_1", "organe_1"],
+        "organ_2": ["organ_2", "organe_2"]
+      },
+      "dependencies": {},
+      "weapon_transfer": "none",
+      "weapon_side_requirements": {}
+    },
+    "INSECTOID_ORGANIC": {
+      "parts": ["head", "thorax", "abdomen", "manipulator_left_1", "manipulator_right_1", "manipulator_left_2", "manipulator_right_2", "leg_left_1", "leg_right_1", "leg_left_2", "leg_right_2", "leg_left_3", "leg_right_3"],
+      "aliases": {
+        "head": ["head", "tete"],
+        "thorax": ["thorax"],
+        "abdomen": ["abdomen"],
+        "manipulator_left_1": ["manipulator_left_1", "left_manipulator_1", "appendage_left_1"],
+        "manipulator_right_1": ["manipulator_right_1", "right_manipulator_1", "appendage_right_1"],
+        "manipulator_left_2": ["manipulator_left_2", "left_manipulator_2", "appendage_left_2"],
+        "manipulator_right_2": ["manipulator_right_2", "right_manipulator_2", "appendage_right_2"],
+        "leg_left_1": ["leg_left_1", "left_leg_1"],
+        "leg_right_1": ["leg_right_1", "right_leg_1"],
+        "leg_left_2": ["leg_left_2", "left_leg_2"],
+        "leg_right_2": ["leg_right_2", "right_leg_2"],
+        "leg_left_3": ["leg_left_3", "left_leg_3"],
+        "leg_right_3": ["leg_right_3", "right_leg_3"]
+      },
+      "dependencies": {},
+      "weapon_transfer": "compatible_remaining_manipulator",
+      "weapon_side_mode": "any",
+      "weapon_side_requirements": {
+        "left": ["manipulator_left_1", "manipulator_left_2"],
+        "right": ["manipulator_right_1", "manipulator_right_2"]
+      }
+    },
+    "QUADRUPED_ORGANIC": {
+      "parts": ["head", "torso", "front_leg_left", "front_leg_right", "rear_leg_left", "rear_leg_right", "tail"],
+      "aliases": {
+        "head": ["head", "tete"],
+        "torso": ["torso", "trunk", "torse"],
+        "front_leg_left": ["front_leg_left", "left_front_leg", "patte_avant_gauche"],
+        "front_leg_right": ["front_leg_right", "right_front_leg", "patte_avant_droite"],
+        "rear_leg_left": ["rear_leg_left", "left_rear_leg", "patte_arriere_gauche"],
+        "rear_leg_right": ["rear_leg_right", "right_rear_leg", "patte_arriere_droite"],
+        "tail": ["tail", "queue"]
+      },
+      "dependencies": {},
+      "weapon_transfer": "none",
+      "weapon_side_requirements": {}
+    },
+    "BOSS_CUSTOM": {
+      "parts": [],
+      "aliases": {},
+      "dependencies": {},
+      "weapon_transfer": "none",
+      "weapon_side_requirements": {},
+      "declared_markers_only": true
+    }
+  }
+}
