@@ -1,0 +1,49 @@
+name: Animation Batches v47
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'data/blender/canonical_cast_v46.json'
+      - 'data/blender/animation_production_matrix_v45.json'
+      - 'data/blender/systemic_animation_v44.json'
+      - 'data/body_visual_runtime_v42.json'
+      - 'tools/blender/generate_animation_production_matrix_v46.py'
+      - 'tools/blender/generate_animation_batches_v47.py'
+      - 'tools/qa/animation_batches_v47_audit.py'
+      - '.github/workflows/animation-batches-v47.yml'
+  pull_request:
+    paths:
+      - 'data/blender/canonical_cast_v46.json'
+      - 'data/blender/animation_production_matrix_v45.json'
+      - 'data/blender/systemic_animation_v44.json'
+      - 'data/body_visual_runtime_v42.json'
+      - 'tools/blender/generate_animation_production_matrix_v46.py'
+      - 'tools/blender/generate_animation_batches_v47.py'
+      - 'tools/qa/animation_batches_v47_audit.py'
+      - '.github/workflows/animation-batches-v47.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  animation-batches-v47:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compiler les scripts v47
+        run: python -m py_compile tools/blender/generate_animation_batches_v47.py tools/qa/animation_batches_v47_audit.py
+      - name: Auditer la couverture et l'ordre des 320 P0
+        run: python -m tools.qa.animation_batches_v47_audit
+      - name: Générer le manifeste des lots Blender P0
+        run: python -m tools.blender.generate_animation_batches_v47 --output animation_batches_v47.json
+      - name: Résumé v47
+        run: python -m tools.blender.generate_animation_batches_v47 --summary
+      - uses: actions/upload-artifact@v4
+        with:
+          name: animation-batches-v47
+          path: animation_batches_v47.json
