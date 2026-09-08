@@ -1,0 +1,55 @@
+{
+  "version": 52,
+  "order": 9,
+  "id": "boss_orateur_sans_voix",
+  "source_v51": "data/blender/master_models_v51/09_boss_orateur_sans_voix.json",
+  "source_blend": "art/blender/bosses/orateur_sans_voix/orateur_sans_voix_animation_master.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire l'Orateur Sans Voix comme humanoïde creux cérémoniel dont thorax, noyau creux et deux résonateurs sont lisibles et destructibles indépendamment.",
+  "blockout": [
+    "Créer une silhouette humanoïde haute et creuse, avec thorax ouvert ou évidé lisible sans transparence complexe.",
+    "Bloquer HEAD_CAVITY et HOLLOW_CORE comme deux volumes distincts, le second occupant le centre thoracique.",
+    "Créer RESONATOR_L et RESONATOR_R comme chambres anatomiques latérales visibles, non comme haut-parleurs ou gadgets.",
+    "Bloquer bras et jambes assez fins pour soutenir la gestuelle oratoire sans perdre la menace.",
+    "Tester une pose de discours figée, une pose d'attaque gestuelle et une asymétrie après perte d'un résonateur.",
+    "Ajouter tissus usés et bronze seulement après validation des cavités."
+  ],
+  "runtime_objects": ["BODY_HEAD_CAVITY", "BODY_HOLLOW_CORE", "BODY_RESONATOR_L", "BODY_RESONATOR_R", "BODY_ARM_L", "BODY_ARM_R", "BODY_LEG_L", "BODY_LEG_R"],
+  "stump_or_break_objects": ["STUMP_HEAD_CAVITY", "STUMP_HOLLOW_CORE", "STUMP_RESONATOR_L", "STUMP_RESONATOR_R", "STUMP_ARM_L", "STUMP_ARM_R", "STUMP_LEG_L", "STUMP_LEG_R"],
+  "rig_build_order": ["ROOT", "pelvis", "spine", "hollow_core", "neck", "head_cavity", "resonator_l", "resonator_r", "arm_l_chain", "arm_r_chain", "leg_l_chain", "leg_r_chain"],
+  "authoring_controls": [
+    "orator gesture controls for both arms", "hollow torso expansion/compression control", "left/right resonator controls",
+    "head cavity aim", "leg asymmetry controls", "phase controls that preserve destroyed parts"
+  ],
+  "materials": {
+    "families": ["ash_dark", "aged_bone_or_pale_inner_surface", "worn_cloth", "oxidized_bronze", "scarred_inner_cavity"],
+    "avoid": ["microphone", "speaker_scifi", "neon_waveform", "modern_armor", "glowing_equalizer"]
+  },
+  "lod_plan": {
+    "lod0": "42k-70k triangles",
+    "lod1": "~50% LOD0; preserve hollow torso silhouette and both resonators",
+    "lod2": "~22% LOD0; bake interior micro-detail but keep cavities, resonators and eight damage boundaries physically readable"
+  },
+  "f3_tests": [
+    "RESONATOR_L/R F3: chambre visible mais geste/résonance locale neutralisés; l'autre côté reste actif.",
+    "Bras F3: conserver le membre mais casser la symétrie de gestuelle oratoire.",
+    "Jambe F3: posture décalée et appui réduit sans effondrer le thorax creux.",
+    "HOLLOW_CORE F3: mouvement thoracique dégradé sans simple changement d'émissif."
+  ],
+  "f4_tests": [
+    "Supprimer chaque résonateur séparément et tester toutes les Actions P0 correspondantes.",
+    "Perte d'un bras: gestuelle de discours devient unilatérale et les attaques exigeant deux bras doivent le montrer.",
+    "Perte jambe: conserver présence cérémonielle mais locomotion/posture réellement asymétrique.",
+    "Phase transition avec un résonateur ou membre détruit ne doit jamais restaurer la géométrie."
+  ],
+  "pc_checklist": [
+    "Blockout des cavités et résonateurs avant costume.",
+    "Créer huit BODY et surfaces de rupture/STUMP.",
+    "Rig thorax creux + résonateurs + bras de gestuelle.",
+    "Tester lecture gauche/droite à distance gameplay.",
+    "Ajouter tissus/bronze, UV, LOD après validation fonctionnelle.",
+    "Auteur Actions P0 boss réelles et tester pertes avant export v49/v50."
+  ],
+  "done_when": "Le vrai Orateur Sans Voix possède huit zones indépendantes, gestuelle réellement altérée par F3/F4 et Actions P0 validées dans Godot.",
+  "gameplay_neutral": true
+}
