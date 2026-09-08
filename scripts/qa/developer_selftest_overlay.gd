@@ -16,7 +16,6 @@ var step_label: Label
 var screen_label: Label
 var timer_label: Label
 var note_edit: LineEdit
-var toggle_button: Button
 
 func _ready() -> void:
     if not OS.get_cmdline_user_args().has(FLAG):
@@ -34,7 +33,7 @@ func _ready() -> void:
     _refresh()
 
 func _process(_delta: float) -> void:
-    if not visible:
+    if not visible or panel == null or not panel.visible:
         return
     timer_label.text = "Temps : %s" % _format_seconds(_elapsed_seconds())
     screen_label.text = "Écran : %s" % str(GameState.current_screen)
@@ -47,7 +46,8 @@ func _load_contract() -> Dictionary:
     if typeof(parsed) != TYPE_DICTIONARY:
         push_error("DeveloperSelftestOverlay: contrat invalide")
         return {}
-    return parsed as Dictionary
+    var parsed_dict: Dictionary = parsed
+    return parsed_dict
 
 func _build_ui() -> void:
     panel = PanelContainer.new()
@@ -107,11 +107,11 @@ func _build_ui() -> void:
     next_button.pressed.connect(_on_next_step)
     actions.add_child(next_button)
 
-    toggle_button = Button.new()
-    toggle_button.text = "MASQUER"
-    toggle_button.custom_minimum_size = Vector2(110, 44)
-    toggle_button.pressed.connect(_toggle_panel)
-    actions.add_child(toggle_button)
+    var hide_button := Button.new()
+    hide_button.text = "MASQUER (F10)"
+    hide_button.custom_minimum_size = Vector2(126, 44)
+    hide_button.pressed.connect(_toggle_panel)
+    actions.add_child(hide_button)
 
 func _refresh() -> void:
     if steps.is_empty():
@@ -136,7 +136,8 @@ func _refresh() -> void:
 func _on_next_step() -> void:
     if steps.is_empty() or completed:
         return
-    var step: Dictionary = steps[clampi(current_step, 0, steps.size() - 1)]
+    var index := clampi(current_step, 0, steps.size() - 1)
+    var step: Dictionary = steps[index]
     _record("step_completed", str(step.get("id", "unknown")))
     if current_step >= steps.size() - 1:
         completed = true
@@ -145,7 +146,8 @@ func _on_next_step() -> void:
         _save_report()
         return
     current_step += 1
-    _record("step_started", str((steps[current_step] as Dictionary).get("id", "unknown")))
+    var next_step: Dictionary = steps[current_step]
+    _record("step_started", str(next_step.get("id", "unknown")))
     _refresh()
 
 func _on_issue() -> void:
@@ -157,14 +159,15 @@ func _on_issue() -> void:
 
 func _toggle_panel() -> void:
     panel.visible = not panel.visible
-    # Le bouton appartient au panel : F10 reste le raccourci de rappel lorsque masqué.
 
 func _unhandled_input(event: InputEvent) -> void:
     if not OS.get_cmdline_user_args().has(FLAG):
         return
-    if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F10:
-        panel.visible = not panel.visible
-        get_viewport().set_input_as_handled()
+    if event is InputEventKey:
+        var key_event := event as InputEventKey
+        if key_event.pressed and not key_event.echo and key_event.keycode == KEY_F10:
+            panel.visible = not panel.visible
+            get_viewport().set_input_as_handled()
 
 func _on_screen_requested(screen_name: String) -> void:
     _record("screen", screen_name)
@@ -173,7 +176,8 @@ func _record(kind: String, note: String) -> void:
     var step_id := ""
     if not steps.is_empty():
         var index := clampi(current_step, 0, steps.size() - 1)
-        step_id = str((steps[index] as Dictionary).get("id", ""))
+        var step: Dictionary = steps[index]
+        step_id = str(step.get("id", ""))
     events.append({
         "type": kind,
         "note": note,
@@ -205,4 +209,4 @@ func _elapsed_seconds() -> float:
 
 func _format_seconds(value: float) -> String:
     var total := maxi(0, int(value))
-    return "%02d:%02d" % [total / 60, total % 60]
+    return "%02d:%02d" % [int(total / 60), total % 60]
