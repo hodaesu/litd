@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "contract": "data/veilleurs/player_validation_contract.json",
+  "project": "LITD : Les Veilleurs",
+  "chapter": "Chapitre I — Survivre aux Terres de Cendre",
+  "build_commit": "",
+  "tested_at": "",
+  "testers": [],
+  "notes": [],
+  "gates": [
+    {"id": "combat_decision_readability", "status": "NOT_RUN", "evidence": {}, "notes": []},
+    {"id": "anatomy_causality", "status": "NOT_RUN", "evidence": {}, "notes": []},
+    {"id": "fear_madness_clarity", "status": "NOT_RUN", "evidence": {}, "notes": []},
+    {"id": "exploration_route_clarity", "status": "NOT_RUN", "evidence": {}, "notes": []},
+    {"id": "sanctuary_consequence_loop", "status": "NOT_RUN", "evidence": {}, "notes": []},
+    {"id": "first_session_onboarding", "status": "NOT_RUN", "evidence": {}, "notes": []},
+    {"id": "art_in_context_readability", "status": "NOT_RUN", "evidence": {}, "notes": []},
+    {"id": "real_mobile_interaction", "status": "NOT_RUN", "evidence": {}, "notes": []}
+  ]
+}
