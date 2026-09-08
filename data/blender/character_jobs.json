@@ -5,7 +5,7 @@
     {
       "job_id": "character_aurelien",
       "character_id": "aurelien",
-      "name": "Aurélien",
+      "name": "Sahen Varo",
       "category": "hero",
       "archetype": "occultist",
       "reference_art": "assets/heroes/occultist.webp",
@@ -54,7 +54,7 @@
     {
       "job_id": "character_malvor",
       "character_id": "malvor",
-      "name": "Malvor",
+      "name": "Mira Sen",
       "category": "hero",
       "archetype": "breaker",
       "reference_art": "assets/heroes/breaker.webp",
@@ -103,7 +103,7 @@
     {
       "job_id": "character_lysandra",
       "character_id": "lysandra",
-      "name": "Lysandra",
+      "name": "Narem Osh",
       "category": "hero",
       "archetype": "vestal",
       "reference_art": "assets/heroes/vestal.webp",
@@ -152,7 +152,7 @@
     {
       "job_id": "character_darius",
       "character_id": "darius",
-      "name": "Darius",
+      "name": "Ysra Nahal",
       "category": "hero",
       "archetype": "watcher",
       "reference_art": "assets/heroes/watcher.webp",
