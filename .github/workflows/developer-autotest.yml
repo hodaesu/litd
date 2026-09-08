@@ -20,9 +20,16 @@ on:
 permissions:
   contents: read
 
+# Un nouveau commit rend les anciens diagnostics de cette branche obsolètes.
+# On annule donc les runs précédents au lieu de saturer la file GitHub Actions.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   fast-contracts:
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     container:
       image: barichello/godot-ci:4.7.2
     steps:
@@ -39,18 +46,24 @@ jobs:
       - name: "Bot v10 : smoke UI Sanctuaire"
         if: always()
         run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v10_sanctuary_ui_smoke.tscn
+      - name: "Bot v11 : fuzzing déterministe des invariants tactiques"
+        if: always()
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v11_tactical_property_fuzzer.tscn
       - name: Publier les rapports rapides
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: developer-autotest-fast-contracts
+          retention-days: 14
           path: |
             reports/player-bot-v8-fast-combat-contract.json
             reports/player-bot-v9-save-integrity.json
             reports/player-bot-v10-sanctuary-ui-smoke.json
+            reports/player-bot-v11-tactical-property-fuzzer.json
 
   combat-core:
     runs-on: ubuntu-latest
+    timeout-minutes: 16
     container:
       image: barichello/godot-ci:4.7.2
     steps:
@@ -75,6 +88,7 @@ jobs:
         if: always()
         with:
           name: developer-autotest-combat-core
+          retention-days: 14
           path: |
             reports/developer-autotest-godot.json
             reports/player-bot-autotest.json
@@ -83,6 +97,7 @@ jobs:
 
   combat-matrix:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     container:
       image: barichello/godot-ci:4.7.2
     steps:
@@ -98,10 +113,12 @@ jobs:
         if: always()
         with:
           name: developer-autotest-combat-matrix
+          retention-days: 14
           path: reports/player-bot-v4-factorial-matrix.json
 
   campaign-bots:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     container:
       image: barichello/godot-ci:4.7.2
     steps:
@@ -120,12 +137,14 @@ jobs:
         if: always()
         with:
           name: developer-autotest-campaigns
+          retention-days: 14
           path: |
             reports/player-bot-v5-longitudinal-campaign.json
             reports/player-bot-v6-real-campaign.json
 
   sanctuary-bot:
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     container:
       image: barichello/godot-ci:4.7.2
     steps:
@@ -141,10 +160,12 @@ jobs:
         if: always()
         with:
           name: developer-autotest-sanctuary
+          retention-days: 14
           path: reports/player-bot-v7-sanctuary-economy.json
 
   deterministic-batch-telemetry:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -170,6 +191,7 @@ jobs:
         if: always()
         with:
           name: developer-autotest-telemetry
+          retention-days: 14
           path: |
             reports/developer-autotest-telemetry-*.json
             reports/developer-autotest-telemetry-*.csv
