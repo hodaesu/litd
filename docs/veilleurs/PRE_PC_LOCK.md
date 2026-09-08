@@ -17,7 +17,7 @@ Le gate pré-PC contrôle notamment :
 - quatuor **player-facing canonique** : Nayra Orun, Tarek Senn, Aïsha Maren et Idris Vael ;
 - IDs d’entité canoniques `ENT_WATCHER_NAYRA`, `ENT_WATCHER_TAREK`, `ENT_WATCHER_AISHA`, `ENT_WATCHER_IDRIS` ;
 - runtime IDs canoniques `nayra_orun`, `tarek_senn`, `aisha_maren`, `idris_vael` ;
-- interdiction des anciens IDs `ENT_WATCHER_SAHEN`, `ENT_WATCHER_MIRA`, `ENT_WATCHER_NAREM`, `ENT_WATCHER_YSRA` hors gardes négatives prévues ;
+- interdiction des anciens IDs définis par `forbidden_stale_runtime_ids` dans le contrat pré-PC, hors gardes négatives prévues ;
 - six donjons de production ;
 - contrats QA v0.6 → v0.9 ;
 - 12 ultimes et leurs slots de production ;
