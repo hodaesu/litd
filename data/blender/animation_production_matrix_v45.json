@@ -1,0 +1,161 @@
+{
+  "version": 45,
+  "name": "LITD Les Veilleurs - Matrice de production des animations v45",
+  "purpose": "Réduire le nombre d'animations à fabriquer à la main en mutualisant et retargetant les mouvements compatibles, tout en préservant les silhouettes, morphologies et animations réellement signatures.",
+  "gameplay_neutral": true,
+  "sources": {
+    "systemic_animation": "data/blender/systemic_animation_v44.json",
+    "anatomy_pipeline": "data/blender/anatomical_pipeline_v43.json",
+    "character_jobs": "data/blender/character_jobs.json"
+  },
+  "priority_tiers": {
+    "P0": {
+      "label": "playtest_mobile",
+      "goal": "Tout ce qui doit être visible pour tester exploration, combat, blessures F0-F4 et mort sur mobile.",
+      "must_ship_before_p1": true
+    },
+    "P1": {
+      "label": "vertical_slice",
+      "goal": "Variantes de locomotion, transitions corporelles et diversité visuelle nécessaires à une démo représentative.",
+      "must_ship_before_p2": true
+    },
+    "P2": {
+      "label": "release_polish",
+      "goal": "Animations signatures, variantes rares, boss, ultimes et polish qui ne bloquent pas le playtest.",
+      "must_ship_before_p3": false
+    }
+  },
+  "retarget_families": {
+    "humanoid_standard": {
+      "morphologies": ["HUMANOID", "HUMANOID_ABERRANT", "HUMANOID_FLESH"],
+      "share_base_locomotion": true,
+      "share_body_states_f0_f2": true,
+      "mirror_left_right": true,
+      "allow_proportional_retarget": true
+    },
+    "humanoid_massive": {
+      "morphologies": ["HUMANOID_MASSIVE"],
+      "share_base_locomotion": true,
+      "share_body_states_f0_f2": true,
+      "mirror_left_right": true,
+      "allow_proportional_retarget": true
+    },
+    "construct_biped": {
+      "morphologies": ["CONSTRUCT_HUMANOID"],
+      "share_base_locomotion": true,
+      "share_body_states_f0_f2": true,
+      "mirror_left_right": true,
+      "allow_proportional_retarget": false
+    },
+    "serpentine": {
+      "morphologies": ["SERPENTINE_ORGANIC"],
+      "share_base_locomotion": true,
+      "share_body_states_f0_f2": true,
+      "mirror_left_right": false,
+      "allow_proportional_retarget": false
+    },
+    "amorphous": {
+      "morphologies": ["AMORPHOUS_ORGANIC"],
+      "share_base_locomotion": true,
+      "share_body_states_f0_f2": true,
+      "mirror_left_right": false,
+      "allow_proportional_retarget": false
+    },
+    "insectoid": {
+      "morphologies": ["INSECTOID_ORGANIC"],
+      "share_base_locomotion": true,
+      "share_body_states_f0_f2": true,
+      "mirror_left_right": true,
+      "allow_proportional_retarget": false
+    },
+    "quadruped": {
+      "morphologies": ["QUADRUPED_ORGANIC"],
+      "share_base_locomotion": true,
+      "share_body_states_f0_f2": true,
+      "mirror_left_right": true,
+      "allow_proportional_retarget": true
+    },
+    "boss_custom": {
+      "morphologies": ["BOSS_CUSTOM"],
+      "share_base_locomotion": false,
+      "share_body_states_f0_f2": false,
+      "mirror_left_right": false,
+      "allow_proportional_retarget": false
+    }
+  },
+  "production_modes": {
+    "RETARGET_SHARED": "Un clip maître par famille de retarget, réutilisé sur tous les personnages compatibles.",
+    "RETARGET_SEMANTIC": "Un clip maître par famille + rôle anatomique sémantique; gauche/droite peut être miroir si autorisé.",
+    "PROCEDURAL_BLEND": "Variation obtenue par paramètres AnimationTree, IK, vitesse, amplitude ou blend; pas de nouveau clip complet.",
+    "BESPOKE": "Animation réellement unique, autorisée seulement lorsqu'une identité, une morphologie ou une mise en scène l'exige."
+  },
+  "role_policy": {
+    "base": "RETARGET_SHARED",
+    "global_state": "RETARGET_SHARED",
+    "equipment_fallback": "RETARGET_SHARED",
+    "pose": "RETARGET_SEMANTIC",
+    "transition": "RETARGET_SEMANTIC",
+    "locomotion": "RETARGET_SEMANTIC"
+  },
+  "semantic_part_classes": {
+    "upper_manipulator": ["arm", "hand", "manipulator", "claw", "appendage", "jaw"],
+    "lower_locomotor": ["leg", "foot", "front_leg", "rear_leg", "walking", "support"],
+    "axial_locomotor": ["tail", "midbody", "posterior"],
+    "core": ["torso", "chest", "thorax", "abdomen", "pelvis", "core", "mass", "trunk"],
+    "head_sensory": ["head", "skull", "face", "eye", "sensor", "interface"],
+    "boss_mechanism": ["anchor", "plate", "matrix", "chamber", "conduit", "mantle", "fold", "shell", "procession"]
+  },
+  "mirror_policy": {
+    "normalize_side_in_canonical_key": true,
+    "left_tokens": ["left", "_l"],
+    "right_tokens": ["right", "_r"],
+    "never_mirror_boss_custom": true,
+    "never_mirror_asymmetric_signature": true
+  },
+  "skill_animation_policy": {
+    "normal_skill_default": "Composer une compétence à partir d'un mouvement maître, d'un timing, d'une pose de contact, d'un déplacement et des VFX; ne pas créer automatiquement un clip unique par compétence.",
+    "normal_skill_unique_clip_only_if": ["silhouette_incompatible", "weapon_mechanic_unique", "narrative_signature", "morphology_requires_it"],
+    "ultimate": "BESPOKE",
+    "boss_signature": "BESPOKE",
+    "boss_phase_transition": "BESPOKE",
+    "hit_reaction": "RETARGET_SEMANTIC",
+    "death": "RETARGET_SHARED_WITH_VARIANTS"
+  },
+  "priority_rules": {
+    "P0_action_names": ["idle", "move", "combat_idle", "hit_react", "death", "body_f0", "body_f1", "body_f2", "combat_idle_1h_left", "combat_idle_1h_right"],
+    "P0_roles": ["base", "global_state", "equipment_fallback"],
+    "P1_roles": ["pose", "transition", "locomotion"],
+    "P2_categories": ["boss"],
+    "f3_f4_primary_limb_is_p0": true
+  },
+  "mobile_budget": {
+    "target_fps": 60,
+    "minimum_fps": 30,
+    "max_simultaneous_full_body_animators": 8,
+    "prefer_animation_tree_blends_over_duplicate_clips": true,
+    "prefer_mirrored_clip_over_second_authored_clip": true,
+    "prefer_retarget_over_character_copy": true,
+    "keyframe_reduction_required": true,
+    "root_motion_policy": "minimal; gameplay displacement remains authoritative",
+    "clip_compression_policy": "aggressive_on_mobile_except_signature_closeups",
+    "lod_animation": {
+      "near": "full",
+      "mid": "reduced_update_rate",
+      "far": "simplified_or_frozen_when_safe"
+    }
+  },
+  "quality_gates": {
+    "minimum_reuse_ratio": 0.5,
+    "block_duplicate_character_specific_copy_of_shared_clip": true,
+    "block_bespoke_without_reason": true,
+    "block_p1_before_all_p0_has_owner": true,
+    "block_final_if_placeholder_v44_action_remains": true,
+    "require_mobile_budget_tag": true,
+    "require_source_and_target_retarget_family": true
+  },
+  "handoff": {
+    "generate_command": "python -m tools.blender.generate_animation_production_matrix_v45",
+    "audit_command": "python -m tools.qa.animation_production_matrix_v45_audit",
+    "output": "data/blender/animation_production_jobs_v45.json"
+  }
+}
