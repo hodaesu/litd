@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "thresholds": {
+    "v4_companion_win_rate_gap_max": 0.30,
+    "v4_factor_gap_max": 0.35,
+    "v6_min_victories_for_economy_checks": 3,
+    "v7_min_cycles": 250,
+    "v7_max_failures": 0,
+    "v11_min_property_checks": 15000,
+    "v11_max_failures": 0
+  },
+  "notes": "Guard rails, not final balance targets. Tighten only after clean production telemetry is stable."
+}
