@@ -1,0 +1,149 @@
+{
+  "version": 41,
+  "name": "LITD Les Veilleurs - Direction artistique canonique v41",
+  "purpose": "Séparer définitivement la direction artistique du gameplay afin de pouvoir remplacer progressivement tous les placeholders sans modifier les règles de jeu.",
+  "gameplay_guarantee": {
+    "may_change": ["palette", "typography", "materials", "backgrounds", "portraits", "icons", "ornaments", "visual_feedback", "body_diagrams", "presentation_layout"],
+    "must_not_change": ["damage", "accuracy", "turn_order", "action_cost", "capture_rules", "permadeath", "injury_rules", "skill_rules", "economy", "save_data"],
+    "asset_swap_rule": "Un asset visuel peut être remplacé à chaud tant que son slot canonique, son ratio et ses ancres restent compatibles."
+  },
+  "visual_identity": {
+    "keywords": ["dark_fantasy", "ashes", "worn_bronze", "blackened_wood", "aged_parchment", "blood_red", "ember_amber", "ritual_restraint", "readable_mobile"],
+    "quality_priority": ["silhouette", "materials", "lighting", "composition", "animation_readability", "micro_detail"],
+    "avoid": ["clean_scifi", "plastic_ui", "neon_palette", "generic_mobile_cards", "bright_fantasy", "rectangular_location_buttons"]
+  },
+  "tokens": {
+    "colors": {
+      "ash_black": "#111116",
+      "charcoal": "#1C1B1F",
+      "soot_panel": "#252329",
+      "worn_bronze": "#A9854B",
+      "pale_bronze": "#D3B675",
+      "bone_text": "#E8DFC9",
+      "muted_text": "#A79E90",
+      "blood_red": "#772C2B",
+      "deep_blood": "#43191A",
+      "ember_amber": "#C9863E",
+      "hope_amber": "#E0B56A",
+      "danger": "#A3423B",
+      "disabled": "#675F59"
+    },
+    "typography": {
+      "eyebrow_px": 10,
+      "title_px": 30,
+      "section_px": 20,
+      "body_px": 14,
+      "caption_px": 11,
+      "button_px": 14,
+      "numeric_px": 16,
+      "title_outline_px": 2,
+      "max_body_line_chars": 78
+    },
+    "spacing": {
+      "safe_left": 52,
+      "safe_right": 52,
+      "safe_top": 16,
+      "safe_bottom": 28,
+      "section_gap": 20,
+      "panel_gap": 12,
+      "touch_min_height": 48,
+      "touch_min_width": 48
+    },
+    "surfaces": {
+      "panel_opacity": 0.90,
+      "modal_opacity": 0.96,
+      "border_opacity": 0.62,
+      "ornament_opacity": 0.42,
+      "corner_radius_px": 3,
+      "border_px": 1
+    },
+    "feedback": {
+      "hover_glow_opacity": 0.82,
+      "focus_outline_opacity": 0.78,
+      "pressed_glow_opacity": 1.0,
+      "location_feedback": "name_glow_plus_thin_underline_only",
+      "forbid_location_rectangles": true
+    }
+  },
+  "screen_composition": {
+    "title": {"focus": "logo_and_continue", "background_slot": "bg.title", "max_primary_actions": 4, "density": "low"},
+    "sanctuary": {"focus": "world_first", "background_slot": "bg.sanctuary", "ui_rule": "location_names_are_the_click_targets", "density": "very_low"},
+    "navigation": {"focus": "destinations", "background_slot": "bg.sanctuary_dim", "columns": 2, "density": "medium"},
+    "company": {"focus": "roster", "background_slot": "bg.sanctuary_dim", "portrait_slot": "portrait.active_hero", "density": "medium"},
+    "hero_profile": {"focus": "body_and_identity", "background_slot": "bg.character", "portrait_slot": "portrait.active_hero", "body_diagram_slot": "body.active_entity", "density": "high"},
+    "inventory": {"focus": "equipment_readability", "background_slot": "bg.character", "portrait_slot": "portrait.active_hero", "density": "high"},
+    "skills": {"focus": "tree_choice", "background_slot": "bg.character", "density": "high"},
+    "bestiary": {"focus": "silhouette_and_anatomy", "background_slot": "bg.archive", "portrait_slot": "portrait.active_creature", "body_diagram_slot": "body.active_entity", "density": "medium"},
+    "expedition": {"focus": "risk_route_team", "background_slot": "bg.expedition", "density": "medium"},
+    "combat": {"focus": "battlefield_first", "background_slot": "bg.combat", "hud_rule": "only_actionable_and_critical_information", "density": "adaptive"},
+    "contextual": {"focus": "single_question", "background_slot": "bg.overlay", "density": "low"},
+    "results_options": {"focus": "consequences", "background_slot": "bg.results", "density": "medium"},
+    "options": {"focus": "settings", "background_slot": "bg.overlay", "density": "medium"}
+  },
+  "asset_slots": {
+    "bg.title": {"kind": "background", "primary_path": "res://assets/art/v41/backgrounds/title.webp", "fallback_path": "res://assets/backgrounds/sanctuary.png", "ratio": "16:9", "required_at_runtime": false},
+    "bg.sanctuary": {"kind": "background", "primary_path": "res://assets/art/v41/backgrounds/sanctuary.webp", "fallback_path": "res://assets/backgrounds/sanctuary.png", "ratio": "16:9", "required_at_runtime": true},
+    "bg.sanctuary_dim": {"kind": "background", "primary_path": "res://assets/art/v41/backgrounds/sanctuary_dim.webp", "fallback_path": "res://assets/backgrounds/sanctuary.png", "ratio": "16:9", "required_at_runtime": false},
+    "bg.character": {"kind": "background", "primary_path": "res://assets/art/v41/backgrounds/character_sheet.webp", "fallback_path": "res://assets/backgrounds/sanctuary.png", "ratio": "16:9", "required_at_runtime": false},
+    "bg.archive": {"kind": "background", "primary_path": "res://assets/art/v41/backgrounds/archive.webp", "fallback_path": "res://assets/backgrounds/sanctuary.png", "ratio": "16:9", "required_at_runtime": false},
+    "bg.expedition": {"kind": "background", "primary_path": "res://assets/art/v41/backgrounds/expedition.webp", "fallback_path": "res://assets/backgrounds/sanctuary.png", "ratio": "16:9", "required_at_runtime": false},
+    "bg.combat": {"kind": "background", "primary_path": "res://assets/art/v41/backgrounds/combat_frame.webp", "fallback_path": "", "ratio": "16:9", "required_at_runtime": false},
+    "bg.overlay": {"kind": "background", "primary_path": "res://assets/art/v41/backgrounds/overlay.webp", "fallback_path": "", "ratio": "16:9", "required_at_runtime": false},
+    "bg.results": {"kind": "background", "primary_path": "res://assets/art/v41/backgrounds/results.webp", "fallback_path": "res://assets/backgrounds/sanctuary.png", "ratio": "16:9", "required_at_runtime": false},
+    "portrait.active_hero": {"kind": "portrait", "primary_path": "res://assets/art/v41/portraits/{entity_id}.webp", "fallback_path": "", "ratio": "3:4", "required_at_runtime": false, "dynamic": true},
+    "portrait.active_creature": {"kind": "portrait", "primary_path": "res://assets/art/v41/creatures/{entity_id}.webp", "fallback_path": "", "ratio": "3:4", "required_at_runtime": false, "dynamic": true},
+    "body.active_entity": {"kind": "body_diagram", "primary_path": "res://assets/art/v41/anatomy/{morphology}.webp", "fallback_path": "", "ratio": "2:3", "required_at_runtime": false, "dynamic": true},
+    "frame.panel": {"kind": "nine_patch", "primary_path": "res://assets/art/v41/ui/panel_frame.webp", "fallback_path": "", "ratio": "free", "required_at_runtime": false},
+    "frame.tooltip": {"kind": "nine_patch", "primary_path": "res://assets/art/v41/ui/tooltip_frame.webp", "fallback_path": "", "ratio": "free", "required_at_runtime": false},
+    "icon.body_part": {"kind": "icon_family", "primary_path": "res://assets/art/v41/icons/body/{body_part}.webp", "fallback_path": "", "ratio": "1:1", "required_at_runtime": false, "dynamic": true}
+  },
+  "replacement_pipeline": {
+    "status_order": ["missing", "placeholder", "candidate", "approved", "final"],
+    "runtime_behavior": {
+      "missing": "use_procedural_or_text_fallback",
+      "placeholder": "use_fallback_asset",
+      "candidate": "allow_only_in_review_build",
+      "approved": "use_primary_asset",
+      "final": "lock_visual_contract_not_gameplay"
+    },
+    "review_required": ["silhouette", "mobile_readability", "lore_coherence", "anatomy_alignment", "injury_visibility", "performance_budget", "rights"]
+  },
+  "functional_body_states": {
+    "F0": {"label": "fonctionnel", "segment_visible": true, "equipment_allowed": true, "pose": "normal", "silhouette_change": false},
+    "F1": {"label": "dégradé", "segment_visible": true, "equipment_allowed": true, "pose": "protective_or_asymmetric", "silhouette_change": "minor"},
+    "F2": {"label": "très_dégradé", "segment_visible": true, "equipment_allowed": "restricted", "pose": "strong_compensation", "silhouette_change": "clear"},
+    "F3": {"label": "inutilisable", "segment_visible": true, "equipment_allowed": false, "pose": "limb_disabled", "weapon_reassign_if_possible": true, "silhouette_change": "clear"},
+    "F4": {"label": "détruit_ou_amputé", "segment_visible": false, "show_absence_or_stump": true, "equipment_allowed": false, "detach_equipment": true, "weapon_reassign_if_possible": true, "silhouette_change": "mandatory"}
+  },
+  "morphology_contracts": {
+    "HUMANOID": {"diagram": "humanoid", "limb_logic": "bilateral", "weapon_reassignment": "opposite_functional_hand", "never_fake_missing_limb": true},
+    "HUMANOID_ABERRANT": {"diagram": "humanoid_aberrant", "limb_logic": "declared_zones_only", "weapon_reassignment": "compatible_appendage_only", "never_fake_missing_limb": true},
+    "HUMANOID_FLESH": {"diagram": "humanoid_flesh", "limb_logic": "declared_zones_only", "weapon_reassignment": "compatible_appendage_only", "never_fake_missing_limb": true},
+    "HUMANOID_MASSIVE": {"diagram": "humanoid_massive", "limb_logic": "bilateral", "weapon_reassignment": "opposite_functional_hand", "never_fake_missing_limb": true},
+    "CONSTRUCT_HUMANOID": {"diagram": "construct_humanoid", "limb_logic": "mechanical_segments", "weapon_reassignment": "compatible_remaining_arm", "never_fake_missing_limb": true},
+    "SERPENTINE_ORGANIC": {"diagram": "serpentine", "limb_logic": "segments_not_humanoid_limbs", "weapon_reassignment": "none_unless_species_declares_manipulator", "forbid_humanoid_mannequin": true},
+    "AMORPHOUS_ORGANIC": {"diagram": "amorphous", "limb_logic": "mass_and_organs", "weapon_reassignment": "none_unless_species_declares_manipulator", "forbid_humanoid_mannequin": true},
+    "INSECTOID_ORGANIC": {"diagram": "insectoid", "limb_logic": "multi_appendage", "weapon_reassignment": "compatible_remaining_manipulator", "forbid_humanoid_mannequin": true},
+    "QUADRUPED_ORGANIC": {"diagram": "quadruped", "limb_logic": "four_support_limbs", "weapon_reassignment": "none", "forbid_humanoid_mannequin": true},
+    "BOSS_CUSTOM": {"diagram": "boss_declared_profile", "limb_logic": "boss_zone_contract", "weapon_reassignment": "boss_specific", "forbid_humanoid_mannequin_unless_humanoid": true}
+  },
+  "injury_visual_rules": {
+    "priority": ["F4", "F3", "F2", "active_bleeding", "fracture", "burn", "bruise", "minor_wound"],
+    "main_character_and_diagram_must_agree": true,
+    "pose_must_follow_function": true,
+    "equipment_must_follow_function": true,
+    "skills_may_be_visually_disabled_only_from_gameplay_state": true,
+    "blood_never_hides_readability": true,
+    "gore_layers": ["skin_or_surface", "soft_tissue", "bone_or_structure", "blood_or_fluid", "clothing_or_armor", "body_reaction"]
+  },
+  "mobile_budget": {
+    "target": "landscape_mobile_first",
+    "reference_resolutions": [[844, 390], [852, 393], [932, 430], [1280, 720]],
+    "prefer_opaque_surfaces": true,
+    "avoid_fullscreen_transparency": true,
+    "avoid_micro_geometry": true,
+    "dynamic_shadows": "important_objects_only",
+    "texture_policy": "importance_scaled_astc_when_available",
+    "anti_aliasing": ["FXAA", "SMAA"]
+  }
+}
