@@ -23,11 +23,18 @@ REQUIRED_GATES = (
     "real_mobile_interaction",
 )
 
+REQUIRED_TEMPLATE_HARDWARE_GATES = (
+    "real_mobile_touch",
+    "safe_areas_real_devices",
+    "final_visual_readability",
+)
+
 REQUIRED_PATHS = (
     "docs/CHAPITRE_01_VERTICAL_SLICE.md",
     "docs/veilleurs/PRODUCTION_PLAYBOOK.md",
     "docs/veilleurs/PLAYTEST_PROTOCOL.md",
     "docs/veilleurs/ART_DIRECTION_PRODUCTION_BIBLE.md",
+    "docs/veilleurs/VERTICAL_VALIDATION_GATE.md",
     "data/visual_vertical_slice.json",
     "data/veilleurs/hardware_validation_contract.json",
     "data/veilleurs/vs001_balance.json",
@@ -67,6 +74,7 @@ def main() -> int:
     assert len(set(actual_gate_ids)) == len(actual_gate_ids)
 
     allowed_proof_types = {"player", "hybrid"}
+    linked_hardware_ids: set[str] = set()
     for gate in gates:
         for field in ("id", "proof_type", "contexts", "hypothesis", "required_evidence", "acceptance"):
             assert field in gate, f"{gate.get('id', '<unknown>')}:{field}"
@@ -80,6 +88,9 @@ def main() -> int:
         assert len(gate["acceptance"]) >= 3, gate["id"]
         for linked_id in gate.get("linked_hardware_gate_ids", []):
             assert linked_id in hardware_gate_ids, f"{gate['id']} -> {linked_id}"
+            linked_hardware_ids.add(linked_id)
+
+    assert linked_hardware_ids == set(REQUIRED_TEMPLATE_HARDWARE_GATES)
 
     for relative_path in REQUIRED_PATHS:
         assert (ROOT / relative_path).is_file(), relative_path
@@ -91,11 +102,13 @@ def main() -> int:
     assert template["build_commit"] == ""
     assert template["tested_at"] == ""
     assert template["testers"] == []
+    assert tuple(template["hardware_gate_results"].keys()) == REQUIRED_TEMPLATE_HARDWARE_GATES
+    assert all(value == "NOT_RUN" for value in template["hardware_gate_results"].values())
     template_gates = template["gates"]
     assert tuple(item["id"] for item in template_gates) == REQUIRED_GATES
     for item in template_gates:
         assert item["status"] == "NOT_RUN", item["id"]
-        assert item["evidence"] == {}, item["id"]
+        assert item["evidence"] == [], item["id"]
         assert item["notes"] == [], item["id"]
 
     print("VEILLEURS_PLAYER_VALIDATION_AUDIT_OK")
