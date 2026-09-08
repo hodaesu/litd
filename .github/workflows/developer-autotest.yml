@@ -150,7 +150,7 @@ jobs:
 
   sanctuary-bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     container:
       image: barichello/godot-ci:4.7.2
     steps:
@@ -161,13 +161,18 @@ jobs:
         run: godot --headless --path . --import --quit
       - name: "Joueur-bot v7 : économie du Sanctuaire, marché et remplacement"
         run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v7_sanctuary_economy.tscn
-      - name: Publier le rapport Sanctuaire
+      - name: "Bot v19 : stress économique à décès répétés"
+        if: always()
+        run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v19_economy_stress.tscn
+      - name: Publier les rapports Sanctuaire
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: developer-autotest-sanctuary
           retention-days: 14
-          path: reports/player-bot-v7-sanctuary-economy.json
+          path: |
+            reports/player-bot-v7-sanctuary-economy.json
+            reports/player-bot-v19-economy-stress.json
 
   deterministic-batch-telemetry:
     runs-on: ubuntu-latest
@@ -206,9 +211,11 @@ jobs:
     if: always()
     needs: [fast-contracts, combat-core, combat-matrix, campaign-bots, sanctuary-bot]
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
@@ -228,7 +235,15 @@ jobs:
       - name: "Bot v16 : garde statistique de régression"
         if: always()
         run: python tools/qa/bot_v16_balance_regression_guard.py
-      - name: Publier les diagnostics v14-v16
+      - name: "Bot v17 : cartographie impact des changements"
+        if: always()
+        run: |
+          export CHANGED_FILES="$(git diff --name-only HEAD^ HEAD || true)"
+          python tools/qa/bot_v17_change_impact_mapper.py
+      - name: "Bot v18 : couverture d'utilisation des compétences"
+        if: always()
+        run: python tools/qa/bot_v18_skill_usage_coverage.py
+      - name: Publier les diagnostics v14-v18
         uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -238,3 +253,5 @@ jobs:
             reports/player-bot-v14-failure-triage.json
             reports/player-bot-v15-case-minimizer.json
             reports/player-bot-v16-balance-regression-guard.json
+            reports/player-bot-v17-change-impact-mapper.json
+            reports/player-bot-v18-skill-usage-coverage.json
