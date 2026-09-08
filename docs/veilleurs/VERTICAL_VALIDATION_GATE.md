@@ -46,6 +46,20 @@ Modèle de rapport :
 
 `reports/veilleurs_player_validation_template.json`
 
+Validation d'un rapport en cours :
+
+```bash
+python -m tools.qa.veilleurs_player_validation_report reports/mon_playtest.json --allow-incomplete
+```
+
+Validation finale autorisant la montée en volume :
+
+```bash
+python -m tools.qa.veilleurs_player_validation_report reports/mon_playtest.json
+```
+
+Sans `--allow-incomplete`, le validateur refuse le rapport tant que tous les gates joueur ne sont pas `PASS`, que les preuves obligatoires ne sont pas présentes, que les cinq testeurs naïfs de l'onboarding ne sont pas documentés ou qu'un gate matériel lié reste non validé.
+
 La CI valide la structure du contrat et la cohérence des dépendances. Elle ne transforme jamais un `NOT_RUN` en `PASS`.
 
 ## Les huit gates joueur
