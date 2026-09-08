@@ -10,7 +10,7 @@ if not defined PYTHON_CMD (
   exit /b 2
 )
 
-echo [LITD Les Veilleurs] Preflight Godot 4.3...
+echo [LITD Les Veilleurs] Preflight Godot 4.7.x...
 %PYTHON_CMD% tools\workstation\veilleurs_pc_preflight.py --run-tests %*
 set "RESULT=%ERRORLEVEL%"
 
