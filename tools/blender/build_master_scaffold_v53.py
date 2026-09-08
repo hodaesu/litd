@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -65,7 +66,7 @@ def load_descriptors(root: Path = ROOT) -> list[dict[str, Any]]:
             "equipment_targets": _prefixed_strings(plan, "EQUIP_"),
             "socket_targets": _prefixed_strings(plan, "SOCKET_"),
             "rig_steps": list(plan.get("rig_build_order", [])),
-            "truth": "SCaffold only: no generated mesh/material/bones/actions; artist must create the real asset",
+            "truth": "Scaffold only: no generated mesh/material/bones/actions; artist must create the real asset",
         })
     return descriptors
 
@@ -198,6 +199,13 @@ def _execute_in_blender(descriptor: dict[str, Any], output: Path, root: Path = R
     print(f"MASTER_SCAFFOLD_V53_CREATED master={descriptor['id']} output={output}")
 
 
+def _script_argv() -> list[str] | None:
+    """Return only arguments after Blender's `--`, or normal Python argv."""
+    if "--" in sys.argv:
+        return sys.argv[sys.argv.index("--") + 1 :]
+    return None
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="Validate all v53 descriptors without Blender")
@@ -205,7 +213,7 @@ def main() -> int:
     parser.add_argument("--master", help="Canonical master id")
     parser.add_argument("--execute", action="store_true", help="Create one safe scaffold .blend; must run inside Blender")
     parser.add_argument("--output", type=Path, help="Override safe scaffold output; canonical source_blend is forbidden")
-    args = parser.parse_args()
+    args = parser.parse_args(_script_argv())
 
     errors = validate_descriptors()
     if errors:
