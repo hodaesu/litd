@@ -113,9 +113,7 @@ func _find_button(fragment: String, exact: bool) -> Button:
         var button := node_value as Button
         if button == null or button.is_queued_for_deletion() or not button.is_visible_in_tree():
             continue
-        if exact and button.text == fragment:
-            return button
-        if not exact and button.text.contains(fragment):
+        if _button_matches(button, fragment, exact):
             return button
     return null
 
@@ -126,9 +124,24 @@ func _count_visible_buttons(text: String) -> int:
     var count := 0
     for node_value in scene.find_children("*", "Button", true, false):
         var button := node_value as Button
-        if button != null and not button.is_queued_for_deletion() and button.is_visible_in_tree() and button.text == text:
+        if button == null or button.is_queued_for_deletion() or not button.is_visible_in_tree():
+            continue
+        if _button_matches(button, text, true):
             count += 1
     return count
+
+func _button_matches(button: Button, fragment: String, exact: bool) -> bool:
+    var searchable: Array[String] = [button.text, button.tooltip_text]
+    if button.has_meta("litd_location_name"):
+        searchable.append(str(button.get_meta("litd_location_name")))
+    if button.has_meta("litd_location_original_text"):
+        searchable.append(str(button.get_meta("litd_location_original_text")))
+    for candidate in searchable:
+        if exact and candidate == fragment:
+            return true
+        if not exact and candidate.contains(fragment):
+            return true
+    return false
 
 func _press_button(fragment: String, exact: bool) -> bool:
     var button := _find_button(fragment, exact)

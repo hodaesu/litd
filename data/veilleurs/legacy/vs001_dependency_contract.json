@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "legacy_id": "VS001",
   "status": "contained_active_compatibility",
   "purpose": "Preserve the original playable vertical-slice implementation only while canonical Les Veilleurs runtime/save/UI bindings are migrated away from VS001 names and contracts.",
@@ -7,6 +7,9 @@
   "canonical_runtime_facade": "scripts/core/veilleurs_runtime.gd",
   "canonical_runtime_singleton": "VeilleursRuntime",
   "canonical_runtime_implementation": "scripts/core/veilleurs_vertical_slice_runtime_v09.gd",
+  "canonical_player_bridge": "scripts/world/veilleurs_playable_bridge.gd",
+  "canonical_player_scene": "scenes/veilleurs/vertical_slice.tscn",
+  "canonical_player_ui": "scripts/ui/veilleurs_vertical_slice.gd",
   "canonical_save_key": "veilleurs",
   "legacy_read_key": "veilleurs_vs001",
   "runtime_critical": [
@@ -57,7 +60,11 @@
     "canonical VeilleursRuntime singleton added to project autoloads",
     "new saves write Les Veilleurs state under neutral veilleurs key",
     "legacy veilleurs_vs001 top-level save payloads migrate into veilleurs.legacy_vs001 on load",
-    "new saves no longer write a top-level veilleurs_vs001 key"
+    "new saves no longer write a top-level veilleurs_vs001 key",
+    "canonical VeilleursPlayableBridge is the only normal player launch entry",
+    "canonical player scene uses VeilleursRuntime and SaveManager instead of a versioned save bridge",
+    "legacy playable bridge no longer installs or exposes a VS001 launch button",
+    "legacy playable bridge remains available only for save-resume compatibility and regression coverage"
   ],
   "migration_order": [
     "introduce canonical runtime facade and make new code depend only on it",
@@ -71,6 +78,7 @@
     "zero VS001 autoloads in project.godot",
     "zero new-save writes using veilleurs_vs001",
     "old veilleurs_vs001 saves still load through explicit migration",
+    "zero normal player launch controls using VS001",
     "zero production scene references to veilleurs_vs001 scripts",
     "canonical smoke coverage replaces VS001 smoke entry points",
     "all GitHub Actions green",
