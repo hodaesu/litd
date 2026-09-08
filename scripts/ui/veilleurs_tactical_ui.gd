@@ -27,6 +27,10 @@ var selected_target := ""
 var selected_zone := "torso"
 var armed_skill_slot := -1
 var retreat_armed_until_ms := 0
+var target_selection_mode := false
+var target_choice_confirmed := false
+var target_candidate_ids: Array[String] = []
+var blocked_target_ids: Array[String] = []
 
 func _ready() -> void:
     if get_child_count() == 0:
@@ -47,6 +51,8 @@ func _build() -> void:
     status_label = Label.new()
     status_label.text = "LITD : Les Veilleurs — combat tactique 6×5"
     status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    status_label.custom_minimum_size = Vector2(0, 36)
     root.add_child(status_label)
 
     grid_container = GridContainer.new()
@@ -108,6 +114,7 @@ func _build() -> void:
     retreat_button.pressed.connect(_on_retreat_pressed)
     actions.add_child(retreat_button)
     _apply_selection_visuals()
+    _update_status_label()
 
 func bind_snapshot(snapshot: Dictionary) -> void:
     runtime_snapshot = (snapshot.get("runtime", snapshot) as Dictionary).duplicate(true)
@@ -119,7 +126,7 @@ func bind_snapshot(snapshot: Dictionary) -> void:
         button.tooltip_text = _entity_tooltip(entity_id) if entity_id != "" else "Case libre %d,%d" % [cell.x, cell.y]
     _repair_local_selection()
     _apply_selection_visuals()
-    status_label.text = "Round %d — %d combattants" % [int(runtime_snapshot.get("round", 1)), (runtime_snapshot.get("combatants", {}) as Dictionary).size()]
+    _update_status_label()
 
 func set_skill_labels(names: Array[String]) -> void:
     skill_names.clear()
@@ -136,10 +143,36 @@ func set_external_selection(watcher_id: String, target_id: String, zone: String)
         selected_zone = zone
     _repair_local_selection()
     _apply_selection_visuals()
+    _update_status_label()
 
 func set_armed_skill(slot: int) -> void:
     armed_skill_slot = slot if slot >= 0 and slot < skill_buttons.size() else -1
+    if armed_skill_slot < 0:
+        target_selection_mode = false
+        target_choice_confirmed = false
+        target_candidate_ids.clear()
+        blocked_target_ids.clear()
     _refresh_skill_labels()
+    _apply_selection_visuals()
+    _update_status_label()
+
+func set_targeting_mode(enabled: bool, candidates: Array = [], blocked: Array = [], confirmed: bool = false) -> void:
+    target_selection_mode = enabled
+    target_choice_confirmed = enabled and confirmed
+    target_candidate_ids.clear()
+    blocked_target_ids.clear()
+    if enabled:
+        for value: Variant in candidates:
+            var entity_id := str(value)
+            if not target_candidate_ids.has(entity_id):
+                target_candidate_ids.append(entity_id)
+        for value: Variant in blocked:
+            var entity_id := str(value)
+            if not blocked_target_ids.has(entity_id):
+                blocked_target_ids.append(entity_id)
+    _refresh_skill_labels()
+    _apply_selection_visuals()
+    _update_status_label()
 
 func touch_contract_ok() -> bool:
     if cell_buttons.size() != GRID_WIDTH * GRID_HEIGHT or skill_buttons.size() != 4 or zone_buttons.size() != 6:
@@ -190,6 +223,18 @@ func _apply_selection_visuals() -> void:
         if entity_id != "" and entity_id == selected_watcher:
             marker = "▶"
             button.self_modulate = Color(0.78, 1.0, 0.82, 1.0)
+        elif target_selection_mode and entity_id != "":
+            if target_choice_confirmed and entity_id == selected_target:
+                marker = "◎"
+                button.self_modulate = Color(1.0, 0.70, 0.64, 1.0)
+            elif target_candidate_ids.has(entity_id):
+                marker = "○"
+                button.self_modulate = Color(1.0, 0.92, 0.58, 1.0)
+            elif blocked_target_ids.has(entity_id):
+                marker = "×"
+                button.self_modulate = Color(0.58, 0.58, 0.62, 0.78)
+            else:
+                button.self_modulate = Color.WHITE
         elif entity_id != "" and entity_id == selected_target:
             marker = "◎"
             button.self_modulate = Color(1.0, 0.78, 0.74, 1.0)
@@ -213,8 +258,23 @@ func _apply_selection_visuals() -> void:
 func _refresh_skill_labels() -> void:
     for index in range(skill_buttons.size()):
         var base_name := skill_names[index] if index < skill_names.size() else "—"
-        skill_buttons[index].text = ("✓ " if index == armed_skill_slot else "") + base_name
+        var prefix := ""
+        if index == armed_skill_slot:
+            prefix = "✓ " if not target_selection_mode else ("CONFIRMER · " if target_choice_confirmed else "CIBLER · ")
+        skill_buttons[index].text = prefix + base_name
         skill_buttons[index].self_modulate = Color(1.0, 0.90, 0.67, 1.0) if index == armed_skill_slot else Color.WHITE
+
+func _update_status_label() -> void:
+    if status_label == null:
+        return
+    if target_selection_mode:
+        var attacker_name := _short_display_name(selected_watcher)
+        if target_choice_confirmed and selected_target != "":
+            status_label.text = "CIBLE VERROUILLÉE : ◎ %s — %s attaque. Ajustez la zone puis retouchez la compétence pour confirmer." % [_short_display_name(selected_target), attacker_name]
+        else:
+            status_label.text = "CHOISISSEZ UNE CIBLE — ▶ %s attaque · ○ cible possible · × hors portée" % attacker_name
+        return
+    status_label.text = "Round %d — %d combattants" % [int(runtime_snapshot.get("round", 1)), (runtime_snapshot.get("combatants", {}) as Dictionary).size()]
 
 func _entity_badge(entity_id: String) -> String:
     if entity_id == "":
@@ -281,6 +341,22 @@ func _on_cell_pressed(cell: Vector2i) -> void:
         if button.get_meta("cell", Vector2i(-1, -1)) == cell:
             occupant = str(button.get_meta("occupant", ""))
             break
+
+    if target_selection_mode:
+        if occupant != "" and target_candidate_ids.has(occupant):
+            selected_target = occupant
+            target_choice_confirmed = true
+            _apply_selection_visuals()
+            _refresh_skill_labels()
+            _update_status_label()
+            tactical_cell_pressed.emit(cell)
+            return
+        if occupant != "" and blocked_target_ids.has(occupant):
+            status_label.text = "CIBLE HORS PORTÉE — choisissez un ennemi marqué ○."
+        else:
+            status_label.text = "CIBLE ENNEMIE REQUISE — touchez un combattant marqué ○."
+        return
+
     var combatants: Dictionary = runtime_snapshot.get("combatants", {})
     if occupant != "" and combatants.has(occupant):
         var row: Dictionary = combatants[occupant]
@@ -288,8 +364,8 @@ func _on_cell_pressed(cell: Vector2i) -> void:
             selected_watcher = occupant
         elif str(row.get("team", "")) == "enemy" and not bool(row.get("subdued", false)):
             selected_target = occupant
-    set_armed_skill(-1)
     _apply_selection_visuals()
+    _update_status_label()
     tactical_cell_pressed.emit(cell)
 
 func _on_skill_pressed(slot: int) -> void:
@@ -299,8 +375,8 @@ func _on_skill_pressed(slot: int) -> void:
 func _on_zone_pressed(zone: String) -> void:
     _disarm_retreat()
     selected_zone = zone
-    set_armed_skill(-1)
     _apply_selection_visuals()
+    _update_status_label()
     body_zone_pressed.emit(zone)
 
 func _on_inspect_pressed() -> void:
