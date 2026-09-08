@@ -75,6 +75,14 @@ def run(root=ROOT):
         a.check('Gate joueur vertical Les Veilleurs', player_validation_main() == 0)
     except Exception as exc:
         a.check('Gate joueur vertical Les Veilleurs', False, str(exc))
+
+    # La maturité d'un système ne peut progresser que lorsque les catégories de
+    # preuves correspondant au niveau déclaré existent réellement.
+    try:
+        from tools.qa.veilleurs_system_maturity_audit import main as maturity_main
+        a.check('Maturité des systèmes Les Veilleurs', maturity_main() == 0)
+    except Exception as exc:
+        a.check('Maturité des systèmes Les Veilleurs', False, str(exc))
     return a
 
 def write_reports(a, outdir):
