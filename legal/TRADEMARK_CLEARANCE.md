@@ -15,6 +15,7 @@ Search and professionally clear at minimum:
 - LITD
 - LES VEILLEURS
 - VEILLEURS
+- LA CONCORDE DES CENDRES
 - any final logo/semi-figurative version
 
 ## Material earlier-use findings
@@ -25,12 +26,13 @@ Existing game/public uses directly relevant to the current naming family include
 2. `A Light in the Dark` — CreSpirit / STORIA / Narrator, published by Sekai Project — Steam release 2018-06-15.
 3. `Les Veilleurs` is already used for a published solo gamebook and is also a recurrent title/expression in books and other media.
 4. `Watcher Chronicles` uses “Les Veilleurs” in its French game description for a dark-fantasy group, making the expression less distinctive in our genre context.
+5. The exact expression `Veilleurs des Cendres` is already publicly used in another French fantasy/lore universe online. Separately, Dark Souls III prominently combines the nearby genre vocabulary `Veilleurs des Abysses` and `Seigneurs des Cendres`. These are not, by themselves, proof of trademark conflict, but they reduce the practical distinctiveness of `Les Veilleurs des Cendres` for a dark-fantasy game.
 
 These findings do not by themselves prove infringement or make registration impossible. Earlier rights, territories, similarity of signs, goods/services and actual registrations must be examined.
 
 ## Alternative-title collision scan — public web, 2026-09-08
 
-This table is only an elimination screen. `PRELIMINARY GREEN` means no obvious exact videogame collision appeared in the first public-web pass; it is **not** trademark clearance.
+This table is only an elimination screen. A favorable result means only that no obvious exact videogame collision appeared in the public-web pass; it is **not** trademark clearance.
 
 | Candidate | First-pass status | Finding / decision |
 |---|---|---|
@@ -41,17 +43,18 @@ This table is only an elimination screen. `PRELIMINARY GREEN` means no obvious e
 | REMANENCE / RÉMANENCE | RED / REJECT as standalone | Existing Steam game `Remanence`; also a descriptive/common concept. |
 | THE LAST CONCORD | ORANGE | Existing song and interactive-story use. Not preferred. |
 | ASHEN CONCORD | YELLOW | No obvious exact videogame title found in first pass, but the expression is already used by fantasy-world/faction material online. |
-| LES VEILLEURS DES CENDRES | YELLOW-GREEN PRELIMINARY | No obvious exact title found in first pass; however `Veilleurs` + `cendres` sits close to established dark-fantasy vocabulary and needs similarity search. |
-| LA CONCORDE DES CENDRES | GREEN PRELIMINARY | No obvious exact videogame/title collision found in the first public-web pass. Strongest current candidate for formal INPI/EUIPO similarity search. |
-| LITD : LA CONCORDE DES CENDRES | YELLOW-GREEN PRELIMINARY | Commercially more distinctive than `Light in the Dark`; `LITD` itself still requires clearance if retained as a visible brand. |
+| LES VEILLEURS DES CENDRES | YELLOW / DEMOTED | Exact expression `Veilleurs des Cendres` already appears in another public fantasy universe; Dark Souls III also uses close genre vocabulary. Not preferred as commercial title. |
+| LA CONCORDE DES CENDRES | YELLOW-GREEN PRELIMINARY | No obvious exact videogame/title collision found in the current public-web pass. Strongest current candidate for formal INPI/EUIPO similarity search. |
+| LITD : LA CONCORDE DES CENDRES | YELLOW | `LITD` itself still requires independent clearance if retained as a visible brand. Prefer not to bind the safer subtitle to an uncleared master acronym. |
 
 ## Recommended naming path
 
 1. Keep `LITD : Les Veilleurs` as internal/dev wording only.
 2. Put **LA CONCORDE DES CENDRES** at the top of the professional search list.
-3. Put **LES VEILLEURS DES CENDRES** second.
+3. Demote **LES VEILLEURS DES CENDRES** from the preferred shortlist.
 4. Do not spend on final logos/store capsules using `Light in the Dark` until the professional search is complete.
 5. If the universe needs a master brand, search `LITD` independently rather than assuming the acronym is safe because the long form changes.
+6. Until title clearance, create a **text-free brand emblem** and keep the final wordmark blocked.
 
 ## Formal search scope required before branding lock
 
