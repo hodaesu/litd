@@ -5,6 +5,7 @@ Dépôt Godot principal de **Light in the Dark**, regroupant les systèmes, cont
 ## LITD : Les Veilleurs
 
 - [Playbook de production](docs/veilleurs/PRODUCTION_PLAYBOOK.md)
+- [Modèle de maturité des systèmes](docs/veilleurs/SYSTEM_MATURITY_MODEL.md)
 - [Bible DA de production](docs/veilleurs/ART_DIRECTION_PRODUCTION_BIBLE.md)
 - [Protocole de playtest continu](docs/veilleurs/PLAYTEST_PROTOCOL.md)
 - [Gate de validation verticale](docs/veilleurs/VERTICAL_VALIDATION_GATE.md)
@@ -17,6 +18,12 @@ Dépôt Godot principal de **Light in the Dark**, regroupant les systèmes, cont
 - [Export Android CI](docs/veilleurs/ANDROID_CI_EXPORT.md)
 - [Audit d’intégrité du dépôt](docs/veilleurs/REPOSITORY_INTEGRITY_AUDIT.md)
 - [Politique de nettoyage des fichiers obsolètes](docs/veilleurs/OBSOLETE_CLEANUP_POLICY.md)
+
+### Maturité actuelle du combat
+
+Le registre machine est `data/veilleurs/system_maturity_registry.json`.
+
+**Combat principal : niveau 2/5 — testé techniquement.** Les tests, audits et smokes couvrent les règles principales, mais aucune preuve de playtest humain versionnée ne permet encore de le classer « compris par le joueur », et aucune validation sur téléphone réel ne permet de le classer « validé mobile ».
 
 ## Documentation LITD Universe
 
@@ -64,10 +71,11 @@ python -m tools.qa.displacement_combat_audit
 python -m tools.qa.enemy_family_tactics_audit
 python -m tools.qa.anatomy_system_audit
 python -m tools.qa.veilleurs_player_validation_audit
+python -m tools.qa.veilleurs_system_maturity_audit
 python -m tools.qa.combat_economy_sim_v2
 ```
 
-`tools.qa.audit` vérifie les données de base, les références `res://`, les assets, les conflits Git, les workflows YAML et la cohérence structurelle du gate joueur Les Veilleurs.
+`tools.qa.audit` vérifie les données de base, les références `res://`, les assets, les conflits Git, les workflows YAML, la cohérence structurelle du gate joueur Les Veilleurs et le registre de maturité des systèmes.
 
 `tools.qa.cross_system_audit` vérifie les relations entre systèmes : campagne I→X, scènes et routes, contrats des boss, sept Vestiges Profonds, sauvegarde, autoloads, postgame et règles du Nouveau Cycle+.
 
@@ -86,6 +94,8 @@ python -m tools.qa.combat_economy_sim_v2
 `tools.qa.anatomy_system_audit` verrouille l’anatomie avancée : ciblage volontaire, Trauma par partie, spécialisations, anatomies de boss, IA adaptative, Peur/Folie, capture, convalescence, blessures fonctionnelles, interface anatomique et contrats Blender/VFX.
 
 `tools.qa.veilleurs_player_validation_audit` vérifie le contrat de preuve joueur du Chapitre I, ses liaisons avec les validations matérielles et garantit que le modèle versionné reste en `NOT_RUN` tant qu'aucun playtest humain n'a réellement eu lieu.
+
+`tools.qa.veilleurs_system_maturity_audit` vérifie qu'aucun système n'est déclaré « compris par le joueur », « validé mobile » ou « verrouillé pour production » sans les catégories de preuves correspondantes.
 
 `tools.qa.combat_economy_sim_v2` reste une couche de compatibilité du modèle numérique ; les simulateurs plus récents peuvent l’importer au lieu de dupliquer toute la logique historique.
 
