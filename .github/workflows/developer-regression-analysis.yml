@@ -1,0 +1,54 @@
+name: Developer Regression Analysis
+
+on:
+  workflow_run:
+    workflows: ["Developer Autotest"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: developer-regression-analysis-${{ github.event.workflow_run.head_branch || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression-analysis:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Télécharger les artefacts du banc développeur
+        if: ${{ github.event_name == 'workflow_run' }}
+        uses: actions/download-artifact@v4
+        with:
+          pattern: developer-autotest-*
+          path: reports
+          merge-multiple: true
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      - name: "Bot v14 : triage transversal des échecs"
+        run: python tools/qa/bot_v14_failure_triage.py
+      - name: "Bot v15 : réduction des cas de fuzzing"
+        if: always()
+        run: python tools/qa/bot_v15_case_minimizer.py
+      - name: "Bot v16 : garde statistique de régression"
+        if: always()
+        run: python tools/qa/bot_v16_balance_regression_guard.py
+      - name: Publier les diagnostics v14-v16
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-regression-analysis
+          retention-days: 14
+          path: |
+            reports/player-bot-v14-failure-triage.json
+            reports/player-bot-v15-case-minimizer.json
+            reports/player-bot-v16-balance-regression-guard.json
