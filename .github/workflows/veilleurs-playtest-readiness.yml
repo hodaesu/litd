@@ -45,7 +45,7 @@ jobs:
       - name: Audit readiness contract
         run: python -m tools.qa.veilleurs_playtest_readiness_audit
       - name: Test readiness tooling
-        run: pytest -q tests/test_veilleurs_playtest_readiness.py
+        run: python -m pytest -q tests/test_veilleurs_playtest_readiness.py
       - name: Generate five neutral naive-tester sessions
         run: |
           rm -rf build/playtest/naive-pack
