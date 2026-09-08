@@ -1,0 +1,60 @@
+{
+  "version": 52,
+  "order": 11,
+  "id": "boss_porte_cendres_blanc",
+  "source_v51": "data/blender/master_models_v51/11_boss_porte_cendres_blanc.json",
+  "source_blend": "art/blender/bosses/porte_cendres_blanc/porte_cendres_blanc_animation_master.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire Porte-Cendres Blanc comme figure processionnelle massive dont manteau de cendre et deux diffuseurs sont de vraies parties systémiques et non des gadgets.",
+  "blockout": [
+    "Créer une silhouette humanoïde massive, funéraire, au centre de gravité bas et au pas processionnel.",
+    "Bloquer HEAD_MASK et PROCESSION_CORE comme volumes structurels distincts.",
+    "Créer bras et jambes lourds sans lecture de super-héros ni armure blanche propre.",
+    "Bloquer ASH_MANTLE comme masse corporelle/vestimentaire intégrée à la silhouette, pas comme simple particule.",
+    "Créer DIFFUSER_L et DIFFUSER_R comme plis/organes corporels latéraux clairement distincts.",
+    "Tester silhouette sans un diffuseur puis sans manteau complet avant détails et effets."
+  ],
+  "runtime_objects": ["BODY_HEAD_MASK", "BODY_PROCESSION_CORE", "BODY_ARM_L", "BODY_ARM_R", "BODY_LEG_L", "BODY_LEG_R", "BODY_ASH_MANTLE", "BODY_DIFFUSER_L", "BODY_DIFFUSER_R"],
+  "stump_or_break_objects": ["STUMP_HEAD_MASK", "STUMP_PROCESSION_CORE", "STUMP_ARM_L", "STUMP_ARM_R", "STUMP_LEG_L", "STUMP_LEG_R", "STUMP_ASH_MANTLE", "STUMP_DIFFUSER_L", "STUMP_DIFFUSER_R"],
+  "rig_build_order": ["ROOT", "pelvis", "procession_core", "spine", "neck", "head_mask", "arm_l_chain", "arm_r_chain", "leg_l_chain", "leg_r_chain", "ash_mantle_controls", "diffuser_l", "diffuser_r"],
+  "authoring_controls": [
+    "heavy center-of-mass control", "procession gait controls", "ash mantle secondary controls", "left/right diffuser controls",
+    "mobile fallback bake controls", "phase state controls preserving destroyed BODY segments"
+  ],
+  "secondary_motion_policy": [
+    "Le manteau peut utiliser bones/cloth pour authoring, mais la version mobile doit disposer d'une animation bake/simplifiée.",
+    "Les diffuseurs restent pilotables même si la simulation secondaire est désactivée.",
+    "Aucune simulation ne doit recréer un BODY F4 caché."
+  ],
+  "materials": {
+    "families": ["white_ash_muted", "charcoal", "aged_cloth", "dark_bone_or_stone", "oxidized_metal", "wound_or_break_surface"],
+    "avoid": ["clean_white_armor", "scifi_filter_mask", "neon_smoke", "superhero_read"]
+  },
+  "lod_plan": {
+    "lod0": "45k-75k triangles",
+    "lod1": "~50% LOD0; preserve mantle mass, both diffuser silhouettes, core and limb breaks",
+    "lod2": "~22% LOD0; simplify ash folds/cloth layers and bake secondary details while preserving nine damage boundaries"
+  },
+  "f3_tests": [
+    "DIFFUSER_L/R F3: organe visible mais sans diffusion active; asymétrie de pose claire.",
+    "ASH_MANTLE F3: masse présente mais secondaire motion/attaque associée dégradée.",
+    "Bras/jambe F3: inertie lourde et compensation du centre de masse.",
+    "PROCESSION_CORE F3: tenue générale affaiblie sans disparition visuelle."
+  ],
+  "f4_tests": [
+    "Supprimer chaque diffuseur séparément et vérifier toutes les Actions d'ash/diffusion.",
+    "Supprimer ASH_MANTLE et confirmer que le core ne le recrée pas durant phase transition.",
+    "Tester perte d'un membre avec mantle actif puis mantle détruit.",
+    "Vérifier que les particules de cendre ne servent jamais à masquer une géométrie restaurée."
+  ],
+  "pc_checklist": [
+    "Blockout masse/core/manteau/diffuseurs avant effets.",
+    "Créer neuf BODY + surfaces de rupture/STUMP.",
+    "Rig lourd + manteau secondaire avec fallback mobile.",
+    "Tester indépendamment diffuseurs et manteau F3/F4.",
+    "Construire LOD en conservant silhouette processionnelle.",
+    "Auteur Actions P0 boss réelles, bake secondaire mobile si nécessaire, export et validation v49/v50."
+  ],
+  "done_when": "Le vrai Porte-Cendres Blanc rend manteau et diffuseurs comme anatomie persistante, avec fallback mobile et Actions P0 validées dans Godot.",
+  "gameplay_neutral": true
+}
