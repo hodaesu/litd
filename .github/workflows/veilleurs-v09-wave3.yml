@@ -61,23 +61,31 @@ jobs:
         run: |
           set -o pipefail
           godot --headless --path . --import --quit 2>&1 | tee /tmp/v09-import.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/v09-import.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/v09-import.log; then
+            exit 1
+          fi
       - name: Run Wave 3 end-to-end smoke
         shell: bash
         run: |
           set -o pipefail
           timeout 120s godot --headless --path . res://scenes/tests/veilleurs_v09_wave3_smoke.tscn 2>&1 | tee /tmp/v09-smoke.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V09_WAVE3_SMOKE_FAILED' /tmp/v09-smoke.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V09_WAVE3_SMOKE_FAILED' /tmp/v09-smoke.log; then
+            exit 1
+          fi
           grep -F 'VEILLEURS_V09_WAVE3_SMOKE_OK' /tmp/v09-smoke.log
       - name: Instantiate six-dungeon QA scene
         shell: bash
         run: |
           set -o pipefail
           timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v09_vertical_slice_qa.tscn 2>&1 | tee /tmp/v09-qa.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' /tmp/v09-qa.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' /tmp/v09-qa.log; then
+            exit 1
+          fi
       - name: Instantiate canonical player scene
         shell: bash
         run: |
           set -o pipefail
           timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/vertical_slice.tscn 2>&1 | tee /tmp/veilleurs-player.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-player.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/veilleurs-player.log; then
+            exit 1
+          fi
