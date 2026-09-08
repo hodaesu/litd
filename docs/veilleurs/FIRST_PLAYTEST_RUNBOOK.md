@@ -4,6 +4,8 @@
 
 Le premier playtest ne sert pas à prouver que le jeu est « fini ». Il sert à faire passer les systèmes prioritaires du niveau **2/5 — testé techniquement** vers le niveau **3/5 — compris par le joueur**.
 
+Le verrou de focus actif est décrit dans `docs/veilleurs/VERTICAL_SLICE_FOCUS_LOCK.md` : jusqu'à validation de la verticale, les nouvelles demandes doivent être classées **utile à la verticale**, **correction issue d'un playtest**, **maintenance nécessaire** ou **à mettre en réserve**.
+
 Les premières preuves recherchées sont :
 
 1. `combat_decision_readability` ;
@@ -157,4 +159,8 @@ Le niveau 4 n'est jamais accordé sur la seule base d'une simulation tactile ou 
 
 ## Accès Web/iPhone
 
-Le workflow `LITD Web Playtest PWA` exporte déjà correctement le projet Web sous Godot 4.7.2. La publication GitHub Pages nécessite toutefois que **GitHub Pages soit activé dans les réglages du dépôt**. Tant que ce réglage n'est pas activé, l'export Web est produit mais le lien public iPhone ne peut pas être déployé.
+Le workflow `LITD Web Playtest PWA` exporte le projet sous Godot 4.7.2 et GitHub Pages est désormais activé pour le dépôt. Le playtest Web public est disponible à l'adresse :
+
+`https://hodaesu.github.io/litd/`
+
+Cette version est utile pour vérifier rapidement la première expérience sur iPhone et partager une build, mais elle ne remplace pas la validation mobile native sur appareil réel ni la future build iOS signée.
