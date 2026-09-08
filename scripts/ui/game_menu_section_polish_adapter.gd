@@ -251,7 +251,7 @@ func _insert_options_header_before(row_title: String, header_text: String, node_
         header.custom_minimum_size = Vector2(0, 34)
         header.add_theme_font_size_override("font_size", 16)
         header.add_theme_color_override("font_color", _token_color("pale_bronze", FALLBACK_PALE))
-        var index := child.get_index()
+        var index: int = int(child.get_index())
         _menu.content.add_child(header)
         _menu.content.move_child(header, index)
         return
@@ -274,7 +274,7 @@ func _panelize_direct_child(control: Control, base_name: String, accent: bool) -
     if bool(control.get_meta("litd_panelized", false)):
         return
     control.set_meta("litd_panelized", true)
-    var index := control.get_index()
+    var index: int = control.get_index()
     var panel := PanelContainer.new()
     panel.name = "%s_%d" % [base_name, index]
     panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
