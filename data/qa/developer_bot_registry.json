@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "policy": {
     "fast_feedback_target_seconds": 90,
     "reproducibility": "Every randomized bot must report deterministic seed and case/run index.",
@@ -8,7 +8,7 @@
       "sentinel": "Run on every relevant commit; small deterministic contract checks.",
       "simulation": "Run in parallel on every relevant commit; medium/long gameplay simulation.",
       "telemetry": "Statistical balance signal; never substitutes for production-runtime tests.",
-      "diagnostic": "Runs after or alongside sentinels to replay, classify, and compare regressions."
+      "diagnostic": "Runs after or alongside sentinels to replay, classify, reduce, and compare regressions."
     }
   },
   "bots": [
@@ -25,11 +25,14 @@
     {"id":"v11","tier":"sentinel","domain":"tactical property fuzzing","report":"reports/player-bot-v11-tactical-property-fuzzer.json","replay":"seed + case_index"},
     {"id":"v12","tier":"diagnostic","domain":"known regression replay","report":"reports/player-bot-v12-regression-replay.json","replay":"regression id"},
     {"id":"v13","tier":"diagnostic","domain":"sentinel regression baseline","report":"reports/player-bot-v13-regression-baseline.json","replay":"baseline + source reports"},
+    {"id":"v14","tier":"diagnostic","domain":"cross-suite failure triage","report":"reports/player-bot-v14-failure-triage.json","replay":"source report + classified issue"},
+    {"id":"v15","tier":"diagnostic","domain":"minimal failing-case reducer","report":"reports/player-bot-v15-case-minimizer.json","replay":"seed + case_index + minimal state"},
+    {"id":"v16","tier":"diagnostic","domain":"balance regression guard","report":"reports/player-bot-v16-balance-regression-guard.json","replay":"baseline threshold + source report"},
     {"id":"telemetry-v2","tier":"telemetry","domain":"roguelike Monte Carlo balance","report":"reports/developer-autotest-telemetry-*.json","replay":"seed + simulator arguments"}
   ],
   "next_wave": [
-    {"id":"v14","goal":"automatic failure triage by subsystem and likely cause"},
-    {"id":"v15","goal":"minimal failing-case reducer for fuzz/replay failures"},
-    {"id":"v16","goal":"statistical regression guard for win-rate, economy, companion impact and skill usage"}
+    {"id":"v17","goal":"change-impact mapper linking changed files to the smallest relevant bot subset"},
+    {"id":"v18","goal":"skill-usage coverage guard detecting dead or never-selected skills"},
+    {"id":"v19","goal":"economy stress bot spanning repeated deaths, purchases, extraction and recovery"}
   ]
 }
