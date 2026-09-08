@@ -1,0 +1,72 @@
+{
+  "version": 43,
+  "name": "LITD Les Veilleurs - Pipeline Blender anatomique automatique v43",
+  "purpose": "Automatiser la preparation technique des modeles Blender afin que le controle humain reste artistique, tout en garantissant la compatibilite avec le corps visuel systemique Godot v42.",
+  "gameplay_neutral": true,
+  "sources": {
+    "body_visual_contract": "data/body_visual_runtime_v42.json",
+    "character_jobs": "data/blender/character_jobs.json",
+    "combat_anatomy": "data/combat_anatomy_v2.json"
+  },
+  "required_collections": [
+    "BODY",
+    "ARMATURE",
+    "EQUIPMENT",
+    "SOCKETS",
+    "BODY_STATES",
+    "BODY_GUIDES"
+  ],
+  "marker_contract": {
+    "segment_name": "BODY_{part}",
+    "stump_name": "STUMP_{part}",
+    "f3_pose_name": "POSE_F3_{part}",
+    "equipment_prefix": "EQUIP_",
+    "segment_property": "litd_body_part",
+    "stump_property": "litd_stump_for",
+    "equipment_part_property": "litd_equipment_for",
+    "equipment_role_property": "litd_equipment_role",
+    "functional_state_property": "litd_visual_functional_state",
+    "weapon_sockets": {
+      "left": "SOCKET_weapon_l",
+      "right": "SOCKET_weapon_r"
+    }
+  },
+  "rig_to_morphology": {
+    "humanoid_biped_v1": "HUMANOID",
+    "humanoid": "HUMANOID",
+    "construct_humanoid": "CONSTRUCT_HUMANOID",
+    "serpentine": "SERPENTINE_ORGANIC",
+    "amorphous": "AMORPHOUS_ORGANIC",
+    "insectoid": "INSECTOID_ORGANIC",
+    "arachnid": "INSECTOID_ORGANIC",
+    "quadruped": "QUADRUPED_ORGANIC",
+    "beast": "QUADRUPED_ORGANIC",
+    "boss_custom": "BOSS_CUSTOM"
+  },
+  "automation": {
+    "create_missing_collections": true,
+    "create_missing_weapon_sockets": true,
+    "tag_markers_from_names": true,
+    "tag_equipment_from_properties": true,
+    "hide_stumps_by_default": true,
+    "hide_f3_pose_helpers_by_default": true,
+    "create_non_exported_guides_for_missing_parts": true,
+    "never_modify_gameplay_data": true,
+    "never_auto_cut_final_art_mesh": true
+  },
+  "validation": {
+    "block_export_if_required_body_segment_missing": true,
+    "block_export_if_f4_capable_segment_has_no_stump_presentation": true,
+    "block_export_if_required_weapon_socket_missing": true,
+    "block_export_if_marker_names_collide": true,
+    "block_export_if_unknown_morphology": true,
+    "allow_declared_markers_only_for_boss_custom": true,
+    "require_custom_properties_in_glb": true
+  },
+  "handoff": {
+    "prepare_command": "blender --background <character.blend> --python tools/blender/anatomical_pipeline_v43.py -- --job-id <character_id> --prepare --save",
+    "validate_command": "blender --background <character.blend> --python tools/blender/anatomical_pipeline_v43.py -- --job-id <character_id> --validate",
+    "generate_all_jobs_command": "python -m tools.blender.generate_anatomical_pipeline_v43",
+    "static_audit_command": "python -m tools.qa.anatomical_pipeline_v43_audit"
+  }
+}
