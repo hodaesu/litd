@@ -1,0 +1,42 @@
+name: Master Scaffolds v53
+
+on:
+  push:
+    paths:
+      - 'data/blender/modeling_plans_v52/**'
+      - 'tools/blender/build_master_scaffold_v53.py'
+      - 'tools/blender/run_master_scaffolds_v53.py'
+      - 'tools/qa/master_scaffolds_v53_audit.py'
+      - 'art/blender/scaffolds_v53/README.md'
+      - '.github/workflows/master-scaffolds-v53.yml'
+  pull_request:
+    paths:
+      - 'data/blender/modeling_plans_v52/**'
+      - 'tools/blender/build_master_scaffold_v53.py'
+      - 'tools/blender/run_master_scaffolds_v53.py'
+      - 'tools/qa/master_scaffolds_v53_audit.py'
+      - 'art/blender/scaffolds_v53/README.md'
+      - '.github/workflows/master-scaffolds-v53.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  master-scaffolds-v53:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compiler les outils v53
+        run: python -m py_compile tools/blender/build_master_scaffold_v53.py tools/blender/run_master_scaffolds_v53.py tools/qa/master_scaffolds_v53_audit.py
+      - name: Vérifier la couche de plans v52
+        run: python -m tools.qa.modeling_plans_v52_audit
+      - name: Vérifier les douze descriptors de scaffold
+        run: python -m tools.blender.build_master_scaffold_v53 --check
+      - name: Auditer la sécurité et la couverture v53
+        run: python -m tools.qa.master_scaffolds_v53_audit
+      - name: Vérifier le plan d'exécution PC sans Blender
+        run: python -m tools.blender.run_master_scaffolds_v53 --dry-run
