@@ -91,6 +91,15 @@ def run(root=ROOT):
         a.check('Kit premier playtest Les Veilleurs', first_playtest_main() == 0)
     except Exception as exc:
         a.check('Kit premier playtest Les Veilleurs', False, str(exc))
+
+    # Le readiness Wave 2 vérifie les outils de mesure, les cinq sessions naïves,
+    # l'accessibilité/localisation statiques et les budgets de performance sans
+    # jamais promouvoir un gate humain ou matériel.
+    try:
+        from tools.qa.veilleurs_playtest_readiness_audit import main as readiness_main
+        a.check('Readiness playtest Wave 2 Les Veilleurs', readiness_main() == 0)
+    except Exception as exc:
+        a.check('Readiness playtest Wave 2 Les Veilleurs', False, str(exc))
     return a
 
 def write_reports(a, outdir):

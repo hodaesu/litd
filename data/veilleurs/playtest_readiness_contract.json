@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "project": "LITD : Les Veilleurs",
+  "purpose": "pre_player_validation_readiness",
+  "rules": {
+    "cannot_promote_player_maturity": true,
+    "cannot_promote_mobile_maturity": true,
+    "human_results_start_not_run": true,
+    "minimum_naive_testers": 5,
+    "blocking_issue_count_max_for_pass": 0
+  },
+  "measurement": {
+    "required_observation_fields": [
+      "tester_id",
+      "build_commit",
+      "platform",
+      "scenario_id",
+      "first_action",
+      "hesitation_count",
+      "help_request_count",
+      "coach_intervention_count",
+      "misinput_count",
+      "blocking_issue_count",
+      "player_explanation",
+      "observer_notes"
+    ],
+    "required_scenarios": [
+      "first_session_onboarding",
+      "combat_decision_readability",
+      "anatomy_causality",
+      "fear_madness_clarity",
+      "exploration_route_clarity",
+      "sanctuary_consequence_loop"
+    ]
+  },
+  "probable_fix_hypotheses": [
+    {
+      "id": "target_feedback",
+      "trigger": "Le joueur hésite ou se trompe plusieurs fois sur la cible ou la zone anatomique.",
+      "candidate_fix": "Renforcer le focus, la prévisualisation de cible et la confirmation de zone sans ajouter de tutoriel oral.",
+      "apply_before_evidence": false
+    },
+    {
+      "id": "action_consequence_preview",
+      "trigger": "Le joueur ne sait pas ce que sa compétence devrait provoquer avant validation.",
+      "candidate_fix": "Rendre plus visible la conséquence tactique attendue, les rangs valides et les états affectés.",
+      "apply_before_evidence": false
+    },
+    {
+      "id": "cause_effect_feedback",
+      "trigger": "Le joueur voit un changement de Peur, Folie ou blessure sans comprendre sa cause.",
+      "candidate_fix": "Ajouter un feedback causal bref relié à l'événement déclencheur et éviter les messages purement décoratifs.",
+      "apply_before_evidence": false
+    },
+    {
+      "id": "route_affordance",
+      "trigger": "Le joueur confond exploration voulue et interaction invisible.",
+      "candidate_fix": "Renforcer l'affordance des sorties, interactions et objectifs immédiats sans supprimer l'incertitude narrative.",
+      "apply_before_evidence": false
+    },
+    {
+      "id": "sanctuary_persistence_feedback",
+      "trigger": "Le joueur ne relie pas une décision d'expédition à son effet au Sanctuaire.",
+      "candidate_fix": "Rendre la chaîne décision → conséquence → état persistant plus explicite au moment du retour.",
+      "apply_before_evidence": false
+    }
+  ],
+  "accessibility_static_readiness": {
+    "requirements": [
+      "critical_information_not_color_only",
+      "focus_state_required_for_interactive_controls",
+      "essential_text_must_support_mobile_readability",
+      "critical_actions_require_confirm_or_safe_undo_when_destructive",
+      "haptics_must_have_visual_or_audio_equivalent",
+      "rapid_flash_effects_must_be_avoidable_or_bounded",
+      "motion_heavy_feedback_must_not_be_the_only_feedback_channel"
+    ],
+    "final_validation_requires_human_or_device": true
+  },
+  "localization_static_readiness": {
+    "source_locale": "fr",
+    "requirements": [
+      "player_facing_copy_has_stable_keys_before_mass_translation",
+      "no_gameplay_rule_depends_on_rendered_french_text",
+      "ui_must_tolerate_text_expansion",
+      "numbers_and_units_are_separable_from_sentence_order",
+      "font_fallback_plan_required_before_non_latin_locales",
+      "pseudolocalization_required_before_translation_lock"
+    ],
+    "text_expansion_target_percent": 35,
+    "final_language_validation_requires_human": true
+  },
+  "performance_theoretical_readiness": {
+    "linked_hardware_gate": "gpu_cpu_thermal_performance",
+    "preferred_fps": 60,
+    "hard_floor_fps": 30,
+    "frame_budget_ms_60fps": 16.67,
+    "frame_budget_ms_30fps": 33.33,
+    "crash_count_max": 0,
+    "blocking_issue_count_max": 0,
+    "required_runtime_scenarios": [
+      "cold_launch",
+      "hub_10_min",
+      "combat_20_min",
+      "six_dungeon_traversal",
+      "ultimate_stress",
+      "save_resume_loop"
+    ],
+    "theoretical_audit_cannot_claim_runtime_pass": true
+  }
+}
