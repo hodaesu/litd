@@ -21,7 +21,35 @@ permissions:
   contents: read
 
 jobs:
-  godot-runtime-autotest:
+  fast-contracts:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: "Bot v8 : contrat combat légal rapide"
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v8_fast_combat_contract.tscn
+      - name: "Bot v9 : intégrité sauvegarde rapide"
+        if: always()
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v9_save_integrity.tscn
+      - name: "Bot v10 : smoke UI Sanctuaire"
+        if: always()
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v10_sanctuary_ui_smoke.tscn
+      - name: Publier les rapports rapides
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-fast-contracts
+          path: |
+            reports/player-bot-v8-fast-combat-contract.json
+            reports/player-bot-v9-save-integrity.json
+            reports/player-bot-v10-sanctuary-ui-smoke.json
+
+  combat-core:
     runs-on: ubuntu-latest
     container:
       image: barichello/godot-ci:4.7.2
@@ -33,39 +61,87 @@ jobs:
         run: godot --headless --path . --import --quit
       - name: Auto-test développeur déterministe
         run: godot --headless --path . res://scenes/tests/developer_autotest_smoke.tscn
-      - name: "Joueur-bot v1 : expédition, combats, loot, capture et progression de salles"
+      - name: "Joueur-bot v1 : expédition, combats, loot et capture"
+        if: always()
         run: timeout 120s godot --headless --path . res://scenes/tests/player_bot_autotest.tscn
-      - name: "Joueur-bot v2 : contrôleur réel, compétences, capture et métriques"
+      - name: "Joueur-bot v2 : contrôleur réel et tactique"
+        if: always()
         run: timeout 180s godot --headless --path . res://scenes/tests/player_bot_v2_autotest.tscn
-      - name: "Joueur-bot v3 : matrice de builds et détection de domination"
+      - name: "Joueur-bot v3 : matrice de builds tactique"
         if: always()
         run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v3_build_matrix.tscn
-      - name: "Joueur-bot v4 : niveaux, raretés, compagnon et politiques"
-        if: always()
-        run: timeout 360s godot --headless --path . res://scenes/tests/player_bot_v4_factorial_matrix.tscn
-      - name: "Joueur-bot v5 : campagne longitudinale, blessures, économie et sauvegardes"
-        if: always()
-        run: timeout 420s godot --headless --path . res://scenes/tests/player_bot_v5_longitudinal_campaign.tscn
-      - name: "Joueur-bot v6 : campagne réelle, extraction, ressources et coffre"
-        if: always()
-        run: timeout 540s godot --headless --path . res://scenes/tests/player_bot_v6_real_campaign.tscn
-      - name: "Joueur-bot v7 : économie du Sanctuaire, marché et remplacement des morts"
-        if: always()
-        run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v7_sanctuary_economy.tscn
-      - name: Publier les rapports runtime
+      - name: Publier les rapports combat
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: developer-autotest-godot
+          name: developer-autotest-combat-core
           path: |
             reports/developer-autotest-godot.json
             reports/player-bot-autotest.json
             reports/player-bot-v2-autotest.json
             reports/player-bot-v3-build-matrix.json
-            reports/player-bot-v4-factorial-matrix.json
+
+  combat-matrix:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: "Joueur-bot v4 : niveaux, raretés, compagnon et politiques"
+        run: timeout 360s godot --headless --path . res://scenes/tests/player_bot_v4_factorial_matrix.tscn
+      - name: Publier le rapport matrice
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-combat-matrix
+          path: reports/player-bot-v4-factorial-matrix.json
+
+  campaign-bots:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: "Joueur-bot v5 : campagne longitudinale"
+        run: timeout 420s godot --headless --path . res://scenes/tests/player_bot_v5_longitudinal_campaign.tscn
+      - name: "Joueur-bot v6 : campagne réelle, extraction et économie"
+        if: always()
+        run: timeout 540s godot --headless --path . res://scenes/tests/player_bot_v6_real_campaign.tscn
+      - name: Publier les rapports campagne
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-campaigns
+          path: |
             reports/player-bot-v5-longitudinal-campaign.json
             reports/player-bot-v6-real-campaign.json
-            reports/player-bot-v7-sanctuary-economy.json
+
+  sanctuary-bot:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: "Joueur-bot v7 : économie du Sanctuaire, marché et remplacement"
+        run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v7_sanctuary_economy.tscn
+      - name: Publier le rapport Sanctuaire
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-sanctuary
+          path: reports/player-bot-v7-sanctuary-economy.json
 
   deterministic-batch-telemetry:
     runs-on: ubuntu-latest
