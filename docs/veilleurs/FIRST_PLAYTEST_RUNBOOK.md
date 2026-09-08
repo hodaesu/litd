@@ -23,6 +23,8 @@ Le dépôt possède déjà des preuves techniques pour le combat, les règles de
 
 Le playtest ne doit donc pas répéter les audits machine. Il doit observer ce que les audits ne peuvent pas savoir : **ce que comprend réellement une personne devant le jeu**.
 
+Avant de figer une build d'auto-test développeur, le workflow `Veilleurs Godot Production Automation` du commit testé doit être terminé en `success`. Un run `queued`, `in_progress`, `failure` ou `cancelled` ne constitue pas une preuve de readiness.
+
 ## Lancement Windows recommandé
 
 Depuis la racine du dépôt, le chemin le plus simple est :
