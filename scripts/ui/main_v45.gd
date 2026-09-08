@@ -33,7 +33,7 @@ func show_tavern() -> void:
     list.add_theme_constant_override("separation", 14)
     scroll.add_child(list)
 
-    var dead_ids := _sanctuary_recruitment_service.dead_hero_ids()
+    var dead_ids: Array = _sanctuary_recruitment_service.dead_hero_ids()
     if dead_ids.is_empty():
         list.add_child(make_label("Aucun poste de Veilleur n'est vacant. La Taverne ne remplace que les morts permanentes.", 18, MUTED))
     else:
@@ -45,7 +45,7 @@ func show_tavern() -> void:
     content.add_child(back)
 
 func _render_vacant_post(parent: VBoxContainer, dead_id: String) -> void:
-    var fallen := _hero_by_id(dead_id)
+    var fallen: Dictionary = _hero_by_id(dead_id)
     if fallen.is_empty():
         return
     var generation := int(_tavern_refresh_generation.get(dead_id, 0))
@@ -59,7 +59,7 @@ func _render_vacant_post(parent: VBoxContainer, dead_id: String) -> void:
     header.add_child(heading)
     header.add_child(make_button("RENOUVELER", func(target_id = dead_id): _refresh_tavern_candidates(str(target_id)), Vector2(180, 44)))
 
-    var fallen_traits := CharacterTraitDirector.trait_names(fallen)
+    var fallen_traits: Dictionary = CharacterTraitDirector.trait_names(fallen)
     parent.add_child(make_label(
         "Tombé · niv. %d · PV max %d · traits +%d / −%d" % [
             int(fallen.get("level", 1)),
@@ -71,7 +71,7 @@ func _render_vacant_post(parent: VBoxContainer, dead_id: String) -> void:
         MUTED
     ))
 
-    var candidates := _sanctuary_recruitment_service.generate_replacement_candidates(dead_id, seed_value)
+    var candidates: Array = _sanctuary_recruitment_service.generate_replacement_candidates(dead_id, seed_value)
     if candidates.is_empty():
         parent.add_child(make_label("Aucune recrue compatible disponible pour ce poste.", 14, MUTED))
         return
@@ -98,7 +98,7 @@ func _candidate_card(dead_id: String, fallen: Dictionary, wrapper: Dictionary, c
     var cost := int(wrapper.get("cost", 0))
     details.add_child(make_label("%s · niveau %d · %d or" % [str(wrapper.get("name", "Recrue")), level, cost], 16, GOLD))
 
-    var traits := CharacterTraitDirector.trait_names(candidate)
+    var traits: Dictionary = CharacterTraitDirector.trait_names(candidate)
     var positives: Array = traits.get("positive", [])
     var negatives: Array = traits.get("negative", [])
     details.add_child(make_label(
@@ -122,7 +122,7 @@ func _candidate_card(dead_id: String, fallen: Dictionary, wrapper: Dictionary, c
 
     var level_delta := level - int(fallen.get("level", 1))
     var hp_delta := int(candidate.get("max_hp", candidate.get("hp", 1))) - int(fallen.get("max_hp", fallen.get("hp", 1)))
-    var fallen_traits := CharacterTraitDirector.trait_names(fallen)
+    var fallen_traits: Dictionary = CharacterTraitDirector.trait_names(fallen)
     var positive_delta := positives.size() - (fallen_traits.get("positive", []) as Array).size()
     var negative_delta := negatives.size() - (fallen_traits.get("negative", []) as Array).size()
     details.add_child(make_label(
