@@ -1,0 +1,79 @@
+name: Veilleurs Playtest Readiness
+
+on:
+  pull_request:
+    paths:
+      - 'data/veilleurs/playtest_readiness_contract.json'
+      - 'tools/playtest/**'
+      - 'tools/qa/veilleurs_playtest_readiness_audit.py'
+      - 'tests/test_veilleurs_playtest_readiness.py'
+      - 'docs/veilleurs/PLAYTEST_READINESS_WAVE2.md'
+      - '.github/workflows/veilleurs-playtest-readiness.yml'
+      - 'data/veilleurs/hardware_validation_contract.json'
+      - 'data/veilleurs/player_validation_contract.json'
+      - 'reports/veilleurs_player_validation_template.json'
+  push:
+    branches: [main]
+    paths:
+      - 'data/veilleurs/playtest_readiness_contract.json'
+      - 'tools/playtest/**'
+      - 'tools/qa/veilleurs_playtest_readiness_audit.py'
+      - 'tests/test_veilleurs_playtest_readiness.py'
+      - 'docs/veilleurs/PLAYTEST_READINESS_WAVE2.md'
+      - '.github/workflows/veilleurs-playtest-readiness.yml'
+      - 'data/veilleurs/hardware_validation_contract.json'
+      - 'data/veilleurs/player_validation_contract.json'
+      - 'reports/veilleurs_player_validation_template.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  readiness:
+    name: Audit and prepare five naive sessions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Audit readiness contract
+        run: python -m tools.qa.veilleurs_playtest_readiness_audit
+      - name: Test readiness tooling
+        run: pytest -q tests/test_veilleurs_playtest_readiness.py
+      - name: Generate five neutral naive-tester sessions
+        run: |
+          rm -rf build/playtest/naive-pack
+          python -m tools.playtest.prepare_naive_tester_pack \
+            --count 5 \
+            --build-commit "$GITHUB_SHA" \
+            --output-dir build/playtest/naive-pack
+          python -m tools.playtest.summarize_naive_playtests \
+            build/playtest/naive-pack \
+            --out build/playtest/naive-pack/EMPTY_SUMMARY.json
+      - name: Assert neutral pack
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('build/playtest/naive-pack')
+          manifest = json.loads((root / 'PACK_MANIFEST.json').read_text(encoding='utf-8'))
+          assert manifest['validation_status'] == 'NOT_RUN'
+          assert len(manifest['testers']) == 5
+          for tester in manifest['testers']:
+              report = json.loads((root / tester / 'player_validation.json').read_text(encoding='utf-8'))
+              assert all(g['status'] == 'NOT_RUN' for g in report['gates'])
+              assert all(not g['evidence'] for g in report['gates'])
+          print('VEILLEURS_NAIVE_PACK_NEUTRAL_OK')
+          PY
+      - name: Publish five-session playtest pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: veilleurs-five-naive-playtest-sessions
+          path: build/playtest/naive-pack/
+          if-no-files-found: error
