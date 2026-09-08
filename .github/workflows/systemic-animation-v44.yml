@@ -1,0 +1,59 @@
+name: Systemic Animation v44
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'data/blender/systemic_animation_v44.json'
+      - 'data/blender/anatomical_pipeline_v43.json'
+      - 'data/body_visual_runtime_v42.json'
+      - 'data/blender/character_jobs.json'
+      - 'tools/blender/generate_systemic_animation_v44.py'
+      - 'tools/blender/systemic_animation_v44.py'
+      - 'tools/blender/generate_anatomical_pipeline_v43.py'
+      - 'tools/qa/systemic_animation_v44_audit.py'
+      - 'scripts/visual/systemic_body_animation_runtime.gd'
+      - 'scripts/core/body_animation_v44_smoke_test.gd'
+      - 'scenes/tests/body_animation_v44_smoke.tscn'
+      - '.github/workflows/systemic-animation-v44.yml'
+  pull_request:
+    paths:
+      - 'data/blender/systemic_animation_v44.json'
+      - 'data/blender/anatomical_pipeline_v43.json'
+      - 'data/body_visual_runtime_v42.json'
+      - 'data/blender/character_jobs.json'
+      - 'tools/blender/generate_systemic_animation_v44.py'
+      - 'tools/blender/systemic_animation_v44.py'
+      - 'tools/blender/generate_anatomical_pipeline_v43.py'
+      - 'tools/qa/systemic_animation_v44_audit.py'
+      - 'scripts/visual/systemic_body_animation_runtime.gd'
+      - 'scripts/core/body_animation_v44_smoke_test.gd'
+      - 'scenes/tests/body_animation_v44_smoke.tscn'
+      - '.github/workflows/systemic-animation-v44.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  animation-v44-static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compiler les scripts v44
+        run: python -m py_compile tools/blender/generate_systemic_animation_v44.py tools/blender/systemic_animation_v44.py tools/qa/systemic_animation_v44_audit.py
+      - name: Auditer le pipeline d'animation v44
+        run: python -m tools.qa.systemic_animation_v44_audit
+      - name: Générer le plan complet d'animation du casting
+        run: python -m tools.blender.generate_systemic_animation_v44 --output systemic_animation_jobs_v44.json
+      - name: Vérifier le plan d'un Veilleur sans Blender
+        run: python -m tools.blender.systemic_animation_v44 --job-id aurelien --print-plan > v44_aurelien_plan.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: systemic-animation-v44-jobs
+          path: |
+            systemic_animation_jobs_v44.json
+            v44_aurelien_plan.json
