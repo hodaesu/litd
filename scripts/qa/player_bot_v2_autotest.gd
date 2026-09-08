@@ -178,7 +178,7 @@ func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
     var room_id := str(room.get("id", "bot_room"))
     var actions := 0
     var no_progress := 0
-    var last_hp_signature := _combat_hp_signature()
+    var last_state_signature := _combat_state_signature()
     var start_round := int(controller.combat_round_number)
 
     while not GameState.alive_heroes().is_empty() and not GameState.alive_enemies().is_empty() and actions < MAX_ACTIONS_PER_COMBAT:
@@ -186,7 +186,12 @@ func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
         var hero: Dictionary = controller._active_combat_hero()
         if hero.is_empty():
             await get_tree().process_frame
-            no_progress += 1
+            var idle_signature := _combat_state_signature()
+            if idle_signature == last_state_signature:
+                no_progress += 1
+            else:
+                no_progress = 0
+                last_state_signature = idle_signature
             if no_progress >= NO_PROGRESS_LIMIT:
                 _record_softlock(seed_value, room_id, "no_active_hero", actions)
                 return {"victory": false, "reason": "softlock", "actions": actions, "rounds": int(controller.combat_round_number) - start_round + 1}
@@ -200,6 +205,8 @@ func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
             if CreatureManager.captured_creatures.size() > captured_before:
                 actions += 1
                 _record_skill("__capture__", 0, 0)
+                last_state_signature = _combat_state_signature()
+                no_progress = 0
                 continue
 
         var choice := _choose_real_skill(hero)
@@ -214,14 +221,14 @@ func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
         var healing := maxi(0, _party_hp_total() - party_hp_before)
         _record_skill(skill_id, damage, healing)
 
-        var signature := _combat_hp_signature()
-        if signature == last_hp_signature:
+        var signature := _combat_state_signature()
+        if signature == last_state_signature:
             no_progress += 1
         else:
             no_progress = 0
-            last_hp_signature = signature
+            last_state_signature = signature
         if no_progress >= NO_PROGRESS_LIMIT:
-            _record_softlock(seed_value, room_id, "no_hp_progress", actions)
+            _record_softlock(seed_value, room_id, "no_state_progress", actions)
             return {"victory": false, "reason": "softlock", "actions": actions, "rounds": int(controller.combat_round_number) - start_round + 1}
 
     if not GameState.alive_enemies().is_empty():
@@ -338,8 +345,20 @@ func _enemy_hp_total() -> int:
         total += maxi(0, int((enemy_value as Dictionary).get("hp", 0)))
     return total
 
-func _combat_hp_signature() -> String:
-    return "%d:%d:%d:%d" % [_party_hp_total(), _enemy_hp_total(), GameState.alive_heroes().size(), GameState.alive_enemies().size()]
+func _combat_state_signature() -> String:
+    var acted: Array[String] = []
+    for hero_id in controller.combat_acted_hero_ids:
+        acted.append(str(hero_id))
+    acted.sort()
+    return "%d:%d:%d:%d:r%d:a%s:t%s" % [
+        _party_hp_total(),
+        _enemy_hp_total(),
+        GameState.alive_heroes().size(),
+        GameState.alive_enemies().size(),
+        int(controller.combat_round_number),
+        str(controller.combat_active_hero_id),
+        ",".join(acted)
+    ]
 
 func _lowest_party_hp_ratio() -> float:
     var result := 1.0
