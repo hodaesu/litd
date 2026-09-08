@@ -1,0 +1,44 @@
+name: Blender Scene Validator v53
+
+on:
+  push:
+    paths:
+      - 'tools/blender/validate_master_model_scene_v53.py'
+      - 'tools/qa/blender_scene_validator_v53_audit.py'
+      - 'data/blender/modeling_plans_v52/**'
+      - 'data/blender/animation_export_plan_v48.json'
+      - 'art/blender/animation_masters/SCENE_VALIDATION_RUNBOOK_v53.md'
+      - '.github/workflows/blender-scene-validator-v53.yml'
+  pull_request:
+    paths:
+      - 'tools/blender/validate_master_model_scene_v53.py'
+      - 'tools/qa/blender_scene_validator_v53_audit.py'
+      - 'data/blender/modeling_plans_v52/**'
+      - 'data/blender/animation_export_plan_v48.json'
+      - 'art/blender/animation_masters/SCENE_VALIDATION_RUNBOOK_v53.md'
+      - '.github/workflows/blender-scene-validator-v53.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  blender-scene-validator-v53:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compiler le validateur sans exécuter bpy
+        run: python -m py_compile tools/blender/validate_master_model_scene_v53.py tools/qa/blender_scene_validator_v53_audit.py
+      - name: Revalider les douze plans v52
+        run: python -m tools.qa.modeling_plans_v52_audit
+      - name: Auditer le validateur Blender v53 en lecture seule
+        run: python -m tools.qa.blender_scene_validator_v53_audit
+      - name: Vérifier les 12 bundles et 320 Actions P0 attendues
+        run: python -m tools.blender.generate_animation_export_plan_v48 --summary
+      - name: Vérifier que v50 refuse toujours les faux assets Blender
+        run: python -m tools.pipeline.run_p0_animation_pipeline_v50 --dry-run
+      - name: Rappeler la frontière CI Blender
+        run: echo 'Static CI validates the validator contract only; real .blend scenes must be checked inside Blender on PC.'
