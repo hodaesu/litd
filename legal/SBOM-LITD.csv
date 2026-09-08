@@ -1,0 +1,5 @@
+component_id,name,version,type,path_or_source,author_vendor,license,attribution_required,source_offer_required,commercial_compatibility,status,evidence
+SBOM-LITD-0001,Godot Engine,4.7,game_engine,project.godot,Godot Engine contributors,MIT,YES,NO,COMPATIBLE,GREEN_CONDITIONAL,"project.godot features=4.7; include MIT license and engine third-party notices in shipped product"
+SBOM-LITD-0002,Veilleurs Production Pipeline,project_internal,Godot_editor_plugin,addons/veilleurs_pipeline,LITD project,PROJECT_PROPRIETARY,NO,NO,INTERNAL,GREEN_PROVISIONAL,"Only addon directory detected in repository scan"
+SBOM-LITD-0003,pytest,>=8.0 <9,development_dependency,pyproject.toml;requirements-dev.txt,pytest-dev team,MIT,YES_IF_REDISTRIBUTED,NO,COMPATIBLE,GREEN,"Development/test dependency; not expected in game runtime export"
+SBOM-LITD-0004,PyYAML,>=6.0 <7,development_dependency,pyproject.toml;requirements-dev.txt,PyYAML maintainers,MIT,YES_IF_REDISTRIBUTED,NO,COMPATIBLE,GREEN,"Development/test dependency; not expected in game runtime export"
