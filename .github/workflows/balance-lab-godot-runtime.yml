@@ -1,0 +1,41 @@
+name: BalanceLab Godot Runtime
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/qa/veilleurs_balance_runtime_v01.gd'
+      - 'scripts/qa/balance_lab_godot_runtime_probe.gd'
+      - '.github/workflows/balance-lab-godot-runtime.yml'
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: 'Nombre de combats runtime Godot'
+        required: false
+        default: '10000'
+
+permissions:
+  contents: read
+
+jobs:
+  sim001-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Importer le projet Godot
+        run: godot --headless --path . --import --quit
+      - name: Lancer 10 000 combats via le runtime Godot réel
+        env:
+          BALANCE_GODOT_RUNS: ${{ github.event.inputs.runs || '10000' }}
+          BALANCE_GODOT_SEED: '41003'
+        run: >-
+          godot --headless --path .
+          --script res://scripts/qa/balance_lab_godot_runtime_probe.gd
+      - name: Publier le rapport runtime Godot
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: balance-lab-godot-runtime
+          path: reports/balance-lab-godot-runtime.json
