@@ -39,6 +39,8 @@ jobs:
         run: timeout 180s godot --headless --path . res://scenes/tests/player_bot_v2_autotest.tscn
       - name: "Joueur-bot v3 : matrice de builds et détection de domination"
         run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v3_build_matrix.tscn
+      - name: "Joueur-bot v4 : niveaux, raretés, compagnon et politiques"
+        run: timeout 360s godot --headless --path . res://scenes/tests/player_bot_v4_factorial_matrix.tscn
       - name: Publier les rapports runtime
         uses: actions/upload-artifact@v4
         if: always()
@@ -49,6 +51,7 @@ jobs:
             reports/player-bot-autotest.json
             reports/player-bot-v2-autotest.json
             reports/player-bot-v3-build-matrix.json
+            reports/player-bot-v4-factorial-matrix.json
 
   deterministic-batch-telemetry:
     runs-on: ubuntu-latest
