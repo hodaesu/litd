@@ -10,6 +10,26 @@ La boucle complète est :
 
 L'interface permanente reste absente pendant l'exploration. Le HUD n'apparaît que dans les contextes utiles : combat, marchand, feu de camp ou interaction contextuelle explicite.
 
+### Couche de tension à prototyper
+
+La verticale doit également tester une boucle courte répétée à l'intérieur de l'expédition :
+
+**Lumière → exploration → risque → combat/événement → Folie/Espoir → butin → continuer ou extraire.**
+
+Cette couche ne remplace pas la structure narrative du chapitre. Elle lui donne une pression ludique continue.
+
+Pour le premier prototype :
+
+- la **Lumière** est une ressource de pression qui agit sur l'information disponible, le danger, la psychologie et certaines opportunités de récompense ;
+- une faible Lumière doit être **tentante et dangereuse**, jamais uniquement punitive ;
+- les combats et événements peuvent laisser une dette de Folie/Peur ou un gain d'Espoir qui influence la suite de l'expédition ;
+- le butin important trouvé pendant la run doit être visible comme **sécurisé** ou **encore exposé** ;
+- des jalons de la verticale doivent permettre de tester la décision **continuer / retourner au Sanctuaire**, sans présenter automatiquement le retour anticipé comme un échec ;
+- les séquences narratives obligatoires peuvent limiter ponctuellement l'extraction, mais la restriction doit être explicitée avant que le joueur engage la ressource concernée ;
+- le joueur doit pouvoir expliquer après une défaite quelles décisions ont progressivement créé la situation dangereuse.
+
+Les valeurs numériques sont volontairement laissées au prototype et au playtest. Les critères de mesure sont définis dans `docs/research/ROGUELIKE_DUNGEON_CRAWLER_BENCHMARK.md` et `docs/veilleurs/PLAYTEST_PROTOCOL.md`.
+
 ## Les huit étapes
 
 1. **La route sous la cendre** — première exploration et découverte de la route.
