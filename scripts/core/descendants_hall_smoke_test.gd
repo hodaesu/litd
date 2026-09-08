@@ -57,7 +57,7 @@ func run() -> void:
     _check(_label_contains("Ange du Premier Voile"), "Hall must display the defeated boss")
     _check(_label_contains("Éclat du Premier Voile"), "Hall must display the unique relic")
     _check(_label_contains("Celui qui n'a pas remonté"), "Hall must display the unique title")
-    _check(_label_contains("Malvor — niveau 4"), "Hall must preserve a fallen hero in the chronicle")
+    _check(_label_contains("Mira Sen — niveau 4"), "Hall must preserve a fallen hero in the chronicle under the canonical name")
     _check(_label_contains("Lumière restante 1"), "Hall must display remaining Light")
     _check(_label_contains("Seed 424242"), "Hall must display the run seed")
 
