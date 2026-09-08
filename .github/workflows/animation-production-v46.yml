@@ -1,0 +1,53 @@
+name: Animation Production v46
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'data/blender/canonical_cast_v46.json'
+      - 'data/blender/animation_production_matrix_v45.json'
+      - 'data/blender/systemic_animation_v44.json'
+      - 'data/body_visual_runtime_v42.json'
+      - 'data/blender/character_jobs.json'
+      - 'tools/blender/generate_animation_production_matrix_v46.py'
+      - 'tools/blender/generate_animation_production_matrix_v45.py'
+      - 'tools/blender/generate_systemic_animation_v44.py'
+      - 'tools/qa/canonical_cast_v46_audit.py'
+      - '.github/workflows/animation-production-v46.yml'
+  pull_request:
+    paths:
+      - 'data/blender/canonical_cast_v46.json'
+      - 'data/blender/animation_production_matrix_v45.json'
+      - 'data/blender/systemic_animation_v44.json'
+      - 'data/body_visual_runtime_v42.json'
+      - 'data/blender/character_jobs.json'
+      - 'tools/blender/generate_animation_production_matrix_v46.py'
+      - 'tools/blender/generate_animation_production_matrix_v45.py'
+      - 'tools/blender/generate_systemic_animation_v44.py'
+      - 'tools/qa/canonical_cast_v46_audit.py'
+      - '.github/workflows/animation-production-v46.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  canonical-animation-production-v46:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compiler les scripts v46
+        run: python -m py_compile tools/blender/generate_animation_production_matrix_v46.py tools/qa/canonical_cast_v46_audit.py
+      - name: Auditer le casting canonique 4 + 24 + 5 et son isolation
+        run: python -m tools.qa.canonical_cast_v46_audit
+      - name: Générer la matrice canonique v46
+        run: python -m tools.blender.generate_animation_production_matrix_v46 --output animation_production_jobs_v46.json
+      - name: Afficher le résumé de production canonique
+        run: python -m tools.blender.generate_animation_production_matrix_v46 --summary
+      - uses: actions/upload-artifact@v4
+        with:
+          name: animation-production-v46-canonical-matrix
+          path: animation_production_jobs_v46.json
