@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "project": "LITD : Les Veilleurs",
+  "model": "five_stage_system_maturity",
+  "stages": [
+    {
+      "id": "implemented",
+      "rank": 1,
+      "label_fr": "Implémenté",
+      "meaning": "Le système existe dans le runtime ou dans une verticale jouable et ses dépendances principales sont présentes."
+    },
+    {
+      "id": "technically_validated",
+      "rank": 2,
+      "label_fr": "Testé techniquement",
+      "meaning": "Les tests, audits et smokes requis passent sur un commit précis sans erreur bloquante connue."
+    },
+    {
+      "id": "player_validated",
+      "rank": 3,
+      "label_fr": "Compris par le joueur",
+      "meaning": "Des playtests humains montrent que le joueur comprend les décisions, causes et conséquences sans coaching indu."
+    },
+    {
+      "id": "mobile_validated",
+      "rank": 4,
+      "label_fr": "Validé mobile",
+      "meaning": "Les interactions, la lisibilité, la performance et les contraintes matérielles sont validées sur appareil cible réel."
+    },
+    {
+      "id": "production_locked",
+      "rank": 5,
+      "label_fr": "Verrouillé pour production",
+      "meaning": "Les quatre preuves design, joueur, technique et reproductibilité de production sont réunies ; le procédé peut être répété à grande échelle."
+    }
+  ],
+  "rules": {
+    "stages_cannot_be_skipped": true,
+    "human_evidence_required_from_rank": 3,
+    "real_device_evidence_required_from_rank": 4,
+    "production_lock_requires_four_proofs": ["design", "player", "technical", "production"],
+    "ci_must_not_promote_human_or_device_stages": true,
+    "regression_can_demote_a_system": true
+  },
+  "systems": [
+    {
+      "id": "combat_core",
+      "label_fr": "Combat tactique principal",
+      "current_stage": "technically_validated",
+      "evidence": {
+        "design": [
+          "docs/COMBAT_TACTIQUE_RANGS.md",
+          "docs/COMBAT_DEMEMBREMENTS.md",
+          "docs/COMBAT_ANATOMIE_AVANCEE.md"
+        ],
+        "technical": [
+          "tools/qa/combat_turn_audit.py",
+          "tools/qa/tactical_combat_audit.py",
+          "tools/qa/dismemberment_audit.py",
+          "tools/qa/displacement_combat_audit.py",
+          "tools/qa/enemy_family_tactics_audit.py",
+          "tools/qa/anatomy_system_audit.py",
+          "scripts/core/veilleurs_vs001_smoke_test.gd"
+        ],
+        "player": [],
+        "mobile": [],
+        "production": []
+      },
+      "next_gate": "combat_decision_readability",
+      "blocking_reason": "Aucune preuve de playtest humain versionnée ne valide encore la compréhension réelle des décisions de combat."
+    },
+    {
+      "id": "anatomy_combat",
+      "label_fr": "Anatomie, blessures et démembrement tactique",
+      "current_stage": "technically_validated",
+      "evidence": {
+        "design": ["docs/COMBAT_ANATOMIE_AVANCEE.md"],
+        "technical": ["tools/qa/anatomy_system_audit.py", "tools/qa/dismemberment_audit.py"],
+        "player": [],
+        "mobile": [],
+        "production": []
+      },
+      "next_gate": "anatomy_causality",
+      "blocking_reason": "La causalité anatomique doit encore être comprise et expliquée correctement par de vrais joueurs."
+    },
+    {
+      "id": "psychology_combat",
+      "label_fr": "Peur, Folie et psychologie de combat",
+      "current_stage": "technically_validated",
+      "evidence": {
+        "design": ["docs/COMBAT_ANATOMIE_AVANCEE.md"],
+        "technical": ["tools/qa/psychology_combat_audit.py", "tools/qa/psychology_social_combat_audit.py"],
+        "player": [],
+        "mobile": [],
+        "production": []
+      },
+      "next_gate": "fear_madness_clarity",
+      "blocking_reason": "La lisibilité des causes, effets et contre-jeux psychologiques doit encore être validée en playtest."
+    },
+    {
+      "id": "chapter_one_loop",
+      "label_fr": "Boucle Chapitre I : exploration → combat → conséquence → Sanctuaire",
+      "current_stage": "technically_validated",
+      "evidence": {
+        "design": ["docs/CHAPITRE_01_VERTICAL_SLICE.md"],
+        "technical": ["tools/qa/cross_system_audit.py", "tools/qa/prepc_demo_production_audit.py"],
+        "player": [],
+        "mobile": [],
+        "production": []
+      },
+      "next_gate": "exploration_route_clarity",
+      "blocking_reason": "La boucle complète doit être jouée et comprise sans accompagnement développeur."
+    },
+    {
+      "id": "mobile_combat_ux",
+      "label_fr": "UX tactile et lisibilité mobile du combat",
+      "current_stage": "technically_validated",
+      "evidence": {
+        "design": ["docs/veilleurs/mobile_combat_ux_audit_v09_post_targeting.md"],
+        "technical": ["data/veilleurs/hardware_validation_contract.json"],
+        "player": [],
+        "mobile": [],
+        "production": []
+      },
+      "next_gate": "real_mobile_interaction",
+      "blocking_reason": "Les régressions logiques tactiles passent, mais le confort réel au pouce et la lisibilité sur appareil restent non testés."
+    }
+  ]
+}
