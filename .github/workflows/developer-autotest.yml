@@ -1,0 +1,72 @@
+name: Developer Autotest
+
+on:
+  push:
+    branches: [dev/auto-test-bench]
+  pull_request:
+    paths:
+      - 'scripts/**'
+      - 'scenes/**'
+      - 'data/**'
+      - 'tools/qa/**'
+      - '.github/workflows/developer-autotest.yml'
+  workflow_dispatch:
+    inputs:
+      runs_per_seed:
+        description: "Expéditions simulées par seed fixe"
+        required: false
+        default: "1000"
+
+permissions:
+  contents: read
+
+jobs:
+  godot-runtime-autotest:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: Auto-test développeur déterministe
+        run: godot --headless --path . res://scenes/tests/developer_autotest_smoke.tscn
+      - name: Publier le rapport runtime
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-godot
+          path: reports/developer-autotest-godot.json
+
+  deterministic-batch-telemetry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Simuler cinq seeds fixes
+        env:
+          RUNS_PER_SEED: ${{ github.event.inputs.runs_per_seed || '1000' }}
+        run: |
+          set -euo pipefail
+          for SEED in 101 202 303 404 505; do
+            python -m tools.qa.roguelike_telemetry_sim_v2 \
+              --runs "$RUNS_PER_SEED" \
+              --seed "$SEED" \
+              --report "reports/developer-autotest-telemetry-${SEED}.json" \
+              --csv "reports/developer-autotest-telemetry-${SEED}.csv" \
+              --strict
+          done
+      - name: Publier la télémétrie déterministe
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-telemetry
+          path: |
+            reports/developer-autotest-telemetry-*.json
+            reports/developer-autotest-telemetry-*.csv
