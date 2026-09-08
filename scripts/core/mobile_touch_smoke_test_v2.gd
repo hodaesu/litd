@@ -3,6 +3,8 @@ extends "res://scripts/core/mobile_touch_smoke_test.gd"
 # Le nouvel écran d'expédition nomme explicitement la destination du bouton.
 # Le smoke tactile conserve les mêmes gestes et dimensions, mais cible ce libellé.
 
+const TACTICAL_UI_SCENE := preload("res://scenes/veilleurs/v06_tactical_combat.tscn")
+
 func _run_device_profile() -> void:
     EndgameState.reset_profile_progress()
     GameState.reset_new_game()
@@ -64,3 +66,71 @@ func _run_device_profile() -> void:
     # aussi ses rangs autorisés. Le test tactile cible donc le libellé visible actuel.
     _check(await _touch_button("3 · Garde", false), "Touch must activate equipped Guard in combat on %s" % active_device_name)
     _check(_log_contains("se met en garde"), "Combat touch must execute equipped Guard on %s" % active_device_name)
+
+    await _audit_v09_mobile_contract()
+
+func _audit_v09_mobile_contract() -> void:
+    var original_text_scale := GameSettings.text_scale
+    var original_ui_scale := GameSettings.ui_scale
+    GameSettings.set_text_scale(1.4)
+    GameSettings.set_ui_scale(1.4)
+    await _frames(3)
+
+    var tactical := TACTICAL_UI_SCENE.instantiate() as VeilleursTacticalUI
+    _check(tactical != null, "v0.9 tactical UI must instantiate on %s" % active_device_name)
+    if tactical == null:
+        GameSettings.set_text_scale(original_text_scale)
+        GameSettings.set_ui_scale(original_ui_scale)
+        return
+    get_tree().root.add_child(tactical)
+    tactical.size = Vector2(720, 540)
+    await _frames(2)
+
+    tactical.bind_snapshot({
+        "runtime": {
+            "round": 1,
+            "grid": {
+                "0:0": "ENT_WATCHER_TEST",
+                "1:0": "ENT_ENEMY_ALPHA",
+                "2:0": "ENT_ENEMY_BETA"
+            },
+            "combatants": {
+                "ENT_WATCHER_TEST": {"name": "Nayra", "team": "watcher", "hp": 40, "max_hp": 40, "level": 1},
+                "ENT_ENEMY_ALPHA": {"name": "Goule alpha", "team": "enemy", "hp": 18, "max_hp": 20, "level": 1},
+                "ENT_ENEMY_BETA": {"name": "Goule bêta", "team": "enemy", "hp": 16, "max_hp": 20, "level": 1}
+            }
+        }
+    })
+    _check(tactical.touch_contract_ok(), "v0.9 tactical touch targets must remain >=44 px on %s" % active_device_name)
+
+    var beta_button: Button = null
+    for button: Button in tactical.cell_buttons:
+        if str(button.get_meta("occupant", "")) == "ENT_ENEMY_BETA":
+            beta_button = button
+            break
+    _check(beta_button != null, "v0.9 tactical grid must expose the second enemy on %s" % active_device_name)
+    if beta_button != null:
+        beta_button.pressed.emit()
+        await _frames(2)
+        _check(tactical.selected_target == "ENT_ENEMY_BETA", "first touch must select the intended enemy on %s" % active_device_name)
+        _check(not CombatantInspectionUI.detail_open, "first touch on a new target must not steal selection on %s" % active_device_name)
+        beta_button.pressed.emit()
+        await _frames(3)
+        _check(CombatantInspectionUI.detail_open, "second touch on selected combatant must open inspection on %s" % active_device_name)
+
+    if CombatantInspectionUI.detail_open:
+        _check(is_instance_valid(CombatantInspectionUI.detail_frame), "inspection detail frame must exist on %s" % active_device_name)
+        if is_instance_valid(CombatantInspectionUI.detail_frame):
+            var viewport_size := get_viewport().get_visible_rect().size
+            var detail_rect := CombatantInspectionUI.detail_frame.get_global_rect()
+            _check(detail_rect.position.x >= -1.0 and detail_rect.position.y >= -1.0, "inspection must stay inside top/left bounds at ui_scale 1.4 on %s" % active_device_name)
+            _check(detail_rect.end.x <= viewport_size.x + 1.0 and detail_rect.end.y <= viewport_size.y + 1.0, "inspection must stay inside viewport at ui_scale 1.4 on %s" % active_device_name)
+        if CombatantInspectionUI.detail_content.get_child_count() > 0:
+            var title_label := CombatantInspectionUI.detail_content.get_child(0) as Label
+            _check(title_label != null and title_label.get_theme_font_size("font_size") >= 34, "text_scale 1.4 must visibly enlarge inspection title on %s" % active_device_name)
+        CombatantInspectionUI.close_detail()
+
+    tactical.queue_free()
+    GameSettings.set_text_scale(original_text_scale)
+    GameSettings.set_ui_scale(original_ui_scale)
+    await _frames(2)
