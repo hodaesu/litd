@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "mode": "developer_selftest",
+  "game": "LITD : Les Veilleurs",
+  "purpose": "Valider la boucle coeur avant les cinq playtests naïfs, sans promouvoir aucun gate humain.",
+  "target_duration_minutes": [30, 45],
+  "canonical_watchers": ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"],
+  "steps": [
+    {
+      "id": "sanctuary_preparation",
+      "label": "Sanctuaire / préparation",
+      "target_minutes": [3, 5],
+      "question": "L'objectif, le groupe, la formation et le départ sont-ils immédiatement compréhensibles ?"
+    },
+    {
+      "id": "short_exploration",
+      "label": "Exploration courte",
+      "target_minutes": [5, 8],
+      "question": "Le joueur comprend-il où aller et ce qui est facultatif sans guidage externe ?"
+    },
+    {
+      "id": "combat_readability",
+      "label": "Combat A — lecture de base",
+      "target_minutes": [5, 7],
+      "question": "Tour, compétence, cible, rang et conséquence simple sont-ils lisibles ?"
+    },
+    {
+      "id": "position_anatomy",
+      "label": "Combat B — position et anatomie",
+      "target_minutes": [6, 8],
+      "question": "Le coût du repositionnement et l'intérêt fonctionnel du ciblage anatomique créent-ils un vrai choix ?"
+    },
+    {
+      "id": "fear_madness",
+      "label": "Peur / Folie",
+      "target_minutes": [3, 5],
+      "question": "La cause, l'effet et au moins un contre-jeu psychologique sont-ils compréhensibles ?"
+    },
+    {
+      "id": "elite_recombination",
+      "label": "Élite / mini-boss",
+      "target_minutes": [5, 7],
+      "question": "Les mécaniques déjà apprises se combinent-elles sans nouvelle surcharge ?"
+    },
+    {
+      "id": "final_consequence",
+      "label": "Décision finale",
+      "target_minutes": [2, 4],
+      "question": "Le coût ou le sacrifice de la décision est-il compris avant validation ?"
+    },
+    {
+      "id": "sanctuary_return",
+      "label": "Retour au Sanctuaire",
+      "target_minutes": [3, 5],
+      "question": "Le joueur peut-il expliquer ce qui a changé et ce qu'il veut faire ensuite ?"
+    }
+  ],
+  "required_systems": [
+    "four_watchers",
+    "turn_order",
+    "skill_selection",
+    "target_selection",
+    "positioning_action_cost",
+    "anatomy_functional_injury",
+    "fear_madness_counterplay",
+    "limited_starting_equipment",
+    "one_capture_or_neutralize_decision",
+    "persistent_consequence",
+    "save_resume"
+  ],
+  "deferred_systems": [
+    "chapters_02_to_10",
+    "new_game_plus",
+    "late_game_ultimates",
+    "full_level_1_to_50_tree",
+    "long_bounty_contracts",
+    "mass_archive_reading",
+    "new_dungeons",
+    "new_watchers",
+    "new_major_systems"
+  ],
+  "rules": {
+    "human_gate_promotion_allowed": false,
+    "developer_selftest_is_not_naive_playtest": true,
+    "no_new_content_to_fix_comprehension": true,
+    "fix_p0_p1_before_naive_01": true,
+    "normal_game_must_remain_unchanged_when_selftest_flag_absent": true
+  }
+}

@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+DEVELOPER_SELFTEST_ID = "developer-selftest"
 
 
 def _run(command: list[str], *, cwd: Path) -> int:
@@ -25,7 +26,7 @@ def _resolve_godot() -> str | None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", default=str(ROOT))
-    parser.add_argument("--tester-id", default="developer-selftest")
+    parser.add_argument("--tester-id", default=DEVELOPER_SELFTEST_ID)
     parser.add_argument("--device", default="PC Windows")
     parser.add_argument("--skip-preflight", action="store_true")
     parser.add_argument("--no-launch", action="store_true")
@@ -39,6 +40,8 @@ def main() -> int:
         root / "reports/veilleurs_player_validation_template.json",
         root / "tools/playtest/prepare_veilleurs_first_playtest.py",
         root / "tools/qa/veilleurs_player_validation_report.py",
+        root / "data/veilleurs/developer_selftest_contract.json",
+        root / "scripts/qa/developer_selftest_overlay.gd",
     ]
     missing = [str(path.relative_to(root)) for path in required if not path.is_file()]
     if missing:
@@ -111,7 +114,14 @@ def main() -> int:
 
     if not args.no_launch:
         try:
-            subprocess.Popen([str(output)], cwd=output.parent)
+            launch_command = [str(output)]
+            if args.tester_id == DEVELOPER_SELFTEST_ID:
+                # Les arguments après `--` sont lus par OS.get_cmdline_user_args().
+                # L'overlay d'auto-test est donc strictement absent des builds lancées
+                # pour les cinq testeurs naïfs.
+                launch_command += ["--", "--developer-selftest"]
+                print("DEVELOPER_SELFTEST_OVERLAY=enabled")
+            subprocess.Popen(launch_command, cwd=output.parent)
             print("FIRST_PLAYTEST_GAME_LAUNCHED")
         except OSError as exc:
             print(f"FIRST_PLAYTEST_LAUNCH_FAILED={exc}")
