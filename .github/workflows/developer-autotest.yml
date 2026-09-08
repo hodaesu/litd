@@ -201,3 +201,40 @@ jobs:
           path: |
             reports/developer-autotest-telemetry-*.json
             reports/developer-autotest-telemetry-*.csv
+
+  regression-analysis:
+    if: always()
+    needs: [fast-contracts, combat-core, combat-matrix, campaign-bots, sanctuary-bot]
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Télécharger les artefacts des bots
+        uses: actions/download-artifact@v4
+        with:
+          pattern: developer-autotest-*
+          path: reports
+          merge-multiple: true
+      - name: "Bot v14 : triage transversal des échecs"
+        run: python tools/qa/bot_v14_failure_triage.py
+      - name: "Bot v15 : réduction des cas de fuzzing"
+        if: always()
+        run: python tools/qa/bot_v15_case_minimizer.py
+      - name: "Bot v16 : garde statistique de régression"
+        if: always()
+        run: python tools/qa/bot_v16_balance_regression_guard.py
+      - name: Publier les diagnostics v14-v16
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-regression-analysis
+          retention-days: 14
+          path: |
+            reports/player-bot-v14-failure-triage.json
+            reports/player-bot-v15-case-minimizer.json
+            reports/player-bot-v16-balance-regression-guard.json
