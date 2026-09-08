@@ -1,0 +1,102 @@
+name: Veilleurs First Playtest Windows
+
+on:
+  pull_request:
+    paths:
+      - 'tools/playtest/**'
+      - 'tools/workstation/**'
+      - 'tools/qa/veilleurs_first_playtest_kit_audit.py'
+      - 'docs/veilleurs/FIRST_PLAYTEST_RUNBOOK.md'
+      - 'reports/veilleurs_player_validation_template.json'
+      - 'export_presets.cfg'
+      - '.github/workflows/veilleurs-first-playtest-windows.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/playtest/**'
+      - 'tools/workstation/**'
+      - 'tools/qa/veilleurs_first_playtest_kit_audit.py'
+      - 'docs/veilleurs/FIRST_PLAYTEST_RUNBOOK.md'
+      - 'reports/veilleurs_player_validation_template.json'
+      - 'export_presets.cfg'
+      - '.github/workflows/veilleurs-first-playtest-windows.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-kit:
+    name: Audit first-playtest kit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate kit contract
+        shell: bash
+        run: |
+          python tools/qa/veilleurs_first_playtest_kit_audit.py
+          python tools/playtest/run_veilleurs_first_playtest.py --check
+
+  windows-debug-playtest:
+    name: Export Windows first-playtest build
+    needs: audit-kit
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare Windows export template
+        shell: bash
+        env:
+          HOME: /root
+        run: |
+          set -euo pipefail
+          EXPECTED="$HOME/.local/share/godot/export_templates/4.7.2.stable"
+          mkdir -p "$EXPECTED"
+
+          if ! find "$EXPECTED" -maxdepth 1 -type f -iname '*windows*debug*.exe' -print -quit | grep -q .; then
+            SOURCE="$(find /root/.local/share/godot /opt /usr/local /usr/share -type f -iname '*windows*debug*.exe' -print -quit 2>/dev/null || true)"
+            if [[ -z "$SOURCE" ]]; then
+              echo "Windows debug export template not found in godot-ci image" >&2
+              find /root/.local/share/godot /opt /usr/local /usr/share -maxdepth 7 -type f -iname '*windows*' -print 2>/dev/null | head -200 || true
+              exit 1
+            fi
+            SOURCE_DIR="$(dirname "$SOURCE")"
+            cp -a "$SOURCE_DIR"/. "$EXPECTED"/
+          fi
+
+          find "$EXPECTED" -maxdepth 1 -type f -iname '*windows*debug*.exe' -print -quit | grep -q .
+          echo "WINDOWS_EXPORT_TEMPLATE_OK=$EXPECTED"
+
+      - name: Export Windows debug playtest
+        shell: bash
+        env:
+          HOME: /root
+        run: |
+          set -euo pipefail
+          mkdir -p build/playtest/windows build/automation
+          godot --headless --path . --export-debug "Windows Desktop" build/playtest/windows/LightInTheDark_Playtest.exe 2>&1 | tee build/automation/windows-first-playtest-export.log
+          test -s build/playtest/windows/LightInTheDark_Playtest.exe
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/windows-first-playtest-export.log; then
+            exit 1
+          fi
+          printf '{"project":"LITD : Les Veilleurs","purpose":"first_player_validation","commit":"%s","engine":"Godot 4.7.2","validation_status":"NOT_RUN"}\n' "$GITHUB_SHA" > build/playtest/windows/PLAYTEST_BUILD.json
+
+      - name: Publish Windows playtest build
+        uses: actions/upload-artifact@v4
+        with:
+          name: veilleurs-windows-first-playtest
+          path: build/playtest/windows/
+          if-no-files-found: error
+
+      - name: Publish export log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: veilleurs-windows-first-playtest-log
+          path: build/automation/windows-first-playtest-export.log
+          if-no-files-found: warn

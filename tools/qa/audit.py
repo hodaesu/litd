@@ -83,6 +83,14 @@ def run(root=ROOT):
         a.check('Maturité des systèmes Les Veilleurs', maturity_main() == 0)
     except Exception as exc:
         a.check('Maturité des systèmes Les Veilleurs', False, str(exc))
+
+    # Le kit de premier playtest doit rester reproductible sans pouvoir
+    # fabriquer de PASS humain ou revenir à une ancienne version de Godot.
+    try:
+        from tools.qa.veilleurs_first_playtest_kit_audit import main as first_playtest_main
+        a.check('Kit premier playtest Les Veilleurs', first_playtest_main() == 0)
+    except Exception as exc:
+        a.check('Kit premier playtest Les Veilleurs', False, str(exc))
     return a
 
 def write_reports(a, outdir):
