@@ -4,11 +4,17 @@ const GOLD := Color("#d5b26c")
 const TEXT := Color("#e5dccb")
 const MUTED := Color("#a49884")
 const PANEL := Color(0.025, 0.028, 0.038, 0.98)
+const BASE_PREVIEW_SIZE := Vector2(440, 126)
+const BASE_DETAIL_SIZE := Vector2(860, 580)
+const SAFE_GUTTER := 12.0
+const META_BASE_FONT := "litd_inspection_base_font_size"
 
 var preview_panel: PanelContainer
 var preview_content: VBoxContainer
 var detail_overlay: Control
+var detail_frame: PanelContainer
 var detail_content: VBoxContainer
+var detail_close_button: Button
 var detail_open := false
 
 func _ready() -> void:
@@ -17,6 +23,11 @@ func _ready() -> void:
     _build_preview()
     _build_detail()
     GameState.screen_requested.connect(func(_screen: String): close_detail(); hide_preview())
+    if not GameSettings.settings_changed.is_connected(_on_settings_changed):
+        GameSettings.settings_changed.connect(_on_settings_changed)
+    if not get_viewport().size_changed.is_connected(_apply_layout):
+        get_viewport().size_changed.connect(_apply_layout)
+    call_deferred("_apply_layout")
 
 func bind_combatant(control: Control, combatant: Dictionary, enemy: bool) -> void:
     control.mouse_entered.connect(func(): show_preview(combatant, enemy))
@@ -38,6 +49,7 @@ func show_preview(combatant: Dictionary, enemy: bool) -> void:
     preview_content.add_child(_label("Afflictions : " + _affliction_summary(combatant, enemy, 3), 12, MUTED))
     preview_content.add_child(_label("Compétences : " + _skill_summary(combatant, enemy, 3), 12, MUTED))
     preview_panel.visible = true
+    call_deferred("_apply_layout")
 
 func hide_preview() -> void:
     if not detail_open and is_instance_valid(preview_panel):
@@ -64,6 +76,7 @@ func open_detail(combatant: Dictionary, enemy: bool) -> void:
     detail_content.add_child(_label("COMPÉTENCES", 18, GOLD))
     for line in _skill_lines(combatant, enemy):
         detail_content.add_child(_label("• " + line, 14, TEXT))
+    call_deferred("_apply_layout")
 
 func close_detail() -> void:
     if not detail_open:
@@ -79,8 +92,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _build_preview() -> void:
     preview_panel = PanelContainer.new()
-    preview_panel.position = Vector2(420, 72)
-    preview_panel.custom_minimum_size = Vector2(440, 126)
+    preview_panel.custom_minimum_size = BASE_PREVIEW_SIZE
     preview_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
     preview_panel.add_theme_stylebox_override("panel", _style())
     add_child(preview_panel)
@@ -98,23 +110,27 @@ func _build_detail() -> void:
     dim.color = Color(0.005, 0.006, 0.010, 0.91)
     dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     detail_overlay.add_child(dim)
-    var frame := PanelContainer.new()
-    frame.position = Vector2(210, 70)
-    frame.size = Vector2(860, 580)
-    frame.add_theme_stylebox_override("panel", _style())
-    detail_overlay.add_child(frame)
+
+    detail_frame = PanelContainer.new()
+    detail_frame.size = BASE_DETAIL_SIZE
+    detail_frame.add_theme_stylebox_override("panel", _style())
+    detail_overlay.add_child(detail_frame)
+
     var root := VBoxContainer.new()
-    frame.add_child(root)
+    detail_frame.add_child(root)
     var header := HBoxContainer.new()
     root.add_child(header)
     var heading := _label("INSPECTION DU COMBATTANT", 17, MUTED)
     heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     header.add_child(heading)
-    var close := Button.new()
-    close.text = "FERMER"
-    close.custom_minimum_size = Vector2(140, 42)
-    close.pressed.connect(close_detail)
-    header.add_child(close)
+
+    detail_close_button = Button.new()
+    detail_close_button.text = "FERMER"
+    detail_close_button.set_meta(META_BASE_FONT, 14)
+    detail_close_button.custom_minimum_size = Vector2(140, 42)
+    detail_close_button.pressed.connect(close_detail)
+    header.add_child(detail_close_button)
+
     var scroll := ScrollContainer.new()
     scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
     root.add_child(scroll)
@@ -123,6 +139,103 @@ func _build_detail() -> void:
     detail_content.add_theme_constant_override("separation", 8)
     scroll.add_child(detail_content)
     detail_overlay.visible = false
+
+func _on_settings_changed() -> void:
+    call_deferred("_apply_layout")
+
+func _apply_layout() -> void:
+    if preview_panel == null or detail_frame == null or detail_content == null:
+        return
+    var viewport_size := get_viewport().get_visible_rect().size
+    if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
+        return
+    var insets := _logical_safe_insets(viewport_size)
+    var safe_origin := Vector2(insets.x + SAFE_GUTTER, insets.y + SAFE_GUTTER)
+    var safe_size := Vector2(
+        maxf(1.0, viewport_size.x - insets.x - insets.z - SAFE_GUTTER * 2.0),
+        maxf(1.0, viewport_size.y - insets.y - insets.w - SAFE_GUTTER * 2.0)
+    )
+    var ui_scale := clampf(GameSettings.ui_scale, 0.8, 1.4)
+
+    var preview_size := BASE_PREVIEW_SIZE * ui_scale
+    preview_size.x = minf(preview_size.x, safe_size.x)
+    preview_size.y = minf(preview_size.y, safe_size.y * 0.42)
+    preview_panel.custom_minimum_size = preview_size
+    preview_panel.size = preview_size
+    preview_panel.position = safe_origin + Vector2(maxf(0.0, (safe_size.x - preview_size.x) * 0.5), 0.0)
+
+    var desired_detail := BASE_DETAIL_SIZE * ui_scale
+    var detail_size := Vector2(
+        minf(desired_detail.x, safe_size.x),
+        minf(desired_detail.y, safe_size.y)
+    )
+    detail_frame.size = detail_size
+    detail_frame.position = safe_origin + Vector2(
+        maxf(0.0, (safe_size.x - detail_size.x) * 0.5),
+        maxf(0.0, (safe_size.y - detail_size.y) * 0.5)
+    )
+    detail_content.custom_minimum_size = Vector2(
+        maxf(220.0, detail_size.x - 70.0),
+        maxf(180.0, detail_size.y - 92.0)
+    )
+    if detail_close_button != null:
+        detail_close_button.custom_minimum_size = Vector2(
+            minf(196.0, maxf(120.0, 140.0 * ui_scale)),
+            maxf(44.0, 42.0 * ui_scale)
+        )
+
+    _apply_text_scale_existing()
+    set_meta("litd_safe_area_insets", insets)
+    set_meta("litd_ui_scale", ui_scale)
+    set_meta("litd_text_scale", GameSettings.text_scale)
+
+func _apply_text_scale_existing() -> void:
+    for node_value: Node in find_children("*", "Control", true, false):
+        if not (node_value is Label or node_value is Button):
+            continue
+        var control := node_value as Control
+        var base_size := int(control.get_meta(META_BASE_FONT, -1))
+        if base_size <= 0:
+            base_size = control.get_theme_font_size("font_size")
+            if base_size <= 0:
+                base_size = 16
+            control.set_meta(META_BASE_FONT, base_size)
+        control.add_theme_font_size_override(
+            "font_size",
+            maxi(10, int(round(float(base_size) * GameSettings.text_scale)))
+        )
+
+func _logical_safe_insets(reference_size: Vector2) -> Vector4:
+    if not OS.has_feature("mobile"):
+        return Vector4.ZERO
+    var screen_size_i := DisplayServer.screen_get_size()
+    var screen_position_i := DisplayServer.screen_get_position()
+    var safe_i := DisplayServer.get_display_safe_area()
+    if screen_size_i.x <= 0 or screen_size_i.y <= 0 or safe_i.size.x <= 0 or safe_i.size.y <= 0:
+        return Vector4.ZERO
+
+    var screen_size := Vector2(screen_size_i)
+    var safe_position := Vector2(safe_i.position - screen_position_i)
+    var safe_size := Vector2(safe_i.size)
+    var content_scale := minf(screen_size.x / reference_size.x, screen_size.y / reference_size.y)
+    if content_scale <= 0.0:
+        return Vector4.ZERO
+    var content_size := reference_size * content_scale
+    var content_origin := (screen_size - content_size) * 0.5
+    var content_end := content_origin + content_size
+    var safe_end := safe_position + safe_size
+    var clipped_left := maxf(content_origin.x, safe_position.x)
+    var clipped_top := maxf(content_origin.y, safe_position.y)
+    var clipped_right := minf(content_end.x, safe_end.x)
+    var clipped_bottom := minf(content_end.y, safe_end.y)
+    if clipped_right <= clipped_left or clipped_bottom <= clipped_top:
+        return Vector4.ZERO
+    return Vector4(
+        maxf(0.0, (clipped_left - content_origin.x) / content_scale),
+        maxf(0.0, (clipped_top - content_origin.y) / content_scale),
+        maxf(0.0, (content_end.x - clipped_right) / content_scale),
+        maxf(0.0, (content_end.y - clipped_bottom) / content_scale)
+    )
 
 func _title(combatant: Dictionary, enemy: bool) -> String:
     var side := "ENNEMI" if enemy else "HÉROS"
@@ -248,7 +361,8 @@ func _style() -> StyleBoxFlat:
 func _label(text: String, size: int, color: Color) -> Label:
     var label := Label.new()
     label.text = text
-    label.add_theme_font_size_override("font_size", size)
+    label.set_meta(META_BASE_FONT, size)
+    label.add_theme_font_size_override("font_size", maxi(10, int(round(float(size) * GameSettings.text_scale))))
     label.add_theme_color_override("font_color", color)
     label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     return label
