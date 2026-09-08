@@ -43,6 +43,13 @@
     "beast": "QUADRUPED_ORGANIC",
     "boss_custom": "BOSS_CUSTOM"
   },
+  "morphology_inference": [
+    {"morphology": "SERPENTINE_ORGANIC", "keywords": ["serpent", "serpentine", "worm", "ver des", "veine rampante"]},
+    {"morphology": "INSECTOID_ORGANIC", "keywords": ["arachnid", "spider", "araignee", "jorogumo", "insect", "germe arteriel"]},
+    {"morphology": "QUADRUPED_ORGANIC", "keywords": ["wolf", "loup", "hound", "chien", "quadruped"]},
+    {"morphology": "AMORPHOUS_ORGANIC", "keywords": ["amorph", "moire", "masse", "blob", "noeud-ecorche"]},
+    {"morphology": "CONSTRUCT_HUMANOID", "keywords": ["construct", "golem", "automaton", "statue", "gardien du passage", "copiste"]}
+  ],
   "automation": {
     "create_missing_collections": true,
     "create_missing_weapon_sockets": true,
