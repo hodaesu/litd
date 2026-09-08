@@ -33,6 +33,7 @@ def audit() -> list[str]:
 
     requests = payload.get("requests", [])
     masters = payload.get("masters", [])
+    signatures = payload.get("signature_backlog", [])
     requested_count = sum(len(job.get("actions", [])) for job in v44.get("jobs", []))
     if len(requests) != requested_count:
         errors.append(f"v44 coverage mismatch: expected {requested_count}, got {len(requests)}")
@@ -47,7 +48,6 @@ def audit() -> list[str]:
     valid_modes = set(contract.get("production_modes", {}))
     valid_priorities = set(contract.get("priority_tiers", {}))
     request_pairs: set[tuple[str, str]] = set()
-    shared_keys_by_character: dict[str, set[str]] = {}
 
     for request in requests:
         character_id = str(request.get("character_id", ""))
@@ -78,10 +78,8 @@ def audit() -> list[str]:
             errors.append(f"wrong source version: {character_id}/{action}")
         if mode == "BESPOKE" and not str(request.get("bespoke_reason", "")):
             errors.append(f"bespoke request without reason: {character_id}/{action}")
-        if mode != "BESPOKE":
-            if character_id in key:
-                errors.append(f"shared clip key must not be character-specific: {key}")
-            shared_keys_by_character.setdefault(character_id, set()).add(key)
+        if mode != "BESPOKE" and character_id in key:
+            errors.append(f"shared clip key must not be character-specific: {key}")
 
     for master in masters:
         key = str(master.get("canonical_clip_key", ""))
@@ -98,11 +96,69 @@ def audit() -> list[str]:
     if reuse < minimum_reuse:
         errors.append(f"reuse ratio too low: {reuse:.3f} < {minimum_reuse:.3f}")
 
+    # Canonical P2 signature backlog: production slots only, never invented lore names.
+    signature_keys: set[str] = set()
+    for signature in signatures:
+        key = str(signature.get("canonical_clip_key", ""))
+        category = str(signature.get("category", ""))
+        if not key:
+            errors.append("signature slot without canonical key")
+        if key in signature_keys:
+            errors.append(f"duplicate signature key: {key}")
+        signature_keys.add(key)
+        if str(signature.get("priority", "")) != "P2":
+            errors.append(f"signature must be P2: {key}")
+        if str(signature.get("production_mode", "")) != "BESPOKE":
+            errors.append(f"signature must be BESPOKE: {key}")
+        if not str(signature.get("bespoke_reason", "")):
+            errors.append(f"signature without bespoke reason: {key}")
+        if str(signature.get("mobile_budget_tag", "")) != "mobile_signature":
+            errors.append(f"signature missing mobile budget tag: {key}")
+        if signature.get("production_placeholder") is not True or signature.get("not_a_lore_name") is not True:
+            errors.append(f"signature slot must be explicitly a production placeholder: {key}")
+        if category not in {"veilleur_ultimate", "boss_ultimate", "boss_signature", "boss_phase"}:
+            errors.append(f"unknown signature category: {category}")
+
+    if int(payload.get("hero_ultimate_slots", 0)) != 12:
+        errors.append(f"expected 12 Veilleur ultimate slots, got {payload.get('hero_ultimate_slots')}")
+    if int(payload.get("boss_ultimate_slots", 0)) != 15:
+        errors.append(f"expected 15 boss ultimate slots, got {payload.get('boss_ultimate_slots')}")
+    if int(payload.get("boss_signature_slots", 0)) != 5:
+        errors.append(f"expected 5 boss signature slots, got {payload.get('boss_signature_slots')}")
+    if int(payload.get("boss_phase_slots", 0)) != 5:
+        errors.append(f"expected 5 boss phase slots, got {payload.get('boss_phase_slots')}")
+    if int(payload.get("signature_count", 0)) != 37 or len(signatures) != 37:
+        errors.append(f"expected 37 explicit P2 signatures, got {len(signatures)}")
+    if int(payload.get("total_master_clips_with_signatures", 0)) != len(masters) + len(signatures):
+        errors.append("total master clips with signatures mismatch")
+
+    roster = contract.get("canonical_signature_roster", {})
+    expected_heroes = {"nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"}
+    actual_heroes = {str(item.get("id", "")) for item in roster.get("veilleurs", [])}
+    if actual_heroes != expected_heroes:
+        errors.append(f"canonical Veilleur roster mismatch: {sorted(actual_heroes)}")
+    expected_bosses = {
+        "ishar_gardien_du_passage",
+        "orateur_sans_voix",
+        "mere_des_veines",
+        "porte_cendres_blanc",
+        "le_copiste",
+    }
+    actual_bosses = {str(item.get("id", "")) for item in roster.get("bosses", [])}
+    if actual_bosses != expected_bosses:
+        errors.append(f"canonical boss signature roster mismatch: {sorted(actual_bosses)}")
+
     priority_summary = payload.get("priority_summary", {})
     if int(priority_summary.get("P0", 0)) <= 0:
         errors.append("P0 playtest tier is empty")
     if int(priority_summary.get("P1", 0)) <= 0:
         errors.append("P1 vertical-slice tier is empty")
+    if int(priority_summary.get("P2", 0)) < 37:
+        errors.append("P2 signature tier must contain at least the 37 canonical signature slots")
+
+    mode_summary = payload.get("production_mode_summary", {})
+    if int(mode_summary.get("BESPOKE", 0)) < 37:
+        errors.append("BESPOKE production must include all canonical signature slots")
 
     budget = payload.get("mobile_budget", {})
     if int(budget.get("target_fps", 0)) != 60:
@@ -117,6 +173,9 @@ def audit() -> list[str]:
         errors.append("ultimates must remain bespoke")
     if str(skill_policy.get("normal_skill_default", "")) == "":
         errors.append("normal skill animation policy missing")
+    primitive_library = payload.get("skill_primitive_library", {})
+    if len(primitive_library) < 8:
+        errors.append("normal skills need a reusable primitive animation library")
 
     expected_characters = {str(job.get("character_id", "")) for job in v44.get("jobs", [])}
     represented_characters = {str(request.get("character_id", "")) for request in requests}
@@ -137,7 +196,8 @@ def main() -> int:
     payload = build_payload(ROOT)
     print(
         "ANIMATION_PRODUCTION_V45_AUDIT_OK "
-        f"requests={payload['requested_actions']} masters={payload['master_clips']} "
+        f"systemic_requests={payload['requested_actions']} shared_masters={payload['master_clips']} "
+        f"signatures={payload['signature_count']} total_masters={payload['total_master_clips_with_signatures']} "
         f"avoided={payload['avoided_duplicate_clips']} reuse={payload['reuse_ratio']:.1%} "
         f"P0={payload['priority_summary']['P0']} P1={payload['priority_summary']['P1']} P2={payload['priority_summary']['P2']}"
     )
