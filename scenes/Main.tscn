@@ -1,5 +1,7 @@
 [gd_scene load_steps=17 format=3]
 
+; main_v42 fiabilise tous les contrôles du playtest : sous-menus visibles,
+; formation hors combat et repositionnement en combat au coût d'une action.
 ; main_v41 active la direction artistique canonique : tokens visuels, contrats
 ; d'écran, slots d'assets remplaçables et contrats anatomiques sans gameplay.
 ; main_v40 ajoute la finition UX canonique : micro-feedbacks sans rectangles,
@@ -24,7 +26,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v41.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v42.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
