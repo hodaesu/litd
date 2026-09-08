@@ -1,0 +1,60 @@
+{
+  "version": 52,
+  "order": 10,
+  "id": "boss_mere_des_veines",
+  "source_v51": "data/blender/master_models_v51/10_boss_mere_des_veines.json",
+  "source_blend": "art/blender/bosses/mere_des_veines/mere_des_veines_animation_master.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire la Mère des Veines comme organisme-réseau fixe/tracté, avec noyau maternel, masse vasculaire, trois conduits et organes auxiliaires indépendants et persistants.",
+  "blockout": [
+    "Créer MOTHER_NUCLEUS comme foyer anatomique central clairement identifiable.",
+    "Étendre VASCULAR_MASS autour du noyau comme architecture organique porteuse, sans torse humanoïde.",
+    "Bloquer CONDUIT_A/B/C comme trois axes majeurs différents en direction et silhouette afin qu'ils soient identifiables séparément à distance.",
+    "Créer ROOT_CROWN comme structure d'ancrage/croissance et FEEDING_ORGAN comme organe fonctionnel distinct.",
+    "Tester silhouette avec chaque conduit retiré individuellement puis plusieurs conduits détruits.",
+    "Réserver des zones de croissance futures distinctes des marqueurs F4 détruits."
+  ],
+  "runtime_objects": ["BODY_MOTHER_NUCLEUS", "BODY_VASCULAR_MASS", "BODY_CONDUIT_A", "BODY_CONDUIT_B", "BODY_CONDUIT_C", "BODY_ROOT_CROWN", "BODY_FEEDING_ORGAN"],
+  "stump_or_scar_objects": ["STUMP_CONDUIT_A", "STUMP_CONDUIT_B", "STUMP_CONDUIT_C", "STUMP_ROOT_CROWN", "STUMP_FEEDING_ORGAN", "STUMP_VASCULAR_MASS", "STUMP_MOTHER_NUCLEUS"],
+  "rig_build_order": ["ROOT", "mother_nucleus", "vascular_mass_chain", "conduit_a_chain", "conduit_b_chain", "conduit_c_chain", "root_crown_chain", "feeding_organ_chain"],
+  "authoring_controls": [
+    "nucleus pulse control", "vascular mass traction controls", "independent conduit IK/FK or spline controls",
+    "root crown growth controls", "feeding organ controls", "limited pulse/growth shape keys", "F4 lockout preventing destroyed marker reuse"
+  ],
+  "shape_key_policy": [
+    "Shape keys autorisées pour pulsation, gonflement et nouvelles excroissances prévues.",
+    "Une shape key de croissance doit cibler une géométrie dédiée NEW_GROWTH et ne jamais réutiliser BODY/STUMP d'un segment F4.",
+    "Limiter et profiler les shape keys simultanées sur mobile."
+  ],
+  "materials": {
+    "families": ["deep_vascular_red", "blackened_flesh", "wet_tissue_subtle", "ash_deposit", "scar_white_muted", "wound_surface"],
+    "avoid": ["humanoid_mannequin", "tentacle_neon", "clean_alien_scifi", "glossy_cartoon_flesh"]
+  },
+  "lod_plan": {
+    "lod0": "45k-80k triangles plus tightly budgeted shape keys",
+    "lod1": "~48% LOD0; preserve three conduit silhouettes, nucleus, crown and feeding organ",
+    "lod2": "~20% LOD0; bake micro-veins, simplify small growths first, retain all seven damage boundaries"
+  },
+  "f3_tests": [
+    "Chaque conduit F3 reste présent mais perd traction/pulsation/attaque locale.",
+    "FEEDING_ORGAN F3: visible mais fonction neutralisée, sans disparition prématurée.",
+    "ROOT_CROWN F3: croissance/traction dégradée sans retirer les blessures existantes.",
+    "VASCULAR_MASS F3: compensation globale limitée, sans remplacer un conduit détruit."
+  ],
+  "f4_tests": [
+    "Détruire CONDUIT_A/B/C indépendamment et vérifier que les phases suivantes conservent leurs cicatrices/STUMP.",
+    "Déclencher un growth event après destruction d'un conduit et confirmer que la nouvelle excroissance utilise une zone distincte.",
+    "Détruire FEEDING_ORGAN ou ROOT_CROWN et vérifier les Actions correspondantes sans régénération.",
+    "Tester plusieurs combinaisons F4 avant transition de phase."
+  ],
+  "pc_checklist": [
+    "Blockout noyau + masse + trois conduits avant sculpture fine.",
+    "Créer sept BODY et leurs scars/STUMP.",
+    "Rig avec chaînes souples et shape keys limitées.",
+    "Créer zone NEW_GROWTH indépendante et tester interdiction de régénération F4.",
+    "Valider matériaux/LOD après lisibilité des trois conduits.",
+    "Auteur Actions P0 boss réelles puis exporter et valider v49/v50."
+  ],
+  "done_when": "Le vrai fichier Mère des Veines conserve chaque destruction entre phases, permet une croissance distincte sans régénérer F4 et passe Godot.",
+  "gameplay_neutral": true
+}
