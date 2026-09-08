@@ -248,3 +248,68 @@ Aucun playtest ne doit se terminer par une liste de remarques sans décision.
 - avant release : test complet sur appareils cibles et reprise de sauvegarde.
 
 Le jeu doit être testé tôt, souvent et en contexte réel. Les tests automatiques protègent la cohérence ; les joueurs valident l'expérience.
+
+---
+
+## 13. Test de la boucle de tension d'expédition
+
+Référence de benchmark : `docs/research/ROGUELIKE_DUNGEON_CRAWLER_BENCHMARK.md`.
+
+Question centrale : **la boucle Lumière → exploration → risque → combat/événement → Folie/Espoir → butin → continuer/extraire crée-t-elle des décisions non triviales ?**
+
+### À relever pendant la run
+
+- première décision qui provoque une hésitation réelle ;
+- nombre de choix où une option domine immédiatement ;
+- niveau de Lumière lors des décisions importantes ;
+- valeur ou importance du butin que le joueur pense mettre en danger ;
+- moment où il commence à envisager l'extraction avant que l'interface ne la propose ;
+- raison exacte de continuer ;
+- raison exacte d'extraire ;
+- cause perçue d'un échec ou d'une mort ;
+- variation de Folie/Espoir entre deux jalons ;
+- nombre de taps pour une action significative sur mobile ;
+- moment de tension maximal et événement déclencheur.
+
+### Métriques recommandées
+
+```text
+meaningful_decisions_count:
+trivial_choice_count:
+continue_extract_offers:
+continue_extract_decision_time_s:
+light_at_major_decisions:
+light_at_extraction:
+folie_delta_run:
+espoir_delta_run:
+unsecured_loot_value_peak:
+loot_secured_value:
+run_end_reason:
+death_or_failure_cause:
+taps_per_meaningful_action:
+first_confusion_timestamp:
+most_tense_moment:
+what_made_you_continue:
+what_made_you_extract:
+```
+
+### Questions post-session spécifiques
+
+- À quel moment as-tu commencé à craindre de perdre ce que tu avais trouvé ?
+- Pourquoi as-tu continué alors que tu pouvais te mettre en sécurité ?
+- Pourquoi as-tu choisi d'extraire ?
+- La faible Lumière t'a-t-elle semblé seulement punitive ou également tentante ?
+- Peux-tu expliquer la chaîne de décisions qui a conduit à ton meilleur ou pire moment ?
+- Quelle information aurait changé ta décision ?
+
+### Signaux d'alerte
+
+- le joueur veut toujours maximiser la Lumière ;
+- le joueur veut toujours la réduire pour optimiser le butin ;
+- poursuivre ou extraire est évident presque à chaque fois ;
+- une mort semble provenir d'une règle invisible plutôt que d'une décision identifiable ;
+- le joueur ne sait pas ce qu'il risque de perdre ;
+- l'interface tactile crée davantage d'hésitation que la décision de jeu ;
+- Folie/Espoir sont perçus comme des jauges décoratives sans influence sur le comportement de la run.
+
+Le test est réussi lorsque le joueur peut expliquer le compromis qu'il a choisi, ressent la tentation de faire « encore une salle » et considère parfois l'extraction anticipée comme une décision intelligente plutôt qu'un échec.
