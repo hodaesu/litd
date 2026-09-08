@@ -97,53 +97,70 @@ jobs:
         run: |
           set -o pipefail
           godot --headless --path . --import --quit 2>&1 | tee build/automation/godot-import.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' build/automation/godot-import.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' build/automation/godot-import.log; then
+            exit 1
+          fi
       - name: Veilleurs v0.6 tactical smoke
         shell: bash
         run: |
           set -o pipefail
           timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v06_tactical_smoke.tscn 2>&1 | tee build/automation/veilleurs-v06-smoke.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V06_TACTICAL_SMOKE_FAILED' build/automation/veilleurs-v06-smoke.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V06_TACTICAL_SMOKE_FAILED' build/automation/veilleurs-v06-smoke.log; then
+            exit 1
+          fi
           grep -F 'VEILLEURS_V06_TACTICAL_SMOKE_OK' build/automation/veilleurs-v06-smoke.log
       - name: Veilleurs v0.7 production smoke
         shell: bash
         run: |
           set -o pipefail
           timeout 90s godot --headless --path . res://scenes/tests/veilleurs_v07_production_smoke.tscn 2>&1 | tee build/automation/veilleurs-v07-smoke.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V07_PRODUCTION_SMOKE_FAILED' build/automation/veilleurs-v07-smoke.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V07_PRODUCTION_SMOKE_FAILED' build/automation/veilleurs-v07-smoke.log; then
+            exit 1
+          fi
           grep -F 'VEILLEURS_V07_PRODUCTION_SMOKE_OK' build/automation/veilleurs-v07-smoke.log
       - name: Veilleurs v0.8 Wave 2 smoke
         shell: bash
         run: |
           set -o pipefail
           timeout 120s godot --headless --path . res://scenes/tests/veilleurs_v08_wave2_smoke.tscn 2>&1 | tee build/automation/veilleurs-v08-smoke.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V08_WAVE2_SMOKE_FAILED' build/automation/veilleurs-v08-smoke.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V08_WAVE2_SMOKE_FAILED' build/automation/veilleurs-v08-smoke.log; then
+            exit 1
+          fi
           grep -F 'VEILLEURS_V08_WAVE2_SMOKE_OK' build/automation/veilleurs-v08-smoke.log
       - name: Veilleurs v0.9 Wave 3 smoke
         shell: bash
         run: |
           set -o pipefail
           timeout 120s godot --headless --path . res://scenes/tests/veilleurs_v09_wave3_smoke.tscn 2>&1 | tee build/automation/veilleurs-v09-smoke.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V09_WAVE3_SMOKE_FAILED' build/automation/veilleurs-v09-smoke.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_V09_WAVE3_SMOKE_FAILED' build/automation/veilleurs-v09-smoke.log; then
+            exit 1
+          fi
           grep -F 'VEILLEURS_V09_WAVE3_SMOKE_OK' build/automation/veilleurs-v09-smoke.log
       - name: Six-dungeon QA scene
         shell: bash
         run: |
           set -o pipefail
           timeout 30s godot --headless --path . --quit-after 5 res://scenes/veilleurs/v09_vertical_slice_qa.tscn 2>&1 | tee build/automation/veilleurs-v09-qa.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/veilleurs-v09-qa.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/veilleurs-v09-qa.log; then
+            exit 1
+          fi
       - name: Mobile touch regression
         shell: bash
         run: |
           set -o pipefail
           timeout 90s godot --headless --path . res://scenes/tests/mobile_touch_smoke.tscn 2>&1 | tee build/automation/mobile-touch.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/mobile-touch.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/mobile-touch.log; then
+            exit 1
+          fi
+          grep -F 'MOBILE_TOUCH_SMOKE_OK' build/automation/mobile-touch.log
       - name: Player UI journey regression
         shell: bash
         run: |
           set -o pipefail
           timeout 90s godot --headless --path . res://scenes/tests/ui_player_journey_smoke.tscn 2>&1 | tee build/automation/ui-player-journey.log
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/ui-player-journey.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/ui-player-journey.log; then
+            exit 1
+          fi
       - name: Upload Godot logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -222,7 +239,9 @@ jobs:
           mkdir -p build/android build/automation
           godot --headless --path . --export-debug "Android" build/android/LightInTheDark.apk 2>&1 | tee build/automation/android-export.log
           test -s build/android/LightInTheDark.apk
-          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/android-export.log
+          if grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: FATAL:|handle_crash: Program crashed' build/automation/android-export.log; then
+            exit 1
+          fi
       - name: Publish Android debug APK
         uses: actions/upload-artifact@v4
         with:
