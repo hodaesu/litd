@@ -5,16 +5,16 @@ on:
     paths:
       - 'tools/blender/validate_master_model_scene_v53.py'
       - 'tools/qa/blender_scene_validator_v53_audit.py'
+      - 'tools/blender/generate_animation_export_plan_v48.py'
       - 'data/blender/modeling_plans_v52/**'
-      - 'data/blender/animation_export_plan_v48.json'
       - 'art/blender/animation_masters/SCENE_VALIDATION_RUNBOOK_v53.md'
       - '.github/workflows/blender-scene-validator-v53.yml'
   pull_request:
     paths:
       - 'tools/blender/validate_master_model_scene_v53.py'
       - 'tools/qa/blender_scene_validator_v53_audit.py'
+      - 'tools/blender/generate_animation_export_plan_v48.py'
       - 'data/blender/modeling_plans_v52/**'
-      - 'data/blender/animation_export_plan_v48.json'
       - 'art/blender/animation_masters/SCENE_VALIDATION_RUNBOOK_v53.md'
       - '.github/workflows/blender-scene-validator-v53.yml'
   workflow_dispatch:
@@ -34,6 +34,8 @@ jobs:
         run: python -m py_compile tools/blender/validate_master_model_scene_v53.py tools/qa/blender_scene_validator_v53_audit.py
       - name: Revalider les douze plans v52
         run: python -m tools.qa.modeling_plans_v52_audit
+      - name: Générer localement le plan v48 consommé par le validateur
+        run: python -m tools.blender.generate_animation_export_plan_v48
       - name: Auditer le validateur Blender v53 en lecture seule
         run: python -m tools.qa.blender_scene_validator_v53_audit
       - name: Vérifier les 12 bundles et 320 Actions P0 attendues
