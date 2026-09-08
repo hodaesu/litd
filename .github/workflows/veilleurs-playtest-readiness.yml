@@ -3,28 +3,44 @@ name: Veilleurs Playtest Readiness
 on:
   pull_request:
     paths:
-      - 'data/veilleurs/playtest_readiness_contract.json'
+      - 'project.godot'
+      - 'export_presets.cfg'
+      - 'data/**'
+      - 'assets/**'
+      - 'scenes/**'
+      - 'scripts/**'
+      - 'addons/**'
       - 'tools/playtest/**'
       - 'tools/qa/veilleurs_playtest_readiness_audit.py'
       - 'tests/test_veilleurs_playtest_readiness.py'
       - 'docs/veilleurs/PLAYTEST_READINESS_WAVE2.md'
-      - '.github/workflows/veilleurs-playtest-readiness.yml'
-      - 'data/veilleurs/hardware_validation_contract.json'
-      - 'data/veilleurs/player_validation_contract.json'
+      - 'docs/PC_VERTICAL_SLICE_PRODUCTION_GATE.md'
+      - 'docs/PLAYTEST_5_NAIVE_TESTERS_PROTOCOL.md'
       - 'reports/veilleurs_player_validation_template.json'
+      - '.github/workflows/veilleurs-playtest-readiness.yml'
   push:
     branches: [main]
     paths:
-      - 'data/veilleurs/playtest_readiness_contract.json'
+      - 'project.godot'
+      - 'export_presets.cfg'
+      - 'data/**'
+      - 'assets/**'
+      - 'scenes/**'
+      - 'scripts/**'
+      - 'addons/**'
       - 'tools/playtest/**'
       - 'tools/qa/veilleurs_playtest_readiness_audit.py'
       - 'tests/test_veilleurs_playtest_readiness.py'
       - 'docs/veilleurs/PLAYTEST_READINESS_WAVE2.md'
-      - '.github/workflows/veilleurs-playtest-readiness.yml'
-      - 'data/veilleurs/hardware_validation_contract.json'
-      - 'data/veilleurs/player_validation_contract.json'
+      - 'docs/PC_VERTICAL_SLICE_PRODUCTION_GATE.md'
+      - 'docs/PLAYTEST_5_NAIVE_TESTERS_PROTOCOL.md'
       - 'reports/veilleurs_player_validation_template.json'
+      - '.github/workflows/veilleurs-playtest-readiness.yml'
   workflow_dispatch:
+
+concurrency:
+  group: veilleurs-playtest-readiness-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -56,20 +72,26 @@ jobs:
           python -m tools.playtest.summarize_naive_playtests \
             build/playtest/naive-pack \
             --out build/playtest/naive-pack/EMPTY_SUMMARY.json
-      - name: Assert neutral pack
+          printf '%s\n' "$GITHUB_SHA" > build/playtest/naive-pack/BUILD_COMMIT.txt
+      - name: Assert neutral pack and build identity
         run: |
           python - <<'PY'
           import json
+          import os
           from pathlib import Path
           root = Path('build/playtest/naive-pack')
           manifest = json.loads((root / 'PACK_MANIFEST.json').read_text(encoding='utf-8'))
+          expected_commit = os.environ['GITHUB_SHA']
           assert manifest['validation_status'] == 'NOT_RUN'
+          assert manifest['build_commit'] == expected_commit
+          assert (root / 'BUILD_COMMIT.txt').read_text(encoding='utf-8').strip() == expected_commit
           assert len(manifest['testers']) == 5
           for tester in manifest['testers']:
               report = json.loads((root / tester / 'player_validation.json').read_text(encoding='utf-8'))
+              assert report['build_commit'] == expected_commit
               assert all(g['status'] == 'NOT_RUN' for g in report['gates'])
               assert all(not g['evidence'] for g in report['gates'])
-          print('VEILLEURS_NAIVE_PACK_NEUTRAL_OK')
+          print('VEILLEURS_NAIVE_PACK_NEUTRAL_AND_COMMIT_ALIGNED_OK')
           PY
       - name: Publish five-session playtest pack
         uses: actions/upload-artifact@v4
