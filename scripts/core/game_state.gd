@@ -39,6 +39,11 @@ func canonicalize_party_identity(party_value: Array) -> void:
         if not hero_value is Dictionary:
             continue
         var hero: Dictionary = hero_value
+        # A recruit conserve l'identifiant technique du poste qu'il remplace pour
+        # rester compatible avec l'équipement et les anciennes sauvegardes, mais
+        # son identité propre ne doit jamais être réécrite avec celle du héros tombé.
+        if int(hero.get("recruit_generation", 0)) > 0 or str(hero.get("recruit_identity_id", "")) != "":
+            continue
         var runtime_id := str(hero.get("id", ""))
         var identity: Dictionary = CANONICAL_PARTY_IDENTITIES.get(runtime_id, {})
         if identity.is_empty():
