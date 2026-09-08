@@ -3,6 +3,8 @@ extends Node
 const REPORT_PATH := "res://reports/player-bot-v7-sanctuary-economy.json"
 const FIXED_SEEDS: Array[int] = [101, 202, 303, 404, 505]
 const CAMPAIGNS_PER_SEED := 50
+const MIN_POST_RECRUIT_RESERVE := 30
+const MAX_RECRUITMENT_SHARE := 0.60
 
 var failures: Array[String] = []
 var alerts: Array[Dictionary] = []
@@ -21,6 +23,10 @@ func _run() -> void:
     var total_sales := 0
     var total_market_checks := 0
     var recruit_identity_seen: Dictionary = {}
+    var min_post_recruit_gold := 2147483647
+    var min_ending_gold := 2147483647
+    var ending_gold_total := 0
+    var max_recruitment_share := 0.0
 
     for seed_value in FIXED_SEEDS:
         for campaign_index in range(CAMPAIGNS_PER_SEED):
@@ -37,10 +43,11 @@ func _run() -> void:
                 "purchases": 0,
                 "sales": 0,
                 "recruits": 0,
+                "recruitment_cost": 0,
+                "post_recruit_gold": GameState.gold,
                 "ending_gold": 0
             }
 
-            # Observer le marché ne doit jamais consommer un drop ni modifier les offres.
             var drop_before := EquipmentManager.drop_counter
             var offers_a := market.generate_offers(campaign_seed)
             var offers_b := market.generate_offers(campaign_seed)
@@ -55,8 +62,6 @@ func _run() -> void:
                 rows.append(row)
                 continue
 
-            # Fixture stratégique contrôlée : simule une mort permanente déjà validée
-            # par les bots de combat afin de stresser le service de remplacement.
             var fallen_index := campaign_index % GameState.party.size()
             var fallen: Dictionary = GameState.party[fallen_index]
             var fallen_id := str(fallen.get("id", ""))
@@ -79,6 +84,16 @@ func _run() -> void:
                     row["recruits"] = 1
                     total_recruits += 1
                     var recruited: Dictionary = replacement.get("recruit", {})
+                    var cost := int(replacement.get("cost", 0))
+                    row["recruitment_cost"] = cost
+                    row["post_recruit_gold"] = GameState.gold
+                    min_post_recruit_gold = mini(min_post_recruit_gold, GameState.gold)
+                    var share := float(cost) / maxf(1.0, float(gold_before_recruit))
+                    max_recruitment_share = maxf(max_recruitment_share, share)
+                    if GameState.gold < MIN_POST_RECRUIT_RESERVE:
+                        failures.append("seed_%d_campaign_%d_recovery_reserve_below_%d" % [seed_value, campaign_index + 1, MIN_POST_RECRUIT_RESERVE])
+                    if share > MAX_RECRUITMENT_SHARE:
+                        failures.append("seed_%d_campaign_%d_recruitment_share_above_limit" % [seed_value, campaign_index + 1])
                     var identity_id := str(recruited.get("recruit_identity_id", ""))
                     if identity_id == "":
                         failures.append("seed_%d_campaign_%d_missing_recruit_identity" % [seed_value, campaign_index + 1])
@@ -86,7 +101,7 @@ func _run() -> void:
                         failures.append("duplicate_recruit_identity_%s" % identity_id)
                     else:
                         recruit_identity_seen[identity_id] = true
-                    if GameState.gold != gold_before_recruit - int(replacement.get("cost", 0)):
+                    if GameState.gold != gold_before_recruit - cost:
                         failures.append("seed_%d_campaign_%d_recruit_gold_accounting" % [seed_value, campaign_index + 1])
                     if GameState.alive_heroes().size() != GameState.party.size():
                         failures.append("seed_%d_campaign_%d_party_not_restored" % [seed_value, campaign_index + 1])
@@ -95,7 +110,6 @@ func _run() -> void:
                     if str(GameState.party[fallen_index].get("name", "")) != name_before:
                         failures.append("seed_%d_campaign_%d_recruit_identity_overwritten" % [seed_value, campaign_index + 1])
 
-            # Après le remplacement, le bot utilise le reste de son budget au marché.
             var affordable := _cheapest_affordable_offer(offers_a)
             if not affordable.is_empty():
                 var gold_before_buy := GameState.gold
@@ -124,6 +138,8 @@ func _run() -> void:
                                 failures.append("seed_%d_campaign_%d_sold_item_still_present" % [seed_value, campaign_index + 1])
 
             row["ending_gold"] = GameState.gold
+            min_ending_gold = mini(min_ending_gold, GameState.gold)
+            ending_gold_total += GameState.gold
             rows.append(row)
 
     if total_recruits < FIXED_SEEDS.size() * CAMPAIGNS_PER_SEED:
@@ -143,6 +159,14 @@ func _run() -> void:
         "purchases": total_purchases,
         "sales": total_sales,
         "unique_recruit_identities": recruit_identity_seen.size(),
+        "economy_health": {
+            "min_post_recruit_gold": 0 if min_post_recruit_gold == 2147483647 else min_post_recruit_gold,
+            "min_ending_gold": 0 if min_ending_gold == 2147483647 else min_ending_gold,
+            "avg_ending_gold": float(ending_gold_total) / maxf(1.0, float(rows.size())),
+            "max_recruitment_share": max_recruitment_share,
+            "min_post_recruit_reserve_required": MIN_POST_RECRUIT_RESERVE,
+            "max_recruitment_share_allowed": MAX_RECRUITMENT_SHARE
+        },
         "alerts": alerts,
         "failures": failures,
         "rows": rows,
