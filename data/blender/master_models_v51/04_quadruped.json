@@ -1,0 +1,62 @@
+{
+  "version": 51,
+  "order": 4,
+  "id": "quadruped",
+  "display_name": "Quadruped",
+  "master_kind": "shared_retarget_master",
+  "retarget_family": "quadruped",
+  "source_blend": "art/blender/animation_masters/quadruped.blend",
+  "purpose": "Base quadrupède des Bêtes de Suie, pensée dès l'origine pour boiterie, perte d'une patte et locomotion compensée.",
+  "cast_coverage": ["traque_suie", "brise_os_de_suie"],
+  "runtime_morphologies": ["QUADRUPED_ORGANIC"],
+  "silhouette_contract": {
+    "neutral_reference": "prédateur quadrupède sombre, ligne dorsale lisible et membres suffisamment distincts pour F3/F4",
+    "variation_axes": ["taille", "longueur_colonne", "masse_epaules", "longueur_pattes", "forme_crane", "queue"],
+    "must_not_use_humanoid_mannequin": true
+  },
+  "rig_contract": {
+    "root": "ROOT",
+    "spine": ["pelvis", "spine_rear", "spine_mid", "spine_front", "neck", "head"],
+    "legs": ["front_leg_l", "front_leg_r", "rear_leg_l", "rear_leg_r"],
+    "tail_chain_required": true,
+    "retarget_pose": "QUADRUPED_NEUTRAL"
+  },
+  "body_segments": ["head", "torso", "front_leg_left", "front_leg_right", "rear_leg_left", "rear_leg_right", "tail"],
+  "marker_contract": {
+    "segments": "BODY_<part>",
+    "stumps": "STUMP_<part>",
+    "f3_poses": "POSE_F3_<part>",
+    "equipment": "EQUIP_<slot>",
+    "weapon_sockets": []
+  },
+  "f3_f4_contract": {
+    "F3": "patte présente mais déchargée; cycle locomoteur passe en boiterie quadrupède",
+    "F4": "patte absente visuellement; locomotion tripode ou état fortement dégradé selon runtime; queue/head perdus modifient la silhouette",
+    "weapon_transfer": "none"
+  },
+  "equipment_contract": {
+    "allowed": ["collar", "harness", "back_plate", "ritual_marks"],
+    "no_fake_hand_equipment": true
+  },
+  "material_direction": {
+    "primary": ["soot_black", "charcoal_fur_or_hide", "ash", "scar_tissue", "aged_metal_if_equipped"],
+    "avoid": ["cute_pet_read", "clean_wolf_clone", "neon_monster"]
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "24k-45k",
+    "lod1_ratio": 0.5,
+    "lod2_ratio": 0.22,
+    "max_skin_influences_per_vertex": 4
+  },
+  "animation_contract": {
+    "priority_source": "v47 P0 batches for retarget_family=quadruped",
+    "must_support": ["quadruped_idle", "walk_run", "pounce_or_charge", "bite_or_claw", "hit_reaction", "three_leg_compensation", "F3_limp", "F4_locomotion"]
+  },
+  "definition_of_done_in_blender": [
+    "Traque-Suie and Brise-Os silhouettes derive without sharing final proportions",
+    "all four legs are independent BODY segments",
+    "one-leg F3/F4 remains locomotion-readable",
+    "P0 Actions are artist-authored"
+  ],
+  "gameplay_neutral": true
+}
