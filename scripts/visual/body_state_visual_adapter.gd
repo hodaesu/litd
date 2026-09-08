@@ -25,6 +25,8 @@ var target_height_scale: float = 1.0
 var target_breath: float = 0.15
 var target_noise: float = 0.0
 var last_animation_parameters: Dictionary = {}
+var systemic_body_visuals := SystemicBodyVisualRuntime.new()
+var last_body_visual_snapshot: Dictionary = {}
 
 func configure(p_character_id: String, p_actor_root: Node3D, character: Dictionary = {}) -> void:
     character_id = p_character_id
@@ -57,6 +59,7 @@ func set_action(action_id: String, context: Dictionary = {}) -> Dictionary:
     current_profile = current_plan.get("profile", BodyStateDirector.evaluate(current_character, current_context))
     _cache_targets()
     _apply_animation_tree_parameters()
+    _apply_systemic_body_visuals()
     action_requested.emit(character_id, action_id, current_plan.duplicate(true))
     return current_plan.duplicate(true)
 
@@ -67,6 +70,7 @@ func set_hit_reaction(body_part: String, severity: String = "light") -> Dictiona
     current_profile = reaction.get("profile", {})
     _cache_targets()
     _apply_animation_tree_parameters()
+    _apply_systemic_body_visuals()
     return reaction
 
 func refresh() -> Dictionary:
@@ -76,6 +80,7 @@ func refresh() -> Dictionary:
     current_profile = BodyStateDirector.evaluate(current_character, current_context)
     _cache_targets()
     _apply_animation_tree_parameters()
+    _apply_systemic_body_visuals()
     visual_profile_applied.emit(character_id, current_profile.duplicate(true))
     return current_profile.duplicate(true)
 
@@ -87,8 +92,15 @@ func snapshot() -> Dictionary:
         "animation_tree_found": animation_tree != null,
         "procedural_preview": procedural_preview_enabled,
         "animation_parameters": last_animation_parameters.duplicate(true),
-        "pose_target_found": pose_target != null
+        "pose_target_found": pose_target != null,
+        "body_visual": last_body_visual_snapshot.duplicate(true)
     }
+
+func body_visual_snapshot() -> Dictionary:
+    return last_body_visual_snapshot.duplicate(true)
+
+func _apply_systemic_body_visuals() -> void:
+    last_body_visual_snapshot = systemic_body_visuals.apply(actor_root, current_character, animation_tree)
 
 func _process(delta: float) -> void:
     if pose_target == null or not procedural_preview_enabled:
