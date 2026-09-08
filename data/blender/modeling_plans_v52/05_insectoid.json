@@ -1,0 +1,66 @@
+{
+  "version": 52,
+  "order": 5,
+  "id": "insectoid",
+  "source_v51": "data/blender/master_models_v51/05_insectoid.json",
+  "source_blend": "art/blender/animation_masters/insectoid.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire l'insectoïde organique du Germe Artériel avec 13 zones runtime réellement séparées, locomotion multi-pattes et manipulateurs indépendants.",
+  "blockout": [
+    "Créer tête, thorax et abdomen comme trois masses distinctes, reliées sans lecture humanoïde.",
+    "Bloquer quatre manipulateurs frontaux et six pattes de marche en gardant chaque attache anatomique visible.",
+    "Établir une hiérarchie visuelle claire: thorax porteur, abdomen organique, manipulateurs offensifs, pattes locomotrices.",
+    "Tester l'équilibre avec perte d'une, deux puis trois pattes sans déplacer artificiellement les attaches.",
+    "Valider la silhouette mobile avant détail de chitine et tissus vasculaires."
+  ],
+  "runtime_objects": [
+    "BODY_head", "BODY_thorax", "BODY_abdomen",
+    "BODY_manipulator_left_1", "BODY_manipulator_right_1", "BODY_manipulator_left_2", "BODY_manipulator_right_2",
+    "BODY_leg_left_1", "BODY_leg_right_1", "BODY_leg_left_2", "BODY_leg_right_2", "BODY_leg_left_3", "BODY_leg_right_3"
+  ],
+  "stump_objects": [
+    "STUMP_manipulator_left_1", "STUMP_manipulator_right_1", "STUMP_manipulator_left_2", "STUMP_manipulator_right_2",
+    "STUMP_leg_left_1", "STUMP_leg_right_1", "STUMP_leg_left_2", "STUMP_leg_right_2", "STUMP_leg_left_3", "STUMP_leg_right_3",
+    "STUMP_head", "STUMP_abdomen"
+  ],
+  "rig_build_order": [
+    "ROOT", "thorax", "abdomen", "head",
+    "manipulator_l_1_chain", "manipulator_r_1_chain", "manipulator_l_2_chain", "manipulator_r_2_chain",
+    "leg_l_1_chain", "leg_r_1_chain", "leg_l_2_chain", "leg_r_2_chain", "leg_l_3_chain", "leg_r_3_chain"
+  ],
+  "authoring_controls": ["six-leg gait controls", "thorax height control", "abdomen arc control", "four manipulator FK/IK controls", "SOCKET_weapon_l", "SOCKET_weapon_r"],
+  "f3_pose_set": [
+    "POSE_F3_manipulator_left_1", "POSE_F3_manipulator_right_1", "POSE_F3_manipulator_left_2", "POSE_F3_manipulator_right_2",
+    "POSE_F3_leg_left_1", "POSE_F3_leg_right_1", "POSE_F3_leg_left_2", "POSE_F3_leg_right_2", "POSE_F3_leg_left_3", "POSE_F3_leg_right_3"
+  ],
+  "materials": {
+    "families": ["dark_chitin", "vascular_red", "wet_organic_subtle", "ash_deposit", "wound_surface"],
+    "avoid": ["bright_tropical_insect", "clean_scifi_bug", "neon"]
+  },
+  "lod_plan": {
+    "lod0": "26k-46k triangles",
+    "lod1": "~48% LOD0; preserve all appendage roots and thorax/abdomen split",
+    "lod2": "~20% LOD0; collapse small chitin ridges first; never merge separate manipulators or legs"
+  },
+  "f3_tests": [
+    "Chaque patte: retirée du support du cycle mais toujours visible; autres appuis se redistribuent.",
+    "Chaque manipulateur: visible mais retiré des attaques/prises; les autres manipulateurs gardent leur amplitude.",
+    "Tester combinaisons F3 asymétriques gauche/droite sans retour à une locomotion bipède."
+  ],
+  "f4_tests": [
+    "Supprimer chaque appendice indépendamment avec STUMP organique lisible.",
+    "Tester locomotion après perte d'une patte de chaque paire, puis plusieurs pertes autorisées.",
+    "Tester perte d'un manipulateur et transfert visuel d'une arme seulement vers un manipulateur compatible.",
+    "Vérifier que LOD1/LOD2 conservent chaque appendice comme zone distincte."
+  ],
+  "pc_checklist": [
+    "Blockout 13 zones avant sculpture.",
+    "Séparer tous les appendices au niveau runtime et créer leurs STUMP.",
+    "Construire rig multi-pattes puis gait de test.",
+    "Valider F3/F4 sur chaque paire d'appendices.",
+    "Retopologie/UV/materials en conservant les racines lisibles.",
+    "LOD puis Actions P0 réelles et validation Godot v49/v50."
+  ],
+  "done_when": "Le vrai insectoid.blend rend les 13 zones indépendantes, supporte perte/compensation et Actions P0 réelles dans Godot.",
+  "gameplay_neutral": true
+}
