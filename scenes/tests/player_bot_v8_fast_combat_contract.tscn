@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://scripts/qa/player_bot_v8_fast_combat_contract.gd" type="Script" id="1"]
+
+[node name="PlayerBotV8FastCombatContract" type="Node"]
+script = ExtResource("1")
