@@ -1,0 +1,34 @@
+{
+  "market": {
+    "rarity_buy_price": {
+      "common": 24,
+      "uncommon": 42,
+      "rare": 78,
+      "epic": 138,
+      "legendary": 240
+    },
+    "sell_ratio": 0.45,
+    "affix_value": 6,
+    "offer_count": 6
+  },
+  "hero_recruitment": {
+    "base_cost": 72,
+    "level_cost": 11,
+    "catchup_level_lag": 2,
+    "candidate_count": 3,
+    "names": [
+      "Kael Naru",
+      "Iria Venn",
+      "Toren Ash",
+      "Suri Vale",
+      "Maren Oth",
+      "Eshra Khei",
+      "Rovan Tel",
+      "Nahla Orin",
+      "Sen Aru",
+      "Veya Noren",
+      "Oren Sai",
+      "Mira Kesh"
+    ]
+  }
+}
