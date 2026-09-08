@@ -7,10 +7,15 @@
     "average_rounds": [3.0, 5.0],
     "hit_rate": [0.70, 0.92],
     "hero_death_rate_per_slot": [0.0, 0.035],
-    "mutilations_per_combat": [0.0, 0.03]
+    "mutilations_per_combat": [0.0, 0.03],
+    "light_injuries_per_combat": [0.5, 2.5],
+    "moderate_injuries_per_combat": [0.0, 0.75],
+    "severe_injuries_per_combat": [0.0, 0.25],
+    "critical_injuries_per_combat": [0.0, 0.05]
   },
   "notes": [
     "These guardrails are provisional and must be replaced or confirmed by Godot runtime simulation and human playtests.",
-    "SIM_001 is the calibration encounter: Avant-garde, Lame, Eclaireur, Soutien vs two hungry ghouls and one disruptor."
+    "SIM_001 is the calibration encounter: Avant-garde, Lame, Eclaireur, Soutien vs two hungry ghouls and one disruptor.",
+    "Injury-severity guardrails are intentionally explicit so a green overall win-rate check cannot hide an over-punishing body model."
   ]
 }
