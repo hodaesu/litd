@@ -116,3 +116,21 @@ func _drive_combat(seed_value: int, expedition_index: int, combat_index: int, ro
         "deaths": maxi(0, alive_before - GameState.alive_heroes().size()),
         "party_hp_remaining": _party_hp_total()
     }
+
+func _analyze_v6_campaigns() -> void:
+    for campaign_value in campaigns:
+        var campaign: Dictionary = campaign_value
+        var seed_value := int(campaign.get("seed", 0))
+        var victories := int(campaign.get("victories", 0))
+        if victories > 0 and int(campaign.get("production_xp_events", 0)) == 0:
+            alerts.append({"severity":"high","code":"production_xp_missing","seed":seed_value,"victories":victories,"message":"Des victoires réelles ont eu lieu sans aucun changement de niveau ou d'XP."})
+        if int(campaign.get("recruitment_needed", 0)) > 0:
+            alerts.append({"severity":"medium","code":"recruitment_not_exercised_by_v6","seed":seed_value,"deaths":int(campaign.get("recruitment_needed", 0)),"message":"Le service de recrutement existe, mais Bot v6 ne l'invoque pas encore pendant sa campagne réelle."})
+        if int(campaign.get("ending_gold", 0)) == int(campaign.get("starting_gold", 0)) and victories > 0:
+            alerts.append({"severity":"medium","code":"gold_flow_flat","seed":seed_value})
+        if int(campaign.get("ending_essence", 0)) == int(campaign.get("starting_essence", 0)) and victories > 0:
+            alerts.append({"severity":"medium","code":"essence_flow_flat","seed":seed_value})
+        if int(campaign.get("save_roundtrips", 0)) == 0 and int(campaign.get("expeditions", 0)) >= V6_SAVE_INTERVAL:
+            alerts.append({"severity":"high","code":"save_roundtrip_missing","seed":seed_value})
+        if int(campaign.get("extractions", 0)) == 0 and int(campaign.get("expeditions", 0)) > 0:
+            alerts.append({"severity":"high","code":"extraction_never_completed","seed":seed_value})
