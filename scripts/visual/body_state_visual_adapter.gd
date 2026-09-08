@@ -26,7 +26,9 @@ var target_breath: float = 0.15
 var target_noise: float = 0.0
 var last_animation_parameters: Dictionary = {}
 var systemic_body_visuals := SystemicBodyVisualRuntime.new()
+var systemic_body_animation := SystemicBodyAnimationRuntime.new()
 var last_body_visual_snapshot: Dictionary = {}
+var last_body_animation_snapshot: Dictionary = {}
 
 func configure(p_character_id: String, p_actor_root: Node3D, character: Dictionary = {}) -> void:
     character_id = p_character_id
@@ -93,14 +95,19 @@ func snapshot() -> Dictionary:
         "procedural_preview": procedural_preview_enabled,
         "animation_parameters": last_animation_parameters.duplicate(true),
         "pose_target_found": pose_target != null,
-        "body_visual": last_body_visual_snapshot.duplicate(true)
+        "body_visual": last_body_visual_snapshot.duplicate(true),
+        "body_animation": last_body_animation_snapshot.duplicate(true)
     }
 
 func body_visual_snapshot() -> Dictionary:
     return last_body_visual_snapshot.duplicate(true)
 
+func body_animation_snapshot() -> Dictionary:
+    return last_body_animation_snapshot.duplicate(true)
+
 func _apply_systemic_body_visuals() -> void:
     last_body_visual_snapshot = systemic_body_visuals.apply(actor_root, current_character, animation_tree)
+    last_body_animation_snapshot = systemic_body_animation.apply(animation_tree, current_character)
 
 func _process(delta: float) -> void:
     if pose_target == null or not procedural_preview_enabled:
