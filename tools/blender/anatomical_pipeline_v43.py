@@ -2,6 +2,8 @@
 """Prepare and validate Blender character scenes against LITD anatomy v43.
 
 Run inside Blender for scene mutation/validation. Static plan inspection works in Python.
+Preparation is non-destructive and may leave artistic geometry tasks pending; validation
+is the hard export gate.
 """
 from __future__ import annotations
 
@@ -9,6 +11,8 @@ import argparse
 import json
 import sys
 from pathlib import Path
+
+from tools.blender.generate_anatomical_pipeline_v43 import build_payload
 
 ROOT = Path(__file__).resolve().parents[2]
 JOBS_PATH = ROOT / "data/blender/anatomical_pipeline_jobs_v43.json"
@@ -20,7 +24,7 @@ def _load(path: Path) -> dict:
 
 
 def load_job(job_id: str, jobs_path: Path = JOBS_PATH) -> dict:
-    payload = _load(jobs_path)
+    payload = _load(jobs_path) if jobs_path.exists() else build_payload()
     for job in payload.get("jobs", []):
         if job_id in (job.get("job_id"), job.get("character_id")):
             return job
@@ -127,7 +131,6 @@ def validate_scene(bpy, job: dict, contract: dict) -> list[str]:
         errors.append("unknown morphology")
 
     for part_spec in job.get("parts", []):
-        part = str(part_spec["part"])
         segment_name = str(part_spec["segment"])
         if segment_name in seen:
             errors.append(f"marker collision: {segment_name}")
@@ -177,20 +180,26 @@ def main() -> int:
     job = load_job(args.job_id, args.jobs)
     if args.print_plan:
         print(json.dumps(job, ensure_ascii=False, indent=2))
-    errors: list[str] = []
     if args.prepare:
-        errors = prepare_scene(job, args.save)
-    elif args.validate:
+        pending = prepare_scene(job, args.save)
+        if pending:
+            print("ANATOMY_V43_PREPARED_PENDING_ART")
+            for item in pending:
+                print(f"- {item}")
+        else:
+            print("ANATOMY_V43_PREPARED_OK")
+        return 0
+    if args.validate:
         errors = run_validation(job)
-    elif not args.print_plan:
-        parser.error("choose --prepare, --validate or --print-plan")
-    if errors:
-        print("ANATOMY_V43_BLOCKED")
-        for error in errors:
-            print(f"- {error}")
-        return 2
-    if args.prepare or args.validate:
+        if errors:
+            print("ANATOMY_V43_BLOCKED")
+            for error in errors:
+                print(f"- {error}")
+            return 2
         print("ANATOMY_V43_OK")
+        return 0
+    if not args.print_plan:
+        parser.error("choose --prepare, --validate or --print-plan")
     return 0
 
 
