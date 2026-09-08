@@ -80,6 +80,7 @@ run_checked "Donjon physique : salles réelles, fog of war et secrets cachés" t
 run_checked "Blockout 3D : dimensions, collisions, ancres et passages secrets" timeout 60s godot --headless --path . res://scenes/tests/first_veil_proxy_smoke.tscn
 run_checked "Guidage : cendres vers boss et quêtes, couleur selon proximité" timeout 60s godot --headless --path . res://scenes/tests/ash_guidance_smoke.tscn
 run_checked "Parcours UI joueur : Sanctuaire, exploration, combat, récompenses et retour" timeout 90s godot --headless --path . res://scenes/tests/ui_player_journey_smoke.tscn
+run_checked "Interface canonique Les Veilleurs : 10 écrans, hotspots sans rectangles et HUD réel" timeout 90s godot --headless --path . res://scenes/tests/canonical_ui_smoke.tscn
 run_checked "Bâtiments du Sanctuaire : Chapelle, Taverne et Mémorial" timeout 60s godot --headless --path . res://scenes/tests/sanctuary_buildings_smoke.tscn
 run_checked "Mobile tactile : formats iPhone, cibles tactiles et ScreenTouch" timeout 90s godot --headless --path . res://scenes/tests/mobile_touch_smoke.tscn
 
