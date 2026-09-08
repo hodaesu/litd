@@ -1,7 +1,8 @@
 [
   {
     "id": "aurelien",
-    "name": "Aurélien",
+    "canonical_id": "sahen_varo",
+    "name": "Sahen Varo",
     "class_id": "occultist",
     "race_id": "deep_shadow",
     "level": 3,
@@ -10,13 +11,14 @@
     "fear": 48,
     "madness": 36,
     "hope": 62,
-    "canon_status": "prototype_nonexclusive_test_roster",
+    "canon_status": "canonical_veilleurs_identity_legacy_runtime_shell",
     "madness_semantics": "supernatural_veil_exposure_state_not_real_mental_illness",
-    "identity_note": "Does not replace the LITD1 character-creation pillar; this entry is a test/recruit template pending lineage reconciliation."
+    "identity_note": "Canonical player-facing identity: Sahen Varo. The legacy runtime id is retained temporarily for save/system compatibility and must never be shown to the player; gameplay shell values are not a canonical identity mapping."
   },
   {
     "id": "malvor",
-    "name": "Malvor",
+    "canonical_id": "mira_sen",
+    "name": "Mira Sen",
     "class_id": "breaker",
     "race_id": "marrow_eater",
     "level": 3,
@@ -25,13 +27,14 @@
     "fear": 25,
     "madness": 18,
     "hope": 55,
-    "canon_status": "prototype_nonexclusive_test_roster",
+    "canon_status": "canonical_veilleurs_identity_legacy_runtime_shell",
     "madness_semantics": "supernatural_veil_exposure_state_not_real_mental_illness",
-    "identity_note": "Does not replace the LITD1 character-creation pillar; this entry is a test/recruit template pending lineage reconciliation."
+    "identity_note": "Canonical player-facing identity: Mira Sen. The legacy runtime id is retained temporarily for save/system compatibility and must never be shown to the player; gameplay shell values are not a canonical identity mapping."
   },
   {
     "id": "lysandra",
-    "name": "Lysandra",
+    "canonical_id": "narem_osh",
+    "name": "Narem Osh",
     "class_id": "vestal",
     "race_id": "veilborn",
     "level": 3,
@@ -40,13 +43,14 @@
     "fear": 18,
     "madness": 8,
     "hope": 76,
-    "canon_status": "prototype_nonexclusive_test_roster",
+    "canon_status": "canonical_veilleurs_identity_legacy_runtime_shell",
     "madness_semantics": "supernatural_veil_exposure_state_not_real_mental_illness",
-    "identity_note": "Does not replace the LITD1 character-creation pillar; this entry is a test/recruit template pending lineage reconciliation."
+    "identity_note": "Canonical player-facing identity: Narem Osh. The legacy runtime id is retained temporarily for save/system compatibility and must never be shown to the player; gameplay shell values are not a canonical identity mapping."
   },
   {
     "id": "darius",
-    "name": "Darius",
+    "canonical_id": "ysra_nahal",
+    "name": "Ysra Nahal",
     "class_id": "watcher",
     "race_id": "human",
     "level": 3,
@@ -55,8 +59,8 @@
     "fear": 31,
     "madness": 12,
     "hope": 60,
-    "canon_status": "prototype_nonexclusive_test_roster",
+    "canon_status": "canonical_veilleurs_identity_legacy_runtime_shell",
     "madness_semantics": "supernatural_veil_exposure_state_not_real_mental_illness",
-    "identity_note": "Does not replace the LITD1 character-creation pillar; this entry may serve as a test/recruit template."
+    "identity_note": "Canonical player-facing identity: Ysra Nahal. The legacy runtime id is retained temporarily for save/system compatibility and must never be shown to the player; gameplay shell values are not a canonical identity mapping."
   }
 ]
