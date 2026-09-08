@@ -33,7 +33,7 @@ jobs:
         run: godot --headless --path . --import --quit
       - name: Auto-test développeur déterministe
         run: godot --headless --path . res://scenes/tests/developer_autotest_smoke.tscn
-      - name: Joueur-bot : expédition, combats, loot, capture et progression de salles
+      - name: "Joueur-bot : expédition, combats, loot, capture et progression de salles"
         run: timeout 120s godot --headless --path . res://scenes/tests/player_bot_autotest.tscn
       - name: Publier les rapports runtime
         uses: actions/upload-artifact@v4
