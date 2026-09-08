@@ -13,7 +13,7 @@ const FALLBACK_TEXT := Color("#e5dccb")
 const FALLBACK_MUTED := Color("#a49884")
 const FALLBACK_PANEL := Color(0.035, 0.036, 0.046, 0.96)
 
-var _menu: Node
+var _menu
 var _tabs: TabBar
 var _tab_ids: Array[String] = []
 var _art := ART_REGISTRY.new()
