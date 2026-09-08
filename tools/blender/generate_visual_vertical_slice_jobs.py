@@ -32,6 +32,11 @@ def build_payload(root: Path = ROOT) -> dict:
     contract = _load(root / CONTRACT_PATH.relative_to(ROOT))
     jobs = _load(root / CHARACTER_JOBS_PATH.relative_to(ROOT))
 
+    # `darius` is a historical art/production proxy, not a player-facing
+    # Veilleurs identity. Keep its approved sheet name pinned here instead of
+    # inheriting the canonical display name attached to the compatibility
+    # runtime id in data/heroes.json. This prevents relabelling Darius artwork
+    # as Ysra Nahal while the legacy proxy is still useful for visual QA.
     darius_base = _character_job("darius", jobs)
     ghoul_base = _character_job("enemy_01_goule_affamee", jobs)
     darius = contract["characters"]["darius"]
@@ -51,7 +56,7 @@ def build_payload(root: Path = ROOT) -> dict:
             "kind": "character_proxy",
             "source_job_id": darius_base["job_id"],
             "character_id": "darius",
-            "name": darius_base["name"],
+            "name": "Darius",
             "height_m": darius["height_m"],
             "body_scale": darius_base["body_scale"],
             "reference_targets": [
