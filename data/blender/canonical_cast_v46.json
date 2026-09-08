@@ -1,0 +1,74 @@
+{
+  "version": 46,
+  "name": "LITD Les Veilleurs - Registre de casting canonique v46",
+  "purpose": "Source unique du casting d'animation de Les Veilleurs; data/blender/character_jobs.json est explicitement exclu de la production v46.",
+  "gameplay_neutral": true,
+  "canonical_sources": {
+    "veilleurs": "LITD_Les_Veilleurs_Referentiel_Combat_Maitre_Narratif_CANON_v0_7.xlsx",
+    "species": "LITD_Les_Veilleurs_Referentiel_Combat_CANON_v0_8_ANATOMIE.xlsx / Anatomie_24",
+    "bosses": "LITD_Les_Veilleurs_Referentiel_Combat_CANON_v0_9_BOSS_ANATOMIE.xlsx / Boss_Anatomie_5"
+  },
+  "legacy_source_ignored": "data/blender/character_jobs.json",
+  "expected_counts": {
+    "veilleurs": 4,
+    "species": 24,
+    "bosses": 5,
+    "total": 33,
+    "species_families": 8
+  },
+  "runtime_profile_aliases": {
+    "MINERAL_CONSTRUCT": "CONSTRUCT_HUMANOID",
+    "QUADRUPED_FLESH": "QUADRUPED_ORGANIC",
+    "QUADRUPED_MASSIVE": "QUADRUPED_ORGANIC",
+    "HUMANOID_ASH": "HUMANOID_FLESH",
+    "HUMANOID_VERSION": "HUMANOID_FLESH",
+    "AMORPHOUS_VERSION": "AMORPHOUS_ORGANIC"
+  },
+  "rules": {
+    "species_are_full_playable_heroes_when_recruited": true,
+    "permadeath_applies_to_recruited_species": true,
+    "bosses_are_non_recruitable": true,
+    "v46_animation_must_only_use_this_registry": true
+  },
+  "cast": {
+    "veilleurs": [
+      {"id": "nayra_orun", "name": "Nayra Orun", "morphology": "HUMANOID"},
+      {"id": "tarek_senn", "name": "Tarek Senn", "morphology": "HUMANOID"},
+      {"id": "aisha_maren", "name": "Aïsha Maren", "morphology": "HUMANOID"},
+      {"id": "idris_vael", "name": "Idris Vael", "morphology": "HUMANOID"}
+    ],
+    "species": [
+      {"id": "delie_affame", "name": "Délié Affamé", "act_region": "I — Les Marches du Sanctuaire", "family": "Déliés", "role": "Prédateur rapide", "canonical_body_profile": "HUMANOID_FLESH", "morphology": "HUMANOID_FLESH"},
+      {"id": "delie_boursoufle", "name": "Délié Boursouflé", "act_region": "I — Les Marches du Sanctuaire", "family": "Déliés", "role": "Tank organique lent", "canonical_body_profile": "HUMANOID_FLESH", "morphology": "HUMANOID_FLESH"},
+      {"id": "censeur_fendu", "name": "Censeur Fendu", "act_region": "I — Les Marches du Sanctuaire", "family": "Pèlerins Fendus", "role": "Combattant discipliné", "canonical_body_profile": "HUMANOID_FLESH", "morphology": "HUMANOID_FLESH"},
+      {"id": "flagellant_fendu", "name": "Flagellant Fendu", "act_region": "I — Les Marches du Sanctuaire", "family": "Pèlerins Fendus", "role": "Pression / contrôle / douleur", "canonical_body_profile": "HUMANOID_FLESH", "morphology": "HUMANOID_FLESH"},
+      {"id": "sentinelle_du_seuil", "name": "Sentinelle du Seuil", "act_region": "I — Les Marches du Sanctuaire", "family": "Gardiens de Pierre", "role": "Gardien / interception", "canonical_body_profile": "MINERAL_CONSTRUCT", "morphology": "CONSTRUCT_HUMANOID"},
+      {"id": "executeur_de_pierre", "name": "Exécuteur de Pierre", "act_region": "I — Les Marches du Sanctuaire", "family": "Gardiens de Pierre", "role": "Briseur / contrôle lourd", "canonical_body_profile": "MINERAL_CONSTRUCT", "morphology": "CONSTRUCT_HUMANOID"},
+      {"id": "traque_suie", "name": "Traque-Suie", "act_region": "I — Les Marches du Sanctuaire", "family": "Bêtes de Suie", "role": "Traque / harcèlement", "canonical_body_profile": "QUADRUPED_FLESH", "morphology": "QUADRUPED_ORGANIC"},
+      {"id": "brise_os_de_suie", "name": "Brise-Os de Suie", "act_region": "I — Les Marches du Sanctuaire", "family": "Bêtes de Suie", "role": "Collision / fracture", "canonical_body_profile": "QUADRUPED_MASSIVE", "morphology": "QUADRUPED_ORGANIC"},
+      {"id": "ecouteur_creux", "name": "Écouteur Creux", "act_region": "II — Les Routes Muettes", "family": "Silencieux", "role": "Éclaireur / anti-furtivité / lecture des intentions", "canonical_body_profile": "HUMANOID_FLESH", "morphology": "HUMANOID_FLESH"},
+      {"id": "porte_signe", "name": "Porte-Signe", "act_region": "II — Les Routes Muettes", "family": "Silencieux", "role": "Soutien / commandement gestuel / entrave", "canonical_body_profile": "HUMANOID_FLESH", "morphology": "HUMANOID_FLESH"},
+      {"id": "marcheur_aphone", "name": "Marcheur Aphone", "act_region": "II — Les Routes Muettes", "family": "Silencieux", "role": "Frontline / isolement / saisie", "canonical_body_profile": "HUMANOID_MASSIVE", "morphology": "HUMANOID_MASSIVE"},
+      {"id": "reteneur_de_souffle", "name": "Reteneur de Souffle", "act_region": "II — Les Routes Muettes", "family": "Silencieux", "role": "Contrôle respiratoire / temporisation / burst télégraphié", "canonical_body_profile": "HUMANOID_FLESH", "morphology": "HUMANOID_FLESH"},
+      {"id": "veine_rampante", "name": "Veine Rampante", "act_region": "III — Ce qui pousse sous nous", "family": "Veines", "role": "Harcèlement / saignement / terrain", "canonical_body_profile": "SERPENTINE_ORGANIC", "morphology": "SERPENTINE_ORGANIC"},
+      {"id": "noeud_ecorche", "name": "Nœud-Écorché", "act_region": "III — Ce qui pousse sous nous", "family": "Veines", "role": "Ancrage / contrôle de zone / régénération", "canonical_body_profile": "AMORPHOUS_ORGANIC", "morphology": "AMORPHOUS_ORGANIC"},
+      {"id": "porte_sang", "name": "Porte-Sang", "act_region": "III — Ce qui pousse sous nous", "family": "Veines", "role": "Soutien organique / transfert / sacrifice", "canonical_body_profile": "HUMANOID_ABERRANT", "morphology": "HUMANOID_ABERRANT"},
+      {"id": "germe_arteriel", "name": "Germe Artériel", "act_region": "III — Ce qui pousse sous nous", "family": "Veines", "role": "Invocation / croissance / parasite de terrain", "canonical_body_profile": "INSECTOID_ORGANIC", "morphology": "INSECTOID_ORGANIC"},
+      {"id": "marche_pale", "name": "Marche-Pâle", "act_region": "IV — Les Cendres de la Paix", "family": "Porte-Cendres", "role": "Frontline / procession / pression de rang", "canonical_body_profile": "HUMANOID_ASH", "morphology": "HUMANOID_FLESH"},
+      {"id": "porte_linceul", "name": "Porte-Linceul", "act_region": "IV — Les Cendres de la Paix", "family": "Porte-Cendres", "role": "Couverture / dissimulation / soutien", "canonical_body_profile": "HUMANOID_FLESH", "morphology": "HUMANOID_FLESH"},
+      {"id": "effaceur_de_traces", "name": "Effaceur de Traces", "act_region": "IV — Les Cendres de la Paix", "family": "Porte-Cendres", "role": "Anti-information / anti-traque / sabotage du bestiaire", "canonical_body_profile": "HUMANOID_FLESH", "morphology": "HUMANOID_FLESH"},
+      {"id": "dormeur_de_cendre", "name": "Dormeur de Cendre", "act_region": "IV — Les Cendres de la Paix", "family": "Porte-Cendres", "role": "Embuscade / tank dormant / réveil explosif", "canonical_body_profile": "HUMANOID_MASSIVE", "morphology": "HUMANOID_MASSIVE"},
+      {"id": "copie_lacunaire", "name": "Copie Lacunaire", "act_region": "V — Les Versions", "family": "Gardiens de Version", "role": "Imitation imparfaite / adaptation", "canonical_body_profile": "HUMANOID_VERSION", "morphology": "HUMANOID_FLESH"},
+      {"id": "rature_vivante", "name": "Rature Vivante", "act_region": "V — Les Versions", "family": "Gardiens de Version", "role": "Altération locale / suppression d’états / terrain", "canonical_body_profile": "AMORPHOUS_VERSION", "morphology": "AMORPHOUS_ORGANIC"},
+      {"id": "archiviste_de_version", "name": "Archiviste de Version", "act_region": "V — Les Versions", "family": "Gardiens de Version", "role": "Mémoire / soutien / prédiction", "canonical_body_profile": "CONSTRUCT_HUMANOID", "morphology": "CONSTRUCT_HUMANOID"},
+      {"id": "double_du_seuil", "name": "Double du Seuil", "act_region": "V — Les Versions", "family": "Gardiens de Version", "role": "Miroir de position / garde / contre", "canonical_body_profile": "CONSTRUCT_HUMANOID", "morphology": "CONSTRUCT_HUMANOID"}
+    ],
+    "bosses": [
+      {"id": "ishar_gardien_du_passage", "name": "Ishar, Gardien du Passage", "act_region": "I — Les Marches du Sanctuaire", "family": "Gardien du Passage", "role": "Boss de contrôle du seuil", "canonical_body_profile": "BOSS_ISHAR_ANCHORED_STONE", "morphology": "BOSS_CUSTOM", "anatomy_parts": ["HEAD_SENSOR", "MEMORY_CORE", "ARM_L", "ARM_R", "LEG_L", "LEG_R", "ANCHOR_FL", "ANCHOR_FR", "ANCHOR_RL", "ANCHOR_RR"]},
+      {"id": "orateur_sans_voix", "name": "Orateur Sans Voix", "act_region": "II — Les Routes Muettes", "family": "Silencieux", "role": "Boss de silence / cohésion", "canonical_body_profile": "BOSS_ORATEUR_HOLLOW_RESONANT", "morphology": "BOSS_CUSTOM", "anatomy_parts": ["HEAD_CAVITY", "HOLLOW_CORE", "RESONATOR_L", "RESONATOR_R", "ARM_L", "ARM_R", "LEG_L", "LEG_R"]},
+      {"id": "mere_des_veines", "name": "Mère des Veines", "act_region": "III — Ce qui pousse sous nous", "family": "Veines", "role": "Boss organique / terrain", "canonical_body_profile": "BOSS_MOTHER_VASCULAR_NETWORK", "morphology": "BOSS_CUSTOM", "anatomy_parts": ["MOTHER_NUCLEUS", "VASCULAR_MASS", "CONDUIT_A", "CONDUIT_B", "CONDUIT_C", "ROOT_CROWN", "FEEDING_ORGAN"]},
+      {"id": "porte_cendres_blanc", "name": "Porte-Cendres Blanc", "act_region": "IV — Les Cendres de la Paix", "family": "Porte-Cendres", "role": "Boss de cendre / effacement", "canonical_body_profile": "BOSS_WHITE_ASH_PROCESSION", "morphology": "BOSS_CUSTOM", "anatomy_parts": ["HEAD_MASK", "PROCESSION_CORE", "ARM_L", "ARM_R", "LEG_L", "LEG_R", "ASH_MANTLE", "DIFFUSER_L", "DIFFUSER_R"]},
+      {"id": "le_copiste", "name": "Le Copiste", "act_region": "V — Les Versions", "family": "Gardiens de Version", "role": "Boss final / copie / réécriture", "canonical_body_profile": "BOSS_COPIST_VERSION_CONSTRUCT", "morphology": "BOSS_CUSTOM", "anatomy_parts": ["HEAD_SENSOR", "VERSION_CORE", "COPY_MATRIX", "PALIMPSEST_SHELL", "ARM_L", "ARM_R", "LEG_L", "LEG_R", "JOINTS"]}
+    ]
+  }
+}
