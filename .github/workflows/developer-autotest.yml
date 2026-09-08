@@ -38,14 +38,19 @@ jobs:
       - name: "Joueur-bot v2 : contrôleur réel, compétences, capture et métriques"
         run: timeout 180s godot --headless --path . res://scenes/tests/player_bot_v2_autotest.tscn
       - name: "Joueur-bot v3 : matrice de builds et détection de domination"
+        if: always()
         run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v3_build_matrix.tscn
       - name: "Joueur-bot v4 : niveaux, raretés, compagnon et politiques"
+        if: always()
         run: timeout 360s godot --headless --path . res://scenes/tests/player_bot_v4_factorial_matrix.tscn
       - name: "Joueur-bot v5 : campagne longitudinale, blessures, économie et sauvegardes"
+        if: always()
         run: timeout 420s godot --headless --path . res://scenes/tests/player_bot_v5_longitudinal_campaign.tscn
       - name: "Joueur-bot v6 : campagne réelle, extraction, ressources et coffre"
+        if: always()
         run: timeout 540s godot --headless --path . res://scenes/tests/player_bot_v6_real_campaign.tscn
       - name: "Joueur-bot v7 : économie du Sanctuaire, marché et remplacement des morts"
+        if: always()
         run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v7_sanctuary_economy.tscn
       - name: Publier les rapports runtime
         uses: actions/upload-artifact@v4
