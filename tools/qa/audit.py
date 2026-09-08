@@ -15,6 +15,10 @@ class Audit:
     @property
     def failed(self): return [r for r in self.results if not r["ok"]]
 
+def _is_generated_output_ref(ref: str) -> bool:
+    """Runtime QA reports are write destinations, not source dependencies."""
+    return ref.startswith('res://reports/')
+
 def run(root=ROOT):
     a=Audit(); data_dir=root/'data'
     loaded={}
@@ -51,6 +55,11 @@ def run(root=ROOT):
     for p in list(root.rglob('*.gd'))+list(root.rglob('*.tscn'))+list(root.rglob('*.godot')):
         text=p.read_text(encoding='utf-8',errors='replace')
         for ref in resource_pattern.findall(text):
+            # `res://reports/` is deliberately written by QA runners during execution.
+            # It must not be mistaken for an asset/script dependency that should exist
+            # in source control. Every other res:// reference remains strict.
+            if _is_generated_output_ref(ref):
+                continue
             target=root/ref.removeprefix('res://')
             if not target.exists(): broken.append(f"{p.relative_to(root)} -> {ref}")
     a.check('Références res:// valides', not broken, '; '.join(broken[:10]))
