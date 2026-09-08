@@ -45,6 +45,8 @@ jobs:
         run: timeout 420s godot --headless --path . res://scenes/tests/player_bot_v5_longitudinal_campaign.tscn
       - name: "Joueur-bot v6 : campagne réelle, extraction, ressources et coffre"
         run: timeout 540s godot --headless --path . res://scenes/tests/player_bot_v6_real_campaign.tscn
+      - name: "Joueur-bot v7 : économie du Sanctuaire, marché et remplacement des morts"
+        run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v7_sanctuary_economy.tscn
       - name: Publier les rapports runtime
         uses: actions/upload-artifact@v4
         if: always()
@@ -58,6 +60,7 @@ jobs:
             reports/player-bot-v4-factorial-matrix.json
             reports/player-bot-v5-longitudinal-campaign.json
             reports/player-bot-v6-real-campaign.json
+            reports/player-bot-v7-sanctuary-economy.json
 
   deterministic-batch-telemetry:
     runs-on: ubuntu-latest
