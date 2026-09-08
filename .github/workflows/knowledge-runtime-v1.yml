@@ -1,0 +1,30 @@
+name: Knowledge Runtime V1
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import strict
+        run: godot --headless --path . --import --quit
+      - name: Knowledge catalog gate
+        run: |
+          set -o pipefail
+          godot --headless --path . res://scenes/tests/knowledge_catalog_smoke.tscn 2>&1 | tee /tmp/catalog.log
+          grep -q "KNOWLEDGE_CATALOG_SMOKE_OK" /tmp/catalog.log
+      - name: Discovery resolver Goule gate
+        run: |
+          set -o pipefail
+          godot --headless --path . res://scenes/tests/discovery_resolver_goule_smoke.tscn 2>&1 | tee /tmp/resolver.log
+          grep -q "DISCOVERY_RESOLVER_GOULE_SMOKE_OK" /tmp/resolver.log
+      - name: Knowledge store gate
+        run: |
+          set -o pipefail
+          godot --headless --path . res://scenes/tests/knowledge_store_smoke.tscn 2>&1 | tee /tmp/store.log
+          grep -q "KNOWLEDGE_STORE_SMOKE_OK" /tmp/store.log
