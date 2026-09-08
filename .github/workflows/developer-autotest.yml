@@ -20,8 +20,6 @@ on:
 permissions:
   contents: read
 
-# Un nouveau commit rend les anciens diagnostics de cette branche obsolètes.
-# On annule donc les runs précédents au lieu de saturer la file GitHub Actions.
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -29,7 +27,7 @@ concurrency:
 jobs:
   fast-contracts:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     container:
       image: barichello/godot-ci:4.7.2
     steps:
@@ -49,6 +47,12 @@ jobs:
       - name: "Bot v11 : fuzzing déterministe des invariants tactiques"
         if: always()
         run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v11_tactical_property_fuzzer.tscn
+      - name: "Bot v12 : replay des régressions connues"
+        if: always()
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v12_regression_replay.tscn
+      - name: "Bot v13 : comparaison à la baseline sentinelle"
+        if: always()
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v13_regression_baseline.tscn
       - name: Publier les rapports rapides
         uses: actions/upload-artifact@v4
         if: always()
@@ -60,6 +64,8 @@ jobs:
             reports/player-bot-v9-save-integrity.json
             reports/player-bot-v10-sanctuary-ui-smoke.json
             reports/player-bot-v11-tactical-property-fuzzer.json
+            reports/player-bot-v12-regression-replay.json
+            reports/player-bot-v13-regression-baseline.json
 
   combat-core:
     runs-on: ubuntu-latest
