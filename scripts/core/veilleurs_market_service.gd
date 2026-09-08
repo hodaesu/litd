@@ -37,7 +37,6 @@ func generate_offers(seed_value: int, count: int = -1) -> Array[Dictionary]:
     var offer_count := count if count > 0 else int(rules.get("offer_count", 6))
     var rng := RandomNumberGenerator.new()
     rng.seed = seed_value
-    var rarities := ["common", "uncommon", "rare", "epic", "legendary"]
     for index in range(offer_count):
         var definition: Dictionary = DataLoader.equipment[rng.randi_range(0, DataLoader.equipment.size() - 1)]
         var rarity_roll := rng.randf()
@@ -50,7 +49,8 @@ func generate_offers(seed_value: int, count: int = -1) -> Array[Dictionary]:
             rarity = "rare"
         elif rarity_roll >= 0.48:
             rarity = "uncommon"
-        var preview := EquipmentManager.generate_item(str(definition.get("id", "")), rarity, "market_preview_%d_%d" % [seed_value, index])
+        var preview_context := "market_preview_%d_%d" % [seed_value, index]
+        var preview := EquipmentManager.preview_item(str(definition.get("id", "")), rarity, preview_context, index + 1)
         if preview.is_empty():
             continue
         result.append({
@@ -69,7 +69,7 @@ func buy_offer(offer: Dictionary, context: String = "sanctuary_market") -> Dicti
     var rarity := str(offer.get("rarity", "common"))
     if base_id == "":
         return {"ok": false, "reason": "invalid_offer"}
-    var preview := EquipmentManager.generate_item(base_id, rarity, context + "_quote")
+    var preview := EquipmentManager.preview_item(base_id, rarity, context + "_quote", EquipmentManager.drop_counter + 1)
     if preview.is_empty():
         return {"ok": false, "reason": "invalid_equipment"}
     var price := quote_item(preview, true)
