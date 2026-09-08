@@ -2,6 +2,16 @@
 
 Ce runbook exécute le validateur `tools/blender/validate_master_model_scene_v53.py` sur les **vrais fichiers Blender**. Il ne crée aucun modèle et ne transforme jamais une absence d'asset en faux succès.
 
+## Préparation de session PC
+
+Depuis la racine du dépôt, générer d'abord le plan d'export v48 consommé par le validateur :
+
+```bash
+python -m tools.blender.generate_animation_export_plan_v48
+```
+
+Cette commande ne fabrique aucune animation ni aucun `.blend` : elle matérialise uniquement la liste canonique des 12 bundles et des 320 Actions P0 attendues. La relancer après toute modification des lots v47/v48.
+
 ## Stades de validation
 
 - `blockout` : unités, collections et objets `BODY_*`.
