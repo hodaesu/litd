@@ -1,0 +1,57 @@
+name: LITD Web Playtest PWA
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: litd-web-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Export Godot Web PWA
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Export Web release
+        run: |
+          mkdir -p build/web
+          godot --headless --path . --export-release "Web"
+
+      - name: Validate Web payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s build/web/index.html
+          test -n "$(find build/web -maxdepth 1 -type f -name '*.wasm' -print -quit)"
+          test -n "$(find build/web -maxdepth 1 -type f \( -name '*.pck' -o -name '*.zip' \) -print -quit)"
+          echo "Web export files:"
+          find build/web -maxdepth 1 -type f -printf '%f\n' | sort
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: build/web
+
+  deploy:
+    name: Publish iPhone playtest
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
