@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "policy": {
     "fast_feedback_target_seconds": 90,
     "reproducibility": "Every randomized bot must report deterministic seed and case/run index.",
@@ -7,7 +7,8 @@
     "tiers": {
       "sentinel": "Run on every relevant commit; small deterministic contract checks.",
       "simulation": "Run in parallel on every relevant commit; medium/long gameplay simulation.",
-      "telemetry": "Statistical balance signal; never substitutes for production-runtime tests."
+      "telemetry": "Statistical balance signal; never substitutes for production-runtime tests.",
+      "diagnostic": "Runs after or alongside sentinels to replay, classify, and compare regressions."
     }
   },
   "bots": [
@@ -22,6 +23,13 @@
     {"id":"v9","tier":"sentinel","domain":"save/load integrity","report":"reports/player-bot-v9-save-integrity.json","replay":"fixed snapshot mutation"},
     {"id":"v10","tier":"sentinel","domain":"sanctuary UI navigation","report":"reports/player-bot-v10-sanctuary-ui-smoke.json","replay":"screen id"},
     {"id":"v11","tier":"sentinel","domain":"tactical property fuzzing","report":"reports/player-bot-v11-tactical-property-fuzzer.json","replay":"seed + case_index"},
+    {"id":"v12","tier":"diagnostic","domain":"known regression replay","report":"reports/player-bot-v12-regression-replay.json","replay":"regression id"},
+    {"id":"v13","tier":"diagnostic","domain":"sentinel regression baseline","report":"reports/player-bot-v13-regression-baseline.json","replay":"baseline + source reports"},
     {"id":"telemetry-v2","tier":"telemetry","domain":"roguelike Monte Carlo balance","report":"reports/developer-autotest-telemetry-*.json","replay":"seed + simulator arguments"}
+  ],
+  "next_wave": [
+    {"id":"v14","goal":"automatic failure triage by subsystem and likely cause"},
+    {"id":"v15","goal":"minimal failing-case reducer for fuzz/replay failures"},
+    {"id":"v16","goal":"statistical regression guard for win-rate, economy, companion impact and skill usage"}
   ]
 }
