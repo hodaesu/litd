@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 ; main_v41 active la direction artistique canonique : tokens visuels, contrats
 ; d'écran, slots d'assets remplaçables et contrats anatomiques sans gameplay.
@@ -36,6 +36,7 @@
 [ext_resource path="res://scripts/ui/main_v22.gd" type="Script" id="10"]
 [ext_resource path="res://scripts/ui/game_menu_tabs_adapter.gd" type="Script" id="11"]
 [ext_resource path="res://scripts/ui/game_menu_subtabs_adapter.gd" type="Script" id="12"]
+[ext_resource path="res://scripts/ui/game_menu_section_polish_adapter.gd" type="Script" id="13"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -51,6 +52,9 @@ script = ExtResource("11")
 
 [node name="GameMenuSubtabsAdapter" type="Node" parent="."]
 script = ExtResource("12")
+
+[node name="GameMenuSectionPolishAdapter" type="Node" parent="."]
+script = ExtResource("13")
 
 [node name="NGPlusSkillTreeUI" type="Node" parent="."]
 script = ExtResource("2")
