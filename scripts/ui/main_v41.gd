@@ -4,10 +4,16 @@ extends "res://scripts/ui/main_v40.gd"
 # Aucune règle de gameplay n'est modifiée ici. Cette couche expose les tokens,
 # contrats d'écran, slots d'assets et contrats anatomiques afin que les assets
 # définitifs puissent remplacer les placeholders progressivement et sans casse.
+# Le gate juridique ajoute aussi un écran joueur Crédits & Licences, sans
+# modifier les règles de gameplay.
 
 var _canonical_art := CanonicalArtRegistry.new()
 
 func show_screen(name: String) -> void:
+    if name == "credits_licenses":
+        _show_credits_licenses()
+        call_deferred("_apply_v41_art_contract")
+        return
     super.show_screen(name)
     call_deferred("_apply_v41_art_contract")
 
@@ -40,6 +46,7 @@ func _apply_v41_art_contract() -> void:
     marker.set_meta("asset_status", asset_status)
 
     _apply_v41_runtime_tokens()
+    _install_credits_licenses_entry()
 
 func _apply_v41_runtime_tokens() -> void:
     if not is_instance_valid(content):
@@ -66,6 +73,89 @@ func _apply_v41_runtime_tokens() -> void:
             label.add_theme_color_override("font_color", muted)
         elif not label.has_theme_color_override("font_color"):
             label.add_theme_color_override("font_color", text_color)
+
+func _install_credits_licenses_entry() -> void:
+    if not is_instance_valid(content):
+        return
+    if str(GameState.current_screen) not in ["options", "results_options"]:
+        return
+    if content.get_node_or_null("CreditsLicensesEntry") != null:
+        return
+    var button := Button.new()
+    button.name = "CreditsLicensesEntry"
+    button.text = "CRÉDITS & LICENCES"
+    button.flat = true
+    button.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+    button.offset_left = -285.0
+    button.offset_top = -68.0
+    button.offset_right = -28.0
+    button.offset_bottom = -22.0
+    button.add_theme_font_size_override("font_size", 14)
+    button.add_theme_color_override("font_color", _art_color("pale_bronze", Color(0.83, 0.71, 0.46, 1.0)))
+    button.add_theme_color_override("font_hover_color", _art_color("bone_text", Color(0.91, 0.87, 0.79, 1.0)))
+    button.pressed.connect(func(): GameState.request_screen("credits_licenses"))
+    content.add_child(button)
+
+func _show_credits_licenses() -> void:
+    GameState.current_screen = "credits_licenses"
+    clear_content()
+    _canonical_backdrop("CRÉDITS & LICENCES", "Licences du moteur et composants tiers embarqués dans cette version.")
+
+    var scroll := ScrollContainer.new()
+    scroll.name = "CreditsLicensesScroll"
+    scroll.position = Vector2(58, 112)
+    scroll.size = Vector2(1160, 500)
+    scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+    content.add_child(scroll)
+
+    var text := RichTextLabel.new()
+    text.name = "CreditsLicensesText"
+    text.bbcode_enabled = false
+    text.fit_content = true
+    text.custom_minimum_size = Vector2(1110, 500)
+    text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    text.add_theme_font_size_override("normal_font_size", 14)
+    text.add_theme_color_override("default_color", _art_color("bone_text", Color(0.91, 0.87, 0.79, 1.0)))
+    text.text = _build_credits_license_text()
+    scroll.add_child(text)
+
+    var back := make_button("RETOUR AUX OPTIONS", func(): GameState.request_screen("options"), Vector2(240, 44))
+    back.position = Vector2(58, 630)
+    content.add_child(back)
+    _install_header_controls()
+
+func _build_credits_license_text() -> String:
+    var blocks: Array[String] = []
+    blocks.append("LITD : LES VEILLEURS\n\nCode et contenus originaux : droits réservés au titulaire du projet, sous réserve des éléments tiers listés ci-dessous.\n")
+    blocks.append("GODOT ENGINE\n" + Engine.get_license_text())
+
+    var copyrights: Array[Dictionary] = Engine.get_copyright_info()
+    if not copyrights.is_empty():
+        blocks.append("\n\nCOMPOSANTS TIERS EMBARQUÉS PAR GODOT")
+        for entry: Dictionary in copyrights:
+            var component_name := str(entry.get("name", "Composant tiers"))
+            blocks.append("\n" + component_name)
+            var parts: Array = entry.get("parts", [])
+            for part_value: Variant in parts:
+                var part: Dictionary = part_value
+                var copyright_lines: Array = part.get("copyright", [])
+                for copyright_value: Variant in copyright_lines:
+                    blocks.append(str(copyright_value))
+                var license_name := str(part.get("license", "")).strip_edges()
+                if license_name != "":
+                    blocks.append("Licence : " + license_name)
+
+    var license_info: Dictionary = Engine.get_license_info()
+    if not license_info.is_empty():
+        blocks.append("\n\nTEXTES DES LICENCES TIERCES DU MOTEUR")
+        var names: Array = license_info.keys()
+        names.sort()
+        for name_value: Variant in names:
+            var license_name := str(name_value)
+            blocks.append("\n--- " + license_name + " ---\n" + str(license_info.get(name_value, "")))
+
+    blocks.append("\n\nRegistre projet : res://legal/THIRD_PARTY_NOTICES.txt")
+    return "\n".join(blocks)
 
 func apply_texture_slot(target: TextureRect, slot_id: String, bindings: Dictionary = {}) -> Dictionary:
     var resolved := _canonical_art.resolve_asset(slot_id, bindings)
