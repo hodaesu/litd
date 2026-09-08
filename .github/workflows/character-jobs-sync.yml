@@ -1,0 +1,49 @@
+name: Character Blender Jobs Sync
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - data/heroes.json
+      - data/enemies.json
+      - data/levels/ashlands_minibosses.json
+      - tools/blender/generate_character_jobs.py
+      - .github/workflows/character-jobs-sync.yml
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Regenerate deterministic character jobs
+        run: python tools/blender/generate_character_jobs.py
+
+      - name: Validate generated character jobs
+        run: python -m pytest -q tests/python/test_character_blender_automation.py
+
+      - name: Commit synchronized generated data
+        shell: bash
+        run: |
+          if git diff --quiet -- data/blender/character_jobs.json; then
+            echo "character_jobs.json already synchronized"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/blender/character_jobs.json
+          git commit -m "chore(blender): sync character jobs"
+          git pull --rebase origin main
+          git push origin HEAD:main
