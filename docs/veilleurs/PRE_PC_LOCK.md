@@ -14,9 +14,10 @@ Le gate pré-PC contrôle notamment :
 - CI Godot épinglée sur **4.7.2** ;
 - fichiers de production essentiels ;
 - addon `Veilleurs Production Pipeline` ;
-- quatuor **player-facing canonique** : Sahen Varo, Mira Sen, Narem Osh et Ysra Nahal ;
-- IDs runtime Veilleurs de compatibilité `ENT_WATCHER_NAYRA`, `ENT_WATCHER_TAREK`, `ENT_WATCHER_AISHA`, `ENT_WATCHER_IDRIS` tant que la migration d'IDs n'est pas terminée ;
-- interdiction des faux IDs runtime `ENT_WATCHER_SAHEN`, `ENT_WATCHER_MIRA`, `ENT_WATCHER_NAREM`, `ENT_WATCHER_YSRA` hors gardes négatives prévues ;
+- quatuor **player-facing canonique** : Nayra Orun, Tarek Senn, Aïsha Maren et Idris Vael ;
+- IDs d’entité canoniques `ENT_WATCHER_NAYRA`, `ENT_WATCHER_TAREK`, `ENT_WATCHER_AISHA`, `ENT_WATCHER_IDRIS` ;
+- runtime IDs canoniques `nayra_orun`, `tarek_senn`, `aisha_maren`, `idris_vael` ;
+- interdiction des anciens IDs `ENT_WATCHER_SAHEN`, `ENT_WATCHER_MIRA`, `ENT_WATCHER_NAREM`, `ENT_WATCHER_YSRA` hors gardes négatives prévues ;
 - six donjons de production ;
 - contrats QA v0.6 → v0.9 ;
 - 12 ultimes et leurs slots de production ;
@@ -29,7 +30,7 @@ Le gate pré-PC contrôle notamment :
 - sauvegarde/reprise et Rémanence selon les gates associés ;
 - séparation des validations automatiques et matérielles.
 
-`data/veilleurs/canonical_roster.json` reste la source player-facing pour les noms. Les IDs techniques historiques ne doivent jamais être interprétés comme une décision de canon visible par le joueur.
+Les données v0.6 actives (`data/veilleurs/v06/watchers.json`) et le verrou pré-PC définissent le quatuor canonique utilisé pour cette verticale. Les anciens ponts de compatibilité autorisés restent confinés aux fichiers explicitement listés dans `allowed_stale_reference_files` jusqu’à leur migration dédiée.
 
 ## Pipeline
 
