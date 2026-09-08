@@ -21,21 +21,40 @@ def _load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _resolve_morphology(character_job: dict, contract: dict, body_v42: dict) -> str:
+def _has_unique_boss_anatomy(character_id: str, combat_anatomy: dict) -> bool:
+    return character_id in combat_anatomy.get("boss_anatomies", {})
+
+
+def _resolve_morphology(character_job: dict, contract: dict, body_v42: dict, combat_anatomy: dict) -> tuple[str, str]:
     morphologies = body_v42.get("morphologies", {})
     for field in ("morphology", "anatomy_profile", "body_profile", "anatomy_type"):
         raw = str(character_job.get(field, "")).strip().upper()
         if raw in morphologies:
-            return raw
-    if bool(character_job.get("boss", False)):
-        return "BOSS_CUSTOM"
+            return raw, f"explicit:{field}"
+
+    character_id = str(character_job.get("character_id", ""))
+    if bool(character_job.get("boss", False)) and _has_unique_boss_anatomy(character_id, combat_anatomy):
+        return "BOSS_CUSTOM", "unique_boss_anatomy"
+
+    searchable = " ".join(
+        str(character_job.get(field, ""))
+        for field in ("character_id", "name", "category", "archetype", "rig_profile")
+    ).lower()
+    for rule in contract.get("morphology_inference", []):
+        morphology = str(rule.get("morphology", ""))
+        if morphology not in morphologies:
+            continue
+        for keyword in rule.get("keywords", []):
+            if str(keyword).lower() in searchable:
+                return morphology, f"keyword:{keyword}"
+
     rig_profile = str(character_job.get("rig_profile", "")).strip().lower()
     mapped = str(contract.get("rig_to_morphology", {}).get(rig_profile, ""))
     if mapped in morphologies:
-        return mapped
+        return mapped, f"rig:{rig_profile}"
     if "humanoid" in rig_profile:
-        return "HUMANOID"
-    return "BOSS_CUSTOM"
+        return "HUMANOID", "rig:humanoid_fallback"
+    return "BOSS_CUSTOM", "fallback:declared_markers_only"
 
 
 def _resolve_morphology_contract(key: str, body_v42: dict) -> dict:
@@ -89,7 +108,7 @@ def build_payload(root: Path = ROOT) -> dict:
 
     for character in characters.get("jobs", []):
         character_id = str(character["character_id"])
-        morphology = _resolve_morphology(character, contract, body_v42)
+        morphology, morphology_source = _resolve_morphology(character, contract, body_v42, combat_anatomy)
         morphology_contract = _resolve_morphology_contract(morphology, body_v42)
         parts = [str(value) for value in morphology_contract.get("parts", [])]
         severable: set[str] | None = None
@@ -106,6 +125,7 @@ def build_payload(root: Path = ROOT) -> dict:
             "category": character.get("category", "unknown"),
             "boss": bool(character.get("boss", False)),
             "morphology": morphology,
+            "morphology_source": morphology_source,
             "source_character_job": character.get("job_id", ""),
             "parts": _part_specs(parts, severable, marker_contract),
             "required_collections": contract["required_collections"],
@@ -133,7 +153,8 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=OUTPUT)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    expected = render(build_payload())
+    payload = build_payload()
+    expected = render(payload)
     if args.check:
         if not args.output.exists() or args.output.read_text(encoding="utf-8") != expected:
             raise SystemExit("anatomical pipeline v43 jobs are out of date; run the generator")
@@ -141,7 +162,7 @@ def main() -> int:
         return 0
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(expected, encoding="utf-8")
-    print(f"generated {len(build_payload()['jobs'])} anatomical Blender jobs v43")
+    print(f"generated {len(payload['jobs'])} anatomical Blender jobs v43")
     return 0
 
 
