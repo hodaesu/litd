@@ -67,6 +67,14 @@ def run(root=ROOT):
         try: yaml.safe_load(p.read_text(encoding='utf-8'))
         except Exception as exc: yaml_errors.append(f"{p.name}: {exc}")
     a.check('Workflows YAML valides', not yaml_errors, '; '.join(yaml_errors))
+
+    # Le gate de validation joueur est structurellement vérifiable en CI, mais
+    # son audit interdit explicitement de fabriquer une preuve humaine.
+    try:
+        from tools.qa.veilleurs_player_validation_audit import main as player_validation_main
+        a.check('Gate joueur vertical Les Veilleurs', player_validation_main() == 0)
+    except Exception as exc:
+        a.check('Gate joueur vertical Les Veilleurs', False, str(exc))
     return a
 
 def write_reports(a, outdir):
