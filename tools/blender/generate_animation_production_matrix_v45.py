@@ -3,6 +3,8 @@
 
 The generator is Blender-independent so CI can prove that every requested v44
 action has exactly one production strategy before an artist opens a .blend file.
+Signature slots are kept separate from systemic retarget requests so production can
+measure reuse without pretending that ultimates or boss set-pieces are shareable.
 """
 from __future__ import annotations
 
@@ -122,6 +124,67 @@ def _mobile_budget_tag(priority: str, mode: str) -> str:
     return "mobile_retarget"
 
 
+def _signature_backlog(contract: dict) -> list[dict]:
+    roster = contract.get("canonical_signature_roster", {})
+    policy = contract.get("signature_policy", {})
+    priority = str(policy.get("priority", "P2"))
+    mode = str(policy.get("production_mode", "BESPOKE"))
+    backlog: list[dict] = []
+
+    for hero in roster.get("veilleurs", []):
+        character_id = str(hero.get("id", ""))
+        name = str(hero.get("name", character_id))
+        for slot in range(1, int(hero.get("ultimate_slots", 0)) + 1):
+            backlog.append({
+                "character_id": character_id,
+                "name": name,
+                "category": "veilleur_ultimate",
+                "slot": f"ultimate_tree_{slot}",
+                "canonical_clip_key": f"signature/veilleur/{character_id}/ultimate_tree_{slot}",
+                "production_mode": mode,
+                "priority": priority,
+                "bespoke_reason": str(policy.get("hero_ultimate_reason", "ultimate_identity_must_remain_unique")),
+                "mobile_budget_tag": "mobile_signature",
+                "production_placeholder": True,
+                "not_a_lore_name": True,
+            })
+
+    for boss in roster.get("bosses", []):
+        character_id = str(boss.get("id", ""))
+        name = str(boss.get("name", character_id))
+        for slot in range(1, int(boss.get("ultimate_slots", 0)) + 1):
+            backlog.append({
+                "character_id": character_id,
+                "name": name,
+                "category": "boss_ultimate",
+                "slot": f"boss_ultimate_{slot}",
+                "canonical_clip_key": f"signature/boss/{character_id}/ultimate_{slot}",
+                "production_mode": mode,
+                "priority": priority,
+                "bespoke_reason": str(policy.get("boss_ultimate_reason", "boss_ultimate_requires_unique_silhouette_and_timing")),
+                "mobile_budget_tag": "mobile_signature",
+                "production_placeholder": True,
+                "not_a_lore_name": True,
+            })
+        for slot_name_value in boss.get("signature_slots", []):
+            slot_name = str(slot_name_value)
+            reason_key = "boss_phase_reason" if "phase" in slot_name else "boss_signature_reason"
+            backlog.append({
+                "character_id": character_id,
+                "name": name,
+                "category": "boss_phase" if "phase" in slot_name else "boss_signature",
+                "slot": slot_name,
+                "canonical_clip_key": f"signature/boss/{character_id}/{slot_name}",
+                "production_mode": mode,
+                "priority": priority,
+                "bespoke_reason": str(policy.get(reason_key, "boss_identity_requires_unique_motion")),
+                "mobile_budget_tag": "mobile_signature",
+                "production_placeholder": True,
+                "not_a_lore_name": True,
+            })
+    return backlog
+
+
 def build_payload(root: Path = ROOT) -> dict:
     contract = _load(root / CONTRACT_PATH.relative_to(ROOT))
     v44 = _v44_payload(root)
@@ -207,14 +270,22 @@ def build_payload(root: Path = ROOT) -> dict:
             "reuse_ratio": round(1.0 - (master_count / request_count), 4) if request_count else 0.0,
         }
 
+    signatures = _signature_backlog(contract)
+    hero_ultimates = sum(1 for item in signatures if item["category"] == "veilleur_ultimate")
+    boss_ultimates = sum(1 for item in signatures if item["category"] == "boss_ultimate")
+    boss_signatures = sum(1 for item in signatures if item["category"] == "boss_signature")
+    boss_phases = sum(1 for item in signatures if item["category"] == "boss_phase")
+
     requested = len(requests)
     authored = len(master_list)
     priority_summary = {
         tier: sum(1 for master in master_list if master["priority"] == tier)
+        + sum(1 for item in signatures if item["priority"] == tier)
         for tier in ("P0", "P1", "P2")
     }
     mode_summary = {
         mode: sum(1 for master in master_list if master["production_mode"] == mode)
+        + sum(1 for item in signatures if item["production_mode"] == mode)
         for mode in contract.get("production_modes", {})
     }
     return {
@@ -225,11 +296,19 @@ def build_payload(root: Path = ROOT) -> dict:
         "master_clips": authored,
         "avoided_duplicate_clips": requested - authored,
         "reuse_ratio": round(1.0 - (authored / requested), 4) if requested else 0.0,
+        "signature_count": len(signatures),
+        "hero_ultimate_slots": hero_ultimates,
+        "boss_ultimate_slots": boss_ultimates,
+        "boss_signature_slots": boss_signatures,
+        "boss_phase_slots": boss_phases,
+        "total_master_clips_with_signatures": authored + len(signatures),
         "priority_summary": priority_summary,
         "production_mode_summary": mode_summary,
         "family_summary": family_summary,
         "masters": master_list,
         "requests": requests,
+        "signature_backlog": signatures,
+        "skill_primitive_library": contract.get("skill_primitive_library", {}),
         "mobile_budget": contract.get("mobile_budget", {}),
         "skill_animation_policy": contract.get("skill_animation_policy", {}),
         "gameplay_neutral": True,
@@ -253,7 +332,14 @@ def main() -> int:
             "master_clips": payload["master_clips"],
             "avoided_duplicate_clips": payload["avoided_duplicate_clips"],
             "reuse_ratio": payload["reuse_ratio"],
+            "signature_count": payload["signature_count"],
+            "hero_ultimate_slots": payload["hero_ultimate_slots"],
+            "boss_ultimate_slots": payload["boss_ultimate_slots"],
+            "boss_signature_slots": payload["boss_signature_slots"],
+            "boss_phase_slots": payload["boss_phase_slots"],
+            "total_master_clips_with_signatures": payload["total_master_clips_with_signatures"],
             "priority_summary": payload["priority_summary"],
+            "production_mode_summary": payload["production_mode_summary"],
             "family_summary": payload["family_summary"],
         }, ensure_ascii=False, indent=2))
         return 0
@@ -265,7 +351,11 @@ def main() -> int:
         return 0
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(expected, encoding="utf-8")
-    print(f"generated v45: {payload['requested_actions']} requests -> {payload['master_clips']} master clips ({payload['reuse_ratio']:.1%} reuse)")
+    print(
+        f"generated v45: {payload['requested_actions']} systemic requests -> "
+        f"{payload['master_clips']} shared masters + {payload['signature_count']} signatures "
+        f"({payload['reuse_ratio']:.1%} systemic reuse)"
+    )
     return 0
 
 
