@@ -51,6 +51,6 @@
     "Créer LOD1/LOD2 en conservant les frontières de perte.",
     "Ajouter Actions P0 v47/v48 artistiques et valider dans Godot."
   ],
-  "done_when": "Le vrai quadruped.blend supporte les quatre pertes de pattes et leurs compensations sans mannequin humanoïde et passe v49/v50.",
+  "done_when": "Le vrai quadruped.blend supporte les quatre pertes de pattes et leurs compensations sans mannequin humanoïde, puis passe v49/v50 et la validation visuelle dans Godot.",
   "gameplay_neutral": true
 }
