@@ -9,7 +9,8 @@ func run() -> void:
 
     _check(registry.version() == 41, "Art manifest must expose v41")
     _check(not manifest.is_empty(), "Art manifest must load")
-    _check(bool(manifest.get("gameplay_guarantee", {}).has("must_not_change")), "Art contract must explicitly protect gameplay rules")
+    var gameplay_guarantee: Dictionary = manifest.get("gameplay_guarantee", {})
+    _check(gameplay_guarantee.has("must_not_change"), "Art contract must explicitly protect gameplay rules")
 
     for color_token in ["ash_black", "worn_bronze", "bone_text", "blood_red", "ember_amber"]:
         _check(str(registry.token("colors", color_token, "")) != "", "Missing canonical color token: %s" % color_token)
@@ -22,17 +23,17 @@ func run() -> void:
 
     var f3 := registry.functional_state_contract("F3")
     var f4 := registry.functional_state_contract("F4")
-    _check(bool(f3.get("weapon_reassign_if_possible", false)), "F3 must request weapon reassignment when possible")
-    _check(not bool(f4.get("segment_visible", true)), "F4 must remove the destroyed/amputated segment visually")
-    _check(bool(f4.get("show_absence_or_stump", false)), "F4 must show a real absence/stump")
-    _check(bool(f4.get("silhouette_change", false)), "F4 must change the silhouette")
+    _check(f3.get("weapon_reassign_if_possible", false) == true, "F3 must request weapon reassignment when possible")
+    _check(f4.get("segment_visible", true) == false, "F4 must remove the destroyed/amputated segment visually")
+    _check(f4.get("show_absence_or_stump", false) == true, "F4 must show a real absence/stump")
+    _check(str(f4.get("silhouette_change", "")) == "mandatory", "F4 must change the silhouette")
 
     var humanoid := registry.morphology_contract("HUMANOID")
     var serpentine := registry.morphology_contract("SERPENTINE_ORGANIC")
     var insectoid := registry.morphology_contract("INSECTOID_ORGANIC")
     _check(str(humanoid.get("weapon_reassignment", "")) == "opposite_functional_hand", "Humanoids must transfer a weapon to the opposite functional hand")
-    _check(bool(serpentine.get("forbid_humanoid_mannequin", false)), "Serpentine creatures must never use a humanoid anatomy mannequin")
-    _check(bool(insectoid.get("forbid_humanoid_mannequin", false)), "Insectoid creatures must never use a humanoid anatomy mannequin")
+    _check(serpentine.get("forbid_humanoid_mannequin", false) == true, "Serpentine creatures must never use a humanoid anatomy mannequin")
+    _check(insectoid.get("forbid_humanoid_mannequin", false) == true, "Insectoid creatures must never use a humanoid anatomy mannequin")
 
     var sanctuary_asset := registry.resolve_asset("bg.sanctuary")
     _check(str(sanctuary_asset.get("status", "missing")) in ["placeholder", "final"], "Sanctuary must always resolve to a visible background during the replacement pipeline")
@@ -45,7 +46,8 @@ func run() -> void:
     }
     var serpent_visual := registry.character_visual_contract(serpent_character, {"functional_state": "F4"})
     _check(str(serpent_visual.get("functional_state", "")) == "F4", "Character visual contract must propagate functional body state")
-    _check(str(serpent_visual.get("morphology_contract", {}).get("diagram", "")) == "serpentine", "Character visual contract must preserve real morphology")
+    var serpent_morphology: Dictionary = serpent_visual.get("morphology_contract", {})
+    _check(str(serpent_morphology.get("diagram", "")) == "serpentine", "Character visual contract must preserve real morphology")
 
     GameState.reset_new_game()
     CampaignState.reset_new_game()
@@ -66,7 +68,7 @@ func run() -> void:
         _check(marker != null, "Active UI must expose the v41 art contract marker")
         var snapshot: Dictionary = main.call("art_contract_snapshot")
         _check(int(snapshot.get("version", 0)) == 41, "Active Main must report art version 41")
-        _check(bool(snapshot.get("gameplay_untouched", false)), "Active Main must declare the art layer gameplay-neutral")
+        _check(snapshot.get("gameplay_untouched", false) == true, "Active Main must declare the art layer gameplay-neutral")
     else:
         _check(false, "Main scene missing after v41 load")
 
