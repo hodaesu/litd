@@ -12,8 +12,9 @@
     "offer_count": 6
   },
   "hero_recruitment": {
-    "base_cost": 72,
-    "level_cost": 11,
+    "base_cost": 54,
+    "level_cost": 9,
+    "max_cost": 240,
     "catchup_level_lag": 2,
     "candidate_count": 3,
     "names": [
