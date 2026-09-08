@@ -57,3 +57,14 @@ jobs:
           path: |
             systemic_animation_jobs_v44.json
             v44_aurelien_plan.json
+
+  animation-v44-godot:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Importer le projet
+        run: godot --headless --path . --import --quit
+      - name: Tester le runtime corporel v44
+        run: godot --headless --path . res://scenes/tests/body_animation_v44_smoke.tscn
