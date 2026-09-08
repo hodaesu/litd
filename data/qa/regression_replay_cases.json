@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "rank_restriction_heavy_blow_backline",
+      "hero": {"class_id": "breaker", "combat_position": 3},
+      "skill": {"id": "heavy_blow", "effect": "attack"},
+      "expect_usable": false
+    },
+    {
+      "id": "frontline_blocks_melee_back_target",
+      "hero": {"class_id": "breaker", "combat_position": 0},
+      "skill": {"id": "basic_strike", "effect": "attack"},
+      "enemies": [
+        {"id": "front", "hp": 10, "max_hp": 10, "combat_position": 0},
+        {"id": "back", "hp": 10, "max_hp": 10, "combat_position": 2}
+      ],
+      "target_index": 1,
+      "expect_targetable": false
+    },
+    {
+      "id": "ranged_can_reach_backline",
+      "hero": {"class_id": "ranger", "combat_position": 2},
+      "skill": {"id": "qa_precision_shot", "effect": "attack", "source_stat": "precision"},
+      "enemies": [
+        {"id": "front", "hp": 10, "max_hp": 10, "combat_position": 0},
+        {"id": "back", "hp": 10, "max_hp": 10, "combat_position": 3}
+      ],
+      "target_index": 1,
+      "expect_targetable": true
+    },
+    {
+      "id": "dead_enemy_never_targetable",
+      "hero": {"class_id": "ranger", "combat_position": 2},
+      "skill": {"id": "qa_precision_shot", "effect": "attack", "source_stat": "precision"},
+      "enemies": [
+        {"id": "dead", "hp": 0, "max_hp": 10, "combat_position": 0}
+      ],
+      "target_index": 0,
+      "expect_targetable": false
+    }
+  ]
+}
