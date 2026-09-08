@@ -32,17 +32,26 @@ func reset_new_game(seed_value: int = 0) -> void:
     inventory_changed.emit(items.duplicate(true))
 
 func generate_item(base_id: String, rarity_id: String = "common", context: String = "drop") -> Dictionary:
+    var item_seed: int = _next_seed(base_id, rarity_id, context)
+    return _build_item(base_id, rarity_id, context, item_seed, drop_counter)
+
+# Produit exactement la même structure qu'un objet généré sans consommer le
+# compteur global de drops. Utile pour les offres de marché, tooltips et QA.
+func preview_item(base_id: String, rarity_id: String = "common", context: String = "preview", preview_index: int = 1) -> Dictionary:
+    var safe_index := maxi(1, preview_index)
+    var item_seed := _preview_seed(base_id, rarity_id, context, safe_index)
+    return _build_item(base_id, rarity_id, context, item_seed, safe_index)
+
+func _build_item(base_id: String, rarity_id: String, context: String, item_seed: int, item_index: int) -> Dictionary:
     var definition: Dictionary = DataLoader.find_by_id(DataLoader.equipment, base_id)
     var rarity: Dictionary = DataLoader.find_by_id(DataLoader.equipment_rarities, rarity_id)
     if definition.is_empty() or rarity.is_empty():
         push_error("EquipmentManager: unknown equipment or rarity: %s / %s" % [base_id, rarity_id])
         return {}
-
-    var item_seed: int = _next_seed(base_id, rarity_id, context)
     var rng := RandomNumberGenerator.new()
     rng.seed = item_seed
     var item: Dictionary = {
-        "instance_id": _instance_id(base_id, item_seed, drop_counter),
+        "instance_id": _instance_id(base_id, item_seed, item_index),
         "base_id": base_id,
         "name": str(definition.get("name", base_id)),
         "slot": str(definition.get("slot", "")),
@@ -50,7 +59,7 @@ func generate_item(base_id: String, rarity_id: String = "common", context: Strin
         "rarity": rarity_id,
         "rarity_rank": int(rarity.get("rank", 1)),
         "seed": item_seed,
-        "drop_index": drop_counter,
+        "drop_index": item_index,
         "context": context,
         "base_bonuses": _scaled_bonuses(definition.get("base_bonuses", {}), float(rarity.get("base_multiplier", 1.0))),
         "affixes": []
