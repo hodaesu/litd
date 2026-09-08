@@ -83,6 +83,7 @@ run_checked "Parcours UI joueur : Sanctuaire, exploration, combat, récompenses 
 run_checked "Interface canonique Les Veilleurs : 10 écrans, hotspots sans rectangles et HUD réel" timeout 90s godot --headless --path . res://scenes/tests/canonical_ui_smoke.tscn
 run_checked "Finition UX canonique : feedbacks, aide contextuelle, états rares et tactile" timeout 90s godot --headless --path . res://scenes/tests/canonical_ux_smoke.tscn
 run_checked "Direction artistique canonique v41 : tokens, slots, morphologies et amputations" timeout 90s godot --headless --path . res://scenes/tests/canonical_art_v41_smoke.tscn
+run_checked "Corps visuel systemique v42 : F3, F4, equipement, transfert d'arme et morphologies" timeout 90s godot --headless --path . res://scenes/tests/body_visual_v42_smoke.tscn
 run_checked "Bâtiments du Sanctuaire : Chapelle, Taverne et Mémorial" timeout 60s godot --headless --path . res://scenes/tests/sanctuary_buildings_smoke.tscn
 run_checked "Mobile tactile : formats iPhone, cibles tactiles et ScreenTouch" timeout 90s godot --headless --path . res://scenes/tests/mobile_touch_smoke.tscn
 
