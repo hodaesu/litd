@@ -20,19 +20,24 @@ func _apply_v41_art_contract() -> void:
         return
     var screen_name := str(GameState.current_screen)
     var contract := _canonical_art.screen_contract(screen_name)
+    var asset_status := _canonical_art.screen_asset_status(screen_name)
+
     content.set_meta("litd_art_version", _canonical_art.version())
     content.set_meta("litd_art_screen", screen_name)
     content.set_meta("litd_art_screen_contract", contract)
-    content.set_meta("litd_art_asset_status", _canonical_art.screen_asset_status(screen_name))
+    content.set_meta("litd_art_asset_status", asset_status)
 
-    var marker := content.get_node_or_null("CanonicalArtContractV41")
+    # Le contenu d'un écran est reconstruit à chaque navigation. Le marqueur de
+    # contrat vit donc sous Main, et non dans content, afin de rester stable
+    # pendant les remplacements d'écran et les audits automatisés.
+    var marker := get_node_or_null("CanonicalArtContractV41")
     if marker == null:
         marker = Node.new()
         marker.name = "CanonicalArtContractV41"
-        content.add_child(marker)
+        add_child(marker)
     marker.set_meta("screen", screen_name)
     marker.set_meta("contract", contract)
-    marker.set_meta("asset_status", _canonical_art.screen_asset_status(screen_name))
+    marker.set_meta("asset_status", asset_status)
 
     _apply_v41_runtime_tokens()
 
