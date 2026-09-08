@@ -1,0 +1,56 @@
+{
+  "version": 52,
+  "order": 7,
+  "id": "amorphous",
+  "source_v51": "data/blender/master_models_v51/07_amorphous.json",
+  "source_blend": "art/blender/animation_masters/amorphous.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire une masse organique asymétrique autour d'un noyau, avec zones réellement supprimables et redistribution corporelle sans faux membres humanoïdes.",
+  "blockout": [
+    "Créer le noyau comme point visuel identifiable, puis trois masses principales avant/milieu/arrière.",
+    "Ajouter organ_1 et organ_2 comme systèmes distincts, non comme simple détail de texture.",
+    "Tester deux dérivations opposées: Nœud-Écorché dense/viscéral et Rature Vivante plus fragmentée/palimpseste.",
+    "Simuler la suppression successive de chaque masse afin d'éviter une silhouette qui s'effondre en un bloc illisible.",
+    "Décider avant retopo quelles déformations sont os et lesquelles sont shape keys."
+  ],
+  "runtime_objects": ["BODY_core", "BODY_mass_front", "BODY_mass_mid", "BODY_mass_rear", "BODY_organ_1", "BODY_organ_2"],
+  "stump_objects": ["STUMP_mass_front", "STUMP_mass_mid", "STUMP_mass_rear", "STUMP_organ_1", "STUMP_organ_2", "STUMP_core"],
+  "rig_build_order": ["ROOT", "core", "mass_front_chain", "mass_mid_chain", "mass_rear_chain", "organ_1_chain", "organ_2_chain"],
+  "authoring_controls": ["core translation/rotation", "mass squash/stretch controls", "organ controls", "limited shape keys for pulse/redistribution", "F4 mass-removal preview controls"],
+  "shape_key_policy": [
+    "Utiliser les os pour les déplacements structuraux et les shape keys pour pulsation/écrasement local.",
+    "Ne jamais utiliser une shape key pour simuler une disparition F4 si la géométrie BODY doit réellement être absente.",
+    "Limiter le nombre de shape keys actives et profiler sur mobile."
+  ],
+  "f3_pose_set": ["POSE_F3_mass_front", "POSE_F3_mass_mid", "POSE_F3_mass_rear", "POSE_F3_organ_1", "POSE_F3_organ_2", "POSE_F3_core"],
+  "materials": {
+    "families": ["dark_flesh", "dried_blood", "ash", "blackened_tissue", "parchment_like_version_scars", "wound_surface"],
+    "avoid": ["slime_cartoon", "transparent_neon_blob"]
+  },
+  "lod_plan": {
+    "lod0": "20k-40k triangles plus controlled deformation shapes",
+    "lod1": "~48% LOD0; preserve core and six runtime boundaries; reduce secondary excrescences",
+    "lod2": "~20% LOD0; collapse micro folds/scars, preserve each removable mass as a separate object"
+  },
+  "f3_tests": [
+    "Chaque masse F3 reste visible mais cesse son rôle locomoteur/offensif; masses voisines compensent sans la remplacer.",
+    "Organes F3 restent présents mais activité/pulsation réduite ou absente.",
+    "Core F3, si autorisé, doit changer toute la tenue corporelle sans réinitialiser les autres blessures."
+  ],
+  "f4_tests": [
+    "Supprimer réellement chaque masse/organ et activer une fermeture STUMP/scar adaptée.",
+    "Vérifier qu'aucune shape key ne recrée la zone absente.",
+    "Tester idle, shift/crawl et attaque après chaque perte majeure.",
+    "Valider les silhouettes Nœud-Écorché et Rature Vivante avec les mêmes règles runtime mais des formes finales distinctes."
+  ],
+  "pc_checklist": [
+    "Blockout noyau + cinq zones périphériques.",
+    "Choisir os versus shape keys avant retopo.",
+    "Séparer six BODY et créer STUMP/scars réels.",
+    "Rig/weights puis tests de redistribution F3/F4.",
+    "Profiler shape keys et LOD sur mobile.",
+    "Ajouter Actions P0 artistiques, exporter GLB et valider v49/v50."
+  ],
+  "done_when": "Le vrai amorphous.blend peut perdre chaque volume sans simple recoloration ni régénération implicite et passe la validation Godot.",
+  "gameplay_neutral": true
+}
