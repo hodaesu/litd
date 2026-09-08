@@ -14,8 +14,9 @@ Le gate pré-PC contrôle notamment :
 - CI Godot épinglée sur **4.7.2** ;
 - fichiers de production essentiels ;
 - addon `Veilleurs Production Pipeline` ;
-- quatuor canonique Nayra, Tarek, Aïsha et Idris ;
-- absence du quatuor obsolète Sahen/Mira/Narem/Ysra hors tests négatifs et exceptions historiques autorisées ;
+- quatuor **player-facing canonique** : Sahen Varo, Mira Sen, Narem Osh et Ysra Nahal ;
+- IDs runtime Veilleurs de compatibilité `ENT_WATCHER_NAYRA`, `ENT_WATCHER_TAREK`, `ENT_WATCHER_AISHA`, `ENT_WATCHER_IDRIS` tant que la migration d'IDs n'est pas terminée ;
+- interdiction des faux IDs runtime `ENT_WATCHER_SAHEN`, `ENT_WATCHER_MIRA`, `ENT_WATCHER_NAREM`, `ENT_WATCHER_YSRA` hors gardes négatives prévues ;
 - six donjons de production ;
 - contrats QA v0.6 → v0.9 ;
 - 12 ultimes et leurs slots de production ;
@@ -28,7 +29,7 @@ Le gate pré-PC contrôle notamment :
 - sauvegarde/reprise et Rémanence selon les gates associés ;
 - séparation des validations automatiques et matérielles.
 
-Les références à l’ancien quatuor ne sont tolérées que lorsqu’elles servent explicitement de garde négative ou de trace historique gelée. Elles ne sont jamais autorisées comme combattants actifs.
+`data/veilleurs/canonical_roster.json` reste la source player-facing pour les noms. Les IDs techniques historiques ne doivent jamais être interprétés comme une décision de canon visible par le joueur.
 
 ## Pipeline
 
@@ -90,6 +91,16 @@ Après un préflight vert :
 3. lancer **Veilleurs QA** ;
 4. pour un jalon, lancer **Veilleurs QA complète** ;
 5. poursuivre avec les validations visuelles, tactiles, audio et performance sur matériel réel.
+
+## Auto-test développeur prioritaire
+
+Pour la verticale du Chapitre I, le chemin recommandé est désormais :
+
+```bat
+tools\workstation\LITD_VEILLEURS_FIRST_PLAYTEST.cmd
+```
+
+Sans identifiant explicite, le lanceur utilise `developer-selftest`. La build exportée est alors lancée avec l'instrumentation développeur opt-in : étapes de la tranche 30–45 minutes, chronomètre, écran courant et journal local des problèmes. Cette instrumentation ne valide aucun gate humain et n'est pas activée pour les testeurs naïfs.
 
 ## Définition de « prêt pour PC »
 
