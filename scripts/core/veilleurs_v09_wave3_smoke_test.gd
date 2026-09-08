@@ -127,11 +127,26 @@ func _run() -> void:
     boss.next_round()
     _check(int(boss.boss_phase_snapshot().get("phase", 0)) == 3, "Phase 3 applies one round after telegraph")
 
+    _check(VeilleursMobileCombatUXV09.TARGETING_WINDOW_MS == 12000, "Mobile targeting window remains locked at 12 seconds pending human iPhone evidence")
+    _check(VeilleursMobileCombatUXV09.CONFIRM_WINDOW_MS == 3200, "Mobile target confirmation window remains locked at 3.2 seconds pending human iPhone evidence")
+    _check(VeilleursTacticalUI.RETREAT_CONFIRM_MS == 2500, "Retreat confirmation window remains locked at 2.5 seconds pending human iPhone evidence")
+    _check(VeilleursCombatTurnFeedbackV09.FEEDBACK_MS == 4400, "Combat feedback window remains locked at 4.4 seconds pending human iPhone evidence")
+
+    var submission_labels := VeilleursSubmissionControlV09.new()
+    _check(submission_labels._control_label("PINNED") == "entrave", "Submission UI localizes PINNED without exposing a raw runtime identifier")
+    _check(submission_labels._control_label("IMMOBILIZED") == "immobilisation", "Submission UI localizes IMMOBILIZED without exposing a raw runtime identifier")
+    _check(submission_labels._control_label("STAGGER") == "déséquilibre", "Submission UI localizes STAGGER without exposing a raw runtime identifier")
+    _check(submission_labels._control_label("FEAR") == "peur", "Submission UI localizes FEAR without exposing a raw runtime identifier")
+    submission_labels.free()
+
     var qa: Node = QA_SCENE.instantiate()
     add_child(qa)
     await get_tree().process_frame
     _check(qa != null and qa is VeilleursVerticalSliceQAV09, "Unified six-dungeon QA scene instantiates")
     _check(qa.get_node_or_null("SubmissionControl") != null, "QA scene exposes nonlethal submission control")
+    _check(qa.get_node_or_null("MobileCombatUX") != null, "QA scene keeps the explicit mobile targeting/confirmation layer installed")
+    _check(qa.get_node_or_null("MobileSafeArea") != null, "QA scene keeps the mobile safe-area layer installed")
+    _check(qa.get_node_or_null("CombatTurnFeedback") != null, "QA scene keeps the combat impact feedback layer installed")
     qa.queue_free()
     _finish()
 
