@@ -1,0 +1,36 @@
+{
+  "version": 51,
+  "name": "LITD Les Veilleurs - Master Model Production Pack v51",
+  "purpose": "Préparer un par un les douze fichiers Blender maîtres requis par le pipeline P0 v50 sans fabriquer de faux assets artistiques.",
+  "source_cast": "data/blender/canonical_cast_v46.json",
+  "body_runtime": "data/body_visual_runtime_v42.json",
+  "p0_schedule": "v47",
+  "export_plan": "v48",
+  "pc_orchestrator": "tools/pipeline/run_p0_animation_pipeline_v50.py",
+  "production_order": [
+    {"order": 1, "id": "humanoid_standard", "spec": "data/blender/master_models_v51/01_humanoid_standard.json"},
+    {"order": 2, "id": "construct_biped", "spec": "data/blender/master_models_v51/02_construct_biped.json"},
+    {"order": 3, "id": "humanoid_massive", "spec": "data/blender/master_models_v51/03_humanoid_massive.json"},
+    {"order": 4, "id": "quadruped", "spec": "data/blender/master_models_v51/04_quadruped.json"},
+    {"order": 5, "id": "insectoid", "spec": "data/blender/master_models_v51/05_insectoid.json"},
+    {"order": 6, "id": "serpentine", "spec": "data/blender/master_models_v51/06_serpentine.json"},
+    {"order": 7, "id": "amorphous", "spec": "data/blender/master_models_v51/07_amorphous.json"},
+    {"order": 8, "id": "boss_ishar", "spec": "data/blender/master_models_v51/08_boss_ishar.json"},
+    {"order": 9, "id": "boss_orateur_sans_voix", "spec": "data/blender/master_models_v51/09_boss_orateur_sans_voix.json"},
+    {"order": 10, "id": "boss_mere_des_veines", "spec": "data/blender/master_models_v51/10_boss_mere_des_veines.json"},
+    {"order": 11, "id": "boss_porte_cendres_blanc", "spec": "data/blender/master_models_v51/11_boss_porte_cendres_blanc.json"},
+    {"order": 12, "id": "boss_le_copiste", "spec": "data/blender/master_models_v51/12_boss_le_copiste.json"}
+  ],
+  "coverage_contract": {
+    "canonical_entities": 33,
+    "veilleurs": 4,
+    "recruitable_species": 24,
+    "bosses": 5,
+    "shared_masters": 7,
+    "bespoke_boss_masters": 5,
+    "no_legacy_cast": true
+  },
+  "sequence_rule": "Finir et valider le dossier technique 01, puis 02, etc. Sur PC, créer les .blend dans le même ordre sauf réordonnancement explicite dû à une dépendance artistique.",
+  "truth_rule": "Un dossier JSON prêt n'est pas un modèle 3D terminé. Un modèle n'est terminé qu'après géométrie/rig/Actions artistiques réelles dans Blender et validation v50 dans Godot.",
+  "gameplay_neutral": true
+}
