@@ -139,10 +139,15 @@ func _apply_text_node(node: Node) -> void:
     var scaled_size := maxi(MIN_FONT_SIZE, int(round(float(base_size) * GameSettings.text_scale)))
     control.add_theme_font_size_override("font_size", scaled_size)
 
+func _is_mobile_runtime() -> bool:
+    # Les exports Web n'exposent pas le tag générique "mobile". Godot fournit
+    # des tags dédiés afin qu'une PWA iPhone/Android suive le même contrat UX.
+    return OS.has_feature("mobile") or OS.has_feature("web_ios") or OS.has_feature("web_android")
+
 func _logical_safe_insets(reference_size: Vector2) -> Vector4:
-    # Sur PC/headless, aucun décalage n'est appliqué. get_display_safe_area()
-    # est utilisé uniquement là où Godot fournit les données natives iOS/Android.
-    if not OS.has_feature("mobile"):
+    # Sur PC/headless, aucun décalage n'est appliqué. Sur iOS/Android natif
+    # comme en PWA mobile, on tente d'utiliser la safe area fournie par Godot.
+    if not _is_mobile_runtime():
         return Vector4.ZERO
     if reference_size.x <= 0.0 or reference_size.y <= 0.0:
         return Vector4.ZERO
