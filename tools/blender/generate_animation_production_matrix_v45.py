@@ -87,6 +87,14 @@ def _production_mode(item: dict, family: str, contract: dict) -> str:
     return str(contract.get("role_policy", {}).get(role, "RETARGET_SEMANTIC"))
 
 
+def _bespoke_reason(job: dict, family: str, mode: str) -> str:
+    if mode != "BESPOKE":
+        return ""
+    if family == "boss_custom":
+        return "custom_morphology_or_boss_anatomy_requires_unique_motion"
+    return "declared_signature_motion"
+
+
 def _canonical_key(item: dict, job: dict, family: str, mode: str, contract: dict) -> str:
     name = str(item.get("name", ""))
     role = str(item.get("role", "body"))
@@ -132,6 +140,7 @@ def build_payload(root: Path = ROOT) -> dict:
             mode = _production_mode(item, family, contract)
             priority = _priority(item, job, contract)
             canonical = _canonical_key(item, job, family, mode, contract)
+            bespoke_reason = _bespoke_reason(job, family, mode)
             part = str(item.get("part", ""))
             side = _side(part)
             family_spec = contract.get("retarget_families", {}).get(family, {})
@@ -150,6 +159,7 @@ def build_payload(root: Path = ROOT) -> dict:
                 "side": side,
                 "mirrorable": mirrorable,
                 "production_mode": mode,
+                "bespoke_reason": bespoke_reason,
                 "canonical_clip_key": canonical,
                 "priority": priority,
                 "mobile_budget_tag": _mobile_budget_tag(priority, mode),
@@ -165,6 +175,7 @@ def build_payload(root: Path = ROOT) -> dict:
                     "canonical_clip_key": canonical,
                     "retarget_family": family,
                     "production_mode": mode,
+                    "bespoke_reason": bespoke_reason,
                     "priority": priority,
                     "owner_character_id": request["character_id"],
                     "source_action": request["action"],
