@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       runs:
-        description: 'Nombre de combats runtime Godot'
+        description: 'Nombre de combats runtime Godot (10 000 par défaut en manuel)'
         required: false
         default: '10000'
 
@@ -26,13 +26,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Importer le projet Godot
         run: godot --headless --path . --import --quit
-      - name: Lancer 10 000 combats via le runtime Godot réel
+      - name: Lancer le smoke BalanceLab via le runtime Godot réel
         env:
-          BALANCE_GODOT_RUNS: ${{ github.event.inputs.runs || '10000' }}
+          BALANCE_GODOT_RUNS: ${{ github.event_name == 'pull_request' && '250' || inputs.runs || '10000' }}
           BALANCE_GODOT_SEED: '41003'
-        run: >-
-          godot --headless --path .
-          --script res://scripts/qa/balance_lab_godot_runtime_probe.gd
+        run: |
+          echo "BalanceLab runtime: ${BALANCE_GODOT_RUNS} combats"
+          godot --headless --path . --script res://scripts/qa/balance_lab_godot_runtime_probe.gd
       - name: Publier le rapport runtime Godot
         uses: actions/upload-artifact@v4
         if: always()
