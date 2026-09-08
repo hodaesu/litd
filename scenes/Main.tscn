@@ -1,5 +1,7 @@
 [gd_scene load_steps=11 format=3]
 
+; main_v40 ajoute la finition UX canonique : micro-feedbacks sans rectangles,
+; hiérarchie typographique, aide contextuelle et états rares récupérables.
 ; main_v39 conserve les noms canoniques bruts des lieux pour les sélecteurs runtime/QA.
 ; main_v38 active l'interface canonique du playtest Les Veilleurs : hub sans
 ; rectangles, navigation centrale, fiches héros, inventaire/équipement,
@@ -20,7 +22,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v39.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v40.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
