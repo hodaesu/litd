@@ -100,6 +100,20 @@ def run(root=ROOT):
         a.check('Readiness playtest Wave 2 Les Veilleurs', readiness_main() == 0)
     except Exception as exc:
         a.check('Readiness playtest Wave 2 Les Veilleurs', False, str(exc))
+
+    # Le dashboard doit rester une projection fidèle du registre canonique :
+    # il vérifie les prochains gates et ne peut pas promouvoir un système.
+    try:
+        from tools.qa.veilleurs_maturity_dashboard import main as maturity_dashboard_main
+        old_argv = sys.argv[:]
+        try:
+            sys.argv = ['veilleurs_maturity_dashboard', '--check']
+            result = maturity_dashboard_main()
+        finally:
+            sys.argv = old_argv
+        a.check('Tableau de maturité Les Veilleurs', result == 0)
+    except Exception as exc:
+        a.check('Tableau de maturité Les Veilleurs', False, str(exc))
     return a
 
 def write_reports(a, outdir):
