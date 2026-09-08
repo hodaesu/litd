@@ -26,19 +26,28 @@ permissions:
   contents: read
 
 jobs:
+  audit-kit:
+    name: Audit first-playtest kit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate kit contract
+        shell: bash
+        run: |
+          python tools/qa/veilleurs_first_playtest_kit_audit.py
+          python tools/playtest/run_veilleurs_first_playtest.py --check
+
   windows-debug-playtest:
     name: Export Windows first-playtest build
+    needs: audit-kit
     runs-on: ubuntu-latest
     container:
       image: barichello/godot-ci:4.7.2
     steps:
       - uses: actions/checkout@v4
-
-      - name: Audit first-playtest kit
-        shell: bash
-        run: |
-          python tools/qa/veilleurs_first_playtest_kit_audit.py
-          python tools/playtest/run_veilleurs_first_playtest.py --check
 
       - name: Prepare Windows export template
         shell: bash
