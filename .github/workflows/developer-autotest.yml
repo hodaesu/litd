@@ -33,8 +33,10 @@ jobs:
         run: godot --headless --path . --import --quit
       - name: Auto-test développeur déterministe
         run: godot --headless --path . res://scenes/tests/developer_autotest_smoke.tscn
-      - name: "Joueur-bot : expédition, combats, loot, capture et progression de salles"
+      - name: "Joueur-bot v1 : expédition, combats, loot, capture et progression de salles"
         run: timeout 120s godot --headless --path . res://scenes/tests/player_bot_autotest.tscn
+      - name: "Joueur-bot v2 : contrôleur réel, compétences, capture et métriques"
+        run: timeout 180s godot --headless --path . res://scenes/tests/player_bot_v2_autotest.tscn
       - name: Publier les rapports runtime
         uses: actions/upload-artifact@v4
         if: always()
@@ -43,6 +45,7 @@ jobs:
           path: |
             reports/developer-autotest-godot.json
             reports/player-bot-autotest.json
+            reports/player-bot-v2-autotest.json
 
   deterministic-batch-telemetry:
     runs-on: ubuntu-latest
