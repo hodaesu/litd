@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "fast_feedback_target_seconds": 90,
+    "reproducibility": "Every randomized bot must report deterministic seed and case/run index.",
+    "flakiness": "Do not hide failures with blind retries or arbitrary sleeps; wait on observable game state and preserve the failing seed.",
+    "tiers": {
+      "sentinel": "Run on every relevant commit; small deterministic contract checks.",
+      "simulation": "Run in parallel on every relevant commit; medium/long gameplay simulation.",
+      "telemetry": "Statistical balance signal; never substitutes for production-runtime tests."
+    }
+  },
+  "bots": [
+    {"id":"v1","tier":"simulation","domain":"expedition","report":"reports/player-bot-autotest.json","replay":"fixed seed"},
+    {"id":"v2","tier":"simulation","domain":"real combat controller","report":"reports/player-bot-v2-autotest.json","replay":"seed + room"},
+    {"id":"v3","tier":"simulation","domain":"build matrix","report":"reports/player-bot-v3-build-matrix.json","replay":"build + seed + scenario"},
+    {"id":"v4","tier":"simulation","domain":"factorial balance","report":"reports/player-bot-v4-factorial-matrix.json","replay":"case + seed + scenario"},
+    {"id":"v5","tier":"simulation","domain":"longitudinal campaign","report":"reports/player-bot-v5-longitudinal-campaign.json","replay":"campaign seed + expedition + combat"},
+    {"id":"v6","tier":"simulation","domain":"real campaign economy/extraction","report":"reports/player-bot-v6-real-campaign.json","replay":"campaign seed + expedition + room"},
+    {"id":"v7","tier":"simulation","domain":"sanctuary economy/recruitment","report":"reports/player-bot-v7-sanctuary-economy.json","replay":"campaign seed + cycle"},
+    {"id":"v8","tier":"sentinel","domain":"legal combat action contract","report":"reports/player-bot-v8-fast-combat-contract.json","replay":"fixed scenario"},
+    {"id":"v9","tier":"sentinel","domain":"save/load integrity","report":"reports/player-bot-v9-save-integrity.json","replay":"fixed snapshot mutation"},
+    {"id":"v10","tier":"sentinel","domain":"sanctuary UI navigation","report":"reports/player-bot-v10-sanctuary-ui-smoke.json","replay":"screen id"},
+    {"id":"v11","tier":"sentinel","domain":"tactical property fuzzing","report":"reports/player-bot-v11-tactical-property-fuzzer.json","replay":"seed + case_index"},
+    {"id":"telemetry-v2","tier":"telemetry","domain":"roguelike Monte Carlo balance","report":"reports/developer-autotest-telemetry-*.json","replay":"seed + simulator arguments"}
+  ]
+}
