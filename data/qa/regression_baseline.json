@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "sentinels": {
+    "player-bot-v8-fast-combat-contract.json": {"max_failures": 0},
+    "player-bot-v9-save-integrity.json": {"max_failures": 0},
+    "player-bot-v10-sanctuary-ui-smoke.json": {"max_failures": 0},
+    "player-bot-v11-tactical-property-fuzzer.json": {"max_failures": 0, "min_cases": 5000},
+    "player-bot-v12-regression-replay.json": {"max_failures": 0, "min_cases": 4}
+  }
+}
