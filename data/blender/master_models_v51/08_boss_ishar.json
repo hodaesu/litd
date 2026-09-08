@@ -1,0 +1,60 @@
+{
+  "version": 51,
+  "order": 8,
+  "id": "boss_ishar",
+  "display_name": "Ishar, Gardien du Passage",
+  "master_kind": "bespoke_boss_master",
+  "retarget_family": "boss_custom",
+  "owner_character_id": "ishar_gardien_du_passage",
+  "source_blend": "art/blender/bosses/ishar_gardien_du_passage/ishar_gardien_du_passage_animation_master.blend",
+  "cast_coverage": ["ishar_gardien_du_passage"],
+  "runtime_morphologies": ["BOSS_CUSTOM"],
+  "purpose": "Boss du seuil entièrement spécifique; sentinelle minérale ancienne, ancrée et monumentale.",
+  "visual_direction": {
+    "identity": "statue-gardien antique du Seuil, sacrée et usée",
+    "materials": ["basalt", "obsidian", "black_stone", "hand_forged_iron", "tarnished_bronze"],
+    "emissive": "muted_amber_in_cracks_and_memory_core",
+    "details": ["ritual_seal_plates", "carved_sigils", "battered_tabard", "ember_reliquary_memory_core"],
+    "forbidden": ["cables", "pistons", "sleek_robotics", "gun_shapes", "exoskeleton_scifi", "neon"]
+  },
+  "body_segments": ["HEAD_SENSOR", "MEMORY_CORE", "ARM_L", "ARM_R", "LEG_L", "LEG_R", "ANCHOR_FL", "ANCHOR_FR", "ANCHOR_RL", "ANCHOR_RR"],
+  "rig_contract": {
+    "root": "ROOT",
+    "locomotion": "anchored_weighty",
+    "four_anchor_controls_required": true,
+    "memory_core_control_required": true,
+    "rig_must_allow_plate_break_without_body_reset": true
+  },
+  "marker_contract": {
+    "segments": "BODY_<declared_part>",
+    "stumps_or_breaks": "STUMP_<declared_part>",
+    "f3_poses": "POSE_F3_<declared_part>",
+    "equipment": "EQUIP_<slot>",
+    "declared_markers_only": true
+  },
+  "f3_f4_contract": {
+    "F3": "fissure/blocage local persistant entre phases",
+    "F4": "segment ou plaque détruit reste détruit; aucune restauration au changement de phase",
+    "anchors": "chaque plaque d'ancrage est individuellement lisible et destructible"
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "45k-75k boss target, to profile on target phones",
+    "lod1_ratio": 0.5,
+    "lod2_ratio": 0.22,
+    "max_skin_influences_per_vertex": 4,
+    "prefer_rigid_plate_weights": true
+  },
+  "animation_contract": {
+    "priority_source": "v47 boss_custom P0 bundle owned by ishar_gardien_du_passage",
+    "must_support": ["anchored_idle", "heavy_attack", "guard_threshold", "anchor_reaction", "core_reaction", "F3", "F4", "phase_transition_without_body_reset"],
+    "signature_and_ultimates": "P2 bespoke; never retargeted from shared humanoids"
+  },
+  "definition_of_done_in_blender": [
+    "10 declared boss parts have BODY markers",
+    "four anchors are independently damage-readable",
+    "memory core remains a sacred reliquary rather than sci-fi reactor",
+    "phase Actions preserve visible lesions",
+    "P0 Actions contain real keyframes"
+  ],
+  "gameplay_neutral": true
+}
