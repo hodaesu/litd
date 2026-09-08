@@ -1,0 +1,85 @@
+{
+  "version": 52,
+  "order": 1,
+  "id": "humanoid_standard",
+  "source_v51": "data/blender/master_models_v51/01_humanoid_standard.json",
+  "source_blend": "art/blender/animation_masters/humanoid_standard.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire le maître bipède organique servant aux quatre Veilleurs et aux humanoïdes organiques standards sans cloner leurs silhouettes finales.",
+  "blockout": [
+    "Créer un mannequin adulte stylisé en A-pose, 1.70-1.80 m de référence, sans costume final.",
+    "Bloquer cage thoracique, bassin, tête, bras, avant-bras, mains, cuisses, tibias et pieds comme volumes distincts lisibles.",
+    "Tester immédiatement trois variations extrêmes: épaules étroites/larges, membres courts/longs, masse faible/forte.",
+    "Valider qu'aucune variation n'oblige à déplacer les articulations canoniques hors des limites de retarget raisonnables.",
+    "Geler la silhouette neutre avant retopologie et rig final."
+  ],
+  "runtime_objects": [
+    "BODY_head", "BODY_torso", "BODY_arm_left", "BODY_arm_right", "BODY_hand_left", "BODY_hand_right",
+    "BODY_leg_left", "BODY_leg_right", "BODY_foot_left", "BODY_foot_right"
+  ],
+  "stump_objects": [
+    "STUMP_arm_left", "STUMP_arm_right", "STUMP_hand_left", "STUMP_hand_right",
+    "STUMP_leg_left", "STUMP_leg_right", "STUMP_foot_left", "STUMP_foot_right"
+  ],
+  "separation_rules": [
+    "Couper la géométrie aux limites fonctionnelles et non selon les coutures de costume.",
+    "Une perte de bras entraîne visuellement la perte de la main dépendante.",
+    "Une perte de jambe entraîne visuellement la perte du pied dépendant.",
+    "Les coutures BODY/STUMP doivent rester masquables sous chair, bandage ou costume sans empêcher la lecture d'une amputation."
+  ],
+  "rig_build_order": [
+    "ROOT", "pelvis", "spine_01", "spine_02", "chest", "neck", "head",
+    "clavicle_l", "upperarm_l", "forearm_l", "hand_l",
+    "clavicle_r", "upperarm_r", "forearm_r", "hand_r",
+    "thigh_l", "shin_l", "foot_l", "toe_l",
+    "thigh_r", "shin_r", "foot_r", "toe_r"
+  ],
+  "authoring_controls": [
+    "IK pieds pour locomotion et appuis F3", "IK/FK bras pour combat", "pole controls coudes/genoux",
+    "center-of-mass control", "weapon socket left/right", "optional back and waist sockets"
+  ],
+  "f3_pose_set": [
+    "POSE_F3_arm_left", "POSE_F3_arm_right", "POSE_F3_hand_left", "POSE_F3_hand_right",
+    "POSE_F3_leg_left", "POSE_F3_leg_right", "POSE_F3_foot_left", "POSE_F3_foot_right"
+  ],
+  "equipment_build": [
+    "EQUIP_head", "EQUIP_torso", "EQUIP_hand_left", "EQUIP_hand_right", "EQUIP_weapon", "EQUIP_back", "EQUIP_waist",
+    "SOCKET_weapon_l", "SOCKET_weapon_r"
+  ],
+  "materials": {
+    "families": ["skin", "cloth_ash", "aged_leather", "oxidized_metal", "bronze", "blood_or_wound"],
+    "identity_specific": ["skin tone", "cloth palette", "scar maps", "tattoo/mark masks", "costume atlas"],
+    "avoid": ["clean_high_fantasy_plastic", "neon", "sleek_scifi"]
+  },
+  "lod_plan": {
+    "lod0": "30k-55k triangles final hero including outfit",
+    "lod1": "~55% LOD0; preserve hands, face silhouette, BODY boundaries, weapon sockets",
+    "lod2": "~25% LOD0; simplify fingers, folds and small ornaments first; never merge arm/hand or leg/foot damage boundaries"
+  },
+  "f3_tests": [
+    "Bras gauche/droit: membre visible, sans participation offensive; arme transférée si l'autre main est fonctionnelle.",
+    "Main gauche/droite: bras conservé mais prise d'arme impossible sur le côté atteint.",
+    "Jambe/pied: appui supprimé ou fortement réduit, bassin et centre de masse compensent sans glissement de pied sain."
+  ],
+  "f4_tests": [
+    "Bras: BODY_arm + BODY_hand du même côté absents, STUMP_arm actif, arme transférée seulement si autorisée.",
+    "Main: BODY_hand absent, STUMP_hand actif, avant-bras conservé.",
+    "Jambe: BODY_leg + BODY_foot absents, STUMP_leg actif; idle et mouvement asymétriques.",
+    "Pied: BODY_foot absent, STUMP_foot actif; locomotion dégradée sans faux pied invisible."
+  ],
+  "pc_checklist": [
+    "Créer le .blend au chemin canonique.",
+    "Créer les collections du common contract.",
+    "Finir blockout neutre puis séparation BODY.",
+    "Retopologie/UV avant création des STUMP définitifs.",
+    "Construire et nommer le rig exactement.",
+    "Skinner avec maximum 4 influences par sommet.",
+    "Créer sockets et équipements de test.",
+    "Valider F0, chaque F3 unilatéral, puis chaque F4.",
+    "Construire LOD1/LOD2 sans fusionner les frontières de dégâts.",
+    "Importer les Actions P0 v47/v48 seulement après validation géométrie/rig.",
+    "Exporter GLB et exécuter v49/v50 dans Godot."
+  ],
+  "done_when": "Le vrai humanoid_standard.blend existe avec géométrie, rig, BODY/STUMP, sockets, LOD et Actions P0 artistiques validés dans Godot; ce JSON seul ne constitue pas le modèle.",
+  "gameplay_neutral": true
+}

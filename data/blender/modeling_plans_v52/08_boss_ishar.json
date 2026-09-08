@@ -1,0 +1,66 @@
+{
+  "version": 52,
+  "order": 8,
+  "id": "boss_ishar",
+  "source_v51": "data/blender/master_models_v51/08_boss_ishar.json",
+  "source_blend": "art/blender/bosses/ishar_gardien_du_passage/ishar_gardien_du_passage_animation_master.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire Ishar comme sentinelle minérale antique du Seuil, ancrée et monumentale, avec dix systèmes boss destructibles persistants.",
+  "blockout": [
+    "Créer un torse-statue massif en basalte avec posture verticale de gardien, sans silhouette de robot moderne.",
+    "Bloquer HEAD_SENSOR, MEMORY_CORE, deux bras et deux jambes comme volumes structurels distincts.",
+    "Créer quatre plaques d'ancrage au sol: avant gauche, avant droite, arrière gauche, arrière droite, chacune lisible depuis la caméra de combat.",
+    "Placer le MEMORY_CORE comme reliquaire sacré enchâssé, jamais comme réacteur circulaire sci-fi.",
+    "Tester la silhouette avec 0, 1, 2 puis 4 ancres détruites avant sculpture détaillée.",
+    "Ajouter seulement ensuite plaques de sceau, sigils et tabard battu."
+  ],
+  "runtime_objects": [
+    "BODY_HEAD_SENSOR", "BODY_MEMORY_CORE", "BODY_ARM_L", "BODY_ARM_R", "BODY_LEG_L", "BODY_LEG_R",
+    "BODY_ANCHOR_FL", "BODY_ANCHOR_FR", "BODY_ANCHOR_RL", "BODY_ANCHOR_RR"
+  ],
+  "stump_or_break_objects": [
+    "STUMP_ARM_L", "STUMP_ARM_R", "STUMP_LEG_L", "STUMP_LEG_R",
+    "STUMP_ANCHOR_FL", "STUMP_ANCHOR_FR", "STUMP_ANCHOR_RL", "STUMP_ANCHOR_RR", "STUMP_HEAD_SENSOR", "STUMP_MEMORY_CORE"
+  ],
+  "rig_build_order": [
+    "ROOT", "pelvis_anchor", "torso", "head_sensor", "memory_core",
+    "arm_l_chain", "arm_r_chain", "leg_l_chain", "leg_r_chain",
+    "anchor_fl", "anchor_fr", "anchor_rl", "anchor_rr"
+  ],
+  "authoring_controls": [
+    "anchored center-of-mass control", "four independent anchor controls", "memory core reveal/reaction control",
+    "heavy arm controls", "threshold guard control", "phase state controls that never restore destroyed BODY objects"
+  ],
+  "materials": {
+    "families": ["basalt", "obsidian", "black_stone", "hand_forged_iron", "tarnished_bronze", "aged_tabard", "fracture_inner_stone"],
+    "emissive": ["muted_amber_cracks", "muted_amber_memory_core"],
+    "forbidden": ["cables", "pistons", "sleek_robotics", "gun_shapes", "exoskeleton_scifi", "neon", "chrome"]
+  },
+  "lod_plan": {
+    "lod0": "45k-75k triangles",
+    "lod1": "~50% LOD0; preserve all four anchors, core reliquary, limb breaks and major sigils",
+    "lod2": "~22% LOD0; bake fine carvings, preserve anchor silhouettes and all ten damage boundaries"
+  },
+  "f3_tests": [
+    "Chaque ancre F3 reste présente mais fissurée/bloquée et modifie la stabilité de la pose.",
+    "Bras/jambe F3: structure visible mais verrouillée; attaques et appuis concernés cessent visuellement.",
+    "MEMORY_CORE F3: reliquaire reste visible, réaction interne dégradée sans effet de réacteur."
+  ],
+  "f4_tests": [
+    "Détruire chacune des quatre ancres individuellement et confirmer persistance au changement de phase.",
+    "Détruire un bras/jambe avec géométrie de fracture réelle et aucune reconstruction dans les Actions suivantes.",
+    "Vérifier phase transition avec plusieurs combinaisons de segments déjà détruits.",
+    "Vérifier que tout effet de cendre/ambre reste subordonné à la géométrie détruite et ne masque pas une régénération."
+  ],
+  "pc_checklist": [
+    "Blockout statue + quatre ancres avant ornements.",
+    "Séparer dix BODY et fabriquer dix surfaces de cassure/STUMP appropriées.",
+    "Rig ancré avec poids rigides sur plaques et pierre.",
+    "Tester stabilité/phase avec ancres F3/F4.",
+    "Sculpter sigils, sceaux et reliquaire après validation systémique.",
+    "Créer LOD en gardant ancres et dégâts lisibles.",
+    "Auteur Actions P0 boss réelles, exporter et valider v49/v50."
+  ],
+  "done_when": "Le vrai fichier Ishar contient géométrie antique, quatre ancres indépendantes, persistance F3/F4 et Actions boss réelles validées dans Godot.",
+  "gameplay_neutral": true
+}

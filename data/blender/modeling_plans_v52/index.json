@@ -1,0 +1,40 @@
+{
+  "version": 52,
+  "name": "LITD Les Veilleurs - Blender Modeling Execution Plans v52",
+  "purpose": "Fournir un plan de construction Blender concret, ordonné et vérifiable pour chacun des douze maîtres v51.",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "source_index_v51": "data/blender/master_models_v51/index.json",
+  "production_order": [
+    {"order": 1, "id": "humanoid_standard", "plan": "data/blender/modeling_plans_v52/01_humanoid_standard.json"},
+    {"order": 2, "id": "construct_biped", "plan": "data/blender/modeling_plans_v52/02_construct_biped.json"},
+    {"order": 3, "id": "humanoid_massive", "plan": "data/blender/modeling_plans_v52/03_humanoid_massive.json"},
+    {"order": 4, "id": "quadruped", "plan": "data/blender/modeling_plans_v52/04_quadruped.json"},
+    {"order": 5, "id": "insectoid", "plan": "data/blender/modeling_plans_v52/05_insectoid.json"},
+    {"order": 6, "id": "serpentine", "plan": "data/blender/modeling_plans_v52/06_serpentine.json"},
+    {"order": 7, "id": "amorphous", "plan": "data/blender/modeling_plans_v52/07_amorphous.json"},
+    {"order": 8, "id": "boss_ishar", "plan": "data/blender/modeling_plans_v52/08_boss_ishar.json"},
+    {"order": 9, "id": "boss_orateur_sans_voix", "plan": "data/blender/modeling_plans_v52/09_boss_orateur_sans_voix.json"},
+    {"order": 10, "id": "boss_mere_des_veines", "plan": "data/blender/modeling_plans_v52/10_boss_mere_des_veines.json"},
+    {"order": 11, "id": "boss_porte_cendres_blanc", "plan": "data/blender/modeling_plans_v52/11_boss_porte_cendres_blanc.json"},
+    {"order": 12, "id": "boss_le_copiste", "plan": "data/blender/modeling_plans_v52/12_boss_le_copiste.json"}
+  ],
+  "required_plan_sections": [
+    "blockout", "runtime_objects", "rig_build_order", "materials", "lod_plan", "f3_tests", "f4_tests", "pc_checklist", "done_when"
+  ],
+  "pc_sequence": [
+    "Open/create the exact source_blend path for plan 01.",
+    "Complete blockout and silhouette review.",
+    "Separate runtime BODY parts and create STUMP/break geometry.",
+    "Build the rig in the declared order and validate F0 deformation.",
+    "Build equipment/sockets/secondary controls where declared.",
+    "Run every F3 test, then every F4 test.",
+    "Build and inspect LOD1/LOD2 without merging damage boundaries.",
+    "Author the real P0 Actions required by v47/v48.",
+    "Export GLB and run v49/v50 Godot validation.",
+    "Only after the current master is approved, continue to the next order number."
+  ],
+  "definition_of_ready_before_pc": "All twelve plans exist, match the v51 source_blend paths and anatomy contracts, and pass the static v52 audit.",
+  "definition_of_done_after_pc": "All twelve real .blend assets exist with artist-authored geometry, rigs, F3/F4 variants, LODs and real P0 Actions, then pass v49/v50 and human visual review in Godot.",
+  "truth_rule": "Static v52 validation proves production instructions are coherent; it does not prove that any .blend model, rig, material, LOD or animation has been artistically created.",
+  "gameplay_neutral": true
+}

@@ -1,0 +1,42 @@
+name: Modeling Plans v52
+
+on:
+  push:
+    paths:
+      - 'data/blender/modeling_plans_v52/**'
+      - 'data/blender/master_models_v51/**'
+      - 'tools/qa/modeling_plans_v52_audit.py'
+      - 'tools/qa/master_models_v51_audit.py'
+      - 'art/blender/animation_masters/MODELING_RUNBOOK_v52.md'
+      - '.github/workflows/modeling-plans-v52.yml'
+  pull_request:
+    paths:
+      - 'data/blender/modeling_plans_v52/**'
+      - 'data/blender/master_models_v51/**'
+      - 'tools/qa/modeling_plans_v52_audit.py'
+      - 'tools/qa/master_models_v51_audit.py'
+      - 'art/blender/animation_masters/MODELING_RUNBOOK_v52.md'
+      - '.github/workflows/modeling-plans-v52.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  modeling-plans-v52:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compiler les audits v51/v52
+        run: python -m py_compile tools/qa/master_models_v51_audit.py tools/qa/modeling_plans_v52_audit.py
+      - name: Vérifier les maîtres v51
+        run: python -m tools.qa.master_models_v51_audit
+      - name: Vérifier les douze plans de modélisation v52
+        run: python -m tools.qa.modeling_plans_v52_audit
+      - name: Vérifier que les bundles P0 restent générables
+        run: python -m tools.blender.generate_animation_export_plan_v48 --summary
+      - name: Vérifier que la chaîne v50 ne fabrique pas de faux assets
+        run: python -m tools.pipeline.run_p0_animation_pipeline_v50 --dry-run

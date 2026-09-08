@@ -1,0 +1,110 @@
+{
+  "version": 52,
+  "name": "LITD Blender Modeling Common Contract v52",
+  "purpose": "Transformer les dossiers maîtres v51 en instructions Blender exécutables sans prétendre créer les assets artistiques hors Blender.",
+  "units": {
+    "system": "METRIC",
+    "unit_scale": 1.0,
+    "forward": "-Z",
+    "up": "+Y",
+    "apply_object_scale_before_rig": true
+  },
+  "collection_layout": [
+    "00_REFERENCE",
+    "10_BLOCKOUT",
+    "20_BODY",
+    "30_STUMPS",
+    "40_EQUIPMENT",
+    "50_RIG",
+    "60_MATERIALS",
+    "70_LOD",
+    "80_ANIMATIONS",
+    "90_EXPORT"
+  ],
+  "naming": {
+    "body": "BODY_<runtime_part>",
+    "stump": "STUMP_<runtime_part>",
+    "f3_pose": "POSE_F3_<runtime_part>",
+    "equipment": "EQUIP_<slot>",
+    "weapon_socket_left": "SOCKET_weapon_l",
+    "weapon_socket_right": "SOCKET_weapon_r",
+    "lod": "<object>_LOD0|LOD1|LOD2",
+    "armature": "RIG_<master_id>",
+    "root_bone": "ROOT"
+  },
+  "mesh_rules": {
+    "separate_runtime_parts_before_final_weighting": true,
+    "no_hidden_full_body_duplicate_for_F4": true,
+    "stumps_are_real_geometry": true,
+    "manifold_where_practical": true,
+    "apply_transforms_before_export": true,
+    "weighted_normals_or_equivalent_allowed": true,
+    "max_skin_influences_per_vertex": 4,
+    "avoid_micro_geometry_below_gameplay_readability": true
+  },
+  "uv_material_rules": {
+    "prefer_shared_material_families": true,
+    "identity_variation_via_masks_and_atlases_where_practical": true,
+    "one_material_slot_per_visually_distinct_family_when_possible": true,
+    "bake_high_frequency_surface_detail_into_normal_or_orm_maps": true,
+    "mobile_texture_budget_must_be_profiled": true,
+    "no_required_look_may_depend_on_desktop_only_shader_features": true
+  },
+  "rigging_order": [
+    "freeze approved blockout proportions",
+    "place ROOT and center-of-mass controls",
+    "build deformation chains",
+    "build limb or appendage chains",
+    "add IK/FK or procedural controls only where useful to authoring",
+    "add equipment sockets",
+    "skin BODY objects",
+    "validate deformations in F0",
+    "author F3 pose controls",
+    "validate STUMP swaps in F4",
+    "lock retarget/rest pose",
+    "only then author/import P0 Actions"
+  ],
+  "f3_test_protocol": [
+    "keep target BODY segment visible",
+    "force the target segment to be functionally unusable in pose/animation",
+    "remove or disable incompatible attached equipment",
+    "verify weight redistribution or locomotion compensation at gameplay camera distance",
+    "verify no neighboring BODY segment collapses or stretches implausibly",
+    "verify transition back to F0 is not used as an accidental healing animation"
+  ],
+  "f4_test_protocol": [
+    "hide or remove target BODY segment",
+    "hide declared dependent distal segments",
+    "activate matching STUMP geometry when required",
+    "remove attached equipment on destroyed anatomy",
+    "run idle, locomotion and at least one combat Action with the segment absent",
+    "verify silhouette remains readable from gameplay camera distance",
+    "verify no virtual limb, hidden duplicate or phase transition recreates the destroyed part"
+  ],
+  "lod_protocol": {
+    "LOD0": "approved gameplay mesh at the v51 triangle target",
+    "LOD1": "preserve silhouette, damage boundaries, sockets and major material breaks; remove secondary folds and small ornaments first",
+    "LOD2": "preserve silhouette and BODY/STUMP readability; collapse micro-ornament and simplify hidden joint geometry aggressively",
+    "never_merge_across_runtime_damage_boundary": true,
+    "stump_boundaries_must_survive_all_lods": true
+  },
+  "animation_preflight": {
+    "do_not_generate_placeholder_actions": true,
+    "required_action_source": "v47/v48",
+    "each_required_action_must_have_real_artist_authored_keyframes": true,
+    "root_motion": "minimal; gameplay authoritative",
+    "f3_f4_variants_must_be_reviewed_with_real_geometry": true
+  },
+  "godot_export_preflight": [
+    "GLB export with animations enabled",
+    "preserve canonical Action names",
+    "preserve BODY/STUMP/EQUIP object names",
+    "preserve armature and socket transforms",
+    "force Godot import",
+    "run v49 animation import validator",
+    "run v50 P0 pipeline validation",
+    "perform human visual review on target mobile framing"
+  ],
+  "truth_rule": "A v52 plan is only an executable production recipe. It is not a finished 3D model, rig, animation or Godot-ready asset until the real Blender file has artist-authored geometry, rigging and Actions and passes the v50 Godot validation.",
+  "gameplay_neutral": true
+}

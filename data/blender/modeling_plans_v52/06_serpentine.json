@@ -1,0 +1,53 @@
+{
+  "version": 52,
+  "order": 6,
+  "id": "serpentine",
+  "source_v51": "data/blender/master_models_v51/06_serpentine.json",
+  "source_blend": "art/blender/animation_masters/serpentine.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire la Veine Rampante comme organisme serpentin segmentable, sans bassin ou membres humanoïdes cachés.",
+  "blockout": [
+    "Créer une chaîne corporelle continue avec zones antérieure, médiane, postérieure et queue clairement identifiables.",
+    "Placer la tête comme masse dominante à l'avant et deux manipulateurs optionnels distincts.",
+    "Tester plusieurs courbures fortes pour vérifier que les frontières BODY ne s'ouvrent pas en F0.",
+    "Simuler un corps raccourci F4 avant sculpture afin de vérifier que l'ondulation reste possible.",
+    "Valider silhouette et lecture de chaque zone à distance mobile."
+  ],
+  "runtime_objects": ["BODY_head", "BODY_anterior", "BODY_midbody", "BODY_posterior", "BODY_tail", "BODY_manipulator_left", "BODY_manipulator_right"],
+  "stump_objects": ["STUMP_anterior", "STUMP_midbody", "STUMP_posterior", "STUMP_tail", "STUMP_manipulator_left", "STUMP_manipulator_right", "STUMP_head"],
+  "rig_build_order": [
+    "ROOT", "anterior_01", "anterior_02", "mid_01", "mid_02", "posterior_01", "posterior_02", "tail_01", "tail_02", "head", "manipulator_l_chain", "manipulator_r_chain"
+  ],
+  "authoring_controls": ["spline-like body curve controls", "head aim", "left/right manipulator controls", "SOCKET_weapon_l", "SOCKET_weapon_r", "body-length F4 test controls"],
+  "f3_pose_set": ["POSE_F3_anterior", "POSE_F3_midbody", "POSE_F3_posterior", "POSE_F3_tail", "POSE_F3_manipulator_left", "POSE_F3_manipulator_right"],
+  "materials": {
+    "families": ["vascular_flesh", "dark_red", "ash_black", "dried_blood", "wet_highlight_low_intensity", "wound_surface"],
+    "avoid": ["bright_snake_scales", "fantasy_dragon_clean", "neon"]
+  },
+  "lod_plan": {
+    "lod0": "22k-42k triangles",
+    "lod1": "~50% LOD0; preserve body section boundaries and manipulator roots",
+    "lod2": "~22% LOD0; reduce radial edge loops while preserving curvature and BODY/STUMP cuts; profile chain bone cost"
+  },
+  "f3_tests": [
+    "Anterior/mid/posterior F3: garder la zone visible mais réduire localement flexion/propulsion et créer traînée ou rigidité.",
+    "Tail F3: queue visible mais non contributive aux corrections d'équilibre.",
+    "Manipulator F3: appendice visible, sans prise ni attaque."
+  ],
+  "f4_tests": [
+    "Supprimer un manipulateur avec STUMP sans recréer de bras humanoïde.",
+    "Supprimer/raccourcir tail ou posterior selon segment ciblé et tester crawl avec chaîne réduite.",
+    "Vérifier qu'une transition de phase ou Action ne rétablit jamais les segments supprimés.",
+    "Vérifier qu'aucune géométrie invisible longue ne reste comme silhouette/collision visuelle."
+  ],
+  "pc_checklist": [
+    "Blockout courbe et sections runtime.",
+    "Créer topology longitudinale compatible spline et frontières BODY.",
+    "Créer STUMP et fermer les sections F4.",
+    "Rig chaîne + manipulateurs; tester fortes courbures.",
+    "Créer F3 drag et F4 shortened-body tests.",
+    "LOD, Actions P0 artistiques, export et validation v49/v50."
+  ],
+  "done_when": "Le vrai serpentine.blend garde locomotion et silhouette lisibles après sectionnement, avec Actions P0 réelles validées dans Godot.",
+  "gameplay_neutral": true
+}
