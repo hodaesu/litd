@@ -1,0 +1,57 @@
+{
+  "version": 52,
+  "order": 3,
+  "id": "humanoid_massive",
+  "source_v51": "data/blender/master_models_v51/03_humanoid_massive.json",
+  "source_blend": "art/blender/animation_masters/humanoid_massive.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire un bipède lourd dont masse, inertie et déséquilibre F3/F4 sont visibles à distance de jeu.",
+  "blockout": [
+    "Créer une silhouette A-pose large avec cage thoracique volumineuse, bassin bas et bras lourds.",
+    "Placer le centre de gravité plus bas que Humanoid Standard et tester une posture légèrement voûtée.",
+    "Produire deux variantes de proportions permettant Marcheur Aphone et Dormeur de Cendre sans partager la silhouette finale.",
+    "Vérifier que le personnage reste lisible massif en silhouette à 25% de la taille écran.",
+    "Geler les proportions neutres avant découpe BODY."
+  ],
+  "runtime_objects": [
+    "BODY_head", "BODY_torso", "BODY_arm_left", "BODY_arm_right", "BODY_hand_left", "BODY_hand_right",
+    "BODY_leg_left", "BODY_leg_right", "BODY_foot_left", "BODY_foot_right"
+  ],
+  "stump_objects": ["STUMP_arm_left", "STUMP_arm_right", "STUMP_hand_left", "STUMP_hand_right", "STUMP_leg_left", "STUMP_leg_right", "STUMP_foot_left", "STUMP_foot_right"],
+  "rig_build_order": [
+    "ROOT", "pelvis", "spine_01", "spine_02", "chest", "neck", "head",
+    "upperarm_l", "forearm_l", "hand_l", "upperarm_r", "forearm_r", "hand_r",
+    "thigh_l", "shin_l", "foot_l", "thigh_r", "shin_r", "foot_r"
+  ],
+  "authoring_controls": ["heavy center-of-mass control", "wide IK feet", "IK/FK arms", "SOCKET_weapon_l", "SOCKET_weapon_r"],
+  "f3_pose_set": ["POSE_F3_arm_left", "POSE_F3_arm_right", "POSE_F3_leg_left", "POSE_F3_leg_right", "POSE_F3_hand_left", "POSE_F3_hand_right", "POSE_F3_foot_left", "POSE_F3_foot_right"],
+  "materials": {
+    "families": ["ash", "worn_flesh", "aged_cloth", "dark_leather", "oxidized_metal", "wound_surface"],
+    "avoid": ["heroic_bodybuilder_clean", "oversized_cartoon_proportions"]
+  },
+  "lod_plan": {
+    "lod0": "32k-58k triangles depending on silhouette layers",
+    "lod1": "~52% LOD0; preserve torso volume and limb thickness",
+    "lod2": "~24% LOD0; simplify folds/excroissances first, never BODY/STUMP boundaries"
+  },
+  "f3_tests": [
+    "Jambe inutilisable: bassin descend du côté atteint, appui transféré, mais masse du membre reste visible.",
+    "Bras inutilisable: épaule et bras pendent avec inertie cohérente, aucune attaque ne s'appuie dessus.",
+    "Tester recovery after impact sans retour visuel accidentel à F0."
+  ],
+  "f4_tests": [
+    "Perte d'un bras: retirer masse réelle, recalculer balancement du torse et transfert d'arme.",
+    "Perte d'une jambe: silhouette très déséquilibrée; locomotion résiduelle conforme au runtime, sans jambe fantôme.",
+    "Perte main/pied: conserver masse proximale et rupture lisible."
+  ],
+  "pc_checklist": [
+    "Créer blockout massif puis tests de silhouette mobile.",
+    "Séparer BODY et fabriquer STUMP avant détails de surface.",
+    "Rig large avec centre de masse explicite.",
+    "Valider poids/skin sur torsions lourdes et postures F3.",
+    "Créer LOD1/LOD2 en préservant masse et ruptures.",
+    "Ajouter Actions P0 artistiques puis valider export Godot v49/v50."
+  ],
+  "done_when": "Le vrai humanoid_massive.blend démontre poids, F3/F4, LOD et Actions P0 réelles dans Godot.",
+  "gameplay_neutral": true
+}
