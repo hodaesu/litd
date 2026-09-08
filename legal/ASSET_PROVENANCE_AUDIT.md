@@ -41,6 +41,24 @@ A search of available prior project context on 2026-09-08 did not recover a suff
 
 This means the files remain ORANGE until stronger evidence is attached.
 
+## Canonical v41 strategy: treat legacy binaries as placeholders
+
+The current canonical art pipeline already defines the lifecycle:
+
+`missing → placeholder → candidate → approved → final`
+
+and explicitly requires **rights of use** to be checked before an asset becomes `approved` or `final`.
+
+Therefore the default commercial-release strategy is now:
+
+- keep the 64 legacy binaries usable as development/playtest fallbacks;
+- treat them as `LEGACY_PLACEHOLDER` unless a reliable pre-Git source is recovered;
+- do **not** spend disproportionate time proving every old placeholder if it is scheduled for replacement anyway;
+- create each new canonical production asset under the legal gate from day one;
+- only `approved/final` assets may enter the release candidate.
+
+This aligns legal cleanup with the existing art-production architecture and avoids coupling gameplay to temporary artwork.
+
 ## Duplicate-art finding
 
 The initial import manifest/hashes show at least two exact duplicate pairs among hero files:
@@ -90,4 +108,4 @@ If an old asset's source cannot be established, mark it `REPLACE_BEFORE_RELEASE`
 
 ## Release rule
 
-**NO-GO for commercial release:** any player-facing asset still marked `UNVERIFIED` or `REPLACE_BEFORE_RELEASE` in `ASSET-LITD.csv` must either obtain a documented rights chain or be replaced before release candidate lock.
+**NO-GO for commercial release:** any player-facing asset still marked `UNVERIFIED`, `LEGACY_PLACEHOLDER` or `REPLACE_BEFORE_RELEASE` must either obtain a documented rights chain or be replaced before release candidate lock.
