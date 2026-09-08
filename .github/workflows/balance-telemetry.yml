@@ -96,3 +96,30 @@ jobs:
         with:
           name: veilleurs-vertical-slice-compatibility
           path: reports/veilleurs-vertical-slice-compatibility.json
+
+  balance-lab-v03:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Lancer SIM_001 BalanceLab v0.3
+        env:
+          BALANCE_LAB_RUNS: ${{ github.event_name == 'pull_request' && '10000' || github.event.inputs.runs || '10000' }}
+        run: >-
+          python -m tools.qa.balance_lab_v03
+          --runs "$BALANCE_LAB_RUNS"
+          --report reports/balance-lab-v03.json
+          --csv reports/balance-lab-v03-runs.csv
+          --markdown reports/balance-lab-v03.md
+          --strict
+      - name: Publier BalanceLab v0.3
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: balance-lab-v03-sim001
+          path: |
+            reports/balance-lab-v03.json
+            reports/balance-lab-v03-runs.csv
+            reports/balance-lab-v03.md
