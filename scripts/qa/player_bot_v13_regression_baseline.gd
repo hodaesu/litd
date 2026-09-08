@@ -55,7 +55,7 @@ func _compare_report(filename: String, rules: Dictionary) -> void:
         return
     var payload: Dictionary = parsed
     var report_failures: Variant = payload.get("failures", [])
-    var failure_count := report_failures.size() if report_failures is Array else int(report_failures)
+    var failure_count: int = (report_failures as Array).size() if report_failures is Array else int(report_failures)
     var cases := int(payload.get("cases", payload.get("campaign_cycles", 0)))
     rows.append({"report": filename, "status": str(payload.get("status", "unknown")), "failures": failure_count, "cases": cases})
     var max_failures := int(rules.get("max_failures", 0))
