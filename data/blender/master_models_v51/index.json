@@ -31,6 +31,6 @@
     "no_legacy_cast": true
   },
   "sequence_rule": "Finir et valider le dossier technique 01, puis 02, etc. Sur PC, créer les .blend dans le même ordre sauf réordonnancement explicite dû à une dépendance artistique.",
-  "truth_rule": "Un dossier JSON prêt n'est pas un modèle 3D terminé. Un modèle n'est terminé qu'après géométrie/rig/Actions artistiques réelles dans Blender et validation v50 dans Godot.",
+  "truth_rule": "Un dossier JSON prêt n'est pas un modèle 3D terminé. Un vrai fichier .blend n'est terminé qu'après géométrie, rig et Actions artistiques réelles dans Blender, puis validation v50 dans Godot.",
   "gameplay_neutral": true
 }
