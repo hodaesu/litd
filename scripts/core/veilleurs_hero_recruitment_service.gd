@@ -84,7 +84,9 @@ func _build_candidate(template: Dictionary, seed_value: int, index: int) -> Dict
 
 func recruitment_cost(candidate: Dictionary) -> int:
     var level := maxi(1, int(candidate.get("level", 1)))
-    return maxi(0, int(rules.get("base_cost", 72)) + level * int(rules.get("level_cost", 11)))
+    var raw_cost := maxi(0, int(rules.get("base_cost", 54)) + level * int(rules.get("level_cost", 9)))
+    var max_cost := maxi(0, int(rules.get("max_cost", 240)))
+    return mini(raw_cost, max_cost) if max_cost > 0 else raw_cost
 
 func can_replace_dead(dead_hero_id: String, candidate: Dictionary) -> Dictionary:
     var dead_index := _dead_hero_index(dead_hero_id)
