@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "project": "LITD : Les Veilleurs",
+  "stage": "vertical_player_validation",
+  "engine_family": "Godot 4.7.x",
+  "ci_godot_version": "4.7.2",
+  "chapter": "Chapitre I — Survivre aux Terres de Cendre",
+  "purpose": "Verrouiller l'expérience joueur du premier vertical slice avant toute montée en volume de contenu.",
+  "completion_rule": "Le Chapitre I n'autorise la montée en volume que lorsque chaque gate requis possède un rapport PASS avec les preuves humaines et techniques demandées. La CI valide la structure et la cohérence des preuves mais ne peut jamais fabriquer une preuve joueur.",
+  "status_values": ["NOT_RUN", "PASS", "FAIL", "BLOCKED"],
+  "rules": {
+    "human_evidence_required": true,
+    "ci_must_not_convert_not_run_to_pass": true,
+    "all_required_gates_must_pass_for_scale_up": true,
+    "minimum_naive_testers_for_lock": 5,
+    "blocking_issue_count_max": 0
+  },
+  "required_gate_ids": [
+    "combat_decision_readability",
+    "anatomy_causality",
+    "fear_madness_clarity",
+    "exploration_route_clarity",
+    "sanctuary_consequence_loop",
+    "first_session_onboarding",
+    "art_in_context_readability",
+    "real_mobile_interaction"
+  ],
+  "gates": [
+    {
+      "id": "combat_decision_readability",
+      "proof_type": "player",
+      "contexts": ["standard_combat", "elite_or_miniboss", "boss"],
+      "hypothesis": "Le joueur peut identifier qui agit, quelles cibles sont valides, ce que son action devrait produire et pourquoi le résultat obtenu est arrivé.",
+      "required_evidence": ["tester_id", "build_commit", "platform", "session_notes", "decision_explanation", "misunderstanding_count", "blocking_issue_count"],
+      "acceptance": [
+        "Le joueur explique correctement au moins une décision tactique importante sans aide extérieure.",
+        "Les cibles valides, invalides et les conséquences principales sont compréhensibles avant confirmation.",
+        "Aucune incompréhension critique reproductible ne provoque une décision irréversible non voulue.",
+        "Aucun problème bloquant n'est présent."
+      ]
+    },
+    {
+      "id": "anatomy_causality",
+      "proof_type": "player",
+      "contexts": ["body_zone_selection", "functional_injury", "dismemberment_or_major_trauma"],
+      "hypothesis": "Le ciblage anatomique est perçu comme un choix tactique causal et non comme un effet de gore aléatoire.",
+      "required_evidence": ["tester_id", "build_commit", "platform", "targeted_zone", "predicted_consequence", "observed_consequence", "tester_explanation", "blocking_issue_count"],
+      "acceptance": [
+        "Le joueur peut relier la zone ciblée à une conséquence fonctionnelle observable.",
+        "La perte de fonction est lisible dans l'état de la cible et dans ses options tactiques.",
+        "Le gore n'est jamais l'unique vecteur d'information mécanique.",
+        "Aucun problème bloquant n'est présent."
+      ]
+    },
+    {
+      "id": "fear_madness_clarity",
+      "proof_type": "player",
+      "contexts": ["fear_gain", "fear_threshold", "madness_or_breakdown", "counterplay"],
+      "hypothesis": "Peur et Folie créent de la tension sans ressembler à des pénalités arbitraires ou incompréhensibles.",
+      "required_evidence": ["tester_id", "build_commit", "platform", "trigger_seen", "effect_explanation", "counterplay_explanation", "confusion_count", "blocking_issue_count"],
+      "acceptance": [
+        "Le joueur comprend ce qui a fait évoluer l'état psychologique.",
+        "Le joueur identifie au moins une forme de prévention, mitigation ou adaptation lorsque le système le permet.",
+        "Les changements d'état importants disposent d'un feedback suffisamment distinct.",
+        "Aucun problème bloquant n'est présent."
+      ]
+    },
+    {
+      "id": "exploration_route_clarity",
+      "proof_type": "player",
+      "contexts": ["leaving_sanctuary", "route_under_ash", "optional_discovery", "required_discovery", "return_path"],
+      "hypothesis": "L'exploration permet l'incertitude et la découverte sans que le joueur perde la compréhension de son objectif courant ou des possibilités d'action.",
+      "required_evidence": ["tester_id", "build_commit", "platform", "objective_explanation", "navigation_errors", "optional_discoveries", "stuck_events", "blocking_issue_count"],
+      "acceptance": [
+        "Le joueur peut reformuler son objectif courant sans lire une procédure externe.",
+        "Les détours facultatifs restent identifiables comme facultatifs après exploration.",
+        "Aucun point de progression obligatoire ne repose sur une interaction invisible ou arbitraire.",
+        "Aucun problème bloquant n'est présent."
+      ]
+    },
+    {
+      "id": "sanctuary_consequence_loop",
+      "proof_type": "player",
+      "contexts": ["field_decision", "return_to_sanctuary", "civic_decision", "persistent_consequence"],
+      "hypothesis": "Le joueur perçoit que l'expédition et la politique du Sanctuaire appartiennent à la même boucle et que ses décisions persistent.",
+      "required_evidence": ["tester_id", "build_commit", "platform", "field_choice", "sanctuary_change", "causal_explanation", "persistence_check", "blocking_issue_count"],
+      "acceptance": [
+        "Le joueur peut citer au moins une conséquence au Sanctuaire liée à une décision de terrain.",
+        "La relation causale est compréhensible sans texte explicatif hors jeu.",
+        "La conséquence persiste après sauvegarde/reprise lorsque le système le prévoit.",
+        "Aucun problème bloquant n'est présent."
+      ]
+    },
+    {
+      "id": "first_session_onboarding",
+      "proof_type": "player",
+      "contexts": ["first_launch", "first_exploration", "first_combat", "first_return_to_sanctuary"],
+      "hypothesis": "Un joueur qui découvre LITD peut terminer la première boucle représentative sans coaching externe et sans être noyé sous les systèmes.",
+      "required_evidence": ["tester_id", "build_commit", "platform", "prior_litd_experience", "external_help_events", "abandonment_point", "session_duration", "blocking_issue_count"],
+      "acceptance": [
+        "Un testeur naïf peut progresser sans explication orale du développeur.",
+        "Les informations nouvelles arrivent au moment où elles deviennent utiles.",
+        "Le joueur sait comment reprendre après une erreur non bloquante.",
+        "Aucun problème bloquant n'est présent."
+      ]
+    },
+    {
+      "id": "art_in_context_readability",
+      "proof_type": "hybrid",
+      "contexts": ["combat", "exploration", "sanctuary", "low_light_scene", "heavy_vfx_scene"],
+      "hypothesis": "La direction artistique reste forte sans masquer les informations nécessaires aux décisions du joueur.",
+      "required_evidence": ["tester_id", "build_commit", "platform", "resolution", "screenshots_or_capture", "readability_notes", "occlusion_events", "blocking_issue_count"],
+      "linked_hardware_gate_ids": ["final_visual_readability"],
+      "acceptance": [
+        "Silhouettes, états, cibles et éléments interactifs restent distinguables dans le rendu représentatif.",
+        "VFX, sang, lumière et textures ne masquent pas durablement une information tactique essentielle.",
+        "La validation finale à taille réelle est confirmée par le gate matériel associé.",
+        "Aucun problème bloquant n'est présent."
+      ]
+    },
+    {
+      "id": "real_mobile_interaction",
+      "proof_type": "hybrid",
+      "contexts": ["combat_targeting", "body_zone_selection", "skill_selection", "hub_navigation", "save_resume"],
+      "hypothesis": "Les interactions principales restent confortables, précises et compréhensibles sur un téléphone réel.",
+      "required_evidence": ["tester_id", "build_commit", "device_model", "os_version", "screen_size", "misinput_count", "tester_notes", "blocking_issue_count"],
+      "linked_hardware_gate_ids": ["real_mobile_touch", "safe_areas_real_devices"],
+      "acceptance": [
+        "Le ciblage et les confirmations critiques sont utilisables au pouce sur appareil réel.",
+        "Les safe areas n'obstruent aucun contrôle ou texte essentiel.",
+        "La validation finale est confirmée par les gates matériels associés.",
+        "Aucun problème bloquant n'est présent."
+      ]
+    }
+  ]
+}

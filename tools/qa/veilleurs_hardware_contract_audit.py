@@ -32,8 +32,8 @@ def main() -> int:
     data = json.loads(CONTRACT.read_text(encoding="utf-8"))
     errors: list[str] = []
 
-    if data.get("godot_version") != "4.3":
-        errors.append("hardware contract must target Godot 4.3")
+    if data.get("godot_version") != "4.7.x":
+        errors.append("hardware contract must target Godot 4.7.x")
 
     gate_ids = data.get("required_gate_ids", [])
     if gate_ids != EXPECTED:
@@ -83,7 +83,7 @@ def main() -> int:
         return 1
 
     print("VEILLEURS_HARDWARE_CONTRACT_OK")
-    print("Gates: 8")
+    print("Godot family: 4.7.x | Gates: 8")
     return 0
 
 

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "project": "LITD : Les Veilleurs",
   "stage": "hardware_validation",
-  "godot_version": "4.3",
+  "godot_version": "4.7.x",
   "completion_rule": "Le jalon matériel est terminé lorsque les huit gates ont un rapport PASS avec les preuves obligatoires. Un gate FAIL ou non testé bloque la validation de la plateforme concernée.",
   "required_gate_ids": [
     "real_mobile_touch",
