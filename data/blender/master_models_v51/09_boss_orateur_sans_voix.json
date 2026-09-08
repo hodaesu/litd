@@ -1,0 +1,56 @@
+{
+  "version": 51,
+  "order": 9,
+  "id": "boss_orateur_sans_voix",
+  "display_name": "Orateur Sans Voix",
+  "master_kind": "bespoke_boss_master",
+  "retarget_family": "boss_custom",
+  "owner_character_id": "orateur_sans_voix",
+  "source_blend": "art/blender/bosses/orateur_sans_voix/orateur_sans_voix_animation_master.blend",
+  "cast_coverage": ["orateur_sans_voix"],
+  "runtime_morphologies": ["BOSS_CUSTOM"],
+  "purpose": "Boss creux et résonant dont le thorax, les chambres d'écho et le silence doivent être lisibles dans la silhouette et l'animation.",
+  "visual_direction": {
+    "identity": "humanoïde creux cérémoniel, présence oratoire sans voix",
+    "materials": ["ash_dark", "aged_bone_or_pale_inner_surfaces", "worn_cloth", "oxidized_bronze"],
+    "motion": "respiration impossible/résonance interne, gestes de discours devenus menaçants",
+    "forbidden": ["microphones", "speakers_scifi", "neon_waveform", "modern_armor"]
+  },
+  "body_segments": ["HEAD_CAVITY", "HOLLOW_CORE", "RESONATOR_L", "RESONATOR_R", "ARM_L", "ARM_R", "LEG_L", "LEG_R"],
+  "rig_contract": {
+    "root": "ROOT",
+    "hollow_torso_controls_required": true,
+    "left_and_right_resonator_controls_required": true,
+    "arm_gesture_controls_required": true,
+    "leg_asymmetry_required_for_F3_F4": true
+  },
+  "marker_contract": {
+    "segments": "BODY_<declared_part>",
+    "stumps_or_breaks": "STUMP_<declared_part>",
+    "f3_poses": "POSE_F3_<declared_part>",
+    "declared_markers_only": true
+  },
+  "f3_f4_contract": {
+    "F3": "chambre/segment présent mais muet ou mécaniquement inutilisable; gestuelle altérée",
+    "F4": "chambre ou membre absent; résonance et silhouette restent dégradées entre phases",
+    "phase_persistence": true
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "42k-70k boss target, to profile",
+    "lod1_ratio": 0.5,
+    "lod2_ratio": 0.22,
+    "max_skin_influences_per_vertex": 4
+  },
+  "animation_contract": {
+    "priority_source": "v47 boss_custom P0 bundle owned by orateur_sans_voix",
+    "must_support": ["silent_orator_idle", "gesture_attack", "resonance_attack", "resonator_reaction", "hollow_core_reaction", "F3", "F4", "phase_transition_without_reset"],
+    "signature_and_ultimates": "P2 bespoke"
+  },
+  "definition_of_done_in_blender": [
+    "eight declared parts are individually addressable",
+    "resonators read independently at gameplay camera distance",
+    "loss of a resonator changes motion rather than only VFX",
+    "P0 Actions contain real keyframes"
+  ],
+  "gameplay_neutral": true
+}

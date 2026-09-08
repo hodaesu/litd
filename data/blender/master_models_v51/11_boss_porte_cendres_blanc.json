@@ -1,0 +1,58 @@
+{
+  "version": 51,
+  "order": 11,
+  "id": "boss_porte_cendres_blanc",
+  "display_name": "Porte-Cendres Blanc",
+  "master_kind": "bespoke_boss_master",
+  "retarget_family": "boss_custom",
+  "owner_character_id": "porte_cendres_blanc",
+  "source_blend": "art/blender/bosses/porte_cendres_blanc/porte_cendres_blanc_animation_master.blend",
+  "cast_coverage": ["porte_cendres_blanc"],
+  "runtime_morphologies": ["BOSS_CUSTOM"],
+  "purpose": "Boss humanoïde massif de cendre blanche; manteau de cendre et diffuseurs doivent fonctionner comme de vraies parties corporelles/systémiques.",
+  "visual_direction": {
+    "identity": "figure processionnelle massive, presque funéraire, faite de cendre et de matière ancienne",
+    "materials": ["white_ash_muted", "charcoal", "aged_cloth", "dark_bone_or_stone", "oxidized_metal"],
+    "motion": "lourd, processionnel, diffusion de cendre issue du corps et non d'un gadget",
+    "forbidden": ["clean_white_armor", "sci_fi_filter_mask", "neon_smoke", "superhero_read"]
+  },
+  "body_segments": ["HEAD_MASK", "PROCESSION_CORE", "ARM_L", "ARM_R", "LEG_L", "LEG_R", "ASH_MANTLE", "DIFFUSER_L", "DIFFUSER_R"],
+  "rig_contract": {
+    "root": "ROOT",
+    "massive_biped_controls_required": true,
+    "ash_mantle_control_required": true,
+    "diffuser_controls": ["DIFFUSER_L", "DIFFUSER_R"],
+    "cloth_or_secondary_motion_must_have_mobile_fallback": true
+  },
+  "marker_contract": {
+    "segments": "BODY_<declared_part>",
+    "stumps_or_breaks": "STUMP_<declared_part>",
+    "f3_poses": "POSE_F3_<declared_part>",
+    "declared_markers_only": true
+  },
+  "f3_f4_contract": {
+    "F3": "membre/diffuseur présent mais inactif; diffusion et pose adaptées",
+    "F4": "membre/diffuseur absent; manteau/core ne recréent pas la partie",
+    "phase_persistence": true
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "45k-75k boss target",
+    "lod1_ratio": 0.5,
+    "lod2_ratio": 0.22,
+    "secondary_motion": "baked_or_simplified_on_mobile_when_needed",
+    "max_skin_influences_per_vertex": 4
+  },
+  "animation_contract": {
+    "priority_source": "v47 boss_custom P0 bundle owned by porte_cendres_blanc",
+    "must_support": ["procession_idle", "heavy_locomotion", "ash_attack", "diffuser_action", "mantle_reaction", "F3", "F4", "phase_transition_without_body_reset"],
+    "signature_and_ultimates": "P2 bespoke"
+  },
+  "definition_of_done_in_blender": [
+    "nine declared parts are addressable",
+    "left/right diffusers are independently readable",
+    "ash effects remain subordinate to readable anatomy",
+    "F4 silhouette persists through phase Actions",
+    "P0 Actions contain real keyframes"
+  ],
+  "gameplay_neutral": true
+}

@@ -1,0 +1,44 @@
+name: Master Models v51
+
+on:
+  push:
+    paths:
+      - 'data/blender/master_models_v51/**'
+      - 'data/blender/canonical_cast_v46.json'
+      - 'data/body_visual_runtime_v42.json'
+      - 'tools/qa/master_models_v51_audit.py'
+      - 'tools/blender/generate_animation_export_plan_v48.py'
+      - 'tools/blender/generate_animation_batches_v47.py'
+      - 'art/blender/animation_masters/README_v51.md'
+      - '.github/workflows/master-models-v51.yml'
+  pull_request:
+    paths:
+      - 'data/blender/master_models_v51/**'
+      - 'data/blender/canonical_cast_v46.json'
+      - 'data/body_visual_runtime_v42.json'
+      - 'tools/qa/master_models_v51_audit.py'
+      - 'tools/blender/generate_animation_export_plan_v48.py'
+      - 'tools/blender/generate_animation_batches_v47.py'
+      - 'art/blender/animation_masters/README_v51.md'
+      - '.github/workflows/master-models-v51.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  master-model-dossiers-v51:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compiler l'audit v51
+        run: python -m py_compile tools/qa/master_models_v51_audit.py
+      - name: Vérifier les douze maîtres, leur ordre et le casting 33/33
+        run: python -m tools.qa.master_models_v51_audit
+      - name: Vérifier que le plan Blender v48 reste générable
+        run: python -m tools.blender.generate_animation_export_plan_v48 --summary
+      - name: Vérifier que la chaîne PC v50 refuse toujours les faux assets
+        run: python -m tools.pipeline.run_p0_animation_pipeline_v50 --dry-run

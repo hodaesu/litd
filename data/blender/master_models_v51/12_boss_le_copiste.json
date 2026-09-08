@@ -1,0 +1,63 @@
+{
+  "version": 51,
+  "order": 12,
+  "id": "boss_le_copiste",
+  "display_name": "Le Copiste",
+  "master_kind": "bespoke_boss_master",
+  "retarget_family": "boss_custom",
+  "owner_character_id": "le_copiste",
+  "source_blend": "art/blender/bosses/le_copiste/le_copiste_animation_master.blend",
+  "cast_coverage": ["le_copiste"],
+  "runtime_morphologies": ["BOSS_CUSTOM"],
+  "purpose": "Boss final construct de version/copie; matrice de copie et enveloppe palimpseste doivent rester anciennes, archivistiques et anatomiquement destructibles.",
+  "visual_direction": {
+    "identity": "archiviste/copiste cérémoniel ancien, construct articulé et reliquaire manuscrit",
+    "palette_required": ["ash_black", "parchment_ivory", "oxidized_bronze", "charcoal", "aged_leather"],
+    "highlight_allowed": ["cold_white", "pale_blue_white", "muted_ember_red", "muted_amber"],
+    "attire": ["layered_manuscript_tabard", "worn_bookbinding_leather_panels", "stitched_folios", "hanging_seals", "narrow_hood_or_mantle", "palimpsest_fragments"],
+    "copy_matrix": "old sacred manuscript reliquary or ink-light seal, never a sci-fi reactor",
+    "absolute_forbidden_colors": ["purple", "violet", "magenta", "lilac"],
+    "forbidden_forms": ["modern_suit", "sleek_scifi_armor", "generic_wizard_robe", "regal_costume", "neon", "reactor_core"]
+  },
+  "body_segments": ["HEAD_SENSOR", "VERSION_CORE", "COPY_MATRIX", "PALIMPSEST_SHELL", "ARM_L", "ARM_R", "LEG_L", "LEG_R", "JOINTS"],
+  "rig_contract": {
+    "root": "ROOT",
+    "biped_construct_controls_required": true,
+    "copy_matrix_control_required": true,
+    "palimpsest_shell_control_required": true,
+    "joint_damage_readability_required": true,
+    "copied_actions_must_respect_current_limb_availability": true
+  },
+  "marker_contract": {
+    "segments": "BODY_<declared_part>",
+    "stumps_or_breaks": "STUMP_<declared_part>",
+    "f3_poses": "POSE_F3_<declared_part>",
+    "declared_markers_only": true
+  },
+  "f3_f4_contract": {
+    "F3": "segment présent mais inutilisable; les techniques copiées nécessitant ce segment sont visuellement dégradées ou impossibles",
+    "F4": "segment absent et non recréé; aucune copie ne peut inventer un membre virtuel",
+    "two_arm_copy_rule": "une technique copiée exigeant deux bras est dégradée/impossible si un bras est F3/F4",
+    "phase_persistence": true
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "45k-75k boss target",
+    "lod1_ratio": 0.5,
+    "lod2_ratio": 0.22,
+    "max_skin_influences_per_vertex": 4,
+    "folio_secondary_motion_must_have_mobile_fallback": true
+  },
+  "animation_contract": {
+    "priority_source": "v47 boss_custom P0 bundle owned by le_copiste",
+    "must_support": ["scribe_idle", "copy_gesture", "matrix_action", "palimpsest_reaction", "joint_damage", "F3", "F4", "phase_transition_without_body_reset"],
+    "signature_and_ultimates": "P2 bespoke and never recolored purple"
+  },
+  "definition_of_done_in_blender": [
+    "nine declared parts are individually addressable",
+    "copy matrix reads as manuscript reliquary rather than technology",
+    "zero purple/violet/magenta/lilac exists in materials, textures, lights, VFX or phase variants",
+    "missing limbs constrain copied poses",
+    "P0 Actions contain real keyframes"
+  ],
+  "gameplay_neutral": true
+}

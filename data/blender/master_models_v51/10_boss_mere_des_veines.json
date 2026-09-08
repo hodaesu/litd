@@ -1,0 +1,58 @@
+{
+  "version": 51,
+  "order": 10,
+  "id": "boss_mere_des_veines",
+  "display_name": "Mère des Veines",
+  "master_kind": "bespoke_boss_master",
+  "retarget_family": "boss_custom",
+  "owner_character_id": "mere_des_veines",
+  "source_blend": "art/blender/bosses/mere_des_veines/mere_des_veines_animation_master.blend",
+  "cast_coverage": ["mere_des_veines"],
+  "runtime_morphologies": ["BOSS_CUSTOM"],
+  "purpose": "Organisme-réseau boss entièrement spécifique; le noyau maternel, la masse vasculaire et les conduits doivent rester indépendants et persistants entre phases.",
+  "visual_direction": {
+    "identity": "réseau organique maternel devenu architecture vivante",
+    "materials": ["deep_vascular_red", "blackened_flesh", "wet_tissue_subtle", "ash_deposit", "scar_white_muted"],
+    "motion": "pulsation, traction et croissance locale plutôt que locomotion humanoïde",
+    "forbidden": ["humanoid_mannequin", "tentacle_neon", "clean_alien_scifi"]
+  },
+  "body_segments": ["MOTHER_NUCLEUS", "VASCULAR_MASS", "CONDUIT_A", "CONDUIT_B", "CONDUIT_C", "ROOT_CROWN", "FEEDING_ORGAN"],
+  "rig_contract": {
+    "root": "ROOT",
+    "nucleus_control_required": true,
+    "vascular_mass_deformation_chain_required": true,
+    "independent_conduit_controls": ["CONDUIT_A", "CONDUIT_B", "CONDUIT_C"],
+    "growth_controls_must_not_regenerate_destroyed_F4_parts": true,
+    "shape_keys_allowed_for_pulsation_and_growth": true
+  },
+  "marker_contract": {
+    "segments": "BODY_<declared_part>",
+    "stumps_or_scars": "STUMP_<declared_part>",
+    "f3_poses": "POSE_F3_<declared_part>",
+    "declared_markers_only": true
+  },
+  "f3_f4_contract": {
+    "F3": "conduit/organe persiste mais cesse d'assurer son rôle; flux et pulsation locaux dégradés",
+    "F4": "partie détruite reste détruite durant toutes les phases",
+    "growth_exception": "de nouvelles excroissances prévues par le gameplay peuvent apparaître, mais jamais régénérer un segment F4"
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "45k-80k boss target plus tightly budgeted shape keys",
+    "lod1_ratio": 0.48,
+    "lod2_ratio": 0.2,
+    "shape_key_count_should_be_profiled": true,
+    "max_skin_influences_per_vertex": 4
+  },
+  "animation_contract": {
+    "priority_source": "v47 boss_custom P0 bundle owned by mere_des_veines",
+    "must_support": ["vascular_idle", "pulse", "conduit_attack", "growth_event", "feeding_reaction", "F3", "F4", "phase_transition_without_regeneration"],
+    "signature_and_ultimates": "P2 bespoke"
+  },
+  "definition_of_done_in_blender": [
+    "seven declared systems are visually independent",
+    "three conduits can be disabled/destroyed independently",
+    "new growth never reuses an F4 destroyed segment marker",
+    "P0 Actions contain real keyframes"
+  ],
+  "gameplay_neutral": true
+}

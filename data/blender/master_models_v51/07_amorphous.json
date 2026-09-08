@@ -1,0 +1,60 @@
+{
+  "version": 51,
+  "order": 7,
+  "id": "amorphous",
+  "display_name": "Amorphous",
+  "master_kind": "shared_retarget_master",
+  "retarget_family": "amorphous",
+  "source_blend": "art/blender/animation_masters/amorphous.blend",
+  "purpose": "Base du Nœud-Écorché et de la Rature Vivante : masse non humanoïde organisée autour d'un noyau, avec perte de volumes et redistribution corporelle.",
+  "cast_coverage": ["noeud_ecorche", "rature_vivante"],
+  "runtime_morphologies": ["AMORPHOUS_ORGANIC"],
+  "silhouette_contract": {
+    "neutral_reference": "masse organique asymétrique articulée autour d'un noyau lisible",
+    "variation_axes": ["volume_global", "repartition_masses", "nombre_excroissances", "position_noyau", "organes_visibles"],
+    "must_not_fake_humanoid_limbs": true
+  },
+  "rig_contract": {
+    "root": "ROOT",
+    "core": "core",
+    "deformation_zones": ["mass_front", "mass_mid", "mass_rear", "organ_1", "organ_2"],
+    "retarget_pose": "AMORPHOUS_NEUTRAL",
+    "shape_keys_allowed_for_secondary_deformation": true,
+    "bone_and_shape_key_mix_allowed": true
+  },
+  "body_segments": ["core", "mass_front", "mass_mid", "mass_rear", "organ_1", "organ_2"],
+  "marker_contract": {
+    "segments": "BODY_<part>",
+    "stumps": "STUMP_<part>",
+    "f3_poses": "POSE_F3_<part>",
+    "equipment": "EQUIP_<slot>",
+    "weapon_sockets": []
+  },
+  "f3_f4_contract": {
+    "F3": "zone persiste mais cesse d'assurer son rôle; masse restante compense visuellement",
+    "F4": "volume/organ absent sans régénération automatique; redistribution uniquement dans les limites du runtime",
+    "weapon_transfer": "none"
+  },
+  "material_direction": {
+    "primary": ["dark_flesh", "dried_blood", "ash", "blackened_tissue", "parchment_like_version_scars_for_rature"],
+    "avoid": ["slime_cartoon", "transparent_neon_blob"]
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "20k-40k plus controlled deformation shapes",
+    "lod1_ratio": 0.48,
+    "lod2_ratio": 0.2,
+    "shape_key_count_should_be_minimized": true,
+    "max_skin_influences_per_vertex": 4
+  },
+  "animation_contract": {
+    "priority_source": "v47 P0 batches for retarget_family=amorphous",
+    "must_support": ["mass_idle", "crawl_or_shift", "attack_deformation", "hit_reaction", "F3_redistribution", "F4_mass_loss"]
+  },
+  "definition_of_done_in_blender": [
+    "six runtime zones are individually controllable",
+    "Nœud-Écorché and Rature Vivante can diverge strongly in final silhouette",
+    "F4 visibly removes the designated mass instead of merely recoloring it",
+    "P0 Actions contain real keyframes"
+  ],
+  "gameplay_neutral": true
+}

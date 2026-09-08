@@ -1,0 +1,60 @@
+{
+  "version": 51,
+  "order": 3,
+  "id": "humanoid_massive",
+  "display_name": "Humanoid Massive",
+  "master_kind": "shared_retarget_master",
+  "retarget_family": "humanoid_massive",
+  "source_blend": "art/blender/animation_masters/humanoid_massive.blend",
+  "purpose": "Base des humanoïdes lourds dont le poids, l'inertie et la largeur de silhouette empêchent un simple retarget visuellement crédible depuis Humanoid Standard.",
+  "cast_coverage": ["marcheur_aphone", "dormeur_de_cendre"],
+  "runtime_morphologies": ["HUMANOID_MASSIVE"],
+  "silhouette_contract": {
+    "neutral_reference": "bipède très massif, centre de gravité bas, gestes économes",
+    "variation_axes": ["volume_torse", "longueur_bras", "largeur_bassin", "hauteur", "masse_cendre_ou_chair"],
+    "must_read_as_massive_at_mobile_scale": true
+  },
+  "rig_contract": {
+    "retarget_pose": "A_POSE_WIDE",
+    "root": "ROOT",
+    "spine_chain": ["pelvis", "spine_01", "spine_02", "chest", "neck", "head"],
+    "arms": ["upperarm_l", "forearm_l", "hand_l", "upperarm_r", "forearm_r", "hand_r"],
+    "legs": ["thigh_l", "shin_l", "foot_l", "thigh_r", "shin_r", "foot_r"],
+    "preserve_heavy_center_of_mass": true
+  },
+  "body_segments": ["head", "torso", "arm_left", "arm_right", "hand_left", "hand_right", "leg_left", "leg_right", "foot_left", "foot_right"],
+  "marker_contract": {
+    "segments": "BODY_<part>",
+    "stumps": "STUMP_<part>",
+    "f3_poses": "POSE_F3_<part>",
+    "equipment": "EQUIP_<slot>",
+    "weapon_sockets": ["SOCKET_weapon_l", "SOCKET_weapon_r"]
+  },
+  "f3_f4_contract": {
+    "F3": "poids redistribué fortement vers le côté sain; membre présent et clairement non porteur/non combattant",
+    "F4": "silhouette réellement déséquilibrée par la masse perdue; aucune compensation anatomique magique",
+    "weapon_transfer": "main opposée fonctionnelle"
+  },
+  "material_direction": {
+    "shared": ["ash", "worn_flesh", "aged_cloth", "dark_leather", "oxidized_metal"],
+    "avoid": ["heroic_bodybuilder_clean", "oversized_cartoon_proportions"]
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "32k-58k depending on silhouette layers",
+    "lod1_ratio": 0.52,
+    "lod2_ratio": 0.24,
+    "max_skin_influences_per_vertex": 4
+  },
+  "animation_contract": {
+    "priority_source": "v47 P0 batches for retarget_family=humanoid_massive",
+    "motion_language": "lent mais pas mou; inertie et récupération visibles",
+    "must_support": ["heavy_idle", "heavy_locomotion", "impact", "grapple_or_control", "F3 limp", "F4 asymmetry"]
+  },
+  "definition_of_done_in_blender": [
+    "mass reads correctly in idle and locomotion",
+    "F3/F4 remain readable without camera close-up",
+    "BODY/STUMP separation validated",
+    "P0 Actions contain real keyframes"
+  ],
+  "gameplay_neutral": true
+}

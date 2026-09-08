@@ -1,0 +1,60 @@
+{
+  "version": 51,
+  "order": 6,
+  "id": "serpentine",
+  "display_name": "Serpentine",
+  "master_kind": "shared_retarget_master",
+  "retarget_family": "serpentine",
+  "source_blend": "art/blender/animation_masters/serpentine.blend",
+  "purpose": "Base de la Veine Rampante : locomotion par chaîne corporelle, sectionnement visible et manipulateurs optionnels sans faux bassin humanoïde.",
+  "cast_coverage": ["veine_rampante"],
+  "runtime_morphologies": ["SERPENTINE_ORGANIC"],
+  "silhouette_contract": {
+    "neutral_reference": "corps serpentin organique segmentable, avant/milieu/arrière clairement identifiables",
+    "variation_axes": ["longueur", "diametre", "forme_tete", "manipulateurs", "excroissances_vasculaires"],
+    "must_not_use_humanoid_pelvis_or_legs": true
+  },
+  "rig_contract": {
+    "root": "ROOT",
+    "body_chain": ["anterior_01", "anterior_02", "mid_01", "mid_02", "posterior_01", "posterior_02", "tail_01", "tail_02"],
+    "head": "head",
+    "manipulators": ["manipulator_l", "manipulator_r"],
+    "retarget_pose": "SERPENTINE_NEUTRAL",
+    "spline_like_deformation_allowed": true
+  },
+  "body_segments": ["head", "anterior", "midbody", "posterior", "tail", "manipulator_left", "manipulator_right"],
+  "marker_contract": {
+    "segments": "BODY_<part>",
+    "stumps": "STUMP_<part>",
+    "f3_poses": "POSE_F3_<part>",
+    "equipment": "EQUIP_<slot>",
+    "weapon_sockets": ["SOCKET_weapon_l", "SOCKET_weapon_r"]
+  },
+  "f3_f4_contract": {
+    "F3": "segment reste présent mais rigidité/traînée modifie l'ondulation; manipulateur inutilisable reste visible",
+    "F4": "segment ou appendice réellement absent; longueur/silhouette et locomotion recalculées sans régénération implicite",
+    "weapon_transfer": "manipulateur déclaré fonctionnel uniquement"
+  },
+  "material_direction": {
+    "primary": ["vascular_flesh", "dark_red", "ash_black", "dried_blood", "wet_highlight_low_intensity"],
+    "avoid": ["bright_snake_scales", "fantasy_dragon_clean"]
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "22k-42k",
+    "lod1_ratio": 0.5,
+    "lod2_ratio": 0.22,
+    "max_skin_influences_per_vertex": 4,
+    "bone_chain_budget_must_be_profiled": true
+  },
+  "animation_contract": {
+    "priority_source": "v47 P0 batches for retarget_family=serpentine",
+    "must_support": ["coil_idle", "crawl", "strike", "recoil", "F3_drag", "F4_shortened_body", "manipulator_loss"]
+  },
+  "definition_of_done_in_blender": [
+    "all seven runtime parts are independently addressable",
+    "F4 does not leave invisible collision-looking geometry",
+    "locomotion remains readable after part loss",
+    "P0 Actions contain real keyframes"
+  ],
+  "gameplay_neutral": true
+}

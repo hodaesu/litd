@@ -1,0 +1,58 @@
+{
+  "version": 51,
+  "order": 5,
+  "id": "insectoid",
+  "display_name": "Insectoid",
+  "master_kind": "shared_retarget_master",
+  "retarget_family": "insectoid",
+  "source_blend": "art/blender/animation_masters/insectoid.blend",
+  "purpose": "Base anatomique du Germe Artériel et des futurs dérivés insectoïdes, avec multiples manipulateurs/pattes réellement indépendants.",
+  "cast_coverage": ["germe_arteriel"],
+  "runtime_morphologies": ["INSECTOID_ORGANIC"],
+  "silhouette_contract": {
+    "neutral_reference": "organisme insectoïde organique et vasculaire, thorax/abdomen lisibles",
+    "variation_axes": ["longueur_abdomen", "hauteur_thorax", "epaisseur_pattes", "nombre_visuel_appendices", "forme_tete"],
+    "must_not_be_rigged_as_humanoid": true
+  },
+  "rig_contract": {
+    "root": "ROOT",
+    "core": ["thorax", "abdomen", "head"],
+    "manipulators": ["manipulator_l_1", "manipulator_r_1", "manipulator_l_2", "manipulator_r_2"],
+    "walking_legs": ["leg_l_1", "leg_r_1", "leg_l_2", "leg_r_2", "leg_l_3", "leg_r_3"],
+    "retarget_pose": "INSECTOID_NEUTRAL"
+  },
+  "body_segments": ["head", "thorax", "abdomen", "manipulator_left_1", "manipulator_right_1", "manipulator_left_2", "manipulator_right_2", "leg_left_1", "leg_right_1", "leg_left_2", "leg_right_2", "leg_left_3", "leg_right_3"],
+  "marker_contract": {
+    "segments": "BODY_<part>",
+    "stumps": "STUMP_<part>",
+    "f3_poses": "POSE_F3_<part>",
+    "equipment": "EQUIP_<slot>",
+    "weapon_sockets": ["SOCKET_weapon_l", "SOCKET_weapon_r"]
+  },
+  "f3_f4_contract": {
+    "F3": "appendice reste visible mais cesse de participer à l'appui/manipulation",
+    "F4": "appendice absent; cycles redistribués sur les membres restants",
+    "weapon_transfer": "manipulateur restant compatible seulement"
+  },
+  "material_direction": {
+    "primary": ["dark_chitin", "vascular_red", "wet_organic", "ash_deposit"],
+    "avoid": ["bright_tropical_insect", "clean_scifi_bug"]
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "26k-46k",
+    "lod1_ratio": 0.48,
+    "lod2_ratio": 0.2,
+    "max_skin_influences_per_vertex": 4
+  },
+  "animation_contract": {
+    "priority_source": "v47 P0 batches for retarget_family=insectoid",
+    "must_support": ["idle", "multi_leg_locomotion", "growth_or_spawn", "attack", "hit_reaction", "F3_compensation", "F4_compensation"]
+  },
+  "definition_of_done_in_blender": [
+    "13 runtime parts are individually addressable",
+    "leg loss never falls back to humanoid locomotion",
+    "manipulator loss updates action eligibility visually",
+    "P0 Actions contain real keyframes"
+  ],
+  "gameplay_neutral": true
+}
