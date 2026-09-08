@@ -1,0 +1,74 @@
+{
+  "version": 52,
+  "order": 12,
+  "id": "boss_le_copiste",
+  "source_v51": "data/blender/master_models_v51/12_boss_le_copiste.json",
+  "source_blend": "art/blender/bosses/le_copiste/le_copiste_animation_master.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire Le Copiste comme archiviste-construct cérémoniel ancien dont matrice de copie, coque palimpseste, articulations et membres restent destructibles, sans aucune couleur violette.",
+  "blockout": [
+    "Créer une silhouette bipède de scribe ancien, étroite mais structurée, avec articulations de construct visibles.",
+    "Bloquer VERSION_CORE au centre du corps et COPY_MATRIX comme reliquaire manuscrit/sceau d'encre ancien, jamais comme réacteur.",
+    "Créer PALIMPSEST_SHELL comme enveloppe fragmentée de feuillets, cuir et panneaux anciens entourant le corps sans masquer les joints.",
+    "Bloquer deux bras et deux jambes suffisamment distincts pour que les techniques copiées à un/deux bras puissent être lues.",
+    "Créer JOINTS comme système visuel adressable et non simple texture.",
+    "Tester silhouette sans un bras, sans deux bras, et avec coque partiellement détruite avant costume final."
+  ],
+  "runtime_objects": ["BODY_HEAD_SENSOR", "BODY_VERSION_CORE", "BODY_COPY_MATRIX", "BODY_PALIMPSEST_SHELL", "BODY_ARM_L", "BODY_ARM_R", "BODY_LEG_L", "BODY_LEG_R", "BODY_JOINTS"],
+  "stump_or_break_objects": ["STUMP_HEAD_SENSOR", "STUMP_VERSION_CORE", "STUMP_COPY_MATRIX", "STUMP_PALIMPSEST_SHELL", "STUMP_ARM_L", "STUMP_ARM_R", "STUMP_LEG_L", "STUMP_LEG_R", "STUMP_JOINTS"],
+  "rig_build_order": ["ROOT", "pelvis", "version_core", "spine", "head_sensor", "copy_matrix", "palimpsest_shell_controls", "arm_l_chain", "arm_r_chain", "leg_l_chain", "leg_r_chain", "joint_damage_controls"],
+  "authoring_controls": [
+    "scribe gesture controls", "copy matrix reveal/seal control", "palimpsest shell secondary controls", "joint damage controls",
+    "one-arm and no-arm copied-pose constraints", "phase state controls preserving every F4 loss"
+  ],
+  "attire_build_order": [
+    "worn bookbinding leather panels", "layered manuscript tabard", "stitched folios", "hanging seals", "narrow hood or mantle", "palimpsest fragments"
+  ],
+  "secondary_motion_policy": [
+    "Folios/seals may use secondary bones or cloth for authoring.",
+    "Provide baked/simplified mobile fallback.",
+    "Secondary pieces attached to a destroyed BODY segment must disappear with that segment when logically attached."
+  ],
+  "materials": {
+    "required_palette": ["ash_black", "parchment_ivory", "oxidized_bronze", "charcoal", "aged_leather"],
+    "highlight_allowed": ["cold_white", "pale_blue_white", "muted_ember_red", "muted_amber"],
+    "absolute_forbidden_colors": ["purple", "violet", "magenta", "lilac"],
+    "forbidden_forms": ["modern_suit", "sleek_scifi_armor", "generic_wizard_robe", "regal_costume", "neon", "reactor_core"]
+  },
+  "color_validation": [
+    "Inspect every material Base Color/Emission value.",
+    "Inspect every texture and mask used by the boss.",
+    "Inspect World/light colors used in boss-specific presentation files.",
+    "Inspect VFX and every phase variant.",
+    "Reject the asset if any intended purple/violet/magenta/lilac hue remains."
+  ],
+  "lod_plan": {
+    "lod0": "45k-75k triangles",
+    "lod1": "~50% LOD0; preserve matrix, shell silhouette, visible joints and all nine damage boundaries",
+    "lod2": "~22% LOD0; bake manuscript microtext/folds, simplify folio thickness and seals, preserve limb/joint loss readability"
+  },
+  "f3_tests": [
+    "ARM_L/R F3: membre présent mais toute technique copiée exigeant ce bras devient dégradée/impossible visuellement.",
+    "COPY_MATRIX F3: reliquaire reste présent mais geste/copie dégradé sans devenir une panne sci-fi.",
+    "JOINTS F3: mouvement cassé/limité sur les chaînes concernées.",
+    "PALIMPSEST_SHELL F3: enveloppe présente mais fragments/gestuelle secondaires réduits."
+  ],
+  "f4_tests": [
+    "Supprimer ARM_L ou ARM_R et exécuter les poses copiées à une main puis celles exigeant deux bras.",
+    "Avec un bras F4, aucune Action copiée ne peut faire apparaître un membre virtuel ou tenir une arme dans le vide.",
+    "Supprimer COPY_MATRIX/PALIMPSEST_SHELL/JOINTS selon les règles et vérifier persistance entre phases.",
+    "Faire le color audit complet après chaque variante de phase et LOD."
+  ],
+  "pc_checklist": [
+    "Blockout construct-scribe et reliquaire avant costume.",
+    "Créer neuf BODY et surfaces de rupture/STUMP.",
+    "Rig biped construct + matrix/shell/joints.",
+    "Créer contraintes de poses copiées selon disponibilité réelle des bras.",
+    "Ajouter tenue archivistique dans l'ordre prévu sans masquer les articulations.",
+    "Créer matériaux exclusivement dans la palette autorisée et exécuter color audit.",
+    "Construire LOD et fallback mobile des folios.",
+    "Auteur Actions P0 boss réelles, tester F3/F4, exporter et valider v49/v50."
+  ],
+  "done_when": "Le vrai Le Copiste possède neuf systèmes adressables, aucune couleur violette, aucune forme sci-fi, aucune copie de membre virtuel et passe le pipeline Godot avec Actions P0 réelles.",
+  "gameplay_neutral": true
+}
