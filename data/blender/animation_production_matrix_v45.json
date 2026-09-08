@@ -112,6 +112,19 @@
     "never_mirror_boss_custom": true,
     "never_mirror_asymmetric_signature": true
   },
+  "skill_primitive_library": {
+    "melee_slash": "arc de coupe réutilisable avec timing et amplitude paramétriques",
+    "melee_thrust": "estoc ou poussée linéaire réutilisable",
+    "melee_blunt": "frappe lourde ou contondante réutilisable",
+    "guard_parry": "garde, parade, riposte et interposition par blend",
+    "projectile_release": "préparation et relâchement d'un projectile",
+    "cast_channel": "canalisation, invocation ou concentration",
+    "support_heal": "soin, soutien ou stabilisation sans animation unique par compétence",
+    "control_debuff": "geste de contrôle, marque ou affaiblissement",
+    "movement_charge": "bond, charge, recul ou déplacement tactique",
+    "creature_bite_claw": "morsure, griffe ou frappe morphologique retargetée par famille",
+    "environment_interaction": "interaction avec porte, coffre, levier ou élément de décor"
+  },
   "skill_animation_policy": {
     "normal_skill_default": "Composer une compétence à partir d'un mouvement maître, d'un timing, d'une pose de contact, d'un déplacement et des VFX; ne pas créer automatiquement un clip unique par compétence.",
     "normal_skill_unique_clip_only_if": ["silhouette_incompatible", "weapon_mechanic_unique", "narrative_signature", "morphology_requires_it"],
@@ -120,6 +133,30 @@
     "boss_phase_transition": "BESPOKE",
     "hit_reaction": "RETARGET_SEMANTIC",
     "death": "RETARGET_SHARED_WITH_VARIANTS"
+  },
+  "canonical_signature_roster": {
+    "veilleurs": [
+      {"id": "nayra_orun", "name": "Nayra Orun", "ultimate_slots": 3},
+      {"id": "tarek_senn", "name": "Tarek Senn", "ultimate_slots": 3},
+      {"id": "aisha_maren", "name": "Aïsha Maren", "ultimate_slots": 3},
+      {"id": "idris_vael", "name": "Idris Vael", "ultimate_slots": 3}
+    ],
+    "bosses": [
+      {"id": "ishar_gardien_du_passage", "name": "Ishar, Gardien du Passage", "ultimate_slots": 3, "signature_slots": ["boss_signature", "phase_transition"]},
+      {"id": "orateur_sans_voix", "name": "Orateur Sans Voix", "ultimate_slots": 3, "signature_slots": ["boss_signature", "phase_transition"]},
+      {"id": "mere_des_veines", "name": "Mère des Veines", "ultimate_slots": 3, "signature_slots": ["boss_signature", "phase_transition"]},
+      {"id": "porte_cendres_blanc", "name": "Porte-Cendres Blanc", "ultimate_slots": 3, "signature_slots": ["boss_signature", "phase_transition"]},
+      {"id": "le_copiste", "name": "Le Copiste", "ultimate_slots": 3, "signature_slots": ["boss_signature", "phase_transition"]}
+    ]
+  },
+  "signature_policy": {
+    "priority": "P2",
+    "production_mode": "BESPOKE",
+    "hero_ultimate_reason": "ultimate_identity_must_remain_unique",
+    "boss_ultimate_reason": "boss_ultimate_requires_unique_silhouette_and_timing",
+    "boss_signature_reason": "boss_identity_requires_unique_motion",
+    "boss_phase_reason": "phase_transition_is_narrative_and_mechanical_set_piece",
+    "slot_ids_are_production_placeholders_not_lore_names": true
   },
   "priority_rules": {
     "P0_action_names": ["idle", "move", "combat_idle", "hit_react", "death", "body_f0", "body_f1", "body_f2", "combat_idle_1h_left", "combat_idle_1h_right"],
@@ -151,7 +188,10 @@
     "block_p1_before_all_p0_has_owner": true,
     "block_final_if_placeholder_v44_action_remains": true,
     "require_mobile_budget_tag": true,
-    "require_source_and_target_retarget_family": true
+    "require_source_and_target_retarget_family": true,
+    "require_12_veilleur_ultimate_slots": true,
+    "require_15_boss_ultimate_slots": true,
+    "require_boss_signature_and_phase_slots": true
   },
   "handoff": {
     "generate_command": "python -m tools.blender.generate_animation_production_matrix_v45",
