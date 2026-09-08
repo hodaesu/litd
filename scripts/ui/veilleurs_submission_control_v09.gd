@@ -1,6 +1,13 @@
 extends Node
 class_name VeilleursSubmissionControlV09
 
+const CONTROL_LABELS := {
+    "FEAR":"peur",
+    "PINNED":"entrave",
+    "IMMOBILIZED":"immobilisation",
+    "STAGGER":"déséquilibre"
+}
+
 var overlay: CanvasLayer
 var button: Button
 var info_panel: PanelContainer
@@ -107,9 +114,14 @@ func _refresh() -> void:
     var hp_ratio := float(state.get("hp_ratio", 1.0)) * 100.0
     var resolve := int(state.get("resolve", 0))
     var control := str(state.get("control_status", ""))
-    var trigger := "contrôle %s" % control if control != "" else ("PV %.0f%%" % hp_ratio if hp_ratio <= 35.0 else "Résolution %d" % resolve)
+    var trigger := "contrôle : %s" % _control_label(control) if control != "" else ("PV %.0f%%" % hp_ratio if hp_ratio <= 35.0 else "Résolution %d" % resolve)
     button.tooltip_text = "L'ennemi est vulnérable : le soumettre le retire du combat sans le tuer."
     info_label.text = "SOUMISSION DISPONIBLE · %s · %s\nLa cible restera vivante pour la décision post-combat." % [target_name, trigger]
+
+func _control_label(status: String) -> String:
+    if status == "":
+        return ""
+    return str(CONTROL_LABELS.get(status.to_upper(), status.replace("_", " ").capitalize()))
 
 func _on_pressed() -> void:
     var qa: VeilleursVerticalSliceQAV09 = _root_qa()
