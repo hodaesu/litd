@@ -12,9 +12,12 @@ import json
 import sys
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from tools.blender.generate_anatomical_pipeline_v43 import build_payload
 
-ROOT = Path(__file__).resolve().parents[2]
 JOBS_PATH = ROOT / "data/blender/anatomical_pipeline_jobs_v43.json"
 CONTRACT_PATH = ROOT / "data/blender/anatomical_pipeline_v43.json"
 
@@ -158,6 +161,8 @@ def prepare_scene(job: dict, save: bool) -> list[str]:
         _ensure_collection(bpy, str(collection_name))
     _tag_named_markers(bpy, job, contract)
     if save:
+        if not bpy.data.filepath:
+            raise RuntimeError("cannot --save an unsaved Blender file; provide a .blend file")
         bpy.ops.wm.save_as_mainfile(filepath=bpy.data.filepath)
     return validate_scene(bpy, job, contract)
 
