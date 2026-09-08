@@ -6,10 +6,10 @@ func _process(_delta: float) -> void:
     if reported or GameState.current_screen != "combat":
         return
     var scene: Node = get_tree().current_scene
-    if scene == null or scene.name != "Main" or not scene.has_method("_active_round_hero"):
+    if scene == null or scene.name != "Main" or not scene.has_method("_active_combat_hero"):
         return
     await get_tree().process_frame
-    var hero: Dictionary = scene.call("_active_round_hero")
+    var hero: Dictionary = scene.call("_active_combat_hero")
     var combat_position := int(hero.get("combat_position", -1))
     var rank := combat_position + 1 if combat_position >= 0 else -1
     var tactical_rows: Array[String] = []
