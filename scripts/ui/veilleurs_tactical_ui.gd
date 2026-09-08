@@ -311,6 +311,7 @@ func _entity_tooltip(entity_id: String) -> String:
         parts.append("Boss")
     if bool(row.get("subdued", false)):
         parts.append("Soumis")
+    parts.append("Toucher : sélectionner · retoucher : inspecter")
     return " · ".join(parts)
 
 func _short_display_name(entity_id: String) -> String:
@@ -358,15 +359,37 @@ func _on_cell_pressed(cell: Vector2i) -> void:
         return
 
     var combatants: Dictionary = runtime_snapshot.get("combatants", {})
+    var inspect_after_selection := false
     if occupant != "" and combatants.has(occupant):
         var row: Dictionary = combatants[occupant]
-        if str(row.get("team", "")) == "watcher":
+        var team := str(row.get("team", ""))
+        var actionable := int(row.get("hp", 0)) > 0 and not bool(row.get("subdued", false))
+        inspect_after_selection = (team == "watcher" and occupant == selected_watcher) \
+            or (team == "enemy" and occupant == selected_target) \
+            or not actionable
+        if team == "watcher" and actionable:
             selected_watcher = occupant
-        elif str(row.get("team", "")) == "enemy" and not bool(row.get("subdued", false)):
+        elif team == "enemy" and actionable:
             selected_target = occupant
+
     _apply_selection_visuals()
     _update_status_label()
     tactical_cell_pressed.emit(cell)
+
+    # Sur mobile, le premier toucher sélectionne. Un second toucher sur le même
+    # combattant ouvre son inspection. Un mort ou un soumis, non ciblable, est
+    # inspecté dès le premier toucher afin qu'aucune représentation soit muette.
+    if inspect_after_selection:
+        _inspect_entity(occupant)
+
+func _inspect_entity(entity_id: String) -> void:
+    if entity_id == "":
+        return
+    var combatants: Dictionary = runtime_snapshot.get("combatants", {})
+    var row: Dictionary = combatants.get(entity_id, {})
+    if row.is_empty():
+        return
+    CombatantInspectionUI.open_detail(row, str(row.get("team", "")) == "enemy")
 
 func _on_skill_pressed(slot: int) -> void:
     _disarm_retreat()
@@ -382,14 +405,7 @@ func _on_zone_pressed(zone: String) -> void:
 func _on_inspect_pressed() -> void:
     _disarm_retreat()
     var entity_id := selected_target if selected_target != "" else selected_watcher
-    if entity_id == "":
-        return
-    var combatants: Dictionary = runtime_snapshot.get("combatants", {})
-    var row: Dictionary = combatants.get(entity_id, {})
-    if row.is_empty():
-        return
-    var enemy := str(row.get("team", "")) == "enemy"
-    CombatantInspectionUI.open_detail(row, enemy)
+    _inspect_entity(entity_id)
 
 func _on_retreat_pressed() -> void:
     set_armed_skill(-1)
