@@ -5,6 +5,12 @@ signal screen_requested(screen_name: String)
 signal new_game_reset
 
 const MAX_CHARACTER_LEVEL: int = 50
+const CANONICAL_PARTY_IDENTITIES := {
+    "aurelien": {"canonical_id": "sahen_varo", "name": "Sahen Varo"},
+    "malvor": {"canonical_id": "mira_sen", "name": "Mira Sen"},
+    "lysandra": {"canonical_id": "narem_osh", "name": "Narem Osh"},
+    "darius": {"canonical_id": "ysra_nahal", "name": "Ysra Nahal"}
+}
 
 var current_screen := "title"
 var gold := 120
@@ -13,7 +19,13 @@ var light := 75
 var supplies := 8
 var expedition_room := 0
 var expedition_rooms := 4
-var party: Array = []
+var _party: Array = []
+var party: Array:
+    get:
+        return _party
+    set(value):
+        _party = value
+        canonicalize_party_identity(_party)
 var battle_enemies: Array = []
 var battle_rounds := 0
 var selected_hero := 0
@@ -21,6 +33,18 @@ var log_lines: Array[String] = []
 
 func _ready() -> void:
     reset_new_game()
+
+func canonicalize_party_identity(party_value: Array) -> void:
+    for hero_value: Variant in party_value:
+        if not hero_value is Dictionary:
+            continue
+        var hero: Dictionary = hero_value
+        var runtime_id := str(hero.get("id", ""))
+        var identity: Dictionary = CANONICAL_PARTY_IDENTITIES.get(runtime_id, {})
+        if identity.is_empty():
+            continue
+        hero["canonical_id"] = str(identity.get("canonical_id", ""))
+        hero["name"] = str(identity.get("name", "Héros"))
 
 func reset_new_game() -> void:
     ContentScopeDirector.reset_new_game()
@@ -54,10 +78,12 @@ func reset_new_game() -> void:
         var prepared_hero: Dictionary = hero.duplicate(true)
         HeroSkillManager.prepare_hero(prepared_hero)
         prepared_hero["player_owned"] = true
-        CharacterTraitDirector.prepare_character(prepared_hero, str(prepared_hero.get("id", "")), str(prepared_hero.get("id", "")) == "aurelien")
+        var trait_seed_key := str(prepared_hero.get("canonical_id", prepared_hero.get("id", "")))
+        CharacterTraitDirector.prepare_character(prepared_hero, trait_seed_key, false)
         EnemyFearDirector.prepare_hero(prepared_hero)
         PersistentInjuryRuntime.prepare_character(prepared_hero)
         party.append(prepared_hero)
+    canonicalize_party_identity(party)
     gold = 120
     essence = 18
     light = 75
