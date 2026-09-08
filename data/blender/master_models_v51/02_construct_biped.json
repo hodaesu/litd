@@ -1,0 +1,69 @@
+{
+  "version": 51,
+  "order": 2,
+  "id": "construct_biped",
+  "display_name": "Construct Biped",
+  "master_kind": "shared_retarget_master",
+  "retarget_family": "construct_biped",
+  "source_blend": "art/blender/animation_masters/construct_biped.blend",
+  "purpose": "Base bipède des constructions minérales et archivistiques, avec articulations lisibles et destruction segmentaire compatible F4.",
+  "cast_coverage": ["sentinelle_du_seuil", "executeur_de_pierre", "archiviste_de_version", "double_du_seuil"],
+  "runtime_morphologies": ["CONSTRUCT_HUMANOID"],
+  "silhouette_contract": {
+    "neutral_reference": "construct ancien monumental mais lisible sur écran mobile",
+    "variation_axes": ["masse", "hauteur", "epaisseur_plaques", "forme_tete", "architecture_articulations", "ornements_rituels"],
+    "organic_anatomy_should_not_be_implied": true
+  },
+  "rig_contract": {
+    "retarget_pose": "A_POSE_CONSTRUCT",
+    "root": "ROOT",
+    "core_chain": ["pelvis", "spine_01", "chest", "neck", "head"],
+    "left_arm": ["upperarm_l", "forearm_l", "hand_l"],
+    "right_arm": ["upperarm_r", "forearm_r", "hand_r"],
+    "left_leg": ["thigh_l", "shin_l", "foot_l"],
+    "right_leg": ["thigh_r", "shin_r", "foot_r"],
+    "mechanical_or_stone_joints_must_remain_visually_separable": true
+  },
+  "body_segments": ["head", "torso", "arm_left", "arm_right", "hand_left", "hand_right", "leg_left", "leg_right", "foot_left", "foot_right"],
+  "marker_contract": {
+    "segments": "BODY_<part>",
+    "stumps": "STUMP_<part>",
+    "f3_poses": "POSE_F3_<part>",
+    "equipment": "EQUIP_<slot>",
+    "weapon_sockets": ["SOCKET_weapon_l", "SOCKET_weapon_r"]
+  },
+  "f3_f4_contract": {
+    "F3": "segment physiquement présent mais bloqué/fissuré/désaligné; animation compatible_remaining_arm",
+    "F4": "plaque ou membre réellement absent; cassure minérale/mécanique visible; aucun membre virtuel de remplacement",
+    "weapon_transfer": "bras restant compatible uniquement"
+  },
+  "equipment_contract": {
+    "attachments": ["weapon", "shield_or_guard", "ritual_plate", "archive_module"],
+    "destroyed_segment_removes_attached_equipment": true
+  },
+  "material_direction": {
+    "primary": ["basalt", "black_stone", "hand_forged_iron", "tarnished_bronze", "aged_parchment_details"],
+    "emissive": ["muted_amber", "cold_white_when_lore_requires"],
+    "avoid": ["chrome", "clean_robotics", "neon", "modern_scifi_panels"]
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "28k-50k depending on plate complexity",
+    "lod1_ratio": 0.5,
+    "lod2_ratio": 0.22,
+    "max_skin_influences_per_vertex": 4,
+    "prefer_rigid_weights_for_major_plates": true
+  },
+  "animation_contract": {
+    "priority_source": "v47 P0 batches for retarget_family=construct_biped",
+    "motion_language": "weighty segmented movement; inertia without sci-fi servo exaggeration",
+    "must_support": ["idle", "locomotion", "combat", "guard", "hit_reaction", "F3 locked joint", "F4 missing segment"]
+  },
+  "definition_of_done_in_blender": [
+    "four canonical construct derivatives can reuse the rig",
+    "destructible plates are separate BODY objects",
+    "all required STUMP break variants exist",
+    "left/right weapon sockets validated",
+    "P0 Actions contain real artist-authored keyframes"
+  ],
+  "gameplay_neutral": true
+}
