@@ -4,6 +4,10 @@ Dépôt Godot principal de **Light in the Dark**, regroupant les systèmes, cont
 
 ## LITD : Les Veilleurs
 
+- [Playbook de production](docs/veilleurs/PRODUCTION_PLAYBOOK.md)
+- [Bible DA de production](docs/veilleurs/ART_DIRECTION_PRODUCTION_BIBLE.md)
+- [Protocole de playtest continu](docs/veilleurs/PLAYTEST_PROTOCOL.md)
+- [Bibliothèque — création de jeu vidéo](docs/research/BIBLIOTHEQUE_CREATION_JEU_VIDEO.md)
 - [Verrou pré-PC](docs/veilleurs/PRE_PC_LOCK.md)
 - [Automatisation de production Godot](docs/veilleurs/GODOT_PRODUCTION_AUTOMATION.md)
 - [Validation matérielle](docs/veilleurs/HARDWARE_VALIDATION_PROTOCOL.md)
@@ -15,6 +19,7 @@ Dépôt Godot principal de **Light in the Dark**, regroupant les systèmes, cont
 
 ## Documentation LITD Universe
 
+- [Bibliothèque artistique mondiale](docs/BIBLIOTHEQUE_ARTISTIQUE_MONDE.md)
 - [Bible du lore — Trois Éveils](docs/LORE_BIBLE.md)
 - [Monde extérieur, Voile et Chute](docs/LORE_MONDE_VOILE_ET_CHUTE.md)
 - [Civilisations étrangères — peuples, puissances et après-Chute](docs/CIVILISATIONS_ETRANGERES_APRES_CHUTE.md)
