@@ -3,11 +3,53 @@ extends CanvasLayer
 const GOLD := Color("#d5b26c")
 const TEXT := Color("#e5dccb")
 const MUTED := Color("#a49884")
+const WARNING := Color("#d8a07c")
 const PANEL := Color(0.025, 0.028, 0.038, 0.98)
 const BASE_PREVIEW_SIZE := Vector2(440, 126)
 const BASE_DETAIL_SIZE := Vector2(860, 580)
 const SAFE_GUTTER := 12.0
 const META_BASE_FONT := "litd_inspection_base_font_size"
+const BODY_ZONE_ORDER: Array[String] = ["head", "torso", "left_arm", "right_arm", "left_leg", "right_leg"]
+const BODY_ZONE_LABELS := {
+    "head":"Tête",
+    "torso":"Torse",
+    "left_arm":"Bras gauche",
+    "right_arm":"Bras droit",
+    "left_leg":"Jambe gauche",
+    "right_leg":"Jambe droite"
+}
+const BODY_STATE_LABELS := {
+    "L0":"intact",
+    "L1":"atteint",
+    "L2":"blessé",
+    "L3":"critique",
+    "L4":"hors d'usage",
+    "L5":"détruit"
+}
+const RUNTIME_STATUS_LABELS := {
+    "STAGGER":"Déséquilibré",
+    "PINNED":"Entravé",
+    "IMMOBILIZED":"Immobilisé",
+    "EXPOSED":"Exposé",
+    "FEAR":"Apeuré",
+    "DISORIENTED":"Désorienté",
+    "DOUBT":"Doute",
+    "GUARDED":"Protégé",
+    "STABILIZED":"Stabilisé",
+    "OBSERVED":"Observé",
+    "ADAPTED":"Adapté",
+    "BLEEDING":"Saignement",
+    "BURNING":"Brûlure",
+    "BROKEN":"Rupture",
+    "STUNNED":"Étourdi"
+}
+const INJURY_SEVERITY_LABELS := {
+    "intact":"intacte",
+    "fragile":"fragile",
+    "wounded":"blessée",
+    "critical":"critique",
+    "lost":"permanente"
+}
 
 var preview_panel: PanelContainer
 var preview_content: VBoxContainer
@@ -46,7 +88,7 @@ func show_preview(combatant: Dictionary, enemy: bool) -> void:
     var capture_summary := _capture_summary(combatant) if enemy else ""
     if capture_summary != "":
         preview_content.add_child(_label(capture_summary, 12, _capture_color(combatant)))
-    preview_content.add_child(_label("Afflictions : " + _affliction_summary(combatant, enemy, 3), 12, MUTED))
+    preview_content.add_child(_label("État : " + _affliction_summary(combatant, enemy, 3), 12, MUTED))
     preview_content.add_child(_label("Compétences : " + _skill_summary(combatant, enemy, 3), 12, MUTED))
     preview_panel.visible = true
     call_deferred("_apply_layout")
@@ -70,9 +112,9 @@ func open_detail(combatant: Dictionary, enemy: bool) -> void:
     if capture_summary != "":
         detail_content.add_child(_label("CAPTURE", 18, GOLD))
         detail_content.add_child(_label(capture_summary, 15, _capture_color(combatant)))
-    detail_content.add_child(_label("AFFLICTIONS, BUFFS ET DEBUFFS", 18, GOLD))
+    detail_content.add_child(_label("ÉTAT DU CORPS ET EFFETS", 18, GOLD))
     for line in _affliction_lines(combatant, enemy):
-        detail_content.add_child(_label("• " + line, 14, TEXT))
+        detail_content.add_child(_label("• " + line, 14, _affliction_color(line)))
     detail_content.add_child(_label("COMPÉTENCES", 18, GOLD))
     for line in _skill_lines(combatant, enemy):
         detail_content.add_child(_label("• " + line, 14, TEXT))
@@ -281,27 +323,97 @@ func _damage_text(value: Variant) -> String:
 
 func _affliction_lines(combatant: Dictionary, enemy: bool) -> Array[String]:
     var result: Array[String] = []
-    var traits := CharacterTraitDirector.trait_names(combatant)
-    for value: Variant in traits.get("positive", []):
-        result.append("Buff : " + String(value))
-    for value: Variant in traits.get("negative", []):
-        result.append("Debuff : " + String(value))
-    for value: Variant in combatant.get("buffs", []):
-        result.append("Buff : " + _effect_name(value))
-    for value: Variant in combatant.get("debuffs", []):
-        result.append("Debuff : " + _effect_name(value))
+    _append_anatomy_lines(result, combatant)
+    _append_runtime_statuses(result, combatant)
+
     for value: Variant in combatant.get("persistent_injuries", []):
+        if not (value is Dictionary):
+            continue
         var injury: Dictionary = value
         var definition := PersistentInjuryRuntime.definition(String(injury.get("id", "")))
-        result.append("Blessure : %s (%s)" % [String(definition.get("name", injury.get("id", ""))), String(injury.get("severity", ""))])
+        result.append("Blessure persistante : %s — %s" % [
+            String(definition.get("name", injury.get("id", ""))),
+            _severity_name(String(injury.get("severity", "")))
+        ])
+
     for status in ["bleeding", "stunned", "broken", "burning", "guarding"]:
         if bool(combatant.get(status, false)) or int(combatant.get(status, 0)) > 0:
-            result.append(_status_name(status))
+            var readable := _status_name(status)
+            if not result.has(readable):
+                result.append(readable)
+
+    _append_functional_lines(result, combatant)
+
+    var traits := CharacterTraitDirector.trait_names(combatant)
+    for value: Variant in traits.get("positive", []):
+        result.append("Trait favorable : " + String(value))
+    for value: Variant in traits.get("negative", []):
+        result.append("Trait défavorable : " + String(value))
+    for value: Variant in combatant.get("buffs", []):
+        result.append("Effet favorable : " + _effect_name(value))
+    for value: Variant in combatant.get("debuffs", []):
+        result.append("Effet défavorable : " + _effect_name(value))
+
+    if bool(combatant.get("subdued", false)):
+        result.append("SOUMIS — ne peut plus agir")
     if enemy and int(combatant.get("fear", 0)) > 0:
         result.append("Peur ennemie : %d" % int(combatant.get("fear", 0)))
     if result.is_empty():
-        result.append("Aucune affliction active")
+        result.append("Aucune blessure ni altération active")
     return result
+
+func _append_runtime_statuses(result: Array[String], combatant: Dictionary) -> void:
+    var statuses_value: Variant = combatant.get("statuses", {})
+    if not (statuses_value is Dictionary):
+        return
+    var statuses: Dictionary = statuses_value
+    var keys: Array[String] = []
+    for key_value: Variant in statuses.keys():
+        keys.append(str(key_value))
+    keys.sort()
+    for status: String in keys:
+        var state_value: Variant = statuses.get(status, {})
+        var remaining := 0
+        if state_value is Dictionary:
+            remaining = int((state_value as Dictionary).get("remaining", 0))
+        var line := _status_name(status)
+        if remaining > 0:
+            line += " — %d tour%s" % [remaining, "" if remaining == 1 else "s"]
+        result.append(line)
+
+func _append_anatomy_lines(result: Array[String], combatant: Dictionary) -> void:
+    var body_value: Variant = combatant.get("body", {})
+    if not (body_value is Dictionary):
+        return
+    var body: Dictionary = body_value
+    var states: Dictionary = body.get("states", {})
+    var missing_value: Variant = body.get("missing_parts", [])
+    var missing: Array[String] = []
+    if missing_value is Array:
+        for value: Variant in missing_value:
+            missing.append(str(value))
+
+    for zone: String in BODY_ZONE_ORDER:
+        if missing.has(zone):
+            result.append("ANATOMIE CRITIQUE : %s — membre perdu" % _zone_name(zone))
+            continue
+        var state := str(states.get(zone, "L0"))
+        if state == "" or state == "L0":
+            continue
+        var prefix := "ANATOMIE CRITIQUE" if state in ["L3", "L4", "L5"] else "Anatomie"
+        result.append("%s : %s — %s" % [prefix, _zone_name(zone), _body_state_name(state)])
+
+func _append_functional_lines(result: Array[String], combatant: Dictionary) -> void:
+    var consequences := {
+        "weapon_use_penalty":"maniement des armes réduit",
+        "mobility_penalty":"mobilité réduite",
+        "perception_penalty":"perception réduite",
+        "vigor_penalty":"vigueur réduite"
+    }
+    for key_value: Variant in consequences.keys():
+        var key := str(key_value)
+        if int(combatant.get(key, 0)) > 0:
+            result.append("Conséquence fonctionnelle : %s" % str(consequences[key]))
 
 func _skill_lines(combatant: Dictionary, enemy: bool) -> Array[String]:
     var result: Array[String] = []
@@ -340,7 +452,30 @@ func _skill_name(value: Variant) -> String:
     return String(value)
 
 func _status_name(status: String) -> String:
-    return {"bleeding":"Saignement","stunned":"Étourdissement","broken":"Rupture","burning":"Brûlure","guarding":"Garde"}.get(status, status)
+    var key := status.to_upper()
+    if RUNTIME_STATUS_LABELS.has(key):
+        return str(RUNTIME_STATUS_LABELS[key])
+    return {
+        "bleeding":"Saignement",
+        "stunned":"Étourdissement",
+        "broken":"Rupture",
+        "burning":"Brûlure",
+        "guarding":"Garde"
+    }.get(status.to_lower(), status.replace("_", " ").capitalize())
+
+func _zone_name(zone: String) -> String:
+    return str(BODY_ZONE_LABELS.get(zone, zone.replace("_", " ").capitalize()))
+
+func _body_state_name(state: String) -> String:
+    return str(BODY_STATE_LABELS.get(state, state))
+
+func _severity_name(severity: String) -> String:
+    return str(INJURY_SEVERITY_LABELS.get(severity.to_lower(), severity.replace("_", " ").capitalize()))
+
+func _affliction_color(line: String) -> Color:
+    if line.begins_with("ANATOMIE CRITIQUE") or line.begins_with("SOUMIS"):
+        return WARNING
+    return TEXT
 
 func _clear(container: Container) -> void:
     for child in container.get_children():
