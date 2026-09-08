@@ -85,7 +85,7 @@ def main() -> int:
         '"lod": 40',
         '"animation": 50',
         '"final": 60',
-        'max_skin_influences_per_vertex',
+        'weight_influence_violations(runtime_objects, 4)',
         'expected_actions',
         'looks_purple',
         'boss_ishar',
