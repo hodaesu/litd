@@ -1,0 +1,75 @@
+{
+  "version": 44,
+  "name": "LITD Les Veilleurs - Animation corporelle systemique v44",
+  "purpose": "Preparer automatiquement les contrats d'animation F0-F4, les poses asymetriques et les adaptations d'equipement sans modifier le gameplay.",
+  "gameplay_neutral": true,
+  "sources": {
+    "body_visual_contract": "data/body_visual_runtime_v42.json",
+    "anatomy_pipeline": "data/blender/anatomical_pipeline_v43.json"
+  },
+  "state_contract": {
+    "F0": {"label": "fonctionnel", "global_clip": "body_f0", "pose_bias": "neutral", "required": true},
+    "F1": {"label": "degrade", "global_clip": "body_f1", "pose_bias": "subtle_guard", "required": true},
+    "F2": {"label": "tres_degrade", "global_clip": "body_f2", "pose_bias": "guarded_asymmetry", "required": true},
+    "F3": {"label": "inutilisable", "per_part_pattern": "body_f3_{part}", "transition_pattern": "transition_f3_{part}", "required": true},
+    "F4": {"label": "absent", "per_part_pattern": "body_f4_{part}", "transition_pattern": "transition_f4_{part}", "required": true}
+  },
+  "base_actions": ["idle", "move", "combat_idle", "hit_react", "death"],
+  "one_hand_actions": ["combat_idle_1h_left", "combat_idle_1h_right", "attack_1h_left", "attack_1h_right", "guard_1h_left", "guard_1h_right"],
+  "locomotion_part_keywords": ["leg", "foot", "tail", "posterior", "midbody", "front_leg", "rear_leg", "support", "walking", "anchor"],
+  "manipulator_part_keywords": ["arm", "hand", "manipulator", "appendage", "jaw", "claw", "conducting", "command", "weapon"],
+  "animation_tree_parameters": {
+    "severity": "parameters/body_animation/severity",
+    "asymmetry": "parameters/body_animation/asymmetry",
+    "locomotion_damage": "parameters/body_animation/locomotion_damage",
+    "upper_body_damage": "parameters/body_animation/upper_body_damage",
+    "left_manipulator_available": "parameters/body_animation/left_manipulator_available",
+    "right_manipulator_available": "parameters/body_animation/right_manipulator_available"
+  },
+  "equipment_adaptation": {
+    "F0": "normal",
+    "F1": "normal",
+    "F2": "normal_but_guarded",
+    "F3": "disable_actions_requiring_part",
+    "F4": "hide_part_equipment_and_rebind_compatible_items",
+    "two_handed_requires_both_manipulators_below_F3": true,
+    "weapon_transfer_uses_v42_socket_resolution": true,
+    "never_invent_missing_manipulators": true
+  },
+  "morphology_modes": {
+    "HUMANOID": {"locomotion": "biped_asymmetric", "upper_body": "left_right_asymmetric"},
+    "HUMANOID_ABERRANT": {"inherit": "HUMANOID"},
+    "HUMANOID_FLESH": {"inherit": "HUMANOID"},
+    "HUMANOID_MASSIVE": {"inherit": "HUMANOID"},
+    "CONSTRUCT_HUMANOID": {"locomotion": "construct_asymmetric", "upper_body": "segment_driven"},
+    "SERPENTINE_ORGANIC": {"locomotion": "serpentine_segment_loss", "upper_body": "manipulator_optional"},
+    "AMORPHOUS_ORGANIC": {"locomotion": "mass_rebalance", "upper_body": "organ_driven"},
+    "INSECTOID_ORGANIC": {"locomotion": "multi_limb_compensation", "upper_body": "multi_manipulator"},
+    "QUADRUPED_ORGANIC": {"locomotion": "quadruped_limp", "upper_body": "non_humanoid"},
+    "BOSS_CUSTOM": {"locomotion": "declared_parts_only", "upper_body": "declared_parts_only"}
+  },
+  "automation": {
+    "generate_action_contract_for_every_v43_job": true,
+    "create_missing_actions_as_placeholders": true,
+    "tag_placeholder_actions": true,
+    "create_pose_guides": true,
+    "create_asymmetric_action_requirements": true,
+    "never_auto_author_final_motion": true,
+    "never_change_combat_numbers": true
+  },
+  "validation": {
+    "block_final_export_if_required_action_missing": true,
+    "block_final_export_if_placeholder_action_remains": true,
+    "block_final_export_if_f3_part_has_no_pose_contract": true,
+    "block_final_export_if_f4_part_has_no_transition_contract": true,
+    "block_final_export_if_two_handed_action_has_no_single_hand_fallback": true,
+    "allow_nonfinal_export_with_placeholders": true
+  },
+  "handoff": {
+    "prepare_command": "blender --background <character.blend> --python tools/blender/systemic_animation_v44.py -- --job-id <character_id> --prepare --save",
+    "validate_command": "blender --background <character.blend> --python tools/blender/systemic_animation_v44.py -- --job-id <character_id> --validate",
+    "final_validate_command": "blender --background <character.blend> --python tools/blender/systemic_animation_v44.py -- --job-id <character_id> --final-validate",
+    "generate_all_jobs_command": "python -m tools.blender.generate_systemic_animation_v44",
+    "static_audit_command": "python -m tools.qa.systemic_animation_v44_audit"
+  }
+}
