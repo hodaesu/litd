@@ -5,6 +5,7 @@ const REPORT_PATH := "res://reports/player-bot-v2-autotest.json"
 const MAX_ROOMS_PER_RUN := 24
 const MAX_ACTIONS_PER_COMBAT := 180
 const NO_PROGRESS_LIMIT := 18
+const MAX_LOCKED_WAIT_FRAMES := 300
 
 var failures: Array[String] = []
 var runs: Array[Dictionary] = []
@@ -178,10 +179,23 @@ func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
     var room_id := str(room.get("id", "bot_room"))
     var actions := 0
     var no_progress := 0
+    var locked_wait_frames := 0
     var last_state_signature := _combat_state_signature()
     var start_round := int(controller.combat_round_number)
 
     while not GameState.alive_heroes().is_empty() and not GameState.alive_enemies().is_empty() and actions < MAX_ACTIONS_PER_COMBAT:
+        # Un vrai joueur ne peut pas cliquer pendant le tour ennemi/une transition.
+        # Attendre ici empêche le bot de compter des appels immédiatement refusés
+        # par battle_locked comme des actions ou comme un faux softlock.
+        if bool(controller.battle_locked):
+            await get_tree().process_frame
+            locked_wait_frames += 1
+            if locked_wait_frames >= MAX_LOCKED_WAIT_FRAMES:
+                _record_softlock(seed_value, room_id, "battle_locked_timeout", actions)
+                return {"victory": false, "reason": "softlock", "actions": actions, "rounds": int(controller.combat_round_number) - start_round + 1}
+            continue
+        locked_wait_frames = 0
+
         controller._ensure_combat_state()
         var hero: Dictionary = controller._active_combat_hero()
         if hero.is_empty():
@@ -350,14 +364,15 @@ func _combat_state_signature() -> String:
     for hero_id in controller.combat_acted_hero_ids:
         acted.append(str(hero_id))
     acted.sort()
-    return "%d:%d:%d:%d:r%d:a%s:t%s" % [
+    return "%d:%d:%d:%d:r%d:a%s:t%s:l%s" % [
         _party_hp_total(),
         _enemy_hp_total(),
         GameState.alive_heroes().size(),
         GameState.alive_enemies().size(),
         int(controller.combat_round_number),
         str(controller.combat_active_hero_id),
-        ",".join(acted)
+        ",".join(acted),
+        str(controller.battle_locked)
     ]
 
 func _lowest_party_hp_ratio() -> float:
