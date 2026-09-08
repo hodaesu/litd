@@ -113,7 +113,7 @@ func _polish_game_menu_launcher() -> void:
     launcher.text = "MENU"
     launcher.tooltip_text = "Ouvrir le menu du jeu"
     launcher.position = Vector2(1144.0, 78.0)
-    launcher.custom_minimum_size = Vector2(100.0, 44.0)
+    launcher.custom_minimum_size = Vector2(100.0, 48.0)
     launcher.focus_mode = Control.FOCUS_ALL
     launcher.flat = true
     launcher.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
@@ -155,8 +155,8 @@ func _clean_sanctuary_actions() -> void:
             button.text = "TRAITS DU VEILLEUR"
             button.tooltip_text = "Choisir les traits du Veilleur"
             button.position = Vector2(930.0, 18.0)
-            button.custom_minimum_size = Vector2(230.0, 44.0)
-            button.size = Vector2(280.0, 44.0)
+            button.custom_minimum_size = Vector2(230.0, 48.0)
+            button.size = Vector2(280.0, 48.0)
             button.focus_mode = Control.FOCUS_ALL
             button.flat = true
             button.add_theme_font_size_override("font_size", 13)
