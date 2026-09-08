@@ -1,5 +1,5 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "policy": {
     "fast_feedback_target_seconds": 90,
     "reproducibility": "Every randomized bot must report deterministic seed and case/run index.",
@@ -28,11 +28,14 @@
     {"id":"v14","tier":"diagnostic","domain":"cross-suite failure triage","report":"reports/player-bot-v14-failure-triage.json","replay":"source report + classified issue"},
     {"id":"v15","tier":"diagnostic","domain":"minimal failing-case reducer","report":"reports/player-bot-v15-case-minimizer.json","replay":"seed + case_index + minimal state"},
     {"id":"v16","tier":"diagnostic","domain":"balance regression guard","report":"reports/player-bot-v16-balance-regression-guard.json","replay":"baseline threshold + source report"},
+    {"id":"v17","tier":"diagnostic","domain":"change impact mapping","report":"reports/player-bot-v17-change-impact-mapper.json","replay":"changed file list"},
+    {"id":"v18","tier":"diagnostic","domain":"skill usage coverage","report":"reports/player-bot-v18-skill-usage-coverage.json","replay":"source reports + skill id"},
+    {"id":"v19","tier":"simulation","domain":"repeated economy recovery stress","report":"reports/player-bot-v19-economy-stress.json","replay":"seed + cycle + shock"},
     {"id":"telemetry-v2","tier":"telemetry","domain":"roguelike Monte Carlo balance","report":"reports/developer-autotest-telemetry-*.json","replay":"seed + simulator arguments"}
   ],
   "next_wave": [
-    {"id":"v17","goal":"change-impact mapper linking changed files to the smallest relevant bot subset"},
-    {"id":"v18","goal":"skill-usage coverage guard detecting dead or never-selected skills"},
-    {"id":"v19","goal":"economy stress bot spanning repeated deaths, purchases, extraction and recovery"}
+    {"id":"v20","goal":"automatic regression corpus promotion from newly discovered failures"},
+    {"id":"v21","goal":"path-aware campaign explorer targeting low-coverage dungeon branches"},
+    {"id":"v22","goal":"resource and performance guard for headless runtime cost"}
   ]
 }
