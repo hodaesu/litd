@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -46,6 +48,55 @@ def _latest_session_for_tester(root: Path, tester_id: str) -> Path | None:
     if not candidates:
         return None
     return max(candidates, key=lambda row: row[0])[1]
+
+
+def _drive_candidate_roots() -> list[Path]:
+    candidates: list[Path] = []
+    env_root = os.environ.get("LITD_GOOGLE_DRIVE_ROOT", "").strip()
+    if env_root:
+        candidates.append(Path(env_root))
+
+    user_profile = Path(os.environ.get("USERPROFILE", str(Path.home())))
+    candidates += [
+        user_profile / "Google Drive",
+        user_profile / "My Drive",
+        user_profile / "Mon Drive",
+    ]
+    for letter in "DEFGHIJKLMNOPQRSTUVWXYZ":
+        drive = Path(f"{letter}:/")
+        candidates += [drive / "My Drive", drive / "Mon Drive", drive / "Google Drive"]
+    return candidates
+
+
+def _resolve_google_drive_root() -> Path | None:
+    for candidate in _drive_candidate_roots():
+        try:
+            if candidate.is_dir():
+                return candidate
+        except OSError:
+            continue
+    return None
+
+
+def _sync_developer_session_to_drive(session_dir: Path) -> Path | None:
+    drive_root = _resolve_google_drive_root()
+    if drive_root is None:
+        print("DEVELOPER_SELFTEST_DRIVE_SYNC=unavailable")
+        print("DEVELOPER_SELFTEST_DRIVE_HINT=Install Google Drive for desktop or set LITD_GOOGLE_DRIVE_ROOT")
+        return None
+
+    target_root = drive_root / "LITD" / "Playtests" / "Developer"
+    target = target_root / session_dir.name
+    try:
+        target_root.mkdir(parents=True, exist_ok=True)
+        if target.exists():
+            shutil.rmtree(target)
+        shutil.copytree(session_dir, target)
+    except OSError as exc:
+        print(f"DEVELOPER_SELFTEST_DRIVE_SYNC_FAILED={exc}")
+        return None
+    print(f"DEVELOPER_SELFTEST_DRIVE_SYNCED={target}")
+    return target
 
 
 def _finalize_developer_session(session_dir: Path, telemetry_path: Path, game_exit_code: int) -> None:
@@ -181,9 +232,6 @@ def main() -> int:
             launch_command = [str(output)]
             if args.tester_id == DEVELOPER_SELFTEST_ID:
                 telemetry_path = (session_dir / "developer_selftest_telemetry.json").resolve()
-                # Les arguments après `--` sont lus par OS.get_cmdline_user_args().
-                # L'overlay d'auto-test et son rapport sont donc strictement absents
-                # des builds lancées pour les cinq testeurs naïfs.
                 launch_command += [
                     "--",
                     "--developer-selftest",
@@ -197,6 +245,7 @@ def main() -> int:
                     print(f"DEVELOPER_SELFTEST_TELEMETRY_READY={telemetry_path}")
                 else:
                     print(f"DEVELOPER_SELFTEST_TELEMETRY_MISSING={telemetry_path}")
+                _sync_developer_session_to_drive(session_dir)
                 print(f"FIRST_PLAYTEST_GAME_EXIT_CODE={game_run.returncode}")
                 return game_run.returncode
 
