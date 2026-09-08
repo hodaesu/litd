@@ -1,0 +1,56 @@
+{
+  "version": 52,
+  "order": 4,
+  "id": "quadruped",
+  "source_v51": "data/blender/master_models_v51/04_quadruped.json",
+  "source_blend": "art/blender/animation_masters/quadruped.blend",
+  "common_contract": "data/blender/modeling_plans_v52/common_contract.json",
+  "goal": "Construire un prédateur quadrupède dont chaque patte, la tête, le torse et la queue restent indépendants pour boiterie et F4.",
+  "blockout": [
+    "Créer une ligne dorsale claire avec cage thoracique avant, bassin arrière et cou séparés.",
+    "Bloquer quatre membres avec épaules/hanches lisibles et longueurs suffisantes pour distinguer les pertes en caméra mobile.",
+    "Créer une queue fonctionnelle et non décorative, segmentée pour animation.",
+    "Tester une silhouette élancée Traque-Suie et une silhouette lourde Brise-Os de Suie.",
+    "Valider une pose tripode de secours avant retopologie."
+  ],
+  "runtime_objects": ["BODY_head", "BODY_torso", "BODY_front_leg_left", "BODY_front_leg_right", "BODY_rear_leg_left", "BODY_rear_leg_right", "BODY_tail"],
+  "stump_objects": ["STUMP_front_leg_left", "STUMP_front_leg_right", "STUMP_rear_leg_left", "STUMP_rear_leg_right", "STUMP_tail", "STUMP_head"],
+  "rig_build_order": [
+    "ROOT", "pelvis", "spine_rear", "spine_mid", "spine_front", "neck", "head",
+    "front_leg_l_chain", "front_leg_r_chain", "rear_leg_l_chain", "rear_leg_r_chain",
+    "tail_01", "tail_02", "tail_03", "tail_04"
+  ],
+  "authoring_controls": ["four-leg IK", "spine arc control", "head aim", "tail FK controls", "tripod center-of-mass control"],
+  "f3_pose_set": ["POSE_F3_front_leg_left", "POSE_F3_front_leg_right", "POSE_F3_rear_leg_left", "POSE_F3_rear_leg_right", "POSE_F3_tail", "POSE_F3_head"],
+  "equipment_build": ["EQUIP_collar", "EQUIP_harness", "EQUIP_back_plate", "EQUIP_ritual_marks"],
+  "materials": {
+    "families": ["soot_black_hide", "charcoal_fur_or_hide", "ash", "scar_tissue", "aged_metal"],
+    "avoid": ["cute_pet_read", "clean_wolf_clone", "neon_monster"]
+  },
+  "lod_plan": {
+    "lod0": "24k-45k triangles",
+    "lod1": "~50% LOD0; preserve paws, shoulders/hips and tail base",
+    "lod2": "~22% LOD0; simplify fur cards/scars first; never merge a leg into torso geometry"
+  },
+  "f3_tests": [
+    "Chaque patte: cycle de marche avec membre présent mais déchargé; aucune phase d'appui pleine sur la patte F3.",
+    "Queue F3: traînée/rigidité visible sans perturber le runtime de locomotion.",
+    "Tête F3 si applicable: posture abaissée et attaques tête incompatibles visuellement neutralisées."
+  ],
+  "f4_tests": [
+    "Supprimer chacune des quatre pattes séparément et tester idle + locomotion tripode ou état dégradé prévu.",
+    "Vérifier que la perte d'une patte avant et arrière produit des compensations différentes.",
+    "Queue F4: silhouette raccourcie sans objet fantôme ni collisions visuelles.",
+    "Équipement collier/harnais ne doit pas recréer un membre perdu."
+  ],
+  "pc_checklist": [
+    "Créer blockout quadrupède et deux extrêmes de silhouette.",
+    "Construire quatre chaînes de pattes indépendantes + queue.",
+    "Séparer BODY/STUMP avant poids définitifs.",
+    "Auteur tripode/F3 avant les cycles P0 normaux afin de vérifier le rig.",
+    "Créer LOD1/LOD2 en conservant les frontières de perte.",
+    "Ajouter Actions P0 v47/v48 artistiques et valider dans Godot."
+  ],
+  "done_when": "Le vrai quadruped.blend supporte les quatre pertes de pattes et leurs compensations sans mannequin humanoïde et passe v49/v50.",
+  "gameplay_neutral": true
+}
