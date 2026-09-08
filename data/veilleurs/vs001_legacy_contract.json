@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "status": "compatibility_only_pending_pc_validation",
+  "legacy_save_key": "veilleurs_vs001",
+  "canonical_save_key": "veilleurs",
+  "autoloads": {
+    "VeilleursVS001WorldRuntime": "scripts/world/veilleurs_vs001_world_runtime.gd",
+    "VeilleursVS001PlayableBridge": "scripts/world/veilleurs_vs001_playable_bridge.gd"
+  },
+  "legacy_scripts": [
+    {
+      "path": "scripts/world/veilleurs_vs001_blockout_builder.gd",
+      "classification": "legacy_scene_required"
+    },
+    {
+      "path": "scripts/world/veilleurs_vs001_corpse_proxy.gd",
+      "classification": "legacy_world_required"
+    },
+    {
+      "path": "scripts/world/veilleurs_vs001_interaction_proxy.gd",
+      "classification": "legacy_world_required"
+    },
+    {
+      "path": "scripts/world/veilleurs_vs001_persistence_bridge.gd",
+      "classification": "old_save_migration_required"
+    },
+    {
+      "path": "scripts/world/veilleurs_vs001_persistence_layer.gd",
+      "classification": "legacy_world_required"
+    },
+    {
+      "path": "scripts/world/veilleurs_vs001_playable_bridge.gd",
+      "classification": "old_save_entry_required"
+    },
+    {
+      "path": "scripts/world/veilleurs_vs001_playable_world.gd",
+      "classification": "legacy_world_required"
+    },
+    {
+      "path": "scripts/world/veilleurs_vs001_room_sensor.gd",
+      "classification": "legacy_world_required"
+    },
+    {
+      "path": "scripts/world/veilleurs_vs001_world_runtime.gd",
+      "classification": "old_save_runtime_required"
+    }
+  ],
+  "legacy_scenes": [
+    "scenes/world/veilleurs/voices_under_sanctuary_playable.tscn",
+    "scenes/world/veilleurs/voices_under_sanctuary_blockout.tscn"
+  ],
+  "canonical_entry_points": [
+    "scripts/world/veilleurs_playable_bridge.gd",
+    "scenes/veilleurs/vertical_slice.tscn"
+  ],
+  "deletion_gate": {
+    "requires_real_pc_old_save_test": true,
+    "validated": false,
+    "required_steps": [
+      "load_legacy_vs001_save",
+      "migrate_to_canonical_veilleurs",
+      "save_canonical",
+      "reload_canonical",
+      "verify_world_gameplay_and_ui_state"
+    ]
+  },
+  "policy": {
+    "new_vs001_runtime_files_allowed": false,
+    "new_canonical_dependencies_on_vs001_allowed": false,
+    "delete_legacy_runtime_before_pc_gate": false
+  }
+}
