@@ -1,0 +1,85 @@
+{
+  "version": 51,
+  "order": 1,
+  "id": "humanoid_standard",
+  "display_name": "Humanoid Standard",
+  "master_kind": "shared_retarget_master",
+  "retarget_family": "humanoid_standard",
+  "source_blend": "art/blender/animation_masters/humanoid_standard.blend",
+  "purpose": "Base commune des quatre Veilleurs et des humanoïdes organiques standards; les identités finales restent des dérivations artistiques distinctes.",
+  "cast_coverage": [
+    "nayra_orun", "tarek_senn", "aisha_maren", "idris_vael",
+    "delie_affame", "delie_boursoufle", "censeur_fendu", "flagellant_fendu",
+    "ecouteur_creux", "porte_signe", "reteneur_de_souffle", "porte_sang",
+    "marche_pale", "porte_linceul", "effaceur_de_traces", "copie_lacunaire"
+  ],
+  "runtime_morphologies": ["HUMANOID", "HUMANOID_FLESH", "HUMANOID_ABERRANT"],
+  "silhouette_contract": {
+    "neutral_reference": "adulte bipède réaliste stylisé, proportions modifiables par dérivation",
+    "mandatory_variation_axes": ["taille_relative", "largeur_epaules", "longueur_membres", "masse_musculaire", "age_apparent", "silhouette_costume"],
+    "do_not_clone_final_silhouette": true
+  },
+  "rig_contract": {
+    "root": "ROOT",
+    "pelvis": "pelvis",
+    "spine_chain": ["spine_01", "spine_02", "chest", "neck", "head"],
+    "left_arm": ["clavicle_l", "upperarm_l", "forearm_l", "hand_l"],
+    "right_arm": ["clavicle_r", "upperarm_r", "forearm_r", "hand_r"],
+    "left_leg": ["thigh_l", "shin_l", "foot_l", "toe_l"],
+    "right_leg": ["thigh_r", "shin_r", "foot_r", "toe_r"],
+    "deformation_required": true,
+    "retarget_pose": "A_POSE",
+    "scale_unit": "meter"
+  },
+  "body_segments": ["head", "torso", "arm_left", "arm_right", "hand_left", "hand_right", "leg_left", "leg_right", "foot_left", "foot_right"],
+  "marker_contract": {
+    "segments": "BODY_<part>",
+    "stumps": "STUMP_<part>",
+    "f3_poses": "POSE_F3_<part>",
+    "equipment": "EQUIP_<slot>",
+    "weapon_sockets": ["SOCKET_weapon_l", "SOCKET_weapon_r"]
+  },
+  "f3_f4_contract": {
+    "F3": "segment visible; pose et animation indiquent l'inutilisabilité; équipement incompatible désactivé",
+    "F4": "segment BODY masqué/absent; descendants dépendants absents; STUMP correspondant activable; silhouette recalculée",
+    "weapon_transfer": "main opposée fonctionnelle si le personnage et l'équipement l'autorisent"
+  },
+  "equipment_contract": {
+    "slots": ["head", "torso", "hand_left", "hand_right", "weapon", "back", "waist"],
+    "attachments_must_follow_body_state": true,
+    "two_handed_actions_require_two_functional_arms": true
+  },
+  "material_direction": {
+    "world_palette": ["ash_black", "charcoal", "worn_brown", "oxidized_bronze", "blood_red", "muted_amber"],
+    "skin_and_cloth_are_identity_specific": true,
+    "avoid": ["clean_high_fantasy_plastic", "neon", "sleek_scifi"]
+  },
+  "mobile_production_targets": {
+    "lod0_triangle_target": "30k-55k per final hero including outfit, adjustable after profiling",
+    "lod1_ratio": 0.55,
+    "lod2_ratio": 0.25,
+    "max_skin_influences_per_vertex": 4,
+    "texture_strategy": "shared material families + identity atlases where practical"
+  },
+  "animation_contract": {
+    "priority_source": "v47 P0 batches for retarget_family=humanoid_standard",
+    "must_support": ["idle", "locomotion", "combat", "hit_reaction", "F1", "F2", "F3 unilateral", "F4 asymmetric", "one_hand_fallback"],
+    "root_motion": "minimal; gameplay remains authoritative"
+  },
+  "definition_of_ready_for_pc": [
+    "rig and marker names fixed",
+    "F3/F4 segmentation plan complete",
+    "equipment sockets fixed",
+    "retarget pose fixed",
+    "P0 action ownership delegated to v47/v48"
+  ],
+  "definition_of_done_in_blender": [
+    "artist-authored geometry exists",
+    "all BODY segments and required STUMP variants exist",
+    "rig deforms without visible break in F0-F3",
+    "weapon sockets validated left/right",
+    "all required P0 Actions contain real keyframes",
+    "visual review approved before GLB export"
+  ],
+  "gameplay_neutral": true
+}
