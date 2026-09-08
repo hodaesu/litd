@@ -78,8 +78,13 @@ func reset_new_game() -> void:
         var prepared_hero: Dictionary = hero.duplicate(true)
         HeroSkillManager.prepare_hero(prepared_hero)
         prepared_hero["player_owned"] = true
-        var trait_seed_key := str(prepared_hero.get("canonical_id", prepared_hero.get("id", "")))
-        CharacterTraitDirector.prepare_character(prepared_hero, trait_seed_key, false)
+        # Identity migration must not change deterministic gameplay state. Keep the
+        # legacy runtime id as the trait seed until save/runtime IDs are migrated.
+        CharacterTraitDirector.prepare_character(
+            prepared_hero,
+            str(prepared_hero.get("id", "")),
+            str(prepared_hero.get("id", "")) == "aurelien"
+        )
         EnemyFearDirector.prepare_hero(prepared_hero)
         PersistentInjuryRuntime.prepare_character(prepared_hero)
         party.append(prepared_hero)
