@@ -22,6 +22,7 @@ func reset() -> void:
         "objective_complete": false,
         "secret_unlocked": false,
         "persistent_candidates": {},
+        "hero_deaths": {},
         "world_events": [],
         "extraction_reason": ""
     }
@@ -118,6 +119,30 @@ func register_enemy_escape(entity_id: String, species: String, body_state: Dicti
     _record_world_event("ENEMY_ESCAPE", {"entity_id": entity_id, "species": species, "room_id": current_room()})
     return {"success": true, "candidate": candidates[entity_id].duplicate(true), "state": snapshot()}
 
+func register_hero_death(hero: Dictionary, cause: String, room_id: String = current_room(), body_state: Dictionary = {}, equipment: Dictionary = {}) -> Dictionary:
+    var hero_id := str(hero.get("id", hero.get("canonical_id", "")))
+    if hero_id.is_empty():
+        return {"success": false, "reason": "missing_hero_id"}
+    var deaths: Dictionary = state.get("hero_deaths", {})
+    if deaths.has(hero_id):
+        return {"success": true, "already_recorded": true, "death": (deaths[hero_id] as Dictionary).duplicate(true), "state": snapshot()}
+    var death := {
+        "hero_id": hero_id,
+        "hero_name": str(hero.get("name", "Veilleur")),
+        "room_id": room_id,
+        "cause": cause,
+        "hp": int(hero.get("hp", 0)),
+        "body_state": body_state.duplicate(true),
+        "equipment": equipment.duplicate(true),
+        "expedition_seed": str(state.get("seed", DEF.EXPEDITION_ID)),
+        "recoverable": true,
+        "trace_kind": "fallen_veilleur"
+    }
+    deaths[hero_id] = death
+    state["hero_deaths"] = deaths
+    _record_world_event("HERO_DEATH", death)
+    return {"success": true, "death": death.duplicate(true), "state": snapshot()}
+
 func encounter_for(room_id: String, roll_0_99: int) -> Dictionary:
     if room_id == "ge_11" and not (state.get("persistent_candidates", {}) as Dictionary).is_empty() and clampi(roll_0_99, 0, 99) < 50:
         var ids := (state.get("persistent_candidates", {}) as Dictionary).keys()
@@ -144,7 +169,7 @@ func extract(reason: String = "voluntary") -> Dictionary:
     state["active"] = false
     state["extraction_reason"] = reason
     _record_world_event("EXTRACTION", {"reason": reason})
-    return {"success": true, "reason": reason, "objective_complete": bool(state.get("objective_complete", false)), "rooms_visited": (state.get("visited_rooms", {}) as Dictionary).size(), "ending_light": int(state.get("light", 0)), "persistent_candidates": (state.get("persistent_candidates", {}) as Dictionary).size(), "state": snapshot()}
+    return {"success": true, "reason": reason, "objective_complete": bool(state.get("objective_complete", false)), "rooms_visited": (state.get("visited_rooms", {}) as Dictionary).size(), "ending_light": int(state.get("light", 0)), "persistent_candidates": (state.get("persistent_candidates", {}) as Dictionary).size(), "hero_deaths": (state.get("hero_deaths", {}) as Dictionary).size(), "state": snapshot()}
 
 func serialize() -> Dictionary:
     return state.duplicate(true)
@@ -157,6 +182,8 @@ func deserialize(data: Dictionary) -> bool:
             return false
     state = data.duplicate(true)
     state["light"] = clampi(int(state.get("light", 0)), 0, 100)
+    if not state.has("hero_deaths"):
+        state["hero_deaths"] = {}
     return true
 
 func _apply_room_light(room_id: String) -> void:
