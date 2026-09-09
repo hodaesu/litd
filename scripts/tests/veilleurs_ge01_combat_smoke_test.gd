@@ -3,6 +3,7 @@ extends Node
 const BRIDGE := preload("res://scripts/world/veilleurs_ge01_playable_bridge.gd")
 const CORPSE_TACTICS := preload("res://scripts/core/veilleurs_corpse_tactical_runtime.gd")
 const CORPSE_SKILLS := preload("res://scripts/core/veilleurs_corpse_skill_runtime.gd")
+const CANONICAL_SKILLS := preload("res://scripts/core/veilleurs_ge01_skill_bridge.gd")
 
 func _ready() -> void:
     GameState.reset_new_game()
@@ -30,9 +31,16 @@ func _ready() -> void:
     assert(corpse_ids.size() == 2)
     var corpse_tactics: VeilleursCorpseTacticalRuntime = CORPSE_TACTICS.new()
     var corpse_skills: VeilleursCorpseSkillRuntime = CORPSE_SKILLS.new()
+    var canonical_skills: VeilleursGE01SkillBridge = CANONICAL_SKILLS.new()
     assert(corpse_skills.available_actions(corpse_ids, "hero").size() == 3)
+    assert(canonical_skills.is_supported_skill("AÏ-ANA-12"))
+    assert(canonical_skills.is_supported_skill("TA-TRA-06"))
 
     var first_scar_id := str(corpse_ids[0]); var second_scar_id := str(corpse_ids[1])
+    var read_dead := canonical_skills.resolve_read_the_dead({"id":"aisha_maren"}, first_scar_id)
+    assert(bool(read_dead.get("ok", false)))
+    assert(bool((RemanenceRuntime.world_scars[first_scar_id].get("payload", {}) as Dictionary).get("examined_by_aisha", false)))
+
     var barricade := corpse_skills.barricade(first_scar_id, 2, "hero", 40)
     assert(bool(barricade.get("ok", false)))
     assert(not corpse_tactics.can_move_to_slot(2, corpse_ids, "hero"))
@@ -46,13 +54,14 @@ func _ready() -> void:
     assert(not corpse_tactics.can_move_to_slot(1, corpse_ids, "enemy"))
     assert(bool(projected.get("displaced", false)))
 
-    var attacker := {"id": "anatomist", "hp": 30, "combat_position": 2}
+    var attacker := {"id": "tarek_senn", "hp": 30, "combat_position": 2}
     var target := {"id": "target", "hp": 30, "combat_position": 1}
     var attack_context: Dictionary = corpse_skills.attack_context(attacker, target, corpse_ids)
     assert(bool(attack_context.get("corpse_between", false)))
-    var anatomy: Dictionary = corpse_skills.anatomy_bonus(target, "right_arm", attack_context)
-    assert(bool(anatomy.get("known", false)))
-    assert(int(anatomy.get("precision_bonus", 0)) == 10)
+    var weakness := canonical_skills.resolve_weakness_shot(attacker, target, corpse_ids, "right_arm")
+    assert(bool(weakness.get("ok", false)))
+    assert(int(weakness.get("precision_bonus", 0)) == 10)
+    assert(str(target.get("ge01_weakness_shot_zone", "")) == "right_arm")
 
     corpse_tactics.destroy(first_scar_id, "smoke_test")
     corpse_tactics.destroy(second_scar_id, "smoke_test")
