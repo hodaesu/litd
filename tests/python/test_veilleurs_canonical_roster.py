@@ -34,22 +34,18 @@ def test_every_previous_starting_quartet_is_invalidated():
     assert roster["invalidated_starting_quartets"] == INVALIDATED_QUARTETS
 
 
-def test_runtime_uses_only_neutral_technical_slots():
-    heroes = _load_json(HEROES_PATH)
-    assert [hero["id"] for hero in heroes] == TECHNICAL_SLOTS
-    assert all(hero["canonical_id"] == "" for hero in heroes)
-    assert all(hero["canon_status"] == "unassigned_starting_slot" for hero in heroes)
-    assert all(hero["class_id"] == "unassigned" for hero in heroes)
-    assert all(hero["race_id"] == "unassigned" for hero in heroes)
+def test_no_active_starter_heroes_exist_during_reset():
+    assert _load_json(HEROES_PATH) == []
+    roster = _load_json(ROSTER_PATH)
+    assert roster["technical_slots"] == TECHNICAL_SLOTS
 
 
-def test_old_quartet_identity_is_not_assigned_to_runtime_slots():
+def test_old_quartet_identity_is_not_active():
     heroes = _load_json(HEROES_PATH)
     old_names = {name for quartet in INVALIDATED_QUARTETS for name in quartet}
-    current_names = {hero["name"] for hero in heroes}
-    current_ids = {hero["id"] for hero in heroes}
-    canonical_ids = {hero["canonical_id"] for hero in heroes if hero["canonical_id"]}
-
+    current_names = {hero.get("name", "") for hero in heroes}
+    current_ids = {hero.get("id", "") for hero in heroes}
+    canonical_ids = {hero.get("canonical_id", "") for hero in heroes if hero.get("canonical_id")}
     assert current_names.isdisjoint(old_names)
     assert current_ids.isdisjoint(OLD_RUNTIME_IDS)
     assert canonical_ids.isdisjoint(OLD_CANONICAL_IDS)
