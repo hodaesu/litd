@@ -1,8 +1,8 @@
 extends "res://scripts/ui/main_v43.gd"
 
 # v44 — économie du Sanctuaire réellement jouable depuis l'interface.
-# Le Marché noir consomme VeilleursMarketService ; la Taverne consomme
-# VeilleursHeroRecruitmentService. Les règles de prix/recrutement restent hors UI.
+# Le Marché noir consomme VeilleursMarketService ; la Taverne conserve toutes
+# ses fonctions historiques et ouvre le recrutement comme sous-écran additif.
 
 var _sanctuary_market_service: VeilleursMarketService = VeilleursMarketService.new()
 var _sanctuary_recruitment_service: VeilleursHeroRecruitmentService = VeilleursHeroRecruitmentService.new()
@@ -13,6 +13,13 @@ func show_screen(name: String) -> void:
         GameState.current_screen = name
         clear_content()
         show_tavern()
+        _install_header_controls()
+        call_deferred("_postprocess_mobile_screen")
+        return
+    if name == "recruitment":
+        GameState.current_screen = name
+        clear_content()
+        show_recruitment_board()
         _install_header_controls()
         call_deferred("_postprocess_mobile_screen")
         return
@@ -108,6 +115,16 @@ func show_company() -> void:
     content.add_child(tavern)
 
 func show_tavern() -> void:
+    # Preserve the complete historical Tavern contract: rumors, shared meal,
+    # Memorial access and Sanctuary navigation. Recruitment is additive.
+    super.show_tavern()
+    var recruitment: Button = make_button("RECRUTEMENT", func(): GameState.request_screen("recruitment"), Vector2(230, 48))
+    recruitment.name = "TavernRecruitmentEntryV44"
+    recruitment.position = Vector2(760, 625)
+    recruitment.tooltip_text = "Consulter les remplaçants disponibles pour les Veilleurs morts définitivement."
+    content.add_child(recruitment)
+
+func show_recruitment_board() -> void:
     var bg: TextureRect = full_texture("res://assets/backgrounds/forgotten_city.webp")
     bg.modulate = Color(0.34, 0.31, 0.30, 1)
     content.add_child(bg)
@@ -116,7 +133,7 @@ func show_tavern() -> void:
     shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     content.add_child(shade)
 
-    var title: Label = make_label("TAVERNE DES VEILLEURS", 28, GOLD)
+    var title: Label = make_label("TAVERNE · RECRUTEMENT", 28, GOLD)
     title.position = Vector2(32, 18)
     content.add_child(title)
     var purse: Label = make_label("OR · %d" % GameState.gold, 18, GOLD)
@@ -153,7 +170,7 @@ func show_tavern() -> void:
                 row.add_child(recruit)
                 list.add_child(row)
 
-    var back: Button = make_button("RETOUR À LA COMPAGNIE", func(): GameState.request_screen("company"), Vector2(280, 48))
+    var back: Button = make_button("RETOUR À LA TAVERNE", func(): GameState.request_screen("tavern"), Vector2(280, 48))
     back.position = Vector2(32, 625)
     content.add_child(back)
 
@@ -161,7 +178,7 @@ func _recruit_replacement(dead_hero_id: String, candidate: Dictionary) -> void:
     var result: Dictionary = _sanctuary_recruitment_service.replace_dead(dead_hero_id, candidate)
     if not bool(result.get("ok", false)):
         GameState.add_log("Taverne : recrutement impossible (%s)." % str(result.get("reason", "erreur")))
-    show_screen("tavern")
+    show_screen("recruitment")
 
 func _hero_by_id(hero_id: String) -> Dictionary:
     for hero_value: Variant in GameState.party:
