@@ -1,0 +1,73 @@
+id,domain,family_or_school,name,input,role_or_form,range,tempo,commitment,damage_nature,equilibrium_pressure,locomotion_or_gesture,targeting,body_bias,finisher_candidate,inspiration_tags,animation_note
+W001,weapon,Sabre,draw_cut,Light,opening,close_mid,fast,low,Slash,medium,step_in,single,torso_head,true,13 Assassins|Ghost of Tsushima,"Coupe tirée compacte, trajectoire claire et rapide."
+W002,weapon,Sabre,return_cut,Light,pressure,close_mid,fast,low,Slash,medium,pivot,single,torso,true,Samurai cinema|Ghost of Tsushima,Coupe de retour depuis la fin du premier arc.
+W003,weapon,Sabre,diagonal_commit,Heavy,damage,mid,medium,medium,Slash,high,step_in,single,shoulder_torso,true,13 Assassins|Sekiro,Grande diagonale avec engagement du bassin.
+W004,weapon,Sabre,rising_cut,Heavy,launcher,close_mid,medium,medium,Slash,high,step_in,single,torso_head,true,Sekiro|Nioh,Taille montante exploitant une ouverture basse.
+W005,weapon,Sabre,blade_deflect,Parry,defense,close,fast,low,Slash,high,micro_step,single,weapon,false,Sekiro|Ghost of Tsushima,"Déviation au fort de la lame, mouvement minimal."
+W006,weapon,Sabre,slip_draw,Dodge,reposition,close_mid,fast,low,Slash,low,sidestep,single,none,false,Samurai cinema|Sekiro,Pas hors ligne en gardant la lame prête.
+W007,weapon,Sabre,iai_burst,SkillAttack,burst,mid,fast,high,Slash,very_high,dash,line,torso_head,true,Samurai cinema|Fighting games,Accélération brève et coupe unique; forte récupération.
+W008,weapon,Sabre,execution_arc,SkillAttack,finish,close,medium,high,Slash,very_high,step_through,single,neck_torso,true,13 Assassins|Ghost of Tsushima,"Arc contrôlé de finisher, réservé à cible ouverte."
+W009,weapon,Longsword,short_guard_cut,Light,opening,close_mid,fast,low,Slash,medium,step_in,single,arm_torso,true,European sword cinema|For Honor,Coupe courte depuis garde compacte.
+W010,weapon,Longsword,pommel_follow,Light,interrupt,close,fast,low,Blunt,medium,step_in,single,head,false,HEMA|Action cinema,Coup de pommeau bref dans la continuité.
+W011,weapon,Longsword,descending_hew,Heavy,damage,mid,medium,medium,Slash,high,advance,single,shoulder_torso,true,HEMA|For Honor,Taille descendante à deux mains.
+W012,weapon,Longsword,half_sword_thrust,Heavy,breaker,mid,medium,high,Pierce,very_high,step_in,single,torso,false,HEMA|Historical action,Prise raccourcie et estoc précis; usage sur armure.
+W013,weapon,Longsword,crossguard_parry,Parry,defense,close,fast,low,Slash,high,micro_step,single,weapon,false,HEMA|For Honor,Opposition brève puis déviation.
+W014,weapon,Longsword,passing_step,Dodge,reposition,mid,medium,low,Slash,low,passing_step,single,none,false,HEMA|Action RPGs,"Pas croisé hors axe, arme toujours devant."
+W015,weapon,Longsword,mordhau_smash,SkillAttack,breaker,close,medium,high,Blunt,very_high,step_in,single,head_armor,true,HEMA|For Honor,"Frappe de garde/pommeau stylisée, utile contre armure."
+W016,weapon,Longsword,running_impale,SkillAttack,burst,mid_long,medium,high,Pierce,very_high,dash,line,torso,true,Historical action|Action games,Course courte suivie d'un estoc engagé.
+W017,weapon,Lance,quick_thrust,Light,opening,mid,fast,low,Pierce,medium,step_in,single,torso,false,Wuxia|Nioh,"Estoc sec, retrait immédiat."
+W018,weapon,Lance,butt_strike,Light,interrupt,close,fast,low,Blunt,medium,pivot,single,head_torso,false,Wuxia|Spear cinema,Retour du talon de lance pour cible proche.
+W019,weapon,Lance,driving_thrust,Heavy,damage,mid_long,medium,medium,Pierce,high,lunge,line,torso,false,Hero|Nioh,"Fente longue, corps aligné derrière la pointe."
+W020,weapon,Lance,sweeping_shafts,Heavy,crowd,mid,medium,high,Blunt,high,pivot,arc,leg_torso,false,Wuxia|Crouching Tiger Hidden Dragon,Balayage au manche pour ouvrir l'espace.
+W021,weapon,Lance,shaft_deflect,Parry,defense,mid,fast,low,Blunt,high,micro_step,single,weapon,false,Wuxia|Nioh,Déviation avec tiers fort du manche.
+W022,weapon,Lance,retreating_point,Dodge,bait,mid_long,fast,low,Pierce,low,backstep,single,none,false,Wuxia|Action games,Retrait court gardant la pointe menaçante.
+W023,weapon,Lance,vaulting_pierce,SkillAttack,burst,long,medium,high,Pierce,very_high,vault_step,line,torso_head,true,Wuxia cinema|Fighting games,Appui dynamique sur la hampe puis estoc descendant stylisé.
+W024,weapon,Lance,dragon_circle,SkillAttack,crowd,mid,medium,high,Slash,very_high,spin,arc,torso,true,Hero|Wuxia games,Rotation ample de lame/fer de lance autour du porteur.
+W025,weapon,Naginata,slice_step,Light,opening,mid,fast,low,Slash,medium,step_in,single,torso,true,Samurai cinema|Nioh,Taille rapide en avançant.
+W026,weapon,Naginata,reverse_hook,Light,control,mid,fast,low,Slash,medium,pivot,single,arm_leg,true,Nioh|Wuxia,Retour de lame en crochet pour perturber appuis.
+W027,weapon,Naginata,long_reap,Heavy,crowd,mid_long,medium,medium,Slash,high,advance,arc,leg_torso,true,Samurai cinema|Nioh,"Grande taille horizontale, bonne couverture."
+W028,weapon,Naginata,overhead_cleave,Heavy,damage,mid,medium,high,Slash,very_high,step_in,single,shoulder_head,true,Samurai cinema|Action games,Frappe descendante lourde depuis la hauteur.
+W029,weapon,Naginata,haft_blade_parry,Parry,defense,mid,fast,low,Blunt,high,micro_step,single,weapon,false,Nioh|Martial weapon demos,Manche absorbe puis lame dévie.
+W030,weapon,Naginata,crescent_retreat,Dodge,reposition,mid,fast,low,Slash,low,arc_step,single,none,false,Wuxia|Nioh,Pas circulaire arrière gardant l'arc offensif.
+W031,weapon,Naginata,moon_reap,SkillAttack,crowd,mid_long,medium,high,Slash,very_high,spin_advance,arc,torso_leg,true,Wuxia cinema|Nioh,"Deux arcs continus, sans posture intermédiaire."
+W032,weapon,Naginata,falling_crescent,SkillAttack,finish,mid,medium,high,Slash,very_high,step_in,single,neck_shoulder,true,Samurai cinema|Fighting games,Arc diagonal descendant de finisher.
+W033,weapon,Axe,short_chop,Light,opening,close_mid,medium,low,Slash,medium,step_in,single,arm_torso,true,Viking action|God of War,"Hachage court, récupération sèche."
+W034,weapon,Axe,haft_bump,Light,interrupt,close,fast,low,Blunt,medium,step_in,single,torso,false,God of War|Action cinema,Coup de manche pour garder le rythme.
+W035,weapon,Axe,execution_chop,Heavy,damage,mid,slow,high,Slash,very_high,step_in,single,shoulder_head,true,God of War|Historical action,Grande frappe verticale à très fort impact.
+W036,weapon,Axe,hook_pull,Heavy,control,mid,medium,high,Slash,high,pull_step,single,arm_leg,true,For Honor|Historical combat,Crochet de hache et traction courte; ne devient pas grapple.
+W037,weapon,Axe,haft_parry,Parry,defense,close_mid,medium,low,Blunt,high,micro_step,single,weapon,false,God of War|For Honor,Blocage/déviation au manche.
+W038,weapon,Axe,shoulder_evade,Dodge,reposition,close_mid,medium,medium,Blunt,low,sidestep,single,none,false,God of War|Action games,Esquive courte adaptée au poids de l'arme.
+W039,weapon,Axe,cleaving_charge,SkillAttack,burst,mid,medium,high,Slash,very_high,dash,line,torso,true,God of War|For Honor,Charge brève puis grande taille latérale.
+W040,weapon,Axe,ground_splitter,SkillAttack,crowd,close_mid,slow,high,Blunt,very_high,stationary,cone,leg_torso,true,God of War|Fantasy action,"Impact au sol pour stagger/onde, effet surnaturel facultatif."
+W041,weapon,Masse,knuckle_tap,Light,opening,close,medium,low,Blunt,medium,step_in,single,arm_torso,false,Medieval action|For Honor,"Petit coup compact, aucune grande préparation."
+W042,weapon,Masse,side_crush,Light,pressure,close_mid,medium,low,Blunt,medium,pivot,single,torso,false,For Honor|Action games,Frappe latérale courte avec inertie.
+W043,weapon,Masse,overhead_crush,Heavy,breaker,mid,slow,high,Blunt,very_high,step_in,single,head_shoulder,true,For Honor|Dark fantasy games,Écrasement vertical très télégraphié.
+W044,weapon,Masse,armor_breaker,Heavy,damage,close_mid,medium,high,Blunt,very_high,drive,single,torso_armor,true,Medieval action|For Honor,Frappe engagée destinée à casser Équilibre/armure.
+W045,weapon,Masse,head_guard_parry,Parry,defense,close,medium,medium,Blunt,high,micro_step,single,weapon,false,Historical combat|For Honor,"Déviation par masse/manche, plus lente que sabre."
+W046,weapon,Masse,heavy_sidesteps,Dodge,reposition,close_mid,medium,medium,Blunt,low,sidestep,single,none,false,Action RPGs,"Pas latéral court, conserve sensation de poids."
+W047,weapon,Masse,bell_ringer,SkillAttack,burst,close,medium,high,Blunt,very_high,step_in,single,head,true,Dark fantasy games|For Honor,"Frappe circulaire tête, forte réaction physique."
+W048,weapon,Masse,earth_bell,SkillAttack,crowd,close_mid,slow,high,Blunt,very_high,stationary,radial,leg_torso,true,Fantasy action|God of War,"Impact sol radial, animation simple à enrichir par build."
+W049,weapon,DoubleLames,alternating_slash,Light,pressure,close,fast,low,Slash,medium,advance,single,torso_arm,true,Ninja action|Devil May Cry,Alternance gauche/droite très rapide.
+W050,weapon,DoubleLames,reverse_slice,Light,reposition,close,fast,low,Slash,medium,pivot,single,torso,true,Ninja Gaiden|Action cinema,Coupe arrière en pivotant vers nouvelle cible.
+W051,weapon,DoubleLames,cross_cut,Heavy,damage,close,medium,medium,Slash,high,step_in,single,torso,true,Devil May Cry|Ninja action,Double coupe croisée simultanée.
+W052,weapon,DoubleLames,scissor_break,Heavy,breaker,close,medium,high,Slash,very_high,step_in,single,weapon_arm,true,Fighting games|Action cinema,Deux lames ferment l'angle sur garde/membre.
+W053,weapon,DoubleLames,twin_deflect,Parry,defense,close,fast,medium,Slash,high,micro_step,single,weapon,false,Ninja action|Fighting games,"Déviation à deux lames, fenêtre courte."
+W054,weapon,DoubleLames,cross_step,Dodge,reposition,close_mid,fast,low,Slash,low,cross_step,single,none,false,Ninja Gaiden|Devil May Cry,"Croise la ligne d'attaque, reprend immédiatement l'offensive."
+W055,weapon,DoubleLames,whirlwind_pair,SkillAttack,crowd,close_mid,fast,high,Slash,very_high,spin_advance,arc,torso,true,Ninja Gaiden|Devil May Cry,"Rotation courte à deux lames, pas de moulinet prolongé."
+W056,weapon,DoubleLames,shadow_cross,SkillAttack,burst,mid,fast,high,Slash,very_high,dash,line,torso_head,true,Ninja action|Fighting games,Dash traversant + double coupe retardée visuellement.
+W057,weapon,Batons,tip_jab,Light,opening,mid,fast,low,Blunt,medium,step_in,single,torso,false,Police Story|Wuxia,"Pique au bout du bâton, très rapide."
+W058,weapon,Batons,reverse_end,Light,pressure,close_mid,fast,low,Blunt,medium,pivot,single,head_torso,false,Wuxia|Sifu,Retour immédiat de l'autre extrémité.
+W059,weapon,Batons,two_hand_sweep,Heavy,crowd,mid,medium,medium,Blunt,high,pivot,arc,leg_torso,false,Wuxia cinema|Sifu,Balayage horizontal à deux mains.
+W060,weapon,Batons,overhead_staff,Heavy,breaker,mid,medium,high,Blunt,very_high,step_in,single,head_shoulder,true,Wuxia|Fighting games,Frappe verticale longue avec flexion contrôlée.
+W061,weapon,Batons,rolling_deflect,Parry,defense,mid,fast,low,Blunt,high,micro_step,single,weapon,false,Wuxia|Sifu,Déviation roulée qui conduit l'attaque sur le côté.
+W062,weapon,Batons,pole_vault_evade,Dodge,reposition,mid,medium,high,Blunt,low,vault,single,none,false,Wuxia cinema|Police Story,"Évasion spectaculaire contextuelle, pas l'esquive standard."
+W063,weapon,Batons,helicopter_break,SkillAttack,crowd,mid,medium,high,Blunt,very_high,spin,arc,torso_head,true,Wuxia|Fighting games,"Deux rotations maximum, impact lisible."
+W064,weapon,Batons,staff_pin,SkillAttack,control,close_mid,medium,high,Blunt,high,drive,single,torso,false,Wuxia|Action cinema,Coince/repousse brièvement une cible contre surface.
+W065,weapon,Daggers,quick_stab,Light,opening,close,fast,low,Pierce,medium,step_in,single,torso,false,John Wick|Dishonored,"Estoc court, discret et rapide."
+W066,weapon,Daggers,reverse_grip_slash,Light,pressure,close,fast,low,Slash,medium,pivot,single,arm_torso,true,Action cinema|Dishonored,Coupe compacte en prise inversée.
+W067,weapon,Daggers,lunging_stab,Heavy,damage,close_mid,fast,medium,Pierce,high,lunge,single,torso,false,John Wick|Assassin action,Fente brutale très courte.
+W068,weapon,Daggers,artery_cut,Heavy,bleed,close,medium,high,Slash,high,step_in,single,arm_leg,true,Action cinema|Stealth games,Coupe ciblée membre/zone vulnérable.
+W069,weapon,Daggers,knife_redirect,Parry,defense,close,fast,medium,Slash,high,micro_step,single,weapon_arm,false,John Wick|The Raid,"Déviation proche, nécessite timing serré."
+W070,weapon,Daggers,inside_step,Dodge,reposition,close,fast,low,Pierce,low,inside_step,single,none,false,John Wick|Action games,Entre dans l'angle mort plutôt que reculer.
+W071,weapon,Daggers,flurry_three,SkillAttack,burst,close,fast,high,Pierce,very_high,advance,single,torso_head,true,John Wick|Fighting games,"Trois frappes maximum, chacune lisible."
+W072,weapon,Daggers,execution_thrust,SkillAttack,finish,close,fast,high,Pierce,very_high,step_in,single,torso_neck,true,Action cinema|Stealth games,"Estoc de finisher court, contexte seulement."
