@@ -1,53 +1,64 @@
 extends RefCounted
 class_name VeilleursGE01TacticalSkillRuntime
 
+# Generic GE01 tactical primitives. They intentionally carry no hero/skill identity.
+# Canonical skills may opt into these effects later through data-driven metadata.
+
 const EXPOSED_ROUNDS := 2
 
-func expose_articulation(target: Dictionary, zone: String) -> Dictionary:
+func expose_zone(target: Dictionary, zone: String, rounds: int = EXPOSED_ROUNDS) -> Dictionary:
     if target.is_empty() or int(target.get("hp", 0)) <= 0:
         return {"ok": false, "reason": "invalid_target"}
     var normalized := _normalize_zone(zone)
+    var duration := maxi(1, rounds)
     target["ge01_exposed_zone"] = normalized
-    target["ge01_exposed_rounds"] = EXPOSED_ROUNDS
+    target["ge01_exposed_rounds"] = duration
     target["exposed"] = true
     return {
         "ok": true,
         "zone": normalized,
-        "rounds": EXPOSED_ROUNDS,
-        "summary": "%s exposé · %d rounds" % [_zone_label(normalized), EXPOSED_ROUNDS]
+        "rounds": duration,
+        "summary": "%s exposé · %d rounds" % [_zone_label(normalized), duration]
     }
 
-func pas_sanglant_options(hero: Dictionary, target: Dictionary, allies: Array) -> Dictionary:
-    if hero.is_empty() or target.is_empty():
+func reposition_options(actor: Dictionary, condition_met: bool, allies: Array) -> Dictionary:
+    if actor.is_empty():
         return {"ok": false, "reason": "invalid_context", "destinations": []}
-    var wounded := _target_is_wounded(target)
     var destinations: Array[int] = []
-    if wounded:
-        destinations = CombatPositionRuntime.available_moves(hero, allies, "hero")
+    if condition_met:
+        destinations = CombatPositionRuntime.available_moves(actor, allies, "hero")
     return {
         "ok": true,
-        "target_wounded": wounded,
+        "condition_met": condition_met,
         "destinations": destinations,
-        "from": CombatPositionRuntime.position_of(hero),
-        "summary": "Repositionnement disponible après l'entaille." if wounded and not destinations.is_empty() else ("Cible blessée, mais aucun rang adjacent n'est libre." if wounded else "Repositionnement verrouillé : la cible doit déjà être blessée.")
+        "from": CombatPositionRuntime.position_of(actor),
+        "summary": "Repositionnement tactique disponible." if condition_met and not destinations.is_empty() else ("Condition remplie, mais aucun rang adjacent n'est libre." if condition_met else "Repositionnement verrouillé : condition de compétence non remplie.")
     }
 
-func pas_sanglant_move(hero: Dictionary, destination: int, allies: Array) -> Dictionary:
-    return CombatPositionRuntime.move(hero, destination, allies, "hero", "TA-ENT-05")
+func reposition_move(actor: Dictionary, destination: int, allies: Array, source_id: String = "GE01_TACTICAL_REPOSITION") -> Dictionary:
+    return CombatPositionRuntime.move(actor, destination, allies, "hero", source_id)
 
-func movement_reaction_preview(enemy: Dictionary, from_slot: int, to_slot: int, heroes: Array) -> Array[Dictionary]:
+func movement_reaction_preview(from_slot: int, to_slot: int, reactors: Array) -> Array[Dictionary]:
     var result: Array[Dictionary] = []
     if from_slot == to_slot:
         return result
-    for hero_value: Variant in heroes:
-        if not hero_value is Dictionary:
+    for value: Variant in reactors:
+        if not value is Dictionary:
             continue
-        var hero: Dictionary = hero_value
-        var unlocked: Array = hero.get("unlocked_skills", [])
-        if str(hero.get("id", "")) == "tarek_senn" and unlocked.has("TA-ENT-13"):
-            result.append({"skill_id": "TA-ENT-13", "name": "Fauchage réflexe", "hero": str(hero.get("name", "Tarek")), "summary": "Le changement de rang traverse l'espace rapproché : réaction possible."})
-        if str(hero.get("id", "")) == "aisha_maren" and unlocked.has("AÏ-ANA-13"):
-            result.append({"skill_id": "AÏ-ANA-13", "name": "Réflexe musculaire", "hero": str(hero.get("name", "Aïsha")), "summary": "Le déplacement sollicite un groupe musculaire prévisible : réaction possible."})
+        var reactor: Dictionary = value
+        var reactions: Array = reactor.get("movement_reactions", [])
+        for reaction_value: Variant in reactions:
+            if not reaction_value is Dictionary:
+                continue
+            var reaction: Dictionary = reaction_value
+            if not bool(reaction.get("enabled", true)):
+                continue
+            result.append({
+                "reaction_id": str(reaction.get("id", "")),
+                "name": str(reaction.get("name", "Réaction")),
+                "actor": str(reactor.get("name", "Veilleur")),
+                "summary": str(reaction.get("summary", "Un changement de rang peut déclencher cette réaction."))
+            })
     return result
 
 func exposed_bonus(target: Dictionary, zone: String) -> Dictionary:
@@ -76,13 +87,15 @@ func advance_round(targets: Array) -> void:
             target.erase("ge01_exposed_zone")
             target.erase("exposed")
 
-func _target_is_wounded(target: Dictionary) -> bool:
+func target_is_wounded(target: Dictionary) -> bool:
     if int(target.get("hp", 0)) < int(target.get("max_hp", target.get("hp", 0))):
         return true
     for key in ["persistent_injuries", "anatomy_injuries", "dismembered_parts"]:
         var value: Variant = target.get(key, null)
-        if value is Array and not (value as Array).is_empty(): return true
-        if value is Dictionary and not (value as Dictionary).is_empty(): return true
+        if value is Array and not (value as Array).is_empty():
+            return true
+        if value is Dictionary and not (value as Dictionary).is_empty():
+            return true
     return false
 
 func _normalize_zone(zone: String) -> String:
