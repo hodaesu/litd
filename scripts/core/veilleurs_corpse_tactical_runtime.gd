@@ -5,20 +5,22 @@ const MIN_SLOT := 0
 const MAX_SLOT := 3
 const DESTROYED_STATES := ["destroyed", "consumed", "burned"]
 
-func place(scar_id: String, slot: int, blocks_slot: bool = true) -> Dictionary:
+func place(scar_id: String, slot: int, blocks_slot: bool = true, side: String = "hero") -> Dictionary:
     if not RemanenceRuntime.world_scars.has(scar_id): return {"ok": false, "reason": "scar_missing"}
     if slot < MIN_SLOT or slot > MAX_SLOT: return {"ok": false, "reason": "invalid_slot", "slot": slot}
+    if side not in ["hero", "enemy", "neutral"]: return {"ok": false, "reason": "invalid_side", "side": side}
     var scar: Dictionary = RemanenceRuntime.world_scars[scar_id]
     if str(scar.get("type", "")) != "persistent_corpse": return {"ok": false, "reason": "not_a_corpse"}
     var payload: Dictionary = scar.get("payload", {}).duplicate(true)
     if str(payload.get("corpse_state", "intact")) in DESTROYED_STATES: return {"ok": false, "reason": "corpse_unusable"}
     payload["combat_slot"] = slot
+    payload["combat_side"] = side
     payload["blocks_combat_slot"] = blocks_slot
     payload["corpse_state"] = "moved"
     payload["last_tactical_move_run"] = RemanenceRuntime.run_index
     payload["move_count"] = int(payload.get("move_count", 0)) + 1
     RemanenceRuntime.update_world_scar(scar_id, {"payload": payload})
-    return {"ok": true, "scar_id": scar_id, "slot": slot, "blocks_slot": blocks_slot}
+    return {"ok": true, "scar_id": scar_id, "slot": slot, "side": side, "blocks_slot": blocks_slot}
 
 func destroy(scar_id: String, cause: String = "combat") -> Dictionary:
     if not RemanenceRuntime.world_scars.has(scar_id): return {"ok": false, "reason": "scar_missing"}
@@ -37,7 +39,7 @@ func destroy(scar_id: String, cause: String = "combat") -> Dictionary:
         RemanenceRuntime.record_event(origin_entity_id, "corpse_destroyed", {"scar_id": scar_id, "cause": cause, "summary": "Le corps persistant est détruit pendant un affrontement."})
     return {"ok": true, "scar_id": scar_id, "state": "destroyed", "cause": cause}
 
-func snapshot(scar_ids: Array = []) -> Dictionary:
+func snapshot(scar_ids: Array = [], side: String = "") -> Dictionary:
     var ids: Array = scar_ids.duplicate()
     if ids.is_empty():
         for scar_id_value: Variant in RemanenceRuntime.world_scars.keys():
@@ -55,6 +57,8 @@ func snapshot(scar_ids: Array = []) -> Dictionary:
         var payload: Dictionary = scar.get("payload", {})
         var state := str(payload.get("corpse_state", "intact"))
         if state in DESTROYED_STATES: continue
+        var corpse_side := str(payload.get("combat_side", "hero"))
+        if side != "" and corpse_side not in [side, "neutral"]: continue
         var default_slot := corpses.size() % 4
         var slot := clampi(int(payload.get("combat_slot", default_slot)), MIN_SLOT, MAX_SLOT)
         var blocks := bool(payload.get("blocks_combat_slot", true))
@@ -62,28 +66,28 @@ func snapshot(scar_ids: Array = []) -> Dictionary:
         var cover := int(payload.get("cover_quality", 35)) if prepared else 15
         if blocks and not blocked_slots.has(slot): blocked_slots.append(slot)
         cover_by_slot[slot] = maxi(int(cover_by_slot.get(slot, 0)), cover)
-        corpses.append({"scar_id": scar_id, "slot": slot, "blocks_slot": blocks, "prepared_as_cover": prepared, "cover_quality": cover, "state": state})
+        corpses.append({"scar_id": scar_id, "slot": slot, "side": corpse_side, "blocks_slot": blocks, "prepared_as_cover": prepared, "cover_quality": cover, "state": state})
     blocked_slots.sort()
-    return {"corpses": corpses, "blocked_slots": blocked_slots, "cover_by_slot": cover_by_slot, "corpse_count": corpses.size(), "has_corpses": not corpses.is_empty()}
+    return {"corpses": corpses, "blocked_slots": blocked_slots, "cover_by_slot": cover_by_slot, "corpse_count": corpses.size(), "has_corpses": not corpses.is_empty(), "side": side}
 
-func can_move_to_slot(slot: int, scar_ids: Array = []) -> bool:
+func can_move_to_slot(slot: int, scar_ids: Array = [], side: String = "hero") -> bool:
     if slot < MIN_SLOT or slot > MAX_SLOT: return false
-    return not (snapshot(scar_ids).get("blocked_slots", []) as Array).has(slot)
+    return not (snapshot(scar_ids, side).get("blocked_slots", []) as Array).has(slot)
 
-func cover_for_slot(slot: int, scar_ids: Array = []) -> int:
-    var cover_by_slot: Dictionary = snapshot(scar_ids).get("cover_by_slot", {})
+func cover_for_slot(slot: int, scar_ids: Array = [], side: String = "hero") -> int:
+    var cover_by_slot: Dictionary = snapshot(scar_ids, side).get("cover_by_slot", {})
     var direct := int(cover_by_slot.get(slot, 0))
     var adjacent := 0
     if cover_by_slot.has(slot - 1): adjacent = maxi(adjacent, int(cover_by_slot.get(slot - 1, 0)) / 2)
     if cover_by_slot.has(slot + 1): adjacent = maxi(adjacent, int(cover_by_slot.get(slot + 1, 0)) / 2)
     return clampi(maxi(direct, adjacent), 0, 45)
 
-func skill_context(scar_ids: Array = []) -> Dictionary:
-    var state := snapshot(scar_ids)
+func skill_context(scar_ids: Array = [], side: String = "") -> Dictionary:
+    var state := snapshot(scar_ids, side)
     var prepared := 0
     for corpse_value: Variant in state.get("corpses", []):
         if bool((corpse_value as Dictionary).get("prepared_as_cover", false)): prepared += 1
-    return {"corpse_count": int(state.get("corpse_count", 0)), "prepared_corpse_count": prepared, "blocked_slots": (state.get("blocked_slots", []) as Array).duplicate(), "corpse_skill_available": int(state.get("corpse_count", 0)) > 0, "tags": ["CADAVRE", "COUVERTURE"] if int(state.get("corpse_count", 0)) > 0 else []}
+    return {"corpse_count": int(state.get("corpse_count", 0)), "prepared_corpse_count": prepared, "blocked_slots": (state.get("blocked_slots", []) as Array).duplicate(), "corpse_skill_available": int(state.get("corpse_count", 0)) > 0, "tags": ["CADAVRE", "COUVERTURE"] if int(state.get("corpse_count", 0)) > 0 else [], "side": side}
 
 func consume_for_skill(scar_id: String, skill_id: String, effect: String = "consume") -> Dictionary:
     if not RemanenceRuntime.world_scars.has(scar_id): return {"ok": false, "reason": "scar_missing"}
