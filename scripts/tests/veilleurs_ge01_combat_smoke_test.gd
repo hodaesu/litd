@@ -6,6 +6,7 @@ func _ready() -> void:
     GameState.reset_new_game()
     var bridge: VeilleursGE01PlayableBridge = BRIDGE.new() as VeilleursGE01PlayableBridge
     add_child(bridge)
+    bridge.make_persistent_root()
     bridge.start("GE01_COMBAT_SMOKE")
 
     bridge.enter_room("ge_02")
@@ -19,11 +20,14 @@ func _ready() -> void:
 
     var fleeing: Dictionary = ge04_enemies[0]
     fleeing["hp"] = 5
+    fleeing["ge01_flee_chance"] = 100
     GameState.battle_enemies = ge04_enemies
     bridge.pending_combat = {"encounter_id": "ge01_04", "room_id": "ge_04", "encounter": ge04_encounter}
-    var flee_result: Dictionary = bridge.try_flee_enemy(fleeing, 0)
-    assert(bool(flee_result.get("success", false)))
-    var entity_id := str(flee_result.get("entity_id", ""))
+    var ai_action: Dictionary = EnemyCombatDirector.choose_action(fleeing, GameState.alive_heroes())
+    assert(str(ai_action.get("id", "")) == "ge01_flee")
+    assert(bool(fleeing.get("ge01_fled", false)))
+    assert(not GameState.battle_enemies.has(fleeing))
+    var entity_id := str(fleeing.get("remanence_id", ""))
     assert(entity_id != "")
     assert(RemanenceRuntime.entities.has(entity_id))
     assert((bridge.snapshot().get("persistent_candidates", {}) as Dictionary).has(entity_id))
@@ -42,6 +46,24 @@ func _ready() -> void:
         assert(RemanenceRuntime.world_scars.has(scar_id))
         var preview: Dictionary = VeilleursCorpseInteractionRuntime.preview(scar_id)
         assert(bool(preview.get("ok", false)))
+
+    var front := {"id": "cover_front", "name": "Avant", "hp": 30, "max_hp": 30, "combat_position": 0, "positive_traits": [], "negative_traits": []}
+    var rear := {"id": "cover_rear", "name": "Arrière", "hp": 30, "max_hp": 30, "combat_position": 3, "positive_traits": [], "negative_traits": []}
+    var cover_heroes: Array = [front, rear]
+    var ge09_enemy := bridge.call("_build_unit", "ghoul_hungry") as Dictionary
+    ge09_enemy["ge01_room_id"] = "ge_09"
+    EnemyCombatDirector.call("_apply_ge01_corpse_cover", ge09_enemy, cover_heroes, 0)
+    var front_modifiers: Dictionary = CharacterTraitDirector.modifiers(front)
+    assert(float(front_modifiers.get("physical_resistance", 0.0)) >= 25.0)
+    assert(float(rear.get("ge01_corpse_cover", 0.0)) == 0.0)
+
+    var first_scar_id := str(corpses.keys()[0])
+    var scar: Dictionary = RemanenceRuntime.world_scars[first_scar_id]
+    var payload: Dictionary = scar.get("payload", {}).duplicate(true)
+    payload["prepared_as_cover"] = true
+    RemanenceRuntime.update_world_scar(first_scar_id, {"payload": payload})
+    EnemyCombatDirector.call("_apply_ge01_corpse_cover", ge09_enemy, cover_heroes, 0)
+    assert(float(CharacterTraitDirector.modifiers(front).get("physical_resistance", 0.0)) >= 40.0)
 
     bridge.enter_room("ge_10")
     bridge.enter_room("ge_11")
