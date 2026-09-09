@@ -25,10 +25,14 @@ def _load_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def test_starting_quartet_is_assigned_to_four_legendary_heroes():
+def test_starting_quartet_is_the_canonical_player_facing_roster():
     roster = _load_json(ROSTER_PATH)
-    assert roster["status"] == "assigned"
+    assert roster["schema_version"] >= 4
+    assert roster["status"] == "canonical_player_facing_roster"
     assert roster["rules"]["starting_quartet_assigned"] is True
+    assert roster["rules"]["canonical_names_are_player_facing"] is True
+    assert roster["rules"]["gameplay_identity_is_defined_only_by_current_roster"] is True
+    assert roster["rules"]["formation_display_order"] == "R1_to_R4_right_to_left"
     assert [(h["id"], h["name"], h["class_id"]) for h in roster["heroes"]] == EXPECTED
     assert all(h["legendary_hero"] is True for h in roster["heroes"])
     assert roster["design_status"] == "existing_legendary_hero_designs_reused"
@@ -44,14 +48,14 @@ def test_runtime_heroes_match_canonical_roster_and_order():
     assert all(h["race_id"] == "human" for h in heroes)
 
 
-def test_previous_quartets_remain_invalidated_as_compositions_only():
+def test_legacy_compositions_are_not_part_of_player_facing_roster_schema():
     roster = _load_json(ROSTER_PATH)
-    invalidated = roster["invalidated_starting_quartets"]
-    assert len(invalidated) == 3
-    assert invalidated[0]["members"] == ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
-    assert invalidated[1]["members"] == ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"]
-    assert invalidated[2]["members"] == ["Aurélien", "Malvor", "Lysandra", "Darius"]
-    assert all("composition" in row["scope"] for row in invalidated)
+    assert "invalidated_starting_quartets" not in roster
+    assert "superseded_rules" not in roster
+    raw = ROSTER_PATH.read_text(encoding="utf-8")
+    assert STALE_NAMES.isdisjoint({h["name"] for h in roster["heroes"]})
+    for stale_name in STALE_NAMES:
+        assert stale_name not in raw
 
 
 def test_stale_starting_hero_identities_are_not_active():
@@ -69,13 +73,13 @@ def test_no_legacy_quartet_canonicalization_bridge_remains():
         assert stale_id not in source
 
 
-def test_aurelien_exclusion_rule_is_explicitly_superseded():
+def test_aurelien_is_explicitly_current_without_legacy_exclusion_metadata():
     roster = _load_json(ROSTER_PATH)
-    rules = roster["superseded_rules"]
-    assert len(rules) == 1
-    assert "Aurélien ne doit jamais" in rules[0]["rule"]
-    assert rules[0]["superseded_on"] == "2026-09-09"
-    assert rules[0]["replacement"] == "Aurélien fait partie du quatuor de départ avec Mathilde, Marec et Anouk."
+    aurelien = next(hero for hero in roster["heroes"] if hero["id"] == "aurelien")
+    assert aurelien["name"] == "Aurélien"
+    assert aurelien["class_id"] == "surgeon"
+    assert aurelien["legendary_hero"] is True
+    assert "superseded_rules" not in roster
 
 
 def test_existing_designs_and_world_constraints_are_preserved():
