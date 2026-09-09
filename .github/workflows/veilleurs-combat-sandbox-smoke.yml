@@ -3,8 +3,11 @@ name: Veilleurs Combat Sandbox Smoke
 on:
   pull_request:
     paths:
+      - 'data/veilleurs/canonical_roster.json'
       - 'scripts/core/veilleurs_combat_context_runtime.gd'
+      - 'scripts/ui/main_v46.gd'
       - 'scripts/tests/veilleurs_combat_context_smoke_test.gd'
+      - 'scenes/Main.tscn'
       - 'scenes/tests/veilleurs_combat_context_smoke.tscn'
       - '.github/workflows/veilleurs-combat-sandbox-smoke.yml'
   workflow_dispatch:
