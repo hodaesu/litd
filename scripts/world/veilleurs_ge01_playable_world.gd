@@ -4,19 +4,31 @@ class_name VeilleursGE01PlayableWorld
 const PARTY_SCENE := preload("res://scenes/world/terre_des_cendres/exploration_party_placeholder.tscn")
 const SENSOR_SCRIPT := preload("res://scripts/world/veilleurs_ge01_room_sensor.gd")
 
-@onready var runtime: VeilleursGE01PlayableBridge = $Runtime as VeilleursGE01PlayableBridge
+@onready var local_runtime: VeilleursGE01PlayableBridge = $Runtime as VeilleursGE01PlayableBridge
 @onready var blockout: VeilleursGE01Blockout = $Blockout as VeilleursGE01Blockout
 
+var runtime: VeilleursGE01PlayableBridge
 var party: Node3D
 var current_room_id := "ge_01"
 var prompt_label: Label
 
 func _ready() -> void:
-    runtime.start("GE01_PLAYABLE")
+    runtime = _resolve_persistent_runtime()
+    var state := runtime.start("GE01_PLAYABLE")
+    current_room_id = str(state.get("current_room", "ge_01"))
     _spawn_party()
     _build_room_sensors()
     _build_hud()
     _sync_prompt()
+
+func _resolve_persistent_runtime() -> VeilleursGE01PlayableBridge:
+    var existing := get_tree().root.get_node_or_null("GE01Runtime") as VeilleursGE01PlayableBridge
+    if existing != null:
+        if local_runtime != null and local_runtime != existing:
+            local_runtime.queue_free()
+        return existing
+    local_runtime.make_persistent_root()
+    return local_runtime
 
 func _unhandled_input(event: InputEvent) -> void:
     if event.is_action_pressed("interact"):
@@ -30,7 +42,9 @@ func _spawn_party() -> void:
     party = instance as Node3D
     party.name = "GE01Party"
     add_child(party)
-    var anchor := blockout.room_anchor("ge_01")
+    var anchor := blockout.room_anchor(current_room_id)
+    if anchor == null:
+        anchor = blockout.room_anchor("ge_01")
     if anchor != null:
         party.global_position = anchor.global_position + Vector3.UP * 0.7
 
@@ -67,6 +81,8 @@ func _on_room_entered(room_id: String) -> void:
         _sync_prompt()
 
 func interaction_options(room_id: String = current_room_id) -> Array[String]:
+    if room_id in ["ge_04", "ge_09", "ge_11", "ge_12"] and runtime.combat_available(room_id):
+        return ["fight", "observe_enemy"]
     match room_id:
         "ge_02": return ["observe", "deep_observe"]
         "ge_03b": return ["inspect_risk", "take_reward", "leave"]
@@ -80,6 +96,9 @@ func interaction_options(room_id: String = current_room_id) -> Array[String]:
         _: return []
 
 func execute_interaction(action_id: String) -> Dictionary:
+    if current_room_id in ["ge_04", "ge_09", "ge_11", "ge_12"]:
+        if action_id == "fight": return runtime.begin_room_combat(current_room_id)
+        if action_id == "observe_enemy": return runtime.spend_light("simple_observation")
     match current_room_id:
         "ge_02":
             if action_id == "observe": return runtime.spend_light("simple_observation")
@@ -121,16 +140,14 @@ func execute_interaction(action_id: String) -> Dictionary:
 
 func _execute_default_interaction() -> void:
     var options := interaction_options()
-    if options.is_empty():
-        return
+    if options.is_empty(): return
     var result := execute_interaction(options[0])
     if not bool(result.get("success", false)):
         GameState.add_log("GE01 · interaction impossible : %s" % str(result.get("reason", "indisponible")))
     _sync_prompt()
 
 func _sync_prompt() -> void:
-    if prompt_label == null:
-        return
+    if prompt_label == null: return
     var state := runtime.snapshot()
     var options := interaction_options()
     prompt_label.text = "LES GALERIES ÉTEINTES · %s · Lumière %d (%s)%s" % [
