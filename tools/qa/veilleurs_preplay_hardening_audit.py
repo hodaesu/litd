@@ -60,13 +60,20 @@ def main() -> int:
     if not checks["selftest_sequence"]:
         errors.append(f"Séquence self-test divergente: contrat={contract_steps}, runtime={selftest_steps}")
 
-    # Active Main scene: current gameplay, polish and telemetry must be present together.
+    # Active Main scene: the GE01 layers are allowed to sit above the pre-playtest
+    # layer, but the chain must still inherit main_v48 instead of replacing it.
     require_tokens(errors, "scenes/Main.tscn", [
-        'res://scripts/ui/main_v48.gd',
+        'res://scripts/ui/main_v50_ge01.gd',
         'res://scripts/ui/hud_context_sanctuary_polish_adapter.gd',
         'res://scripts/qa/developer_selftest_overlay.gd',
         'HUDContextSanctuaryPolishAdapter',
         'DeveloperSelftestOverlay',
+    ])
+    require_tokens(errors, "scripts/ui/main_v50_ge01.gd", [
+        'extends "res://scripts/ui/main_v49_ge01.gd"',
+    ])
+    require_tokens(errors, "scripts/ui/main_v49_ge01.gd", [
+        'extends "res://scripts/ui/main_v48.gd"',
     ])
 
     # Contextual decision readability remains inherited from v43 and is hardened
