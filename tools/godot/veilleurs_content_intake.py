@@ -117,7 +117,10 @@ def _iter_scan_files(repository_root: Path = ROOT):
 
 def canonical_id_occurrences(canonical_id: str, repository_root: Path = ROOT) -> list[str]:
     hits: list[str] = []
-    exact_id = re.compile(rf"(?<![A-Z0-9_]){re.escape(canonical_id)}(?![A-Z0-9_])")
+    exact_id = re.compile(
+        rf"(?<![A-Z0-9_]){re.escape(canonical_id)}(?![A-Z0-9_])",
+        re.IGNORECASE,
+    )
     for path in _iter_scan_files(repository_root):
         try:
             text = path.read_text(encoding="utf-8")
