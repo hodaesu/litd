@@ -3,7 +3,16 @@ name: Builds
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     tags: ['v*']
+    paths:
+      - '.github/workflows/build.yml'
+      - 'project.godot'
+      - 'export_presets.cfg'
+      - 'scenes/**'
+      - 'scripts/**'
+      - 'assets/**'
+      - 'data/veilleurs/**'
 
 permissions:
   contents: read
