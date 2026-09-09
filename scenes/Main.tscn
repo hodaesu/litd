@@ -1,9 +1,24 @@
 [gd_scene load_steps=18 format=3]
 
-; main_v45 ajoute les tactiques de cadavres génériques de GE09 : déplacer,
-; barricader, projeter et choisir R1-R4/E1-E4 sans dépendre d'un héros précis.
-; main_v44 raccorde les cadavres tactiques GE01 aux rangs de combat existants
-; et permet aux ennemis de dépenser leur action pour se repositionner.
+; main_v50_ge01 porte les tactiques de cadavres GE01 au-dessus du runtime pré-playtest actuel.
+; main_v49_ge01 raccorde les cadavres tactiques GE01 aux rangs sans remplacer les couches UI de main.
+; main_v48 verrouille les invariants du dernier contrôle pré-playtest : un héros
+; mort est sauté sans réinitialiser les actions déjà jouées, la cible ennemie est
+; toujours renormalisée vers un adversaire vivant et tous les états transitoires
+; de ciblage/inspection sont nettoyés à la victoire ou à la défaite.
+; Validation pré-playtest : les smoke tests de dialogue utilisent désormais le
+; quatuor canonique Mathilde, Marec, Anouk et Aurélien.
+; main_v47 aligne toute la formation sur le combat : affichage R4, R3, R2, R1
+; de gauche à droite et placement initial logique (mêlée devant, soutien derrière).
+; main_v46 unifie le ciblage : choix manuel uniquement quand le joueur a un vrai
+; choix ; soins/objets déterministes restent automatiques ; zones imposées
+; prévisualisent toutes leurs cibles ensemble puis s'exécutent automatiquement.
+; main_v45 ajoute l'inspection contextuelle en combat : toucher un héros ou un
+; ennemi ouvre sa santé, son rang et ses états sans surcharger le champ de bataille.
+; main_v44 corrige la lisibilité tactique du combat : R1 est affiché au contact
+; côté ennemis, le panneau « ÉTAT DE COMBAT » hérité est masqué et le choix de
+; cible devient explicite lorsqu'une action laisse réellement plusieurs options.
+; Les zones imposées peuvent rester automatiques via target_selection="automatic".
 ; main_v43 corrige le contrat de ciblage explicatif et garantit les cibles tactiles
 ; des sous-menus dynamiques tout en conservant le comportement fonctionnel v42.
 ; main_v42 fiabilise tous les contrôles du playtest : sous-menus visibles,
@@ -32,7 +47,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v45.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v50_ge01.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
