@@ -9,7 +9,6 @@ from tools.voice.openvoice_v2_pipeline import build_plan
 from tools.voice.voice_take_review import validate as validate_calibration
 
 ROOT = Path(__file__).resolve().parents[2]
-HEROES = {"aurelien", "malvor", "lysandra", "darius"}
 REQUIRED_PROSODY = {"pace", "pitch_bias", "pitch_range", "volume", "breath", "articulation", "pause_profile", "ending_cadence", "tension", "anti_caricature"}
 KEY_EMOTIONS = {"neutral_grounded", "fear_restrained", "fear_panic", "anger_cold", "anger_explosive", "despair_calm", "hope_fragile", "grief", "dissociation", "madness_lucid", "determination", "threat_calm", "pain_controlled", "curiosity_wary"}
 
@@ -25,6 +24,8 @@ def run(root: Path = ROOT) -> dict:
     calibration = _load("data/voice_emotion_calibration.json", root)
     demo = _load("data/demo_content_pack.json", root)
     production = _load("data/voice_production.json", root)
+    roster = _load("data/veilleurs/canonical_roster.json", root)
+    heroes = {str(item.get("id", "")) for item in roster.get("heroes", []) if str(item.get("id", ""))}
     registry = build_registry(root)
     plan = build_plan(root)
     pipeline = (root / "tools/voice/openvoice_v2_pipeline.py").read_text(encoding="utf-8")
@@ -43,9 +44,10 @@ def run(root: Path = ROOT) -> dict:
     check("Contrat : aucun réentraînement prétendu", contract.get("rules", {}).get("direction_is_project_calibration_not_model_weight_training") is True)
 
     profile_ids = set(profiles.get("profiles", {}))
-    check("Profils : quatre héros", HEROES <= profile_ids, str(sorted(HEROES - profile_ids)))
+    check("Roster : exactement quatre héros canoniques", len(heroes) == 4, str(sorted(heroes)))
+    check("Profils : quatre héros canoniques", heroes <= profile_ids, str(sorted(heroes - profile_ids)))
     check("Profils : narration prévue", "narration" in profile_ids)
-    check("Profils : calibration marquée provisoire", all("calibration_status" in profiles["profiles"][hero] for hero in HEROES))
+    check("Profils : calibration marquée provisoire", all("calibration_status" in profiles["profiles"][hero] for hero in heroes if hero in profiles.get("profiles", {})))
 
     entries = registry.get("entries", [])
     by_id = {entry["line_id"]: entry for entry in entries}
@@ -75,7 +77,7 @@ def run(root: Path = ROOT) -> dict:
     check("Droits : imitation célébrité interdite", rules.get("celebrity_or_actor_imitation_forbidden") is True)
     check("Runtime : aucune génération", rules.get("runtime_generation_in_game") is False and registry.get("rules", {}).get("runtime_generation") is False)
     check("Pipeline : direction émotionnelle embarquée", plan.get("emotional_direction", {}).get("enabled") is True and all("voice_direction" in item for item in plan.get("entries", [])))
-    check("Pipeline : répliques démo mortelles ajoutées", all(any(item["line_id"] == line_id for item in plan["entries"]) for line_id in demo_ids if by_id[line_id]["speaker_id"] in HEROES))
+    check("Pipeline : répliques démo mortelles ajoutées", all(any(item["line_id"] == line_id for item in plan["entries"]) for line_id in demo_ids if by_id[line_id]["speaker_id"] in heroes))
     check("Pipeline : limites backend explicites", "all_other_prosody" in json.dumps(plan.get("emotional_direction", {})) and "directly_controlled" in json.dumps(contract.get("backend_capabilities", {})))
     for token in ["build_registry", "emotional_speed", "voice_direction", "emotional_direction_review_required"]:
         check("Pipeline : " + token, token in pipeline)
