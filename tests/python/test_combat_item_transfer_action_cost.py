@@ -17,16 +17,19 @@ def test_item_use_costs_action_but_transfer_is_free_for_both_sides():
 
 
 def _active_main_ui_chain(scene: str) -> list[str]:
-    match = re.search(r'\[ext_resource path="(res://scripts/ui/main_v\d+\.gd)" type="Script" id="1"\]', scene)
+    # Integration layers may carry a descriptive suffix (for example
+    # main_v50_ge01.gd) while remaining part of the versioned Main UI chain.
+    ui_path = r"res://scripts/ui/main_v\d+(?:_[a-z0-9_]+)?\.gd"
+    match = re.search(rf'\[ext_resource path="({ui_path})" type="Script" id="1"\]', scene)
     assert match is not None, "Main.tscn must expose a versioned main UI script as ext_resource id=1"
 
     chain: list[str] = []
     current = match.group(1)
-    for _ in range(32):
+    for _ in range(40):
         chain.append(current)
         file_path = ROOT / current.removeprefix("res://")
         source = file_path.read_text(encoding="utf-8")
-        parent = re.search(r'^extends "(res://scripts/ui/main_v\d+\.gd)"', source, re.MULTILINE)
+        parent = re.search(rf'^extends "({ui_path})"', source, re.MULTILINE)
         if parent is None:
             break
         current = parent.group(1)
