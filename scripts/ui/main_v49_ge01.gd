@@ -1,7 +1,8 @@
 extends "res://scripts/ui/main_v48.gd"
 
 # GE01 integration layer ported above current main_v48.
-# Preserves current pre-playtest UI while adding corpse-aware formation rules.
+# Keeps corpse-aware formation rules without overriding an enemy-phase method
+# that does not exist in the v48 inheritance chain.
 
 const GE01_CORPSE_TACTICAL_SCRIPT := preload("res://scripts/core/veilleurs_corpse_tactical_runtime.gd")
 var _ge01_corpse_tactical: RefCounted = GE01_CORPSE_TACTICAL_SCRIPT.new()
@@ -42,35 +43,6 @@ func _change_combat_position_to(target_position: int) -> void:
             show_screen("combat")
             return
     super._change_combat_position_to(target_position)
-
-func _clinical_enemy_attack_phase(attacking_enemies: Array) -> void:
-    if not _ge01_combat_active():
-        await super._clinical_enemy_attack_phase(attacking_enemies)
-        return
-    CombatPositionRuntime.initialize_battle(GameState.party, attacking_enemies)
-    var remaining_attackers: Array = []
-    for enemy_value: Variant in attacking_enemies:
-        if not (enemy_value is Dictionary):
-            continue
-        var enemy: Dictionary = enemy_value
-        if int(enemy.get("hp", 0)) <= 0:
-            remaining_attackers.append(enemy)
-            continue
-        var before: int = int(CombatPositionRuntime.position_of(enemy))
-        var move_action: Dictionary = CombatPositionRuntime.enemy_move_action(enemy, attacking_enemies)
-        if move_action.is_empty():
-            remaining_attackers.append(enemy)
-            continue
-        var after: int = int(CombatPositionRuntime.position_of(enemy))
-        GameState.add_log("%s se repositionne : R%d → R%d. Son action est consommée." % [str(enemy.get("name", "L'ennemi")), before + 1, after + 1])
-        var movement_reactions: Array[Dictionary] = _reaction_runtime().on_enemy_movement(enemy, before, after, combat_round_number, GameState.party)
-        for reaction_value: Variant in movement_reactions:
-            if reaction_value is Dictionary:
-                var heroes: Array = GameState.alive_heroes()
-                var fallback_hero: Dictionary = heroes[0] if not heroes.is_empty() else {}
-                _log_clinical_reaction(reaction_value, enemy, fallback_hero)
-    if not remaining_attackers.is_empty():
-        await super._clinical_enemy_attack_phase(remaining_attackers)
 
 func _ge01_combat_active() -> bool:
     var runtime: Node = get_node_or_null("/root/GE01Runtime")
