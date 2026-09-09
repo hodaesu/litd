@@ -9,9 +9,10 @@ func _ready() -> void:
     GameState.reset_new_game()
     var bridge: VeilleursGE01PlayableBridge = BRIDGE.new() as VeilleursGE01PlayableBridge
     # EnemyCombatDirector resolves the active GE01 runtime through /root/GE01Runtime.
-    # Attach the fresh smoke runtime there directly instead of reparenting it during _ready().
+    # Defer attachment until the scene tree has finished the current _ready() setup pass.
     bridge.name = "GE01Runtime"
-    get_tree().root.add_child(bridge)
+    get_tree().root.add_child.call_deferred(bridge)
+    await get_tree().process_frame
     bridge.start("GE01_COMBAT_SMOKE")
     bridge.enter_room("ge_02"); bridge.enter_room("ge_03"); bridge.enter_room("ge_04")
     var ge04_encounter: Dictionary = bridge.session.call("encounter_for", "ge_04", 10)
