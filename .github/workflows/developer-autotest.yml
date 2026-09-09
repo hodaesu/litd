@@ -1,0 +1,364 @@
+name: Developer Autotest
+
+on:
+  push:
+    branches: [dev/auto-test-bench]
+  pull_request:
+    paths:
+      - 'scripts/**'
+      - 'scenes/**'
+      - 'data/**'
+      - 'tools/qa/**'
+      - '.github/workflows/developer-autotest.yml'
+  workflow_dispatch:
+    inputs:
+      runs_per_seed:
+        description: "Expéditions simulées par seed fixe"
+        required: false
+        default: "1000"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fast-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: "Bot v8 : contrat combat légal rapide"
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v8_fast_combat_contract.tscn
+      - name: "Bot v9 : intégrité sauvegarde rapide"
+        if: always()
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v9_save_integrity.tscn
+      - name: "Bot v10 : smoke UI Sanctuaire"
+        if: always()
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v10_sanctuary_ui_smoke.tscn
+      - name: "Bot v11 : fuzzing déterministe des invariants tactiques"
+        if: always()
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v11_tactical_property_fuzzer.tscn
+      - name: "Bot v12 : replay des régressions connues"
+        if: always()
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v12_regression_replay.tscn
+      - name: "Bot v13 : comparaison à la baseline sentinelle"
+        if: always()
+        run: timeout 90s godot --headless --path . res://scenes/tests/player_bot_v13_regression_baseline.tscn
+      - name: Publier les rapports rapides
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-fast-contracts
+          retention-days: 14
+          path: |
+            reports/player-bot-v8-fast-combat-contract.json
+            reports/player-bot-v9-save-integrity.json
+            reports/player-bot-v10-sanctuary-ui-smoke.json
+            reports/player-bot-v11-tactical-property-fuzzer.json
+            reports/player-bot-v12-regression-replay.json
+            reports/player-bot-v13-regression-baseline.json
+
+  combat-core:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: Auto-test développeur déterministe
+        run: godot --headless --path . res://scenes/tests/developer_autotest_smoke.tscn
+      - name: "Joueur-bot v1 : expédition, combats, loot et capture"
+        if: always()
+        run: timeout 120s godot --headless --path . res://scenes/tests/player_bot_autotest.tscn
+      - name: "Joueur-bot v2 : contrôleur réel et tactique"
+        if: always()
+        run: timeout 180s godot --headless --path . res://scenes/tests/player_bot_v2_autotest.tscn
+      - name: Publier les rapports combat core
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-combat-core
+          retention-days: 14
+          path: |
+            reports/developer-autotest-godot.json
+            reports/player-bot-autotest.json
+            reports/player-bot-v2-autotest.json
+
+  combat-v3-shards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: "Joueur-bot v3 : shard de matrice de builds"
+        env:
+          BOT_SHARD_INDEX: ${{ matrix.shard }}
+        run: timeout 360s godot --headless --path . res://scenes/tests/player_bot_v3_shard_runner.tscn
+      - name: Publier le shard v3
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-v3-shard-${{ matrix.shard }}
+          retention-days: 14
+          path: reports/player-bot-v3-build-matrix-shard-${{ matrix.shard }}.json
+
+  combat-v4-shards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: "Joueur-bot v4 : shard de matrice factorielle"
+        env:
+          BOT_SHARD_INDEX: ${{ matrix.shard }}
+        run: timeout 540s godot --headless --path . res://scenes/tests/player_bot_v4_shard_runner.tscn
+      - name: Publier le shard v4
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-v4-shard-${{ matrix.shard }}
+          retention-days: 14
+          path: reports/player-bot-v4-factorial-matrix-shard-${{ matrix.shard }}.json
+
+  combat-matrix-aggregate:
+    if: always()
+    needs: [combat-v3-shards, combat-v4-shards]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Télécharger tous les shards combat
+        uses: actions/download-artifact@v4
+        with:
+          pattern: developer-autotest-v*-shard-*
+          path: reports
+          merge-multiple: true
+      - name: Agréger et vérifier la couverture v3/v4
+        run: python tools/qa/bot_matrix_shard_aggregate.py
+      - name: Publier les matrices agrégées
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-combat-matrices
+          retention-days: 14
+          path: |
+            reports/player-bot-v3-build-matrix.json
+            reports/player-bot-v4-factorial-matrix.json
+
+  campaign-bots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: "Joueur-bot v5 : campagne longitudinale"
+        run: timeout 420s godot --headless --path . res://scenes/tests/player_bot_v5_longitudinal_campaign.tscn
+      - name: "Joueur-bot v6 : campagne réelle, extraction et économie"
+        if: always()
+        run: timeout 540s godot --headless --path . res://scenes/tests/player_bot_v6_real_campaign.tscn
+      - name: Publier les rapports campagne
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-campaigns
+          retention-days: 14
+          path: |
+            reports/player-bot-v5-longitudinal-campaign.json
+            reports/player-bot-v6-real-campaign.json
+
+  sanctuary-bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: "Joueur-bot v7 : économie du Sanctuaire, marché et remplacement"
+        run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v7_sanctuary_economy.tscn
+      - name: "Bot v19 : stress économique à décès répétés"
+        if: always()
+        run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v19_economy_stress.tscn
+      - name: Publier les rapports Sanctuaire
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-sanctuary
+          retention-days: 14
+          path: |
+            reports/player-bot-v7-sanctuary-economy.json
+            reports/player-bot-v19-economy-stress.json
+
+  deterministic-batch-telemetry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Simuler cinq seeds fixes
+        env:
+          RUNS_PER_SEED: ${{ github.event.inputs.runs_per_seed || '1000' }}
+        run: |
+          set -euo pipefail
+          for SEED in 101 202 303 404 505; do
+            python -m tools.qa.roguelike_telemetry_sim_v2 \
+              --runs "$RUNS_PER_SEED" \
+              --seed "$SEED" \
+              --report "reports/developer-autotest-telemetry-${SEED}.json" \
+              --csv "reports/developer-autotest-telemetry-${SEED}.csv" \
+              --strict
+          done
+      - name: Publier la télémétrie déterministe
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-telemetry
+          retention-days: 14
+          path: |
+            reports/developer-autotest-telemetry-*.json
+            reports/developer-autotest-telemetry-*.csv
+
+  regression-analysis:
+    if: always()
+    needs: [fast-contracts, combat-core, combat-v3-shards, combat-v4-shards, combat-matrix-aggregate, campaign-bots, sanctuary-bot]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Télécharger les artefacts des bots
+        uses: actions/download-artifact@v4
+        with:
+          pattern: developer-autotest-*
+          path: reports
+          merge-multiple: true
+      - name: "Bot v14 : triage transversal des échecs"
+        run: python tools/qa/bot_v14_failure_triage.py
+      - name: "Bot v15 : réduction des cas de fuzzing"
+        if: always()
+        run: python tools/qa/bot_v15_case_minimizer.py
+      - name: "Bot v26 : promotion automatique vers le corpus de régression"
+        if: always()
+        run: python tools/qa/bot_v26_regression_promoter.py
+      - name: "Bot v29 : preuve avant promotion permanente"
+        if: always()
+        run: python tools/qa/bot_v29_replay_proof_gate.py
+      - name: "Bot v16 : garde statistique de régression"
+        if: always()
+        run: python tools/qa/bot_v16_balance_regression_guard.py
+      - name: "Bot v17 : cartographie impact des changements"
+        if: always()
+        run: |
+          export CHANGED_FILES="$(git diff --name-only HEAD^ HEAD || true)"
+          python tools/qa/bot_v17_change_impact_mapper.py
+      - name: "Bot v18 : couverture d'utilisation des compétences"
+        if: always()
+        run: python tools/qa/bot_v18_skill_usage_coverage.py
+      - name: "Bot v20 : profils de joueurs"
+        if: always()
+        run: python tools/qa/bot_v20_player_profiles.py
+      - name: "Bot v21 : campagne longue durée"
+        if: always()
+        run: python tools/qa/bot_v21_longhaul_campaign.py --expeditions 200
+      - name: "Bot v23 : chasse aux stratégies dominantes"
+        if: always()
+        run: python tools/qa/bot_v23_meta_hunter.py
+      - name: "Bot v24 : chasse aux exploits économie/progression"
+        if: always()
+        run: python tools/qa/bot_v24_exploit_hunter.py
+      - name: "Bot v25 : chaos stateful déterministe"
+        if: always()
+        run: python tools/qa/bot_v25_stateful_chaos.py
+      - name: "Bot v27 : pont vers les preuves runtime Godot"
+        if: always()
+        run: python tools/qa/bot_v27_runtime_bridge.py
+      - name: "Bot v28 : exploration branches rares, Lumière et Rémanence"
+        if: always()
+        run: python tools/qa/bot_v28_rare_path_explorer.py
+      - name: "Bot v30 : preuve runtime des chemins rares"
+        if: always()
+        run: python tools/qa/bot_v30_runtime_rare_path_bridge.py
+      - name: "Bot v22 : couverture gameplay"
+        if: always()
+        run: python tools/qa/bot_v22_gameplay_coverage.py
+      - name: "Bot v31 : efficacité et maturité de la flotte"
+        if: always()
+        run: python tools/qa/bot_v31_fleet_efficiency.py
+      - name: Publier les diagnostics v14-v31
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-regression-analysis
+          retention-days: 14
+          path: |
+            reports/player-bot-v14-failure-triage.json
+            reports/player-bot-v15-case-minimizer.json
+            reports/player-bot-v16-balance-regression-guard.json
+            reports/player-bot-v17-change-impact-mapper.json
+            reports/player-bot-v18-skill-usage-coverage.json
+            reports/player-bot-v20-player-profiles.json
+            reports/player-bot-v21-longhaul-campaign.json
+            reports/player-bot-v22-gameplay-coverage.json
+            reports/player-bot-v23-meta-hunter.json
+            reports/player-bot-v24-exploit-hunter.json
+            reports/player-bot-v25-stateful-chaos.json
+            reports/player-bot-v26-regression-promoter.json
+            reports/player-bot-v27-runtime-bridge.json
+            reports/player-bot-v28-rare-path-explorer.json
+            reports/player-bot-v29-replay-proof-gate.json
+            reports/player-bot-v30-runtime-rare-path-bridge.json
+            reports/player-bot-v31-fleet-efficiency.json

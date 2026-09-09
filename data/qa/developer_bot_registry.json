@@ -1,0 +1,56 @@
+{
+  "schema_version": 7,
+  "policy": {
+    "fast_feedback_target_seconds": 90,
+    "reproducibility": "Every randomized bot must report deterministic seed and case/run index.",
+    "flakiness": "Do not hide failures with blind retries or arbitrary sleeps; wait on observable game state and preserve the failing seed.",
+    "maturity": "After v31, freeze routine bot-number growth. Add a new numbered bot only for a genuinely new mechanic or demonstrated blind spot.",
+    "tiers": {
+      "sentinel": "Run on every relevant commit; small deterministic contract checks.",
+      "simulation": "Run in parallel on every relevant commit; medium/long gameplay simulation.",
+      "telemetry": "Statistical balance signal; never substitutes for production-runtime tests.",
+      "diagnostic": "Runs after or alongside sentinels to replay, classify, reduce, and compare regressions.",
+      "adversarial": "Actively searches for dominant strategies, exploit loops, invalid state transitions and recovery failures.",
+      "governance": "Measures fleet usefulness, overlap and maturity; controls whether new bot families are justified."
+    }
+  },
+  "bots": [
+    {"id":"v1","tier":"simulation","domain":"expedition","report":"reports/player-bot-autotest.json","replay":"fixed seed"},
+    {"id":"v2","tier":"simulation","domain":"real combat controller","report":"reports/player-bot-v2-autotest.json","replay":"seed + room"},
+    {"id":"v3","tier":"simulation","domain":"build matrix","report":"reports/player-bot-v3-build-matrix.json","replay":"build + seed + scenario"},
+    {"id":"v4","tier":"simulation","domain":"factorial balance","report":"reports/player-bot-v4-factorial-matrix.json","replay":"case + seed + scenario"},
+    {"id":"v5","tier":"simulation","domain":"longitudinal campaign","report":"reports/player-bot-v5-longitudinal-campaign.json","replay":"campaign seed + expedition + combat"},
+    {"id":"v6","tier":"simulation","domain":"real campaign economy/extraction","report":"reports/player-bot-v6-real-campaign.json","replay":"campaign seed + expedition + room"},
+    {"id":"v7","tier":"simulation","domain":"sanctuary economy/recruitment","report":"reports/player-bot-v7-sanctuary-economy.json","replay":"campaign seed + cycle"},
+    {"id":"v8","tier":"sentinel","domain":"legal combat action contract","report":"reports/player-bot-v8-fast-combat-contract.json","replay":"fixed scenario"},
+    {"id":"v9","tier":"sentinel","domain":"save/load integrity","report":"reports/player-bot-v9-save-integrity.json","replay":"fixed snapshot mutation"},
+    {"id":"v10","tier":"sentinel","domain":"sanctuary UI navigation","report":"reports/player-bot-v10-sanctuary-ui-smoke.json","replay":"screen id"},
+    {"id":"v11","tier":"sentinel","domain":"tactical property fuzzing","report":"reports/player-bot-v11-tactical-property-fuzzer.json","replay":"seed + case_index"},
+    {"id":"v12","tier":"diagnostic","domain":"known regression replay","report":"reports/player-bot-v12-regression-replay.json","replay":"regression id"},
+    {"id":"v13","tier":"diagnostic","domain":"sentinel regression baseline","report":"reports/player-bot-v13-regression-baseline.json","replay":"baseline + source reports"},
+    {"id":"v14","tier":"diagnostic","domain":"cross-suite failure triage","report":"reports/player-bot-v14-failure-triage.json","replay":"source report + classified issue"},
+    {"id":"v15","tier":"diagnostic","domain":"minimal failing-case reducer","report":"reports/player-bot-v15-case-minimizer.json","replay":"seed + case_index + minimal state"},
+    {"id":"v16","tier":"diagnostic","domain":"balance regression guard","report":"reports/player-bot-v16-balance-regression-guard.json","replay":"baseline threshold + source report"},
+    {"id":"v17","tier":"diagnostic","domain":"change impact mapping","report":"reports/player-bot-v17-change-impact-mapper.json","replay":"changed file list"},
+    {"id":"v18","tier":"diagnostic","domain":"skill usage coverage","report":"reports/player-bot-v18-skill-usage-coverage.json","replay":"source reports + skill id"},
+    {"id":"v19","tier":"simulation","domain":"repeated economy recovery stress","report":"reports/player-bot-v19-economy-stress.json","replay":"seed + cycle + shock"},
+    {"id":"v20","tier":"adversarial","domain":"player behaviour profile stress","report":"reports/player-bot-v20-player-profiles.json","replay":"source report + policy/profile"},
+    {"id":"v21","tier":"simulation","domain":"long-haul campaign recovery","report":"reports/player-bot-v21-longhaul-campaign.json","replay":"seed + expedition"},
+    {"id":"v22","tier":"diagnostic","domain":"gameplay situation coverage","report":"reports/player-bot-v22-gameplay-coverage.json","replay":"domain + source report"},
+    {"id":"v23","tier":"adversarial","domain":"dominant strategy and anti-meta search","report":"reports/player-bot-v23-meta-hunter.json","replay":"dimension + strategy + source report"},
+    {"id":"v24","tier":"adversarial","domain":"economy and progression exploit search","report":"reports/player-bot-v24-exploit-hunter.json","replay":"rule + exploit loop"},
+    {"id":"v25","tier":"adversarial","domain":"stateful chaos sequences","report":"reports/player-bot-v25-stateful-chaos.json","replay":"seed + step + action"},
+    {"id":"v26","tier":"diagnostic","domain":"automatic regression corpus promotion","report":"reports/player-bot-v26-regression-promoter.json","replay":"semantic key + seed + case_index"},
+    {"id":"v27","tier":"diagnostic","domain":"model to Godot runtime evidence bridge","report":"reports/player-bot-v27-runtime-bridge.json","replay":"domain + source runtime report"},
+    {"id":"v28","tier":"adversarial","domain":"rare dungeon path light and Remanence exploration","report":"reports/player-bot-v28-rare-path-explorer.json","replay":"seed + case_index"},
+    {"id":"v29","tier":"diagnostic","domain":"regression promotion replay proof gate","report":"reports/player-bot-v29-replay-proof-gate.json","replay":"proposal id + source failure + permanent replay"},
+    {"id":"v30","tier":"diagnostic","domain":"rare-path runtime evidence bridge","report":"reports/player-bot-v30-runtime-rare-path-bridge.json","replay":"domain + Godot runtime evidence"},
+    {"id":"v31","tier":"governance","domain":"bot fleet efficiency and maturity governor","report":"reports/player-bot-v31-fleet-efficiency.json","replay":"aggregate report set"},
+    {"id":"telemetry-v2","tier":"telemetry","domain":"roguelike Monte Carlo balance","report":"reports/developer-autotest-telemetry-*.json","replay":"seed + simulator arguments"}
+  ],
+  "next_wave": [],
+  "maturity_gate": {
+    "phase": "freeze_after_v31",
+    "rule": "Prefer improving, merging, sharding or retiring existing bots. Number v32+ only when a new LITD mechanic or measured blind spot cannot be covered cleanly by the current fleet."
+  }
+}
