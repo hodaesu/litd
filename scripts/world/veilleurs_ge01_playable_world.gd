@@ -27,7 +27,10 @@ func _resolve_persistent_runtime() -> VeilleursGE01PlayableBridge:
         if local_runtime != null and local_runtime != existing:
             local_runtime.queue_free()
         return existing
-    local_runtime.make_persistent_root()
+    # Reparenting during _ready can happen while PhysicsServer is flushing
+    # queries (the physical smoke creates the world from a running scene).
+    # Keep the runtime usable immediately, then promote it to root safely.
+    local_runtime.call_deferred("make_persistent_root")
     return local_runtime
 
 func _unhandled_input(event: InputEvent) -> void:
