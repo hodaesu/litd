@@ -23,6 +23,9 @@ func archetype(enemy: Dictionary) -> String:
     return String(enemy.get("archetype", "any"))
 
 func choose_action(enemy: Dictionary, heroes: Array) -> Dictionary:
+    var flee_action := _ge01_flee_action(enemy)
+    if not flee_action.is_empty():
+        return flee_action
     var candidates: Array[Dictionary] = []
     var enemy_archetype := archetype(enemy)
     for skill_value: Variant in skills:
@@ -45,6 +48,37 @@ func choose_action(enemy: Dictionary, heroes: Array) -> Dictionary:
     chosen = NgPlusCycleDirector.modify_enemy_action(chosen, enemy, heroes)
     chosen["target_index"] = _target_index(heroes, String(chosen.get("target", "random")))
     return chosen
+
+func _ge01_flee_action(enemy: Dictionary) -> Dictionary:
+    if not bool(enemy.get("ge01_can_flee", false)) or bool(enemy.get("ge01_fled", false)):
+        return {}
+    if bool(enemy.get("boss", false)) or bool(enemy.get("is_boss", false)) or bool(enemy.get("remanence_protected", false)):
+        return {}
+    var hp_ratio := float(enemy.get("hp", 0)) / maxf(1.0, float(enemy.get("max_hp", enemy.get("hp", 1))))
+    var limb_lost := not (enemy.get("dismembered_parts", []) as Array).is_empty()
+    var allies_dead := false
+    for other_value: Variant in GameState.battle_enemies:
+        var other: Dictionary = other_value
+        if other == enemy:
+            continue
+        if int(other.get("hp", 0)) <= 0 and not bool(other.get("ge01_fled", false)):
+            allies_dead = true
+            break
+    if hp_ratio > 0.30 and not limb_lost and not allies_dead:
+        return {}
+    if not bool(enemy.get("ge01_escape_route", true)) or bool(enemy.get("immobilized", false)):
+        return {}
+    var chance := clampi(int(enemy.get("ge01_flee_chance", 0)), 0, 100)
+    if chance <= 0 or randi_range(1, 100) > chance:
+        return {}
+    return {
+        "id": "ge01_flee",
+        "name": "Fuite",
+        "power": 0.0,
+        "target": "none",
+        "ge01_flee": true,
+        "reason": "wounded" if hp_ratio <= 0.30 else ("mutilated" if limb_lost else "allies_lost")
+    }
 
 func _apply_remanence_action(enemy: Dictionary, action: Dictionary) -> Dictionary:
     var result := action.duplicate(true)
@@ -75,6 +109,10 @@ func apply_secondary(action: Dictionary, enemy: Dictionary, target: Dictionary, 
     return messages
 
 func intent_preview(enemy: Dictionary) -> String:
+    if bool(enemy.get("ge01_can_flee", false)):
+        var hp_ratio := float(enemy.get("hp", 0)) / maxf(1.0, float(enemy.get("max_hp", enemy.get("hp", 1))))
+        if hp_ratio <= 0.30 or not (enemy.get("dismembered_parts", []) as Array).is_empty():
+            return "Cherche une issue · peut rompre le combat"
     var enemy_archetype := archetype(enemy)
     var fear := int(enemy.get("enemy_fear", enemy.get("fear_gauge", 0)))
     var target_mode := str(enemy.get("remanence_target_mode", ""))
