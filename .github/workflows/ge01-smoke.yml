@@ -5,6 +5,7 @@ on:
     paths:
       - 'data/dungeons/galeries_eteintes_map.json'
       - 'data/veilleurs/canonical_roster.json'
+      - 'data/veilleurs/current_quartet_ultimate_sheets.json'
       - 'scripts/core/veilleurs_ge01_*.gd'
       - 'scripts/core/veilleurs_corpse_tactical_runtime.gd'
       - 'scripts/core/veilleurs_corpse_skill_runtime.gd'
