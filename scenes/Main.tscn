@@ -1,5 +1,7 @@
 [gd_scene load_steps=18 format=3]
 
+; main_v44 raccorde les cadavres tactiques GE01 aux rangs de combat existants
+; et permet aux ennemis de dépenser leur action pour se repositionner.
 ; main_v43 corrige le contrat de ciblage explicatif et garantit les cibles tactiles
 ; des sous-menus dynamiques tout en conservant le comportement fonctionnel v42.
 ; main_v42 fiabilise tous les contrôles du playtest : sous-menus visibles,
@@ -28,7 +30,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v43.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v44.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
