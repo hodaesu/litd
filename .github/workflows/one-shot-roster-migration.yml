@@ -38,12 +38,17 @@ jobs:
                   dst.parent.mkdir(parents=True, exist_ok=True)
                   src.rename(dst)
 
-          # Case-insensitive canonical replacement, including surnames and snake_case ids.
+          # Replace full legacy identities/ids first, then embedded name tokens used
+          # inside asset identifiers such as ULT_WATCHER_NAYRA_BASTION.
           hero_patterns = [
-              (re.compile(r'(?i)\btarek(?:[ _]senn)?\b'), 'Mathilde'),
-              (re.compile(r'(?i)\bnayra(?:[ _]orun)?\b'), 'Marec'),
-              (re.compile(r'(?i)\bidris(?:[ _]vael)?\b'), 'Anouk'),
-              (re.compile(r'(?i)\ba(?:ï|i)sha(?:[ _]maren)?\b'), 'Aurélien'),
+              (re.compile(r'(?i)tarek(?:[- _]?senn)'), 'Mathilde'),
+              (re.compile(r'(?i)nayra(?:[- _]?orun)'), 'Marec'),
+              (re.compile(r'(?i)idris(?:[- _]?vael)'), 'Anouk'),
+              (re.compile(r'(?i)a(?:ï|i)sha(?:[- _]?maren)'), 'Aurélien'),
+              (re.compile(r'(?i)tarek'), 'Mathilde'),
+              (re.compile(r'(?i)nayra'), 'Marec'),
+              (re.compile(r'(?i)idris'), 'Anouk'),
+              (re.compile(r'(?i)a(?:ï|i)sha'), 'Aurélien'),
           ]
           skill_prefixes = [
               (re.compile(r'\bTA-(?=(?:TRA|ENT|DIS)-\d{2}\b)', re.I), 'MA-'),
@@ -67,7 +72,7 @@ jobs:
                   new = rx.sub(current, new)
               for rx, replacement in skill_prefixes:
                   new = rx.sub(replacement, new)
-              # Keep machine ids ASCII/lowercase where a canonical display name landed in an identifier.
+              # Machine identifiers/paths remain ASCII lower-case where needed.
               new = new.replace('Aurélien_', 'aurelien_').replace('_Aurélien', '_aurelien')
               new = new.replace('Mathilde_', 'mathilde_').replace('_Mathilde', '_mathilde')
               new = new.replace('Marec_', 'marec_').replace('_Marec', '_marec')
@@ -75,7 +80,6 @@ jobs:
               if new != text:
                   path.write_text(new, encoding='utf-8')
 
-          # Canonical file metadata uses ids matching canonical_roster.json.
           canonical_ids = {
               Path('data/veilleurs/skills/mathilde.json'): ('"watcher_id":"Mathilde"', '"watcher_id":"mathilde"'),
               Path('data/veilleurs/skills/marec.json'): ('"watcher_id":"Marec"', '"watcher_id":"marec"'),
@@ -87,17 +91,16 @@ jobs:
                   text = path.read_text(encoding='utf-8').replace(bad, good)
                   path.write_text(text, encoding='utf-8')
 
-          # Known runtime entrypoints are identifiers and must remain ASCII.
           for path in [Path('data/veilleurs/skills/resolver_contract.json'), Path('scripts/core/veilleurs_corpse_interaction_runtime.gd')]:
               if path.exists():
                   text = path.read_text(encoding='utf-8')
                   text = text.replace('study_Aurélien', 'study_aurelien').replace('study_aurélien', 'study_aurelien')
-                  text = text.replace('cover_Mathilde', 'cover_mathilde').replace('cover_mathilde', 'cover_mathilde')
+                  text = text.replace('cover_Mathilde', 'cover_mathilde')
                   path.write_text(text, encoding='utf-8')
 
           workflow.unlink(missing_ok=True)
 
-          forbidden = re.compile(r'(?i)\b(?:nayra|tarek|idris|aisha)\b|aïsha|nayra_orun|tarek_senn|idris_vael|aisha_maren')
+          forbidden = re.compile(r'(?i)(?:nayra|tarek|idris|aisha|aïsha|nayra_orun|tarek_senn|idris_vael|aisha_maren)')
           offenders = []
           for path in root.rglob('*'):
               if not path.is_file() or path.suffix.lower() not in text_suffixes:
