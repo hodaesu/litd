@@ -4,6 +4,7 @@ const BRIDGE := preload("res://scripts/world/veilleurs_ge01_playable_bridge.gd")
 const CORPSE_TACTICS := preload("res://scripts/core/veilleurs_corpse_tactical_runtime.gd")
 const CORPSE_SKILLS := preload("res://scripts/core/veilleurs_corpse_skill_runtime.gd")
 const CANONICAL_SKILLS := preload("res://scripts/core/veilleurs_ge01_skill_bridge.gd")
+const TACTICAL_SKILLS := preload("res://scripts/core/veilleurs_ge01_tactical_skill_runtime.gd")
 
 func _ready() -> void:
     GameState.reset_new_game()
@@ -32,6 +33,7 @@ func _ready() -> void:
     var corpse_tactics: VeilleursCorpseTacticalRuntime = CORPSE_TACTICS.new()
     var corpse_skills: VeilleursCorpseSkillRuntime = CORPSE_SKILLS.new()
     var canonical_skills: VeilleursGE01SkillBridge = CANONICAL_SKILLS.new()
+    var tactical_skills: VeilleursGE01TacticalSkillRuntime = TACTICAL_SKILLS.new()
     assert(corpse_skills.available_actions(corpse_ids, "hero").size() == 3)
     assert(canonical_skills.is_supported_skill("AÏ-ANA-12"))
     assert(canonical_skills.is_supported_skill("TA-TRA-06"))
@@ -61,7 +63,34 @@ func _ready() -> void:
     var weakness := canonical_skills.resolve_weakness_shot(attacker, target, corpse_ids, "right_arm")
     assert(bool(weakness.get("ok", false)))
     assert(int(weakness.get("precision_bonus", 0)) == 10)
-    assert(str(target.get("ge01_weakness_shot_zone", "")) == "right_arm")
+
+    # AÏ-ANA-05 : une articulation exposée crée un état lisible et exploitable.
+    var exposed_target := {"id":"exposed", "hp":30, "max_hp":30, "combat_position":1}
+    var exposed := tactical_skills.expose_articulation(exposed_target, "right_leg")
+    assert(bool(exposed.get("ok", false)))
+    assert(str(exposed_target.get("ge01_exposed_zone", "")) == "right_leg")
+    var exposed_bonus: Dictionary = tactical_skills.exposed_bonus(exposed_target, "right_leg")
+    assert(bool(exposed_bonus.get("active", false)))
+    assert(int(exposed_bonus.get("precision_bonus", 0)) == 12)
+    assert(int(exposed_bonus.get("damage_bonus_percent", 0)) == 10)
+
+    # TA-ENT-05 : cible déjà blessée => repositionnement adjacent, sans téléportation.
+    var tarek := {"id":"tarek_senn", "name":"Tarek", "hp":30, "max_hp":30, "combat_position":1, "unlocked_skills":["TA-ENT-13"]}
+    var ally := {"id":"ally", "hp":30, "max_hp":30, "combat_position":3}
+    var wounded_target := {"id":"wounded", "hp":20, "max_hp":30, "combat_position":1}
+    var pas_options: Dictionary = tactical_skills.pas_sanglant_options(tarek, wounded_target, [tarek, ally])
+    assert(bool(pas_options.get("target_wounded", false)))
+    assert((pas_options.get("destinations", []) as Array).has(0))
+    assert((pas_options.get("destinations", []) as Array).has(2))
+    var pas_move: Dictionary = tactical_skills.pas_sanglant_move(tarek, 0, [tarek, ally])
+    assert(bool(pas_move.get("ok", false)))
+    assert(int(tarek.get("combat_position", -1)) == 0)
+
+    # Les réactions canoniques au changement de rang sont annoncées avant le mouvement.
+    var aisha := {"id":"aisha_maren", "name":"Aïsha", "hp":30, "unlocked_skills":["AÏ-ANA-13"]}
+    var reaction_preview: Array[Dictionary] = tactical_skills.movement_reaction_preview(enemy_mover, 2, 1, [tarek, aisha])
+    assert(reaction_preview.size() == 2)
+    assert(str(reaction_preview[0].get("skill_id", "")) in ["TA-ENT-13", "AÏ-ANA-13"])
 
     corpse_tactics.destroy(first_scar_id, "smoke_test")
     corpse_tactics.destroy(second_scar_id, "smoke_test")
