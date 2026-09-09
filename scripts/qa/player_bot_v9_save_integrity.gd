@@ -1,6 +1,7 @@
 extends Node
 
 const REPORT_PATH := "res://reports/player-bot-v9-save-integrity.json"
+const QA_RECRUIT_ID := "qa-save-v9-recruit"
 
 var failures: Array[String] = []
 var expected_state: Dictionary = {}
@@ -23,8 +24,14 @@ func _run() -> void:
         failures.append("empty_party")
         _finish()
         return
+
+    # A canonical hero's identity/name is intentionally restored by GameState.
+    # Save/load persistence of a mutable name must therefore be exercised on a
+    # legitimate recruited identity, whose generated identity is persistent.
     var hero: Dictionary = GameState.party[0]
     hero["hp"] = maxi(1, int(hero.get("max_hp", 10)) - 3)
+    hero["recruit_generation"] = 1
+    hero["recruit_identity_id"] = QA_RECRUIT_ID
     hero["name"] = "QA-SAVE-V9"
     expected_state = _state_snapshot()
 
@@ -37,6 +44,8 @@ func _run() -> void:
     GameState.essence = 2
     GameState.party[0]["hp"] = 1
     GameState.party[0]["name"] = "MUTATED"
+    GameState.party[0]["recruit_generation"] = 0
+    GameState.party[0]["recruit_identity_id"] = ""
 
     if not SaveManager.load_qa_snapshot():
         failures.append("load_failed")
@@ -56,7 +65,9 @@ func _state_snapshot() -> Dictionary:
         "essence": GameState.essence,
         "hero_id": str(first.get("id", "")),
         "hp": int(first.get("hp", 0)),
-        "name": str(first.get("name", ""))
+        "name": str(first.get("name", "")),
+        "recruit_generation": int(first.get("recruit_generation", 0)),
+        "recruit_identity_id": str(first.get("recruit_identity_id", ""))
     }
 
 func _diff(expected: Dictionary, actual: Dictionary) -> Dictionary:
@@ -71,6 +82,7 @@ func _finish() -> void:
     var report := {
         "schema_version":9,
         "suite":"player_bot_v9_save_integrity",
+        "identity_contract":"recruited_identity_is_mutable; canonical_identity_is_normalized",
         "expected": expected_state,
         "actual": actual_state,
         "drift": drift,
