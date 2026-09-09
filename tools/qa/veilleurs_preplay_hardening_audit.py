@@ -46,7 +46,7 @@ def main() -> int:
     contract = load_json(CONTRACT_PATH)
     selftest = load_json(SELFTEST_PATH)
 
-    expected_watchers = ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
+    expected_watchers = ["Mathilde", "Marec", "Anouk", "Aurélien"]
     checks["canonical_watchers"] = (
         contract.get("canonical_watchers") == expected_watchers
         and selftest.get("canonical_watchers") == expected_watchers
@@ -62,21 +62,27 @@ def main() -> int:
 
     # Active Main scene: current gameplay, polish and telemetry must be present together.
     require_tokens(errors, "scenes/Main.tscn", [
-        'res://scripts/ui/main_v43.gd',
+        'res://scripts/ui/main_v48.gd',
         'res://scripts/ui/hud_context_sanctuary_polish_adapter.gd',
         'res://scripts/qa/developer_selftest_overlay.gd',
         'HUDContextSanctuaryPolishAdapter',
         'DeveloperSelftestOverlay',
     ])
 
-    # Contextual decision readability: action remains inspectable when invalid,
-    # explicit reason is exposed, and touch targets stay large enough for mobile parity.
+    # Contextual decision readability remains inherited from v43 and is hardened
+    # by later active layers through v48.
     require_tokens(errors, "scripts/ui/main_v43.gd", [
         "PLAYTEST_MIN_TOUCH",
         "Touchez pour voir pourquoi",
         "aucune cible n'est actuellement atteignable",
         "show_guild_chest",
         "_render_combat_position_menu",
+    ])
+    require_tokens(errors, "scripts/ui/main_v48.gd", [
+        "_normalize_selected_enemy_v48",
+        "_clear_combat_transients_v48",
+        "finish_victory",
+        "finish_defeat",
     ])
     require_tokens(errors, "scripts/ui/context_menu_ui_v2.gd", [
         '"inventory": "INVENTAIRE"',
