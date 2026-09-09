@@ -5,6 +5,8 @@ class_name VeilleursGE01TacticalSkillRuntime
 # Canonical skills may opt into these effects later through data-driven metadata.
 
 const EXPOSED_ROUNDS := 2
+const POSITION_RUNTIME := preload("res://scripts/core/combat_position_runtime.gd")
+var positions: Node = POSITION_RUNTIME.new()
 
 func expose_zone(target: Dictionary, zone: String, rounds: int = EXPOSED_ROUNDS) -> Dictionary:
     if target.is_empty() or int(target.get("hp", 0)) <= 0:
@@ -26,17 +28,17 @@ func reposition_options(actor: Dictionary, condition_met: bool, allies: Array) -
         return {"ok": false, "reason": "invalid_context", "destinations": []}
     var destinations: Array[int] = []
     if condition_met:
-        destinations = CombatPositionRuntime.available_moves(actor, allies, "hero")
+        destinations = positions.available_moves(actor, allies, "hero")
     return {
         "ok": true,
         "condition_met": condition_met,
         "destinations": destinations,
-        "from": CombatPositionRuntime.position_of(actor),
+        "from": positions.position_of(actor),
         "summary": "Repositionnement tactique disponible." if condition_met and not destinations.is_empty() else ("Condition remplie, mais aucun rang adjacent n'est libre." if condition_met else "Repositionnement verrouillé : condition de compétence non remplie.")
     }
 
 func reposition_move(actor: Dictionary, destination: int, allies: Array, source_id: String = "GE01_TACTICAL_REPOSITION") -> Dictionary:
-    return CombatPositionRuntime.move(actor, destination, allies, "hero", source_id)
+    return positions.move(actor, destination, allies, "hero", source_id)
 
 func movement_reaction_preview(from_slot: int, to_slot: int, reactors: Array) -> Array[Dictionary]:
     var result: Array[Dictionary] = []
