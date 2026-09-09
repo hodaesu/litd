@@ -1,5 +1,4 @@
 extends Node
-class_name CombatPositionRuntime
 
 const MIN_SLOT := 0
 const MAX_SLOT := 3
