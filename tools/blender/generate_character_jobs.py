@@ -76,7 +76,13 @@ def main() -> int:
     expected = {"version": 1, "generator": "tools/blender/generate_character_jobs.py", "jobs": build_jobs()}
     rendered = json.dumps(expected, ensure_ascii=False, indent=2) + "\n"
     if args.check:
-        if not args.output.exists() or args.output.read_text(encoding="utf-8") != rendered:
+        if not args.output.exists():
+            raise SystemExit("character Blender jobs are missing")
+        try:
+            current = json.loads(args.output.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError) as exc:
+            raise SystemExit(f"character Blender jobs are unreadable: {exc}") from exc
+        if current != expected:
             raise SystemExit("character Blender jobs are out of date")
         print(f"{len(expected['jobs'])} character Blender jobs are current")
         return 0
