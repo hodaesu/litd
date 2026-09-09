@@ -46,7 +46,7 @@ def _flow_ids(demo: dict[str, Any]) -> set[str]:
 
 
 def _validate_physical_bible(physical: dict[str, Any]) -> None:
-    required = {"darius", "aurelien", "malvor", "lysandra", "hungry_ghoul", "ash_witness"}
+    required = {"mathilde", "aurelien", "marec", "anouk", "hungry_ghoul", "ash_witness"}
     profiles = physical.get("characters", {})
     missing = sorted(required - set(profiles))
     if missing:
@@ -155,14 +155,11 @@ def build_plan(root: Path = ROOT) -> dict[str, Any]:
                 "hands": physical_profile.get("hands"),
                 "rule": "actor receives/listens before speaking; gesture follows action, not emotion label"
             })
-        scenes.append({
-            **raw_scene,
-            "dialogue_performance": dialogue_performance,
-        })
+        scenes.append({**raw_scene, "dialogue_performance": dialogue_performance})
 
     return {
-        "version": 1,
-        "design_source": "physical_cinematic_direction_pass_32",
+        "version": 2,
+        "design_source": "physical_cinematic_direction_pass_32+legendary_quartet_migration_2026-09-09",
         "rules": {
             "physical_action_before_emotion": True,
             "blocking_before_camera": True,
