@@ -1,4 +1,4 @@
-extends "res://scripts/ui/combat_sandbox_ui_v48.gd"
+extends "res://scripts/ui/main_v48.gd"
 
 # v49 — polish mobile Combat Sandbox.
 # Objectifs : cibles tactiles >= 48 px, commandes avancées sans chevauchement,
