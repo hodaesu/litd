@@ -5,10 +5,10 @@
   "skill_count": 180,
   "unlock_levels": [1,4,7,10,13,16,19,22,25,28,31,35,39,44,49],
   "watchers": [
-    {"entity_id":"ENT_WATCHER_marec","source":"res://data/veilleurs/skills/Marec.json","trees":["Bastion","Brisure","Serment"]},
-    {"entity_id":"ENT_WATCHER_mathilde","source":"res://data/veilleurs/skills/Mathilde.json","trees":["Traque","Entaille","Disparition"]},
-    {"entity_id":"ENT_WATCHER_aurelien","source":"res://data/veilleurs/skills/Aurélien.json","trees":["Anatomie","Suture","Hémocorde"]},
-    {"entity_id":"ENT_WATCHER_anouk","source":"res://data/veilleurs/skills/Anouk.json","trees":["Sentence","Concorde","Dissidence"]}
+    {"entity_id":"ENT_WATCHER_marec","source":"res://data/veilleurs/skills/marec.json","trees":["Bastion","Brisure","Serment"]},
+    {"entity_id":"ENT_WATCHER_mathilde","source":"res://data/veilleurs/skills/mathilde.json","trees":["Traque","Entaille","Disparition"]},
+    {"entity_id":"ENT_WATCHER_aurelien","source":"res://data/veilleurs/skills/aurelien.json","trees":["Anatomie","Suture","Hémocorde"]},
+    {"entity_id":"ENT_WATCHER_anouk","source":"res://data/veilleurs/skills/anouk.json","trees":["Sentence","Concorde","Dissidence"]}
   ],
   "note": "Manifest only. Runtime rows are loaded directly from the canonical Watcher skill files to prevent identity or skill drift."
 }
