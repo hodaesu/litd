@@ -11,6 +11,32 @@ extends "res://scripts/ui/main_v49.gd"
 
 var _sandbox_feedback_text := ""
 var _sandbox_turn_banner_text := ""
+var _sandbox_formation_initialized_v50 := false
+
+func _ensure_sandbox_started() -> void:
+    var was_started := _sandbox_started
+    super._ensure_sandbox_started()
+    if _sandbox_started and (not was_started or not _sandbox_formation_initialized_v50):
+        _apply_logical_initial_formation_v50()
+        _sandbox_formation_initialized_v50 = true
+
+func _apply_logical_initial_formation_v50() -> void:
+    # R1 est la première ligne et doit rester à droite à l'écran.
+    # Les profils de mêlée occupent les deux premières lignes ; les soutiens restent derrière.
+    var preferred_slots := {
+        "marec": 1,
+        "mathilde": 2,
+        "anouk": 3,
+        "aurelien": 4,
+    }
+    var heroes: Array = _sandbox.get("heroes")
+    for hero_value: Variant in heroes:
+        if not hero_value is Dictionary:
+            continue
+        var hero: Dictionary = hero_value
+        var hero_id := str(hero.get("id", ""))
+        if preferred_slots.has(hero_id):
+            hero["formation_slot"] = int(preferred_slots[hero_id])
 
 func _show_combat_sandbox() -> void:
     super._show_combat_sandbox()
@@ -81,6 +107,36 @@ func _sandbox_execute_v50() -> void:
     else:
         _sandbox_turn_banner_text = ""
     show_screen("combat_sandbox")
+
+func _render_sandbox_controls() -> void:
+    # v50 exécute déjà les actions au dernier tap utile : pas de gros panneau DÉCISION à droite.
+    var compact := _sandbox_is_compact_phone()
+    var strip := HBoxContainer.new()
+    strip.name = "SandboxUtilityStripV50"
+    strip.position = Vector2(20, 544) if compact else Vector2(52, 494)
+    strip.size = Vector2(maxf(600.0, get_viewport_rect().size.x - 40.0), 50) if compact else Vector2(838, 50)
+    strip.add_theme_constant_override("separation", 8)
+    content.add_child(strip)
+
+    var width := maxf(150.0, (strip.size.x - 16.0) / 3.0)
+    strip.add_child(make_button("FIN DU TOUR", func(): _sandbox_end_turn(), Vector2(width, 48)))
+    strip.add_child(make_button("RÉINITIALISER", func(): _sandbox_reset(), Vector2(width, 48)))
+    strip.add_child(make_button("RETOUR", func(): GameState.request_screen("navigation"), Vector2(width, 48)))
+
+func _render_sandbox_result() -> void:
+    var compact := _sandbox_is_compact_phone()
+    var panel := PanelContainer.new()
+    panel.name = "SandboxResultPanelV50"
+    panel.position = Vector2(20, 474) if compact else Vector2(52, 552)
+    panel.size = Vector2(maxf(600.0, get_viewport_rect().size.x - 40.0), 66) if compact else Vector2(1168, 70)
+    panel.add_theme_stylebox_override("panel", panel_style(Color(0.015, 0.016, 0.022, 0.92)))
+    content.add_child(panel)
+    var text := "Choisissez une action, puis la cible utile."
+    if not _sandbox_last_result.is_empty():
+        text = _sandbox_result_text(_sandbox_last_result)
+    var label := make_label(text, 12, CANON_TEXT)
+    label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    panel.add_child(label)
 
 func _render_sandbox_flow_hint_v50() -> void:
     var action := _sandbox_selected_action_data()
