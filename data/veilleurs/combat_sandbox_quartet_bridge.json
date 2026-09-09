@@ -1,7 +1,7 @@
 {
-  "schema_version": 2,
-  "status": "current_quartet_skill_bridge",
-  "purpose": "Combat Sandbox 0.1 uses the newly encoded Mathilde/Marec/Anouk/Aurelien skill data. No former-quartet skill may be assigned here.",
+  "schema_version": 3,
+  "status": "current_quartet_systemic_skill_bridge",
+  "purpose": "Combat Sandbox 0.1 exposes representative current-quartet skills from the encoded 3x15 trees and validates systemic resolver families.",
   "skill_sources": {
     "mathilde": "res://data/veilleurs/skills/mathilde.json",
     "marec": "res://data/veilleurs/skills/marec.json",
@@ -17,43 +17,39 @@
   },
   "heroes": [
     {
-      "id": "mathilde",
-      "name": "Mathilde",
-      "class_id": "duelist",
-      "max_hp": 92,
+      "id": "mathilde", "name": "Mathilde", "class_id": "duelist", "max_hp": 92,
       "sandbox_actions": [
-        {"id":"MATH-LAM-01","source_tree":"lame_juste","source_index":0,"name":"Trait net","ap":1,"target":"enemy_zone","impact":"slashing","power":7,"accuracy":88},
-        {"id":"MATH-LAM-05","source_tree":"lame_juste","source_index":4,"name":"Coupe d'appui","ap":1,"target":"enemy_zone","impact":"slashing","power":8,"accuracy":84}
+        {"id":"MATH-LAM-01","name":"Trait net","ap":1,"target":"enemy_zone","impact":"slashing","power":7,"accuracy":88},
+        {"id":"MATH-LAM-10","name":"Parade courte","ap":0,"target":"self","effect":"reaction_parry"},
+        {"id":"MATH-GAR-01","name":"Se placer devant","ap":1,"target":"ally","effect":"protect_ally"},
+        {"id":"MATH-LAM-28","name":"Respiration du duel","ap":1,"target":"self","effect":"stance_precision"}
       ]
     },
     {
-      "id": "marec",
-      "name": "Marec",
-      "class_id": "breaker",
-      "max_hp": 125,
+      "id": "marec", "name": "Marec", "class_id": "breaker", "max_hp": 125,
       "sandbox_actions": [
-        {"id":"MARC-FOR-01","source_tree":"force_directe","source_index":0,"name":"Heurt franc","ap":1,"target":"enemy_zone","impact":"blunt","power":10,"accuracy":82},
-        {"id":"MARC-FOR-05","source_tree":"force_directe","source_index":4,"name":"Broyer l'appui","ap":1,"target":"enemy_zone","impact":"blunt","power":11,"accuracy":80}
+        {"id":"MARC-FOR-01","name":"Heurt franc","ap":1,"target":"enemy_zone","impact":"blunt","power":10,"accuracy":82},
+        {"id":"MARC-GAR-01","name":"Tenir devant","ap":1,"target":"self","effect":"guard_stance"},
+        {"id":"MARC-GAR-10","name":"Interception","ap":0,"target":"ally","effect":"reaction_intercept"},
+        {"id":"MARC-FOR-28","name":"Corps en avant","ap":1,"target":"self","effect":"stance_force_cost"}
       ]
     },
     {
-      "id": "anouk",
-      "name": "Anouk",
-      "class_id": "mystic",
-      "max_hp": 82,
+      "id": "anouk", "name": "Anouk", "class_id": "mystic", "max_hp": 82,
       "sandbox_actions": [
-        {"id":"ANOU-TRA-02","source_tree":"trame","source_index":1,"name":"Point de tension","ap":1,"target":"enemy_zone","effect":"expose","accuracy":92},
-        {"id":"ANOU-PER-01","source_tree":"perception","source_index":0,"name":"Regarder autrement","ap":0,"target":"enemy","effect":"reveal_observation","accuracy":100}
+        {"id":"ANOU-TRA-02","name":"Point de tension","ap":1,"target":"enemy_zone","effect":"expose","accuracy":92,"trame_cost":1},
+        {"id":"ANOU-TRA-13","name":"Déviation","ap":1,"target":"enemy","effect":"trame_control","power":4,"accuracy":88,"trame_cost":2},
+        {"id":"ANOU-TRA-28","name":"Entre deux lignes","ap":1,"target":"self","effect":"trame_stance","trame_cost":1},
+        {"id":"ANOU-RET-01","name":"Couper le flux","ap":1,"target":"self","effect":"reduce_overload","overload_recovery":2}
       ]
     },
     {
-      "id": "aurelien",
-      "name": "Aurélien",
-      "class_id": "surgeon",
-      "max_hp": 94,
+      "id": "aurelien", "name": "Aurélien", "class_id": "surgeon", "max_hp": 94,
       "sandbox_actions": [
-        {"id":"AURE-COO-09","source_tree":"coordination","source_index":8,"name":"Recouper","ap":1,"target":"enemy","effect":"reveal_observation","accuracy":100},
-        {"id":"AURE-CHI-01","source_tree":"chirurgie","source_index":0,"name":"Compression ciblée","ap":1,"target":"ally","effect":"stabilize","accuracy":100}
+        {"id":"AURE-CHI-01","name":"Compression ciblée","ap":1,"target":"ally","effect":"stabilize"},
+        {"id":"AURE-CHI-13","name":"Attelle","ap":1,"target":"ally","effect":"anatomical_splint"},
+        {"id":"AURE-COO-01","name":"Donner le cadre","ap":1,"target":"ally","effect":"coordinate_ally"},
+        {"id":"AURE-COO-10","name":"Réaffecter","ap":0,"target":"ally","effect":"reaction_reassign"}
       ]
     }
   ],
