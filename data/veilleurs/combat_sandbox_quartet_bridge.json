@@ -1,11 +1,16 @@
 {
-  "schema_version": 1,
-  "status": "prototype_runtime_bridge_not_canonical_skill_authorship",
-  "purpose": "Playable Combat Sandbox 0.1 bridge until the authored Mathilde/Marec/Anouk/Aurelien skill sheets are exported to machine-readable data.",
+  "schema_version": 2,
+  "status": "current_quartet_skill_bridge",
+  "purpose": "Combat Sandbox 0.1 uses the newly encoded Mathilde/Marec/Anouk/Aurelien skill data. No former-quartet skill may be assigned here.",
+  "skill_sources": {
+    "mathilde": "res://data/veilleurs/skills/mathilde.json",
+    "marec": "res://data/veilleurs/skills/marec.json",
+    "anouk": "res://data/veilleurs/skills/anouk.json",
+    "aurelien": "res://data/veilleurs/skills/aurelien.json"
+  },
   "rules": {
     "never_inherit_old_quartet_skills": true,
     "never_render_old_quartet_names": true,
-    "replace_with_authored_skill_data_when_available": true,
     "consultation_cost_ap": 0,
     "combat_ap_per_turn": 2,
     "formation_visual_order": "R1_to_R4_right_to_left"
@@ -17,8 +22,8 @@
       "class_id": "duelist",
       "max_hp": 92,
       "sandbox_actions": [
-        {"id":"duelist_precise_strike","name":"Attaque précise","ap":1,"target":"enemy_zone","impact":"slashing","power":10,"accuracy":88,"prototype":true},
-        {"id":"duelist_feint","name":"Feinte","ap":1,"target":"enemy","effect":"expose","prototype":true}
+        {"id":"MATH-LAM-01","source_tree":"lame_juste","source_index":0,"name":"Trait net","ap":1,"target":"enemy_zone","impact":"slashing","power":7,"accuracy":88},
+        {"id":"MATH-LAM-05","source_tree":"lame_juste","source_index":4,"name":"Coupe d'appui","ap":1,"target":"enemy_zone","impact":"slashing","power":8,"accuracy":84}
       ]
     },
     {
@@ -27,8 +32,8 @@
       "class_id": "breaker",
       "max_hp": 125,
       "sandbox_actions": [
-        {"id":"breaker_heavy_impact","name":"Impact lourd","ap":2,"target":"enemy_zone","impact":"blunt","power":16,"accuracy":72,"prototype":true},
-        {"id":"breaker_guard_break","name":"Brise-garde","ap":1,"target":"enemy_zone","impact":"blunt","power":8,"accuracy":80,"armor_break":true,"prototype":true}
+        {"id":"MARC-FOR-01","source_tree":"force_directe","source_index":0,"name":"Heurt franc","ap":1,"target":"enemy_zone","impact":"blunt","power":10,"accuracy":82},
+        {"id":"MARC-FOR-05","source_tree":"force_directe","source_index":4,"name":"Broyer l'appui","ap":1,"target":"enemy_zone","impact":"blunt","power":11,"accuracy":80}
       ]
     },
     {
@@ -37,8 +42,8 @@
       "class_id": "mystic",
       "max_hp": 82,
       "sandbox_actions": [
-        {"id":"mystic_disrupt","name":"Perturbation","ap":1,"target":"enemy","effect":"psychological_pressure","prototype":true},
-        {"id":"mystic_read_pattern","name":"Lecture du schéma","ap":1,"target":"enemy","effect":"reveal_observation","prototype":true}
+        {"id":"ANOU-TRA-02","source_tree":"trame","source_index":1,"name":"Point de tension","ap":1,"target":"enemy_zone","effect":"expose","accuracy":92},
+        {"id":"ANOU-PER-01","source_tree":"perception","source_index":0,"name":"Regarder autrement","ap":0,"target":"enemy","effect":"reveal_observation","accuracy":100}
       ]
     },
     {
@@ -47,8 +52,8 @@
       "class_id": "surgeon",
       "max_hp": 94,
       "sandbox_actions": [
-        {"id":"surgeon_targeted_cut","name":"Incision ciblée","ap":1,"target":"enemy_zone","impact":"slashing","power":8,"accuracy":84,"bleed_bias":true,"prototype":true},
-        {"id":"surgeon_field_stabilize","name":"Stabilisation","ap":1,"target":"ally","effect":"stabilize","prototype":true}
+        {"id":"AURE-COO-09","source_tree":"coordination","source_index":8,"name":"Recouper","ap":1,"target":"enemy","effect":"reveal_observation","accuracy":100},
+        {"id":"AURE-CHI-01","source_tree":"chirurgie","source_index":0,"name":"Compression ciblée","ap":1,"target":"ally","effect":"stabilize","accuracy":100}
       ]
     }
   ],
