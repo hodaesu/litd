@@ -42,11 +42,13 @@ func choose_action(enemy: Dictionary, heroes: Array) -> Dictionary:
         fallback = _apply_remanence_action(enemy, fallback)
         fallback = NgPlusCycleDirector.modify_enemy_action(fallback, enemy, heroes)
         fallback["target_index"] = _target_index(heroes, String(fallback.get("target", "random")))
+        _apply_ge01_corpse_cover(enemy, heroes, int(fallback["target_index"]))
         return fallback
     var chosen: Dictionary = candidates[randi() % candidates.size()].duplicate(true)
     chosen = _apply_remanence_action(enemy, chosen)
     chosen = NgPlusCycleDirector.modify_enemy_action(chosen, enemy, heroes)
     chosen["target_index"] = _target_index(heroes, String(chosen.get("target", "random")))
+    _apply_ge01_corpse_cover(enemy, heroes, int(chosen["target_index"]))
     return chosen
 
 func _ge01_flee_action(enemy: Dictionary) -> Dictionary:
@@ -71,14 +73,50 @@ func _ge01_flee_action(enemy: Dictionary) -> Dictionary:
     var chance := clampi(int(enemy.get("ge01_flee_chance", 0)), 0, 100)
     if chance <= 0 or randi_range(1, 100) > chance:
         return {}
-    return {
-        "id": "ge01_flee",
-        "name": "Fuite",
-        "power": 0.0,
-        "target": "none",
-        "ge01_flee": true,
-        "reason": "wounded" if hp_ratio <= 0.30 else ("mutilated" if limb_lost else "allies_lost")
-    }
+    var runtime := get_node_or_null("/root/GE01Runtime")
+    if runtime == null or not runtime.has_method("try_flee_enemy"):
+        return {}
+    var result: Dictionary = runtime.call("try_flee_enemy", enemy, 0)
+    if not bool(result.get("success", false)):
+        return {}
+    GameState.add_log("%s rompt le combat et disparaît dans les galeries." % str(enemy.get("name", "La créature")))
+    return {"id": "ge01_flee", "name": "Fuite", "power": 0.0, "target": "none", "ge01_flee": true, "reason": "wounded" if hp_ratio <= 0.30 else ("mutilated" if limb_lost else "allies_lost")}
+
+func _apply_ge01_corpse_cover(enemy: Dictionary, heroes: Array, target_index: int) -> void:
+    for hero_value: Variant in heroes:
+        if hero_value is Dictionary:
+            (hero_value as Dictionary).erase("ge01_corpse_cover")
+    if str(enemy.get("ge01_room_id", "")) != "ge_09" or target_index < 0 or target_index >= heroes.size():
+        return
+    var runtime := get_node_or_null("/root/GE01Runtime")
+    if runtime == null or not runtime.has_method("tactical_corpse_context"):
+        return
+    var corpses: Dictionary = runtime.call("tactical_corpse_context")
+    if corpses.is_empty():
+        return
+    var target: Dictionary = heroes[target_index]
+    var position := int(target.get("combat_position", target_index))
+    if position > 1:
+        return
+    var available := 0
+    var prepared := false
+    for scar_id_value: Variant in corpses.keys():
+        var scar_id := str(scar_id_value)
+        var entry: Dictionary = corpses.get(scar_id, {})
+        if not bool(entry.get("cover_available", false)):
+            continue
+        available += 1
+        if RemanenceRuntime.world_scars.has(scar_id):
+            var scar: Dictionary = RemanenceRuntime.world_scars[scar_id]
+            var payload: Dictionary = scar.get("payload", {})
+            if bool(payload.get("prepared_as_cover", false)):
+                prepared = true
+    if available <= 0:
+        return
+    var resistance := 15.0 + minf(10.0, float(available) * 5.0)
+    if prepared:
+        resistance += 15.0
+    target["ge01_corpse_cover"] = clampf(resistance, 0.0, 45.0)
 
 func _apply_remanence_action(enemy: Dictionary, action: Dictionary) -> Dictionary:
     var result := action.duplicate(true)
@@ -116,37 +154,26 @@ func intent_preview(enemy: Dictionary) -> String:
     var enemy_archetype := archetype(enemy)
     var fear := int(enemy.get("enemy_fear", enemy.get("fear_gauge", 0)))
     var target_mode := str(enemy.get("remanence_target_mode", ""))
-    if target_mode == "weakest":
-        return "Mémoire tactique · cible le Veilleur le plus vulnérable"
-    if fear >= 70:
-        return "Panique probable · intention instable"
-    if enemy_archetype == "spider":
-        return "Entrave ou attaque d’une cible vulnérable"
-    if enemy_archetype in ["boss", "veil"]:
-        return "Menace collective ou attaque lourde"
-    if enemy_archetype in ["humanoid", "undead"]:
-        return "Garde, rupture ou attaque directe"
+    if target_mode == "weakest": return "Mémoire tactique · cible le Veilleur le plus vulnérable"
+    if fear >= 70: return "Panique probable · intention instable"
+    if enemy_archetype == "spider": return "Entrave ou attaque d’une cible vulnérable"
+    if enemy_archetype in ["boss", "veil"]: return "Menace collective ou attaque lourde"
+    if enemy_archetype in ["humanoid", "undead"]: return "Garde, rupture ou attaque directe"
     return "Attaque prédatrice"
 
 func _requirements_met(enemy: Dictionary, requirements: Dictionary) -> bool:
     var fear := int(enemy.get("enemy_fear", enemy.get("fear_gauge", 0)))
     var hp_percent := 100.0 * float(enemy.get("hp", 0)) / maxf(1.0, float(enemy.get("max_hp", enemy.get("hp", 1))))
-    if fear < int(requirements.get("fear_min", 0)):
-        return false
-    if fear > int(requirements.get("fear_max", 100)):
-        return false
-    if hp_percent > float(requirements.get("hp_percent_max", 100.0)):
-        return false
+    if fear < int(requirements.get("fear_min", 0)): return false
+    if fear > int(requirements.get("fear_max", 100)): return false
+    if hp_percent > float(requirements.get("hp_percent_max", 100.0)): return false
     return true
 
 func _target_index(heroes: Array, mode: String) -> int:
-    if heroes.is_empty():
-        return -1
-    var best_index := randi() % heroes.size()
-    var best_score := -INF
+    if heroes.is_empty(): return -1
+    var best_index := randi() % heroes.size(); var best_score := -INF
     for index in range(heroes.size()):
-        var hero: Dictionary = heroes[index]
-        var score := 0.0
+        var hero: Dictionary = heroes[index]; var score := 0.0
         match mode:
             "weakest": score = 1.0 - float(hero.get("hp", 0)) / maxf(1.0, float(hero.get("max_hp", 1)))
             "fastest": score = float(hero.get("speed", 0))
@@ -155,7 +182,5 @@ func _target_index(heroes: Array, mode: String) -> int:
             "guarding": score = 1.0 if bool(hero.get("guarding", false)) else 0.0
             "nearest": score = -float(hero.get("combat_position", index))
             _: score = randf()
-        if score > best_score:
-            best_score = score
-            best_index = index
+        if score > best_score: best_score = score; best_index = index
     return best_index
