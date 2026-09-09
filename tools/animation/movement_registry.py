@@ -10,13 +10,53 @@ REGISTRY = ROOT / "data" / "movement_registry.json"
 REQUIRED = {"id","category","owner","trigger","motion_family","markers","variants","rig","status","gameplay_authority","root_motion","notes"}
 STATUSES = {"prepared","proxy","planned_blender","imported","validated"}
 
+# The raw movement snapshot predates the current quartet. These are animation
+# templates only: loading the registry canonicalizes them to the current heroes
+# before any audit, Blender queue or runtime-facing tooling sees them.
+LEGACY_HERO_TEMPLATE_MAP = {
+    "darius": "mathilde",
+    "malvor": "marec",
+    "lysandra": "anouk",
+    "aurelien": "aurelien",
+}
+
+
+def _canonicalize_hero_skill_templates(data: dict) -> dict:
+    migrated = json.loads(json.dumps(data, ensure_ascii=False))
+    for item in migrated.get("entries", []):
+        if item.get("category") != "hero_skill":
+            continue
+        legacy_owner = str(item.get("owner", ""))
+        current_owner = LEGACY_HERO_TEMPLATE_MAP.get(legacy_owner)
+        if not current_owner:
+            continue
+        item["owner"] = current_owner
+        movement_id = str(item.get("id", ""))
+        trigger = str(item.get("trigger", ""))
+        if legacy_owner != current_owner:
+            item["id"] = movement_id.replace(
+                f"hero.{legacy_owner}_", f"hero.{current_owner}_", 1
+            )
+            item["trigger"] = trigger.replace(
+                f"skill:{legacy_owner}_", f"skill:{current_owner}_", 1
+            )
+            item["notes"] = (
+                "Proxy d'animation migré vers le quatuor légendaire; "
+                "la chorégraphie finale reste pilotée par la fiche canonique du héros."
+            )
+    return migrated
+
+
 def load():
-    return json.loads(REGISTRY.read_text(encoding="utf-8"))
+    raw = json.loads(REGISTRY.read_text(encoding="utf-8"))
+    return _canonicalize_hero_skill_templates(raw)
+
 
 def sources():
     def read(name):
         return json.loads((ROOT / "data" / name).read_text(encoding="utf-8"))
     return read("heroes.json"), read("enemies.json"), read("equipment.json"), read("boss_design_contracts.json")
+
 
 def audit(data):
     errors = []
@@ -65,6 +105,7 @@ def audit(data):
             errors.append(f"{weapon['id']} missing equipment variants")
     return errors
 
+
 def report(data):
     entries = data["entries"]
     status = Counter(x["status"] for x in entries)
@@ -78,8 +119,10 @@ def report(data):
         "blender_remaining": sum(v for k,v in status.items() if k in {"prepared","proxy","planned_blender"}),
     }
 
+
 def blender_queue(data):
     return [x for x in data["entries"] if x["status"] in {"prepared","proxy","planned_blender"}]
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -101,6 +144,7 @@ def main():
     else:
         print(text)
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

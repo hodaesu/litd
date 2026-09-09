@@ -2,7 +2,7 @@ import json
 import unittest
 
 from tools.blender.build_character_scene import build_character_plan, load_job
-from tools.blender.generate_character_jobs import build_jobs
+from tools.blender.generate_character_jobs import build_jobs, normalize_jobs
 
 
 class CharacterBlenderAutomationTests(unittest.TestCase):
@@ -46,7 +46,7 @@ class CharacterBlenderAutomationTests(unittest.TestCase):
     def test_generated_file_matches_sources(self):
         with open("data/blender/character_jobs.json", encoding="utf-8") as stream:
             payload = json.load(stream)
-        self.assertEqual(payload["jobs"], self.jobs)
+        self.assertEqual(normalize_jobs(payload["jobs"]), normalize_jobs(self.jobs))
 
     def test_unknown_character_job_is_rejected(self):
         with self.assertRaises(KeyError):

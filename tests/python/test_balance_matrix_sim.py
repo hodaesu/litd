@@ -45,15 +45,19 @@ def test_dungeon_enemy_level_is_fixed_by_profile_not_party() -> None:
     assert dungeon_enemy_level(profile, 5, "boss") == 16
 
 
-def test_representative_sampler_is_deterministic_and_keeps_canonical_party() -> None:
+def test_representative_sampler_is_deterministic_without_inventing_a_canonical_party() -> None:
     classes = _load("data/classes.json")
     heroes = _load("data/heroes.json")
     first = representative_compositions(classes, heroes, 10)
     second = representative_compositions(classes, heroes, 10)
-    canonical = tuple(sorted(str(row["class_id"]) for row in heroes[:4]))
     assert first == second
     assert len(first) == 10
-    assert canonical in first
+    if len(heroes) >= 4:
+        canonical = tuple(sorted(str(row["class_id"]) for row in heroes[:4]))
+        assert canonical in first
+    else:
+        assert heroes == []
+        assert all(len(composition) == 4 for composition in first)
 
 
 def test_matrix_sees_levels_campaign_dungeon_compositions_and_ngplus() -> None:

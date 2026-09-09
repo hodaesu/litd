@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "design_source": "decision_memory_pass_07",
+  "version": 2,
+  "design_source": "legendary_quartet_migration_2026-09-09",
   "rule": "Les décisions importantes laissent une mémoire interprétée selon les convictions de chaque héros. Les convictions ne sont jamais exposées comme des jauges numériques.",
   "convictions": ["solidarity", "security", "civic_process", "mercy", "openness", "pragmatism", "autonomy", "justice"],
   "conviction_labels": {
@@ -14,10 +14,10 @@
     "justice": "justice"
   },
   "hero_profiles": {
-    "aurelien": {"solidarity": 1, "security": 0, "civic_process": 0, "mercy": 1, "openness": 2, "pragmatism": 1, "autonomy": 2, "justice": 1},
-    "malvor": {"solidarity": 0, "security": 2, "civic_process": -1, "mercy": -1, "openness": -1, "pragmatism": 2, "autonomy": 1, "justice": 1},
-    "lysandra": {"solidarity": 2, "security": 0, "civic_process": 2, "mercy": 2, "openness": 2, "pragmatism": 0, "autonomy": 1, "justice": 2},
-    "darius": {"solidarity": 1, "security": 2, "civic_process": 1, "mercy": 0, "openness": 0, "pragmatism": 2, "autonomy": 0, "justice": 2}
+    "mathilde": {"solidarity": 2, "security": 1, "civic_process": 1, "mercy": 2, "openness": 1, "pragmatism": 0, "autonomy": 1, "justice": 2},
+    "marec": {"solidarity": 2, "security": 2, "civic_process": 0, "mercy": 1, "openness": 0, "pragmatism": 2, "autonomy": 1, "justice": 1},
+    "anouk": {"solidarity": 1, "security": 0, "civic_process": 0, "mercy": 2, "openness": 2, "pragmatism": 0, "autonomy": 2, "justice": 1},
+    "aurelien": {"solidarity": 1, "security": 1, "civic_process": 2, "mercy": 1, "openness": 1, "pragmatism": 2, "autonomy": 1, "justice": 2}
   },
   "stance_thresholds": {
     "strong_support": 8,
