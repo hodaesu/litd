@@ -1,4 +1,4 @@
-extends "res://scripts/ui/main_v48.gd"
+extends "res://scripts/ui/combat_sandbox_ui_v48.gd"
 
 # v49 — polish mobile Combat Sandbox.
 # Objectifs : cibles tactiles >= 48 px, commandes avancées sans chevauchement,
@@ -67,8 +67,6 @@ func _reflow_advanced_mobile_controls() -> void:
     var synergy := content.get_node_or_null("SandboxContextualSynergyV48") as Control
     var ultimate := content.get_node_or_null("SandboxUltimateMobileV48") as Control
 
-    # Pas de tableau permanent : une synergie contextuelle prend temporairement
-    # la priorité visuelle. Sinon seule la signature reste visible.
     if synergy != null:
         synergy.position = Vector2(margin, SANDBOX_PHONE_BOTTOM_Y - 64.0)
         synergy.size = Vector2(usable, 58)
