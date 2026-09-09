@@ -1,45 +1,48 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "status": "canonical_player_facing_roster",
   "game": "LITD : Les Veilleurs",
   "rules": {
     "canonical_names_are_player_facing": true,
     "legacy_runtime_ids_are_compatibility_only": true,
     "legacy_names_must_never_be_rendered": true,
-    "legacy_v06_watcher_names_are_not_player_facing_canon": true,
-    "gameplay_shell_values_do_not_define_canonical_identity": true
+    "gameplay_shell_values_do_not_define_canonical_identity": true,
+    "formation_display_order": "R1_to_R4_right_to_left"
   },
   "heroes": [
     {
-      "canonical_id": "sahen_varo",
-      "name": "Sahen Varo",
+      "canonical_id": "mathilde",
+      "name": "Mathilde",
       "legacy_runtime_id": "aurelien"
     },
     {
-      "canonical_id": "mira_sen",
-      "name": "Mira Sen",
+      "canonical_id": "marec",
+      "name": "Marec",
       "legacy_runtime_id": "malvor"
     },
     {
-      "canonical_id": "narem_osh",
-      "name": "Narem Osh",
+      "canonical_id": "anouk",
+      "name": "Anouk",
       "legacy_runtime_id": "lysandra"
     },
     {
-      "canonical_id": "ysra_nahal",
-      "name": "Ysra Nahal",
+      "canonical_id": "aurelien_veilleur",
+      "name": "Aurélien",
       "legacy_runtime_id": "darius"
     }
   ],
   "deprecated_player_facing_names": [
-    "Aurélien",
-    "Malvor",
-    "Lysandra",
-    "Darius",
+    "Sahen Varo",
+    "Mira Sen",
+    "Narem Osh",
+    "Ysra Nahal",
     "Nayra Orun",
     "Tarek Senn",
     "Aïsha Maren",
-    "Idris Vael"
+    "Idris Vael",
+    "Malvor",
+    "Lysandra",
+    "Darius"
   ],
   "migration": {
     "phase": "compatibility_bridge",
