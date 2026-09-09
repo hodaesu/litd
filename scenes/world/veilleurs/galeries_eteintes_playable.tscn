@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/veilleurs_ge01_playable_bridge.gd" id="1_bridge"]
+
+[node name="GaleriesEteintesPlayable" type="Node"]
+script = ExtResource("1_bridge")
