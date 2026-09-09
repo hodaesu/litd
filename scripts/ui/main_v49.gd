@@ -31,6 +31,21 @@ func _enforce_sandbox_touch_targets(root: Node) -> void:
             button.size.y = maxf(button.size.y, SANDBOX_MIN_TOUCH)
         _enforce_sandbox_touch_targets(child)
 
+func _render_sandbox_result() -> void:
+    var compact := _sandbox_is_compact_phone()
+    var panel := PanelContainer.new()
+    panel.name = "SandboxResultPanelV49"
+    panel.position = Vector2(20, 474) if compact else Vector2(52, 522)
+    panel.size = Vector2(maxf(600.0, get_viewport_rect().size.x - 40.0), 66) if compact else Vector2(1168, 108)
+    panel.add_theme_stylebox_override("panel", panel_style(Color(0.015, 0.016, 0.022, 0.92)))
+    content.add_child(panel)
+    var text := "Choisissez une action, une cible et une zone."
+    if not _sandbox_last_result.is_empty():
+        text = _sandbox_result_text(_sandbox_last_result)
+    var label := make_label(text, 12, CANON_TEXT)
+    label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    panel.add_child(label)
+
 func _reflow_advanced_mobile_controls() -> void:
     var viewport_width := maxf(640.0, get_viewport_rect().size.x)
     var margin := 20.0
