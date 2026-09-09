@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "status": "prototype_runtime_bridge_not_canonical_skill_authorship",
+  "purpose": "Playable Combat Sandbox 0.1 bridge until the authored Mathilde/Marec/Anouk/Aurelien skill sheets are exported to machine-readable data.",
+  "rules": {
+    "never_inherit_old_quartet_skills": true,
+    "never_render_old_quartet_names": true,
+    "replace_with_authored_skill_data_when_available": true,
+    "consultation_cost_ap": 0,
+    "combat_ap_per_turn": 2,
+    "formation_visual_order": "R1_to_R4_right_to_left"
+  },
+  "heroes": [
+    {
+      "id": "mathilde",
+      "name": "Mathilde",
+      "class_id": "duelist",
+      "max_hp": 92,
+      "sandbox_actions": [
+        {"id":"duelist_precise_strike","name":"Attaque précise","ap":1,"target":"enemy_zone","impact":"slashing","power":10,"accuracy":88,"prototype":true},
+        {"id":"duelist_feint","name":"Feinte","ap":1,"target":"enemy","effect":"expose","prototype":true}
+      ]
+    },
+    {
+      "id": "marec",
+      "name": "Marec",
+      "class_id": "breaker",
+      "max_hp": 125,
+      "sandbox_actions": [
+        {"id":"breaker_heavy_impact","name":"Impact lourd","ap":2,"target":"enemy_zone","impact":"blunt","power":16,"accuracy":72,"prototype":true},
+        {"id":"breaker_guard_break","name":"Brise-garde","ap":1,"target":"enemy_zone","impact":"blunt","power":8,"accuracy":80,"armor_break":true,"prototype":true}
+      ]
+    },
+    {
+      "id": "anouk",
+      "name": "Anouk",
+      "class_id": "mystic",
+      "max_hp": 82,
+      "sandbox_actions": [
+        {"id":"mystic_disrupt","name":"Perturbation","ap":1,"target":"enemy","effect":"psychological_pressure","prototype":true},
+        {"id":"mystic_read_pattern","name":"Lecture du schéma","ap":1,"target":"enemy","effect":"reveal_observation","prototype":true}
+      ]
+    },
+    {
+      "id": "aurelien",
+      "name": "Aurélien",
+      "class_id": "surgeon",
+      "max_hp": 94,
+      "sandbox_actions": [
+        {"id":"surgeon_targeted_cut","name":"Incision ciblée","ap":1,"target":"enemy_zone","impact":"slashing","power":8,"accuracy":84,"bleed_bias":true,"prototype":true},
+        {"id":"surgeon_field_stabilize","name":"Stabilisation","ap":1,"target":"ally","effect":"stabilize","prototype":true}
+      ]
+    }
+  ],
+  "first_encounter": {
+    "id": "combat_sandbox_01",
+    "enemies": [
+      {"id":"charognard_sandbox","name":"Charognard des Failles","max_hp":58,"formation_slot":1},
+      {"id":"porte_cendre_sandbox","name":"Porte-Cendre","max_hp":96,"formation_slot":2}
+    ]
+  }
+}
