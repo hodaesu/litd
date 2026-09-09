@@ -1,8 +1,11 @@
 # LITD — Registre de provenance P0
 
 Date de préparation : 2026-09-08
+Mise à jour reset quatuor : 2026-09-09
 
 Ces fiches sont précréées avant production. Elles doivent être complétées dès qu'un asset passe de `missing` à `candidate`.
+
+**Reset canonique : aucun héros de départ n'est actuellement attribué. Les quatre fiches HERO sont des emplacements bloqués et ne décrivent aucun personnage. Les anciennes planches/personnalités ne doivent pas être utilisées comme source du futur quatuor sans décision canonique explicite.**
 
 ---
 
@@ -45,89 +48,57 @@ Ces fiches sont précréées avant production. Elles doivent être complétées 
 - Attribution : À RENSEIGNER
 - Gate DA : architecture, matériaux, palette, reconstruction, politique/mémoire, navigation par lieux.
 
-## ART-LITD-V41-HERO-001 — Sahen Varo
+## ART-LITD-V41-HERO-001 — Emplacement héros de départ 01
 
 - Slot : `portrait.active_hero`
-- Entity ID : `sahen_varo`
-- Cible : `res://assets/art/v41/portraits/sahen_varo.webp`
+- Entity ID technique : `starter_slot_01`
+- Cible réservée : `res://assets/art/v41/portraits/starter_slot_01.webp`
 - Ratio : 3:4
 - Priorité : P0
-- Statut production : `missing`
-- Statut juridique : `TO_DOCUMENT`
-- Auteur/créateur : À RENSEIGNER
-- Outil(s) : À RENSEIGNER
-- IA générative : À RENSEIGNER
-- Références artistiques : À RENSEIGNER
-- Éléments tiers : À RENSEIGNER
-- Fichiers sources : À RENSEIGNER
-- Licence/cession/base de droits : À RENSEIGNER
-- Preuve archivée : À RENSEIGNER
-- Usage commercial : À RENSEIGNER
-- Attribution : À RENSEIGNER
-- Gate DA : silhouette unique, équipement compatible F3/F4, aucune identité legacy visible.
+- Statut production : `blocked_quartet_reset`
+- Statut juridique : `BLOCKED`
+- Identité : NON ATTRIBUÉE
+- Auteur/créateur : N/A tant que le nouveau quatuor n'est pas validé
+- Gate : aucune création, modélisation ou validation finale avant attribution canonique. Aucun ancien nom, visage, rôle, classe, ethnie, équipement ou model sheet n'est hérité.
 
-## ART-LITD-V41-HERO-002 — Mira Sen
+## ART-LITD-V41-HERO-002 — Emplacement héros de départ 02
 
 - Slot : `portrait.active_hero`
-- Entity ID : `mira_sen`
-- Cible : `res://assets/art/v41/portraits/mira_sen.webp`
+- Entity ID technique : `starter_slot_02`
+- Cible réservée : `res://assets/art/v41/portraits/starter_slot_02.webp`
 - Ratio : 3:4
 - Priorité : P0
-- Statut production : `missing`
-- Statut juridique : `TO_DOCUMENT`
-- Auteur/créateur : À RENSEIGNER
-- Outil(s) : À RENSEIGNER
-- IA générative : À RENSEIGNER
-- Références artistiques : À RENSEIGNER
-- Éléments tiers : À RENSEIGNER
-- Fichiers sources : À RENSEIGNER
-- Licence/cession/base de droits : À RENSEIGNER
-- Preuve archivée : À RENSEIGNER
-- Usage commercial : À RENSEIGNER
-- Attribution : À RENSEIGNER
-- Gate DA : masse/posture distinctes, lisibilité mobile, équipement compatible blessures.
+- Statut production : `blocked_quartet_reset`
+- Statut juridique : `BLOCKED`
+- Identité : NON ATTRIBUÉE
+- Auteur/créateur : N/A tant que le nouveau quatuor n'est pas validé
+- Gate : aucune création, modélisation ou validation finale avant attribution canonique. Aucun ancien nom, visage, rôle, classe, ethnie, équipement ou model sheet n'est hérité.
 
-## ART-LITD-V41-HERO-003 — Narem Osh
+## ART-LITD-V41-HERO-003 — Emplacement héros de départ 03
 
 - Slot : `portrait.active_hero`
-- Entity ID : `narem_osh`
-- Cible : `res://assets/art/v41/portraits/narem_osh.webp`
+- Entity ID technique : `starter_slot_03`
+- Cible réservée : `res://assets/art/v41/portraits/starter_slot_03.webp`
 - Ratio : 3:4
 - Priorité : P0
-- Statut production : `missing`
-- Statut juridique : `TO_DOCUMENT`
-- Auteur/créateur : À RENSEIGNER
-- Outil(s) : À RENSEIGNER
-- IA générative : À RENSEIGNER
-- Références artistiques : À RENSEIGNER
-- Éléments tiers : À RENSEIGNER
-- Fichiers sources : À RENSEIGNER
-- Licence/cession/base de droits : À RENSEIGNER
-- Preuve archivée : À RENSEIGNER
-- Usage commercial : À RENSEIGNER
-- Attribution : À RENSEIGNER
-- Gate DA : identité propre, équipement lisible, aucune reprise reconnaissable d'une IP tierce.
+- Statut production : `blocked_quartet_reset`
+- Statut juridique : `BLOCKED`
+- Identité : NON ATTRIBUÉE
+- Auteur/créateur : N/A tant que le nouveau quatuor n'est pas validé
+- Gate : aucune création, modélisation ou validation finale avant attribution canonique. Aucun ancien nom, visage, rôle, classe, ethnie, équipement ou model sheet n'est hérité.
 
-## ART-LITD-V41-HERO-004 — Ysra Nahal
+## ART-LITD-V41-HERO-004 — Emplacement héros de départ 04
 
 - Slot : `portrait.active_hero`
-- Entity ID : `ysra_nahal`
-- Cible : `res://assets/art/v41/portraits/ysra_nahal.webp`
+- Entity ID technique : `starter_slot_04`
+- Cible réservée : `res://assets/art/v41/portraits/starter_slot_04.webp`
 - Ratio : 3:4
 - Priorité : P0
-- Statut production : `missing`
-- Statut juridique : `TO_DOCUMENT`
-- Auteur/créateur : À RENSEIGNER
-- Outil(s) : À RENSEIGNER
-- IA générative : À RENSEIGNER
-- Références artistiques : À RENSEIGNER
-- Éléments tiers : À RENSEIGNER
-- Fichiers sources : À RENSEIGNER
-- Licence/cession/base de droits : À RENSEIGNER
-- Preuve archivée : À RENSEIGNER
-- Usage commercial : À RENSEIGNER
-- Attribution : À RENSEIGNER
-- Gate DA : Veilleur canonique distinct; Aurélien n'est pas un combattant du quatuor.
+- Statut production : `blocked_quartet_reset`
+- Statut juridique : `BLOCKED`
+- Identité : NON ATTRIBUÉE
+- Auteur/créateur : N/A tant que le nouveau quatuor n'est pas validé
+- Gate : aucune création, modélisation ou validation finale avant attribution canonique. Aucun ancien nom, visage, rôle, classe, ethnie, équipement ou model sheet n'est hérité.
 
 ## ART-LITD-V41-BG-002 — Cadre de combat
 
@@ -221,4 +192,5 @@ Aucune fiche ne passe en `approved`/`final` tant que :
 - les preuves de licence/cession ne sont pas archivées ;
 - l'utilisation commerciale n'est pas explicitement validée ;
 - l'éventuel usage d'IA n'est pas documenté ;
-- les critères DA/mobile/anatomie applicables ne sont pas validés.
+- les critères DA/mobile/anatomie applicables ne sont pas validés ;
+- pour les quatre slots HERO, le nouveau quatuor n'a pas été explicitement validé dans le canon.
