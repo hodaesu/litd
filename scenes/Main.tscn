@@ -4,6 +4,8 @@
 ; mort est sauté sans réinitialiser les actions déjà jouées, la cible ennemie est
 ; toujours renormalisée vers un adversaire vivant et tous les états transitoires
 ; de ciblage/inspection sont nettoyés à la victoire ou à la défaite.
+; Validation pré-playtest : les smoke tests de dialogue utilisent désormais le
+; quatuor canonique Mathilde, Marec, Anouk et Aurélien.
 ; main_v47 aligne toute la formation sur le combat : affichage R4, R3, R2, R1
 ; de gauche à droite et placement initial logique (mêlée devant, soutien derrière).
 ; main_v46 unifie le ciblage : choix manuel uniquement quand le joueur a un vrai
