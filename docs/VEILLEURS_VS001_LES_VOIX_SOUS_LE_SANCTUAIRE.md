@@ -8,10 +8,10 @@ Seed de développement : `WATCHERS_VERTICAL_001`.
 
 ## Quatuor
 
-- **Nayra Orun — La Garde** : Garde/Bastion, protection, force et contrôle.
-- **Tarek Senn — Le Pisteur** : Traque, perception, pièges, mobilité et poursuite.
-- **Aïsha Maren — L’Anatomiste** : Diagnostic/Suture, anatomie, soins et lecture des corps.
-- **Idris Vael — Le Médiateur** : Autorité/Concorde, coordination, peur et désescalade.
+- **Marec — La Garde** : Garde/Bastion, protection, force et contrôle.
+- **Mathilde — Le Pisteur** : Traque, perception, pièges, mobilité et poursuite.
+- **Aurélien — L’Anatomiste** : Diagnostic/Suture, anatomie, soins et lecture des corps.
+- **Anouk — Le Médiateur** : Autorité/Concorde, coordination, peur et désescalade.
 
 Les valeurs numériques et affinités sont définies dans `data/veilleurs/vs001_balance.json`.
 

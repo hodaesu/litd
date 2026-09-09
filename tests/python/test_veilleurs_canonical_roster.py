@@ -14,7 +14,7 @@ EXPECTED = [
     ("aurelien", "Aurélien", "surgeon"),
 ]
 STALE_NAMES = {
-    "Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael",
+    "Marec", "Mathilde", "Aurélien", "Anouk",
     "Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal",
     "Malvor", "Lysandra", "Darius",
 }
@@ -48,7 +48,7 @@ def test_previous_quartets_remain_invalidated_as_compositions_only():
     roster = _load_json(ROSTER_PATH)
     invalidated = roster["invalidated_starting_quartets"]
     assert len(invalidated) == 3
-    assert invalidated[0]["members"] == ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
+    assert invalidated[0]["members"] == ["Marec", "Mathilde", "Aurélien", "Anouk"]
     assert invalidated[1]["members"] == ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"]
     assert invalidated[2]["members"] == ["Aurélien", "Malvor", "Lysandra", "Darius"]
     assert all("composition" in row["scope"] for row in invalidated)

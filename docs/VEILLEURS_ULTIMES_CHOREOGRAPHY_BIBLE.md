@@ -19,32 +19,32 @@ Source mécanique : référentiel combat maître des Veilleurs. Les chorégraphi
 - Toute variante fatale, de démembrement, de chute, de fracture ou de déplacement est produite par les systèmes corporels réels.
 - La Rémanence ne retient un ultime que s’il crée une conséquence réellement mémorable.
 
-## NAYRA ORUN
+## Marec
 
 ### 1. Bastion — LA LIGNE NE ROMPT PAS
 
 **Mécanique canonique :** interceptions multiples pendant une fenêtre ; tous les impacts sont réellement résolus.
 
-**Intention :** montrer que Nayra ne devient pas invulnérable : elle choisit de devenir le point par lequel les coups doivent passer.
+**Intention :** montrer que Marec ne devient pas invulnérable : elle choisit de devenir le point par lequel les coups doivent passer.
 
 **Durée d’activation :** ~2,2 s, puis micro-réactions de 0,15–0,30 s pendant la fenêtre d’interception. Version courte : ~1,2 s d’activation.
 
 **Séquence :**
-1. `ULTIMATE_FOCUS` — Nayra regarde successivement les alliés protégés.
+1. `ULTIMATE_FOCUS` — Marec regarde successivement les alliés protégés.
 2. `ULTIMATE_SET_LINE` — elle avance d’un demi-pas et pose l’angle du grand bouclier.
 3. `ULTIMATE_BRACE` — pieds ancrés, respiration bloquée, centre de gravité bas.
 4. `ULTIMATE_WINDOW` — la fenêtre d’interceptions est ouverte.
 5. Chaque attaque entrante produit `ULTIMATE_INTERCEPT_RESOLVE` : l’impact réel est calculé, les dégâts, fractures, recul et perte fonctionnelle restent possibles.
-6. `ULTIMATE_AFTERMATH` — la posture de Nayra reflète ce qu’elle vient réellement d’encaisser.
+6. `ULTIMATE_AFTERMATH` — la posture de Marec reflète ce qu’elle vient réellement d’encaisser.
 
-**Caméra :** basse et légèrement derrière l’épaule de Nayra ; aucun zoom sur chaque impact. Les interceptions latérales provoquent seulement un petit recentrage.
+**Caméra :** basse et légèrement derrière l’épaule de Marec ; aucun zoom sur chaque impact. Les interceptions latérales provoquent seulement un petit recentrage.
 
 **Audio :** respiration, bottes, cuir, bois/métal du bouclier. La signature est une série d’impacts distincts dont le timbre dépend de l’arme reçue.
 
 **Haptique :** une impulsion différente par impact réel ; amplitude liée à la force calculée, jamais à une animation fixe.
 
 **Variantes :**
-- impact absorbé : Nayra conserve ses appuis ;
+- impact absorbé : Marec conserve ses appuis ;
 - recul : déplacement réel et caméra qui accompagne brièvement ;
 - fracture/blessure : animation de compensation immédiate ;
 - perte de fonction nécessaire : la fenêtre peut prendre fin ;
@@ -56,17 +56,17 @@ Source mécanique : référentiel combat maître des Veilleurs. Les chorégraphi
 
 **Mécanique canonique :** charge exceptionnelle convertissant masse, déplacement et armure en collision.
 
-**Intention :** toute la puissance vient de la masse de Nayra, de son équipement, de sa vitesse et de ce qui se trouve derrière la cible.
+**Intention :** toute la puissance vient de la masse de Marec, de son équipement, de sa vitesse et de ce qui se trouve derrière la cible.
 
 **Durée :** ~3,1 s. Version courte : ~1,5 s.
 
 **Séquence :**
-1. `ULTIMATE_MEASURE` — Nayra évalue ligne, distance et obstacle derrière la cible.
+1. `ULTIMATE_MEASURE` — Marec évalue ligne, distance et obstacle derrière la cible.
 2. `ULTIMATE_LOAD` — bouclier près du corps, première poussée de jambe.
 3. `ULTIMATE_DRIVE` — deux à trois pas lourds maximum ; pas de sprint irréaliste.
 4. `ULTIMATE_COLLISION` — résolution masse/vitesse/armure/stabilité.
 5. `ULTIMATE_TRANSFER` — le système calcule recul, chute, fracture, armure et collision environnementale.
-6. `ULTIMATE_RECOVER` — Nayra doit elle-même récupérer son appui.
+6. `ULTIMATE_RECOVER` — Marec doit elle-même récupérer son appui.
 
 **Caméra :** très basse sur les deux derniers pas ; coupe interdite au moment de la collision afin que le joueur perçoive la distance réellement parcourue.
 
@@ -78,27 +78,27 @@ Source mécanique : référentiel combat maître des Veilleurs. Les chorégraphi
 - cible légère : projection plus importante, dommage corporel relatif moindre ;
 - cible lourde : très peu de recul mais traumatisme élevé ;
 - cible contre mur/obstacle : collision secondaire réelle ;
-- boss/masse immobile : Nayra peut être stoppée et subir un contre-traumatisme ;
-- jambe/appui déjà critique chez Nayra : puissance réduite ou activation interdite.
+- boss/masse immobile : Marec peut être stoppée et subir un contre-traumatisme ;
+- jambe/appui déjà critique chez Marec : puissance réduite ou activation interdite.
 
-**Rémanence :** mur détruit, armure historiquement brisée, ennemi mémoriel projeté ou blessure durable de Nayra liée à la charge.
+**Rémanence :** mur détruit, armure historiquement brisée, ennemi mémoriel projeté ou blessure durable de Marec liée à la charge.
 
 ### 3. Serment — PAS UN DE PLUS
 
 **Mécanique canonique :** protège temporairement les alliés critiques récupérables et priorise sauvetage/extraction.
 
-**Intention :** ce n’est pas « tout le monde devient immortel » ; Nayra décide que chaque seconde suivante sera consacrée à ramener les vivants.
+**Intention :** ce n’est pas « tout le monde devient immortel » ; Marec décide que chaque seconde suivante sera consacrée à ramener les vivants.
 
 **Durée d’activation :** ~2,8 s, puis la fenêtre de sauvetage s’exécute dans le combat normal. Version courte : ~1,4 s.
 
 **Séquence :**
 1. `ULTIMATE_TRIAGE_VIEW` — très brefs regards vers les alliés critiques récupérables.
-2. `ULTIMATE_VOW` — Nayra serre le bouclier et dit une phrase très courte, sans cri héroïque.
+2. `ULTIMATE_VOW` — Marec serre le bouclier et dit une phrase très courte, sans cri héroïque.
 3. `ULTIMATE_REPOSITION` — elle se place entre la menace prioritaire et le blessé le plus vulnérable si la formation l’autorise.
 4. `ULTIMATE_RESCUE_WINDOW` — priorité aux interceptions, relèves et actions d’extraction valides.
-5. `ULTIMATE_END` — la fenêtre se ferme quand les conditions ou les fonctions corporelles de Nayra ne permettent plus de continuer.
+5. `ULTIMATE_END` — la fenêtre se ferme quand les conditions ou les fonctions corporelles de Marec ne permettent plus de continuer.
 
-**Caméra :** plan d’ensemble centré sur la formation, car l’ultime parle du groupe et non de Nayra seule.
+**Caméra :** plan d’ensemble centré sur la formation, car l’ultime parle du groupe et non de Marec seule.
 
 **Audio :** la musique se tasse légèrement ; respirations des blessés et frottement du bouclier deviennent plus présents.
 
@@ -108,20 +108,20 @@ Source mécanique : référentiel combat maître des Veilleurs. Les chorégraphi
 
 **Rémanence :** sauvetage d’un Veilleur critique, extraction sous pression ou échec du serment laissant une conséquence relationnelle.
 
-## TAREK SENN
+## Mathilde
 
 ### 4. Traque — LA PROIE N’A PLUS D’OMBRE
 
 **Mécanique canonique :** révèle au maximum les informations confirmées d’une cible étudiée et maximise leur exploitation.
 
-**Intention :** Tarek ne reçoit aucune omniscience. Il assemble instantanément tout ce qui a déjà été réellement observé.
+**Intention :** Mathilde ne reçoit aucune omniscience. Il assemble instantanément tout ce qui a déjà été réellement observé.
 
 **Durée :** ~3,0 s. Version courte : ~1,4 s.
 
 **Séquence :**
 1. `ULTIMATE_RECALL` — indices confirmés réapparaissent brièvement : déplacement, blessure, appui, intention, couverture.
 2. `ULTIMATE_CONNECT` — les informations se regroupent autour de la cible sans scanner magique.
-3. `ULTIMATE_LOCK` — Tarek choisit la meilleure faiblesse réellement connue.
+3. `ULTIMATE_LOCK` — Mathilde choisit la meilleure faiblesse réellement connue.
 4. `ULTIMATE_SHARE` — le groupe reçoit les informations exploitables.
 5. `ULTIMATE_RESOLVE` — précision/initiative/exploitation sont calculées depuis ces connaissances.
 
@@ -139,18 +139,18 @@ Source mécanique : référentiel combat maître des Veilleurs. Les chorégraphi
 
 **Mécanique canonique :** enchaîne les frappes sur fonctions déjà fragilisées ; faible valeur contre cible intacte.
 
-**Intention :** le nombre « sept » représente le sommet de la lecture opportuniste de Tarek, pas sept dégâts gratuits garantis.
+**Intention :** le nombre « sept » représente le sommet de la lecture opportuniste de Mathilde, pas sept dégâts gratuits garantis.
 
 **Durée :** ~3,4 s lorsque plusieurs ouvertures existent ; version courte ~1,7 s.
 
 **Séquence :**
 1. `ULTIMATE_COUNT_OPENINGS` — le resolver liste les fonctions réellement fragilisées.
-2. `ULTIMATE_STEP_IN` — Tarek ferme la distance.
+2. `ULTIMATE_STEP_IN` — Mathilde ferme la distance.
 3. `ULTIMATE_CHAIN` — jusqu’à sept frappes très courtes, chacune sur une ouverture valide ; chaque frappe est résolue séparément.
 4. `ULTIMATE_BREAK_CHAIN` — la chaîne s’arrête si la cible tombe, devient hors portée ou si aucune ouverture valide ne reste.
-5. `ULTIMATE_EXIT` — Tarek ressort de l’axe d’attaque.
+5. `ULTIMATE_EXIT` — Mathilde ressort de l’axe d’attaque.
 
-**Caméra :** caméra proche mais continue, sans sept cuts. Les changements de zones se lisent dans le déplacement du corps de Tarek.
+**Caméra :** caméra proche mais continue, sans sept cuts. Les changements de zones se lisent dans le déplacement du corps de Mathilde.
 
 **Audio :** suite sèche de lame, textile et respiration ; pas de crescendo orchestral artificiel.
 
@@ -164,18 +164,18 @@ Source mécanique : référentiel combat maître des Veilleurs. Les chorégraphi
 
 **Mécanique canonique :** exploite couvertures, ombres et ruptures d’attention pour devenir très difficile à fixer.
 
-**Intention :** Tarek ne devient pas invisible. L’ennemi perd la certitude de sa position parce que Tarek exploite réellement l’espace.
+**Intention :** Mathilde ne devient pas invisible. L’ennemi perd la certitude de sa position parce que Mathilde exploite réellement l’espace.
 
 **Durée :** ~2,7 s. Version courte : ~1,3 s.
 
 **Séquence :**
-1. `ULTIMATE_BREAK_ATTENTION` — Tarek attend ou provoque une vraie rupture d’attention exploitable.
+1. `ULTIMATE_BREAK_ATTENTION` — Mathilde attend ou provoque une vraie rupture d’attention exploitable.
 2. `ULTIMATE_MOVE` — déplacement rapide vers une couverture/ombre valide.
 3. `ULTIMATE_OLD_POSITION` — la caméra reste une fraction de seconde sur l’endroit où l’ennemi pense encore qu’il se trouve.
 4. `ULTIMATE_NEW_POSITION` — révélation de sa position réelle au joueur, pas nécessairement aux ennemis.
 5. `ULTIMATE_CERTAINTY_RESOLVE` — baisse de certitude, priorité de ciblage et options de réaction calculées par l’IA.
 
-**Caméra :** très important : pas de fondu magique. Le décor masque naturellement Tarek pendant son déplacement.
+**Caméra :** très important : pas de fondu magique. Le décor masque naturellement Mathilde pendant son déplacement.
 
 **Audio :** souffle coupé, appui discret, tissu. La signature est l’absence momentanée de ses pas.
 
@@ -183,28 +183,28 @@ Source mécanique : référentiel combat maître des Veilleurs. Les chorégraphi
 
 **Variantes :** forte lumière sans couverture = effet réduit ou activation impossible ; fumée/cadavre/débris = couverture légitime ; ennemi très attentif = certitude réduite moins fortement ; boss = aucune « cécité » artificielle.
 
-**Rémanence :** une embuscade ou fuite majeure peut laisser une mémoire ennemie de la manière dont Tarek a disparu.
+**Rémanence :** une embuscade ou fuite majeure peut laisser une mémoire ennemie de la manière dont Mathilde a disparu.
 
-## AÏSHA MAREN
+## Aurélien
 
 ### 7. Anatomie — CARTE PARFAITE DU VIVANT
 
 **Mécanique canonique :** partage au groupe une lecture anatomique complète d’une cible suffisamment étudiée.
 
-**Intention :** Aïsha transmet une compréhension, pas un buff magique de dégâts.
+**Intention :** Aurélien transmet une compréhension, pas un buff magique de dégâts.
 
 **Durée :** ~3,4 s. Version courte : ~1,6 s.
 
 **Séquence :**
-1. `ULTIMATE_OBSERVE` — Aïsha reconstitue posture, respiration, lésions et protection.
+1. `ULTIMATE_OBSERVE` — Aurélien reconstitue posture, respiration, lésions et protection.
 2. `ULTIMATE_MAP` — seules les structures connues/confirmées sont mises en relation.
-3. `ULTIMATE_CALL_OUT` — Aïsha communique brièvement les fonctions importantes.
+3. `ULTIMATE_CALL_OUT` — Aurélien communique brièvement les fonctions importantes.
 4. `ULTIMATE_PARTY_READ` — les trois autres Veilleurs ajustent regard, arme ou appui vers les zones révélées.
 5. `ULTIMATE_RESOLVE` — la connaissance est partagée et les systèmes de ciblage utilisent cette information.
 
 **Caméra :** plans courts sur signes corporels réels ; jamais de squelette holographique ou d’organe visible à travers l’armure.
 
-**Audio :** respiration de la cible, friction d’articulation, armure, quelques mots d’Aïsha. Musique réduite mais non supprimée.
+**Audio :** respiration de la cible, friction d’articulation, armure, quelques mots d’Aurélien. Musique réduite mais non supprimée.
 
 **Haptique :** petits taps lors des confirmations anatomiques, aucun gros impact.
 
@@ -216,16 +216,16 @@ Source mécanique : référentiel combat maître des Veilleurs. Les chorégraphi
 
 **Mécanique canonique :** triage d’urgence du groupe ; stabilise ce qui est récupérable sans résurrection ni régénération.
 
-**Intention :** faire sentir la médecine de catastrophe : Aïsha ne « soigne pas le groupe », elle empêche les blessures récupérables de devenir irréversibles.
+**Intention :** faire sentir la médecine de catastrophe : Aurélien ne « soigne pas le groupe », elle empêche les blessures récupérables de devenir irréversibles.
 
 **Durée :** ~4,0 s si plusieurs blessés ; version courte ~1,9 s.
 
 **Séquence :**
 1. `ULTIMATE_TRIAGE` — le système classe saignements, fractures, état critique, capacité respiratoire et transportabilité.
 2. `ULTIMATE_SELECT` — seulement les lésions réellement récupérables sont retenues.
-3. `ULTIMATE_INTERVENTIONS` — Aïsha enchaîne compression, maintien, attelle ou stabilisation selon chaque blessure.
+3. `ULTIMATE_INTERVENTIONS` — Aurélien enchaîne compression, maintien, attelle ou stabilisation selon chaque blessure.
 4. `ULTIMATE_RESOLVE` — réduction de saignement/aggravation et stabilisation réelle ; les séquelles demeurent.
-5. `ULTIMATE_REASSESS` — Aïsha vérifie qui peut continuer, être porté ou doit être extrait.
+5. `ULTIMATE_REASSESS` — Aurélien vérifie qui peut continuer, être porté ou doit être extrait.
 
 **Caméra :** plan d’ensemble dynamique autour du groupe ; pas de halo de soin.
 
@@ -241,23 +241,23 @@ Source mécanique : référentiel combat maître des Veilleurs. Les chorégraphi
 
 Conserver la spécification détaillée dédiée. Signature : disparition presque totale du son après le contact, premier battement fort, second plus faible, puis résolution selon état physiologique réel. Neutralisation circulatoire uniquement sur physiologie connue et cible déjà très compromise ; boss non exécuté automatiquement ; charge consommée uniquement à `ULTIMATE_RESOLVE`.
 
-## IDRIS VAEL
+## Anouk
 
 ### 10. Sentence — LE VERDICT TOMBE
 
 **Mécanique canonique :** réorganise le tempo en retardant, interrompant et désignant plusieurs intentions révélées.
 
-**Intention :** Idris ne contrôle pas le temps. Il lit les préparations visibles et impose une priorité tactique au bon moment.
+**Intention :** Anouk ne contrôle pas le temps. Il lit les préparations visibles et impose une priorité tactique au bon moment.
 
 **Durée :** ~3,0 s. Version courte : ~1,4 s.
 
 **Séquence :**
 1. `ULTIMATE_READ_INTENTS` — seules les intentions réellement révélées sont sélectionnées.
-2. `ULTIMATE_JUDGMENT` — Idris pointe successivement les menaces avec bâton/chaîne et une formule très brève.
+2. `ULTIMATE_JUDGMENT` — Anouk pointe successivement les menaces avec bâton/chaîne et une formule très brève.
 3. `ULTIMATE_REORDER` — la timeline se réorganise visuellement au même moment où le moteur applique retard/interruption/désignation.
-4. `ULTIMATE_CONFIRM` — Idris reprend une posture neutre, sans pose de victoire.
+4. `ULTIMATE_CONFIRM` — Anouk reprend une posture neutre, sans pose de victoire.
 
-**Caméra :** angle latéral permettant de voir Idris et les ennemis concernés en même temps. La timeline reste visible, jamais remplacée par une cinématique plein écran.
+**Caméra :** angle latéral permettant de voir Anouk et les ennemis concernés en même temps. La timeline reste visible, jamais remplacée par une cinématique plein écran.
 
 **Audio :** un coup de bâton au sol ou contre une protection marque l’instant de décision ; chaque intention déplacée reçoit un son UI très discret et matériel.
 
@@ -271,7 +271,7 @@ Conserver la spécification détaillée dédiée. Signature : disparition presqu
 
 **Mécanique canonique :** les quatre Veilleurs agissent dans un ordre choisi, avec synergies dépendant de la séquence.
 
-**Intention :** c’est l’ultime du quatuor, pas celui d’Idris seul. La puissance provient de l’ordre des actions et de leurs relations systémiques.
+**Intention :** c’est l’ultime du quatuor, pas celui d’Anouk seul. La puissance provient de l’ordre des actions et de leurs relations systémiques.
 
 **Durée :** ~4,2 s en présentation complète ; version courte ~2,0 s.
 
@@ -279,7 +279,7 @@ Conserver la spécification détaillée dédiée. Signature : disparition presqu
 
 **Séquence :**
 1. `ULTIMATE_SEQUENCE_SELECT` — le joueur choisit l’ordre.
-2. `ULTIMATE_IDRIS_CUE` — Idris donne un signal minimal.
+2. `ULTIMATE_anouk_CUE` — Anouk donne un signal minimal.
 3. `ULTIMATE_ACTOR_1_RESOLVE` — vraie action et conséquences.
 4. `ULTIMATE_ACTOR_2_RESOLVE` — tient compte du résultat 1.
 5. `ULTIMATE_ACTOR_3_RESOLVE` — tient compte des résultats précédents.
@@ -300,13 +300,13 @@ Conserver la spécification détaillée dédiée. Signature : disparition presqu
 
 **Mécanique canonique :** déconnecte temporairement commandement, gardes et synergies d’une formation structurée.
 
-**Intention :** Idris ne contrôle pas les esprits ; il fait apparaître les contradictions d’un système de commandement déjà observable.
+**Intention :** Anouk ne contrôle pas les esprits ; il fait apparaître les contradictions d’un système de commandement déjà observable.
 
 **Durée :** ~3,3 s. Version courte : ~1,5 s.
 
 **Séquence :**
 1. `ULTIMATE_IDENTIFY_STRUCTURE` — le moteur confirme chef, gardes, synergies et relations d’ordre connues.
-2. `ULTIMATE_CHALLENGE` — Idris utilise parole, déplacement et présence pour forcer une hésitation ou divergence crédible.
+2. `ULTIMATE_CHALLENGE` — Anouk utilise parole, déplacement et présence pour forcer une hésitation ou divergence crédible.
 3. `ULTIMATE_BREAK_LINKS` — les liens tactiques sont désactivés un par un par le moteur : garde, bonus de formation, ordre collectif, préparation coordonnée.
 4. `ULTIMATE_REACTION` — les ennemis réagissent selon personnalité/IA : doute, colère, action isolée, silence, maintien du plan si résistance suffisante.
 5. `ULTIMATE_RESOLVE` — la formation reste temporairement désynchronisée selon les règles.
@@ -331,7 +331,7 @@ Conserver la spécification détaillée dédiée. Signature : disparition presqu
 | La Proie n’a plus d’ombre | indices matériels qui se reconnectent |
 | Les Sept Ouvertures | cadence de frappes conditionnelles |
 | Là où nul ne regarde | disparition des pas / ancienne position vide |
-| Carte parfaite du vivant | sons corporels observables + consignes d’Aïsha |
+| Carte parfaite du vivant | sons corporels observables + consignes d’Aurélien |
 | Tout ce qui peut être sauvé | gestes de triage et respiration stabilisée |
 | Le Dernier Battement | silence puis battements cardiaques |
 | Le Verdict tombe | coup de bâton + timeline qui se réordonne |

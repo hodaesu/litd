@@ -69,12 +69,12 @@
       "position":[-16,2,1],
       "type":"survivor_choice",
       "name":"L'uniforme retourné",
-      "actors":["Tarek"],
-      "prompt":"Un ancien soldat a retourné sa veste pour cacher les insignes de Varkhane. Deux voyageurs le gardent à distance avec des lances de chasse. Tarek affirme qu'il a déserté avant la Chute, mais il connaît encore les codes de marche des unités qui ont traversé le continent.",
+      "actors":["Mathilde"],
+      "prompt":"Un ancien soldat a retourné sa veste pour cacher les insignes de Varkhane. Deux voyageurs le gardent à distance avec des lances de chasse. Mathilde affirme qu'il a déserté avant la Chute, mais il connaît encore les codes de marche des unités qui ont traversé le continent.",
       "choices":[
-        {"id":"escort_sanctuary","label":"L'ENVOYER SOUS ESCORTE AU SANCTUAIRE","detail":"Coût : 1 nourriture, 1 eau.","cost":{"food":1,"water":1},"memory_choice":"aid","memory_label":"faire escorter Tarek au Sanctuaire pour qu'il puisse témoigner sous surveillance","outcome":"escorted","result":"Tarek accepte qu'on lui lie les poignets pour la route. « Je préfère répondre devant des vivants que devant une rumeur. » Les deux voyageurs acceptent de l'accompagner."},
-        {"id":"question_release","label":"L'INTERROGER PUIS LE LAISSER PARTIR","detail":"Aucun coût.","cost":{},"memory_choice":"keep","memory_label":"prendre les informations de Tarek puis le laisser choisir sa route","outcome":"released","result":"Tarek dessine trois symboles militaires dans la poussière et explique lesquels annonçaient un repli, lesquels une prise de position. Puis il part sans demander à rejoindre personne."},
-        {"id":"leave_guarded","label":"LE LAISSER AUX VOYAGEURS QUI LE GARDENT","detail":"Aucun coût.","cost":{},"memory_choice":"keep","memory_label":"laisser le sort de Tarek aux voyageurs qui le retenaient déjà","outcome":"guarded","result":"La compagnie ne prend pas la responsabilité du prisonnier. Les voyageurs promettent seulement de ne pas l'exécuter sans entendre d'autres témoins."}
+        {"id":"escort_sanctuary","label":"L'ENVOYER SOUS ESCORTE AU SANCTUAIRE","detail":"Coût : 1 nourriture, 1 eau.","cost":{"food":1,"water":1},"memory_choice":"aid","memory_label":"faire escorter Mathilde au Sanctuaire pour qu'il puisse témoigner sous surveillance","outcome":"escorted","result":"Mathilde accepte qu'on lui lie les poignets pour la route. « Je préfère répondre devant des vivants que devant une rumeur. » Les deux voyageurs acceptent de l'accompagner."},
+        {"id":"question_release","label":"L'INTERROGER PUIS LE LAISSER PARTIR","detail":"Aucun coût.","cost":{},"memory_choice":"keep","memory_label":"prendre les informations de Mathilde puis le laisser choisir sa route","outcome":"released","result":"Mathilde dessine trois symboles militaires dans la poussière et explique lesquels annonçaient un repli, lesquels une prise de position. Puis il part sans demander à rejoindre personne."},
+        {"id":"leave_guarded","label":"LE LAISSER AUX VOYAGEURS QUI LE GARDENT","detail":"Aucun coût.","cost":{},"memory_choice":"keep","memory_label":"laisser le sort de Mathilde aux voyageurs qui le retenaient déjà","outcome":"guarded","result":"La compagnie ne prend pas la responsabilité du prisonnier. Les voyageurs promettent seulement de ne pas l'exécuter sans entendre d'autres témoins."}
       ]
     },
     {
@@ -196,13 +196,13 @@
       "zone_id":"c03_diplomatic_post",
       "position":[22,0,12],
       "type":"return",
-      "name":"Les marques que Tarek connaissait encore",
+      "name":"Les marques que Mathilde connaissait encore",
       "source_event":"c01_former_soldier",
       "source_outcomes":["escorted","released","guarded"],
       "variants":{
-        "escorted":{"prompt":"Une copie annotée par Tarek est arrivée depuis le Sanctuaire. Les signes militaires du poste diplomatique ne désignent pas tous des positions défensives : certains indiquent des points prévus pour exploiter le chaos après l'opération.","reward":{"light":1},"result":"Le témoignage de Tarek ne suffit pas à condamner une armée entière. Il permet cependant de distinguer ce qu'un simple soldat pouvait savoir de ce que le commandement avait préparé."},
-        "released":{"prompt":"Trois symboles gravés dans la poussière reprennent exactement ceux que Tarek avait dessinés avant de partir. Il a parcouru cette zone avant la compagnie et laissé une traduction sommaire des marques de marche.","reward":{"light":1},"result":"Tarek n'est pas revenu au Sanctuaire, mais son information a voyagé. Une décision qui l'avait laissé libre produit ici une conséquence sans le transformer en allié permanent."},
-        "guarded":{"prompt":"Les voyageurs qui retenaient Tarek ont finalement recueilli d'autres témoignages et l'ont relâché. Une note laissée au poste indique qu'il refuse encore de porter un uniforme, mais accepte de corriger les cartes militaires lorsqu'elles mettent des civils en danger.","reward":{},"result":"Son sort a été décidé hors de la compagnie. Le monde n'a pas attendu le joueur pour continuer à discuter de sa responsabilité."}
+        "escorted":{"prompt":"Une copie annotée par Mathilde est arrivée depuis le Sanctuaire. Les signes militaires du poste diplomatique ne désignent pas tous des positions défensives : certains indiquent des points prévus pour exploiter le chaos après l'opération.","reward":{"light":1},"result":"Le témoignage de Mathilde ne suffit pas à condamner une armée entière. Il permet cependant de distinguer ce qu'un simple soldat pouvait savoir de ce que le commandement avait préparé."},
+        "released":{"prompt":"Trois symboles gravés dans la poussière reprennent exactement ceux que Mathilde avait dessinés avant de partir. Il a parcouru cette zone avant la compagnie et laissé une traduction sommaire des marques de marche.","reward":{"light":1},"result":"Mathilde n'est pas revenu au Sanctuaire, mais son information a voyagé. Une décision qui l'avait laissé libre produit ici une conséquence sans le transformer en allié permanent."},
+        "guarded":{"prompt":"Les voyageurs qui retenaient Mathilde ont finalement recueilli d'autres témoignages et l'ont relâché. Une note laissée au poste indique qu'il refuse encore de porter un uniforme, mais accepte de corriger les cartes militaires lorsqu'elles mettent des civils en danger.","reward":{},"result":"Son sort a été décidé hors de la compagnie. Le monde n'a pas attendu le joueur pour continuer à discuter de sa responsabilité."}
       }
     },
     {

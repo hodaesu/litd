@@ -16,7 +16,7 @@ Les quatre sont déjà membres des **Sept Héros légendaires**. Leurs fiches te
 
 Ces compositions ne sont plus le roster de départ :
 
-1. Nayra Orun / Tarek Senn / Aïsha Maren / Idris Vael
+1. Marec / Mathilde / Aurélien / Anouk
 2. Sahen Varo / Mira Sen / Narem Osh / Ysra Nahal
 3. Aurélien / Malvor / Lysandra / Darius
 

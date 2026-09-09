@@ -7,16 +7,16 @@ ROOT = Path(__file__).resolve().parents[2]
 CONTRACT_PATH = ROOT / "data" / "veilleurs" / "ultimate_choreography_contract.json"
 CANON = ROOT / "data" / "veilleurs" / "skills"
 SOURCES = {
-    "nayra_orun": "nayra_orun.json",
-    "tarek_senn": "tarek_senn.json",
-    "aisha_maren": "aisha_maren.json",
-    "idris_vael": "idris_vael.json",
+    "Marec": "Marec.json",
+    "Mathilde": "Mathilde.json",
+    "Aurélien": "Aurélien.json",
+    "Anouk": "Anouk.json",
 }
 EXPECTED_BRANCHES = {
-    "nayra_orun": ["bastion", "brisure", "serment"],
-    "tarek_senn": ["traque", "entaille", "disparition"],
-    "aisha_maren": ["anatomie", "suture", "hemocorde"],
-    "idris_vael": ["sentence", "concorde", "dissidence"],
+    "Marec": ["bastion", "brisure", "serment"],
+    "Mathilde": ["traque", "entaille", "disparition"],
+    "Aurélien": ["anatomie", "suture", "hemocorde"],
+    "Anouk": ["sentence", "concorde", "dissidence"],
 }
 
 
@@ -101,18 +101,18 @@ def main() -> int:
 
     # Identity-specific semantic anchors protect each signature from collapsing into a generic cinematic.
     anchors = {
-        "nayra_orun:bastion": ("ULTIMATE_INTERCEPT_RESOLVE", "multi_real_impacts"),
-        "nayra_orun:brisure": ("ULTIMATE_COLLISION", "mass_ramp_then_collision"),
-        "nayra_orun:serment": ("ULTIMATE_RESCUE_WINDOW", "wounded_breath_and_shield_reposition"),
-        "tarek_senn:traque": ("ULTIMATE_RESOLVE", "confirmed_clues_reconnect"),
-        "tarek_senn:entaille": ("ULTIMATE_CHAIN", "conditional_staccato_hits"),
-        "tarek_senn:disparition": ("ULTIMATE_CERTAINTY_RESOLVE", "old_position_empty_and_missing_steps"),
-        "aisha_maren:anatomie": ("ULTIMATE_PARTY_READ", "observable_body_signs_shared"),
-        "aisha_maren:suture": ("ULTIMATE_INTERVENTIONS", "triage_gestures_and_stabilized_breath"),
-        "aisha_maren:hemocorde": ("ULTIMATE_SILENCE", "silence_then_heartbeat"),
-        "idris_vael:sentence": ("ULTIMATE_REORDER", "staff_strike_and_timeline_reorder"),
-        "idris_vael:concorde": ("ULTIMATE_ACTOR_4_RESOLVE", "one_shared_rhythm_four_real_actions"),
-        "idris_vael:dissidence": ("ULTIMATE_BREAK_LINKS", "enemy_collective_rhythm_desynchronizes"),
+        "Marec:bastion": ("ULTIMATE_INTERCEPT_RESOLVE", "multi_real_impacts"),
+        "Marec:brisure": ("ULTIMATE_COLLISION", "mass_ramp_then_collision"),
+        "Marec:serment": ("ULTIMATE_RESCUE_WINDOW", "wounded_breath_and_shield_reposition"),
+        "Mathilde:traque": ("ULTIMATE_RESOLVE", "confirmed_clues_reconnect"),
+        "Mathilde:entaille": ("ULTIMATE_CHAIN", "conditional_staccato_hits"),
+        "Mathilde:disparition": ("ULTIMATE_CERTAINTY_RESOLVE", "old_position_empty_and_missing_steps"),
+        "Aurélien:anatomie": ("ULTIMATE_PARTY_READ", "observable_body_signs_shared"),
+        "Aurélien:suture": ("ULTIMATE_INTERVENTIONS", "triage_gestures_and_stabilized_breath"),
+        "Aurélien:hemocorde": ("ULTIMATE_SILENCE", "silence_then_heartbeat"),
+        "Anouk:sentence": ("ULTIMATE_REORDER", "staff_strike_and_timeline_reorder"),
+        "Anouk:concorde": ("ULTIMATE_ACTOR_4_RESOLVE", "one_shared_rhythm_four_real_actions"),
+        "Anouk:dissidence": ("ULTIMATE_BREAK_LINKS", "enemy_collective_rhythm_desynchronizes"),
     }
     for key, (state, signature) in anchors.items():
         row = rows.get(key, {})

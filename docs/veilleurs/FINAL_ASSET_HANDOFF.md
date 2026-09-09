@@ -48,7 +48,7 @@ tools\workstation\LITD_VEILLEURS_ASSET_HANDOFF.cmd jobs
 Enregistrer un slot terminé avec sa preuve :
 
 ```bat
-tools\workstation\LITD_VEILLEURS_ASSET_HANDOFF.cmd record --item ULT_WATCHER_NAYRA_BASTION --slot animation --status done --evidence "chemin ou rapport de validation"
+tools\workstation\LITD_VEILLEURS_ASSET_HANDOFF.cmd record --item ULT_WATCHER_marec_BASTION --slot animation --status done --evidence "chemin ou rapport de validation"
 ```
 
 Un slot marqué `done` sans preuve est refusé. L’état global est consultable avec :

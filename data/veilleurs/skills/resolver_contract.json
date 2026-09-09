@@ -30,8 +30,8 @@
     "Dissidence": {"resolver_id":"enemy_intention_disruption","status":"required","systems":["enemy_intent","certainty","priority","timeline","ai_memory"]}
   },
   "skill_overrides": {
-    "AÏ-ANA-12": {"resolver_id":"corpse_interaction","status":"implemented","activation_mode":"context_action","entrypoint":"VeilleursCorpseInteractionRuntime.study_aisha"},
-    "TA-DIS-12": {"resolver_id":"corpse_interaction","status":"implemented","activation_mode":"context_action","entrypoint":"VeilleursCorpseInteractionRuntime.cover_tarek"}
+    "AU-ANA-12": {"resolver_id":"corpse_interaction","status":"implemented","activation_mode":"context_action","entrypoint":"VeilleursCorpseInteractionRuntime.study_aurelien"},
+    "MA-DIS-12": {"resolver_id":"corpse_interaction","status":"implemented","activation_mode":"context_action","entrypoint":"VeilleursCorpseInteractionRuntime.cover_mathilde"}
   },
   "ultimate_family": {
     "resolver_id": "ultimate_sequence",

@@ -104,7 +104,7 @@ func _log_clinical_result(hero: Dictionary, target: Dictionary, skill: Dictionar
         var diagnostic_suffix := ""
         if result.has("circulatory_shock"):
             diagnostic_suffix = " · choc %d · risque hémorragique %d%%" % [int(result.get("circulatory_shock", 0)), int(result.get("hemorrhage_risk", 0))]
-        GameState.add_log("%s lit %s : %s%s." % [str(hero.get("name", "Aïsha")), str(target.get("name", "la cible")), str(result.get("part_name", result.get("part_id", "zone"))), diagnostic_suffix if diagnostic_suffix != "" else " · " + str(result.get("state", "intact"))])
+        GameState.add_log("%s lit %s : %s%s." % [str(hero.get("name", "Aurélien")), str(target.get("name", "la cible")), str(result.get("part_name", result.get("part_id", "zone"))), diagnostic_suffix if diagnostic_suffix != "" else " · " + str(result.get("state", "intact"))])
     elif effect == "medical":
         var stabilized := str(result.get("stabilized_injury", ""))
         var downgraded := str(result.get("downgraded_injury", ""))
@@ -118,7 +118,7 @@ func _log_clinical_result(hero: Dictionary, target: Dictionary, skill: Dictionar
             detail += " · saignement %d→%d" % [int(result.get("bleeding_before", 0)), int(result.get("bleeding_after", 0))]
         if supplies > 0:
             detail += " · %d vivres médicalisés" % supplies
-        GameState.add_log("%s traite %s : %s." % [str(hero.get("name", "Aïsha")), str(target.get("name", "un allié")), detail])
+        GameState.add_log("%s traite %s : %s." % [str(hero.get("name", "Aurélien")), str(target.get("name", "un allié")), detail])
     elif effect == "posture":
         GameState.add_log("%s adopte %s pour %d rounds." % [str(hero.get("name", "Le Veilleur")), str(skill.get("name", "une posture")), int(result.get("duration_rounds", 0))])
 

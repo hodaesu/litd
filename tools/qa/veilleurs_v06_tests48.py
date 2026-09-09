@@ -7,8 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "veilleurs" / "v06"
-EXPECTED_WATCHERS = ["ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"]
-EXPECTED_NAMES = ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
+EXPECTED_WATCHERS = ["ENT_WATCHER_marec", "ENT_WATCHER_mathilde", "ENT_WATCHER_aurelien", "ENT_WATCHER_anouk"]
+EXPECTED_NAMES = ["Marec", "Mathilde", "Aurélien", "Anouk"]
 OBSOLETE_TOKENS = [
     "ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA",
     "Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal",

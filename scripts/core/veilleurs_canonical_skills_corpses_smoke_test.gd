@@ -24,7 +24,7 @@ func _run() -> void:
     var original_ids := _party_ids(GameState.party)
     VeilleursVS001PlayableBridge.activate_watchers_party()
     await get_tree().process_frame
-    _check(_party_ids(GameState.party) == ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"], "Runtime party must be the canonical Watcher quartet")
+    _check(_party_ids(GameState.party) == ["Marec", "Mathilde", "Aurélien", "Anouk"], "Runtime party must be the canonical Watcher quartet")
     _check(not _party_ids(GameState.party).has("aurelien"), "Aurélien must never enter the Watcher skill runtime")
 
     for hero_value: Variant in GameState.party:
@@ -43,22 +43,22 @@ func _run() -> void:
             var nodes: Array = HeroSkillManager.skill_nodes(hero, branch)
             _check(nodes.size() == 15, "%s/%s must expose fifteen skills" % [str(hero.get("name", "Watcher")), branch])
 
-    var nayra := _hero("nayra_orun")
-    _check(not nayra.is_empty(), "Nayra must exist in the Watcher party")
-    if not nayra.is_empty():
-        var nayra_branches: Array[String] = HeroSkillManager.branches_for(nayra)
-        var bastion_nodes: Array = HeroSkillManager.skill_nodes(nayra, nayra_branches[0])
-        var brisure_nodes: Array = HeroSkillManager.skill_nodes(nayra, nayra_branches[1])
+    var Marec := _hero("Marec")
+    _check(not Marec.is_empty(), "Marec must exist in the Watcher party")
+    if not Marec.is_empty():
+        var marec_branches: Array[String] = HeroSkillManager.branches_for(Marec)
+        var bastion_nodes: Array = HeroSkillManager.skill_nodes(Marec, marec_branches[0])
+        var brisure_nodes: Array = HeroSkillManager.skill_nodes(Marec, marec_branches[1])
         var first_bastion := str((bastion_nodes[0] as Dictionary).get("id", ""))
         var first_brisure := str((brisure_nodes[0] as Dictionary).get("id", ""))
-        _check(HeroSkillManager.can_unlock(nayra, first_bastion), "Nayra must be able to choose her first Bastion skill")
-        _check(HeroSkillManager.unlock(nayra, first_bastion), "First canonical Watcher skill must unlock")
-        _check(str(nayra.get("specialization", "")) == nayra_branches[0], "First Watcher skill must permanently choose its tree")
-        _check(not HeroSkillManager.can_unlock(nayra, first_brisure), "A second Watcher tree must remain locked after specialization")
-        var unsupported_profile: Dictionary = HeroSkillManager.combat_skill(nayra, first_bastion)
+        _check(HeroSkillManager.can_unlock(Marec, first_bastion), "Marec must be able to choose her first Bastion skill")
+        _check(HeroSkillManager.unlock(Marec, first_bastion), "First canonical Watcher skill must unlock")
+        _check(str(Marec.get("specialization", "")) == marec_branches[0], "First Watcher skill must permanently choose its tree")
+        _check(not HeroSkillManager.can_unlock(Marec, first_brisure), "A second Watcher tree must remain locked after specialization")
+        var unsupported_profile: Dictionary = HeroSkillManager.combat_skill(Marec, first_bastion)
         _check(str(unsupported_profile.get("effect", "")) == "resolver_required", "Unsupported canonical skills must never collapse into generic damage")
         _check(not bool(unsupported_profile.get("manual_combat_usable", true)), "Unsupported canonical skill must not be manually equipable")
-        _check(not HeroSkillManager.equip_combat_skill(nayra, 0, first_bastion), "Unsupported canonical skill must be rejected by loadout")
+        _check(not HeroSkillManager.equip_combat_skill(Marec, 0, first_bastion), "Unsupported canonical skill must be rejected by loadout")
 
     _check(VeilleursSkillCatalog.ultimate_charges(15) == 0, "Ultimates must be locked before level 16")
     _check(VeilleursSkillCatalog.ultimate_charges(16) == 1, "Level 16 must grant one ultimate charge")
@@ -66,12 +66,12 @@ func _run() -> void:
     _check(VeilleursSkillCatalog.ultimate_charges(48) == 3, "Level 48 must grant three ultimate charges")
     _check(_ultimate_names_are_canonical(), "All twelve canonical ultimate names must be available through runtime")
 
-    var aisha := _hero("aisha_maren")
-    var tarek := _hero("tarek_senn")
-    var aisha_node := _skill(aisha, "AÏ-ANA-12")
-    var tarek_node := _skill(tarek, "TA-DIS-12")
-    _check(str(aisha_node.get("resolver_status", "")) == "implemented" and str(aisha_node.get("activation_mode", "")) == "context_action", "Aïsha corpse analysis must use implemented context resolver")
-    _check(str(tarek_node.get("resolver_status", "")) == "implemented" and str(tarek_node.get("activation_mode", "")) == "context_action", "Tarek corpse cover must use implemented context resolver")
+    var Aurélien := _hero("Aurélien")
+    var Mathilde := _hero("Mathilde")
+    var aurelien_node := _skill(Aurélien, "AU-ANA-12")
+    var mathilde_node := _skill(Mathilde, "MA-DIS-12")
+    _check(str(aurelien_node.get("resolver_status", "")) == "implemented" and str(aurelien_node.get("activation_mode", "")) == "context_action", "Aurélien corpse analysis must use implemented context resolver")
+    _check(str(mathilde_node.get("resolver_status", "")) == "implemented" and str(mathilde_node.get("activation_mode", "")) == "context_action", "Mathilde corpse cover must use implemented context resolver")
 
     RemanenceRuntime.reset_new_game()
     var scar_id := RemanenceRuntime.create_world_scar(
@@ -93,32 +93,32 @@ func _run() -> void:
     _check(not scar_id.is_empty(), "Smoke must create a persistent corpse WorldScar")
 
     var preview_before: Dictionary = VeilleursCorpseInteractionRuntime.preview(scar_id)
-    _check(not _option_ids(preview_before).has("study_aisha"), "Aïsha corpse action must stay hidden before skill is known")
-    _check(not _option_ids(preview_before).has("cover_tarek"), "Tarek corpse action must stay hidden before skill is known")
+    _check(not _option_ids(preview_before).has("study_aurelien"), "Aurélien corpse action must stay hidden before skill is known")
+    _check(not _option_ids(preview_before).has("cover_mathilde"), "Mathilde corpse action must stay hidden before skill is known")
     _check(_irreversible_option(preview_before, "mutilate"), "Mutilation option must be explicitly marked irreversible")
 
-    if not aisha.is_empty():
-        (aisha.get("unlocked_skills", []) as Array).append("AÏ-ANA-12")
-    if not tarek.is_empty():
-        (tarek.get("unlocked_skills", []) as Array).append("TA-DIS-12")
+    if not Aurélien.is_empty():
+        (Aurélien.get("unlocked_skills", []) as Array).append("AU-ANA-12")
+    if not Mathilde.is_empty():
+        (Mathilde.get("unlocked_skills", []) as Array).append("MA-DIS-12")
     var preview_after: Dictionary = VeilleursCorpseInteractionRuntime.preview(scar_id)
-    _check(_option_ids(preview_after).has("study_aisha"), "Aïsha corpse action must appear after Lecture des morts is known")
-    _check(_option_ids(preview_after).has("cover_tarek"), "Tarek corpse action must appear after Derrière les morts is known")
+    _check(_option_ids(preview_after).has("study_aurelien"), "Aurélien corpse action must appear after Lecture des morts is known")
+    _check(_option_ids(preview_after).has("cover_mathilde"), "Mathilde corpse action must appear after Derrière les morts is known")
 
     var move_result: Dictionary = VeilleursCorpseInteractionRuntime.execute(scar_id, "move")
     _check(bool(move_result.get("ok", false)), "Corpse move action must resolve")
     var moved_payload: Dictionary = (RemanenceRuntime.world_scars.get(scar_id, {}) as Dictionary).get("payload", {})
     _check((moved_payload.get("corpse_offset", []) as Array).size() == 3, "Corpse movement must persist a physical offset")
 
-    var study_result: Dictionary = VeilleursCorpseInteractionRuntime.execute(scar_id, "study_aisha")
-    _check(bool(study_result.get("ok", false)), "Aïsha corpse study must resolve")
+    var study_result: Dictionary = VeilleursCorpseInteractionRuntime.execute(scar_id, "study_aurelien")
+    _check(bool(study_result.get("ok", false)), "Aurélien corpse study must resolve")
     var studied_payload: Dictionary = (RemanenceRuntime.world_scars.get(scar_id, {}) as Dictionary).get("payload", {})
-    _check(bool(studied_payload.get("studied_by_aisha", false)), "Aïsha study flag must persist in Remanence")
+    _check(bool(studied_payload.get("studied_by_aurelien", false)), "Aurélien study flag must persist in Remanence")
 
-    var cover_result: Dictionary = VeilleursCorpseInteractionRuntime.execute(scar_id, "cover_tarek")
-    _check(bool(cover_result.get("ok", false)), "Tarek corpse cover must resolve")
+    var cover_result: Dictionary = VeilleursCorpseInteractionRuntime.execute(scar_id, "cover_mathilde")
+    _check(bool(cover_result.get("ok", false)), "Mathilde corpse cover must resolve")
     var cover_payload: Dictionary = (RemanenceRuntime.world_scars.get(scar_id, {}) as Dictionary).get("payload", {})
-    _check(bool(cover_payload.get("prepared_as_cover", false)), "Tarek cover state must persist in Remanence")
+    _check(bool(cover_payload.get("prepared_as_cover", false)), "Mathilde cover state must persist in Remanence")
 
     var corpse_ui: VeilleursCorpseContextUI = CORPSE_UI_SCRIPT.new() as VeilleursCorpseContextUI
     add_child(corpse_ui)
@@ -139,10 +139,10 @@ func _run() -> void:
 
 func _ultimate_names_are_canonical() -> bool:
     var expected := {
-        "nayra_orun": ["La Ligne ne rompt pas", "Le Poids du Mur", "Pas un de plus"],
-        "tarek_senn": ["La Proie n’a plus d’ombre", "Les Sept Ouvertures", "Là où nul ne regarde"],
-        "aisha_maren": ["Carte parfaite du vivant", "Tout ce qui peut être sauvé", "Le Dernier Battement"],
-        "idris_vael": ["Le Verdict tombe", "Un seul mouvement", "Que l’ordre se brise"]
+        "Marec": ["La Ligne ne rompt pas", "Le Poids du Mur", "Pas un de plus"],
+        "Mathilde": ["La Proie n’a plus d’ombre", "Les Sept Ouvertures", "Là où nul ne regarde"],
+        "Aurélien": ["Carte parfaite du vivant", "Tout ce qui peut être sauvé", "Le Dernier Battement"],
+        "Anouk": ["Le Verdict tombe", "Un seul mouvement", "Que l’ordre se brise"]
     }
     for watcher_id: String in expected.keys():
         var hero := _hero(watcher_id)

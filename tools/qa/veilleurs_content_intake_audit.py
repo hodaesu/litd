@@ -99,7 +99,7 @@ def main() -> int:
         errors,
         "existing canonical watcher collision",
         lambda: module.build_work_order(
-            "watcher", "Nayra collision", explicit_id="ENT_WATCHER_NAYRA", contract=contract
+            "watcher", "Marec collision", explicit_id="ENT_WATCHER_marec", contract=contract
         ),
     )
     expect_failure(

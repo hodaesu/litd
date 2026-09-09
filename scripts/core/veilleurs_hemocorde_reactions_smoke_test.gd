@@ -21,9 +21,9 @@ func _run() -> void:
     runtime.name = "HemocordeReactionSmokeRuntime"
     add_child(runtime)
 
-    var aisha := _hero("aisha_maren")
-    var nayra := _hero("nayra_orun")
-    _check(not aisha.is_empty() and not nayra.is_empty(), "Hemocorde reaction smoke requires Aïsha and Nayra")
+    var Aurélien := _hero("Aurélien")
+    var Marec := _hero("Marec")
+    _check(not Aurélien.is_empty() and not Marec.is_empty(), "Hemocorde reaction smoke requires Aurélien and Marec")
     _check(not _party_ids(GameState.party).has("aurelien"), "Aurélien must never enter the Veilleurs Hemocorde reaction runtime")
 
     for hero_value: Variant in GameState.party:
@@ -34,15 +34,15 @@ func _run() -> void:
             hero["unlocked_skills"] = []
             hero.erase("clinical_reaction_round_used")
             hero.erase("clinical_reaction_skill_used")
-    aisha["unlocked_skills"] = ["AÏ-HÉM-04", "AÏ-HÉM-13"]
-    aisha["combat_position"] = 1
-    nayra["combat_position"] = 2
+    Aurélien["unlocked_skills"] = ["AÏ-HÉM-04", "AÏ-HÉM-13"]
+    Aurélien["combat_position"] = 1
+    Marec["combat_position"] = 2
 
     # Retour sanguin : aucun déclenchement sans saignement préalable.
     var dry_enemy := _enemy(950, "Cible sèche")
-    var dry_result: Dictionary = runtime.after_enemy_action(dry_enemy, aisha, 1, GameState.party)
+    var dry_result: Dictionary = runtime.after_enemy_action(dry_enemy, Aurélien, 1, GameState.party)
     _check(dry_result.is_empty(), "Retour sanguin must require an enemy that is already bleeding")
-    _check(int(aisha.get("clinical_reaction_round_used", -1)) != 1, "A failed Hemocorde reaction must not consume the round budget")
+    _check(int(Aurélien.get("clinical_reaction_round_used", -1)) != 1, "A failed Hemocorde reaction must not consume the round budget")
 
     # Retour sanguin : riposte légère, anatomique et circulatoire sur cible déjà saignante.
     var bleeding_enemy := _enemy(951, "Cible saignante")
@@ -50,17 +50,17 @@ func _run() -> void:
     VeilleursSkillResolverRouter.refresh_specialized_target(bleeding_enemy)
     var hp_before_return := int(bleeding_enemy.get("hp", 0))
     var bleed_before_return := int(bleeding_enemy.get("bleeding", 0))
-    var return_result: Dictionary = runtime.after_enemy_action(bleeding_enemy, aisha, 2, GameState.party)
+    var return_result: Dictionary = runtime.after_enemy_action(bleeding_enemy, Aurélien, 2, GameState.party)
     _check(str(return_result.get("skill_id", "")) == "AÏ-HÉM-04", "Retour sanguin must resolve through its canonical reaction id")
     _check(int(bleeding_enemy.get("hp", 0)) < hp_before_return, "Retour sanguin must inflict a light riposte")
     _check(int(bleeding_enemy.get("bleeding", 0)) == bleed_before_return + 1, "Retour sanguin must worsen the existing bleed rather than create a parallel blood pool")
     _check(str(return_result.get("part_id", "")) != "", "Retour sanguin must touch a real anatomy part")
-    _check(int(aisha.get("clinical_reaction_round_used", -1)) == 2, "Retour sanguin must consume Aïsha's shared reaction budget")
+    _check(int(Aurélien.get("clinical_reaction_round_used", -1)) == 2, "Retour sanguin must consume Aurélien's shared reaction budget")
     _check(int(bleeding_enemy.get("circulatory_shock", -1)) >= 0, "Retour sanguin must refresh the derived circulatory state")
 
     # Le même round ne peut pas produire une deuxième réaction Hémocorde.
     var known_part := _first_targetable_part(bleeding_enemy)
-    bleeding_enemy["vascular_known_parts"] = {known_part: {"certainty": 2, "observer_id": "aisha_maren"}}
+    bleeding_enemy["vascular_known_parts"] = {known_part: {"certainty": 2, "observer_id": "Aurélien"}}
     var same_round: Array[Dictionary] = runtime.on_enemy_movement(bleeding_enemy, 2, 1, 2, GameState.party)
     _check(not _contains_skill(same_round, "AÏ-HÉM-13"), "Pointe réflexe must not fire after Retour sanguin already consumed the same round")
 
@@ -68,11 +68,11 @@ func _run() -> void:
     var unknown_enemy := _enemy(952, "Physiologie inconnue")
     var unknown_point: Array[Dictionary] = runtime.on_enemy_movement(unknown_enemy, 2, 1, 3, GameState.party)
     _check(not _contains_skill(unknown_point, "AÏ-HÉM-13"), "Pointe réflexe must not invent vascular knowledge")
-    _check(int(aisha.get("clinical_reaction_round_used", -1)) != 3, "Unknown anatomy must not consume Pointe réflexe")
+    _check(int(Aurélien.get("clinical_reaction_round_used", -1)) != 3, "Unknown anatomy must not consume Pointe réflexe")
 
     var point_enemy := _enemy(953, "Ouverture vasculaire")
     var point_part := _first_targetable_part(point_enemy)
-    point_enemy["vascular_known_parts"] = {point_part: {"certainty": 3, "observer_id": "aisha_maren"}}
+    point_enemy["vascular_known_parts"] = {point_part: {"certainty": 3, "observer_id": "Aurélien"}}
     var hp_before_point := int(point_enemy.get("hp", 0))
     var point_results: Array[Dictionary] = runtime.on_enemy_movement(point_enemy, 2, 1, 4, GameState.party)
     var point_result := _result_for(point_results, "AÏ-HÉM-13")
@@ -80,44 +80,44 @@ func _run() -> void:
     _check(int(point_enemy.get("hp", 0)) < hp_before_point, "Pointe réflexe must inflict a precise close reaction")
     _check(int(point_enemy.get("bleeding", 0)) == 1, "Pointe réflexe must create real bleeding on the exposed known zone")
     _check(str(point_result.get("part_id", "")) == point_part, "Pointe réflexe must use the known vascular zone")
-    _check(int(aisha.get("clinical_reaction_round_used", -1)) == 4, "Pointe réflexe must consume the same shared reaction budget")
+    _check(int(Aurélien.get("clinical_reaction_round_used", -1)) == 4, "Pointe réflexe must consume the same shared reaction budget")
 
     # Un déplacement qui reste loin du premier plan n'ouvre pas Pointe réflexe.
     var distant_enemy := _enemy(954, "Déplacement lointain")
     var distant_part := _first_targetable_part(distant_enemy)
-    distant_enemy["vascular_known_parts"] = {distant_part: {"certainty": 3, "observer_id": "aisha_maren"}}
+    distant_enemy["vascular_known_parts"] = {distant_part: {"certainty": 3, "observer_id": "Aurélien"}}
     var distant_results: Array[Dictionary] = runtime.on_enemy_movement(distant_enemy, 3, 2, 5, GameState.party)
     _check(not _contains_skill(distant_results, "AÏ-HÉM-13"), "Pointe réflexe must remain a close-range opening reaction")
 
     # Si Pointe réflexe et Retour sanguin sont tous deux possibles, la fenêtre la plus spécifique gagne.
     var priority_enemy := _enemy(955, "Priorité Hémocorde")
     var priority_part := _first_targetable_part(priority_enemy)
-    priority_enemy["vascular_known_parts"] = {priority_part: {"certainty": 3, "observer_id": "aisha_maren"}}
+    priority_enemy["vascular_known_parts"] = {priority_part: {"certainty": 3, "observer_id": "Aurélien"}}
     priority_enemy["bleeding"] = 4
     var priority_move: Array[Dictionary] = runtime.on_enemy_movement(priority_enemy, 2, 1, 6, GameState.party)
     _check(_contains_skill(priority_move, "AÏ-HÉM-13"), "Pointe réflexe must win over generic Retour sanguin when a known close opening exists")
-    var lower_priority_return: Dictionary = runtime.after_enemy_action(priority_enemy, aisha, 6, GameState.party)
+    var lower_priority_return: Dictionary = runtime.after_enemy_action(priority_enemy, Aurélien, 6, GameState.party)
     _check(lower_priority_return.is_empty(), "Retour sanguin must respect Pointe réflexe consuming the shared budget")
 
     # Une urgence médicale reste prioritaire même dans un harness multi-arbres.
-    aisha["unlocked_skills"].append("AÏ-SUT-13")
-    nayra["max_hp"] = 100
-    nayra["hp"] = 20
+    Aurélien["unlocked_skills"].append("AU-SUT-13")
+    Marec["max_hp"] = 100
+    Marec["hp"] = 20
     var medical_enemy := _enemy(956, "Priorité médicale")
     medical_enemy["bleeding"] = 4
-    var medical_result: Dictionary = runtime.after_enemy_hit(medical_enemy, nayra, 30, 0, 7, GameState.party)
-    _check(str(medical_result.get("skill_id", "")) == "AÏ-SUT-13", "Intervention immédiate must retain priority over offensive Hemocorde reactions")
-    var blocked_return: Dictionary = runtime.after_enemy_action(medical_enemy, nayra, 7, GameState.party)
-    _check(blocked_return.is_empty(), "The medical reaction must consume the same Aïsha reaction budget as Hemocorde")
+    var medical_result: Dictionary = runtime.after_enemy_hit(medical_enemy, Marec, 30, 0, 7, GameState.party)
+    _check(str(medical_result.get("skill_id", "")) == "AU-SUT-13", "Intervention immédiate must retain priority over offensive Hemocorde reactions")
+    var blocked_return: Dictionary = runtime.after_enemy_action(medical_enemy, Marec, 7, GameState.party)
+    _check(blocked_return.is_empty(), "The medical reaction must consume the same Aurélien reaction budget as Hemocorde")
 
     # Les deux réactions restent des hooks automatiques, jamais des boutons manuels.
     for skill_id in ["AÏ-HÉM-04", "AÏ-HÉM-13"]:
-        var node := _skill_node(aisha, skill_id)
-        var profile := VeilleursSkillResolverRouter.combat_profile(aisha, node)
+        var node := _skill_node(Aurélien, skill_id)
+        var profile := VeilleursSkillResolverRouter.combat_profile(Aurélien, node)
         _check(str(profile.get("effect", "")) == "resolver_required", "%s must remain an automatic reaction profile" % skill_id)
         _check(not bool(profile.get("manual_combat_usable", true)), "%s must never become a manual combat button" % skill_id)
 
-    var ultimate := VeilleursSkillResolverRouter.ultimate_contract(aisha, "hemocorde")
+    var ultimate := VeilleursSkillResolverRouter.ultimate_contract(Aurélien, "hemocorde")
     _check(str(ultimate.get("status", "")) == "required", "Le Dernier Battement must remain outside the reaction lot")
 
     _finish(original_ids)

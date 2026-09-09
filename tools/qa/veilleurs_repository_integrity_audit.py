@@ -19,13 +19,13 @@ PIPELINE = ROOT / "tools/godot/veilleurs_pipeline_config.json"
 SELF = Path(__file__).resolve()
 
 CANON_ENTITY_IDS = [
-    "ENT_WATCHER_NAYRA",
-    "ENT_WATCHER_TAREK",
-    "ENT_WATCHER_AISHA",
-    "ENT_WATCHER_IDRIS",
+    "ENT_WATCHER_marec",
+    "ENT_WATCHER_mathilde",
+    "ENT_WATCHER_aurelien",
+    "ENT_WATCHER_anouk",
 ]
-CANON_RUNTIME_IDS = ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"]
-CANON_NAMES = ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
+CANON_RUNTIME_IDS = ["Marec", "Mathilde", "Aurélien", "Anouk"]
+CANON_NAMES = ["Marec", "Mathilde", "Aurélien", "Anouk"]
 CI_GODOT = "4.7.2"
 PROJECT_GODOT = "4.7"
 WORKFLOWS = [

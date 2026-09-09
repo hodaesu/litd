@@ -15,7 +15,7 @@ DUNGEON_FILES = [
     "dungeon_archives_aveugles.json",
 ]
 ALLOWED_BANDS = {"LOW", "STANDARD", "HIGH", "SEVERE"}
-CANONICAL_WATCHERS = {"ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"}
+CANONICAL_WATCHERS = {"ENT_WATCHER_marec", "ENT_WATCHER_mathilde", "ENT_WATCHER_aurelien", "ENT_WATCHER_anouk"}
 
 
 def load(path: Path):

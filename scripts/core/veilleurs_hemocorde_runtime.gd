@@ -295,13 +295,13 @@ func _remember_vascular_part(target: Dictionary, part_id: String, certainty: int
     known[part_id] = {
         "certainty": maxi(certainty, int(previous.get("certainty", 0))),
         "state": str(target.get("anatomy_part_states", {}).get(part_id, "intact")),
-        "observer_id": "aisha_maren",
+        "observer_id": "Aurélien",
         "run_index": RemanenceRuntime.run_index
     }
     target["vascular_known_parts"] = known
 
 func _vascular_part_known(target: Dictionary, part_id: String) -> bool:
-    return (target.get("vascular_known_parts", {}) as Dictionary).has(part_id) or (target.get("aisha_diagnostics", {}) as Dictionary).has(part_id)
+    return (target.get("vascular_known_parts", {}) as Dictionary).has(part_id) or (target.get("aurelien_diagnostics", {}) as Dictionary).has(part_id)
 
 func _open_wound_count(target: Dictionary) -> int:
     var count := 0

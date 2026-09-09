@@ -96,7 +96,7 @@ def test_world_and_sanctuary_people_persist() -> None:
         "edrin_wounded_messenger",
         "sela_red_thread",
         "nerin_red_thread",
-        "tarek_turned_uniform",
+        "mathilde_turned_uniform",
         "nima_low_road",
         "sivra_ember_voice",
     }
@@ -104,7 +104,7 @@ def test_world_and_sanctuary_people_persist() -> None:
 
     transitions = community["encounter_transitions"]
     assert transitions["c01_wounded_messenger"]["evacuated"]["people"]["edrin_wounded_messenger"]["sanctuary_presence"] is True
-    assert transitions["c01_former_soldier"]["escorted"]["people"]["tarek_turned_uniform"]["sanctuary_presence"] is True
+    assert transitions["c01_former_soldier"]["escorted"]["people"]["mathilde_turned_uniform"]["sanctuary_presence"] is True
     assert transitions["c01_refugees_low_road"]["sanctuary_route"]["people"]["nima_low_road"]["sanctuary_presence"] is True
     assert transitions["c01_refugees_low_road"]["relay_route"]["people"]["nima_low_road"]["sanctuary_presence"] is False
     assert transitions["c01_conscious_creature"]["pact"]["people"]["sivra_ember_voice"]["sanctuary_presence"] is False
@@ -116,7 +116,7 @@ def test_new_emergent_quests_use_real_chapter_three_evidence() -> None:
     evidence_ids = {item["id"] for item in chapter3["evidence"]}
     quests = {item["id"]: item for item in community["quests"]}
 
-    for quest_id in ["q_edrin_last_waypoint", "q_tarek_order_without_uniform"]:
+    for quest_id in ["q_edrin_last_waypoint", "q_mathilde_order_without_uniform"]:
         quest = quests[quest_id]
         assert quest["objective"]["type"] == "chapter03_evidence"
         assert quest["objective"]["id"] in evidence_ids

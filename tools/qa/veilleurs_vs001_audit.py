@@ -108,7 +108,7 @@ def audit() -> list[str]:
     if amap["invariants"].get("scene_snapshot_persistence") is not False:
         errors.append("scene_snapshots_forbidden")
 
-    if set(balance["watchers"]) != {"nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"}:
+    if set(balance["watchers"]) != {"Marec", "Mathilde", "Aurélien", "Anouk"}:
         errors.append("watcher_quartet_changed")
     if balance["light"]["initial"] < 0 or balance["light"]["initial"] > 100:
         errors.append("light_initial_out_of_range")
@@ -169,7 +169,7 @@ def audit() -> list[str]:
         errors.append("required_dialogue_missing")
     for event in dialogues["events"]:
         variants = event.get("variants", {})
-        if set(variants) != {"nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"}:
+        if set(variants) != {"Marec", "Mathilde", "Aurélien", "Anouk"}:
             errors.append(f"dialogue_missing_watcher_variant:{event['id']}")
 
     principles = ui.get("principles", {})

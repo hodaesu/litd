@@ -34,7 +34,7 @@ def main() -> int:
             errors.append(f"legacy_dependency:{forbidden}")
 
     required_hemocorde = [
-        'AISHA_ID := "ENT_WATCHER_AISHA"',
+        'aurelien_ID := "ENT_WATCHER_aurelien"',
         'BRANCH := "hemocorde"',
         'ULTIMATE_NAME := "Le Dernier Battement"',
         '"vascular_known_zones"',
@@ -70,7 +70,7 @@ def main() -> int:
         errors.append("authored_runtime_v062")
 
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
-    row = contract.get("ultimates", {}).get("aisha_maren:hemocorde", {})
+    row = contract.get("ultimates", {}).get("Aurélien:hemocorde", {})
     if row.get("name") != "Le Dernier Battement":
         errors.append("contract_name")
     if row.get("charge_commit_state") != "ULTIMATE_RESOLVE":

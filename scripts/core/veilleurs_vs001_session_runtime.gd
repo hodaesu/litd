@@ -172,7 +172,7 @@ func recruitment_action(action_id: String) -> Dictionary:
 
     var pulse_cost := int(action.get("pulse", 0))
     if pulse_cost > 0:
-        advance_pulse("complex_treatment" if action_id == "aisha_treat" else "brief_inspect", true, pulse_cost)
+        advance_pulse("complex_treatment" if action_id == "aurelien_treat" else "brief_inspect", true, pulse_cost)
 
     if action_id == "leave":
         state["s6_outcome"] = "left_alive"

@@ -3,8 +3,8 @@ extends Node
 signal corpse_previewed(scar_id: String, preview: Dictionary)
 signal corpse_action_resolved(scar_id: String, action_id: String, result: Dictionary)
 
-const AISHA_CORPSE_SKILL := "AÏ-ANA-12"
-const TAREK_CORPSE_SKILL := "TA-DIS-12"
+const aurelien_CORPSE_SKILL := "AU-ANA-12"
+const mathilde_CORPSE_SKILL := "MA-DIS-12"
 
 func preview(scar_id: String) -> Dictionary:
     if not RemanenceRuntime.world_scars.has(scar_id):
@@ -19,10 +19,10 @@ func preview(scar_id: String) -> Dictionary:
     options.append(_option("inspect", "EXAMINER", false, "Observer le corps et ses traces sans le modifier."))
     if state not in ["destroyed", "consumed", "burned"]:
         options.append(_option("move", "DÉPLACER", false, "Déplace physiquement le corps dans la salle; la nouvelle position est persistante."))
-        if _party_has_skill(AISHA_CORPSE_SKILL):
-            options.append(_option("study_aisha", "AÏSHA · LECTURE DES MORTS", false, "Analyse anatomique du cadavre et enregistre ce qui peut être appris."))
-        if _party_has_skill(TAREK_CORPSE_SKILL):
-            options.append(_option("cover_tarek", "TAREK · DERRIÈRE LES MORTS", false, "Prépare ce corps comme couverture réelle pour une utilisation tactique."))
+        if _party_has_skill(aurelien_CORPSE_SKILL):
+            options.append(_option("study_aurelien", "Aurélien · LECTURE DES MORTS", false, "Analyse anatomique du cadavre et enregistre ce qui peut être appris."))
+        if _party_has_skill(mathilde_CORPSE_SKILL):
+            options.append(_option("cover_mathilde", "Mathilde · DERRIÈRE LES MORTS", false, "Prépare ce corps comme couverture réelle pour une utilisation tactique."))
         if int(payload.get("postmortem_mutilation_count", 0)) <= 0:
             options.append(_option("mutilate", "MUTILER", true, "Altère irréversiblement le corps et laisse une nouvelle trace de Rémanence."))
     var preview_value := {
@@ -32,8 +32,8 @@ func preview(scar_id: String) -> Dictionary:
         "description": _description(scar, payload),
         "state": state,
         "options": options,
-        "aisha_analysis_available": _party_has_skill(AISHA_CORPSE_SKILL),
-        "tarek_cover_available": _party_has_skill(TAREK_CORPSE_SKILL)
+        "aurelien_analysis_available": _party_has_skill(aurelien_CORPSE_SKILL),
+        "mathilde_cover_available": _party_has_skill(mathilde_CORPSE_SKILL)
     }
     corpse_previewed.emit(scar_id, preview_value.duplicate(true))
     return preview_value
@@ -54,8 +54,8 @@ func execute(scar_id: String, action_id: String) -> Dictionary:
     match action_id:
         "inspect": result = _inspect(scar_id)
         "move": result = _move(scar_id)
-        "study_aisha": result = _study_aisha(scar_id)
-        "cover_tarek": result = _cover_tarek(scar_id)
+        "study_aurelien": result = _study_aurelien(scar_id)
+        "cover_mathilde": result = _cover_mathilde(scar_id)
         "mutilate": result = _mutilate(scar_id)
         _: result = {"ok": false, "reason": "unknown_action"}
     corpse_action_resolved.emit(scar_id, action_id, result.duplicate(true))
@@ -84,12 +84,12 @@ func _move(scar_id: String) -> Dictionary:
     GameState.add_log("Le corps est déplacé. Sa nouvelle position restera dans le monde.")
     return {"ok": true, "action": "move", "scar_id": scar_id, "corpse_offset": payload["corpse_offset"]}
 
-func _study_aisha(scar_id: String) -> Dictionary:
-    if not _party_has_skill(AISHA_CORPSE_SKILL):
-        return {"ok": false, "reason": "aisha_skill_required"}
+func _study_aurelien(scar_id: String) -> Dictionary:
+    if not _party_has_skill(aurelien_CORPSE_SKILL):
+        return {"ok": false, "reason": "aurelien_skill_required"}
     var scar: Dictionary = RemanenceRuntime.world_scars[scar_id]
     var payload: Dictionary = scar.get("payload", {}).duplicate(true)
-    payload["studied_by_aisha"] = true
+    payload["studied_by_aurelien"] = true
     payload["last_studied_run"] = RemanenceRuntime.run_index
     var body_snapshot: Dictionary = payload.get("body_snapshot", {})
     payload["study_summary"] = {
@@ -98,17 +98,17 @@ func _study_aisha(scar_id: String) -> Dictionary:
         "known_anatomy_states": (body_snapshot.get("anatomy_part_states", {}) as Dictionary).size()
     }
     RemanenceRuntime.update_world_scar(scar_id, {"payload": payload})
-    _disturb(scar_id, "studied_by_aisha")
-    RemanenceRuntime.link_archive_nodes("hero:aisha_maren", scar_id, "studied_corpse", {"run_index": RemanenceRuntime.run_index})
+    _disturb(scar_id, "studied_by_aurelien")
+    RemanenceRuntime.link_archive_nodes("hero:Aurélien", scar_id, "studied_corpse", {"run_index": RemanenceRuntime.run_index})
     var origin_entity_id := str(scar.get("origin_entity_id", ""))
     if origin_entity_id != "":
-        RemanenceRuntime.link_archive_nodes("hero:aisha_maren", origin_entity_id, "anatomy_learned_from_corpse", {"scar_id": scar_id})
-    GameState.add_log("Aïsha lit les lésions du corps et inscrit l’observation dans les Archives.")
-    return {"ok": true, "action": "study_aisha", "scar_id": scar_id, "study_summary": payload["study_summary"]}
+        RemanenceRuntime.link_archive_nodes("hero:Aurélien", origin_entity_id, "anatomy_learned_from_corpse", {"scar_id": scar_id})
+    GameState.add_log("Aurélien lit les lésions du corps et inscrit l’observation dans les Archives.")
+    return {"ok": true, "action": "study_aurelien", "scar_id": scar_id, "study_summary": payload["study_summary"]}
 
-func _cover_tarek(scar_id: String) -> Dictionary:
-    if not _party_has_skill(TAREK_CORPSE_SKILL):
-        return {"ok": false, "reason": "tarek_skill_required"}
+func _cover_mathilde(scar_id: String) -> Dictionary:
+    if not _party_has_skill(mathilde_CORPSE_SKILL):
+        return {"ok": false, "reason": "mathilde_skill_required"}
     var scar: Dictionary = RemanenceRuntime.world_scars[scar_id]
     var payload: Dictionary = scar.get("payload", {}).duplicate(true)
     payload["prepared_as_cover"] = true
@@ -116,9 +116,9 @@ func _cover_tarek(scar_id: String) -> Dictionary:
     payload["last_cover_run"] = RemanenceRuntime.run_index
     RemanenceRuntime.update_world_scar(scar_id, {"payload": payload})
     _disturb(scar_id, "prepared_as_cover")
-    RemanenceRuntime.link_archive_nodes("hero:tarek_senn", scar_id, "corpse_cover", {"run_index": RemanenceRuntime.run_index})
-    GameState.add_log("Tarek repère comment utiliser ce corps comme couverture sans le faire disparaître.")
-    return {"ok": true, "action": "cover_tarek", "scar_id": scar_id, "cover_quality": int(payload["cover_quality"])}
+    RemanenceRuntime.link_archive_nodes("hero:Mathilde", scar_id, "corpse_cover", {"run_index": RemanenceRuntime.run_index})
+    GameState.add_log("Mathilde repère comment utiliser ce corps comme couverture sans le faire disparaître.")
+    return {"ok": true, "action": "cover_mathilde", "scar_id": scar_id, "cover_quality": int(payload["cover_quality"])}
 
 func _mutilate(scar_id: String) -> Dictionary:
     var scar: Dictionary = RemanenceRuntime.world_scars[scar_id]
@@ -166,10 +166,10 @@ func _description(scar: Dictionary, payload: Dictionary) -> String:
     var parts: Array[String] = []
     parts.append(str(scar.get("summary", "Un corps persiste ici.")))
     parts.append("État : %s." % str(payload.get("corpse_state", "intact")))
-    if bool(payload.get("studied_by_aisha", false)):
-        parts.append("Aïsha a déjà étudié ses lésions.")
+    if bool(payload.get("studied_by_aurelien", false)):
+        parts.append("Aurélien a déjà étudié ses lésions.")
     if bool(payload.get("prepared_as_cover", false)):
-        parts.append("Tarek l’a préparé comme couverture tactique.")
+        parts.append("Mathilde l’a préparé comme couverture tactique.")
     if int(payload.get("postmortem_mutilation_count", 0)) > 0:
         parts.append("Le corps porte une mutilation post-mortem persistante.")
     return " ".join(parts)

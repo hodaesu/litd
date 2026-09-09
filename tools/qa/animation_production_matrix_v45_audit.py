@@ -133,7 +133,7 @@ def audit() -> list[str]:
         errors.append("total master clips with signatures mismatch")
 
     roster = contract.get("canonical_signature_roster", {})
-    expected_heroes = {"nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"}
+    expected_heroes = {"Marec", "Mathilde", "Aurélien", "Anouk"}
     actual_heroes = {str(item.get("id", "")) for item in roster.get("veilleurs", [])}
     if actual_heroes != expected_heroes:
         errors.append(f"canonical Veilleur roster mismatch: {sorted(actual_heroes)}")

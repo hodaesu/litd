@@ -1,48 +1,48 @@
 extends Node
 
-const TAREK_RETURN_BLADE := "TA-ENT-04"
-const TAREK_SWEEP_REACTION := "TA-ENT-13"
-const AISHA_DEFLECTION := "AÏ-ANA-04"
-const AISHA_MUSCLE_REFLEX := "AÏ-ANA-13"
-const AISHA_REFLEX_HAND := "AÏ-SUT-04"
-const AISHA_IMMEDIATE_INTERVENTION := "AÏ-SUT-13"
-const AISHA_BLOOD_RETURN := "AÏ-HÉM-04"
-const AISHA_REFLEX_POINT := "AÏ-HÉM-13"
+const mathilde_RETURN_BLADE := "MA-ENT-04"
+const mathilde_SWEEP_REACTION := "MA-ENT-13"
+const aurelien_DEFLECTION := "AU-ANA-04"
+const aurelien_MUSCLE_REFLEX := "AU-ANA-13"
+const aurelien_REFLEX_HAND := "AU-SUT-04"
+const aurelien_IMMEDIATE_INTERVENTION := "AU-SUT-13"
+const aurelien_BLOOD_RETURN := "AÏ-HÉM-04"
+const aurelien_REFLEX_POINT := "AÏ-HÉM-13"
 
 signal reaction_resolved(actor_id: String, skill_id: String, result: Dictionary)
 
 func refresh_passive_states(party: Array, enemies: Array) -> void:
-    var tarek := _hero(party, "tarek_senn")
-    if not tarek.is_empty():
-        tarek["entaille_bleed_maintenance"] = _has_skill(tarek, "TA-ENT-03")
-        tarek["entaille_injured_precision"] = _has_skill(tarek, "TA-ENT-07")
-        tarek["entaille_mobility_priority"] = _has_skill(tarek, "TA-ENT-11")
-        tarek["entaille_weakness_hunter"] = _has_skill(tarek, "TA-ENT-15")
-        if bool(tarek.get("entaille_weakness_hunter", false)):
+    var Mathilde := _hero(party, "Mathilde")
+    if not Mathilde.is_empty():
+        Mathilde["entaille_bleed_maintenance"] = _has_skill(Mathilde, "MA-ENT-03")
+        Mathilde["entaille_injured_precision"] = _has_skill(Mathilde, "MA-ENT-07")
+        Mathilde["entaille_mobility_priority"] = _has_skill(Mathilde, "MA-ENT-11")
+        Mathilde["entaille_weakness_hunter"] = _has_skill(Mathilde, "MA-ENT-15")
+        if bool(Mathilde.get("entaille_weakness_hunter", false)):
             for enemy_value: Variant in enemies:
                 if enemy_value is Dictionary:
                     var enemy: Dictionary = enemy_value
                     var weak_part := _most_injured_part(enemy)
                     if weak_part != "":
-                        enemy["tarek_auto_weakness_part"] = weak_part
+                        enemy["mathilde_auto_weakness_part"] = weak_part
 
-    var aisha := _hero(party, "aisha_maren")
-    if aisha.is_empty():
+    var Aurélien := _hero(party, "Aurélien")
+    if Aurélien.is_empty():
         return
-    aisha["anatomy_precision_passive"] = _has_skill(aisha, "AÏ-ANA-03")
-    aisha["anatomy_bestiarity_passive"] = _has_skill(aisha, "AÏ-ANA-07")
-    aisha["anatomy_locomotor_priority"] = _has_skill(aisha, "AÏ-ANA-11")
-    aisha["all_wounds_speak"] = _has_skill(aisha, "AÏ-ANA-15")
-    aisha["field_stabilization_passive"] = _has_skill(aisha, "AÏ-SUT-03")
-    aisha["material_saving_passive"] = _has_skill(aisha, "AÏ-SUT-07")
-    aisha["function_preservation_passive"] = _has_skill(aisha, "AÏ-SUT-11")
-    aisha["war_medicine_active"] = _has_skill(aisha, "AÏ-SUT-15")
+    Aurélien["anatomy_precision_passive"] = _has_skill(Aurélien, "AU-ANA-03")
+    Aurélien["anatomy_bestiarity_passive"] = _has_skill(Aurélien, "AU-ANA-07")
+    Aurélien["anatomy_locomotor_priority"] = _has_skill(Aurélien, "AU-ANA-11")
+    Aurélien["all_wounds_speak"] = _has_skill(Aurélien, "AU-ANA-15")
+    Aurélien["field_stabilization_passive"] = _has_skill(Aurélien, "AU-SUT-03")
+    Aurélien["material_saving_passive"] = _has_skill(Aurélien, "AU-SUT-07")
+    Aurélien["function_preservation_passive"] = _has_skill(Aurélien, "AU-SUT-11")
+    Aurélien["war_medicine_active"] = _has_skill(Aurélien, "AU-SUT-15")
 
-    if bool(aisha.get("all_wounds_speak", false)):
+    if bool(Aurélien.get("all_wounds_speak", false)):
         for enemy_value: Variant in enemies:
             if enemy_value is Dictionary:
-                _reveal_visible_lesions(aisha, enemy_value)
-    if bool(aisha.get("war_medicine_active", false)):
+                _reveal_visible_lesions(Aurélien, enemy_value)
+    if bool(Aurélien.get("war_medicine_active", false)):
         for ally_value: Variant in party:
             if ally_value is Dictionary:
                 var ally: Dictionary = ally_value
@@ -50,54 +50,54 @@ func refresh_passive_states(party: Array, enemies: Array) -> void:
 
 func before_enemy_damage(enemy: Dictionary, target: Dictionary, damage: int, round_index: int, party: Array) -> Dictionary:
     var result := {"damage": maxi(1, damage), "reaction": {}}
-    var aisha := _hero(party, "aisha_maren")
-    if aisha.is_empty() or not _reaction_available(aisha, round_index) or not _adjacent(aisha, target):
+    var Aurélien := _hero(party, "Aurélien")
+    if Aurélien.is_empty() or not _reaction_available(Aurélien, round_index) or not _adjacent(Aurélien, target):
         return result
 
     var current_ratio := _hp_ratio(target)
     var projected_hp := maxi(0, int(target.get("hp", 0)) - damage)
     var projected_ratio := float(projected_hp) / float(maxi(1, int(target.get("max_hp", 1))))
-    # L'urgence médicale conserve la réaction d'Aïsha pour l'après-impact.
-    if _has_skill(aisha, AISHA_IMMEDIATE_INTERVENTION) and current_ratio > 0.25 and projected_ratio <= 0.25:
+    # L'urgence médicale conserve la réaction d'Aurélien pour l'après-impact.
+    if _has_skill(Aurélien, aurelien_IMMEDIATE_INTERVENTION) and current_ratio > 0.25 and projected_ratio <= 0.25:
         return result
-    if not _has_skill(aisha, AISHA_DEFLECTION):
+    if not _has_skill(Aurélien, aurelien_DEFLECTION):
         return result
 
     var prevented := clampi(int(round(float(damage) * 0.25)), 1, 6)
     result["damage"] = maxi(1, damage - prevented)
     var reaction := {
         "ok": true,
-        "actor_id": "aisha_maren",
-        "skill_id": AISHA_DEFLECTION,
+        "actor_id": "Aurélien",
+        "skill_id": aurelien_DEFLECTION,
         "target_id": str(target.get("id", "")),
         "enemy_id": str(enemy.get("id", "")),
         "prevented_damage": prevented,
         "round": round_index
     }
-    _consume_reaction(aisha, round_index, AISHA_DEFLECTION)
+    _consume_reaction(Aurélien, round_index, aurelien_DEFLECTION)
     result["reaction"] = reaction
-    reaction_resolved.emit("aisha_maren", AISHA_DEFLECTION, reaction.duplicate(true))
+    reaction_resolved.emit("Aurélien", aurelien_DEFLECTION, reaction.duplicate(true))
     return result
 
 func after_enemy_hit(enemy: Dictionary, target: Dictionary, hp_before: int, bleeding_before: int, round_index: int, party: Array) -> Dictionary:
-    var aisha := _hero(party, "aisha_maren")
-    if aisha.is_empty() or not _reaction_available(aisha, round_index) or not _adjacent(aisha, target):
+    var Aurélien := _hero(party, "Aurélien")
+    if Aurélien.is_empty() or not _reaction_available(Aurélien, round_index) or not _adjacent(Aurélien, target):
         return {}
 
     var hp_after := int(target.get("hp", 0))
     var max_hp := maxi(1, int(target.get("max_hp", 1)))
     var crossed_critical := hp_before > int(round(float(max_hp) * 0.25)) and hp_after <= int(round(float(max_hp) * 0.25)) and hp_after > 0
-    if crossed_critical and _has_skill(aisha, AISHA_IMMEDIATE_INTERVENTION):
+    if crossed_critical and _has_skill(Aurélien, aurelien_IMMEDIATE_INTERVENTION):
         var injury_id := _stabilize_best_injury(target)
         var bleed_before_reaction := int(target.get("bleeding", 0))
-        target["bleeding"] = maxi(0, bleed_before_reaction - (4 if _has_skill(aisha, "AÏ-SUT-03") else 3))
+        target["bleeding"] = maxi(0, bleed_before_reaction - (4 if _has_skill(Aurélien, "AU-SUT-03") else 3))
         target["transportable"] = true
-        if _has_skill(aisha, "AÏ-SUT-11"):
+        if _has_skill(Aurélien, "AU-SUT-11"):
             target["function_preserved_until_rest"] = true
         var critical_result := {
             "ok": true,
-            "actor_id": "aisha_maren",
-            "skill_id": AISHA_IMMEDIATE_INTERVENTION,
+            "actor_id": "Aurélien",
+            "skill_id": aurelien_IMMEDIATE_INTERVENTION,
             "target_id": str(target.get("id", "")),
             "enemy_id": str(enemy.get("id", "")),
             "stabilized_injury": injury_id,
@@ -105,21 +105,21 @@ func after_enemy_hit(enemy: Dictionary, target: Dictionary, hp_before: int, blee
             "bleeding_after": int(target.get("bleeding", 0)),
             "round": round_index
         }
-        _consume_reaction(aisha, round_index, AISHA_IMMEDIATE_INTERVENTION)
-        reaction_resolved.emit("aisha_maren", AISHA_IMMEDIATE_INTERVENTION, critical_result.duplicate(true))
+        _consume_reaction(Aurélien, round_index, aurelien_IMMEDIATE_INTERVENTION)
+        reaction_resolved.emit("Aurélien", aurelien_IMMEDIATE_INTERVENTION, critical_result.duplicate(true))
         return critical_result
 
     var bleeding_after := int(target.get("bleeding", 0))
-    if bleeding_after - bleeding_before >= 3 and _has_skill(aisha, AISHA_REFLEX_HAND):
-        var reduction := 3 if _has_skill(aisha, "AÏ-SUT-03") else 2
+    if bleeding_after - bleeding_before >= 3 and _has_skill(Aurélien, aurelien_REFLEX_HAND):
+        var reduction := 3 if _has_skill(Aurélien, "AU-SUT-03") else 2
         target["bleeding"] = maxi(0, bleeding_after - reduction)
         var injury_id := _stabilize_best_injury(target)
-        if _has_skill(aisha, "AÏ-SUT-11"):
+        if _has_skill(Aurélien, "AU-SUT-11"):
             target["function_preserved_until_rest"] = true
         var hemorrhage_result := {
             "ok": true,
-            "actor_id": "aisha_maren",
-            "skill_id": AISHA_REFLEX_HAND,
+            "actor_id": "Aurélien",
+            "skill_id": aurelien_REFLEX_HAND,
             "target_id": str(target.get("id", "")),
             "enemy_id": str(enemy.get("id", "")),
             "stabilized_injury": injury_id,
@@ -127,8 +127,8 @@ func after_enemy_hit(enemy: Dictionary, target: Dictionary, hp_before: int, blee
             "bleeding_after": int(target.get("bleeding", 0)),
             "round": round_index
         }
-        _consume_reaction(aisha, round_index, AISHA_REFLEX_HAND)
-        reaction_resolved.emit("aisha_maren", AISHA_REFLEX_HAND, hemorrhage_result.duplicate(true))
+        _consume_reaction(Aurélien, round_index, aurelien_REFLEX_HAND)
+        reaction_resolved.emit("Aurélien", aurelien_REFLEX_HAND, hemorrhage_result.duplicate(true))
         return hemorrhage_result
     return {}
 
@@ -136,12 +136,12 @@ func after_enemy_hit(enemy: Dictionary, target: Dictionary, hp_before: int, blee
 # les réactions médicales et les ouvertures de mouvement, afin qu'une urgence
 # ou Pointe réflexe garde la priorité sur Retour sanguin.
 func after_enemy_action(enemy: Dictionary, target: Dictionary, round_index: int, party: Array) -> Dictionary:
-    var aisha := _hero(party, "aisha_maren")
-    if aisha.is_empty() or int(enemy.get("hp", 0)) <= 0:
+    var Aurélien := _hero(party, "Aurélien")
+    if Aurélien.is_empty() or int(enemy.get("hp", 0)) <= 0:
         return {}
-    if not _has_skill(aisha, AISHA_BLOOD_RETURN) or not _reaction_available(aisha, round_index):
+    if not _has_skill(Aurélien, aurelien_BLOOD_RETURN) or not _reaction_available(Aurélien, round_index):
         return {}
-    if int(enemy.get("bleeding", 0)) <= 0 or not _adjacent(aisha, target):
+    if int(enemy.get("bleeding", 0)) <= 0 or not _adjacent(Aurélien, target):
         return {}
 
     AnatomyRuntime.ensure_state(enemy)
@@ -152,16 +152,16 @@ func after_enemy_action(enemy: Dictionary, target: Dictionary, round_index: int,
     if part == "":
         return {}
 
-    var damage := maxi(3, 3 + int(aisha.get("level", 1)) / 15)
+    var damage := maxi(3, 3 + int(Aurélien.get("level", 1)) / 15)
     var bleeding_before_enemy := int(enemy.get("bleeding", 0))
     enemy["hp"] = maxi(0, int(enemy.get("hp", 0)) - damage)
-    var anatomy_result := AnatomyRuntime.register_targeted_hit(aisha, enemy, "technique", damage, part, AISHA_BLOOD_RETURN)
+    var anatomy_result := AnatomyRuntime.register_targeted_hit(Aurélien, enemy, "technique", damage, part, aurelien_BLOOD_RETURN)
     enemy["bleeding"] = bleeding_before_enemy + 1
     var circulation := VeilleursSkillResolverRouter.refresh_specialized_target(enemy)
     var result := {
         "ok": true,
-        "actor_id": "aisha_maren",
-        "skill_id": AISHA_BLOOD_RETURN,
+        "actor_id": "Aurélien",
+        "skill_id": aurelien_BLOOD_RETURN,
         "target_id": str(target.get("id", "")),
         "enemy_id": str(enemy.get("id", "")),
         "damage": damage,
@@ -171,35 +171,35 @@ func after_enemy_action(enemy: Dictionary, target: Dictionary, round_index: int,
         "circulatory_shock": int(circulation.get("shock", enemy.get("circulatory_shock", 0))),
         "round": round_index
     }
-    _consume_reaction(aisha, round_index, AISHA_BLOOD_RETURN)
-    reaction_resolved.emit("aisha_maren", AISHA_BLOOD_RETURN, result.duplicate(true))
+    _consume_reaction(Aurélien, round_index, aurelien_BLOOD_RETURN)
+    reaction_resolved.emit("Aurélien", aurelien_BLOOD_RETURN, result.duplicate(true))
     return result
 
 func on_enemy_miss(enemy: Dictionary, target: Dictionary, round_index: int, party: Array) -> Dictionary:
-    if str(target.get("id", "")) != "tarek_senn":
+    if str(target.get("id", "")) != "Mathilde":
         return {}
-    var tarek := _hero(party, "tarek_senn")
-    if tarek.is_empty() or not _has_skill(tarek, TAREK_RETURN_BLADE) or not _reaction_available(tarek, round_index):
+    var Mathilde := _hero(party, "Mathilde")
+    if Mathilde.is_empty() or not _has_skill(Mathilde, mathilde_RETURN_BLADE) or not _reaction_available(Mathilde, round_index):
         return {}
-    var damage := maxi(3, 3 + int(tarek.get("level", 1)) / 12)
+    var damage := maxi(3, 3 + int(Mathilde.get("level", 1)) / 12)
     enemy["hp"] = maxi(0, int(enemy.get("hp", 0)) - damage)
     AnatomyRuntime.ensure_state(enemy)
     var part := _preferred_close_part(enemy)
     var anatomy_result := {}
     if part != "":
-        anatomy_result = AnatomyRuntime.register_targeted_hit(tarek, enemy, "technique", damage, part, TAREK_RETURN_BLADE)
+        anatomy_result = AnatomyRuntime.register_targeted_hit(Mathilde, enemy, "technique", damage, part, mathilde_RETURN_BLADE)
         enemy["bleeding"] = int(enemy.get("bleeding", 0)) + 1
     var result := {
         "ok": true,
-        "actor_id": "tarek_senn",
-        "skill_id": TAREK_RETURN_BLADE,
+        "actor_id": "Mathilde",
+        "skill_id": mathilde_RETURN_BLADE,
         "enemy_id": str(enemy.get("id", "")),
         "damage": damage,
         "part_id": str(anatomy_result.get("part_id", part)),
         "round": round_index
     }
-    _consume_reaction(tarek, round_index, TAREK_RETURN_BLADE)
-    reaction_resolved.emit("tarek_senn", TAREK_RETURN_BLADE, result.duplicate(true))
+    _consume_reaction(Mathilde, round_index, mathilde_RETURN_BLADE)
+    reaction_resolved.emit("Mathilde", mathilde_RETURN_BLADE, result.duplicate(true))
     return result
 
 func on_enemy_movement(enemy: Dictionary, position_before: int, position_after: int, round_index: int, party: Array) -> Array[Dictionary]:
@@ -207,48 +207,48 @@ func on_enemy_movement(enemy: Dictionary, position_before: int, position_after: 
     if position_before == position_after or int(enemy.get("hp", 0)) <= 0:
         return results
 
-    var tarek := _hero(party, "tarek_senn")
-    if not tarek.is_empty() and _has_skill(tarek, TAREK_SWEEP_REACTION) and _reaction_available(tarek, round_index):
-        var damage := maxi(4, 4 + int(tarek.get("level", 1)) / 10)
+    var Mathilde := _hero(party, "Mathilde")
+    if not Mathilde.is_empty() and _has_skill(Mathilde, mathilde_SWEEP_REACTION) and _reaction_available(Mathilde, round_index):
+        var damage := maxi(4, 4 + int(Mathilde.get("level", 1)) / 10)
         enemy["hp"] = maxi(0, int(enemy.get("hp", 0)) - damage)
         var part := _preferred_close_part(enemy)
         if part != "":
-            AnatomyRuntime.register_targeted_hit(tarek, enemy, "technique", damage, part, TAREK_SWEEP_REACTION)
+            AnatomyRuntime.register_targeted_hit(Mathilde, enemy, "technique", damage, part, mathilde_SWEEP_REACTION)
             enemy["bleeding"] = int(enemy.get("bleeding", 0)) + 1
-        var tarek_result := {
+        var mathilde_result := {
             "ok": true,
-            "actor_id": "tarek_senn",
-            "skill_id": TAREK_SWEEP_REACTION,
+            "actor_id": "Mathilde",
+            "skill_id": mathilde_SWEEP_REACTION,
             "enemy_id": str(enemy.get("id", "")),
             "damage": damage,
             "position_before": position_before,
             "position_after": position_after,
             "round": round_index
         }
-        _consume_reaction(tarek, round_index, TAREK_SWEEP_REACTION)
-        reaction_resolved.emit("tarek_senn", TAREK_SWEEP_REACTION, tarek_result.duplicate(true))
-        results.append(tarek_result)
+        _consume_reaction(Mathilde, round_index, mathilde_SWEEP_REACTION)
+        reaction_resolved.emit("Mathilde", mathilde_SWEEP_REACTION, mathilde_result.duplicate(true))
+        results.append(mathilde_result)
 
-    var aisha := _hero(party, "aisha_maren")
-    if aisha.is_empty() or not _reaction_available(aisha, round_index) or int(enemy.get("hp", 0)) <= 0:
+    var Aurélien := _hero(party, "Aurélien")
+    if Aurélien.is_empty() or not _reaction_available(Aurélien, round_index) or int(enemy.get("hp", 0)) <= 0:
         return results
 
     # Pointe réflexe est plus spécifique que Réflexe musculaire : si une zone
     # vasculaire connue devient brièvement accessible au premier plan, elle a priorité.
-    if _has_skill(aisha, AISHA_REFLEX_POINT) and mini(position_before, position_after) <= 1:
+    if _has_skill(Aurélien, aurelien_REFLEX_POINT) and mini(position_before, position_after) <= 1:
         AnatomyRuntime.ensure_state(enemy)
         var vascular_part := _known_vascular_part(enemy)
         if vascular_part != "":
-            var damage := maxi(5, 5 + int(aisha.get("level", 1)) / 12)
+            var damage := maxi(5, 5 + int(Aurélien.get("level", 1)) / 12)
             var bleeding_before_enemy := int(enemy.get("bleeding", 0))
             enemy["hp"] = maxi(0, int(enemy.get("hp", 0)) - damage)
-            var anatomy_result := AnatomyRuntime.register_targeted_hit(aisha, enemy, "technique", damage, vascular_part, AISHA_REFLEX_POINT)
+            var anatomy_result := AnatomyRuntime.register_targeted_hit(Aurélien, enemy, "technique", damage, vascular_part, aurelien_REFLEX_POINT)
             enemy["bleeding"] = bleeding_before_enemy + 1
             var circulation := VeilleursSkillResolverRouter.refresh_specialized_target(enemy)
             var point_result := {
                 "ok": true,
-                "actor_id": "aisha_maren",
-                "skill_id": AISHA_REFLEX_POINT,
+                "actor_id": "Aurélien",
+                "skill_id": aurelien_REFLEX_POINT,
                 "enemy_id": str(enemy.get("id", "")),
                 "damage": damage,
                 "part_id": str(anatomy_result.get("part_id", vascular_part)),
@@ -259,33 +259,33 @@ func on_enemy_movement(enemy: Dictionary, position_before: int, position_after: 
                 "position_after": position_after,
                 "round": round_index
             }
-            _consume_reaction(aisha, round_index, AISHA_REFLEX_POINT)
-            reaction_resolved.emit("aisha_maren", AISHA_REFLEX_POINT, point_result.duplicate(true))
+            _consume_reaction(Aurélien, round_index, aurelien_REFLEX_POINT)
+            reaction_resolved.emit("Aurélien", aurelien_REFLEX_POINT, point_result.duplicate(true))
             results.append(point_result)
 
-    if _reaction_available(aisha, round_index) and _has_skill(aisha, AISHA_MUSCLE_REFLEX):
+    if _reaction_available(Aurélien, round_index) and _has_skill(Aurélien, aurelien_MUSCLE_REFLEX):
         AnatomyRuntime.ensure_state(enemy)
         var locomotor_part := _part_with_any_tag(enemy, ["mobility", "support", "anchor"])
         if locomotor_part == "":
             locomotor_part = _preferred_close_part(enemy)
         var anatomy_result := {}
         if locomotor_part != "":
-            anatomy_result = AnatomyRuntime.register_targeted_hit(aisha, enemy, "technique", 6, locomotor_part, AISHA_MUSCLE_REFLEX)
+            anatomy_result = AnatomyRuntime.register_targeted_hit(Aurélien, enemy, "technique", 6, locomotor_part, aurelien_MUSCLE_REFLEX)
             var state := str(anatomy_result.get("state", enemy.get("anatomy_part_states", {}).get(locomotor_part, "intact")))
             InjuryRuntime.apply_if_needed(enemy, locomotor_part, state)
-        var aisha_result := {
+        var aurelien_result := {
             "ok": true,
-            "actor_id": "aisha_maren",
-            "skill_id": AISHA_MUSCLE_REFLEX,
+            "actor_id": "Aurélien",
+            "skill_id": aurelien_MUSCLE_REFLEX,
             "enemy_id": str(enemy.get("id", "")),
             "part_id": locomotor_part,
             "position_before": position_before,
             "position_after": position_after,
             "round": round_index
         }
-        _consume_reaction(aisha, round_index, AISHA_MUSCLE_REFLEX)
-        reaction_resolved.emit("aisha_maren", AISHA_MUSCLE_REFLEX, aisha_result.duplicate(true))
-        results.append(aisha_result)
+        _consume_reaction(Aurélien, round_index, aurelien_MUSCLE_REFLEX)
+        reaction_resolved.emit("Aurélien", aurelien_MUSCLE_REFLEX, aurelien_result.duplicate(true))
+        results.append(aurelien_result)
     return results
 
 func advance_round_state(party: Array) -> void:
@@ -322,10 +322,10 @@ func _hero(party: Array, hero_id: String) -> Dictionary:
 func _has_skill(hero: Dictionary, skill_id: String) -> bool:
     return (hero.get("unlocked_skills", []) as Array).has(skill_id)
 
-func _adjacent(aisha: Dictionary, target: Dictionary) -> bool:
-    if str(aisha.get("id", "")) == str(target.get("id", "")):
+func _adjacent(Aurélien: Dictionary, target: Dictionary) -> bool:
+    if str(Aurélien.get("id", "")) == str(target.get("id", "")):
         return true
-    return absi(int(aisha.get("combat_position", 0)) - int(target.get("combat_position", 0))) <= 1
+    return absi(int(Aurélien.get("combat_position", 0)) - int(target.get("combat_position", 0))) <= 1
 
 func _hp_ratio(character: Dictionary) -> float:
     return float(character.get("hp", 0)) / float(maxi(1, int(character.get("max_hp", 1))))
@@ -357,9 +357,9 @@ func _stabilize_best_injury(patient: Dictionary) -> String:
         PersistentInjuryRuntime.stabilize_in_field(patient, best_id)
     return best_id
 
-func _reveal_visible_lesions(aisha: Dictionary, enemy: Dictionary) -> void:
+func _reveal_visible_lesions(Aurélien: Dictionary, enemy: Dictionary) -> void:
     AnatomyRuntime.ensure_state(enemy)
-    var diagnostics: Dictionary = enemy.get("aisha_diagnostics", {})
+    var diagnostics: Dictionary = enemy.get("aurelien_diagnostics", {})
     for part_value: Variant in AnatomyRuntime.targetable_parts(enemy):
         var part: Dictionary = part_value
         var part_id := str(part.get("id", ""))
@@ -371,11 +371,11 @@ func _reveal_visible_lesions(aisha: Dictionary, enemy: Dictionary) -> void:
             "state": state,
             "functional": InjuryRuntime.part_functional(enemy, part_id),
             "consequence": str(part.get("consequence", "")),
-            "observer_id": "aisha_maren",
-            "transformation": "AÏ-ANA-15",
+            "observer_id": "Aurélien",
+            "transformation": "AU-ANA-15",
             "run_index": RemanenceRuntime.run_index
         }
-    enemy["aisha_diagnostics"] = diagnostics
+    enemy["aurelien_diagnostics"] = diagnostics
 
 func _most_injured_part(enemy: Dictionary) -> String:
     AnatomyRuntime.ensure_state(enemy)

@@ -14,12 +14,12 @@ func _run() -> void:
     VeilleursVS001PlayableBridge.activate_watchers_party()
     await get_tree().process_frame
 
-    var aisha := _hero("aisha_maren")
-    _check(not aisha.is_empty(), "Hemocorde smoke requires Aïsha Maren")
+    var Aurélien := _hero("Aurélien")
+    _check(not Aurélien.is_empty(), "Hemocorde smoke requires Aurélien")
     _check(not _party_ids(GameState.party).has("aurelien"), "Aurélien must never enter the Veilleurs Hemocorde runtime")
-    aisha["level"] = 50
-    aisha["hp"] = int(aisha.get("max_hp", 100))
-    aisha["unlocked_skills"] = ["AÏ-HÉM-01", "AÏ-HÉM-03", "AÏ-HÉM-05", "AÏ-HÉM-06", "AÏ-HÉM-07", "AÏ-HÉM-08", "AÏ-HÉM-09", "AÏ-HÉM-10", "AÏ-HÉM-11", "AÏ-HÉM-12", "AÏ-HÉM-14", "AÏ-HÉM-15"]
+    Aurélien["level"] = 50
+    Aurélien["hp"] = int(Aurélien.get("max_hp", 100))
+    Aurélien["unlocked_skills"] = ["AÏ-HÉM-01", "AÏ-HÉM-03", "AÏ-HÉM-05", "AÏ-HÉM-06", "AÏ-HÉM-07", "AÏ-HÉM-08", "AÏ-HÉM-09", "AÏ-HÉM-10", "AÏ-HÉM-11", "AÏ-HÉM-12", "AÏ-HÉM-14", "AÏ-HÉM-15"]
 
     var enemy := {
         "id": 940,
@@ -34,51 +34,51 @@ func _run() -> void:
     AnatomyRuntime.ensure_state(enemy)
     _check(not AnatomyRuntime.targetable_parts(enemy).is_empty(), "Hemocorde target must expose anatomy")
 
-    var incision := HeroSkillManager.combat_skill(aisha, "AÏ-HÉM-01")
+    var incision := HeroSkillManager.combat_skill(Aurélien, "AÏ-HÉM-01")
     _check(str(incision.get("effect", "")) == "attack", "Incision contrôlée must be a manual attack")
     var bleeding_before := int(enemy.get("bleeding", 0))
-    var incision_result := VeilleursSkillResolverRouter.resolve_combat(aisha, enemy, incision, 12, GameState.party)
+    var incision_result := VeilleursSkillResolverRouter.resolve_combat(Aurélien, enemy, incision, 12, GameState.party)
     _check(bool(incision_result.get("ok", false)), "Incision contrôlée must execute")
     _check(int(enemy.get("bleeding", 0)) > bleeding_before, "Incision contrôlée must create real bleeding")
     _check(str(incision_result.get("part_id", "")) != "", "Incision contrôlée must target a real anatomy part")
 
-    var vascular_line := HeroSkillManager.combat_skill(aisha, "AÏ-HÉM-06")
-    var line_result := VeilleursSkillResolverRouter.resolve_combat(aisha, enemy, vascular_line, 0, GameState.party)
+    var vascular_line := HeroSkillManager.combat_skill(Aurélien, "AÏ-HÉM-06")
+    var line_result := VeilleursSkillResolverRouter.resolve_combat(Aurélien, enemy, vascular_line, 0, GameState.party)
     _check(bool(line_result.get("ok", false)), "Ligne vasculaire must execute as a diagnostic")
     _check(not (enemy.get("vascular_known_parts", {}) as Dictionary).is_empty(), "Ligne vasculaire must attach vascular knowledge to the target")
     _check(enemy.has("vascular_line_parts"), "Ligne vasculaire must expose plausible hemorrhage zones")
 
-    var pulse := HeroSkillManager.combat_skill(aisha, "AÏ-HÉM-08")
-    var pulse_result := VeilleursSkillResolverRouter.resolve_combat(aisha, enemy, pulse, 0, GameState.party)
+    var pulse := HeroSkillManager.combat_skill(Aurélien, "AÏ-HÉM-08")
+    var pulse_result := VeilleursSkillResolverRouter.resolve_combat(Aurélien, enemy, pulse, 0, GameState.party)
     _check(bool(pulse_result.get("ok", false)), "Lire le pouls must execute")
     _check(enemy.has("pulse_reading"), "Lire le pouls must store a physiological reading")
     _check(int(pulse_result.get("hemorrhage_risk", -1)) >= 0, "Pulse reading must expose derived hemorrhage risk")
 
-    var maintain := HeroSkillManager.combat_skill(aisha, "AÏ-HÉM-05")
+    var maintain := HeroSkillManager.combat_skill(Aurélien, "AÏ-HÉM-05")
     var before_maintain := int(enemy.get("bleeding", 0))
-    var maintain_result := VeilleursSkillResolverRouter.resolve_combat(aisha, enemy, maintain, 10, GameState.party)
+    var maintain_result := VeilleursSkillResolverRouter.resolve_combat(Aurélien, enemy, maintain, 10, GameState.party)
     _check(bool(maintain_result.get("ok", false)), "Entretenir l'ouverture must execute")
     _check(int(enemy.get("bleeding", 0)) > before_maintain, "Entretenir l'ouverture must aggravate existing bleeding")
 
-    var rhythm := HeroSkillManager.combat_skill(aisha, "AÏ-HÉM-09")
-    var rhythm_result := VeilleursSkillResolverRouter.resolve_combat(aisha, enemy, rhythm, 10, GameState.party)
+    var rhythm := HeroSkillManager.combat_skill(Aurélien, "AÏ-HÉM-09")
+    var rhythm_result := VeilleursSkillResolverRouter.resolve_combat(Aurélien, enemy, rhythm, 10, GameState.party)
     _check(bool(rhythm_result.get("ok", false)), "Rupture de rythme must execute")
     _check(int(enemy.get("rhythm_disrupted_rounds", 0)) > 0, "Rupture de rythme must disrupt a physiologically vulnerable target")
 
     var selected_part := str(incision_result.get("part_id", ""))
     enemy["anatomy_part_trauma"][selected_part] = maxi(20, int(enemy.get("anatomy_part_trauma", {}).get(selected_part, 0)))
-    var open_wound := HeroSkillManager.combat_skill(aisha, "AÏ-HÉM-12")
-    var wound_result := VeilleursSkillResolverRouter.resolve_combat(aisha, enemy, open_wound, 10, GameState.party)
+    var open_wound := HeroSkillManager.combat_skill(Aurélien, "AÏ-HÉM-12")
+    var wound_result := VeilleursSkillResolverRouter.resolve_combat(Aurélien, enemy, open_wound, 10, GameState.party)
     _check(bool(wound_result.get("ok", false)), "Plaie ouverte must execute")
     _check(int(wound_result.get("bleed_added", 0)) >= 1, "Plaie ouverte must operate on actual lesion/armor state")
 
     # Maîtrise vasculaire is passive: it must reveal likely vascular zones without a manual button.
     VeilleursSkillResolverRouter.refresh_specialized_passives(GameState.party, [enemy])
-    _check(bool(aisha.get("vascular_mastery", false)), "Maîtrise vasculaire must activate as a transformation")
+    _check(bool(Aurélien.get("vascular_mastery", false)), "Maîtrise vasculaire must activate as a transformation")
     _check(not (enemy.get("vascular_known_parts", {}) as Dictionary).is_empty(), "Maîtrise vasculaire must preserve target-bound vascular knowledge")
 
     # Effondrement circulatoire cannot cheat: healthy/uncompromised target first, then compromised target.
-    var collapse := HeroSkillManager.combat_skill(aisha, "AÏ-HÉM-14")
+    var collapse := HeroSkillManager.combat_skill(Aurélien, "AÏ-HÉM-14")
     var healthy := {
         "id": 941,
         "name": "Sujet sain",
@@ -90,7 +90,7 @@ func _run() -> void:
         "dismembered_parts": []
     }
     AnatomyRuntime.ensure_state(healthy)
-    var healthy_result := VeilleursSkillResolverRouter.resolve_combat(aisha, healthy, collapse, 14, GameState.party)
+    var healthy_result := VeilleursSkillResolverRouter.resolve_combat(Aurélien, healthy, collapse, 14, GameState.party)
     _check(bool(healthy_result.get("ok", false)), "Effondrement circulatoire action must resolve even when its finisher condition fails")
     _check(not bool(healthy_result.get("circulatory_collapse", false)), "Effondrement circulatoire must not neutralize a healthy target")
 
@@ -98,24 +98,24 @@ func _run() -> void:
     enemy["hp"] = 55
     VeilleursSkillResolverRouter.refresh_specialized_passives(GameState.party, [enemy])
     var hp_before_collapse := int(enemy.get("hp", 0))
-    var collapse_result := VeilleursSkillResolverRouter.resolve_combat(aisha, enemy, collapse, 18, GameState.party)
+    var collapse_result := VeilleursSkillResolverRouter.resolve_combat(Aurélien, enemy, collapse, 18, GameState.party)
     _check(bool(collapse_result.get("ok", false)), "Effondrement circulatoire must execute on a compromised target")
     _check(bool(collapse_result.get("circulatory_collapse", false)), "Effondrement circulatoire must require and recognize physiological compromise")
     _check(int(enemy.get("hp", 0)) >= 1, "Effondrement circulatoire resolver must never perform an instant kill")
     _check(int(enemy.get("hp", 0)) <= hp_before_collapse, "Effondrement circulatoire may worsen a compromised target but cannot heal it")
 
-    var posture := HeroSkillManager.combat_skill(aisha, "AÏ-HÉM-10")
-    var posture_result := VeilleursSkillResolverRouter.resolve_combat(aisha, aisha, posture, 0, GameState.party)
+    var posture := HeroSkillManager.combat_skill(Aurélien, "AÏ-HÉM-10")
+    var posture_result := VeilleursSkillResolverRouter.resolve_combat(Aurélien, Aurélien, posture, 0, GameState.party)
     _check(bool(posture_result.get("ok", false)), "Posture hémodynamique must execute")
-    _check(int(aisha.get("hemodynamic_posture_rounds", 0)) == 3, "Posture hémodynamique must have a finite duration")
+    _check(int(Aurélien.get("hemodynamic_posture_rounds", 0)) == 3, "Posture hémodynamique must have a finite duration")
     VeilleursSkillResolverRouter.advance_specialized_round_states(GameState.party)
-    _check(int(aisha.get("hemodynamic_posture_rounds", 0)) == 2, "Posture hémodynamique must decrement with round progression")
+    _check(int(Aurélien.get("hemodynamic_posture_rounds", 0)) == 2, "Posture hémodynamique must decrement with round progression")
 
-    var reaction_node := _skill_node(aisha, "AÏ-HÉM-04")
-    var reaction_profile := VeilleursSkillResolverRouter.combat_profile(aisha, reaction_node)
+    var reaction_node := _skill_node(Aurélien, "AÏ-HÉM-04")
+    var reaction_profile := VeilleursSkillResolverRouter.combat_profile(Aurélien, reaction_node)
     _check(str(reaction_profile.get("effect", "")) == "resolver_required", "Retour sanguin must remain an automatic reaction hook rather than a manual action")
     _check(not bool(reaction_profile.get("manual_combat_usable", true)), "Hemocorde reactions must never become manual buttons")
-    var ultimate := VeilleursSkillResolverRouter.ultimate_contract(aisha, "hemocorde")
+    var ultimate := VeilleursSkillResolverRouter.ultimate_contract(Aurélien, "hemocorde")
     _check(str(ultimate.get("status", "")) == "required", "Le Dernier Battement must remain on the dedicated ultimate sequence contract")
 
     _finish(original_ids)

@@ -136,10 +136,10 @@
   },
   "canonical_signature_roster": {
     "veilleurs": [
-      {"id": "nayra_orun", "name": "Nayra Orun", "ultimate_slots": 3},
-      {"id": "tarek_senn", "name": "Tarek Senn", "ultimate_slots": 3},
-      {"id": "aisha_maren", "name": "Aïsha Maren", "ultimate_slots": 3},
-      {"id": "idris_vael", "name": "Idris Vael", "ultimate_slots": 3}
+      {"id": "Marec", "name": "Marec", "ultimate_slots": 3},
+      {"id": "Mathilde", "name": "Mathilde", "ultimate_slots": 3},
+      {"id": "Aurélien", "name": "Aurélien", "ultimate_slots": 3},
+      {"id": "Anouk", "name": "Anouk", "ultimate_slots": 3}
     ],
     "bosses": [
       {"id": "ishar_gardien_du_passage", "name": "Ishar, Gardien du Passage", "ultimate_slots": 3, "signature_slots": ["boss_signature", "phase_transition"]},

@@ -100,11 +100,11 @@
       }
     },
     {
-      "id": "tarek_vann",
-      "name": "Tarek Vann",
+      "id": "mathilde_vann",
+      "name": "Mathilde Vann",
       "role": "Médecin itinérant",
       "location": "Infirmerie du Sanctuaire",
-      "portrait": "tarek_vann",
+      "portrait": "mathilde_vann",
       "personality": "Pragmatique, compatissant et sévère envers les pillards.",
       "history": "Il a survécu en soignant indistinctement citoyens, soldats étrangers et créatures capturées.",
       "voice": "Rapide et précise ; son ton devient froid dès que la dignité d’un blessé est menacée.",

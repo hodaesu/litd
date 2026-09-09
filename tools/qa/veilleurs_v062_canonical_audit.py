@@ -8,10 +8,10 @@ V06 = ROOT / "data" / "veilleurs" / "v06"
 CANON = ROOT / "data" / "veilleurs" / "skills"
 
 EXPECTED = {
-    "ENT_WATCHER_NAYRA": ("Nayra Orun", "nayra_orun.json"),
-    "ENT_WATCHER_TAREK": ("Tarek Senn", "tarek_senn.json"),
-    "ENT_WATCHER_AISHA": ("Aïsha Maren", "aisha_maren.json"),
-    "ENT_WATCHER_IDRIS": ("Idris Vael", "idris_vael.json"),
+    "ENT_WATCHER_marec": ("Marec", "Marec.json"),
+    "ENT_WATCHER_mathilde": ("Mathilde", "Mathilde.json"),
+    "ENT_WATCHER_aurelien": ("Aurélien", "Aurélien.json"),
+    "ENT_WATCHER_anouk": ("Anouk", "Anouk.json"),
 }
 ALTERNATE_TOKENS = [
     "ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA",
@@ -78,7 +78,7 @@ def main() -> int:
     if len(skill_ids) != 180 or len(set(skill_ids)) != 180:
         errors.append(f"canonical_skill_ids:{len(skill_ids)}:{len(set(skill_ids))}")
 
-    required_examples = {"NA-BAS-01", "NA-BRI-01", "TA-TRA-01", "TA-ENT-01", "AÏ-ANA-01", "AÏ-HÉM-01", "ID-SEN-01", "ID-DIS-01"}
+    required_examples = {"MR-BAS-01", "MR-BRI-01", "MA-TRA-01", "MA-ENT-01", "AU-ANA-01", "AÏ-HÉM-01", "AN-SEN-01", "AN-DIS-01"}
     if not required_examples.issubset(set(skill_ids)):
         errors.append("canonical_examples_missing")
 

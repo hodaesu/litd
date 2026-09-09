@@ -14,9 +14,9 @@ func _run() -> void:
 
     var watchers: Array = VeilleursVS001PlayableBridge.activate_watchers_party()
     var watcher_ids := _party_ids(watchers)
-    _check(watcher_ids == ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"], "VS001 must use the four canonical Watcher identities")
+    _check(watcher_ids == ["Marec", "Mathilde", "Aurélien", "Anouk"], "VS001 must use the four canonical Watcher identities")
     _check(not watcher_ids.has("aurelien"), "Aurélien must never be a Watcher in VS001")
-    _check(_party_names(watchers) == ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"], "Watcher display names must stay locked")
+    _check(_party_names(watchers) == ["Marec", "Mathilde", "Aurélien", "Anouk"], "Watcher display names must stay locked")
     for hero_value: Variant in watchers:
         var hero: Dictionary = hero_value
         _check(bool(hero.get("vs001_watcher", false)), "Every VS001 party member must be tagged as a Watcher")
@@ -81,9 +81,9 @@ func _run() -> void:
     _check(VeilleursVS001WorldRuntime.snapshot().get("s6_state", {}) == s6_before, "Opening S6 recruitment UI must not alter the creature")
     _check(_option_irreversible(s6_preview, "s6_recruit"), "Attempting the S6 bond must require explicit validation")
     _check(bool(VeilleursVS001WorldRuntime.execute_anchor_action("s6_survivor", "s6_observe").get("success", false)), "S6 Observe must be playable")
-    _check(bool(VeilleursVS001WorldRuntime.execute_anchor_action("s6_survivor", "s6_lower_guard").get("success", false)), "Nayra S6 action must be playable")
-    _check(bool(VeilleursVS001WorldRuntime.execute_anchor_action("s6_survivor", "s6_diagnose").get("success", false)), "Aïsha diagnosis must be playable")
-    _check(bool(VeilleursVS001WorldRuntime.execute_anchor_action("s6_survivor", "s6_deescalate").get("success", false)), "Idris de-escalation must be playable")
+    _check(bool(VeilleursVS001WorldRuntime.execute_anchor_action("s6_survivor", "s6_lower_guard").get("success", false)), "Marec S6 action must be playable")
+    _check(bool(VeilleursVS001WorldRuntime.execute_anchor_action("s6_survivor", "s6_diagnose").get("success", false)), "Aurélien diagnosis must be playable")
+    _check(bool(VeilleursVS001WorldRuntime.execute_anchor_action("s6_survivor", "s6_deescalate").get("success", false)), "Anouk de-escalation must be playable")
     var s6_after: Dictionary = VeilleursVS001WorldRuntime.snapshot().get("s6_state", {})
     _check(int(s6_after.get("fear", 100)) < int(s6_before.get("fear", 0)), "Careful S6 interaction must lower fear")
     _check(int(s6_after.get("trust", 0)) > int(s6_before.get("trust", 100)), "Careful S6 interaction must raise trust")

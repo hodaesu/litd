@@ -20,11 +20,11 @@ Les deux premières branches conduisent à une vraie scène de retrouvailles à 
 
 La branche de refus ne tue pas la famille par décret narratif : au chapitre III, des voyageurs peuvent apprendre qu'ils se sont retrouvés par un autre réseau. Cela conserve le poids du choix sans fabriquer une punition automatique.
 
-## Ancien soldat et prisonnier — Tarek
+## Ancien soldat et prisonnier — Mathilde
 
-Tarek porte un ancien uniforme retourné. Il peut être envoyé au Sanctuaire sous escorte civile, interrogé puis relâché, ou laissé sous la garde des voyageurs qui le retenaient déjà.
+Mathilde porte un ancien uniforme retourné. Il peut être envoyé au Sanctuaire sous escorte civile, interrogé puis relâché, ou laissé sous la garde des voyageurs qui le retenaient déjà.
 
-Les trois branches ont un retour au Poste Diplomatique Effondré. Son information peut voyager avec lui, sans lui ou par ceux qui l'ont retenu. S'il rejoint le Sanctuaire, il devient un témoin sous surveillance et peut ouvrir `q_tarek_order_without_uniform`.
+Les trois branches ont un retour au Poste Diplomatique Effondré. Son information peut voyager avec lui, sans lui ou par ceux qui l'ont retenu. S'il rejoint le Sanctuaire, il devient un témoin sous surveillance et peut ouvrir `q_mathilde_order_without_uniform`.
 
 La quête ne cherche pas à décider si « l'armée » est collectivement innocente ou coupable. Elle confronte ce qu'un soldat de rang pouvait lire dans les codes de marche avec une dépêche réellement présente dans le chapitre III.
 

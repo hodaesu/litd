@@ -3,7 +3,7 @@ class_name VeilleursHemocordeUltimateRuntimeV2
 
 const ULTIMATE_STATE_SCRIPT := preload("res://scripts/core/veilleurs_ultimate_state_runtime.gd")
 const CONTRACT_PATH := "res://data/veilleurs/ultimate_choreography_contract.json"
-const AISHA_ID := "ENT_WATCHER_AISHA"
+const aurelien_ID := "ENT_WATCHER_aurelien"
 const BRANCH := "hemocorde"
 const ULTIMATE_NAME := "Le Dernier Battement"
 
@@ -12,17 +12,17 @@ var ultimate_state: VeilleursUltimateStateRuntime
 func _init() -> void:
     ultimate_state = ULTIMATE_STATE_SCRIPT.new() as VeilleursUltimateStateRuntime
 
-func configure_aisha(runtime: Variant, level: int, specialization: String = BRANCH, reset_charges: bool = true) -> Dictionary:
-    if runtime == null or not runtime.combatants.has(AISHA_ID):
-        return {"ok": false, "reason": "aisha_missing"}
-    var aisha: Dictionary = runtime.combatants[AISHA_ID]
-    ultimate_state.configure(aisha, level, specialization, reset_charges)
-    runtime.combatants[AISHA_ID] = aisha
+func configure_aurelien(runtime: Variant, level: int, specialization: String = BRANCH, reset_charges: bool = true) -> Dictionary:
+    if runtime == null or not runtime.combatants.has(aurelien_ID):
+        return {"ok": false, "reason": "aurelien_missing"}
+    var Aurélien: Dictionary = runtime.combatants[aurelien_ID]
+    ultimate_state.configure(Aurélien, level, specialization, reset_charges)
+    runtime.combatants[aurelien_ID] = Aurélien
     return {
         "ok": true,
-        "level": int(aisha.get("level", 1)),
-        "specialization": str(aisha.get("specialization", "")),
-        "ultimate_state": (aisha.get("ultimate_state", {}) as Dictionary).duplicate(true)
+        "level": int(Aurélien.get("level", 1)),
+        "specialization": str(Aurélien.get("specialization", "")),
+        "ultimate_state": (Aurélien.get("ultimate_state", {}) as Dictionary).duplicate(true)
     }
 
 func note_vascular_knowledge(runtime: Variant, target_id: String, zone: String, certainty: int = 2) -> Dictionary:
@@ -52,7 +52,7 @@ func apply_bleeding(runtime: Variant, target_id: String, amount: int, wound_delt
     return {"ok": true, "physiology": _physiology_snapshot(target)}
 
 func post_skill_result(runtime: Variant, attacker_id: String, target_id: String, skill: Dictionary, result: Dictionary) -> Dictionary:
-    if runtime == null or attacker_id != AISHA_ID or str(skill.get("tree_name", "")) != "Hémocorde":
+    if runtime == null or attacker_id != aurelien_ID or str(skill.get("tree_name", "")) != "Hémocorde":
         return result
     if not bool(result.get("ok", false)) or not runtime.combatants.has(target_id):
         return result
@@ -104,24 +104,24 @@ func status(runtime: Variant, attacker_id: String, target_id: String, encounter_
     if runtime == null or not runtime.combatants.has(attacker_id):
         result["reason"] = "attacker_missing"
         return result
-    if attacker_id != AISHA_ID:
+    if attacker_id != aurelien_ID:
         result["reason"] = "wrong_watcher"
         return result
     if not runtime.combatants.has(target_id):
         result["reason"] = "target_missing"
         return result
 
-    var aisha: Dictionary = runtime.combatants[attacker_id]
+    var Aurélien: Dictionary = runtime.combatants[attacker_id]
     var target: Dictionary = runtime.combatants[target_id]
-    if str(aisha.get("team", "")) != "watcher" or str(target.get("team", "")) != "enemy":
+    if str(Aurélien.get("team", "")) != "watcher" or str(target.get("team", "")) != "enemy":
         result["reason"] = "invalid_teams"
         return result
-    var aisha_body: VeilleursBodyComponent = aisha.get("body") as VeilleursBodyComponent
-    if aisha_body == null or not bool(aisha_body.functional_flags().get("can_react", false)) or not bool(aisha_body.functional_flags().get("alive", false)):
-        result["reason"] = "aisha_function_lost"
+    var aurelien_body: VeilleursBodyComponent = Aurélien.get("body") as VeilleursBodyComponent
+    if aurelien_body == null or not bool(aurelien_body.functional_flags().get("can_react", false)) or not bool(aurelien_body.functional_flags().get("alive", false)):
+        result["reason"] = "aurelien_function_lost"
         return result
-    if aisha_body.missing_parts.has("left_arm") and aisha_body.missing_parts.has("right_arm"):
-        result["reason"] = "aisha_function_lost"
+    if aurelien_body.missing_parts.has("left_arm") and aurelien_body.missing_parts.has("right_arm"):
+        result["reason"] = "aurelien_function_lost"
         return result
     if int(target.get("hp", 0)) <= 0:
         result["reason"] = "valid_target_required"
@@ -132,7 +132,7 @@ func status(runtime: Variant, attacker_id: String, target_id: String, encounter_
         result["distance"] = distance
         return result
 
-    var charge_check := ultimate_state.status(aisha, BRANCH, encounter_id)
+    var charge_check := ultimate_state.status(Aurélien, BRANCH, encounter_id)
     result["charges_remaining"] = int(charge_check.get("charges_remaining", 0))
     result["charges_max"] = int(charge_check.get("charges_max", 0))
     if not bool(charge_check.get("available", false)):
@@ -162,9 +162,9 @@ func resolve(runtime: Variant, attacker_id: String, target_id: String, encounter
     if not bool(check.get("available", false)):
         return {"ok": false, "reason": str(check.get("reason", "ultimate_unavailable")), "status": check}
 
-    var aisha: Dictionary = (runtime.combatants[attacker_id] as Dictionary).duplicate(true)
+    var Aurélien: Dictionary = (runtime.combatants[attacker_id] as Dictionary).duplicate(true)
     var target: Dictionary = (runtime.combatants[target_id] as Dictionary).duplicate(true)
-    var commit := ultimate_state.commit(aisha, BRANCH, encounter_id)
+    var commit := ultimate_state.commit(Aurélien, BRANCH, encounter_id)
     if not bool(commit.get("ok", false)):
         return {"ok": false, "reason": str(commit.get("reason", "ultimate_commit_failed")), "status": check}
 
@@ -209,7 +209,7 @@ func resolve(runtime: Variant, attacker_id: String, target_id: String, encounter
             body.dead = true
 
     target = _refresh_physiology(target)
-    runtime.combatants[attacker_id] = aisha
+    runtime.combatants[attacker_id] = Aurélien
     runtime.combatants[target_id] = target
     var result := {
         "ok": true,
@@ -329,4 +329,4 @@ func _presentation_contract() -> Dictionary:
     if not (parsed is Dictionary):
         return {}
     var rows: Dictionary = (parsed as Dictionary).get("ultimates", {})
-    return (rows.get("aisha_maren:hemocorde", {}) as Dictionary).duplicate(true)
+    return (rows.get("Aurélien:hemocorde", {}) as Dictionary).duplicate(true)

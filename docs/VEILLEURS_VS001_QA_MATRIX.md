@@ -46,7 +46,7 @@ Ce document définit les tests fonctionnels qui doivent être validés avant de 
 
 | ID | Scénario | Attendu |
 |---|---|---|
-| D01 | Tarek mène la détection en lumière claire | Bonus de profil et de lumière correctement pris en compte |
+| D01 | Mathilde mène la détection en lumière claire | Bonus de profil et de lumière correctement pris en compte |
 | D02 | Piège non détecté | Aucun indicateur omniscient |
 | D03 | Désamorcer avec succès | Piège neutralisé, récupération possible, 1 Pulse |
 | D04 | Contourner avec succès | Piège reste physiquement présent mais n’est pas déclenché |
@@ -123,9 +123,9 @@ Ce document définit les tests fonctionnels qui doivent être validés avant de 
 |---|---|---|
 | I01 | Bandage | -2 niveaux de saignement, 1 Pulse |
 | I02 | Suture avec médecine <70 | Action non disponible ou échec contractuel explicite |
-| I03 | Suture Aïsha | Affinité appliquée, coût minimum 1 Pulse |
+| I03 | Suture Aurélien | Affinité appliquée, coût minimum 1 Pulse |
 | I04 | Attelle fracture | pénalité de fracture réduite de moitié |
-| I05 | Stabilisation critique Aïsha | empêche un contrôle d’aggravation |
+| I05 | Stabilisation critique Aurélien | empêche un contrôle d’aggravation |
 | I06 | Extraction avec blessure `wounded+` | blessure persistante au hub |
 | I07 | Perte de membre | état corporel permanent et événement historique |
 
@@ -144,9 +144,9 @@ Ce document définit les tests fonctionnels qui doivent être validés avant de 
 
 | ID | Scénario | Attendu |
 |---|---|---|
-| K01 | Inspection simple par Aïsha | Mort et blessures correctement décrites |
+| K01 | Inspection simple par Aurélien | Mort et blessures correctement décrites |
 | K02 | Inspection approfondie réussie | Corps identifié comme déplacé après mort |
-| K03 | Tarek contribue à la trace | Piste vers S6 révélable |
+| K03 | Mathilde contribue à la trace | Piste vers S6 révélable |
 | K04 | Ignorer l’indice S6 | Mission reste réalisable |
 | K05 | Bruit mural | Présenté comme anomalie acoustique, pas comme fantôme certain |
 
@@ -156,11 +156,11 @@ Ce document définit les tests fonctionnels qui doivent être validés avant de 
 |---|---|---|
 | L01 | Première entrée | Goule ne charge pas automatiquement |
 | L02 | Observer | peur -5, confiance +2, stabilité +3 |
-| L03 | Nayra baisse sa garde | peur -8, confiance +10, agressivité -8 |
-| L04 | Tarek bloque la sortie | contrainte augmente mais peur/agressivité montent |
-| L05 | Aïsha diagnostique | révèle jambe critique/douleur/soin sûr |
-| L06 | Aïsha soigne avec ressource | peur -15, confiance +18, douleur -25, stabilité +18, PV +7 % |
-| L07 | Idris désamorce | peur -18, confiance +9, agressivité -12, stabilité +10 |
+| L03 | Marec baisse sa garde | peur -8, confiance +10, agressivité -8 |
+| L04 | Mathilde bloque la sortie | contrainte augmente mais peur/agressivité montent |
+| L05 | Aurélien diagnostique | révèle jambe critique/douleur/soin sûr |
+| L06 | Aurélien soigne avec ressource | peur -15, confiance +18, douleur -25, stabilité +18, PV +7 % |
+| L07 | Anouk désamorce | peur -18, confiance +9, agressivité -12, stabilité +10 |
 | L08 | Approche non préparée à peur ≥85 | attaque défensive possible |
 | L09 | Capture après séquence prudente | taux cible de playtest 70–90 % |
 | L10 | Maîtrise immédiate | taux cible 20–45 %, conséquences relationnelles négatives |

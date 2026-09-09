@@ -143,7 +143,7 @@ func _clinical_enemy_attack_phase(attacking_enemies: Array) -> void:
         for secondary_message: String in EnemyCombatDirector.apply_secondary(enemy_action, enemy, target, targets):
             GameState.add_log(secondary_message)
 
-        # Priorité Aïsha : urgence médicale > ouverture de mouvement > Retour sanguin.
+        # Priorité Aurélien : urgence médicale > ouverture de mouvement > Retour sanguin.
         var hit_reaction: Dictionary = _reaction_runtime().after_enemy_hit(enemy, target, hp_before, bleeding_before, combat_round_number, GameState.party)
         _log_clinical_reaction(hit_reaction, enemy, target)
         var movement_reactions: Array[Dictionary] = _reaction_runtime().on_enemy_movement(enemy, enemy_position_before, _enemy_position(enemy), combat_round_number, GameState.party)
@@ -178,19 +178,19 @@ func _log_clinical_reaction(result: Dictionary, enemy: Dictionary, target: Dicti
     if result.is_empty() or not bool(result.get("ok", false)):
         return
     match str(result.get("skill_id", "")):
-        "TA-ENT-04":
-            GameState.add_log("Tarek · Retour de lame : %d dégâts à %s après l'attaque manquée." % [int(result.get("damage", 0)), str(enemy.get("name", "l'ennemi"))])
-        "TA-ENT-13":
-            GameState.add_log("Tarek · Fauchage réflexe intercepte le changement de rang de %s." % str(enemy.get("name", "l'ennemi")))
-        "AÏ-ANA-04":
-            GameState.add_log("Aïsha · Déviation anatomique détourne %d dégâts destinés à %s." % [int(result.get("prevented_damage", 0)), str(target.get("name", "un allié"))])
-        "AÏ-ANA-13":
-            GameState.add_log("Aïsha · Réflexe musculaire frappe le groupe locomoteur sollicité par %s." % str(enemy.get("name", "l'ennemi")))
-        "AÏ-SUT-04":
-            GameState.add_log("Aïsha · Main réflexe jugule immédiatement l'hémorragie de %s." % str(target.get("name", "un allié")))
-        "AÏ-SUT-13":
-            GameState.add_log("Aïsha · Intervention immédiate stabilise %s au seuil critique." % str(target.get("name", "un allié")))
+        "MA-ENT-04":
+            GameState.add_log("Mathilde · Retour de lame : %d dégâts à %s après l'attaque manquée." % [int(result.get("damage", 0)), str(enemy.get("name", "l'ennemi"))])
+        "MA-ENT-13":
+            GameState.add_log("Mathilde · Fauchage réflexe intercepte le changement de rang de %s." % str(enemy.get("name", "l'ennemi")))
+        "AU-ANA-04":
+            GameState.add_log("Aurélien · Déviation anatomique détourne %d dégâts destinés à %s." % [int(result.get("prevented_damage", 0)), str(target.get("name", "un allié"))])
+        "AU-ANA-13":
+            GameState.add_log("Aurélien · Réflexe musculaire frappe le groupe locomoteur sollicité par %s." % str(enemy.get("name", "l'ennemi")))
+        "AU-SUT-04":
+            GameState.add_log("Aurélien · Main réflexe jugule immédiatement l'hémorragie de %s." % str(target.get("name", "un allié")))
+        "AU-SUT-13":
+            GameState.add_log("Aurélien · Intervention immédiate stabilise %s au seuil critique." % str(target.get("name", "un allié")))
         "AÏ-HÉM-04":
-            GameState.add_log("Aïsha · Retour sanguin : %d dégâts et saignement accru sur %s." % [int(result.get("damage", 0)), str(enemy.get("name", "l'ennemi"))])
+            GameState.add_log("Aurélien · Retour sanguin : %d dégâts et saignement accru sur %s." % [int(result.get("damage", 0)), str(enemy.get("name", "l'ennemi"))])
         "AÏ-HÉM-13":
-            GameState.add_log("Aïsha · Pointe réflexe exploite une ouverture vasculaire de %s." % str(enemy.get("name", "l'ennemi")))
+            GameState.add_log("Aurélien · Pointe réflexe exploite une ouverture vasculaire de %s." % str(enemy.get("name", "l'ennemi")))

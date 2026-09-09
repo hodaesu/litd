@@ -7,7 +7,7 @@ var watcher_row: HBoxContainer
 var branch_row: HBoxContainer
 var skill_list: VBoxContainer
 var detail: VBoxContainer
-var selected_watcher_id := "nayra_orun"
+var selected_watcher_id := "Marec"
 var selected_branch := ""
 var selected_skill_id := ""
 

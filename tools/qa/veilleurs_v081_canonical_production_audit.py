@@ -8,10 +8,10 @@ ROOT = Path(__file__).resolve().parents[2]
 V06 = ROOT / "data" / "veilleurs" / "v06"
 V08 = ROOT / "data" / "veilleurs" / "v08"
 CANONICAL = {
-    "ENT_WATCHER_NAYRA": "Nayra Orun",
-    "ENT_WATCHER_TAREK": "Tarek Senn",
-    "ENT_WATCHER_AISHA": "Aïsha Maren",
-    "ENT_WATCHER_IDRIS": "Idris Vael",
+    "ENT_WATCHER_marec": "Marec",
+    "ENT_WATCHER_mathilde": "Mathilde",
+    "ENT_WATCHER_aurelien": "Aurélien",
+    "ENT_WATCHER_anouk": "Anouk",
 }
 OBSOLETE = ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]
 ACTIVE_RUNTIME_FILES = [
