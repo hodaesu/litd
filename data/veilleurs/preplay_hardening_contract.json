@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "stage": "developer_selftest_preplay_hardening",
+  "purpose": "Verrouiller uniquement ce qui doit être présent et lisible avant le premier self-test PC de la verticale Chapitre I.",
+  "canonical_watchers": [
+    "Nayra Orun",
+    "Tarek Senn",
+    "Aïsha Maren",
+    "Idris Vael"
+  ],
+  "required_selftest_steps": [
+    "sanctuary_preparation",
+    "short_exploration",
+    "combat_readability",
+    "position_anatomy",
+    "fear_madness",
+    "elite_recombination",
+    "final_consequence",
+    "sanctuary_return"
+  ],
+  "contextual_ui": {
+    "required_tabs": ["inventory", "equipment", "skills", "journal", "options"],
+    "required_feedback": [
+      "unavailable_action_reason",
+      "explicit_targeting_reason",
+      "reposition_cost_visibility",
+      "fear_madness_visibility",
+      "progressive_details"
+    ],
+    "runtime_files": [
+      "scripts/ui/main_v43.gd",
+      "scripts/ui/context_menu_ui_v2.gd",
+      "scripts/ui/hud_context_sanctuary_polish_adapter.gd",
+      "scenes/Main.tscn"
+    ]
+  },
+  "sanctuary_loop": {
+    "required_sequence": [
+      "return_from_expedition",
+      "persistent_consequence_visible",
+      "inspect_four_watchers",
+      "limited_preparation",
+      "depart",
+      "return_again",
+      "save_resume"
+    ],
+    "scope_rule": "Le Sanctuaire doit servir la verticale. Aucun bâtiment, économie ou écran futur n'est requis avant les cinq playtests naïfs."
+  },
+  "three_d_vertical": {
+    "required_spaces": [
+      "compact_sanctuary",
+      "short_exterior_exploration",
+      "interior_position_anatomy_fear_madness",
+      "elite_arena"
+    ],
+    "required_blockout_capabilities": [
+      "navigation",
+      "collisions",
+      "critical_route",
+      "encounter_slots",
+      "resource_slots",
+      "transitions",
+      "performance_probe",
+      "isometric_readability"
+    ],
+    "runtime_files": [
+      "scenes/world/terre_des_cendres/ashlands_blockout_zone.tscn",
+      "scripts/world/ashlands_blockout_builder.gd",
+      "scenes/world/terre_des_cendres/exploration_party_placeholder.tscn"
+    ],
+    "deferred": [
+      "all_16_zones_polish",
+      "final_blender_environment",
+      "hero_asset_pass",
+      "full_set_dressing",
+      "late_game_locations"
+    ]
+  },
+  "preplay_rule": "Ne pas ajouter de contenu pour corriger une incompréhension. Corriger d'abord règle, feedback, présentation, navigation ou rythme.",
+  "completion_rule": "Le gate pré-play est vert lorsque le contrat, les hooks runtime et les fichiers requis sont présents. Le jugement visuel et l'expérience réelle restent réservés au self-test PC."
+}
