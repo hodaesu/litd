@@ -17,7 +17,7 @@ func show_combat() -> void:
             _render_corpse_action_menu()
 
 func _render_corpse_tactical_entry() -> void:
-    var corpse_ids := _ge01_corpse_ids()
+    var corpse_ids: Array = _ge01_corpse_ids()
     if corpse_ids.is_empty():
         return
     var button := make_button("☠ CADAVRES · %d" % corpse_ids.size(), func(): corpse_action_menu = "choose"; show_screen("combat"), Vector2(190, 48))
@@ -45,7 +45,7 @@ func _render_corpse_action_menu() -> void:
         _render_corpse_choices(box)
 
 func _render_corpse_choices(box: VBoxContainer) -> void:
-    var corpse_ids := _ge01_corpse_ids()
+    var corpse_ids: Array = _ge01_corpse_ids()
     var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 5); box.add_child(row)
     for index in range(corpse_ids.size()):
         var scar_id := str(corpse_ids[index])
@@ -58,18 +58,18 @@ func _render_corpse_choices(box: VBoxContainer) -> void:
         _render_corpse_rank_choices(box)
 
 func _render_corpse_rank_choices(box: VBoxContainer) -> void:
-    var action := corpse_action_menu.trim_suffix("_rank")
-    var explanation := {
+    var action: String = corpse_action_menu.trim_suffix("_rank")
+    var explanation: String = str({
         "push": "DÉPLACER · le corps change de rang sans bloquer la ligne.",
         "barricade": "BARRICADE · le rang sera BLOQUÉ et donnera 40 % de couverture.",
         "project": "PROJETER · le corps bloque une ligne ennemie et peut repousser son occupant."
-    }.get(action, "")
-    box.add_child(make_label(str(explanation), 11, CANON_TEXT))
+    }.get(action, ""))
+    box.add_child(make_label(explanation, 11, CANON_TEXT))
     var ranks := HBoxContainer.new(); ranks.add_theme_constant_override("separation", 4); box.add_child(ranks)
     for rank in range(4):
-        var side := "enemy" if action == "project" else "hero"
-        var prefix := "E" if side == "enemy" else "R"
-        var consequence := "bloque + couverture" if action == "barricade" else ("bloque + déplacement ennemi" if action == "project" else "déplace le corps")
+        var side: String = "enemy" if action == "project" else "hero"
+        var prefix: String = "E" if side == "enemy" else "R"
+        var consequence: String = "bloque + couverture" if action == "barricade" else ("bloque + déplacement ennemi" if action == "project" else "déplace le corps")
         var button := make_button("%s%d\n%s" % [prefix, rank + 1, consequence], func(target = rank, a = action): _execute_corpse_action(str(a), int(target)), Vector2(170, 48))
         button.tooltip_text = "%s%d : %s" % [prefix, rank + 1, consequence]
         ranks.add_child(button)
