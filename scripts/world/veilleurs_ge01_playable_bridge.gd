@@ -45,7 +45,7 @@ func spend_light(action_id: String) -> Dictionary:
 func reveal_secret(source: String = "observation") -> Dictionary:
     var result: Dictionary = session.call("reveal_secret", source)
     if bool(result.get("success", false)):
-        ExplorationDirector.record_discovery("ge_14_secret", "galeries_eteintes", {"room_id": "ge_14", "source": source})
+        ExplorationDirector.record_discovery("ge_14_secret", "shortcut", {"room_id": "ge_14", "source": source})
     return result
 
 func resolve_refuge(choice: String) -> Dictionary:
@@ -88,7 +88,7 @@ func record_enemy_escape(enemy: Dictionary, body_state: Dictionary = {}) -> Dict
 func mark_objective_complete(source: String = "corpse_examined") -> Dictionary:
     var result: Dictionary = session.call("mark_objective_complete", source)
     if bool(result.get("success", false)):
-        ExplorationDirector.record_discovery("ge01_objective", "galeries_eteintes", {"source": source, "room_id": str(session.call("current_room"))})
+        ExplorationDirector.record_discovery("ge01_objective", "fall_truth", {"source": source, "room_id": str(session.call("current_room"))})
     return result
 
 func extract(reason: String = "voluntary") -> Dictionary:
