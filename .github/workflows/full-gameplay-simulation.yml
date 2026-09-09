@@ -1,0 +1,30 @@
+name: Full Gameplay Simulation
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/tests/veilleurs_full_gameplay_simulation_test.gd'
+      - 'scenes/tests/veilleurs_full_gameplay_simulation.tscn'
+      - 'scripts/core/hero_skill_manager.gd'
+      - 'scripts/core/game_state.gd'
+      - 'scripts/core/veilleurs_ge01_*.gd'
+      - 'scripts/world/veilleurs_ge01_playable_bridge.gd'
+      - 'data/heroes.json'
+      - 'data/veilleurs/canonical_roster.json'
+      - '.github/workflows/full-gameplay-simulation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  full-gameplay-simulation:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import strict du projet
+        run: godot --headless --path . --import --quit
+      - name: Simulation complète du quatuor canonique
+        run: timeout 120s godot --headless --path . res://scenes/tests/veilleurs_full_gameplay_simulation.tscn
