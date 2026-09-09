@@ -68,7 +68,7 @@ func stage_hit(character: Dictionary, enemy: bool, body_part: String = "torso", 
     if art == null:
         return
     var reaction := BodyStateDirector.hit_reaction(character, body_part, severity)
-    proxy_reaction_started.emit(key, String(reaction.get("clip", "hit")))
+    proxy_reaction_started.emit(key, str(reaction.get("clip", "hit")))
     var base_position := art.position
     var base_rotation := art.rotation
     var direction := 1.0 if enemy else -1.0
@@ -95,15 +95,15 @@ func stage_death(character: Dictionary, enemy: bool) -> void:
 
 func state_label(character: Dictionary, enemy: bool) -> String:
     var profile := _profile(character, enemy)
-    var psyche := String(profile.get("psychological_state", "neutral"))
-    var physical := String(profile.get("physical_state", "healthy"))
+    var psyche := str(profile.get("psychological_state", "neutral"))
+    var physical := str(profile.get("physical_state", "healthy"))
     return "%s · %s" % [_state_name(psyche), _state_name(physical)]
 
 func _profile(character: Dictionary, enemy: bool) -> Dictionary:
     var body := BodyStateDirector.evaluate(character)
     if not enemy:
         return body
-    var physical := String(body.get("physical_state", "healthy"))
+    var physical := str(body.get("physical_state", "healthy"))
     var enemy_profile := EnemyBodyDirector.compose_for_enemy(character, physical, "idle")
     enemy_profile["psychological_state"] = EnemyFearDirector.body_psychological_state(character)
     enemy_profile["physical_state"] = physical
@@ -113,11 +113,11 @@ func _profile(character: Dictionary, enemy: bool) -> Dictionary:
 
 func _apply_posture(art: Control, profile: Dictionary, enemy: bool, formation_index: int) -> void:
     var parameters: Dictionary = profile.get("parameters", {})
-    var psyche := String(profile.get("psychological_state", "neutral"))
-    var physical := String(profile.get("physical_state", "healthy"))
+    var psyche := str(profile.get("psychological_state", "neutral"))
+    var physical := str(profile.get("physical_state", "healthy"))
     var stance := clampf(float(parameters.get("stance_height", 1.0)), 0.72, 1.08)
     var compaction := clampf(float(parameters.get("guard_compaction", 0.0)), 0.0, 1.0)
-    var signature_seed: int = absi(String(profile.get("signature_key", profile.get("character_id", formation_index))).hash())
+    var signature_seed: int = absi(str(profile.get("signature_key", profile.get("character_id", formation_index))).hash())
     var width_variant: float = 0.94 + float(signature_seed % 11) * 0.01
     var lean_variant: float = (float(signature_seed % 9) - 4.0) * 0.006
     var lean: float = lean_variant
@@ -167,8 +167,8 @@ func _play_breath_loop(art: Control, profile: Dictionary) -> void:
 
 func _posture_tooltip(profile: Dictionary) -> String:
     return "Posture : %s · État : %s" % [
-        String(profile.get("signature_key", profile.get("layers", {}).get("personality", "personnelle"))),
-        _state_name(String(profile.get("psychological_state", "neutral")))
+        str(profile.get("signature_key", profile.get("layers", {}).get("personality", "personnelle"))),
+        _state_name(str(profile.get("psychological_state", "neutral")))
     ]
 
 func _visual(key: String) -> Control:
@@ -180,7 +180,7 @@ func _visual(key: String) -> Control:
     return null
 
 func _key(character: Dictionary, enemy: bool) -> String:
-    return "%s:%s" % ["enemy" if enemy else "hero", String(character.get("id", character.get("name", "unknown")))]
+    return "%s:%s" % ["enemy" if enemy else "hero", str(character.get("id", character.get("name", "unknown")))]
 
 func _state_name(state: String) -> String:
     return {
