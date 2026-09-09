@@ -62,7 +62,11 @@ func _apply_logical_starting_formation_v47() -> void:
     for hero_value: Variant in GameState.party:
         ordered.append(hero_value as Dictionary)
     ordered.sort_custom(func(left: Dictionary, right: Dictionary):
-        return _frontline_score_v47(left) > _frontline_score_v47(right)
+        var left_score := _frontline_score_v47(left)
+        var right_score := _frontline_score_v47(right)
+        if left_score == right_score:
+            return int(left.get("starting_quartet_order", 999)) < int(right.get("starting_quartet_order", 999))
+        return left_score > right_score
     )
 
     for rank in range(ordered.size()):
@@ -74,10 +78,10 @@ func _apply_logical_starting_formation_v47() -> void:
 func _frontline_score_v47(hero: Dictionary) -> int:
     var score := 0
     var class_id := str(hero.get("class_id", "")).to_lower()
-    for token in ["tank", "guard", "knight", "warrior", "brute", "melee", "front", "duelist"]:
+    for token in ["tank", "guard", "knight", "warrior", "brute", "melee", "front", "duelist", "breaker"]:
         if class_id.contains(token):
             score += 8
-    for token in ["heal", "medic", "support", "ranged", "archer", "mage", "occult", "scholar"]:
+    for token in ["heal", "medic", "support", "ranged", "archer", "mage", "occult", "scholar", "mystic", "surgeon"]:
         if class_id.contains(token):
             score -= 8
 
