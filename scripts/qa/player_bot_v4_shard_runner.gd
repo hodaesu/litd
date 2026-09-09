@@ -29,7 +29,13 @@ func _run() -> void:
     var all_cases := _factorial_cases(builds)
     var selected_cases: Array[Dictionary] = []
     for case_index in range(all_cases.size()):
-        if case_index % SHARD_COUNT == shard_index:
+        # Pair adjacent cases, then send the second half of each pair three shards
+        # forward. The factorial matrix alternates the expensive solo/companion
+        # states in a way that made modulo sharding overload shards 0/2/4.
+        # This mapping keeps all cases exactly once while giving every shard an
+        # even mix of solo and companion workloads.
+        var balanced_shard := (case_index / 2 + (case_index % 2) * 3) % SHARD_COUNT
+        if balanced_shard == shard_index:
             selected_cases.append(all_cases[case_index])
 
     for case_value in selected_cases:
