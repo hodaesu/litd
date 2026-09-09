@@ -5,10 +5,15 @@ on:
     paths:
       - 'data/dungeons/galeries_eteintes_map.json'
       - 'scripts/core/veilleurs_ge01_*.gd'
+      - 'scripts/core/veilleurs_corpse_tactical_runtime.gd'
+      - 'scripts/core/combat_position_runtime.gd'
       - 'scripts/world/veilleurs_ge01_*.gd'
+      - 'scripts/ui/main_v44.gd'
       - 'scripts/tests/veilleurs_ge01_*.gd'
+      - 'scenes/Main.tscn'
       - 'scenes/world/veilleurs/galeries_eteintes_playable.tscn'
       - 'scenes/tests/veilleurs_ge01_*.tscn'
+      - 'project.godot'
       - '.github/workflows/ge01-smoke.yml'
   workflow_dispatch:
 
@@ -30,5 +35,5 @@ jobs:
         run: timeout 90s godot --headless --path . res://scenes/tests/veilleurs_ge01_integration_smoke.tscn
       - name: Galeries Éteintes - blockout physique et interactions
         run: timeout 90s godot --headless --path . res://scenes/tests/veilleurs_ge01_physical_smoke.tscn
-      - name: Galeries Éteintes - combats, fuite, cadavres et retour Rémanence
+      - name: Galeries Éteintes - combats, fuite, cadavres et mouvement tactique
         run: timeout 90s godot --headless --path . res://scenes/tests/veilleurs_ge01_combat_smoke.tscn
