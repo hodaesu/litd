@@ -30,7 +30,7 @@
   ],
   "source_of_truth": "existing validated character sheets and technical boards for Mathilde, Marec, Anouk and Aurélien",
   "rules": [
-    "Do not copy, rename or inherit skills from Nayra Orun, Tarek Senn, Aïsha Maren or Idris Vael.",
+    "Only Mathilde, Marec, Anouk and Aurélien may define the starting quartet skill identity.",
     "Do not promote Combat Sandbox prototype actions to canon.",
     "Each exported skill must preserve the authored identity of its character.",
     "Gameplay data may normalize fields for Godot but must not invent missing authored content.",
