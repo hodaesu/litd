@@ -28,9 +28,6 @@ func _prepare_party() -> void:
     assert(GameState.party.size() == 4)
     for i in range(GameState.party.size()):
         var hero: Dictionary = GameState.party[i]
-        # The current repository still carries legacy runtime shells. For this
-        # gameplay simulation, player-facing identity is forced to the latest
-        # validated quartet without pretending the runtime IDs are canonical.
         hero["simulation_source_name"] = str(hero.get("name", ""))
         hero["name"] = VALIDATED_QUARTET[i]
         hero["level"] = 48
@@ -52,7 +49,7 @@ func _audit_ultimates() -> void:
             var ultimate: Dictionary = HeroSkillManager.ultimate_for(hero, branch)
             if not ultimate.is_empty():
                 found = true
-                report.ultimates.append({"hero": hero.name, "branch": branch, "available": true, "name": str(ultimate.get("name", "")), "charges": int(ultimate.get("available_charges", 0))})
+                report.ultimates.append({"hero": hero.name, "branch": branch, "available": true, "name": str(ultimate.get("name", "")), "charges": int(ultimate.get("available_charges", ultimate.get("charges", 0)))})
         if not found:
             report.ultimates.append({"hero": hero.name, "available": false, "reason": "no_validated_quartet_ultimate_runtime"})
             report.warnings.append("ULTIMATE_MISSING:%s" % str(hero.name))
@@ -94,7 +91,7 @@ func _simulate_expedition() -> void:
         _move(session, "ge_10")
         _move(session, "ge_13")
         var extraction := session.extract("simulation_after_ge12")
-        report.events.append({"room":"ge_13", "type":"extraction", "rooms_visited": int(extraction.get("rooms_visited", 0)), "ending_light": int(extraction.get("ending_light", 0))})
+        report.events.append({"room":"ge_13", "type":"extraction", "rooms_visited": int(extraction.get("rooms_visited", 0)), "ending_light": int(extraction.get("ending_light", 0)), "hero_deaths": int(extraction.get("hero_deaths", 0))})
 
 func _move(session: VeilleursGE01SessionRuntime, room_id: String) -> void:
     var result := session.enter_room(room_id)
@@ -151,12 +148,47 @@ func _record_death(hero: Dictionary, room_id: String, cause: String) -> void:
     report.deaths.append({"hero": name, "room": room_id, "cause": cause, "scope": "expedition"})
 
 func _simulate_death_coverage() -> void:
+    var death_session: VeilleursGE01SessionRuntime = SESSION.new()
+    death_session.start("FULL_GAMEPLAY_DEATH_PERSISTENCE")
+    death_session.enter_room("ge_02")
+    death_session.enter_room("ge_03")
+    death_session.enter_room("ge_04")
     for hero_value: Variant in GameState.party:
-        var hero: Dictionary = hero_value
-        var clone := hero.duplicate(true)
-        clone["hp"] = 0
-        report.deaths.append({"hero": str(clone.get("name", "Héros")), "scope": "death_state_coverage", "alive_after_zero_hp": int(clone.get("hp", 0)) > 0, "persistent_death_hook_detected": false})
-    report.warnings.append("DEATH_PERSISTENCE_HOOK_NOT_EXERCISED_BY_GAMESTATE")
+        var hero: Dictionary = (hero_value as Dictionary).duplicate(true)
+        hero["hp"] = 0
+        var body_state := {
+            "anatomy_injuries": (hero.get("anatomy_injuries", {}) as Dictionary).duplicate(true),
+            "dismembered_parts": (hero.get("dismembered_parts", []) as Array).duplicate(true)
+        }
+        var equipment := {
+            "weapon": hero.get("weapon", {}),
+            "armor": hero.get("armor", {}),
+            "rings": hero.get("rings", []),
+            "necklace": hero.get("necklace", {})
+        }
+        var persisted := death_session.register_hero_death(hero, "simulation_lethal_damage", "ge_04", body_state, equipment)
+        assert(bool(persisted.get("success", false)))
+        report.deaths.append({
+            "hero": str(hero.get("name", "Héros")),
+            "scope": "death_state_coverage",
+            "alive_after_zero_hp": false,
+            "persistent_death_hook_detected": true,
+            "room": str((persisted.get("death", {}) as Dictionary).get("room_id", "")),
+            "recoverable": bool((persisted.get("death", {}) as Dictionary).get("recoverable", false))
+        })
+    var saved := death_session.serialize()
+    assert((saved.get("hero_deaths", {}) as Dictionary).size() == 4)
+    var restored: VeilleursGE01SessionRuntime = SESSION.new()
+    assert(restored.deserialize(saved))
+    var restored_snapshot := restored.snapshot()
+    assert((restored_snapshot.get("hero_deaths", {}) as Dictionary).size() == 4)
+    var hero_death_events := 0
+    for event_value: Variant in restored_snapshot.get("world_events", []):
+        var event: Dictionary = event_value
+        if str(event.get("type", "")) == "HERO_DEATH":
+            hero_death_events += 1
+    assert(hero_death_events == 4)
+    report.events.append({"type":"death_persistence_roundtrip", "hero_deaths":4, "world_events":hero_death_events, "restored":true})
 
 func _survivor_names() -> Array[String]:
     var result: Array[String] = []
