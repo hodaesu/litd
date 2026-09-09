@@ -258,7 +258,7 @@ jobs:
 
   full-regression:
     name: Full Godot regression suite
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.full_suite }}
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.full_suite) }}
     needs: [content-contracts, godot-quick-gate, android-debug-export]
     runs-on: ubuntu-latest
     container:
