@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "design_source": "voice_production_pass_25",
+  "version": 2,
+  "design_source": "voice_production_pass_25+legendary_quartet_migration_2026-09-09",
   "engine": {
     "id": "openvoice_v2",
     "mode": "offline_production_only",
@@ -57,9 +57,9 @@
     "abyssal": {"speed_multiplier": 0.90, "direction_suffix": "; certitude froide, pas d'effet horrifique démonstratif"}
   },
   "speaker_overrides": {
-    "aurelien": {"speed_multiplier": 0.97, "reference_filename": "aurelien.wav"},
-    "malvor": {"speed_multiplier": 1.03, "reference_filename": "malvor.wav"},
-    "lysandra": {"speed_multiplier": 0.94, "reference_filename": "lysandra.wav"},
-    "darius": {"speed_multiplier": 1.0, "reference_filename": "darius.wav"}
+    "mathilde": {"speed_multiplier": 0.98, "reference_filename": "mathilde.wav"},
+    "marec": {"speed_multiplier": 1.03, "reference_filename": "marec.wav"},
+    "anouk": {"speed_multiplier": 0.94, "reference_filename": "anouk.wav"},
+    "aurelien": {"speed_multiplier": 0.97, "reference_filename": "aurelien.wav"}
   }
 }
