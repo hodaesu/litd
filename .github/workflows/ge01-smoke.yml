@@ -1,0 +1,30 @@
+name: GE01 Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'data/dungeons/galeries_eteintes_map.json'
+      - 'scripts/core/veilleurs_ge01_*.gd'
+      - 'scripts/world/veilleurs_ge01_*.gd'
+      - 'scripts/tests/veilleurs_ge01_*.gd'
+      - 'scenes/world/veilleurs/galeries_eteintes_playable.tscn'
+      - 'scenes/tests/veilleurs_ge01_*.tscn'
+      - '.github/workflows/ge01-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ge01-smoke:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import strict du projet
+        run: godot --headless --path . --import --quit
+      - name: Galeries Éteintes - runtime pur
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_ge01_smoke.tscn
+      - name: Galeries Éteintes - intégration systèmes LITD
+        run: timeout 90s godot --headless --path . res://scenes/tests/veilleurs_ge01_integration_smoke.tscn
