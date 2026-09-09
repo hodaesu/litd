@@ -1,6 +1,14 @@
 extends "res://scripts/qa/player_bot_v4_tactical_driver.gd"
 
 const SHARD_COUNT := 6
+const SHARD_ASSIGNMENT: Array[int] = [
+    5, 0, 2, 3, 2, 5, 2, 4, 1, 3,
+    5, 1, 0, 1, 4, 1, 4, 3, 5, 0,
+    2, 0, 5, 3, 4, 1, 3, 0, 4, 2,
+    0, 5, 4, 1, 4, 4, 1, 2, 0, 2,
+    2, 5, 3, 3, 1, 2, 1, 3, 1, 3,
+    0, 4, 3, 5, 4, 0, 0, 5, 5, 2
+]
 
 func _run() -> void:
     await get_tree().process_frame
@@ -27,15 +35,19 @@ func _run() -> void:
     var started_ms := Time.get_ticks_msec()
     var builds := _build_profiles()
     var all_cases := _factorial_cases(builds)
+    if all_cases.size() != SHARD_ASSIGNMENT.size():
+        push_error("PLAYER_BOT_V4_SHARD: assignment size %d does not match factorial matrix size %d" % [SHARD_ASSIGNMENT.size(), all_cases.size()])
+        get_tree().quit(1)
+        return
+
     var selected_cases: Array[Dictionary] = []
     for case_index in range(all_cases.size()):
-        # Pair adjacent cases, then send the second half of each pair three shards
-        # forward. The factorial matrix alternates the expensive solo/companion
-        # states in a way that made modulo sharding overload shards 0/2/4.
-        # This mapping keeps all cases exactly once while giving every shard an
-        # even mix of solo and companion workloads.
-        var balanced_shard := (case_index / 2 + (case_index % 2) * 3) % SHARD_COUNT
-        if balanced_shard == shard_index:
+        # The v4 runtime cost depends on more than solo/companion state. In
+        # particular, policy mixes can produce longer combats. Keep every case
+        # exactly once while balancing all six shards across companion state,
+        # level, policy and build profile. Each shard receives 10 cases,
+        # 5 solo/5 companion, 2 cases per level and 3-4 cases per policy.
+        if SHARD_ASSIGNMENT[case_index] == shard_index:
             selected_cases.append(all_cases[case_index])
 
     for case_value in selected_cases:
