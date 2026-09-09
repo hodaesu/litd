@@ -211,7 +211,7 @@ jobs:
     if: always()
     needs: [fast-contracts, combat-core, combat-matrix, campaign-bots, sanctuary-bot]
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
         with:
@@ -235,6 +235,9 @@ jobs:
       - name: "Bot v26 : promotion automatique vers le corpus de régression"
         if: always()
         run: python tools/qa/bot_v26_regression_promoter.py
+      - name: "Bot v29 : preuve avant promotion permanente"
+        if: always()
+        run: python tools/qa/bot_v29_replay_proof_gate.py
       - name: "Bot v16 : garde statistique de régression"
         if: always()
         run: python tools/qa/bot_v16_balance_regression_guard.py
@@ -267,10 +270,16 @@ jobs:
       - name: "Bot v28 : exploration branches rares, Lumière et Rémanence"
         if: always()
         run: python tools/qa/bot_v28_rare_path_explorer.py
+      - name: "Bot v30 : preuve runtime des chemins rares"
+        if: always()
+        run: python tools/qa/bot_v30_runtime_rare_path_bridge.py
       - name: "Bot v22 : couverture gameplay"
         if: always()
         run: python tools/qa/bot_v22_gameplay_coverage.py
-      - name: Publier les diagnostics v14-v28
+      - name: "Bot v31 : efficacité et maturité de la flotte"
+        if: always()
+        run: python tools/qa/bot_v31_fleet_efficiency.py
+      - name: Publier les diagnostics v14-v31
         uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -291,3 +300,6 @@ jobs:
             reports/player-bot-v26-regression-promoter.json
             reports/player-bot-v27-runtime-bridge.json
             reports/player-bot-v28-rare-path-explorer.json
+            reports/player-bot-v29-replay-proof-gate.json
+            reports/player-bot-v30-runtime-rare-path-bridge.json
+            reports/player-bot-v31-fleet-efficiency.json
