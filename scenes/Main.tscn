@@ -1,5 +1,7 @@
 [gd_scene load_steps=18 format=3]
 
+; main_v47 aligne toute la formation sur le combat : affichage R4, R3, R2, R1
+; de gauche à droite et placement initial logique (mêlée devant, soutien derrière).
 ; main_v46 unifie le ciblage : choix manuel uniquement quand le joueur a un vrai
 ; choix ; soins/objets déterministes restent automatiques ; zones imposées
 ; prévisualisent toutes leurs cibles ensemble puis s'exécutent automatiquement.
@@ -37,7 +39,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v46.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v47.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
