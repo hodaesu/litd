@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+CURRENT_HEROES = {"mathilde", "marec", "anouk", "aurelien"}
+LEGACY_STARTER_IDS = {"malvor", "lysandra", "darius"}
 
 
 def _load(path: str) -> dict:
@@ -15,7 +17,9 @@ def test_every_starter_hero_has_original_voice_profile() -> None:
     profiles = _load("data/voice_profiles.json")
     hero_ids = {str(item["id"]) for item in heroes}
     profile_ids = {str(item["hero_id"]) for item in profiles["profiles"]}
+    assert hero_ids == CURRENT_HEROES
     assert hero_ids <= profile_ids
+    assert profile_ids.isdisjoint(LEGACY_STARTER_IDS)
     assert all("fourth_wall_style" in item for item in profiles["profiles"])
     joined = json.dumps(profiles, ensure_ascii=False).lower()
     assert "voice of" not in joined
@@ -57,7 +61,8 @@ def test_fourth_wall_lines_keep_dark_tone_and_distinct_voices() -> None:
     data = _load("data/reactive_dialogues.json")
     meta = [line for line in data["lines"] if line.get("fourth_wall")]
     speakers = {line["speaker_id"] for line in meta}
-    assert {"aurelien", "malvor", "lysandra", "darius"} <= speakers
+    assert speakers == CURRENT_HEROES
+    assert speakers.isdisjoint(LEGACY_STARTER_IDS)
     joined = " ".join(str(line["text"]) for line in meta).lower()
     assert "code source" not in joined
     assert "bouton start" not in joined

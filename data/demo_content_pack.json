@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "design_source": "prepc_demo_production_pass_29",
+  "version": 2,
+  "design_source": "prepc_demo_production_pass_29+legendary_quartet_migration_2026-09-09",
   "title": "Démo — Les Cendres se souviennent",
   "target_duration_minutes": [45, 65],
   "purpose": "Transformer les systèmes déjà présents en une démo courte, cohérente et rejouable sans inventer un canon parallèle.",
@@ -81,16 +81,16 @@
     {"id":"demo_text_memory","title":"Fragment d'archive après incendie","text":"Une mémoire publique n'est pas une seule mémoire agrandie. Elle est l'endroit où des versions incompatibles acceptent de ne pas se supprimer avant d'avoir été entendues.","theme":"collective_memory"}
   ],
   "dialogue_barks": [
-    {"id":"demo_darius_ash_01","speaker":"darius","context":"first_ashlands_entry","text":"La cendre couvre les traces. Elle n'efface pas ce qui les a faites."},
-    {"id":"demo_darius_guard_01","speaker":"darius","context":"successful_guard","text":"Encore. Cette fois, je l'ai vu venir."},
+    {"id":"demo_mathilde_ash_01","speaker":"mathilde","context":"first_ashlands_entry","text":"La cendre couvre les traces. Elle n'efface pas ce qui les a faites."},
+    {"id":"demo_mathilde_guard_01","speaker":"mathilde","context":"successful_guard","text":"Encore. Cette fois, je l'ai vu venir."},
     {"id":"demo_aurelien_text_01","speaker":"aurelien","context":"ancient_text_found","text":"Ils écrivaient comme si quelqu'un, un jour, aurait encore le temps de répondre."},
-    {"id":"demo_malvor_survivors_01","speaker":"malvor","context":"after_survivor_choice","text":"On peut appeler ça une décision. Ça ne rend pas le sac plus léger."},
-    {"id":"demo_lysandra_fear_01","speaker":"lysandra","context":"fear_band_increases","text":"N'essayez pas de chasser la peur. Donnez-lui une place assez petite pour qu'elle ne choisisse pas à votre place."},
-    {"id":"demo_darius_ghoul_01","speaker":"darius","context":"ghoul_capture_window","text":"Elle cherche une sortie. Ce n'est pas la même chose que se rendre."},
+    {"id":"demo_marec_survivors_01","speaker":"marec","context":"after_survivor_choice","text":"On peut appeler ça une décision. Ça ne rend pas le sac plus léger."},
+    {"id":"demo_anouk_fear_01","speaker":"anouk","context":"fear_band_increases","text":"N'essayez pas de chasser la peur. Donnez-lui une place assez petite pour qu'elle ne choisisse pas à votre place."},
+    {"id":"demo_mathilde_ghoul_01","speaker":"mathilde","context":"ghoul_capture_window","text":"Elle cherche une sortie. Ce n'est pas la même chose que se rendre."},
     {"id":"demo_aurelien_witness_01","speaker":"aurelien","context":"boss_repeat_pattern_seen","text":"Ce geste n'est pas une attaque nouvelle. C'est quelque chose qui refuse de finir."},
-    {"id":"demo_malvor_witness_01","speaker":"malvor","context":"boss_recognition_window","text":"Alors on arrête de répondre au souvenir comme s'il venait de nous frapper pour la première fois."},
-    {"id":"demo_lysandra_return_01","speaker":"lysandra","context":"sanctuary_return","text":"Le Sanctuaire change aussi quand quelqu'un décide de ne pas y venir."},
-    {"id":"demo_darius_return_01","speaker":"darius","context":"sanctuary_return","text":"Nous sommes revenus. Ce n'est pas encore la même chose que rentrer."},
+    {"id":"demo_marec_witness_01","speaker":"marec","context":"boss_recognition_window","text":"Alors on arrête de répondre au souvenir comme s'il venait de nous frapper pour la première fois."},
+    {"id":"demo_anouk_return_01","speaker":"anouk","context":"sanctuary_return","text":"Le Sanctuaire change aussi quand quelqu'un décide de ne pas y venir."},
+    {"id":"demo_mathilde_return_01","speaker":"mathilde","context":"sanctuary_return","text":"Nous sommes revenus. Ce n'est pas encore la même chose que rentrer."},
     {"id":"demo_narration_marker","speaker":"narration","context":"three_marks_seen","text":"Trois traits. Pas une promesse. Seulement la preuve qu'une trajectoire a croisé la vôtre."},
     {"id":"demo_narration_end","speaker":"narration","context":"demo_complete","text":"La route suivante n'est pas plus sûre. Elle est seulement devenue lisible."}
   ],

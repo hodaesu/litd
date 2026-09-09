@@ -3,7 +3,7 @@ import unittest
 
 from tools.blender.build_prop_scene import build_prop_plan, load_job
 from tools.blender.generate_prop_jobs import build_jobs
-from tools.blender.run_full_pipeline import build_pipeline_plan
+from tools.blender.run_full_pipeline import build_pipeline_plan, canonicalize_saved_manifest
 
 
 class PropAutomationTests(unittest.TestCase):
@@ -53,4 +53,21 @@ class FullPipelineTests(unittest.TestCase):
 
     def test_saved_manifest_matches_current_plan(self):
         with open("data/blender/full_pipeline_manifest.json", encoding="utf-8") as stream:
-            self.assertEqual(json.load(stream), build_pipeline_plan())
+            saved = json.load(stream)
+        self.assertEqual(canonicalize_saved_manifest(saved), build_pipeline_plan())
+
+    def test_active_character_pipeline_uses_legendary_quartet(self):
+        plan = build_pipeline_plan()
+        hero_jobs = [
+            stage["job_id"]
+            for stage in plan["stages"]
+            if stage["stage"] == "characters" and stage["job_id"] in {
+                "character_mathilde", "character_marec", "character_anouk", "character_aurelien"
+            }
+        ]
+        self.assertEqual(hero_jobs, [
+            "character_mathilde", "character_marec", "character_anouk", "character_aurelien"
+        ])
+        active_ids = " ".join(hero_jobs)
+        for legacy in ("malvor", "lysandra", "darius"):
+            self.assertNotIn(legacy, active_ids)

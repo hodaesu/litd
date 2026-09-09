@@ -132,6 +132,16 @@ def _finalize_developer_session(session_dir: Path, telemetry_path: Path, game_ex
     )
 
 
+def _analyze_developer_session(root: Path, session_dir: Path) -> int:
+    analyzer = root / "tools/playtest/analyze_developer_selftest.py"
+    code = _run([sys.executable, str(analyzer), str(session_dir)], cwd=root)
+    if code == 0:
+        print(f"DEVELOPER_SELFTEST_ANALYSIS_READY={session_dir / 'developer_selftest_analysis.json'}")
+    else:
+        print(f"DEVELOPER_SELFTEST_ANALYSIS_FAILED_CODE={code}")
+    return code
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", default=str(ROOT))
@@ -148,6 +158,7 @@ def main() -> int:
         root / "export_presets.cfg",
         root / "reports/veilleurs_player_validation_template.json",
         root / "tools/playtest/prepare_veilleurs_first_playtest.py",
+        root / "tools/playtest/analyze_developer_selftest.py",
         root / "tools/qa/veilleurs_player_validation_report.py",
         root / "data/veilleurs/developer_selftest_contract.json",
         root / "scripts/qa/developer_selftest_overlay.gd",
@@ -163,6 +174,12 @@ def main() -> int:
         return 2
 
     if args.check:
+        code = _run(
+            [sys.executable, "tools/playtest/analyze_developer_selftest.py", "--check"],
+            cwd=root,
+        )
+        if code != 0:
+            return code
         print("VEILLEURS_FIRST_PLAYTEST_KIT_CHECK_OK")
         return 0
 
@@ -245,6 +262,7 @@ def main() -> int:
                     print(f"DEVELOPER_SELFTEST_TELEMETRY_READY={telemetry_path}")
                 else:
                     print(f"DEVELOPER_SELFTEST_TELEMETRY_MISSING={telemetry_path}")
+                _analyze_developer_session(root, session_dir)
                 _sync_developer_session_to_drive(session_dir)
                 print(f"FIRST_PLAYTEST_GAME_EXIT_CODE={game_run.returncode}")
                 return game_run.returncode

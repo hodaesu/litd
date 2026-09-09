@@ -48,6 +48,17 @@ def audit(root: Path = ROOT) -> list[str]:
     creatures = load("creatures", root)
     rarities = load("rarities", root)
 
+    expected_versions = {
+        "choreography": 1,
+        "animations": 1,
+        "presentation": 1,
+        # demo_content_pack v2 is the canonical-quartet migration; the production
+        # contract itself is unchanged, only its authored roster references moved.
+        "content": 2,
+        "balance": 1,
+        "ui": 1,
+        "roadmap": 1,
+    }
     for key, payload in {
         "choreography": choreography,
         "animations": animations,
@@ -57,8 +68,9 @@ def audit(root: Path = ROOT) -> list[str]:
         "ui": ui,
         "roadmap": roadmap,
     }.items():
-        if payload.get("version") != 1:
-            errors.append(f"{key} version must be 1")
+        expected = expected_versions[key]
+        if payload.get("version") != expected:
+            errors.append(f"{key} version must be {expected}")
 
     if choreography["combat_model"].get("damage_at_impact_marker_only") is not True:
         errors.append("combat must resolve damage at impact marker only")

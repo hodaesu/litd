@@ -1,60 +1,77 @@
 {
-  "schema_version": 1,
-  "status": "canonical_player_facing_roster",
+  "schema_version": 3,
+  "status": "assigned",
   "game": "LITD : Les Veilleurs",
+  "decision_date": "2026-09-09",
   "rules": {
-    "canonical_names_are_player_facing": true,
-    "legacy_runtime_ids_are_compatibility_only": true,
-    "legacy_names_must_never_be_rendered": true,
-    "legacy_v06_watcher_names_are_not_player_facing_canon": true,
-    "gameplay_shell_values_do_not_define_canonical_identity": true
+    "starting_quartet_assigned": true,
+    "inherit_legacy_identity": false,
+    "inherit_legacy_role": false,
+    "inherit_legacy_ethnicity": false,
+    "inherit_legacy_class": false,
+    "inherit_legacy_loadout": false,
+    "old_quartets_are_not_current_canon": true,
+    "reuse_existing_legendary_hero_sheets": true
   },
   "heroes": [
     {
-      "canonical_id": "sahen_varo",
-      "name": "Sahen Varo",
-      "legacy_runtime_id": "aurelien"
+      "id": "mathilde",
+      "name": "Mathilde",
+      "order": 1,
+      "legendary_hero": true,
+      "class_id": "duelist"
     },
     {
-      "canonical_id": "mira_sen",
-      "name": "Mira Sen",
-      "legacy_runtime_id": "malvor"
+      "id": "marec",
+      "name": "Marec",
+      "order": 2,
+      "legendary_hero": true,
+      "class_id": "breaker"
     },
     {
-      "canonical_id": "narem_osh",
-      "name": "Narem Osh",
-      "legacy_runtime_id": "lysandra"
+      "id": "anouk",
+      "name": "Anouk",
+      "order": 3,
+      "legendary_hero": true,
+      "class_id": "mystic"
     },
     {
-      "canonical_id": "ysra_nahal",
-      "name": "Ysra Nahal",
-      "legacy_runtime_id": "darius"
+      "id": "aurelien",
+      "name": "Aurélien",
+      "order": 4,
+      "legendary_hero": true,
+      "class_id": "surgeon"
     }
   ],
-  "deprecated_player_facing_names": [
-    "Aurélien",
-    "Malvor",
-    "Lysandra",
-    "Darius",
-    "Nayra Orun",
-    "Tarek Senn",
-    "Aïsha Maren",
-    "Idris Vael"
+  "invalidated_starting_quartets": [
+    {
+      "members": ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"],
+      "scope": "composition_only"
+    },
+    {
+      "members": ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"],
+      "scope": "composition_only"
+    },
+    {
+      "members": ["Aurélien", "Malvor", "Lysandra", "Darius"],
+      "scope": "legacy_runtime_shell_composition_only",
+      "note": "Cette ancienne composition est invalidée. Aurélien reste un héros légendaire canonique et revient explicitement dans le nouveau quatuor 2026-09-09."
+    }
   ],
-  "migration": {
-    "phase": "compatibility_bridge",
-    "next_step": "replace legacy runtime ids after save migration coverage is green",
-    "player_facing_surfaces": [
-      "hub",
-      "navigation",
-      "hero_sheet",
-      "inventory",
-      "equipment",
-      "skill_trees",
-      "preparation",
-      "combat_hud",
-      "chronicles",
-      "save_metadata"
-    ]
-  }
+  "superseded_rules": [
+    {
+      "rule": "Aurélien ne doit jamais être déplacé dans le quatuor de LITD : Les Veilleurs.",
+      "superseded_on": "2026-09-09",
+      "replacement": "Aurélien fait partie du quatuor de départ avec Mathilde, Marec et Anouk."
+    }
+  ],
+  "design_status": "existing_legendary_hero_designs_reused",
+  "design_constraints": {
+    "cosmopolitan_world": true,
+    "strong_asian_cultural_foundation": true,
+    "primarily_chinese_visual_influence": true,
+    "human_ethnic_diversity_required": true,
+    "redesign_existing_four": false
+  },
+  "note": "Quatuor canonique de départ : Mathilde, Marec, Anouk, Aurélien. Leurs fiches techniques et planches existantes restent les références de production."
 }

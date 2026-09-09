@@ -1,0 +1,52 @@
+name: Quartet Migration Sync
+
+on:
+  push:
+    branches:
+      - reset-starting-quartet-2026-09-09
+    paths:
+      - data/heroes.json
+      - tools/animation/rebind_starting_hero_movements.py
+      - tools/blender/generate_character_jobs.py
+      - .github/workflows/quartet-migration-sync.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync-generated-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout migration branch
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Regenerate Blender character jobs
+        run: python tools/blender/generate_character_jobs.py
+
+      - name: Rebind hero movement scaffolds
+        run: python tools/animation/rebind_starting_hero_movements.py
+
+      - name: Validate generated contracts
+        run: |
+          python -m pytest -q tests/python/test_character_blender_automation.py tests/python/test_movement_registry.py tests/python/test_veilleurs_canonical_roster.py
+
+      - name: Commit synchronized generated data
+        shell: bash
+        run: |
+          if git diff --quiet -- data/blender/character_jobs.json data/movement_registry.json; then
+            echo "Generated data already synchronized"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/blender/character_jobs.json data/movement_registry.json
+          git commit -m "chore: sync quartet Blender and movement data"
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"

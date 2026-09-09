@@ -6,6 +6,8 @@ from pathlib import Path
 from tools.voice.openvoice_v2_pipeline import build_plan
 
 ROOT = Path(__file__).resolve().parents[2]
+CURRENT_HEROES = {"mathilde", "marec", "anouk", "aurelien"}
+LEGACY_STARTER_IDS = {"malvor", "lysandra", "darius"}
 
 
 def _load(path: str) -> dict:
@@ -51,6 +53,8 @@ def test_generation_plan_covers_all_mortal_authored_lines() -> None:
     assert set(by_id) == expected_ids
 
     for entry in plan["entries"]:
+        assert entry["speaker_id"] in CURRENT_HEROES
+        assert entry["speaker_id"] not in LEGACY_STARTER_IDS
         assert len(entry["text_sha256"]) == 64
         assert entry["render_path"].startswith("build/voice_rendered/")
         assert entry["shipping_path"].startswith("assets/audio/voices/")
@@ -66,11 +70,11 @@ def test_fourth_wall_delivery_gets_quieter_not_more_showy() -> None:
     plan = build_plan(ROOT)
     by_id = {entry["line_id"]: entry for entry in plan["entries"]}
 
-    assert float(by_id["fw_dar_abyss_02"]["delivery"]["speed"]) < float(
-        by_id["fw_dar_fissure_01"]["delivery"]["speed"]
+    assert float(by_id["fw_mat_abyss_02"]["delivery"]["speed"]) < float(
+        by_id["fw_mat_fissure_01"]["delivery"]["speed"]
     )
-    assert "pas d'effet horrifique démonstratif" in by_id["fw_dar_abyss_02"]["delivery"]["direction"]
-    assert "présence incertaine" in by_id["fw_lys_direct_01"]["delivery"]["direction"]
+    assert "pas d'effet horrifique démonstratif" in by_id["fw_mat_abyss_02"]["delivery"]["direction"]
+    assert "présence incertaine" in by_id["fw_ano_direct_01"]["delivery"]["direction"]
 
 
 def test_shipping_manifest_starts_empty_and_safe() -> None:
