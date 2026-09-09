@@ -8,7 +8,15 @@ ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ROOT / "assets" / "art" / "v41" / "PRODUCTION_MANIFEST.csv"
 
 VALID_PRIORITIES = {"P0", "P1", "P2"}
-VALID_STATUS = {"missing", "placeholder", "candidate", "approved", "final", "blocked_name_clearance"}
+VALID_STATUS = {
+    "missing",
+    "placeholder",
+    "candidate",
+    "approved",
+    "final",
+    "blocked_name_clearance",
+    "blocked_quartet_reset",
+}
 VALID_LEGAL = {"TO_DOCUMENT", "ORANGE", "GREEN", "RED", "BLOCKED"}
 
 
@@ -33,9 +41,19 @@ def test_production_manifest_uses_controlled_states() -> None:
         assert row["legal_status"] in VALID_LEGAL
 
 
-def test_p0_contains_the_four_canonical_veilleurs() -> None:
-    p0_entities = {r["entity_id"] for r in rows() if r["priority"] == "P0"}
-    assert {"sahen_varo", "mira_sen", "narem_osh", "ysra_nahal"} <= p0_entities
+def test_p0_starter_portraits_are_neutral_and_blocked_during_reset() -> None:
+    heroes = [r for r in rows() if r["asset_id"].startswith("ART-LITD-V41-HERO-")]
+    assert [r["entity_id"] for r in heroes] == [
+        "starter_slot_01",
+        "starter_slot_02",
+        "starter_slot_03",
+        "starter_slot_04",
+    ]
+    assert all(r["display_name"].startswith("UNASSIGNED STARTER") for r in heroes)
+    assert all(r["status"] == "blocked_quartet_reset" for r in heroes)
+    assert all(r["legal_status"] == "BLOCKED" for r in heroes)
+    stale = {"sahen_varo", "mira_sen", "narem_osh", "ysra_nahal"}
+    assert stale.isdisjoint({r["entity_id"] for r in heroes})
 
 
 def test_release_ready_art_requires_green_legal_status() -> None:
