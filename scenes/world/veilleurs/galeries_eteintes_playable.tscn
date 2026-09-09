@@ -1,6 +1,17 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/veilleurs_ge01_playable_bridge.gd" id="1_bridge"]
+[ext_resource type="Script" path="res://scripts/world/veilleurs_ge01_blockout.gd" id="2_blockout"]
 
-[node name="GaleriesEteintesPlayable" type="Node"]
+[node name="GaleriesEteintesPlayable" type="Node3D"]
+
+[node name="Runtime" type="Node" parent="."]
 script = ExtResource("1_bridge")
+
+[node name="Blockout" type="Node3D" parent="."]
+script = ExtResource("2_blockout")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+position = Vector3(0, 18, 14)
+rotation_degrees = Vector3(-48, 0, 0)
+current = true
