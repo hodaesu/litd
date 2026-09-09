@@ -42,21 +42,46 @@ func _ready() -> void:
     corpse_ids.sort()
     var corpse_tactics: VeilleursCorpseTacticalRuntime = CORPSE_TACTICS.new()
 
-    var battlefield: Dictionary = corpse_tactics.snapshot(corpse_ids)
+    # Les vieux corps fournissent de la couverture, mais ne bloquent rien tant
+    # qu'une action tactique ne les a pas explicitement placés comme obstacle.
+    var battlefield: Dictionary = corpse_tactics.snapshot(corpse_ids, "hero")
     assert(int(battlefield.get("corpse_count", 0)) == 2)
-    assert((battlefield.get("blocked_slots", []) as Array).has(0))
-    assert((battlefield.get("blocked_slots", []) as Array).has(1))
-    assert(not corpse_tactics.can_move_to_slot(0, corpse_ids))
-    assert(corpse_tactics.can_move_to_slot(3, corpse_ids))
+    assert((battlefield.get("blocked_slots", []) as Array).is_empty())
+    assert(corpse_tactics.can_move_to_slot(0, corpse_ids, "hero"))
 
     var first_scar_id := str(corpse_ids[0])
     var second_scar_id := str(corpse_ids[1])
-    var moved := corpse_tactics.place(first_scar_id, 2, true)
+    var moved := corpse_tactics.place(first_scar_id, 2, true, "hero")
     assert(bool(moved.get("ok", false)))
-    battlefield = corpse_tactics.snapshot(corpse_ids)
+    battlefield = corpse_tactics.snapshot(corpse_ids, "hero")
     assert((battlefield.get("blocked_slots", []) as Array).has(2))
-    assert(not (battlefield.get("blocked_slots", []) as Array).has(0))
+    assert(not corpse_tactics.can_move_to_slot(2, corpse_ids, "hero"))
 
+    # Le runtime commun de position lit le même obstacle.
+    var mover := {"id": "hero_mover", "name": "Mouvement", "hp": 30, "max_hp": 30, "combat_position": 1}
+    var free_ally := {"id": "hero_ally", "name": "Allié", "hp": 30, "max_hp": 30, "combat_position": 0}
+    assert(not CombatPositionRuntime.can_move(mover, 2, [mover, free_ally], "hero"))
+
+    # L'IA ennemie peut sacrifier son action pour avancer vers son rang préféré.
+    var enemy_blocker := bridge.call("_build_unit", "emaciated") as Dictionary
+    enemy_blocker["combat_position"] = 0
+    var enemy_mover := bridge.call("_build_unit", "ash_roamer") as Dictionary
+    enemy_mover["combat_position"] = 2
+    var enemy_line: Array = [enemy_blocker, enemy_mover]
+    var move_action: Dictionary = CombatPositionRuntime.enemy_move_action(enemy_mover, enemy_line)
+    assert(bool(move_action.get("tactical_move", false)))
+    assert(int(enemy_mover.get("combat_position", -1)) == 1)
+
+    # Un corps peut aussi être projeté côté ennemi pour fermer une ligne.
+    var enemy_block_corpse := corpse_tactics.place(second_scar_id, 1, true, "enemy")
+    assert(bool(enemy_block_corpse.get("ok", false)))
+    enemy_mover["combat_position"] = 2
+    var blocked_enemy_move: Dictionary = CombatPositionRuntime.enemy_move_action(enemy_mover, enemy_line)
+    assert(blocked_enemy_move.is_empty())
+    assert(int(enemy_mover.get("combat_position", -1)) == 2)
+
+    # Couverture : un corps non bloquant reste utile à la position correspondante.
+    corpse_tactics.place(second_scar_id, 1, false, "hero")
     var front := {"id": "cover_front", "name": "Avant", "hp": 30, "max_hp": 30, "combat_position": 1, "positive_traits": [], "negative_traits": []}
     var rear := {"id": "cover_rear", "name": "Arrière", "hp": 30, "max_hp": 30, "combat_position": 3, "positive_traits": [], "negative_traits": []}
     var cover_heroes: Array = [front, rear]
@@ -84,7 +109,6 @@ func _ready() -> void:
     assert(bool(destroyed.get("ok", false)))
     battlefield = corpse_tactics.snapshot(corpse_ids)
     assert(int(battlefield.get("corpse_count", 0)) == 1)
-    assert(not (battlefield.get("blocked_slots", []) as Array).has(1))
 
     bridge.enter_room("ge_10")
     bridge.enter_room("ge_11")
