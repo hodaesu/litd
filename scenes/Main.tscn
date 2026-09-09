@@ -1,11 +1,37 @@
 [gd_scene load_steps=18 format=3]
 
-; main_v45 conserve uniquement les tactiques de cadavres génériques de GE09 :
-; déplacer, barricader, projeter, choisir R1-R4/E1-E4.
-; Les anciens raccords Aïsha/Tarek ont été retirés : le roster joueur canonique
-; est défini par data/veilleurs/canonical_roster.json.
+; main_v45 ajoute les tactiques de cadavres génériques de GE09 : déplacer,
+; barricader, projeter et choisir R1-R4/E1-E4 sans dépendre d'un héros précis.
 ; main_v44 raccorde les cadavres tactiques GE01 aux rangs de combat existants
 ; et permet aux ennemis de dépenser leur action pour se repositionner.
+; main_v43 corrige le contrat de ciblage explicatif et garantit les cibles tactiles
+; des sous-menus dynamiques tout en conservant le comportement fonctionnel v42.
+; main_v42 fiabilise tous les contrôles du playtest : sous-menus visibles,
+; formation hors combat et repositionnement en combat au coût d'une action.
+; main_v41 active la direction artistique canonique : tokens visuels, contrats
+; d'écran, slots d'assets remplaçables et contrats anatomiques sans gameplay.
+; main_v40 ajoute la finition UX canonique : micro-feedbacks sans rectangles,
+; hiérarchie typographique, aide contextuelle et états rares récupérables.
+; main_v39 conserve les noms canoniques bruts des lieux pour les sélecteurs runtime/QA.
+; main_v38 active l'interface canonique du playtest Les Veilleurs : hub sans
+; rectangles, navigation centrale, fiches héros, inventaire/équipement,
+; compétences, bestiaire, HUD, contextuels, expédition et résultats/options.
+; main_v37 ajoute le cycle passif/posture d'Hémocorde au-dessus de la couche clinique.
+; main_v36 ajoute réactions, passifs et transformations des resolvers Entaille / Anatomie / Suture.
+; main_v35 ajoute le pont de combat manuel des resolvers cliniques sans modifier le comportement LITD1.
+; main_v34 ajoute l'inventaire personnel en combat : utiliser un objet coûte l'action,
+; le donner à un allié est gratuit, avec la même règle pour les ennemis.
+; Héritage arbres de compétences : res://scripts/ui/main_v33.gd
+; Héritage ciblage tactique : rangs ennemis, portées de cible, écrans de ligne et déplacements forcés via res://scripts/ui/main_v32.gd
+; Héritage restrictions de rang : res://scripts/ui/main_v31.gd
+; Héritage loadouts combat : res://scripts/ui/main_v30.gd
+; Héritage exploration 3D : res://scripts/ui/main_v29.gd
+; Héritage blockout 3D : res://scripts/ui/main_v28.gd
+; Héritage salles physiques/fog of war : res://scripts/ui/main_v27.gd
+; Héritage Hall des Descendants : res://scripts/ui/main_v26.gd
+; Héritage niveaux : res://scripts/ui/main_v25.gd
+; Héritage roguelike : res://scripts/ui/main_v24.gd
+; Héritage narratif : res://scripts/ui/main_v23.gd
 [ext_resource path="res://scripts/ui/main_v45.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
@@ -35,17 +61,24 @@ script = ExtResource("1")
 
 [node name="GameMenuTabsAdapter" type="Node" parent="."]
 script = ExtResource("11")
+
 [node name="GameMenuSubtabsAdapter" type="Node" parent="."]
 script = ExtResource("12")
+
 [node name="GameMenuSectionPolishAdapter" type="Node" parent="."]
 script = ExtResource("13")
+
 [node name="GameMenuCodexPolishAdapter" type="Node" parent="."]
 script = ExtResource("14")
+
 [node name="HUDContextSanctuaryPolishAdapter" type="Node" parent="."]
 script = ExtResource("15")
+
 [node name="PlayerFacingUICleanupAdapter" type="Node" parent="."]
 script = ExtResource("16")
+
 [node name="NGPlusSkillTreeUI" type="Node" parent="."]
 script = ExtResource("2")
+
 [node name="DeveloperSelftestOverlay" type="CanvasLayer" parent="."]
 script = ExtResource("17")
