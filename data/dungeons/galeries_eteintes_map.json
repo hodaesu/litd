@@ -1,0 +1,38 @@
+{
+  "expedition_id": "VS01_GALERIES_ETEINTES",
+  "display_name": "Les Galeries Éteintes",
+  "entry": "ge_01",
+  "rooms": {
+    "ge_01": {"name": "La Gueule", "type": "ENTRY"},
+    "ge_02": {"name": "Vestibule des Cendres", "type": "OBSERVATION"},
+    "ge_03": {"name": "Carrefour", "type": "DECISION"},
+    "ge_03b": {"name": "Réserve brisée", "type": "RISK_REWARD", "optional": true},
+    "ge_04": {"name": "Première menace", "type": "COMBAT"},
+    "ge_05": {"name": "Corps retrouvé", "type": "BODY_EVENT"},
+    "ge_06": {"name": "Salle effondrée", "type": "OBSTACLE"},
+    "ge_07": {"name": "Ancien atelier", "type": "REWARD_BUILD"},
+    "ge_08": {"name": "Refuge", "type": "REST"},
+    "ge_09": {"name": "Ossuaire", "type": "COMBAT_ENV"},
+    "ge_10": {"name": "Croisement", "type": "EXTRACTION_CHOICE"},
+    "ge_11": {"name": "Galerie noire", "type": "COMBAT_DARK"},
+    "ge_12": {"name": "Chambre profonde", "type": "HIGH_RISK"},
+    "ge_13": {"name": "Sortie oubliée", "type": "EXTRACTION"},
+    "ge_14": {"name": "Chambre secrète", "type": "SECRET", "hidden": true}
+  },
+  "connections": [
+    {"a": "ge_01", "b": "ge_02"},
+    {"a": "ge_02", "b": "ge_03"},
+    {"a": "ge_03", "b": "ge_03b"},
+    {"a": "ge_03", "b": "ge_04"},
+    {"a": "ge_04", "b": "ge_05"},
+    {"a": "ge_05", "b": "ge_06"},
+    {"a": "ge_05", "b": "ge_14", "hidden": true},
+    {"a": "ge_06", "b": "ge_07"},
+    {"a": "ge_07", "b": "ge_08"},
+    {"a": "ge_08", "b": "ge_09"},
+    {"a": "ge_09", "b": "ge_10"},
+    {"a": "ge_10", "b": "ge_11"},
+    {"a": "ge_10", "b": "ge_13"},
+    {"a": "ge_11", "b": "ge_12"}
+  ]
+}
