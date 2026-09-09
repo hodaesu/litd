@@ -1,5 +1,8 @@
 [gd_scene load_steps=18 format=3]
 
+; main_v46 unifie le ciblage : choix manuel uniquement quand le joueur a un vrai
+; choix ; soins/objets déterministes restent automatiques ; zones imposées
+; prévisualisent toutes leurs cibles ensemble puis s'exécutent automatiquement.
 ; main_v45 ajoute l'inspection contextuelle en combat : toucher un héros ou un
 ; ennemi ouvre sa santé, son rang et ses états sans surcharger le champ de bataille.
 ; main_v44 corrige la lisibilité tactique du combat : R1 est affiché au contact
@@ -34,7 +37,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v45.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v46.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
