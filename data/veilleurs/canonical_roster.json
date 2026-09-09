@@ -1,60 +1,35 @@
 {
-  "schema_version": 1,
-  "status": "canonical_player_facing_roster",
+  "schema_version": 2,
+  "status": "reset_unassigned",
   "game": "LITD : Les Veilleurs",
   "rules": {
-    "canonical_names_are_player_facing": true,
-    "legacy_runtime_ids_are_compatibility_only": true,
-    "legacy_names_must_never_be_rendered": true,
-    "legacy_v06_watcher_names_are_not_player_facing_canon": true,
-    "gameplay_shell_values_do_not_define_canonical_identity": true
+    "starting_quartet_assigned": false,
+    "inherit_legacy_identity": false,
+    "inherit_legacy_role": false,
+    "inherit_legacy_ethnicity": false,
+    "inherit_legacy_class": false,
+    "inherit_legacy_loadout": false,
+    "old_quartets_are_not_current_canon": true
   },
-  "heroes": [
-    {
-      "canonical_id": "sahen_varo",
-      "name": "Sahen Varo",
-      "legacy_runtime_id": "aurelien"
-    },
-    {
-      "canonical_id": "mira_sen",
-      "name": "Mira Sen",
-      "legacy_runtime_id": "malvor"
-    },
-    {
-      "canonical_id": "narem_osh",
-      "name": "Narem Osh",
-      "legacy_runtime_id": "lysandra"
-    },
-    {
-      "canonical_id": "ysra_nahal",
-      "name": "Ysra Nahal",
-      "legacy_runtime_id": "darius"
-    }
+  "heroes": [],
+  "technical_slots": [
+    "starter_slot_01",
+    "starter_slot_02",
+    "starter_slot_03",
+    "starter_slot_04"
   ],
-  "deprecated_player_facing_names": [
-    "Aurélien",
-    "Malvor",
-    "Lysandra",
-    "Darius",
-    "Nayra Orun",
-    "Tarek Senn",
-    "Aïsha Maren",
-    "Idris Vael"
+  "invalidated_starting_quartets": [
+    ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"],
+    ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"],
+    ["Aurélien", "Malvor", "Lysandra", "Darius"]
   ],
-  "migration": {
-    "phase": "compatibility_bridge",
-    "next_step": "replace legacy runtime ids after save migration coverage is green",
-    "player_facing_surfaces": [
-      "hub",
-      "navigation",
-      "hero_sheet",
-      "inventory",
-      "equipment",
-      "skill_trees",
-      "preparation",
-      "combat_hud",
-      "chronicles",
-      "save_metadata"
-    ]
-  }
+  "design_status": "to_design_from_blank_slate",
+  "design_constraints": {
+    "cosmopolitan_world": true,
+    "strong_asian_cultural_foundation": true,
+    "primarily_chinese_visual_influence": true,
+    "human_ethnic_diversity_required": true,
+    "four_distinct_identities_required": true
+  },
+  "note": "Aucun quatuor de départ canonique n'est actuellement attribué. Les compositions antérieures sont invalidées comme roster de départ."
 }
