@@ -25,6 +25,7 @@ jobs:
 
           root = Path('.')
           legacy = Path('data/veilleurs/legacy')
+          workflow = Path('.github/workflows/one-shot-roster-migration.yml')
 
           renames = {
               Path('data/veilleurs/skills/tarek_senn.json'): Path('data/veilleurs/skills/mathilde.json'),
@@ -37,51 +38,65 @@ jobs:
                   dst.parent.mkdir(parents=True, exist_ok=True)
                   src.rename(dst)
 
-          literal = [
-              ('Tarek Senn', 'Mathilde'), ('tarek_senn', 'mathilde'), ('Tarek', 'Mathilde'), ('tarek', 'mathilde'),
-              ('Nayra Orun', 'Marec'), ('nayra_orun', 'marec'), ('Nayra', 'Marec'), ('nayra', 'marec'),
-              ('Idris Vael', 'Anouk'), ('idris_vael', 'anouk'), ('Idris', 'Anouk'), ('idris', 'anouk'),
-              ('Aïsha Maren', 'Aurélien'), ('Aisha Maren', 'Aurelien'), ('aisha_maren', 'aurelien'),
-              ('Aïsha', 'Aurélien'), ('Aisha', 'Aurelien'), ('aïsha', 'aurélien'), ('aisha', 'aurelien'),
+          # Case-insensitive canonical replacement, including surnames and snake_case ids.
+          hero_patterns = [
+              (re.compile(r'(?i)\btarek(?:[ _]senn)?\b'), 'Mathilde'),
+              (re.compile(r'(?i)\bnayra(?:[ _]orun)?\b'), 'Marec'),
+              (re.compile(r'(?i)\bidris(?:[ _]vael)?\b'), 'Anouk'),
+              (re.compile(r'(?i)\ba(?:ï|i)sha(?:[ _]maren)?\b'), 'Aurélien'),
           ]
           skill_prefixes = [
-              (re.compile(r'\bTA-(?=(?:TRA|ENT|DIS)-\d{2}\b)'), 'MA-'),
-              (re.compile(r'\bNA-(?=(?:BAS|BRI|SER)-\d{2}\b)'), 'MR-'),
-              (re.compile(r'\bID-(?=(?:SEN|CON|DIS)-\d{2}\b)'), 'AN-'),
-              (re.compile(r'\bAÏ-(?=(?:ANA|SUT|HEM)-\d{2}\b)'), 'AU-'),
+              (re.compile(r'\bTA-(?=(?:TRA|ENT|DIS)-\d{2}\b)', re.I), 'MA-'),
+              (re.compile(r'\bNA-(?=(?:BAS|BRI|SER)-\d{2}\b)', re.I), 'MR-'),
+              (re.compile(r'\bID-(?=(?:SEN|CON|DIS)-\d{2}\b)', re.I), 'AN-'),
+              (re.compile(r'\bAÏ-(?=(?:ANA|SUT|HEM)-\d{2}\b)', re.I), 'AU-'),
           ]
 
           text_suffixes = {'.gd', '.json', '.tscn', '.tres', '.cfg', '.md', '.txt', '.yml', '.yaml', '.py', '.csv'}
           for path in root.rglob('*'):
               if not path.is_file() or path.suffix.lower() not in text_suffixes:
                   continue
-              if path == Path('.github/workflows/one-shot-roster-migration.yml'):
-                  continue
-              if legacy in path.parents:
+              if path == workflow or legacy in path.parents:
                   continue
               try:
                   text = path.read_text(encoding='utf-8')
               except UnicodeDecodeError:
                   continue
               new = text
-              for old, current in literal:
-                  new = new.replace(old, current)
+              for rx, current in hero_patterns:
+                  new = rx.sub(current, new)
               for rx, replacement in skill_prefixes:
                   new = rx.sub(replacement, new)
+              # Keep machine ids ASCII/lowercase where a canonical display name landed in an identifier.
+              new = new.replace('Aurélien_', 'aurelien_').replace('_Aurélien', '_aurelien')
+              new = new.replace('Mathilde_', 'mathilde_').replace('_Mathilde', '_mathilde')
+              new = new.replace('Marec_', 'marec_').replace('_Marec', '_marec')
+              new = new.replace('Anouk_', 'anouk_').replace('_Anouk', '_anouk')
               if new != text:
                   path.write_text(new, encoding='utf-8')
 
-          # Resolver entrypoints were hero-named; make them canonical too.
-          resolver = Path('data/veilleurs/skills/resolver_contract.json')
-          if resolver.exists():
-              text = resolver.read_text(encoding='utf-8')
-              text = text.replace('study_aurélien', 'study_aurelien')
-              resolver.write_text(text, encoding='utf-8')
+          # Canonical file metadata uses ids matching canonical_roster.json.
+          canonical_ids = {
+              Path('data/veilleurs/skills/mathilde.json'): ('"watcher_id":"Mathilde"', '"watcher_id":"mathilde"'),
+              Path('data/veilleurs/skills/marec.json'): ('"watcher_id":"Marec"', '"watcher_id":"marec"'),
+              Path('data/veilleurs/skills/anouk.json'): ('"watcher_id":"Anouk"', '"watcher_id":"anouk"'),
+              Path('data/veilleurs/skills/aurelien.json'): ('"watcher_id":"Aurélien"', '"watcher_id":"aurelien"'),
+          }
+          for path, (bad, good) in canonical_ids.items():
+              if path.exists():
+                  text = path.read_text(encoding='utf-8').replace(bad, good)
+                  path.write_text(text, encoding='utf-8')
 
-          # Remove the one-shot workflow itself from the resulting tree.
-          Path('.github/workflows/one-shot-roster-migration.yml').unlink(missing_ok=True)
+          # Known runtime entrypoints are identifiers and must remain ASCII.
+          for path in [Path('data/veilleurs/skills/resolver_contract.json'), Path('scripts/core/veilleurs_corpse_interaction_runtime.gd')]:
+              if path.exists():
+                  text = path.read_text(encoding='utf-8')
+                  text = text.replace('study_Aurélien', 'study_aurelien').replace('study_aurélien', 'study_aurelien')
+                  text = text.replace('cover_Mathilde', 'cover_mathilde').replace('cover_mathilde', 'cover_mathilde')
+                  path.write_text(text, encoding='utf-8')
 
-          # Strict active-tree guard: no old quartet names/ids may remain outside legacy.
+          workflow.unlink(missing_ok=True)
+
           forbidden = re.compile(r'(?i)\b(?:nayra|tarek|idris|aisha)\b|aïsha|nayra_orun|tarek_senn|idris_vael|aisha_maren')
           offenders = []
           for path in root.rglob('*'):
