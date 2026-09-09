@@ -8,6 +8,7 @@ on:
       - 'scripts/core/veilleurs_combat_context_runtime.gd'
       - 'scripts/core/veilleurs_combat_sandbox_runtime.gd'
       - 'scripts/ui/main_v46.gd'
+      - 'scripts/ui/main_v47.gd'
       - 'scripts/tests/veilleurs_combat_context_smoke_test.gd'
       - 'scripts/tests/veilleurs_combat_sandbox_loop_smoke_test.gd'
       - 'scenes/Main.tscn'
