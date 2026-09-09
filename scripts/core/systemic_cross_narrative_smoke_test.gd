@@ -41,6 +41,7 @@ func run() -> void:
     await _frames(2)
     CampaignState.current_chapter_id = "chapter_02_before_fall"
     _set_hero_hp("aurelien", 0)
+    _remove_hero("marec")
     _check(SystemicCrossRuntime.record_contextual_choice("quest.litd1.lhaor_seeds_that_remain", "split_below_threshold"), "Distributed seed choice must be recorded")
     _check(SystemicCrossRuntime.record_contextual_choice("quest.litd1.dhor_khal_bridge_two_valleys", "distribute_material_local_repairs"), "Distributed repair choice must be recorded")
     await _frames(1)
@@ -78,6 +79,13 @@ func _set_hero_hp(hero_id: String, hp: int) -> void:
         var hero: Dictionary = hero_value if hero_value is Dictionary else {}
         if str(hero.get("id", "")) == hero_id:
             hero["hp"] = hp
+            return
+
+func _remove_hero(hero_id: String) -> void:
+    for index in range(GameState.party.size() - 1, -1, -1):
+        var hero: Dictionary = GameState.party[index] if GameState.party[index] is Dictionary else {}
+        if str(hero.get("id", "")) == hero_id:
+            GameState.party.remove_at(index)
             return
 
 func _log_contains(fragment: String) -> bool:
