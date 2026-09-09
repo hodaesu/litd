@@ -35,6 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: barichello/godot-ci:4.7.2
+    env:
+      HOME: /root
     steps:
       - uses: actions/checkout@v4
       - run: mkdir -p "${{ matrix.path }}"
