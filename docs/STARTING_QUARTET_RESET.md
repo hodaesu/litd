@@ -1,81 +1,77 @@
-# LITD : Les Veilleurs — Reset canonique du quatuor de départ
+# LITD : Les Veilleurs — Reset puis réattribution canonique du quatuor de départ
 
 Date : 2026-09-09
-Statut : **RESET COMPLET — AUCUN QUATUOR DE DÉPART CANONIQUE ATTRIBUÉ**
+Statut : **RESET TERMINÉ — NOUVEAU QUATUOR CANONIQUE ATTRIBUÉ**
 
-## Décision
+## Nouveau quatuor de départ
 
-Toutes les compositions historiques du quatuor de départ sont invalidées comme canon de départ.
+1. **Mathilde** — `mathilde` — Duelliste
+2. **Marec** — `marec` — Briseur
+3. **Anouk** — `anouk` — Mystique
+4. **Aurélien** — `aurelien` — Chirurgien
 
-Compositions invalidées :
+Les quatre sont déjà membres des **Sept Héros légendaires**. Leurs fiches techniques, planches, silhouettes, armes, palettes, histoires et documents de production existants restent les références. **Aucun redesign n'est demandé par cette migration.**
+
+## Compositions historiques invalidées
+
+Ces compositions ne sont plus le roster de départ :
 
 1. Nayra Orun / Tarek Senn / Aïsha Maren / Idris Vael
 2. Sahen Varo / Mira Sen / Narem Osh / Ysra Nahal
 3. Aurélien / Malvor / Lysandra / Darius
 
-Aucun membre de ces anciennes compositions n'est automatiquement repris dans le futur quatuor.
+L'invalidation porte sur les **compositions historiques**, pas nécessairement sur l'existence de chaque personnage dans LITD Universe. En particulier, Aurélien est explicitement réattribué au nouveau quatuor.
 
-## Ce qui est effacé du canon de départ
+## Règle Aurélien supersédée
 
-Le futur quatuor ne doit hériter automatiquement d'aucun élément des anciennes versions :
+L'ancienne règle selon laquelle Aurélien, parce qu'il était déjà un Héros légendaire, ne devait jamais rejoindre le quatuor de `LITD : Les Veilleurs`, est **supersédée par la décision canonique du 2026-09-09**.
 
-- nom ;
-- visage ;
-- silhouette ;
-- origine ou ethnie ;
-- classe ;
-- race ;
-- rôle tactique ;
-- arme ;
-- équipement ;
-- statistiques ;
-- compétences ;
-- personnalité ;
-- relations ;
-- histoire personnelle ;
-- model sheet / planche DA ;
-- statut de protagoniste de départ.
+Nouvelle règle :
 
-Les anciennes planches de Mira Sen et Sahen Varo ne sont donc plus des références du futur quatuor de départ.
+> Aurélien fait partie du quatuor de départ de `LITD : Les Veilleurs` avec Mathilde, Marec et Anouk.
 
-## Important : personnages individuels hors quatuor
+Toute bible ou documentation antérieure contenant l'ancienne interdiction doit être considérée comme historique jusqu'à sa prochaine régénération.
 
-Cette décision invalide leur **statut de quatuor de départ**. Elle n'impose pas de supprimer rétroactivement tout personnage individuel de l'univers LITD. Un ancien personnage ne pourra revenir dans le jeu ou le lore que par une décision canonique explicite ultérieure et ne récupérera jamais son ancien statut par héritage.
+## Ce qui n'est pas hérité des anciens quatuors
 
-## État runtime pendant le redesign
+Le nouveau quatuor ne reprend aucun nom, visage, silhouette, origine, classe, rôle tactique, équipement, compétence, personnalité, relation ou histoire personnelle de Sahen/Mira/Narem/Ysra ni des autres anciennes compositions.
 
-Le projet conserve quatre emplacements purement techniques :
+Les quatre nouveaux membres réutilisent **leurs propres éléments déjà établis comme Héros légendaires**.
 
-- `starter_slot_01`
-- `starter_slot_02`
-- `starter_slot_03`
-- `starter_slot_04`
+## Références techniques actives
 
-Ils servent uniquement à maintenir les tests, le chargement des systèmes et le développement pendant que le nouveau quatuor est conçu.
+Le roster machine est défini dans :
 
-Ils ne représentent aucun personnage canonique.
+- `data/heroes.json`
+- `data/veilleurs/canonical_roster.json`
 
-## Contraintes du futur quatuor
+Ordre canonique de démarrage :
 
-Le nouveau quatuor repart d'une feuille blanche, tout en respectant le monde déjà verrouillé :
+`Mathilde → Marec → Anouk → Aurélien`
 
-- LITD est cosmopolite ;
-- la culture visuelle et architecturale possède une forte base asiatique, principalement chinoise ;
-- les humains du monde appartiennent à des ethnies diverses ;
-- les quatre protagonistes doivent avoir des identités visuelles et humaines réellement distinctes ;
-- leur diversité ne doit pas être un simple changement de visage : culture personnelle, parcours, position sociale et rapport au monde doivent être individualisés ;
-- aucune ancienne classe ou fonction tactique n'est automatiquement conservée ;
-- la composition du groupe doit être redéfinie à partir des besoins narratifs, systémiques et émotionnels du nouveau départ.
+Mapping gameplay actuel :
+
+- Mathilde → `duelist`
+- Marec → `breaker`
+- Anouk → `mystic`
+- Aurélien → `surgeon`
+
+Les valeurs de PV et les états psychologiques placés dans `data/heroes.json` servent de baseline runtime de départ ; ils ne remplacent pas les fiches d'identité ou de progression déjà produites.
+
+## Contraintes du monde conservées
+
+- LITD reste cosmopolite ;
+- forte base culturelle et visuelle asiatique, principalement chinoise ;
+- diversité ethnique humaine réelle ;
+- monde post-guerre sombre et fragile ;
+- aucune occidentalisation ou uniformisation du casting par cette migration.
 
 ## Règle de production
 
-Tant que le nouveau quatuor n'est pas validé :
+À partir de cette décision :
 
-- aucune planche de personnage ne passe en `approved/final` comme héros de départ ;
-- aucune fiche 3D de héros de départ ne devient canonique ;
-- aucun ancien nom ne doit apparaître comme membre du groupe initial dans une interface joueur ;
-- les quatre slots techniques doivent rester explicitement `unassigned`.
-
-## Condition de sortie du reset
-
-Le statut `RESET COMPLET` ne peut être levé que lorsqu'une nouvelle composition de quatre personnages est explicitement validée et inscrite dans `data/veilleurs/canonical_roster.json`.
+- les planches existantes de Mathilde, Marec, Anouk et Aurélien sont les références de production ;
+- les jobs Blender et références Godot doivent utiliser leurs IDs canoniques ;
+- les tests ne doivent plus dépendre des shells `malvor`, `lysandra`, `darius` ni des identités Sahen/Mira/Narem/Ysra ;
+- toute réapparition d'un ancien quatuor comme roster de départ est une régression ;
+- aucune nouvelle planche de ces quatre héros n'est requise uniquement pour effectuer la migration technique.
