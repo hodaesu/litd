@@ -1,12 +1,12 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "stage": "developer_selftest_preplay_hardening",
   "purpose": "Verrouiller uniquement ce qui doit être présent et lisible avant le premier self-test PC de la verticale Chapitre I.",
   "canonical_watchers": [
-    "Nayra Orun",
-    "Tarek Senn",
-    "Aïsha Maren",
-    "Idris Vael"
+    "Mathilde",
+    "Marec",
+    "Anouk",
+    "Aurélien"
   ],
   "required_selftest_steps": [
     "sanctuary_preparation",
@@ -28,7 +28,7 @@
       "progressive_details"
     ],
     "runtime_files": [
-      "scripts/ui/main_v43.gd",
+      "scripts/ui/main_v48.gd",
       "scripts/ui/context_menu_ui_v2.gd",
       "scripts/ui/hud_context_sanctuary_polish_adapter.gd",
       "scenes/Main.tscn"
