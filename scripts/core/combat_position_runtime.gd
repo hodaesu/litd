@@ -3,6 +3,9 @@ class_name CombatPositionRuntime
 
 const MIN_SLOT := 0
 const MAX_SLOT := 3
+const CORPSE_RUNTIME := preload("res://scripts/core/veilleurs_corpse_tactical_runtime.gd")
+
+var _corpse_runtime: RefCounted = CORPSE_RUNTIME.new()
 
 func initialize_battle(heroes: Array, enemies: Array) -> void:
     _assign_missing_positions(heroes)
@@ -100,19 +103,8 @@ func _slot_blocked_by_corpse(slot: int, side: String) -> bool:
     if ge01 == null or not ge01.has_method("tactical_corpse_context"):
         return false
     var context: Dictionary = ge01.call("tactical_corpse_context")
-    for scar_id_value: Variant in context.keys():
-        var scar_id := str(scar_id_value)
-        if not RemanenceRuntime.world_scars.has(scar_id):
-            continue
-        var scar: Dictionary = RemanenceRuntime.world_scars[scar_id]
-        var payload: Dictionary = scar.get("payload", {})
-        if str(payload.get("corpse_state", "intact")) in ["destroyed", "consumed", "burned"]:
-            continue
-        if str(payload.get("tactical_side", "hero")) != side:
-            continue
-        if bool(payload.get("blocks_slot", true)) and int(payload.get("tactical_slot", -1)) == slot:
-            return true
-    return false
+    var ids: Array = context.keys()
+    return not bool(_corpse_runtime.call("can_move_to_slot", slot, ids, side))
 
 func _preferred_enemy_slot(enemy: Dictionary) -> int:
     var species := str(enemy.get("species_id", ""))
