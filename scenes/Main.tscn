@@ -1,45 +1,30 @@
 [gd_scene load_steps=18 format=3]
 
-; main_v50 réduit les taps en combat mobile : exécution directe selon le type de cible,
-; ciblage anatomique en dernier tap, feedback de conséquence et bannière de changement de tour.
-; main_v49 polit le Combat Sandbox pour téléphone : cibles tactiles >=48 px,
-; reflow compact des commandes avancées et priorité contextuelle synergie/ultime.
-; main_v48 ajoute au Combat Sandbox mobile : formation R1-R4 tactile, durées de contrôle,
-; synergies contextuelles et bouton d'ultime avec charges sans alourdir le HUD permanent.
-; main_v47 rend Combat Sandbox 0.1 interactif depuis la navigation canonique.
-; main_v46 ajoute l'inspection contextuelle tactile héros/ennemis avec HUD minimal.
-; main_v45 ajoute les tactiques de cadavres génériques de GE09 : déplacer,
-; barricader, projeter et choisir R1-R4/E1-E4 sans dépendre d'un héros précis.
-; main_v44 raccorde les cadavres tactiques GE01 aux rangs de combat existants
-; et permet aux ennemis de dépenser leur action pour se repositionner.
-; main_v43 corrige le contrat de ciblage explicatif et garantit les cibles tactiles
-; des sous-menus dynamiques tout en conservant le comportement fonctionnel v42.
-; main_v42 fiabilise tous les contrôles du playtest : sous-menus visibles,
-; formation hors combat et repositionnement en combat au coût d'une action.
-; main_v41 active la direction artistique canonique : tokens visuels, contrats
-; d'écran, slots d'assets remplaçables et contrats anatomiques sans gameplay.
-; main_v40 ajoute la finition UX canonique : micro-feedbacks sans rectangles,
-; hiérarchie typographique, aide contextuelle et états rares récupérables.
-; main_v39 conserve les noms canoniques bruts des lieux pour les sélecteurs runtime/QA.
-; main_v38 active l'interface canonique du playtest Les Veilleurs : hub sans
-; rectangles, navigation centrale, fiches héros, inventaire/équipement,
-; compétences, bestiaire, HUD, contextuels, expédition et résultats/options.
-; main_v37 ajoute le cycle passif/posture d'Hémocorde au-dessus de la couche clinique.
-; main_v36 ajoute réactions, passifs et transformations des resolvers Entaille / Anatomie / Suture.
-; main_v35 ajoute le pont de combat manuel des resolvers cliniques sans modifier le comportement LITD1.
-; main_v34 ajoute l'inventaire personnel en combat : utiliser un objet coûte l'action,
-; le donner à un allié est gratuit, avec la même règle pour les ennemis.
-; Héritage arbres de compétences : res://scripts/ui/main_v33.gd
-; Héritage ciblage tactique : rangs ennemis, portées de cible, écrans de ligne et déplacements forcés via res://scripts/ui/main_v32.gd
-; Héritage restrictions de rang : res://scripts/ui/main_v31.gd
-; Héritage loadouts combat : res://scripts/ui/main_v30.gd
-; Héritage exploration 3D : res://scripts/ui/main_v29.gd
-; Héritage blockout 3D : res://scripts/ui/main_v28.gd
-; Héritage salles physiques/fog of war : res://scripts/ui/main_v27.gd
-; Héritage Hall des Descendants : res://scripts/ui/main_v26.gd
-; Héritage niveaux : res://scripts/ui/main_v25.gd
-; Héritage roguelike : res://scripts/ui/main_v24.gd
-; Héritage narratif : res://scripts/ui/main_v23.gd
+; main_v50 ajoute le ressenti combat mobile du Combat Sandbox au-dessus de GE01.
+; main_v49 polit le Sandbox téléphone sans remplacer les garde-fous pré-playtest.
+; combat_sandbox_ui_v48 ajoute formation, contrôles, synergies et ultimes.
+; combat_sandbox_ui_v47 rend le Combat Sandbox interactif au-dessus de main_v50_ge01.
+; main_v50_ge01 porte les tactiques de cadavres GE01 au-dessus du runtime pré-playtest actuel.
+; main_v49_ge01 raccorde les cadavres tactiques GE01 aux rangs sans remplacer les couches UI de main.
+; main_v48 verrouille les invariants du dernier contrôle pré-playtest : un héros
+; mort est sauté sans réinitialiser les actions déjà jouées, la cible ennemie est
+; toujours renormalisée vers un adversaire vivant et tous les états transitoires
+; de ciblage/inspection sont nettoyés à la victoire ou à la défaite.
+; Validation pré-playtest : les smoke tests de dialogue utilisent désormais le
+; quatuor canonique Mathilde, Marec, Anouk et Aurélien.
+; main_v47 aligne toute la formation sur le combat : affichage R4, R3, R2, R1
+; de gauche à droite et placement initial logique (mêlée devant, soutien derrière).
+; main_v46 unifie le ciblage : choix manuel uniquement quand le joueur a un vrai
+; choix ; soins/objets déterministes restent automatiques ; zones imposées
+; prévisualisent toutes leurs cibles ensemble puis s'exécutent automatiquement.
+; main_v45 ajoute l'inspection contextuelle en combat.
+; main_v44 corrige la lisibilité tactique du combat : R1 est affiché au contact.
+; main_v43 corrige le contrat de ciblage explicatif et garantit les cibles tactiles.
+; main_v42 fiabilise tous les contrôles du playtest.
+; main_v41 active la direction artistique canonique.
+; main_v40 ajoute la finition UX canonique.
+; main_v39 conserve les noms canoniques bruts des lieux.
+; main_v38 active l'interface canonique du playtest Les Veilleurs.
 [ext_resource path="res://scripts/ui/main_v50.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
