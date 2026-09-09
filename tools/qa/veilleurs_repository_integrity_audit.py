@@ -178,7 +178,8 @@ def main() -> int:
             skill_layout_ok = False
             continue
         data = load_json(path)
-        if data.get("watcher_id") != runtime_id or data.get("watcher_name") != expected_name:
+        expected_file_id = str(row.get("entity_id", "")).removeprefix("ENT_WATCHER_")
+        if data.get("watcher_id") != expected_file_id or data.get("watcher_name") != expected_name:
             errors.append(f"Identité de fichier compétence divergente: {rel(path)}")
             skill_layout_ok = False
         trees = data.get("trees", {})
