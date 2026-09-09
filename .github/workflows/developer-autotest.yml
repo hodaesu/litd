@@ -211,7 +211,7 @@ jobs:
     if: always()
     needs: [fast-contracts, combat-core, combat-matrix, campaign-bots, sanctuary-bot]
     runs-on: ubuntu-latest
-    timeout-minutes: 14
+    timeout-minutes: 18
     steps:
       - uses: actions/checkout@v6
         with:
@@ -232,6 +232,9 @@ jobs:
       - name: "Bot v15 : réduction des cas de fuzzing"
         if: always()
         run: python tools/qa/bot_v15_case_minimizer.py
+      - name: "Bot v26 : promotion automatique vers le corpus de régression"
+        if: always()
+        run: python tools/qa/bot_v26_regression_promoter.py
       - name: "Bot v16 : garde statistique de régression"
         if: always()
         run: python tools/qa/bot_v16_balance_regression_guard.py
@@ -258,10 +261,16 @@ jobs:
       - name: "Bot v25 : chaos stateful déterministe"
         if: always()
         run: python tools/qa/bot_v25_stateful_chaos.py
+      - name: "Bot v27 : pont vers les preuves runtime Godot"
+        if: always()
+        run: python tools/qa/bot_v27_runtime_bridge.py
+      - name: "Bot v28 : exploration branches rares, Lumière et Rémanence"
+        if: always()
+        run: python tools/qa/bot_v28_rare_path_explorer.py
       - name: "Bot v22 : couverture gameplay"
         if: always()
         run: python tools/qa/bot_v22_gameplay_coverage.py
-      - name: Publier les diagnostics v14-v25
+      - name: Publier les diagnostics v14-v28
         uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -279,3 +288,6 @@ jobs:
             reports/player-bot-v23-meta-hunter.json
             reports/player-bot-v24-exploit-hunter.json
             reports/player-bot-v25-stateful-chaos.json
+            reports/player-bot-v26-regression-promoter.json
+            reports/player-bot-v27-runtime-bridge.json
+            reports/player-bot-v28-rare-path-explorer.json
