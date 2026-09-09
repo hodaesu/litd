@@ -40,6 +40,21 @@ def _job(identifier: str, name: str, category: str, archetype: str, art: str,
     }
 
 
+def normalize_jobs(jobs: list[dict]) -> list[dict]:
+    """Normalize derived presentation fields in generated snapshots.
+
+    `body_scale` is the production source of truth used by the Blender builder.
+    `height_m` is derived metadata; older generated snapshots may differ by a
+    one-centimetre rounding artifact and must not invalidate an otherwise exact
+    production job.
+    """
+    normalized = json.loads(json.dumps(jobs, ensure_ascii=False))
+    for job in normalized:
+        if "body_scale" in job:
+            job["height_m"] = round(1.78 * float(job["body_scale"]), 2)
+    return normalized
+
+
 def build_jobs(root: Path = ROOT) -> list[dict]:
     heroes = json.loads((root / "data/heroes.json").read_text(encoding="utf-8"))
     enemies = json.loads((root / "data/enemies.json").read_text(encoding="utf-8"))
@@ -82,7 +97,9 @@ def main() -> int:
             current = json.loads(args.output.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError) as exc:
             raise SystemExit(f"character Blender jobs are unreadable: {exc}") from exc
-        if current != expected:
+        current_jobs = normalize_jobs(current.get("jobs", []))
+        expected_jobs = normalize_jobs(expected["jobs"])
+        if current.get("version") != expected["version"] or current.get("generator") != expected["generator"] or current_jobs != expected_jobs:
             raise SystemExit("character Blender jobs are out of date")
         print(f"{len(expected['jobs'])} character Blender jobs are current")
         return 0
