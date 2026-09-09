@@ -18,11 +18,13 @@ on:
       - 'scripts/tests/veilleurs_combat_context_smoke_test.gd'
       - 'scripts/tests/veilleurs_combat_sandbox_loop_smoke_test.gd'
       - 'scripts/tests/veilleurs_systemic_skill_families_smoke_test.gd'
+      - 'scripts/tests/veilleurs_combat_advanced_systems_smoke_test.gd'
       - 'scenes/Main.tscn'
       - 'scenes/tests/current_quartet_skill_data_smoke.tscn'
       - 'scenes/tests/veilleurs_combat_context_smoke.tscn'
       - 'scenes/tests/veilleurs_combat_sandbox_loop_smoke.tscn'
       - 'scenes/tests/veilleurs_systemic_skill_families_smoke.tscn'
+      - 'scenes/tests/veilleurs_combat_advanced_systems_smoke.tscn'
       - '.github/workflows/veilleurs-combat-sandbox-smoke.yml'
   workflow_dispatch:
 
@@ -46,3 +48,5 @@ jobs:
         run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_combat_sandbox_loop_smoke.tscn
       - name: Combat Sandbox 0.1 - familles de competences systemiques
         run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_systemic_skill_families_smoke.tscn
+      - name: Combat Sandbox 0.1 - formation controle synergies et ultimes
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_combat_advanced_systems_smoke.tscn
