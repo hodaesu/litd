@@ -5,6 +5,7 @@ on:
     paths:
       - 'data/veilleurs/canonical_roster.json'
       - 'data/veilleurs/combat_sandbox_quartet_bridge.json'
+      - 'data/veilleurs/skills/current_quartet_export_contract.json'
       - 'scripts/core/veilleurs_combat_context_runtime.gd'
       - 'scripts/core/veilleurs_combat_sandbox_runtime.gd'
       - 'scripts/ui/main_v46.gd'
