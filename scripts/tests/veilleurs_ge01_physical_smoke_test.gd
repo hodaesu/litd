@@ -6,8 +6,11 @@ func _ready() -> void:
     var world := PLAYABLE.instantiate()
     add_child(world)
     await get_tree().process_frame
+    await get_tree().process_frame
 
-    var runtime: Node = world.get_node("Runtime")
+    var runtime: Node = world.get("runtime") as Node
+    if runtime == null:
+        runtime = get_tree().root.get_node_or_null("GE01Runtime")
     assert(runtime != null)
     var start_state: Dictionary = runtime.call("snapshot")
     assert(str(start_state.get("current_room", "")) == "ge_01")
