@@ -28,16 +28,34 @@ def _character_job(character_id: str, jobs: dict) -> dict:
     raise KeyError(f"missing character job: {character_id}")
 
 
+def _historical_darius_visual_proxy(jobs: dict) -> dict:
+    """Return the frozen art-only Darius proxy without reintroducing him to the playable roster.
+
+    Darius remains useful solely as the already-approved historical visual meter for
+    the first art-direction slice. The canonical playable quartet is Mathilde,
+    Marec, Anouk and Aurélien and is sourced from character_jobs.json. Keeping the
+    frozen proxy local to this generator prevents an obsolete playable character
+    job from leaking back into current game data.
+    """
+    try:
+        return _character_job("darius", jobs)
+    except KeyError:
+        return {
+            "job_id": "character_darius",
+            "character_id": "darius",
+            "name": "Darius",
+            "body_scale": 1.1,
+            "production_scope": "historical_visual_proxy_only",
+        }
+
+
 def build_payload(root: Path = ROOT) -> dict:
     contract = _load(root / CONTRACT_PATH.relative_to(ROOT))
     jobs = _load(root / CHARACTER_JOBS_PATH.relative_to(ROOT))
 
-    # `darius` is a historical art/production proxy, not a player-facing
-    # Veilleurs identity. Keep its approved sheet name pinned here instead of
-    # inheriting the canonical display name attached to the compatibility
-    # runtime id in data/heroes.json. This prevents relabelling Darius artwork
-    # as Ysra Nahal while the legacy proxy is still useful for visual QA.
-    darius_base = _character_job("darius", jobs)
+    # Darius is deliberately isolated as a historical art/production proxy. He is
+    # not restored to the current quartet or to character_jobs.json.
+    darius_base = _historical_darius_visual_proxy(jobs)
     ghoul_base = _character_job("enemy_01_goule_affamee", jobs)
     darius = contract["characters"]["darius"]
     ghoul = contract["characters"]["enemy_01_goule_affamee"]
