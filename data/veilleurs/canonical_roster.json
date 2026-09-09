@@ -1,35 +1,77 @@
 {
-  "schema_version": 2,
-  "status": "reset_unassigned",
+  "schema_version": 3,
+  "status": "assigned",
   "game": "LITD : Les Veilleurs",
+  "decision_date": "2026-09-09",
   "rules": {
-    "starting_quartet_assigned": false,
+    "starting_quartet_assigned": true,
     "inherit_legacy_identity": false,
     "inherit_legacy_role": false,
     "inherit_legacy_ethnicity": false,
     "inherit_legacy_class": false,
     "inherit_legacy_loadout": false,
-    "old_quartets_are_not_current_canon": true
+    "old_quartets_are_not_current_canon": true,
+    "reuse_existing_legendary_hero_sheets": true
   },
-  "heroes": [],
-  "technical_slots": [
-    "starter_slot_01",
-    "starter_slot_02",
-    "starter_slot_03",
-    "starter_slot_04"
+  "heroes": [
+    {
+      "id": "mathilde",
+      "name": "Mathilde",
+      "order": 1,
+      "legendary_hero": true,
+      "class_id": "duelist"
+    },
+    {
+      "id": "marec",
+      "name": "Marec",
+      "order": 2,
+      "legendary_hero": true,
+      "class_id": "breaker"
+    },
+    {
+      "id": "anouk",
+      "name": "Anouk",
+      "order": 3,
+      "legendary_hero": true,
+      "class_id": "mystic"
+    },
+    {
+      "id": "aurelien",
+      "name": "Aurélien",
+      "order": 4,
+      "legendary_hero": true,
+      "class_id": "surgeon"
+    }
   ],
   "invalidated_starting_quartets": [
-    ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"],
-    ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"],
-    ["Aurélien", "Malvor", "Lysandra", "Darius"]
+    {
+      "members": ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"],
+      "scope": "composition_only"
+    },
+    {
+      "members": ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"],
+      "scope": "composition_only"
+    },
+    {
+      "members": ["Aurélien", "Malvor", "Lysandra", "Darius"],
+      "scope": "legacy_runtime_shell_composition_only",
+      "note": "Cette ancienne composition est invalidée. Aurélien reste un héros légendaire canonique et revient explicitement dans le nouveau quatuor 2026-09-09."
+    }
   ],
-  "design_status": "to_design_from_blank_slate",
+  "superseded_rules": [
+    {
+      "rule": "Aurélien ne doit jamais être déplacé dans le quatuor de LITD : Les Veilleurs.",
+      "superseded_on": "2026-09-09",
+      "replacement": "Aurélien fait partie du quatuor de départ avec Mathilde, Marec et Anouk."
+    }
+  ],
+  "design_status": "existing_legendary_hero_designs_reused",
   "design_constraints": {
     "cosmopolitan_world": true,
     "strong_asian_cultural_foundation": true,
     "primarily_chinese_visual_influence": true,
     "human_ethnic_diversity_required": true,
-    "four_distinct_identities_required": true
+    "redesign_existing_four": false
   },
-  "note": "Aucun quatuor de départ canonique n'est actuellement attribué. Les compositions antérieures sont invalidées comme roster de départ."
+  "note": "Quatuor canonique de départ : Mathilde, Marec, Anouk, Aurélien. Leurs fiches techniques et planches existantes restent les références de production."
 }
