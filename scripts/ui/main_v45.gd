@@ -1,12 +1,15 @@
 extends "res://scripts/ui/main_v44.gd"
 
-# v45 — Taverne de recrutement lisible et déterministe.
-# Les candidats montrent leurs traits, un aperçu de compétences et une comparaison
-# directe avec le Veilleur tombé. Le renouvellement change seulement la seed d'offre.
+# v45 — recrutement lisible et déterministe sans remplacer les fonctions
+# historiques de la Taverne. Le sous-écran affiche traits, compétences et
+# comparaison directe avec le Veilleur tombé.
 
 var _tavern_refresh_generation: Dictionary = {}
 
 func show_tavern() -> void:
+    super.show_tavern()
+
+func show_recruitment_board() -> void:
     var bg: TextureRect = full_texture("res://assets/backgrounds/forgotten_city.webp")
     bg.modulate = Color(0.34, 0.31, 0.30, 1)
     content.add_child(bg)
@@ -15,7 +18,7 @@ func show_tavern() -> void:
     shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     content.add_child(shade)
 
-    var title: Label = make_label("TAVERNE DES VEILLEURS", 28, GOLD)
+    var title: Label = make_label("TAVERNE · RECRUTEMENT", 28, GOLD)
     title.position = Vector2(32, 18)
     content.add_child(title)
     var purse: Label = make_label("OR · %d" % GameState.gold, 18, GOLD)
@@ -40,7 +43,7 @@ func show_tavern() -> void:
         for dead_id_value: Variant in dead_ids:
             _render_vacant_post(list, str(dead_id_value))
 
-    var back: Button = make_button("RETOUR À LA COMPAGNIE", func(): GameState.request_screen("company"), Vector2(280, 48))
+    var back: Button = make_button("RETOUR À LA TAVERNE", func(): GameState.request_screen("tavern"), Vector2(280, 48))
     back.position = Vector2(32, 625)
     content.add_child(back)
 
@@ -139,4 +142,4 @@ func _candidate_card(dead_id: String, fallen: Dictionary, wrapper: Dictionary, c
 func _refresh_tavern_candidates(dead_id: String) -> void:
     _tavern_refresh_generation[dead_id] = int(_tavern_refresh_generation.get(dead_id, 0)) + 1
     GameState.add_log("Taverne : de nouvelles recrues se présentent pour le poste vacant.")
-    show_screen("tavern")
+    show_screen("recruitment")
