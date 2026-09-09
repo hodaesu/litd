@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "status": "required_before_canonical_skill_wiring",
+  "game": "LITD : Les Veilleurs",
+  "quartet": [
+    {
+      "id": "mathilde",
+      "name": "Mathilde",
+      "class_id": "duelist",
+      "required_output": "data/veilleurs/skills/mathilde.json"
+    },
+    {
+      "id": "marec",
+      "name": "Marec",
+      "class_id": "breaker",
+      "required_output": "data/veilleurs/skills/marec.json"
+    },
+    {
+      "id": "anouk",
+      "name": "Anouk",
+      "class_id": "mystic",
+      "required_output": "data/veilleurs/skills/anouk.json"
+    },
+    {
+      "id": "aurelien",
+      "name": "Aurélien",
+      "class_id": "surgeon",
+      "required_output": "data/veilleurs/skills/aurelien.json"
+    }
+  ],
+  "source_of_truth": "existing validated character sheets and technical boards for Mathilde, Marec, Anouk and Aurélien",
+  "rules": [
+    "Do not copy, rename or inherit skills from Nayra Orun, Tarek Senn, Aïsha Maren or Idris Vael.",
+    "Do not promote Combat Sandbox prototype actions to canon.",
+    "Each exported skill must preserve the authored identity of its character.",
+    "Gameplay data may normalize fields for Godot but must not invent missing authored content.",
+    "Canonical skill wiring may replace the sandbox bridge only after all four outputs exist and pass validation."
+  ],
+  "required_character_skill_shape": {
+    "character_id": "string",
+    "display_name": "string",
+    "trees": 3,
+    "skills_per_tree": 15,
+    "tree_exclusivity": true,
+    "ultimate_milestones": [16, 32, 48]
+  },
+  "temporary_bridge": "data/veilleurs/combat_sandbox_quartet_bridge.json",
+  "temporary_bridge_policy": "prototype_only_never_canon"
+}
