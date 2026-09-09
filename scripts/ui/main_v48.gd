@@ -85,7 +85,7 @@ func _render_sandbox_formation_mobile() -> void:
             if hero_value is Dictionary and int((hero_value as Dictionary).get("formation_slot", 0)) == slot:
                 occupant = str((hero_value as Dictionary).get("name", "Veilleur"))
                 break
-        var current := int(active.get("formation_slot", active_index + 1)) == slot
+        var current: bool = int(active.get("formation_slot", active_index + 1)) == int(slot)
         var text := "%sR%d\n%s" % ["◆ " if current else "", slot, occupant]
         var button := make_button(text, func(s = slot): _sandbox_move_active_to_slot(int(s)), Vector2(132, 54))
         button.name = "SandboxRankR%dV48" % slot
