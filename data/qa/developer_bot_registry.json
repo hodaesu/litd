@@ -1,5 +1,5 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "policy": {
     "fast_feedback_target_seconds": 90,
     "reproducibility": "Every randomized bot must report deterministic seed and case/run index.",
@@ -8,7 +8,8 @@
       "sentinel": "Run on every relevant commit; small deterministic contract checks.",
       "simulation": "Run in parallel on every relevant commit; medium/long gameplay simulation.",
       "telemetry": "Statistical balance signal; never substitutes for production-runtime tests.",
-      "diagnostic": "Runs after or alongside sentinels to replay, classify, reduce, and compare regressions."
+      "diagnostic": "Runs after or alongside sentinels to replay, classify, reduce, and compare regressions.",
+      "adversarial": "Actively searches for dominant strategies, exploit loops, invalid state transitions and recovery failures."
     }
   },
   "bots": [
@@ -31,11 +32,17 @@
     {"id":"v17","tier":"diagnostic","domain":"change impact mapping","report":"reports/player-bot-v17-change-impact-mapper.json","replay":"changed file list"},
     {"id":"v18","tier":"diagnostic","domain":"skill usage coverage","report":"reports/player-bot-v18-skill-usage-coverage.json","replay":"source reports + skill id"},
     {"id":"v19","tier":"simulation","domain":"repeated economy recovery stress","report":"reports/player-bot-v19-economy-stress.json","replay":"seed + cycle + shock"},
+    {"id":"v20","tier":"adversarial","domain":"player behaviour profile stress","report":"reports/player-bot-v20-player-profiles.json","replay":"source report + policy/profile"},
+    {"id":"v21","tier":"simulation","domain":"long-haul campaign recovery","report":"reports/player-bot-v21-longhaul-campaign.json","replay":"seed + expedition"},
+    {"id":"v22","tier":"diagnostic","domain":"gameplay situation coverage","report":"reports/player-bot-v22-gameplay-coverage.json","replay":"domain + source report"},
+    {"id":"v23","tier":"adversarial","domain":"dominant strategy and anti-meta search","report":"reports/player-bot-v23-meta-hunter.json","replay":"dimension + strategy + source report"},
+    {"id":"v24","tier":"adversarial","domain":"economy and progression exploit search","report":"reports/player-bot-v24-exploit-hunter.json","replay":"rule + exploit loop"},
+    {"id":"v25","tier":"adversarial","domain":"stateful chaos sequences","report":"reports/player-bot-v25-stateful-chaos.json","replay":"seed + step + action"},
     {"id":"telemetry-v2","tier":"telemetry","domain":"roguelike Monte Carlo balance","report":"reports/developer-autotest-telemetry-*.json","replay":"seed + simulator arguments"}
   ],
   "next_wave": [
-    {"id":"v20","goal":"automatic regression corpus promotion from newly discovered failures"},
-    {"id":"v21","goal":"path-aware campaign explorer targeting low-coverage dungeon branches"},
-    {"id":"v22","goal":"resource and performance guard for headless runtime cost"}
+    {"id":"v26","goal":"promote newly discovered minimized failures automatically into the permanent regression corpus"},
+    {"id":"v27","goal":"replace model-level v21/v25 transitions progressively with direct Godot production-runtime action adapters"},
+    {"id":"v28","goal":"path-aware dungeon explorer targeting rare branches, events, light states and Remanence states"}
   ]
 }
