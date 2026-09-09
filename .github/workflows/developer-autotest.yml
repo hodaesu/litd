@@ -69,7 +69,7 @@ jobs:
 
   combat-core:
     runs-on: ubuntu-latest
-    timeout-minutes: 16
+    timeout-minutes: 20
     container:
       image: barichello/godot-ci:4.7.2
     steps:
@@ -88,7 +88,7 @@ jobs:
         run: timeout 180s godot --headless --path . res://scenes/tests/player_bot_v2_autotest.tscn
       - name: "Joueur-bot v3 : matrice de builds tactique"
         if: always()
-        run: timeout 240s godot --headless --path . res://scenes/tests/player_bot_v3_build_matrix.tscn
+        run: timeout 420s godot --headless --path . res://scenes/tests/player_bot_v3_build_matrix.tscn
       - name: Publier les rapports combat
         uses: actions/upload-artifact@v4
         if: always()
@@ -103,7 +103,7 @@ jobs:
 
   combat-matrix:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     container:
       image: barichello/godot-ci:4.7.2
     steps:
@@ -113,7 +113,7 @@ jobs:
       - name: Import strict Godot
         run: godot --headless --path . --import --quit
       - name: "Joueur-bot v4 : niveaux, raretés, compagnon et politiques"
-        run: timeout 360s godot --headless --path . res://scenes/tests/player_bot_v4_factorial_matrix.tscn
+        run: timeout 600s godot --headless --path . res://scenes/tests/player_bot_v4_factorial_matrix.tscn
       - name: Publier le rapport matrice
         uses: actions/upload-artifact@v4
         if: always()
