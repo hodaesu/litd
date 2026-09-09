@@ -2,7 +2,9 @@ extends RefCounted
 class_name VeilleursCorpseSkillRuntime
 
 const CORPSE_TACTICS := preload("res://scripts/core/veilleurs_corpse_tactical_runtime.gd")
+const POSITION_RUNTIME := preload("res://scripts/core/combat_position_runtime.gd")
 var corpses: RefCounted = CORPSE_TACTICS.new()
+var positions: Node = POSITION_RUNTIME.new()
 
 func available_actions(scar_ids: Array, side: String = "hero") -> Array[String]:
     var context: Dictionary = corpses.call("skill_context", scar_ids, side)
@@ -35,19 +37,19 @@ func project(scar_id: String, enemy: Dictionary, enemy_allies: Array, destinatio
     var result: Dictionary = corpses.call("place", scar_id, destination, true, "enemy")
     if not bool(result.get("ok", false)):
         return result
-    var origin := CombatPositionRuntime.position_of(enemy)
-    var forced := destination + 1 if destination < 3 else destination - 1
-    if CombatPositionRuntime.can_move(enemy, forced, enemy_allies, "enemy"):
-        CombatPositionRuntime.move(enemy, forced, enemy_allies, "enemy", "corpse_project")
+    var origin: int = positions.position_of(enemy)
+    var forced: int = destination + 1 if destination < 3 else destination - 1
+    if positions.can_move(enemy, forced, enemy_allies, "enemy"):
+        positions.move(enemy, forced, enemy_allies, "enemy", "corpse_project")
     corpses.call("consume_for_skill", scar_id, "CORPSE_PROJECT", "project")
     result["enemy_from"] = origin
-    result["enemy_to"] = CombatPositionRuntime.position_of(enemy)
+    result["enemy_to"] = positions.position_of(enemy)
     result["displaced"] = origin != int(result["enemy_to"])
     return result
 
 func attack_context(attacker: Dictionary, target: Dictionary, scar_ids: Array) -> Dictionary:
-    var attacker_slot := CombatPositionRuntime.position_of(attacker)
-    var target_slot := CombatPositionRuntime.position_of(target)
+    var attacker_slot: int = positions.position_of(attacker)
+    var target_slot: int = positions.position_of(target)
     var hero_cover := int(corpses.call("cover_for_slot", attacker_slot, scar_ids, "hero"))
     var enemy_cover := int(corpses.call("cover_for_slot", target_slot, scar_ids, "enemy"))
     return {
