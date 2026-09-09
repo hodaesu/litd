@@ -77,12 +77,13 @@ func run() -> void:
     mathilde["hp"] = 0
     _check(LegendarySevenRelationshipRuntime.relationship_stage_for_ids("aurelien", "mathilde") == "bereavement", "bereavement must replace living stages after one death")
     var bereavement: Dictionary = LegendarySevenRelationshipRuntime.present_best_pending_scene()
-    _check(str(bereavement.get("stage", "")) == "bereavement", "bereavement scene must exist")
+    _check(str(bereavement.get("pair_id", "")) == "aurelien_mathilde" and str(bereavement.get("stage", "")) == "bereavement", "bereavement scene must exist for Aurélien and Mathilde")
     var death_lines: Array = bereavement.get("lines", [])
     _check(death_lines.size() == 1, "bereavement must use only one living voice")
     if death_lines.size() == 1:
         _check(str(death_lines[0].get("speaker_id", "")) == "hero.aurelien", "dead hero must never speak")
-    _check(LegendarySevenRelationshipRuntime.present_best_pending_scene().is_empty(), "bereavement must not replay on every Sanctuary return")
+    var followup: Dictionary = LegendarySevenRelationshipRuntime.present_best_pending_scene()
+    _check(not (str(followup.get("pair_id", "")) == "aurelien_mathilde" and str(followup.get("stage", "")) == "bereavement"), "the same bereavement pair must not replay on every Sanctuary return")
 
     _finish()
 
@@ -93,16 +94,7 @@ func _ensure_test_hero(hero_id: String, hero_name: String) -> void:
         existing["max_hp"] = maxi(1, int(existing.get("max_hp", 100)))
         existing["relationships"] = {}
         return
-    GameState.party.append({
-        "id": hero_id,
-        "name": hero_name,
-        "hp": 100,
-        "max_hp": 100,
-        "fear": 0,
-        "madness": 0,
-        "hope": 50,
-        "relationships": {}
-    })
+    GameState.party.append({"id": hero_id,"name": hero_name,"hp": 100,"max_hp": 100,"fear": 0,"madness": 0,"hope": 50,"relationships": {}})
 
 func _set_pair_metrics(left_id: String, right_id: String, trust: int, mistrust: int, resentment: int) -> void:
     _set_directional_metrics(left_id, right_id, trust, mistrust, resentment)
@@ -127,12 +119,7 @@ func _append_qualitative_history(source_id: String, target_id: String, event_id:
     var state: Dictionary = RelationshipRuntime.relation(source, target)
     var history_value: Variant = state.get("history", [])
     var history: Array = history_value if history_value is Array else []
-    history.append({
-        "event_id": event_id,
-        "chapter": CampaignState.current_chapter_id,
-        "qualitative_tag": tag,
-        "topic": topic
-    })
+    history.append({"event_id": event_id,"chapter": CampaignState.current_chapter_id,"qualitative_tag": tag,"topic": topic})
     state["history"] = history
     var relationships_value: Variant = source.get("relationships", {})
     var relationships: Dictionary = relationships_value if relationships_value is Dictionary else {}

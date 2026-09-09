@@ -22,9 +22,9 @@ func resolve_skill(attacker_id: String, target_id: String, skill_id: String, zon
     return result
 
 func configure_watcher_progression(watcher_id: String, level: int, specialization: String, reset_charges: bool = true) -> Dictionary:
-    if watcher_id != "ENT_WATCHER_AISHA":
+    if watcher_id != "ENT_WATCHER_aurelien":
         return {"ok": false, "reason": "ultimate_progression_not_implemented_for_watcher"}
-    return hemocorde.configure_aisha(self, level, specialization, reset_charges)
+    return hemocorde.configure_aurelien(self, level, specialization, reset_charges)
 
 func note_vascular_knowledge(target_id: String, zone: String, certainty: int = 2) -> Dictionary:
     return hemocorde.note_vascular_knowledge(self, target_id, zone, certainty)
@@ -33,11 +33,11 @@ func apply_bleeding(target_id: String, amount: int, wound_delta: int = 1) -> Dic
     return hemocorde.apply_bleeding(self, target_id, amount, wound_delta)
 
 func ultimate_status(attacker_id: String, target_id: String, branch: String, encounter_id: String) -> Dictionary:
-    if attacker_id == "ENT_WATCHER_AISHA" and branch == "hemocorde":
+    if attacker_id == "ENT_WATCHER_aurelien" and branch == "hemocorde":
         return hemocorde.status(self, attacker_id, target_id, encounter_id)
     return {"available": false, "reason": "ultimate_resolver_required", "attacker": attacker_id, "target": target_id, "branch": branch, "encounter_id": encounter_id}
 
 func resolve_ultimate(attacker_id: String, target_id: String, branch: String, encounter_id: String) -> Dictionary:
-    if attacker_id == "ENT_WATCHER_AISHA" and branch == "hemocorde":
+    if attacker_id == "ENT_WATCHER_aurelien" and branch == "hemocorde":
         return hemocorde.resolve(self, attacker_id, target_id, encounter_id)
     return {"ok": false, "reason": "ultimate_resolver_required", "attacker": attacker_id, "target": target_id, "branch": branch, "encounter_id": encounter_id}

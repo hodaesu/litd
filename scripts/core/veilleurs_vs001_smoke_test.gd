@@ -19,16 +19,16 @@ func _run() -> void:
 
     var careful_actions: Array[String] = [
         "observe",
-        "nayra_lower_guard",
-        "aisha_diagnose",
-        "aisha_treat",
-        "idris_deescalate",
+        "marec_lower_guard",
+        "aurelien_diagnose",
+        "aurelien_treat",
+        "anouk_deescalate",
         "offer_food",
         "subdue"
     ]
     var force_actions: Array[String] = ["subdue"]
-    var careful: Dictionary = VS001.capture_preview(careful_actions, "nayra")
-    var force: Dictionary = VS001.capture_preview(force_actions, "nayra")
+    var careful: Dictionary = VS001.capture_preview(careful_actions, "Marec")
+    var force: Dictionary = VS001.capture_preview(force_actions, "Marec")
     var careful_percent := float(careful.get("success_percent", 0.0))
     var force_percent := float(force.get("success_percent", 0.0))
     _check(careful_percent >= 70.0 and careful_percent <= 90.0, "Careful S6 recruitment must stay inside the provisional target band")
@@ -91,16 +91,16 @@ func _run_session_smoke() -> void:
 
     var recruitment_actions: Array[String] = [
         "observe",
-        "nayra_lower_guard",
-        "aisha_diagnose",
-        "aisha_treat",
-        "idris_deescalate",
+        "marec_lower_guard",
+        "aurelien_diagnose",
+        "aurelien_treat",
+        "anouk_deescalate",
         "offer_food",
         "subdue"
     ]
     for action_id: String in recruitment_actions:
         _check(bool(session.recruitment_action(action_id).get("success", false)), "S6 action must resolve: %s" % action_id)
-    var recruited: Dictionary = session.resolve_recruitment("nayra", 0)
+    var recruited: Dictionary = session.resolve_recruitment("Marec", 0)
     _check(bool(recruited.get("success", false)), "Careful S6 sequence with neutral roll must recruit")
     _check(str(recruited.get("outcome", "")) == "recruited", "S6 outcome must persist as recruited")
 

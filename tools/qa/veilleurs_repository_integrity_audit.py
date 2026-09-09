@@ -19,13 +19,13 @@ PIPELINE = ROOT / "tools/godot/veilleurs_pipeline_config.json"
 SELF = Path(__file__).resolve()
 
 CANON_ENTITY_IDS = [
-    "ENT_WATCHER_NAYRA",
-    "ENT_WATCHER_TAREK",
-    "ENT_WATCHER_AISHA",
-    "ENT_WATCHER_IDRIS",
+    "ENT_WATCHER_marec",
+    "ENT_WATCHER_mathilde",
+    "ENT_WATCHER_aurelien",
+    "ENT_WATCHER_anouk",
 ]
-CANON_RUNTIME_IDS = ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"]
-CANON_NAMES = ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
+CANON_RUNTIME_IDS = ["Marec", "Mathilde", "Aurélien", "Anouk"]
+CANON_NAMES = ["Marec", "Mathilde", "Aurélien", "Anouk"]
 CI_GODOT = "4.7.2"
 PROJECT_GODOT = "4.7"
 WORKFLOWS = [
@@ -178,7 +178,8 @@ def main() -> int:
             skill_layout_ok = False
             continue
         data = load_json(path)
-        if data.get("watcher_id") != runtime_id or data.get("watcher_name") != expected_name:
+        expected_file_id = str(row.get("entity_id", "")).removeprefix("ENT_WATCHER_")
+        if data.get("watcher_id") != expected_file_id or data.get("watcher_name") != expected_name:
             errors.append(f"Identité de fichier compétence divergente: {rel(path)}")
             skill_layout_ok = False
         trees = data.get("trees", {})

@@ -18,7 +18,7 @@ func _run() -> void:
 
     VeilleursVS001PlayableBridge.activate_watchers_party()
     VeilleursVS001WorldRuntime.start_new_session()
-    _check(_party_ids(GameState.party) == ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"], "VS001 must start with the canonical four Watchers")
+    _check(_party_ids(GameState.party) == ["Marec", "Mathilde", "Aurélien", "Anouk"], "VS001 must start with the canonical four Watchers")
     _check(not _party_ids(GameState.party).has("aurelien"), "Aurélien must never enter the Watcher party")
 
     _check(bool(VeilleursVS001WorldRuntime.enter_room("s2_rope_gallery").get("success", false)), "S1→S2 must remain reachable")
@@ -35,12 +35,12 @@ func _run() -> void:
     _check(corpse_scars.size() == 3, "S3 victory must create three persistent corpse WorldScars")
     _check(_all_scars_are_remanence_backed(corpse_scars), "Every VS001 corpse must exist in RemanenceRuntime")
 
-    var nayra: Dictionary = GameState.party[0]
-    var wound := PersistentInjuryRuntime.apply_injury(nayra, "deep_wound", "serious")
-    _check(not wound.is_empty(), "Nayra must receive a persistent serious wound for the smoke")
+    var Marec: Dictionary = GameState.party[0]
+    var wound := PersistentInjuryRuntime.apply_injury(Marec, "deep_wound", "serious")
+    _check(not wound.is_empty(), "Marec must receive a persistent serious wound for the smoke")
     persistence.call("_record_party_wounds", "vs001_s3_ghouls", "s3_sleepers")
     _check(not persistence.wound_history.is_empty(), "Persistent Watcher wounds must create VS001 wound history")
-    _check(_has_injury(nayra, "deep_wound"), "Watcher persistent injury must remain on the character dictionary")
+    _check(_has_injury(Marec, "deep_wound"), "Watcher persistent injury must remain on the character dictionary")
 
     _check(bool(VeilleursVS001WorldRuntime.enter_room("s5_fractured_crypt").get("success", false)), "S3→S5 must remain reachable")
     _check(bool(VeilleursVS001WorldRuntime.enter_room("s6_survivor").get("success", false)), "S5→S6 must remain reachable")
@@ -114,7 +114,7 @@ func _run() -> void:
     _check(VeilleursVS001WorldRuntime.is_active(), "Reload must restore active VS001 session")
     _check(VeilleursVS001WorldRuntime.current_room() == expected_room, "Reload must restore the exact VS001 room")
     _check(VeilleursVS001PlayableBridge.is_watcher_party_active(), "Reload must restore the Watcher party")
-    _check(_party_ids(GameState.party) == ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"], "Reloaded party identities must remain canonical")
+    _check(_party_ids(GameState.party) == ["Marec", "Mathilde", "Aurélien", "Anouk"], "Reloaded party identities must remain canonical")
     _check(CreatureManager.get_creature(recruit_id).get("instance_id", "") == recruit_id, "Reload must restore the S6 CreatureManager recruit")
     _check(str(RemanenceRuntime.entity_state(remanence_id).get("status", "")) == "recruited", "Reload must restore recruited Remanence identity")
     _check(VeilleursVS001PlayableBridge.persistence_bridge.corpse_scar_ids == saved_corpse_ids, "Reload must restore persistent corpse scar references")

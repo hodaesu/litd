@@ -32,7 +32,7 @@
     {"id":"opt_c10_meira_archive","chapter":10,"trigger":"archive_idle","requires_flags":["c10_side_archive_after_us_completed"],"speaker":"Meira Sen","lines":["J'ai préparé un index des contradictions de notre propre campagne.","Si les générations suivantes nous trouvent incohérents, j'espère qu'elles auront assez de documents pour comprendre pourquoi avant de nous pardonner ou de nous condamner."]}
   ],
   "rare_reactions":[
-    {"id":"rare_c01_no_body_loot","chapter":1,"event":"medic_body_left_untouched","speaker":"Tarek Vann","text":"Merci. Je ne vais pas en faire une leçon. Sada n'avait pas besoin de devenir un symbole pour mériter qu'on la laisse entière."},
+    {"id":"rare_c01_no_body_loot","chapter":1,"event":"medic_body_left_untouched","speaker":"Mathilde Vann","text":"Merci. Je ne vais pas en faire une leçon. Sada n'avait pas besoin de devenir un symbole pour mériter qu'on la laisse entière."},
     {"id":"rare_c02_all_private_copies","chapter":2,"event":"all_private_copies_found_before_main_registry","speaker":"Sana Khel","text":"Tu as retrouvé les copies avant l'original. C'est presque une définition de notre époque."},
     {"id":"rare_c03_bram_both_tools","chapter":3,"event":"bram_tools_displayed_together","speaker":"Bram Torgun","text":"C'est la première fois que je vois ma faute et mon refus dans la même vitrine. Ne les sépare plus."},
     {"id":"rare_c04_chorus_four_names","chapter":4,"event":"chorus_four_names_confirmed","speaker":"Sela Mor","text":"Quatre noms sur des milliers. Prononce-les doucement. La précision n'a pas besoin de devenir triomphe."},

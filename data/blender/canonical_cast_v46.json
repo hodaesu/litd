@@ -32,10 +32,10 @@
   },
   "cast": {
     "veilleurs": [
-      {"id": "nayra_orun", "name": "Nayra Orun", "morphology": "HUMANOID"},
-      {"id": "tarek_senn", "name": "Tarek Senn", "morphology": "HUMANOID"},
-      {"id": "aisha_maren", "name": "Aïsha Maren", "morphology": "HUMANOID"},
-      {"id": "idris_vael", "name": "Idris Vael", "morphology": "HUMANOID"}
+      {"id": "Marec", "name": "Marec", "morphology": "HUMANOID"},
+      {"id": "Mathilde", "name": "Mathilde", "morphology": "HUMANOID"},
+      {"id": "Aurélien", "name": "Aurélien", "morphology": "HUMANOID"},
+      {"id": "Anouk", "name": "Anouk", "morphology": "HUMANOID"}
     ],
     "species": [
       {"id": "delie_affame", "name": "Délié Affamé", "act_region": "I — Les Marches du Sanctuaire", "family": "Déliés", "role": "Prédateur rapide", "canonical_body_profile": "HUMANOID_FLESH", "morphology": "HUMANOID_FLESH"},

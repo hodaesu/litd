@@ -1,10 +1,10 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "mode": "developer_selftest",
   "game": "LITD : Les Veilleurs",
   "purpose": "Valider la boucle coeur avant les cinq playtests naïfs, sans promouvoir aucun gate humain.",
   "target_duration_minutes": [30, 45],
-  "canonical_watchers": ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"],
+  "canonical_watchers": ["Mathilde", "Marec", "Anouk", "Aurélien"],
   "steps": [
     {
       "id": "sanctuary_preparation",

@@ -16,7 +16,7 @@ La réservation n’est jamais une autorité de gameplay. Elle prépare le trava
 - `ultimate` → `ULT_*`
 - `generic` → `CONTENT_*` ; proposition temporaire qui doit être reclassée avant canonicalisation.
 
-Les préfixes à forte autorité reprennent les conventions déjà utilisées par Les Veilleurs. Les compétences individuelles ne sont volontairement pas inventées par ce générateur : leurs IDs suivent aujourd’hui la convention propre à chaque Veilleur/arbre (par exemple `NA-BAS-01`) et doivent rester sous le contrat de compétences existant.
+Les préfixes à forte autorité reprennent les conventions déjà utilisées par Les Veilleurs. Les compétences individuelles ne sont volontairement pas inventées par ce générateur : leurs IDs suivent aujourd’hui la convention propre à chaque Veilleur/arbre (par exemple `MR-BAS-01`) et doivent rester sous le contrat de compétences existant.
 
 ## Preview
 

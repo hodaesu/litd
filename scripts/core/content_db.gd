@@ -8,10 +8,10 @@ const CONSTANTS_PATH := ROOT + "/combat_constants.json"
 const LOADOUTS_PATH := ROOT + "/starter_loadouts_watchers.json"
 const SKILL_CATALOG_PATH := ROOT + "/watcher_tree_catalog.json"
 const CANONICAL_SKILL_PATHS := {
-    "ENT_WATCHER_NAYRA": "res://data/veilleurs/skills/nayra_orun.json",
-    "ENT_WATCHER_TAREK": "res://data/veilleurs/skills/tarek_senn.json",
-    "ENT_WATCHER_AISHA": "res://data/veilleurs/skills/aisha_maren.json",
-    "ENT_WATCHER_IDRIS": "res://data/veilleurs/skills/idris_vael.json"
+    "ENT_WATCHER_marec": "res://data/veilleurs/skills/marec.json",
+    "ENT_WATCHER_mathilde": "res://data/veilleurs/skills/mathilde.json",
+    "ENT_WATCHER_aurelien": "res://data/veilleurs/skills/aurelien.json",
+    "ENT_WATCHER_anouk": "res://data/veilleurs/skills/anouk.json"
 }
 const PROFILE_BY_TREE := {
     "Bastion": "guard",
@@ -178,16 +178,16 @@ func _canonical_action(branch_name: String, skill_id: String, canonical_type: St
         "Brisure": return "attack"
         "Serment": return "support"
         "Traque":
-            return "attack" if skill_id in ["TA-TRA-04", "TA-TRA-13"] else "observe"
+            return "attack" if skill_id in ["MA-TRA-04", "MA-TRA-13"] else "observe"
         "Entaille": return "attack"
         "Disparition":
-            if skill_id in ["TA-DIS-05", "TA-DIS-14"]:
+            if skill_id in ["MA-DIS-05", "MA-DIS-14"]:
                 return "attack_move"
-            if skill_id == "TA-DIS-09":
+            if skill_id == "MA-DIS-09":
                 return "control"
             return "move"
         "Anatomie":
-            return "observe" if skill_id in ["AÏ-ANA-01", "AÏ-ANA-02", "AÏ-ANA-08", "AÏ-ANA-12"] else "attack"
+            return "observe" if skill_id in ["AU-ANA-01", "AU-ANA-02", "AU-ANA-08", "AU-ANA-12"] else "attack"
         "Suture": return "heal"
         "Hémocorde":
             return "observe" if skill_id in ["AÏ-HÉM-06", "AÏ-HÉM-08"] else "attack"

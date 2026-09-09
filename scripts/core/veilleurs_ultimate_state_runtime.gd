@@ -3,10 +3,10 @@ class_name VeilleursUltimateStateRuntime
 
 const STATE_KEY := "ultimate_state"
 const BRANCHES_BY_ENTITY := {
-    "ENT_WATCHER_NAYRA": ["bastion", "brisure", "serment"],
-    "ENT_WATCHER_TAREK": ["traque", "entaille", "disparition"],
-    "ENT_WATCHER_AISHA": ["anatomie", "suture", "hemocorde"],
-    "ENT_WATCHER_IDRIS": ["sentence", "concorde", "dissidence"]
+    "ENT_WATCHER_marec": ["bastion", "brisure", "serment"],
+    "ENT_WATCHER_mathilde": ["traque", "entaille", "disparition"],
+    "ENT_WATCHER_aurelien": ["anatomie", "suture", "hemocorde"],
+    "ENT_WATCHER_anouk": ["sentence", "concorde", "dissidence"]
 }
 
 func charges_for_level(level: int) -> int:

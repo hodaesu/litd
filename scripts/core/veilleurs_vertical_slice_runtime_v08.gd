@@ -4,7 +4,7 @@ class_name VeilleursVerticalSliceRuntimeV08
 const CAMPAIGN_SCRIPT := preload("res://scripts/core/veilleurs_campaign_runtime_v07.gd")
 const TACTICAL_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_runtime_v08.gd")
 const AUTHORED_SCRIPT := preload("res://scripts/core/veilleurs_authored_encounter_runtime_v08.gd")
-const CANONICAL_WATCHERS: Array[String] = ["ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"]
+const CANONICAL_WATCHERS: Array[String] = ["ENT_WATCHER_marec", "ENT_WATCHER_mathilde", "ENT_WATCHER_aurelien", "ENT_WATCHER_anouk"]
 
 var campaign: VeilleursCampaignRuntimeV07
 var combat: Variant = null

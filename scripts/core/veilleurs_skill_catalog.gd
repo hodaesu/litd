@@ -1,10 +1,10 @@
 extends Node
 
 const DATA_PATHS := {
-    "nayra_orun": "res://data/veilleurs/skills/nayra_orun.json",
-    "tarek_senn": "res://data/veilleurs/skills/tarek_senn.json",
-    "aisha_maren": "res://data/veilleurs/skills/aisha_maren.json",
-    "idris_vael": "res://data/veilleurs/skills/idris_vael.json"
+    "marec": "res://data/veilleurs/skills/marec.json",
+    "mathilde": "res://data/veilleurs/skills/mathilde.json",
+    "aurelien": "res://data/veilleurs/skills/aurelien.json",
+    "anouk": "res://data/veilleurs/skills/anouk.json"
 }
 const COSTS: Array[int] = [1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5]
 const EXPECTED_LEVELS: Array[int] = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 35, 39, 44, 49]

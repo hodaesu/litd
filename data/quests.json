@@ -217,7 +217,7 @@
         "event": "interaction",
         "target": "sanctuary_infirmary",
         "count": 1,
-        "journal_text": "Rapporter le nécessaire à Tarek sans avoir fouillé la dépouille."
+        "journal_text": "Rapporter le nécessaire à Mathilde sans avoir fouillé la dépouille."
       }
     ],
     "optional_constraint": {
@@ -238,12 +238,12 @@
       "target": "medic_satchel",
       "count": 1
     },
-    "quest_giver_id": "tarek_vann",
+    "quest_giver_id": "mathilde_vann",
     "narrative": {
       "theme": "mémoire, choix et reconstruction",
       "hook": "Une soigneuse est morte sur la route avec le dernier nécessaire stérile de l’ancienne infirmerie.",
       "offer_lines": [
-        "Tarek ferme un registre taché de désinfectant et de cendre.",
+        "Mathilde ferme un registre taché de désinfectant et de cendre.",
         "« Elle s’appelait Sada Rhel. Son nécessaire peut sauver des vivants, mais son corps n’est pas un coffre. Prenez la sacoche. Laissez-lui ses effets, ses lettres et la position qu’elle a choisie pour mourir. »"
       ],
       "player_accept": "Nous récupérerons le nécessaire sans profaner Sada Rhel.",
@@ -253,10 +253,10 @@
         "Le matériel porte des annotations : elle améliorait ses instruments jusque dans ses derniers jours."
       ],
       "completion_lines": [
-        "Tarek inventorie chaque outil, puis inscrit le nom de Sada sur l’armoire restaurée.",
+        "Mathilde inventorie chaque outil, puis inscrit le nom de Sada sur l’armoire restaurée.",
         "« Ces instruments ne sont pas son héritage. Son héritage, c’est la règle qui les accompagne : soigner sans dépouiller. »"
       ],
-      "failure_line": "Le nécessaire revient incomplet ou souillé. Tarek sauve ce qu’il peut et ne pose aucune question dont il connaît déjà la réponse.",
+      "failure_line": "Le nécessaire revient incomplet ou souillé. Mathilde sauve ce qu’il peut et ne pose aucune question dont il connaît déjà la réponse.",
       "active": "Une soigneuse est morte sur la route avec le dernier nécessaire stérile de l’ancienne infirmerie.",
       "resolution": "« Ces instruments ne sont pas son héritage. Son héritage, c’est la règle qui les accompagne : soigner sans dépouiller. »"
     }

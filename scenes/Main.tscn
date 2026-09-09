@@ -1,9 +1,22 @@
 [gd_scene load_steps=18 format=3]
 
-; main_v45 enrichit la Taverne : traits, aperçu de compétences, comparaison au
-; Veilleur tombé et renouvellement déterministe des candidats.
-; main_v44 branche le Marché noir et la Taverne des Veilleurs sur les services
-; backend d'économie/recrutement, sans dupliquer leurs règles dans l'UI.
+; main_v48 verrouille les invariants du dernier contrôle pré-playtest : un héros
+; mort est sauté sans réinitialiser les actions déjà jouées, la cible ennemie est
+; toujours renormalisée vers un adversaire vivant et tous les états transitoires
+; de ciblage/inspection sont nettoyés à la victoire ou à la défaite.
+; Validation pré-playtest : les smoke tests de dialogue utilisent désormais le
+; quatuor canonique Mathilde, Marec, Anouk et Aurélien.
+; main_v47 aligne toute la formation sur le combat : affichage R4, R3, R2, R1
+; de gauche à droite et placement initial logique (mêlée devant, soutien derrière).
+; main_v46 unifie le ciblage : choix manuel uniquement quand le joueur a un vrai
+; choix ; soins/objets déterministes restent automatiques ; zones imposées
+; prévisualisent toutes leurs cibles ensemble puis s'exécutent automatiquement.
+; main_v45 ajoute l'inspection contextuelle en combat : toucher un héros ou un
+; ennemi ouvre sa santé, son rang et ses états sans surcharger le champ de bataille.
+; main_v44 corrige la lisibilité tactique du combat : R1 est affiché au contact
+; côté ennemis, le panneau « ÉTAT DE COMBAT » hérité est masqué et le choix de
+; cible devient explicite lorsqu'une action laisse réellement plusieurs options.
+; Les zones imposées peuvent rester automatiques via target_selection="automatic".
 ; main_v43 corrige le contrat de ciblage explicatif et garantit les cibles tactiles
 ; des sous-menus dynamiques tout en conservant le comportement fonctionnel v42.
 ; main_v42 fiabilise tous les contrôles du playtest : sous-menus visibles,
@@ -32,7 +45,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v45.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v48.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]

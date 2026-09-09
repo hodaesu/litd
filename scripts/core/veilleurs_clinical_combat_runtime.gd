@@ -4,13 +4,13 @@ const ENTaille_RESOLVER := "anatomical_lesion"
 const ANATOMY_RESOLVER := "anatomical_diagnostic"
 const SUTURE_RESOLVER := "medical_treatment"
 
-const DIAGNOSTIC_ONLY_IDS := ["AÏ-ANA-01", "AÏ-ANA-02", "AÏ-ANA-05", "AÏ-ANA-08"]
-const POSTURE_IDS := ["TA-ENT-10", "AÏ-ANA-10", "AÏ-SUT-10"]
+const DIAGNOSTIC_ONLY_IDS := ["AU-ANA-01", "AU-ANA-02", "AU-ANA-05", "AU-ANA-08"]
+const POSTURE_IDS := ["MA-ENT-10", "AU-ANA-10", "AU-SUT-10"]
 const SUTURE_RESOURCE_COSTS := {
-    "AÏ-SUT-05": 1,
-    "AÏ-SUT-06": 1,
-    "AÏ-SUT-09": 1,
-    "AÏ-SUT-14": 2
+    "AU-SUT-05": 1,
+    "AU-SUT-06": 1,
+    "AU-SUT-09": 1,
+    "AU-SUT-14": 2
 }
 
 signal clinical_action_resolved(skill_id: String, result: Dictionary)
@@ -88,9 +88,9 @@ func resolve_attack(hero: Dictionary, target: Dictionary, skill: Dictionary, dam
 
     var attacker := hero.duplicate(true)
     attacker["precision"] = int(attacker.get("precision", 0)) + int(skill.get("accuracy_bonus", 0))
-    if _has_skill(hero, "TA-ENT-07") and _part_is_injured(target, part_id):
+    if _has_skill(hero, "MA-ENT-07") and _part_is_injured(target, part_id):
         attacker["precision"] = int(attacker.get("precision", 0)) + 10
-    if _has_skill(hero, "AÏ-ANA-03"):
+    if _has_skill(hero, "AU-ANA-03"):
         attacker["precision"] = int(attacker.get("precision", 0)) + 8
     if int(hero.get("clinical_posture_rounds", 0)) > 0:
         attacker["precision"] = int(attacker.get("precision", 0)) + 12
@@ -107,34 +107,34 @@ func resolve_attack(hero: Dictionary, target: Dictionary, skill: Dictionary, dam
         if bleed_added > 0:
             target["bleeding"] = maxi(0, int(target.get("bleeding", 0))) + bleed_added
         match skill_id:
-            "TA-ENT-01":
+            "MA-ENT-01":
                 target["traction_disrupted"] = 1
-            "TA-ENT-02":
+            "MA-ENT-02":
                 target["tendon_compromised_part"] = part_id
                 if _part_has_tag(target, part_id, "mobility"):
                     target["mobility_injury"] = "injured"
-            "TA-ENT-05":
+            "MA-ENT-05":
                 if _part_is_injured(target, part_id):
                     hero["combat_position"] = clampi(int(hero.get("combat_position", 0)) + 1, 0, 3)
-            "TA-ENT-06":
+            "MA-ENT-06":
                 var second_part := _alternate_part(target, part_id)
                 if second_part != "":
                     var second := AnatomyRuntime.register_targeted_hit(attacker, target, "technique", maxi(1, int(round(float(damage) * 0.55))), second_part, skill_id)
                     result["second_part"] = second
                     bonus_damage = maxi(1, int(round(float(damage) * 0.25)))
-            "TA-ENT-08":
+            "MA-ENT-08":
                 if _part_has_tag(target, part_id, "attack") or _part_has_tag(target, part_id, "weapon"):
                     target["disarmed_rounds"] = maxi(2, int(target.get("disarmed_rounds", 0)))
-            "TA-ENT-09":
+            "MA-ENT-09":
                 if _part_is_injured(target, part_id):
                     target["bleeding"] = int(target.get("bleeding", 0)) + 2
                     result["reopened_lesion"] = true
                 else:
                     result["reopened_lesion"] = false
-            "TA-ENT-12":
+            "MA-ENT-12":
                 if bool(target.get("retreating", false)) or bool(target.get("fleeing", false)):
                     hero["pursuit_initiative_bonus"] = 15
-            "TA-ENT-14":
+            "MA-ENT-14":
                 if _part_is_injured(target, part_id):
                     var followup := AnatomyRuntime.register_targeted_hit(attacker, target, "heavy", maxi(1, damage), part_id, skill_id)
                     result["functional_followup"] = followup
@@ -142,13 +142,13 @@ func resolve_attack(hero: Dictionary, target: Dictionary, skill: Dictionary, dam
                     functional_injury = InjuryRuntime.apply_if_needed(target, part_id, followup_state)
     elif resolver_id == ANATOMY_RESOLVER:
         match skill_id:
-            "AÏ-ANA-06":
+            "AU-ANA-06":
                 target["controlled_section_part"] = part_id
-            "AÏ-ANA-09":
+            "AU-ANA-09":
                 if _part_is_injured(target, part_id):
                     bonus_damage = maxi(1, int(round(float(damage) * 0.20)))
                     result["lesion_exploited"] = true
-            "AÏ-ANA-14":
+            "AU-ANA-14":
                 if _part_is_injured(target, part_id):
                     var arrest := AnatomyRuntime.register_targeted_hit(attacker, target, "heavy", maxi(1, damage), part_id, skill_id)
                     result["arrest_hit"] = arrest
@@ -178,12 +178,12 @@ func resolve_diagnostic(hero: Dictionary, target: Dictionary, skill: Dictionary)
     AnatomyRuntime.select_part(target, part_id)
     var certainty := 1
     var skill_id := str(skill.get("id", ""))
-    if skill_id in ["AÏ-ANA-02", "AÏ-ANA-05"]:
+    if skill_id in ["AU-ANA-02", "AU-ANA-05"]:
         certainty = 2
-    elif skill_id == "AÏ-ANA-08":
+    elif skill_id == "AU-ANA-08":
         certainty = 1
         target["physiology_hypothesis_part"] = part_id
-    if skill_id == "AÏ-ANA-05":
+    if skill_id == "AU-ANA-05":
         target["exposed_anatomy_part"] = part_id
         target["exposed"] = maxi(2, int(target.get("exposed", 0)))
     _record_diagnostic(hero, target, part_id, certainty)
@@ -207,7 +207,7 @@ func resolve_medical(hero: Dictionary, patient: Dictionary, skill: Dictionary, p
     PersistentInjuryRuntime.prepare_character(patient)
     var skill_id := str(skill.get("id", ""))
     var base_cost := int(SUTURE_RESOURCE_COSTS.get(skill_id, 0))
-    var cost := maxi(0, base_cost - (1 if _has_skill(hero, "AÏ-SUT-07") else 0))
+    var cost := maxi(0, base_cost - (1 if _has_skill(hero, "AU-SUT-07") else 0))
     if cost > int(GameState.supplies):
         return {"ok": false, "reason": "supplies_required", "required": cost, "available": int(GameState.supplies)}
     if cost > 0:
@@ -215,35 +215,35 @@ func resolve_medical(hero: Dictionary, patient: Dictionary, skill: Dictionary, p
 
     var result := {"ok": true, "action": "medical", "skill_id": skill_id, "patient_id": str(patient.get("id", "")), "supplies_spent": cost}
     match skill_id:
-        "AÏ-SUT-01":
+        "AU-SUT-01":
             var before := int(patient.get("bleeding", 0))
             patient["bleeding"] = maxi(0, before - maxi(2, int(ceil(float(before) * 0.6))))
             result["bleeding_before"] = before
             result["bleeding_after"] = int(patient.get("bleeding", 0))
             result["stabilized_injury"] = _stabilize_best_injury(patient)
-        "AÏ-SUT-02":
+        "AU-SUT-02":
             result["protected_injury"] = _protect_best_injury(patient, 2)
-        "AÏ-SUT-05":
+        "AU-SUT-05":
             result["stabilized_injury"] = _stabilize_named_injury(patient, ["fracture_leg", "sprain"])
             patient["splinted_rounds"] = 4
-        "AÏ-SUT-06":
+        "AU-SUT-06":
             result["downgraded_injury"] = _downgrade_named_injury(patient, ["deep_wound", "arm_injury", "cracked_ribs"])
             result["stabilized_injury"] = _stabilize_best_injury(patient)
             patient["bleeding"] = maxi(0, int(patient.get("bleeding", 0)) - 3)
-        "AÏ-SUT-08":
+        "AU-SUT-08":
             result["protected_injury"] = _protect_best_injury(patient, 4)
             result["stabilized_injury"] = _stabilize_best_injury(patient)
-        "AÏ-SUT-09":
+        "AU-SUT-09":
             var hemorrhage_before := int(patient.get("bleeding", 0))
             patient["bleeding"] = 0 if hemorrhage_before >= 5 else maxi(0, hemorrhage_before - 4)
             result["bleeding_before"] = hemorrhage_before
             result["bleeding_after"] = int(patient.get("bleeding", 0))
             result["stabilized_injury"] = _stabilize_best_injury(patient)
-        "AÏ-SUT-12":
+        "AU-SUT-12":
             patient["bleeding"] = maxi(0, int(patient.get("bleeding", 0)) - 2)
             patient["treated_while_moving"] = true
             result["stabilized_injury"] = _stabilize_best_injury(patient)
-        "AÏ-SUT-14":
+        "AU-SUT-14":
             var stabilized: Array[String] = []
             for injury_value: Variant in patient.get("persistent_injuries", []):
                 if not (injury_value is Dictionary):
@@ -258,24 +258,24 @@ func resolve_medical(hero: Dictionary, patient: Dictionary, skill: Dictionary, p
         _:
             result["stabilized_injury"] = _stabilize_best_injury(patient)
 
-    if _has_skill(hero, "AÏ-SUT-03"):
+    if _has_skill(hero, "AU-SUT-03"):
         patient["field_stabilization_bonus"] = 1
-    if _has_skill(hero, "AÏ-SUT-11"):
+    if _has_skill(hero, "AU-SUT-11"):
         patient["function_preserved_until_rest"] = true
-    if _has_skill(hero, "AÏ-SUT-15"):
+    if _has_skill(hero, "AU-SUT-15"):
         patient["war_medicine_priority"] = true
     return result
 
 func resolve_posture(hero: Dictionary, skill: Dictionary) -> Dictionary:
     var skill_id := str(skill.get("id", ""))
     match skill_id:
-        "TA-ENT-10":
+        "MA-ENT-10":
             hero["predator_posture_rounds"] = 3
             hero["predator_defense_penalty"] = 10
-        "AÏ-ANA-10":
+        "AU-ANA-10":
             hero["clinical_posture_rounds"] = 3
             hero["clinical_defense_penalty"] = 10
-        "AÏ-SUT-10":
+        "AU-SUT-10":
             hero["triage_posture_rounds"] = 3
             hero["medical_priority_auto"] = true
         _:
@@ -309,19 +309,19 @@ func select_medical_target(party: Array) -> Dictionary:
 func _preferred_part(hero: Dictionary, target: Dictionary, skill: Dictionary) -> String:
     AnatomyRuntime.ensure_state(target)
     var skill_id := str(skill.get("id", ""))
-    if skill_id in ["TA-ENT-02", "TA-ENT-11"] or _has_skill(hero, "TA-ENT-11"):
+    if skill_id in ["MA-ENT-02", "MA-ENT-11"] or _has_skill(hero, "MA-ENT-11"):
         var mobility := _part_with_any_tag(target, ["mobility", "anchor"])
         if mobility != "":
             return mobility
-    if skill_id == "TA-ENT-08":
+    if skill_id == "MA-ENT-08":
         var weapon := _part_with_any_tag(target, ["weapon", "attack"])
         if weapon != "":
             return weapon
-    if skill_id == "AÏ-ANA-11" or _has_skill(hero, "AÏ-ANA-11"):
+    if skill_id == "AU-ANA-11" or _has_skill(hero, "AU-ANA-11"):
         var locomotor := _part_with_any_tag(target, ["mobility", "support"])
         if locomotor != "":
             return locomotor
-    if skill_id in ["TA-ENT-09", "TA-ENT-14", "AÏ-ANA-09", "AÏ-ANA-14"] or _has_skill(hero, "TA-ENT-15"):
+    if skill_id in ["MA-ENT-09", "MA-ENT-14", "AU-ANA-09", "AU-ANA-14"] or _has_skill(hero, "MA-ENT-15"):
         var injured := _most_injured_part(target)
         if injured != "":
             return injured
@@ -369,14 +369,14 @@ func _part_is_injured(target: Dictionary, part_id: String) -> bool:
 
 func _entaille_bleed(hero: Dictionary, target: Dictionary, part_id: String, skill: Dictionary) -> int:
     var amount := 1 + int(round(float(skill.get("power_0_5", 0.0)) * 0.6))
-    if _has_skill(hero, "TA-ENT-03") and _part_is_injured(target, part_id):
+    if _has_skill(hero, "MA-ENT-03") and _part_is_injured(target, part_id):
         amount += 2
     if int(hero.get("predator_posture_rounds", 0)) > 0 and _part_is_injured(target, part_id):
         amount += 1
     return clampi(amount, 1, 6)
 
 func _record_diagnostic(hero: Dictionary, target: Dictionary, part_id: String, certainty: int) -> void:
-    var diagnostics: Dictionary = target.get("aisha_diagnostics", {})
+    var diagnostics: Dictionary = target.get("aurelien_diagnostics", {})
     var previous: Dictionary = diagnostics.get(part_id, {})
     diagnostics[part_id] = {
         "certainty": maxi(certainty, int(previous.get("certainty", 0))),
@@ -385,8 +385,8 @@ func _record_diagnostic(hero: Dictionary, target: Dictionary, part_id: String, c
         "observer_id": str(hero.get("id", "")),
         "run_index": RemanenceRuntime.run_index
     }
-    target["aisha_diagnostics"] = diagnostics
-    if _has_skill(hero, "AÏ-ANA-07"):
+    target["aurelien_diagnostics"] = diagnostics
+    if _has_skill(hero, "AU-ANA-07"):
         target["anatomy_bestiarity_progress"] = int(target.get("anatomy_bestiarity_progress", 0)) + 1
 
 func _stabilize_best_injury(patient: Dictionary) -> String:

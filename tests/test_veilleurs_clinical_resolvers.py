@@ -70,7 +70,7 @@ def test_main_v37_is_additive_and_keeps_clinical_and_item_layers():
 
 def test_clinical_reactions_are_automatic_causal_hooks():
     runtime = (ROOT / "scripts/core/veilleurs_clinical_reaction_runtime.gd").read_text(encoding="utf-8")
-    for skill_id in ["TA-ENT-04", "TA-ENT-13", "AÏ-ANA-04", "AÏ-ANA-13", "AÏ-SUT-04", "AÏ-SUT-13"]:
+    for skill_id in ["MA-ENT-04", "MA-ENT-13", "AU-ANA-04", "AU-ANA-13", "AU-SUT-04", "AU-SUT-13"]:
         assert skill_id in runtime
     assert 'actor["clinical_reaction_round_used"] = round_index' in runtime
     assert 'int(actor.get("clinical_reaction_round_used", -1)) != round_index' in runtime
@@ -81,11 +81,11 @@ def test_clinical_reactions_are_automatic_causal_hooks():
 
 def test_clinical_transformations_and_postures_have_runtime_state():
     runtime = (ROOT / "scripts/core/veilleurs_clinical_reaction_runtime.gd").read_text(encoding="utf-8")
-    assert 'tarek["entaille_weakness_hunter"]' in runtime
-    assert 'aisha["all_wounds_speak"]' in runtime
-    assert 'aisha["war_medicine_active"]' in runtime
-    assert 'enemy["tarek_auto_weakness_part"]' in runtime
-    assert 'enemy["aisha_diagnostics"]' in runtime
+    assert 'Mathilde["entaille_weakness_hunter"]' in runtime
+    assert 'Aurélien["all_wounds_speak"]' in runtime
+    assert 'Aurélien["war_medicine_active"]' in runtime
+    assert 'enemy["mathilde_auto_weakness_part"]' in runtime
+    assert 'enemy["aurelien_diagnostics"]' in runtime
     assert 'ally["war_medicine_priority_score"]' in runtime
     assert '"predator_posture_rounds", "clinical_posture_rounds", "triage_posture_rounds"' in runtime
 

@@ -1,145 +1,179 @@
 extends "res://scripts/ui/main_v44.gd"
 
-# v45 — recrutement lisible et déterministe sans remplacer les fonctions
-# historiques de la Taverne. Le sous-écran affiche traits, compétences et
-# comparaison directe avec le Veilleur tombé.
+# v45 — inspection contextuelle des combattants.
+# Le champ de bataille reste volontairement léger : toucher un héros ou un ennemi
+# ouvre une fiche temporaire avec PV, rang et états. Le ciblage explicite de v44
+# garde la priorité dès qu'une compétence attend une cible.
 
-var _tavern_refresh_generation: Dictionary = {}
+var inspected_combat_side: String = ""
+var inspected_combat_key: String = ""
 
-func show_tavern() -> void:
-    super.show_tavern()
-
-func show_recruitment_board() -> void:
-    var bg: TextureRect = full_texture("res://assets/backgrounds/forgotten_city.webp")
-    bg.modulate = Color(0.34, 0.31, 0.30, 1)
-    content.add_child(bg)
-    var shade: ColorRect = ColorRect.new()
-    shade.color = Color(0, 0, 0, 0.76)
-    shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-    content.add_child(shade)
-
-    var title: Label = make_label("TAVERNE · RECRUTEMENT", 28, GOLD)
-    title.position = Vector2(32, 18)
-    content.add_child(title)
-    var purse: Label = make_label("OR · %d" % GameState.gold, 18, GOLD)
-    purse.position = Vector2(1030, 22)
-    purse.size = Vector2(190, 28)
-    purse.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-    content.add_child(purse)
-
-    var scroll: ScrollContainer = ScrollContainer.new()
-    scroll.position = Vector2(32, 66)
-    scroll.size = Vector2(1216, 548)
-    content.add_child(scroll)
-    var list: VBoxContainer = VBoxContainer.new()
-    list.custom_minimum_size = Vector2(1180, 0)
-    list.add_theme_constant_override("separation", 14)
-    scroll.add_child(list)
-
-    var dead_ids: Array = _sanctuary_recruitment_service.dead_hero_ids()
-    if dead_ids.is_empty():
-        list.add_child(make_label("Aucun poste de Veilleur n'est vacant. La Taverne ne remplace que les morts permanentes.", 18, MUTED))
-    else:
-        for dead_id_value: Variant in dead_ids:
-            _render_vacant_post(list, str(dead_id_value))
-
-    var back: Button = make_button("RETOUR À LA TAVERNE", func(): GameState.request_screen("tavern"), Vector2(280, 48))
-    back.position = Vector2(32, 625)
-    content.add_child(back)
-
-func _render_vacant_post(parent: VBoxContainer, dead_id: String) -> void:
-    var fallen: Dictionary = _hero_by_id(dead_id)
-    if fallen.is_empty():
+func show_combat() -> void:
+    super.show_combat()
+    if GameState.current_screen != "combat" or not is_instance_valid(content):
         return
-    var generation: int = int(_tavern_refresh_generation.get(dead_id, 0))
-    var seed_value: int = int(abs((dead_id + ":" + str(fallen.get("recruit_generation", 0)) + ":" + str(generation)).hash()))
+    _compact_combat_card_labels()
+    if pending_target_skill_slot < 0:
+        _install_combat_inspection_hotspots()
+        _render_combat_inspection_panel()
 
-    var header: HBoxContainer = HBoxContainer.new()
-    header.add_theme_constant_override("separation", 10)
-    parent.add_child(header)
-    var heading: Label = make_label("POSTE VACANT · %s · %s" % [str(fallen.get("name", "Veilleur tombé")), str(fallen.get("class_id", "classe"))], 18, GOLD)
-    heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    header.add_child(heading)
-    header.add_child(make_button("RENOUVELER", func(target_id = dead_id): _refresh_tavern_candidates(str(target_id)), Vector2(180, 44)))
+func _compact_combat_card_labels() -> void:
+    # Les informations détaillées passent dans le panneau contextuel. Sur le champ
+    # de bataille on conserve seulement l'identité et le rang pour réduire le bruit.
+    for node_value: Variant in content.find_children("*", "Label", true, false):
+        var label := node_value as Label
+        if label == null:
+            continue
+        for hero_value: Variant in GameState.party:
+            var hero: Dictionary = hero_value
+            var hero_name := str(hero.get("name", ""))
+            if hero_name != "" and label.text.contains(hero_name) and label.text.contains("PV ") and label.text.contains("P"):
+                var active := str(hero.get("id", "")) == combat_active_hero_id
+                label.text = "%s%s\nR%d" % ["▶ " if active else "", hero_name, int(hero.get("combat_position", 0)) + 1]
+                break
+        for enemy_value: Variant in GameState.battle_enemies:
+            var enemy: Dictionary = enemy_value
+            var enemy_name := str(enemy.get("name", ""))
+            if enemy_name != "" and label.text.contains(enemy_name) and label.text.contains("PV "):
+                label.text = "%s\nE%d" % [enemy_name, int(enemy.get("combat_position", 0)) + 1]
+                break
 
-    var fallen_traits: Dictionary = CharacterTraitDirector.trait_names(fallen)
-    parent.add_child(make_label(
-        "Tombé · niv. %d · PV max %d · traits +%d / −%d" % [
-            int(fallen.get("level", 1)),
-            int(fallen.get("max_hp", fallen.get("hp", 1))),
-            (fallen_traits.get("positive", []) as Array).size(),
-            (fallen_traits.get("negative", []) as Array).size()
-        ],
-        13,
-        MUTED
-    ))
+func _install_combat_inspection_hotspots() -> void:
+    # Les cartes héritées n'ont pas toutes le même type de Control. Des zones
+    # transparentes stables évitent de réécrire toute la scène de combat.
+    var heroes := _heroes_by_position()
+    for visual_index in range(heroes.size()):
+        var hero: Dictionary = heroes[visual_index]
+        var hotspot := Button.new()
+        hotspot.name = "InspectHeroV45_%d" % visual_index
+        hotspot.flat = true
+        hotspot.position = Vector2(35.0 + float(visual_index) * 132.0, 160.0)
+        hotspot.size = Vector2(132.0, 320.0)
+        hotspot.z_index = 65
+        hotspot.focus_mode = Control.FOCUS_ALL
+        hotspot.tooltip_text = "Voir l'état de %s" % str(hero.get("name", "Héros"))
+        hotspot.pressed.connect(func(hero_id = str(hero.get("id", ""))): _inspect_combatant("hero", hero_id))
+        content.add_child(hotspot)
 
-    var candidates: Array = _sanctuary_recruitment_service.generate_replacement_candidates(dead_id, seed_value)
-    if candidates.is_empty():
-        parent.add_child(make_label("Aucune recrue compatible disponible pour ce poste.", 14, MUTED))
+    for enemy_index in range(GameState.battle_enemies.size()):
+        var enemy: Dictionary = GameState.battle_enemies[enemy_index]
+        var hotspot := Button.new()
+        hotspot.name = "InspectEnemyV45_%d" % enemy_index
+        hotspot.flat = true
+        hotspot.position = Vector2(650.0 + float(enemy_index) * 140.0, 155.0)
+        hotspot.size = Vector2(140.0, 330.0)
+        hotspot.z_index = 65
+        hotspot.focus_mode = Control.FOCUS_ALL
+        hotspot.tooltip_text = "Voir l'état de %s" % str(enemy.get("name", "Ennemi"))
+        hotspot.pressed.connect(func(index = enemy_index, uid = str(enemy.get("combat_uid", ""))): _inspect_enemy(int(index), uid))
+        content.add_child(hotspot)
+
+func _inspect_enemy(index: int, uid: String) -> void:
+    if index >= 0 and index < GameState.battle_enemies.size():
+        selected_enemy = index
+    inspected_combat_side = "enemy"
+    inspected_combat_key = uid
+    if inspected_combat_key == "" and index >= 0 and index < GameState.battle_enemies.size():
+        inspected_combat_key = str((GameState.battle_enemies[index] as Dictionary).get("id", "enemy_%d" % index))
+    show_screen("combat")
+
+func _inspect_combatant(side: String, key: String) -> void:
+    inspected_combat_side = side
+    inspected_combat_key = key
+    show_screen("combat")
+
+func _close_combat_inspection() -> void:
+    inspected_combat_side = ""
+    inspected_combat_key = ""
+    show_screen("combat")
+
+func _render_combat_inspection_panel() -> void:
+    if inspected_combat_side == "" or inspected_combat_key == "":
+        return
+    var combatant := _inspected_combatant()
+    if combatant.is_empty():
+        inspected_combat_side = ""
+        inspected_combat_key = ""
         return
 
-    for candidate_value: Variant in candidates:
-        var wrapper: Dictionary = candidate_value as Dictionary
-        var candidate: Dictionary = wrapper.get("candidate", {}) as Dictionary
-        parent.add_child(_candidate_card(dead_id, fallen, wrapper, candidate))
+    var panel := PanelContainer.new()
+    panel.name = "CombatInspectionV45"
+    panel.position = Vector2(390, 185)
+    panel.size = Vector2(500, 286)
+    panel.z_index = 120
+    panel.add_theme_stylebox_override("panel", panel_style(Color(0.012, 0.014, 0.020, 0.97)))
+    content.add_child(panel)
 
-func _candidate_card(dead_id: String, fallen: Dictionary, wrapper: Dictionary, candidate: Dictionary) -> Control:
-    var panel: PanelContainer = PanelContainer.new()
-    panel.custom_minimum_size = Vector2(1160, 132)
-    var body: HBoxContainer = HBoxContainer.new()
-    body.add_theme_constant_override("separation", 14)
-    panel.add_child(body)
+    var box := VBoxContainer.new()
+    box.add_theme_constant_override("separation", 8)
+    panel.add_child(box)
 
-    var details: VBoxContainer = VBoxContainer.new()
-    details.custom_minimum_size = Vector2(900, 0)
-    details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    details.add_theme_constant_override("separation", 4)
-    body.add_child(details)
+    var rank_prefix := "R" if inspected_combat_side == "hero" else "E"
+    var title := make_label("%s · %s%d" % [str(combatant.get("name", "Combattant")), rank_prefix, int(combatant.get("combat_position", 0)) + 1], 20, GOLD)
+    title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    box.add_child(title)
 
-    var level: int = int(wrapper.get("level", 1))
-    var cost: int = int(wrapper.get("cost", 0))
-    details.add_child(make_label("%s · niveau %d · %d or" % [str(wrapper.get("name", "Recrue")), level, cost], 16, GOLD))
+    var hp := int(combatant.get("hp", 0))
+    var max_hp := maxi(1, int(combatant.get("max_hp", 1)))
+    var health := make_label("SANTÉ  %d / %d  ·  %d%%" % [hp, max_hp, int(round(100.0 * float(hp) / float(max_hp)))], 15, TEXT)
+    health.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    box.add_child(health)
 
-    var traits: Dictionary = CharacterTraitDirector.trait_names(candidate)
-    var positives: Array = traits.get("positive", []) as Array
-    var negatives: Array = traits.get("negative", []) as Array
-    details.add_child(make_label(
-        "Traits : + %s   ·   − %s" % [
-            ", ".join(positives) if not positives.is_empty() else "aucun",
-            ", ".join(negatives) if not negatives.is_empty() else "aucun"
-        ],
-        12,
-        TEXT
-    ))
+    if inspected_combat_side == "hero":
+        var resources := make_label(
+            "ESPOIR %d  ·  PEUR %d  ·  FOLIE %d" % [int(combatant.get("hope", 0)), int(combatant.get("fear", 0)), int(combatant.get("madness", 0))],
+            13,
+            MUTED
+        )
+        resources.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+        box.add_child(resources)
 
-    var skill_names: Array[String] = []
-    for skill_value: Variant in HeroSkillManager.known_combat_skills(candidate):
-        var skill: Dictionary = skill_value as Dictionary
-        var skill_name: String = str(skill.get("name", ""))
-        if skill_name != "" and not skill_names.has(skill_name):
-            skill_names.append(skill_name)
-        if skill_names.size() >= 3:
-            break
-    details.add_child(make_label("Aperçu compétences : %s" % (", ".join(skill_names) if not skill_names.is_empty() else "aucune technique équipée"), 12, MUTED))
+    var states := _combatant_state_lines(combatant)
+    var state_text := "Aucun effet temporaire" if states.is_empty() else "  ·  ".join(states)
+    var state_label := make_label("ÉTATS\n%s" % state_text, 13, TEXT)
+    state_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    state_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    state_label.custom_minimum_size = Vector2(460, 74)
+    box.add_child(state_label)
 
-    var level_delta: int = level - int(fallen.get("level", 1))
-    var hp_delta: int = int(candidate.get("max_hp", candidate.get("hp", 1))) - int(fallen.get("max_hp", fallen.get("hp", 1)))
-    var fallen_traits: Dictionary = CharacterTraitDirector.trait_names(fallen)
-    var positive_delta: int = positives.size() - (fallen_traits.get("positive", []) as Array).size()
-    var negative_delta: int = negatives.size() - (fallen_traits.get("negative", []) as Array).size()
-    details.add_child(make_label(
-        "Comparaison au tombé : niveau %+d · PV max %+d · traits positifs %+d · traits négatifs %+d" % [level_delta, hp_delta, positive_delta, negative_delta],
-        12,
-        MUTED
-    ))
+    var close := make_button("FERMER", func(): _close_combat_inspection(), Vector2(180, 48))
+    close.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    box.add_child(close)
 
-    var recruit: Button = make_button("RECRUTER", func(target_id = dead_id, recruit_value = candidate.duplicate(true)): _recruit_replacement(str(target_id), recruit_value), Vector2(190, 48))
-    recruit.disabled = GameState.gold < cost
-    body.add_child(recruit)
-    return panel
+func _inspected_combatant() -> Dictionary:
+    if inspected_combat_side == "hero":
+        for hero_value: Variant in GameState.party:
+            var hero: Dictionary = hero_value
+            if str(hero.get("id", "")) == inspected_combat_key:
+                return hero
+        return {}
 
-func _refresh_tavern_candidates(dead_id: String) -> void:
-    _tavern_refresh_generation[dead_id] = int(_tavern_refresh_generation.get(dead_id, 0)) + 1
-    GameState.add_log("Taverne : de nouvelles recrues se présentent pour le poste vacant.")
-    show_screen("recruitment")
+    for enemy_value: Variant in GameState.battle_enemies:
+        var enemy: Dictionary = enemy_value
+        if str(enemy.get("combat_uid", "")) == inspected_combat_key or str(enemy.get("id", "")) == inspected_combat_key:
+            return enemy
+    return {}
+
+func _combatant_state_lines(combatant: Dictionary) -> Array[String]:
+    var result: Array[String] = []
+    if bool(combatant.get("guarding", false)):
+        var guard_power := int(combatant.get("guard_power", 0))
+        result.append("Garde%s" % (" +%d" % guard_power if guard_power > 0 else ""))
+    if bool(combatant.get("stunned", false)):
+        result.append("Étourdi")
+    var bleeding := int(combatant.get("bleeding", 0))
+    if bleeding > 0:
+        result.append("Saignement %d" % bleeding)
+    var broken := int(combatant.get("broken", 0))
+    if broken > 0:
+        result.append("Rupture %d" % broken)
+    var riposte := int(combatant.get("riposte", combatant.get("riposte_chance", 0)))
+    if riposte > 0:
+        result.append("Riposte %d" % riposte)
+    var marked := int(combatant.get("marked", 0))
+    if marked > 0:
+        result.append("Marqué %d" % marked)
+    var vulnerable := int(combatant.get("vulnerable", 0))
+    if vulnerable > 0:
+        result.append("Vulnérable %d" % vulnerable)
+    return result

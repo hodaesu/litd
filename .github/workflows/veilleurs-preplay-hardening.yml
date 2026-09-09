@@ -1,0 +1,53 @@
+name: Veilleurs Preplay Hardening
+
+on:
+  pull_request:
+    paths:
+      - 'data/veilleurs/developer_selftest_contract.json'
+      - 'data/veilleurs/preplay_hardening_contract.json'
+      - 'scenes/Main.tscn'
+      - 'scenes/world/terre_des_cendres/**'
+      - 'scripts/ui/main_v43.gd'
+      - 'scripts/ui/context_menu_ui_v2.gd'
+      - 'scripts/ui/hud_context_sanctuary_polish_adapter.gd'
+      - 'scripts/world/ashlands_blockout_builder.gd'
+      - 'scripts/qa/developer_selftest_overlay.gd'
+      - 'tools/qa/veilleurs_preplay_hardening_audit.py'
+      - '.github/workflows/veilleurs-preplay-hardening.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'data/veilleurs/developer_selftest_contract.json'
+      - 'data/veilleurs/preplay_hardening_contract.json'
+      - 'scenes/Main.tscn'
+      - 'scenes/world/terre_des_cendres/**'
+      - 'scripts/ui/main_v43.gd'
+      - 'scripts/ui/context_menu_ui_v2.gd'
+      - 'scripts/ui/hud_context_sanctuary_polish_adapter.gd'
+      - 'scripts/world/ashlands_blockout_builder.gd'
+      - 'scripts/qa/developer_selftest_overlay.gd'
+      - 'tools/qa/veilleurs_preplay_hardening_audit.py'
+      - '.github/workflows/veilleurs-preplay-hardening.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preplay-hardening:
+    name: UI, Sanctuary and 3D preplay contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Audit developer self-test preplay surface
+        run: python tools/qa/veilleurs_preplay_hardening_audit.py
+      - name: Upload preplay report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: veilleurs-preplay-hardening-report
+          path: build/automation/veilleurs_preplay_hardening.json
+          if-no-files-found: error

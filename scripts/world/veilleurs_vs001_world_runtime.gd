@@ -239,10 +239,10 @@ func _recruitment_preview(state_value: Dictionary) -> Dictionary:
         return preview
     preview["options"] = [
         _option("s6_observe", "OBSERVER", false),
-        _option("s6_lower_guard", "NAYRA · ABAISSER LA GARDE", false),
-        _option("s6_diagnose", "AÏSHA · DIAGNOSTIQUER", false),
-        _option("s6_treat", "AÏSHA · SOIGNER", false),
-        _option("s6_deescalate", "IDRIS · DÉSAMORCER", false),
+        _option("s6_lower_guard", "Marec · ABAISSER LA GARDE", false),
+        _option("s6_diagnose", "Aurélien · DIAGNOSTIQUER", false),
+        _option("s6_treat", "Aurélien · SOIGNER", false),
+        _option("s6_deescalate", "Anouk · DÉSAMORCER", false),
         _option("s6_offer_food", "OFFRIR DE LA NOURRITURE", false),
         _option("s6_recruit", "TENTER LE LIEN", true),
         _option("s6_leave", "LAISSER EN VIE", true),
@@ -282,13 +282,13 @@ func _resolve_action(anchor_id: String, action_id: String) -> Dictionary:
         "s6_observe":
             return session.call("recruitment_action", "observe")
         "s6_lower_guard":
-            return session.call("recruitment_action", "nayra_lower_guard")
+            return session.call("recruitment_action", "marec_lower_guard")
         "s6_diagnose":
-            return session.call("recruitment_action", "aisha_diagnose")
+            return session.call("recruitment_action", "aurelien_diagnose")
         "s6_treat":
-            return session.call("recruitment_action", "aisha_treat")
+            return session.call("recruitment_action", "aurelien_treat")
         "s6_deescalate":
-            return session.call("recruitment_action", "idris_deescalate")
+            return session.call("recruitment_action", "anouk_deescalate")
         "s6_offer_food":
             return session.call("recruitment_action", "offer_food")
         "s6_recruit":
@@ -296,7 +296,7 @@ func _resolve_action(anchor_id: String, action_id: String) -> Dictionary:
             if not bool(subdue.get("success", false)):
                 return subdue
             var roll: int = _deterministic_recruitment_roll()
-            return session.call("resolve_recruitment", "nayra", roll)
+            return session.call("resolve_recruitment", "Marec", roll)
         "s6_leave":
             return session.call("recruitment_action", "leave")
         "s6_attack":

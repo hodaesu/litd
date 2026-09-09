@@ -48,7 +48,7 @@ def audit() -> list[str]:
         if token not in save:
             errors.append(f"save_contract:{token}")
 
-    expected_ids = ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"]
+    expected_ids = ["Marec", "Mathilde", "Aurélien", "Anouk"]
     for watcher_id in expected_ids:
         if f'"id": "{watcher_id}"' not in bridge:
             errors.append(f"watcher_missing:{watcher_id}")

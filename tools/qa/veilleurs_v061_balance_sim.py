@@ -65,10 +65,10 @@ def make_units() -> tuple[list[Unit], list[Unit]]:
     party: list[Unit] = []
     # Preserve the validated v0.6.1 role/stat pairings while restoring canonical identities.
     watcher_roles = {
-        "ENT_WATCHER_NAYRA": "guardian",
-        "ENT_WATCHER_TAREK": "precision",
-        "ENT_WATCHER_AISHA": "observer",
-        "ENT_WATCHER_IDRIS": "frontline",
+        "ENT_WATCHER_marec": "guardian",
+        "ENT_WATCHER_mathilde": "precision",
+        "ENT_WATCHER_aurelien": "observer",
+        "ENT_WATCHER_anouk": "frontline",
     }
     for w in watchers:
         s = w["stats"]

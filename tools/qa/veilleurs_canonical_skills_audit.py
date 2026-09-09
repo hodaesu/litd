@@ -7,14 +7,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SKILL_DIR = ROOT / "data" / "veilleurs" / "skills"
 WATCHERS = {
-    "nayra_orun": ("Nayra Orun", ["Bastion", "Brisure", "Serment"]),
-    "tarek_senn": ("Tarek Senn", ["Traque", "Entaille", "Disparition"]),
-    "aisha_maren": ("Aïsha Maren", ["Anatomie", "Suture", "Hémocorde"]),
-    "idris_vael": ("Idris Vael", ["Sentence", "Concorde", "Dissidence"]),
+    "Marec": ("Marec", ["Bastion", "Brisure", "Serment"]),
+    "Mathilde": ("Mathilde", ["Traque", "Entaille", "Disparition"]),
+    "Aurélien": ("Aurélien", ["Anatomie", "Suture", "Hémocorde"]),
+    "Anouk": ("Anouk", ["Sentence", "Concorde", "Dissidence"]),
 }
 EXPECTED_LEVELS = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 35, 39, 44, 49]
 SOURCE_SHA = "0b543d9b9433405ecc230f86de5c522f16b7a29d9db9d60f301b6d45a2b5b1b4"
-CORPSE_SKILLS = {"AÏ-ANA-12", "TA-DIS-12"}
+CORPSE_SKILLS = {"AU-ANA-12", "MA-DIS-12"}
 EXPECTED_TREE_RESOLVERS = {
     "Bastion", "Brisure", "Serment", "Traque", "Entaille", "Disparition",
     "Anatomie", "Suture", "Hémocorde", "Sentence", "Concorde", "Dissidence",
@@ -174,11 +174,11 @@ def audit() -> list[str]:
         item = exact.get(skill_id, {})
         if item.get("status") != "implemented" or item.get("activation_mode") != "context_action":
             errors.append(f"corpse_resolver_not_implemented:{skill_id}")
-    if str(skill_rows.get("AÏ-ANA-12", {}).get("Cible", "")).lower() != "cadavre":
-        errors.append("aisha_corpse_target_changed")
-    tarek_tags = _tags(skill_overrides.get("TA-DIS-12", {}).get("Tags", skill_rows.get("TA-DIS-12", {}).get("Tags", "")))
-    if "CADAVRE" not in tarek_tags:
-        errors.append("tarek_corpse_tag_missing")
+    if str(skill_rows.get("AU-ANA-12", {}).get("Cible", "")).lower() != "cadavre":
+        errors.append("aurelien_corpse_target_changed")
+    mathilde_tags = _tags(skill_overrides.get("MA-DIS-12", {}).get("Tags", skill_rows.get("MA-DIS-12", {}).get("Tags", "")))
+    if "CADAVRE" not in mathilde_tags:
+        errors.append("mathilde_corpse_tag_missing")
 
     input_parity = polish.get("input_parity", {})
     for key in ("same_gameplay_all_platforms", "irreversible_action_requires_second_confirmation"):

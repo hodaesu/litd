@@ -11,26 +11,26 @@
     "mobile_pc_rules_identical": true
   },
   "watchers": {
-    "nayra_orun": {
-      "display_name": "Nayra Orun", "role": "La Garde", "age": 36,
+    "Marec": {
+      "display_name": "Marec", "role": "La Garde", "age": 36,
       "combat_anchor": ["garde", "bastion", "protection", "controle", "trauma_lourd"],
       "utility": {"perception": 58, "tracking": 42, "trapcraft": 36, "medicine": 34, "anatomy": 56, "authority": 64, "resolve": 82, "stealth": 34, "mobility": 42, "force": 88},
       "exploration_affinities": {"structural_hazard": 12, "protective_interaction": 15, "force_door": 18, "carry_wounded": 20}
     },
-    "tarek_senn": {
-      "display_name": "Tarek Senn", "role": "Le Pisteur", "age": 29,
+    "Mathilde": {
+      "display_name": "Mathilde", "role": "Le Pisteur", "age": 29,
       "combat_anchor": ["traque", "mobilite", "ciblage_anatomique", "poursuite"],
       "utility": {"perception": 86, "tracking": 94, "trapcraft": 82, "medicine": 40, "anatomy": 78, "authority": 38, "resolve": 63, "stealth": 90, "mobility": 91, "force": 55},
       "exploration_affinities": {"trace_reading": 18, "trap_detection": 15, "ambush_detection": 15, "scouting": 18}
     },
-    "aisha_maren": {
-      "display_name": "Aïsha Maren", "role": "L’Anatomiste", "age": 43,
+    "Aurélien": {
+      "display_name": "Aurélien", "role": "L’Anatomiste", "age": 43,
       "combat_anchor": ["diagnostic", "suture", "anatomie", "soins", "alterations_corporelles"],
       "utility": {"perception": 76, "tracking": 54, "trapcraft": 49, "medicine": 96, "anatomy": 98, "authority": 57, "resolve": 76, "stealth": 47, "mobility": 57, "force": 49},
       "exploration_affinities": {"corpse_analysis": 20, "wound_analysis": 20, "treatment": 20, "biological_hazard": 15}
     },
-    "idris_vael": {
-      "display_name": "Idris Vael", "role": "Le Médiateur", "age": 52,
+    "Anouk": {
+      "display_name": "Anouk", "role": "Le Médiateur", "age": 52,
       "combat_anchor": ["autorite", "concorde", "coordination", "controle_psychologique"],
       "utility": {"perception": 69, "tracking": 45, "trapcraft": 40, "medicine": 48, "anatomy": 61, "authority": 97, "resolve": 90, "stealth": 43, "mobility": 50, "force": 58},
       "exploration_affinities": {"deescalation": 20, "recruitment": 20, "group_coordination": 16, "fear_control": 18}
@@ -149,7 +149,7 @@
       "suture": {"pulse_cost": 2, "requires_medicine_score": 70, "bleed_severity_steps_reduced": 3, "reopen_protection_pulses": 6},
       "splint": {"pulse_cost": 2, "fracture_penalty_reduction_percent": 50, "allows_cautious_mobility": true},
       "stabilize_critical": {"pulse_cost": 2, "requires_medicine_score": 80, "prevents_one_injury_worsening_check": true},
-      "aisha_affinity": {"medicine_bonus": 20, "complex_treatment_pulse_reduction": 1, "minimum_pulse_cost": 1}
+      "aurelien_affinity": {"medicine_bonus": 20, "complex_treatment_pulse_reduction": 1, "minimum_pulse_cost": 1}
     },
     "persistence": {"wounded_or_worse_persists_after_extraction": true, "critical_injury_creates_history_event": true, "lost_part_creates_permanent_body_state": true, "scar_storage": "state_flags_plus_history_event_not_scene_snapshot"},
     "gore_modes_preserve_mechanics": ["full", "reduced", "off"]
@@ -203,11 +203,11 @@
     "hard_blocks": {"manifestation_destructrice": "recruitment_disabled", "regional_recruitment_slots_full": "recruitment_disabled", "no_sanctuary_capacity": "recruitment_disabled"},
     "actions": {
       "observe": {"pulse": 0, "fear": -5, "trust": 2, "stability": 3, "reveal": ["defensive_aggression", "exit_seeking"]},
-      "nayra_lower_guard": {"pulse": 0, "requires": "nayra_present", "fear": -8, "trust": 10, "aggression": -8, "stability": 5},
-      "tarek_block_exit": {"pulse": 0, "requires": "tarek_present", "fear": 12, "trust": -5, "aggression": 8, "restraint": 20},
-      "aisha_diagnose": {"pulse": 0, "requires": "aisha_present", "fear": -3, "trust": 5, "reveal": ["critical_leg", "pain_level", "safe_treatment"]},
-      "aisha_treat": {"pulse": 1, "requires": ["aisha_present", "bandage_or_medical_supply"], "fear": -15, "trust": 18, "pain": -25, "stability": 18, "health_ratio_delta": 0.07},
-      "idris_deescalate": {"pulse": 0, "requires": "idris_present", "fear": -18, "trust": 9, "aggression": -12, "stability": 10},
+      "marec_lower_guard": {"pulse": 0, "requires": "marec_present", "fear": -8, "trust": 10, "aggression": -8, "stability": 5},
+      "mathilde_block_exit": {"pulse": 0, "requires": "mathilde_present", "fear": 12, "trust": -5, "aggression": 8, "restraint": 20},
+      "aurelien_diagnose": {"pulse": 0, "requires": "aurelien_present", "fear": -3, "trust": 5, "reveal": ["critical_leg", "pain_level", "safe_treatment"]},
+      "aurelien_treat": {"pulse": 1, "requires": ["aurelien_present", "bandage_or_medical_supply"], "fear": -15, "trust": 18, "pain": -25, "stability": 18, "health_ratio_delta": 0.07},
+      "anouk_deescalate": {"pulse": 0, "requires": "anouk_present", "fear": -18, "trust": 9, "aggression": -12, "stability": 10},
       "offer_food": {"pulse": 0, "requires": "food", "fear": -8, "trust": 8, "stability": 4},
       "approach_unprepared": {"pulse": 0, "fear": 10, "aggression": 12, "defensive_attack_if_fear_at_least": 85},
       "subdue": {"pulse": 0, "fear": 18, "trust": -12, "restraint": 35, "starts_capture_check": true},
@@ -218,7 +218,7 @@
       "base": 48,
       "creature_resistance": 20,
       "wound_bonus_from_existing_contract": true,
-      "actor_bonus": {"idris": 12, "nayra": 8, "tarek": 5, "aisha": 6},
+      "actor_bonus": {"Anouk": 12, "Marec": 8, "Mathilde": 5, "Aurélien": 6},
       "trust_bonus_formula": "floor(trust * 0.20)",
       "fear_penalty_formula": "floor(max(fear-60,0) * 0.25)",
       "restraint_bonus_formula": "floor(restraint * 0.50)",

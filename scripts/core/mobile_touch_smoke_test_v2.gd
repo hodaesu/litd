@@ -95,7 +95,7 @@ func _audit_v09_mobile_contract() -> void:
                 "2:0": "ENT_ENEMY_BETA"
             },
             "combatants": {
-                "ENT_WATCHER_TEST": {"name": "Nayra", "team": "watcher", "hp": 40, "max_hp": 40, "level": 1},
+                "ENT_WATCHER_TEST": {"name": "Marec", "team": "watcher", "hp": 40, "max_hp": 40, "level": 1},
                 "ENT_ENEMY_ALPHA": {"name": "Goule alpha", "team": "enemy", "hp": 18, "max_hp": 20, "level": 1},
                 "ENT_ENEMY_BETA": {
                     "name": "Goule bêta",

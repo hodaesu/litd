@@ -141,7 +141,7 @@ func refresh_specialized_passives(party: Array, enemies: Array) -> void:
     if runtime == null or not runtime.has_method("refresh_passive_state"):
         return
     for hero_value: Variant in party:
-        if hero_value is Dictionary and str((hero_value as Dictionary).get("id", "")) == "aisha_maren":
+        if hero_value is Dictionary and str((hero_value as Dictionary).get("id", "")) == "Aurélien":
             runtime.call("refresh_passive_state", hero_value, enemies)
             break
 
@@ -156,7 +156,7 @@ func advance_specialized_round_states(party: Array) -> void:
     if runtime == null or not runtime.has_method("advance_round_state"):
         return
     for hero_value: Variant in party:
-        if hero_value is Dictionary and str((hero_value as Dictionary).get("id", "")) == "aisha_maren":
+        if hero_value is Dictionary and str((hero_value as Dictionary).get("id", "")) == "Aurélien":
             runtime.call("advance_round_state", hero_value)
             break
 

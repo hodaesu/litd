@@ -13,7 +13,7 @@ BODY_PATH = ROOT / "data/body_visual_runtime_v42.json"
 LEGACY_PATH = ROOT / "data/blender/character_jobs.json"
 PRODUCTION_CONTRACT_PATH = ROOT / "data/blender/animation_production_matrix_v45.json"
 
-EXPECTED_VEILLEURS = {"Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"}
+EXPECTED_VEILLEURS = {"Marec", "Mathilde", "Aurélien", "Anouk"}
 EXPECTED_SPECIES = {
     "Délié Affamé", "Délié Boursouflé", "Censeur Fendu", "Flagellant Fendu",
     "Sentinelle du Seuil", "Exécuteur de Pierre", "Traque-Suie", "Brise-Os de Suie",

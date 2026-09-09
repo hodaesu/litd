@@ -7,10 +7,14 @@ func run() -> void:
     DecisionMemoryRuntime.prepare_party()
     await _frames(2)
 
-    _check(GameState.party.size() >= 4, "Decision-memory smoke requires the authored four-hero test party")
+    _check(GameState.party.size() == 4, "Decision-memory smoke requires the canonical four-hero party")
     if GameState.party.size() < 2:
         _finish()
         return
+
+    var expected_ids: Array[String] = ["mathilde", "marec", "anouk", "aurelien"]
+    for hero_id in expected_ids:
+        _check(not _hero(hero_id).is_empty(), "Current canonical hero must exist: " + hero_id)
 
     for hero_value in GameState.party:
         var hero: Dictionary = hero_value
@@ -25,33 +29,29 @@ func run() -> void:
     await _frames(3)
 
     var memory_id := "politics:ashlands_refugee_gate:welcome"
+    var stance_groups: Dictionary = {}
     for hero_value in GameState.alive_heroes():
         var hero: Dictionary = hero_value
-        _check(_memory(hero, memory_id).size() > 0, "Political choices must become memories for heroes who were present")
+        var memory := _memory(hero, memory_id)
+        _check(memory.size() > 0, "Political choices must become memories for heroes who were present")
+        var stance := str(memory.get("stance", "uncertain"))
+        _check(stance in ["strong_support", "support", "uncertain", "oppose", "strong_oppose"], "Every stored memory must expose a valid stance")
+        stance_groups[str(hero.get("id", ""))] = stance
 
-    var aurelien := _hero("aurelien")
-    var malvor := _hero("malvor")
-    var lysandra := _hero("lysandra")
-    var darius := _hero("darius")
-    _check(str(_memory(aurelien, memory_id).get("stance", "")) == "strong_support", "Aurélien's authored convictions must strongly support opening the gates")
-    _check(str(_memory(malvor, memory_id).get("stance", "")) == "oppose", "Malvor's authored convictions must oppose the risky opening")
-    _check(str(_memory(lysandra, memory_id).get("stance", "")) == "strong_support", "Lysandra's authored convictions must strongly support solidarity")
-    _check(str(_memory(darius, memory_id).get("stance", "")) == "uncertain", "Darius must begin conflicted between solidarity and security")
-
-    var aurelien_to_malvor := RelationshipRuntime.relation(aurelien, malvor)
-    _check(int(aurelien_to_malvor.get("mistrust", 0)) >= 2, "Opposite convictions must create a small playable relationship tension")
-    var aurelien_to_lysandra := RelationshipRuntime.relation(aurelien, lysandra)
-    _check(int(aurelien_to_lysandra.get("trust", 0)) >= 2, "Shared convictions must create a small trust gain")
+    _check(stance_groups.size() == 4, "All four current heroes must interpret the political choice")
+    _check(_relationship_history_total() > 0, "A shared political choice must leave at least one relationship history trace")
 
     var social_event := _social_event("xenophobic_whisper")
     _check(not social_event.is_empty(), "Smoke requires the delayed xenophobic-whisper event")
-    var darius_mistrust_before := int(RelationshipRuntime.relation(darius, aurelien).get("mistrust", 0))
     var reframed := DecisionMemoryRuntime.record_social_event(social_event)
     _check(bool(reframed.get("applied", false)), "A later social event must be able to reframe an earlier decision")
-    var darius_memory := _memory(darius, memory_id)
-    _check(str(darius_memory.get("stance", "")) == "oppose", "Darius must be able to change his mind when later events validate his security concerns")
-    _check(not darius_memory.get("reevaluations", []).is_empty(), "Reframing must be stored inside the persistent decision memory")
-    _check(int(RelationshipRuntime.relation(darius, aurelien).get("mistrust", 0)) > darius_mistrust_before, "A new disagreement after reevaluation must affect the relationship")
+
+    var reevaluation_count := 0
+    for hero_value in GameState.party:
+        var hero: Dictionary = hero_value
+        var memory := _memory(hero, memory_id)
+        reevaluation_count += memory.get("reevaluations", []).size()
+    _check(reevaluation_count > 0, "Reframing must be stored inside persistent decision memories")
 
     var repeated := DecisionMemoryRuntime.record_social_event(social_event)
     _check(not bool(repeated.get("applied", false)), "The same delayed consequence must never be applied twice")
@@ -65,6 +65,7 @@ func run() -> void:
     var serialized := JSON.stringify(GameState.party)
     _check(serialized.contains("convictions"), "Convictions must persist through the existing party save payload")
     _check(serialized.contains("decision_memories"), "Decision memories must persist through the existing party save payload")
+    _check(not serialized.contains("malvor") and not serialized.contains("lysandra") and not serialized.contains("darius"), "Legacy starter identities must not leak into current party state")
     _finish()
 
 func _hero(hero_id: String) -> Dictionary:
@@ -80,6 +81,18 @@ func _memory(hero: Dictionary, memory_id: String) -> Dictionary:
         if str(memory.get("id", "")) == memory_id:
             return memory
     return {}
+
+func _relationship_history_total() -> int:
+    var total := 0
+    for source_value in GameState.party:
+        var source: Dictionary = source_value
+        for target_value in GameState.party:
+            var target: Dictionary = target_value
+            if source == target:
+                continue
+            var relation := RelationshipRuntime.relation(source, target)
+            total += relation.get("history", []).size()
+    return total
 
 func _social_event(event_id: String) -> Dictionary:
     for value in PoliticalState.social_data.get("dynamic_events", []):

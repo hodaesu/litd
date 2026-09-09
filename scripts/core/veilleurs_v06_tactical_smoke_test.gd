@@ -29,8 +29,8 @@ func _run() -> void:
     var grid_contract: Dictionary = summary.get("grid", {}) as Dictionary
     _check(int(grid_contract.get("width", 0)) == 6 and int(grid_contract.get("height", 0)) == 5, "Tactical grid contract must be 6x5")
 
-    var expected_ids := ["ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS"]
-    var expected_names := ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
+    var expected_ids := ["ENT_WATCHER_marec", "ENT_WATCHER_mathilde", "ENT_WATCHER_aurelien", "ENT_WATCHER_anouk"]
+    var expected_names := ["Marec", "Mathilde", "Aurélien", "Anouk"]
     for index in range(expected_ids.size()):
         var watcher := db.watcher(expected_ids[index])
         _check(str(watcher.get("name_fr", "")) == expected_names[index], "Watcher identity mismatch: %s" % expected_ids[index])
@@ -38,39 +38,39 @@ func _run() -> void:
     for alternate_id in ["ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA"]:
         _check(db.watcher(alternate_id).is_empty(), "Alternate Watcher identity must not exist: %s" % alternate_id)
 
-    var nayra_resource: VeilleursEntityDefinition = ENTITY_RESOURCE_SCRIPT.from_dictionary(db.watcher("ENT_WATCHER_NAYRA"))
-    _check(nayra_resource.entity_id == "ENT_WATCHER_NAYRA", "EntityDefinition conversion must preserve Nayra stable ID")
-    var brisure_resource: VeilleursSkillDefinition = SKILL_RESOURCE_SCRIPT.from_dictionary(db.skill("NA-BRI-01"))
+    var marec_resource: VeilleursEntityDefinition = ENTITY_RESOURCE_SCRIPT.from_dictionary(db.watcher("ENT_WATCHER_marec"))
+    _check(marec_resource.entity_id == "ENT_WATCHER_marec", "EntityDefinition conversion must preserve Marec stable ID")
+    var brisure_resource: VeilleursSkillDefinition = SKILL_RESOURCE_SCRIPT.from_dictionary(db.skill("MR-BRI-01"))
     _check(brisure_resource.name_fr == "Heurt de garde", "SkillDefinition conversion must preserve canonical Brisure name")
 
     var runtime: VeilleursTacticalCombatRuntime = RUNTIME_SCRIPT.new() as VeilleursTacticalCombatRuntime
     var setup := runtime.setup_first_combat()
     _check(bool(setup.get("ok", false)), "First tactical combat must initialize")
-    _check(runtime.grid.position_of("ENT_WATCHER_TAREK") == Vector2i(0, 0), "Tarek must start at his authored grid cell")
-    _check(runtime.grid.position_of("ENT_WATCHER_NAYRA") == Vector2i(0, 1), "Nayra must start at her authored grid cell")
-    _check(runtime.grid.position_of("ENT_WATCHER_AISHA") == Vector2i(0, 2), "Aïsha must start at her authored grid cell")
-    _check(runtime.grid.position_of("ENT_WATCHER_IDRIS") == Vector2i(0, 3), "Idris must start at his authored grid cell")
+    _check(runtime.grid.position_of("ENT_WATCHER_mathilde") == Vector2i(0, 0), "Mathilde must start at his authored grid cell")
+    _check(runtime.grid.position_of("ENT_WATCHER_marec") == Vector2i(0, 1), "Marec must start at her authored grid cell")
+    _check(runtime.grid.position_of("ENT_WATCHER_aurelien") == Vector2i(0, 2), "Aurélien must start at her authored grid cell")
+    _check(runtime.grid.position_of("ENT_WATCHER_anouk") == Vector2i(0, 3), "Anouk must start at his authored grid cell")
     _check(runtime.grid.position_of("ENT_ENEMY_GOULE_AFFAMEE") == Vector2i(5, 1), "Hungry Ghoul must start opposite the Watchers")
 
-    var nayra_row: Dictionary = runtime.combatants["ENT_WATCHER_NAYRA"]
-    nayra_row["hp"] = 30
-    var nayra_body: VeilleursBodyComponent = nayra_row.get("body") as VeilleursBodyComponent
-    nayra_body.apply_trauma("left_arm", 60)
-    runtime.combatants["ENT_WATCHER_NAYRA"] = nayra_row
+    var marec_row: Dictionary = runtime.combatants["ENT_WATCHER_marec"]
+    marec_row["hp"] = 30
+    var marec_body: VeilleursBodyComponent = marec_row.get("body") as VeilleursBodyComponent
+    marec_body.apply_trauma("left_arm", 60)
+    runtime.combatants["ENT_WATCHER_marec"] = marec_row
     var predator_decision := runtime.enemy_ai.decide(runtime, "ENT_ENEMY_GOULE_AFFAMEE")
-    _check(str(predator_decision.get("target", "")) == "ENT_WATCHER_NAYRA", "Predator AI must prefer visibly wounded Nayra when tactically plausible")
+    _check(str(predator_decision.get("target", "")) == "ENT_WATCHER_marec", "Predator AI must prefer visibly wounded Marec when tactically plausible")
     _check(str(predator_decision.get("reason", "")) in ["exploit_wounded_target", "close_distance"], "Predator AI decision must remain readable")
 
-    _check(runtime.grid.move("ENT_WATCHER_NAYRA", Vector2i(1, 1)), "Nayra must be movable on the 6x5 grid")
+    _check(runtime.grid.move("ENT_WATCHER_marec", Vector2i(1, 1)), "Marec must be movable on the 6x5 grid")
     _check(runtime.grid.move("ENT_ENEMY_GOULE_AFFAMEE", Vector2i(2, 1)), "Test Ghoul must be movable to contact range")
-    var hit := runtime.resolve_skill("ENT_WATCHER_NAYRA", "ENT_ENEMY_GOULE_AFFAMEE", "NA-BRI-01", "torso", 1)
-    _check(bool(hit.get("ok", false)) and bool(hit.get("hit", false)), "Nayra Heurt de garde must resolve a forced hit")
+    var hit := runtime.resolve_skill("ENT_WATCHER_marec", "ENT_ENEMY_GOULE_AFFAMEE", "MR-BRI-01", "torso", 1)
+    _check(bool(hit.get("ok", false)) and bool(hit.get("hit", false)), "Marec Heurt de garde must resolve a forced hit")
     _check(int(hit.get("damage", 0)) > 0, "A damaging canonical skill must deal damage")
     _check((hit.get("body", {}) as Dictionary).get("state", "") != "", "Hit must update six-zone body state")
 
-    var observe := runtime.resolve_skill("ENT_WATCHER_TAREK", "ENT_ENEMY_ECORCHEUSE", "TA-TRA-01", "head", 1)
-    _check(bool(observe.get("non_damage", false)), "Tarek Relever les traces must resolve as information, not fake damage")
-    _check(int(observe.get("knowledge_reveal", 0)) >= 1, "Tarek observation must reveal tactical knowledge")
+    var observe := runtime.resolve_skill("ENT_WATCHER_mathilde", "ENT_ENEMY_ECORCHEUSE", "MA-TRA-01", "head", 1)
+    _check(bool(observe.get("non_damage", false)), "Mathilde Relever les traces must resolve as information, not fake damage")
+    _check(int(observe.get("knowledge_reveal", 0)) >= 1, "Mathilde observation must reveal tactical knowledge")
 
     var body: VeilleursBodyComponent = BODY_SCRIPT.new({"head":70,"torso":140,"left_arm":90,"right_arm":90,"left_leg":100,"right_leg":100}) as VeilleursBodyComponent
     var sever := body.apply_trauma("left_arm", 95, 4, 3)
@@ -100,7 +100,7 @@ func _run() -> void:
     _check(restored.deserialize(serialized), "Tactical combat must deserialize")
     _check(restored.grid.snapshot() == runtime.grid.snapshot(), "Grid must survive tactical serialization")
     _check(restored.combatants.size() == runtime.combatants.size(), "Combatant roster must survive tactical serialization")
-    _check(restored.combatants.has("ENT_WATCHER_NAYRA") and not restored.combatants.has("ENT_WATCHER_SAHEN"), "Serialization must preserve canonical quartet IDs")
+    _check(restored.combatants.has("ENT_WATCHER_marec") and not restored.combatants.has("ENT_WATCHER_SAHEN"), "Serialization must preserve canonical quartet IDs")
 
     var hybrid: VeilleursHybridGenerationBridge = HYBRID_SCRIPT.new() as VeilleursHybridGenerationBridge
     _check(hybrid.load_errors.is_empty(), "Hybrid bridge must validate all authored encounter references")

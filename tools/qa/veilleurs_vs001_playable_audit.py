@@ -16,8 +16,8 @@ GAME_STATE = ROOT / "scripts" / "core" / "game_state.gd"
 PHYSICAL_MAP = ROOT / "data" / "dungeons" / "voices_under_sanctuary_physical_map.json"
 GODOT_CI = ROOT / "tools" / "build" / "run_godot_ci.sh"
 
-WATCHER_IDS = ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"]
-WATCHER_NAMES = ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
+WATCHER_IDS = ["Marec", "Mathilde", "Aurélien", "Anouk"]
+WATCHER_NAMES = ["Marec", "Mathilde", "Aurélien", "Anouk"]
 
 
 def _text(path: Path) -> str:

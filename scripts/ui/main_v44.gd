@@ -1,188 +1,244 @@
 extends "res://scripts/ui/main_v43.gd"
 
-# v44 — économie du Sanctuaire réellement jouable depuis l'interface.
-# Le Marché noir consomme VeilleursMarketService ; la Taverne conserve toutes
-# ses fonctions historiques et ouvre le recrutement comme sous-écran additif.
+# v44 — lisibilité tactique du playtest mobile/web.
+# - R1 est affiché côté ennemis : l'ordre visuel des héros est R4, R3, R2, R1.
+# - L'ordre d'activation reste R1 -> R4 pour ne pas modifier l'initiative existante.
+# - Le panneau latéral hérité « ÉTAT DE COMBAT » est supprimé du combat joueur.
+# - Une attaque à choix réel de cible ouvre un sélecteur explicite et surligne
+#   toutes les cibles valides. Une cible unique est choisie automatiquement.
+# - Les futures attaques de zone imposées peuvent déclarer
+#   target_selection="automatic" (ou fixed_group) afin de ne jamais demander
+#   une sélection cible par cible.
 
-var _sanctuary_market_service: VeilleursMarketService = VeilleursMarketService.new()
-var _sanctuary_recruitment_service: VeilleursHeroRecruitmentService = VeilleursHeroRecruitmentService.new()
-var _market_offer_seed: int = 6101
+var pending_target_skill_slot: int = -1
+var pending_target_indices: Array[int] = []
 
-func show_screen(name: String) -> void:
-    if name == "tavern":
-        GameState.current_screen = name
-        clear_content()
-        show_tavern()
-        _install_header_controls()
-        call_deferred("_postprocess_mobile_screen")
+func show_combat() -> void:
+    super.show_combat()
+    if GameState.current_screen != "combat" or not is_instance_valid(content):
         return
-    if name == "recruitment":
-        GameState.current_screen = name
-        clear_content()
-        show_recruitment_board()
-        _install_header_controls()
-        call_deferred("_postprocess_mobile_screen")
-        return
-    super.show_screen(name)
+    _remove_legacy_combat_state_panel()
+    _decorate_hero_rank_direction()
+    if pending_target_skill_slot >= 0:
+        _refresh_pending_target_indices()
+        _highlight_pending_enemy_targets()
+        _render_pending_target_picker()
 
-func show_market() -> void:
-    var bg: TextureRect = full_texture("res://assets/backgrounds/forgotten_city.webp")
-    bg.modulate = Color(0.38, 0.38, 0.42, 1)
-    content.add_child(bg)
-    var shade: ColorRect = ColorRect.new()
-    shade.color = Color(0, 0, 0, 0.72)
-    shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-    content.add_child(shade)
-
-    var title: Label = make_label("MARCHÉ NOIR", 28, GOLD)
-    title.position = Vector2(32, 18)
-    content.add_child(title)
-    var purse: Label = make_label("OR · %d" % GameState.gold, 18, GOLD)
-    purse.position = Vector2(1030, 22)
-    purse.size = Vector2(190, 28)
-    purse.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-    content.add_child(purse)
-
-    var columns: HBoxContainer = HBoxContainer.new()
-    columns.position = Vector2(32, 66)
-    columns.size = Vector2(1216, 540)
-    columns.add_theme_constant_override("separation", 18)
-    content.add_child(columns)
-
-    var offers: VBoxContainer = VBoxContainer.new()
-    offers.custom_minimum_size = Vector2(590, 0)
-    offers.add_theme_constant_override("separation", 6)
-    columns.add_child(offers)
-    offers.add_child(make_label("OFFRES", 18, GOLD))
-    for offer_value: Variant in _sanctuary_market_service.generate_offers(_market_offer_seed):
-        var offer: Dictionary = offer_value as Dictionary
-        var row: HBoxContainer = HBoxContainer.new()
-        var label: Label = make_label("%s · %s · %d or" % [str(offer.get("name", "Objet")), str(offer.get("rarity", "common")).to_upper(), int(offer.get("price", 0))], 13)
-        label.custom_minimum_size = Vector2(400, 44)
-        label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-        row.add_child(label)
-        var buy: Button = make_button("ACHETER", func(value = offer.duplicate(true)): _buy_market_offer(value), Vector2(150, 44))
-        buy.disabled = GameState.gold < int(offer.get("price", 0))
-        row.add_child(buy)
-        offers.add_child(row)
-
-    var sales_scroll: ScrollContainer = ScrollContainer.new()
-    sales_scroll.custom_minimum_size = Vector2(590, 500)
-    columns.add_child(sales_scroll)
-    var sales: VBoxContainer = VBoxContainer.new()
-    sales.custom_minimum_size = Vector2(560, 0)
-    sales.add_theme_constant_override("separation", 6)
-    sales_scroll.add_child(sales)
-    sales.add_child(make_label("VENDRE · INVENTAIRE ET COFFRE", 18, GOLD))
-    var sale_items: Array = EquipmentManager.items.duplicate(true)
-    sale_items.append_array(EquipmentManager.guild_stash.duplicate(true))
-    if sale_items.is_empty():
-        sales.add_child(make_label("Aucun objet vendable.", 14, MUTED))
-    for item_value: Variant in sale_items:
-        var item: Dictionary = item_value as Dictionary
-        var instance_id: String = str(item.get("instance_id", ""))
-        var price: int = int(_sanctuary_market_service.quote_item(item, false))
-        var row: HBoxContainer = HBoxContainer.new()
-        var label: Label = make_label("%s · %d or" % [str(item.get("name", "Objet")), price], 13)
-        label.custom_minimum_size = Vector2(390, 44)
-        label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-        row.add_child(label)
-        row.add_child(make_button("VENDRE", func(id_value = instance_id): _sell_market_item(str(id_value)), Vector2(150, 44)))
-        sales.add_child(row)
-
-    var back: Button = make_button("RETOUR AU SANCTUAIRE", func(): GameState.request_screen("sanctuary"), Vector2(280, 48))
-    back.position = Vector2(32, 625)
-    content.add_child(back)
-
-func _buy_market_offer(offer: Dictionary) -> void:
-    var result: Dictionary = _sanctuary_market_service.buy_offer(offer, "sanctuary_market_%d" % _market_offer_seed)
-    if bool(result.get("ok", false)):
-        _market_offer_seed += 1
-    else:
-        GameState.add_log("Marché noir : achat impossible (%s)." % str(result.get("reason", "erreur")))
-    show_screen("market")
-
-func _sell_market_item(instance_id: String) -> void:
-    var result: Dictionary = _sanctuary_market_service.sell(instance_id)
-    if not bool(result.get("ok", false)):
-        GameState.add_log("Marché noir : vente impossible (%s)." % str(result.get("reason", "erreur")))
-    show_screen("market")
-
-func show_company() -> void:
-    super.show_company()
-    var tavern: Button = make_button("TAVERNE DES VEILLEURS", func(): GameState.request_screen("tavern"), Vector2(250, 48))
-    tavern.position = Vector2(995, 630)
-    content.add_child(tavern)
-
-func show_tavern() -> void:
-    # Preserve the complete historical Tavern contract: rumors, shared meal,
-    # Memorial access and Sanctuary navigation. Recruitment is additive.
-    super.show_tavern()
-    var recruitment: Button = make_button("RECRUTEMENT", func(): GameState.request_screen("recruitment"), Vector2(230, 48))
-    recruitment.name = "TavernRecruitmentEntryV44"
-    recruitment.position = Vector2(760, 625)
-    recruitment.tooltip_text = "Consulter les remplaçants disponibles pour les Veilleurs morts définitivement."
-    content.add_child(recruitment)
-
-func show_recruitment_board() -> void:
-    var bg: TextureRect = full_texture("res://assets/backgrounds/forgotten_city.webp")
-    bg.modulate = Color(0.34, 0.31, 0.30, 1)
-    content.add_child(bg)
-    var shade: ColorRect = ColorRect.new()
-    shade.color = Color(0, 0, 0, 0.72)
-    shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-    content.add_child(shade)
-
-    var title: Label = make_label("TAVERNE · RECRUTEMENT", 28, GOLD)
-    title.position = Vector2(32, 18)
-    content.add_child(title)
-    var purse: Label = make_label("OR · %d" % GameState.gold, 18, GOLD)
-    purse.position = Vector2(1030, 22)
-    purse.size = Vector2(190, 28)
-    purse.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-    content.add_child(purse)
-
-    var dead_ids: Array = _sanctuary_recruitment_service.dead_hero_ids()
-    var list: VBoxContainer = VBoxContainer.new()
-    list.position = Vector2(42, 78)
-    list.size = Vector2(1180, 510)
-    list.add_theme_constant_override("separation", 12)
-    content.add_child(list)
-
-    if dead_ids.is_empty():
-        list.add_child(make_label("Aucun poste de Veilleur n'est vacant. La Taverne ne remplace que les morts permanentes.", 18, MUTED))
-    else:
-        for dead_id_value: Variant in dead_ids:
-            var dead_id: String = str(dead_id_value)
-            var fallen: Dictionary = _hero_by_id(dead_id)
-            list.add_child(make_label("POSTE VACANT · %s · %s" % [str(fallen.get("name", "Veilleur tombé")), str(fallen.get("class_id", "classe"))], 18, GOLD))
-            var seed_value: int = int(abs((dead_id + ":" + str(fallen.get("recruit_generation", 0))).hash()))
-            for candidate_value: Variant in _sanctuary_recruitment_service.generate_replacement_candidates(dead_id, seed_value):
-                var wrapper: Dictionary = candidate_value as Dictionary
-                var candidate: Dictionary = wrapper.get("candidate", {}) as Dictionary
-                var row: HBoxContainer = HBoxContainer.new()
-                var label: Label = make_label("%s · niveau %d · %d or" % [str(wrapper.get("name", "Recrue")), int(wrapper.get("level", 1)), int(wrapper.get("cost", 0))], 14)
-                label.custom_minimum_size = Vector2(850, 48)
-                label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-                row.add_child(label)
-                var recruit: Button = make_button("RECRUTER", func(target_id = dead_id, recruit_value = candidate.duplicate(true)): _recruit_replacement(str(target_id), recruit_value), Vector2(190, 46))
-                recruit.disabled = GameState.gold < int(wrapper.get("cost", 0))
-                row.add_child(recruit)
-                list.add_child(row)
-
-    var back: Button = make_button("RETOUR À LA TAVERNE", func(): GameState.request_screen("tavern"), Vector2(280, 48))
-    back.position = Vector2(32, 625)
-    content.add_child(back)
-
-func _recruit_replacement(dead_hero_id: String, candidate: Dictionary) -> void:
-    var result: Dictionary = _sanctuary_recruitment_service.replace_dead(dead_hero_id, candidate)
-    if not bool(result.get("ok", false)):
-        GameState.add_log("Taverne : recrutement impossible (%s)." % str(result.get("reason", "erreur")))
-    show_screen("recruitment")
-
-func _hero_by_id(hero_id: String) -> Dictionary:
+# L'ancienne méthode sert aussi à déterminer l'ordre d'affichage dans le HUD.
+# On la renverse pour que, de gauche à droite à l'écran, on voie R4 R3 R2 R1 :
+# R1 se retrouve donc bien le plus près des ennemis.
+func _heroes_by_position() -> Array[Dictionary]:
+    var result: Array[Dictionary] = []
     for hero_value: Variant in GameState.party:
-        var hero: Dictionary = hero_value as Dictionary
-        if str(hero.get("id", "")) == hero_id:
-            return hero
-    return {}
+        result.append(hero_value as Dictionary)
+    result.sort_custom(func(left: Dictionary, right: Dictionary):
+        return int(left.get("combat_position", 0)) > int(right.get("combat_position", 0))
+    )
+    return result
+
+# Le renversement d'affichage ne doit pas renverser l'ordre d'activation.
+func _select_next_combat_hero() -> void:
+    combat_active_hero_id = ""
+    var initiative_order: Array[Dictionary] = []
+    for hero_value: Variant in GameState.party:
+        initiative_order.append(hero_value as Dictionary)
+    initiative_order.sort_custom(func(left: Dictionary, right: Dictionary):
+        return int(left.get("combat_position", 0)) < int(right.get("combat_position", 0))
+    )
+    for hero: Dictionary in initiative_order:
+        var hero_id := str(hero.get("id", ""))
+        if int(hero.get("hp", 0)) > 0 and not combat_acted_hero_ids.has(hero_id):
+            combat_active_hero_id = hero_id
+            break
+
+func _use_combat_skill(slot: int) -> void:
+    if battle_locked:
+        return
+    var hero := _active_combat_hero()
+    if hero.is_empty():
+        finish_defeat()
+        return
+    var loadout := HeroSkillManager.combat_loadout(hero)
+    if slot < 0 or slot >= loadout.size():
+        return
+    var skill := HeroSkillManager.combat_skill(hero, str(loadout[slot]))
+    if skill.is_empty():
+        return
+
+    # On ne remplace pas le resolver : on ne fait qu'insérer une étape de choix
+    # avant le comportement existant lorsqu'il existe réellement plusieurs cibles.
+    if str(skill.get("effect", "")) == "attack" and not _skill_has_automatic_group_targeting(skill):
+        if not COMBAT_POSITION_RULES.is_usable(hero, skill):
+            super._use_combat_skill(slot)
+            return
+        var targetable: Array[int] = COMBAT_TARGETING_RULES.targetable_indices(hero, skill, GameState.battle_enemies)
+        if targetable.size() == 1:
+            pending_target_skill_slot = -1
+            pending_target_indices.clear()
+            selected_enemy = int(targetable[0])
+            super._use_combat_skill(slot)
+            return
+        if targetable.size() > 1:
+            pending_target_skill_slot = slot
+            pending_target_indices = targetable.duplicate()
+            combat_item_menu = false
+            combat_position_menu = false
+            show_screen("combat")
+            return
+
+    pending_target_skill_slot = -1
+    pending_target_indices.clear()
+    super._use_combat_skill(slot)
+
+func _skill_has_automatic_group_targeting(skill: Dictionary) -> bool:
+    var mode := str(skill.get("target_selection", "")).to_lower()
+    return mode in ["automatic", "auto", "fixed", "fixed_group", "automatic_group", "fixed_aoe"]
+
+func _refresh_pending_target_indices() -> void:
+    pending_target_indices.clear()
+    var hero := _active_combat_hero()
+    if hero.is_empty():
+        pending_target_skill_slot = -1
+        return
+    var loadout := HeroSkillManager.combat_loadout(hero)
+    if pending_target_skill_slot < 0 or pending_target_skill_slot >= loadout.size():
+        pending_target_skill_slot = -1
+        return
+    var skill := HeroSkillManager.combat_skill(hero, str(loadout[pending_target_skill_slot]))
+    if skill.is_empty() or str(skill.get("effect", "")) != "attack":
+        pending_target_skill_slot = -1
+        return
+    pending_target_indices = COMBAT_TARGETING_RULES.targetable_indices(hero, skill, GameState.battle_enemies)
+    if pending_target_indices.is_empty():
+        pending_target_skill_slot = -1
+
+func _render_pending_target_picker() -> void:
+    if pending_target_skill_slot < 0 or pending_target_indices.is_empty():
+        return
+    var hero := _active_combat_hero()
+    if hero.is_empty():
+        return
+    var loadout := HeroSkillManager.combat_loadout(hero)
+    if pending_target_skill_slot >= loadout.size():
+        return
+    var skill := HeroSkillManager.combat_skill(hero, str(loadout[pending_target_skill_slot]))
+
+    var panel := PanelContainer.new()
+    panel.name = "ExplicitTargetPickerV44"
+    panel.position = Vector2(620, 400)
+    panel.size = Vector2(620, 108)
+    panel.z_index = 80
+    panel.add_theme_stylebox_override("panel", panel_style(Color(0.012, 0.014, 0.020, 0.97)))
+    content.add_child(panel)
+
+    var box := VBoxContainer.new()
+    box.add_theme_constant_override("separation", 5)
+    panel.add_child(box)
+    var title := make_label("CHOISIR UNE CIBLE · %s" % str(skill.get("name", "Technique")), 13, GOLD)
+    title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    box.add_child(title)
+
+    var row := HBoxContainer.new()
+    row.add_theme_constant_override("separation", 5)
+    box.add_child(row)
+    for enemy_index: int in pending_target_indices:
+        if enemy_index < 0 or enemy_index >= GameState.battle_enemies.size():
+            continue
+        var enemy: Dictionary = GameState.battle_enemies[enemy_index]
+        var rank := int(enemy.get("combat_position", 0)) + 1
+        var target_button := make_button(
+            "%s\nE%d" % [str(enemy.get("name", "Ennemi")), rank],
+            func(index = enemy_index): _confirm_pending_enemy_target(int(index)),
+            Vector2(132, 54)
+        )
+        target_button.tooltip_text = "Cible valide · toucher pour confirmer"
+        _apply_target_button_highlight(target_button, true)
+        row.add_child(target_button)
+    row.add_child(make_button("ANNULER", func(): _cancel_pending_target(), Vector2(118, 54)))
+
+func _confirm_pending_enemy_target(enemy_index: int) -> void:
+    if pending_target_skill_slot < 0 or not pending_target_indices.has(enemy_index):
+        return
+    var slot := pending_target_skill_slot
+    selected_enemy = enemy_index
+    pending_target_skill_slot = -1
+    pending_target_indices.clear()
+    super._use_combat_skill(slot)
+
+func _cancel_pending_target() -> void:
+    pending_target_skill_slot = -1
+    pending_target_indices.clear()
+    show_screen("combat")
+
+func _highlight_pending_enemy_targets() -> void:
+    # Les cartes ennemies de main_v30 sont des Button plats placés dans la rangée
+    # de droite. On les repère par leur contenu texte afin de garder la couche v44
+    # compatible avec les versions précédentes.
+    for node_value: Variant in content.find_children("*", "Button", true, false):
+        var button := node_value as Button
+        if button == null:
+            continue
+        var text_blob := _button_descendant_text(button)
+        var matching_index := -1
+        for index in range(GameState.battle_enemies.size()):
+            var enemy: Dictionary = GameState.battle_enemies[index]
+            if text_blob.contains(str(enemy.get("name", ""))):
+                matching_index = index
+                break
+        if matching_index < 0:
+            continue
+        var is_targetable := pending_target_indices.has(matching_index)
+        button.modulate = Color(1.0, 1.0, 1.0, 1.0) if is_targetable else Color(0.48, 0.48, 0.48, 0.68)
+        if is_targetable:
+            _apply_target_button_highlight(button, true)
+
+func _apply_target_button_highlight(button: Button, strong: bool) -> void:
+    var style := StyleBoxFlat.new()
+    style.bg_color = Color(0.30, 0.22, 0.08, 0.20 if strong else 0.10)
+    style.border_color = Color(1.0, 0.82, 0.34, 0.98 if strong else 0.72)
+    style.set_border_width_all(3 if strong else 2)
+    style.corner_radius_top_left = 5
+    style.corner_radius_top_right = 5
+    style.corner_radius_bottom_left = 5
+    style.corner_radius_bottom_right = 5
+    button.add_theme_stylebox_override("normal", style)
+    button.add_theme_stylebox_override("hover", style)
+    button.add_theme_stylebox_override("focus", style)
+
+func _button_descendant_text(button: Button) -> String:
+    var chunks: Array[String] = [button.text]
+    for node_value: Variant in button.find_children("*", "Label", true, false):
+        var label := node_value as Label
+        if label != null:
+            chunks.append(label.text)
+    return "\n".join(chunks)
+
+func _remove_legacy_combat_state_panel() -> void:
+    for node_value: Variant in content.find_children("*", "Label", true, false):
+        var label := node_value as Label
+        if label == null:
+            continue
+        var normalized := label.text.to_upper().replace("É", "E").replace("È", "E").replace("Ê", "E")
+        if not normalized.contains("ETAT DE COMBAT"):
+            continue
+        var victim: Node = label
+        var cursor: Node = label.get_parent()
+        while cursor != null and cursor != content:
+            victim = cursor
+            if cursor is PanelContainer:
+                break
+            cursor = cursor.get_parent()
+        if victim != null and victim != content:
+            victim.queue_free()
+        break
+
+func _decorate_hero_rank_direction() -> void:
+    var existing := content.get_node_or_null("HeroRankDirectionV44")
+    if existing != null:
+        return
+    var hint := make_label("HÉROS : R4  ←  R3  ←  R2  ←  R1  ·  R1 = AU CONTACT", 11, MUTED)
+    hint.name = "HeroRankDirectionV44"
+    hint.position = Vector2(34, 138)
+    hint.size = Vector2(560, 22)
+    hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    content.add_child(hint)

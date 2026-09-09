@@ -3,14 +3,14 @@
   "generator": "tools/blender/generate_character_jobs.py",
   "jobs": [
     {
-      "job_id": "character_aurelien",
-      "character_id": "aurelien",
-      "name": "Sahen Varo",
+      "job_id": "character_mathilde",
+      "character_id": "mathilde",
+      "name": "Mathilde",
       "category": "hero",
-      "archetype": "occultist",
-      "reference_art": "assets/heroes/occultist.webp",
-      "height_m": 1.89,
-      "body_scale": 1.06,
+      "archetype": "duelist",
+      "reference_art": "assets/heroes/duelist.webp",
+      "height_m": 1.85,
+      "body_scale": 1.04,
       "rig_profile": "humanoid_biped_v1",
       "recruitable": true,
       "boss": false,
@@ -49,17 +49,17 @@
         "M_cloth",
         "M_metal"
       ],
-      "output": "builds/characters/hero/aurelien"
+      "output": "builds/characters/hero/mathilde"
     },
     {
-      "job_id": "character_malvor",
-      "character_id": "malvor",
-      "name": "Mira Sen",
+      "job_id": "character_marec",
+      "character_id": "marec",
+      "name": "Marec",
       "category": "hero",
       "archetype": "breaker",
       "reference_art": "assets/heroes/breaker.webp",
-      "height_m": 1.92,
-      "body_scale": 1.08,
+      "height_m": 1.98,
+      "body_scale": 1.11,
       "rig_profile": "humanoid_biped_v1",
       "recruitable": true,
       "boss": false,
@@ -98,15 +98,64 @@
         "M_cloth",
         "M_metal"
       ],
-      "output": "builds/characters/hero/malvor"
+      "output": "builds/characters/hero/marec"
     },
     {
-      "job_id": "character_lysandra",
-      "character_id": "lysandra",
-      "name": "Narem Osh",
+      "job_id": "character_anouk",
+      "character_id": "anouk",
+      "name": "Anouk",
       "category": "hero",
-      "archetype": "vestal",
-      "reference_art": "assets/heroes/vestal.webp",
+      "archetype": "mystic",
+      "reference_art": "assets/heroes/mystic.webp",
+      "height_m": 1.82,
+      "body_scale": 1.02,
+      "rig_profile": "humanoid_biped_v1",
+      "recruitable": true,
+      "boss": false,
+      "collections": [
+        "BODY",
+        "ARMATURE",
+        "EQUIPMENT",
+        "COLLISION",
+        "SOCKETS",
+        "LIGHTING",
+        "CAMERA"
+      ],
+      "equipment_sockets": [
+        "weapon_r",
+        "weapon_l",
+        "head",
+        "back",
+        "fx_root"
+      ],
+      "animation_set": [
+        "idle",
+        "walk",
+        "run",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "lod_levels": [
+        0,
+        1,
+        2
+      ],
+      "collision": "capsule",
+      "material_slots": [
+        "M_skin",
+        "M_cloth",
+        "M_metal"
+      ],
+      "output": "builds/characters/hero/anouk"
+    },
+    {
+      "job_id": "character_aurelien",
+      "character_id": "aurelien",
+      "name": "Aurélien",
+      "category": "hero",
+      "archetype": "surgeon",
+      "reference_art": "assets/heroes/surgeon.webp",
       "height_m": 1.87,
       "body_scale": 1.05,
       "rig_profile": "humanoid_biped_v1",
@@ -147,56 +196,7 @@
         "M_cloth",
         "M_metal"
       ],
-      "output": "builds/characters/hero/lysandra"
-    },
-    {
-      "job_id": "character_darius",
-      "character_id": "darius",
-      "name": "Ysra Nahal",
-      "category": "hero",
-      "archetype": "watcher",
-      "reference_art": "assets/heroes/watcher.webp",
-      "height_m": 1.96,
-      "body_scale": 1.1,
-      "rig_profile": "humanoid_biped_v1",
-      "recruitable": true,
-      "boss": false,
-      "collections": [
-        "BODY",
-        "ARMATURE",
-        "EQUIPMENT",
-        "COLLISION",
-        "SOCKETS",
-        "LIGHTING",
-        "CAMERA"
-      ],
-      "equipment_sockets": [
-        "weapon_r",
-        "weapon_l",
-        "head",
-        "back",
-        "fx_root"
-      ],
-      "animation_set": [
-        "idle",
-        "walk",
-        "run",
-        "attack",
-        "hit",
-        "death"
-      ],
-      "lod_levels": [
-        0,
-        1,
-        2
-      ],
-      "collision": "capsule",
-      "material_slots": [
-        "M_skin",
-        "M_cloth",
-        "M_metal"
-      ],
-      "output": "builds/characters/hero/darius"
+      "output": "builds/characters/hero/aurelien"
     },
     {
       "job_id": "character_enemy_01_goule_affamee",

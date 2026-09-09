@@ -3,10 +3,10 @@ extends Node
 const PERSISTENCE_SCRIPT := preload("res://scripts/world/veilleurs_vs001_persistence_bridge.gd")
 
 const WATCHER_DEFS: Array[Dictionary] = [
-    {"id": "nayra_orun", "name": "Nayra Orun", "role": "La Garde", "template_index": 3},
-    {"id": "tarek_senn", "name": "Tarek Senn", "role": "Le Pisteur", "template_index": 1},
-    {"id": "aisha_maren", "name": "Aïsha Maren", "role": "L’Anatomiste", "template_index": 2},
-    {"id": "idris_vael", "name": "Idris Vael", "role": "Le Médiateur", "template_index": 0}
+    {"id": "Marec", "name": "Marec", "role": "La Garde", "template_index": 3},
+    {"id": "Mathilde", "name": "Mathilde", "role": "Le Pisteur", "template_index": 1},
+    {"id": "Aurélien", "name": "Aurélien", "role": "L’Anatomiste", "template_index": 2},
+    {"id": "Anouk", "name": "Anouk", "role": "Le Médiateur", "template_index": 0}
 ]
 
 var previous_party: Array = []

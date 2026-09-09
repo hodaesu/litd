@@ -37,7 +37,7 @@ def test_hemocorde_collapse_is_conditional_and_cannot_instant_kill():
     assert 'target["stunned"] = true' in runtime
 
 
-def test_hemocorde_reactions_are_automatic_and_share_aishas_budget():
+def test_hemocorde_reactions_are_automatic_and_share_aureliens_budget():
     contract = json.loads((ROOT / "data/veilleurs/skills/resolver_contract.json").read_text(encoding="utf-8"))
     family = contract["tree_families"]["Hémocorde"]
     assert family["coverage"]["reaction_hooks"] is True
@@ -45,8 +45,8 @@ def test_hemocorde_reactions_are_automatic_and_share_aishas_budget():
     assert contract["ultimate_family"]["status"] == "required"
 
     reaction_runtime = (ROOT / "scripts/core/veilleurs_clinical_reaction_runtime.gd").read_text(encoding="utf-8")
-    assert 'AISHA_BLOOD_RETURN := "AÏ-HÉM-04"' in reaction_runtime
-    assert 'AISHA_REFLEX_POINT := "AÏ-HÉM-13"' in reaction_runtime
+    assert 'aurelien_BLOOD_RETURN := "AÏ-HÉM-04"' in reaction_runtime
+    assert 'aurelien_REFLEX_POINT := "AÏ-HÉM-13"' in reaction_runtime
     assert 'actor["clinical_reaction_round_used"] = round_index' in reaction_runtime
     assert 'int(actor.get("clinical_reaction_round_used", -1)) != round_index' in reaction_runtime
     assert 'int(enemy.get("bleeding", 0)) <= 0' in reaction_runtime
