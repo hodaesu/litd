@@ -211,7 +211,7 @@ jobs:
     if: always()
     needs: [fast-contracts, combat-core, combat-matrix, campaign-bots, sanctuary-bot]
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 14
     steps:
       - uses: actions/checkout@v6
         with:
@@ -243,7 +243,25 @@ jobs:
       - name: "Bot v18 : couverture d'utilisation des compétences"
         if: always()
         run: python tools/qa/bot_v18_skill_usage_coverage.py
-      - name: Publier les diagnostics v14-v18
+      - name: "Bot v20 : profils de joueurs"
+        if: always()
+        run: python tools/qa/bot_v20_player_profiles.py
+      - name: "Bot v21 : campagne longue durée"
+        if: always()
+        run: python tools/qa/bot_v21_longhaul_campaign.py --expeditions 200
+      - name: "Bot v23 : chasse aux stratégies dominantes"
+        if: always()
+        run: python tools/qa/bot_v23_meta_hunter.py
+      - name: "Bot v24 : chasse aux exploits économie/progression"
+        if: always()
+        run: python tools/qa/bot_v24_exploit_hunter.py
+      - name: "Bot v25 : chaos stateful déterministe"
+        if: always()
+        run: python tools/qa/bot_v25_stateful_chaos.py
+      - name: "Bot v22 : couverture gameplay"
+        if: always()
+        run: python tools/qa/bot_v22_gameplay_coverage.py
+      - name: Publier les diagnostics v14-v25
         uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -255,3 +273,9 @@ jobs:
             reports/player-bot-v16-balance-regression-guard.json
             reports/player-bot-v17-change-impact-mapper.json
             reports/player-bot-v18-skill-usage-coverage.json
+            reports/player-bot-v20-player-profiles.json
+            reports/player-bot-v21-longhaul-campaign.json
+            reports/player-bot-v22-gameplay-coverage.json
+            reports/player-bot-v23-meta-hunter.json
+            reports/player-bot-v24-exploit-hunter.json
+            reports/player-bot-v25-stateful-chaos.json
