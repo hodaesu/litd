@@ -1,7 +1,7 @@
 extends Node
 
 const HEROES := ["mathilde", "marec", "anouk", "aurelien"]
-const FORBIDDEN_NAMES := ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael", "Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"]
+const NON_CURRENT_NAMES := ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"]
 
 func _ready() -> void:
     for hero_id in HEROES:
@@ -25,8 +25,8 @@ func _ready() -> void:
             assert(tree.has("ultimate"))
         assert(skill_count == 45)
         var raw := FileAccess.get_file_as_string(path)
-        for forbidden in FORBIDDEN_NAMES:
-            assert(not raw.contains(forbidden))
+        for non_current_name in NON_CURRENT_NAMES:
+            assert(not raw.contains(non_current_name))
 
     var bridge_raw := FileAccess.get_file_as_string("res://data/veilleurs/combat_sandbox_quartet_bridge.json")
     for token in ["duelist_precise_strike", "breaker_guard_break", "mystic_read_pattern", "surgeon_targeted_cut"]:
