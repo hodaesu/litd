@@ -1,5 +1,7 @@
 [gd_scene load_steps=18 format=3]
 
+; main_v49 polit le Combat Sandbox pour téléphone : cibles tactiles >=48 px,
+; reflow compact des commandes avancées et priorité contextuelle synergie/ultime.
 ; main_v48 ajoute au Combat Sandbox mobile : formation R1-R4 tactile, durées de contrôle,
 ; synergies contextuelles et bouton d'ultime avec charges sans alourdir le HUD permanent.
 ; main_v47 rend Combat Sandbox 0.1 interactif depuis la navigation canonique.
@@ -36,7 +38,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v48.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v49.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
