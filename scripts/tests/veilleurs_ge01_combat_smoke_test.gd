@@ -9,7 +9,9 @@ func _ready() -> void:
     GameState.reset_new_game()
     var bridge: VeilleursGE01PlayableBridge = BRIDGE.new() as VeilleursGE01PlayableBridge
     add_child(bridge)
-    bridge.make_persistent_root()
+    # Keep the bridge under the smoke scene during _ready(). Reparenting while the
+    # parent is still setting up children is forbidden by Godot and is irrelevant
+    # to the runtime assertions exercised by this test.
     bridge.start("GE01_COMBAT_SMOKE")
     bridge.enter_room("ge_02"); bridge.enter_room("ge_03"); bridge.enter_room("ge_04")
     var ge04_encounter: Dictionary = bridge.session.call("encounter_for", "ge_04", 10)
