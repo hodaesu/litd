@@ -6,13 +6,19 @@ on:
       - 'data/veilleurs/canonical_roster.json'
       - 'data/veilleurs/combat_sandbox_quartet_bridge.json'
       - 'data/veilleurs/skills/current_quartet_export_contract.json'
+      - 'data/veilleurs/skills/mathilde.json'
+      - 'data/veilleurs/skills/marec.json'
+      - 'data/veilleurs/skills/anouk.json'
+      - 'data/veilleurs/skills/aurelien.json'
       - 'scripts/core/veilleurs_combat_context_runtime.gd'
       - 'scripts/core/veilleurs_combat_sandbox_runtime.gd'
       - 'scripts/ui/main_v46.gd'
       - 'scripts/ui/main_v47.gd'
+      - 'scripts/tests/current_quartet_skill_data_smoke_test.gd'
       - 'scripts/tests/veilleurs_combat_context_smoke_test.gd'
       - 'scripts/tests/veilleurs_combat_sandbox_loop_smoke_test.gd'
       - 'scenes/Main.tscn'
+      - 'scenes/tests/current_quartet_skill_data_smoke.tscn'
       - 'scenes/tests/veilleurs_combat_context_smoke.tscn'
       - 'scenes/tests/veilleurs_combat_sandbox_loop_smoke.tscn'
       - '.github/workflows/veilleurs-combat-sandbox-smoke.yml'
@@ -30,7 +36,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Import strict du projet
         run: godot --headless --path . --import --quit
+      - name: Quatuor actuel - 3 arbres x 15 competences chacun
+        run: timeout 60s godot --headless --path . res://scenes/tests/current_quartet_skill_data_smoke.tscn
       - name: Combat Sandbox 0.1 - inspection contextuelle
         run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_combat_context_smoke.tscn
-      - name: Combat Sandbox 0.1 - boucle de combat complète
+      - name: Combat Sandbox 0.1 - boucle de combat complete
         run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_combat_sandbox_loop_smoke.tscn
