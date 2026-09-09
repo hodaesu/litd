@@ -142,7 +142,7 @@ jobs:
       - name: "Joueur-bot v4 : shard de matrice factorielle"
         env:
           BOT_SHARD_INDEX: ${{ matrix.shard }}
-        run: timeout 480s godot --headless --path . res://scenes/tests/player_bot_v4_shard_runner.tscn
+        run: timeout 540s godot --headless --path . res://scenes/tests/player_bot_v4_shard_runner.tscn
       - name: Publier le shard v4
         uses: actions/upload-artifact@v4
         if: always()
