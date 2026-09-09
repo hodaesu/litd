@@ -86,10 +86,7 @@ jobs:
       - name: "Joueur-bot v2 : contrôleur réel et tactique"
         if: always()
         run: timeout 180s godot --headless --path . res://scenes/tests/player_bot_v2_autotest.tscn
-      - name: "Joueur-bot v3 : matrice de builds tactique"
-        if: always()
-        run: timeout 420s godot --headless --path . res://scenes/tests/player_bot_v3_build_matrix.tscn
-      - name: Publier les rapports combat
+      - name: Publier les rapports combat core
         uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -99,11 +96,14 @@ jobs:
             reports/developer-autotest-godot.json
             reports/player-bot-autotest.json
             reports/player-bot-v2-autotest.json
-            reports/player-bot-v3-build-matrix.json
 
-  combat-matrix:
+  combat-v3-shards:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
     container:
       image: barichello/godot-ci:4.7.2
     steps:
@@ -112,15 +112,74 @@ jobs:
         run: mkdir -p reports
       - name: Import strict Godot
         run: godot --headless --path . --import --quit
-      - name: "Joueur-bot v4 : niveaux, raretés, compagnon et politiques"
-        run: timeout 600s godot --headless --path . res://scenes/tests/player_bot_v4_factorial_matrix.tscn
-      - name: Publier le rapport matrice
+      - name: "Joueur-bot v3 : shard de matrice de builds"
+        env:
+          BOT_SHARD_INDEX: ${{ matrix.shard }}
+        run: timeout 360s godot --headless --path . res://scenes/tests/player_bot_v3_shard_runner.tscn
+      - name: Publier le shard v3
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: developer-autotest-combat-matrix
+          name: developer-autotest-v3-shard-${{ matrix.shard }}
           retention-days: 14
-          path: reports/player-bot-v4-factorial-matrix.json
+          path: reports/player-bot-v3-build-matrix-shard-${{ matrix.shard }}.json
+
+  combat-v4-shards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Import strict Godot
+        run: godot --headless --path . --import --quit
+      - name: "Joueur-bot v4 : shard de matrice factorielle"
+        env:
+          BOT_SHARD_INDEX: ${{ matrix.shard }}
+        run: timeout 480s godot --headless --path . res://scenes/tests/player_bot_v4_shard_runner.tscn
+      - name: Publier le shard v4
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-v4-shard-${{ matrix.shard }}
+          retention-days: 14
+          path: reports/player-bot-v4-factorial-matrix-shard-${{ matrix.shard }}.json
+
+  combat-matrix-aggregate:
+    if: always()
+    needs: [combat-v3-shards, combat-v4-shards]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Préparer les rapports
+        run: mkdir -p reports
+      - name: Télécharger tous les shards combat
+        uses: actions/download-artifact@v4
+        with:
+          pattern: developer-autotest-v*-shard-*
+          path: reports
+          merge-multiple: true
+      - name: Agréger et vérifier la couverture v3/v4
+        run: python tools/qa/bot_matrix_shard_aggregate.py
+      - name: Publier les matrices agrégées
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: developer-autotest-combat-matrices
+          retention-days: 14
+          path: |
+            reports/player-bot-v3-build-matrix.json
+            reports/player-bot-v4-factorial-matrix.json
 
   campaign-bots:
     runs-on: ubuntu-latest
@@ -209,7 +268,7 @@ jobs:
 
   regression-analysis:
     if: always()
-    needs: [fast-contracts, combat-core, combat-matrix, campaign-bots, sanctuary-bot]
+    needs: [fast-contracts, combat-core, combat-v3-shards, combat-v4-shards, combat-matrix-aggregate, campaign-bots, sanctuary-bot]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
