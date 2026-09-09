@@ -1,5 +1,6 @@
 [gd_scene load_steps=18 format=3]
 
+; main_v47 rend Combat Sandbox 0.1 interactif depuis la navigation canonique.
 ; main_v46 ajoute l'inspection contextuelle tactile héros/ennemis avec HUD minimal.
 ; main_v45 ajoute les tactiques de cadavres génériques de GE09 : déplacer,
 ; barricader, projeter et choisir R1-R4/E1-E4 sans dépendre d'un héros précis.
@@ -33,7 +34,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v46.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v47.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
