@@ -1,0 +1,106 @@
+name: One-shot canonical roster migration
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/one-shot-roster-migration.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Migrate old quartet to canonical roster
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path('.')
+          legacy = Path('data/veilleurs/legacy')
+
+          renames = {
+              Path('data/veilleurs/skills/tarek_senn.json'): Path('data/veilleurs/skills/mathilde.json'),
+              Path('data/veilleurs/skills/nayra_orun.json'): Path('data/veilleurs/skills/marec.json'),
+              Path('data/veilleurs/skills/idris_vael.json'): Path('data/veilleurs/skills/anouk.json'),
+              Path('data/veilleurs/skills/aisha_maren.json'): Path('data/veilleurs/skills/aurelien.json'),
+          }
+          for src, dst in renames.items():
+              if src.exists():
+                  dst.parent.mkdir(parents=True, exist_ok=True)
+                  src.rename(dst)
+
+          literal = [
+              ('Tarek Senn', 'Mathilde'), ('tarek_senn', 'mathilde'), ('Tarek', 'Mathilde'), ('tarek', 'mathilde'),
+              ('Nayra Orun', 'Marec'), ('nayra_orun', 'marec'), ('Nayra', 'Marec'), ('nayra', 'marec'),
+              ('Idris Vael', 'Anouk'), ('idris_vael', 'anouk'), ('Idris', 'Anouk'), ('idris', 'anouk'),
+              ('Aïsha Maren', 'Aurélien'), ('Aisha Maren', 'Aurelien'), ('aisha_maren', 'aurelien'),
+              ('Aïsha', 'Aurélien'), ('Aisha', 'Aurelien'), ('aïsha', 'aurélien'), ('aisha', 'aurelien'),
+          ]
+          skill_prefixes = [
+              (re.compile(r'\bTA-(?=(?:TRA|ENT|DIS)-\d{2}\b)'), 'MA-'),
+              (re.compile(r'\bNA-(?=(?:BAS|BRI|SER)-\d{2}\b)'), 'MR-'),
+              (re.compile(r'\bID-(?=(?:SEN|CON|DIS)-\d{2}\b)'), 'AN-'),
+              (re.compile(r'\bAÏ-(?=(?:ANA|SUT|HEM)-\d{2}\b)'), 'AU-'),
+          ]
+
+          text_suffixes = {'.gd', '.json', '.tscn', '.tres', '.cfg', '.md', '.txt', '.yml', '.yaml', '.py', '.csv'}
+          for path in root.rglob('*'):
+              if not path.is_file() or path.suffix.lower() not in text_suffixes:
+                  continue
+              if path == Path('.github/workflows/one-shot-roster-migration.yml'):
+                  continue
+              if legacy in path.parents:
+                  continue
+              try:
+                  text = path.read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+              new = text
+              for old, current in literal:
+                  new = new.replace(old, current)
+              for rx, replacement in skill_prefixes:
+                  new = rx.sub(replacement, new)
+              if new != text:
+                  path.write_text(new, encoding='utf-8')
+
+          # Resolver entrypoints were hero-named; make them canonical too.
+          resolver = Path('data/veilleurs/skills/resolver_contract.json')
+          if resolver.exists():
+              text = resolver.read_text(encoding='utf-8')
+              text = text.replace('study_aurélien', 'study_aurelien')
+              resolver.write_text(text, encoding='utf-8')
+
+          # Remove the one-shot workflow itself from the resulting tree.
+          Path('.github/workflows/one-shot-roster-migration.yml').unlink(missing_ok=True)
+
+          # Strict active-tree guard: no old quartet names/ids may remain outside legacy.
+          forbidden = re.compile(r'(?i)\b(?:nayra|tarek|idris|aisha)\b|aïsha|nayra_orun|tarek_senn|idris_vael|aisha_maren')
+          offenders = []
+          for path in root.rglob('*'):
+              if not path.is_file() or path.suffix.lower() not in text_suffixes:
+                  continue
+              if legacy in path.parents:
+                  continue
+              try:
+                  text = path.read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+              if forbidden.search(text) or forbidden.search(path.as_posix()):
+                  offenders.append(path.as_posix())
+          if offenders:
+              raise SystemExit('Old roster references remain in active files: ' + ', '.join(sorted(set(offenders))))
+          PY
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'refactor: make canonical Veilleurs quartet exclusive'
+          git push origin HEAD:main
