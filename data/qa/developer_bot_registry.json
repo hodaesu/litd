@@ -1,5 +1,5 @@
 {
-  "schema_version": 5,
+  "schema_version": 6,
   "policy": {
     "fast_feedback_target_seconds": 90,
     "reproducibility": "Every randomized bot must report deterministic seed and case/run index.",
@@ -38,11 +38,14 @@
     {"id":"v23","tier":"adversarial","domain":"dominant strategy and anti-meta search","report":"reports/player-bot-v23-meta-hunter.json","replay":"dimension + strategy + source report"},
     {"id":"v24","tier":"adversarial","domain":"economy and progression exploit search","report":"reports/player-bot-v24-exploit-hunter.json","replay":"rule + exploit loop"},
     {"id":"v25","tier":"adversarial","domain":"stateful chaos sequences","report":"reports/player-bot-v25-stateful-chaos.json","replay":"seed + step + action"},
+    {"id":"v26","tier":"diagnostic","domain":"automatic regression corpus promotion","report":"reports/player-bot-v26-regression-promoter.json","replay":"semantic key + seed + case_index"},
+    {"id":"v27","tier":"diagnostic","domain":"model to Godot runtime evidence bridge","report":"reports/player-bot-v27-runtime-bridge.json","replay":"domain + source runtime report"},
+    {"id":"v28","tier":"adversarial","domain":"rare dungeon path light and Remanence exploration","report":"reports/player-bot-v28-rare-path-explorer.json","replay":"seed + case_index"},
     {"id":"telemetry-v2","tier":"telemetry","domain":"roguelike Monte Carlo balance","report":"reports/developer-autotest-telemetry-*.json","replay":"seed + simulator arguments"}
   ],
   "next_wave": [
-    {"id":"v26","goal":"promote newly discovered minimized failures automatically into the permanent regression corpus"},
-    {"id":"v27","goal":"replace model-level v21/v25 transitions progressively with direct Godot production-runtime action adapters"},
-    {"id":"v28","goal":"path-aware dungeon explorer targeting rare branches, events, light states and Remanence states"}
+    {"id":"v29","goal":"prove minimized failures by re-executing the reduced state before corpus promotion"},
+    {"id":"v30","goal":"drive rare-path coverage through direct ExpeditionManager and Remanence runtime actions"},
+    {"id":"v31","goal":"track bot effectiveness over time: unique bugs found, false positives, runtime cost and coverage gain"}
   ]
 }
