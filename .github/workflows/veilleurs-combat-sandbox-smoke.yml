@@ -1,0 +1,25 @@
+name: Veilleurs Combat Sandbox Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/core/veilleurs_combat_context_runtime.gd'
+      - 'scripts/tests/veilleurs_combat_context_smoke_test.gd'
+      - 'scenes/tests/veilleurs_combat_context_smoke.tscn'
+      - '.github/workflows/veilleurs-combat-sandbox-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  combat-context-smoke:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import strict du projet
+        run: godot --headless --path . --import --quit
+      - name: Combat Sandbox 0.1 - inspection contextuelle
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_combat_context_smoke.tscn
