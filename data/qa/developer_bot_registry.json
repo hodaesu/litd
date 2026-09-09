@@ -1,15 +1,17 @@
 {
-  "schema_version": 6,
+  "schema_version": 7,
   "policy": {
     "fast_feedback_target_seconds": 90,
     "reproducibility": "Every randomized bot must report deterministic seed and case/run index.",
     "flakiness": "Do not hide failures with blind retries or arbitrary sleeps; wait on observable game state and preserve the failing seed.",
+    "maturity": "After v31, freeze routine bot-number growth. Add a new numbered bot only for a genuinely new mechanic or demonstrated blind spot.",
     "tiers": {
       "sentinel": "Run on every relevant commit; small deterministic contract checks.",
       "simulation": "Run in parallel on every relevant commit; medium/long gameplay simulation.",
       "telemetry": "Statistical balance signal; never substitutes for production-runtime tests.",
       "diagnostic": "Runs after or alongside sentinels to replay, classify, reduce, and compare regressions.",
-      "adversarial": "Actively searches for dominant strategies, exploit loops, invalid state transitions and recovery failures."
+      "adversarial": "Actively searches for dominant strategies, exploit loops, invalid state transitions and recovery failures.",
+      "governance": "Measures fleet usefulness, overlap and maturity; controls whether new bot families are justified."
     }
   },
   "bots": [
@@ -41,11 +43,14 @@
     {"id":"v26","tier":"diagnostic","domain":"automatic regression corpus promotion","report":"reports/player-bot-v26-regression-promoter.json","replay":"semantic key + seed + case_index"},
     {"id":"v27","tier":"diagnostic","domain":"model to Godot runtime evidence bridge","report":"reports/player-bot-v27-runtime-bridge.json","replay":"domain + source runtime report"},
     {"id":"v28","tier":"adversarial","domain":"rare dungeon path light and Remanence exploration","report":"reports/player-bot-v28-rare-path-explorer.json","replay":"seed + case_index"},
+    {"id":"v29","tier":"diagnostic","domain":"regression promotion replay proof gate","report":"reports/player-bot-v29-replay-proof-gate.json","replay":"proposal id + source failure + permanent replay"},
+    {"id":"v30","tier":"diagnostic","domain":"rare-path runtime evidence bridge","report":"reports/player-bot-v30-runtime-rare-path-bridge.json","replay":"domain + Godot runtime evidence"},
+    {"id":"v31","tier":"governance","domain":"bot fleet efficiency and maturity governor","report":"reports/player-bot-v31-fleet-efficiency.json","replay":"aggregate report set"},
     {"id":"telemetry-v2","tier":"telemetry","domain":"roguelike Monte Carlo balance","report":"reports/developer-autotest-telemetry-*.json","replay":"seed + simulator arguments"}
   ],
-  "next_wave": [
-    {"id":"v29","goal":"prove minimized failures by re-executing the reduced state before corpus promotion"},
-    {"id":"v30","goal":"drive rare-path coverage through direct ExpeditionManager and Remanence runtime actions"},
-    {"id":"v31","goal":"track bot effectiveness over time: unique bugs found, false positives, runtime cost and coverage gain"}
-  ]
+  "next_wave": [],
+  "maturity_gate": {
+    "phase": "freeze_after_v31",
+    "rule": "Prefer improving, merging, sharding or retiring existing bots. Number v32+ only when a new LITD mechanic or measured blind spot cannot be covered cleanly by the current fleet."
+  }
 }
