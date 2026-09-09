@@ -6,7 +6,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_CONVICTIONS = {"solidarity", "security", "civic_process", "mercy", "openness", "pragmatism", "autonomy", "justice"}
-EXPECTED_HEROES = {"aurelien", "malvor", "lysandra", "darius"}
+EXPECTED_HEROES = {"mathilde", "marec", "anouk", "aurelien"}
+LEGACY_STARTER_HEROES = {"malvor", "lysandra", "darius"}
 EXPECTED_QUESTS = {"ashlands_refugee_gate", "ashlands_first_blood", "ashlands_conscious_creature"}
 
 
@@ -26,9 +27,11 @@ def run(root: Path = ROOT) -> dict:
     def check(name: str, ok: bool, detail: str = "") -> None:
         checks.append({"name": name, "ok": bool(ok), "detail": detail})
 
-    check("Mémoire décisions : schéma v1", int(data.get("version", 0)) >= 1)
+    profiles = set(map(str, data.get("hero_profiles", {}).keys()))
+    check("Mémoire décisions : schéma", int(data.get("version", 0)) >= 1)
     check("Mémoire décisions : huit convictions", set(map(str, data.get("convictions", []))) == EXPECTED_CONVICTIONS)
-    check("Mémoire décisions : profils des quatre héros test", EXPECTED_HEROES <= set(map(str, data.get("hero_profiles", {}).keys())))
+    check("Mémoire décisions : profils du quatuor canonique", profiles == EXPECTED_HEROES)
+    check("Mémoire décisions : anciens Veilleurs absents", profiles.isdisjoint(LEGACY_STARTER_HEROES))
     check("Mémoire décisions : trois choix politiques couverts", EXPECTED_QUESTS <= set(map(str, data.get("choice_vectors", {}).keys())))
     for quest_id in EXPECTED_QUESTS:
         check(f"Mémoire décisions : choix vectorisés pour {quest_id}", len(data.get("choice_vectors", {}).get(quest_id, {})) >= 3)
@@ -59,8 +62,9 @@ def run(root: Path = ROOT) -> dict:
     check("Sauvegarde : mémoire embarquée dans party", '"party": GameState.party' in save and 'GameState.party = payload.get("party"' in save)
     check("Smoke : convictions persistantes", 'serialized.contains("convictions")' in smoke)
     check("Smoke : décisions persistantes", 'serialized.contains("decision_memories")' in smoke)
-    check("Smoke : changement d'avis couvert", 'Darius must be able to change his mind' in smoke)
+    check("Smoke : réévaluation couverte", "Reframing must be stored inside persistent decision memories" in smoke and "reevaluation_count > 0" in smoke)
     check("Smoke : conséquence non rejouable", 'must never be applied twice' in smoke)
+    check("Smoke : quatuor actuel verrouillé", all(hero_id in smoke for hero_id in EXPECTED_HEROES))
     check("Godot CI : smoke mémoire branché", "decision_memory_smoke.tscn" in godot_ci)
     check("CI : audit mémoire branché", "python -m tools.qa.decision_memory_audit" in ci)
 
