@@ -1,16 +1,13 @@
 {
-  "schema_version": 3,
-  "status": "assigned",
+  "schema_version": 4,
+  "status": "canonical_player_facing_roster",
   "game": "LITD : Les Veilleurs",
   "decision_date": "2026-09-09",
   "rules": {
     "starting_quartet_assigned": true,
-    "inherit_legacy_identity": false,
-    "inherit_legacy_role": false,
-    "inherit_legacy_ethnicity": false,
-    "inherit_legacy_class": false,
-    "inherit_legacy_loadout": false,
-    "old_quartets_are_not_current_canon": true,
+    "canonical_names_are_player_facing": true,
+    "gameplay_identity_is_defined_only_by_current_roster": true,
+    "formation_display_order": "R1_to_R4_right_to_left",
     "reuse_existing_legendary_hero_sheets": true
   },
   "heroes": [
@@ -41,28 +38,6 @@
       "order": 4,
       "legendary_hero": true,
       "class_id": "surgeon"
-    }
-  ],
-  "invalidated_starting_quartets": [
-    {
-      "members": ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"],
-      "scope": "composition_only"
-    },
-    {
-      "members": ["Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal"],
-      "scope": "composition_only"
-    },
-    {
-      "members": ["Aurélien", "Malvor", "Lysandra", "Darius"],
-      "scope": "legacy_runtime_shell_composition_only",
-      "note": "Cette ancienne composition est invalidée. Aurélien reste un héros légendaire canonique et revient explicitement dans le nouveau quatuor 2026-09-09."
-    }
-  ],
-  "superseded_rules": [
-    {
-      "rule": "Aurélien ne doit jamais être déplacé dans le quatuor de LITD : Les Veilleurs.",
-      "superseded_on": "2026-09-09",
-      "replacement": "Aurélien fait partie du quatuor de départ avec Mathilde, Marec et Anouk."
     }
   ],
   "design_status": "existing_legendary_hero_designs_reused",
