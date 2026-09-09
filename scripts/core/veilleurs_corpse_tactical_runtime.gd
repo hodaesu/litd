@@ -61,7 +61,7 @@ func snapshot(scar_ids: Array = [], side: String = "") -> Dictionary:
         if side != "" and corpse_side not in [side, "neutral"]: continue
         var default_slot := corpses.size() % 4
         var slot := clampi(int(payload.get("combat_slot", default_slot)), MIN_SLOT, MAX_SLOT)
-        var blocks := bool(payload.get("blocks_combat_slot", true))
+        var blocks := bool(payload.get("blocks_combat_slot", false))
         var prepared := bool(payload.get("prepared_as_cover", false))
         var cover := int(payload.get("cover_quality", 35)) if prepared else 15
         if blocks and not blocked_slots.has(slot): blocked_slots.append(slot)
