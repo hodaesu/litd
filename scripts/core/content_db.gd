@@ -8,10 +8,10 @@ const CONSTANTS_PATH := ROOT + "/combat_constants.json"
 const LOADOUTS_PATH := ROOT + "/starter_loadouts_watchers.json"
 const SKILL_CATALOG_PATH := ROOT + "/watcher_tree_catalog.json"
 const CANONICAL_SKILL_PATHS := {
-    "ENT_WATCHER_marec": "res://data/veilleurs/skills/Marec.json",
-    "ENT_WATCHER_mathilde": "res://data/veilleurs/skills/Mathilde.json",
-    "ENT_WATCHER_aurelien": "res://data/veilleurs/skills/Aurélien.json",
-    "ENT_WATCHER_anouk": "res://data/veilleurs/skills/Anouk.json"
+    "ENT_WATCHER_marec": "res://data/veilleurs/skills/marec.json",
+    "ENT_WATCHER_mathilde": "res://data/veilleurs/skills/mathilde.json",
+    "ENT_WATCHER_aurelien": "res://data/veilleurs/skills/aurelien.json",
+    "ENT_WATCHER_anouk": "res://data/veilleurs/skills/anouk.json"
 }
 const PROFILE_BY_TREE := {
     "Bastion": "guard",
