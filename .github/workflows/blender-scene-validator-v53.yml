@@ -19,6 +19,10 @@ on:
       - '.github/workflows/blender-scene-validator-v53.yml'
   workflow_dispatch:
 
+concurrency:
+  group: blender-scene-validator-v53-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
