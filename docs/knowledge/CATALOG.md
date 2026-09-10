@@ -22,6 +22,17 @@ Ce catalogue est un point d'entrée humain vers la bibliothèque. Il ne remplace
 
 La distinction ci-dessus est volontaire : une preuve historique fusionnée confirme qu'un système a existé et a été validé à un instant donné, mais ne suffit pas à certifier son état runtime actuel après de nombreuses évolutions.
 
+## Research records / écarts de preuve
+
+| ID | Sujet | Statut | Confiance | Condition de promotion |
+|---|---|---|---|---|
+| RR-0001 | Rémanence / persistance des conséquences | revalidate | medium | test ou smoke actuel démontrant état → persistance → rechargement/transition → conséquence observable |
+| RR-0002 | Loot déterministe par seed | revalidate | medium | test même seed + même contexte → même loot, avec identité persistante maîtrisée |
+| RR-0003 | Exclusivité d'arbre | revalidate | medium_high | test logique : choix A → B/C interdits, puis persistance si applicable |
+| RR-0004 | Vertical Slice 01 / Lumière | revalidate | medium_high | données/config runtime traçables + tests principaux + mesure playtest pour la durée cible |
+
+Ces fiches formalisent volontairement les lacunes de preuve au lieu de promouvoir un faux canon technique. Une règle Guardian en `automated_candidate` reste un objectif suivi tant que sa validation automatisée n'est pas démontrée.
+
 ## Incidents capitalisés
 
 - `incidents/2026-09-10-runtime-player-smoke-equipment.md` — migration du quatuor ayant révélé une couverture d'équipement de test incomplète ; cause corrigée sans fallback artificiel.
@@ -36,14 +47,11 @@ La distinction ci-dessus est volontaire : une preuve historique fusionnée confi
 
 ## À importer / vérifier ensuite — priorité élevée
 
-1. calibrage Vertical Slice 01 : durée cible, volumes de salles, actes, fenêtres d'extraction et seuils de Lumière — ne pas confondre avec ADR-0007 tant que le calibrage récent n'est pas prouvé dans Git ;
-2. Rémanence et persistance des conséquences — aucune preuve actuelle suffisamment nette retrouvée lors de la passe du 2026-09-10 : statut `to_verify` ;
-3. équipement/loot déterministe par seed — le Guardian contient un invariant `deterministic-loot`, mais sa validation est encore `automated_candidate` : statut `to_verify` avant promotion ;
-4. exclusivité d'arbre — règle Guardian présente avec validation `automated_candidate` : rattacher à un test fiable avant de la déclarer techniquement validée ;
-5. Galeries Éteintes et son état réel d'implémentation ;
-6. méthode d'ingénierie LITD (PR #254 tant qu'elle n'est pas fusionnée : `revalidate`) ;
-7. protocole de playtest PC / cinq testeurs naïfs (PR #243 draft : `experimental`) ;
-8. trieur canonique relié au Core (PR #260 ouverte : `experimental` jusqu'à intégration).
+1. Galeries Éteintes et son état réel d'implémentation ;
+2. méthode d'ingénierie LITD (PR #254 tant qu'elle n'est pas fusionnée : `revalidate`) ;
+3. protocole de playtest PC / cinq testeurs naïfs (PR #243 draft : `experimental`) ;
+4. trieur canonique relié au Core (PR #260 ouverte : `experimental` jusqu'à intégration) ;
+5. raccorder progressivement RR-0001 à RR-0004 aux futurs tests/runtime puis promouvoir uniquement sur convergence de preuves.
 
 ## Règle d'admission
 
@@ -59,4 +67,4 @@ Une règle déclarée dans le Guardian avec `automated_candidate` constitue un o
 
 ## Prochaine passe
 
-Finir le Lot 02 par la recherche ciblée des preuves actuelles de Rémanence, loot déterministe, exclusivité d'arbre et calibrage Vertical Slice 01. Si les preuves restent absentes, créer des fiches `to_verify` avec conditions explicites de promotion plutôt que de produire un faux canon technique.
+Lot 02 est désormais documenté sans faux positif de validation. La suite consiste à traiter les éléments encore hors catalogue actif : Galeries Éteintes, méthode d'ingénierie, playtest PC et trieur relié au Core, puis à convertir les RR en connaissances actives à mesure que les preuves techniques apparaissent.
