@@ -1,6 +1,6 @@
 {
-  "ENT_WATCHER_marec": {"weapon":"WEAPON_ARCH_GOURDIN","armor":["ARMOR_ARCH_MAIL_TORSO","ARMOR_ARCH_MAIL_ARMS","ARMOR_ARCH_MAIL_LEGS"]},
+  "ENT_WATCHER_marec": {"weapon":"WEAPON_ARCH_GOURDIN","armor":["ARMOR_ARCH_MAIL_TORSO","ARMOR_ARCH_MAIL_ARMS","ARMOR_ARCH_MAIL_LEGS"],"notes":["No generic healing action without a justified item or skill."]},
   "ENT_WATCHER_mathilde": {"weapon":"WEAPON_ARCH_SABRE","armor":["ARMOR_ARCH_LEATHER_TORSO","ARMOR_ARCH_LIGHT_ARMS","ARMOR_ARCH_LIGHT_LEGS"]},
-  "ENT_WATCHER_aurelien": {"weapon":"WEAPON_ARCH_SABRE","armor":["ARMOR_ARCH_PADDED_TORSO","ARMOR_ARCH_LIGHT_ARMS","ARMOR_ARCH_LIGHT_LEGS"]},
+  "ENT_WATCHER_aurelien": {"weapon":"WEAPON_ARCH_SABRE","armor":["ARMOR_ARCH_PADDED_TORSO","ARMOR_ARCH_LIGHT_ARMS","ARMOR_ARCH_LIGHT_LEGS"],"notes":["Medical effects come from Suture and their explicit material/resource requirements; no free generic heal."]},
   "ENT_WATCHER_anouk": {"weapon":"WEAPON_ARCH_BATON","armor":["ARMOR_ARCH_PADDED_TORSO","ARMOR_ARCH_LIGHT_ARMS","ARMOR_ARCH_LIGHT_LEGS"]}
 }
