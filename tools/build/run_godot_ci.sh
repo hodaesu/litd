@@ -14,7 +14,7 @@ run_checked() {
   echo "==> ${label}"
 
   set +e
-  "$@" 2>&1 | tee "$log_file"
+  timeout "${GODOT_COMMAND_TIMEOUT_SECONDS:-180}s" "$@" 2>&1 | tee "$log_file"
   local command_status=${PIPESTATUS[0]}
   set -e
 
