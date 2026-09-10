@@ -29,8 +29,8 @@ func _run() -> void:
     var grid_contract: Dictionary = summary.get("grid", {}) as Dictionary
     _check(int(grid_contract.get("width", 0)) == 6 and int(grid_contract.get("height", 0)) == 5, "Tactical grid contract must be 6x5")
 
-    var expected_ids := ["ENT_WATCHER_marec", "ENT_WATCHER_mathilde", "ENT_WATCHER_aurelien", "ENT_WATCHER_anouk"]
-    var expected_names := ["Marec", "Mathilde", "Aurélien", "Anouk"]
+    var expected_ids := ["ENT_WATCHER_marec", "ENT_WATCHER_mathilde", "ENT_WATCHER_anouk", "ENT_WATCHER_aurelien"]
+    var expected_names := ["Marec", "Mathilde", "Anouk", "Aurélien"]
     for index in range(expected_ids.size()):
         var watcher := db.watcher(expected_ids[index])
         _check(str(watcher.get("name_fr", "")) == expected_names[index], "Watcher identity mismatch: %s" % expected_ids[index])
@@ -46,10 +46,10 @@ func _run() -> void:
     var runtime: VeilleursTacticalCombatRuntime = RUNTIME_SCRIPT.new() as VeilleursTacticalCombatRuntime
     var setup := runtime.setup_first_combat()
     _check(bool(setup.get("ok", false)), "First tactical combat must initialize")
-    _check(runtime.grid.position_of("ENT_WATCHER_mathilde") == Vector2i(0, 0), "Mathilde must start at his authored grid cell")
-    _check(runtime.grid.position_of("ENT_WATCHER_marec") == Vector2i(0, 1), "Marec must start at her authored grid cell")
-    _check(runtime.grid.position_of("ENT_WATCHER_aurelien") == Vector2i(0, 2), "Aurélien must start at her authored grid cell")
-    _check(runtime.grid.position_of("ENT_WATCHER_anouk") == Vector2i(0, 3), "Anouk must start at his authored grid cell")
+    _check(runtime.grid.position_of("ENT_WATCHER_marec") == Vector2i(3, 2), "Marec must start at authored R1 grid cell")
+    _check(runtime.grid.position_of("ENT_WATCHER_mathilde") == Vector2i(2, 2), "Mathilde must start at authored R2 grid cell")
+    _check(runtime.grid.position_of("ENT_WATCHER_anouk") == Vector2i(1, 2), "Anouk must start at authored R3 grid cell")
+    _check(runtime.grid.position_of("ENT_WATCHER_aurelien") == Vector2i(0, 2), "Aurélien must start at authored R4 grid cell")
     _check(runtime.grid.position_of("ENT_ENEMY_GOULE_AFFAMEE") == Vector2i(5, 1), "Hungry Ghoul must start opposite the Watchers")
 
     var marec_row: Dictionary = runtime.combatants["ENT_WATCHER_marec"]
