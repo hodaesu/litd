@@ -1,6 +1,6 @@
 extends "res://scripts/qa/player_bot_v2_autotest.gd"
 
-const TARGETING_RULES := preload("res://scripts/core/combat_targeting_rules.gd")
+const TACTICAL_QA := preload("res://scripts/qa/player_bot_tactical_support.gd")
 
 func _select_lowest_hp_enemy() -> void:
     var best_index := -1
@@ -26,11 +26,8 @@ func _choose_real_skill(hero: Dictionary) -> Dictionary:
     var loadout: Array[String] = HeroSkillManager.combat_loadout(hero)
     var injured_ratio := _lowest_party_hp_ratio()
     var best_slot := -1
+    var best_target_index := -1
     var best_score := -9999.0
-    var selected_target: Dictionary = {}
-    if not GameState.battle_enemies.is_empty():
-        controller.selected_enemy = clampi(controller.selected_enemy, 0, GameState.battle_enemies.size() - 1)
-        selected_target = GameState.battle_enemies[controller.selected_enemy]
 
     for slot in range(loadout.size()):
         var skill_id := str(loadout[slot])
@@ -38,8 +35,10 @@ func _choose_real_skill(hero: Dictionary) -> Dictionary:
         if skill.is_empty() or not COMBAT_POSITION_RULES.is_usable(hero, skill):
             continue
         var effect := str(skill.get("effect", "attack"))
-        if effect == "attack":
-            if selected_target.is_empty() or not TARGETING_RULES.can_target(hero, skill, selected_target, GameState.battle_enemies):
+        var target_index := -1
+        if TACTICAL_QA.requires_enemy_target(skill):
+            target_index = TACTICAL_QA.best_legal_target_index(hero, skill)
+            if target_index < 0:
                 continue
         var score := 0.0
         if effect in ["heal", "support", "medical"]:
@@ -57,6 +56,9 @@ func _choose_real_skill(hero: Dictionary) -> Dictionary:
         if score > best_score:
             best_score = score
             best_slot = slot
+            best_target_index = target_index
     if best_slot < 0:
         return {"usable": false}
-    return {"usable": true, "slot": best_slot, "skill_id": str(loadout[best_slot])}
+    if best_target_index >= 0:
+        controller.selected_enemy = best_target_index
+    return {"usable": true, "slot": best_slot, "skill_id": str(loadout[best_slot]), "target_index": best_target_index}
