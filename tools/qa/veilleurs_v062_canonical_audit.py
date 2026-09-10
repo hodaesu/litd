@@ -10,8 +10,8 @@ CANON = ROOT / "data" / "veilleurs" / "skills"
 EXPECTED = {
     "ENT_WATCHER_marec": ("Marec", "Marec.json"),
     "ENT_WATCHER_mathilde": ("Mathilde", "Mathilde.json"),
-    "ENT_WATCHER_aurelien": ("Aurélien", "Aurélien.json"),
     "ENT_WATCHER_anouk": ("Anouk", "Anouk.json"),
+    "ENT_WATCHER_aurelien": ("Aurélien", "Aurélien.json"),
 }
 ALTERNATE_TOKENS = [
     "ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA",
