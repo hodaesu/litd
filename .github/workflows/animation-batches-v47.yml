@@ -24,6 +24,10 @@ on:
       - '.github/workflows/animation-batches-v47.yml'
   workflow_dispatch:
 
+concurrency:
+  group: animation-batches-v47-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
