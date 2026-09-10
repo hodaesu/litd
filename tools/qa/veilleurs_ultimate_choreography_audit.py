@@ -7,10 +7,10 @@ ROOT = Path(__file__).resolve().parents[2]
 CONTRACT_PATH = ROOT / "data" / "veilleurs" / "ultimate_choreography_contract.json"
 CANON = ROOT / "data" / "veilleurs" / "skills"
 SOURCES = {
-    "Marec": "Marec.json",
-    "Mathilde": "Mathilde.json",
-    "Aurélien": "Aurélien.json",
-    "Anouk": "Anouk.json",
+    "Marec": "marec.json",
+    "Mathilde": "mathilde.json",
+    "Aurélien": "aurelien.json",
+    "Anouk": "anouk.json",
 }
 EXPECTED_BRANCHES = {
     "Marec": ["bastion", "brisure", "serment"],
