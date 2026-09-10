@@ -3,11 +3,12 @@ class_name VeilleursTacticalUIP0
 
 # P0 UX contract: the watcher formation reads from left to right as R4, R3, R2, R1,
 # so R1 is always the right-most/front rank, closest to the enemy side.
+# Ranks are derived from current action/skill coverage, not from role labels.
 const WATCHER_RANK_BY_ID := {
     "ENT_WATCHER_marec": 1,
-    "ENT_WATCHER_anouk": 2,
-    "ENT_WATCHER_aurelien": 3,
-    "ENT_WATCHER_mathilde": 4,
+    "ENT_WATCHER_mathilde": 2,
+    "ENT_WATCHER_anouk": 3,
+    "ENT_WATCHER_aurelien": 4,
 }
 
 var rank_legend: HBoxContainer
