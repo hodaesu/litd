@@ -13,6 +13,8 @@ from hashlib import sha256
 from typing import Any, Iterable
 from urllib.parse import urlparse
 
+from tools.quality.evidence_ledger import EvidenceLedger
+
 REQUIRED_FIELDS = {
     "evidence_id",
     "title",
@@ -102,6 +104,30 @@ def validate_event(event: dict[str, Any], *, known_evidence_ids: Iterable[str] =
         return IngestDecision(False, "DUPLICATE", "duplicate_canonical_content", expected_hash)
 
     return IngestDecision(True, "ACCEPTED_FOR_ROUTING", "validated", expected_hash)
+
+
+def validate_and_record(event: dict[str, Any], ledger: EvidenceLedger) -> IngestDecision:
+    """Validate against durable history, append the decision, and persist evidence.
+
+    Successful evidence registration happens only after all validation and duplicate
+    checks pass. Rejected, quarantined and duplicate attempts are still recorded in
+    the append-only decision ledger for traceability.
+    """
+    decision = validate_event(
+        event,
+        known_evidence_ids=ledger.known_evidence_ids(),
+        known_hashes=ledger.known_hashes(),
+    )
+    evidence_id = str(event.get("evidence_id", "<missing>")) if isinstance(event, dict) else "<invalid>"
+    ledger.append_decision(evidence_id, decision.status, decision.reason)
+
+    if decision.accepted and decision.canonical_hash is not None:
+        ledger.register_evidence(
+            evidence_id,
+            decision.canonical_hash,
+            str(event["source_url"]),
+        )
+    return decision
 
 
 def can_write_core(_: IngestDecision) -> bool:
