@@ -25,9 +25,12 @@ La bibliothèque LITD n'est pas une archive passive. Toute connaissance candidat
 
 - Art et histoire de l'art
 - Musique, composition, musique interactive, sound design et acoustique
+- **Bruitages / SFX** : Foley, impacts, ambiances, textures sonores, sons de créatures, armes, environnement, spatialisation, dynamique, lisibilité et feedback audio
 - Game design
 - Philosophie
 - Psychologie et cognition du joueur
+- **Psychologie comportementale** : apprentissage, conditionnement, habitudes, renforcement, prise de décision, biais cognitifs, perception du risque, motivation, frustration, récompense et comportements émergents
+- **Profilage appliqué au game design et à la narration** : construction de profils de personnages fictifs, archétypes comportementaux, cohérence motivationnelle, segmentation anonyme de comportements de jeu et analyse agrégée ; aucun usage intrusif, discriminatoire ou visant l'identification sensible de personnes réelles
 - Sociologie
 - Anthropologie
 - Mythologies, légendes, folklore et traditions narratives de **tous les pays et cultures du monde**, en conservant variantes régionales et contexte culturel
@@ -49,6 +52,20 @@ La bibliothèque LITD n'est pas une archive passive. Toute connaissance candidat
 Une mythologie, tradition, architecture ou pratique culturelle n'est jamais copiée hors contexte. Le Veilleur doit distinguer source historique, tradition vivante, interprétation moderne et invention populaire. Il documente les variantes et évite de présenter une culture comme homogène.
 
 L'objectif n'est pas de reproduire directement une figure culturelle dans LITD, mais de comprendre sa fonction, son symbolisme, son contexte et ses variantes avant toute inspiration créative.
+
+## Règles psychologie et profilage
+
+Les connaissances issues de psychologie comportementale doivent servir à améliorer la lisibilité, la profondeur des personnages, la compréhension des comportements de jeu et la qualité des mécaniques, sans recourir à des schémas manipulateurs visant à exploiter une vulnérabilité réelle.
+
+Le profilage est limité à :
+
+- personnages fictifs et PNJ ;
+- personas de conception ;
+- catégories comportementales anonymes ou agrégées ;
+- tests de game design ;
+- analyse de patterns de jeu sans inférence sensible sur des individus réels.
+
+Les profils psychologiques ne doivent pas être présentés comme des diagnostics cliniques et toute donnée joueur réelle doit rester soumise aux règles de minimisation, consentement, sécurité et confidentialité applicables au projet.
 
 ## Grille d'impact LITD
 
@@ -76,6 +93,15 @@ Une créature ou un récit est étudié par son contexte, ses variantes et sa fo
 
 ### Physique
 Une méthode de simulation de corde, cape, fumée, lumière, débris ou propagation sonore doit être comparée aux alternatives et évaluée en qualité visuelle/ludique, déterminisme, complexité et coût de performance.
+
+### Bruitages
+Un nouveau langage SFX doit être évalué sur sa capacité à transmettre une information utile sans surcharger l'écran : danger hors champ, statut d'un combattant, rareté d'un événement, matériau d'un environnement, distance et direction d'une menace.
+
+### Psychologie comportementale
+Une mécanique de risque/récompense peut être étudiée via la littérature sur la prise de décision et les biais, puis testée pour vérifier qu'elle produit tension et choix intéressants sans dériver vers des mécanismes artificiellement compulsifs.
+
+### Profilage narratif
+Un profil comportemental d'un personnage peut servir à tester la cohérence entre ses motivations, ses réactions au stress, sa manière de dialoguer et ses décisions, puis être confronté aux scènes existantes pour repérer les contradictions involontaires.
 
 ## États d'une connaissance
 
