@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -9,6 +10,7 @@ MODULE_PATH = Path(__file__).with_name("litd_file_sorter.py")
 spec = importlib.util.spec_from_file_location("litd_file_sorter", MODULE_PATH)
 mod = importlib.util.module_from_spec(spec)
 assert spec.loader is not None
+sys.modules[spec.name] = mod
 spec.loader.exec_module(mod)
 
 
