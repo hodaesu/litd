@@ -28,8 +28,8 @@ on:
         default: exhaustive
 
 concurrency:
-  group: balance-telemetry-${{ github.event.pull_request.number || github.ref || github.run_id }}
-  cancel-in-progress: true
+  group: balance-telemetry-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
