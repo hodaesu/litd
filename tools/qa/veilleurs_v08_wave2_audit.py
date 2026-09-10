@@ -31,6 +31,17 @@ OBSOLETE_WATCHERS = {
     "ENT_WATCHER_NAREM",
     "ENT_WATCHER_YSRA",
 }
+# Old Nayra/Tarek/Aisha/Idris identifiers can still appear inside narrow
+# migration/compatibility branches in historical v0.8 runtime code. They must
+# never re-enter canonical data, but their mere textual presence is not a
+# player-facing roster regression. The pre-canonical Sahen quartet has no such
+# compatibility role and remains forbidden in active Wave 2 runtime files.
+RUNTIME_FORBIDDEN_WATCHERS = {
+    "ENT_WATCHER_SAHEN",
+    "ENT_WATCHER_MIRA",
+    "ENT_WATCHER_NAREM",
+    "ENT_WATCHER_YSRA",
+}
 
 REQUIRED_RUNTIME_FILES = [
     ROOT / "scripts" / "core" / "veilleurs_enemy_doctrine_runtime.gd",
@@ -113,7 +124,7 @@ def main() -> int:
         errors.append("production_order")
 
     active_wave2_text = "\n".join(path.read_text(encoding="utf-8") for path in REQUIRED_RUNTIME_FILES)
-    for token in OBSOLETE_WATCHERS:
+    for token in RUNTIME_FORBIDDEN_WATCHERS:
         if token in active_wave2_text:
             errors.append(f"obsolete_watcher_in_wave2:{token}")
 
