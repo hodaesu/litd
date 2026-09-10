@@ -105,10 +105,15 @@ func _run() -> void:
                         failures.append("seed_%d_campaign_%d_recruit_gold_accounting" % [seed_value, campaign_index + 1])
                     if GameState.alive_heroes().size() != GameState.party.size():
                         failures.append("seed_%d_campaign_%d_party_not_restored" % [seed_value, campaign_index + 1])
-                    var name_before := str(recruited.get("name", ""))
-                    GameState.canonicalize_party_identity(GameState.party)
-                    if str(GameState.party[fallen_index].get("name", "")) != name_before:
-                        failures.append("seed_%d_campaign_%d_recruit_identity_overwritten" % [seed_value, campaign_index + 1])
+                    # The old canonical identity rewrite was removed when the
+                    # starting slots became identity-neutral. Validate the
+                    # current contract directly: the replacement stored in the
+                    # party must keep the generated recruit identity and name.
+                    var stored_recruit: Dictionary = GameState.party[fallen_index]
+                    if str(stored_recruit.get("recruit_identity_id", "")) != identity_id:
+                        failures.append("seed_%d_campaign_%d_recruit_identity_not_persisted" % [seed_value, campaign_index + 1])
+                    if str(stored_recruit.get("name", "")) != str(recruited.get("name", "")):
+                        failures.append("seed_%d_campaign_%d_recruit_name_not_persisted" % [seed_value, campaign_index + 1])
 
             var affordable := _cheapest_affordable_offer(offers_a)
             if not affordable.is_empty():
