@@ -60,8 +60,9 @@ def main() -> int:
     if not checks["selftest_sequence"]:
         errors.append(f"Séquence self-test divergente: contrat={contract_steps}, runtime={selftest_steps}")
 
-    # Active Main scene: the GE01 layers are allowed to sit above the pre-playtest
-    # layer, but the chain must still inherit main_v48 instead of replacing it.
+    # Active Main scene: GE01 sits above the current player-facing v49 layer.
+    # The chain must preserve v49 -> v48 so the latest targeting and pre-play
+    # guards remain active under the GE01 tactical corpse layer.
     require_tokens(errors, "scenes/Main.tscn", [
         'res://scripts/ui/main_v50_ge01.gd',
         'res://scripts/ui/hud_context_sanctuary_polish_adapter.gd',
@@ -73,11 +74,11 @@ def main() -> int:
         'extends "res://scripts/ui/main_v49_ge01.gd"',
     ])
     require_tokens(errors, "scripts/ui/main_v49_ge01.gd", [
-        'extends "res://scripts/ui/main_v48.gd"',
+        'extends "res://scripts/ui/main_v49.gd"',
     ])
 
-    # Contextual decision readability remains inherited from v43 and is hardened
-    # by later active layers through v48.
+    # Contextual decision readability remains inherited from v43 and hardened
+    # by v48, while v49 adds the final explicit/manual targeting contract.
     require_tokens(errors, "scripts/ui/main_v43.gd", [
         "PLAYTEST_MIN_TOUCH",
         "Touchez pour voir pourquoi",
@@ -90,6 +91,14 @@ def main() -> int:
         "_clear_combat_transients_v48",
         "finish_victory",
         "finish_defeat",
+    ])
+    require_tokens(errors, "scripts/ui/main_v49.gd", [
+        'extends "res://scripts/ui/main_v48.gd"',
+        "_requires_manual_hostile_choice_v49",
+        "_render_multi_target_picker_v49",
+        "_confirm_multi_target_v49",
+        "_declared_anchor_position_v49",
+        "forced_clinical_ally_target_id",
     ])
     require_tokens(errors, "scripts/ui/context_menu_ui_v2.gd", [
         '"inventory": "INVENTAIRE"',

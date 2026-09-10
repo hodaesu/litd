@@ -1,6 +1,6 @@
-extends "res://scripts/ui/main_v48.gd"
+extends "res://scripts/ui/main_v49.gd"
 
-# Stable GE01 helper layer above main_v48.
+# Stable GE01 helper layer above the current player-facing main_v49 layer.
 # Corpse actions remain in v50. Formation interception is deliberately kept out
 # of this layer until its parent contract is covered by a dedicated smoke test.
 

@@ -1,7 +1,10 @@
 [gd_scene load_steps=18 format=3]
 
 ; main_v50_ge01 porte les tactiques de cadavres GE01 au-dessus du runtime pré-playtest actuel.
-; main_v49_ge01 raccorde les cadavres tactiques GE01 aux rangs sans remplacer les couches UI de main.
+; main_v49_ge01 raccorde les tactiques GE01 au ciblage joueur complet de main_v49.
+; main_v49 complète le contrat de ciblage joueur : sélection manuelle multi-cible,
+; diagnostics hostiles explicites, soins cliniques à allié choisi et zones adjacentes
+; déterministes lorsqu'une ancre est déclarée par la compétence.
 ; main_v48 verrouille les invariants du dernier contrôle pré-playtest : un héros
 ; mort est sauté sans réinitialiser les actions déjà jouées, la cible ennemie est
 ; toujours renormalisée vers un adversaire vivant et tous les états transitoires
