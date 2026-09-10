@@ -1,0 +1,68 @@
+version: 1
+rules:
+  - id: canon-starting-quartet
+    severity: red
+    domain: veilleurs
+    description: "Le quatuor de départ canonique est Mathilde, Marec, Anouk et Aurélien."
+    rationale: "Évite la réintroduction involontaire d'anciens héros de départ."
+    validation: manual_or_test
+
+  - id: skill-tree-count
+    severity: red
+    domain: progression
+    description: "Chaque personnage concerné par le système canonique possède exactement 3 arbres de compétences."
+    validation: automated_candidate
+
+  - id: skills-per-tree
+    severity: red
+    domain: progression
+    description: "Chaque arbre de compétences canonique contient exactement 15 compétences."
+    validation: automated_candidate
+
+  - id: tree-exclusivity
+    severity: red
+    domain: progression
+    description: "Le choix d'un arbre verrouille les autres arbres du personnage."
+    validation: automated_candidate
+
+  - id: angel-not-capturable
+    severity: red
+    domain: capture
+    description: "Le boss Ange n'est jamais capturable."
+    validation: automated_candidate
+
+  - id: deterministic-loot
+    severity: orange
+    domain: loot
+    description: "Une même seed et un même contexte doivent reproduire le même résultat de loot."
+    validation: automated_candidate
+
+  - id: ranks-right-to-left
+    severity: red
+    domain: combat-ui
+    description: "R1 à R4 sont présentés de droite à gauche."
+    validation: automated_candidate
+
+  - id: logical-party-placement
+    severity: orange
+    domain: combat
+    description: "Le placement automatique respecte la priorité des rôles et évite un support devant un combattant de mêlée valide."
+    validation: automated_candidate
+
+  - id: no-error-masking
+    severity: red
+    domain: ci
+    description: "La CI ne doit pas masquer une erreur réelle pour obtenir artificiellement un statut vert."
+    validation: review_and_ci
+
+  - id: important-decision-counterevidence
+    severity: yellow
+    domain: research
+    description: "Toute décision importante doit inclure une recherche d'éléments contradictoires ou une tentative de réfutation."
+    validation: review
+
+  - id: player-value-check
+    severity: yellow
+    domain: product
+    description: "Toute évolution majeure doit expliciter sa valeur joueur, sa valeur technique, son coût, son risque et sa réversibilité."
+    validation: review
