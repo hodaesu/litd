@@ -1,0 +1,40 @@
+name: CI Godot Domains
+
+on:
+  pull_request:
+    paths:
+      - 'project.godot'
+      - 'data/**'
+      - 'scripts/**'
+      - 'scenes/**'
+      - 'addons/**'
+      - 'tools/build/run_godot_ci_domain.sh'
+      - '.github/workflows/ci-godot-domains.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-godot-domains-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  godot-domain:
+    name: Godot / ${{ matrix.domain }}
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    strategy:
+      fail-fast: false
+      matrix:
+        domain:
+          - core-world
+          - audiovisual
+          - runtime
+          - veilleurs
+          - ui-qa
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compilation stricte et parcours Godot du domaine
+        run: bash tools/build/run_godot_ci_domain.sh "${{ matrix.domain }}"
