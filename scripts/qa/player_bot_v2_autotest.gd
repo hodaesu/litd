@@ -34,9 +34,15 @@ func _run() -> void:
     add_child(controller)
     await get_tree().process_frame
 
+    var required_methods := ["_start_roguelike_room_battle", "_use_skill_slot"]
+    for method_name: String in required_methods:
+        if not controller.has_method(method_name):
+            failures.append("controller_contract_missing_%s" % method_name)
+
     var started_ms := Time.get_ticks_msec()
-    for seed_value: int in FIXED_SEEDS:
-        runs.append(await _run_seed(seed_value))
+    if failures.is_empty():
+        for seed_value: int in FIXED_SEEDS:
+            runs.append(await _run_seed(seed_value))
 
     var unused_equipped: Array[String] = []
     var known: Dictionary = {}
@@ -49,9 +55,9 @@ func _run() -> void:
             unused_equipped.append(str(skill_id))
 
     var report := {
-        "schema_version": 2,
+        "schema_version": 3,
         "suite": "player_bot_v2_autotest",
-        "driver": "real_main_controller",
+        "driver": "real_main_controller_current_api",
         "fixed_seeds": FIXED_SEEDS,
         "runs": runs,
         "skill_usage": skill_usage,
@@ -134,12 +140,16 @@ func _run_seed(seed_value: int) -> Dictionary:
                 victories += 1
             else:
                 defeats += 1
-                if str(combat_result.get("reason", "")) == "softlock":
-                    failures.append("seed_%d_softlock_%s" % [seed_value, room_id])
+                var reason := str(combat_result.get("reason", ""))
+                if reason in ["softlock", "no_usable_skill", "controller_contract"]:
+                    failures.append("seed_%d_%s_%s" % [seed_value, reason, room_id])
                 break
         else:
-            controller._resolve_noncombat_room(room)
-            controller._mark_current_room_cleared()
+            if not controller.has_method("_resolve_noncombat_room") or not controller.has_method("_mark_current_room_cleared"):
+                failures.append("controller_contract_missing_noncombat")
+                break
+            controller.call("_resolve_noncombat_room", room)
+            controller.call("_mark_current_room_cleared")
             await get_tree().process_frame
 
         if room_type == "boss" or GameState.alive_heroes().is_empty():
@@ -172,7 +182,9 @@ func _run_seed(seed_value: int) -> Dictionary:
 
 func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
     _reset_controller_combat_state()
-    controller._start_roguelike_room_battle(room)
+    if not controller.has_method("_start_roguelike_room_battle") or not controller.has_method("_use_skill_slot"):
+        return {"victory": false, "reason": "controller_contract", "actions": 0, "rounds": 0}
+    controller.call("_start_roguelike_room_battle", room)
     await get_tree().process_frame
     if GameState.battle_enemies.is_empty():
         return {"victory": false, "reason": "no_enemies", "actions": 0, "rounds": 0}
@@ -182,7 +194,6 @@ func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
     var no_progress := 0
     var locked_wait_frames := 0
     var last_state_signature := _combat_state_signature()
-    var start_round := int(controller.combat_round_number)
 
     while not GameState.alive_heroes().is_empty() and not GameState.alive_enemies().is_empty() and actions < MAX_ACTIONS_PER_COMBAT:
         if bool(controller.battle_locked):
@@ -190,51 +201,45 @@ func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
             locked_wait_frames += 1
             if locked_wait_frames >= MAX_LOCKED_WAIT_FRAMES:
                 _record_softlock(seed_value, room_id, "battle_locked_timeout", actions)
-                return {"victory": false, "reason": "softlock", "actions": actions, "rounds": int(controller.combat_round_number) - start_round + 1}
+                return {"victory": false, "reason": "softlock", "actions": actions, "rounds": maxi(1, actions)}
             continue
         locked_wait_frames = 0
 
-        controller._ensure_combat_state()
-        var hero: Dictionary = controller._active_combat_hero()
-        if hero.is_empty():
-            await get_tree().process_frame
-            var idle_signature := _combat_state_signature()
-            if idle_signature == last_state_signature:
-                no_progress += 1
-            else:
-                no_progress = 0
-                last_state_signature = idle_signature
-            if no_progress >= NO_PROGRESS_LIMIT:
-                _record_softlock(seed_value, room_id, "no_active_hero", actions)
-                return {"victory": false, "reason": "softlock", "actions": actions, "rounds": int(controller.combat_round_number) - start_round + 1}
-            continue
+        var living_heroes := GameState.alive_heroes()
+        if living_heroes.is_empty():
+            break
+        var hero: Dictionary = living_heroes[0]
 
         _select_lowest_hp_enemy()
-        if ContentScopeDirector.is_unlocked("capture") and _try_real_capture():
-            actions += 1
-            _record_skill("__capture__", 0, 0)
-            last_state_signature = _combat_state_signature()
-            no_progress = 0
-            await get_tree().process_frame
-            continue
+        if ContentScopeDirector.is_unlocked("capture"):
+            var captured := await _try_real_capture()
+            if captured:
+                actions += 1
+                _record_skill("__capture__", 0, 0)
+                last_state_signature = _combat_state_signature()
+                no_progress = 0
+                continue
 
         var choice := _choose_real_skill(hero)
+        if not bool(choice.get("usable", false)):
+            _record_softlock(seed_value, room_id, "no_usable_skill", actions)
+            return {"victory": false, "reason": "no_usable_skill", "actions": actions, "rounds": maxi(1, actions)}
+
         var enemy_hp_before := _enemy_hp_total()
         var party_hp_before := _party_hp_total()
-        if not bool(choice.get("usable", false)):
-            controller._pass_combat_turn()
-            await get_tree().process_frame
-            actions += 1
-            _record_skill("__pass__", 0, 0)
-        else:
-            var slot := int(choice.get("slot", 0))
-            var skill_id := str(choice.get("skill_id", "basic_strike"))
-            controller._use_combat_skill(slot)
-            await get_tree().process_frame
-            actions += 1
-            var damage := maxi(0, enemy_hp_before - _enemy_hp_total())
-            var healing := maxi(0, _party_hp_total() - party_hp_before)
-            _record_skill(skill_id, damage, healing)
+        var slot := int(choice.get("slot", 0))
+        var skill_id := str(choice.get("skill_id", "basic_strike"))
+        controller.call("_use_skill_slot", slot)
+        actions += 1
+
+        var unlocked := await _wait_for_action_completion()
+        if not unlocked:
+            _record_softlock(seed_value, room_id, "battle_locked_timeout", actions)
+            return {"victory": false, "reason": "softlock", "actions": actions, "rounds": maxi(1, actions)}
+
+        var damage := maxi(0, enemy_hp_before - _enemy_hp_total())
+        var healing := maxi(0, _party_hp_total() - party_hp_before)
+        _record_skill(skill_id, damage, healing)
 
         var signature := _combat_state_signature()
         if signature == last_state_signature:
@@ -244,14 +249,25 @@ func _drive_real_combat(seed_value: int, room: Dictionary) -> Dictionary:
             last_state_signature = signature
         if no_progress >= NO_PROGRESS_LIMIT:
             _record_softlock(seed_value, room_id, "no_state_progress", actions)
-            return {"victory": false, "reason": "softlock", "actions": actions, "rounds": int(controller.combat_round_number) - start_round + 1}
+            return {"victory": false, "reason": "softlock", "actions": actions, "rounds": maxi(1, actions)}
 
     if not GameState.alive_enemies().is_empty():
         var reason := "party_defeat" if GameState.alive_heroes().is_empty() else "action_cap"
         if reason == "action_cap":
             _record_softlock(seed_value, room_id, reason, actions)
-        return {"victory": false, "reason": reason, "actions": actions, "rounds": int(controller.combat_round_number) - start_round + 1}
-    return {"victory": true, "actions": actions, "rounds": int(controller.combat_round_number) - start_round + 1}
+            return {"victory": false, "reason": "softlock", "actions": actions, "rounds": maxi(1, actions)}
+        return {"victory": false, "reason": reason, "actions": actions, "rounds": maxi(1, actions)}
+    return {"victory": true, "actions": actions, "rounds": maxi(1, actions)}
+
+func _wait_for_action_completion() -> bool:
+    var frames := 0
+    await get_tree().process_frame
+    while bool(controller.battle_locked):
+        await get_tree().process_frame
+        frames += 1
+        if frames >= MAX_LOCKED_WAIT_FRAMES:
+            return false
+    return true
 
 func _choose_real_skill(hero: Dictionary) -> Dictionary:
     var loadout: Array[String] = HeroSkillManager.combat_loadout(hero)
@@ -297,6 +313,8 @@ func _select_lowest_hp_enemy() -> void:
         controller.selected_enemy = best_index
 
 func _try_real_capture() -> bool:
+    if not controller.has_method("hero_action"):
+        return false
     for index in range(GameState.battle_enemies.size()):
         var enemy: Dictionary = GameState.battle_enemies[index]
         if int(enemy.get("hp", 0)) <= 0 or not bool(enemy.get("recruitable", true)):
@@ -306,7 +324,8 @@ func _try_real_capture() -> bool:
             continue
         controller.selected_enemy = index
         var before := CreatureManager.captured_creatures.size()
-        controller._combat_capture()
+        controller.call("hero_action", "capture")
+        await _wait_for_action_completion()
         return CreatureManager.captured_creatures.size() > before
     return false
 
@@ -340,9 +359,6 @@ func _room_by_id(layout: Array, room_id: String) -> Dictionary:
     return {}
 
 func _reset_controller_combat_state() -> void:
-    controller.combat_active_hero_id = ""
-    controller.combat_acted_hero_ids.clear()
-    controller.combat_round_number = 1
     controller.battle_locked = false
     controller.selected_enemy = 0
 
@@ -367,19 +383,15 @@ func _enemy_hp_total() -> int:
     return total
 
 func _combat_state_signature() -> String:
-    var acted: Array[String] = []
-    for hero_id in controller.combat_acted_hero_ids:
-        acted.append(str(hero_id))
-    acted.sort()
-    return "%d:%d:%d:%d:r%d:a%s:t%s:l%s" % [
+    return "%d:%d:%d:%d:e%d:l%s:s%s:log%d" % [
         _party_hp_total(),
         _enemy_hp_total(),
         GameState.alive_heroes().size(),
         GameState.alive_enemies().size(),
-        int(controller.combat_round_number),
-        str(controller.combat_active_hero_id),
-        ",".join(acted),
-        str(controller.battle_locked)
+        int(controller.selected_enemy),
+        str(controller.battle_locked),
+        str(GameState.current_screen),
+        GameState.log_lines.size()
     ]
 
 func _lowest_party_hp_ratio() -> float:
