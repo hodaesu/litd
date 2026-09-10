@@ -1,10 +1,22 @@
 extends Node
 
 const DATA_PATHS := {
-    "nayra_orun": "res://data/veilleurs/skills/nayra_orun.json",
-    "tarek_senn": "res://data/veilleurs/skills/tarek_senn.json",
-    "aisha_maren": "res://data/veilleurs/skills/aisha_maren.json",
-    "idris_vael": "res://data/veilleurs/skills/idris_vael.json"
+    "marec": "res://data/veilleurs/skills/marec.json",
+    "mathilde": "res://data/veilleurs/skills/mathilde.json",
+    "aurelien": "res://data/veilleurs/skills/aurelien.json",
+    "anouk": "res://data/veilleurs/skills/anouk.json"
+}
+const WATCHER_ID_ALIASES := {
+    "Marec": "marec",
+    "Mathilde": "mathilde",
+    "Aurélien": "aurelien",
+    "Aurelien": "aurelien",
+    "Anouk": "anouk",
+    "marec": "marec",
+    "mathilde": "mathilde",
+    "aurélien": "aurelien",
+    "aurelien": "aurelien",
+    "anouk": "anouk"
 }
 const COSTS: Array[int] = [1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5]
 const EXPECTED_LEVELS: Array[int] = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 35, 39, 44, 49]
@@ -35,7 +47,7 @@ func reload() -> void:
         catalogs[watcher_id] = catalog
 
 func is_watcher(hero: Dictionary) -> bool:
-    return catalogs.has(str(hero.get("id", "")))
+    return catalogs.has(_watcher_key(hero))
 
 func watcher_ids() -> Array[String]:
     var result: Array[String] = []
@@ -149,8 +161,17 @@ func catalog_summary() -> Dictionary:
         "load_errors": load_errors.duplicate()
     }
 
+func _watcher_key(hero: Dictionary) -> String:
+    var runtime_id := str(hero.get("id", "")).strip_edges()
+    if WATCHER_ID_ALIASES.has(runtime_id):
+        return str(WATCHER_ID_ALIASES[runtime_id])
+    var lowered := runtime_id.to_lower()
+    if WATCHER_ID_ALIASES.has(lowered):
+        return str(WATCHER_ID_ALIASES[lowered])
+    return lowered
+
 func _catalog(hero: Dictionary) -> Dictionary:
-    return (catalogs.get(str(hero.get("id", "")), {}) as Dictionary).duplicate(true)
+    return (catalogs.get(_watcher_key(hero), {}) as Dictionary).duplicate(true)
 
 func _tree(hero: Dictionary, branch: String) -> Dictionary:
     var catalog := _catalog(hero)
