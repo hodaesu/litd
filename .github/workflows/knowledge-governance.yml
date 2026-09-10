@@ -8,9 +8,12 @@ on:
       - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
       - 'tools/quality/library_trieur.py'
       - 'tools/quality/veilleur_v2_ingest.py'
+      - 'tools/quality/evidence_ledger.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
       - 'tests/python/test_veilleur_v2_ingest.py'
+      - 'tests/python/test_evidence_ledger.py'
+      - 'tests/python/test_veilleur_v2_persistent_ingest.py'
       - '.github/workflows/knowledge-governance.yml'
   pull_request:
     paths:
@@ -18,9 +21,12 @@ on:
       - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
       - 'tools/quality/library_trieur.py'
       - 'tools/quality/veilleur_v2_ingest.py'
+      - 'tools/quality/evidence_ledger.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
       - 'tests/python/test_veilleur_v2_ingest.py'
+      - 'tests/python/test_evidence_ledger.py'
+      - 'tests/python/test_veilleur_v2_persistent_ingest.py'
       - '.github/workflows/knowledge-governance.yml'
   workflow_dispatch:
 
@@ -45,6 +51,8 @@ jobs:
         run: python -m pytest -q tests/python/test_library_trieur.py
       - name: VEILLEUR V2 ingress validation, integrity and dedup tests
         run: python -m pytest -q tests/python/test_veilleur_v2_ingest.py
+      - name: Persistent evidence registry and immutable ledger tests
+        run: python -m pytest -q tests/python/test_evidence_ledger.py tests/python/test_veilleur_v2_persistent_ingest.py
       - name: Verify governance invariants
         shell: bash
         run: |
@@ -54,4 +62,7 @@ jobs:
           grep -q 'return False' tools/quality/veilleur_v2_ingest.py
           grep -q 'content_hash_mismatch' tools/quality/veilleur_v2_ingest.py
           grep -q 'duplicate_canonical_content' tools/quality/veilleur_v2_ingest.py
+          grep -q 'decision_ledger_no_update' tools/quality/evidence_ledger.py
+          grep -q 'decision_ledger_no_delete' tools/quality/evidence_ledger.py
+          grep -q 'verify_chain' tools/quality/evidence_ledger.py
           grep -q 'La bibliothèque ne modifie jamais directement le Core' docs/BIBLIOTHEQUE_GOUVERNANCE.md
