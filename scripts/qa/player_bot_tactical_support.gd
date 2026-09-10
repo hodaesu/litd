@@ -1,13 +1,13 @@
 extends RefCounted
 
 const TARGETING_RULES := preload("res://scripts/core/combat_targeting_rules.gd")
+const QA_AUTO_CONFIRM_EXPLICIT_TARGETS_META := "_qa_auto_confirm_explicit_targets"
 
 static func combat_state_signature(controller: Control) -> String:
-    # Combat bots run through the same controller as a player. If the mobile UX
-    # opened a real target picker, confirm the target before deciding whether
-    # the simulation made progress; otherwise the bot would keep tapping the
-    # skill button instead of completing the player's second tap.
-    resolve_pending_player_choice(controller, int(controller.selected_enemy))
+    # Opt-in explicite des bots QA au chemin sans UI de main_v44. La métadonnée
+    # est posée avant la première action du combat, de sorte que le second tap
+    # soit résolu dans _use_combat_skill(), avant la mesure dégâts/soins.
+    controller.set_meta(QA_AUTO_CONFIRM_EXPLICIT_TARGETS_META, true)
 
     var acted: Array[String] = []
     for hero_id_value in controller.combat_acted_hero_ids:
