@@ -7,16 +7,20 @@ on:
       - 'docs/knowledge/**'
       - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
       - 'tools/quality/library_trieur.py'
+      - 'tools/quality/veilleur_v2_ingest.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
+      - 'tests/python/test_veilleur_v2_ingest.py'
       - '.github/workflows/knowledge-governance.yml'
   pull_request:
     paths:
       - 'docs/knowledge/**'
       - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
       - 'tools/quality/library_trieur.py'
+      - 'tools/quality/veilleur_v2_ingest.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
+      - 'tests/python/test_veilleur_v2_ingest.py'
       - '.github/workflows/knowledge-governance.yml'
   workflow_dispatch:
 
@@ -39,10 +43,15 @@ jobs:
         run: python tools/quality/validate_knowledge.py
       - name: Trieur routing and Core boundary tests
         run: python -m pytest -q tests/python/test_library_trieur.py
+      - name: VEILLEUR V2 ingress validation, integrity and dedup tests
+        run: python -m pytest -q tests/python/test_veilleur_v2_ingest.py
       - name: Verify governance invariants
         shell: bash
         run: |
           set -euo pipefail
           grep -q 'return False' tools/quality/library_trieur.py
           grep -q 'QUARANTINE' tools/quality/library_trieur.py
+          grep -q 'return False' tools/quality/veilleur_v2_ingest.py
+          grep -q 'content_hash_mismatch' tools/quality/veilleur_v2_ingest.py
+          grep -q 'duplicate_canonical_content' tools/quality/veilleur_v2_ingest.py
           grep -q 'La bibliothèque ne modifie jamais directement le Core' docs/BIBLIOTHEQUE_GOUVERNANCE.md
