@@ -1,12 +1,12 @@
 extends "res://scripts/core/veilleurs_tactical_session_v2.gd"
 class_name VeilleursTacticalSessionP0
 
-const RUNTIME_P0_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_runtime_v3.gd")
+const RUNTIME_P0_SCRIPT := preload("res://scripts/core/veilleurs_tactical_combat_runtime_v4.gd")
 const AUTHORED_P0_SCRIPT := preload("res://scripts/core/veilleurs_authored_encounter_runtime_p0.gd")
 
 func start_first_combat() -> Dictionary:
     runtime = RUNTIME_P0_SCRIPT.new() as VeilleursTacticalCombatRuntimeV2
-    var result := (runtime as VeilleursTacticalCombatRuntimeV3).setup_first_combat()
+    var result := (runtime as VeilleursTacticalCombatRuntimeV4).setup_first_combat()
     active = bool(result.get("ok", false))
     encounter_id = "veilleurs_v061_first_combat"
     region_id = "khar_sen"
