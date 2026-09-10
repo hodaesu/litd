@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "docs/knowledge/**"
+      - "data/capturable_creatures.json"
       - "tools/quality/validate_knowledge.py"
       - ".github/workflows/knowledge-guardian.yml"
   workflow_dispatch:
@@ -25,5 +26,5 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate LITD knowledge contract
+      - name: Validate LITD knowledge contract and game invariants
         run: python tools/quality/validate_knowledge.py
