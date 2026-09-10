@@ -1,6 +1,7 @@
 [gd_scene load_steps=18 format=3]
 
 ; main_v50 active le Combat Sandbox mobile réconcilié sans casser la chaîne UI canonique.
+; Héritage pré-play conservé : res://scripts/ui/main_v49.gd
 ; main_v49 complète le contrat de ciblage joueur : sélection manuelle multi-cible,
 ; diagnostics hostiles explicites, soins cliniques à allié choisi et zones adjacentes
 ; déterministes lorsqu'une ancre est déclarée par la compétence.
