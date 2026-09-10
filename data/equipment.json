@@ -4,16 +4,8 @@
     "name": "Dague rituelle",
     "slot": "weapon",
     "class_id": "occultist",
-    "base_bonuses": {
-      "damage_bonus": 2
-    },
-    "allowed_affixes": [
-      "critical_chance",
-      "madness_resistance",
-      "max_madness",
-      "precision",
-      "bleed_chance"
-    ],
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["critical_chance", "madness_resistance", "max_madness", "precision", "bleed_chance"],
     "test_level": true
   },
   {
@@ -21,16 +13,8 @@
     "name": "Bâton occulte",
     "slot": "weapon",
     "class_id": "occultist",
-    "base_bonuses": {
-      "damage_bonus": 2
-    },
-    "allowed_affixes": [
-      "max_madness",
-      "madness_resistance",
-      "critical_chance",
-      "precision",
-      "bleed_chance"
-    ],
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["max_madness", "madness_resistance", "critical_chance", "precision", "bleed_chance"],
     "test_level": true
   },
   {
@@ -38,34 +22,17 @@
     "name": "Robe renforcée",
     "slot": "armor",
     "class_id": "occultist",
-    "base_bonuses": {
-      "hp_bonus": 10,
-      "madness_resistance": 4
-    },
+    "base_bonuses": {"hp_bonus": 10, "madness_resistance": 4},
     "test_level": true,
-    "allowed_affixes": [
-      "madness_resistance",
-      "max_madness",
-      "fear_resistance",
-      "physical_resistance",
-      "guard_power"
-    ]
+    "allowed_affixes": ["madness_resistance", "max_madness", "fear_resistance", "physical_resistance", "guard_power"]
   },
   {
     "id": "great_axe",
     "name": "Grande hache",
     "slot": "weapon",
     "class_id": "breaker",
-    "base_bonuses": {
-      "damage_bonus": 2
-    },
-    "allowed_affixes": [
-      "break_chance",
-      "stun_chance",
-      "bleed_chance",
-      "precision",
-      "physical_resistance"
-    ],
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["break_chance", "stun_chance", "bleed_chance", "precision", "physical_resistance"],
     "test_level": true
   },
   {
@@ -73,16 +40,8 @@
     "name": "Marteau de guerre",
     "slot": "weapon",
     "class_id": "breaker",
-    "base_bonuses": {
-      "damage_bonus": 2
-    },
-    "allowed_affixes": [
-      "stun_chance",
-      "break_chance",
-      "bleed_chance",
-      "precision",
-      "physical_resistance"
-    ],
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["stun_chance", "break_chance", "bleed_chance", "precision", "physical_resistance"],
     "test_level": true
   },
   {
@@ -90,34 +49,17 @@
     "name": "Harnois d’os",
     "slot": "armor",
     "class_id": "breaker",
-    "base_bonuses": {
-      "hp_bonus": 10,
-      "physical_resistance": 4
-    },
+    "base_bonuses": {"hp_bonus": 10, "physical_resistance": 4},
     "test_level": true,
-    "allowed_affixes": [
-      "physical_resistance",
-      "guard_power",
-      "fear_resistance",
-      "stun_chance",
-      "max_hope"
-    ]
+    "allowed_affixes": ["physical_resistance", "guard_power", "fear_resistance", "stun_chance", "max_hope"]
   },
   {
     "id": "ceremonial_mace",
     "name": "Masse cérémonielle",
     "slot": "weapon",
     "class_id": "vestal",
-    "base_bonuses": {
-      "damage_bonus": 2
-    },
-    "allowed_affixes": [
-      "healing_power",
-      "max_hope",
-      "fear_resistance",
-      "precision",
-      "stun_chance"
-    ],
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["healing_power", "max_hope", "fear_resistance", "precision", "stun_chance"],
     "test_level": true
   },
   {
@@ -125,16 +67,8 @@
     "name": "Bâton sacré",
     "slot": "weapon",
     "class_id": "vestal",
-    "base_bonuses": {
-      "damage_bonus": 2
-    },
-    "allowed_affixes": [
-      "max_hope",
-      "healing_power",
-      "fear_resistance",
-      "precision",
-      "stun_chance"
-    ],
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["max_hope", "healing_power", "fear_resistance", "precision", "stun_chance"],
     "test_level": true
   },
   {
@@ -142,34 +76,17 @@
     "name": "Habit renforcé",
     "slot": "armor",
     "class_id": "vestal",
-    "base_bonuses": {
-      "hp_bonus": 10,
-      "fear_resistance": 4
-    },
+    "base_bonuses": {"hp_bonus": 10, "fear_resistance": 4},
     "test_level": true,
-    "allowed_affixes": [
-      "fear_resistance",
-      "healing_power",
-      "max_hope",
-      "madness_resistance",
-      "guard_power"
-    ]
+    "allowed_affixes": ["fear_resistance", "healing_power", "max_hope", "madness_resistance", "guard_power"]
   },
   {
     "id": "watcher_mace",
     "name": "Masse d’armes",
     "slot": "weapon",
     "class_id": "watcher",
-    "base_bonuses": {
-      "damage_bonus": 2
-    },
-    "allowed_affixes": [
-      "riposte_chance",
-      "guard_power",
-      "precision",
-      "stun_chance",
-      "physical_resistance"
-    ],
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["riposte_chance", "guard_power", "precision", "stun_chance", "physical_resistance"],
     "test_level": true
   },
   {
@@ -177,16 +94,8 @@
     "name": "Lance de garde",
     "slot": "weapon",
     "class_id": "watcher",
-    "base_bonuses": {
-      "damage_bonus": 2
-    },
-    "allowed_affixes": [
-      "guard_power",
-      "riposte_chance",
-      "precision",
-      "stun_chance",
-      "physical_resistance"
-    ],
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["guard_power", "riposte_chance", "precision", "stun_chance", "physical_resistance"],
     "test_level": true
   },
   {
@@ -194,34 +103,17 @@
     "name": "Armure lamellaire",
     "slot": "armor",
     "class_id": "watcher",
-    "base_bonuses": {
-      "hp_bonus": 10,
-      "physical_resistance": 4
-    },
+    "base_bonuses": {"hp_bonus": 10, "physical_resistance": 4},
     "test_level": true,
-    "allowed_affixes": [
-      "physical_resistance",
-      "guard_power",
-      "riposte_chance",
-      "fear_resistance",
-      "madness_resistance"
-    ]
+    "allowed_affixes": ["physical_resistance", "guard_power", "riposte_chance", "fear_resistance", "madness_resistance"]
   },
   {
     "id": "void_seal_ring",
     "name": "Anneau du sceau vide",
     "slot": "ring",
     "class_id": "occultist",
-    "base_bonuses": {
-      "max_madness": 2
-    },
-    "allowed_affixes": [
-      "critical_chance",
-      "madness_resistance",
-      "max_madness",
-      "precision",
-      "bleed_chance"
-    ],
+    "base_bonuses": {"max_madness": 2},
+    "allowed_affixes": ["critical_chance", "madness_resistance", "max_madness", "precision", "bleed_chance"],
     "test_level": true
   },
   {
@@ -229,16 +121,8 @@
     "name": "Anneau des murmures",
     "slot": "ring",
     "class_id": "occultist",
-    "base_bonuses": {
-      "madness_resistance": 2
-    },
-    "allowed_affixes": [
-      "madness_resistance",
-      "max_madness",
-      "critical_chance",
-      "precision",
-      "fear_resistance"
-    ],
+    "base_bonuses": {"madness_resistance": 2},
+    "allowed_affixes": ["madness_resistance", "max_madness", "critical_chance", "precision", "fear_resistance"],
     "test_level": true
   },
   {
@@ -246,16 +130,8 @@
     "name": "Collier de l’étoile noire",
     "slot": "necklace",
     "class_id": "occultist",
-    "base_bonuses": {
-      "critical_chance": 1
-    },
-    "allowed_affixes": [
-      "critical_chance",
-      "max_madness",
-      "madness_resistance",
-      "precision",
-      "bleed_chance"
-    ],
+    "base_bonuses": {"critical_chance": 1},
+    "allowed_affixes": ["critical_chance", "max_madness", "madness_resistance", "precision", "bleed_chance"],
     "test_level": true
   },
   {
@@ -263,16 +139,8 @@
     "name": "Anneau du fracas",
     "slot": "ring",
     "class_id": "breaker",
-    "base_bonuses": {
-      "break_chance": 2
-    },
-    "allowed_affixes": [
-      "break_chance",
-      "stun_chance",
-      "bleed_chance",
-      "precision",
-      "physical_resistance"
-    ],
+    "base_bonuses": {"break_chance": 2},
+    "allowed_affixes": ["break_chance", "stun_chance", "bleed_chance", "precision", "physical_resistance"],
     "test_level": true
   },
   {
@@ -280,16 +148,8 @@
     "name": "Anneau du sang de fer",
     "slot": "ring",
     "class_id": "breaker",
-    "base_bonuses": {
-      "physical_resistance": 2
-    },
-    "allowed_affixes": [
-      "physical_resistance",
-      "guard_power",
-      "break_chance",
-      "stun_chance",
-      "bleed_chance"
-    ],
+    "base_bonuses": {"physical_resistance": 2},
+    "allowed_affixes": ["physical_resistance", "guard_power", "break_chance", "stun_chance", "bleed_chance"],
     "test_level": true
   },
   {
@@ -297,16 +157,8 @@
     "name": "Torque d’os",
     "slot": "necklace",
     "class_id": "breaker",
-    "base_bonuses": {
-      "hp_bonus": 3
-    },
-    "allowed_affixes": [
-      "break_chance",
-      "stun_chance",
-      "physical_resistance",
-      "bleed_chance",
-      "guard_power"
-    ],
+    "base_bonuses": {"hp_bonus": 3},
+    "allowed_affixes": ["break_chance", "stun_chance", "physical_resistance", "bleed_chance", "guard_power"],
     "test_level": true
   },
   {
@@ -314,16 +166,8 @@
     "name": "Anneau de l’aube",
     "slot": "ring",
     "class_id": "vestal",
-    "base_bonuses": {
-      "healing_power": 2
-    },
-    "allowed_affixes": [
-      "healing_power",
-      "max_hope",
-      "fear_resistance",
-      "precision",
-      "stun_chance"
-    ],
+    "base_bonuses": {"healing_power": 2},
+    "allowed_affixes": ["healing_power", "max_hope", "fear_resistance", "precision", "stun_chance"],
     "test_level": true
   },
   {
@@ -331,16 +175,8 @@
     "name": "Anneau du vœu",
     "slot": "ring",
     "class_id": "vestal",
-    "base_bonuses": {
-      "max_hope": 2
-    },
-    "allowed_affixes": [
-      "max_hope",
-      "healing_power",
-      "fear_resistance",
-      "madness_resistance",
-      "guard_power"
-    ],
+    "base_bonuses": {"max_hope": 2},
+    "allowed_affixes": ["max_hope", "healing_power", "fear_resistance", "madness_resistance", "guard_power"],
     "test_level": true
   },
   {
@@ -348,16 +184,8 @@
     "name": "Collier-reliquaire",
     "slot": "necklace",
     "class_id": "vestal",
-    "base_bonuses": {
-      "fear_resistance": 1
-    },
-    "allowed_affixes": [
-      "fear_resistance",
-      "healing_power",
-      "max_hope",
-      "madness_resistance",
-      "precision"
-    ],
+    "base_bonuses": {"fear_resistance": 1},
+    "allowed_affixes": ["fear_resistance", "healing_power", "max_hope", "madness_resistance", "precision"],
     "test_level": true
   },
   {
@@ -365,16 +193,8 @@
     "name": "Anneau de la sentinelle",
     "slot": "ring",
     "class_id": "watcher",
-    "base_bonuses": {
-      "guard_power": 2
-    },
-    "allowed_affixes": [
-      "guard_power",
-      "riposte_chance",
-      "precision",
-      "stun_chance",
-      "physical_resistance"
-    ],
+    "base_bonuses": {"guard_power": 2},
+    "allowed_affixes": ["guard_power", "riposte_chance", "precision", "stun_chance", "physical_resistance"],
     "test_level": true
   },
   {
@@ -382,16 +202,8 @@
     "name": "Anneau de contre-garde",
     "slot": "ring",
     "class_id": "watcher",
-    "base_bonuses": {
-      "riposte_chance": 2
-    },
-    "allowed_affixes": [
-      "riposte_chance",
-      "guard_power",
-      "physical_resistance",
-      "precision",
-      "stun_chance"
-    ],
+    "base_bonuses": {"riposte_chance": 2},
+    "allowed_affixes": ["riposte_chance", "guard_power", "physical_resistance", "precision", "stun_chance"],
     "test_level": true
   },
   {
@@ -399,30 +211,107 @@
     "name": "Collier de veille",
     "slot": "necklace",
     "class_id": "watcher",
-    "base_bonuses": {
-      "physical_resistance": 1
-    },
-    "allowed_affixes": [
-      "physical_resistance",
-      "guard_power",
-      "riposte_chance",
-      "fear_resistance",
-      "precision"
-    ],
+    "base_bonuses": {"physical_resistance": 1},
+    "allowed_affixes": ["physical_resistance", "guard_power", "riposte_chance", "fear_resistance", "precision"],
     "test_level": true
+  },
+  {
+    "id": "duelist_training_blade",
+    "name": "Lame de duel d’essai",
+    "slot": "weapon",
+    "class_id": "duelist",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["critical_chance", "riposte_chance", "precision", "bleed_chance", "guard_power"],
+    "test_level": true,
+    "prototype": true
+  },
+  {
+    "id": "duelist_training_sabre",
+    "name": "Sabre équilibré d’essai",
+    "slot": "weapon",
+    "class_id": "duelist",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["riposte_chance", "critical_chance", "precision", "bleed_chance", "physical_resistance"],
+    "test_level": true,
+    "prototype": true
+  },
+  {
+    "id": "duelist_training_armor",
+    "name": "Protection de duel d’essai",
+    "slot": "armor",
+    "class_id": "duelist",
+    "base_bonuses": {"hp_bonus": 10, "physical_resistance": 4},
+    "allowed_affixes": ["physical_resistance", "riposte_chance", "precision", "guard_power", "fear_resistance"],
+    "test_level": true,
+    "prototype": true
+  },
+  {
+    "id": "mystic_training_staff",
+    "name": "Bâton de trame d’essai",
+    "slot": "weapon",
+    "class_id": "mystic",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["max_hope", "madness_resistance", "precision", "critical_chance", "fear_resistance"],
+    "test_level": true,
+    "prototype": true
+  },
+  {
+    "id": "mystic_training_blade",
+    "name": "Lame de trame d’essai",
+    "slot": "weapon",
+    "class_id": "mystic",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["critical_chance", "max_hope", "madness_resistance", "precision", "bleed_chance"],
+    "test_level": true,
+    "prototype": true
+  },
+  {
+    "id": "mystic_training_robe",
+    "name": "Robe de trame d’essai",
+    "slot": "armor",
+    "class_id": "mystic",
+    "base_bonuses": {"hp_bonus": 10, "madness_resistance": 4},
+    "allowed_affixes": ["madness_resistance", "max_hope", "fear_resistance", "physical_resistance", "precision"],
+    "test_level": true,
+    "prototype": true
+  },
+  {
+    "id": "surgeon_training_scalpel",
+    "name": "Scalpel de guerre d’essai",
+    "slot": "weapon",
+    "class_id": "surgeon",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["healing_power", "precision", "bleed_chance", "critical_chance", "physical_resistance"],
+    "test_level": true,
+    "prototype": true
+  },
+  {
+    "id": "surgeon_training_blade",
+    "name": "Lame chirurgicale d’essai",
+    "slot": "weapon",
+    "class_id": "surgeon",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["precision", "healing_power", "bleed_chance", "critical_chance", "fear_resistance"],
+    "test_level": true,
+    "prototype": true
+  },
+  {
+    "id": "surgeon_training_coat",
+    "name": "Protection clinique d’essai",
+    "slot": "armor",
+    "class_id": "surgeon",
+    "base_bonuses": {"hp_bonus": 10, "fear_resistance": 4},
+    "allowed_affixes": ["healing_power", "fear_resistance", "physical_resistance", "precision", "max_hope"],
+    "test_level": true,
+    "prototype": true
   },
   {
     "id": "rust_blade",
     "name": "Lame rouillée",
     "slot": "weapon",
     "class_id": "",
-    "base_bonuses": {
-      "damage_bonus": 1
-    },
-    "allowed_affixes": [
-      "critical_chance",
-      "precision"
-    ],
+    "base_bonuses": {"damage_bonus": 1},
+    "allowed_affixes": ["critical_chance", "precision"],
     "legacy": true
   },
   {
@@ -430,9 +319,7 @@
     "name": "Armure du Voile",
     "slot": "armor",
     "class_id": "",
-    "base_bonuses": {
-      "hp_bonus": 8
-    },
+    "base_bonuses": {"hp_bonus": 8},
     "legacy": true
   },
   {
@@ -440,9 +327,7 @@
     "name": "Anneau d’os",
     "slot": "ring",
     "class_id": "",
-    "base_bonuses": {
-      "critical_chance": 3
-    },
+    "base_bonuses": {"critical_chance": 3},
     "legacy": true
   }
 ]
