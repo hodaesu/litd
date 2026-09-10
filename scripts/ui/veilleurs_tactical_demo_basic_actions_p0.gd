@@ -77,7 +77,10 @@ func _refresh_decision_state() -> void:
     var allowed := (action.get("positions", []) as Array).has(rank)
     var target_id := _basic_target_id(action)
     tactical_ui.set_armed_skill(pending_skill_slot)
-    tactical_ui.set_targeting_mode(true, [target_id] if target_id != "" else [], [], allowed)
+    var candidates: Array = []
+    if target_id != "":
+        candidates.append(target_id)
+    tactical_ui.set_targeting_mode(true, candidates, [], allowed)
     var kind := str(action.get("kind", ""))
     var zone_relevant := kind.find("damage") >= 0 or kind.find("attack") >= 0 or kind.find("bleed") >= 0 or kind.find("precision") >= 0
     if tactical_ui.has_method("set_body_zone_choices_visible"):
