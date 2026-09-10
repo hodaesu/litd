@@ -11,6 +11,10 @@ on:
       - tools/blender/generate_character_jobs.py
       - .github/workflows/character-jobs-sync.yml
 
+concurrency:
+  group: character-jobs-sync-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
