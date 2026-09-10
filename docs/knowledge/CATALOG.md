@@ -22,6 +22,27 @@ Ce catalogue est un point d'entrée humain vers la bibliothèque. Il ne remplace
 
 La distinction ci-dessus est volontaire : une preuve historique fusionnée confirme qu'un système a existé et a été validé à un instant donné, mais ne suffit pas à certifier son état runtime actuel après de nombreuses évolutions.
 
+## Research records / écarts de preuve
+
+| ID | Sujet | Statut | Confiance | Condition de promotion |
+|---|---|---|---|---|
+| RR-0001 | Rémanence / persistance des conséquences | revalidate | medium | test ou smoke actuel démontrant état → persistance → rechargement/transition → conséquence observable |
+| RR-0002 | Loot déterministe par seed | revalidate | medium | test même seed + même contexte → même loot, avec identité persistante maîtrisée |
+| RR-0003 | Exclusivité d'arbre | revalidate | medium_high | test logique : choix A → B/C interdits, puis persistance si applicable |
+| RR-0004 | Vertical Slice 01 / Lumière | revalidate | medium_high | données/config runtime traçables + tests principaux + mesure playtest pour la durée cible |
+| RR-0005 | Galeries Éteintes / PR #245 | revalidate | high | corriger la dérive de roster, réaligner sur `main`, smokes/CI verts puis fusion |
+| RR-0006 | Méthode d'ingénierie / PR #254 | revalidate | high | relecture contre le dépôt courant, validation puis fusion sur `main` |
+| RR-0007 | Playtest PC / cinq testeurs / PR #243 | experimental | high | cinq sessions humaines réelles et seuils du protocole atteints ; protocole fusionné |
+| RR-0008 | Trieur canonique ⇄ Core / PR #260 | revalidate | high | chemin destructif unique/sûr vérifié, audit/tests verts, puis fusion |
+
+Ces fiches formalisent volontairement les lacunes de preuve au lieu de promouvoir un faux canon technique. Une règle Guardian en `automated_candidate`, une PR ouverte ou un build techniquement vert ne constituent pas seuls une validation complète.
+
+### Contradictions importantes conservées
+
+- PR #245 : véritable prototype Galeries Éteintes, mais le diff contient encore des références à Nayra/Tarek/Aïsha/Idris ; cette dérive contredit le quatuor de départ actuel Mathilde/Marec/Anouk/Aurélien et bloque une promotion canonique.
+- PR #243 : la validation technique peut être verte tout en laissant `human_validation_status=NOT_RUN` ; aucune conclusion de compréhension joueur ne doit en être déduite.
+- PR #260 : l'architecture Core ⇄ Trieur est substantielle, mais reste hors de `main` tant que la PR n'est pas fusionnée et le chemin de suppression final entièrement vérifié.
+
 ## Incidents capitalisés
 
 - `incidents/2026-09-10-runtime-player-smoke-equipment.md` — migration du quatuor ayant révélé une couverture d'équipement de test incomplète ; cause corrigée sans fallback artificiel.
@@ -34,16 +55,14 @@ La distinction ci-dessus est volontaire : une preuve historique fusionnée confi
 - `dependencies.yml` — dépendances structurées existantes.
 - `templates/decision.md`, `templates/research.md`, `templates/incident.md` — formats normalisés.
 
-## À importer / vérifier ensuite — priorité élevée
+## À traiter ensuite — priorité élevée
 
-1. calibrage Vertical Slice 01 : durée cible, volumes de salles, actes, fenêtres d'extraction et seuils de Lumière — ne pas confondre avec ADR-0007 tant que le calibrage récent n'est pas prouvé dans Git ;
-2. Rémanence et persistance des conséquences — aucune preuve actuelle suffisamment nette retrouvée lors de la passe du 2026-09-10 : statut `to_verify` ;
-3. équipement/loot déterministe par seed — le Guardian contient un invariant `deterministic-loot`, mais sa validation est encore `automated_candidate` : statut `to_verify` avant promotion ;
-4. exclusivité d'arbre — règle Guardian présente avec validation `automated_candidate` : rattacher à un test fiable avant de la déclarer techniquement validée ;
-5. Galeries Éteintes et son état réel d'implémentation ;
-6. méthode d'ingénierie LITD (PR #254 tant qu'elle n'est pas fusionnée : `revalidate`) ;
-7. protocole de playtest PC / cinq testeurs naïfs (PR #243 draft : `experimental`) ;
-8. trieur canonique relié au Core (PR #260 ouverte : `experimental` jusqu'à intégration).
+1. corriger/réaligner Galeries Éteintes #245 sur le quatuor canonique et l'état actuel de `main` ;
+2. raccorder RR-0001 à RR-0004 à des tests runtime explicites plutôt qu'à des intentions ;
+3. revalider puis intégrer la méthode d'ingénierie #254 si elle correspond toujours à l'architecture actuelle ;
+4. maintenir #243 en `experimental` jusqu'aux cinq observations humaines réelles ;
+5. sécuriser puis intégrer #260 comme capteur/exécutant contrôlé du Core ;
+6. promouvoir ensuite uniquement les connaissances dont les preuves convergent sur le head réel.
 
 ## Règle d'admission
 
@@ -59,4 +78,4 @@ Une règle déclarée dans le Guardian avec `automated_candidate` constitue un o
 
 ## Prochaine passe
 
-Finir le Lot 02 par la recherche ciblée des preuves actuelles de Rémanence, loot déterministe, exclusivité d'arbre et calibrage Vertical Slice 01. Si les preuves restent absentes, créer des fiches `to_verify` avec conditions explicites de promotion plutôt que de produire un faux canon technique.
+Le Lot 02 et les quatre principaux chantiers connexes sont désormais représentés sans faux positif de validation. La prochaine étape n'est plus d'ajouter des affirmations : elle consiste à réduire ces écarts de preuve dans le code et la CI, en commençant par la contradiction canonique de Galeries Éteintes puis les invariants runtime manquants.
