@@ -59,12 +59,12 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           text = Path('.github/workflows/file-sorter-audit.yml').read_text(encoding='utf-8')
+          normalized = ' '.join(text.split())
           forbidden = [
-              'litd_file_sorter.py --apply',
-              'litd_safe_delete.py --execute',
-              'litd_safe_delete.py\\\n            --execute',
+              'litd_file_sorter.py ' + '--apply',
+              'litd_safe_delete.py ' + '--execute',
           ]
-          if any(token in text for token in forbidden):
+          if any(token in normalized for token in forbidden):
               raise SystemExit('Deletion invocation is forbidden in CI')
           PY
       - name: Upload audit reports
