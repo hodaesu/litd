@@ -11,7 +11,8 @@
       "stats": {"FOR":69,"TEC":75,"PRE":62,"MOB":52,"GAR":89,"RES":91,"PER":70,"VIG":88},
       "body_integrity": {"head":70,"torso":140,"left_arm":90,"right_arm":90,"left_leg":100,"right_leg":100},
       "tree_ids": ["TREE_marec_BASTION","TREE_marec_BRISURE","TREE_marec_SERMENT"],
-      "starter_position": [0,1]
+      "starter_rank": 1,
+      "starter_position": [3,2]
     },
     {
       "entity_id": "ENT_WATCHER_mathilde",
@@ -22,7 +23,8 @@
       "stats": {"FOR":54,"TEC":88,"PRE":91,"MOB":87,"GAR":48,"RES":70,"PER":92,"VIG":61},
       "body_integrity": {"head":70,"torso":140,"left_arm":90,"right_arm":90,"left_leg":100,"right_leg":100},
       "tree_ids": ["TREE_mathilde_TRAQUE","TREE_mathilde_ENTAILLE","TREE_mathilde_DISPARITION"],
-      "starter_position": [0,0]
+      "starter_rank": 4,
+      "starter_position": [0,2]
     },
     {
       "entity_id": "ENT_WATCHER_aurelien",
@@ -33,7 +35,8 @@
       "stats": {"FOR":45,"TEC":86,"PRE":79,"MOB":68,"GAR":51,"RES":94,"PER":96,"VIG":55},
       "body_integrity": {"head":70,"torso":140,"left_arm":90,"right_arm":90,"left_leg":100,"right_leg":100},
       "tree_ids": ["TREE_aurelien_ANATOMIE","TREE_aurelien_SUTURE","TREE_aurelien_HEMOCORDE"],
-      "starter_position": [0,2]
+      "starter_rank": 3,
+      "starter_position": [1,2]
     },
     {
       "entity_id": "ENT_WATCHER_anouk",
@@ -44,7 +47,8 @@
       "stats": {"FOR":78,"TEC":72,"PRE":65,"MOB":58,"GAR":80,"RES":76,"PER":61,"VIG":84},
       "body_integrity": {"head":70,"torso":140,"left_arm":90,"right_arm":90,"left_leg":100,"right_leg":100},
       "tree_ids": ["TREE_anouk_SENTENCE","TREE_anouk_CONCORDE","TREE_anouk_DISSIDENCE"],
-      "starter_position": [0,3]
+      "starter_rank": 2,
+      "starter_position": [2,2]
     }
   ]
 }
