@@ -24,8 +24,9 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       REPOSITORY: ${{ github.repository }}
       CURRENT_RUN_ID: ${{ github.run_id }}
-      # Web v49 contains the current gameplay and must survive later CI-only commits.
+      # Explicitly pin the published Web v49 run for traceability.
       PROTECTED_RUN_IDS: '34456543564'
+      WEB_WORKFLOW_NAME: 'LITD Web Playtest PWA'
     steps:
       - name: Cancel obsolete queued and running workflow runs
         shell: bash
@@ -41,6 +42,7 @@ jobs:
           repo = os.environ['REPOSITORY']
           token = os.environ['GH_TOKEN']
           current_run = int(os.environ['CURRENT_RUN_ID'])
+          web_workflow_name = os.environ.get('WEB_WORKFLOW_NAME', '').strip()
           protected = {
               int(value)
               for value in os.environ.get('PROTECTED_RUN_IDS', '').split(',')
@@ -113,8 +115,26 @@ jobs:
                       break
                   page += 1
 
+          # Keep the newest active Web playtest run even if main advanced only because
+          # of CI/docs commits that the Web workflow intentionally ignores.
+          active_web_runs = [
+              run for run in candidates
+              if run.get('name') == web_workflow_name
+          ]
+          if active_web_runs:
+              newest_web = max(
+                  active_web_runs,
+                  key=lambda run: (run.get('created_at') or '', int(run.get('id', 0))),
+              )
+              protected.add(int(newest_web['id']))
+              print(
+                  f'KEEP newest active web playtest {newest_web["id"]} '
+                  f'sha={str(newest_web.get("head_sha"))[:12]}'
+              )
+
           cancelled = 0
           skipped = 0
+          conflicts = 0
           for run in candidates:
               run_id = int(run['id'])
               if run_id in protected:
@@ -147,20 +167,33 @@ jobs:
                   continue
 
               status, _ = request_json(f'{api}/actions/runs/{run_id}/cancel', method='POST')
-              if status in (202, 409):
+              if status == 202:
                   cancelled += 1
                   print(
                       f'CANCEL {run_id} [{run.get("status")}] {run.get("name")} '
                       f'branch={branch} sha={str(head_sha)[:12]} reason={reason}'
                   )
+              elif status == 409:
+                  conflicts += 1
+                  skipped += 1
+                  print(f'KEEP {run_id}: state changed before cancellation (HTTP 409)')
               else:
+                  skipped += 1
                   print(f'KEEP {run_id}: cancel endpoint returned HTTP {status}')
 
-          print(f'QUEUE_CLEANUP_RESULT cancelled={cancelled} skipped={skipped} candidates={len(candidates)}')
+          print(
+              f'QUEUE_CLEANUP_RESULT cancelled={cancelled} skipped={skipped} '
+              f'conflicts={conflicts} candidates={len(candidates)}'
+          )
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
               summary.write('## LITD Actions queue cleanup\n')
               summary.write(f'- Candidates inspected: **{len(candidates)}**\n')
               summary.write(f'- Obsolete runs cancelled: **{cancelled}**\n')
+              summary.write(f'- Cancellation conflicts (HTTP 409): **{conflicts}**\n')
               summary.write(f'- Current/protected/untouched runs: **{skipped}**\n')
-              summary.write('- Protected Web v49 run: **34456543564**\n')
+              summary.write('- Pinned published Web v49 run: **34456543564**\n')
+              if active_web_runs:
+                  summary.write(
+                      f'- Newest active Web playtest protected: **{newest_web["id"]}**\n'
+                  )
           PY
