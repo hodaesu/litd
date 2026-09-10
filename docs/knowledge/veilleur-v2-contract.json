@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "consumer": "LITD Knowledge Trieur",
+  "producer": "VEILLEUR V2",
+  "accepted_input": {
+    "required_fields": [
+      "evidence_id",
+      "title",
+      "summary",
+      "source_url",
+      "source_verified",
+      "source_confidence",
+      "discovered_at",
+      "published_at",
+      "domain_hints",
+      "content_hash"
+    ],
+    "source_verified_required": true
+  },
+  "routing_outputs": [
+    "GENERAL_LIBRARY",
+    "LITD_LIBRARY",
+    "QUARANTINED"
+  ],
+  "hard_invariants": {
+    "core_direct_write": false,
+    "canonical_evidence_duplication": false,
+    "ambiguous_content_action": "QUARANTINED",
+    "unverified_source_action": "QUARANTINED",
+    "litd_change_requires_state": "LITD_CHANGE_CANDIDATE"
+  },
+  "litd_change_lifecycle": [
+    "DISCOVERED",
+    "VERIFIED",
+    "RELEVANT",
+    "LITD_CHANGE_CANDIDATE",
+    "TESTED",
+    "APPROVED",
+    "APPLIED",
+    "MEASURED"
+  ]
+}
