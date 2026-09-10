@@ -1,0 +1,64 @@
+name: Measurement Provenance
+
+on:
+  workflow_run:
+    workflows: ["Balance Telemetry"]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: measurement-provenance-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Download Balance Telemetry artifacts
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          path: upstream-artifacts
+      - name: Build measurement candidates from real reports
+        env:
+          GITHUB_SHA: ${{ github.event.workflow_run.head_sha }}
+          GITHUB_RUN_ID: ${{ github.event.workflow_run.id }}
+          GITHUB_RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+          GITHUB_WORKFLOW: Balance Telemetry
+          GITHUB_JOB: measurement-provenance
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports/measurement-candidates
+          found=0
+          while IFS= read -r -d '' report; do
+            found=1
+            name="$(basename "$report" .json)"
+            python -m tools.quality.measurement_collector "$report" \
+              --output "reports/measurement-candidates/${name}.measurement.json"
+          done < <(find upstream-artifacts -type f -name '*.json' -print0)
+          if [ "$found" -eq 0 ]; then
+            echo 'No JSON telemetry reports were downloaded.' >&2
+            exit 1
+          fi
+      - name: Verify measurement collector contract
+        run: python -m pytest -q tests/python/test_measurement_collector.py
+      - name: Upload provenance-ready measurements
+        uses: actions/upload-artifact@v4
+        with:
+          name: measurement-candidates-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: reports/measurement-candidates/*.measurement.json
+          if-no-files-found: error
