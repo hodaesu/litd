@@ -15,23 +15,23 @@ permissions:
   contents: read
   actions: write
   pull-requests: read
+  deployments: read
 
 jobs:
-  cancel-obsolete-runs:
+  guardian-queue-manager:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
       GH_TOKEN: ${{ github.token }}
       REPOSITORY: ${{ github.repository }}
       CURRENT_RUN_ID: ${{ github.run_id }}
-      # Explicitly pin the published Web v49 run for traceability.
       PROTECTED_RUN_IDS: '34456543564'
       WEB_WORKFLOW_NAME: 'LITD Web Playtest PWA'
       CRITICAL_WORKFLOWS: 'LITD Web Playtest PWA,CI,Developer Autotest,GE01 Smoke,Veilleurs Combat Sandbox Smoke'
       MAX_CANCELLATIONS: '50'
       MAX_CANDIDATES: '250'
     steps:
-      - name: Cancel obsolete queued and running workflow runs
+      - name: Guard and clean obsolete workflow runs
         shell: bash
         run: |
           python - <<'PY'
@@ -45,18 +45,14 @@ jobs:
           repo = os.environ['REPOSITORY']
           token = os.environ['GH_TOKEN']
           current_run = int(os.environ['CURRENT_RUN_ID'])
-          web_workflow_name = os.environ.get('WEB_WORKFLOW_NAME', '').strip()
+          web_workflow_name = os.environ['WEB_WORKFLOW_NAME'].strip()
           critical_workflows = {
-              value.strip()
-              for value in os.environ.get('CRITICAL_WORKFLOWS', '').split(',')
-              if value.strip()
+              value.strip() for value in os.environ['CRITICAL_WORKFLOWS'].split(',') if value.strip()
           }
           max_cancellations = int(os.environ.get('MAX_CANCELLATIONS', '50'))
           max_candidates = int(os.environ.get('MAX_CANDIDATES', '250'))
           protected = {
-              int(value)
-              for value in os.environ.get('PROTECTED_RUN_IDS', '').split(',')
-              if value.strip()
+              int(value) for value in os.environ.get('PROTECTED_RUN_IDS', '').split(',') if value.strip()
           }
           protected.add(current_run)
           api = f'https://api.github.com/repos/{repo}'
@@ -64,7 +60,7 @@ jobs:
               'Authorization': f'Bearer {token}',
               'Accept': 'application/vnd.github+json',
               'X-GitHub-Api-Version': '2022-11-28',
-              'User-Agent': 'litd-actions-queue-cleanup',
+              'User-Agent': 'litd-guardian-queue-manager-v3',
           }
 
           def request_json(url, method='GET'):
@@ -95,7 +91,7 @@ jobs:
                       break
               return items
 
-          # Current heads of open PR branches in this repository.
+          # Resolve open PR heads. Any API ambiguity fails closed for PR cancellation.
           pr_heads = {}
           page = 1
           while True:
@@ -106,8 +102,7 @@ jobs:
                   break
               for pr in pulls:
                   head = pr.get('head') or {}
-                  head_repo = (head.get('repo') or {}).get('full_name')
-                  if head_repo == repo and head.get('ref') and head.get('sha'):
+                  if (head.get('repo') or {}).get('full_name') == repo and head.get('ref') and head.get('sha'):
                       pr_heads[head['ref']] = head['sha']
               if len(pulls) < 100:
                   break
@@ -130,107 +125,109 @@ jobs:
               branch_cache[branch] = sha
               return sha
 
-          # Active queue snapshot, deduplicated by run id.
+          # Snapshot active queue once, deduplicated by run id.
           active = {}
           for run_status in ('queued', 'in_progress'):
-              for run in paged_runs(run_status, max_pages=3):
+              for run in paged_runs(run_status):
                   active[int(run['id'])] = run
           candidates = list(active.values())
           queue_before = len(candidates)
 
           if queue_before > max_candidates:
-              print(
-                  f'GUARDRAIL_TRIPPED candidates={queue_before} max_candidates={max_candidates}; '
-                  'refusing all cancellations'
-              )
+              print(f'GUARDRAIL_TRIPPED candidates={queue_before} max_candidates={max_candidates}; refusing all cancellations')
               with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
-                  summary.write('## LITD Actions queue cleanup\n')
-                  summary.write(f'- Guardrail: **TRIPPED** ({queue_before} active candidates > {max_candidates})\n')
+                  summary.write('## LITD Guardian Queue Manager v3\n')
+                  summary.write(f'- Guardrail: **TRIPPED** ({queue_before} active > {max_candidates})\n')
                   summary.write('- No workflow runs were cancelled.\n')
               raise SystemExit(0)
 
-          # Recent history is used to prove that a replacement run exists before cancelling
-          # an obsolete push/workflow_run. This protects workflows with path filters.
-          recent_runs = paged_runs(None, max_pages=3)
+          recent_runs = paged_runs(None)
           by_workflow_branch_sha = {}
           for run in recent_runs:
               key = (run.get('workflow_id'), run.get('head_branch'), run.get('head_sha'))
               by_workflow_branch_sha.setdefault(key, []).append(run)
 
-          # Always keep the newest active Web playtest run.
-          active_web_runs = [run for run in candidates if run.get('name') == web_workflow_name]
-          newest_web = None
-          if active_web_runs:
-              newest_web = max(
-                  active_web_runs,
-                  key=lambda run: (run.get('created_at') or '', int(run.get('id', 0))),
-              )
-              protected.add(int(newest_web['id']))
-              print(
-                  f'KEEP newest active web playtest {newest_web["id"]} '
-                  f'sha={str(newest_web.get("head_sha"))[:12]}'
-              )
+          # Deployment guard: protect Web runs matching the latest successful GitHub Pages deployment SHA.
+          deployed_sha = None
+          status, deployments = request_json(f'{api}/deployments?environment=github-pages&per_page=20')
+          if status == 200 and deployments:
+              for deployment in deployments:
+                  dep_id = deployment.get('id')
+                  dep_sha = deployment.get('sha')
+                  if not dep_id or not dep_sha:
+                      continue
+                  s_status, payload = request_json(f'{api}/deployments/{dep_id}/statuses?per_page=20')
+                  if s_status == 200 and payload and any(item.get('state') == 'success' for item in payload):
+                      deployed_sha = dep_sha
+                      print(f'GUARD deployed github-pages sha={deployed_sha[:12]} deployment={dep_id}')
+                      break
+          else:
+              print('GUARDRAIL: github-pages deployment state unavailable; Web runs fail closed')
 
-          # Keep the newest active run for every critical workflow/branch pair.
+          # Protect all active Web runs, not just the newest one: build/deploy is release-critical.
+          active_web_runs = [run for run in candidates if run.get('name') == web_workflow_name]
+          for run in active_web_runs:
+              protected.add(int(run['id']))
+              print(f'KEEP active web playtest {run["id"]} sha={str(run.get("head_sha"))[:12]}')
+
+          # Also protect recent Web run(s) that correspond to the currently deployed Pages SHA.
+          if deployed_sha:
+              for run in recent_runs:
+                  if run.get('name') == web_workflow_name and run.get('head_sha') == deployed_sha:
+                      protected.add(int(run['id']))
+                      print(f'KEEP deployed web run {run["id"]} sha={deployed_sha[:12]}')
+
+          # Invariant: every critical workflow/branch family keeps at least its newest living run.
           newest_critical = {}
           for run in candidates:
               if run.get('name') not in critical_workflows:
                   continue
               key = (run.get('name'), run.get('head_branch'))
               current = newest_critical.get(key)
-              if current is None or (
-                  (run.get('created_at') or '', int(run.get('id', 0))) >
-                  (current.get('created_at') or '', int(current.get('id', 0)))
-              ):
+              stamp = (run.get('created_at') or '', int(run.get('id', 0)))
+              if current is None or stamp > (current.get('created_at') or '', int(current.get('id', 0))):
                   newest_critical[key] = run
           for run in newest_critical.values():
               protected.add(int(run['id']))
-              print(
-                  f'KEEP newest critical {run["id"]} {run.get("name")} '
-                  f'branch={run.get("head_branch")}'
-              )
+              print(f'KEEP newest critical {run["id"]} {run.get("name")} branch={run.get("head_branch")}')
 
           def replacement_for(run, expected_sha):
+              """Return only a viable replacement of the SAME workflow/branch at expected SHA."""
               if not expected_sha:
                   return None
               key = (run.get('workflow_id'), run.get('head_branch'), expected_sha)
-              replacements = [
-                  item for item in by_workflow_branch_sha.get(key, [])
-                  if int(item.get('id', 0)) != int(run['id'])
-                  and item.get('status') != 'cancelled'
-                  and item.get('conclusion') != 'cancelled'
-              ]
+              replacements = []
+              for item in by_workflow_branch_sha.get(key, []):
+                  if int(item.get('id', 0)) == int(run['id']):
+                      continue
+                  status = item.get('status')
+                  conclusion = item.get('conclusion')
+                  # A failed/cancelled/timed-out replacement never proves equivalent coverage.
+                  viable = status in ('queued', 'in_progress') or (status == 'completed' and conclusion == 'success')
+                  if viable:
+                      replacements.append(item)
               if not replacements:
                   return None
-              return max(
-                  replacements,
-                  key=lambda item: (item.get('created_at') or '', int(item.get('id', 0))),
-              )
+              return max(replacements, key=lambda item: (item.get('created_at') or '', int(item.get('id', 0))))
 
-          eligible = []
-          skipped = 0
-          conflicts = 0
-          ambiguous = 0
+          eligible_queued = []
+          eligible_running = []
+          skipped = conflicts = ambiguous = 0
 
           for run in candidates:
               run_id = int(run['id'])
               if run_id in protected:
                   skipped += 1
-                  print(f'KEEP protected {run_id} {run.get("name")}')
                   continue
 
               event = run.get('event')
               branch = run.get('head_branch')
               head_sha = run.get('head_sha')
-              expected = None
-              reason = None
-              replacement = None
+              expected = reason = replacement = None
 
               if event == 'pull_request':
                   if pr_heads is None:
-                      ambiguous += 1
-                      skipped += 1
-                      print(f'KEEP {run_id}: PR state is ambiguous')
+                      ambiguous += 1; skipped += 1
                       continue
                   expected = pr_heads.get(branch)
                   if expected is None:
@@ -238,62 +235,47 @@ jobs:
                   elif head_sha != expected:
                       replacement = replacement_for(run, expected)
                       if replacement is None:
-                          ambiguous += 1
-                          skipped += 1
-                          print(f'KEEP {run_id}: PR head advanced but no replacement run is visible')
+                          ambiguous += 1; skipped += 1
+                          print(f'KEEP {run_id}: PR advanced but no viable same-workflow replacement')
                           continue
-                      reason = f'PR head advanced to {expected[:12]} with replacement {replacement["id"]}'
+                      reason = f'PR head advanced to {expected[:12]} with viable replacement {replacement["id"]}'
               elif event in ('push', 'workflow_run'):
                   expected = branch_head(branch)
                   if branch in branch_resolution_failed or not expected:
-                      ambiguous += 1
-                      skipped += 1
-                      print(f'KEEP {run_id}: branch head could not be resolved safely')
+                      ambiguous += 1; skipped += 1
                       continue
                   if head_sha != expected:
                       replacement = replacement_for(run, expected)
                       if replacement is None:
-                          ambiguous += 1
-                          skipped += 1
-                          print(
-                              f'KEEP {run_id}: branch advanced to {expected[:12]} '
-                              'but this workflow has no replacement for that SHA'
-                          )
+                          ambiguous += 1; skipped += 1
+                          print(f'KEEP {run_id}: branch advanced but no viable same-workflow replacement')
                           continue
-                      if (
-                          run.get('status') == 'in_progress'
-                          and run.get('name') in critical_workflows
-                          and replacement.get('status') == 'queued'
-                      ):
-                          skipped += 1
-                          print(
-                              f'KEEP {run_id}: critical run is executing and replacement '
-                              f'{replacement["id"]} has not started yet'
-                          )
-                          continue
-                      reason = f'branch head advanced to {expected[:12]} with replacement {replacement["id"]}'
+                      if run.get('status') == 'in_progress' and run.get('name') in critical_workflows:
+                          # Never interrupt critical execution unless replacement is already running or succeeded.
+                          if replacement.get('status') == 'queued':
+                              skipped += 1
+                              print(f'KEEP {run_id}: critical execution outranks queued replacement {replacement["id"]}')
+                              continue
+                      reason = f'branch head advanced to {expected[:12]} with viable replacement {replacement["id"]}'
               else:
-                  # Never touch schedules, manual dispatches, Dependabot dynamic jobs, etc.
                   skipped += 1
                   continue
 
               if reason:
-                  eligible.append((run, reason))
+                  bucket = eligible_queued if run.get('status') == 'queued' else eligible_running
+                  bucket.append((run, reason))
               else:
                   skipped += 1
 
-          if len(eligible) > max_cancellations:
-              print(
-                  f'GUARDRAIL_TRIPPED eligible={len(eligible)} max_cancellations={max_cancellations}; '
-                  'refusing all cancellations'
-              )
+          # Prefer deleting queue waste. Running jobs are touched only after queued obsolete runs.
+          eligible = eligible_queued + eligible_running
+          dynamic_limit = min(max_cancellations, max(5, queue_before // 2 if queue_before else 5))
+          if len(eligible) > dynamic_limit:
+              print(f'GUARDRAIL_TRIPPED eligible={len(eligible)} dynamic_limit={dynamic_limit}; refusing all cancellations')
               with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
-                  summary.write('## LITD Actions queue cleanup\n')
+                  summary.write('## LITD Guardian Queue Manager v3\n')
                   summary.write(f'- Active queue before cleanup: **{queue_before}**\n')
-                  summary.write(
-                      f'- Guardrail: **TRIPPED** ({len(eligible)} eligible cancellations > '
-                      f'{max_cancellations})\n'
-                  )
+                  summary.write(f'- Guardrail: **TRIPPED** ({len(eligible)} eligible > safe limit {dynamic_limit})\n')
                   summary.write('- No workflow runs were cancelled.\n')
               raise SystemExit(0)
 
@@ -303,43 +285,33 @@ jobs:
               status, _ = request_json(f'{api}/actions/runs/{run_id}/cancel', method='POST')
               if status == 202:
                   cancelled += 1
-                  print(
-                      f'CANCEL {run_id} [{run.get("status")}] {run.get("name")} '
-                      f'branch={run.get("head_branch")} sha={str(run.get("head_sha"))[:12]} '
-                      f'reason={reason}'
-                  )
+                  print(f'CANCEL {run_id} [{run.get("status")}] {run.get("name")} reason={reason}')
               elif status == 409:
-                  conflicts += 1
-                  skipped += 1
+                  conflicts += 1; skipped += 1
                   print(f'KEEP {run_id}: state changed before cancellation (HTTP 409)')
               else:
                   skipped += 1
                   print(f'KEEP {run_id}: cancel endpoint returned HTTP {status}')
 
-          # Re-read the active queue so the summary reports the observed effect rather than
-          # just the number of accepted cancellation requests.
           active_after = {}
           for run_status in ('queued', 'in_progress'):
-              for run in paged_runs(run_status, max_pages=3):
+              for run in paged_runs(run_status):
                   active_after[int(run['id'])] = run
           queue_after = len(active_after)
 
-          print(
-              f'QUEUE_CLEANUP_RESULT cancelled={cancelled} skipped={skipped} '
-              f'conflicts={conflicts} ambiguous={ambiguous} '
-              f'queue_before={queue_before} queue_after={queue_after}'
-          )
+          print(f'QUEUE_GUARDIAN_V3 cancelled={cancelled} skipped={skipped} conflicts={conflicts} ambiguous={ambiguous} queued_eligible={len(eligible_queued)} running_eligible={len(eligible_running)} queue_before={queue_before} queue_after={queue_after}')
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
-              summary.write('## LITD Actions queue cleanup\n')
-              summary.write('- Guardrail: **ACTIVE**\n')
-              summary.write(f'- Active queue before cleanup: **{queue_before}**\n')
-              summary.write(f'- Active queue after cleanup: **{queue_after}**\n')
-              summary.write(f'- Obsolete runs cancelled: **{cancelled}**\n')
-              summary.write(f'- Cancellation conflicts (HTTP 409): **{conflicts}**\n')
-              summary.write(f'- Ambiguous runs conservatively kept: **{ambiguous}**\n')
-              summary.write(f'- Current/protected/untouched runs: **{skipped}**\n')
-              summary.write(f'- Maximum cancellations allowed per run: **{max_cancellations}**\n')
-              summary.write('- Pinned published Web v49 run: **34456543564**\n')
-              if newest_web:
-                  summary.write(f'- Newest active Web playtest protected: **{newest_web["id"]}**\n')
+              summary.write('## LITD Guardian Queue Manager v3\n')
+              summary.write('- Guardrail: **ACTIVE / FAIL-CLOSED**\n')
+              summary.write(f'- Active queue before: **{queue_before}**\n')
+              summary.write(f'- Active queue after: **{queue_after}**\n')
+              summary.write(f'- Obsolete queued candidates: **{len(eligible_queued)}**\n')
+              summary.write(f'- Obsolete running candidates: **{len(eligible_running)}**\n')
+              summary.write(f'- Runs cancelled: **{cancelled}**\n')
+              summary.write(f'- Ambiguous runs kept: **{ambiguous}**\n')
+              summary.write(f'- Cancellation conflicts: **{conflicts}**\n')
+              summary.write(f'- Dynamic cancellation limit: **{dynamic_limit}**\n')
+              summary.write('- Pinned Web v49 run: **34456543564**\n')
+              if deployed_sha:
+                  summary.write(f'- Latest successful github-pages SHA protected: **{deployed_sha}**\n')
           PY
