@@ -5,19 +5,19 @@ rules:
     domain: veilleurs
     description: "Le quatuor de départ canonique est Mathilde, Marec, Anouk et Aurélien."
     rationale: "Évite la réintroduction involontaire d'anciens héros de départ."
-    validation: manual_or_test
+    validation: pending_reference_data
 
   - id: skill-tree-count
     severity: red
     domain: progression
     description: "Chaque personnage concerné par le système canonique possède exactement 3 arbres de compétences."
-    validation: automated_candidate
+    validation: automated_for_capturable_creatures
 
   - id: skills-per-tree
     severity: red
     domain: progression
     description: "Chaque arbre de compétences canonique contient exactement 15 compétences."
-    validation: automated_candidate
+    validation: tracked_gap_until_reference_implementation
 
   - id: tree-exclusivity
     severity: red
@@ -29,7 +29,13 @@ rules:
     severity: red
     domain: capture
     description: "Le boss Ange n'est jamais capturable."
-    validation: automated_candidate
+    validation: automated_for_capturable_creatures
+
+  - id: capturable-identifiers-unique
+    severity: red
+    domain: capture
+    description: "Les identifiants de créatures capturables et de compétences suivies doivent rester uniques."
+    validation: automated
 
   - id: deterministic-loot
     severity: orange
