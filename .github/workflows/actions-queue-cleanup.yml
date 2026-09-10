@@ -68,26 +68,8 @@ jobs:
                   print(f'HTTP {exc.code} for {method} {url}: {raw}', file=sys.stderr)
                   raise
 
-          def paged(path, key):
-              page = 1
-              while True:
-                  separator = '&' if '?' in path else '?'
-                  status, payload = request_json(f'{api}{path}{separator}per_page=100&page={page}')
-                  if status != 200 or not payload:
-                      return
-                  items = payload.get(key, [])
-                  for item in items:
-                      yield item
-                  if len(items) < 100:
-                      return
-                  page += 1
-
           # Current heads of open PR branches in this repository.
           pr_heads = {}
-          for pr in paged('/pulls?state=open', 'items') or []:
-              pass
-
-          # The pulls endpoint returns a list, so read it separately.
           page = 1
           while True:
               status, pulls = request_json(f'{api}/pulls?state=open&per_page=100&page={page}')
@@ -143,7 +125,6 @@ jobs:
               event = run.get('event')
               branch = run.get('head_branch')
               head_sha = run.get('head_sha')
-              expected = None
               reason = None
 
               if event == 'pull_request':
