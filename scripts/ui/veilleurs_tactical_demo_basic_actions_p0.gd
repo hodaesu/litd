@@ -82,14 +82,20 @@ func _refresh_decision_state() -> void:
     var zone_relevant := kind.find("damage") >= 0 or kind.find("attack") >= 0 or kind.find("bleed") >= 0 or kind.find("precision") >= 0
     if tactical_ui.has_method("set_body_zone_choices_visible"):
         tactical_ui.call("set_body_zone_choices_visible", zone_relevant)
-    var ranks := ",".join((action.get("positions", []) as Array).map(func(value: Variant) -> String: return "R%d" % int(value)))
-    decision_label.text = "%s · %s · rang actuel R%d · utilisable %s · cible %s · confirmer : même action" % [
-        str(action.get("name", "Action")),
-        str(action.get("effect", kind)),
-        rank,
-        ranks,
-        _display(target_id) if target_id != "" else "—"
-    ] if allowed else "%s · INDISPONIBLE EN R%d · positions : %s" % [str(action.get("name", "Action")), rank, ranks]
+    var rank_labels: Array[String] = []
+    for value: Variant in action.get("positions", []):
+        rank_labels.append("R%d" % int(value))
+    var ranks := ",".join(rank_labels)
+    if allowed:
+        decision_label.text = "%s · %s · rang actuel R%d · utilisable %s · cible %s · confirmer : même action" % [
+            str(action.get("name", "Action")),
+            str(action.get("effect", kind)),
+            rank,
+            ranks,
+            _display(target_id) if target_id != "" else "—"
+        ]
+    else:
+        decision_label.text = "%s · INDISPONIBLE EN R%d · positions : %s" % [str(action.get("name", "Action")), rank, ranks]
 
 func _basic_target_id(action: Dictionary) -> String:
     var target_type := str(action.get("target", "enemy"))
