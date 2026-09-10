@@ -176,7 +176,10 @@ func _resolve_basic_reposition(attacker_id: String, action: Dictionary) -> Dicti
         var natural := basic_actions.natural_ranks_for(attacker_id, row)
         if not natural.is_empty():
             var preferred := natural[0]
-            after = before + signi(preferred - before)
+            if preferred > before:
+                after = before + 1
+            elif preferred < before:
+                after = before - 1
     row["combat_rank"] = after
     combatants[attacker_id] = row
     var result := {"ok":true, "hit":true, "non_damage":true, "basic_action":true, "action_id":str(action.get("id", "")), "basic_action_name":str(action.get("name", "")), "attacker":attacker_id, "target":attacker_id, "rank_before":before, "rank_after":after}
@@ -228,7 +231,5 @@ func _is_non_damage_control(kind: String) -> bool:
 func _is_damage_kind(kind: String) -> bool:
     return not _is_restore_kind(kind) and not _is_reposition_kind(kind) and not _is_defense_kind(kind) and not _is_non_damage_control(kind)
 
-# Explicitly kill the legacy generic heal path. Enemy healing must pass through
-# resolve_basic_action() and therefore have a provenance.
 func _enemy_support(attacker_id: String, target_id: String, reason: String) -> Dictionary:
     return {"ok":false, "reason":"generic_enemy_support_forbidden", "enemy":attacker_id, "target":target_id, "decision_reason":reason}
