@@ -27,6 +27,9 @@ jobs:
       # Explicitly pin the published Web v49 run for traceability.
       PROTECTED_RUN_IDS: '34456543564'
       WEB_WORKFLOW_NAME: 'LITD Web Playtest PWA'
+      CRITICAL_WORKFLOWS: 'LITD Web Playtest PWA,CI,Developer Autotest,GE01 Smoke,Veilleurs Combat Sandbox Smoke'
+      MAX_CANCELLATIONS: '50'
+      MAX_CANDIDATES: '250'
     steps:
       - name: Cancel obsolete queued and running workflow runs
         shell: bash
@@ -43,6 +46,13 @@ jobs:
           token = os.environ['GH_TOKEN']
           current_run = int(os.environ['CURRENT_RUN_ID'])
           web_workflow_name = os.environ.get('WEB_WORKFLOW_NAME', '').strip()
+          critical_workflows = {
+              value.strip()
+              for value in os.environ.get('CRITICAL_WORKFLOWS', '').split(',')
+              if value.strip()
+          }
+          max_cancellations = int(os.environ.get('MAX_CANCELLATIONS', '50'))
+          max_candidates = int(os.environ.get('MAX_CANDIDATES', '250'))
           protected = {
               int(value)
               for value in os.environ.get('PROTECTED_RUN_IDS', '').split(',')
@@ -70,12 +80,29 @@ jobs:
                   print(f'HTTP {exc.code} for {method} {url}: {raw}', file=sys.stderr)
                   raise
 
+          def paged_runs(status_filter=None, max_pages=3):
+              items = []
+              for page in range(1, max_pages + 1):
+                  params = f'per_page=100&page={page}'
+                  if status_filter:
+                      params = f'status={status_filter}&' + params
+                  status, payload = request_json(f'{api}/actions/runs?{params}')
+                  if status != 200 or not payload:
+                      break
+                  runs = payload.get('workflow_runs', [])
+                  items.extend(runs)
+                  if len(runs) < 100:
+                      break
+              return items
+
           # Current heads of open PR branches in this repository.
           pr_heads = {}
           page = 1
           while True:
               status, pulls = request_json(f'{api}/pulls?state=open&per_page=100&page={page}')
-              if status != 200 or not pulls:
+              if status != 200 or pulls is None:
+                  print('GUARDRAIL: unable to resolve open PR heads; refusing PR cancellations')
+                  pr_heads = None
                   break
               for pr in pulls:
                   head = pr.get('head') or {}
@@ -87,6 +114,7 @@ jobs:
               page += 1
 
           branch_cache = {}
+          branch_resolution_failed = set()
           def branch_head(branch):
               if not branch:
                   return None
@@ -97,30 +125,41 @@ jobs:
               sha = None
               if status == 200 and payload:
                   sha = (payload.get('commit') or {}).get('sha')
+              else:
+                  branch_resolution_failed.add(branch)
               branch_cache[branch] = sha
               return sha
 
-          candidates = []
+          # Active queue snapshot, deduplicated by run id.
+          active = {}
           for run_status in ('queued', 'in_progress'):
-              page = 1
-              while True:
-                  status, payload = request_json(
-                      f'{api}/actions/runs?status={run_status}&per_page=100&page={page}'
-                  )
-                  if status != 200 or not payload:
-                      break
-                  runs = payload.get('workflow_runs', [])
-                  candidates.extend(runs)
-                  if len(runs) < 100:
-                      break
-                  page += 1
+              for run in paged_runs(run_status, max_pages=3):
+                  active[int(run['id'])] = run
+          candidates = list(active.values())
+          queue_before = len(candidates)
 
-          # Keep the newest active Web playtest run even if main advanced only because
-          # of CI/docs commits that the Web workflow intentionally ignores.
-          active_web_runs = [
-              run for run in candidates
-              if run.get('name') == web_workflow_name
-          ]
+          if queue_before > max_candidates:
+              print(
+                  f'GUARDRAIL_TRIPPED candidates={queue_before} max_candidates={max_candidates}; '
+                  'refusing all cancellations'
+              )
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
+                  summary.write('## LITD Actions queue cleanup\n')
+                  summary.write(f'- Guardrail: **TRIPPED** ({queue_before} active candidates > {max_candidates})\n')
+                  summary.write('- No workflow runs were cancelled.\n')
+              raise SystemExit(0)
+
+          # Recent history is used to prove that a replacement run exists before cancelling
+          # an obsolete push/workflow_run. This protects workflows with path filters.
+          recent_runs = paged_runs(None, max_pages=3)
+          by_workflow_branch_sha = {}
+          for run in recent_runs:
+              key = (run.get('workflow_id'), run.get('head_branch'), run.get('head_sha'))
+              by_workflow_branch_sha.setdefault(key, []).append(run)
+
+          # Always keep the newest active Web playtest run.
+          active_web_runs = [run for run in candidates if run.get('name') == web_workflow_name]
+          newest_web = None
           if active_web_runs:
               newest_web = max(
                   active_web_runs,
@@ -132,9 +171,47 @@ jobs:
                   f'sha={str(newest_web.get("head_sha"))[:12]}'
               )
 
-          cancelled = 0
+          # Keep the newest active run for every critical workflow/branch pair.
+          newest_critical = {}
+          for run in candidates:
+              if run.get('name') not in critical_workflows:
+                  continue
+              key = (run.get('name'), run.get('head_branch'))
+              current = newest_critical.get(key)
+              if current is None or (
+                  (run.get('created_at') or '', int(run.get('id', 0))) >
+                  (current.get('created_at') or '', int(current.get('id', 0)))
+              ):
+                  newest_critical[key] = run
+          for run in newest_critical.values():
+              protected.add(int(run['id']))
+              print(
+                  f'KEEP newest critical {run["id"]} {run.get("name")} '
+                  f'branch={run.get("head_branch")}'
+              )
+
+          def replacement_for(run, expected_sha):
+              if not expected_sha:
+                  return None
+              key = (run.get('workflow_id'), run.get('head_branch'), expected_sha)
+              replacements = [
+                  item for item in by_workflow_branch_sha.get(key, [])
+                  if int(item.get('id', 0)) != int(run['id'])
+                  and item.get('status') != 'cancelled'
+                  and item.get('conclusion') != 'cancelled'
+              ]
+              if not replacements:
+                  return None
+              return max(
+                  replacements,
+                  key=lambda item: (item.get('created_at') or '', int(item.get('id', 0))),
+              )
+
+          eligible = []
           skipped = 0
           conflicts = 0
+          ambiguous = 0
+
           for run in candidates:
               run_id = int(run['id'])
               if run_id in protected:
@@ -145,33 +222,91 @@ jobs:
               event = run.get('event')
               branch = run.get('head_branch')
               head_sha = run.get('head_sha')
+              expected = None
               reason = None
+              replacement = None
 
               if event == 'pull_request':
+                  if pr_heads is None:
+                      ambiguous += 1
+                      skipped += 1
+                      print(f'KEEP {run_id}: PR state is ambiguous')
+                      continue
                   expected = pr_heads.get(branch)
                   if expected is None:
                       reason = 'pull request is no longer open'
                   elif head_sha != expected:
-                      reason = f'PR head advanced to {expected[:12]}'
+                      replacement = replacement_for(run, expected)
+                      if replacement is None:
+                          ambiguous += 1
+                          skipped += 1
+                          print(f'KEEP {run_id}: PR head advanced but no replacement run is visible')
+                          continue
+                      reason = f'PR head advanced to {expected[:12]} with replacement {replacement["id"]}'
               elif event in ('push', 'workflow_run'):
                   expected = branch_head(branch)
-                  if expected and head_sha != expected:
-                      reason = f'branch head advanced to {expected[:12]}'
+                  if branch in branch_resolution_failed or not expected:
+                      ambiguous += 1
+                      skipped += 1
+                      print(f'KEEP {run_id}: branch head could not be resolved safely')
+                      continue
+                  if head_sha != expected:
+                      replacement = replacement_for(run, expected)
+                      if replacement is None:
+                          ambiguous += 1
+                          skipped += 1
+                          print(
+                              f'KEEP {run_id}: branch advanced to {expected[:12]} '
+                              'but this workflow has no replacement for that SHA'
+                          )
+                          continue
+                      if (
+                          run.get('status') == 'in_progress'
+                          and run.get('name') in critical_workflows
+                          and replacement.get('status') == 'queued'
+                      ):
+                          skipped += 1
+                          print(
+                              f'KEEP {run_id}: critical run is executing and replacement '
+                              f'{replacement["id"]} has not started yet'
+                          )
+                          continue
+                      reason = f'branch head advanced to {expected[:12]} with replacement {replacement["id"]}'
               else:
                   # Never touch schedules, manual dispatches, Dependabot dynamic jobs, etc.
                   skipped += 1
                   continue
 
-              if not reason:
+              if reason:
+                  eligible.append((run, reason))
+              else:
                   skipped += 1
-                  continue
 
+          if len(eligible) > max_cancellations:
+              print(
+                  f'GUARDRAIL_TRIPPED eligible={len(eligible)} max_cancellations={max_cancellations}; '
+                  'refusing all cancellations'
+              )
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
+                  summary.write('## LITD Actions queue cleanup\n')
+                  summary.write(f'- Active queue before cleanup: **{queue_before}**\n')
+                  summary.write(
+                      f'- Guardrail: **TRIPPED** ({len(eligible)} eligible cancellations > '
+                      f'{max_cancellations})\n'
+                  )
+                  summary.write('- No workflow runs were cancelled.\n')
+              raise SystemExit(0)
+
+          cancelled = 0
+          for run, reason in eligible:
+              run_id = int(run['id'])
               status, _ = request_json(f'{api}/actions/runs/{run_id}/cancel', method='POST')
               if status == 202:
                   cancelled += 1
                   print(
                       f'CANCEL {run_id} [{run.get("status")}] {run.get("name")} '
-                      f'branch={branch} sha={str(head_sha)[:12]} reason={reason}'
+                      f'branch={run.get("head_branch")} sha={str(run.get("head_sha"))[:12]} '
+                      f'reason={reason}'
                   )
               elif status == 409:
                   conflicts += 1
@@ -181,19 +316,30 @@ jobs:
                   skipped += 1
                   print(f'KEEP {run_id}: cancel endpoint returned HTTP {status}')
 
+          # Re-read the active queue so the summary reports the observed effect rather than
+          # just the number of accepted cancellation requests.
+          active_after = {}
+          for run_status in ('queued', 'in_progress'):
+              for run in paged_runs(run_status, max_pages=3):
+                  active_after[int(run['id'])] = run
+          queue_after = len(active_after)
+
           print(
               f'QUEUE_CLEANUP_RESULT cancelled={cancelled} skipped={skipped} '
-              f'conflicts={conflicts} candidates={len(candidates)}'
+              f'conflicts={conflicts} ambiguous={ambiguous} '
+              f'queue_before={queue_before} queue_after={queue_after}'
           )
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
               summary.write('## LITD Actions queue cleanup\n')
-              summary.write(f'- Candidates inspected: **{len(candidates)}**\n')
+              summary.write('- Guardrail: **ACTIVE**\n')
+              summary.write(f'- Active queue before cleanup: **{queue_before}**\n')
+              summary.write(f'- Active queue after cleanup: **{queue_after}**\n')
               summary.write(f'- Obsolete runs cancelled: **{cancelled}**\n')
               summary.write(f'- Cancellation conflicts (HTTP 409): **{conflicts}**\n')
+              summary.write(f'- Ambiguous runs conservatively kept: **{ambiguous}**\n')
               summary.write(f'- Current/protected/untouched runs: **{skipped}**\n')
+              summary.write(f'- Maximum cancellations allowed per run: **{max_cancellations}**\n')
               summary.write('- Pinned published Web v49 run: **34456543564**\n')
-              if active_web_runs:
-                  summary.write(
-                      f'- Newest active Web playtest protected: **{newest_web["id"]}**\n'
-                  )
+              if newest_web:
+                  summary.write(f'- Newest active Web playtest protected: **{newest_web["id"]}**\n')
           PY
