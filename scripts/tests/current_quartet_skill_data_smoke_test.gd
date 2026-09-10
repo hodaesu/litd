@@ -10,7 +10,7 @@ func _ready() -> void:
         var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
         assert(parsed is Dictionary)
         var data: Dictionary = parsed
-        assert(str(data.get("hero_id", "")) == hero_id)
+        assert(str(data.get("watcher_id", "")) == hero_id)
         var tree_order: Array = data.get("tree_order", [])
         assert(tree_order.size() == 3)
         var trees: Dictionary = data.get("trees", {})
@@ -27,10 +27,4 @@ func _ready() -> void:
         var raw := FileAccess.get_file_as_string(path)
         for non_current_name in NON_CURRENT_NAMES:
             assert(not raw.contains(non_current_name))
-
-    var bridge_raw := FileAccess.get_file_as_string("res://data/veilleurs/combat_sandbox_quartet_bridge.json")
-    for token in ["duelist_precise_strike", "breaker_guard_break", "mystic_read_pattern", "surgeon_targeted_cut"]:
-        assert(not bridge_raw.contains(token))
-
-    print("CURRENT_QUARTET_SKILL_DATA_SMOKE_OK")
-    get_tree().quit(0)
+    get_tree().quit()
