@@ -60,17 +60,18 @@ def main() -> int:
     if not checks["selftest_sequence"]:
         errors.append(f"Séquence self-test divergente: contrat={contract_steps}, runtime={selftest_steps}")
 
-    # Active Main scene: current gameplay, polish and telemetry must be present together.
+    # Active Main scene: v49 is the player-facing layer. It inherits v48, whose
+    # pre-play guards remain checked separately below.
     require_tokens(errors, "scenes/Main.tscn", [
-        'res://scripts/ui/main_v48.gd',
+        'res://scripts/ui/main_v49.gd',
         'res://scripts/ui/hud_context_sanctuary_polish_adapter.gd',
         'res://scripts/qa/developer_selftest_overlay.gd',
         'HUDContextSanctuaryPolishAdapter',
         'DeveloperSelftestOverlay',
     ])
 
-    # Contextual decision readability remains inherited from v43 and is hardened
-    # by later active layers through v48.
+    # Contextual decision readability remains inherited from v43 and hardened
+    # by v48, while v49 adds the final explicit/manual targeting contract.
     require_tokens(errors, "scripts/ui/main_v43.gd", [
         "PLAYTEST_MIN_TOUCH",
         "Touchez pour voir pourquoi",
@@ -83,6 +84,14 @@ def main() -> int:
         "_clear_combat_transients_v48",
         "finish_victory",
         "finish_defeat",
+    ])
+    require_tokens(errors, "scripts/ui/main_v49.gd", [
+        'extends "res://scripts/ui/main_v48.gd"',
+        "_requires_manual_hostile_choice_v49",
+        "_render_multi_target_picker_v49",
+        "_confirm_multi_target_v49",
+        "_declared_anchor_position_v49",
+        "forced_clinical_ally_target_id",
     ])
     require_tokens(errors, "scripts/ui/context_menu_ui_v2.gd", [
         '"inventory": "INVENTAIRE"',
