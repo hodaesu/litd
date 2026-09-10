@@ -3,6 +3,12 @@ extends RefCounted
 const TARGETING_RULES := preload("res://scripts/core/combat_targeting_rules.gd")
 
 static func combat_state_signature(controller: Control) -> String:
+    # Combat bots run through the same controller as a player. If the mobile UX
+    # opened a real target picker, confirm the target before deciding whether
+    # the simulation made progress; otherwise the bot would keep tapping the
+    # skill button instead of completing the player's second tap.
+    resolve_pending_player_choice(controller, int(controller.selected_enemy))
+
     var acted: Array[String] = []
     for hero_id_value in controller.combat_acted_hero_ids:
         acted.append(str(hero_id_value))
