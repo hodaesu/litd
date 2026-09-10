@@ -35,6 +35,9 @@ func reload_all() -> void:
     enemies = load_json("res://data/enemies.json")
     skills = load_json("res://data/skills.json")
     equipment = load_json("res://data/equipment.json")
+    var starting_quartet_equipment = load_json("res://data/equipment_starting_quartet.json")
+    if typeof(starting_quartet_equipment) == TYPE_ARRAY:
+        equipment.append_array(starting_quartet_equipment)
     equipment_rarities = load_json("res://data/equipment_rarities.json")
     equipment_affixes = load_json("res://data/equipment_affixes.json")
     capturable_creatures = load_json("res://data/capturable_creatures.json")
