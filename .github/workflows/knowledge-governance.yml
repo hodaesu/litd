@@ -1,0 +1,48 @@
+name: Knowledge Governance
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'docs/knowledge/**'
+      - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
+      - 'tools/quality/library_trieur.py'
+      - 'tools/quality/validate_knowledge.py'
+      - 'tests/python/test_library_trieur.py'
+      - '.github/workflows/knowledge-governance.yml'
+  pull_request:
+    paths:
+      - 'docs/knowledge/**'
+      - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
+      - 'tools/quality/library_trieur.py'
+      - 'tools/quality/validate_knowledge.py'
+      - 'tests/python/test_library_trieur.py'
+      - '.github/workflows/knowledge-governance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: knowledge-governance-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guardian:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Knowledge Guardian
+        run: python tools/quality/validate_knowledge.py
+      - name: Trieur routing and Core boundary tests
+        run: python -m pytest -q tests/python/test_library_trieur.py
+      - name: Verify governance invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'return False' tools/quality/library_trieur.py
+          grep -q 'QUARANTINE' tools/quality/library_trieur.py
+          grep -q 'La bibliothèque ne modifie jamais directement le Core' docs/BIBLIOTHEQUE_GOUVERNANCE.md
