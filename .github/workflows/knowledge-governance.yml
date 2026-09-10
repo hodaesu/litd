@@ -10,12 +10,14 @@ on:
       - 'tools/quality/veilleur_v2_ingest.py'
       - 'tools/quality/evidence_ledger.py'
       - 'tools/quality/provenance_chain.py'
+      - 'tools/quality/github_provenance_adapter.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
       - 'tests/python/test_veilleur_v2_ingest.py'
       - 'tests/python/test_evidence_ledger.py'
       - 'tests/python/test_veilleur_v2_persistent_ingest.py'
       - 'tests/python/test_provenance_chain.py'
+      - 'tests/python/test_github_provenance_adapter.py'
       - '.github/workflows/knowledge-governance.yml'
   pull_request:
     paths:
@@ -25,12 +27,14 @@ on:
       - 'tools/quality/veilleur_v2_ingest.py'
       - 'tools/quality/evidence_ledger.py'
       - 'tools/quality/provenance_chain.py'
+      - 'tools/quality/github_provenance_adapter.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
       - 'tests/python/test_veilleur_v2_ingest.py'
       - 'tests/python/test_evidence_ledger.py'
       - 'tests/python/test_veilleur_v2_persistent_ingest.py'
       - 'tests/python/test_provenance_chain.py'
+      - 'tests/python/test_github_provenance_adapter.py'
       - '.github/workflows/knowledge-governance.yml'
   workflow_dispatch:
 
@@ -59,6 +63,33 @@ jobs:
         run: python -m pytest -q tests/python/test_evidence_ledger.py tests/python/test_veilleur_v2_persistent_ingest.py
       - name: End-to-end provenance chain tests
         run: python -m pytest -q tests/python/test_provenance_chain.py
+      - name: GitHub commit and CI provenance bridge tests
+        run: python -m pytest -q tests/python/test_github_provenance_adapter.py
+      - name: Capture real GitHub run evidence
+        shell: python
+        run: |
+          import json, os
+          from pathlib import Path
+          payload = {
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "commit_sha": os.environ["GITHUB_SHA"],
+              "run_id": os.environ["GITHUB_RUN_ID"],
+              "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "workflow": os.environ["GITHUB_WORKFLOW"],
+              "job": os.environ["GITHUB_JOB"],
+              "ref": os.environ["GITHUB_REF"],
+              "server_url": os.environ["GITHUB_SERVER_URL"],
+          }
+          Path("reports").mkdir(exist_ok=True)
+          Path("reports/knowledge-governance-github-evidence.json").write_text(
+              json.dumps(payload, sort_keys=True, indent=2), encoding="utf-8"
+          )
+      - name: Upload GitHub provenance evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knowledge-governance-provenance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: reports/knowledge-governance-github-evidence.json
       - name: Verify governance invariants
         shell: bash
         run: |
@@ -74,4 +105,6 @@ jobs:
           grep -q 'provenance_no_update' tools/quality/provenance_chain.py
           grep -q 'provenance_no_delete' tools/quality/provenance_chain.py
           grep -q 'CORE_DECISION' tools/quality/provenance_chain.py
+          grep -q 'GITHUB_SHA' tools/quality/github_provenance_adapter.py
+          grep -q 'GITHUB_RUN_ID' tools/quality/github_provenance_adapter.py
           grep -q 'La bibliothèque ne modifie jamais directement le Core' docs/BIBLIOTHEQUE_GOUVERNANCE.md
