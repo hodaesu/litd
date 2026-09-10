@@ -1,0 +1,79 @@
+name: Knowledge Governance
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'docs/knowledge/**'
+      - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
+      - 'tools/quality/library_trieur.py'
+      - 'tools/quality/veilleur_v2_ingest.py'
+      - 'tools/quality/evidence_ledger.py'
+      - 'tools/quality/provenance_chain.py'
+      - 'tools/quality/validate_knowledge.py'
+      - 'tests/python/test_library_trieur.py'
+      - 'tests/python/test_veilleur_v2_ingest.py'
+      - 'tests/python/test_evidence_ledger.py'
+      - 'tests/python/test_veilleur_v2_persistent_ingest.py'
+      - 'tests/python/test_provenance_chain.py'
+      - '.github/workflows/knowledge-governance.yml'
+  pull_request:
+    paths:
+      - 'docs/knowledge/**'
+      - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
+      - 'tools/quality/library_trieur.py'
+      - 'tools/quality/veilleur_v2_ingest.py'
+      - 'tools/quality/evidence_ledger.py'
+      - 'tools/quality/provenance_chain.py'
+      - 'tools/quality/validate_knowledge.py'
+      - 'tests/python/test_library_trieur.py'
+      - 'tests/python/test_veilleur_v2_ingest.py'
+      - 'tests/python/test_evidence_ledger.py'
+      - 'tests/python/test_veilleur_v2_persistent_ingest.py'
+      - 'tests/python/test_provenance_chain.py'
+      - '.github/workflows/knowledge-governance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: knowledge-governance-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guardian:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install test dependency
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Knowledge Guardian
+        run: python tools/quality/validate_knowledge.py
+      - name: Trieur routing and Core boundary tests
+        run: python -m pytest -q tests/python/test_library_trieur.py
+      - name: VEILLEUR V2 ingress validation, integrity and dedup tests
+        run: python -m pytest -q tests/python/test_veilleur_v2_ingest.py
+      - name: Persistent evidence registry and immutable ledger tests
+        run: python -m pytest -q tests/python/test_evidence_ledger.py tests/python/test_veilleur_v2_persistent_ingest.py
+      - name: End-to-end provenance chain tests
+        run: python -m pytest -q tests/python/test_provenance_chain.py
+      - name: Verify governance invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'return False' tools/quality/library_trieur.py
+          grep -q 'QUARANTINE' tools/quality/library_trieur.py
+          grep -q 'return False' tools/quality/veilleur_v2_ingest.py
+          grep -q 'content_hash_mismatch' tools/quality/veilleur_v2_ingest.py
+          grep -q 'duplicate_canonical_content' tools/quality/veilleur_v2_ingest.py
+          grep -q 'decision_ledger_no_update' tools/quality/evidence_ledger.py
+          grep -q 'decision_ledger_no_delete' tools/quality/evidence_ledger.py
+          grep -q 'verify_chain' tools/quality/evidence_ledger.py
+          grep -q 'provenance_no_update' tools/quality/provenance_chain.py
+          grep -q 'provenance_no_delete' tools/quality/provenance_chain.py
+          grep -q 'CORE_DECISION' tools/quality/provenance_chain.py
+          grep -q 'La bibliothèque ne modifie jamais directement le Core' docs/BIBLIOTHEQUE_GOUVERNANCE.md
