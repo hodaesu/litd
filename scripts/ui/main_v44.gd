@@ -10,6 +10,8 @@ extends "res://scripts/ui/main_v43.gd"
 #   target_selection="automatic" (ou fixed_group) afin de ne jamais demander
 #   une sélection cible par cible.
 
+const QA_AUTO_CONFIRM_EXPLICIT_TARGETS_META := "_qa_auto_confirm_explicit_targets"
+
 var pending_target_skill_slot: int = -1
 var pending_target_indices: Array[int] = []
 
@@ -79,6 +81,18 @@ func _use_combat_skill(slot: int) -> void:
             super._use_combat_skill(slot)
             return
         if targetable.size() > 1:
+            # Les bots QA pilotent le même contrôleur que le joueur. En mode QA
+            # explicite uniquement, leur cible déjà choisie représente le second
+            # tap du joueur et doit être résolue avant la télémétrie de dégâts.
+            # Sans cette métadonnée, le comportement joueur reste strictement
+            # inchangé : le sélecteur de cible s'ouvre et attend le second tap.
+            if bool(get_meta(QA_AUTO_CONFIRM_EXPLICIT_TARGETS_META, false)):
+                var qa_target := selected_enemy if targetable.has(selected_enemy) else int(targetable[0])
+                pending_target_skill_slot = -1
+                pending_target_indices.clear()
+                selected_enemy = qa_target
+                super._use_combat_skill(slot)
+                return
             pending_target_skill_slot = slot
             pending_target_indices = targetable.duplicate()
             combat_item_menu = false
