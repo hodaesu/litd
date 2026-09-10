@@ -1,10 +1,12 @@
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
+import sys
 
 MODULE_PATH = Path(__file__).resolve().parents[2] / "tools" / "quality" / "library_trieur.py"
 spec = spec_from_file_location("library_trieur", MODULE_PATH)
-module = module_from_spec(spec)
 assert spec and spec.loader
+module = module_from_spec(spec)
+sys.modules[spec.name] = module
 spec.loader.exec_module(module)
 
 Route = module.Route
