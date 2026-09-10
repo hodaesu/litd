@@ -16,12 +16,16 @@ ENEMIES_FILE = V06 / "enemies_24_definitions.json"
 WATCHERS_FILE = V06 / "watchers.json"
 
 CANONICAL_WATCHERS = {
+    "ENT_WATCHER_marec",
+    "ENT_WATCHER_mathilde",
+    "ENT_WATCHER_aurelien",
+    "ENT_WATCHER_anouk",
+}
+OBSOLETE_WATCHERS = {
     "ENT_WATCHER_NAYRA",
     "ENT_WATCHER_TAREK",
     "ENT_WATCHER_AISHA",
     "ENT_WATCHER_IDRIS",
-}
-OBSOLETE_WATCHERS = {
     "ENT_WATCHER_SAHEN",
     "ENT_WATCHER_MIRA",
     "ENT_WATCHER_NAREM",
