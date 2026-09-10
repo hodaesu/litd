@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "design_source": "physical_cinematic_direction_pass_32",
+  "version": 2,
+  "design_source": "physical_cinematic_direction_pass_32+legendary_quartet_migration_2026-09-10",
   "distance_bands_m": {
     "intimate": [0.0, 0.45],
     "close_social": [0.45, 1.2],
@@ -17,45 +17,45 @@
     "turning_back_is_high_value_and_should_be_rare": true
   },
   "pair_defaults": {
-    "darius:aurelien": {
+    "mathilde:aurelien": {
       "neutral_distance":"medium_social",
       "trust_shift":"moves_toward_close_social_during_shared_problem_solving",
-      "conflict_shift":"Darius holds axis while Aurélien circles evidence",
-      "care_signal":"Darius clears danger path rather than touching",
-      "rupture_signal":"Darius allows passage but withholds eye contact"
+      "conflict_shift":"Mathilde holds axis while Aurélien circles evidence",
+      "care_signal":"Mathilde clears danger path rather than touching",
+      "rupture_signal":"Mathilde allows passage but withholds eye contact"
     },
-    "darius:malvor": {
+    "mathilde:marec": {
       "neutral_distance":"medium_social",
       "trust_shift":"parallel stance with shared threat axis",
       "conflict_shift":"both become more still rather than closing distance",
       "care_signal":"equipment or position adjustment",
       "rupture_signal":"one stops mirroring the other's tactical orientation"
     },
-    "darius:lysandra": {
+    "mathilde:anouk": {
       "neutral_distance":"medium_social",
-      "trust_shift":"Lysandra may enter close_social while Darius remains planted",
-      "conflict_shift":"Lysandra breaks frontal confrontation by changing angle",
-      "care_signal":"shared silence with released shield boundary",
-      "rupture_signal":"Darius re-establishes shield between them"
+      "trust_shift":"Anouk may enter close_social while Mathilde remains planted",
+      "conflict_shift":"Anouk breaks frontal confrontation by changing angle",
+      "care_signal":"shared silence with released guard boundary",
+      "rupture_signal":"Mathilde re-establishes her guard between them"
     },
-    "aurelien:malvor": {
+    "aurelien:marec": {
       "neutral_distance":"medium_social",
-      "trust_shift":"Aurélien can enter Malvor's working radius without correction",
-      "conflict_shift":"Malvor reduces answers and keeps object/task between them",
-      "care_signal":"Malvor solves a practical problem without announcing concern",
+      "trust_shift":"Aurélien can enter Marec's working radius without correction",
+      "conflict_shift":"Marec reduces answers and keeps object/task between them",
+      "care_signal":"Marec solves a practical problem without announcing concern",
       "rupture_signal":"Aurélien stops offering evidence or explanation"
     },
-    "aurelien:lysandra": {
+    "aurelien:anouk": {
       "neutral_distance":"medium_social",
       "trust_shift":"shared orientation toward object then mutual glance",
-      "conflict_shift":"Lysandra preserves space instead of pursuing",
-      "care_signal":"Lysandra lets silence complete the thought",
+      "conflict_shift":"Anouk preserves space instead of pursuing",
+      "care_signal":"Anouk lets silence complete the thought",
       "rupture_signal":"both look at the same thing but not at each other"
     },
-    "malvor:lysandra": {
+    "marec:anouk": {
       "neutral_distance":"medium_social",
-      "trust_shift":"Lysandra can remain nearby while Malvor works in silence",
-      "conflict_shift":"Malvor turns task-side away; Lysandra does not invade",
+      "trust_shift":"Anouk can remain nearby while Marec works in silence",
+      "conflict_shift":"Marec turns task-side away; Anouk does not invade",
       "care_signal":"brief eye contact after practical assistance",
       "rupture_signal":"functional cooperation without shared orientation"
     }
