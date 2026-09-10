@@ -19,6 +19,10 @@ on:
       - '.github/workflows/modeling-plans-v52.yml'
   workflow_dispatch:
 
+concurrency:
+  group: modeling-plans-v52-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
