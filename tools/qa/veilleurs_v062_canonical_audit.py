@@ -14,6 +14,9 @@ EXPECTED = {
     "ENT_WATCHER_anouk": ("Anouk", "anouk.json"),
 }
 ALTERNATE_TOKENS = [
+    "ENT_WATCHER_NAYRA", "ENT_WATCHER_TAREK", "ENT_WATCHER_AISHA", "ENT_WATCHER_IDRIS",
+    "Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael",
+    "SK_NAYRA_", "SK_TAREK_", "SK_AISHA_", "SK_IDRIS_",
     "ENT_WATCHER_SAHEN", "ENT_WATCHER_MIRA", "ENT_WATCHER_NAREM", "ENT_WATCHER_YSRA",
     "Sahen Varo", "Mira Sen", "Narem Osh", "Ysra Nahal",
     "SK_SAHEN_", "SK_MIRA_", "SK_NAREM_", "SK_YSRA_",
