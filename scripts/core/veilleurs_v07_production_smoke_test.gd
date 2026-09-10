@@ -113,7 +113,7 @@ func _run() -> void:
     _check(bool(tactical_setup.get("ok", false)), "v0.7 tactical runtime initializes")
     _check(tactical.combatants.has("ENT_WATCHER_marec") and tactical.combatants.has("ENT_WATCHER_aurelien"), "v0.7 tactical runtime uses canonical Watchers")
     _check(str((tactical.combatants["ENT_ENEMY_GOULE_AFFAMEE"] as Dictionary).get("chosen_tree", "")) != "", "enemy receives persistent personal tree")
-    tactical.grid.move("ENT_ENEMY_GOULE_AFFAMEE", Vector2i(1, 0))
+    tactical.grid.move("ENT_ENEMY_GOULE_AFFAMEE", Vector2i(4, 2))
     var ghoul_action := tactical.enemy_step("ENT_ENEMY_GOULE_AFFAMEE")
     _check(bool(ghoul_action.get("generated_skill", false)), "Ghoul executes a generated skill instead of generic basic attack")
     _check(str(ghoul_action.get("skill_id", "")).begins_with("SK_GOULE_AFFAMEE_"), "Ghoul action exposes authored generated skill ID")
