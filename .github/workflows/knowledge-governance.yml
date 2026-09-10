@@ -12,6 +12,7 @@ on:
       - 'tools/quality/provenance_chain.py'
       - 'tools/quality/github_provenance_adapter.py'
       - 'tools/quality/measurement_collector.py'
+      - 'tools/quality/measurement_comparator.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
       - 'tests/python/test_veilleur_v2_ingest.py'
@@ -20,6 +21,7 @@ on:
       - 'tests/python/test_provenance_chain.py'
       - 'tests/python/test_github_provenance_adapter.py'
       - 'tests/python/test_measurement_collector.py'
+      - 'tests/python/test_measurement_comparator.py'
       - '.github/workflows/measurement-provenance.yml'
       - '.github/workflows/knowledge-governance.yml'
   pull_request:
@@ -32,6 +34,7 @@ on:
       - 'tools/quality/provenance_chain.py'
       - 'tools/quality/github_provenance_adapter.py'
       - 'tools/quality/measurement_collector.py'
+      - 'tools/quality/measurement_comparator.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
       - 'tests/python/test_veilleur_v2_ingest.py'
@@ -40,6 +43,7 @@ on:
       - 'tests/python/test_provenance_chain.py'
       - 'tests/python/test_github_provenance_adapter.py'
       - 'tests/python/test_measurement_collector.py'
+      - 'tests/python/test_measurement_comparator.py'
       - '.github/workflows/measurement-provenance.yml'
       - '.github/workflows/knowledge-governance.yml'
   workflow_dispatch:
@@ -75,6 +79,8 @@ jobs:
         run: python -m pytest -q tests/python/test_github_provenance_adapter.py
       - name: Telemetry measurement collector tests
         run: python -m pytest -q tests/python/test_measurement_collector.py
+      - name: Before-after measurement comparator tests
+        run: python -m pytest -q tests/python/test_measurement_comparator.py
       - name: Capture real GitHub run evidence
         shell: python
         run: |
@@ -119,4 +125,7 @@ jobs:
           grep -q 'GITHUB_RUN_ID' tools/quality/github_provenance_adapter.py
           grep -q 'MEASUREMENT_CANDIDATE' tools/quality/measurement_collector.py
           grep -q 'requires_matching_CORE_DECISION_COMMIT_TEST_chain' tools/quality/measurement_collector.py
+          grep -q 'NO_SIGNIFICANT_CHANGE' tools/quality/measurement_comparator.py
+          grep -q 'INCONCLUSIVE' tools/quality/measurement_comparator.py
+          grep -q 'core_write_allowed.*False' tools/quality/measurement_comparator.py
           grep -q 'La bibliothèque ne modifie jamais directement le Core' docs/BIBLIOTHEQUE_GOUVERNANCE.md
