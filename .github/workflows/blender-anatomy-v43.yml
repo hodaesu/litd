@@ -24,6 +24,10 @@ on:
       - '.github/workflows/blender-anatomy-v43.yml'
   workflow_dispatch:
 
+concurrency:
+  group: blender-anatomy-v43-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
