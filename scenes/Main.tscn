@@ -1,5 +1,8 @@
 [gd_scene load_steps=18 format=3]
 
+; main_v49 complète le contrat de ciblage joueur : sélection manuelle multi-cible,
+; diagnostics hostiles explicites, soins cliniques à allié choisi et zones adjacentes
+; déterministes lorsqu'une ancre est déclarée par la compétence.
 ; main_v48 verrouille les invariants du dernier contrôle pré-playtest : un héros
 ; mort est sauté sans réinitialiser les actions déjà jouées, la cible ennemie est
 ; toujours renormalisée vers un adversaire vivant et tous les états transitoires
@@ -45,7 +48,7 @@
 ; Héritage niveaux : res://scripts/ui/main_v25.gd
 ; Héritage roguelike : res://scripts/ui/main_v24.gd
 ; Héritage narratif : res://scripts/ui/main_v23.gd
-[ext_resource path="res://scripts/ui/main_v48.gd" type="Script" id="1"]
+[ext_resource path="res://scripts/ui/main_v49.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/ui/ngplus_skill_tree_ui.gd" type="Script" id="2"]
 [ext_resource path="res://scripts/ui/main_v19.gd" type="Script" id="3"]
 [ext_resource path="res://scripts/ui/main_v18.gd" type="Script" id="4"]
