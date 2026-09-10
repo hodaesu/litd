@@ -14,6 +14,7 @@ on:
       - 'scripts/ui/main_v47.gd'
       - 'scripts/ui/main_v48.gd'
       - 'scripts/ui/main_v49.gd'
+      - 'scripts/ui/main_v50.gd'
       - 'scenes/Main.tscn'
       - 'scenes/tests/ui_player_journey_smoke.tscn'
       - 'scenes/tests/canonical_ui_smoke.tscn'
@@ -24,6 +25,10 @@ on:
       - 'scenes/tests/qa_validation_room_smoke.tscn'
       - '.github/workflows/veilleurs-combat-sandbox-smoke.yml'
   workflow_dispatch:
+
+concurrency:
+  group: veilleurs-combat-sandbox-${{ github.event.pull_request.number || github.ref || github.run_id }}
+  cancel-in-progress: true
 
 permissions:
   contents: read

@@ -9,6 +9,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -22,8 +26,22 @@ jobs:
         run: python -m pip install -r requirements-dev.txt
       - name: Préparer les rapports QA
         run: mkdir -p reports
-      - name: Tests Python
+      - name: Tests Python rapides
         run: python -m pytest -q --tb=short --junitxml=reports/pytest.xml
+
+  quality-full:
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Installer les dépendances QA
+        run: python -m pip install -r requirements-dev.txt
+      - name: Préparer les rapports QA
+        run: mkdir -p reports
       - name: Audit des données de base
         run: python -m tools.qa.audit
       - name: Audit transversal campagne et systèmes

@@ -98,6 +98,7 @@ jobs:
             reports/player-bot-v2-autotest.json
 
   combat-v3-shards:
+    if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     timeout-minutes: 8
     strategy:
@@ -125,6 +126,7 @@ jobs:
           path: reports/player-bot-v3-build-matrix-shard-${{ matrix.shard }}.json
 
   combat-v4-shards:
+    if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -152,7 +154,7 @@ jobs:
           path: reports/player-bot-v4-factorial-matrix-shard-${{ matrix.shard }}.json
 
   combat-matrix-aggregate:
-    if: always()
+    if: ${{ always() && github.event_name != 'pull_request' }}
     needs: [combat-v3-shards, combat-v4-shards]
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -182,6 +184,7 @@ jobs:
             reports/player-bot-v4-factorial-matrix.json
 
   campaign-bots:
+    if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     container:
@@ -208,6 +211,7 @@ jobs:
             reports/player-bot-v6-real-campaign.json
 
   sanctuary-bot:
+    if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     timeout-minutes: 12
     container:
@@ -234,6 +238,7 @@ jobs:
             reports/player-bot-v19-economy-stress.json
 
   deterministic-batch-telemetry:
+    if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -267,7 +272,7 @@ jobs:
             reports/developer-autotest-telemetry-*.csv
 
   regression-analysis:
-    if: always()
+    if: ${{ always() && github.event_name != 'pull_request' }}
     needs: [fast-contracts, combat-core, combat-v3-shards, combat-v4-shards, combat-matrix-aggregate, campaign-bots, sanctuary-bot]
     runs-on: ubuntu-latest
     timeout-minutes: 20
