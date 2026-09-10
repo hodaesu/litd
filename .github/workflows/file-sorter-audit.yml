@@ -1,0 +1,38 @@
+name: LITD File Sorter Audit
+
+on:
+  pull_request:
+    paths:
+      - "tools/maintenance/**"
+      - "data/maintenance/**"
+      - ".github/workflows/file-sorter-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Validate manifest JSON
+        run: python -m json.tool data/maintenance/canonical_files.json >/dev/null
+      - name: Run sorter in audit-only mode
+        run: |
+          python tools/maintenance/litd_file_sorter.py \
+            --report artifacts/file-sorter-report.json
+      - name: Assert CI never enables deletion
+        run: |
+          if grep -R --line-number --fixed-strings -- "--apply" .github/workflows/file-sorter-audit.yml; then
+            echo "Deletion flags are forbidden in CI" >&2
+            exit 1
+          fi
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: litd-file-sorter-report
+          path: artifacts/file-sorter-report.json
+          if-no-files-found: error
