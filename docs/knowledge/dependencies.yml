@@ -1,0 +1,52 @@
+version: 1
+nodes:
+  - id: combat-ranks
+    domain: combat
+    description: "Ordre et présentation des rangs R1 à R4."
+  - id: party-placement
+    domain: combat
+    description: "Placement automatique selon les rôles."
+  - id: combat-ui
+    domain: ui
+    description: "Présentation et interactions du combat."
+  - id: capture
+    domain: progression
+    description: "Règles de capture des créatures."
+  - id: capturable-creatures
+    domain: data
+    description: "Données des créatures capturables et de leurs arbres."
+  - id: skill-trees
+    domain: progression
+    description: "Structure canonique des arbres de compétences."
+  - id: save-load
+    domain: persistence
+    description: "Persistance de l'état de jeu."
+  - id: deterministic-loot
+    domain: loot
+    description: "Reproductibilité du loot par seed et contexte."
+
+edges:
+  - from: combat-ranks
+    to: party-placement
+    relation: constrains
+    rationale: "Le placement doit produire des rangs valides."
+  - from: combat-ranks
+    to: combat-ui
+    relation: presented_by
+    rationale: "L'UI doit présenter R1 à R4 dans l'ordre canonique."
+  - from: party-placement
+    to: combat-ui
+    relation: reflected_by
+    rationale: "L'UI doit refléter le placement tactique réel."
+  - from: capturable-creatures
+    to: capture
+    relation: consumed_by
+    rationale: "Le système de capture s'appuie sur ces données."
+  - from: capturable-creatures
+    to: skill-trees
+    relation: implements
+    rationale: "Les créatures capturables portent leurs arbres de progression."
+  - from: deterministic-loot
+    to: save-load
+    relation: depends_on
+    rationale: "La seed et le contexte doivent être persistés sans dérive."
