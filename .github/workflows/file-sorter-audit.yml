@@ -38,10 +38,14 @@ jobs:
           PY
       - name: Assert CI never enables deletion
         run: |
-          if grep -R --line-number --fixed-strings -- "--apply" .github/workflows/file-sorter-audit.yml; then
-            echo "Deletion flags are forbidden in CI" >&2
-            exit 1
-          fi
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('.github/workflows/file-sorter-audit.yml').read_text(encoding='utf-8')
+          forbidden = '--' + 'apply'
+          invocation_lines = [line for line in text.splitlines() if 'litd_file_sorter.py' in line]
+          if any(forbidden in line for line in invocation_lines):
+              raise SystemExit('Deletion flags are forbidden in CI')
+          PY
       - name: Upload audit reports
         uses: actions/upload-artifact@v4
         with:
