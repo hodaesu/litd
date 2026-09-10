@@ -1,4 +1,4 @@
-extends "res://scripts/core/veilleurs_tactical_combat_runtime_v3.gd"
+extends "res://scripts/core/veilleurs_tactical_combat_runtime_v4.gd"
 class_name VeilleursAuthoredEncounterRuntimeP0
 
 const ENEMY_START_CELLS: Array[Vector2i] = [
@@ -72,7 +72,7 @@ func setup_authored_encounter(encounter: Dictionary) -> Dictionary:
 
     if basic_actions == null or not basic_actions.is_valid():
         return {"ok":false, "reason":"basic_action_contract_invalid", "errors":basic_actions.load_errors.duplicate() if basic_actions != null else ["service_missing"]}
-    _attach_combat_ranks()
+    _sync_all_combat_ranks_from_grid()
 
     return {
         "ok":true,
@@ -96,12 +96,7 @@ func deserialize(payload: Dictionary) -> bool:
     encounter_template = (payload.get("encounter_template", {}) as Dictionary).duplicate(true)
     if basic_actions == null or not basic_actions.is_valid():
         return false
-    for entity_value: Variant in combatants.keys():
-        var entity_id := str(entity_value)
-        var row: Dictionary = combatants[entity_id]
-        if not row.has("combat_rank"):
-            row["combat_rank"] = basic_actions.preferred_rank(entity_id, row)
-            combatants[entity_id] = row
+    _sync_all_combat_ranks_from_grid()
     return true
 
 func _register_as(definition: Dictionary, team: String, runtime_id: String, weapon_power: int) -> void:
