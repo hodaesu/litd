@@ -20,11 +20,12 @@ jobs:
           fetch-depth: 0
       - name: Validate manifest JSON
         run: python -m json.tool data/maintenance/canonical_files.json >/dev/null
-      - name: Run sorter unit tests
+      - name: Run maintenance unit tests
         run: |
           python -m unittest \
             tools.maintenance.test_litd_file_sorter \
-            tools.maintenance.test_litd_file_intelligence
+            tools.maintenance.test_litd_file_intelligence \
+            tools.maintenance.test_litd_safe_delete
       - name: Run sorter in audit-only mode
         run: |
           python tools/maintenance/litd_file_sorter.py \
@@ -35,6 +36,10 @@ jobs:
         run: |
           python tools/maintenance/litd_file_intelligence.py \
             --report artifacts/file-intelligence-report.json
+      - name: Validate Git-backed deletion gate without deleting
+        run: |
+          python tools/maintenance/litd_safe_delete.py \
+            --plan artifacts/file-sorter-delete-plan.json
       - name: Assert audit generated no automatic deletions
         run: |
           python - <<'PY'
@@ -54,7 +59,11 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           text = Path('.github/workflows/file-sorter-audit.yml').read_text(encoding='utf-8')
-          forbidden = ['litd_file_sorter.py --apply', 'litd_file_sorter.py\\\n            --apply']
+          forbidden = [
+              'litd_file_sorter.py --apply',
+              'litd_safe_delete.py --execute',
+              'litd_safe_delete.py\\\n            --execute',
+          ]
           if any(token in text for token in forbidden):
               raise SystemExit('Deletion invocation is forbidden in CI')
           PY
