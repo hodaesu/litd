@@ -1,0 +1,30 @@
+name: Knowledge Guardian
+
+on:
+  pull_request:
+    paths:
+      - "docs/knowledge/**"
+      - "data/capturable_creatures.json"
+      - "tools/quality/validate_knowledge.py"
+      - ".github/workflows/knowledge-guardian.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: knowledge-guardian-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate LITD knowledge contract and game invariants
+        run: python tools/quality/validate_knowledge.py
