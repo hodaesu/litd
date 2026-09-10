@@ -60,10 +60,10 @@ def main() -> int:
     if not checks["selftest_sequence"]:
         errors.append(f"Séquence self-test divergente: contrat={contract_steps}, runtime={selftest_steps}")
 
-    # Active Main scene: v49 is the player-facing layer. It inherits v48, whose
-    # pre-play guards remain checked separately below.
+    # Active Main scene: v50 is the P0 player-facing layer. It inherits v49 and
+    # therefore preserves v49 manual targeting plus the v48 pre-play guards.
     require_tokens(errors, "scenes/Main.tscn", [
-        'res://scripts/ui/main_v49.gd',
+        'res://scripts/ui/main_v50.gd',
         'res://scripts/ui/hud_context_sanctuary_polish_adapter.gd',
         'res://scripts/qa/developer_selftest_overlay.gd',
         'HUDContextSanctuaryPolishAdapter',
@@ -71,7 +71,7 @@ def main() -> int:
     ])
 
     # Contextual decision readability remains inherited from v43 and hardened
-    # by v48, while v49 adds the final explicit/manual targeting contract.
+    # by v48/v49. v50 adds deterministic focus restoration for P0 accessibility.
     require_tokens(errors, "scripts/ui/main_v43.gd", [
         "PLAYTEST_MIN_TOUCH",
         "Touchez pour voir pourquoi",
@@ -92,6 +92,13 @@ def main() -> int:
         "_confirm_multi_target_v49",
         "_declared_anchor_position_v49",
         "forced_clinical_ally_target_id",
+    ])
+    require_tokens(errors, "scripts/ui/main_v50.gd", [
+        'extends "res://scripts/ui/main_v49.gd"',
+        "_remember_combat_focus_v50",
+        "_focus_inspection_close_v50",
+        "_restore_combat_focus_v50",
+        "_focus_active_combat_decision_v50",
     ])
     require_tokens(errors, "scripts/ui/context_menu_ui_v2.gd", [
         '"inventory": "INVENTAIRE"',
