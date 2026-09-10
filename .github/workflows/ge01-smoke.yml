@@ -1,0 +1,48 @@
+name: GE01 Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'data/dungeons/galeries_eteintes_map.json'
+      - 'data/veilleurs/canonical_roster.json'
+      - 'data/veilleurs/current_quartet_ultimate_sheets.json'
+      - 'scripts/core/veilleurs_ge01_*.gd'
+      - 'scripts/core/veilleurs_corpse_tactical_runtime.gd'
+      - 'scripts/core/veilleurs_corpse_skill_runtime.gd'
+      - 'scripts/core/veilleurs_ge01_tactical_skill_runtime.gd'
+      - 'scripts/core/combat_position_runtime.gd'
+      - 'scripts/world/veilleurs_ge01_*.gd'
+      - 'scripts/ui/main_v44.gd'
+      - 'scripts/ui/main_v45.gd'
+      - 'scripts/tests/veilleurs_ge01_*.gd'
+      - 'scenes/Main.tscn'
+      - 'scenes/world/veilleurs/galeries_eteintes_playable.tscn'
+      - 'scenes/tests/veilleurs_ge01_*.tscn'
+      - 'project.godot'
+      - '.github/workflows/ge01-smoke.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ge01-smoke-${{ github.event.pull_request.number || github.ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ge01-smoke:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import strict du projet
+        run: godot --headless --path . --import --quit
+      - name: Galeries Éteintes - runtime pur
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_ge01_smoke.tscn
+      - name: Galeries Éteintes - intégration systèmes LITD
+        run: timeout 90s godot --headless --path . res://scenes/tests/veilleurs_ge01_integration_smoke.tscn
+      - name: Galeries Éteintes - blockout physique et interactions
+        run: timeout 90s godot --headless --path . res://scenes/tests/veilleurs_ge01_physical_smoke.tscn
+      - name: Galeries Éteintes - combats, fuite, cadavres et primitives tactiques génériques
+        run: timeout 90s godot --headless --path . res://scenes/tests/veilleurs_ge01_combat_smoke.tscn
