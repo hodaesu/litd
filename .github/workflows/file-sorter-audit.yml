@@ -20,19 +20,33 @@ jobs:
           fetch-depth: 1
       - name: Validate manifest JSON
         run: python -m json.tool data/maintenance/canonical_files.json >/dev/null
+      - name: Run sorter unit tests
+        run: python -m unittest tools.maintenance.test_litd_file_sorter
       - name: Run sorter in audit-only mode
         run: |
           python tools/maintenance/litd_file_sorter.py \
-            --report artifacts/file-sorter-report.json
+            --report artifacts/file-sorter-report.json \
+            --plan artifacts/file-sorter-delete-plan.json \
+            --fail-on-manifest-error
+      - name: Assert audit generated no deletions
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          plan = json.loads(Path('artifacts/file-sorter-delete-plan.json').read_text(encoding='utf-8'))
+          print('delete candidates:', plan.get('candidate_count', 0))
+          PY
       - name: Assert CI never enables deletion
         run: |
           if grep -R --line-number --fixed-strings -- "--apply" .github/workflows/file-sorter-audit.yml; then
             echo "Deletion flags are forbidden in CI" >&2
             exit 1
           fi
-      - name: Upload audit report
+      - name: Upload audit reports
         uses: actions/upload-artifact@v4
         with:
           name: litd-file-sorter-report
-          path: artifacts/file-sorter-report.json
+          path: |
+            artifacts/file-sorter-report.json
+            artifacts/file-sorter-delete-plan.json
           if-no-files-found: error
