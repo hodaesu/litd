@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "principle": "A file is never deleted from a heuristic alone.",
+    "deletion_requires": [
+      "exact path in obsolete_paths",
+      "not matched by protected_patterns",
+      "not listed in canonical_paths",
+      "zero detected incoming repository references",
+      "manual invocation with --apply --allow-delete"
+    ]
+  },
+  "canonical_paths": [
+    "project.godot",
+    "export_presets.cfg",
+    "docs/BIBLE_UX_UI_LITD.md",
+    "docs/knowledge/README.md",
+    "docs/knowledge/guardian-rules.yml",
+    "docs/knowledge/dependencies.yml",
+    "docs/knowledge/decisions/ADR-0001-guardian-progressif.md",
+    "tools/quality/validate_knowledge.py",
+    "tools/maintenance/litd_file_sorter.py",
+    "data/maintenance/canonical_files.json"
+  ],
+  "protected_patterns": [
+    ".github/**",
+    ".gitignore",
+    ".editorconfig",
+    "addons/**",
+    "data/veilleurs/skills/**",
+    "docs/knowledge/**",
+    "tools/quality/**",
+    "tools/maintenance/**",
+    "project.godot",
+    "export_presets.cfg",
+    "LICENSE",
+    "README.md"
+  ],
+  "active_patterns": [
+    "tests/**",
+    "test/**"
+  ],
+  "legacy_candidate_regexes": [
+    "(^|/)(old|legacy|deprecated|obsolete)(/|_|\\.|-)",
+    "(^|/)(backup|bak|copy|copie)(/|_|\\.|-)",
+    "(_|-)v[0-9]{1,3}([._-]|$)",
+    "(_|-)old([._-]|$)",
+    "\\.(bak|old|orig)$"
+  ],
+  "obsolete_paths": []
+}
