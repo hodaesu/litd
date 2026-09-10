@@ -1,13 +1,18 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "policy": {
     "principle": "A file is never deleted from a heuristic alone.",
+    "minimum_delete_confidence": 0.95,
     "deletion_requires": [
-      "exact path in obsolete_paths",
+      "structured obsolete_records entry",
+      "explicit reason and evidence",
+      "replacement path or explicit retirement without replacement",
+      "confidence >= minimum_delete_confidence",
       "not matched by protected_patterns",
       "not listed in canonical_paths",
       "zero detected incoming repository references",
       "fresh delete plan with matching SHA-256",
+      "clean tracked working tree",
       "manual invocation with --apply --allow-delete"
     ],
     "review_rule": "Heuristics may only classify a file as review; they never authorize deletion.",
@@ -62,5 +67,5 @@
     "(_|-)old([._-]|$)",
     "\\.(bak|old|orig)$"
   ],
-  "obsolete_paths": []
+  "obsolete_records": []
 }
