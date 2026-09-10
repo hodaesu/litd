@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
-"""Validate the minimal LITD Development Intelligence knowledge contract.
+"""Validate the LITD Development Intelligence knowledge contract and safe game invariants.
 
-This deliberately uses only the Python standard library so the guard can run
-in CI without adding a package dependency.
+The guard deliberately uses only Python's standard library so it stays fast,
+portable and dependency-free in CI.
 """
 
 from pathlib import Path
+import json
 import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 RULES = ROOT / "docs" / "knowledge" / "guardian-rules.yml"
+DEPENDENCIES = ROOT / "docs" / "knowledge" / "dependencies.yml"
 DECISION_TEMPLATE = ROOT / "docs" / "knowledge" / "templates" / "decision.md"
 RESEARCH_TEMPLATE = ROOT / "docs" / "knowledge" / "templates" / "research.md"
+CAPTURABLE_CREATURES = ROOT / "data" / "capturable_creatures.json"
 
 ALLOWED_SEVERITIES = {"green", "yellow", "orange", "red"}
 REQUIRED_DECISION_HEADINGS = {
@@ -44,6 +47,10 @@ REQUIRED_RESEARCH_HEADINGS = {
 
 def fail(message: str) -> None:
     print(f"KNOWLEDGE_GUARDIAN_ERROR: {message}", file=sys.stderr)
+
+
+def warn(message: str) -> None:
+    print(f"KNOWLEDGE_GUARDIAN_WARNING: {message}")
 
 
 def parse_rules(text: str) -> list[dict[str, str]]:
@@ -108,11 +115,112 @@ def validate_template(path: Path, required: set[str]) -> list[str]:
     return [f"{path.relative_to(ROOT)} missing heading: {heading}" for heading in missing]
 
 
+def validate_dependency_graph() -> list[str]:
+    if not DEPENDENCIES.exists():
+        return [f"missing {DEPENDENCIES.relative_to(ROOT)}"]
+    text = DEPENDENCIES.read_text(encoding="utf-8")
+    if not re.search(r"^version:\s*1\s*$", text, re.MULTILINE):
+        return ["dependencies.yml must declare version: 1"]
+
+    node_ids = set(re.findall(r"^\s*- id:\s*([A-Za-z0-9_-]+)\s*$", text, re.MULTILINE))
+    errors: list[str] = []
+    if not node_ids:
+        errors.append("dependencies.yml contains no nodes")
+    for source, target in re.findall(
+        r"^\s*- from:\s*([A-Za-z0-9_-]+)\s*\n\s+to:\s*([A-Za-z0-9_-]+)\s*$",
+        text,
+        re.MULTILINE,
+    ):
+        if source not in node_ids:
+            errors.append(f"dependency edge references unknown source node: {source}")
+        if target not in node_ids:
+            errors.append(f"dependency edge references unknown target node: {target}")
+    return errors
+
+
+def validate_capturable_creatures() -> tuple[list[str], list[str]]:
+    """Validate invariants that are already implemented; report future targets separately."""
+    errors: list[str] = []
+    warnings: list[str] = []
+    if not CAPTURABLE_CREATURES.exists():
+        return [f"missing {CAPTURABLE_CREATURES.relative_to(ROOT)}"], warnings
+
+    try:
+        creatures = json.loads(CAPTURABLE_CREATURES.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return [f"invalid capturable_creatures.json: {exc}"], warnings
+
+    if not isinstance(creatures, list):
+        return ["capturable_creatures.json root must be a list"], warnings
+
+    creature_ids: set[str] = set()
+    skill_ids: set[str] = set()
+    for index, creature in enumerate(creatures):
+        if not isinstance(creature, dict):
+            errors.append(f"capturable creature #{index} must be an object")
+            continue
+        creature_id = str(creature.get("id", "")).strip()
+        if not creature_id:
+            errors.append(f"capturable creature #{index} has no id")
+            continue
+        if creature_id in creature_ids:
+            errors.append(f"duplicate capturable creature id: {creature_id}")
+        creature_ids.add(creature_id)
+
+        name = str(creature.get("name", ""))
+        if creature_id.lower() in {"angel", "ange"} or name.strip().lower() == "ange":
+            errors.append("the boss Ange must never appear in capturable_creatures.json")
+
+        trees = creature.get("skill_trees")
+        if not isinstance(trees, dict) or len(trees) != 3:
+            count = len(trees) if isinstance(trees, dict) else 0
+            errors.append(
+                f"{creature_id}: expected exactly 3 skill trees, found {count}"
+            )
+            continue
+
+        for tree_name, skills in trees.items():
+            if not isinstance(skills, list):
+                errors.append(f"{creature_id}/{tree_name}: skills must be a list")
+                continue
+            if len(skills) != 15:
+                warnings.append(
+                    f"{creature_id}/{tree_name}: canonical target is 15 skills; "
+                    f"current data has {len(skills)}"
+                )
+            local_ids: set[str] = set()
+            for skill in skills:
+                if not isinstance(skill, dict):
+                    errors.append(f"{creature_id}/{tree_name}: skill must be an object")
+                    continue
+                skill_id = str(skill.get("id", "")).strip()
+                if not skill_id:
+                    errors.append(f"{creature_id}/{tree_name}: skill without id")
+                    continue
+                if skill_id in local_ids:
+                    errors.append(f"{creature_id}/{tree_name}: duplicate skill id {skill_id}")
+                local_ids.add(skill_id)
+                if skill_id in skill_ids:
+                    errors.append(f"global duplicate skill id: {skill_id}")
+                skill_ids.add(skill_id)
+
+    return errors, warnings
+
+
 def main() -> int:
-    errors = []
+    errors: list[str] = []
+    warnings: list[str] = []
     errors.extend(validate_rules())
+    errors.extend(validate_dependency_graph())
     errors.extend(validate_template(DECISION_TEMPLATE, REQUIRED_DECISION_HEADINGS))
     errors.extend(validate_template(RESEARCH_TEMPLATE, REQUIRED_RESEARCH_HEADINGS))
+
+    data_errors, data_warnings = validate_capturable_creatures()
+    errors.extend(data_errors)
+    warnings.extend(data_warnings)
+
+    for warning in warnings:
+        warn(warning)
 
     if errors:
         for error in errors:
@@ -120,7 +228,11 @@ def main() -> int:
         return 1
 
     rule_count = len(parse_rules(RULES.read_text(encoding="utf-8")))
-    print(f"Knowledge Guardian OK: {rule_count} rules validated")
+    print(
+        "Knowledge Guardian OK: "
+        f"{rule_count} rules validated; "
+        f"{len(warnings)} tracked canonical gaps"
+    )
     return 0
 
 
