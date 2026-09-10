@@ -2,6 +2,9 @@ extends "res://scripts/qa/player_bot_v2_autotest.gd"
 
 const TACTICAL_QA := preload("res://scripts/qa/player_bot_tactical_support.gd")
 
+func _combat_state_signature() -> String:
+    return TACTICAL_QA.combat_state_signature(controller)
+
 func _select_lowest_hp_enemy() -> void:
     var best_index := -1
     var best_hp := 2147483647
