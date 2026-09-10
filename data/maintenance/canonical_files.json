@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "policy": {
     "principle": "A file is never deleted from a heuristic alone.",
     "deletion_requires": [
@@ -7,8 +7,11 @@
       "not matched by protected_patterns",
       "not listed in canonical_paths",
       "zero detected incoming repository references",
+      "fresh delete plan with matching SHA-256",
       "manual invocation with --apply --allow-delete"
-    ]
+    ],
+    "review_rule": "Heuristics may only classify a file as review; they never authorize deletion.",
+    "rollback_rule": "Deletion must happen in a dedicated Git commit/PR so Git history remains the rollback mechanism."
   },
   "canonical_paths": [
     "project.godot",
@@ -31,14 +34,26 @@
     "docs/knowledge/**",
     "tools/quality/**",
     "tools/maintenance/**",
+    "tests/**",
+    "test/**",
     "project.godot",
     "export_presets.cfg",
     "LICENSE",
     "README.md"
   ],
   "active_patterns": [
-    "tests/**",
-    "test/**"
+    "scripts/**",
+    "scenes/**",
+    "data/**",
+    "art/**",
+    "assets/**",
+    "docs/**"
+  ],
+  "generated_patterns": [
+    "artifacts/**",
+    ".godot/**",
+    "build/**",
+    "dist/**"
   ],
   "legacy_candidate_regexes": [
     "(^|/)(old|legacy|deprecated|obsolete)(/|_|\\.|-)",
