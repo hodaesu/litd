@@ -11,7 +11,7 @@ Le Core n'est pas un dossier « tout ce qui est important ». Il doit rester le 
 - règles de gameplay et transitions d'état ;
 - état canonique d'une run, d'un combat, d'un personnage ou d'un système persistant ;
 - orchestration déterministe ou reproductible des systèmes ;
-- politiques et décisions runtime qui ne dépendent pas de l'UI ;
+- politiques et décisions runtime qui ne dépendentent pas de l'UI ;
 - validation des invariants ;
 - sérialisation/sauvegarde et migrations de données ;
 - seed, RNG contrôlé et déterminisme lorsque le système l'exige ;
@@ -27,7 +27,9 @@ Le Core n'est pas un dossier « tout ce qui est important ». Il doit rester le 
 - effets visuels, shaders, particules et composition graphique ;
 - code de debug ponctuel non réutilisable ;
 - contenu de gameplay qui peut être décrit dans `data/` ;
-- dépendance directe vers `scripts/ui/`.
+- dépendance runtime de production directe vers `scripts/ui/`.
+
+Les harnesses de smoke/intégration actuellement rangés dans `scripts/core/` peuvent dépendre de l'UI lorsqu'ils testent explicitement la frontière Core ↔ présentation. Cette exception ne leur donne pas le statut de module Core de production et doit rester identifiable par leur nom (`*_smoke_test.gd`, `*_smoke_bootstrap.gd`). À terme, ces harnesses pourront être déplacés dans une arborescence de tests dédiée sans modifier l'invariant architectural.
 
 ## Direction des dépendances
 
@@ -35,15 +37,15 @@ Direction cible :
 
 `data -> core -> présentation/adaptateurs`
 
-La présentation peut dépendre du Core. Le Core ne doit pas dépendre de la présentation.
+La présentation peut dépendre du Core. Le Core de production ne doit pas dépendre de la présentation.
 
-Les exceptions doivent être explicites, documentées par ADR, limitées et accompagnées d'un plan de suppression ou d'une justification durable.
+Les exceptions de production doivent être explicites, documentées par ADR, limitées et accompagnées d'un plan de suppression ou d'une justification durable.
 
 ## Invariants architecturaux V1
 
 ### CORE-INV-001 — indépendance UI
 
-Aucun fichier de `scripts/core/` ne doit charger directement un fichier situé dans `scripts/ui/`.
+Aucun module Core de production ne doit charger directement un fichier situé dans `scripts/ui/`. Les harnesses de smoke/intégration identifiés comme tels sont hors périmètre de cet invariant lorsqu'ils exercent volontairement l'intégration UI.
 
 ### CORE-INV-002 — données hors code quand objectivables
 
@@ -83,7 +85,7 @@ Toute modification d'un invariant Core doit être reliée à une décision, une 
 
 ## Critères pour ajouter un nouveau module Core
 
-Un nouveau fichier dans `scripts/core/` doit répondre à au moins une de ces questions :
+Un nouveau fichier de production dans `scripts/core/` doit répondre à au moins une de ces questions :
 
 1. Porte-t-il un état canonique ?
 2. Applique-t-il une règle métier/gameplay ?
