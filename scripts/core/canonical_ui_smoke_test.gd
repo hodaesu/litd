@@ -65,7 +65,7 @@ func run() -> void:
     main.call("start_random_battle")
     await _frames(6)
     _check(GameState.current_screen == "combat", "Real prototype combat must open for canonical HUD audit")
-    _check(main.get_node_or_null("Root/Content/CanonicalCombatHUD") != null or _find_node_named(main, "CanonicalCombatHUD") != null, "Canonical HUD must be injected into real combat")
+    _check(main.get_node_or_null("Root/Content/CanonicalCombatHUD") == null and _find_node_named(main, "CanonicalCombatHUD") == null, "Legacy permanent combat-state HUD must stay removed from real combat")
 
     _finish()
 
