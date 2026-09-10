@@ -96,8 +96,10 @@ func preferred_rank(runtime_id: String, combatant: Dictionary = {}) -> int:
 func available_actions(runtime_id: String, combatant: Dictionary, rank: int) -> Array[Dictionary]:
     var result: Array[Dictionary] = []
     for action: Dictionary in actions_for(runtime_id, combatant):
-        if (action.get("positions", []) as Array).has(rank):
-            result.append(action)
+        for value: Variant in action.get("positions", []):
+            if int(value) == rank:
+                result.append(action)
+                break
     return result
 
 func action(runtime_id: String, combatant: Dictionary, action_id: String) -> Dictionary:
