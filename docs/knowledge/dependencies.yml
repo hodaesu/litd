@@ -1,5 +1,20 @@
 version: 1
 nodes:
+  - id: engineering-method
+    domain: engineering
+    description: "Boucle de changement, niveaux de validation, Definition of Done et production de preuves."
+  - id: core-contract
+    domain: architecture
+    description: "Frontières, invariants et règles d’évolution du Core."
+  - id: knowledge-governance
+    domain: governance
+    description: "Bibliothèque vivante, Knowledge Graph et décisions traçables."
+  - id: guardian
+    domain: governance
+    description: "Contrôle des invariants, du risque et du niveau de preuve."
+  - id: ci-domains
+    domain: ci
+    description: "CI Godot par domaines et filet monolithique définis par ADR-0004."
   - id: combat-ranks
     domain: combat
     description: "Ordre et présentation des rangs R1 à R4."
@@ -26,6 +41,22 @@ nodes:
     description: "Reproductibilité du loot par seed et contexte."
 
 edges:
+  - from: engineering-method
+    to: core-contract
+    relation: depends_on
+    rationale: "La méthode applique les frontières et invariants du Core."
+  - from: engineering-method
+    to: knowledge-governance
+    relation: depends_on
+    rationale: "Chaque changement charge et réinjecte les connaissances et preuves."
+  - from: guardian
+    to: engineering-method
+    relation: constrains
+    rationale: "Le niveau de risque et les invariants déterminent les validations requises."
+  - from: engineering-method
+    to: ci-domains
+    relation: validated_by
+    rationale: "La CI apporte une partie des preuves reproductibles de la Definition of Done."
   - from: combat-ranks
     to: party-placement
     relation: constrains
