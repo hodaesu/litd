@@ -14,6 +14,7 @@ on:
       - '.github/workflows/full-gameplay-simulation.yml'
   workflow_dispatch:
 
+# Retrigger the canonical-quartet end-to-end simulation after GE01 roster repair.
 concurrency:
   group: full-gameplay-simulation-${{ github.event.pull_request.number || github.ref || github.run_id }}
   cancel-in-progress: true
