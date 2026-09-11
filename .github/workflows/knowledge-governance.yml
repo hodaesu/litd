@@ -107,6 +107,8 @@ jobs:
         run: python -m pytest -q tests/python/test_design_target_evaluator.py
       - name: Validate canonical design target registry
         shell: python
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
           from tools.quality.design_target_evaluator import load_targets
           registry = load_targets('docs/knowledge/design-targets.json')
