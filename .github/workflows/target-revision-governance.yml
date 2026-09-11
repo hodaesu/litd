@@ -19,7 +19,9 @@ on:
       - 'addons/**'
       - 'project.godot'
       - 'tools/quality/target_revision_guard.py'
+      - 'tools/quality/target_drift_detector.py'
       - 'tests/python/test_target_revision_guard.py'
+      - 'tests/python/test_target_drift_detector.py'
       - '.github/workflows/target-revision-governance.yml'
   workflow_dispatch:
 
@@ -40,7 +42,10 @@ jobs:
       - name: Install QA dependencies
         run: python -m pip install -r requirements-dev.txt
       - name: Target revision guard tests
-        run: python -m pytest -q tests/python/test_target_revision_guard.py
+        run: >-
+          python -m pytest -q
+          tests/python/test_target_revision_guard.py
+          tests/python/test_target_drift_detector.py
       - name: Collect Pull Request changed files
         if: ${{ github.event_name == 'pull_request' }}
         shell: bash
@@ -62,10 +67,26 @@ jobs:
             fi
           done
           python -m tools.quality.target_revision_guard "${args[@]}"
+      - name: Detect permissive target drift
+        if: ${{ github.event_name == 'pull_request' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports/target-drift
+          mapfile -t proposal_files < <(grep '^docs/knowledge/decisions/target-revisions/.*\.json$' reports-target-revision-files.txt || true)
+          for proposal in "${proposal_files[@]:-}"; do
+            if [ -f "$proposal" ]; then
+              name="$(basename "$proposal" .json)"
+              python -m tools.quality.target_drift_detector "$proposal" \
+                --output "reports/target-drift/${name}.drift.json"
+            fi
+          done
       - name: Upload target revision guard evidence
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: target-revision-governance-${{ github.run_id }}-${{ github.run_attempt }}
-          path: reports/target-revision-guard.json
+          path: |
+            reports/target-revision-guard.json
+            reports/target-drift/*.drift.json
           if-no-files-found: warn
