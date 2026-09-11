@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "status": "CURRENT_QUARTET_AUTHORED_IDENTITY_LOCK",
+  "scope": "LITD: Les Veilleurs",
+  "decision_date": "2026-09-09",
+  "notes": [
+    "This file is the active binding for the current starting quartet: Mathilde, Marec, Anouk and Aurélien.",
+    "It supersedes older roster bindings for player-facing Les Veilleurs content.",
+    "Ultimate identity and charge progression are locked here; numerical resolver effects remain implementation data and must not be inferred from older legendary-hero sheets.",
+    "Each chosen tree owns one signature ultimate. Charges: level 16 = 1 per dungeon, level 32 = 2, level 48 = 3."
+  ],
+  "charge_progression": {
+    "16": 1,
+    "32": 2,
+    "48": 3
+  },
+  "heroes": [
+    {
+      "hero_id": "mathilde",
+      "display_name": "Mathilde",
+      "ultimates": [
+        {"branch_slot": 1, "name": "Cœur inébranlable", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"},
+        {"branch_slot": 2, "name": "Katana éternel", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"},
+        {"branch_slot": 3, "name": "Volonté transcendante", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"}
+      ]
+    },
+    {
+      "hero_id": "marec",
+      "display_name": "Marec",
+      "ultimates": [
+        {"branch_slot": 1, "name": "Force primordiale", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"},
+        {"branch_slot": 2, "name": "Instinct parfait", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"},
+        {"branch_slot": 3, "name": "Légende vivante", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"}
+      ]
+    },
+    {
+      "hero_id": "anouk",
+      "display_name": "Anouk",
+      "ultimates": [
+        {"branch_slot": 1, "name": "Trame absolue", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"},
+        {"branch_slot": 2, "name": "Esprit transcendant", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"},
+        {"branch_slot": 3, "name": "Ange de la Trame", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"}
+      ]
+    },
+    {
+      "hero_id": "aurelien",
+      "display_name": "Aurélien",
+      "ultimates": [
+        {"branch_slot": 1, "name": "Réminiscence du Sang", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"},
+        {"branch_slot": 2, "name": "Miroir du Jugement", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"},
+        {"branch_slot": 3, "name": "Réforme éternelle", "identity_locked": true, "runtime_effect_status": "PENDING_RESOLVER_BINDING"}
+      ]
+    }
+  ]
+}
