@@ -16,21 +16,34 @@ def github_env():
     }
 
 
-def test_collects_numeric_game_metrics_and_alerts():
+def test_collects_numeric_game_metrics_alerts_and_canonical_diagnostics():
     with tempfile.TemporaryDirectory() as td:
         path = Path(td) / "telemetry.json"
         path.write_text(json.dumps({
-            "outcomes": {"retreat_rate": 0.21, "success_rate": 0.67},
-            "expedition": {"average_rooms": 14.2, "average_duration": 39.5},
-            "alerts": [{"severity": "medium", "code": "retreat_rate"}],
+            "outcomes": {"retreat_rate": 0.42, "wipe_rate": 0.11, "success_rate": 0.67},
+            "expedition": {"average_rooms_cleared": 14.2, "average_duration": 39.5},
+            "combat_rounds": {"combat": 3.0, "elite": 5.0, "boss": 8.0},
+            "loot_rarity": {"legendary": {"share": 0.01}},
+            "classes": {
+                "a": {"win_rate": 0.55, "survival_rate": 0.80},
+                "b": {"win_rate": 0.61, "survival_rate": 0.74},
+            },
+            "alerts": [{"severity": "medium", "code": "example"}],
             "seed": 12345,
         }), encoding="utf-8")
         result = collect_report(path)
-        assert result["metrics"]["outcomes.retreat_rate"] == 0.21
+        assert result["metrics"]["outcomes.retreat_rate"] == 0.42
         assert result["metrics"]["expedition.average_duration"] == 39.5
         assert "seed" not in result["metrics"]
         assert result["alerts"]["medium"] == 1
         assert len(result["report_sha256"]) == 64
+        assert result["canonical_metrics"]["outcomes.retreat_rate"] == 0.42
+        assert result["canonical_metrics"]["expedition.visited_rooms"] == 14.2
+        assert result["canonical_metrics"]["combat.boss_rounds"] == 8.0
+        assert result["design_target_evaluation"]["overall_verdict"] == "ALIGNED_OR_IMPROVING"
+        assert result["mapping_coverage"]["mapped_target_count"] >= 8
+        # average_duration is intentionally not guessed into duration_minutes.
+        assert "expedition.duration_minutes" not in result["canonical_metrics"]
 
 
 def test_candidate_is_linked_to_real_github_execution():
@@ -42,6 +55,7 @@ def test_candidate_is_linked_to_real_github_execution():
         assert candidate["commit_sha"] == "b" * 40
         assert candidate["run_id"] == "999"
         assert candidate["summary"]["eligible_for_promotion"] is True
+        assert candidate["summary"]["canonical_metric_count"] == 0
         assert candidate["promotion_rule"] == "requires_matching_CORE_DECISION_COMMIT_TEST_chain"
         assert len(candidate["candidate_hash"]) == 64
 
