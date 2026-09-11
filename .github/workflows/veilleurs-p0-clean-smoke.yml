@@ -1,0 +1,38 @@
+name: Veilleurs P0 Clean Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'data/veilleurs/v06/basic_actions_roster.json'
+      - 'scripts/core/veilleurs_basic_action_service.gd'
+      - 'scripts/core/veilleurs_basic_actions_smoke_test.gd'
+      - 'scripts/core/veilleurs_tactical_combat_runtime_v3.gd'
+      - 'scripts/core/veilleurs_tactical_combat_runtime_v4.gd'
+      - 'scripts/core/veilleurs_authored_encounter_runtime_p0.gd'
+      - 'scripts/core/veilleurs_tactical_session_p0.gd'
+      - 'scripts/ui/veilleurs_tactical_demo_basic_actions_p0.gd'
+      - 'scripts/ui/veilleurs_tactical_demo_p0.gd'
+      - 'scripts/ui/veilleurs_tactical_ui_p0.gd'
+      - 'scenes/tests/veilleurs_basic_actions_smoke.tscn'
+      - '.github/workflows/veilleurs-p0-clean-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  godot-p0-smoke:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Strict import and P0 basic-actions smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 120s godot --headless --path . --editor --quit 2>&1 | tee /tmp/p0-import.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed' /tmp/p0-import.log
+          timeout 90s godot --headless --path . res://scenes/tests/veilleurs_basic_actions_smoke.tscn 2>&1 | tee /tmp/p0-basic-actions.log
+          ! grep -E 'SCRIPT ERROR:|ERROR: Failed to load script|ERROR: Failed to create an autoload|ERROR: Failed to instantiate an autoload|ERROR: FATAL:|handle_crash: Program crashed|VEILLEURS_BASIC_ACTIONS_SMOKE_FAILED' /tmp/p0-basic-actions.log
+          grep -F 'VEILLEURS_BASIC_ACTIONS_SMOKE_OK' /tmp/p0-basic-actions.log
