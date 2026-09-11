@@ -24,11 +24,11 @@
     {
       "id": "CHG-GOVERNANCE-INTAKE-003",
       "decision_id": "DEC-GOVERNANCE-INTAKE-003",
-      "status": "APPROVED",
-      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED"],
+      "status": "MEASURED",
+      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED", "APPLIED", "MEASURED"],
       "test_plan": "Run intake contracts plus Knowledge and Global Governance gates.",
       "rollback_plan": "Revert the isolated intake bridge; existing ingress, Trieur and registries remain independent and unchanged.",
-      "evidence_ids": ["EVD-GOVERNANCE-INTAKE-LOCAL-001"],
+      "evidence_ids": ["EVD-GOVERNANCE-INTAKE-LOCAL-001", "EVD-GOVERNANCE-INTAKE-MERGE-001", "EVD-GOVERNANCE-INTAKE-MAIN-CI-001"],
       "guardian": "GREEN"
     }
   ]

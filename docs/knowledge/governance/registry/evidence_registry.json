@@ -56,6 +56,22 @@
       "uri": "tests/python/test_knowledge_intake.py",
       "observed_at": "2026-09-11T13:00:00Z",
       "change_id": "CHG-GOVERNANCE-INTAKE-003"
+    },
+    {
+      "id": "EVD-GOVERNANCE-INTAKE-MERGE-001",
+      "type": "GIT_COMMIT",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/commit/12e58b32e0d969678be839a2e2db2fcd40f6fd53",
+      "observed_at": "2026-09-11T17:19:27Z",
+      "change_id": "CHG-GOVERNANCE-INTAKE-003"
+    },
+    {
+      "id": "EVD-GOVERNANCE-INTAKE-MAIN-CI-001",
+      "type": "CI",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/actions/runs/34627032495",
+      "observed_at": "2026-09-11T17:19:42Z",
+      "change_id": "CHG-GOVERNANCE-INTAKE-003"
     }
   ]
 }
