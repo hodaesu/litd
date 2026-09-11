@@ -53,9 +53,9 @@ edges:
     to: engineering-method
     relation: constrains
     rationale: "Le niveau de risque et les invariants déterminent les validations requises."
-  - from: ci-domains
-    to: engineering-method
-    relation: validates
+  - from: engineering-method
+    to: ci-domains
+    relation: validated_by
     rationale: "La CI apporte une partie des preuves reproductibles de la Definition of Done."
   - from: combat-ranks
     to: party-placement
