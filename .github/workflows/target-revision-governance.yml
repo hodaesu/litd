@@ -7,12 +7,15 @@ on:
       - 'docs/knowledge/design-targets.json'
       - 'docs/knowledge/target-drift-baseline-v1.json'
       - 'docs/knowledge/target-drift-budgets.json'
+      - 'docs/knowledge/target-history/**'
       - 'tools/quality/target_revision_guard.py'
       - 'tools/quality/target_drift_detector.py'
       - 'tools/quality/target_drift_budget.py'
+      - 'tools/quality/target_history.py'
       - 'tests/python/test_target_revision_guard.py'
       - 'tests/python/test_target_drift_detector.py'
       - 'tests/python/test_target_drift_budget.py'
+      - 'tests/python/test_target_history.py'
       - 'docs/knowledge/decisions/target-revisions/**'
       - '.github/workflows/target-revision-governance.yml'
   pull_request:
@@ -20,6 +23,7 @@ on:
       - 'docs/knowledge/design-targets.json'
       - 'docs/knowledge/target-drift-baseline-v1.json'
       - 'docs/knowledge/target-drift-budgets.json'
+      - 'docs/knowledge/target-history/**'
       - 'docs/knowledge/guardian-rules.yml'
       - 'data/roguelike/balance_targets.json'
       - 'data/roguelike/balance_matrix.json'
@@ -37,9 +41,11 @@ on:
       - 'tools/quality/target_revision_guard.py'
       - 'tools/quality/target_drift_detector.py'
       - 'tools/quality/target_drift_budget.py'
+      - 'tools/quality/target_history.py'
       - 'tests/python/test_target_revision_guard.py'
       - 'tests/python/test_target_drift_detector.py'
       - 'tests/python/test_target_drift_budget.py'
+      - 'tests/python/test_target_history.py'
       - '.github/workflows/target-revision-governance.yml'
   workflow_dispatch:
 
@@ -59,18 +65,20 @@ jobs:
           python-version: '3.12'
       - name: Install QA dependencies
         run: python -m pip install -r requirements-dev.txt
-      - name: Target revision and longitudinal drift tests
+      - name: Target revision, longitudinal drift and history tests
         run: >-
           python -m pytest -q
           tests/python/test_target_revision_guard.py
           tests/python/test_target_drift_detector.py
           tests/python/test_target_drift_budget.py
+          tests/python/test_target_history.py
       - name: Collect Pull Request changed files
         if: ${{ github.event_name == 'pull_request' }}
         shell: bash
         run: |
           set -euo pipefail
           git diff --name-only "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" > reports-target-revision-files.txt
+          git diff --name-status "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" > reports-target-revision-status.txt
           cat reports-target-revision-files.txt
       - name: Protect frozen drift baseline
         if: ${{ github.event_name == 'pull_request' }}
@@ -80,6 +88,21 @@ jobs:
           if grep -qx 'docs/knowledge/target-drift-baseline-v1.json' reports-target-revision-files.txt; then
             echo 'Frozen target drift baseline cannot be modified by an ordinary PR. Create a new baseline version through explicit governance instead.' >&2
             exit 1
+          fi
+      - name: Enforce append-only target history
+        if: ${{ github.event_name == 'pull_request' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if awk '$2 ~ /^docs\/knowledge\/target-history\/.*\.json$/ && $1 !~ /^A/ {print; bad=1} END {exit bad ? 0 : 1}' reports-target-revision-status.txt; then
+            echo 'Existing target-history snapshots are append-only and cannot be modified, renamed or deleted.' >&2
+            exit 1
+          fi
+          if grep -qx 'docs/knowledge/design-targets.json' reports-target-revision-files.txt; then
+            if ! awk '$1 ~ /^A/ && $2 ~ /^docs\/knowledge\/target-history\/.*\.json$/ {found=1} END {exit found ? 0 : 1}' reports-target-revision-status.txt; then
+              echo 'A canonical target change must add a new chained target-history snapshot.' >&2
+              exit 1
+            fi
           fi
       - name: Enforce governance-only target revisions
         if: ${{ github.event_name == 'pull_request' }}
@@ -119,6 +142,29 @@ jobs:
             --current docs/knowledge/design-targets.json \
             --budgets docs/knowledge/target-drift-budgets.json \
             --output reports/target-drift-budget.json
+      - name: Validate target trajectory history
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          mapfile -t snapshots < <(find docs/knowledge/target-history -type f -name '*.json' | sort)
+          if [ "${#snapshots[@]}" -eq 0 ]; then
+            echo 'Target history is empty.' >&2
+            exit 1
+          fi
+          python -m tools.quality.target_history "${snapshots[@]}" \
+            --output reports/target-trajectory.json
+      - name: Ensure latest history snapshot matches current canonical targets
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          from tools.quality.target_history import registry_hash
+          registry = json.loads(Path('docs/knowledge/design-targets.json').read_text(encoding='utf-8'))
+          snapshots = sorted(Path('docs/knowledge/target-history').glob('*.json'))
+          latest = json.loads(snapshots[-1].read_text(encoding='utf-8'))
+          assert latest['registry_hash'] == registry_hash(registry), 'Latest history snapshot does not match current canonical target registry'
+          assert latest['core_write_allowed'] is False
       - name: Enforce explicit budget registry policy
         shell: python
         run: |
@@ -138,4 +184,5 @@ jobs:
             reports/target-revision-guard.json
             reports/target-drift/*.drift.json
             reports/target-drift-budget.json
+            reports/target-trajectory.json
           if-no-files-found: warn
