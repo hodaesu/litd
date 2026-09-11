@@ -75,6 +75,16 @@ Profondeur recommandée :
 
 Le niveau dépend de : **impact × risque × incertitude × coût d'une erreur**.
 
+## Trieur canonique relié au Core
+
+Le trieur de fichiers est un capteur du système vivant, pas une autorité indépendante. Il observe l'état Git/Godot réel et remonte au Core les références, UID, doublons, familles de versions, collisions, compagnons, historique et contradictions. Le Core confronte ces observations à la Bibliothèque et au Knowledge Graph ; le Guardian autorise ou bloque ; Git exécute ; la CI apporte les preuves ; les résultats retournent ensuite dans la Bibliothèque.
+
+Le contrat détaillé est défini dans `file-sorter-core-contract.md`.
+
+Boucle : **Bibliothèque ⇄ Core ⇄ Trieur ⇄ Réalité Git/Godot ⇄ CI/tests/mesures ⇄ Core ⇄ Bibliothèque**.
+
+Aucune observation du trieur n'est considérée définitivement vraie : elle doit être rattachée au head Git audité et revalidée lorsque le dépôt, le canon ou les dépendances évoluent.
+
 ## Principe d'optimisation
 
 Minimum de complexité nécessaire, maximum de preuve utile, zéro duplication inutile.
