@@ -1,6 +1,15 @@
 name: Target Revision Governance
 
 on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'tools/quality/target_revision_guard.py'
+      - 'tools/quality/target_drift_detector.py'
+      - 'tests/python/test_target_revision_guard.py'
+      - 'tests/python/test_target_drift_detector.py'
+      - 'docs/knowledge/decisions/target-revisions/**'
+      - '.github/workflows/target-revision-governance.yml'
   pull_request:
     paths:
       - 'docs/knowledge/design-targets.json'
