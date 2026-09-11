@@ -83,6 +83,32 @@ jobs:
             done
           done
           echo "Historical candidate files: $(find baseline-history/extracted -type f -name '*.measurement.json' | wc -l)"
+      - name: Build compatibility-safe longitudinal measurement history
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          mapfile -d '' history_candidates < <(find baseline-history/extracted reports/measurement-candidates -type f -name '*.measurement.json' -print0)
+          if [ "${#history_candidates[@]}" -eq 0 ]; then
+            echo 'No measurement candidates available for longitudinal history.' >&2
+            exit 1
+          fi
+          python -m tools.quality.measurement_history "${history_candidates[@]}" \
+            --output reports/measurement-history.json
+      - name: Analyze target goalpost drift against real measurement history
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          mapfile -t snapshots < <(find docs/knowledge/target-history -type f -name '*.json' | sort)
+          if [ "${#snapshots[@]}" -eq 0 ]; then
+            echo 'Target history is empty.' >&2
+            exit 1
+          fi
+          python -m tools.quality.goalpost_drift_analyzer \
+            --snapshots "${snapshots[@]}" \
+            --measurement-history reports/measurement-history.json \
+            --output reports/goalpost-drift.json
       - name: Select compatible baseline and build before-after design comparison
         shell: bash
         run: |
@@ -97,12 +123,14 @@ jobs:
             fi
             python -m tools.quality.baseline_comparison "${args[@]}"
           done < <(find reports/measurement-candidates -type f -name '*.measurement.json' -print0)
-      - name: Verify measurement mapping, baseline, review-candidate, PR summary, gate and collector contracts
+      - name: Verify measurement mapping, history, goalpost, baseline, review-candidate, PR summary, gate and collector contracts
         run: >-
           python -m pytest -q
           tests/python/test_telemetry_target_mapper.py
           tests/python/test_design_target_evaluator.py
           tests/python/test_measurement_collector.py
+          tests/python/test_measurement_history.py
+          tests/python/test_goalpost_drift_analyzer.py
           tests/python/test_baseline_selector.py
           tests/python/test_baseline_comparison.py
           tests/python/test_design_decision_candidate.py
@@ -114,6 +142,20 @@ jobs:
         with:
           name: measurement-candidates-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/measurement-candidates/*.measurement.json
+          if-no-files-found: warn
+      - name: Upload longitudinal measurement history
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: measurement-history-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: reports/measurement-history.json
+          if-no-files-found: warn
+      - name: Upload goalpost drift diagnostic
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: goalpost-drift-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: reports/goalpost-drift.json
           if-no-files-found: warn
       - name: Upload baseline comparisons
         uses: actions/upload-artifact@v4
