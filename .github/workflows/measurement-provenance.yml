@@ -24,6 +24,8 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+      - name: Installer les dépendances QA
+        run: python -m pip install -r requirements-dev.txt
       - name: Download Balance Telemetry artifacts
         uses: actions/download-artifact@v4
         with:
@@ -31,7 +33,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
           path: upstream-artifacts
-      - name: Build measurement candidates from real reports
+      - name: Build measurement candidates and canonical design diagnostics
         env:
           GITHUB_SHA: ${{ github.event.workflow_run.head_sha }}
           GITHUB_RUN_ID: ${{ github.event.workflow_run.id }}
@@ -48,14 +50,19 @@ jobs:
             found=1
             name="$(basename "$report" .json)"
             python -m tools.quality.measurement_collector "$report" \
+              --targets docs/knowledge/design-targets.json \
               --output "reports/measurement-candidates/${name}.measurement.json"
           done < <(find upstream-artifacts -type f -name '*.json' -print0)
           if [ "$found" -eq 0 ]; then
             echo 'No JSON telemetry reports were downloaded.' >&2
             exit 1
           fi
-      - name: Verify measurement collector contract
-        run: python -m pytest -q tests/python/test_measurement_collector.py
+      - name: Verify measurement mapping and collector contracts
+        run: >-
+          python -m pytest -q
+          tests/python/test_telemetry_target_mapper.py
+          tests/python/test_design_target_evaluator.py
+          tests/python/test_measurement_collector.py
       - name: Upload provenance-ready measurements
         uses: actions/upload-artifact@v4
         with:
