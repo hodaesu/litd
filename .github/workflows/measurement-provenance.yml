@@ -95,7 +95,20 @@ jobs:
           fi
           python -m tools.quality.measurement_history "${history_candidates[@]}" \
             --output reports/measurement-history.json
-      - name: Analyze target goalpost drift against real measurement history
+      - name: Bind measurements to effective target snapshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t snapshots < <(find docs/knowledge/target-history -type f -name '*.json' | sort)
+          if [ "${#snapshots[@]}" -eq 0 ]; then
+            echo 'Target history is empty.' >&2
+            exit 1
+          fi
+          python -m tools.quality.measurement_target_binding \
+            --snapshots "${snapshots[@]}" \
+            --measurement-history reports/measurement-history.json \
+            --output reports/measurement-target-binding.json
+      - name: Analyze target goalpost drift against target-bound measurement history
         shell: bash
         run: |
           set -euo pipefail
@@ -108,6 +121,7 @@ jobs:
           python -m tools.quality.goalpost_drift_analyzer \
             --snapshots "${snapshots[@]}" \
             --measurement-history reports/measurement-history.json \
+            --target-binding reports/measurement-target-binding.json \
             --output reports/goalpost-drift.json
       - name: Build governed goalpost review candidate
         if: always()
@@ -135,13 +149,14 @@ jobs:
             fi
             python -m tools.quality.baseline_comparison "${args[@]}"
           done < <(find reports/measurement-candidates -type f -name '*.measurement.json' -print0)
-      - name: Verify measurement mapping, history, goalpost, review-candidate, baseline, PR summary, gate and collector contracts
+      - name: Verify measurement mapping, history, target binding, goalpost, review-candidate, baseline, PR summary, gate and collector contracts
         run: >-
           python -m pytest -q
           tests/python/test_telemetry_target_mapper.py
           tests/python/test_design_target_evaluator.py
           tests/python/test_measurement_collector.py
           tests/python/test_measurement_history.py
+          tests/python/test_measurement_target_binding.py
           tests/python/test_goalpost_drift_analyzer.py
           tests/python/test_goalpost_review_candidate.py
           tests/python/test_baseline_selector.py
@@ -162,6 +177,13 @@ jobs:
         with:
           name: measurement-history-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/measurement-history.json
+          if-no-files-found: warn
+      - name: Upload measurement to target binding
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: measurement-target-binding-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: reports/measurement-target-binding.json
           if-no-files-found: warn
       - name: Upload goalpost drift diagnostic
         uses: actions/upload-artifact@v4
