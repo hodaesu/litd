@@ -1,0 +1,12 @@
+{
+  "kind": "LITD_TARGET_DRIFT_BUDGETS",
+  "version": 1,
+  "status": "TARGET_DRIFT_BUDGETS",
+  "policy": {
+    "missing_budget_action": "REVIEW_REQUIRED",
+    "invented_default_budget_forbidden": true,
+    "budget_change_requires_governance": true,
+    "core_write_allowed": false
+  },
+  "targets": {}
+}
