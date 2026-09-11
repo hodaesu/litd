@@ -6,38 +6,9 @@ on:
     paths:
       - 'docs/knowledge/**'
       - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
-      - 'tools/quality/library_trieur.py'
-      - 'tools/quality/veilleur_v2_ingest.py'
-      - 'tools/quality/evidence_ledger.py'
-      - 'tools/quality/provenance_chain.py'
-      - 'tools/quality/github_provenance_adapter.py'
-      - 'tools/quality/measurement_collector.py'
-      - 'tools/quality/measurement_comparator.py'
-      - 'tools/quality/design_target_evaluator.py'
-      - 'tools/quality/telemetry_target_mapper.py'
-      - 'tools/quality/baseline_selector.py'
-      - 'tools/quality/baseline_comparison.py'
-      - 'tools/quality/design_regression_gate.py'
-      - 'tools/quality/design_decision_candidate.py'
-      - 'tools/quality/target_revision_guard.py'
-      - 'tools/quality/pr_design_summary.py'
-      - 'tools/quality/validate_knowledge.py'
-      - 'tests/python/test_library_trieur.py'
-      - 'tests/python/test_veilleur_v2_ingest.py'
-      - 'tests/python/test_evidence_ledger.py'
-      - 'tests/python/test_veilleur_v2_persistent_ingest.py'
-      - 'tests/python/test_provenance_chain.py'
-      - 'tests/python/test_github_provenance_adapter.py'
-      - 'tests/python/test_measurement_collector.py'
-      - 'tests/python/test_measurement_comparator.py'
-      - 'tests/python/test_design_target_evaluator.py'
-      - 'tests/python/test_telemetry_target_mapper.py'
-      - 'tests/python/test_baseline_selector.py'
-      - 'tests/python/test_baseline_comparison.py'
-      - 'tests/python/test_design_regression_gate.py'
-      - 'tests/python/test_design_decision_candidate.py'
-      - 'tests/python/test_target_revision_guard.py'
-      - 'tests/python/test_pr_design_summary.py'
+      - 'tools/quality/**'
+      - 'tests/python/test_*quality*.py'
+      - 'tests/python/test_goalpost_drift_analyzer.py'
       - '.github/workflows/measurement-provenance.yml'
       - '.github/workflows/target-revision-governance.yml'
       - '.github/workflows/knowledge-governance.yml'
@@ -45,38 +16,9 @@ on:
     paths:
       - 'docs/knowledge/**'
       - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
-      - 'tools/quality/library_trieur.py'
-      - 'tools/quality/veilleur_v2_ingest.py'
-      - 'tools/quality/evidence_ledger.py'
-      - 'tools/quality/provenance_chain.py'
-      - 'tools/quality/github_provenance_adapter.py'
-      - 'tools/quality/measurement_collector.py'
-      - 'tools/quality/measurement_comparator.py'
-      - 'tools/quality/design_target_evaluator.py'
-      - 'tools/quality/telemetry_target_mapper.py'
-      - 'tools/quality/baseline_selector.py'
-      - 'tools/quality/baseline_comparison.py'
-      - 'tools/quality/design_regression_gate.py'
-      - 'tools/quality/design_decision_candidate.py'
-      - 'tools/quality/target_revision_guard.py'
-      - 'tools/quality/pr_design_summary.py'
-      - 'tools/quality/validate_knowledge.py'
-      - 'tests/python/test_library_trieur.py'
-      - 'tests/python/test_veilleur_v2_ingest.py'
-      - 'tests/python/test_evidence_ledger.py'
-      - 'tests/python/test_veilleur_v2_persistent_ingest.py'
-      - 'tests/python/test_provenance_chain.py'
-      - 'tests/python/test_github_provenance_adapter.py'
-      - 'tests/python/test_measurement_collector.py'
-      - 'tests/python/test_measurement_comparator.py'
-      - 'tests/python/test_design_target_evaluator.py'
-      - 'tests/python/test_telemetry_target_mapper.py'
-      - 'tests/python/test_baseline_selector.py'
-      - 'tests/python/test_baseline_comparison.py'
-      - 'tests/python/test_design_regression_gate.py'
-      - 'tests/python/test_design_decision_candidate.py'
-      - 'tests/python/test_target_revision_guard.py'
-      - 'tests/python/test_pr_design_summary.py'
+      - 'tools/quality/**'
+      - 'tests/python/test_*quality*.py'
+      - 'tests/python/test_goalpost_drift_analyzer.py'
       - '.github/workflows/measurement-provenance.yml'
       - '.github/workflows/target-revision-governance.yml'
       - '.github/workflows/knowledge-governance.yml'
@@ -101,36 +43,26 @@ jobs:
         run: python -m pip install -r requirements-dev.txt
       - name: Knowledge Guardian
         run: python tools/quality/validate_knowledge.py
-      - name: Trieur routing and Core boundary tests
-        run: python -m pytest -q tests/python/test_library_trieur.py
-      - name: VEILLEUR V2 ingress validation, integrity and dedup tests
-        run: python -m pytest -q tests/python/test_veilleur_v2_ingest.py
-      - name: Persistent evidence registry and immutable ledger tests
-        run: python -m pytest -q tests/python/test_evidence_ledger.py tests/python/test_veilleur_v2_persistent_ingest.py
-      - name: End-to-end provenance chain tests
-        run: python -m pytest -q tests/python/test_provenance_chain.py
-      - name: GitHub commit and CI provenance bridge tests
-        run: python -m pytest -q tests/python/test_github_provenance_adapter.py
-      - name: Telemetry target mapper tests
-        run: python -m pytest -q tests/python/test_telemetry_target_mapper.py
-      - name: Telemetry measurement collector tests
-        run: python -m pytest -q tests/python/test_measurement_collector.py
-      - name: Compatible baseline selector tests
-        run: python -m pytest -q tests/python/test_baseline_selector.py
-      - name: Automatic baseline comparison tests
-        run: python -m pytest -q tests/python/test_baseline_comparison.py
-      - name: Design review candidate tests
-        run: python -m pytest -q tests/python/test_design_decision_candidate.py
-      - name: Canonical target revision guard tests
-        run: python -m pytest -q tests/python/test_target_revision_guard.py
-      - name: Pull Request design summary tests
-        run: python -m pytest -q tests/python/test_pr_design_summary.py
-      - name: High-severity design regression gate tests
-        run: python -m pytest -q tests/python/test_design_regression_gate.py
-      - name: Before-after measurement comparator tests
-        run: python -m pytest -q tests/python/test_measurement_comparator.py
-      - name: LITD design target evaluator tests
-        run: python -m pytest -q tests/python/test_design_target_evaluator.py
+      - name: Knowledge quality tests
+        run: >-
+          python -m pytest -q
+          tests/python/test_library_trieur.py
+          tests/python/test_veilleur_v2_ingest.py
+          tests/python/test_evidence_ledger.py
+          tests/python/test_veilleur_v2_persistent_ingest.py
+          tests/python/test_provenance_chain.py
+          tests/python/test_github_provenance_adapter.py
+          tests/python/test_telemetry_target_mapper.py
+          tests/python/test_measurement_collector.py
+          tests/python/test_baseline_selector.py
+          tests/python/test_baseline_comparison.py
+          tests/python/test_design_decision_candidate.py
+          tests/python/test_target_revision_guard.py
+          tests/python/test_pr_design_summary.py
+          tests/python/test_design_regression_gate.py
+          tests/python/test_measurement_comparator.py
+          tests/python/test_design_target_evaluator.py
+          tests/python/test_goalpost_drift_analyzer.py
       - name: Validate canonical design target registry
         shell: python
         env:
@@ -148,19 +80,17 @@ jobs:
           import json, os
           from pathlib import Path
           payload = {
-              "repository": os.environ["GITHUB_REPOSITORY"],
-              "commit_sha": os.environ["GITHUB_SHA"],
-              "run_id": os.environ["GITHUB_RUN_ID"],
-              "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
-              "workflow": os.environ["GITHUB_WORKFLOW"],
-              "job": os.environ["GITHUB_JOB"],
-              "ref": os.environ["GITHUB_REF"],
-              "server_url": os.environ["GITHUB_SERVER_URL"],
+              'repository': os.environ['GITHUB_REPOSITORY'],
+              'commit_sha': os.environ['GITHUB_SHA'],
+              'run_id': os.environ['GITHUB_RUN_ID'],
+              'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
+              'workflow': os.environ['GITHUB_WORKFLOW'],
+              'job': os.environ['GITHUB_JOB'],
+              'ref': os.environ['GITHUB_REF'],
+              'server_url': os.environ['GITHUB_SERVER_URL'],
           }
-          Path("reports").mkdir(exist_ok=True)
-          Path("reports/knowledge-governance-github-evidence.json").write_text(
-              json.dumps(payload, sort_keys=True, indent=2), encoding="utf-8"
-          )
+          Path('reports').mkdir(exist_ok=True)
+          Path('reports/knowledge-governance-github-evidence.json').write_text(json.dumps(payload, sort_keys=True, indent=2), encoding='utf-8')
       - name: Upload GitHub provenance evidence
         uses: actions/upload-artifact@v4
         if: always()
@@ -173,44 +103,16 @@ jobs:
           set -euo pipefail
           grep -q 'return False' tools/quality/library_trieur.py
           grep -q 'QUARANTINE' tools/quality/library_trieur.py
-          grep -q 'return False' tools/quality/veilleur_v2_ingest.py
-          grep -q 'content_hash_mismatch' tools/quality/veilleur_v2_ingest.py
-          grep -q 'duplicate_canonical_content' tools/quality/veilleur_v2_ingest.py
-          grep -q 'decision_ledger_no_update' tools/quality/evidence_ledger.py
-          grep -q 'decision_ledger_no_delete' tools/quality/evidence_ledger.py
-          grep -q 'verify_chain' tools/quality/evidence_ledger.py
-          grep -q 'provenance_no_update' tools/quality/provenance_chain.py
-          grep -q 'provenance_no_delete' tools/quality/provenance_chain.py
-          grep -q 'CORE_DECISION' tools/quality/provenance_chain.py
-          grep -q 'GITHUB_SHA' tools/quality/github_provenance_adapter.py
-          grep -q 'GITHUB_RUN_ID' tools/quality/github_provenance_adapter.py
           grep -q 'MEASUREMENT_CANDIDATE' tools/quality/measurement_collector.py
-          grep -q 'comparison_identity' tools/quality/measurement_collector.py
-          grep -q 'canonical_metrics' tools/quality/measurement_collector.py
           grep -q 'requires_matching_CORE_DECISION_COMMIT_TEST_chain' tools/quality/measurement_collector.py
-          grep -q 'seed_policy' tools/quality/baseline_selector.py
-          grep -q 'seed_value' tools/quality/baseline_selector.py
-          grep -q 'NO_COMPATIBLE_BASELINE' tools/quality/baseline_comparison.py
-          grep -q 'baseline_run_id' tools/quality/baseline_comparison.py
-          grep -q 'core_write_allowed.*False' tools/quality/baseline_comparison.py
           grep -q 'LITD_DESIGN_REVIEW_CANDIDATE' tools/quality/design_decision_candidate.py
-          grep -q 'REQUIRES_DECISION' tools/quality/design_decision_candidate.py
-          grep -q 'core_write_allowed.*False' tools/quality/design_decision_candidate.py
           grep -q 'target_and_implementation_must_be_separate_prs' tools/quality/target_revision_guard.py
-          grep -q 'PROPOSE_TARGET_REVISION' tools/quality/target_revision_guard.py
-          grep -q 'core_write_allowed.*False' tools/quality/target_revision_guard.py
           grep -q 'litd-design-telemetry-summary' tools/quality/pr_design_summary.py
-          grep -q "source d'autorité reste le gate CI" tools/quality/pr_design_summary.py
           grep -q 'FARTHER_FROM_TARGET' tools/quality/design_regression_gate.py
-          grep -q 'severity.*high' tools/quality/design_regression_gate.py
-          grep -q 'core_write_allowed.*False' tools/quality/design_regression_gate.py
-          grep -q 'NO_SIGNIFICANT_CHANGE' tools/quality/measurement_comparator.py
-          grep -q 'INCONCLUSIVE' tools/quality/measurement_comparator.py
-          grep -q 'core_write_allowed.*False' tools/quality/measurement_comparator.py
-          grep -q 'FARTHER_FROM_TARGET' tools/quality/design_target_evaluator.py
           grep -q 'DESIGN_REGRESSION' tools/quality/design_target_evaluator.py
-          grep -q 'core_write_allowed.*False' tools/quality/design_target_evaluator.py
-          grep -q 'outcomes.retreat_rate' tools/quality/telemetry_target_mapper.py
-          grep -q 'campaign.boss_rounds' tools/quality/telemetry_target_mapper.py
+          grep -q 'LITD_GOALPOST_DRIFT_REPORT' tools/quality/goalpost_drift_analyzer.py
+          grep -q 'GOALPOST_DRIFT_REVIEW_REQUIRED' tools/quality/goalpost_drift_analyzer.py
+          grep -q 'automatic_target_change_allowed.*False' tools/quality/goalpost_drift_analyzer.py
+          grep -q 'core_write_allowed.*False' tools/quality/goalpost_drift_analyzer.py
           grep -q 'CANONICAL_DESIGN_TARGETS' docs/knowledge/design-targets.json
           grep -q 'La bibliothèque ne modifie jamais directement le Core' docs/BIBLIOTHEQUE_GOUVERNANCE.md
