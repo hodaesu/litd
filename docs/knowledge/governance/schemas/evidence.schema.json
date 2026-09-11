@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://litd.local/schemas/evidence-v1.json",
+  "title": "LITD governance evidence",
+  "type": "object",
+  "required": ["id", "type", "result", "uri", "observed_at", "change_id"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^EVD-[A-Z0-9-]+$"},
+    "type": {"enum": ["UNIT_TEST", "CI", "GODOT_RUN", "PC_TEST", "MOBILE_TEST", "PLAYTEST", "PERFORMANCE", "INCIDENT"]},
+    "result": {"enum": ["PASS", "FAIL", "INCONCLUSIVE"]},
+    "uri": {"type": "string", "minLength": 1},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "change_id": {"type": "string"}
+  },
+  "additionalProperties": false
+}

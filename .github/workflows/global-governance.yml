@@ -1,0 +1,40 @@
+name: Global Governance Gate
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'docs/knowledge/governance/**'
+      - 'tools/quality/global_governance.py'
+      - 'tests/python/test_global_governance.py'
+      - '.github/workflows/global-governance.yml'
+  pull_request:
+    paths:
+      - 'docs/knowledge/governance/**'
+      - 'tools/quality/global_governance.py'
+      - 'tests/python/test_global_governance.py'
+      - '.github/workflows/global-governance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: global-governance-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Validate cross-registry governance
+        run: python -m tools.quality.global_governance
+      - name: Governance contract tests
+        run: python -m pytest -q tests/python/test_global_governance.py

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "CHG-GOVERNANCE-FOUNDATION-001",
+      "decision_id": "DEC-GOVERNANCE-FOUNDATION-001",
+      "status": "APPROVED",
+      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED"],
+      "test_plan": "Run the governance validator and its pytest contract suite in CI.",
+      "rollback_plan": "Revert the isolated governance commit; no gameplay data is modified.",
+      "evidence_ids": ["EVD-GOVERNANCE-LOCAL-001"],
+      "guardian": "GREEN"
+    }
+  ]
+}

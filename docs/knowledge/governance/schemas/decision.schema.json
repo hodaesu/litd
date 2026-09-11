@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://litd.local/schemas/decision-v1.json",
+  "title": "LITD Core decision",
+  "type": "object",
+  "required": ["id", "status", "problem", "knowledge_ids", "pillars", "alternatives", "contradictor_findings", "risks", "decision", "human_approval", "affected_paths"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^DEC-[A-Z0-9-]+$"},
+    "status": {"enum": ["DRAFT", "REVIEW", "APPROVED", "REJECTED", "SUPERSEDED"]},
+    "problem": {"type": "string", "minLength": 1},
+    "knowledge_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "pillars": {"type": "array", "items": {"enum": ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9"]}},
+    "alternatives": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "contradictor_findings": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "risks": {"type": "array", "items": {"type": "string"}},
+    "decision": {"type": "string", "minLength": 1},
+    "human_approval": {"type": "boolean"},
+    "affected_paths": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "DEC-GOVERNANCE-FOUNDATION-001",
+      "status": "APPROVED",
+      "problem": "Existing governance components need one fail-closed cross-registry contract.",
+      "knowledge_ids": ["KNOW-GOVERNANCE-FOUNDATION-001"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Keep independent tools without a shared registry", "Build an autonomous Core writer"],
+      "contradictor_findings": ["A duplicate governance stack would create conflicting authority; this foundation must extend existing tools."],
+      "risks": ["Schema rigidity before sufficient operational feedback"],
+      "decision": "Add minimal registries and a deterministic fail-closed validator; retain human approval and forbid direct Core writes.",
+      "human_approval": true,
+      "affected_paths": ["docs/knowledge/governance", "tools/quality/global_governance.py"]
+    }
+  ]
+}
