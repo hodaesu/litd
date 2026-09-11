@@ -34,12 +34,12 @@
     {
       "id": "CHG-GOVERNANCE-PROMOTION-004",
       "decision_id": "DEC-GOVERNANCE-PROMOTION-004",
-      "status": "TESTED",
-      "history": ["LITD_CHANGE_CANDIDATE", "TESTED"],
+      "status": "APPROVED",
+      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED"],
       "test_plan": "Run promotion contracts, intake regressions and the Global Governance Gate.",
       "rollback_plan": "Revert the isolated promotion commit; existing EXPERIMENTAL entries and intake remain unchanged.",
       "evidence_ids": ["EVD-GOVERNANCE-PROMOTION-LOCAL-001"],
-      "guardian": "ORANGE"
+      "guardian": "GREEN"
     }
   ]
 }

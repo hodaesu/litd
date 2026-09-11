@@ -42,7 +42,7 @@
     },
     {
       "id": "DEC-GOVERNANCE-PROMOTION-004",
-      "status": "REVIEW",
+      "status": "APPROVED",
       "problem": "EXPERIMENTAL Knowledge candidates have no governed, attributable path to become ACTIVE.",
       "knowledge_ids": ["KNOW-GOVERNANCE-PROMOTION-004"],
       "pillars": ["P7", "P9"],
@@ -50,7 +50,7 @@
       "contradictor_findings": ["Human approval cannot replace source quality; contradiction handling and revalidation must remain mandatory."],
       "risks": ["Reviewer identity is declarative until authenticated identity is provided by a future service", "Concurrent JSON writers remain unsupported"],
       "decision": "Add a dry-run-first, fail-closed and idempotent EXPERIMENTAL-to-ACTIVE promotion tool with an attributable review record and no Core write authority.",
-      "human_approval": false,
+      "human_approval": true,
       "affected_paths": ["tools/quality/knowledge_promotion.py", "tests/python/test_knowledge_promotion.py", "docs/knowledge/governance"]
     }
   ]
