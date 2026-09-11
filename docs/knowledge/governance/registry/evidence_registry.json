@@ -48,6 +48,14 @@
       "uri": "https://github.com/hodaesu/litd/actions/runs/34600561584",
       "observed_at": "2026-09-11T12:45:34Z",
       "change_id": "CHG-GOVERNANCE-OPERATIONS-002"
+    },
+    {
+      "id": "EVD-GOVERNANCE-INTAKE-LOCAL-001",
+      "type": "UNIT_TEST",
+      "result": "PASS",
+      "uri": "tests/python/test_knowledge_intake.py",
+      "observed_at": "2026-09-11T13:00:00Z",
+      "change_id": "CHG-GOVERNANCE-INTAKE-003"
     }
   ]
 }

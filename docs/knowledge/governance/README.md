@@ -46,3 +46,20 @@ python -m tools.quality.governance_transition \
 Une transition `APPLIED` exige une preuve `GIT_COMMIT`; `MEASURED` exige une
 preuve de CI, d'exécution, de playtest ou de performance. L'outil ne peut
 jamais modifier le Core ni les données de gameplay.
+
+## Entrée Knowledge depuis VEILLEUR V2
+
+`knowledge_intake` compose le validateur d'entrée et le Trieur existants. Une
+source non vérifiée, ambiguë, trop peu fiable ou dépourvue de recherche
+contradictoire est mise en quarantaine. Une information générale reste dans la
+bibliothèque générale. Seule une application LITD explicite peut produire une
+entrée `EXPERIMENTAL`, toujours soumise à revue humaine.
+
+```bash
+python -m tools.quality.knowledge_intake event.json
+python -m tools.quality.knowledge_intake event.json --apply
+```
+
+Le mode par défaut est `DRY_RUN`. Même avec `--apply`, seule la bibliothèque
+Knowledge peut être enrichie : aucune décision Core ni modification gameplay
+n'est autorisée.

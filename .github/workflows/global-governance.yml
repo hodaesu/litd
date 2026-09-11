@@ -7,16 +7,20 @@ on:
       - 'docs/knowledge/governance/**'
       - 'tools/quality/global_governance.py'
       - 'tools/quality/governance_transition.py'
+      - 'tools/quality/knowledge_intake.py'
       - 'tests/python/test_global_governance.py'
       - 'tests/python/test_governance_transition.py'
+      - 'tests/python/test_knowledge_intake.py'
       - '.github/workflows/global-governance.yml'
   pull_request:
     paths:
       - 'docs/knowledge/governance/**'
       - 'tools/quality/global_governance.py'
       - 'tools/quality/governance_transition.py'
+      - 'tools/quality/knowledge_intake.py'
       - 'tests/python/test_global_governance.py'
       - 'tests/python/test_governance_transition.py'
+      - 'tests/python/test_knowledge_intake.py'
       - '.github/workflows/global-governance.yml'
   workflow_dispatch:
 
@@ -45,3 +49,4 @@ jobs:
           python -m pytest -q
           tests/python/test_global_governance.py
           tests/python/test_governance_transition.py
+          tests/python/test_knowledge_intake.py
