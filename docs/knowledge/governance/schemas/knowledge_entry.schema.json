@@ -16,6 +16,18 @@
     "dependencies": {"type": "array", "items": {"type": "string"}},
     "validated_at": {"type": "string", "format": "date"},
     "revalidate_at": {"type": "string", "format": "date"}
+    ,"review": {
+      "type": "object",
+      "required": ["decision", "reviewer", "reviewed_at", "rationale", "contradiction_resolution"],
+      "properties": {
+        "decision": {"const": "APPROVED"},
+        "reviewer": {"type": "string", "minLength": 1},
+        "reviewed_at": {"type": "string", "format": "date-time"},
+        "rationale": {"type": "string", "minLength": 1},
+        "contradiction_resolution": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
   },
   "additionalProperties": false
 }

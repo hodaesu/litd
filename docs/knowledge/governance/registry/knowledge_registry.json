@@ -33,6 +33,17 @@
       "dependencies": ["tools/quality/veilleur_v2_ingest.py", "tools/quality/library_trieur.py"],
       "validated_at": "2026-09-11",
       "revalidate_at": "2026-10-11"
+    },
+    {
+      "id": "KNOW-GOVERNANCE-PROMOTION-004",
+      "domain": "project-governance",
+      "claim": "EXPERIMENTAL LITD Knowledge may become ACTIVE only through an explicit, attributable human review that resolves contradictions and preserves a revalidation deadline.",
+      "status": "EXPERIMENTAL",
+      "sources": ["docs/knowledge/governance/README.md"],
+      "contradictions": ["Human approval improves accountability but does not by itself prove that the underlying claim is true."],
+      "dependencies": ["tools/quality/knowledge_intake.py", "tools/quality/global_governance.py"],
+      "validated_at": "2026-09-11",
+      "revalidate_at": "2026-10-11"
     }
   ]
 }

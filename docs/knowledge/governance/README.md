@@ -63,3 +63,18 @@ python -m tools.quality.knowledge_intake event.json --apply
 Le mode par défaut est `DRY_RUN`. Même avec `--apply`, seule la bibliothèque
 Knowledge peut être enrichie : aucune décision Core ni modification gameplay
 n'est autorisée.
+
+## Revue humaine et promotion
+
+`knowledge_promotion` est le seul passage prévu de `EXPERIMENTAL` à `ACTIVE`.
+Il exige une approbation humaine explicite et identifiée, une justification,
+le traitement documenté des contradictions et une revalidation postérieure à
+la revue. La revue est conservée dans l'entrée Knowledge.
+
+```bash
+python -m tools.quality.knowledge_promotion KNOW-EXEMPLE review.json
+python -m tools.quality.knowledge_promotion KNOW-EXEMPLE review.json --apply
+```
+
+Le mode par défaut reste `DRY_RUN`. L'opération est idempotente, validée avant
+remplacement atomique du registre et ne donne aucune autorité d'écriture Core.
