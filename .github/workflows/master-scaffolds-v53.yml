@@ -19,6 +19,10 @@ on:
       - '.github/workflows/master-scaffolds-v53.yml'
   workflow_dispatch:
 
+concurrency:
+  group: master-scaffolds-v53-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 

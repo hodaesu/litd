@@ -18,10 +18,12 @@ func run() -> void:
     _check(bool(started.get("eligible", false)), "First attempt must be eligible")
 
     var party_result: Array = GameState.party.duplicate(true)
+    var fallen_hero_name := ""
     if party_result.size() >= 2:
         party_result[0]["level"] = 5
         party_result[1]["level"] = 4
         party_result[1]["hp"] = 0
+        fallen_hero_name = str(party_result[1].get("name", ""))
     var award: Dictionary = runtime.finish_attempt(
         "boss_defeated",
         {
@@ -57,7 +59,9 @@ func run() -> void:
     _check(_label_contains("Ange du Premier Voile"), "Hall must display the defeated boss")
     _check(_label_contains("Éclat du Premier Voile"), "Hall must display the unique relic")
     _check(_label_contains("Celui qui n'a pas remonté"), "Hall must display the unique title")
-    _check(_label_contains("Mira Sen — niveau 4"), "Hall must preserve a fallen hero in the chronicle under the canonical name")
+    _check(not fallen_hero_name.is_empty(), "Hall smoke must resolve the fallen hero canonical name from the current party")
+    if not fallen_hero_name.is_empty():
+        _check(_label_contains("%s — niveau 4" % fallen_hero_name), "Hall must preserve the fallen hero in the chronicle under the current canonical name")
     _check(_label_contains("Lumière restante 1"), "Hall must display remaining Light")
     _check(_label_contains("Seed 424242"), "Hall must display the run seed")
 

@@ -1,0 +1,83 @@
+[
+  {
+    "id": "duelist_sabre",
+    "name": "Sabre de duel",
+    "slot": "weapon",
+    "class_id": "duelist",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["critical_chance", "precision", "riposte_chance", "bleed_chance", "physical_resistance"],
+    "test_level": true
+  },
+  {
+    "id": "duelist_rapier",
+    "name": "Rapière de veille",
+    "slot": "weapon",
+    "class_id": "duelist",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["precision", "critical_chance", "riposte_chance", "bleed_chance", "guard_power"],
+    "test_level": true
+  },
+  {
+    "id": "duelist_coat",
+    "name": "Manteau de duelliste",
+    "slot": "armor",
+    "class_id": "duelist",
+    "base_bonuses": {"hp_bonus": 10, "physical_resistance": 4},
+    "allowed_affixes": ["physical_resistance", "riposte_chance", "precision", "fear_resistance", "guard_power"],
+    "test_level": true
+  },
+  {
+    "id": "mystic_staff",
+    "name": "Bâton du mystique",
+    "slot": "weapon",
+    "class_id": "mystic",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["max_hope", "healing_power", "madness_resistance", "precision", "fear_resistance"],
+    "test_level": true
+  },
+  {
+    "id": "mystic_blade",
+    "name": "Lame de résonance",
+    "slot": "weapon",
+    "class_id": "mystic",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["critical_chance", "max_hope", "madness_resistance", "precision", "bleed_chance"],
+    "test_level": true
+  },
+  {
+    "id": "mystic_robe",
+    "name": "Robe de résonance",
+    "slot": "armor",
+    "class_id": "mystic",
+    "base_bonuses": {"hp_bonus": 10, "madness_resistance": 4},
+    "allowed_affixes": ["madness_resistance", "max_hope", "fear_resistance", "healing_power", "physical_resistance"],
+    "test_level": true
+  },
+  {
+    "id": "surgeon_saw",
+    "name": "Scie de campagne",
+    "slot": "weapon",
+    "class_id": "surgeon",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["bleed_chance", "precision", "critical_chance", "healing_power", "stun_chance"],
+    "test_level": true
+  },
+  {
+    "id": "surgeon_knife",
+    "name": "Couteau de chirurgien",
+    "slot": "weapon",
+    "class_id": "surgeon",
+    "base_bonuses": {"damage_bonus": 2},
+    "allowed_affixes": ["precision", "bleed_chance", "critical_chance", "healing_power", "fear_resistance"],
+    "test_level": true
+  },
+  {
+    "id": "surgeon_apron",
+    "name": "Tablier renforcé",
+    "slot": "armor",
+    "class_id": "surgeon",
+    "base_bonuses": {"hp_bonus": 10, "fear_resistance": 4},
+    "allowed_affixes": ["healing_power", "fear_resistance", "physical_resistance", "madness_resistance", "precision"],
+    "test_level": true
+  }
+]

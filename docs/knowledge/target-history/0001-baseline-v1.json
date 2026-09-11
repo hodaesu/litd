@@ -1,0 +1,38 @@
+{
+  "kind": "LITD_TARGET_HISTORY_SNAPSHOT",
+  "sequence": 1,
+  "recorded_at": "2026-09-11T09:26:38+00:00",
+  "source_ref": "3a05e83c64763c4949104deff8db3ee31a9acfaa",
+  "registry_hash": "a69c8134a9447a7dd8a8bd4923fa31a8ae363f63a3d20cddbd7e146f42bd3252",
+  "previous_snapshot_hash": null,
+  "evidence_refs": [
+    "Target Revision Governance #6",
+    "docs/knowledge/target-drift-baseline-v1.json"
+  ],
+  "targets": {
+    "expedition.duration_minutes": {"type": "window", "min": 35.0, "max": 45.0, "severity": "high", "domain": "pacing"},
+    "expedition.generated_rooms": {"type": "window", "min": 18.0, "max": 24.0, "severity": "medium", "domain": "structure"},
+    "expedition.visited_rooms": {"type": "window", "min": 12.0, "max": 17.0, "severity": "medium", "domain": "structure"},
+    "expedition.ordinary_combats": {"type": "window", "min": 4.0, "max": 6.0, "severity": "medium", "domain": "pacing"},
+    "expedition.hard_combats": {"type": "window", "min": 0.0, "max": 1.0, "severity": "medium", "domain": "pacing"},
+    "expedition.events": {"type": "window", "min": 3.0, "max": 5.0, "severity": "low", "domain": "pacing"},
+    "expedition.discoveries": {"type": "window", "min": 2.0, "max": 4.0, "severity": "low", "domain": "exploration"},
+    "expedition.meaningful_loot": {"type": "window", "min": 3.0, "max": 5.0, "severity": "low", "domain": "reward"},
+    "expedition.major_branches": {"type": "window", "min": 2.0, "max": 4.0, "severity": "low", "domain": "exploration"},
+    "expedition.extraction_windows": {"type": "window", "min": 2.0, "max": 3.0, "severity": "medium", "domain": "risk_reward"},
+    "outcomes.retreat_rate": {"type": "window", "min": 0.35, "max": 0.65, "severity": "high", "domain": "risk_reward"},
+    "outcomes.wipe_rate": {"type": "max", "max": 0.18, "severity": "high", "domain": "difficulty"},
+    "combat.normal_rounds": {"type": "window", "min": 2.0, "max": 4.5, "severity": "high", "domain": "combat"},
+    "combat.elite_rounds": {"type": "window", "min": 3.5, "max": 6.5, "severity": "high", "domain": "combat"},
+    "combat.boss_rounds": {"type": "window", "min": 5.5, "max": 10.5, "severity": "high", "domain": "combat"},
+    "campaign.normal_rounds": {"type": "window", "min": 2.0, "max": 4.4, "severity": "high", "domain": "campaign"},
+    "campaign.miniboss_rounds": {"type": "window", "min": 4.0, "max": 5.8, "severity": "high", "domain": "campaign"},
+    "campaign.boss_rounds": {"type": "window", "min": 6.0, "max": 10.0, "severity": "high", "domain": "campaign"},
+    "balance.class_win_rate_spread": {"type": "max", "max": 0.10, "severity": "high", "domain": "class_balance"},
+    "balance.class_survival_rate_spread": {"type": "max", "max": 0.12, "severity": "high", "domain": "class_balance"},
+    "loot.legendary_rate": {"type": "max", "max": 0.02, "severity": "medium", "domain": "reward"},
+    "performance.frame_time_ms_p95": {"type": "max", "max": 33.34, "severity": "high", "domain": "performance", "provisional": true}
+  },
+  "core_write_allowed": false,
+  "snapshot_hash": "7e13daf940fb0ef97c5437042d172550c6b94beb0b478b33e7014d08b34abc48"
+}

@@ -1,0 +1,363 @@
+name: Actions Queue Cleanup
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/actions-queue-cleanup.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: actions-queue-cleanup
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: write
+  pull-requests: read
+  deployments: read
+
+jobs:
+  guardian-queue-manager:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPOSITORY: ${{ github.repository }}
+      CURRENT_RUN_ID: ${{ github.run_id }}
+      PROTECTED_RUN_IDS: '34456543564'
+      WEB_WORKFLOW_NAME: 'LITD Web Playtest PWA'
+      CRITICAL_WORKFLOWS: 'LITD Web Playtest PWA,CI,Developer Autotest,GE01 Smoke,Veilleurs Combat Sandbox Smoke'
+      FAST_WORKFLOWS: 'GE01 Smoke,Veilleurs Combat Sandbox Smoke,Remanence Smoke,Veilleurs Preplay Hardening'
+      VALIDATION_WORKFLOWS: 'CI,Developer Autotest,Full Gameplay Simulation,Balance Telemetry'
+      RELEASE_WORKFLOWS: 'LITD Web Playtest PWA,Export Windows first-playtest build'
+      BACKGROUND_PATTERNS: 'Animation,Modeling,Master Models,Blender,Telemetry,Production Automation'
+      CONGESTED_THRESHOLD: '20'
+      CRITICAL_THRESHOLD: '40'
+      MAX_CANCELLATIONS: '50'
+      MAX_CANDIDATES: '250'
+    steps:
+      - name: Guard and clean obsolete workflow runs
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import sys
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+
+          repo = os.environ['REPOSITORY']
+          token = os.environ['GH_TOKEN']
+          current_run = int(os.environ['CURRENT_RUN_ID'])
+          web_workflow_name = os.environ['WEB_WORKFLOW_NAME'].strip()
+          critical_workflows = {v.strip() for v in os.environ['CRITICAL_WORKFLOWS'].split(',') if v.strip()}
+          fast_workflows = {v.strip() for v in os.environ['FAST_WORKFLOWS'].split(',') if v.strip()}
+          validation_workflows = {v.strip() for v in os.environ['VALIDATION_WORKFLOWS'].split(',') if v.strip()}
+          release_workflows = {v.strip() for v in os.environ['RELEASE_WORKFLOWS'].split(',') if v.strip()}
+          background_patterns = [v.strip().lower() for v in os.environ['BACKGROUND_PATTERNS'].split(',') if v.strip()]
+          congested_threshold = int(os.environ.get('CONGESTED_THRESHOLD', '20'))
+          critical_threshold = int(os.environ.get('CRITICAL_THRESHOLD', '40'))
+          max_cancellations = int(os.environ.get('MAX_CANCELLATIONS', '50'))
+          max_candidates = int(os.environ.get('MAX_CANDIDATES', '250'))
+          protected = {int(v) for v in os.environ.get('PROTECTED_RUN_IDS', '').split(',') if v.strip()}
+          protected.add(current_run)
+          api = f'https://api.github.com/repos/{repo}'
+          headers = {
+              'Authorization': f'Bearer {token}',
+              'Accept': 'application/vnd.github+json',
+              'X-GitHub-Api-Version': '2022-11-28',
+              'User-Agent': 'litd-guardian-queue-manager-v4',
+          }
+
+          def request_json(url, method='GET'):
+              req = urllib.request.Request(url, headers=headers, method=method)
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as response:
+                      raw = response.read()
+                      return response.status, json.loads(raw) if raw else None
+              except urllib.error.HTTPError as exc:
+                  raw = exc.read().decode('utf-8', errors='replace')
+                  if exc.code in (404, 409, 422):
+                      return exc.code, None
+                  print(f'HTTP {exc.code} for {method} {url}: {raw}', file=sys.stderr)
+                  raise
+
+          def paged_runs(status_filter=None, max_pages=3):
+              items = []
+              for page in range(1, max_pages + 1):
+                  params = f'per_page=100&page={page}'
+                  if status_filter:
+                      params = f'status={status_filter}&' + params
+                  status, payload = request_json(f'{api}/actions/runs?{params}')
+                  if status != 200 or not payload:
+                      break
+                  runs = payload.get('workflow_runs', [])
+                  items.extend(runs)
+                  if len(runs) < 100:
+                      break
+              return items
+
+          def lane_for(run):
+              name = str(run.get('name') or '')
+              if name in release_workflows or name == web_workflow_name:
+                  return 'release'
+              if name in fast_workflows:
+                  return 'fast'
+              if name in validation_workflows or name in critical_workflows:
+                  return 'validation'
+              lower = name.lower()
+              if any(pattern in lower for pattern in background_patterns):
+                  return 'background'
+              return 'background'
+
+          # Resolve open PR heads. Any API ambiguity fails closed for PR cancellation.
+          pr_heads = {}
+          page = 1
+          while True:
+              status, pulls = request_json(f'{api}/pulls?state=open&per_page=100&page={page}')
+              if status != 200 or pulls is None:
+                  print('GUARDRAIL: unable to resolve open PR heads; refusing PR cancellations')
+                  pr_heads = None
+                  break
+              for pr in pulls:
+                  head = pr.get('head') or {}
+                  if (head.get('repo') or {}).get('full_name') == repo and head.get('ref') and head.get('sha'):
+                      pr_heads[head['ref']] = head['sha']
+              if len(pulls) < 100:
+                  break
+              page += 1
+
+          branch_cache = {}
+          branch_resolution_failed = set()
+          def branch_head(branch):
+              if not branch:
+                  return None
+              if branch in branch_cache:
+                  return branch_cache[branch]
+              encoded = urllib.parse.quote(branch, safe='')
+              status, payload = request_json(f'{api}/branches/{encoded}')
+              sha = None
+              if status == 200 and payload:
+                  sha = (payload.get('commit') or {}).get('sha')
+              else:
+                  branch_resolution_failed.add(branch)
+              branch_cache[branch] = sha
+              return sha
+
+          active = {}
+          for run_status in ('queued', 'in_progress'):
+              for run in paged_runs(run_status):
+                  active[int(run['id'])] = run
+          candidates = list(active.values())
+          queue_before = len(candidates)
+
+          lane_counts_before = {'fast': 0, 'validation': 0, 'release': 0, 'background': 0}
+          for run in candidates:
+              lane_counts_before[lane_for(run)] += 1
+
+          if queue_before > max_candidates:
+              print(f'GUARDRAIL_TRIPPED candidates={queue_before} max_candidates={max_candidates}; refusing all cancellations')
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
+                  summary.write('## LITD Guardian Queue Manager v4\n')
+                  summary.write(f'- Guardrail: **TRIPPED** ({queue_before} active > {max_candidates})\n')
+                  summary.write('- No workflow runs were cancelled.\n')
+              raise SystemExit(0)
+
+          mode = 'NORMAL'
+          if queue_before >= critical_threshold:
+              mode = 'CRITICAL'
+          elif queue_before >= congested_threshold:
+              mode = 'CONGESTED'
+          print(f'QUEUE_MODE {mode} active={queue_before} lanes={lane_counts_before}')
+
+          recent_runs = paged_runs(None)
+          by_workflow_branch_sha = {}
+          for run in recent_runs:
+              key = (run.get('workflow_id'), run.get('head_branch'), run.get('head_sha'))
+              by_workflow_branch_sha.setdefault(key, []).append(run)
+
+          # Deployment guard: protect Web runs matching the latest successful GitHub Pages deployment SHA.
+          deployed_sha = None
+          status, deployments = request_json(f'{api}/deployments?environment=github-pages&per_page=20')
+          if status == 200 and deployments:
+              for deployment in deployments:
+                  dep_id = deployment.get('id')
+                  dep_sha = deployment.get('sha')
+                  if not dep_id or not dep_sha:
+                      continue
+                  s_status, payload = request_json(f'{api}/deployments/{dep_id}/statuses?per_page=20')
+                  if s_status == 200 and payload and any(item.get('state') == 'success' for item in payload):
+                      deployed_sha = dep_sha
+                      print(f'GUARD deployed github-pages sha={deployed_sha[:12]} deployment={dep_id}')
+                      break
+          else:
+              print('GUARDRAIL: github-pages deployment state unavailable; Web runs fail closed')
+
+          # Release lane is sacred: all active release runs are protected.
+          for run in candidates:
+              if lane_for(run) == 'release':
+                  protected.add(int(run['id']))
+                  print(f'KEEP active release {run["id"]} {run.get("name")} sha={str(run.get("head_sha"))[:12]}')
+
+          if deployed_sha:
+              for run in recent_runs:
+                  if run.get('name') == web_workflow_name and run.get('head_sha') == deployed_sha:
+                      protected.add(int(run['id']))
+                      print(f'KEEP deployed web run {run["id"]} sha={deployed_sha[:12]}')
+
+          # Invariant: keep at least the newest living run of every critical workflow/branch family.
+          newest_critical = {}
+          for run in candidates:
+              if run.get('name') not in critical_workflows:
+                  continue
+              key = (run.get('name'), run.get('head_branch'))
+              current = newest_critical.get(key)
+              stamp = (run.get('created_at') or '', int(run.get('id', 0)))
+              if current is None or stamp > (current.get('created_at') or '', int(current.get('id', 0))):
+                  newest_critical[key] = run
+          for run in newest_critical.values():
+              protected.add(int(run['id']))
+
+          def replacement_for(run, expected_sha):
+              if not expected_sha:
+                  return None
+              key = (run.get('workflow_id'), run.get('head_branch'), expected_sha)
+              replacements = []
+              for item in by_workflow_branch_sha.get(key, []):
+                  if int(item.get('id', 0)) == int(run['id']):
+                      continue
+                  status = item.get('status')
+                  conclusion = item.get('conclusion')
+                  viable = status in ('queued', 'in_progress') or (status == 'completed' and conclusion == 'success')
+                  if viable:
+                      replacements.append(item)
+              if not replacements:
+                  return None
+              return max(replacements, key=lambda item: (item.get('created_at') or '', int(item.get('id', 0))))
+
+          eligible = []
+          skipped = conflicts = ambiguous = 0
+
+          for run in candidates:
+              run_id = int(run['id'])
+              lane = lane_for(run)
+              if run_id in protected:
+                  skipped += 1
+                  continue
+
+              event = run.get('event')
+              branch = run.get('head_branch')
+              head_sha = run.get('head_sha')
+              expected = reason = replacement = None
+
+              if event == 'pull_request':
+                  if pr_heads is None:
+                      ambiguous += 1; skipped += 1
+                      continue
+                  expected = pr_heads.get(branch)
+                  if expected is None:
+                      reason = 'pull request is no longer open'
+                  elif head_sha != expected:
+                      replacement = replacement_for(run, expected)
+                      if replacement is None:
+                          ambiguous += 1; skipped += 1
+                          continue
+                      reason = f'PR head advanced to {expected[:12]} with viable replacement {replacement["id"]}'
+              elif event in ('push', 'workflow_run'):
+                  expected = branch_head(branch)
+                  if branch in branch_resolution_failed or not expected:
+                      ambiguous += 1; skipped += 1
+                      continue
+                  if head_sha != expected:
+                      replacement = replacement_for(run, expected)
+                      if replacement is None:
+                          ambiguous += 1; skipped += 1
+                          continue
+                      if run.get('status') == 'in_progress' and lane in ('validation', 'release'):
+                          if replacement.get('status') == 'queued':
+                              skipped += 1
+                              continue
+                      reason = f'branch head advanced to {expected[:12]} with viable replacement {replacement["id"]}'
+              else:
+                  skipped += 1
+                  continue
+
+              if not reason:
+                  skipped += 1
+                  continue
+
+              # Lane policy: release is never eligible. In NORMAL mode, running validation jobs are preserved.
+              if lane == 'release':
+                  skipped += 1
+                  continue
+              if mode == 'NORMAL' and run.get('status') == 'in_progress' and lane == 'validation':
+                  skipped += 1
+                  continue
+
+              priority = {
+                  'background': 0,
+                  'fast': 1,
+                  'validation': 2,
+                  'release': 3,
+              }[lane]
+              state_priority = 0 if run.get('status') == 'queued' else 1
+              eligible.append((priority, state_priority, run, reason, lane))
+
+          # Always discard lowest-value queue waste first: background queued, fast queued, then running work.
+          eligible.sort(key=lambda item: (item[0], item[1], item[2].get('created_at') or ''))
+
+          base_limit = max(5, queue_before // 2 if queue_before else 5)
+          if mode == 'CONGESTED':
+              base_limit = max(base_limit, min(20, queue_before))
+          elif mode == 'CRITICAL':
+              base_limit = max(base_limit, min(30, queue_before))
+          dynamic_limit = min(max_cancellations, base_limit)
+
+          if len(eligible) > dynamic_limit:
+              # Do not abort the whole cleanup: cap safely and keep the highest-value excess runs.
+              print(f'GUARDRAIL_CAP eligible={len(eligible)} dynamic_limit={dynamic_limit}')
+              eligible = eligible[:dynamic_limit]
+
+          cancelled = 0
+          cancelled_by_lane = {'fast': 0, 'validation': 0, 'release': 0, 'background': 0}
+          for _, _, run, reason, lane in eligible:
+              run_id = int(run['id'])
+              status, _ = request_json(f'{api}/actions/runs/{run_id}/cancel', method='POST')
+              if status == 202:
+                  cancelled += 1
+                  cancelled_by_lane[lane] += 1
+                  print(f'CANCEL lane={lane} {run_id} [{run.get("status")}] {run.get("name")} reason={reason}')
+              elif status == 409:
+                  conflicts += 1; skipped += 1
+              else:
+                  skipped += 1
+
+          active_after = {}
+          for run_status in ('queued', 'in_progress'):
+              for run in paged_runs(run_status):
+                  active_after[int(run['id'])] = run
+          queue_after = len(active_after)
+          lane_counts_after = {'fast': 0, 'validation': 0, 'release': 0, 'background': 0}
+          for run in active_after.values():
+              lane_counts_after[lane_for(run)] += 1
+
+          print(f'QUEUE_GUARDIAN_V4 mode={mode} cancelled={cancelled} skipped={skipped} conflicts={conflicts} ambiguous={ambiguous} queue_before={queue_before} queue_after={queue_after} cancelled_by_lane={cancelled_by_lane}')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
+              summary.write('## LITD Guardian Queue Manager v4\n')
+              summary.write('- Guardrail: **ACTIVE / FAIL-CLOSED**\n')
+              summary.write(f'- Queue mode: **{mode}**\n')
+              summary.write(f'- Active queue before: **{queue_before}**\n')
+              summary.write(f'- Active queue after: **{queue_after}**\n')
+              summary.write(f'- Lanes before: `{lane_counts_before}`\n')
+              summary.write(f'- Lanes after: `{lane_counts_after}`\n')
+              summary.write(f'- Runs cancelled: **{cancelled}** `{cancelled_by_lane}`\n')
+              summary.write(f'- Ambiguous runs kept: **{ambiguous}**\n')
+              summary.write(f'- Cancellation conflicts: **{conflicts}**\n')
+              summary.write(f'- Dynamic cancellation cap: **{dynamic_limit}**\n')
+              summary.write('- Release lane: **never cancelled**\n')
+              summary.write('- Pinned Web v49 run: **34456543564**\n')
+              if deployed_sha:
+                  summary.write(f'- Latest successful github-pages SHA protected: **{deployed_sha}**\n')
+          PY

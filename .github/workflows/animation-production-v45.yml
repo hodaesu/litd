@@ -28,6 +28,10 @@ on:
       - '.github/workflows/animation-production-v45.yml'
   workflow_dispatch:
 
+concurrency:
+  group: animation-production-v45-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 

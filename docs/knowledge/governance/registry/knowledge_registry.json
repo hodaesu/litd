@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "KNOW-GOVERNANCE-FOUNDATION-001",
+      "domain": "project-governance",
+      "claim": "Knowledge cannot write directly to the LITD Core; changes require decision, Guardian authorization, execution and evidence.",
+      "status": "ACTIVE",
+      "sources": ["docs/BIBLIOTHEQUE_GOUVERNANCE.md"],
+      "contradictions": [],
+      "dependencies": ["docs/knowledge/guardian-rules.yml"],
+      "validated_at": "2026-09-11",
+      "revalidate_at": "2026-12-11"
+    },
+    {
+      "id": "KNOW-GOVERNANCE-OPERATIONS-002",
+      "domain": "project-governance",
+      "claim": "Governance state changes must be sequential, previewable, evidence-backed, idempotent and validated before registry writes.",
+      "status": "EXPERIMENTAL",
+      "sources": ["docs/knowledge/governance/README.md"],
+      "contradictions": ["Multi-file JSON replacement cannot provide the same crash guarantees as a transactional database; rollback remains required."],
+      "dependencies": ["tools/quality/global_governance.py"],
+      "validated_at": "2026-09-11",
+      "revalidate_at": "2026-10-11"
+    },
+    {
+      "id": "KNOW-GOVERNANCE-INTAKE-003",
+      "domain": "project-governance",
+      "claim": "Verified VEILLEUR V2 evidence must pass deterministic routing, confidence and counterevidence checks before becoming reviewable LITD Knowledge.",
+      "status": "EXPERIMENTAL",
+      "sources": ["docs/knowledge/veilleur-v2-contract.json"],
+      "contradictions": ["A fixed confidence threshold is only a first calibration and may reject useful low-confidence signals."],
+      "dependencies": ["tools/quality/veilleur_v2_ingest.py", "tools/quality/library_trieur.py"],
+      "validated_at": "2026-09-11",
+      "revalidate_at": "2026-10-11"
+    }
+  ]
+}

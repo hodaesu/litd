@@ -4,24 +4,44 @@ on:
   pull_request:
     paths:
       - 'data/veilleurs/canonical_roster.json'
+      - 'data/veilleurs/combat_sandbox_quartet_bridge.json'
+      - 'data/veilleurs/v06/basic_actions_roster.json'
+      - 'data/veilleurs/skills/current_quartet_export_contract.json'
       - 'data/veilleurs/skills/mathilde.json'
       - 'data/veilleurs/skills/marec.json'
       - 'data/veilleurs/skills/anouk.json'
       - 'data/veilleurs/skills/aurelien.json'
-      - 'scripts/ui/main_v44.gd'
-      - 'scripts/ui/main_v45.gd'
-      - 'scripts/ui/main_v46.gd'
-      - 'scripts/ui/main_v47.gd'
-      - 'scripts/ui/main_v48.gd'
-      - 'scripts/ui/main_v49.gd'
+      - 'scripts/core/veilleurs_basic_action_service.gd'
+      - 'scripts/core/veilleurs_basic_actions_contract_smoke_test.gd'
+      - 'scripts/core/veilleurs_combat_context_runtime.gd'
+      - 'scripts/core/veilleurs_combat_sandbox_runtime.gd'
+      - 'scripts/ui/combat_sandbox_ui_v47.gd'
+      - 'scripts/ui/combat_sandbox_ui_v48.gd'
+      - 'scripts/ui/combat_sandbox_ui_v49.gd'
+      - 'scripts/ui/combat_sandbox_ui_v50.gd'
+      - 'scripts/ui/combat_sandbox_ui_v51.gd'
+      - 'scripts/ui/main_v50.gd'
+      - 'scripts/ui/main_v50_ge01.gd'
+      - 'scripts/tests/current_quartet_skill_data_smoke_test.gd'
+      - 'scripts/tests/veilleurs_combat_context_smoke_test.gd'
+      - 'scripts/tests/veilleurs_combat_sandbox_loop_smoke_test.gd'
+      - 'scripts/tests/veilleurs_systemic_skill_families_smoke_test.gd'
+      - 'scripts/tests/veilleurs_combat_advanced_systems_smoke_test.gd'
+      - 'scripts/tests/veilleurs_mobile_advanced_hud_smoke_test.gd'
+      - 'scripts/tests/veilleurs_mobile_phone_polish_smoke_test.gd'
+      - 'scripts/tests/veilleurs_mobile_combat_feel_smoke_test.gd'
+      - 'scripts/tests/veilleurs_p0_focus_preview_smoke_test.gd'
       - 'scenes/Main.tscn'
-      - 'scenes/tests/ui_player_journey_smoke.tscn'
-      - 'scenes/tests/canonical_ui_smoke.tscn'
-      - 'scenes/tests/canonical_ux_smoke.tscn'
-      - 'scenes/tests/mobile_touch_smoke.tscn'
-      - 'scenes/tests/veilleurs_vs001_playable_smoke.tscn'
-      - 'scenes/tests/veilleurs_canonical_skills_corpses_smoke.tscn'
-      - 'scenes/tests/qa_validation_room_smoke.tscn'
+      - 'scenes/tests/veilleurs_basic_actions_contract_smoke.tscn'
+      - 'scenes/tests/current_quartet_skill_data_smoke.tscn'
+      - 'scenes/tests/veilleurs_combat_context_smoke.tscn'
+      - 'scenes/tests/veilleurs_combat_sandbox_loop_smoke.tscn'
+      - 'scenes/tests/veilleurs_systemic_skill_families_smoke.tscn'
+      - 'scenes/tests/veilleurs_combat_advanced_systems_smoke.tscn'
+      - 'scenes/tests/veilleurs_mobile_advanced_hud_smoke.tscn'
+      - 'scenes/tests/veilleurs_mobile_phone_polish_smoke.tscn'
+      - 'scenes/tests/veilleurs_mobile_combat_feel_smoke.tscn'
+      - 'scenes/tests/veilleurs_p0_focus_preview_smoke.tscn'
       - '.github/workflows/veilleurs-combat-sandbox-smoke.yml'
   workflow_dispatch:
 
@@ -37,17 +57,23 @@ jobs:
       - uses: actions/checkout@v4
       - name: Import strict du projet
         run: godot --headless --path . --import --quit
-      - name: Parcours UI joueur - combat et retour
-        run: timeout 90s godot --headless --path . res://scenes/tests/ui_player_journey_smoke.tscn
-      - name: Interface canonique - HUD et interactions
-        run: timeout 90s godot --headless --path . res://scenes/tests/canonical_ui_smoke.tscn
-      - name: UX canonique - feedbacks et états tactiles
-        run: timeout 90s godot --headless --path . res://scenes/tests/canonical_ux_smoke.tscn
-      - name: Mobile tactile - cibles et interactions
-        run: timeout 90s godot --headless --path . res://scenes/tests/mobile_touch_smoke.tscn
-      - name: Veilleurs VS001 jouable - exploration et combats
-        run: timeout 90s godot --headless --path . res://scenes/tests/veilleurs_vs001_playable_smoke.tscn
-      - name: Veilleurs canon - compétences et cadavres
-        run: timeout 90s godot --headless --path . res://scenes/tests/veilleurs_canonical_skills_corpses_smoke.tscn
-      - name: Salle QA intégrée - états et boucle joueur
-        run: timeout 90s godot --headless --path . res://scenes/tests/qa_validation_room_smoke.tscn
+      - name: Actions de base proprietaires - contrat isole
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_basic_actions_contract_smoke.tscn
+      - name: Quatuor actuel - 3 arbres x 15 competences chacun
+        run: timeout 60s godot --headless --path . res://scenes/tests/current_quartet_skill_data_smoke.tscn
+      - name: Combat Sandbox 0.1 - inspection contextuelle
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_combat_context_smoke.tscn
+      - name: Combat Sandbox 0.1 - boucle de combat complete
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_combat_sandbox_loop_smoke.tscn
+      - name: Combat Sandbox 0.1 - familles de competences systemiques
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_systemic_skill_families_smoke.tscn
+      - name: Combat Sandbox 0.1 - formation controle synergies et ultimes
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_combat_advanced_systems_smoke.tscn
+      - name: Combat Sandbox 0.1 - HUD mobile avance
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_mobile_advanced_hud_smoke.tscn
+      - name: Combat Sandbox 0.1 - polish telephone
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_mobile_phone_polish_smoke.tscn
+      - name: Combat Sandbox 0.1 - ressenti mobile low-tap
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_mobile_combat_feel_smoke.tscn
+      - name: Combat Sandbox P0 - focus et preview non destructive
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_p0_focus_preview_smoke.tscn

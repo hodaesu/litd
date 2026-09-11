@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "CHG-GOVERNANCE-FOUNDATION-001",
+      "decision_id": "DEC-GOVERNANCE-FOUNDATION-001",
+      "status": "MEASURED",
+      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED", "APPLIED", "MEASURED"],
+      "test_plan": "Run the governance validator and its pytest contract suite in CI.",
+      "rollback_plan": "Revert the isolated governance commit; no gameplay data is modified.",
+      "evidence_ids": ["EVD-GOVERNANCE-LOCAL-001", "EVD-GOVERNANCE-MERGE-001", "EVD-GOVERNANCE-MAIN-CI-001"],
+      "guardian": "GREEN"
+    },
+    {
+      "id": "CHG-GOVERNANCE-OPERATIONS-002",
+      "decision_id": "DEC-GOVERNANCE-OPERATIONS-002",
+      "status": "MEASURED",
+      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED", "APPLIED", "MEASURED"],
+      "test_plan": "Run transition unit tests, the global governance validator and both governance workflows.",
+      "rollback_plan": "Revert the isolated operational-tool commit; registries remain valid under the foundation validator.",
+      "evidence_ids": ["EVD-GOVERNANCE-OPERATIONS-LOCAL-001", "EVD-GOVERNANCE-OPERATIONS-MERGE-001", "EVD-GOVERNANCE-OPERATIONS-MAIN-CI-001"],
+      "guardian": "GREEN"
+    },
+    {
+      "id": "CHG-GOVERNANCE-INTAKE-003",
+      "decision_id": "DEC-GOVERNANCE-INTAKE-003",
+      "status": "MEASURED",
+      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED", "APPLIED", "MEASURED"],
+      "test_plan": "Run intake contracts plus Knowledge and Global Governance gates.",
+      "rollback_plan": "Revert the isolated intake bridge; existing ingress, Trieur and registries remain independent and unchanged.",
+      "evidence_ids": ["EVD-GOVERNANCE-INTAKE-LOCAL-001", "EVD-GOVERNANCE-INTAKE-MERGE-001", "EVD-GOVERNANCE-INTAKE-MAIN-CI-001"],
+      "guardian": "GREEN"
+    }
+  ]
+}

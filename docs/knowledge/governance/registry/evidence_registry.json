@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "EVD-GOVERNANCE-LOCAL-001",
+      "type": "UNIT_TEST",
+      "result": "PASS",
+      "uri": "tests/python/test_global_governance.py",
+      "observed_at": "2026-09-11T00:00:00Z",
+      "change_id": "CHG-GOVERNANCE-FOUNDATION-001"
+    },
+    {
+      "id": "EVD-GOVERNANCE-MERGE-001",
+      "type": "GIT_COMMIT",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/commit/f5fddfb6be59077d47980757c45036a830ff4b2b",
+      "observed_at": "2026-09-11T11:36:57Z",
+      "change_id": "CHG-GOVERNANCE-FOUNDATION-001"
+    },
+    {
+      "id": "EVD-GOVERNANCE-MAIN-CI-001",
+      "type": "CI",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/actions/runs/34594892053",
+      "observed_at": "2026-09-11T11:37:19Z",
+      "change_id": "CHG-GOVERNANCE-FOUNDATION-001"
+    },
+    {
+      "id": "EVD-GOVERNANCE-OPERATIONS-LOCAL-001",
+      "type": "UNIT_TEST",
+      "result": "PASS",
+      "uri": "tests/python/test_governance_transition.py",
+      "observed_at": "2026-09-11T12:00:00Z",
+      "change_id": "CHG-GOVERNANCE-OPERATIONS-002"
+    },
+    {
+      "id": "EVD-GOVERNANCE-OPERATIONS-MERGE-001",
+      "type": "GIT_COMMIT",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/commit/32cf7ccab7296bde7b14a964cee98f54d88a0f5f",
+      "observed_at": "2026-09-11T12:45:16Z",
+      "change_id": "CHG-GOVERNANCE-OPERATIONS-002"
+    },
+    {
+      "id": "EVD-GOVERNANCE-OPERATIONS-MAIN-CI-001",
+      "type": "CI",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/actions/runs/34600561584",
+      "observed_at": "2026-09-11T12:45:34Z",
+      "change_id": "CHG-GOVERNANCE-OPERATIONS-002"
+    },
+    {
+      "id": "EVD-GOVERNANCE-INTAKE-LOCAL-001",
+      "type": "UNIT_TEST",
+      "result": "PASS",
+      "uri": "tests/python/test_knowledge_intake.py",
+      "observed_at": "2026-09-11T13:00:00Z",
+      "change_id": "CHG-GOVERNANCE-INTAKE-003"
+    },
+    {
+      "id": "EVD-GOVERNANCE-INTAKE-MERGE-001",
+      "type": "GIT_COMMIT",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/commit/12e58b32e0d969678be839a2e2db2fcd40f6fd53",
+      "observed_at": "2026-09-11T17:19:27Z",
+      "change_id": "CHG-GOVERNANCE-INTAKE-003"
+    },
+    {
+      "id": "EVD-GOVERNANCE-INTAKE-MAIN-CI-001",
+      "type": "CI",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/actions/runs/34627032495",
+      "observed_at": "2026-09-11T17:19:42Z",
+      "change_id": "CHG-GOVERNANCE-INTAKE-003"
+    }
+  ]
+}

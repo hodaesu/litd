@@ -1,0 +1,71 @@
+{
+  "schema_version": "0.7.0-basic-actions",
+  "rules": {
+    "actions_per_combatant": 4,
+    "generic_attack_forbidden": true,
+    "generic_heal_forbidden": true,
+    "natural_rank_must_have_usable_action": true,
+    "healing_requires_justification": ["medical_skill", "consumable", "documented_physiology", "absorption"],
+    "displaced_units_must_keep_recovery_option": true,
+    "enemy_and_recruited_versions_share_same_basic_actions": true
+  },
+  "watchers": {
+    "ENT_WATCHER_marec": {"natural_ranks": [1,2], "actions": [
+      {"id":"BA_MAREC_HEURT","name":"Heurt de garde","positions":[1,2],"target":"enemy","kind":"damage_control","effect":"Percussion lourde au gourdin; favorise déstabilisation plutôt que dégâts purs.","requires":"equipped_melee_weapon"},
+      {"id":"BA_MAREC_ANCRAGE","name":"Ancrage du rempart","positions":[1,2],"target":"self","kind":"defense","effect":"Renforce brièvement stabilité et résistance au déplacement.","requires":"none"},
+      {"id":"BA_MAREC_EPAULE","name":"Épaule de ligne","positions":[1,2],"target":"enemy","kind":"control","effect":"Bouscule une cible au contact et peut lui faire céder un rang.","requires":"free_body_contact"},
+      {"id":"BA_MAREC_REPRISE","name":"Reprise de terrain","positions":[2,3,4],"target":"self","kind":"reposition","effect":"Avance d'un rang vers le front en conservant une garde réduite.","requires":"free_adjacent_rank"}
+    ]},
+    "ENT_WATCHER_mathilde": {"natural_ranks": [1,2,3], "actions": [
+      {"id":"BA_MATHILDE_ENTAILLE","name":"Entaille de passage","positions":[1,2],"target":"enemy","kind":"damage_mobility","effect":"Coupe rapide au sabre puis possibilité de recul d'un rang.","requires":"equipped_sabre"},
+      {"id":"BA_MATHILDE_POINTE","name":"Pointe au défaut","positions":[1,2,3],"target":"enemy","kind":"precision_damage","effect":"Attaque précise à faible amplitude contre une ouverture visible.","requires":"equipped_sabre"},
+      {"id":"BA_MATHILDE_PAS","name":"Pas de chasse","positions":[1,2,3,4],"target":"self","kind":"reposition","effect":"Se déplace d'un rang sans action générique de frappe.","requires":"none"},
+      {"id":"BA_MATHILDE_GUET","name":"Guet de prédateur","positions":[2,3,4],"target":"enemy","kind":"observation_offense","effect":"Désigne une cible et améliore la précision de la prochaine attaque de Mathilde contre elle.","requires":"line_of_sight"}
+    ]},
+    "ENT_WATCHER_anouk": {"natural_ranks": [2,3], "actions": [
+      {"id":"BA_ANOUK_BATON","name":"Coup d'arrêt","positions":[1,2,3],"target":"enemy","kind":"damage_interrupt","effect":"Coup de bâton court destiné à casser l'élan d'une action.","requires":"equipped_baton"},
+      {"id":"BA_ANOUK_CROCHET","name":"Crochet de bâton","positions":[2,3],"target":"enemy","kind":"control","effect":"Accroche appui, membre ou arme pour perturber la position adverse.","requires":"equipped_baton"},
+      {"id":"BA_ANOUK_DESIGNATION","name":"Désignation sèche","positions":[1,2,3,4],"target":"enemy","kind":"coordination","effect":"Marque brièvement une cible comme priorité tactique sans infliger de soin ni dégâts artificiels.","requires":"line_of_sight"},
+      {"id":"BA_ANOUK_RECADRAGE","name":"Recadrage","positions":[1,2,3,4],"target":"ally","kind":"formation","effect":"Aide un allié adjacent à corriger sa position d'un rang.","requires":"adjacent_ally"}
+    ]},
+    "ENT_WATCHER_aurelien": {"natural_ranks": [3,4], "actions": [
+      {"id":"BA_AURELIEN_INCISION","name":"Incision clinique","positions":[1,2,3],"target":"enemy","kind":"precision_damage","effect":"Coupe limitée au sabre visant une zone anatomique accessible.","requires":"equipped_sabre"},
+      {"id":"BA_AURELIEN_DIAGNOSTIC","name":"Diagnostic hostile","positions":[2,3,4],"target":"enemy","kind":"diagnostic_debuff","effect":"Observe respiration, appuis et lésions; révèle une faiblesse exploitable sans restaurer de PV.","requires":"line_of_sight"},
+      {"id":"BA_AURELIEN_PRESSION","name":"Pression douloureuse","positions":[1,2,3],"target":"enemy","kind":"control","effect":"Action anatomique de proximité qui réduit brièvement la stabilité ou l'usage d'un membre.","requires":"functional_hands"},
+      {"id":"BA_AURELIEN_RECUL","name":"Retrait clinique","positions":[1,2,3],"target":"self","kind":"reposition","effect":"Recule d'un rang pour retrouver une position d'observation sûre.","requires":"free_adjacent_rank"}
+    ], "healing_note":"Aucune action de base ne restaure des PV. Les soins de terrain relèvent de Suture et des ressources/outils requis."}
+  },
+  "enemies": {
+    "ENT_ENEMY_GOULE_AFFAMEE":[["Morsure affamée","1-2","damage"],["Griffe de saisie","1-2","bleed_control"],["Ruée famélique","2-4","advance"],["Acharnement charognard","1-2","execute_wounded"]],
+    "ENT_ENEMY_ECORCHEUSE":[["Lame d'ongle","1-2","precision_damage"],["Ouvrir la peau","1-2","bleed"],["Chercher le tendon","1-2","limb_control"],["Recul d'écorcheuse","1-3","reposition"]],
+    "ENT_ENEMY_FOUISSEUSE":[["Jaillissement de cendre","2-4","advance_attack"],["Griffure basse","1-2","damage"],["Enfouissement court","1-3","evade_reposition"],["Attaque sous l'appui","1-2","stability_control"]],
+    "ENT_ENEMY_DEVOREUSE":[["Mâchoire broyeuse","1","heavy_damage"],["Bélier de chair","1-2","push"],["Saisie vorace","1","grab"],["Dévorer la faiblesse","1","execute_wounded"]],
+    "ENT_ENEMY_GUETTEUR":[["Signal de menace","2-4","mark"],["Trait de cendre","2-4","ranged_damage"],["Retard imposé","2-4","timeline_control"],["Repli surveillé","1-3","reposition"]],
+    "ENT_ENEMY_BRISEUR":[["Marteau de ligne","1-2","heavy_damage"],["Fracasse-garde","1","guard_break"],["Charge de rupture","2-3","advance_push"],["Piétinement","1","downed_pressure"]],
+    "ENT_ENEMY_PORTE_FLAMME":[["Jet de braise","2-4","ranged_burn"],["Rideau de fumée","2-4","accuracy_control"],["Flamme de barrage","2-4","area_denial"],["Recul sous fumée","1-3","reposition"]],
+    "ENT_ENEMY_PENITENT":[["Taille pénitente","1-2","damage"],["Parade punitive","1-2","riposte"],["Pas du duel","1-3","reposition"],["Fente du serment","1-2","precision_damage"]],
+    "ENT_ENEMY_MURMURE":[["Souffle intrusif","2-4","fear"],["Phrase impossible","2-4","madness_pressure"],["Écho détourné","2-4","debuff"],["Dissolution arrière","1-3","reposition"]],
+    "ENT_ENEMY_IMITATEUR":[["Copie imparfaite","1-4","adaptive_attack"],["Vol de posture","1-4","copy_buff"],["Miroir de rang","1-4","reposition"],["Réplique déformée","1-4","counter"]],
+    "ENT_ENEMY_PLEUREUSE":[["Lamentation aiguë","2-4","fear"],["Cri de rupture","2-4","interrupt"],["Deuil contagieux","2-4","group_debuff"],["Reflux spectral","1-3","reposition"]],
+    "ENT_ENEMY_ANCRE":[["Poids immobile","1-2","guard"],["Traction d'ancre","1-3","pull"],["Impact sourd","1-2","damage_stun"],["Fixer la ligne","1-2","rank_lock"]],
+    "ENT_ENEMY_SANGSUE_PALE":[["Morsure capillaire","1-2","damage"],["Ponction pâle","1-2","drain"],["Décrochage humide","1-3","reposition"],["Gorge pleine","1-2","self_restore_from_drain"]],
+    "ENT_ENEMY_NID_AMBULANT":[["Éclosion forcée","2-4","summon"],["Projection larvaire","2-4","ranged_damage"],["Carapace du nid","1-3","guard"],["Migration du nid","1-4","reposition"]],
+    "ENT_ENEMY_ENKYSTE":[["Masse enkystée","1","heavy_damage"],["Plaque de chair","1-2","guard"],["Écrasement lent","1","stun"],["Avancée blindée","2-3","advance"]],
+    "ENT_ENEMY_HOTE":[["Geste emprunté","1-3","adaptive_attack"],["Spasme parasite","1-2","interrupt"],["Mutation réflexe","1-4","adaptive_defense"],["Bond de l'hôte","1-4","reposition"]],
+    "ENT_ENEMY_TRAQUEUR":[["Morsure de piste","1-2","damage"],["Marquer l'odeur","1-4","mark"],["Bond de chasse","2-4","advance_attack"],["Déchirer la fuite","1-2","anti_reposition"]],
+    "ENT_ENEMY_CARAPACIER":[["Pince de carapace","1","damage"],["Mur chitineux","1-2","guard"],["Percussion de coque","1-2","push"],["Verrouillage du front","1","rank_lock"]],
+    "ENT_ENEMY_BONDISSEUR":[["Bond lacérant","2-4","advance_attack"],["Rebond arrière","1-2","retreat_attack"],["Fauchage des jambes","1-2","stability_control"],["Trajectoire imprévisible","1-4","evasion_reposition"]],
+    "ENT_ENEMY_EVENTREUR":[["Ouverture abdominale","1-2","heavy_bleed"],["Crochet viscéral","1-2","pull"],["Achever la plaie","1-2","execute_wounded"],["Pas dans le sang","1-3","advance"]],
+    "ENT_ENEMY_MARAUDEUR":[["Taille opportuniste","1-2","damage"],["Feinte sale","1-3","accuracy_control"],["Coup de pommeau","1-2","interrupt"],["Décrochage prudent","1-3","reposition"]],
+    "ENT_ENEMY_TIREUR":[["Trait visé","3-4","ranged_damage"],["Tir de suppression","2-4","accuracy_control"],["Visée prolongée","2-4","precision_setup"],["Repli du tireur","1-3","retreat"]],
+    "ENT_ENEMY_PORTE_BOUCLIER":[["Bord de bouclier","1-2","damage_control"],["Couverture de ligne","1-2","guard_ally"],["Poussée de pavois","1","push"],["Avance couverte","2-3","advance_guard"]],
+    "ENT_ENEMY_CHIRURGIEN_NOIR":[["Incision noire","2-3","precision_damage"],["Ligature cruelle","1-3","limb_control"],["Injection préparée","2-4","debuff_requires_item"],["Traitement profane","1-4","restore_requires_resource"]]
+  },
+  "formation_policy": {
+    "derive_from_actions_and_unlocked_tree_skills": true,
+    "do_not_assign_rank_from_role_label_alone": true,
+    "recompute_when_tree_or_loadout_changes": true,
+    "current_candidate_order_front_to_back": ["Marec","Mathilde","Anouk","Aurélien"],
+    "candidate_is_not_final_until_runtime_validation": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "candidate_hash": "sha256-of-LITD_DESIGN_REVIEW_CANDIDATE",
+  "decision": "REQUEST_IMPLEMENTATION_FIX",
+  "rationale": "Explique ici pourquoi la décision est prise et sur quelles preuves elle repose.",
+  "decided_by": "human-reviewer-or-governance-identity",
+  "decided_at": "2026-09-11T11:10:00+02:00",
+  "evidence_refs": [
+    "artifact:design-regression-gate-<run>-<attempt>",
+    "artifact:design-review-candidate-<run>-<attempt>"
+  ],
+  "follow_up": "Créer une nouvelle modification dans une PR distincte puis relancer tests et télémétrie.",
+  "core_write_allowed": false
+}

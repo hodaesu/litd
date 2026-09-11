@@ -1,0 +1,141 @@
+name: Knowledge Governance
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'docs/knowledge/**'
+      - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
+      - 'tools/quality/**'
+      - 'tests/python/test_*quality*.py'
+      - 'tests/python/test_goalpost_drift_analyzer.py'
+      - 'tests/python/test_goalpost_review_candidate.py'
+      - 'tests/python/test_measurement_history.py'
+      - 'tests/python/test_measurement_target_binding.py'
+      - 'tests/python/test_provenance_checkpoint.py'
+      - '.github/workflows/measurement-provenance.yml'
+      - '.github/workflows/provenance-checkpoint.yml'
+      - '.github/workflows/target-revision-governance.yml'
+      - '.github/workflows/knowledge-governance.yml'
+  pull_request:
+    paths:
+      - 'docs/knowledge/**'
+      - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
+      - 'tools/quality/**'
+      - 'tests/python/test_*quality*.py'
+      - 'tests/python/test_goalpost_drift_analyzer.py'
+      - 'tests/python/test_goalpost_review_candidate.py'
+      - 'tests/python/test_measurement_history.py'
+      - 'tests/python/test_measurement_target_binding.py'
+      - 'tests/python/test_provenance_checkpoint.py'
+      - '.github/workflows/measurement-provenance.yml'
+      - '.github/workflows/provenance-checkpoint.yml'
+      - '.github/workflows/target-revision-governance.yml'
+      - '.github/workflows/knowledge-governance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: knowledge-governance-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guardian:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Installer les dépendances QA
+        run: python -m pip install -r requirements-dev.txt
+      - name: Knowledge Guardian
+        run: python tools/quality/validate_knowledge.py
+      - name: Knowledge quality tests
+        run: >-
+          python -m pytest -q
+          tests/python/test_library_trieur.py
+          tests/python/test_veilleur_v2_ingest.py
+          tests/python/test_evidence_ledger.py
+          tests/python/test_veilleur_v2_persistent_ingest.py
+          tests/python/test_provenance_chain.py
+          tests/python/test_github_provenance_adapter.py
+          tests/python/test_telemetry_target_mapper.py
+          tests/python/test_measurement_collector.py
+          tests/python/test_measurement_history.py
+          tests/python/test_measurement_target_binding.py
+          tests/python/test_baseline_selector.py
+          tests/python/test_baseline_comparison.py
+          tests/python/test_design_decision_candidate.py
+          tests/python/test_target_revision_guard.py
+          tests/python/test_pr_design_summary.py
+          tests/python/test_design_regression_gate.py
+          tests/python/test_measurement_comparator.py
+          tests/python/test_design_target_evaluator.py
+          tests/python/test_goalpost_drift_analyzer.py
+          tests/python/test_goalpost_review_candidate.py
+          tests/python/test_provenance_checkpoint.py
+          tests/python/test_target_history.py
+      - name: Validate canonical design target registry
+        shell: python
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          from tools.quality.design_target_evaluator import load_targets
+          registry = load_targets('docs/knowledge/design-targets.json')
+          assert registry['governance']['core_write_allowed'] is False
+          assert registry['targets']['expedition.duration_minutes']['min'] == 35.0
+          assert registry['targets']['expedition.duration_minutes']['max'] == 45.0
+          assert registry['targets']['performance.frame_time_ms_p95']['provisional'] is True
+      - name: Capture real GitHub run evidence
+        shell: python
+        run: |
+          import json, os
+          from pathlib import Path
+          payload = {
+              'repository': os.environ['GITHUB_REPOSITORY'],
+              'commit_sha': os.environ['GITHUB_SHA'],
+              'run_id': os.environ['GITHUB_RUN_ID'],
+              'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
+              'workflow': os.environ['GITHUB_WORKFLOW'],
+              'job': os.environ['GITHUB_JOB'],
+              'ref': os.environ['GITHUB_REF'],
+              'server_url': os.environ['GITHUB_SERVER_URL'],
+          }
+          Path('reports').mkdir(exist_ok=True)
+          Path('reports/knowledge-governance-github-evidence.json').write_text(json.dumps(payload, sort_keys=True, indent=2), encoding='utf-8')
+      - name: Upload GitHub provenance evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knowledge-governance-provenance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: reports/knowledge-governance-github-evidence.json
+      - name: Verify governance invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'return False' tools/quality/library_trieur.py
+          grep -q 'QUARANTINE' tools/quality/library_trieur.py
+          grep -q 'MEASUREMENT_CANDIDATE' tools/quality/measurement_collector.py
+          grep -q 'requires_matching_CORE_DECISION_COMMIT_TEST_chain' tools/quality/measurement_collector.py
+          grep -q 'LITD_MEASUREMENT_HISTORY' tools/quality/measurement_history.py
+          grep -q 'LITD_MEASUREMENT_TARGET_BINDING' tools/quality/measurement_target_binding.py
+          grep -q 'LITD_DESIGN_REVIEW_CANDIDATE' tools/quality/design_decision_candidate.py
+          grep -q 'target_and_implementation_must_be_separate_prs' tools/quality/target_revision_guard.py
+          grep -q 'litd-design-telemetry-summary' tools/quality/pr_design_summary.py
+          grep -q 'FARTHER_FROM_TARGET' tools/quality/design_regression_gate.py
+          grep -q 'DESIGN_REGRESSION' tools/quality/design_target_evaluator.py
+          grep -q 'LITD_GOALPOST_DRIFT_REPORT' tools/quality/goalpost_drift_analyzer.py
+          grep -q 'GOALPOST_DRIFT_REVIEW_REQUIRED' tools/quality/goalpost_drift_analyzer.py
+          grep -q 'LITD_GOALPOST_REVIEW_CANDIDATE' tools/quality/goalpost_review_candidate.py
+          grep -q 'automatic_target_change_allowed.*False' tools/quality/goalpost_drift_analyzer.py
+          grep -q 'core_write_allowed.*False' tools/quality/goalpost_drift_analyzer.py
+          grep -q 'LITD_PROVENANCE_CHECKPOINT' tools/quality/provenance_checkpoint.py
+          grep -q 'sigstore_keyless_oidc' tools/quality/provenance_checkpoint.py
+          grep -q 'transparency_log_required.*True' tools/quality/provenance_checkpoint.py
+          grep -q 'id-token: write' .github/workflows/provenance-checkpoint.yml
+          grep -q 'cosign verify-blob' .github/workflows/provenance-checkpoint.yml
+          grep -q 'CANONICAL_DESIGN_TARGETS' docs/knowledge/design-targets.json
+          grep -q 'La bibliothèque ne modifie jamais directement le Core' docs/BIBLIOTHEQUE_GOUVERNANCE.md
