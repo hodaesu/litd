@@ -97,7 +97,7 @@ jobs:
             fi
             python -m tools.quality.baseline_comparison "${args[@]}"
           done < <(find reports/measurement-candidates -type f -name '*.measurement.json' -print0)
-      - name: Verify measurement mapping, baseline, PR summary, gate and collector contracts
+      - name: Verify measurement mapping, baseline, review-candidate, PR summary, gate and collector contracts
         run: >-
           python -m pytest -q
           tests/python/test_telemetry_target_mapper.py
@@ -105,6 +105,7 @@ jobs:
           tests/python/test_measurement_collector.py
           tests/python/test_baseline_selector.py
           tests/python/test_baseline_comparison.py
+          tests/python/test_design_decision_candidate.py
           tests/python/test_pr_design_summary.py
           tests/python/test_design_regression_gate.py
       - name: Upload provenance-ready measurements
@@ -120,6 +121,24 @@ jobs:
         with:
           name: measurement-comparisons-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/measurement-comparisons/*.comparison.json
+          if-no-files-found: warn
+      - name: Build design review candidate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -d '' comparisons < <(find reports/measurement-comparisons -type f -name '*.comparison.json' -print0)
+          if [ "${#comparisons[@]}" -eq 0 ]; then
+            exit 0
+          fi
+          python -m tools.quality.design_decision_candidate "${comparisons[@]}" \
+            --output reports/design-review-candidate.json
+      - name: Upload design review candidate
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: design-review-candidate-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: reports/design-review-candidate.json
           if-no-files-found: warn
       - name: Build Pull Request design summary
         if: always()
