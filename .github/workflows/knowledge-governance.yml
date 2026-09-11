@@ -14,6 +14,7 @@ on:
       - 'tools/quality/measurement_collector.py'
       - 'tools/quality/measurement_comparator.py'
       - 'tools/quality/design_target_evaluator.py'
+      - 'tools/quality/telemetry_target_mapper.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
       - 'tests/python/test_veilleur_v2_ingest.py'
@@ -24,6 +25,7 @@ on:
       - 'tests/python/test_measurement_collector.py'
       - 'tests/python/test_measurement_comparator.py'
       - 'tests/python/test_design_target_evaluator.py'
+      - 'tests/python/test_telemetry_target_mapper.py'
       - '.github/workflows/measurement-provenance.yml'
       - '.github/workflows/knowledge-governance.yml'
   pull_request:
@@ -38,6 +40,7 @@ on:
       - 'tools/quality/measurement_collector.py'
       - 'tools/quality/measurement_comparator.py'
       - 'tools/quality/design_target_evaluator.py'
+      - 'tools/quality/telemetry_target_mapper.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
       - 'tests/python/test_veilleur_v2_ingest.py'
@@ -48,6 +51,7 @@ on:
       - 'tests/python/test_measurement_collector.py'
       - 'tests/python/test_measurement_comparator.py'
       - 'tests/python/test_design_target_evaluator.py'
+      - 'tests/python/test_telemetry_target_mapper.py'
       - '.github/workflows/measurement-provenance.yml'
       - '.github/workflows/knowledge-governance.yml'
   workflow_dispatch:
@@ -81,6 +85,8 @@ jobs:
         run: python -m pytest -q tests/python/test_provenance_chain.py
       - name: GitHub commit and CI provenance bridge tests
         run: python -m pytest -q tests/python/test_github_provenance_adapter.py
+      - name: Telemetry target mapper tests
+        run: python -m pytest -q tests/python/test_telemetry_target_mapper.py
       - name: Telemetry measurement collector tests
         run: python -m pytest -q tests/python/test_measurement_collector.py
       - name: Before-after measurement comparator tests
@@ -139,6 +145,7 @@ jobs:
           grep -q 'GITHUB_SHA' tools/quality/github_provenance_adapter.py
           grep -q 'GITHUB_RUN_ID' tools/quality/github_provenance_adapter.py
           grep -q 'MEASUREMENT_CANDIDATE' tools/quality/measurement_collector.py
+          grep -q 'canonical_metrics' tools/quality/measurement_collector.py
           grep -q 'requires_matching_CORE_DECISION_COMMIT_TEST_chain' tools/quality/measurement_collector.py
           grep -q 'NO_SIGNIFICANT_CHANGE' tools/quality/measurement_comparator.py
           grep -q 'INCONCLUSIVE' tools/quality/measurement_comparator.py
@@ -146,5 +153,7 @@ jobs:
           grep -q 'FARTHER_FROM_TARGET' tools/quality/design_target_evaluator.py
           grep -q 'DESIGN_REGRESSION' tools/quality/design_target_evaluator.py
           grep -q 'core_write_allowed.*False' tools/quality/design_target_evaluator.py
+          grep -q 'outcomes.retreat_rate' tools/quality/telemetry_target_mapper.py
+          grep -q 'campaign.boss_rounds' tools/quality/telemetry_target_mapper.py
           grep -q 'CANONICAL_DESIGN_TARGETS' docs/knowledge/design-targets.json
           grep -q 'La bibliothèque ne modifie jamais directement le Core' docs/BIBLIOTHEQUE_GOUVERNANCE.md
