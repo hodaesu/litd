@@ -40,8 +40,14 @@ def test_incompatible_baseline_is_inconclusive():
 
 
 def test_regression_dominates_overall_verdict_and_never_writes_core():
-    baseline = {"success_rate": metric(0.5), "crash_rate": metric(0.01)}
-    current = {"success_rate": metric(0.6), "crash_rate": metric(0.04)}
+    baseline = {
+        "success_rate": metric(0.5, stddev=0.05),
+        "crash_rate": metric(0.01, stddev=0.001),
+    }
+    current = {
+        "success_rate": metric(0.6, stddev=0.05),
+        "crash_rate": metric(0.04, stddev=0.001),
+    }
     policy = {
         "success_rate": {"direction": "higher_is_better", "practical_threshold": 0.01},
         "crash_rate": {"direction": "lower_is_better", "practical_threshold": 0.005},
