@@ -8,6 +8,30 @@
       "uri": "tests/python/test_global_governance.py",
       "observed_at": "2026-09-11T00:00:00Z",
       "change_id": "CHG-GOVERNANCE-FOUNDATION-001"
+    },
+    {
+      "id": "EVD-GOVERNANCE-MERGE-001",
+      "type": "GIT_COMMIT",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/commit/f5fddfb6be59077d47980757c45036a830ff4b2b",
+      "observed_at": "2026-09-11T11:36:57Z",
+      "change_id": "CHG-GOVERNANCE-FOUNDATION-001"
+    },
+    {
+      "id": "EVD-GOVERNANCE-MAIN-CI-001",
+      "type": "CI",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/actions/runs/34594892053",
+      "observed_at": "2026-09-11T11:37:19Z",
+      "change_id": "CHG-GOVERNANCE-FOUNDATION-001"
+    },
+    {
+      "id": "EVD-GOVERNANCE-OPERATIONS-LOCAL-001",
+      "type": "UNIT_TEST",
+      "result": "PASS",
+      "uri": "tests/python/test_governance_transition.py",
+      "observed_at": "2026-09-11T12:00:00Z",
+      "change_id": "CHG-GOVERNANCE-OPERATIONS-002"
     }
   ]
 }

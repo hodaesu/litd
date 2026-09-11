@@ -13,6 +13,19 @@
       "decision": "Add minimal registries and a deterministic fail-closed validator; retain human approval and forbid direct Core writes.",
       "human_approval": true,
       "affected_paths": ["docs/knowledge/governance", "tools/quality/global_governance.py"]
+    },
+    {
+      "id": "DEC-GOVERNANCE-OPERATIONS-002",
+      "status": "REVIEW",
+      "problem": "The foundation validates static registries but offers no safe operational path for recording evidence and advancing state.",
+      "knowledge_ids": ["KNOW-GOVERNANCE-OPERATIONS-002"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Edit registries manually", "Adopt a transactional database immediately", "Allow CI to advance states automatically"],
+      "contradictor_findings": ["Automatic state advancement would bypass human approval; direct JSON replacement needs explicit rollback handling."],
+      "risks": ["Concurrent writers remain unsupported", "Operational schema may evolve after real usage"],
+      "decision": "Add a dry-run-first transition tool with exact next-state enforcement, evidence deduplication, pre-write validation and rollback; keep approval human-controlled.",
+      "human_approval": false,
+      "affected_paths": ["docs/knowledge/governance", "tools/quality/governance_transition.py", "tests/python/test_governance_transition.py"]
     }
   ]
 }

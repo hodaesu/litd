@@ -26,3 +26,23 @@ Validation locale:
 python -m tools.quality.global_governance
 ```
 
+## Transitions opérationnelles
+
+`governance_transition` prépare une seule transition séquentielle, ajoute une
+preuve sans doublon et valide l'état complet avant toute écriture. Le mode par
+défaut est une prévisualisation; `--apply` doit être demandé explicitement.
+
+```bash
+python -m tools.quality.governance_transition \
+  CHG-EXEMPLE-001 APPLIED \
+  --evidence-json evidence.json
+
+python -m tools.quality.governance_transition \
+  CHG-EXEMPLE-001 APPLIED \
+  --evidence-json evidence.json \
+  --apply
+```
+
+Une transition `APPLIED` exige une preuve `GIT_COMMIT`; `MEASURED` exige une
+preuve de CI, d'exécution, de playtest ou de performance. L'outil ne peut
+jamais modifier le Core ni les données de gameplay.
