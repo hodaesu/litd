@@ -1,0 +1,182 @@
+name: Provenance WORM Archive
+
+on:
+  workflow_run:
+    workflows: ["Provenance Checkpoint"]
+    types: [completed]
+
+permissions: {}
+
+concurrency:
+  group: provenance-worm-archive-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    if: >-
+      ${{
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main' &&
+        vars.LITD_WORM_ARCHIVE_ENABLED == 'true' &&
+        vars.LITD_WORM_BUCKET_LOCK_CONFIRMED == 'true'
+      }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID }}
+      R2_BUCKET_NAME: ${{ vars.R2_BUCKET_NAME }}
+      R2_ENDPOINT: https://${{ vars.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+    steps:
+      - name: Checkout current archive policy
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install AWS CLI
+        run: python -m pip install --disable-pip-version-check awscli
+
+      - name: Install pinned Cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+      - name: Download signed provenance checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          pattern: signed-provenance-checkpoint-*
+          path: signed-checkpoint
+          merge-multiple: true
+
+      - name: Validate archive inputs and Sigstore proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s signed-checkpoint/provenance-checkpoint.json
+          test -s signed-checkpoint/provenance-checkpoint.sigstore.json
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = json.loads(Path('signed-checkpoint/provenance-checkpoint.json').read_text(encoding='utf-8'))
+          assert p['kind'] == 'LITD_PROVENANCE_CHECKPOINT'
+          assert p['repository'] == os.environ['GITHUB_REPOSITORY']
+          assert p['core_write_allowed'] is False
+          assert p['automatic_target_change_allowed'] is False
+          h = p.get('checkpoint_hash', '')
+          assert len(h) == 64 and all(c in '0123456789abcdef' for c in h)
+          Path('reports').mkdir(exist_ok=True)
+          Path('reports/checkpoint-hash.txt').write_text(h, encoding='utf-8')
+          PY
+          cosign verify-blob signed-checkpoint/provenance-checkpoint.json \
+            --bundle signed-checkpoint/provenance-checkpoint.sigstore.json \
+            --certificate-identity="https://github.com/${GITHUB_REPOSITORY}/.github/workflows/provenance-checkpoint.yml@refs/heads/main" \
+            --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
+
+      - name: Require complete external configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${R2_ACCOUNT_ID}"
+          test -n "${R2_BUCKET_NAME}"
+          test -n "${AWS_ACCESS_KEY_ID}"
+          test -n "${AWS_SECRET_ACCESS_KEY}"
+
+      - name: Archive immutable content-addressed evidence in R2
+        shell: bash
+        run: |
+          set -euo pipefail
+          checkpoint_hash="$(cat reports/checkpoint-hash.txt)"
+          prefix="litd/provenance/v1/${checkpoint_hash}"
+          mkdir -p reports/remote-verify
+
+          archive_one() {
+            local src="$1"
+            local name="$2"
+            local key="${prefix}/${name}"
+            local local_hash
+            local_hash="$(sha256sum "$src" | awk '{print $1}')"
+
+            if aws s3api head-object \
+              --bucket "${R2_BUCKET_NAME}" \
+              --key "$key" \
+              --endpoint-url "${R2_ENDPOINT}" >/dev/null 2>&1; then
+              aws s3 cp "s3://${R2_BUCKET_NAME}/${key}" "reports/remote-verify/${name}" \
+                --endpoint-url "${R2_ENDPOINT}" --only-show-errors
+              remote_hash="$(sha256sum "reports/remote-verify/${name}" | awk '{print $1}')"
+              if [ "$remote_hash" != "$local_hash" ]; then
+                echo "Existing WORM object differs from local evidence: $key" >&2
+                exit 1
+              fi
+              echo "Already archived and byte-identical: $key"
+              return 0
+            fi
+
+            aws s3 cp "$src" "s3://${R2_BUCKET_NAME}/${key}" \
+              --endpoint-url "${R2_ENDPOINT}" \
+              --only-show-errors \
+              --metadata "sha256=${local_hash},checkpoint-hash=${checkpoint_hash},source=litd-signed-provenance"
+
+            aws s3 cp "s3://${R2_BUCKET_NAME}/${key}" "reports/remote-verify/${name}" \
+              --endpoint-url "${R2_ENDPOINT}" --only-show-errors
+            remote_hash="$(sha256sum "reports/remote-verify/${name}" | awk '{print $1}')"
+            if [ "$remote_hash" != "$local_hash" ]; then
+              echo "R2 round-trip hash mismatch for $key" >&2
+              exit 1
+            fi
+          }
+
+          archive_one signed-checkpoint/provenance-checkpoint.json provenance-checkpoint.json
+          archive_one signed-checkpoint/provenance-checkpoint.sigstore.json provenance-checkpoint.sigstore.json
+
+          python - <<'PY'
+          import hashlib, json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          cp = Path('signed-checkpoint/provenance-checkpoint.json')
+          sg = Path('signed-checkpoint/provenance-checkpoint.sigstore.json')
+          payload = json.loads(cp.read_text(encoding='utf-8'))
+          h = payload['checkpoint_hash']
+          receipt = {
+              'kind': 'LITD_WORM_ARCHIVE_RECEIPT',
+              'version': 1,
+              'status': 'ARCHIVED_AND_ROUNDTRIP_VERIFIED',
+              'repository': os.environ['GITHUB_REPOSITORY'],
+              'checkpoint_hash': h,
+              'checkpoint_sha256': hashlib.sha256(cp.read_bytes()).hexdigest(),
+              'sigstore_bundle_sha256': hashlib.sha256(sg.read_bytes()).hexdigest(),
+              'provider': 'cloudflare_r2',
+              'bucket': os.environ['R2_BUCKET_NAME'],
+              'object_prefix': f'litd/provenance/v1/{h}',
+              'bucket_lock_confirmation': 'required_repository_variable',
+              'archived_at': datetime.now(timezone.utc).isoformat(),
+              'source_checkpoint_run_id': os.environ['SOURCE_CHECKPOINT_RUN_ID'],
+              'core_write_allowed': False,
+              'automatic_target_change_allowed': False,
+              'authority': 'external_evidence_archive_only',
+          }
+          body = json.dumps(receipt, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()
+          receipt['receipt_hash'] = hashlib.sha256(body).hexdigest()
+          Path('reports/worm-archive-receipt.json').write_text(
+              json.dumps(receipt, sort_keys=True, indent=2, ensure_ascii=False) + '\n', encoding='utf-8'
+          )
+          PY
+        env:
+          SOURCE_CHECKPOINT_RUN_ID: ${{ github.event.workflow_run.id }}
+
+      - name: Upload archive receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: worm-archive-receipt-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: reports/worm-archive-receipt.json
+          if-no-files-found: error
+          retention-days: 90
