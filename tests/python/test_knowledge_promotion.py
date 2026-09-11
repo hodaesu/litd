@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from tools.quality.global_governance import REGISTRY_ROOT, validate
 from tools.quality.knowledge_promotion import apply_plan, plan_promotion
 
@@ -58,8 +60,7 @@ def test_promotion_is_idempotent(tmp_path: Path):
     review = _review()
     first = plan_promotion("KNOW-GOVERNANCE-INTAKE-003", review, root)
     apply_plan(first, root)
-    stored = {key: review[key] for key in review if key != "human_approval"}
-    second = plan_promotion("KNOW-GOVERNANCE-INTAKE-003", stored, root)
+    second = plan_promotion("KNOW-GOVERNANCE-INTAKE-003", review, root)
     assert second.status == "ALREADY_ACTIVE"
     apply_plan(second, root)
 
@@ -68,3 +69,28 @@ def test_active_or_missing_entry_cannot_be_promoted(tmp_path: Path):
     root = _root(tmp_path)
     assert plan_promotion("KNOW-UNKNOWN", _review(), root).status == "BLOCKED"
     assert plan_promotion("KNOW-GOVERNANCE-FOUNDATION-001", _review(), root).status == "BLOCKED"
+
+
+def test_promotion_rejects_registry_changed_after_plan(tmp_path: Path):
+    root = _root(tmp_path)
+    plan = plan_promotion("KNOW-GOVERNANCE-INTAKE-003", _review(), root)
+    registry_path = root / "knowledge_registry.json"
+    payload = json.loads(registry_path.read_text(encoding="utf-8"))
+    payload["entries"].append({
+        "id": "KNOW-CONCURRENT-TEST",
+        "domain": "test",
+        "claim": "Concurrent change must not be overwritten.",
+        "status": "EXPERIMENTAL",
+        "sources": ["test"],
+        "contradictions": [],
+        "dependencies": [],
+        "validated_at": "2026-09-11",
+        "revalidate_at": "2026-10-11",
+    })
+    registry_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="knowledge_registry_changed_since_plan"):
+        apply_plan(plan, root)
+
+    current = json.loads(registry_path.read_text(encoding="utf-8"))
+    assert any(entry["id"] == "KNOW-CONCURRENT-TEST" for entry in current["entries"])
