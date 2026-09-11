@@ -29,7 +29,7 @@
     },
     {
       "id": "DEC-GOVERNANCE-INTAKE-003",
-      "status": "REVIEW",
+      "status": "APPROVED",
       "problem": "Validated VEILLEUR V2 evidence and Trieur decisions are not yet connected to the global Knowledge registry.",
       "knowledge_ids": ["KNOW-GOVERNANCE-INTAKE-003"],
       "pillars": ["P7", "P9"],
@@ -37,7 +37,7 @@
       "contradictor_findings": ["Automatic direct writes would bypass review; a fixed 0.70 threshold needs later calibration; counterevidence quality remains human-assessed."],
       "risks": ["False quarantine from conservative routing", "Source confidence is producer-supplied until independently calibrated"],
       "decision": "Compose the existing ingress validator and Trieur into a dry-run-first Knowledge intake that creates only EXPERIMENTAL review candidates.",
-      "human_approval": false,
+      "human_approval": true,
       "affected_paths": ["tools/quality/knowledge_intake.py", "tests/python/test_knowledge_intake.py", "docs/knowledge/veilleur-v2-contract.json"]
     }
   ]
