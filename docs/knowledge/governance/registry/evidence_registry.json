@@ -72,6 +72,14 @@
       "uri": "https://github.com/hodaesu/litd/actions/runs/34627032495",
       "observed_at": "2026-09-11T17:19:42Z",
       "change_id": "CHG-GOVERNANCE-INTAKE-003"
+    },
+    {
+      "id": "EVD-GOVERNANCE-PROMOTION-LOCAL-001",
+      "type": "UNIT_TEST",
+      "result": "PASS",
+      "uri": "tests/python/test_knowledge_promotion.py",
+      "observed_at": "2026-09-11T17:30:00Z",
+      "change_id": "CHG-GOVERNANCE-PROMOTION-004"
     }
   ]
 }
