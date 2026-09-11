@@ -36,7 +36,7 @@ class GitHubEvidence:
 
 
 def from_environment(env: dict[str, str] | None = None) -> GitHubEvidence:
-    env = env or os.environ
+    env = os.environ if env is None else env
     required = {
         "GITHUB_REPOSITORY": env.get("GITHUB_REPOSITORY", ""),
         "GITHUB_SHA": env.get("GITHUB_SHA", ""),
