@@ -156,6 +156,8 @@ jobs:
             --output reports/target-trajectory.json
       - name: Ensure latest history snapshot matches current canonical targets
         shell: python
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
           import json
           from pathlib import Path
