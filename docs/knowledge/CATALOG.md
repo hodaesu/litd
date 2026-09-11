@@ -32,6 +32,7 @@ La distinction ci-dessus est volontaire : une preuve historique fusionnée confi
 - `LIVING_LIBRARY_PROTOCOL.md` — protocole systématique Source → Connaissance → Hypothèse → Décision → Core → Implémentation → Test → Mesure → Preuve → Réévaluation.
 - `guardian-rules.yml` — premiers invariants et niveaux Guardian.
 - `dependencies.yml` — dépendances structurées existantes.
+- `../engineering/working-method.md` — méthode d’ingénierie vivante, validations L0–L4 et Definition of Done.
 - `templates/decision.md`, `templates/research.md`, `templates/incident.md` — formats normalisés.
 
 ## À importer / vérifier ensuite — priorité élevée
@@ -41,9 +42,8 @@ La distinction ci-dessus est volontaire : une preuve historique fusionnée confi
 3. équipement/loot déterministe par seed — le Guardian contient un invariant `deterministic-loot`, mais sa validation est encore `automated_candidate` : statut `to_verify` avant promotion ;
 4. exclusivité d'arbre — règle Guardian présente avec validation `automated_candidate` : rattacher à un test fiable avant de la déclarer techniquement validée ;
 5. Galeries Éteintes et son état réel d'implémentation ;
-6. méthode d'ingénierie LITD (PR #254 tant qu'elle n'est pas fusionnée : `revalidate`) ;
-7. protocole de playtest PC / cinq testeurs naïfs (PR #243 draft : `experimental`) ;
-8. trieur canonique relié au Core (PR #260 ouverte : `experimental` jusqu'à intégration).
+6. protocole de playtest PC / cinq testeurs naïfs (PR #243 draft : `experimental`) ;
+7. couverture automatisée de la méthode d’ingénierie : plusieurs règles restent contrôlées par revue avant d’être converties en gates fiables.
 
 ## Règle d'admission
 
