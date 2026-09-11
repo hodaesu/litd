@@ -32,6 +32,22 @@
       "uri": "tests/python/test_governance_transition.py",
       "observed_at": "2026-09-11T12:00:00Z",
       "change_id": "CHG-GOVERNANCE-OPERATIONS-002"
+    },
+    {
+      "id": "EVD-GOVERNANCE-OPERATIONS-MERGE-001",
+      "type": "GIT_COMMIT",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/commit/32cf7ccab7296bde7b14a964cee98f54d88a0f5f",
+      "observed_at": "2026-09-11T12:45:16Z",
+      "change_id": "CHG-GOVERNANCE-OPERATIONS-002"
+    },
+    {
+      "id": "EVD-GOVERNANCE-OPERATIONS-MAIN-CI-001",
+      "type": "CI",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/actions/runs/34600561584",
+      "observed_at": "2026-09-11T12:45:34Z",
+      "change_id": "CHG-GOVERNANCE-OPERATIONS-002"
     }
   ]
 }
