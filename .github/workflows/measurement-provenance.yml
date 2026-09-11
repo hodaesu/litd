@@ -33,7 +33,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
           path: upstream-artifacts
-      - name: Build measurement candidates and canonical design diagnostics
+      - name: Build immutable measurement candidates and canonical design diagnostics
         env:
           GITHUB_SHA: ${{ github.event.workflow_run.head_sha }}
           GITHUB_RUN_ID: ${{ github.event.workflow_run.id }}
@@ -57,15 +57,60 @@ jobs:
             echo 'No JSON telemetry reports were downloaded.' >&2
             exit 1
           fi
-      - name: Verify measurement mapping and collector contracts
+      - name: Download prior successful measurement history
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p baseline-history/zips baseline-history/extracted
+          runs_json="$(gh api \
+            -H 'Accept: application/vnd.github+json' \
+            "/repos/${GITHUB_REPOSITORY}/actions/workflows/measurement-provenance.yml/runs?status=success&per_page=20")"
+          mapfile -t run_ids < <(python -c 'import json,sys; data=json.load(sys.stdin); [print(r["id"]) for r in data.get("workflow_runs", [])]' <<< "$runs_json")
+          for run_id in "${run_ids[@]:-}"; do
+            artifacts_json="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/artifacts")"
+            mapfile -t artifact_ids < <(python -c 'import json,sys; data=json.load(sys.stdin); [print(a["id"]) for a in data.get("artifacts", []) if a.get("name", "").startswith("measurement-candidates-")]' <<< "$artifacts_json")
+            for artifact_id in "${artifact_ids[@]:-}"; do
+              zip_path="baseline-history/zips/${run_id}-${artifact_id}.zip"
+              if gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" > "$zip_path"; then
+                mkdir -p "baseline-history/extracted/${run_id}-${artifact_id}"
+                unzip -q -o "$zip_path" -d "baseline-history/extracted/${run_id}-${artifact_id}"
+              fi
+            done
+          done
+          echo "Historical candidate files: $(find baseline-history/extracted -type f -name '*.measurement.json' | wc -l)"
+      - name: Select compatible baseline and build before-after design comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports/measurement-comparisons
+          mapfile -d '' priors < <(find baseline-history/extracted -type f -name '*.measurement.json' -print0)
+          while IFS= read -r -d '' current; do
+            name="$(basename "$current" .measurement.json)"
+            args=(--current "$current" --targets docs/knowledge/design-targets.json --output "reports/measurement-comparisons/${name}.comparison.json")
+            if [ "${#priors[@]}" -gt 0 ]; then
+              args+=(--prior "${priors[@]}")
+            fi
+            python -m tools.quality.baseline_comparison "${args[@]}"
+          done < <(find reports/measurement-candidates -type f -name '*.measurement.json' -print0)
+      - name: Verify measurement mapping, baseline and collector contracts
         run: >-
           python -m pytest -q
           tests/python/test_telemetry_target_mapper.py
           tests/python/test_design_target_evaluator.py
           tests/python/test_measurement_collector.py
+          tests/python/test_baseline_selector.py
+          tests/python/test_baseline_comparison.py
       - name: Upload provenance-ready measurements
         uses: actions/upload-artifact@v4
         with:
           name: measurement-candidates-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/measurement-candidates/*.measurement.json
+          if-no-files-found: error
+      - name: Upload baseline comparisons
+        uses: actions/upload-artifact@v4
+        with:
+          name: measurement-comparisons-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: reports/measurement-comparisons/*.comparison.json
           if-no-files-found: error
