@@ -19,6 +19,8 @@ on:
       - 'scripts/ui/combat_sandbox_ui_v48.gd'
       - 'scripts/ui/combat_sandbox_ui_v49.gd'
       - 'scripts/ui/combat_sandbox_ui_v50.gd'
+      - 'scripts/ui/combat_sandbox_ui_v51.gd'
+      - 'scripts/ui/main_v50.gd'
       - 'scripts/ui/main_v50_ge01.gd'
       - 'scripts/tests/current_quartet_skill_data_smoke_test.gd'
       - 'scripts/tests/veilleurs_combat_context_smoke_test.gd'
@@ -28,6 +30,7 @@ on:
       - 'scripts/tests/veilleurs_mobile_advanced_hud_smoke_test.gd'
       - 'scripts/tests/veilleurs_mobile_phone_polish_smoke_test.gd'
       - 'scripts/tests/veilleurs_mobile_combat_feel_smoke_test.gd'
+      - 'scripts/tests/veilleurs_p0_focus_preview_smoke_test.gd'
       - 'scenes/Main.tscn'
       - 'scenes/tests/veilleurs_basic_actions_contract_smoke.tscn'
       - 'scenes/tests/current_quartet_skill_data_smoke.tscn'
@@ -38,6 +41,7 @@ on:
       - 'scenes/tests/veilleurs_mobile_advanced_hud_smoke.tscn'
       - 'scenes/tests/veilleurs_mobile_phone_polish_smoke.tscn'
       - 'scenes/tests/veilleurs_mobile_combat_feel_smoke.tscn'
+      - 'scenes/tests/veilleurs_p0_focus_preview_smoke.tscn'
       - '.github/workflows/veilleurs-combat-sandbox-smoke.yml'
   workflow_dispatch:
 
@@ -71,3 +75,5 @@ jobs:
         run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_mobile_phone_polish_smoke.tscn
       - name: Combat Sandbox 0.1 - ressenti mobile low-tap
         run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_mobile_combat_feel_smoke.tscn
+      - name: Combat Sandbox P0 - focus et preview non destructive
+        run: timeout 60s godot --headless --path . res://scenes/tests/veilleurs_p0_focus_preview_smoke.tscn
