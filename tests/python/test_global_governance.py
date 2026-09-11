@@ -23,6 +23,7 @@ def test_gate_rejects_skipped_transition(tmp_path: Path):
         (tmp_path / source.name).write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
     path = tmp_path / "change_registry.json"
     payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["entries"][0]["status"] = "APPROVED"
     payload["entries"][0]["history"] = ["LITD_CHANGE_CANDIDATE", "APPROVED"]
     path.write_text(json.dumps(payload), encoding="utf-8")
     assert any("illegal state transition" in error for error in validate(tmp_path))

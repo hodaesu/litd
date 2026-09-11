@@ -26,3 +26,40 @@ Validation locale:
 python -m tools.quality.global_governance
 ```
 
+## Transitions opérationnelles
+
+`governance_transition` prépare une seule transition séquentielle, ajoute une
+preuve sans doublon et valide l'état complet avant toute écriture. Le mode par
+défaut est une prévisualisation; `--apply` doit être demandé explicitement.
+
+```bash
+python -m tools.quality.governance_transition \
+  CHG-EXEMPLE-001 APPLIED \
+  --evidence-json evidence.json
+
+python -m tools.quality.governance_transition \
+  CHG-EXEMPLE-001 APPLIED \
+  --evidence-json evidence.json \
+  --apply
+```
+
+Une transition `APPLIED` exige une preuve `GIT_COMMIT`; `MEASURED` exige une
+preuve de CI, d'exécution, de playtest ou de performance. L'outil ne peut
+jamais modifier le Core ni les données de gameplay.
+
+## Entrée Knowledge depuis VEILLEUR V2
+
+`knowledge_intake` compose le validateur d'entrée et le Trieur existants. Une
+source non vérifiée, ambiguë, trop peu fiable ou dépourvue de recherche
+contradictoire est mise en quarantaine. Une information générale reste dans la
+bibliothèque générale. Seule une application LITD explicite peut produire une
+entrée `EXPERIMENTAL`, toujours soumise à revue humaine.
+
+```bash
+python -m tools.quality.knowledge_intake event.json
+python -m tools.quality.knowledge_intake event.json --apply
+```
+
+Le mode par défaut est `DRY_RUN`. Même avec `--apply`, seule la bibliothèque
+Knowledge peut être enrichie : aucune décision Core ni modification gameplay
+n'est autorisée.

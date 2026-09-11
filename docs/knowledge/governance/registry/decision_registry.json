@@ -13,6 +13,32 @@
       "decision": "Add minimal registries and a deterministic fail-closed validator; retain human approval and forbid direct Core writes.",
       "human_approval": true,
       "affected_paths": ["docs/knowledge/governance", "tools/quality/global_governance.py"]
+    },
+    {
+      "id": "DEC-GOVERNANCE-OPERATIONS-002",
+      "status": "APPROVED",
+      "problem": "The foundation validates static registries but offers no safe operational path for recording evidence and advancing state.",
+      "knowledge_ids": ["KNOW-GOVERNANCE-OPERATIONS-002"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Edit registries manually", "Adopt a transactional database immediately", "Allow CI to advance states automatically"],
+      "contradictor_findings": ["Automatic state advancement would bypass human approval; direct JSON replacement needs explicit rollback handling."],
+      "risks": ["Concurrent writers remain unsupported", "Operational schema may evolve after real usage"],
+      "decision": "Add a dry-run-first transition tool with exact next-state enforcement, evidence deduplication, pre-write validation and rollback; keep approval human-controlled.",
+      "human_approval": true,
+      "affected_paths": ["docs/knowledge/governance", "tools/quality/governance_transition.py", "tests/python/test_governance_transition.py"]
+    },
+    {
+      "id": "DEC-GOVERNANCE-INTAKE-003",
+      "status": "APPROVED",
+      "problem": "Validated VEILLEUR V2 evidence and Trieur decisions are not yet connected to the global Knowledge registry.",
+      "knowledge_ids": ["KNOW-GOVERNANCE-INTAKE-003"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Continue manual Knowledge entry", "Let the Veilleur write directly", "Route without counterevidence"],
+      "contradictor_findings": ["Automatic direct writes would bypass review; a fixed 0.70 threshold needs later calibration; counterevidence quality remains human-assessed."],
+      "risks": ["False quarantine from conservative routing", "Source confidence is producer-supplied until independently calibrated"],
+      "decision": "Compose the existing ingress validator and Trieur into a dry-run-first Knowledge intake that creates only EXPERIMENTAL review candidates.",
+      "human_approval": true,
+      "affected_paths": ["tools/quality/knowledge_intake.py", "tests/python/test_knowledge_intake.py", "docs/knowledge/veilleur-v2-contract.json"]
     }
   ]
 }

@@ -1,0 +1,91 @@
+name: Provenance Checkpoint
+
+on:
+  workflow_run:
+    workflows: ["Measurement Provenance"]
+    types: [completed]
+
+permissions: {}
+
+concurrency:
+  group: provenance-checkpoint-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+  cancel-in-progress: false
+
+jobs:
+  sign-checkpoint:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - name: Checkout exact measured commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Download exact Measurement Provenance artifacts
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          path: upstream-artifacts
+
+      - name: Verify checkpoint builder contract
+        run: python -m pytest -q tests/python/test_provenance_checkpoint.py tests/python/test_target_history.py
+
+      - name: Build deterministic provenance checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t snapshots < <(find docs/knowledge/target-history -type f -name '*.json' | sort)
+          if [ "${#snapshots[@]}" -eq 0 ]; then
+            echo 'Target history is empty; refusing to create an unauditable checkpoint.' >&2
+            exit 1
+          fi
+          python -m tools.quality.provenance_checkpoint \
+            --snapshots "${snapshots[@]}" \
+            --artifact-root upstream-artifacts \
+            --repository "${GITHUB_REPOSITORY}" \
+            --source-run-id "${{ github.event.workflow_run.id }}" \
+            --source-run-attempt "${{ github.event.workflow_run.run_attempt }}" \
+            --source-commit-sha "${{ github.event.workflow_run.head_sha }}" \
+            --source-ref "${{ github.event.workflow_run.head_branch }}" \
+            --source-completed-at "${{ github.event.workflow_run.updated_at }}" \
+            --output reports/provenance-checkpoint.json
+
+      - name: Install pinned Cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+      - name: Sign checkpoint with ephemeral GitHub OIDC identity and publish transparency proof
+        run: >-
+          cosign sign-blob reports/provenance-checkpoint.json
+          --bundle reports/provenance-checkpoint.sigstore.json
+          --yes
+
+      - name: Verify signature, workflow identity, issuer and transparency proof
+        run: >-
+          cosign verify-blob reports/provenance-checkpoint.json
+          --bundle reports/provenance-checkpoint.sigstore.json
+          --certificate-identity="https://github.com/${GITHUB_REPOSITORY}/.github/workflows/provenance-checkpoint.yml@refs/heads/main"
+          --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
+
+      - name: Upload signed checkpoint and Sigstore verification bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-provenance-checkpoint-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: |
+            reports/provenance-checkpoint.json
+            reports/provenance-checkpoint.sigstore.json
+          if-no-files-found: error
+          retention-days: 90
