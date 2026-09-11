@@ -4,11 +4,21 @@
     {
       "id": "CHG-GOVERNANCE-FOUNDATION-001",
       "decision_id": "DEC-GOVERNANCE-FOUNDATION-001",
-      "status": "APPROVED",
-      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED"],
+      "status": "MEASURED",
+      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED", "APPLIED", "MEASURED"],
       "test_plan": "Run the governance validator and its pytest contract suite in CI.",
       "rollback_plan": "Revert the isolated governance commit; no gameplay data is modified.",
-      "evidence_ids": ["EVD-GOVERNANCE-LOCAL-001"],
+      "evidence_ids": ["EVD-GOVERNANCE-LOCAL-001", "EVD-GOVERNANCE-MERGE-001", "EVD-GOVERNANCE-MAIN-CI-001"],
+      "guardian": "GREEN"
+    },
+    {
+      "id": "CHG-GOVERNANCE-OPERATIONS-002",
+      "decision_id": "DEC-GOVERNANCE-OPERATIONS-002",
+      "status": "APPROVED",
+      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED"],
+      "test_plan": "Run transition unit tests, the global governance validator and both governance workflows.",
+      "rollback_plan": "Revert the isolated operational-tool commit; registries remain valid under the foundation validator.",
+      "evidence_ids": ["EVD-GOVERNANCE-OPERATIONS-LOCAL-001"],
       "guardian": "GREEN"
     }
   ]

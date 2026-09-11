@@ -6,13 +6,17 @@ on:
     paths:
       - 'docs/knowledge/governance/**'
       - 'tools/quality/global_governance.py'
+      - 'tools/quality/governance_transition.py'
       - 'tests/python/test_global_governance.py'
+      - 'tests/python/test_governance_transition.py'
       - '.github/workflows/global-governance.yml'
   pull_request:
     paths:
       - 'docs/knowledge/governance/**'
       - 'tools/quality/global_governance.py'
+      - 'tools/quality/governance_transition.py'
       - 'tests/python/test_global_governance.py'
+      - 'tests/python/test_governance_transition.py'
       - '.github/workflows/global-governance.yml'
   workflow_dispatch:
 
@@ -37,4 +41,7 @@ jobs:
       - name: Validate cross-registry governance
         run: python -m tools.quality.global_governance
       - name: Governance contract tests
-        run: python -m pytest -q tests/python/test_global_governance.py
+        run: >-
+          python -m pytest -q
+          tests/python/test_global_governance.py
+          tests/python/test_governance_transition.py

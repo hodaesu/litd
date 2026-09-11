@@ -11,6 +11,17 @@
       "dependencies": ["docs/knowledge/guardian-rules.yml"],
       "validated_at": "2026-09-11",
       "revalidate_at": "2026-12-11"
+    },
+    {
+      "id": "KNOW-GOVERNANCE-OPERATIONS-002",
+      "domain": "project-governance",
+      "claim": "Governance state changes must be sequential, previewable, evidence-backed, idempotent and validated before registry writes.",
+      "status": "EXPERIMENTAL",
+      "sources": ["docs/knowledge/governance/README.md"],
+      "contradictions": ["Multi-file JSON replacement cannot provide the same crash guarantees as a transactional database; rollback remains required."],
+      "dependencies": ["tools/quality/global_governance.py"],
+      "validated_at": "2026-09-11",
+      "revalidate_at": "2026-10-11"
     }
   ]
 }
