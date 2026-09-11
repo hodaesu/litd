@@ -22,7 +22,7 @@ on:
       - '.github/workflows/ge01-smoke.yml'
   workflow_dispatch:
 
-# Keep this workflow path-sensitive; this marker intentionally retriggers PR validation after canonical-roster repair.
+# Keep this workflow path-sensitive; retrigger PR validation only after the PR is open on the repaired canonical roster.
 concurrency:
   group: ge01-smoke-${{ github.event.pull_request.number || github.ref || github.run_id }}
   cancel-in-progress: true
