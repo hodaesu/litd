@@ -1,0 +1,78 @@
+name: LITD File Sorter Audit
+
+on:
+  pull_request:
+    paths:
+      - "tools/maintenance/**"
+      - "data/maintenance/**"
+      - ".github/workflows/file-sorter-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate manifest JSON
+        run: python -m json.tool data/maintenance/canonical_files.json >/dev/null
+      - name: Run maintenance unit tests
+        run: |
+          python -m unittest \
+            tools.maintenance.test_litd_file_sorter \
+            tools.maintenance.test_litd_file_intelligence \
+            tools.maintenance.test_litd_safe_delete
+      - name: Run sorter in audit-only mode
+        run: |
+          python tools/maintenance/litd_file_sorter.py \
+            --report artifacts/file-sorter-report.json \
+            --plan artifacts/file-sorter-delete-plan.json \
+            --fail-on-manifest-error
+      - name: Run advanced repository intelligence
+        run: |
+          python tools/maintenance/litd_file_intelligence.py \
+            --report artifacts/file-intelligence-report.json
+      - name: Validate Git-backed deletion gate without deleting
+        run: |
+          python tools/maintenance/litd_safe_delete.py \
+            --plan artifacts/file-sorter-delete-plan.json
+      - name: Assert audit generated no automatic deletions
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          plan = json.loads(Path('artifacts/file-sorter-delete-plan.json').read_text(encoding='utf-8'))
+          intel = json.loads(Path('artifacts/file-intelligence-report.json').read_text(encoding='utf-8'))
+          print('delete candidates:', plan.get('candidate_count', 0))
+          print('case collisions:', intel.get('case_collision_count', 0))
+          print('godot orphans:', len(intel.get('godot_orphans', [])))
+          print('version families:', intel.get('version_family_count', 0))
+          assert intel.get('guardrails', {}).get('deletes_files') is False
+          assert intel.get('guardrails', {}).get('canonical_suggestions_are_advisory') is True
+          PY
+      - name: Assert CI has no destructive invocation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('.github/workflows/file-sorter-audit.yml').read_text(encoding='utf-8')
+          normalized = ' '.join(text.split())
+          forbidden = [
+              'litd_file_sorter.py ' + '--apply',
+              'litd_safe_delete.py ' + '--execute',
+          ]
+          if any(token in normalized for token in forbidden):
+              raise SystemExit('Deletion invocation is forbidden in CI')
+          PY
+      - name: Upload audit reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: litd-file-sorter-report
+          path: |
+            artifacts/file-sorter-report.json
+            artifacts/file-sorter-delete-plan.json
+            artifacts/file-intelligence-report.json
+          if-no-files-found: error

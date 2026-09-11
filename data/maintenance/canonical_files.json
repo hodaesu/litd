@@ -1,0 +1,71 @@
+{
+  "schema_version": 3,
+  "policy": {
+    "principle": "A file is never deleted from a heuristic alone.",
+    "minimum_delete_confidence": 0.95,
+    "deletion_requires": [
+      "structured obsolete_records entry",
+      "explicit reason and evidence",
+      "replacement path or explicit retirement without replacement",
+      "confidence >= minimum_delete_confidence",
+      "not matched by protected_patterns",
+      "not listed in canonical_paths",
+      "zero detected incoming repository references",
+      "fresh delete plan with matching SHA-256",
+      "clean tracked working tree",
+      "manual invocation with --apply --allow-delete"
+    ],
+    "review_rule": "Heuristics may only classify a file as review; they never authorize deletion.",
+    "rollback_rule": "Deletion must happen in a dedicated Git commit/PR so Git history remains the rollback mechanism."
+  },
+  "canonical_paths": [
+    "project.godot",
+    "export_presets.cfg",
+    "docs/BIBLE_UX_UI_LITD.md",
+    "docs/knowledge/README.md",
+    "docs/knowledge/guardian-rules.yml",
+    "docs/knowledge/dependencies.yml",
+    "docs/knowledge/decisions/ADR-0001-guardian-progressif.md",
+    "tools/quality/validate_knowledge.py",
+    "tools/maintenance/litd_file_sorter.py",
+    "data/maintenance/canonical_files.json"
+  ],
+  "protected_patterns": [
+    ".github/**",
+    ".gitignore",
+    ".editorconfig",
+    "addons/**",
+    "data/veilleurs/skills/**",
+    "docs/knowledge/**",
+    "tools/quality/**",
+    "tools/maintenance/**",
+    "tests/**",
+    "test/**",
+    "project.godot",
+    "export_presets.cfg",
+    "LICENSE",
+    "README.md"
+  ],
+  "active_patterns": [
+    "scripts/**",
+    "scenes/**",
+    "data/**",
+    "art/**",
+    "assets/**",
+    "docs/**"
+  ],
+  "generated_patterns": [
+    "artifacts/**",
+    ".godot/**",
+    "build/**",
+    "dist/**"
+  ],
+  "legacy_candidate_regexes": [
+    "(^|/)(old|legacy|deprecated|obsolete)(/|_|\\.|-)",
+    "(^|/)(backup|bak|copy|copie)(/|_|\\.|-)",
+    "(_|-)v[0-9]{1,3}([._-]|$)",
+    "(_|-)old([._-]|$)",
+    "\\.(bak|old|orig)$"
+  ],
+  "obsolete_records": []
+}
