@@ -15,6 +15,8 @@ on:
       - 'tools/quality/measurement_comparator.py'
       - 'tools/quality/design_target_evaluator.py'
       - 'tools/quality/telemetry_target_mapper.py'
+      - 'tools/quality/baseline_selector.py'
+      - 'tools/quality/baseline_comparison.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
       - 'tests/python/test_veilleur_v2_ingest.py'
@@ -26,6 +28,8 @@ on:
       - 'tests/python/test_measurement_comparator.py'
       - 'tests/python/test_design_target_evaluator.py'
       - 'tests/python/test_telemetry_target_mapper.py'
+      - 'tests/python/test_baseline_selector.py'
+      - 'tests/python/test_baseline_comparison.py'
       - '.github/workflows/measurement-provenance.yml'
       - '.github/workflows/knowledge-governance.yml'
   pull_request:
@@ -41,6 +45,8 @@ on:
       - 'tools/quality/measurement_comparator.py'
       - 'tools/quality/design_target_evaluator.py'
       - 'tools/quality/telemetry_target_mapper.py'
+      - 'tools/quality/baseline_selector.py'
+      - 'tools/quality/baseline_comparison.py'
       - 'tools/quality/validate_knowledge.py'
       - 'tests/python/test_library_trieur.py'
       - 'tests/python/test_veilleur_v2_ingest.py'
@@ -52,6 +58,8 @@ on:
       - 'tests/python/test_measurement_comparator.py'
       - 'tests/python/test_design_target_evaluator.py'
       - 'tests/python/test_telemetry_target_mapper.py'
+      - 'tests/python/test_baseline_selector.py'
+      - 'tests/python/test_baseline_comparison.py'
       - '.github/workflows/measurement-provenance.yml'
       - '.github/workflows/knowledge-governance.yml'
   workflow_dispatch:
@@ -89,6 +97,10 @@ jobs:
         run: python -m pytest -q tests/python/test_telemetry_target_mapper.py
       - name: Telemetry measurement collector tests
         run: python -m pytest -q tests/python/test_measurement_collector.py
+      - name: Compatible baseline selector tests
+        run: python -m pytest -q tests/python/test_baseline_selector.py
+      - name: Automatic baseline comparison tests
+        run: python -m pytest -q tests/python/test_baseline_comparison.py
       - name: Before-after measurement comparator tests
         run: python -m pytest -q tests/python/test_measurement_comparator.py
       - name: LITD design target evaluator tests
@@ -145,8 +157,14 @@ jobs:
           grep -q 'GITHUB_SHA' tools/quality/github_provenance_adapter.py
           grep -q 'GITHUB_RUN_ID' tools/quality/github_provenance_adapter.py
           grep -q 'MEASUREMENT_CANDIDATE' tools/quality/measurement_collector.py
+          grep -q 'comparison_identity' tools/quality/measurement_collector.py
           grep -q 'canonical_metrics' tools/quality/measurement_collector.py
           grep -q 'requires_matching_CORE_DECISION_COMMIT_TEST_chain' tools/quality/measurement_collector.py
+          grep -q 'seed_policy' tools/quality/baseline_selector.py
+          grep -q 'seed_value' tools/quality/baseline_selector.py
+          grep -q 'NO_COMPATIBLE_BASELINE' tools/quality/baseline_comparison.py
+          grep -q 'baseline_run_id' tools/quality/baseline_comparison.py
+          grep -q 'core_write_allowed.*False' tools/quality/baseline_comparison.py
           grep -q 'NO_SIGNIFICANT_CHANGE' tools/quality/measurement_comparator.py
           grep -q 'INCONCLUSIVE' tools/quality/measurement_comparator.py
           grep -q 'core_write_allowed.*False' tools/quality/measurement_comparator.py
