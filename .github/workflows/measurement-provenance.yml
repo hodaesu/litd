@@ -109,6 +109,18 @@ jobs:
             --snapshots "${snapshots[@]}" \
             --measurement-history reports/measurement-history.json \
             --output reports/goalpost-drift.json
+      - name: Build governed goalpost review candidate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f reports/goalpost-drift.json ]; then
+            echo 'No goalpost drift report available; skipping review candidate.'
+            exit 0
+          fi
+          python -m tools.quality.goalpost_review_candidate \
+            reports/goalpost-drift.json \
+            --output reports/goalpost-review-candidate.json
       - name: Select compatible baseline and build before-after design comparison
         shell: bash
         run: |
@@ -123,7 +135,7 @@ jobs:
             fi
             python -m tools.quality.baseline_comparison "${args[@]}"
           done < <(find reports/measurement-candidates -type f -name '*.measurement.json' -print0)
-      - name: Verify measurement mapping, history, goalpost, baseline, review-candidate, PR summary, gate and collector contracts
+      - name: Verify measurement mapping, history, goalpost, review-candidate, baseline, PR summary, gate and collector contracts
         run: >-
           python -m pytest -q
           tests/python/test_telemetry_target_mapper.py
@@ -131,6 +143,7 @@ jobs:
           tests/python/test_measurement_collector.py
           tests/python/test_measurement_history.py
           tests/python/test_goalpost_drift_analyzer.py
+          tests/python/test_goalpost_review_candidate.py
           tests/python/test_baseline_selector.py
           tests/python/test_baseline_comparison.py
           tests/python/test_design_decision_candidate.py
@@ -156,6 +169,13 @@ jobs:
         with:
           name: goalpost-drift-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/goalpost-drift.json
+          if-no-files-found: warn
+      - name: Upload governed goalpost review candidate
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: goalpost-review-candidate-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: reports/goalpost-review-candidate.json
           if-no-files-found: warn
       - name: Upload baseline comparisons
         uses: actions/upload-artifact@v4
