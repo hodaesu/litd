@@ -68,7 +68,7 @@ jobs:
           runs_json="$(gh api \
             -H 'Accept: application/vnd.github+json' \
             "/repos/${GITHUB_REPOSITORY}/actions/workflows/measurement-provenance.yml/runs?status=success&per_page=20")"
-          mapfile -t run_ids < <(python -c 'import json,sys; data=json.load(sys.stdin); [print(r["id"]) for r in data.get("workflow_runs", [])]' <<< "$runs_json")
+          mapfile -t run_ids < <(python -c 'import json,sys; data=json.load(sys.stdin); [print(r["id"]) for r in data.get("workflow_runs", [])]') <<< "$runs_json"
           for run_id in "${run_ids[@]:-}"; do
             artifacts_json="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/artifacts")"
             mapfile -t artifact_ids < <(python -c 'import json,sys; data=json.load(sys.stdin); [print(a["id"]) for a in data.get("artifacts", []) if a.get("name", "").startswith("measurement-candidates-")]' <<< "$artifacts_json")
@@ -95,7 +95,7 @@ jobs:
             fi
             python -m tools.quality.baseline_comparison "${args[@]}"
           done < <(find reports/measurement-candidates -type f -name '*.measurement.json' -print0)
-      - name: Verify measurement mapping, baseline and collector contracts
+      - name: Verify measurement mapping, baseline, gate and collector contracts
         run: >-
           python -m pytest -q
           tests/python/test_telemetry_target_mapper.py
@@ -103,15 +103,36 @@ jobs:
           tests/python/test_measurement_collector.py
           tests/python/test_baseline_selector.py
           tests/python/test_baseline_comparison.py
+          tests/python/test_design_regression_gate.py
       - name: Upload provenance-ready measurements
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: measurement-candidates-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/measurement-candidates/*.measurement.json
-          if-no-files-found: error
+          if-no-files-found: warn
       - name: Upload baseline comparisons
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: measurement-comparisons-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/measurement-comparisons/*.comparison.json
-          if-no-files-found: error
+          if-no-files-found: warn
+      - name: Enforce high-severity design regression gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -d '' comparisons < <(find reports/measurement-comparisons -type f -name '*.comparison.json' -print0)
+          if [ "${#comparisons[@]}" -eq 0 ]; then
+            echo 'No comparison artifacts available; refusing to invent a regression.'
+            exit 0
+          fi
+          python -m tools.quality.design_regression_gate "${comparisons[@]}" \
+            --report reports/design-regression-gate.json
+      - name: Upload design regression gate report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: design-regression-gate-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: reports/design-regression-gate.json
+          if-no-files-found: warn
