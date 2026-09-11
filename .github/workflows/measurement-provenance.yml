@@ -8,6 +8,8 @@ on:
 permissions:
   contents: read
   actions: read
+  issues: write
+  pull-requests: write
 
 concurrency:
   group: measurement-provenance-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
@@ -68,7 +70,7 @@ jobs:
           runs_json="$(gh api \
             -H 'Accept: application/vnd.github+json' \
             "/repos/${GITHUB_REPOSITORY}/actions/workflows/measurement-provenance.yml/runs?status=success&per_page=20")"
-          mapfile -t run_ids < <(python -c 'import json,sys; data=json.load(sys.stdin); [print(r["id"]) for r in data.get("workflow_runs", [])]') <<< "$runs_json"
+          mapfile -t run_ids < <(python -c 'import json,sys; data=json.load(sys.stdin); [print(r["id"]) for r in data.get("workflow_runs", [])]' <<< "$runs_json")
           for run_id in "${run_ids[@]:-}"; do
             artifacts_json="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/artifacts")"
             mapfile -t artifact_ids < <(python -c 'import json,sys; data=json.load(sys.stdin); [print(a["id"]) for a in data.get("artifacts", []) if a.get("name", "").startswith("measurement-candidates-")]' <<< "$artifacts_json")
@@ -95,7 +97,7 @@ jobs:
             fi
             python -m tools.quality.baseline_comparison "${args[@]}"
           done < <(find reports/measurement-candidates -type f -name '*.measurement.json' -print0)
-      - name: Verify measurement mapping, baseline, gate and collector contracts
+      - name: Verify measurement mapping, baseline, PR summary, gate and collector contracts
         run: >-
           python -m pytest -q
           tests/python/test_telemetry_target_mapper.py
@@ -103,6 +105,7 @@ jobs:
           tests/python/test_measurement_collector.py
           tests/python/test_baseline_selector.py
           tests/python/test_baseline_comparison.py
+          tests/python/test_pr_design_summary.py
           tests/python/test_design_regression_gate.py
       - name: Upload provenance-ready measurements
         uses: actions/upload-artifact@v4
@@ -118,6 +121,47 @@ jobs:
           name: measurement-comparisons-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/measurement-comparisons/*.comparison.json
           if-no-files-found: warn
+      - name: Build Pull Request design summary
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -d '' comparisons < <(find reports/measurement-comparisons -type f -name '*.comparison.json' -print0)
+          if [ "${#comparisons[@]}" -eq 0 ]; then
+            exit 0
+          fi
+          python -m tools.quality.pr_design_summary "${comparisons[@]}" \
+            --upstream-run-id "${{ github.event.workflow_run.id }}" \
+            --output reports/pr-design-summary.md
+      - name: Upload Pull Request design summary
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr-design-summary-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: reports/pr-design-summary.md
+          if-no-files-found: warn
+      - name: Publish or update Pull Request design summary
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${PR_NUMBER:-}" ] || [ ! -f reports/pr-design-summary.md ]; then
+            echo 'No Pull Request associated with upstream telemetry run; skipping PR comment.'
+            exit 0
+          fi
+          comments="$(gh api "/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100")"
+          existing_id="$(python -c 'import json,sys; rows=json.load(sys.stdin); print(next((row["id"] for row in rows if "<!-- litd-design-telemetry-summary -->" in row.get("body", "")), ""))' <<< "$comments")"
+          body="$(cat reports/pr-design-summary.md)"
+          if [ -n "$existing_id" ]; then
+            gh api --method PATCH "/repos/${GITHUB_REPOSITORY}/issues/comments/${existing_id}" -f body="$body" >/dev/null
+            echo "Updated LITD design summary comment ${existing_id} on PR #${PR_NUMBER}."
+          else
+            gh api --method POST "/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" -f body="$body" >/dev/null
+            echo "Created LITD design summary comment on PR #${PR_NUMBER}."
+          fi
       - name: Enforce high-severity design regression gate
         shell: bash
         run: |
