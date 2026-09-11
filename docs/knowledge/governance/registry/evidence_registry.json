@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "EVD-GOVERNANCE-LOCAL-001",
+      "type": "UNIT_TEST",
+      "result": "PASS",
+      "uri": "tests/python/test_global_governance.py",
+      "observed_at": "2026-09-11T00:00:00Z",
+      "change_id": "CHG-GOVERNANCE-FOUNDATION-001"
+    }
+  ]
+}

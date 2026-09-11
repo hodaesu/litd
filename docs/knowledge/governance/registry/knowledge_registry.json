@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "KNOW-GOVERNANCE-FOUNDATION-001",
+      "domain": "project-governance",
+      "claim": "Knowledge cannot write directly to the LITD Core; changes require decision, Guardian authorization, execution and evidence.",
+      "status": "ACTIVE",
+      "sources": ["docs/BIBLIOTHEQUE_GOUVERNANCE.md"],
+      "contradictions": [],
+      "dependencies": ["docs/knowledge/guardian-rules.yml"],
+      "validated_at": "2026-09-11",
+      "revalidate_at": "2026-12-11"
+    }
+  ]
+}
