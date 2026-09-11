@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "status": "CANONICAL_DESIGN_TARGETS",
+  "sources": {
+    "balance_targets": "data/roguelike/balance_targets.json",
+    "balance_matrix": "data/roguelike/balance_matrix.json",
+    "roguelike_rules": "data/roguelike/roguelike_rules.json"
+  },
+  "targets": {
+    "expedition.duration_minutes": {"type": "window", "min": 35.0, "max": 45.0, "severity": "high", "domain": "pacing"},
+    "expedition.generated_rooms": {"type": "window", "min": 18.0, "max": 24.0, "severity": "medium", "domain": "structure"},
+    "expedition.visited_rooms": {"type": "window", "min": 12.0, "max": 17.0, "severity": "medium", "domain": "structure"},
+    "expedition.ordinary_combats": {"type": "window", "min": 4.0, "max": 6.0, "severity": "medium", "domain": "pacing"},
+    "expedition.hard_combats": {"type": "window", "min": 0.0, "max": 1.0, "severity": "medium", "domain": "pacing"},
+    "expedition.events": {"type": "window", "min": 3.0, "max": 5.0, "severity": "low", "domain": "pacing"},
+    "expedition.discoveries": {"type": "window", "min": 2.0, "max": 4.0, "severity": "low", "domain": "exploration"},
+    "expedition.meaningful_loot": {"type": "window", "min": 3.0, "max": 5.0, "severity": "low", "domain": "reward"},
+    "expedition.major_branches": {"type": "window", "min": 2.0, "max": 4.0, "severity": "low", "domain": "exploration"},
+    "expedition.extraction_windows": {"type": "window", "min": 2.0, "max": 3.0, "severity": "medium", "domain": "risk_reward"},
+    "outcomes.retreat_rate": {"type": "window", "min": 0.35, "max": 0.65, "severity": "high", "domain": "risk_reward"},
+    "outcomes.wipe_rate": {"type": "max", "max": 0.18, "severity": "high", "domain": "difficulty"},
+    "combat.normal_rounds": {"type": "window", "min": 2.0, "max": 4.5, "severity": "high", "domain": "combat"},
+    "combat.elite_rounds": {"type": "window", "min": 3.5, "max": 6.5, "severity": "high", "domain": "combat"},
+    "combat.boss_rounds": {"type": "window", "min": 5.5, "max": 10.5, "severity": "high", "domain": "combat"},
+    "campaign.normal_rounds": {"type": "window", "min": 2.0, "max": 4.4, "severity": "high", "domain": "campaign"},
+    "campaign.miniboss_rounds": {"type": "window", "min": 4.0, "max": 5.8, "severity": "high", "domain": "campaign"},
+    "campaign.boss_rounds": {"type": "window", "min": 6.0, "max": 10.0, "severity": "high", "domain": "campaign"},
+    "balance.class_win_rate_spread": {"type": "max", "max": 0.10, "severity": "high", "domain": "class_balance"},
+    "balance.class_survival_rate_spread": {"type": "max", "max": 0.12, "severity": "high", "domain": "class_balance"},
+    "loot.legendary_rate": {"type": "max", "max": 0.02, "severity": "medium", "domain": "reward"},
+    "performance.frame_time_ms_p95": {"type": "max", "max": 33.34, "severity": "high", "domain": "performance", "provisional": true}
+  },
+  "light_states": {
+    "clear": [76, 100],
+    "low": [51, 75],
+    "dark": [26, 50],
+    "critical": [1, 25]
+  },
+  "governance": {
+    "core_write_allowed": false,
+    "provisional_targets_cannot_block_release_without_explicit_approval": true,
+    "missing_metric_action": "INCONCLUSIVE"
+  }
+}
