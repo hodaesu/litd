@@ -1,0 +1,62 @@
+name: Veilleur Autonomous Discovery
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: veilleur-autonomous-discovery
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Validate autonomous Veilleur contracts
+        run: >-
+          python -m pytest -q
+          tests/python/test_autonomous_veilleur.py
+          tests/python/test_veilleur_v2_ingest.py
+          tests/python/test_library_trieur.py
+
+      - name: Run read-only autonomous discovery
+        run: >-
+          python -m tools.quality.autonomous_veilleur
+          --registry docs/knowledge/source-registry.json
+          --output reports/veilleur-discovery.json
+
+      - name: Assert hard governance boundaries
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('reports/veilleur-discovery.json').read_text(encoding='utf-8'))
+          assert report['core_write_allowed'] is False
+          assert report['automatic_library_write_allowed'] is False
+          assert report['next_stage'] == 'VEILLEUR_V2_INGRESS_AND_TRIAGE'
+          print('candidates:', report['candidate_count'])
+          print('source failures:', report['failure_count'])
+          PY
+
+      - name: Upload discovery candidates for governed ingress
+        uses: actions/upload-artifact@v4
+        with:
+          name: veilleur-discovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: reports/veilleur-discovery.json
+          if-no-files-found: error
+          retention-days: 30
