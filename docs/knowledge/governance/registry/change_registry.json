@@ -14,12 +14,12 @@
     {
       "id": "CHG-GOVERNANCE-OPERATIONS-002",
       "decision_id": "DEC-GOVERNANCE-OPERATIONS-002",
-      "status": "TESTED",
-      "history": ["LITD_CHANGE_CANDIDATE", "TESTED"],
+      "status": "APPROVED",
+      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED"],
       "test_plan": "Run transition unit tests, the global governance validator and both governance workflows.",
       "rollback_plan": "Revert the isolated operational-tool commit; registries remain valid under the foundation validator.",
       "evidence_ids": ["EVD-GOVERNANCE-OPERATIONS-LOCAL-001"],
-      "guardian": "ORANGE"
+      "guardian": "GREEN"
     }
   ]
 }
