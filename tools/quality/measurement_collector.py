@@ -10,6 +10,7 @@ from hashlib import sha256
 from pathlib import Path
 from typing import Any
 
+from tools.quality.baseline_selector import comparison_identity
 from tools.quality.design_target_evaluator import evaluate_design_targets, load_targets
 from tools.quality.telemetry_target_mapper import map_report_to_canonical_metrics, mapping_coverage
 
@@ -80,6 +81,7 @@ def collect_report(
     return {
         "report": report.name,
         "report_sha256": _file_hash(report),
+        "comparison_identity": comparison_identity(payload),
         "metrics": _flatten_numeric(payload),
         "canonical_metrics": canonical_metrics,
         "mapping_coverage": mapping_coverage(canonical_metrics, registry),
