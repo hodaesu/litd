@@ -83,3 +83,22 @@ def test_invalid_batch_attempting_library_write_fails_closed(tmp_path: Path):
             assert "library authority" in str(exc)
     finally:
         ledger.close()
+
+
+def test_tampered_restored_ledger_is_rejected_before_new_writes(tmp_path: Path):
+    ledger = EvidenceLedger(tmp_path / "ledger.sqlite3")
+    try:
+        ledger.append_decision("existing", "ACCEPTED_FOR_ROUTING", "validated")
+        before_count = ledger.connection.execute("SELECT COUNT(*) FROM decision_ledger").fetchone()[0]
+        ledger.connection.execute("DROP TRIGGER decision_ledger_no_update")
+        ledger.connection.execute("UPDATE decision_ledger SET reason = 'tampered' WHERE sequence = 1")
+        ledger.connection.commit()
+        try:
+            process_batch(batch(event()), ledger)
+            assert False, "expected restored ledger verification failure"
+        except ValueError as exc:
+            assert "restored evidence ledger chain verification failed" in str(exc)
+        after_count = ledger.connection.execute("SELECT COUNT(*) FROM decision_ledger").fetchone()[0]
+        assert after_count == before_count
+    finally:
+        ledger.close()
