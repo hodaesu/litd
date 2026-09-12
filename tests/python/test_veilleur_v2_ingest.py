@@ -19,6 +19,8 @@ def make_event():
     summary = "A verified upstream release changes renderer behaviour."
     url = "https://godotengine.org/article/example"
     return {
+        "project_id": "LITD",
+        "target_route": "LITD_LIBRARY",
         "evidence_id": "EV-001",
         "title": title,
         "summary": summary,
@@ -44,6 +46,38 @@ def test_missing_required_field_is_rejected():
     decision = validate_event(event)
     assert decision.accepted is False
     assert decision.status == "REJECTED"
+
+
+def test_cross_project_event_is_rejected_even_with_valid_hash():
+    event = make_event()
+    event["project_id"] = "COMPANY"
+    event["target_route"] = "COMPANY_LIBRARY"
+    event["content_hash"] = canonical_content_hash(
+        event["title"], event["summary"], event["source_url"], "COMPANY", "COMPANY_LIBRARY"
+    )
+    decision = validate_event(event)
+    assert decision.accepted is False
+    assert decision.reason == "project_scope_mismatch"
+
+
+def test_wrong_route_is_rejected_even_for_litd_project():
+    event = make_event()
+    event["target_route"] = "GENERAL_LIBRARY"
+    event["content_hash"] = canonical_content_hash(
+        event["title"], event["summary"], event["source_url"], "LITD", "GENERAL_LIBRARY"
+    )
+    decision = validate_event(event)
+    assert decision.accepted is False
+    assert decision.reason == "route_scope_mismatch"
+
+
+def test_hash_is_bound_to_project_and_route():
+    event = make_event()
+    litd_hash = event["content_hash"]
+    company_hash = canonical_content_hash(
+        event["title"], event["summary"], event["source_url"], "COMPANY", "COMPANY_LIBRARY"
+    )
+    assert litd_hash != company_hash
 
 
 def test_unverified_source_is_quarantined():
@@ -76,7 +110,9 @@ def test_duplicate_canonical_hash_is_blocked():
 def test_non_https_source_is_rejected():
     event = make_event()
     event["source_url"] = "http://example.com/source"
-    event["content_hash"] = canonical_content_hash(event["title"], event["summary"], event["source_url"])
+    event["content_hash"] = canonical_content_hash(
+        event["title"], event["summary"], event["source_url"], event["project_id"], event["target_route"]
+    )
     decision = validate_event(event)
     assert decision.status == "REJECTED"
     assert decision.reason == "invalid_or_unencrypted_source_url"
