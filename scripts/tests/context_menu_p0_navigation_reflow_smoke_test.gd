@@ -9,23 +9,25 @@ func _ready() -> void:
 
 func _run() -> void:
     var ui := UI_SCRIPT.new()
-    add_child(ui)
 
     var autoload_path := str(ProjectSettings.get_setting("autoload/ContextMenuUI", ""))
     _check(autoload_path.find("context_menu_ui_v3.gd") >= 0, "ContextMenuUI autoload uses v3")
 
     var wide: Dictionary = ui.call("_p0_layout_contract", Vector2(1920, 1080), 1.0, 1.0)
     _check(not bool(wide.get("compact", true)), "1080p normal scale keeps wide layout")
-    _check((wide.get("frame_size", Vector2.ZERO) as Vector2).x > 1700.0, "1080p wide frame remains usable")
+    var wide_size: Vector2 = wide.get("frame_size", Vector2.ZERO)
+    _check(wide_size.x > 1700.0, "1080p wide frame remains usable")
 
     var compact: Dictionary = ui.call("_p0_layout_contract", Vector2(960, 540), 1.4, 1.5)
     _check(bool(compact.get("compact", false)), "small window at max scale switches to compact layout")
-    var compact_size := compact.get("frame_size", Vector2.ZERO) as Vector2
+    var compact_size: Vector2 = compact.get("frame_size", Vector2.ZERO)
     _check(compact_size.x > 0.0 and compact_size.y > 0.0, "compact layout keeps a positive frame")
     _check(is_equal_approx(float(compact.get("max_ui_scale", 0.0)), 1.4), "UI scale contract reaches 140 percent")
     _check(is_equal_approx(float(compact.get("max_text_scale", 0.0)), 1.5), "text scale contract reaches 150 percent")
 
-    var probe_button: Button = ui.call("_button", "PROBE", Callable(), Vector2(120, 32))
+    var noop := func() -> void:
+        pass
+    var probe_button: Button = ui.call("_button", "PROBE", noop, Vector2(120, 32))
     _check(probe_button.focus_mode == Control.FOCUS_ALL, "menu buttons are focusable")
     _check(probe_button.custom_minimum_size.y >= 48.0, "menu buttons keep a 48 px touch target")
     probe_button.free()
