@@ -1,0 +1,28 @@
+{
+  "kind": "LITD_REPOSITORY_GOVERNANCE_POLICY",
+  "version": 2,
+  "target_branch": "main",
+  "required": {
+    "pull_request_required": true,
+    "direct_push_forbidden": true,
+    "force_push_forbidden": true,
+    "branch_deletion_forbidden": true,
+    "required_status_checks": [
+      "quality",
+      "godot-smoke",
+      "guardian",
+      "validate",
+      "remanence-smoke"
+    ],
+    "require_conversation_resolution": true,
+    "require_up_to_date_before_merge": true,
+    "bypass_allowed": false
+  },
+  "governance": {
+    "canonical_mechanism": "github_branch_ruleset",
+    "enforcement_required": "active",
+    "policy_changes_require_pull_request": true,
+    "automatic_policy_relaxation_allowed": false,
+    "core_write_allowed": false
+  }
+}

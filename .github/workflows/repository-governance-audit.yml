@@ -1,0 +1,81 @@
+name: Repository Governance Audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '41 4 * * *'
+  pull_request:
+    paths:
+      - 'docs/knowledge/repository-governance-policy.json'
+      - 'tools/quality/repository_governance_audit.py'
+      - 'tests/python/test_repository_governance_audit.py'
+      - '.github/workflows/repository-governance-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Run audit contract tests
+        run: python -m pytest -q tests/python/test_repository_governance_audit.py
+
+  live-state:
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Capture live GitHub protection state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports/rulesets-detail
+          gh api "/repos/${GITHUB_REPOSITORY}/branches/main" > reports/main-branch.json
+          gh api "/repos/${GITHUB_REPOSITORY}/rulesets" > reports/rulesets-summary.json
+          mapfile -t ruleset_ids < <(python -c 'import json,sys; rows=json.load(sys.stdin); [print(r["id"]) for r in rows if isinstance(r,dict) and r.get("id") is not None]' < reports/rulesets-summary.json)
+          for ruleset_id in "${ruleset_ids[@]:-}"; do
+            gh api "/repos/${GITHUB_REPOSITORY}/rulesets/${ruleset_id}" > "reports/rulesets-detail/${ruleset_id}.json"
+          done
+          python - <<'PY'
+          import glob, json
+          rows = []
+          for path in sorted(glob.glob('reports/rulesets-detail/*.json')):
+              with open(path, encoding='utf-8') as handle:
+                  rows.append(json.load(handle))
+          with open('reports/rulesets.json', 'w', encoding='utf-8') as handle:
+              json.dump(rows, handle, indent=2, sort_keys=True)
+              handle.write('\n')
+          PY
+      - name: Enforce canonical repository governance policy
+        run: |
+          python -m tools.quality.repository_governance_audit \
+            --policy docs/knowledge/repository-governance-policy.json \
+            --branch-json reports/main-branch.json \
+            --rulesets-json reports/rulesets.json \
+            --output reports/repository-governance-audit.json
+      - name: Upload governance audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: repository-governance-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: reports/
+          if-no-files-found: error
+          retention-days: 90
