@@ -39,8 +39,8 @@ jobs:
   animation-production-v45:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.12'
       - name: Compiler les scripts v45
@@ -51,7 +51,7 @@ jobs:
         run: python -m tools.blender.generate_animation_production_matrix_v45 --output animation_production_jobs_v45.json
       - name: Afficher le résumé de production
         run: python -m tools.blender.generate_animation_production_matrix_v45 --summary
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: animation-production-v45-matrix
           path: animation_production_jobs_v45.json

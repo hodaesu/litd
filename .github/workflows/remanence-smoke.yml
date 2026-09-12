@@ -17,7 +17,7 @@ jobs:
     container:
       image: barichello/godot-ci:4.7.2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Import strict du projet
         run: godot --headless --path . --import --quit
       - name: Rémanence des Veilleurs

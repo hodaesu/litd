@@ -1,0 +1,26 @@
+name: GitHub Actions Pinning Guard
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'tools/qa/github_actions_pinning_audit.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pinning-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Verify changed workflows use immutable SHAs
+        run: python tools/qa/github_actions_pinning_audit.py --base origin/${{ github.base_ref || 'main' }} --head HEAD

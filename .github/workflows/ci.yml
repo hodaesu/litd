@@ -17,8 +17,8 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.12'
           cache: pip
@@ -33,8 +33,8 @@ jobs:
     if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.12'
           cache: pip
@@ -186,7 +186,7 @@ jobs:
         run: python -m tools.blender.generate_dismemberment_jobs --output reports/dismemberment-jobs.json
       - name: Simulation combat v2, économie et cycles NG+
         run: python -m tools.qa.combat_economy_sim_v2
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: qa-reports
@@ -197,7 +197,7 @@ jobs:
     container:
       image: barichello/godot-ci:4.7.2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       # Le wrapper lance godot --headless et couvre notamment res://scripts/core/smoke_test.gd via la scène core_smoke.tscn, puis les parcours critiques supplémentaires.
       - name: Compilation stricte et parcours critique Godot
         run: bash tools/build/run_godot_ci.sh
