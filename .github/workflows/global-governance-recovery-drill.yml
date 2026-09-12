@@ -27,7 +27,7 @@ jobs:
       - name: Test the recovery drill
         run: python -m pytest -q tests/python/test_global_governance_recovery_drill.py
       - name: Execute isolated recovery tabletop
-        run: python tools/quality/run_global_governance_recovery_drill.py --source-sha "$GITHUB_SHA"
+        run: python -m tools.quality.run_global_governance_recovery_drill --source-sha "$GITHUB_SHA"
       - name: Assert honest measurement boundary
         run: |
           python - <<'PY'
