@@ -59,10 +59,10 @@ jobs:
     name: Content contracts and production index
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.12'
       - name: Run production contract gate
@@ -76,7 +76,7 @@ jobs:
           fi
       - name: Upload production report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: veilleurs-production-contract-report
           path: build/automation/
@@ -88,7 +88,7 @@ jobs:
     container:
       image: barichello/godot-ci:4.7.2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Prepare logs
         shell: bash
         run: mkdir -p build/automation
@@ -163,7 +163,7 @@ jobs:
           fi
       - name: Upload Godot logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: veilleurs-godot-quick-gate
           path: build/automation/
@@ -175,7 +175,7 @@ jobs:
     container:
       image: barichello/godot-ci:4.7.2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Configure Android exporter
         shell: bash
         env:
@@ -243,14 +243,14 @@ jobs:
             exit 1
           fi
       - name: Publish Android debug APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: veilleurs-android-debug-apk
           path: build/android/LightInTheDark.apk
           if-no-files-found: error
       - name: Publish Android export log
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: veilleurs-android-export-log
           path: build/automation/android-export.log
@@ -264,7 +264,7 @@ jobs:
     container:
       image: barichello/godot-ci:4.7.2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Run complete repository Godot suite
         shell: bash
         run: bash tools/build/run_godot_ci.sh
