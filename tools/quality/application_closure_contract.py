@@ -2,8 +2,8 @@
 """Close an authorized LITD change only after post-merge measurement and provenance.
 
 The contract binds the governed application authorization to the exact merged
-source commit, the exact post-merge measurement provenance, and the exact signed
-Sigstore checkpoint. It never merges, rolls back, writes Core, or changes targets.
+source commit, post-merge measurement provenance, signed Sigstore checkpoint and
+LITD project boundary. It never merges, rolls back, writes Core, or changes targets.
 """
 from __future__ import annotations
 
@@ -12,6 +12,8 @@ import json
 from hashlib import sha256
 from pathlib import Path
 from typing import Any
+
+from tools.quality.veilleur_v2_ingest import PROJECT_ID, TARGET_ROUTE
 
 EXPECTED_ISSUER = "https://token.actions.githubusercontent.com"
 
@@ -42,6 +44,10 @@ def evaluate(decision: dict[str, Any], evidence: dict[str, Any]) -> dict[str, An
     _verify_embedded_hash(decision, "application_decision_hash")
     if decision.get("kind") != "LITD_APPLICATION_DECISION_RECEIPT":
         raise ValueError("invalid application decision receipt kind")
+    if decision.get("project_id") != PROJECT_ID:
+        raise ValueError("application decision project scope mismatch")
+    if decision.get("target_route") != TARGET_ROUTE:
+        raise ValueError("application decision route scope mismatch")
     if decision.get("outcome") != "APPLICATION_AUTHORIZED_PENDING_SEPARATE_MERGE":
         raise ValueError("application was not authorized for separate merge")
     if decision.get("merge_authorized") is not True:
@@ -61,7 +67,8 @@ def evaluate(decision: dict[str, Any], evidence: dict[str, Any]) -> dict[str, An
         "merged_commit_sha", "merge_evidence_refs", "post_merge_assessment",
         "measurement_provenance_run_id", "measurement_source_commit_sha",
         "measurement_artifact_hashes", "checkpoint_source_commit_sha",
-        "checkpoint_source_run_id", "checkpoint_hash", "sigstore_bundle_hash",
+        "checkpoint_source_run_id", "checkpoint_hash", "checkpoint_project_id",
+        "checkpoint_target_route", "sigstore_bundle_hash",
         "checkpoint_signature_verified", "checkpoint_transparency_log_verified",
         "checkpoint_workflow_identity", "checkpoint_oidc_issuer", "checkpoint_evidence_refs",
     }
@@ -107,6 +114,10 @@ def evaluate(decision: dict[str, Any], evidence: dict[str, Any]) -> dict[str, An
 
     expected_identity = f"https://github.com/{repository}/.github/workflows/provenance-checkpoint.yml@refs/heads/main"
     blockers: list[str] = []
+    if evidence["checkpoint_project_id"] != PROJECT_ID:
+        blockers.append("checkpoint_project_scope_mismatch")
+    if evidence["checkpoint_target_route"] != TARGET_ROUTE:
+        blockers.append("checkpoint_route_scope_mismatch")
     if authorized_source != merged_source:
         blockers.append("merged_source_not_authorized_implementation")
     if measured_commit != merged_commit:
@@ -129,6 +140,8 @@ def evaluate(decision: dict[str, Any], evidence: dict[str, Any]) -> dict[str, An
     status = "APPLIED_MEASURED_PROVENANCE_VERIFIED" if not blockers else "POST_MERGE_CLOSURE_BLOCKED"
     result = {
         "kind": "LITD_APPLICATION_CLOSURE_RECEIPT",
+        "project_id": PROJECT_ID,
+        "target_route": TARGET_ROUTE,
         "status": status,
         "source_application_decision_hash": decision["application_decision_hash"],
         "source_candidate_hash": decision.get("source_candidate_hash"),
@@ -142,6 +155,8 @@ def evaluate(decision: dict[str, Any], evidence: dict[str, Any]) -> dict[str, An
         "checkpoint_source_commit_sha": checkpoint_commit,
         "checkpoint_source_run_id": evidence["checkpoint_source_run_id"],
         "checkpoint_hash": evidence["checkpoint_hash"],
+        "checkpoint_project_id": evidence["checkpoint_project_id"],
+        "checkpoint_target_route": evidence["checkpoint_target_route"],
         "sigstore_bundle_hash": evidence["sigstore_bundle_hash"],
         "checkpoint_signature_verified": evidence["checkpoint_signature_verified"],
         "checkpoint_transparency_log_verified": evidence["checkpoint_transparency_log_verified"],
