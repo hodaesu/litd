@@ -81,8 +81,9 @@ def parse_feed(payload: bytes, source: dict[str, Any], discovered_at: str) -> li
 
 def _event(source: dict[str, Any], title: str, summary: str, link: str, published_at: str, discovered_at: str) -> dict[str, Any]:
     parsed = urlparse(link)
-    if parsed.scheme != "https":
-        raise ValueError("feed item link is not HTTPS")
+    allowed_item_hosts = set(source.get("allowed_item_hosts", []))
+    if parsed.scheme != "https" or parsed.hostname not in allowed_item_hosts:
+        raise ValueError("feed item link violates allowed host policy")
     stable = sha256(f"{source['source_id']}\n{link}\n{title}".encode("utf-8")).hexdigest()[:24]
     event = {
         "evidence_id": f"veilleur:{source['source_id']}:{stable}",
@@ -119,11 +120,15 @@ def run(registry: dict[str, Any], *, fetcher=fetch_bytes, now: datetime | None =
     discovered_at = (now or datetime.now(timezone.utc)).astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
     candidates: list[dict[str, Any]] = []
     failures: list[dict[str, str]] = []
+    successful_source_count = 0
+    sources = enabled_sources(registry)
 
-    for source in enabled_sources(registry):
+    for source in sources:
         try:
             payload = fetcher(source, timeout=int(policy["timeout_seconds"]), max_bytes=int(policy["max_response_bytes"]))
-            for event in parse_feed(payload, source, discovered_at):
+            events = parse_feed(payload, source, discovered_at)
+            successful_source_count += 1
+            for event in events:
                 decision = validate_event(event)
                 if decision.accepted:
                     candidates.append(event)
@@ -133,12 +138,15 @@ def run(registry: dict[str, Any], *, fetcher=fetch_bytes, now: datetime | None =
             failures.append({"source_id": source["source_id"], "reason": f"fetch_or_parse:{type(exc).__name__}:{exc}"})
 
     candidates.sort(key=lambda row: (row["published_at"], row["evidence_id"]), reverse=True)
+    status = "FAILED" if failures and successful_source_count == 0 else ("PARTIAL" if failures else "OK")
     return {
         "kind": "LITD_VEILLEUR_DISCOVERY_BATCH",
-        "status": "OK" if not failures else "PARTIAL",
+        "status": status,
         "generated_at": discovered_at,
         "candidate_count": len(candidates),
         "failure_count": len(failures),
+        "successful_source_count": successful_source_count,
+        "enabled_source_count": len(sources),
         "candidates": candidates,
         "failures": failures,
         "core_write_allowed": False,
