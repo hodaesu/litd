@@ -1,0 +1,45 @@
+name: Guardian Change Gate Contract
+
+on:
+  pull_request:
+    paths:
+      - 'tools/quality/guardian_change_gate.py'
+      - 'tests/python/test_guardian_change_gate.py'
+      - '.github/workflows/guardian-change-gate-contract.yml'
+      - 'tools/quality/veilleur_review_resolution.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guardian-change-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Run Guardian change gate tests
+        run: python -m pytest -q tests/python/test_guardian_change_gate.py tests/python/test_veilleur_review_resolution.py
+      - name: Assert hard Guardian boundaries
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('tools/quality/guardian_change_gate.py').read_text(encoding='utf-8')
+          for invariant in (
+              'READY_FOR_BOUNDED_IMPLEMENTATION_PR',
+              'tests_must_pass_before_application',
+              'rollback_evidence_required',
+              '"core_write_allowed": False',
+              '"automatic_code_write_allowed": False',
+              '"automatic_merge_allowed": False',
+              '"automatic_target_change_allowed": False',
+          ):
+              assert invariant in text, invariant
+          print('Guardian change gate invariants OK')
+          PY
