@@ -52,6 +52,19 @@
       "decision": "Add a dry-run-first, fail-closed and idempotent EXPERIMENTAL-to-ACTIVE promotion tool with an attributable review record and no Core write authority.",
       "human_approval": true,
       "affected_paths": ["tools/quality/knowledge_promotion.py", "tests/python/test_knowledge_promotion.py", "docs/knowledge/governance"]
+    },
+    {
+      "id": "DEC-VEILLEUR-AUTONOMY-001",
+      "status": "APPROVED",
+      "problem": "The Veilleur needs scheduled, evidence-preserving discovery and conservative contradiction review without gaining authority to modify governed Knowledge or Core state.",
+      "knowledge_ids": ["KNOW-VEILLEUR-AUTONOMY-001"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Keep discovery entirely manual", "Allow feeds to create Knowledge or Core changes automatically", "Deploy the target database and worker architecture before validating repository contracts"],
+      "contradictor_findings": ["Trusted feed transport does not make arbitrary linked domains trustworthy.", "A total source outage must be blocking rather than reported as a partial success.", "A restored ledger must be verified before any new write, and its archive extraction must be path- and size-constrained."],
+      "risks": ["GitHub artifact retention does not provide production-grade durable state.", "Source coverage is limited and long-term precision has not yet been measured."],
+      "decision": "Operate the scheduled Veilleur as a fail-closed, review-only repository prototype; preserve explicit prohibitions on automatic Library, obsolescence, Core and Core-change-candidate writes.",
+      "human_approval": true,
+      "affected_paths": [".github/workflows/veilleur-autonomous-discovery.yml", "docs/knowledge/source-registry.json", "tools/quality/autonomous_veilleur.py", "tools/quality/source_registry.py", "tools/quality/veilleur_triage.py", "tools/quality/veilleur_library_review.py", "tests/python/test_veilleur_operational_pipeline.py", "tests/python/test_veilleur_library_review.py"]
     }
   ]
 }

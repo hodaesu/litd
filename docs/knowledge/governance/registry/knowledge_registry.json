@@ -44,6 +44,17 @@
       "dependencies": ["tools/quality/knowledge_intake.py", "tools/quality/global_governance.py"],
       "validated_at": "2026-09-11",
       "revalidate_at": "2026-10-11"
+    },
+    {
+      "id": "KNOW-VEILLEUR-AUTONOMY-001",
+      "domain": "knowledge-governance",
+      "claim": "The repository autonomous Veilleur admits only allowlisted source and item hosts, fails closed on total source outage or ledger corruption, and produces review artifacts without automatic writes to the Library or Core.",
+      "status": "ACTIVE",
+      "sources": [".github/workflows/veilleur-autonomous-discovery.yml", "docs/knowledge/source-registry.json", "https://github.com/hodaesu/litd/pull/303"],
+      "contradictions": ["The GitHub Actions and SQLite implementation is an artifact-backed prototype, not yet the durable Supabase queue and worker target architecture.", "Successful repository checks validate safety contracts but do not yet measure long-term discovery quality or false-positive rates."],
+      "dependencies": ["tools/quality/autonomous_veilleur.py", "tools/quality/veilleur_triage.py", "tools/quality/veilleur_library_review.py"],
+      "validated_at": "2026-09-12",
+      "revalidate_at": "2026-10-12"
     }
   ]
 }

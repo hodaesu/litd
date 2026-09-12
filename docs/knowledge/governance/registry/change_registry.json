@@ -40,6 +40,16 @@
       "rollback_plan": "Revert the isolated promotion commit; existing EXPERIMENTAL entries and intake remain unchanged.",
       "evidence_ids": ["EVD-GOVERNANCE-PROMOTION-LOCAL-001", "EVD-GOVERNANCE-PROMOTION-MERGE-001", "EVD-GOVERNANCE-PROMOTION-MAIN-CI-001"],
       "guardian": "GREEN"
+    },
+    {
+      "id": "CHG-VEILLEUR-AUTONOMY-001",
+      "decision_id": "DEC-VEILLEUR-AUTONOMY-001",
+      "status": "MEASURED",
+      "history": ["LITD_CHANGE_CANDIDATE", "TESTED", "APPROVED", "APPLIED", "MEASURED"],
+      "test_plan": "Run the Veilleur operational and governed-review suites plus CI, Knowledge Governance, Knowledge Guardian and Remanence Smoke on the merged main commit.",
+      "rollback_plan": "Revert merge commit 7ca8b3e6c15f3ea0425a0797f3e2ae61151096ad; no automatic Library, Core or gameplay write is authorized.",
+      "evidence_ids": ["EVD-VEILLEUR-AUTONOMY-TESTS-001", "EVD-VEILLEUR-AUTONOMY-MERGE-001", "EVD-VEILLEUR-AUTONOMY-MAIN-CI-001", "EVD-VEILLEUR-AUTONOMY-GUARDIAN-001"],
+      "guardian": "GREEN"
     }
   ]
 }
