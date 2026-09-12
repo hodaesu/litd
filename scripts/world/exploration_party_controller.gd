@@ -16,6 +16,8 @@ signal movement_state_changed(is_moving: bool, is_running: bool)
 @export var interaction_distance := 2.4
 @export var interaction_forward_bias := 2.2
 @export var interaction_distance_bias := 1.0
+@export var interaction_immediate_bias := 0.35
+@export var interaction_inspect_bias := -0.20
 @export var interaction_switch_margin := 0.18
 @export var interaction_min_alignment := 0.20
 @export var walk_step_interval := 0.48
@@ -147,17 +149,35 @@ func _collect_interaction_candidates() -> Array[Dictionary]:
         var alignment := forward.dot(direction)
         if alignment < interaction_min_alignment:
             continue
+        var descriptor := EnvironmentInteractionContract.describe(target, self)
+        var salience := str(descriptor.get("salience", EnvironmentInteractionContract.SALIENCE_CONTEXTUAL))
         candidates.append({
             "target": target,
+            "descriptor": descriptor,
+            "salience": salience,
             "distance": distance,
             "alignment": alignment,
-            "score": _interaction_candidate_score(distance, alignment),
+            "score": _interaction_candidate_score(distance, alignment, salience),
         })
     return candidates
 
-func _interaction_candidate_score(distance: float, alignment: float) -> float:
+func _interaction_candidate_score(
+    distance: float,
+    alignment: float,
+    salience: String = EnvironmentInteractionContract.SALIENCE_CONTEXTUAL
+) -> float:
     var normalized_distance := clampf(distance / maxf(interaction_distance, 0.001), 0.0, 1.0)
-    return alignment * interaction_forward_bias + (1.0 - normalized_distance) * interaction_distance_bias
+    var base_score := alignment * interaction_forward_bias + (1.0 - normalized_distance) * interaction_distance_bias
+    return base_score + _interaction_salience_bias(salience)
+
+func _interaction_salience_bias(salience: String) -> float:
+    match EnvironmentInteractionContract.normalize_salience(salience):
+        EnvironmentInteractionContract.SALIENCE_IMMEDIATE:
+            return interaction_immediate_bias
+        EnvironmentInteractionContract.SALIENCE_INSPECT:
+            return interaction_inspect_bias
+        _:
+            return 0.0
 
 func _choose_interaction_candidate(candidates: Array[Dictionary]) -> Object:
     if candidates.is_empty():
