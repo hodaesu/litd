@@ -5,7 +5,9 @@ const BALANCE_PATH := "res://data/veilleurs/vs001_balance.json"
 const CAPTURE_WOUNDS_PATH := "res://data/capture_wound_rules.json"
 
 static func load_balance() -> Dictionary:
-    return _load_json(BALANCE_PATH)
+    var balance: Dictionary = _load_json(BALANCE_PATH)
+    _inject_legacy_recruitment_aliases(balance)
+    return balance
 
 static func load_capture_wounds() -> Dictionary:
     return _load_json(CAPTURE_WOUNDS_PATH)
@@ -136,6 +138,38 @@ static func base_seed_gold() -> int:
 static func ghoul_profile(profile_id: String) -> Dictionary:
     var balance: Dictionary = load_balance()
     return balance.get("ghoul_profiles", {}).get(profile_id, {})
+
+static func _inject_legacy_recruitment_aliases(balance: Dictionary) -> void:
+    var recruitment: Dictionary = balance.get("recruitment_s6", {})
+    var actions: Dictionary = recruitment.get("actions", {})
+    var aliases := {
+        "nayra_lower_guard": "marec_lower_guard",
+        "tarek_block_exit": "mathilde_block_exit",
+        "aisha_diagnose": "aurelien_diagnose",
+        "aisha_treat": "aurelien_treat",
+        "idris_deescalate": "anouk_deescalate",
+    }
+    for legacy_id: String in aliases:
+        var canonical_id := str(aliases[legacy_id])
+        if not actions.has(legacy_id) and actions.has(canonical_id):
+            actions[legacy_id] = (actions[canonical_id] as Dictionary).duplicate(true)
+    recruitment["actions"] = actions
+
+    var check: Dictionary = recruitment.get("capture_check", {})
+    var actor_bonus: Dictionary = check.get("actor_bonus", {})
+    var actor_aliases := {
+        "nayra": "Marec",
+        "tarek": "Mathilde",
+        "aisha": "Aurélien",
+        "idris": "Anouk",
+    }
+    for legacy_actor: String in actor_aliases:
+        var canonical_actor := str(actor_aliases[legacy_actor])
+        if not actor_bonus.has(legacy_actor) and actor_bonus.has(canonical_actor):
+            actor_bonus[legacy_actor] = actor_bonus[canonical_actor]
+    check["actor_bonus"] = actor_bonus
+    recruitment["capture_check"] = check
+    balance["recruitment_s6"] = recruitment
 
 static func _formula_multiplier(formula: String, fallback: float) -> float:
     var star_index := formula.find("*")
