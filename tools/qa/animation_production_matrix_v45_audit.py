@@ -96,7 +96,6 @@ def audit() -> list[str]:
     if reuse < minimum_reuse:
         errors.append(f"reuse ratio too low: {reuse:.3f} < {minimum_reuse:.3f}")
 
-    # Canonical P2 signature backlog: production slots only, never invented lore names.
     signature_keys: set[str] = set()
     for signature in signatures:
         key = str(signature.get("canonical_clip_key", ""))
@@ -133,7 +132,7 @@ def audit() -> list[str]:
         errors.append("total master clips with signatures mismatch")
 
     roster = contract.get("canonical_signature_roster", {})
-    expected_heroes = {"nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"}
+    expected_heroes = {"Mathilde", "Marec", "Anouk", "Aurélien"}
     actual_heroes = {str(item.get("id", "")) for item in roster.get("veilleurs", [])}
     if actual_heroes != expected_heroes:
         errors.append(f"canonical Veilleur roster mismatch: {sorted(actual_heroes)}")
