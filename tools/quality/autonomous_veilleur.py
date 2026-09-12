@@ -2,7 +2,8 @@
 """Autonomous read-only discovery engine for VEILLEUR V2.
 
 It fetches only registry-approved HTTPS feeds, emits ingress-compatible evidence
-candidates, and never writes to the LITD library or Core.
+candidates explicitly bound to the LITD project, and never writes to the LITD
+library or Core.
 """
 
 from __future__ import annotations
@@ -20,7 +21,12 @@ from typing import Any
 from urllib.parse import urlparse
 
 from tools.quality.source_registry import enabled_sources, load_registry
-from tools.quality.veilleur_v2_ingest import canonical_content_hash, validate_event
+from tools.quality.veilleur_v2_ingest import (
+    PROJECT_ID,
+    TARGET_ROUTE,
+    canonical_content_hash,
+    validate_event,
+)
 
 USER_AGENT = "LITD-Veilleur/1.0 (+https://github.com/hodaesu/litd)"
 TAG_RE = re.compile(r"<[^>]+>")
@@ -86,6 +92,8 @@ def _event(source: dict[str, Any], title: str, summary: str, link: str, publishe
         raise ValueError("feed item link violates allowed host policy")
     stable = sha256(f"{source['source_id']}\n{link}\n{title}".encode("utf-8")).hexdigest()[:24]
     event = {
+        "project_id": PROJECT_ID,
+        "target_route": TARGET_ROUTE,
         "evidence_id": f"veilleur:{source['source_id']}:{stable}",
         "title": title[:500],
         "summary": summary[:5000],
@@ -96,7 +104,13 @@ def _event(source: dict[str, Any], title: str, summary: str, link: str, publishe
         "published_at": published_at,
         "domain_hints": source["domain_hints"],
     }
-    event["content_hash"] = canonical_content_hash(event["title"], event["summary"], event["source_url"])
+    event["content_hash"] = canonical_content_hash(
+        event["title"],
+        event["summary"],
+        event["source_url"],
+        event["project_id"],
+        event["target_route"],
+    )
     return event
 
 
@@ -141,6 +155,8 @@ def run(registry: dict[str, Any], *, fetcher=fetch_bytes, now: datetime | None =
     status = "FAILED" if failures and successful_source_count == 0 else ("PARTIAL" if failures else "OK")
     return {
         "kind": "LITD_VEILLEUR_DISCOVERY_BATCH",
+        "project_id": PROJECT_ID,
+        "target_route": TARGET_ROUTE,
         "status": status,
         "generated_at": discovered_at,
         "candidate_count": len(candidates),
