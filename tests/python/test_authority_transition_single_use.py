@@ -6,8 +6,6 @@ from tools.quality.application_decision_gate import _hash as application_hash
 from tools.quality.authority_transition_single_use import (
     evaluate_application_once,
     evaluate_bounded_once,
-    evaluate_closure_once,
-    register_application_decision_for_closure,
     register_guardian_gate,
     register_implementation_evaluation,
 )
@@ -106,31 +104,6 @@ def application_decision(source: dict) -> dict:
     }
 
 
-def closure_evidence(decision: dict) -> dict:
-    return {
-        "application_decision_hash": decision["application_decision_hash"],
-        "repository": "hodaesu/litd",
-        "merged_source_commit_sha": decision["implementation_commit_sha"],
-        "merged_commit_sha": "f" * 40,
-        "merge_evidence_refs": ["pr:999", "merge:f"],
-        "post_merge_assessment": "NO_BLOCKING_REGRESSION",
-        "measurement_provenance_run_id": 123,
-        "measurement_source_commit_sha": "f" * 40,
-        "measurement_artifact_hashes": ["1" * 64],
-        "checkpoint_source_commit_sha": "f" * 40,
-        "checkpoint_source_run_id": 123,
-        "checkpoint_hash": "2" * 64,
-        "checkpoint_project_id": "LITD",
-        "checkpoint_target_route": "LITD_LIBRARY",
-        "sigstore_bundle_hash": "3" * 64,
-        "checkpoint_signature_verified": True,
-        "checkpoint_transparency_log_verified": True,
-        "checkpoint_workflow_identity": "https://github.com/hodaesu/litd/.github/workflows/provenance-checkpoint.yml@refs/heads/main",
-        "checkpoint_oidc_issuer": "https://token.actions.githubusercontent.com",
-        "checkpoint_evidence_refs": ["artifact:signed-checkpoint", "rekor:123"],
-    }
-
-
 def test_ready_bounded_evaluation_consumes_guardian_gate_once(tmp_path: Path):
     registry = ReceiptConsumptionRegistry(tmp_path / "registry.sqlite3")
     source = gate()
@@ -194,6 +167,8 @@ def test_application_decision_consumes_evaluation_once(tmp_path: Path):
         )
         assert first["outcome"] == "APPLICATION_AUTHORIZED_PENDING_SEPARATE_MERGE"
         assert first["single_use_consumption"]["status"] == "CONSUMED_ONCE"
+        assert first["next_single_use_consumer_required"] == "MERGE_EXECUTION"
+        assert first["merge_execution_single_use_verified"] is False
         assert registry.consumption_count(source["evaluation_hash"]) == 1
         second = application_decision(source)
         second["decision"] = "REQUEST_MORE_EVIDENCE"
@@ -214,77 +189,5 @@ def test_stale_application_evaluation_is_not_consumed(tmp_path: Path):
                 source, application_decision(source), registry, current_context_hash="8" * 64
             )
         assert registry.consumption_count(source["evaluation_hash"]) == 0
-    finally:
-        registry.close()
-
-
-def test_successful_closure_consumes_decision_but_explicitly_does_not_prove_single_merge(tmp_path: Path):
-    registry = ReceiptConsumptionRegistry(tmp_path / "registry.sqlite3")
-    source_evaluation = evaluation()
-    try:
-        register_implementation_evaluation(registry, source_evaluation, context_hash=CONTEXT_HASH)
-        decision = evaluate_application_once(
-            source_evaluation,
-            application_decision(source_evaluation),
-            registry,
-            current_context_hash=CONTEXT_HASH,
-        )
-        register_application_decision_for_closure(registry, decision, context_hash=CONTEXT_HASH)
-        result = evaluate_closure_once(
-            decision,
-            closure_evidence(decision),
-            registry,
-            current_context_hash=CONTEXT_HASH,
-            actor="closure-reviewer",
-        )
-        assert result["status"] == "APPLIED_MEASURED_PROVENANCE_VERIFIED"
-        assert result["single_use_consumption"]["status"] == "CONSUMED_ONCE"
-        assert result["merge_execution_single_use_verified"] is False
-        assert result["merge_execution_single_use_gap"] == "SEPARATE_MERGE_EXECUTION_CONSUMER_REQUIRED"
-        with pytest.raises(ValueError, match="replay_detected"):
-            evaluate_closure_once(
-                decision,
-                closure_evidence(decision),
-                registry,
-                current_context_hash=CONTEXT_HASH,
-                actor="closure-reviewer-2",
-            )
-    finally:
-        registry.close()
-
-
-def test_blocked_closure_does_not_burn_application_decision(tmp_path: Path):
-    registry = ReceiptConsumptionRegistry(tmp_path / "registry.sqlite3")
-    source_evaluation = evaluation()
-    try:
-        register_implementation_evaluation(registry, source_evaluation, context_hash=CONTEXT_HASH)
-        decision = evaluate_application_once(
-            source_evaluation,
-            application_decision(source_evaluation),
-            registry,
-            current_context_hash=CONTEXT_HASH,
-        )
-        register_application_decision_for_closure(registry, decision, context_hash=CONTEXT_HASH)
-        blocked_evidence = closure_evidence(decision)
-        blocked_evidence["post_merge_assessment"] = "BLOCKING_REGRESSION"
-        blocked = evaluate_closure_once(
-            decision,
-            blocked_evidence,
-            registry,
-            current_context_hash=CONTEXT_HASH,
-            actor="closure-reviewer",
-        )
-        assert blocked["status"] == "POST_MERGE_CLOSURE_BLOCKED"
-        assert "single_use_consumption" not in blocked
-        assert registry.consumption_count(decision["application_decision_hash"]) == 0
-        fixed = evaluate_closure_once(
-            decision,
-            closure_evidence(decision),
-            registry,
-            current_context_hash=CONTEXT_HASH,
-            actor="closure-reviewer",
-        )
-        assert fixed["status"] == "APPLIED_MEASURED_PROVENANCE_VERIFIED"
-        assert registry.consumption_count(decision["application_decision_hash"]) == 1
     finally:
         registry.close()
