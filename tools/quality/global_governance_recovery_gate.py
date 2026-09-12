@@ -58,7 +58,7 @@ def _unique_strings(value: Any, field: str) -> list[str]:
 
 def evaluate(report: dict[str, Any]) -> dict[str, Any]:
     required = {
-        "kind", "incident_id", "severity", "detected_at", "containment_started_at",
+        "kind", "evidence_scope", "incident_id", "severity", "detected_at", "containment_started_at",
         "recovery_verified_at", "source_commit_sha", "trusted_baseline_commit_sha",
         "compromised_components", "affected_projects", "global_automation_frozen",
         "all_mutation_credentials_revoked", "replacement_credentials_isolated",
@@ -70,6 +70,8 @@ def evaluate(report: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("missing recovery fields:" + ",".join(missing))
     if report["kind"] != "GLOBAL_GOVERNANCE_COMPROMISE_RECOVERY":
         raise ValueError("invalid recovery report kind")
+    if report["evidence_scope"] not in {"REAL", "ISOLATED_SYNTHETIC"}:
+        raise ValueError("evidence_scope must be REAL or ISOLATED_SYNTHETIC")
     if report["severity"] != "CRITICAL":
         raise ValueError("total compromise recovery requires CRITICAL severity")
     if not isinstance(report["incident_id"], str) or not report["incident_id"].strip():
@@ -149,10 +151,16 @@ def evaluate(report: dict[str, Any]) -> dict[str, Any]:
         if row.get("cross_project_isolation_verified") is not True:
             blockers.append(f"cross_project_isolation_not_verified:{project}")
 
-    status = "READY_FOR_SEPARATE_HUMAN_RESUME_DECISION" if not blockers else "RECOVERY_BLOCKED"
+    if blockers:
+        status = "RECOVERY_BLOCKED"
+    elif report["evidence_scope"] == "ISOLATED_SYNTHETIC":
+        status = "TABLETOP_MEASURED"
+    else:
+        status = "READY_FOR_SEPARATE_HUMAN_RESUME_DECISION"
     result = {
         "kind": "GLOBAL_GOVERNANCE_RECOVERY_GATE_RECEIPT",
         "incident_id": report["incident_id"].strip(),
+        "evidence_scope": report["evidence_scope"],
         "status": status,
         "source_commit_sha": report["source_commit_sha"],
         "trusted_baseline_commit_sha": report["trusted_baseline_commit_sha"],
@@ -184,7 +192,7 @@ def main() -> int:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"status": result["status"], "blockers": result["blockers"]}, sort_keys=True))
-    return 0 if result["status"] == "READY_FOR_SEPARATE_HUMAN_RESUME_DECISION" else 2
+    return 0 if result["status"] in {"READY_FOR_SEPARATE_HUMAN_RESUME_DECISION", "TABLETOP_MEASURED"} else 2
 
 
 if __name__ == "__main__":
