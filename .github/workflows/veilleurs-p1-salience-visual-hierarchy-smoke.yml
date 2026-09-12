@@ -1,0 +1,27 @@
+name: Veilleurs P1 Salience Visual Hierarchy Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/world/interaction_target_indicator.gd'
+      - 'scripts/world/exploration_party_controller.gd'
+      - 'scripts/world/ashlands_hud.gd'
+      - 'scripts/tests/interaction_salience_visual_hierarchy_smoke_test.gd'
+      - 'scenes/tests/interaction_salience_visual_hierarchy_smoke.tscn'
+      - '.github/workflows/veilleurs-p1-salience-visual-hierarchy-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  salience-visual-hierarchy:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Strict Godot import
+        run: godot --headless --path . --import --quit
+      - name: Interaction salience visual hierarchy smoke
+        run: timeout 60s godot --headless --path . res://scenes/tests/interaction_salience_visual_hierarchy_smoke.tscn

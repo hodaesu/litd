@@ -215,7 +215,8 @@ func _set_interaction_target(target: Object, descriptor: Dictionary) -> void:
         if target == null:
             _interaction_indicator.clear_target()
         else:
-            _interaction_indicator.set_target(target)
+            var salience := str(descriptor.get("salience", EnvironmentInteractionContract.SALIENCE_CONTEXTUAL))
+            _interaction_indicator.set_target(target, salience)
     interaction_target_changed.emit(_interaction_descriptor.duplicate(true))
 
 func _try_interact() -> Dictionary:
