@@ -12,6 +12,10 @@ signal movement_state_changed(is_moving: bool, is_running: bool)
 @export var acceleration := 18.0
 @export var gravity := 24.0
 @export var interaction_distance := 2.4
+@export var interaction_forward_bias := 2.2
+@export var interaction_distance_bias := 1.0
+@export var interaction_switch_margin := 0.18
+@export var interaction_min_alignment := 0.20
 @export var walk_step_interval := 0.48
 @export var run_step_interval := 0.34
 
@@ -104,18 +108,69 @@ func _footstep_cue() -> String:
     return "footstep_ash"
 
 func _probe_interaction_target() -> Object:
+    var candidates := _collect_interaction_candidates()
+    return _choose_interaction_candidate(candidates)
+
+func _collect_interaction_candidates() -> Array[Dictionary]:
+    var shape := SphereShape3D.new()
+    shape.radius = interaction_distance
     var origin := global_position + Vector3.UP * 1.0
-    var forward := -global_transform.basis.z.normalized()
-    var query := PhysicsRayQueryParameters3D.create(origin, origin + forward * interaction_distance)
+    var query := PhysicsShapeQueryParameters3D.new()
+    query.shape = shape
+    query.transform = Transform3D(Basis.IDENTITY, origin)
     query.collide_with_areas = true
     query.collide_with_bodies = true
-    var hit := get_world_3d().direct_space_state.intersect_ray(query)
-    if hit.is_empty():
+    query.exclude = [get_rid()]
+
+    var forward := -global_transform.basis.z.normalized()
+    var raw_hits := get_world_3d().direct_space_state.intersect_shape(query, 24)
+    var candidates: Array[Dictionary] = []
+    for hit: Dictionary in raw_hits:
+        var target := hit.get("collider") as Object
+        if target == null or not EnvironmentInteractionContract.supports(target):
+            continue
+        if not target is Node3D:
+            continue
+        var target_node := target as Node3D
+        var offset := target_node.global_position - global_position
+        offset.y = 0.0
+        var distance := offset.length()
+        if distance > interaction_distance or distance <= 0.001:
+            continue
+        var direction := offset / distance
+        var alignment := forward.dot(direction)
+        if alignment < interaction_min_alignment:
+            continue
+        candidates.append({
+            "target": target,
+            "distance": distance,
+            "alignment": alignment,
+            "score": _interaction_candidate_score(distance, alignment),
+        })
+    return candidates
+
+func _interaction_candidate_score(distance: float, alignment: float) -> float:
+    var normalized_distance := clampf(distance / maxf(interaction_distance, 0.001), 0.0, 1.0)
+    return alignment * interaction_forward_bias + (1.0 - normalized_distance) * interaction_distance_bias
+
+func _choose_interaction_candidate(candidates: Array[Dictionary]) -> Object:
+    if candidates.is_empty():
         return null
-    var target := hit.get("collider") as Object
-    if target == null or not EnvironmentInteractionContract.supports(target):
-        return null
-    return target
+
+    var best: Dictionary = candidates[0]
+    var current: Dictionary = {}
+    for candidate: Dictionary in candidates:
+        if float(candidate.get("score", -INF)) > float(best.get("score", -INF)):
+            best = candidate
+        if candidate.get("target") == _interaction_target:
+            current = candidate
+
+    if not current.is_empty():
+        var current_score := float(current.get("score", -INF))
+        var best_score := float(best.get("score", -INF))
+        if best.get("target") != _interaction_target and best_score < current_score + interaction_switch_margin:
+            return _interaction_target
+    return best.get("target") as Object
 
 func _refresh_interaction_target() -> void:
     var target := _probe_interaction_target()
