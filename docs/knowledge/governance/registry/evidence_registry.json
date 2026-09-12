@@ -144,6 +144,22 @@
       "uri": "https://github.com/hodaesu/litd/actions/runs/34680527889",
       "observed_at": "2026-09-12T07:55:53.153Z",
       "change_id": "CHG-GOVERNANCE-IMPACT-005"
+    },
+    {
+      "id": "EVD-GOVERNANCE-IMPACT-MERGE-001",
+      "type": "GIT_COMMIT",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/commit/c6c347ef171a43261426e047cfb01beef621f004",
+      "observed_at": "2026-09-12T08:13:46Z",
+      "change_id": "CHG-GOVERNANCE-IMPACT-005"
+    },
+    {
+      "id": "EVD-GOVERNANCE-IMPACT-MAIN-CI-001",
+      "type": "CI",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/actions/runs/34682992929",
+      "observed_at": "2026-09-12T08:26:26.962Z",
+      "change_id": "CHG-GOVERNANCE-IMPACT-005"
     }
   ]
 }
