@@ -20,11 +20,25 @@ def _hash(payload: dict[str, Any]) -> str:
     return sha256(raw.encode("utf-8")).hexdigest()
 
 
+def _verify_embedded_hash(payload: dict[str, Any], field: str) -> None:
+    claimed = payload.get(field)
+    if not isinstance(claimed, str) or len(claimed) != 64 or any(ch not in "0123456789abcdef" for ch in claimed):
+        raise ValueError(f"invalid {field}")
+    unsigned = {key: value for key, value in payload.items() if key != field}
+    if claimed != _hash(unsigned):
+        raise ValueError(f"{field} integrity mismatch")
+
+
+def _lower_hex(value: Any, length: int) -> bool:
+    return isinstance(value, str) and len(value) == length and all(ch in "0123456789abcdef" for ch in value)
+
+
 def _nonempty_strings(value: Any) -> bool:
     return isinstance(value, list) and bool(value) and all(isinstance(x, str) and x.strip() for x in value)
 
 
 def evaluate(gate: dict[str, Any], evidence: dict[str, Any]) -> dict[str, Any]:
+    _verify_embedded_hash(gate, "gate_receipt_hash")
     if gate.get("kind") != "LITD_GUARDIAN_CHANGE_GATE_RECEIPT":
         raise ValueError("invalid Guardian gate receipt kind")
     if gate.get("status") != "READY_FOR_BOUNDED_IMPLEMENTATION_PR" or gate.get("implementation_pr_allowed") is not True:
@@ -36,10 +50,14 @@ def evaluate(gate: dict[str, Any], evidence: dict[str, Any]) -> dict[str, Any]:
     plan = gate.get("implementation_plan")
     if not isinstance(plan, dict):
         raise ValueError("missing implementation plan")
-    allowed_paths = set(plan.get("affected_paths", []))
-    required_tests = set(plan.get("required_tests", []))
-    if not allowed_paths or not required_tests:
-        raise ValueError("implementation plan missing paths/tests")
+    plan_paths = plan.get("affected_paths", [])
+    plan_tests = plan.get("required_tests", [])
+    if not _nonempty_strings(plan_paths) or len(plan_paths) != len(set(plan_paths)):
+        raise ValueError("implementation plan missing or duplicate paths")
+    if not _nonempty_strings(plan_tests) or len(plan_tests) != len(set(plan_tests)):
+        raise ValueError("implementation plan missing or duplicate tests")
+    allowed_paths = set(plan_paths)
+    required_tests = set(plan_tests)
 
     required = {"gate_receipt_hash", "changed_paths", "test_results", "pre_measurement", "post_measurement", "rollback_evidence_refs", "implementation_commit_sha"}
     missing = sorted(required - set(evidence))
@@ -51,12 +69,19 @@ def evaluate(gate: dict[str, Any], evidence: dict[str, Any]) -> dict[str, Any]:
     changed_paths = evidence["changed_paths"]
     if not _nonempty_strings(changed_paths):
         raise ValueError("changed_paths must be a non-empty string list")
+    if len(changed_paths) != len(set(changed_paths)):
+        raise ValueError("changed_paths must not contain duplicates")
     unexpected = sorted(set(changed_paths) - allowed_paths)
 
     test_results = evidence["test_results"]
     if not isinstance(test_results, list):
         raise ValueError("test_results must be a list")
-    by_command = {r.get("command"): r for r in test_results if isinstance(r, dict) and isinstance(r.get("command"), str)}
+    if not all(isinstance(r, dict) and isinstance(r.get("command"), str) and r["command"].strip() and r.get("status") in {"PASS", "FAIL"} for r in test_results):
+        raise ValueError("test_results contain invalid records")
+    commands = [r["command"] for r in test_results]
+    if len(commands) != len(set(commands)):
+        raise ValueError("test_results contain duplicate commands")
+    by_command = {r["command"]: r for r in test_results}
     missing_tests = sorted(required_tests - set(by_command))
     failed_tests = sorted(command for command in required_tests if command in by_command and by_command[command].get("status") != "PASS")
 
@@ -65,19 +90,20 @@ def evaluate(gate: dict[str, Any], evidence: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(pre, dict) or not isinstance(post, dict):
         raise ValueError("measurements must be objects")
     identity_keys = ("metric_family", "model_version", "scenario", "seed_policy", "seed_value")
-    pre_identity = {k: pre.get(k) for k in identity_keys if k in pre}
-    post_identity = {k: post.get(k) for k in identity_keys if k in post}
-    comparable = bool(pre_identity) and pre_identity == post_identity
-    if not isinstance(pre.get("artifact_hash"), str) or len(pre["artifact_hash"]) != 64:
-        raise ValueError("pre measurement artifact_hash required")
-    if not isinstance(post.get("artifact_hash"), str) or len(post["artifact_hash"]) != 64:
-        raise ValueError("post measurement artifact_hash required")
+    identities_complete = all(k in pre and k in post and pre[k] is not None and post[k] is not None for k in identity_keys)
+    pre_identity = {k: pre.get(k) for k in identity_keys}
+    post_identity = {k: post.get(k) for k in identity_keys}
+    comparable = identities_complete and pre_identity == post_identity
+    if not _lower_hex(pre.get("artifact_hash"), 64):
+        raise ValueError("pre measurement artifact_hash must be 64 lowercase hex")
+    if not _lower_hex(post.get("artifact_hash"), 64):
+        raise ValueError("post measurement artifact_hash must be 64 lowercase hex")
 
     rollback_refs = evidence["rollback_evidence_refs"]
     if not _nonempty_strings(rollback_refs):
         raise ValueError("rollback evidence refs required")
     sha = evidence["implementation_commit_sha"]
-    if not isinstance(sha, str) or len(sha) != 40 or any(c not in "0123456789abcdef" for c in sha):
+    if not _lower_hex(sha, 40):
         raise ValueError("implementation_commit_sha must be 40 lowercase hex")
 
     blockers = []
