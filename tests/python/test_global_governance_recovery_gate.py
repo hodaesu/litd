@@ -10,6 +10,7 @@ def report():
     ]
     return {
         "kind": "GLOBAL_GOVERNANCE_COMPROMISE_RECOVERY",
+        "evidence_scope": "REAL",
         "incident_id": "GOV-INC-001",
         "severity": "CRITICAL",
         "detected_at": "2026-09-12T10:00:00Z",
@@ -137,3 +138,15 @@ def test_chronology_and_sha_are_strict():
     row["source_commit_sha"] = "not-a-sha"
     with pytest.raises(ValueError, match="40 lowercase hex"):
         evaluate(row)
+
+
+def test_synthetic_evidence_can_never_authorize_resume_decision():
+    row = report()
+    row["evidence_scope"] = "ISOLATED_SYNTHETIC"
+    row["credential_rotation_evidence_refs"] = ["synthetic:rotation", "synthetic:isolation"]
+    row["independent_reviewers"] = ["synthetic:security", "synthetic:owner"]
+    result = evaluate(row)
+    assert result["status"] == "TABLETOP_MEASURED"
+    assert result["evidence_scope"] == "ISOLATED_SYNTHETIC"
+    assert result["human_resume_decision_required"] is True
+    assert result["automatic_resume_allowed"] is False
