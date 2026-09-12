@@ -1,0 +1,29 @@
+name: Veilleurs VS001 Crowded Interaction Calibration Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'data/dungeons/voices_under_sanctuary_physical_map.json'
+      - 'scripts/world/veilleurs_vs001_playable_world.gd'
+      - 'scripts/world/veilleurs_vs001_interaction_proxy.gd'
+      - 'scripts/world/exploration_party_controller.gd'
+      - 'scripts/world/interaction_target_indicator.gd'
+      - 'scripts/tests/vs001_crowded_interaction_calibration_smoke_test.gd'
+      - 'scenes/tests/vs001_crowded_interaction_calibration_smoke.tscn'
+      - '.github/workflows/veilleurs-vs001-crowded-interaction-calibration-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  crowded-interaction-calibration:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Strict Godot import
+        run: godot --headless --path . --import --quit
+      - name: Real VS001 crowded interaction calibration smoke
+        run: timeout 90s godot --headless --path . res://scenes/tests/vs001_crowded_interaction_calibration_smoke.tscn
