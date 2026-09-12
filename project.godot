@@ -6,6 +6,8 @@ config/features=PackedStringArray("4.7")
 [autoload]
 GameSettings="*res://scripts/core/game_settings.gd"
 DataLoader="*res://scripts/core/data_loader.gd"
+KnowledgeCatalogRuntime="*res://scripts/core/knowledge_catalog_runtime.gd"
+KnowledgeStore="*res://scripts/core/knowledge_store.gd"
 BossRecruitmentState="*res://scripts/core/ngplus_boss_recruitment.gd"
 EquipmentManager="*res://scripts/core/equipment_manager.gd"
 CombatLoadoutManager="*res://scripts/core/combat_loadout_manager.gd"
