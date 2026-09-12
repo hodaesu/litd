@@ -25,11 +25,21 @@ def _hex(value: Any, length: int) -> bool:
     return isinstance(value, str) and len(value) == length and all(c in "0123456789abcdef" for c in value)
 
 
+def _verify_embedded_hash(payload: dict[str, Any], field: str) -> None:
+    claimed = payload.get(field)
+    if not _hex(claimed, 64):
+        raise ValueError(f"invalid {field}")
+    unsigned = {key: value for key, value in payload.items() if key != field}
+    if claimed != _hash(unsigned):
+        raise ValueError(f"{field} integrity mismatch")
+
+
 def _nonempty_strings(value: Any) -> bool:
     return isinstance(value, list) and bool(value) and all(isinstance(x, str) and x.strip() for x in value)
 
 
 def evaluate(decision: dict[str, Any], evidence: dict[str, Any]) -> dict[str, Any]:
+    _verify_embedded_hash(decision, "application_decision_hash")
     if decision.get("kind") != "LITD_APPLICATION_DECISION_RECEIPT":
         raise ValueError("invalid application decision receipt kind")
     if decision.get("outcome") != "APPLICATION_AUTHORIZED_PENDING_SEPARATE_MERGE":

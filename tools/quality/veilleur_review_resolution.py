@@ -29,6 +29,15 @@ def _hash(payload: dict[str, Any]) -> str:
     return sha256(raw.encode("utf-8")).hexdigest()
 
 
+def _verify_embedded_hash(payload: dict[str, Any], field: str) -> None:
+    claimed = payload.get(field)
+    if not isinstance(claimed, str) or len(claimed) != 64 or any(ch not in "0123456789abcdef" for ch in claimed):
+        raise ValueError(f"invalid {field}")
+    unsigned = {key: value for key, value in payload.items() if key != field}
+    if claimed != _hash(unsigned):
+        raise ValueError(f"{field} integrity mismatch")
+
+
 def _aware_iso(value: Any) -> bool:
     if not isinstance(value, str) or not value.strip():
         return False
@@ -40,6 +49,7 @@ def _aware_iso(value: Any) -> bool:
 
 
 def resolve_candidate(candidate: dict[str, Any], resolution: dict[str, Any]) -> dict[str, Any]:
+    _verify_embedded_hash(candidate, "candidate_hash")
     if candidate.get("kind") != "LITD_LIBRARY_REVIEW_CANDIDATE":
         raise ValueError("invalid review candidate kind")
     if candidate.get("core_write_allowed") is not False:
