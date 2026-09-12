@@ -1,23 +1,24 @@
 import pytest
 
-from tools.quality.veilleur_review_resolution import resolve_candidate
+from tools.quality.veilleur_review_resolution import _hash, resolve_candidate
 
 
 def candidate(route="LITD_LIBRARY", cross_reference=False):
-    return {
+    payload = {
         "kind": "LITD_LIBRARY_REVIEW_CANDIDATE",
         "evidence_id": "e1",
-        "candidate_hash": "a" * 64,
         "route": route,
         "cross_reference": cross_reference,
         "core_write_allowed": False,
         "automatic_library_write_allowed": False,
     }
+    payload["candidate_hash"] = _hash(payload)
+    return payload
 
 
 def resolution(decision="PROPOSE_LITD_CHANGE_CANDIDATE"):
     return {
-        "candidate_hash": "a" * 64,
+        "candidate_hash": candidate()["candidate_hash"],
         "decision": decision,
         "rationale": "Evidence and impact review justify this governed decision.",
         "decided_by": "guardian-review",
@@ -35,8 +36,11 @@ def test_litd_change_candidate_requires_guardian_and_never_writes_core():
 
 
 def test_general_knowledge_cannot_propose_litd_change_candidate():
+    item = candidate("GENERAL_LIBRARY")
+    data = resolution()
+    data["candidate_hash"] = item["candidate_hash"]
     with pytest.raises(ValueError, match="LITD_LIBRARY"):
-        resolve_candidate(candidate("GENERAL_LIBRARY"), resolution())
+        resolve_candidate(item, data)
 
 
 def test_candidate_hash_mismatch_fails_closed():
@@ -49,7 +53,10 @@ def test_candidate_hash_mismatch_fails_closed():
 def test_cross_reference_requires_explicit_candidate_signal():
     with pytest.raises(ValueError, match="cross_reference"):
         resolve_candidate(candidate(), resolution("LINK_AS_CROSS_REFERENCE"))
-    receipt = resolve_candidate(candidate(cross_reference=True), resolution("LINK_AS_CROSS_REFERENCE"))
+    item = candidate(cross_reference=True)
+    data = resolution("LINK_AS_CROSS_REFERENCE")
+    data["candidate_hash"] = item["candidate_hash"]
+    receipt = resolve_candidate(item, data)
     assert receipt["outcome"] == "CROSS_REFERENCE_APPROVED_PENDING_APPLICATION"
 
 
@@ -73,5 +80,13 @@ def test_naive_timestamp_is_rejected():
 def test_candidate_authority_escalation_is_rejected():
     bad = candidate()
     bad["core_write_allowed"] = True
+    bad["candidate_hash"] = _hash({k: v for k, v in bad.items() if k != "candidate_hash"})
     with pytest.raises(ValueError, match="Core authority"):
+        resolve_candidate(bad, resolution())
+
+
+def test_tampered_candidate_with_stale_hash_fails_closed():
+    bad = candidate()
+    bad["route"] = "GENERAL_LIBRARY"
+    with pytest.raises(ValueError, match="integrity mismatch"):
         resolve_candidate(bad, resolution())
