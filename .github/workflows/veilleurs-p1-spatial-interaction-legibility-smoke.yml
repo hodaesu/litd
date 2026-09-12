@@ -1,0 +1,26 @@
+name: Veilleurs P1 Spatial Interaction Legibility Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/world/exploration_party_controller.gd'
+      - 'scripts/world/interaction_target_indicator.gd'
+      - 'scripts/tests/spatial_interaction_legibility_smoke_test.gd'
+      - 'scenes/tests/spatial_interaction_legibility_smoke.tscn'
+      - '.github/workflows/veilleurs-p1-spatial-interaction-legibility-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  spatial-legibility:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Strict Godot import
+        run: godot --headless --path . --import --quit
+      - name: Spatial interaction legibility smoke
+        run: timeout 60s godot --headless --path . res://scenes/tests/spatial_interaction_legibility_smoke.tscn
