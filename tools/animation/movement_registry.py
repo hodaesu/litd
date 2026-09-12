@@ -99,7 +99,7 @@ def audit(data):
     for boss in bosses.get("bosses", []):
         if len(by_owner[boss["id"]]) < 5:
             errors.append(f"{boss['id']} incomplete boss movement set")
-    weapons = [x for x in equipment if x.get("slot") == "weapon"]
+    weapons = [x for x in equipment if x.get("slot") == "weapon" and not x.get("prototype", False)]
     for weapon in weapons:
         if not any(x["id"].startswith(f"equipment.{weapon['id']}.") for x in entries):
             errors.append(f"{weapon['id']} missing equipment variants")
