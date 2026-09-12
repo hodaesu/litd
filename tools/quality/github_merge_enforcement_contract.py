@@ -31,12 +31,20 @@ def _targets_main(ruleset: dict[str, Any]) -> bool:
     return included and not excluded
 
 
-def _required_check_present(rule: dict[str, Any]) -> bool:
+def _status_check_blockers(rule: dict[str, Any]) -> list[str]:
+    blockers: list[str] = []
     params = rule.get("parameters", {})
     checks = params.get("required_status_checks", [])
-    return isinstance(checks, list) and any(
+    present = isinstance(checks, list) and any(
         isinstance(item, dict) and item.get("context") == EXPECTED_CHECK for item in checks
     )
+    if not present:
+        blockers.append("merge_execution_gate_not_required")
+    # The required checks must be evaluated against the latest base. Otherwise a
+    # MERGE_EXECUTION receipt can be valid for an observed base that has since moved.
+    if params.get("strict_required_status_checks_policy") is not True:
+        blockers.append("required_checks_not_strict_to_latest_base")
+    return blockers
 
 
 def _strict_ruleset(ruleset: dict[str, Any]) -> tuple[bool, list[str]]:
@@ -53,8 +61,8 @@ def _strict_ruleset(ruleset: dict[str, Any]) -> tuple[bool, list[str]]:
     if missing:
         blockers.extend(f"missing_rule:{rule_type}" for rule_type in missing)
     status_rule = by_type.get("required_status_checks")
-    if status_rule is not None and not _required_check_present(status_rule):
-        blockers.append("merge_execution_gate_not_required")
+    if status_rule is not None:
+        blockers.extend(_status_check_blockers(status_rule))
     return not blockers, blockers
 
 
@@ -92,6 +100,7 @@ def evaluate(branch: dict[str, Any], rulesets: list[dict[str, Any]]) -> dict[str
         "repository": "hodaesu/litd",
         "branch": EXPECTED_BRANCH,
         "required_check": EXPECTED_CHECK,
+        "strict_latest_base_required": True,
         "status": "EXTERNAL_MERGE_ENFORCEMENT_VERIFIED" if verified else "EXTERNAL_MERGE_ENFORCEMENT_BLOCKED",
         "external_merge_enforcement_verified": verified,
         "blockers": blockers,
