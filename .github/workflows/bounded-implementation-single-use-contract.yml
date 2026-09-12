@@ -1,0 +1,52 @@
+name: Bounded Implementation Single-Use Contract
+
+on:
+  pull_request:
+    paths:
+      - 'tools/quality/bounded_implementation_single_use_gate.py'
+      - 'tests/python/test_bounded_implementation_single_use_gate.py'
+      - '.github/workflows/bounded-implementation-single-use-contract.yml'
+      - 'tools/quality/bounded_implementation_contract.py'
+      - 'tools/quality/receipt_consumption_registry.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bounded-implementation-single-use:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Run bounded implementation single-use tests
+        run: python -m pytest -q tests/python/test_bounded_implementation_single_use_gate.py tests/python/test_bounded_implementation_contract.py tests/python/test_receipt_consumption_registry.py
+      - name: Assert hard single-use boundaries
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('tools/quality/bounded_implementation_single_use_gate.py').read_text(encoding='utf-8')
+          for invariant in (
+              'CONSUMER = "BOUNDED_IMPLEMENTATION_GATE"',
+              'registry.consume(',
+              'single-use receipt rejected:',
+              '"status": "CONSUMED_ONCE"',
+              'result["evaluation_hash"] = _hash(result)',
+              'READY_FOR_APPLICATION_REVIEW',
+          ):
+              assert invariant in text, invariant
+          for forbidden in (
+              'automatic_merge_allowed": True',
+              'automatic_application_allowed": True',
+              'core_write_allowed": True',
+              'automatic_target_change_allowed": True',
+          ):
+              assert forbidden not in text, forbidden
+          print('Bounded implementation single-use invariants OK')
+          PY
