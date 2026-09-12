@@ -59,7 +59,7 @@ def test_missing_contradictor_findings_is_blocked(tmp_path: Path):
 
 @pytest.mark.parametrize(
     "unsafe_path",
-    ["../core.gd", "/tmp/core.gd", ".git/config", "./.git/config", "docs/../core.gd", "docs//core.gd", r"docs\\core.gd"],
+    ["../core.gd", "/tmp/core.gd", ".git/config", "./.git/config", "docs/../core.gd", "docs//core.gd", r"docs\core.gd", "docs/\x00core.gd"],
 )
 def test_unsafe_path_is_blocked(tmp_path: Path, unsafe_path: str):
     plan = plan_impact(_request(affected_paths=[unsafe_path]), _root(tmp_path))
