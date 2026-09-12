@@ -3,7 +3,7 @@
 
 A resolution can approve a library promotion, keep evidence quarantined, request
 more evidence, link a cross-reference, propose supersession, or propose an LITD
-change candidate. It never mutates the library, targets, gameplay data, or Core.
+change candidate. It preserves project scope and never mutates library/Core.
 """
 from __future__ import annotations
 
@@ -13,6 +13,8 @@ from datetime import datetime
 from hashlib import sha256
 from pathlib import Path
 from typing import Any
+
+from tools.quality.veilleur_v2_ingest import PROJECT_ID, TARGET_ROUTE
 
 ALLOWED_DECISIONS = {
     "PROMOTE_TO_LIBRARY",
@@ -52,6 +54,10 @@ def resolve_candidate(candidate: dict[str, Any], resolution: dict[str, Any]) -> 
     _verify_embedded_hash(candidate, "candidate_hash")
     if candidate.get("kind") != "LITD_LIBRARY_REVIEW_CANDIDATE":
         raise ValueError("invalid review candidate kind")
+    if candidate.get("project_id") != PROJECT_ID:
+        raise ValueError("candidate project scope mismatch")
+    if candidate.get("target_route") != TARGET_ROUTE:
+        raise ValueError("candidate route scope mismatch")
     if candidate.get("core_write_allowed") is not False:
         raise ValueError("candidate attempted Core authority")
     if candidate.get("automatic_library_write_allowed") is not False:
@@ -94,6 +100,8 @@ def resolve_candidate(candidate: dict[str, Any], resolution: dict[str, Any]) -> 
 
     receipt = {
         "kind": "LITD_VEILLEUR_REVIEW_RESOLUTION_RECEIPT",
+        "project_id": PROJECT_ID,
+        "target_route": TARGET_ROUTE,
         "candidate_hash": candidate["candidate_hash"],
         "evidence_id": candidate.get("evidence_id"),
         "route": route,
