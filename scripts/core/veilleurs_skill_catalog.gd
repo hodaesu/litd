@@ -6,6 +6,7 @@ const DATA_PATHS := {
     "aurelien": "res://data/veilleurs/skills/aurelien.json",
     "anouk": "res://data/veilleurs/skills/anouk.json"
 }
+const ULTIMATE_IDENTITY_LOCK_PATH := "res://data/veilleurs/current_quartet_ultimate_sheets.json"
 const WATCHER_ID_ALIASES := {
     "Marec": "marec",
     "Mathilde": "mathilde",
@@ -22,6 +23,7 @@ const COSTS: Array[int] = [1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5]
 const EXPECTED_LEVELS: Array[int] = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 35, 39, 44, 49]
 
 var catalogs: Dictionary = {}
+var ultimate_identity_lock: Dictionary = {}
 var load_errors: Array[String] = []
 
 func _ready() -> void:
@@ -29,6 +31,7 @@ func _ready() -> void:
 
 func reload() -> void:
     catalogs.clear()
+    ultimate_identity_lock.clear()
     load_errors.clear()
     for watcher_id_value: Variant in DATA_PATHS.keys():
         var watcher_id := str(watcher_id_value)
@@ -45,6 +48,14 @@ func reload() -> void:
             load_errors.append("wrong_watcher:%s" % path)
             continue
         catalogs[watcher_id] = catalog
+    if not FileAccess.file_exists(ULTIMATE_IDENTITY_LOCK_PATH):
+        load_errors.append("missing:%s" % ULTIMATE_IDENTITY_LOCK_PATH)
+    else:
+        var lock_parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(ULTIMATE_IDENTITY_LOCK_PATH))
+        if lock_parsed is Dictionary:
+            ultimate_identity_lock = lock_parsed
+        else:
+            load_errors.append("invalid_json:%s" % ULTIMATE_IDENTITY_LOCK_PATH)
 
 func is_watcher(hero: Dictionary) -> bool:
     return catalogs.has(_watcher_key(hero))
@@ -114,6 +125,12 @@ func ultimate_for(hero: Dictionary, branch: String) -> Dictionary:
     var ultimate: Dictionary = tree.get("ultimate", {}).duplicate(true)
     if ultimate.is_empty():
         return {}
+    var identity := _ultimate_identity(hero, branch)
+    if not identity.is_empty():
+        ultimate["name"] = str(identity.get("name", ultimate.get("name", "")))
+        ultimate["identity_locked"] = true
+        ultimate["identity_source"] = "current_quartet_ultimate_sheets"
+        ultimate["runtime_effect_status"] = str(identity.get("runtime_effect_status", "PENDING_RESOLVER_BINDING"))
     ultimate["branch"] = branch
     ultimate["branch_name"] = branch_label(hero, branch)
     ultimate["unlock_level"] = 16
@@ -160,6 +177,35 @@ func catalog_summary() -> Dictionary:
         "ultimates": ultimate_count,
         "load_errors": load_errors.duplicate()
     }
+
+func _ultimate_identity(hero: Dictionary, branch: String) -> Dictionary:
+    if ultimate_identity_lock.is_empty():
+        return {}
+    var watcher_key := _watcher_key(hero)
+    var catalog := _catalog(hero)
+    var order: Array = catalog.get("tree_order", [])
+    var branch_index := order.find(branch)
+    if branch_index < 0:
+        return {}
+    var characters: Dictionary = ultimate_identity_lock.get("characters", {})
+    var aliases := {
+        "marec": ["Marec", "marec"],
+        "mathilde": ["Mathilde", "mathilde"],
+        "aurelien": ["Aurélien", "Aurelien", "aurelien"],
+        "anouk": ["Anouk", "anouk"]
+    }
+    var character: Dictionary = {}
+    for name_value: Variant in aliases.get(watcher_key, []):
+        var name := str(name_value)
+        if characters.has(name):
+            character = characters[name]
+            break
+    if character.is_empty():
+        return {}
+    var ultimates: Array = character.get("ultimates", [])
+    if branch_index >= ultimates.size() or not (ultimates[branch_index] is Dictionary):
+        return {}
+    return (ultimates[branch_index] as Dictionary).duplicate(true)
 
 func _watcher_key(hero: Dictionary) -> String:
     var runtime_id := str(hero.get("id", "")).strip_edges()
