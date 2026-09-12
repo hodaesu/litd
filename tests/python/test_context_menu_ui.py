@@ -4,12 +4,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 MENU_V1 = ROOT / "scripts" / "ui" / "context_menu_ui.gd"
 MENU_V2 = ROOT / "scripts" / "ui" / "context_menu_ui_v2.gd"
+MENU_V3 = ROOT / "scripts" / "ui" / "context_menu_ui_v3.gd"
 
 
 def test_context_menu_is_registered_and_has_input_action():
     project = (ROOT / "project.godot").read_text(encoding="utf-8")
-    assert 'ContextMenuUI="*res://scripts/ui/context_menu_ui_v2.gd"' in project
+    assert 'ContextMenuUI="*res://scripts/ui/context_menu_ui_v3.gd"' in project
     assert 'context_menu={' in project
+    assert 'extends "res://scripts/ui/context_menu_ui_v2.gd"' in MENU_V3.read_text(encoding="utf-8")
 
 
 def test_context_menu_exposes_requested_tabs_and_live_managers():
@@ -51,9 +53,12 @@ def test_dungeon_quest_data_is_explicitly_typed_and_trackable():
 def test_options_persist_to_user_config():
     base = MENU_V1.read_text(encoding="utf-8")
     ui = MENU_V2.read_text(encoding="utf-8")
+    v3 = MENU_V3.read_text(encoding="utf-8")
     assert 'user://litd_settings.cfg' in base
     assert "ConfigFile.new()" in ui
     assert "_save_options()" in ui
     assert "_load_options()" in ui
     assert "menu_text_scale" in ui
     assert "high_contrast" in ui
+    assert "P0_MAX_TEXT_SCALE := 1.5" in v3
+    assert "P0_MAX_UI_SCALE := 1.4" in v3
