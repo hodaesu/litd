@@ -1,0 +1,33 @@
+name: Bounded Implementation Contract
+
+on:
+  pull_request:
+    paths:
+      - 'tools/quality/bounded_implementation_contract.py'
+      - 'tests/python/test_bounded_implementation_contract.py'
+      - '.github/workflows/bounded-implementation-contract.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Run bounded implementation contract tests
+        run: python -m pytest -q tests/python/test_bounded_implementation_contract.py
+      - name: Verify hard authority boundaries
+        run: |
+          grep -q 'READY_FOR_APPLICATION_REVIEW' tools/quality/bounded_implementation_contract.py
+          grep -q 'automatic_application_allowed.*False' tools/quality/bounded_implementation_contract.py
+          grep -q 'automatic_merge_allowed.*False' tools/quality/bounded_implementation_contract.py
+          grep -q 'automatic_target_change_allowed.*False' tools/quality/bounded_implementation_contract.py
