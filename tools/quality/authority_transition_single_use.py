@@ -6,18 +6,16 @@ first, then atomically consume the registered upstream artifact only when the
 transition actually advances governed authority. The consumption audit proof is
 bound into the downstream artifact hash.
 
-Important: terminal closure-time consumption is not a merge-time replay guard.
-A distinct MERGE_EXECUTION consumer remains required before #331 can be closed.
+This module deliberately stops at the application decision. An authorized
+application decision must next be consumed atomically by a distinct
+MERGE_EXECUTION transition; post-merge closure must consume the resulting merge
+receipt, not the application decision itself. Until that transition exists, #331
+remains open and merge replay is not claimed as solved.
 """
 from __future__ import annotations
 
 from typing import Any
 
-from tools.quality.application_closure_contract import (
-    _hash as closure_hash,
-    _verify_embedded_hash as verify_closure_source,
-    evaluate as evaluate_closure,
-)
 from tools.quality.application_decision_gate import (
     _hash as application_hash,
     _verify_embedded_hash as verify_application_source,
@@ -36,7 +34,7 @@ from tools.quality.receipt_consumption_registry import (
 
 BOUNDED_CONSUMER = "BOUNDED_IMPLEMENTATION_CONTRACT"
 APPLICATION_CONSUMER = "APPLICATION_DECISION_GATE"
-CLOSURE_CONSUMER = "APPLICATION_CLOSURE_CONTRACT"
+NEXT_REQUIRED_CONSUMER = "MERGE_EXECUTION"
 
 
 def _require_scope(payload: dict[str, Any], label: str) -> None:
@@ -91,7 +89,7 @@ def evaluate_bounded_once(
 ) -> dict[str, Any]:
     result = evaluate_bounded(gate, evidence)
     # A blocked evaluation advances no authority and must not burn the gate;
-    # remediation can produce a new evidence set against the same approved plan.
+    # remediation can produce a corrected evidence set against the same plan.
     if result.get("status") != "READY_FOR_APPLICATION_REVIEW":
         return result
     claim = registry.consume(
@@ -156,62 +154,10 @@ def evaluate_application_once(
     result["single_use_consumption"] = _claim_payload(
         evaluation["evaluation_hash"], APPLICATION_CONSUMER, claim.audit_entry_hash
     )
-    result["application_decision_hash"] = application_hash(result)
-    return result
-
-
-def register_application_decision_for_closure(
-    registry: ReceiptConsumptionRegistry,
-    decision: dict[str, Any],
-    *,
-    context_hash: str,
-) -> None:
-    verify_closure_source(decision, "application_decision_hash")
-    if decision.get("kind") != "LITD_APPLICATION_DECISION_RECEIPT":
-        raise ValueError("invalid application decision receipt kind")
-    _require_scope(decision, "application decision")
-    if decision.get("outcome") != "APPLICATION_AUTHORIZED_PENDING_SEPARATE_MERGE" or decision.get("merge_authorized") is not True:
-        raise ValueError("application decision is not closure-eligible")
-    source_hash = decision.get("source_evaluation_hash")
-    if not isinstance(source_hash, str):
-        raise ValueError("application decision source evaluation hash required")
-    receipt_hash = decision["application_decision_hash"]
-    registry.register_receipt(
-        receipt_id=f"litd:application-decision:closure:{receipt_hash}",
-        receipt_hash=receipt_hash,
-        receipt_kind=decision["kind"],
-        source_hash=source_hash,
-        context_hash=context_hash,
-        expected_consumer=CLOSURE_CONSUMER,
-    )
-
-
-def evaluate_closure_once(
-    decision: dict[str, Any],
-    evidence: dict[str, Any],
-    registry: ReceiptConsumptionRegistry,
-    *,
-    current_context_hash: str,
-    actor: str,
-) -> dict[str, Any]:
-    result = evaluate_closure(decision, evidence)
-    # Failed post-merge evidence must not consume the terminal decision, so a
-    # corrected provenance/measurement package can be reviewed later.
-    if result.get("status") != "APPLIED_MEASURED_PROVENANCE_VERIFIED":
-        return result
-    claim = registry.consume(
-        decision["application_decision_hash"],
-        consumer=CLOSURE_CONSUMER,
-        actor=actor,
-        current_context_hash=current_context_hash,
-    )
-    if not claim.accepted:
-        raise ValueError(f"single-use receipt rejected:{claim.reason}")
-    result.pop("closure_hash", None)
-    result["single_use_consumption"] = _claim_payload(
-        decision["application_decision_hash"], CLOSURE_CONSUMER, claim.audit_entry_hash
-    )
+    # The downstream application decision is intentionally not registered here:
+    # it must be registered for the future MERGE_EXECUTION consumer so one
+    # authorization cannot drive multiple merges.
+    result["next_single_use_consumer_required"] = NEXT_REQUIRED_CONSUMER
     result["merge_execution_single_use_verified"] = False
-    result["merge_execution_single_use_gap"] = "SEPARATE_MERGE_EXECUTION_CONSUMER_REQUIRED"
-    result["closure_hash"] = closure_hash(result)
+    result["application_decision_hash"] = application_hash(result)
     return result
