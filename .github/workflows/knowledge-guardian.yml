@@ -2,11 +2,6 @@ name: Knowledge Guardian
 
 on:
   pull_request:
-    paths:
-      - "docs/knowledge/**"
-      - "data/capturable_creatures.json"
-      - "tools/quality/validate_knowledge.py"
-      - ".github/workflows/knowledge-guardian.yml"
   workflow_dispatch:
 
 concurrency:
