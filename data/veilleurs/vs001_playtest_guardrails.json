@@ -46,18 +46,18 @@
   },
   "recruitment": {
     "careful_sequence": {
-      "actions": ["observe", "nayra_lower_guard", "aisha_diagnose", "aisha_treat", "idris_deescalate", "offer_food", "subdue"],
-      "capture_actor": "nayra",
+      "actions": ["observe", "marec_lower_guard", "aurelien_diagnose", "aurelien_treat", "anouk_deescalate", "offer_food", "subdue"],
+      "capture_actor": "Anouk",
       "target_percent": [70, 90]
     },
     "immediate_force": {
       "actions": ["subdue"],
-      "capture_actor": "nayra",
+      "capture_actor": "Anouk",
       "target_percent": [20, 45]
     },
     "coercive_control": {
-      "actions": ["tarek_block_exit", "subdue"],
-      "capture_actor": "tarek",
+      "actions": ["mathilde_block_exit", "subdue"],
+      "capture_actor": "Mathilde",
       "diagnostic_only": true
     },
     "design_rule": "Careful recruitment should be materially more reliable than immediate force; force remains possible and carries worse relationship history.",
