@@ -65,6 +65,19 @@
       "decision": "Operate the scheduled Veilleur as a fail-closed, review-only repository prototype; preserve explicit prohibitions on automatic Library, obsolescence, Core and Core-change-candidate writes.",
       "human_approval": true,
       "affected_paths": [".github/workflows/veilleur-autonomous-discovery.yml", "docs/knowledge/source-registry.json", "tools/quality/autonomous_veilleur.py", "tools/quality/source_registry.py", "tools/quality/veilleur_triage.py", "tools/quality/veilleur_library_review.py", "tests/python/test_veilleur_operational_pipeline.py", "tests/python/test_veilleur_library_review.py"]
+    },
+    {
+      "id": "DEC-GOVERNANCE-IMPACT-005",
+      "status": "REVIEW",
+      "problem": "ACTIVE Knowledge has no deterministic and governed path to propose a change to the Core.",
+      "knowledge_ids": ["KNOW-GOVERNANCE-IMPACT-005"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Keep impact analysis informal", "Allow Knowledge to create approved Core decisions", "Create candidates without contradiction or rollback data"],
+      "contradictor_findings": ["Declared impact paths can be incomplete; candidates must remain review-only until repository-aware analysis is added.", "A plan/apply split can overwrite concurrent registry changes unless the source digest is rechecked."],
+      "risks": ["Initial impact scope depends on human-supplied paths", "Concurrent writers require fail-closed detection", "Reviewer identity is not authenticated by this bridge"],
+      "decision": "Add a deterministic, dry-run-first impact tool and registry that accept only ACTIVE Knowledge and create review-only Core candidates with no write authority.",
+      "human_approval": false,
+      "affected_paths": ["tools/quality/knowledge_impact.py", "tests/python/test_knowledge_impact.py", "tools/quality/global_governance.py", "docs/knowledge/governance"]
     }
   ]
 }
