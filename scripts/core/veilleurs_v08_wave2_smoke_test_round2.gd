@@ -17,11 +17,11 @@ func _test_doctrines_and_real_skills() -> void:
     _check(runtime.set_enemy_tree("ENT_ENEMY_GOULE_AFFAMEE", "TREE_GOULE_AFFAMEE_ODEUR_SANG"), "test Ghoul selects authored hunter tree")
     runtime.round_index = 2
     _check(runtime.grid.move("ENT_ENEMY_GOULE_AFFAMEE", Vector2i(1, 1)), "Ghoul enters tactical range")
-    var nayra: Dictionary = runtime.combatants["ENT_WATCHER_NAYRA"]
-    nayra["hp"] = 25
-    var nayra_body: VeilleursBodyComponent = nayra.get("body") as VeilleursBodyComponent
-    nayra_body.apply_trauma("left_arm", 55)
-    runtime.combatants["ENT_WATCHER_NAYRA"] = nayra
+    var marec: Dictionary = runtime.combatants["ENT_WATCHER_marec"]
+    marec["hp"] = 25
+    var marec_body: VeilleursBodyComponent = marec.get("body") as VeilleursBodyComponent
+    marec_body.apply_trauma("left_arm", 55)
+    runtime.combatants["ENT_WATCHER_marec"] = marec
     var action := runtime.enemy_step("ENT_ENEMY_GOULE_AFFAMEE")
     _check(bool(action.get("ok", false)), "doctrine enemy produces action")
     _check(bool(action.get("generated_skill", false)), "enemy action resolves through one of the 1,080 real enemy skills")
