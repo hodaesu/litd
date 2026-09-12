@@ -11,7 +11,7 @@ import argparse
 import json
 from datetime import datetime
 from hashlib import sha256
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 ALLOWED_DECISIONS = {"ACCEPT_FOR_IMPLEMENTATION", "REJECT_CHANGE", "REQUEST_MORE_EVIDENCE"}
@@ -27,6 +27,35 @@ def _hash(payload: dict[str, Any]) -> str:
     return sha256(raw.encode("utf-8")).hexdigest()
 
 
+def _verify_embedded_hash(payload: dict[str, Any], field: str) -> None:
+    claimed = payload.get(field)
+    if not isinstance(claimed, str) or len(claimed) != 64 or any(ch not in "0123456789abcdef" for ch in claimed):
+        raise ValueError(f"invalid {field}")
+    unsigned = {key: value for key, value in payload.items() if key != field}
+    if claimed != _hash(unsigned):
+        raise ValueError(f"{field} integrity mismatch")
+
+
+def _canonical_paths(value: Any, field: str) -> list[str]:
+    if not isinstance(value, list) or not value or not all(isinstance(x, str) and x.strip() for x in value):
+        raise ValueError(f"{field} must be a non-empty string list")
+    if len(value) != len(set(value)):
+        raise ValueError(f"{field} must not contain duplicates")
+    for raw in value:
+        path = PurePosixPath(raw)
+        if "\\x00" in raw or "\\" in raw or path.is_absolute() or path.as_posix() != raw or ".." in path.parts or any(part.casefold() == ".git" for part in path.parts):
+            raise ValueError(f"{field} contains a non-canonical path")
+    return value
+
+
+def _unique_strings(value: Any, field: str) -> list[str]:
+    if not isinstance(value, list) or not value or not all(isinstance(x, str) and x.strip() for x in value):
+        raise ValueError(f"{field} must be a non-empty string list")
+    if len(value) != len(set(value)):
+        raise ValueError(f"{field} must not contain duplicates")
+    return value
+
+
 def _aware_iso(value: Any) -> bool:
     if not isinstance(value, str) or not value.strip():
         return False
@@ -38,6 +67,7 @@ def _aware_iso(value: Any) -> bool:
 
 
 def evaluate(receipt: dict[str, Any], submission: dict[str, Any]) -> dict[str, Any]:
+    _verify_embedded_hash(receipt, "receipt_hash")
     if receipt.get("kind") != "LITD_VEILLEUR_REVIEW_RESOLUTION_RECEIPT":
         raise ValueError("invalid resolution receipt kind")
     if receipt.get("outcome") != "LITD_CHANGE_CANDIDATE_APPROVED_PENDING_GUARDIAN":
@@ -68,15 +98,9 @@ def evaluate(receipt: dict[str, Any], submission: dict[str, Any]) -> dict[str, A
         if not isinstance(value, str) or len(value.strip()) < (20 if field != "decided_by" else 1):
             raise ValueError(f"invalid or too-short field:{field}")
 
-    paths = submission["affected_paths"]
-    tests = submission["required_tests"]
-    evidence_refs = submission["evidence_refs"]
-    if not isinstance(paths, list) or not paths or not all(isinstance(x, str) and x.strip() for x in paths):
-        raise ValueError("affected_paths must be a non-empty string list")
-    if not isinstance(tests, list) or not tests or not all(isinstance(x, str) and x.strip() for x in tests):
-        raise ValueError("required_tests must be a non-empty string list")
-    if not isinstance(evidence_refs, list) or not evidence_refs or not all(isinstance(x, str) and x.strip() for x in evidence_refs):
-        raise ValueError("evidence_refs must be a non-empty string list")
+    paths = _canonical_paths(submission["affected_paths"], "affected_paths")
+    tests = _unique_strings(submission["required_tests"], "required_tests")
+    evidence_refs = _unique_strings(submission["evidence_refs"], "evidence_refs")
     if any(path == prefix or path.startswith(prefix + "/") for path in paths for prefix in FORBIDDEN_PREFIXES):
         raise ValueError("target/Guardian policy changes require their dedicated governance path")
 
