@@ -59,7 +59,7 @@ jobs:
     name: Content contracts and production index
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: actions/setup-python@v6
@@ -88,7 +88,7 @@ jobs:
     container:
       image: barichello/godot-ci:4.7.2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Prepare logs
         shell: bash
         run: mkdir -p build/automation
@@ -175,7 +175,7 @@ jobs:
     container:
       image: barichello/godot-ci:4.7.2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Configure Android exporter
         shell: bash
         env:
@@ -264,7 +264,7 @@ jobs:
     container:
       image: barichello/godot-ci:4.7.2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Run complete repository Godot suite
         shell: bash
         run: bash tools/build/run_godot_ci.sh

@@ -17,7 +17,7 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
@@ -33,7 +33,7 @@ jobs:
     if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
@@ -197,7 +197,7 @@ jobs:
     container:
       image: barichello/godot-ci:4.7.2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # Le wrapper lance godot --headless et couvre notamment res://scripts/core/smoke_test.gd via la scène core_smoke.tscn, puis les parcours critiques supplémentaires.
       - name: Compilation stricte et parcours critique Godot
         run: bash tools/build/run_godot_ci.sh
