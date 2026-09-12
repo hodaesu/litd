@@ -1,6 +1,8 @@
 extends CharacterBody3D
 class_name ExplorationPartyController
 
+const INTERACTION_TARGET_INDICATOR := preload("res://scripts/world/interaction_target_indicator.gd")
+
 signal interaction_requested
 signal interaction_resolved(result: Dictionary)
 signal interaction_feedback(result: Dictionary)
@@ -26,9 +28,13 @@ var _virtual_run := false
 var _step_elapsed := 0.0
 var _interaction_target: Object = null
 var _interaction_descriptor: Dictionary = {}
+var _interaction_indicator = null
 
 func _ready() -> void:
     add_to_group("player_party")
+    _interaction_indicator = INTERACTION_TARGET_INDICATOR.new()
+    _interaction_indicator.name = "InteractionTargetIndicator"
+    add_child(_interaction_indicator)
 
 func _physics_process(delta: float) -> void:
     var keyboard_input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -185,6 +191,11 @@ func _set_interaction_target(target: Object, descriptor: Dictionary) -> void:
         return
     _interaction_target = target
     _interaction_descriptor = descriptor.duplicate(true)
+    if _interaction_indicator != null:
+        if target == null:
+            _interaction_indicator.clear_target()
+        else:
+            _interaction_indicator.set_target(target)
     interaction_target_changed.emit(_interaction_descriptor.duplicate(true))
 
 func _try_interact() -> Dictionary:
