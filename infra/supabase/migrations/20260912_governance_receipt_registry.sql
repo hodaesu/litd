@@ -79,8 +79,6 @@ begin
 end
 $$;
 
--- Receipts, invalidations, consumptions and audit rows are append-only. Supersession
--- and revocation are modeled as new invalidation rows rather than receipt mutation.
 drop trigger if exists receipts_append_only on governance.receipts;
 create trigger receipts_append_only
 before update or delete on governance.receipts
@@ -120,9 +118,9 @@ declare
   v_invalidation governance.receipt_invalidations%rowtype;
   v_consumption_id bigint;
 begin
-  if p_receipt_hash !~ '^[0-9a-f]{64}$'
-     or p_candidate_hash !~ '^[0-9a-f]{64}$'
-     or p_current_context_hash !~ '^[0-9a-f]{64}$'
+  if coalesce(p_receipt_hash, '') !~ '^[0-9a-f]{64}$'
+     or coalesce(p_candidate_hash, '') !~ '^[0-9a-f]{64}$'
+     or coalesce(p_current_context_hash, '') !~ '^[0-9a-f]{64}$'
      or length(btrim(coalesce(p_project_id, ''))) = 0
      or length(btrim(coalesce(p_target_route, ''))) = 0
      or length(btrim(coalesce(p_consumer, ''))) = 0
