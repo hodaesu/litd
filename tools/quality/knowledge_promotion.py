@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 from dataclasses import asdict, dataclass
 from datetime import date, datetime, timezone
 import json
@@ -21,18 +22,20 @@ class PromotionPlan:
     reason: str
     knowledge_id: str
     registry_payload: dict[str, Any] | None = None
+    source_registry_sha256: str | None = None
     requires_human_review: bool = True
     core_write_allowed: bool = False
 
 
-def _load_registry(root: Path) -> dict[str, Any]:
+def _load_registry(root: Path) -> tuple[dict[str, Any], str]:
     try:
-        payload = json.loads((root / "knowledge_registry.json").read_text(encoding="utf-8"))
+        raw = (root / "knowledge_registry.json").read_bytes()
+        payload = json.loads(raw.decode("utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise ValueError(f"cannot_load:knowledge_registry.json:{exc}") from exc
     if payload.get("schema_version") != 1 or not isinstance(payload.get("entries"), list):
         raise ValueError("invalid_registry_envelope:knowledge_registry.json")
-    return payload
+    return payload, hashlib.sha256(raw).hexdigest()
 
 
 def _nonempty(review: dict[str, Any], field: str) -> bool:
@@ -43,13 +46,22 @@ def plan_promotion(
     knowledge_id: str, review: dict[str, Any], root: Path = REGISTRY_ROOT
 ) -> PromotionPlan:
     """Validate a human review and prepare an atomic registry replacement."""
-    registry = _load_registry(root)
+    registry, source_registry_sha256 = _load_registry(root)
     matches = [entry for entry in registry["entries"] if entry.get("id") == knowledge_id]
     if len(matches) != 1:
         return PromotionPlan("BLOCKED", "knowledge_entry_not_found_or_ambiguous", knowledge_id)
     entry = matches[0]
-    if entry.get("status") == "ACTIVE" and entry.get("review") == review:
-        return PromotionPlan("ALREADY_ACTIVE", "idempotent_existing_review", knowledge_id, registry)
+    review_fields = ("decision", "reviewer", "reviewed_at", "rationale", "contradiction_resolution")
+    comparable_review = {
+        key: review[key].strip() if isinstance(review.get(key), str) else review.get(key)
+        for key in review_fields if key in review
+    }
+    if (entry.get("status") == "ACTIVE" and entry.get("review") == comparable_review
+            and review.get("human_approval", True) is True):
+        return PromotionPlan(
+            "ALREADY_ACTIVE", "idempotent_existing_review", knowledge_id,
+            registry_payload=registry, source_registry_sha256=source_registry_sha256,
+        )
     if entry.get("status") != "EXPERIMENTAL":
         return PromotionPlan("BLOCKED", "only_experimental_knowledge_can_be_promoted", knowledge_id)
     if review.get("decision") != "APPROVED" or review.get("human_approval") is not True:
@@ -70,7 +82,7 @@ def plan_promotion(
         return PromotionPlan("BLOCKED", "revalidation_must_follow_review", knowledge_id)
 
     stored_review = {key: review[key].strip() if isinstance(review[key], str) else review[key]
-                     for key in ("decision", "reviewer", "reviewed_at", "rationale", "contradiction_resolution")}
+                     for key in review_fields}
     entry["status"] = "ACTIVE"
     entry["validated_at"] = reviewed_at.date().isoformat()
     entry["review"] = stored_review
@@ -85,14 +97,22 @@ def plan_promotion(
         errors = validate(candidate_root, SCHEMA_ROOT)
     if errors:
         return PromotionPlan("BLOCKED", "candidate_registry_invalid:" + "|".join(errors), knowledge_id)
-    return PromotionPlan("PROMOTION_READY", "human_review_validated", knowledge_id, registry)
+    return PromotionPlan(
+        "PROMOTION_READY", "human_review_validated", knowledge_id,
+        registry_payload=registry, source_registry_sha256=source_registry_sha256,
+    )
 
 
 def apply_plan(plan: PromotionPlan, root: Path = REGISTRY_ROOT) -> None:
     if plan.status == "ALREADY_ACTIVE":
         return
-    if plan.status != "PROMOTION_READY" or plan.registry_payload is None:
+    if (plan.status != "PROMOTION_READY" or plan.registry_payload is None
+            or plan.source_registry_sha256 is None):
         raise ValueError(f"promotion_plan_not_applicable:{plan.status}")
+    registry_path = root / "knowledge_registry.json"
+    current_sha256 = hashlib.sha256(registry_path.read_bytes()).hexdigest()
+    if current_sha256 != plan.source_registry_sha256:
+        raise ValueError("knowledge_registry_changed_since_plan")
     fd, temp_name = tempfile.mkstemp(prefix=".knowledge_registry.", dir=root)
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as handle:
@@ -100,7 +120,10 @@ def apply_plan(plan: PromotionPlan, root: Path = REGISTRY_ROOT) -> None:
             handle.write("\n")
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(temp_name, root / "knowledge_registry.json")
+        current_sha256 = hashlib.sha256(registry_path.read_bytes()).hexdigest()
+        if current_sha256 != plan.source_registry_sha256:
+            raise ValueError("knowledge_registry_changed_since_plan")
+        os.replace(temp_name, registry_path)
     finally:
         if os.path.exists(temp_name):
             os.unlink(temp_name)
