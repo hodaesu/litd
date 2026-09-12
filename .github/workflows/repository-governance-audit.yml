@@ -47,9 +47,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p reports
+          mkdir -p reports/rulesets-detail
           gh api "/repos/${GITHUB_REPOSITORY}/branches/main" > reports/main-branch.json
-          gh api "/repos/${GITHUB_REPOSITORY}/rulesets" > reports/rulesets.json
+          gh api "/repos/${GITHUB_REPOSITORY}/rulesets" > reports/rulesets-summary.json
+          mapfile -t ruleset_ids < <(python -c 'import json,sys; rows=json.load(sys.stdin); [print(r["id"]) for r in rows if isinstance(r,dict) and r.get("id") is not None]' < reports/rulesets-summary.json)
+          for ruleset_id in "${ruleset_ids[@]:-}"; do
+            gh api "/repos/${GITHUB_REPOSITORY}/rulesets/${ruleset_id}" > "reports/rulesets-detail/${ruleset_id}.json"
+          done
+          python - <<'PY'
+          import glob, json
+          rows = []
+          for path in sorted(glob.glob('reports/rulesets-detail/*.json')):
+              with open(path, encoding='utf-8') as handle:
+                  rows.append(json.load(handle))
+          with open('reports/rulesets.json', 'w', encoding='utf-8') as handle:
+              json.dump(rows, handle, indent=2, sort_keys=True)
+              handle.write('\n')
+          PY
       - name: Enforce canonical repository governance policy
         run: |
           python -m tools.quality.repository_governance_audit \
