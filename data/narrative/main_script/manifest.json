@@ -13,6 +13,7 @@
     "theatrical_rule": "Les dialogues PNJ exposés par le runtime reçoivent une performance authored : émotion, posture, regard, geste, respiration, voix, sous-texte et didascalie lisible. La scène expose aussi son tempo, son blocking et son climat émotionnel."
   },
   "theatrical_direction": "res://data/narrative/main_script/theatrical_direction.json",
+  "side_quest_theatrical_direction": "res://data/narrative/side_quest_theatrical_direction.json",
   "chapters": [
     {"id":"chapter_01_ashlands","file":"res://data/narrative/main_script/chapter_01_ashlands.json"},
     {"id":"chapter_02_before_fall","file":"res://data/narrative/main_script/chapter_02_before_fall.json"},
