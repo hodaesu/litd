@@ -1,0 +1,33 @@
+name: Veilleurs P1 Interaction Contract Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/core/environment_interaction_contract.gd'
+      - 'scripts/world/exploration_party_controller.gd'
+      - 'scripts/world/shortcut_gate.gd'
+      - 'scripts/world/resource_node.gd'
+      - 'scripts/world/lore_collectible.gd'
+      - 'scripts/world/veilleurs_vs001_corpse_proxy.gd'
+      - 'scripts/world/veilleurs_vs001_interaction_proxy.gd'
+      - 'scripts/world/campfire_interaction.gd'
+      - 'scripts/tests/environment_interaction_contract_smoke_test.gd'
+      - 'scenes/tests/environment_interaction_contract_smoke.tscn'
+      - 'tests/python/test_environment_interaction_contract.py'
+      - '.github/workflows/veilleurs-p1-interaction-contract-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  interaction-contract:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Strict Godot import
+        run: godot --headless --path . --import --quit
+      - name: P1 environment interaction contract smoke
+        run: timeout 60s godot --headless --path . res://scenes/tests/environment_interaction_contract_smoke.tscn

@@ -15,8 +15,35 @@ func configure(scar: Dictionary) -> void:
     monitorable = true
     set_meta("scar_id", scar_id)
     set_meta("interaction_prompt", "AGIR SUR LE CORPS")
-    set_meta("owner_name", owner_name)
+    set_meta("interaction_id", "corpse:%s" % scar_id)
+    set_meta("interaction_label", owner_name)
     add_to_group("veilleurs_vs001_persistent_corpse")
+
+func interaction_descriptor(_actor: Object = null) -> Dictionary:
+    return EnvironmentInteractionContract.descriptor(
+        "corpse:%s" % (scar_id if scar_id != "" else "missing"),
+        EnvironmentInteractionContract.KIND_CORPSE,
+        owner_name,
+        "AGIR SUR LE CORPS",
+        not scar_id.is_empty(),
+        "missing_scar_id" if scar_id.is_empty() else "",
+        false,
+        {"owner_name": owner_name}
+    )
+
+func perform_interaction(actor: Object = null) -> Dictionary:
+    var current := interaction_descriptor(actor)
+    if not bool(current.get("available", false)):
+        return EnvironmentInteractionContract.result(current, false, "blocked", str(current.get("blocked_reason", "missing_scar_id")))
+    var preview := interact()
+    var success := bool(preview.get("ok", preview.get("success", true)))
+    return EnvironmentInteractionContract.result(
+        current,
+        success,
+        "preview" if success else "blocked",
+        str(preview.get("reason", "interaction_failed" if not success else "")),
+        {"preview": preview}
+    )
 
 func interact() -> Dictionary:
     if scar_id.is_empty():

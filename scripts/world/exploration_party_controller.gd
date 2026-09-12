@@ -2,6 +2,7 @@ extends CharacterBody3D
 class_name ExplorationPartyController
 
 signal interaction_requested
+signal interaction_resolved(result: Dictionary)
 signal movement_state_changed(is_moving: bool, is_running: bool)
 
 @export var walk_speed := 4.5
@@ -60,6 +61,9 @@ func interact() -> void:
     interaction_requested.emit()
     _try_interact()
 
+func interaction_descriptor_for(target: Object) -> Dictionary:
+    return EnvironmentInteractionContract.describe(target, self)
+
 func _unhandled_input(event: InputEvent) -> void:
     if event.is_action_pressed("interact"):
         interact()
@@ -91,7 +95,7 @@ func _footstep_cue() -> String:
             return "footstep_stone"
     return "footstep_ash"
 
-func _try_interact() -> void:
+func _try_interact() -> Dictionary:
     var origin := global_position + Vector3.UP * 1.0
     var forward := -global_transform.basis.z.normalized()
     var query := PhysicsRayQueryParameters3D.create(origin, origin + forward * interaction_distance)
@@ -99,11 +103,10 @@ func _try_interact() -> void:
     query.collide_with_bodies = true
     var hit := get_world_3d().direct_space_state.intersect_ray(query)
     if hit.is_empty():
-        return
-    var target = hit.get("collider")
-    if target != null and target.has_method("interact"):
-        target.interact()
-    elif target != null and target.has_method("harvest"):
-        target.harvest()
-    elif target != null and target.has_method("rest"):
-        target.rest()
+        return {}
+    var target := hit.get("collider") as Object
+    if target == null or not EnvironmentInteractionContract.supports(target):
+        return {}
+    var result := EnvironmentInteractionContract.perform(target, self)
+    interaction_resolved.emit(result)
+    return result
