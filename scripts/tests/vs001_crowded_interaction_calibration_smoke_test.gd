@@ -133,8 +133,10 @@ func _ambiguous_pose(first: Vector3, second: Vector3) -> Dictionary:
     var perpendicular := Vector3(-segment.z, 0.0, segment.x).normalized()
     var offset := sqrt(maxf(0.04, radius * radius - half * half))
     var position := midpoint + perpendicular * offset
-    position.y = 0.85
-    midpoint.y = 0.85
+    var proxy_y := (first.y + second.y) * 0.5
+    var party_y := proxy_y - 0.25
+    position.y = party_y
+    midpoint.y = party_y
     return {"position": position, "midpoint": midpoint}
 
 func _check(condition: bool, message: String) -> void:
