@@ -35,6 +35,6 @@ jobs:
           - veilleurs
           - ui-qa
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Compilation stricte et parcours Godot du domaine
         run: bash tools/build/run_godot_ci_domain.sh "${{ matrix.domain }}"

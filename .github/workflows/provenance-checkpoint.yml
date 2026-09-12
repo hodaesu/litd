@@ -21,7 +21,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout exact measured commit
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           persist-credentials: false
