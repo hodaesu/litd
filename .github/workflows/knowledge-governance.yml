@@ -18,20 +18,6 @@ on:
       - '.github/workflows/target-revision-governance.yml'
       - '.github/workflows/knowledge-governance.yml'
   pull_request:
-    paths:
-      - 'docs/knowledge/**'
-      - 'docs/BIBLIOTHEQUE_GOUVERNANCE.md'
-      - 'tools/quality/**'
-      - 'tests/python/test_*quality*.py'
-      - 'tests/python/test_goalpost_drift_analyzer.py'
-      - 'tests/python/test_goalpost_review_candidate.py'
-      - 'tests/python/test_measurement_history.py'
-      - 'tests/python/test_measurement_target_binding.py'
-      - 'tests/python/test_provenance_checkpoint.py'
-      - '.github/workflows/measurement-provenance.yml'
-      - '.github/workflows/provenance-checkpoint.yml'
-      - '.github/workflows/target-revision-governance.yml'
-      - '.github/workflows/knowledge-governance.yml'
   workflow_dispatch:
 
 permissions:
