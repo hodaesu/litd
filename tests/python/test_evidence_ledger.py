@@ -44,10 +44,6 @@ def test_scope_is_persisted_with_evidence(tmp_path: Path):
     ledger.close()
 
 
-def test_decision_chain_is_valid():
-    pass
-
-
 def test_decision_chain_is_valid(tmp_path: Path):
     ledger = EvidenceLedger(tmp_path / "ledger.sqlite3")
     first = ledger.append_decision("EV-001", "ACCEPTED_FOR_ROUTING", "validated")
