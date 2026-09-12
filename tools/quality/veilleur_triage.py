@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Governed bridge from autonomous Veilleur discovery into ingress + Trieur.
 
-The bridge validates and records evidence, applies the conservative library
-router, and emits review candidates. It never writes to a library or the Core.
+The bridge validates project scope, records evidence, applies the conservative
+library router, and emits review candidates. It never writes to a library or Core.
 """
 
 from __future__ import annotations
@@ -14,7 +14,7 @@ from typing import Any
 
 from tools.quality.evidence_ledger import EvidenceLedger
 from tools.quality.library_trieur import route_information
-from tools.quality.veilleur_v2_ingest import validate_and_record
+from tools.quality.veilleur_v2_ingest import PROJECT_ID, TARGET_ROUTE, validate_and_record
 
 
 def _impact_scopes(event: dict[str, Any]) -> list[str]:
@@ -40,6 +40,10 @@ def process_batch(batch: dict[str, Any], ledger: EvidenceLedger) -> dict[str, An
         raise ValueError("restored evidence ledger chain verification failed")
     if batch.get("kind") != "LITD_VEILLEUR_DISCOVERY_BATCH":
         raise ValueError("invalid discovery batch kind")
+    if batch.get("project_id") != PROJECT_ID:
+        raise ValueError("discovery batch project scope mismatch")
+    if batch.get("target_route") != TARGET_ROUTE:
+        raise ValueError("discovery batch route scope mismatch")
     if batch.get("core_write_allowed") is not False:
         raise ValueError("discovery batch attempted Core authority")
     if batch.get("automatic_library_write_allowed") is not False:
@@ -53,6 +57,8 @@ def process_batch(batch: dict[str, Any], ledger: EvidenceLedger) -> dict[str, An
     for event in candidates:
         ingest = validate_and_record(event, ledger)
         row: dict[str, Any] = {
+            "project_id": PROJECT_ID,
+            "target_route": TARGET_ROUTE,
             "evidence_id": event.get("evidence_id") if isinstance(event, dict) else None,
             "ingress_status": ingest.status,
             "ingress_reason": ingest.reason,
@@ -106,6 +112,8 @@ def process_batch(batch: dict[str, Any], ledger: EvidenceLedger) -> dict[str, An
     }
     return {
         "kind": "LITD_VEILLEUR_TRIAGE_BATCH",
+        "project_id": PROJECT_ID,
+        "target_route": TARGET_ROUTE,
         "status": "READY_FOR_GOVERNED_LIBRARY_REVIEW",
         "source_generated_at": batch.get("generated_at"),
         "summary": summary,
