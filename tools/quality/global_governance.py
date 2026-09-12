@@ -3,8 +3,9 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -63,6 +64,28 @@ def _validate_schema_contract(
                 errors.append(f"{entry_id}: invalid {field} {entry[field]!r}")
 
 
+def _safe_repo_paths(paths: object) -> bool:
+    if not isinstance(paths, list) or not paths:
+        return False
+    for raw in paths:
+        if not isinstance(raw, str) or not raw or "\\" in raw or "\x00" in raw:
+            return False
+        path = PurePosixPath(raw)
+        if (
+            path.is_absolute()
+            or path.as_posix() != raw
+            or any(part == ".." or part.casefold() == ".git" for part in path.parts)
+        ):
+            return False
+    return True
+
+
+def _expected_core_candidate_id(candidate: dict) -> str:
+    payload = {key: value for key, value in candidate.items() if key != "id"}
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return "CORE-CANDIDATE-" + hashlib.sha256(canonical.encode()).hexdigest()[:16].upper()
+
+
 def validate(root: Path = REGISTRY_ROOT, schema_root: Path = SCHEMA_ROOT) -> list[str]:
     errors: list[str] = []
     try:
@@ -70,6 +93,7 @@ def validate(root: Path = REGISTRY_ROOT, schema_root: Path = SCHEMA_ROOT) -> lis
         decision_entries = _load("decision_registry.json", root)
         change_entries = _load("change_registry.json", root)
         evidence_entries = _load("evidence_registry.json", root)
+        candidate_entries = _load("core_candidate_registry.json", root)
     except ValueError as exc:
         return [str(exc)]
 
@@ -77,10 +101,37 @@ def validate(root: Path = REGISTRY_ROOT, schema_root: Path = SCHEMA_ROOT) -> lis
     _validate_schema_contract(decision_entries, "decision.schema.json", "decision", errors, schema_root)
     _validate_schema_contract(change_entries, "change_candidate.schema.json", "change", errors, schema_root)
     _validate_schema_contract(evidence_entries, "evidence.schema.json", "evidence", errors, schema_root)
+    _validate_schema_contract(candidate_entries, "core_change_candidate.schema.json", "core_candidate", errors, schema_root)
     knowledge = _index(knowledge_entries, "knowledge", errors)
     decisions = _index(decision_entries, "decision", errors)
     changes = _index(change_entries, "change", errors)
     evidence = _index(evidence_entries, "evidence", errors)
+    candidates = _index(candidate_entries, "core_candidate", errors)
+
+    for candidate in candidates.values():
+        candidate_id = candidate.get("id", "<unknown>")
+        if candidate.get("status") != "REVIEW":
+            errors.append(f"{candidate_id}: Core candidate must remain in REVIEW")
+        if candidate.get("guardian") != "ORANGE":
+            errors.append(f"{candidate_id}: Core candidate Guardian must remain ORANGE")
+        if candidate.get("human_approval") is not False:
+            errors.append(f"{candidate_id}: Core candidate cannot carry human approval")
+        if candidate.get("core_write_allowed") is not False:
+            errors.append(f"{candidate_id}: Core candidate cannot authorize Core writes")
+        if not _safe_repo_paths(candidate.get("affected_paths")):
+            errors.append(f"{candidate_id}: unsafe affected path")
+        if isinstance(candidate_id, str) and candidate_id != _expected_core_candidate_id(candidate):
+            errors.append(f"{candidate_id}: deterministic candidate id mismatch")
+        for field in ("knowledge_ids", "pillars", "affected_paths", "risks", "contradictor_findings"):
+            values = candidate.get(field)
+            if isinstance(values, list) and len(values) != len(set(values)):
+                errors.append(f"{candidate_id}: duplicate values in {field}")
+        for ref in candidate.get("knowledge_ids", []):
+            entry = knowledge.get(ref)
+            if entry is None:
+                errors.append(f"{candidate_id}: unknown knowledge {ref}")
+            elif entry.get("status") != "ACTIVE":
+                errors.append(f"{candidate_id}: Core candidate requires ACTIVE knowledge {ref}")
 
     for decision in decisions.values():
         refs = decision.get("knowledge_ids")
