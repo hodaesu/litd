@@ -16,6 +16,8 @@ def _event(summary: str = "Godot UI guidance validated to apply to LITD Les Veil
     title = "Verified LITD interface research"
     source_url = "https://example.com/verified-interface-research"
     return {
+        "project_id": "LITD",
+        "target_route": "LITD_LIBRARY",
         "evidence_id": "EV-INTAKE-003",
         "title": title,
         "summary": summary,
