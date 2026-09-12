@@ -36,8 +36,11 @@ def test_litd_change_candidate_requires_guardian_and_never_writes_core():
 
 
 def test_general_knowledge_cannot_propose_litd_change_candidate():
+    item = candidate("GENERAL_LIBRARY")
+    data = resolution()
+    data["candidate_hash"] = item["candidate_hash"]
     with pytest.raises(ValueError, match="LITD_LIBRARY"):
-        resolve_candidate(candidate("GENERAL_LIBRARY"), resolution())
+        resolve_candidate(item, data)
 
 
 def test_candidate_hash_mismatch_fails_closed():
@@ -50,7 +53,10 @@ def test_candidate_hash_mismatch_fails_closed():
 def test_cross_reference_requires_explicit_candidate_signal():
     with pytest.raises(ValueError, match="cross_reference"):
         resolve_candidate(candidate(), resolution("LINK_AS_CROSS_REFERENCE"))
-    receipt = resolve_candidate(candidate(cross_reference=True), resolution("LINK_AS_CROSS_REFERENCE"))
+    item = candidate(cross_reference=True)
+    data = resolution("LINK_AS_CROSS_REFERENCE")
+    data["candidate_hash"] = item["candidate_hash"]
+    receipt = resolve_candidate(item, data)
     assert receipt["outcome"] == "CROSS_REFERENCE_APPROVED_PENDING_APPLICATION"
 
 
