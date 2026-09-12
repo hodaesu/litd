@@ -1,0 +1,47 @@
+name: Governance Replay Protection Contract
+
+on:
+  pull_request:
+    paths:
+      - 'tools/quality/governance_replay_registry.py'
+      - 'tests/python/test_governance_replay_registry.py'
+      - '.github/workflows/governance-replay-protection-contract.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay-protection:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Run replay protection tests
+        run: python -m pytest -q tests/python/test_governance_replay_registry.py
+      - name: Assert hard replay-protection boundaries
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('tools/quality/governance_replay_registry.py').read_text(encoding='utf-8')
+          for invariant in (
+              'BEGIN IMMEDIATE',
+              "state='consumed'",
+              'receipt_superseded',
+              'receipt_revoked',
+              'stale_context',
+              'scope_mismatch',
+              'binding_mismatch',
+              'replay_audit_is_append_only',
+              'PROJECT_ID = "LITD"',
+              'TARGET_ROUTE = "LITD_LIBRARY"',
+          ):
+              assert invariant in text, invariant
+          print('Replay protection contract invariants OK')
+          PY
