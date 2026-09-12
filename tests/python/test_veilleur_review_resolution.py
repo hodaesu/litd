@@ -16,9 +16,10 @@ def candidate(route="LITD_LIBRARY", cross_reference=False):
     return payload
 
 
-def resolution(decision="PROPOSE_LITD_CHANGE_CANDIDATE"):
+def resolution(decision="PROPOSE_LITD_CHANGE_CANDIDATE", source=None):
+    reviewed_candidate = source if source is not None else candidate()
     return {
-        "candidate_hash": candidate()["candidate_hash"],
+        "candidate_hash": reviewed_candidate["candidate_hash"],
         "decision": decision,
         "rationale": "Evidence and impact review justify this governed decision.",
         "decided_by": "guardian-review",
@@ -28,7 +29,8 @@ def resolution(decision="PROPOSE_LITD_CHANGE_CANDIDATE"):
 
 
 def test_litd_change_candidate_requires_guardian_and_never_writes_core():
-    receipt = resolve_candidate(candidate(), resolution())
+    reviewed_candidate = candidate()
+    receipt = resolve_candidate(reviewed_candidate, resolution(source=reviewed_candidate))
     assert receipt["outcome"] == "LITD_CHANGE_CANDIDATE_APPROVED_PENDING_GUARDIAN"
     assert receipt["requires_guardian_review"] is True
     assert receipt["core_write_allowed"] is False
@@ -36,8 +38,9 @@ def test_litd_change_candidate_requires_guardian_and_never_writes_core():
 
 
 def test_general_knowledge_cannot_propose_litd_change_candidate():
+    reviewed_candidate = candidate("GENERAL_LIBRARY")
     with pytest.raises(ValueError, match="LITD_LIBRARY"):
-        resolve_candidate(candidate("GENERAL_LIBRARY"), resolution())
+        resolve_candidate(reviewed_candidate, resolution(source=reviewed_candidate))
 
 
 def test_candidate_hash_mismatch_fails_closed():
@@ -48,18 +51,27 @@ def test_candidate_hash_mismatch_fails_closed():
 
 
 def test_cross_reference_requires_explicit_candidate_signal():
+    reviewed_candidate = candidate()
     with pytest.raises(ValueError, match="cross_reference"):
-        resolve_candidate(candidate(), resolution("LINK_AS_CROSS_REFERENCE"))
-    receipt = resolve_candidate(candidate(cross_reference=True), resolution("LINK_AS_CROSS_REFERENCE"))
+        resolve_candidate(
+            reviewed_candidate,
+            resolution("LINK_AS_CROSS_REFERENCE", reviewed_candidate),
+        )
+    reviewed_candidate = candidate(cross_reference=True)
+    receipt = resolve_candidate(
+        reviewed_candidate,
+        resolution("LINK_AS_CROSS_REFERENCE", reviewed_candidate),
+    )
     assert receipt["outcome"] == "CROSS_REFERENCE_APPROVED_PENDING_APPLICATION"
 
 
 def test_supersession_requires_explicit_target_and_never_auto_obsoletes():
-    data = resolution("PROPOSE_SUPERSESSION")
+    reviewed_candidate = candidate()
+    data = resolution("PROPOSE_SUPERSESSION", reviewed_candidate)
     with pytest.raises(ValueError, match="supersedes_record_id"):
-        resolve_candidate(candidate(), data)
+        resolve_candidate(reviewed_candidate, data)
     data["supersedes_record_id"] = "record-old"
-    receipt = resolve_candidate(candidate(), data)
+    receipt = resolve_candidate(reviewed_candidate, data)
     assert receipt["automatic_obsolescence_allowed"] is False
     assert receipt["supersedes_record_id"] == "record-old"
 
@@ -76,7 +88,7 @@ def test_candidate_authority_escalation_is_rejected():
     bad["core_write_allowed"] = True
     bad["candidate_hash"] = _hash({k: v for k, v in bad.items() if k != "candidate_hash"})
     with pytest.raises(ValueError, match="Core authority"):
-        resolve_candidate(bad, resolution())
+        resolve_candidate(bad, resolution(source=bad))
 
 
 def test_tampered_candidate_with_stale_hash_fails_closed():
