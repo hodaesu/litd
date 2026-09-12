@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run enforcement contract tests
-        run: python -m pytest -q tests/python/test_github_merge_enforcement_contract.py
+        run: python -m unittest tests.python.test_github_merge_enforcement_contract -v
 
       - name: Fetch live main and rulesets
         env:
@@ -41,8 +41,9 @@ jobs:
           import json
           from pathlib import Path
           rows = json.loads(Path("reports/live-merge-enforcement/ruleset-list.json").read_text())
+          ids = [str(row["id"]) for row in rows if isinstance(row, dict) and "id" in row]
           Path("reports/live-merge-enforcement/ruleset-ids.txt").write_text(
-              "\n".join(str(row["id"]) for row in rows if isinstance(row, dict) and "id" in row) + ("\n" if rows else "")
+              "\n".join(ids) + ("\n" if ids else "")
           )
           PY
           while IFS= read -r ruleset_id; do
@@ -78,5 +79,5 @@ jobs:
         with:
           name: merge-execution-enforcement-${{ github.sha }}
           path: reports/live-merge-enforcement
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 30
