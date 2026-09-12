@@ -1,0 +1,24 @@
+{
+  "kind": "LITD_REPOSITORY_GOVERNANCE_POLICY",
+  "version": 1,
+  "target_branch": "main",
+  "required": {
+    "pull_request_required": true,
+    "direct_push_forbidden": true,
+    "force_push_forbidden": true,
+    "branch_deletion_forbidden": true,
+    "required_status_checks": [
+      "CI",
+      "Knowledge Governance",
+      "Knowledge Guardian",
+      "Remanence Smoke"
+    ],
+    "require_conversation_resolution": true,
+    "bypass_allowed": false
+  },
+  "governance": {
+    "policy_changes_require_pull_request": true,
+    "automatic_policy_relaxation_allowed": false,
+    "core_write_allowed": false
+  }
+}
