@@ -89,7 +89,7 @@ jobs:
           assert review['automatic_core_change_candidate_allowed'] is False
           PY
       - name: Upload governed Veilleur evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: veilleur-governed-review-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
@@ -99,7 +99,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
       - name: Upload append-only Veilleur ledger for next run
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: veilleur-ledger
           path: reports/veilleur-evidence-ledger.sqlite3

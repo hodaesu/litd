@@ -165,42 +165,42 @@ jobs:
           tests/python/test_pr_design_summary.py
           tests/python/test_design_regression_gate.py
       - name: Upload provenance-ready measurements
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: measurement-candidates-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/measurement-candidates/*.measurement.json
           if-no-files-found: warn
       - name: Upload longitudinal measurement history
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: measurement-history-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/measurement-history.json
           if-no-files-found: warn
       - name: Upload measurement to target binding
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: measurement-target-binding-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/measurement-target-binding.json
           if-no-files-found: warn
       - name: Upload goalpost drift diagnostic
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: goalpost-drift-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/goalpost-drift.json
           if-no-files-found: warn
       - name: Upload governed goalpost review candidate
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: goalpost-review-candidate-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
           path: reports/goalpost-review-candidate.json
           if-no-files-found: warn
       - name: Upload baseline comparisons
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: measurement-comparisons-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
@@ -218,7 +218,7 @@ jobs:
           python -m tools.quality.design_decision_candidate "${comparisons[@]}" \
             --output reports/design-review-candidate.json
       - name: Upload design review candidate
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: design-review-candidate-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
@@ -237,7 +237,7 @@ jobs:
             --upstream-run-id "${{ github.event.workflow_run.id }}" \
             --output reports/pr-design-summary.md
       - name: Upload Pull Request design summary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: pr-design-summary-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
@@ -277,7 +277,7 @@ jobs:
           python -m tools.quality.design_regression_gate "${comparisons[@]}" \
             --report reports/design-regression-gate.json
       - name: Upload design regression gate report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: design-regression-gate-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}

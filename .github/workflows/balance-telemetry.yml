@@ -75,7 +75,7 @@ jobs:
           --markdown reports/balance-lab-v03.md
           --strict
       - name: Publier les rapports rapides
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: balance-telemetry-pr-smoke
@@ -99,7 +99,7 @@ jobs:
           --csv reports/roguelike-telemetry.csv
           --strict
       - name: Publier les rapports d'équilibrage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: roguelike-balance-telemetry
@@ -126,7 +126,7 @@ jobs:
           --raw-csv-gz reports/balance-matrix-cells.csv.gz
           --strict
       - name: Publier la matrice globale
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: full-game-balance-matrix
@@ -150,7 +150,7 @@ jobs:
           --report reports/veilleurs-vertical-slice-compatibility.json
           --strict
       - name: Publier le rapport de compatibilité du vertical slice
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: veilleurs-vertical-slice-compatibility
@@ -175,7 +175,7 @@ jobs:
           --markdown reports/balance-lab-v03.md
           --strict
       - name: Publier BalanceLab v0.3
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: balance-lab-v03-sim001
