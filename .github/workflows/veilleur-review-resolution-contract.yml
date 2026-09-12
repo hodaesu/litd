@@ -1,0 +1,43 @@
+name: Veilleur Review Resolution Contract
+
+on:
+  pull_request:
+    paths:
+      - 'tools/quality/veilleur_review_resolution.py'
+      - 'tests/python/test_veilleur_review_resolution.py'
+      - '.github/workflows/veilleur-review-resolution-contract.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Verify governed resolution contract
+        run: python -m pytest -q tests/python/test_veilleur_review_resolution.py
+      - name: Assert no direct authority
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text=Path('tools/quality/veilleur_review_resolution.py').read_text(encoding='utf-8')
+          required=[
+              'core_write_allowed": False',
+              'library_write_allowed": False',
+              'automatic_obsolescence_allowed": False',
+              'automatic_target_change_allowed": False',
+              'LITD_CHANGE_CANDIDATE_APPROVED_PENDING_GUARDIAN',
+          ]
+          missing=[token for token in required if token not in text]
+          if missing:
+              raise SystemExit('Missing governed-resolution invariants: '+repr(missing))
+          PY
