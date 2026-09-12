@@ -44,7 +44,8 @@ func _run() -> void:
     a.position = Vector2(0, 0)
     b.position = Vector2(180, 0)
     c.position = Vector2(0, 90)
-    ui.call("_p0_wire_focus_graph", [a, b, c])
+    var controls: Array[Control] = [a, b, c]
+    ui.call("_p0_wire_focus_graph", controls)
     _check(a.focus_neighbor_right != NodePath(), "focus graph exposes an explicit right neighbor")
     _check(a.focus_neighbor_bottom != NodePath(), "focus graph exposes an explicit bottom neighbor")
     _check(a.focus_next != NodePath() and a.focus_previous != NodePath(), "focus graph provides deterministic next/previous fallbacks")
