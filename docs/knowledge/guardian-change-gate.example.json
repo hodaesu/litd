@@ -1,0 +1,23 @@
+{
+  "receipt_hash": "REPLACE_WITH_RESOLUTION_RECEIPT_HASH",
+  "decision": "ACCEPT_FOR_IMPLEMENTATION",
+  "decided_by": "governed-reviewer",
+  "decided_at": "2026-09-12T07:00:00Z",
+  "rationale": "Evidence and impact analysis justify a bounded implementation experiment before any application decision.",
+  "change_summary": "Implement the approved LITD change in a dedicated branch with no target or Guardian-rule edits.",
+  "player_value": "The experiment must state the concrete player-facing benefit that is expected and later measured.",
+  "technical_value": "The implementation remains isolated, testable and reversible with explicit provenance.",
+  "risk": "Unexpected regressions may occur outside the narrow scope and must be detected by required CI and measurements.",
+  "reversibility": "The implementation is contained in one PR and can be reverted without rewriting governance history.",
+  "affected_paths": [
+    "scripts/core/example.gd"
+  ],
+  "required_tests": [
+    "python -m pytest -q tests/python/test_example.py",
+    "godot --headless --path . --import --quit"
+  ],
+  "rollback_plan": "Revert the implementation PR, rerun the exact mandatory tests, then compare the resulting measurements with the pre-change baseline.",
+  "evidence_refs": [
+    "REPLACE_WITH_EVIDENCE_REFERENCE"
+  ]
+}
