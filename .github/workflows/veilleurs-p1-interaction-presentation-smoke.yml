@@ -1,0 +1,30 @@
+name: Veilleurs P1 Interaction Presentation Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/world/exploration_party_controller.gd'
+      - 'scripts/world/ashlands_hud.gd'
+      - 'scripts/core/environment_interaction_contract.gd'
+      - 'scripts/tests/player_interaction_presentation_smoke_test.gd'
+      - 'scenes/tests/player_interaction_presentation_smoke.tscn'
+      - 'tests/python/test_player_interaction_presentation.py'
+      - '.github/workflows/veilleurs-p1-interaction-presentation-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  interaction-presentation:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Strict Godot import
+        run: godot --headless --path . --import --quit
+      - name: P1 interaction presentation smoke
+        run: timeout 60s godot --headless --path . res://scenes/tests/player_interaction_presentation_smoke.tscn
+      - name: P1 interaction presentation source contracts
+        run: python -m pytest -q tests/python/test_player_interaction_presentation.py
