@@ -2,12 +2,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 MENU = ROOT / "scripts" / "ui" / "context_menu_ui_v2.gd"
+MENU_V3 = ROOT / "scripts" / "ui" / "context_menu_ui_v3.gd"
 PROJECT = ROOT / "project.godot"
 
 
-def test_context_menu_v2_is_active():
+def test_context_menu_v3_is_active_and_layers_v2():
     text = PROJECT.read_text(encoding="utf-8")
-    assert 'ContextMenuUI="*res://scripts/ui/context_menu_ui_v2.gd"' in text
+    assert 'ContextMenuUI="*res://scripts/ui/context_menu_ui_v3.gd"' in text
+    v3 = MENU_V3.read_text(encoding="utf-8")
+    assert 'extends "res://scripts/ui/context_menu_ui_v2.gd"' in v3
 
 
 def test_context_menu_uses_progressive_disclosure():
