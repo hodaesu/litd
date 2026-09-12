@@ -44,6 +44,17 @@
       "dependencies": ["tools/quality/knowledge_intake.py", "tools/quality/global_governance.py"],
       "validated_at": "2026-09-11",
       "revalidate_at": "2026-10-11"
+    },
+    {
+      "id": "KNOW-GOVERNANCE-IMPACT-005",
+      "domain": "project-governance",
+      "claim": "Only ACTIVE Knowledge may generate a review-only Core change candidate containing explicit impacts, risks, contradiction findings, tests and rollback.",
+      "status": "EXPERIMENTAL",
+      "sources": ["docs/knowledge/governance/README.md"],
+      "contradictions": ["A declared affected-path list may remain incomplete until dependency analysis becomes repository-aware."],
+      "dependencies": ["tools/quality/knowledge_promotion.py", "tools/quality/global_governance.py"],
+      "validated_at": "2026-09-12",
+      "revalidate_at": "2026-10-12"
     }
   ]
 }

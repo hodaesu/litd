@@ -52,6 +52,19 @@
       "decision": "Add a dry-run-first, fail-closed and idempotent EXPERIMENTAL-to-ACTIVE promotion tool with an attributable review record and no Core write authority.",
       "human_approval": true,
       "affected_paths": ["tools/quality/knowledge_promotion.py", "tests/python/test_knowledge_promotion.py", "docs/knowledge/governance"]
+    },
+    {
+      "id": "DEC-GOVERNANCE-IMPACT-005",
+      "status": "REVIEW",
+      "problem": "ACTIVE Knowledge has no deterministic and governed path to propose a change to the Core.",
+      "knowledge_ids": ["KNOW-GOVERNANCE-IMPACT-005"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Keep impact analysis informal", "Allow Knowledge to create approved Core decisions", "Create candidates without contradiction or rollback data"],
+      "contradictor_findings": ["Declared impact paths can be incomplete; candidates must remain review-only until repository-aware analysis is added."],
+      "risks": ["Initial impact scope depends on human-supplied paths", "Concurrent JSON writers remain unsupported"],
+      "decision": "Add a deterministic, dry-run-first impact tool and registry that accept only ACTIVE Knowledge and create review-only Core candidates with no write authority.",
+      "human_approval": false,
+      "affected_paths": ["tools/quality/knowledge_impact.py", "tests/python/test_knowledge_impact.py", "tools/quality/global_governance.py", "docs/knowledge/governance"]
     }
   ]
 }

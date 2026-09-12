@@ -70,6 +70,7 @@ def validate(root: Path = REGISTRY_ROOT, schema_root: Path = SCHEMA_ROOT) -> lis
         decision_entries = _load("decision_registry.json", root)
         change_entries = _load("change_registry.json", root)
         evidence_entries = _load("evidence_registry.json", root)
+        candidate_entries = _load("core_candidate_registry.json", root)
     except ValueError as exc:
         return [str(exc)]
 
@@ -77,10 +78,28 @@ def validate(root: Path = REGISTRY_ROOT, schema_root: Path = SCHEMA_ROOT) -> lis
     _validate_schema_contract(decision_entries, "decision.schema.json", "decision", errors, schema_root)
     _validate_schema_contract(change_entries, "change_candidate.schema.json", "change", errors, schema_root)
     _validate_schema_contract(evidence_entries, "evidence.schema.json", "evidence", errors, schema_root)
+    _validate_schema_contract(candidate_entries, "core_change_candidate.schema.json", "core_candidate", errors, schema_root)
     knowledge = _index(knowledge_entries, "knowledge", errors)
     decisions = _index(decision_entries, "decision", errors)
     changes = _index(change_entries, "change", errors)
     evidence = _index(evidence_entries, "evidence", errors)
+    candidates = _index(candidate_entries, "core_candidate", errors)
+
+    for candidate in candidates.values():
+        if candidate.get("status") != "REVIEW":
+            errors.append(f"{candidate['id']}: Core candidate must remain in REVIEW")
+        if candidate.get("guardian") != "ORANGE":
+            errors.append(f"{candidate['id']}: Core candidate Guardian must remain ORANGE")
+        if candidate.get("human_approval") is not False:
+            errors.append(f"{candidate['id']}: Core candidate cannot carry human approval")
+        for ref in candidate.get("knowledge_ids", []):
+            entry = knowledge.get(ref)
+            if entry is None:
+                errors.append(f"{candidate['id']}: unknown knowledge {ref}")
+            elif entry.get("status") != "ACTIVE":
+                errors.append(f"{candidate['id']}: Core candidate requires ACTIVE knowledge {ref}")
+        if candidate.get("core_write_allowed") is not False:
+            errors.append(f"{candidate['id']}: Core candidate cannot authorize Core writes")
 
     for decision in decisions.values():
         refs = decision.get("knowledge_ids")

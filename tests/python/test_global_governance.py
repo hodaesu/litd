@@ -37,3 +37,30 @@ def test_green_requires_human_approval(tmp_path: Path):
     payload["entries"][0]["human_approval"] = False
     path.write_text(json.dumps(payload), encoding="utf-8")
     assert any("GREEN requires approved human decision" in error for error in validate(tmp_path))
+
+
+def test_gate_rejects_core_candidate_with_write_authority(tmp_path: Path):
+    for source in REGISTRY_ROOT.glob("*.json"):
+        (tmp_path / source.name).write_bytes(source.read_bytes())
+    path = tmp_path / "core_candidate_registry.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["entries"].append({
+        "id": "CORE-CANDIDATE-0123456789ABCDEF",
+        "status": "REVIEW",
+        "knowledge_ids": ["KNOW-GOVERNANCE-FOUNDATION-001"],
+        "summary": "Unsafe candidate",
+        "rationale": "Contract test",
+        "pillars": ["P9"],
+        "affected_paths": ["docs/example.json"],
+        "risks": ["Unsafe authority"],
+        "contradictor_findings": ["Must be blocked"],
+        "test_plan": "Run the gate",
+        "rollback_plan": "Discard candidate",
+        "guardian": "GREEN",
+        "human_approval": True,
+        "core_write_allowed": True,
+    })
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    errors = validate(tmp_path)
+    assert any("cannot authorize Core writes" in error for error in errors)
+    assert any("must remain ORANGE" in error for error in errors)
