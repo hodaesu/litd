@@ -11,6 +11,7 @@ var _interaction_panel: PanelContainer
 var _interaction_button: Button
 var _interaction_feedback_label: Label
 var _interaction_feedback_timer: Timer
+var _interaction_salience := EnvironmentInteractionContract.SALIENCE_CONTEXTUAL
 
 func _ready() -> void:
     margin.visible = false
@@ -61,11 +62,11 @@ func _create_interaction_ui() -> void:
 
     _interaction_button = Button.new()
     _interaction_button.name = "InteractionAction"
-    _interaction_button.custom_minimum_size = Vector2(0, 48)
     _interaction_button.focus_mode = Control.FOCUS_NONE
     _interaction_button.visible = false
     _interaction_button.pressed.connect(_on_interaction_pressed)
     column.add_child(_interaction_button)
+    _apply_interaction_salience_style(EnvironmentInteractionContract.SALIENCE_CONTEXTUAL)
 
     _interaction_feedback_label = Label.new()
     _interaction_feedback_label.name = "InteractionFeedback"
@@ -129,15 +130,38 @@ func _on_party_controller_tree_exiting() -> void:
 
 func _on_interaction_target_changed(descriptor: Dictionary) -> void:
     if descriptor.is_empty():
+        _interaction_salience = EnvironmentInteractionContract.SALIENCE_CONTEXTUAL
+        _apply_interaction_salience_style(_interaction_salience)
         _interaction_button.visible = false
         _interaction_button.disabled = false
         _interaction_button.text = ""
         _update_interaction_visibility()
         return
+    _interaction_salience = EnvironmentInteractionContract.normalize_salience(
+        str(descriptor.get("salience", EnvironmentInteractionContract.SALIENCE_CONTEXTUAL))
+    )
+    _apply_interaction_salience_style(_interaction_salience)
     _interaction_button.text = _interaction_prompt_text(descriptor)
     _interaction_button.disabled = not bool(descriptor.get("available", false))
     _interaction_button.visible = true
     _update_interaction_visibility()
+
+func _apply_interaction_salience_style(salience: String) -> void:
+    if _interaction_button == null:
+        return
+    var profile := interaction_salience_presentation_profile(salience)
+    _interaction_button.add_theme_font_size_override("font_size", int(profile.get("font_size", 16)))
+    _interaction_button.custom_minimum_size = Vector2(0.0, float(profile.get("min_height", 50.0)))
+    _interaction_button.modulate = Color(1.0, 1.0, 1.0, float(profile.get("alpha", 0.94)))
+
+static func interaction_salience_presentation_profile(salience: String) -> Dictionary:
+    match EnvironmentInteractionContract.normalize_salience(salience):
+        EnvironmentInteractionContract.SALIENCE_IMMEDIATE:
+            return {"font_size": 18, "min_height": 54.0, "alpha": 1.0}
+        EnvironmentInteractionContract.SALIENCE_INSPECT:
+            return {"font_size": 15, "min_height": 48.0, "alpha": 0.76}
+        _:
+            return {"font_size": 16, "min_height": 50.0, "alpha": 0.94}
 
 func _on_interaction_pressed() -> void:
     if _party_controller == null or not is_instance_valid(_party_controller):
