@@ -12,6 +12,13 @@ const KIND_CURIOSITY := "curiosity"
 const KIND_CORPSE := "corpse"
 const KIND_MECHANISM := "mechanism"
 
+# Presentation hierarchy is deliberately small. It guides which nearby object
+# gets attention first; it never changes whether an interaction is reachable.
+const SALIENCE_IMMEDIATE := "immediate"
+const SALIENCE_CONTEXTUAL := "contextual"
+const SALIENCE_INSPECT := "inspect"
+const VALID_SALIENCE := [SALIENCE_IMMEDIATE, SALIENCE_CONTEXTUAL, SALIENCE_INSPECT]
+
 static func descriptor(
     interaction_id: String,
     kind: String,
@@ -20,18 +27,36 @@ static func descriptor(
     available: bool = true,
     blocked_reason: String = "",
     consumed: bool = false,
-    inspect: Dictionary = {}
+    inspect: Dictionary = {},
+    salience: String = ""
 ) -> Dictionary:
+    var normalized_kind := kind if not kind.is_empty() else KIND_GENERIC
     return {
         "interaction_id": interaction_id,
-        "kind": kind if not kind.is_empty() else KIND_GENERIC,
+        "kind": normalized_kind,
         "label": label if not label.is_empty() else "Interaction",
         "verb": verb if not verb.is_empty() else "INTERAGIR",
         "available": available,
         "blocked_reason": "" if available else blocked_reason,
         "consumed": consumed,
         "inspect": inspect.duplicate(true),
+        "salience": normalize_salience(salience, normalized_kind),
     }
+
+static func default_salience(kind: String) -> String:
+    match kind:
+        KIND_DOOR, KIND_MECHANISM:
+            return SALIENCE_IMMEDIATE
+        KIND_CURIOSITY:
+            return SALIENCE_INSPECT
+        _:
+            return SALIENCE_CONTEXTUAL
+
+static func normalize_salience(value: String, kind: String = KIND_GENERIC) -> String:
+    var normalized := value.strip_edges().to_lower()
+    if normalized in VALID_SALIENCE:
+        return normalized
+    return default_salience(kind)
 
 static func supports(target: Object) -> bool:
     if target == null or not is_instance_valid(target):
@@ -97,7 +122,8 @@ static func _normalize_descriptor(value: Dictionary, target: Object) -> Dictiona
         available,
         str(value.get("blocked_reason", "unavailable" if not available else "")),
         bool(value.get("consumed", false)),
-        value.get("inspect", {}) as Dictionary if value.get("inspect", {}) is Dictionary else {}
+        value.get("inspect", {}) as Dictionary if value.get("inspect", {}) is Dictionary else {},
+        str(value.get("salience", ""))
     )
 
 static func _legacy_descriptor(target: Object) -> Dictionary:
