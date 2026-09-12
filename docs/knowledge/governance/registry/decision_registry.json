@@ -5,160 +5,66 @@
       "id": "DEC-GOVERNANCE-FOUNDATION-001",
       "status": "APPROVED",
       "problem": "Existing governance components need one fail-closed cross-registry contract.",
-      "knowledge_ids": [
-        "KNOW-GOVERNANCE-FOUNDATION-001"
-      ],
-      "pillars": [
-        "P7",
-        "P9"
-      ],
-      "alternatives": [
-        "Keep independent tools without a shared registry",
-        "Build an autonomous Core writer"
-      ],
-      "contradictor_findings": [
-        "A duplicate governance stack would create conflicting authority; this foundation must extend existing tools."
-      ],
-      "risks": [
-        "Schema rigidity before sufficient operational feedback"
-      ],
+      "knowledge_ids": ["KNOW-GOVERNANCE-FOUNDATION-001"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Keep independent tools without a shared registry", "Build an autonomous Core writer"],
+      "contradictor_findings": ["A duplicate governance stack would create conflicting authority; this foundation must extend existing tools."],
+      "risks": ["Schema rigidity before sufficient operational feedback"],
       "decision": "Add minimal registries and a deterministic fail-closed validator; retain human approval and forbid direct Core writes.",
       "human_approval": true,
-      "affected_paths": [
-        "docs/knowledge/governance",
-        "tools/quality/global_governance.py"
-      ]
+      "affected_paths": ["docs/knowledge/governance", "tools/quality/global_governance.py"]
     },
     {
       "id": "DEC-GOVERNANCE-OPERATIONS-002",
       "status": "APPROVED",
       "problem": "The foundation validates static registries but offers no safe operational path for recording evidence and advancing state.",
-      "knowledge_ids": [
-        "KNOW-GOVERNANCE-OPERATIONS-002"
-      ],
-      "pillars": [
-        "P7",
-        "P9"
-      ],
-      "alternatives": [
-        "Edit registries manually",
-        "Adopt a transactional database immediately",
-        "Allow CI to advance states automatically"
-      ],
-      "contradictor_findings": [
-        "Automatic state advancement would bypass human approval; direct JSON replacement needs explicit rollback handling."
-      ],
-      "risks": [
-        "Concurrent writers remain unsupported",
-        "Operational schema may evolve after real usage"
-      ],
+      "knowledge_ids": ["KNOW-GOVERNANCE-OPERATIONS-002"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Edit registries manually", "Adopt a transactional database immediately", "Allow CI to advance states automatically"],
+      "contradictor_findings": ["Automatic state advancement would bypass human approval; direct JSON replacement needs explicit rollback handling."],
+      "risks": ["Concurrent writers remain unsupported", "Operational schema may evolve after real usage"],
       "decision": "Add a dry-run-first transition tool with exact next-state enforcement, evidence deduplication, pre-write validation and rollback; keep approval human-controlled.",
       "human_approval": true,
-      "affected_paths": [
-        "docs/knowledge/governance",
-        "tools/quality/governance_transition.py",
-        "tests/python/test_governance_transition.py"
-      ]
+      "affected_paths": ["docs/knowledge/governance", "tools/quality/governance_transition.py", "tests/python/test_governance_transition.py"]
     },
     {
       "id": "DEC-GOVERNANCE-INTAKE-003",
       "status": "APPROVED",
       "problem": "Validated VEILLEUR V2 evidence and Trieur decisions are not yet connected to the global Knowledge registry.",
-      "knowledge_ids": [
-        "KNOW-GOVERNANCE-INTAKE-003"
-      ],
-      "pillars": [
-        "P7",
-        "P9"
-      ],
-      "alternatives": [
-        "Continue manual Knowledge entry",
-        "Let the Veilleur write directly",
-        "Route without counterevidence"
-      ],
-      "contradictor_findings": [
-        "Automatic direct writes would bypass review; a fixed 0.70 threshold needs later calibration; counterevidence quality remains human-assessed."
-      ],
-      "risks": [
-        "False quarantine from conservative routing",
-        "Source confidence is producer-supplied until independently calibrated"
-      ],
+      "knowledge_ids": ["KNOW-GOVERNANCE-INTAKE-003"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Continue manual Knowledge entry", "Let the Veilleur write directly", "Route without counterevidence"],
+      "contradictor_findings": ["Automatic direct writes would bypass review; a fixed 0.70 threshold needs later calibration; counterevidence quality remains human-assessed."],
+      "risks": ["False quarantine from conservative routing", "Source confidence is producer-supplied until independently calibrated"],
       "decision": "Compose the existing ingress validator and Trieur into a dry-run-first Knowledge intake that creates only EXPERIMENTAL review candidates.",
       "human_approval": true,
-      "affected_paths": [
-        "tools/quality/knowledge_intake.py",
-        "tests/python/test_knowledge_intake.py",
-        "docs/knowledge/veilleur-v2-contract.json"
-      ]
+      "affected_paths": ["tools/quality/knowledge_intake.py", "tests/python/test_knowledge_intake.py", "docs/knowledge/veilleur-v2-contract.json"]
     },
     {
       "id": "DEC-GOVERNANCE-PROMOTION-004",
       "status": "APPROVED",
       "problem": "EXPERIMENTAL Knowledge candidates have no governed, attributable path to become ACTIVE.",
-      "knowledge_ids": [
-        "KNOW-GOVERNANCE-PROMOTION-004"
-      ],
-      "pillars": [
-        "P7",
-        "P9"
-      ],
-      "alternatives": [
-        "Keep all intake candidates experimental indefinitely",
-        "Allow automatic confidence-based promotion",
-        "Edit Knowledge status manually"
-      ],
-      "contradictor_findings": [
-        "Human approval cannot replace source quality; contradiction handling and revalidation must remain mandatory."
-      ],
-      "risks": [
-        "Reviewer identity is declarative until authenticated identity is provided by a future service",
-        "Concurrent JSON writers remain unsupported"
-      ],
+      "knowledge_ids": ["KNOW-GOVERNANCE-PROMOTION-004"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Keep all intake candidates experimental indefinitely", "Allow automatic confidence-based promotion", "Edit Knowledge status manually"],
+      "contradictor_findings": ["Human approval cannot replace source quality; contradiction handling and revalidation must remain mandatory."],
+      "risks": ["Reviewer identity is declarative until authenticated identity is provided by a future service", "Concurrent JSON writers remain unsupported"],
       "decision": "Add a dry-run-first, fail-closed and idempotent EXPERIMENTAL-to-ACTIVE promotion tool with an attributable review record and no Core write authority.",
       "human_approval": true,
-      "affected_paths": [
-        "tools/quality/knowledge_promotion.py",
-        "tests/python/test_knowledge_promotion.py",
-        "docs/knowledge/governance"
-      ]
+      "affected_paths": ["tools/quality/knowledge_promotion.py", "tests/python/test_knowledge_promotion.py", "docs/knowledge/governance"]
     },
     {
       "id": "DEC-VEILLEUR-AUTONOMY-001",
       "status": "APPROVED",
       "problem": "The Veilleur needs scheduled, evidence-preserving discovery and conservative contradiction review without gaining authority to modify governed Knowledge or Core state.",
-      "knowledge_ids": [
-        "KNOW-VEILLEUR-AUTONOMY-001"
-      ],
-      "pillars": [
-        "P7",
-        "P9"
-      ],
-      "alternatives": [
-        "Keep discovery entirely manual",
-        "Allow feeds to create Knowledge or Core changes automatically",
-        "Deploy the target database and worker architecture before validating repository contracts"
-      ],
-      "contradictor_findings": [
-        "Trusted feed transport does not make arbitrary linked domains trustworthy.",
-        "A total source outage must be blocking rather than reported as a partial success.",
-        "A restored ledger must be verified before any new write, and its archive extraction must be path- and size-constrained."
-      ],
-      "risks": [
-        "GitHub artifact retention does not provide production-grade durable state.",
-        "Source coverage is limited and long-term precision has not yet been measured."
-      ],
+      "knowledge_ids": ["KNOW-VEILLEUR-AUTONOMY-001"],
+      "pillars": ["P7", "P9"],
+      "alternatives": ["Keep discovery entirely manual", "Allow feeds to create Knowledge or Core changes automatically", "Deploy the target database and worker architecture before validating repository contracts"],
+      "contradictor_findings": ["Trusted feed transport does not make arbitrary linked domains trustworthy.", "A total source outage must be blocking rather than reported as a partial success.", "A restored ledger must be verified before any new write, and its archive extraction must be path- and size-constrained."],
+      "risks": ["GitHub artifact retention does not provide production-grade durable state.", "Source coverage is limited and long-term precision has not yet been measured."],
       "decision": "Operate the scheduled Veilleur as a fail-closed, review-only repository prototype; preserve explicit prohibitions on automatic Library, obsolescence, Core and Core-change-candidate writes.",
       "human_approval": true,
-      "affected_paths": [
-        ".github/workflows/veilleur-autonomous-discovery.yml",
-        "docs/knowledge/source-registry.json",
-        "tools/quality/autonomous_veilleur.py",
-        "tools/quality/source_registry.py",
-        "tools/quality/veilleur_triage.py",
-        "tools/quality/veilleur_library_review.py",
-        "tests/python/test_veilleur_operational_pipeline.py",
-        "tests/python/test_veilleur_library_review.py"
-      ]
+      "affected_paths": [".github/workflows/veilleur-autonomous-discovery.yml", "docs/knowledge/source-registry.json", "tools/quality/autonomous_veilleur.py", "tools/quality/source_registry.py", "tools/quality/veilleur_triage.py", "tools/quality/veilleur_library_review.py", "tests/python/test_veilleur_operational_pipeline.py", "tests/python/test_veilleur_library_review.py"]
     }
   ]
 }
