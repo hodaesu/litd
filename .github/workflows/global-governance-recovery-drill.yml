@@ -1,0 +1,50 @@
+name: Global Governance Recovery Drill
+
+on:
+  pull_request:
+    paths:
+      - 'tools/quality/run_global_governance_recovery_drill.py'
+      - 'tests/python/test_global_governance_recovery_drill.py'
+      - 'docs/knowledge/GLOBAL_GOVERNANCE_RECOVERY_DRILL.md'
+      - '.github/workflows/global-governance-recovery-drill.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  isolated-tabletop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Test the recovery drill
+        run: python -m pytest -q tests/python/test_global_governance_recovery_drill.py
+      - name: Execute isolated recovery tabletop
+        run: python -m tools.quality.run_global_governance_recovery_drill --source-sha "$GITHUB_SHA"
+      - name: Assert honest measurement boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          row = json.loads(Path("reports/global-governance-recovery-drill/measurement.json").read_text())
+          assert row["classification"] == "TABLETOP_ONLY"
+          assert row["passed_adversarial_tests"] == 8
+          assert row["production_recovery_proven"] is False
+          assert row["real_credential_rotation_proven"] is False
+          assert row["authenticated_two_person_review_proven"] is False
+          assert row["issue_315_closable"] is False
+          PY
+      - name: Retain drill evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-governance-recovery-tabletop-${{ github.sha }}
+          path: reports/global-governance-recovery-drill/
+          if-no-files-found: error
+          retention-days: 90
