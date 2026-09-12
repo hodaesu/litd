@@ -1,0 +1,27 @@
+name: Veilleurs P0 Menu UX Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'project.godot'
+      - 'scripts/ui/context_menu_ui_v2.gd'
+      - 'scripts/ui/context_menu_ui_v3.gd'
+      - 'scripts/tests/context_menu_p0_navigation_reflow_smoke_test.gd'
+      - 'scenes/tests/context_menu_p0_navigation_reflow_smoke.tscn'
+      - '.github/workflows/veilleurs-p0-menu-ux-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  menu-navigation-reflow:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Strict Godot import
+        run: godot --headless --path . --import --quit
+      - name: P0 menu navigation and responsive reflow
+        run: timeout 60s godot --headless --path . res://scenes/tests/context_menu_p0_navigation_reflow_smoke.tscn
