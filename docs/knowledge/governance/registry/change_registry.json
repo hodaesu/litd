@@ -54,11 +54,11 @@
     {
       "id": "CHG-GOVERNANCE-IMPACT-005",
       "decision_id": "DEC-GOVERNANCE-IMPACT-005",
-      "status": "LITD_CHANGE_CANDIDATE",
-      "history": ["LITD_CHANGE_CANDIDATE"],
+      "status": "TESTED",
+      "history": ["LITD_CHANGE_CANDIDATE", "TESTED"],
       "test_plan": "Run impact contracts, path and deterministic-integrity attacks, concurrency regression tests and the Global Governance Gate.",
       "rollback_plan": "Revert the isolated impact bridge; Knowledge intake and promotion remain operational.",
-      "evidence_ids": [],
+      "evidence_ids": ["EVD-GOVERNANCE-IMPACT-CI-001"],
       "guardian": "ORANGE"
     }
   ]
