@@ -14,7 +14,14 @@ FILES = {
     "smoke": ROOT / "scripts/core/veilleurs_v062_hemocorde_ultimate_smoke_test.gd",
     "scene": ROOT / "scenes/tests/veilleurs_v062_hemocorde_ultimate_smoke.tscn",
 }
-CONTRACT = ROOT / "data/veilleurs/ultimate_choreography_contract.json"
+CURRENT_CONTRACT = ROOT / "data/veilleurs/current_quartet_ultimate_sheets.json"
+
+EXPECTED_CURRENT = {
+    "mathilde": ["Cœur inébranlable", "Katana éternel", "Volonté transcendante"],
+    "marec": ["Force primordiale", "Instinct parfait", "Légende vivante"],
+    "anouk": ["Trame absolue", "Esprit transcendant", "Ange de la Trame"],
+    "aurelien": ["Réminiscence du Sang", "Miroir du Jugement", "Réforme éternelle"],
+}
 
 
 def main() -> int:
@@ -22,6 +29,8 @@ def main() -> int:
     for name, path in FILES.items():
         if not path.is_file():
             errors.append(f"missing:{name}:{path}")
+    if not CURRENT_CONTRACT.is_file():
+        errors.append(f"missing:current_contract:{CURRENT_CONTRACT}")
     if errors:
         for error in errors:
             print("FAIL", error)
@@ -33,24 +42,20 @@ def main() -> int:
         if forbidden in isolated:
             errors.append(f"legacy_dependency:{forbidden}")
 
-    required_hemocorde = [
-        'AISHA_ID := "ENT_WATCHER_AISHA"',
+    # Hemocorde is retained only as an isolated historical/prototype resolver.
+    # It must never be used as the authority for the current quartet identities.
+    legacy_tokens = [
         'BRANCH := "hemocorde"',
         'ULTIMATE_NAME := "Le Dernier Battement"',
         '"vascular_known_zones"',
-        '"circulatory_shock"',
-        '"hemorrhage_risk"',
-        '"open_wound_count"',
         '"CIRCULATORY_COLLAPSE"',
-        '"ULTIMATE_RESOLVE"',
-        '"boss_floor_applied"',
     ]
-    for token in required_hemocorde:
+    for token in legacy_tokens:
         if token not in source["hemocorde"]:
-            errors.append(f"hemocorde_contract:{token}")
+            errors.append(f"legacy_hemocorde_contract_missing:{token}")
 
     required_state = [
-        '"16"' if False else "level >= 16",
+        "level >= 16",
         "level >= 32",
         "level >= 48",
         '"ultimate_already_used_this_encounter"',
@@ -60,36 +65,44 @@ def main() -> int:
         if token not in source["ultimate_state"]:
             errors.append(f"charge_state:{token}")
 
-    if "watcher_aftermath" not in source["session"] or "_apply_watcher_state" not in source["session"]:
-        errors.append("session_watcher_state_bridge")
-    if 'payload["watcher_state"]' not in source["dungeon"] or "watcher_state_persisted" not in source["dungeon"]:
-        errors.append("dungeon_watcher_state_bridge")
-    if "super.resolve_skill" not in source["runtime"] or "post_skill_result" not in source["runtime"]:
-        errors.append("canonical_skill_to_hemocorde_bridge")
-    if "VeilleursAuthoredEncounterRuntimeV062" not in source["authored"]:
-        errors.append("authored_runtime_v062")
+    contract = json.loads(CURRENT_CONTRACT.read_text(encoding="utf-8"))
+    if contract.get("status") != "CURRENT_QUARTET_AUTHORED_IDENTITY_LOCK":
+        errors.append("current_contract_status")
+    if contract.get("charge_progression") != {"16": 1, "32": 2, "48": 3}:
+        errors.append("current_charge_progression")
 
-    contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
-    row = contract.get("ultimates", {}).get("aisha_maren:hemocorde", {})
-    if row.get("name") != "Le Dernier Battement":
-        errors.append("contract_name")
-    if row.get("charge_commit_state") != "ULTIMATE_RESOLVE":
-        errors.append("contract_commit_state")
-    if "ULTIMATE_RESOLVE" not in row.get("authoritative_resolve_states", []):
-        errors.append("contract_authoritative_state")
-    if contract.get("rules", {}).get("consume_charge_policy") != "first_authoritative_effect_successfully_applied":
-        errors.append("contract_charge_policy")
+    heroes = contract.get("heroes", [])
+    actual_ids = {str(hero.get("hero_id", "")) for hero in heroes}
+    if actual_ids != set(EXPECTED_CURRENT):
+        errors.append(f"current_quartet_ids:{sorted(actual_ids)}")
+
+    ultimate_count = 0
+    for hero in heroes:
+        hero_id = str(hero.get("hero_id", ""))
+        ultimates = hero.get("ultimates", [])
+        names = [str(row.get("name", "")) for row in ultimates]
+        if names != EXPECTED_CURRENT.get(hero_id, []):
+            errors.append(f"current_ultimate_names:{hero_id}:{names}")
+        for row in ultimates:
+            ultimate_count += 1
+            if row.get("identity_locked") is not True:
+                errors.append(f"identity_not_locked:{hero_id}:{row.get('name')}")
+            if row.get("runtime_effect_status") != "PENDING_RESOLVER_BINDING":
+                errors.append(f"legacy_effect_rebound:{hero_id}:{row.get('name')}")
+    if ultimate_count != 12:
+        errors.append(f"current_ultimate_count:{ultimate_count}")
+
+    serialized = json.dumps(contract, ensure_ascii=False)
+    if "Le Dernier Battement" in serialized or "aisha_maren" in serialized:
+        errors.append("legacy_hemocorde_leaked_into_current_authority")
 
     smoke = source["smoke"]
     for token in [
         "charges_for_level(16) == 1",
         "charges_for_level(32) == 2",
         "charges_for_level(48) == 3",
-        "failed activation does not consume charge",
-        "same ultimate cannot be used twice in one encounter",
-        "ultimate charge survives save/load",
-        "remaining charge is reusable in a different encounter",
-        "boss survives decisive collapse",
+        "PENDING_RESOLVER_BINDING",
+        "legacy Hemocorde ultimate is not rebound into the current quartet",
     ]:
         if token not in smoke:
             errors.append(f"smoke_guardrail:{token}")
@@ -99,7 +112,8 @@ def main() -> int:
             print("FAIL", error)
         print(f"VEILLEURS_V062_HEMOCORDE_RUNTIME_AUDIT_FAILED: {len(errors)}")
         return 1
-    print("VEILLEURS_V062_HEMOCORDE_RUNTIME_AUDIT_OK: charge_state physiology tactical authored session dungeon smoke")
+
+    print("VEILLEURS_V062_HEMOCORDE_RUNTIME_AUDIT_OK: legacy resolver isolated; current quartet identity lock authoritative")
     return 0
 
 
