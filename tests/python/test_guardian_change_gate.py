@@ -6,6 +6,8 @@ from tools.quality.guardian_change_gate import _hash, evaluate
 def receipt():
     payload = {
         "kind": "LITD_VEILLEUR_REVIEW_RESOLUTION_RECEIPT",
+        "project_id": "LITD",
+        "target_route": "LITD_LIBRARY",
         "candidate_hash": "a" * 64,
         "evidence_id": "veilleur:test:1",
         "route": "LITD_LIBRARY",
@@ -19,9 +21,10 @@ def receipt():
     return payload
 
 
-def submission(decision="ACCEPT_FOR_IMPLEMENTATION"):
+def submission(decision="ACCEPT_FOR_IMPLEMENTATION", source=None):
+    source = source or receipt()
     return {
-        "receipt_hash": receipt()["receipt_hash"],
+        "receipt_hash": source["receipt_hash"],
         "decision": decision,
         "decided_by": "governed-reviewer",
         "decided_at": "2026-09-12T07:00:00Z",
@@ -39,7 +42,10 @@ def submission(decision="ACCEPT_FOR_IMPLEMENTATION"):
 
 
 def test_acceptance_only_creates_bounded_plan():
-    result = evaluate(receipt(), submission())
+    source = receipt()
+    result = evaluate(source, submission(source=source))
+    assert result["project_id"] == "LITD"
+    assert result["target_route"] == "LITD_LIBRARY"
     assert result["status"] == "READY_FOR_BOUNDED_IMPLEMENTATION_PR"
     assert result["implementation_pr_allowed"] is True
     assert result["core_write_allowed"] is False
@@ -49,65 +55,89 @@ def test_acceptance_only_creates_bounded_plan():
 
 
 def test_rejection_has_no_implementation_plan():
-    result = evaluate(receipt(), submission("REJECT_CHANGE"))
+    source = receipt()
+    result = evaluate(source, submission("REJECT_CHANGE", source))
     assert result["status"] == "CHANGE_REJECTED"
     assert result["implementation_plan"] is None
     assert result["implementation_pr_allowed"] is False
 
 
 def test_more_evidence_has_no_implementation_authority():
-    result = evaluate(receipt(), submission("REQUEST_MORE_EVIDENCE"))
+    source = receipt()
+    result = evaluate(source, submission("REQUEST_MORE_EVIDENCE", source))
     assert result["status"] == "MORE_EVIDENCE_REQUIRED"
     assert result["implementation_pr_allowed"] is False
 
 
+def test_cross_project_receipt_with_valid_hash_fails_closed():
+    source = receipt()
+    source["project_id"] = "COMPANY"
+    source["target_route"] = "COMPANY_LIBRARY"
+    source["receipt_hash"] = _hash({k: v for k, v in source.items() if k != "receipt_hash"})
+    with pytest.raises(ValueError, match="project scope mismatch"):
+        evaluate(source, submission(source=source))
+
+
+def test_wrong_target_route_with_valid_hash_fails_closed():
+    source = receipt()
+    source["target_route"] = "GENERAL_LIBRARY"
+    source["receipt_hash"] = _hash({k: v for k, v in source.items() if k != "receipt_hash"})
+    with pytest.raises(ValueError, match="route scope mismatch"):
+        evaluate(source, submission(source=source))
+
+
 def test_receipt_hash_mismatch_fails_closed():
-    data = submission()
+    source = receipt()
+    data = submission(source=source)
     data["receipt_hash"] = "c" * 64
     with pytest.raises(ValueError, match="hash mismatch"):
-        evaluate(receipt(), data)
+        evaluate(source, data)
 
 
 def test_non_guardian_pending_receipt_rejected():
-    r = receipt()
-    r["outcome"] = "LIBRARY_PROMOTION_APPROVED_PENDING_APPLICATION"
-    r["receipt_hash"] = _hash({k: v for k, v in r.items() if k != "receipt_hash"})
+    source = receipt()
+    source["outcome"] = "LIBRARY_PROMOTION_APPROVED_PENDING_APPLICATION"
+    source["receipt_hash"] = _hash({k: v for k, v in source.items() if k != "receipt_hash"})
     with pytest.raises(ValueError, match="not a Guardian-pending"):
-        evaluate(r, submission())
+        evaluate(source, submission(source=source))
 
 
 def test_target_policy_path_is_forbidden():
-    data = submission()
+    source = receipt()
+    data = submission(source=source)
     data["affected_paths"] = ["docs/knowledge/design-targets.json"]
     with pytest.raises(ValueError, match="dedicated governance"):
-        evaluate(receipt(), data)
+        evaluate(source, data)
 
 
 def test_tests_are_mandatory():
-    data = submission()
+    source = receipt()
+    data = submission(source=source)
     data["required_tests"] = []
     with pytest.raises(ValueError, match="required_tests"):
-        evaluate(receipt(), data)
+        evaluate(source, data)
 
 
 def test_direct_core_authority_in_receipt_is_rejected():
-    r = receipt()
-    r["core_write_allowed"] = True
-    r["receipt_hash"] = _hash({k: v for k, v in r.items() if k != "receipt_hash"})
+    source = receipt()
+    source["core_write_allowed"] = True
+    source["receipt_hash"] = _hash({k: v for k, v in source.items() if k != "receipt_hash"})
     with pytest.raises(ValueError, match="authority violation"):
-        evaluate(r, submission())
+        evaluate(source, submission(source=source))
 
 
 @pytest.mark.parametrize("path", ["../scripts/core/example.gd", "/scripts/core/example.gd", "./scripts/core/example.gd", "scripts\\core\\example.gd", ".git/config"])
 def test_non_canonical_or_sensitive_paths_fail_closed(path):
-    data = submission()
+    source = receipt()
+    data = submission(source=source)
     data["affected_paths"] = [path]
     with pytest.raises(ValueError, match="non-canonical"):
-        evaluate(receipt(), data)
+        evaluate(source, data)
 
 
 def test_tampered_resolution_receipt_with_stale_hash_fails_closed():
-    bad = receipt()
-    bad["outcome"] = "LIBRARY_PROMOTION_APPROVED_PENDING_APPLICATION"
+    source = receipt()
+    data = submission(source=source)
+    source["project_id"] = "COMPANY"
     with pytest.raises(ValueError, match="integrity mismatch"):
-        evaluate(bad, submission())
+        evaluate(source, data)
