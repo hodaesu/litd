@@ -15,6 +15,32 @@ var depleted := false
 func can_interact() -> bool:
     return not depleted
 
+func interaction_descriptor(_actor: Object = null) -> Dictionary:
+    var stable_id := node_id if node_id != "" else str(name)
+    return EnvironmentInteractionContract.descriptor(
+        "resource:%s" % stable_id,
+        EnvironmentInteractionContract.KIND_RESOURCE,
+        "Ressource · %s" % resource_type.capitalize(),
+        "RÉCOLTER",
+        can_interact(),
+        "depleted" if depleted else "",
+        depleted,
+        {"resource_type": resource_type}
+    )
+
+func perform_interaction(actor: Object = null) -> Dictionary:
+    var current := interaction_descriptor(actor)
+    if not bool(current.get("available", false)):
+        return EnvironmentInteractionContract.result(current, false, "blocked", str(current.get("blocked_reason", "depleted")))
+    var drops := harvest()
+    return EnvironmentInteractionContract.result(
+        current,
+        not drops.is_empty(),
+        "harvested" if not drops.is_empty() else "blocked",
+        "no_drop" if drops.is_empty() else "",
+        {"drops": drops}
+    )
+
 func harvest(rng: RandomNumberGenerator = null) -> Array:
     if depleted:
         return []
