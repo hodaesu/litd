@@ -89,7 +89,7 @@ def plan_promotion(
 
     with tempfile.TemporaryDirectory(prefix="litd-knowledge-promotion-") as tmp:
         candidate_root = Path(tmp)
-        for name in ("decision_registry.json", "change_registry.json", "evidence_registry.json"):
+        for name in ("decision_registry.json", "change_registry.json", "evidence_registry.json", "core_candidate_registry.json"):
             (candidate_root / name).write_bytes((root / name).read_bytes())
         (candidate_root / "knowledge_registry.json").write_text(
             json.dumps(registry, ensure_ascii=False), encoding="utf-8"

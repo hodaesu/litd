@@ -55,6 +55,17 @@
       "dependencies": ["tools/quality/autonomous_veilleur.py", "tools/quality/veilleur_triage.py", "tools/quality/veilleur_library_review.py"],
       "validated_at": "2026-09-12",
       "revalidate_at": "2026-10-12"
+    },
+    {
+      "id": "KNOW-GOVERNANCE-IMPACT-005",
+      "domain": "project-governance",
+      "claim": "Only ACTIVE Knowledge may generate a review-only Core change candidate containing explicit impacts, risks, contradiction findings, tests and rollback.",
+      "status": "EXPERIMENTAL",
+      "sources": ["docs/knowledge/governance/README.md"],
+      "contradictions": ["A declared affected-path list may remain incomplete until dependency analysis becomes repository-aware.", "Candidate creation is a proposal mechanism and does not authenticate or replace subsequent human Core approval."],
+      "dependencies": ["tools/quality/knowledge_promotion.py", "tools/quality/global_governance.py"],
+      "validated_at": "2026-09-12",
+      "revalidate_at": "2026-10-12"
     }
   ]
 }
