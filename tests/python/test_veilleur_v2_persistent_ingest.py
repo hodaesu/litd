@@ -8,7 +8,11 @@ def _event(evidence_id: str = "EV-001") -> dict:
     title = "Godot optimization note"
     summary = "A verified performance technique relevant to procedural generation."
     source_url = "https://example.com/source"
+    project_id = "LITD"
+    target_route = "LITD_LIBRARY"
     return {
+        "project_id": project_id,
+        "target_route": target_route,
         "evidence_id": evidence_id,
         "title": title,
         "summary": summary,
@@ -18,7 +22,7 @@ def _event(evidence_id: str = "EV-001") -> dict:
         "discovered_at": "2026-09-10T18:00:00Z",
         "published_at": "2026-09-10T17:00:00Z",
         "domain_hints": ["godot", "performance"],
-        "content_hash": canonical_content_hash(title, summary, source_url),
+        "content_hash": canonical_content_hash(title, summary, source_url, project_id, target_route),
     }
 
 
@@ -57,6 +61,24 @@ def test_same_content_new_id_is_still_duplicate_after_reopen(tmp_path: Path):
     assert duplicate.status == "DUPLICATE"
     assert duplicate.reason == "duplicate_canonical_content"
     reopened.close()
+
+
+def test_cross_project_attempt_is_audited_but_not_registered(tmp_path: Path):
+    ledger = EvidenceLedger(tmp_path / "ledger.sqlite3")
+    event = _event()
+    event["project_id"] = "COMPANY"
+    event["target_route"] = "COMPANY_LIBRARY"
+    event["content_hash"] = canonical_content_hash(
+        event["title"], event["summary"], event["source_url"], "COMPANY", "COMPANY_LIBRARY"
+    )
+    decision = validate_and_record(event, ledger)
+    assert decision.status == "REJECTED"
+    assert decision.reason == "project_scope_mismatch"
+    assert ledger.known_evidence_ids() == set()
+    assert ledger.verify_chain() is True
+    row = ledger.connection.execute("SELECT decision, reason, project_id, target_route FROM decision_ledger").fetchone()
+    assert tuple(row) == ("REJECTED", "project_scope_mismatch", "LITD", "LITD_LIBRARY")
+    ledger.close()
 
 
 def test_rejected_attempt_is_audited_but_not_registered(tmp_path: Path):

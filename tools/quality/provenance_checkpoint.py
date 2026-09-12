@@ -2,10 +2,9 @@
 """Build and validate deterministic LITD provenance checkpoints.
 
 The checkpoint anchors one successful Measurement Provenance run to the exact
-Git commit, latest canonical target-history snapshot, and hashes of every
-retained provenance artifact. Cryptographic signing is intentionally delegated
-to a standard external signer (Sigstore/Cosign); this module never implements
-cryptography beyond SHA-256 content addressing and never writes Core state.
+Git commit, latest canonical target-history snapshot, project boundary and hashes
+of every retained provenance artifact. Cryptographic signing is delegated to a
+standard external signer (Sigstore/Cosign); this module never writes Core state.
 """
 from __future__ import annotations
 
@@ -16,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from tools.quality.target_history import validate_chain
+from tools.quality.veilleur_v2_ingest import PROJECT_ID, TARGET_ROUTE
 
 KIND = "LITD_PROVENANCE_CHECKPOINT"
 VERSION = 1
@@ -82,6 +82,8 @@ def build_checkpoint(
     checkpoint = {
         "kind": KIND,
         "version": VERSION,
+        "project_id": PROJECT_ID,
+        "target_route": TARGET_ROUTE,
         "repository": repository,
         "source": {
             "workflow": "Measurement Provenance",
@@ -118,6 +120,10 @@ def validate_checkpoint(checkpoint: dict[str, Any]) -> list[str]:
         errors.append("invalid_kind")
     if checkpoint.get("version") != VERSION:
         errors.append("invalid_version")
+    if checkpoint.get("project_id") != PROJECT_ID:
+        errors.append("project_scope_mismatch")
+    if checkpoint.get("target_route") != TARGET_ROUTE:
+        errors.append("route_scope_mismatch")
     if checkpoint.get("core_write_allowed") is not False:
         errors.append("direct_core_write_forbidden")
     if checkpoint.get("automatic_target_change_allowed") is not False:

@@ -6,6 +6,10 @@ from tools.quality.knowledge_intake import apply_plan, plan_intake
 from tools.quality.veilleur_v2_ingest import canonical_content_hash
 
 
+PROJECT_ID = "LITD"
+TARGET_ROUTE = "LITD_LIBRARY"
+
+
 def _root(tmp_path: Path) -> Path:
     for source in REGISTRY_ROOT.glob("*.json"):
         (tmp_path / source.name).write_bytes(source.read_bytes())
@@ -25,7 +29,11 @@ def _event(summary: str = "Godot UI guidance validated to apply to LITD Les Veil
         "discovered_at": "2026-09-11T13:00:00Z",
         "published_at": "2026-09-10T13:00:00Z",
         "domain_hints": ["ui", "litd"],
-        "content_hash": canonical_content_hash(title, summary, source_url),
+        "project_id": PROJECT_ID,
+        "target_route": TARGET_ROUTE,
+        "content_hash": canonical_content_hash(
+            title, summary, source_url, PROJECT_ID, TARGET_ROUTE
+        ),
         "counterevidence": ["Small-screen density may offset the desktop readability benefit."],
     }
 
@@ -55,7 +63,13 @@ def test_general_information_does_not_enter_litd_registry(tmp_path: Path):
     event = _event("Godot GDScript performance optimization for procedural generation")
     event["title"] = "Verified engine research"
     event["domain_hints"] = ["godot", "performance"]
-    event["content_hash"] = canonical_content_hash(event["title"], event["summary"], event["source_url"])
+    event["content_hash"] = canonical_content_hash(
+        event["title"],
+        event["summary"],
+        event["source_url"],
+        event["project_id"],
+        event["target_route"],
+    )
     plan = plan_intake(event, _root(tmp_path))
     assert plan.status == "ROUTED_GENERAL"
     assert plan.registry_payload is None

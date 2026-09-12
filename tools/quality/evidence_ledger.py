@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Persistent evidence registry and append-only hash-chained decision ledger for LITD."""
+"""Persistent, project-scoped evidence registry and append-only ledger for LITD."""
 from __future__ import annotations
 
 import json
@@ -10,6 +10,9 @@ from hashlib import sha256
 from pathlib import Path
 from typing import Any
 
+PROJECT_ID = "LITD"
+TARGET_ROUTE = "LITD_LIBRARY"
+
 
 @dataclass(frozen=True)
 class LedgerAppendResult:
@@ -19,18 +22,39 @@ class LedgerAppendResult:
 
 
 class EvidenceLedger:
-    """SQLite-backed durable registry used by the VEILLEUR V2 ingress path.
+    """SQLite-backed durable registry for the LITD VEILLEUR V2 ingress path.
 
-    The database stores canonical evidence ids/hashes and an append-only routing
-    decision history. Every decision entry includes the previous entry hash, so
-    accidental or malicious rewrites are detectable by verify_chain().
+    Every evidence and decision row is explicitly bound to the LITD project and
+    LITD library route. The decision ledger is hash-chained and append-only.
     """
 
-    def __init__(self, path: str | Path):
+    def __init__(self, path: str | Path, *, project_id: str = PROJECT_ID, target_route: str = TARGET_ROUTE):
+        if project_id != PROJECT_ID:
+            raise ValueError("ledger project scope mismatch")
+        if target_route != TARGET_ROUTE:
+            raise ValueError("ledger route scope mismatch")
         self.path = str(path)
+        self.project_id = project_id
+        self.target_route = target_route
         self.connection = sqlite3.connect(self.path)
         self.connection.row_factory = sqlite3.Row
         self._init_schema()
+
+    def _columns(self, table: str) -> set[str]:
+        return {row[1] for row in self.connection.execute(f"PRAGMA table_info({table})")}
+
+    def _migrate_scope_columns(self) -> None:
+        evidence_columns = self._columns("evidence_registry")
+        if "project_id" not in evidence_columns:
+            self.connection.execute("ALTER TABLE evidence_registry ADD COLUMN project_id TEXT NOT NULL DEFAULT 'LITD'")
+        if "target_route" not in evidence_columns:
+            self.connection.execute("ALTER TABLE evidence_registry ADD COLUMN target_route TEXT NOT NULL DEFAULT 'LITD_LIBRARY'")
+
+        decision_columns = self._columns("decision_ledger")
+        if "project_id" not in decision_columns:
+            self.connection.execute("ALTER TABLE decision_ledger ADD COLUMN project_id TEXT NOT NULL DEFAULT 'LITD'")
+        if "target_route" not in decision_columns:
+            self.connection.execute("ALTER TABLE decision_ledger ADD COLUMN target_route TEXT NOT NULL DEFAULT 'LITD_LIBRARY'")
 
     def _init_schema(self) -> None:
         self.connection.executescript(
@@ -40,7 +64,9 @@ class EvidenceLedger:
                 evidence_id TEXT PRIMARY KEY,
                 canonical_hash TEXT NOT NULL UNIQUE,
                 source_url TEXT NOT NULL,
-                first_seen_at TEXT NOT NULL
+                first_seen_at TEXT NOT NULL,
+                project_id TEXT NOT NULL DEFAULT 'LITD',
+                target_route TEXT NOT NULL DEFAULT 'LITD_LIBRARY'
             );
             CREATE TABLE IF NOT EXISTS decision_ledger (
                 sequence INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,6 +74,8 @@ class EvidenceLedger:
                 decision TEXT NOT NULL,
                 reason TEXT NOT NULL,
                 recorded_at TEXT NOT NULL,
+                project_id TEXT NOT NULL DEFAULT 'LITD',
+                target_route TEXT NOT NULL DEFAULT 'LITD_LIBRARY',
                 previous_hash TEXT NOT NULL,
                 entry_hash TEXT NOT NULL UNIQUE
             );
@@ -63,24 +91,31 @@ class EvidenceLedger:
             END;
             """
         )
+        self._migrate_scope_columns()
         self.connection.commit()
 
     def close(self) -> None:
         self.connection.close()
 
     def known_evidence_ids(self) -> set[str]:
-        rows = self.connection.execute("SELECT evidence_id FROM evidence_registry")
+        rows = self.connection.execute(
+            "SELECT evidence_id FROM evidence_registry WHERE project_id=? AND target_route=?",
+            (self.project_id, self.target_route),
+        )
         return {row[0] for row in rows}
 
     def known_hashes(self) -> set[str]:
-        rows = self.connection.execute("SELECT canonical_hash FROM evidence_registry")
+        rows = self.connection.execute(
+            "SELECT canonical_hash FROM evidence_registry WHERE project_id=? AND target_route=?",
+            (self.project_id, self.target_route),
+        )
         return {row[0] for row in rows}
 
     def register_evidence(self, evidence_id: str, canonical_hash: str, source_url: str) -> None:
         now = datetime.now(timezone.utc).isoformat()
         self.connection.execute(
-            "INSERT INTO evidence_registry(evidence_id, canonical_hash, source_url, first_seen_at) VALUES (?, ?, ?, ?)",
-            (evidence_id, canonical_hash, source_url, now),
+            "INSERT INTO evidence_registry(evidence_id, canonical_hash, source_url, first_seen_at, project_id, target_route) VALUES (?, ?, ?, ?, ?, ?)",
+            (evidence_id, canonical_hash, source_url, now, self.project_id, self.target_route),
         )
         self.connection.commit()
 
@@ -99,6 +134,8 @@ class EvidenceLedger:
         previous_hash = self._last_hash()
         recorded_at = datetime.now(timezone.utc).isoformat()
         payload = {
+            "project_id": self.project_id,
+            "target_route": self.target_route,
             "evidence_id": evidence_id,
             "decision": decision,
             "reason": reason,
@@ -107,8 +144,17 @@ class EvidenceLedger:
         }
         entry_hash = self._entry_hash(payload)
         cursor = self.connection.execute(
-            "INSERT INTO decision_ledger(evidence_id, decision, reason, recorded_at, previous_hash, entry_hash) VALUES (?, ?, ?, ?, ?, ?)",
-            (evidence_id, decision, reason, recorded_at, previous_hash, entry_hash),
+            "INSERT INTO decision_ledger(evidence_id, decision, reason, recorded_at, project_id, target_route, previous_hash, entry_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (
+                evidence_id,
+                decision,
+                reason,
+                recorded_at,
+                self.project_id,
+                self.target_route,
+                previous_hash,
+                entry_hash,
+            ),
         )
         self.connection.commit()
         return LedgerAppendResult(int(cursor.lastrowid), entry_hash, previous_hash)
@@ -116,12 +162,16 @@ class EvidenceLedger:
     def verify_chain(self) -> bool:
         previous_hash = "GENESIS"
         rows = self.connection.execute(
-            "SELECT sequence, evidence_id, decision, reason, recorded_at, previous_hash, entry_hash FROM decision_ledger ORDER BY sequence"
+            "SELECT sequence, evidence_id, decision, reason, recorded_at, project_id, target_route, previous_hash, entry_hash FROM decision_ledger ORDER BY sequence"
         ).fetchall()
         for row in rows:
             if row["previous_hash"] != previous_hash:
                 return False
+            if row["project_id"] != self.project_id or row["target_route"] != self.target_route:
+                return False
             payload = {
+                "project_id": row["project_id"],
+                "target_route": row["target_route"],
                 "evidence_id": row["evidence_id"],
                 "decision": row["decision"],
                 "reason": row["reason"],

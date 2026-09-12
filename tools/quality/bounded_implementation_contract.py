@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Validate bounded implementation evidence produced after Guardian approval.
 
-The contract checks that implementation changes stay within the Guardian-approved
-path set, required tests are explicitly evidenced as passed, pre/post measurements
-are bound to the same metric identity, and rollback evidence exists. It never
-merges code or writes to Core/targets.
+The contract checks the LITD project boundary, Guardian-approved path scope,
+required tests, comparable measurements and rollback evidence. It never merges
+code or writes to Core/targets.
 """
 from __future__ import annotations
 
@@ -13,6 +12,8 @@ import json
 from hashlib import sha256
 from pathlib import Path
 from typing import Any
+
+from tools.quality.veilleur_v2_ingest import PROJECT_ID, TARGET_ROUTE
 
 
 def _hash(payload: dict[str, Any]) -> str:
@@ -41,6 +42,10 @@ def evaluate(gate: dict[str, Any], evidence: dict[str, Any]) -> dict[str, Any]:
     _verify_embedded_hash(gate, "gate_receipt_hash")
     if gate.get("kind") != "LITD_GUARDIAN_CHANGE_GATE_RECEIPT":
         raise ValueError("invalid Guardian gate receipt kind")
+    if gate.get("project_id") != PROJECT_ID:
+        raise ValueError("Guardian gate project scope mismatch")
+    if gate.get("target_route") != TARGET_ROUTE:
+        raise ValueError("Guardian gate route scope mismatch")
     if gate.get("status") != "READY_FOR_BOUNDED_IMPLEMENTATION_PR" or gate.get("implementation_pr_allowed") is not True:
         raise ValueError("Guardian gate does not authorize bounded implementation")
     for key in ("core_write_allowed", "automatic_code_write_allowed", "automatic_merge_allowed", "automatic_target_change_allowed"):
@@ -119,6 +124,8 @@ def evaluate(gate: dict[str, Any], evidence: dict[str, Any]) -> dict[str, Any]:
     status = "READY_FOR_APPLICATION_REVIEW" if not blockers else "IMPLEMENTATION_BLOCKED"
     result = {
         "kind": "LITD_BOUNDED_IMPLEMENTATION_EVALUATION",
+        "project_id": PROJECT_ID,
+        "target_route": TARGET_ROUTE,
         "status": status,
         "source_gate_receipt_hash": gate["gate_receipt_hash"],
         "source_candidate_hash": gate.get("source_candidate_hash"),
@@ -144,15 +151,16 @@ def evaluate(gate: dict[str, Any], evidence: dict[str, Any]) -> dict[str, Any]:
 
 
 def main() -> int:
-    p = argparse.ArgumentParser()
-    p.add_argument("--gate", required=True)
-    p.add_argument("--evidence", required=True)
-    p.add_argument("--output", default="reports/bounded-implementation-evaluation.json")
-    a = p.parse_args()
-    gate = json.loads(Path(a.gate).read_text(encoding="utf-8"))
-    evidence = json.loads(Path(a.evidence).read_text(encoding="utf-8"))
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--gate", required=True)
+    parser.add_argument("--evidence", required=True)
+    parser.add_argument("--output", default="reports/bounded-implementation-evaluation.json")
+    args = parser.parse_args()
+    gate = json.loads(Path(args.gate).read_text(encoding="utf-8"))
+    evidence = json.loads(Path(args.evidence).read_text(encoding="utf-8"))
     result = evaluate(gate, evidence)
-    out = Path(a.output); out.parent.mkdir(parents=True, exist_ok=True)
+    out = Path(args.output)
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"status": result["status"], "blockers": result["blockers"]}, sort_keys=True))
     return 0 if result["status"] == "READY_FOR_APPLICATION_REVIEW" else 2

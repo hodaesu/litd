@@ -6,6 +6,8 @@ from tools.quality.application_decision_gate import _hash, evaluate
 def implementation_evaluation():
     payload = {
         "kind": "LITD_BOUNDED_IMPLEMENTATION_EVALUATION",
+        "project_id": "LITD",
+        "target_route": "LITD_LIBRARY",
         "status": "READY_FOR_APPLICATION_REVIEW",
         "source_gate_receipt_hash": "a" * 64,
         "source_candidate_hash": "b" * 64,
@@ -50,12 +52,31 @@ def decision(choice="APPLY_CHANGE", evaluation=None):
 def test_apply_change_only_authorizes_separate_merge():
     evaluation = implementation_evaluation()
     result = evaluate(evaluation, decision(evaluation=evaluation))
+    assert result["project_id"] == "LITD"
+    assert result["target_route"] == "LITD_LIBRARY"
     assert result["outcome"] == "APPLICATION_AUTHORIZED_PENDING_SEPARATE_MERGE"
     assert result["merge_authorized"] is True
     assert result["merge_must_be_separate_action"] is True
     assert result["automatic_merge_allowed"] is False
     assert result["automatic_application_allowed"] is False
     assert result["core_write_allowed"] is False
+
+
+def test_cross_project_evaluation_with_valid_hash_fails_closed():
+    evaluation = implementation_evaluation()
+    evaluation["project_id"] = "COMPANY"
+    evaluation["target_route"] = "COMPANY_LIBRARY"
+    evaluation["evaluation_hash"] = _hash({k: v for k, v in evaluation.items() if k != "evaluation_hash"})
+    with pytest.raises(ValueError, match="project scope mismatch"):
+        evaluate(evaluation, decision(evaluation=evaluation))
+
+
+def test_wrong_target_route_with_valid_hash_fails_closed():
+    evaluation = implementation_evaluation()
+    evaluation["target_route"] = "GENERAL_LIBRARY"
+    evaluation["evaluation_hash"] = _hash({k: v for k, v in evaluation.items() if k != "evaluation_hash"})
+    with pytest.raises(ValueError, match="route scope mismatch"):
+        evaluate(evaluation, decision(evaluation=evaluation))
 
 
 def test_apply_requires_no_blocking_regression():
@@ -110,7 +131,7 @@ def test_mismatched_measurement_hash_fails_closed():
 def test_tampered_evaluation_with_stale_hash_fails_closed():
     evaluation = implementation_evaluation()
     row = decision(evaluation=evaluation)
-    evaluation["post_measurement_hash"] = "0" * 64
+    evaluation["project_id"] = "COMPANY"
     with pytest.raises(ValueError, match="integrity mismatch"):
         evaluate(evaluation, row)
 
