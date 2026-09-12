@@ -22,9 +22,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Install Python test dependency
-        run: pip install pytest
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends python3-pytest
       - name: Repository contract tests
-        run: python -m pytest -q tests/python/test_knowledge_discovery_ui_contract.py
+        run: python3 -m pytest -q tests/python/test_knowledge_discovery_ui_contract.py
       - name: Strict Godot import
         run: godot --headless --path . --import --quit
       - name: P1 knowledge discovery UI contract smoke
