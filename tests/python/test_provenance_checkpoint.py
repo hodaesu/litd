@@ -45,6 +45,8 @@ def build(tmp_path: Path) -> dict:
 def test_checkpoint_is_deterministic_and_valid(tmp_path):
     first = build(tmp_path)
     assert validate_checkpoint(first) == []
+    assert first["project_id"] == "LITD"
+    assert first["target_route"] == "LITD_LIBRARY"
     assert first["checkpoint_hash"] == compute_checkpoint_hash(first)
     assert first["core_write_allowed"] is False
     assert first["automatic_target_change_allowed"] is False
@@ -62,6 +64,22 @@ def test_manifest_hashes_artifact_bytes(tmp_path):
     assert row["path"] == "measurement-history.json"
     assert len(row["sha256"]) == 64
     assert row["size_bytes"] > 0
+
+
+def test_cross_project_checkpoint_is_rejected_even_with_recomputed_hash(tmp_path):
+    checkpoint = build(tmp_path)
+    checkpoint["project_id"] = "COMPANY"
+    checkpoint["target_route"] = "COMPANY_LIBRARY"
+    checkpoint["checkpoint_hash"] = compute_checkpoint_hash(checkpoint)
+    errors = validate_checkpoint(checkpoint)
+    assert "project_scope_mismatch" in errors
+
+
+def test_wrong_route_checkpoint_is_rejected_even_with_recomputed_hash(tmp_path):
+    checkpoint = build(tmp_path)
+    checkpoint["target_route"] = "GENERAL_LIBRARY"
+    checkpoint["checkpoint_hash"] = compute_checkpoint_hash(checkpoint)
+    assert "route_scope_mismatch" in validate_checkpoint(checkpoint)
 
 
 def test_tampering_is_detected_even_if_shape_remains_valid(tmp_path):

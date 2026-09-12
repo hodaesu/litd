@@ -2,8 +2,9 @@
 """Guardian gate for governed LITD change candidates.
 
 The gate converts an approved Veilleur review resolution into either a rejection,
-a request for more evidence, or a bounded implementation plan. It never edits
-Core/gameplay/targets itself and never treats approval as proof that tests passed.
+a request for more evidence, or a bounded implementation plan. It verifies the
+LITD project boundary, never edits Core/gameplay/targets itself and never treats
+approval as proof that tests passed.
 """
 from __future__ import annotations
 
@@ -13,6 +14,8 @@ from datetime import datetime
 from hashlib import sha256
 from pathlib import Path, PurePosixPath
 from typing import Any
+
+from tools.quality.veilleur_v2_ingest import PROJECT_ID, TARGET_ROUTE
 
 ALLOWED_DECISIONS = {"ACCEPT_FOR_IMPLEMENTATION", "REJECT_CHANGE", "REQUEST_MORE_EVIDENCE"}
 FORBIDDEN_PREFIXES = (
@@ -43,7 +46,7 @@ def _canonical_paths(value: Any, field: str) -> list[str]:
         raise ValueError(f"{field} must not contain duplicates")
     for raw in value:
         path = PurePosixPath(raw)
-        if "\\x00" in raw or "\\" in raw or path.is_absolute() or path.as_posix() != raw or ".." in path.parts or any(part.casefold() == ".git" for part in path.parts):
+        if "\x00" in raw or "\\" in raw or path.is_absolute() or path.as_posix() != raw or ".." in path.parts or any(part.casefold() == ".git" for part in path.parts):
             raise ValueError(f"{field} contains a non-canonical path")
     return value
 
@@ -70,6 +73,10 @@ def evaluate(receipt: dict[str, Any], submission: dict[str, Any]) -> dict[str, A
     _verify_embedded_hash(receipt, "receipt_hash")
     if receipt.get("kind") != "LITD_VEILLEUR_REVIEW_RESOLUTION_RECEIPT":
         raise ValueError("invalid resolution receipt kind")
+    if receipt.get("project_id") != PROJECT_ID:
+        raise ValueError("resolution receipt project scope mismatch")
+    if receipt.get("target_route") != TARGET_ROUTE:
+        raise ValueError("resolution receipt route scope mismatch")
     if receipt.get("outcome") != "LITD_CHANGE_CANDIDATE_APPROVED_PENDING_GUARDIAN":
         raise ValueError("receipt is not a Guardian-pending LITD change candidate")
     if receipt.get("requires_guardian_review") is not True:
@@ -113,6 +120,8 @@ def evaluate(receipt: dict[str, Any], submission: dict[str, Any]) -> dict[str, A
 
     plan = {
         "kind": "LITD_GUARDIAN_CHANGE_GATE_RECEIPT",
+        "project_id": PROJECT_ID,
+        "target_route": TARGET_ROUTE,
         "source_resolution_receipt_hash": receipt["receipt_hash"],
         "source_candidate_hash": receipt.get("candidate_hash"),
         "evidence_id": receipt.get("evidence_id"),
