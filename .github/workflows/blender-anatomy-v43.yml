@@ -47,7 +47,7 @@ jobs:
         run: python -m tools.blender.generate_anatomical_pipeline_v43 --output anatomical_pipeline_jobs_v43.json
       - name: Vérifier le plan d'un Veilleur sans Blender
         run: python -m tools.blender.anatomical_pipeline_v43 --job-id aurelien --jobs anatomical_pipeline_jobs_v43.json --print-plan
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: anatomical-pipeline-v43-jobs
           path: anatomical_pipeline_jobs_v43.json

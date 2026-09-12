@@ -94,7 +94,7 @@ jobs:
           print('VEILLEURS_NAIVE_PACK_NEUTRAL_AND_COMMIT_ALIGNED_OK')
           PY
       - name: Publish five-session playtest pack
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: veilleurs-five-naive-playtest-sessions
           path: build/playtest/naive-pack/

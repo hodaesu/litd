@@ -76,7 +76,7 @@ jobs:
           fi
       - name: Upload production report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: veilleurs-production-contract-report
           path: build/automation/
@@ -163,7 +163,7 @@ jobs:
           fi
       - name: Upload Godot logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: veilleurs-godot-quick-gate
           path: build/automation/
@@ -243,14 +243,14 @@ jobs:
             exit 1
           fi
       - name: Publish Android debug APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: veilleurs-android-debug-apk
           path: build/android/LightInTheDark.apk
           if-no-files-found: error
       - name: Publish Android export log
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: veilleurs-android-export-log
           path: build/automation/android-export.log

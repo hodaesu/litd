@@ -51,7 +51,7 @@ jobs:
         run: python -m tools.blender.generate_animation_production_matrix_v45 --output animation_production_jobs_v45.json
       - name: Afficher le résumé de production
         run: python -m tools.blender.generate_animation_production_matrix_v45 --summary
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: animation-production-v45-matrix
           path: animation_production_jobs_v45.json
