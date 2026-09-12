@@ -74,6 +74,12 @@ def validate_registry(registry: dict[str, Any]) -> list[str]:
                 errors.append(f"{prefix}:enabled_source_not_trusted")
             if source.get("format") not in SUPPORTED_FORMATS:
                 errors.append(f"{prefix}:unsupported_enabled_format")
+            item_hosts = source.get("allowed_item_hosts")
+            if (not isinstance(item_hosts, list) or not item_hosts
+                    or not all(isinstance(x, str) and x.strip() for x in item_hosts)):
+                errors.append(f"{prefix}:invalid_allowed_item_hosts")
+            elif any(x != x.casefold() for x in item_hosts):
+                errors.append(f"{prefix}:allowed_item_hosts_must_be_lowercase")
             hints = source.get("domain_hints")
             if not isinstance(hints, list) or not hints or not all(isinstance(x, str) and x.strip() for x in hints):
                 errors.append(f"{prefix}:invalid_domain_hints")
