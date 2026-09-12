@@ -72,7 +72,23 @@ jobs:
           print('Restored ledger artifact', latest['id'])
           PY
           if [ -s /tmp/veilleur-ledger.zip ]; then
-            unzip -o /tmp/veilleur-ledger.zip -d reports
+            python - <<'PY'
+            from pathlib import Path
+            from zipfile import ZipFile
+            archive = Path('/tmp/veilleur-ledger.zip')
+            destination = Path('reports/veilleur-evidence-ledger.sqlite3')
+            with ZipFile(archive) as bundle:
+                members = bundle.infolist()
+                if len(members) != 1 or members[0].filename != 'veilleur-evidence-ledger.sqlite3':
+                    raise SystemExit('Invalid ledger artifact contents')
+                member = members[0]
+                if member.is_dir() or member.file_size > 50 * 1024 * 1024:
+                    raise SystemExit('Invalid ledger artifact size or type')
+                mode = member.external_attr >> 16
+                if mode and (mode & 0o170000) not in {0, 0o100000}:
+                    raise SystemExit('Ledger artifact must be a regular file')
+                destination.write_bytes(bundle.read(member))
+            PY
           fi
 
       - name: Run read-only autonomous discovery
