@@ -12,7 +12,7 @@ def test_tabletop_executes_all_attacks_and_retains_hashed_evidence(tmp_path):
     assert summary["classification"] == "TABLETOP_ONLY"
     assert summary["required_adversarial_tests"] == 8
     assert summary["passed_adversarial_tests"] == 8
-    assert summary["gate_status"] == "READY_FOR_SEPARATE_HUMAN_RESUME_DECISION"
+    assert summary["gate_status"] == "TABLETOP_MEASURED"
     assert summary["production_recovery_proven"] is False
     assert summary["real_credential_rotation_proven"] is False
     assert summary["authenticated_two_person_review_proven"] is False
