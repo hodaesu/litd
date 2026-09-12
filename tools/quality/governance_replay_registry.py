@@ -140,8 +140,14 @@ class GovernanceReplayRegistry:
                 reason = "binding_mismatch"
             elif row["critical_context_hash"] != critical_context_hash:
                 reason = "stale_context"
+            elif row["state"] == "consumed":
+                reason = "receipt_consumed"
+            elif row["state"] == "superseded":
+                reason = "receipt_superseded"
+            elif row["state"] == "revoked":
+                reason = "receipt_revoked"
             elif row["state"] != "active":
-                reason = f"receipt_{row['state']}"
+                reason = "invalid_receipt_state"
             else:
                 changed = self.connection.execute(
                     "UPDATE receipts SET state='consumed', consumed_at=?, consumed_by=? WHERE receipt_id=? AND state='active'",
