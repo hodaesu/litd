@@ -1,17 +1,16 @@
 import pytest
 
-from tools.quality.application_closure_contract import evaluate
+from tools.quality.application_closure_contract import _hash, evaluate
 
 
 def decision():
-    return {
+    payload = {
         "kind": "LITD_APPLICATION_DECISION_RECEIPT",
         "outcome": "APPLICATION_AUTHORIZED_PENDING_SEPARATE_MERGE",
         "merge_authorized": True,
         "merge_must_be_separate_action": True,
         "post_merge_measurement_required": True,
         "provenance_checkpoint_required": True,
-        "application_decision_hash": "a" * 64,
         "source_candidate_hash": "b" * 64,
         "implementation_commit_sha": "c" * 40,
         "core_write_allowed": False,
@@ -19,11 +18,13 @@ def decision():
         "automatic_application_allowed": False,
         "automatic_target_change_allowed": False,
     }
+    payload["application_decision_hash"] = _hash(payload)
+    return payload
 
 
 def evidence():
     return {
-        "application_decision_hash": "a" * 64,
+        "application_decision_hash": decision()["application_decision_hash"],
         "repository": "hodaesu/litd",
         "merged_source_commit_sha": "c" * 40,
         "merged_commit_sha": "d" * 40,
@@ -104,5 +105,13 @@ def test_workflow_identity_and_oidc_issuer_are_pinned():
 
 def test_authority_escalation_fails_closed():
     d = decision(); d["automatic_merge_allowed"] = True
+    d["application_decision_hash"] = _hash({k: v for k, v in d.items() if k != "application_decision_hash"})
     with pytest.raises(ValueError, match="authority violation"):
         evaluate(d, evidence())
+
+
+def test_tampered_application_decision_with_stale_hash_fails_closed():
+    bad = decision()
+    bad["implementation_commit_sha"] = "0" * 40
+    with pytest.raises(ValueError, match="integrity mismatch"):
+        evaluate(bad, evidence())

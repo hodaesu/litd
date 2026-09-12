@@ -1,13 +1,12 @@
 import pytest
 
-from tools.quality.guardian_change_gate import evaluate
+from tools.quality.guardian_change_gate import _hash, evaluate
 
 
 def receipt():
-    return {
+    payload = {
         "kind": "LITD_VEILLEUR_REVIEW_RESOLUTION_RECEIPT",
         "candidate_hash": "a" * 64,
-        "receipt_hash": "b" * 64,
         "evidence_id": "veilleur:test:1",
         "route": "LITD_LIBRARY",
         "outcome": "LITD_CHANGE_CANDIDATE_APPROVED_PENDING_GUARDIAN",
@@ -16,11 +15,13 @@ def receipt():
         "core_write_allowed": False,
         "automatic_target_change_allowed": False,
     }
+    payload["receipt_hash"] = _hash(payload)
+    return payload
 
 
 def submission(decision="ACCEPT_FOR_IMPLEMENTATION"):
     return {
-        "receipt_hash": "b" * 64,
+        "receipt_hash": receipt()["receipt_hash"],
         "decision": decision,
         "decided_by": "governed-reviewer",
         "decided_at": "2026-09-12T07:00:00Z",
@@ -70,6 +71,7 @@ def test_receipt_hash_mismatch_fails_closed():
 def test_non_guardian_pending_receipt_rejected():
     r = receipt()
     r["outcome"] = "LIBRARY_PROMOTION_APPROVED_PENDING_APPLICATION"
+    r["receipt_hash"] = _hash({k: v for k, v in r.items() if k != "receipt_hash"})
     with pytest.raises(ValueError, match="not a Guardian-pending"):
         evaluate(r, submission())
 
@@ -91,5 +93,21 @@ def test_tests_are_mandatory():
 def test_direct_core_authority_in_receipt_is_rejected():
     r = receipt()
     r["core_write_allowed"] = True
+    r["receipt_hash"] = _hash({k: v for k, v in r.items() if k != "receipt_hash"})
     with pytest.raises(ValueError, match="authority violation"):
         evaluate(r, submission())
+
+
+@pytest.mark.parametrize("path", ["../scripts/core/example.gd", "/scripts/core/example.gd", "./scripts/core/example.gd", "scripts\\core\\example.gd", ".git/config"])
+def test_non_canonical_or_sensitive_paths_fail_closed(path):
+    data = submission()
+    data["affected_paths"] = [path]
+    with pytest.raises(ValueError, match="non-canonical"):
+        evaluate(receipt(), data)
+
+
+def test_tampered_resolution_receipt_with_stale_hash_fails_closed():
+    bad = receipt()
+    bad["outcome"] = "LIBRARY_PROMOTION_APPROVED_PENDING_APPLICATION"
+    with pytest.raises(ValueError, match="integrity mismatch"):
+        evaluate(bad, submission())

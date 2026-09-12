@@ -24,6 +24,15 @@ def _hash(payload: dict[str, Any]) -> str:
     return sha256(raw.encode("utf-8")).hexdigest()
 
 
+def _verify_embedded_hash(payload: dict[str, Any], field: str) -> None:
+    claimed = payload.get(field)
+    if not isinstance(claimed, str) or len(claimed) != 64 or any(ch not in "0123456789abcdef" for ch in claimed):
+        raise ValueError(f"invalid {field}")
+    unsigned = {key: value for key, value in payload.items() if key != field}
+    if claimed != _hash(unsigned):
+        raise ValueError(f"{field} integrity mismatch")
+
+
 def _aware_iso(value: Any) -> bool:
     if not isinstance(value, str) or not value.strip():
         return False
@@ -39,6 +48,7 @@ def _nonempty_strings(value: Any) -> bool:
 
 
 def evaluate(evaluation: dict[str, Any], decision: dict[str, Any]) -> dict[str, Any]:
+    _verify_embedded_hash(evaluation, "evaluation_hash")
     if evaluation.get("kind") != "LITD_BOUNDED_IMPLEMENTATION_EVALUATION":
         raise ValueError("invalid bounded implementation evaluation kind")
     if evaluation.get("status") != "READY_FOR_APPLICATION_REVIEW":
