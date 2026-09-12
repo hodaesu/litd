@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://scripts/tests/vs001_authored_salience_smoke_test.gd" type="Script" id="1"]
+
+[node name="VS001AuthoredSalienceSmoke" type="Node"]
+script = ExtResource("1")
