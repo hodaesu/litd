@@ -19,13 +19,14 @@ PIPELINE = ROOT / "tools/godot/veilleurs_pipeline_config.json"
 SELF = Path(__file__).resolve()
 
 CANON_ENTITY_IDS = [
-    "ENT_WATCHER_NAYRA",
-    "ENT_WATCHER_TAREK",
-    "ENT_WATCHER_AISHA",
-    "ENT_WATCHER_IDRIS",
+    "ENT_WATCHER_marec",
+    "ENT_WATCHER_mathilde",
+    "ENT_WATCHER_aurelien",
+    "ENT_WATCHER_anouk",
 ]
-CANON_RUNTIME_IDS = ["nayra_orun", "tarek_senn", "aisha_maren", "idris_vael"]
-CANON_NAMES = ["Nayra Orun", "Tarek Senn", "Aïsha Maren", "Idris Vael"]
+CANON_RUNTIME_IDS = ["Marec", "Mathilde", "Aurélien", "Anouk"]
+CANON_SKILL_FILE_IDS = ["marec", "mathilde", "aurelien", "anouk"]
+CANON_NAMES = ["Marec", "Mathilde", "Aurélien", "Anouk"]
 CI_GODOT = "4.7.2"
 PROJECT_GODOT = "4.7"
 WORKFLOWS = [
@@ -115,7 +116,6 @@ def main() -> int:
     warnings: list[str] = []
     checks: dict[str, bool] = {}
 
-    # 1. Tous les JSON Veilleurs doivent être lisibles.
     json_errors: list[str] = []
     json_files = sorted((ROOT / "data/veilleurs").rglob("*.json"))
     for path in json_files:
@@ -126,14 +126,12 @@ def main() -> int:
     checks["all_veilleurs_json_parse"] = not json_errors
     errors.extend(f"JSON invalide: {row}" for row in json_errors)
 
-    # 2. Aucun fichier texte actif ne doit être vide.
     active_files = iter_active_text_files()
     empty = [rel(p) for p in active_files if p.stat().st_size == 0]
     checks["no_empty_active_files"] = not empty
     if empty:
         errors.append("Fichiers actifs vides: " + ", ".join(empty))
 
-    # 3. Canon exact des quatre Veilleurs.
     watchers = load_json(ROOT / "data/veilleurs/v06/watchers.json")
     rows = watchers.get("watchers", [])
     entity_ids = [row.get("entity_id") for row in rows]
@@ -157,7 +155,6 @@ def main() -> int:
     checks["starter_loadout_roster"] = list(loadouts.keys()) == CANON_ENTITY_IDS
     add_error(errors, checks["starter_loadout_roster"], f"Loadouts initiaux divergents: {list(loadouts.keys())}")
 
-    # 4. 12 arbres / 180 compétences et cohérence entre proxy, fichiers et contrat source.
     tree_catalog = load_json(ROOT / "data/veilleurs/v06/watcher_tree_catalog.json")
     source_contract = load_json(ROOT / "data/veilleurs/skills/source_contract.json")
     catalog_rows = tree_catalog.get("watchers", [])
@@ -166,11 +163,11 @@ def main() -> int:
     checks["tree_catalog_roster"] = [row.get("entity_id") for row in catalog_rows] == CANON_ENTITY_IDS
     add_error(errors, checks["tree_catalog_roster"], "Le catalogue d'arbres ne suit pas le quatuor canonique")
     checks["source_contract_roster"] = list(source_contract.get("watchers", {}).keys()) == CANON_RUNTIME_IDS
-    add_error(errors, checks["source_contract_roster"], "Le contrat source des compétences ne suit pas les runtime IDs canoniques")
+    add_error(errors, checks["source_contract_roster"], "Le contrat source des compétences ne suit pas les identités canoniques")
 
     skill_ids_global: list[str] = []
     skill_layout_ok = True
-    for row, runtime_id, expected_name in zip(catalog_rows, CANON_RUNTIME_IDS, CANON_NAMES):
+    for row, runtime_id, skill_file_id, expected_name in zip(catalog_rows, CANON_RUNTIME_IDS, CANON_SKILL_FILE_IDS, CANON_NAMES):
         source = str(row.get("source", ""))
         path = ROOT / source.removeprefix("res://")
         if not path.is_file():
@@ -178,7 +175,7 @@ def main() -> int:
             skill_layout_ok = False
             continue
         data = load_json(path)
-        if data.get("watcher_id") != runtime_id or data.get("watcher_name") != expected_name:
+        if data.get("watcher_id") != skill_file_id or data.get("watcher_name") != expected_name:
             errors.append(f"Identité de fichier compétence divergente: {rel(path)}")
             skill_layout_ok = False
         trees = data.get("trees", {})
@@ -197,7 +194,6 @@ def main() -> int:
     checks["skills_180_integrity"] = skill_layout_ok and len(skill_ids_global) == 180 and len(set(skill_ids_global)) == 180
     add_error(errors, checks["skills_180_integrity"], "Les 180 compétences canoniques ne sont pas globalement uniques et complètes")
 
-    # 5. Bestiaire ordinaire et six donjons de production.
     enemies = load_json(ROOT / "data/veilleurs/v06/enemies_24_definitions.json")
     enemy_ids = [row.get("entity_id") for row in enemies.get("enemies", [])]
     checks["enemy_roster_24"] = enemies.get("count") == 24 and len(enemy_ids) == 24 and len(set(enemy_ids)) == 24
@@ -209,7 +205,6 @@ def main() -> int:
     checks["six_dungeons"] = len(dungeons) == 6 and dungeons == pre_pc.get("production_dungeons") and len(set(dungeons)) == 6
     add_error(errors, checks["six_dungeons"], f"Contrat des six donjons divergent: {dungeons}")
 
-    # 6. Version moteur et CI : une seule vérité active.
     pipeline = load_json(PIPELINE)
     project = (ROOT / "project.godot").read_text(encoding="utf-8")
     checks["godot_contract_alignment"] = (
@@ -236,13 +231,11 @@ def main() -> int:
     checks["ci_godot_alignment"] = not workflow_errors
     errors.extend(workflow_errors)
 
-    # 7. Les fichiers requis du verrou pré-PC doivent tous exister.
     missing_required = [item for item in pre_pc.get("required_files", []) if not (ROOT / item).is_file()]
     checks["pre_pc_required_files"] = not missing_required
     if missing_required:
         errors.append("Fichiers pré-PC requis absents: " + ", ".join(missing_required))
 
-    # 8. Aucun ancien quatuor hors exceptions historiques explicites.
     allowed_stale = set(pre_pc.get("allowed_stale_reference_files", []))
     allowed_stale.add("data/veilleurs/pre_pc_gate.json")
     stale_tokens = set(pre_pc.get("forbidden_stale_runtime_ids", [])) | {
@@ -265,7 +258,6 @@ def main() -> int:
     if stale_hits:
         errors.extend(f"Ancien canon {token}: {', '.join(sorted(paths))}" for token, paths in sorted(stale_hits.items()))
 
-    # 9. Les références res:// statiques des scènes/scripts Veilleurs doivent résoudre.
     unresolved: dict[str, list[str]] = {}
     ref_pattern = re.compile(r"res://[^\"'\s)\],]+")
     for path in iter_reference_files():
@@ -286,7 +278,6 @@ def main() -> int:
     if unresolved:
         errors.extend(f"Référence res:// absente dans {path}: {', '.join(sorted(set(refs)))}" for path, refs in sorted(unresolved.items()))
 
-    # 10. Signaux faibles : ils n'échouent pas la CI mais restent visibles dans le rapport.
     todo_hits: list[str] = []
     vs001_hits: list[str] = []
     for path in active_files:
