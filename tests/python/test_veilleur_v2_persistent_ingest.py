@@ -63,6 +63,24 @@ def test_same_content_new_id_is_still_duplicate_after_reopen(tmp_path: Path):
     reopened.close()
 
 
+def test_cross_project_attempt_is_audited_but_not_registered(tmp_path: Path):
+    ledger = EvidenceLedger(tmp_path / "ledger.sqlite3")
+    event = _event()
+    event["project_id"] = "COMPANY"
+    event["target_route"] = "COMPANY_LIBRARY"
+    event["content_hash"] = canonical_content_hash(
+        event["title"], event["summary"], event["source_url"], "COMPANY", "COMPANY_LIBRARY"
+    )
+    decision = validate_and_record(event, ledger)
+    assert decision.status == "REJECTED"
+    assert decision.reason == "project_scope_mismatch"
+    assert ledger.known_evidence_ids() == set()
+    assert ledger.verify_chain() is True
+    row = ledger.connection.execute("SELECT decision, reason, project_id, target_route FROM decision_ledger").fetchone()
+    assert tuple(row) == ("REJECTED", "project_scope_mismatch", "LITD", "LITD_LIBRARY")
+    ledger.close()
+
+
 def test_rejected_attempt_is_audited_but_not_registered(tmp_path: Path):
     ledger = EvidenceLedger(tmp_path / "ledger.sqlite3")
     event = _event()
