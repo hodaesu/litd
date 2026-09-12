@@ -32,6 +32,35 @@ func _meets_madness_requirement() -> bool:
 func can_interact() -> bool:
     return not collected and not entry.is_empty() and _meets_madness_requirement()
 
+func interaction_descriptor(_actor: Object = null) -> Dictionary:
+    var entry_id := str(entry.get("id", "missing"))
+    var available := can_interact()
+    var reason := ""
+    if entry.is_empty():
+        reason = "missing_entry"
+    elif collected:
+        reason = "already_collected"
+    elif not _meets_madness_requirement():
+        reason = "knowledge_requirement_not_met"
+    return EnvironmentInteractionContract.descriptor(
+        "lore:%s" % entry_id,
+        EnvironmentInteractionContract.KIND_CURIOSITY,
+        str(entry.get("title", "Trace")),
+        "EXAMINER",
+        available,
+        reason,
+        collected,
+        {"entry_id": entry_id}
+    )
+
+func perform_interaction(actor: Object = null) -> Dictionary:
+    var current := interaction_descriptor(actor)
+    if not bool(current.get("available", false)):
+        return EnvironmentInteractionContract.result(current, false, "blocked", str(current.get("blocked_reason", "unavailable")))
+    var payload := entry.duplicate(true)
+    interact()
+    return EnvironmentInteractionContract.result(current, true, "read", "", {"entry": payload})
+
 func interact() -> void:
     if not can_interact():
         return
