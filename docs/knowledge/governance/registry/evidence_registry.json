@@ -80,6 +80,22 @@
       "uri": "tests/python/test_knowledge_promotion.py",
       "observed_at": "2026-09-11T17:30:00Z",
       "change_id": "CHG-GOVERNANCE-PROMOTION-004"
+    },
+    {
+      "id": "EVD-GOVERNANCE-PROMOTION-MERGE-001",
+      "type": "GIT_COMMIT",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/commit/89934cadb3f8bfc66a8f50d598158556d1c571cf",
+      "observed_at": "2026-09-11T17:57:03Z",
+      "change_id": "CHG-GOVERNANCE-PROMOTION-004"
+    },
+    {
+      "id": "EVD-GOVERNANCE-PROMOTION-MAIN-CI-001",
+      "type": "CI",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/actions/runs/34630546357",
+      "observed_at": "2026-09-11T17:57:19Z",
+      "change_id": "CHG-GOVERNANCE-PROMOTION-004"
     }
   ]
 }
