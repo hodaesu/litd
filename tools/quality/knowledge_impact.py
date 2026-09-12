@@ -61,7 +61,7 @@ def _strings(value: Any) -> list[str] | None:
 
 def _safe_paths(paths: list[str]) -> bool:
     for raw in paths:
-        if "\\\\" in raw or "\\x00" in raw:
+        if "\\" in raw or "\x00" in raw:
             return False
         path = PurePosixPath(raw)
         if (
