@@ -1,0 +1,72 @@
+{
+  "kind": "LITD_VEILLEUR_SOURCE_REGISTRY",
+  "version": 1,
+  "policy": {
+    "unknown_source_action": "QUARANTINE",
+    "unverified_source_action": "QUARANTINE",
+    "core_write_allowed": false,
+    "automatic_library_write_allowed": false,
+    "max_response_bytes": 1048576,
+    "timeout_seconds": 15
+  },
+  "sources": [
+    {
+      "source_id": "godot-github-releases",
+      "name": "Godot Engine official GitHub releases",
+      "enabled": true,
+      "trust": "TRUSTED_PRIMARY",
+      "format": "atom",
+      "url": "https://github.com/godotengine/godot/releases.atom",
+      "allowed_host": "github.com",
+      "domain_hints": [
+        "Godot",
+        "GDScript",
+        "game development",
+        "performance"
+      ],
+      "source_confidence": 0.98,
+      "allowed_item_hosts": [
+        "github.com"
+      ]
+    },
+    {
+      "source_id": "python-insider-rss",
+      "name": "Python Insider official RSS",
+      "enabled": true,
+      "trust": "TRUSTED_PRIMARY",
+      "format": "rss",
+      "url": "https://blog.python.org/rss.xml",
+      "allowed_host": "blog.python.org",
+      "domain_hints": [
+        "Python",
+        "programming",
+        "security",
+        "performance"
+      ],
+      "source_confidence": 0.98,
+      "allowed_item_hosts": [
+        "blog.python.org"
+      ]
+    },
+    {
+      "source_id": "blender-releases-page",
+      "name": "Blender Foundation release notes",
+      "enabled": false,
+      "trust": "VERIFIED_PRIMARY_PENDING_FEED",
+      "format": "html",
+      "url": "https://www.blender.org/download/releases/",
+      "allowed_host": "www.blender.org",
+      "domain_hints": [
+        "Blender",
+        "3D",
+        "animation",
+        "rendering"
+      ],
+      "source_confidence": 0.98,
+      "disabled_reason": "HTML snapshot ingestion is intentionally not enabled until a publication-date-safe adapter is implemented.",
+      "allowed_item_hosts": [
+        "www.blender.org"
+      ]
+    }
+  ]
+}
