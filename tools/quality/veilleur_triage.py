@@ -36,6 +36,8 @@ def _impact_scopes(event: dict[str, Any]) -> list[str]:
 
 
 def process_batch(batch: dict[str, Any], ledger: EvidenceLedger) -> dict[str, Any]:
+    if not ledger.verify_chain():
+        raise ValueError("restored evidence ledger chain verification failed")
     if batch.get("kind") != "LITD_VEILLEUR_DISCOVERY_BATCH":
         raise ValueError("invalid discovery batch kind")
     if batch.get("core_write_allowed") is not False:
