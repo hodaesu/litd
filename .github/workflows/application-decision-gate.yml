@@ -1,0 +1,35 @@
+name: Application Decision Gate Contract
+
+on:
+  pull_request:
+    paths:
+      - 'tools/quality/application_decision_gate.py'
+      - 'tests/python/test_application_decision_gate.py'
+      - '.github/workflows/application-decision-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Run application decision gate tests
+        run: python -m pytest -q tests/python/test_application_decision_gate.py
+      - name: Verify final authority boundaries
+        run: |
+          grep -q 'APPLICATION_AUTHORIZED_PENDING_SEPARATE_MERGE' tools/quality/application_decision_gate.py
+          grep -q 'automatic_merge_allowed.*False' tools/quality/application_decision_gate.py
+          grep -q 'automatic_application_allowed.*False' tools/quality/application_decision_gate.py
+          grep -q 'automatic_target_change_allowed.*False' tools/quality/application_decision_gate.py
+          grep -q 'post_merge_measurement_required' tools/quality/application_decision_gate.py
+          grep -q 'provenance_checkpoint_required' tools/quality/application_decision_gate.py
