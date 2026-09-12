@@ -31,7 +31,7 @@ func _run() -> void:
         _check(indicator.visible, "indicator becomes visible for active target")
         _check(indicator.get_target() == probe, "indicator tracks active interaction target")
         indicator._process(0.0)
-        var expected := probe.global_position + Vector3.UP * indicator.vertical_offset
+        var expected: Vector3 = probe.global_position + Vector3.UP * float(indicator.vertical_offset)
         _check(indicator.global_position.distance_to(expected) < 0.001, "indicator follows target in world space")
         var label := indicator.get_node_or_null("TargetGlyph") as Label3D
         _check(label != null, "indicator exposes a visible glyph")
@@ -42,7 +42,7 @@ func _run() -> void:
 
         probe.global_position = Vector3(-0.5, 1.0, -1.5)
         indicator._process(0.0)
-        expected = probe.global_position + Vector3.UP * indicator.vertical_offset
+        expected = probe.global_position + Vector3.UP * float(indicator.vertical_offset)
         _check(indicator.global_position.distance_to(expected) < 0.001, "indicator follows a moving target without animation dependency")
 
     controller._set_interaction_target(null, {})
