@@ -47,6 +47,10 @@ def _nonempty_strings(value: Any) -> bool:
     return isinstance(value, list) and bool(value) and all(isinstance(x, str) and x.strip() for x in value)
 
 
+def _lower_hex(value: Any, length: int) -> bool:
+    return isinstance(value, str) and len(value) == length and all(c in "0123456789abcdef" for c in value)
+
+
 def evaluate(evaluation: dict[str, Any], decision: dict[str, Any]) -> dict[str, Any]:
     _verify_embedded_hash(evaluation, "evaluation_hash")
     if evaluation.get("kind") != "LITD_BOUNDED_IMPLEMENTATION_EVALUATION":
@@ -55,6 +59,8 @@ def evaluate(evaluation: dict[str, Any], decision: dict[str, Any]) -> dict[str, 
         raise ValueError("implementation is not ready for application review")
     if evaluation.get("blockers") != []:
         raise ValueError("application review requires zero blockers")
+    if evaluation.get("measurements_comparable") is not True:
+        raise ValueError("application review requires comparable measurements")
     for key in ("core_write_allowed", "automatic_merge_allowed", "automatic_application_allowed", "automatic_target_change_allowed"):
         if evaluation.get(key) is not False:
             raise ValueError(f"implementation evaluation authority violation:{key}")
@@ -62,6 +68,14 @@ def evaluate(evaluation: dict[str, Any], decision: dict[str, Any]) -> dict[str, 
         raise ValueError("separate application decision invariant missing")
     if evaluation.get("rollback_verification_required_before_application") is not True:
         raise ValueError("rollback verification invariant missing")
+
+    for key in ("source_gate_receipt_hash", "source_candidate_hash", "pre_measurement_hash", "post_measurement_hash"):
+        if not _lower_hex(evaluation.get(key), 64):
+            raise ValueError(f"{key} must be 64 lowercase hex")
+    if not _lower_hex(evaluation.get("implementation_commit_sha"), 40):
+        raise ValueError("implementation_commit_sha must be 40 lowercase hex")
+    if not _nonempty_strings(evaluation.get("rollback_evidence_refs")):
+        raise ValueError("rollback evidence refs required")
 
     required = {
         "evaluation_hash", "decision", "decided_by", "decided_at", "rationale",
@@ -71,13 +85,13 @@ def evaluate(evaluation: dict[str, Any], decision: dict[str, Any]) -> dict[str, 
     missing = sorted(required - set(decision))
     if missing:
         raise ValueError("missing application decision fields:" + ",".join(missing))
-    if decision["evaluation_hash"] != evaluation.get("evaluation_hash"):
+    if decision["evaluation_hash"] != evaluation["evaluation_hash"]:
         raise ValueError("implementation evaluation hash mismatch")
-    if decision["implementation_commit_sha"] != evaluation.get("implementation_commit_sha"):
+    if decision["implementation_commit_sha"] != evaluation["implementation_commit_sha"]:
         raise ValueError("implementation commit SHA mismatch")
-    if decision["pre_measurement_hash"] != evaluation.get("pre_measurement_hash"):
+    if decision["pre_measurement_hash"] != evaluation["pre_measurement_hash"]:
         raise ValueError("pre measurement hash mismatch")
-    if decision["post_measurement_hash"] != evaluation.get("post_measurement_hash"):
+    if decision["post_measurement_hash"] != evaluation["post_measurement_hash"]:
         raise ValueError("post measurement hash mismatch")
 
     choice = decision["decision"]
@@ -114,14 +128,14 @@ def evaluate(evaluation: dict[str, Any], decision: dict[str, Any]) -> dict[str, 
     receipt = {
         "kind": "LITD_APPLICATION_DECISION_RECEIPT",
         "source_evaluation_hash": evaluation["evaluation_hash"],
-        "source_gate_receipt_hash": evaluation.get("source_gate_receipt_hash"),
-        "source_candidate_hash": evaluation.get("source_candidate_hash"),
+        "source_gate_receipt_hash": evaluation["source_gate_receipt_hash"],
+        "source_candidate_hash": evaluation["source_candidate_hash"],
         "implementation_commit_sha": evaluation["implementation_commit_sha"],
         "pre_measurement_hash": evaluation["pre_measurement_hash"],
         "post_measurement_hash": evaluation["post_measurement_hash"],
         "measurement_assessment": assessment,
         "rollback_verified": rollback_verified,
-        "rollback_evidence_refs": list(evaluation.get("rollback_evidence_refs", [])),
+        "rollback_evidence_refs": list(evaluation["rollback_evidence_refs"]),
         "decision": choice,
         "outcome": outcome,
         "decided_by": decision["decided_by"].strip(),
