@@ -1,0 +1,153 @@
+{
+  "version": 1,
+  "contract_id": "les_veilleurs_knowledge_system_integration_v1",
+  "depends_on": [
+    "res://data/veilleurs/knowledge_intent_contract.json",
+    "res://data/veilleurs/room_security_alterations_contract.json",
+    "res://data/veilleurs/persistent_psychology_contract.json",
+    "res://data/veilleurs/vs001_runtime_contract.json",
+    "res://data/veilleurs/vs001_ui_input_contract.json",
+    "res://data/veilleurs/vs001_balance.json",
+    "res://data/remanence_rules.json"
+  ],
+  "architecture": {
+    "authority_rule": "Domain/runtime services own gameplay state. HUD only consumes snapshots and emits abstract commands.",
+    "services": {
+      "KnowledgeService": ["add_evidence", "recompute_level", "get_species_record", "get_individual_record", "serialize"],
+      "IntentResolver": ["receive_authoritative_truth", "build_perception_snapshot", "resolve_presentation", "resolve_feint_warning"],
+      "RoomStateMachine": ["sense_room", "open_room", "mark_explored", "mark_cleared", "secure_room", "compromise_room"],
+      "SecurityService": ["validate_security", "compute_cost", "apply_security", "consume_short_rest", "evaluate_compromise"],
+      "AlterationService": ["offer_candidates", "validate_conflicts", "apply", "expire_on_extraction", "serialize_runtime"],
+      "PsychologyService": ["apply_fear_event", "create_trace", "reinforce_trace", "soften_trace", "resolve_contextual_effects"],
+      "ArchiveService": ["merge_species_knowledge", "merge_individual_history", "merge_character_traces", "build_mobile_view_model"]
+    },
+    "suggested_scripts": {
+      "KnowledgeService": "res://scripts/core/knowledge_service.gd",
+      "IntentResolver": "res://scripts/combat/intent_resolver.gd",
+      "RoomStateMachine": "res://scripts/core/room_state_machine.gd",
+      "SecurityService": "res://scripts/core/security_service.gd",
+      "AlterationService": "res://scripts/core/alteration_service.gd",
+      "PsychologyService": "res://scripts/core/psychology_service.gd",
+      "ArchiveService": "res://scripts/core/archive_service.gd"
+    },
+    "signals": [
+      "knowledge_level_changed(species_id, old_level, new_level)",
+      "knowledge_fact_added(species_id, fact_id)",
+      "intent_presentation_changed(actor_uid, presentation)",
+      "room_state_changed(room_id, old_state, new_state)",
+      "room_secured(room_id)",
+      "room_compromised(room_id, reason)",
+      "alteration_added(owner_uid, alteration_id)",
+      "alteration_removed(owner_uid, alteration_id)",
+      "psych_trace_created(owner_uid, trace_uid)",
+      "psych_trace_changed(owner_uid, trace_uid)",
+      "archive_changed(scope, id)"
+    ]
+  },
+  "resource_schemas": {
+    "KnowledgeRecord": ["species_id:StringName", "points:int", "level:int", "evidence_flags:Dictionary", "unique_actions_observed:Array[StringName]", "anatomy_facts:Array[StringName]", "behavior_facts:Array[StringName]", "deep_study_evidence:int", "mastery_evidence:int", "last_seen_run:int"],
+    "IndividualMemoryRecord": ["entity_uid:String", "species_id:StringName", "remanence_stage:StringName", "encounters:int", "known_habits:Array[StringName]", "known_scars:Array[StringName]", "known_adaptations:Array[StringName]"],
+    "EnemyIntent": ["intent_id:StringName", "actor_uid:String", "intent_class:StringName", "action_id:StringName", "action_family:StringName", "target_uid:String", "target_group:StringName", "body_zone:StringName", "effects:Array", "movement:Dictionary", "timing:Dictionary", "condition:Dictionary", "damage_band:StringName", "deception_mode:StringName"],
+    "PerceptionSnapshot": ["light_state:StringName", "line_of_sight:bool", "auditory_access:bool", "noise_band:StringName", "concealment:int", "context_modifiers:Dictionary"],
+    "IntentPresentation": ["effective_detail_level:int", "revealed_fields:Dictionary", "confidence:int", "confidence_label:String", "warning_flags:Array[StringName]"],
+    "RoomRuntimeState": ["room_id:StringName", "core_state:StringName", "overlay_flags:Array[StringName]", "security_active:bool", "security_marker_id:String", "short_rest_uses:int", "known_cues:Array[StringName]", "resolved_features:Array[StringName]"],
+    "ExpeditionAlterationState": ["alteration_id:StringName", "owner_uid:String", "category:StringName", "target_skill_id:StringName", "tags:Array[StringName]", "acquired_pulse:int", "expiry:StringName", "runtime_payload:Dictionary"],
+    "PsychTraceState": ["trace_uid:String", "definition_id:StringName", "owner_uid:String", "source_type:StringName", "source_id:String", "source_tags:Array[StringName]", "intensity:int", "reinforcement_count:int", "softening_count:int", "related_entity_uid:String", "related_location_id:StringName", "history_event_ids:Array[String]"]
+  },
+  "mobile_ui": {
+    "global": {"orientation": "landscape_first", "touch_target_min_points": 48, "safe_area_required": true, "long_press_required": false, "persistent_minimap": false, "max_transient_items": 3},
+    "combat_decision": {
+      "visual_groups_max": 3,
+      "top_or_actor_space": "enemy intent chips anchored close to enemies without covering anatomy",
+      "bottom": "active watcher plus max six actions",
+      "actor_status": "HP, Fear band, up to two decision-changing status icons then +N",
+      "tap_intent_chip": "open explicit intent detail sheet",
+      "irreversible_actions": "separate selection and confirmation",
+      "normal_attack": "no redundant confirmation after target selection"
+    },
+    "intent_detail_sheet": {
+      "surface": "bottom_sheet_or_finger_avoiding_popup",
+      "fields": ["known_name_or_category", "knowledge_level", "visible_intent", "target_or_target_group_if_known", "body_zone_if_known", "effects_if_known", "confidence", "why_information_is_incomplete"],
+      "rule": "Unknown information is displayed as unknown, not as empty certainty."
+    },
+    "body_targeting": {
+      "entry": "after skill and target selection only when the skill permits anatomical choice",
+      "modes": ["auto", "explicit_zone"],
+      "zones": ["head", "torso", "arm_left", "arm_right", "leg_left", "leg_right"],
+      "preview": "known consequences only; hidden anatomy remains hidden"
+    },
+    "door_context": {
+      "world_first": true,
+      "show": ["detected_cues", "current_action", "known_pulse_or_noise_consequence_when_applicable"],
+      "hide": ["undetected_hazards", "false_safety_confirmation"],
+      "actions": ["inspect", "open", "force_if_available", "bypass_if_available", "cancel"]
+    },
+    "secured_room": {
+      "overlay_only": true,
+      "show": ["secured_status", "patrol_warning_if_known", "short_rest_available", "marker_used"],
+      "actions": ["inspect_body", "field_treatment", "inventory", "map", "short_rest_if_available", "leave"]
+    },
+    "alteration_choice": {
+      "surface": "bottom_sheet",
+      "choices": "2_to_3",
+      "show": ["effect", "owner", "scope", "conflict_or_replacement", "expiry"],
+      "rule": "No hidden stacking."
+    },
+    "psychology_status": {
+      "show": ["current_fear", "active_contextual_traces", "trace_sources", "temporary_hope_posture_if_any", "separate_veil_exposure_if_relevant"],
+      "hide": ["diagnostic_labels", "morality_score", "permanent_hope_meter"]
+    },
+    "archives_creature": {
+      "tabs_phone": ["identity_knowledge", "body", "combat", "history", "traces"],
+      "header": ["known_name_or_unknown_label", "knowledge_level_0_to_5", "last_known_remanence_stage_if_individual"],
+      "body": "facts appear only when learned",
+      "combat": "known action families and intent-reading depth",
+      "history": "encounters and major shared events",
+      "traces": "persistent world/body/history links"
+    }
+  },
+  "save_integration": {
+    "session_fields_to_extend": ["room_states", "expedition_alterations", "intent_observation_cache"],
+    "persistent_fields_to_extend": ["species_knowledge", "individual_knowledge", "psychological_traces", "archive_links"],
+    "deep_copy_required": true,
+    "scene_snapshot_forbidden": true,
+    "migration_required": true
+  },
+  "implementation_order": [
+    {"priority": "P0", "step": 1, "system": "KnowledgeRecord + KnowledgeService"},
+    {"priority": "P0", "step": 2, "system": "EnemyIntent authoritative model + IntentResolver"},
+    {"priority": "P0", "step": 3, "system": "Combat intent chips + intent detail mobile view"},
+    {"priority": "P0", "step": 4, "system": "RoomStateMachine + secured/compromised transitions"},
+    {"priority": "P0", "step": 5, "system": "Save serialization/migration + smoke tests"},
+    {"priority": "P1", "step": 6, "system": "Persistent psychological traces"},
+    {"priority": "P1", "step": 7, "system": "Expedition alterations"},
+    {"priority": "P1", "step": 8, "system": "Archives integration"},
+    {"priority": "P1", "step": 9, "system": "Remanence veteran/elite/nemesis feint adaptations"},
+    {"priority": "P1", "step": 10, "system": "Boss phase-specific knowledge"},
+    {"priority": "P2", "step": 11, "system": "Telemetry, tuning, haptics/audio and expanded PC views"}
+  ],
+  "acceptance_tests": [
+    {"id": "KNO_001", "assert": "Knowledge can increase while darkness prevents exact target/body-zone presentation."},
+    {"id": "KNO_002", "assert": "Repeated identical enemy action cannot farm a species directly to mastery."},
+    {"id": "KNO_003", "assert": "Mastering boss phase A does not reveal unseen phase B."},
+    {"id": "INT_001", "assert": "Normal and memorial enemies cannot use remanence intent-feint adaptations."},
+    {"id": "INT_002", "assert": "Veteran has at most one adaptation; elite and nemesis at most two."},
+    {"id": "INT_003", "assert": "A feint is history-supported and does not silently rewrite truth after player commitment."},
+    {"id": "ROOM_001", "assert": "Only a cleared viable room with a marker slot can become secured."},
+    {"id": "ROOM_002", "assert": "A secured room may be compromised by hostile entry or violence and patrols keep moving."},
+    {"id": "ROOM_003", "assert": "A security cycle grants at most one short rest and never bypasses injury treatment costs."},
+    {"id": "ALT_001", "assert": "Personal alterations cap at two, party alteration at one, and one alteration per skill."},
+    {"id": "ALT_002", "assert": "All expedition alterations expire on extraction unless only their candidate unlock is persisted."},
+    {"id": "PSY_001", "assert": "Fear, psychological Trace and Folie du Voile remain separate serialized concepts."},
+    {"id": "PSY_002", "assert": "A Trace persists after Fear changes and only applies when contextual tags match."},
+    {"id": "UI_001", "assert": "Every critical mobile interaction remains operable by tap without long press or hover."},
+    {"id": "UI_002", "assert": "No permanent minimap, quest tracker, Hope meter or Folie meter is introduced."},
+    {"id": "SAVE_001", "assert": "Knowledge, room scars/history and traces persist as data/flags, never scene snapshots."}
+  ],
+  "canonical_roster_binding": {
+    "mode": "enemy_id_and_archetype_tags",
+    "reason": "The current global enemies.json still contains legacy roster data; do not derive the canonical 24+5 Les Veilleurs roster from it.",
+    "explicit_safe_bindings": ["hungry_ghoul", "c01_boss_ash_witness"],
+    "next_data_task": "Bind every canonical Veilleurs enemy and boss to intent classes, telegraph channels and knowledge facts once the canonical 24+5 roster manifest is the authoritative repository source."
+  }
+}
