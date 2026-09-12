@@ -1,0 +1,62 @@
+name: Repository Governance Audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '41 4 * * *'
+  pull_request:
+    paths:
+      - 'docs/knowledge/repository-governance-policy.json'
+      - 'tools/quality/repository_governance_audit.py'
+      - 'tests/python/test_repository_governance_audit.py'
+      - '.github/workflows/repository-governance-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Run audit contract tests
+        run: python -m pytest -q tests/python/test_repository_governance_audit.py
+
+  live-state:
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Capture live GitHub protection state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          gh api "/repos/${GITHUB_REPOSITORY}/branches/main" > reports/main-branch.json
+          gh api "/repos/${GITHUB_REPOSITORY}/rulesets" > reports/rulesets.json
+      - name: Enforce canonical repository governance policy
+        run: |
+          python -m tools.quality.repository_governance_audit \
+            --policy docs/knowledge/repository-governance-policy.json \
+            --branch-json reports/main-branch.json \
+            --rulesets-json reports/rulesets.json \
+            --output reports/repository-governance-audit.json
+      - name: Upload governance audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: repository-governance-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: reports/
+          if-no-files-found: error
+          retention-days: 90
