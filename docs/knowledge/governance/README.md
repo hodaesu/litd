@@ -19,6 +19,7 @@ directe à un outil automatique.
 - `decision_registry.json`: décisions du Core et objections.
 - `change_registry.json`: cycle des changements réels.
 - `evidence_registry.json`: tests, mesures et observations.
+- `core_candidate_registry.json`: analyses d'impact proposées au Core, sans autorité d'application.
 
 Validation locale:
 
@@ -78,3 +79,20 @@ python -m tools.quality.knowledge_promotion KNOW-EXEMPLE review.json --apply
 
 Le mode par défaut reste `DRY_RUN`. L'opération est idempotente, validée avant
 remplacement atomique du registre et ne donne aucune autorité d'écriture Core.
+
+## Analyse d'impact vers le Core
+
+`knowledge_impact` transforme uniquement des connaissances `ACTIVE` en
+`CORE_CHANGE_CANDIDATE`. Le candidat conserve les piliers, chemins affectés,
+risques, conclusions du Contradicteur, tests et retour arrière. Il reste en
+`REVIEW`, avec Guardian `ORANGE` et sans approbation humaine.
+
+```bash
+python -m tools.quality.knowledge_impact impact.json
+python -m tools.quality.knowledge_impact impact.json --apply
+```
+
+Cette étape propose au Core; elle ne crée pas une décision approuvée et ne
+modifie ni le Core, ni Git/Godot, ni le gameplay. L'application vérifie que le
+registre n'a pas changé depuis le plan; le Global Governance Gate contrôle
+indépendamment l'identifiant déterministe et les chemins affectés.

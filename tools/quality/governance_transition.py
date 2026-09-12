@@ -111,7 +111,7 @@ def plan_transition(
 
     with tempfile.TemporaryDirectory(prefix="litd-governance-plan-") as tmp:
         validation_root = Path(tmp)
-        for name in ("knowledge_registry.json", "decision_registry.json"):
+        for name in ("knowledge_registry.json", "decision_registry.json", "core_candidate_registry.json"):
             (validation_root / name).write_text(
                 json.dumps(_load_payload(root, name), ensure_ascii=False), encoding="utf-8"
             )

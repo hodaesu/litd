@@ -114,7 +114,7 @@ def plan_intake(event: dict[str, Any], root: Path = REGISTRY_ROOT) -> KnowledgeI
     registry["entries"].append(entry)
     with tempfile.TemporaryDirectory(prefix="litd-knowledge-intake-") as tmp:
         candidate_root = Path(tmp)
-        for name in ("decision_registry.json", "change_registry.json", "evidence_registry.json"):
+        for name in ("decision_registry.json", "change_registry.json", "evidence_registry.json", "core_candidate_registry.json"):
             (candidate_root / name).write_text(
                 json.dumps(_load_registry(root, name), ensure_ascii=False), encoding="utf-8"
             )
