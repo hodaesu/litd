@@ -1,0 +1,25 @@
+name: Veilleurs P1 Stable Interaction Targeting Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/world/exploration_party_controller.gd'
+      - 'scripts/tests/stable_interaction_targeting_smoke_test.gd'
+      - 'scenes/tests/stable_interaction_targeting_smoke.tscn'
+      - '.github/workflows/veilleurs-p1-stable-interaction-targeting-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stable-targeting:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Strict Godot import
+        run: godot --headless --path . --import --quit
+      - name: Stable interaction targeting smoke
+        run: timeout 60s godot --headless --path . res://scenes/tests/stable_interaction_targeting_smoke.tscn

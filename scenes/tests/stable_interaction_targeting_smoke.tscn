@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://scripts/tests/stable_interaction_targeting_smoke_test.gd" type="Script" id="1"]
+
+[node name="StableInteractionTargetingSmoke" type="Node"]
+script = ExtResource("1")
