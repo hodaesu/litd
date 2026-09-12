@@ -40,6 +40,8 @@ def build_jobs(root: Path = ROOT) -> list[dict]:
     equipment = json.loads((root / "data/equipment.json").read_text(encoding="utf-8"))
     jobs = []
     for item in equipment:
+        if item.get("prototype", False):
+            continue
         material, dimensions, socket = SLOT_PROFILES[item["slot"]]
         job = _job(item["id"], item["name"], "equipment", material, dimensions, socket)
         job["equipment_slot"] = item["slot"]
