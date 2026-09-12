@@ -1,5 +1,8 @@
 from datetime import datetime, timezone
 from pathlib import Path
+
+import pytest
+
 from tools.quality.autonomous_veilleur import parse_feed, run
 from tools.quality.evidence_ledger import EvidenceLedger
 from tools.quality.veilleur_triage import process_batch
@@ -14,9 +17,15 @@ def registry():
 def test_end_to_end_discovery_triage_review_remains_governed(tmp_path:Path):
     def fetcher(source,timeout,max_bytes): return ATOM
     discovery=run(registry(),fetcher=fetcher,now=datetime(2026,9,12,6,tzinfo=timezone.utc))
+    assert discovery["project_id"] == "LITD"
+    assert discovery["target_route"] == "LITD_LIBRARY"
+    assert discovery["candidates"][0]["project_id"] == "LITD"
+    assert discovery["candidates"][0]["target_route"] == "LITD_LIBRARY"
     ledger=EvidenceLedger(tmp_path/"ledger.sqlite3")
     try: triage=process_batch(discovery,ledger)
     finally: ledger.close()
+    assert triage["project_id"] == "LITD"
+    assert triage["target_route"] == "LITD_LIBRARY"
     review=build_review_batch(triage)
     assert discovery["candidate_count"]==1
     assert triage["items"][0]["route"]=="LITD_LIBRARY"
@@ -24,6 +33,35 @@ def test_end_to_end_discovery_triage_review_remains_governed(tmp_path:Path):
     assert review["items"][0]["contradiction"]["status"]=="REVIEW_REQUIRED"
     assert review["core_write_allowed"] is False
     assert review["automatic_library_write_allowed"] is False
+
+
+def test_cross_project_batch_is_rejected_before_ledger_append(tmp_path: Path):
+    discovery = run(registry(), fetcher=lambda source, timeout, max_bytes: ATOM)
+    discovery["project_id"] = "COMPANY"
+    discovery["target_route"] = "COMPANY_LIBRARY"
+    ledger = EvidenceLedger(tmp_path / "ledger.sqlite3")
+    try:
+        before = ledger.connection.execute("SELECT COUNT(*) FROM decision_ledger").fetchone()[0]
+        with pytest.raises(ValueError, match="project scope mismatch"):
+            process_batch(discovery, ledger)
+        after = ledger.connection.execute("SELECT COUNT(*) FROM decision_ledger").fetchone()[0]
+        assert after == before
+    finally:
+        ledger.close()
+
+
+def test_wrong_route_batch_is_rejected_before_ledger_append(tmp_path: Path):
+    discovery = run(registry(), fetcher=lambda source, timeout, max_bytes: ATOM)
+    discovery["target_route"] = "GENERAL_LIBRARY"
+    ledger = EvidenceLedger(tmp_path / "ledger.sqlite3")
+    try:
+        before = ledger.connection.execute("SELECT COUNT(*) FROM decision_ledger").fetchone()[0]
+        with pytest.raises(ValueError, match="route scope mismatch"):
+            process_batch(discovery, ledger)
+        after = ledger.connection.execute("SELECT COUNT(*) FROM decision_ledger").fetchone()[0]
+        assert after == before
+    finally:
+        ledger.close()
 
 
 def test_total_source_outage_fails_closed():
