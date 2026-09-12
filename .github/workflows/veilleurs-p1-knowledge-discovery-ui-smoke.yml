@@ -1,0 +1,31 @@
+name: Veilleurs P1 Knowledge Discovery UI Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/core/knowledge_discovery_ui_contract.gd'
+      - 'scripts/tests/knowledge_discovery_ui_contract_smoke_test.gd'
+      - 'scenes/tests/knowledge_discovery_ui_contract_smoke.tscn'
+      - 'tests/python/test_knowledge_discovery_ui_contract.py'
+      - 'docs/veilleurs/P1_KNOWLEDGE_DISCOVERY_UI_CONTRACT.md'
+      - '.github/workflows/veilleurs-p1-knowledge-discovery-ui-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  knowledge-discovery-ui:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install Python test dependency
+        run: pip install pytest
+      - name: Repository contract tests
+        run: python -m pytest -q tests/python/test_knowledge_discovery_ui_contract.py
+      - name: Strict Godot import
+        run: godot --headless --path . --import --quit
+      - name: P1 knowledge discovery UI contract smoke
+        run: timeout 60s godot --headless --path . res://scenes/tests/knowledge_discovery_ui_contract_smoke.tscn
