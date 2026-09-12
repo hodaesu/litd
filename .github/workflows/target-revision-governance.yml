@@ -85,9 +85,19 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if grep -qx 'docs/knowledge/target-drift-baseline-v1.json' reports-target-revision-files.txt; then
-            echo 'Frozen target drift baseline cannot be modified by an ordinary PR. Create a new baseline version through explicit governance instead.' >&2
-            exit 1
+          baseline='docs/knowledge/target-drift-baseline-v1.json'
+          base_sha='${{ github.event.pull_request.base.sha }}'
+          if grep -qx "$baseline" reports-target-revision-files.txt; then
+            if git cat-file -e "${base_sha}:${baseline}" 2>/dev/null; then
+              echo 'Frozen target drift baseline cannot be modified by an ordinary PR. Create a new baseline version through explicit governance instead.' >&2
+              exit 1
+            fi
+            status="$(awk -v path="$baseline" '$2 == path {print $1}' reports-target-revision-status.txt | tail -n 1)"
+            if [ "$status" != 'A' ]; then
+              echo 'A missing frozen baseline may only be bootstrapped as a new file during reconciliation.' >&2
+              exit 1
+            fi
+            echo 'Frozen baseline bootstrap accepted because the PR base does not contain the baseline.'
           fi
       - name: Enforce append-only target history
         if: ${{ github.event_name == 'pull_request' }}
