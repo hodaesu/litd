@@ -8,7 +8,11 @@ def _event(evidence_id: str = "EV-001") -> dict:
     title = "Godot optimization note"
     summary = "A verified performance technique relevant to procedural generation."
     source_url = "https://example.com/source"
+    project_id = "LITD"
+    target_route = "LITD_LIBRARY"
     return {
+        "project_id": project_id,
+        "target_route": target_route,
         "evidence_id": evidence_id,
         "title": title,
         "summary": summary,
@@ -18,7 +22,7 @@ def _event(evidence_id: str = "EV-001") -> dict:
         "discovered_at": "2026-09-10T18:00:00Z",
         "published_at": "2026-09-10T17:00:00Z",
         "domain_hints": ["godot", "performance"],
-        "content_hash": canonical_content_hash(title, summary, source_url),
+        "content_hash": canonical_content_hash(title, summary, source_url, project_id, target_route),
     }
 
 
