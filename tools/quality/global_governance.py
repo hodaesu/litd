@@ -68,7 +68,7 @@ def _safe_repo_paths(paths: object) -> bool:
     if not isinstance(paths, list) or not paths:
         return False
     for raw in paths:
-        if not isinstance(raw, str) or not raw or "\\\\" in raw or "\\x00" in raw:
+        if not isinstance(raw, str) or not raw or "\\" in raw or "\x00" in raw:
             return False
         path = PurePosixPath(raw)
         if (
