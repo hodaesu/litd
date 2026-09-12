@@ -187,25 +187,17 @@ func _ultimate_identity(hero: Dictionary, branch: String) -> Dictionary:
     var branch_index := order.find(branch)
     if branch_index < 0:
         return {}
-    var characters: Dictionary = ultimate_identity_lock.get("characters", {})
-    var aliases := {
-        "marec": ["Marec", "marec"],
-        "mathilde": ["Mathilde", "mathilde"],
-        "aurelien": ["Aurélien", "Aurelien", "aurelien"],
-        "anouk": ["Anouk", "anouk"]
-    }
-    var character: Dictionary = {}
-    for name_value: Variant in aliases.get(watcher_key, []):
-        var name := str(name_value)
-        if characters.has(name):
-            character = characters[name]
-            break
-    if character.is_empty():
-        return {}
-    var ultimates: Array = character.get("ultimates", [])
-    if branch_index >= ultimates.size() or not (ultimates[branch_index] is Dictionary):
-        return {}
-    return (ultimates[branch_index] as Dictionary).duplicate(true)
+    for hero_value: Variant in ultimate_identity_lock.get("heroes", []):
+        if not (hero_value is Dictionary):
+            continue
+        var locked_hero: Dictionary = hero_value
+        if str(locked_hero.get("hero_id", "")) != watcher_key:
+            continue
+        var ultimates: Array = locked_hero.get("ultimates", [])
+        if branch_index >= ultimates.size() or not (ultimates[branch_index] is Dictionary):
+            return {}
+        return (ultimates[branch_index] as Dictionary).duplicate(true)
+    return {}
 
 func _watcher_key(hero: Dictionary) -> String:
     var runtime_id := str(hero.get("id", "")).strip_edges()
