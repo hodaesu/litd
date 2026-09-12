@@ -1,23 +1,24 @@
 import pytest
 
-from tools.quality.veilleur_review_resolution import resolve_candidate
+from tools.quality.veilleur_review_resolution import _hash, resolve_candidate
 
 
 def candidate(route="LITD_LIBRARY", cross_reference=False):
-    return {
+    payload = {
         "kind": "LITD_LIBRARY_REVIEW_CANDIDATE",
         "evidence_id": "e1",
-        "candidate_hash": "a" * 64,
         "route": route,
         "cross_reference": cross_reference,
         "core_write_allowed": False,
         "automatic_library_write_allowed": False,
     }
+    payload["candidate_hash"] = _hash(payload)
+    return payload
 
 
 def resolution(decision="PROPOSE_LITD_CHANGE_CANDIDATE"):
     return {
-        "candidate_hash": "a" * 64,
+        "candidate_hash": candidate()["candidate_hash"],
         "decision": decision,
         "rationale": "Evidence and impact review justify this governed decision.",
         "decided_by": "guardian-review",
@@ -73,5 +74,13 @@ def test_naive_timestamp_is_rejected():
 def test_candidate_authority_escalation_is_rejected():
     bad = candidate()
     bad["core_write_allowed"] = True
+    bad["candidate_hash"] = _hash({k: v for k, v in bad.items() if k != "candidate_hash"})
     with pytest.raises(ValueError, match="Core authority"):
+        resolve_candidate(bad, resolution())
+
+
+def test_tampered_candidate_with_stale_hash_fails_closed():
+    bad = candidate()
+    bad["route"] = "GENERAL_LIBRARY"
+    with pytest.raises(ValueError, match="integrity mismatch"):
         resolve_candidate(bad, resolution())
