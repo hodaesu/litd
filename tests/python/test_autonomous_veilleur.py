@@ -25,6 +25,7 @@ def registry():
                 "format": "atom",
                 "url": "https://example.com/feed.atom",
                 "allowed_host": "example.com",
+                "allowed_item_hosts": ["example.com"],
                 "domain_hints": ["Godot"],
                 "source_confidence": 0.9,
             }
@@ -103,7 +104,24 @@ def test_fetch_failure_is_reported_not_silently_accepted():
         raise RuntimeError("network down")
 
     report = run(registry(), fetcher=failing_fetch)
-    assert report["status"] == "PARTIAL"
+    assert report["status"] == "FAILED"
+    assert report["successful_source_count"] == 0
     assert report["candidate_count"] == 0
     assert report["failure_count"] == 1
     assert "network down" in report["failures"][0]["reason"]
+
+
+def test_feed_item_link_outside_allowlist_is_rejected():
+    source = registry()["sources"][0]
+    payload = ATOM.replace(b"https://example.com/release-1", b"https://evil.example/release-1")
+    try:
+        parse_feed(payload, source, "2026-09-11T12:00:00Z")
+        assert False, "expected off-domain item link rejection"
+    except ValueError as exc:
+        assert "allowed host policy" in str(exc)
+
+
+def test_registry_rejects_missing_item_host_allowlist():
+    data = registry()
+    del data["sources"][0]["allowed_item_hosts"]
+    assert any("invalid_allowed_item_hosts" in e for e in validate_registry(data))
