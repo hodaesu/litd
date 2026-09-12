@@ -1,11 +1,14 @@
 extends Node
 
-const SESSION_SCRIPT := preload("res://scripts/core/veilleurs_tactical_session_v062.gd")
-const DUNGEON_SCRIPT := preload("res://scripts/core/veilleurs_dungeon_slice_runtime_v062.gd")
 const ULTIMATE_STATE_SCRIPT := preload("res://scripts/core/veilleurs_ultimate_state_runtime.gd")
-const aurelien_ID := "ENT_WATCHER_aurelien"
-const TARGET_ID := "ENT_ENEMY_GOULE_AFFAMEE"
-const SAVE_PATH := "user://veilleurs_v062_hemocorde_smoke.json"
+const CURRENT_ULTIMATES_PATH := "res://data/veilleurs/current_quartet_ultimate_sheets.json"
+
+const EXPECTED_HEROES := {
+    "mathilde": ["Cœur inébranlable", "Katana éternel", "Volonté transcendante"],
+    "marec": ["Force primordiale", "Instinct parfait", "Légende vivante"],
+    "anouk": ["Trame absolue", "Esprit transcendant", "Ange de la Trame"],
+    "aurelien": ["Réminiscence du Sang", "Miroir du Jugement", "Réforme éternelle"],
+}
 
 var failures: Array[String] = []
 
@@ -13,165 +16,56 @@ func _ready() -> void:
     call_deferred("_run")
 
 func _run() -> void:
-    RemanenceRuntime.reset_new_game()
     var state_runtime: VeilleursUltimateStateRuntime = ULTIMATE_STATE_SCRIPT.new() as VeilleursUltimateStateRuntime
     _check(state_runtime.charges_for_level(15) == 0, "ultimate locked before level 16")
     _check(state_runtime.charges_for_level(16) == 1, "level 16 grants one charge")
     _check(state_runtime.charges_for_level(32) == 2, "level 32 grants two charges")
     _check(state_runtime.charges_for_level(48) == 3, "level 48 grants three charges")
 
-    var invalid_session: VeilleursTacticalSessionV062 = SESSION_SCRIPT.new() as VeilleursTacticalSessionV062
-    add_child(invalid_session)
-    _check(bool(invalid_session.start_first_combat().get("ok", false)), "invalid-prerequisite session starts")
-    _check(bool(invalid_session.configure_watcher_progression(aurelien_ID, 16, "hemocorde", true).get("ok", false)), "Aurélien Hemocorde progression configures")
-    _move_aurelien_to_contact(invalid_session.runtime, TARGET_ID)
-    _check(bool(invalid_session.note_vascular_knowledge(TARGET_ID, "torso", 3).get("ok", false)), "vascular knowledge can be recorded")
-    var invalid_result := invalid_session.resolve_ultimate(aurelien_ID, TARGET_ID, "hemocorde")
-    _check(not bool(invalid_result.get("ok", false)) and str(invalid_result.get("reason", "")) == "target_not_compromised_enough", "ultimate refuses an insufficiently compromised target")
-    var invalid_aurelien: Dictionary = invalid_session.runtime.combatants[aurelien_ID]
-    var invalid_state: Dictionary = invalid_aurelien.get("ultimate_state", {})
-    _check(int((invalid_state.get("charges", {}) as Dictionary).get("hemocorde", 0)) == 1, "failed activation does not consume charge")
-    invalid_session.queue_free()
+    var payload := _load_json(CURRENT_ULTIMATES_PATH)
+    _check(str(payload.get("status", "")) == "CURRENT_QUARTET_AUTHORED_IDENTITY_LOCK", "current quartet identity lock is authoritative")
+    var progression: Dictionary = payload.get("charge_progression", {})
+    _check(int(progression.get("16", 0)) == 1, "identity contract keeps level 16 charge")
+    _check(int(progression.get("32", 0)) == 2, "identity contract keeps level 32 charges")
+    _check(int(progression.get("48", 0)) == 3, "identity contract keeps level 48 charges")
 
-    var session: VeilleursTacticalSessionV062 = SESSION_SCRIPT.new() as VeilleursTacticalSessionV062
-    add_child(session)
-    _check(bool(session.start_first_combat().get("ok", false)), "v0.6.2 tactical session starts")
-    _check(bool(session.configure_watcher_progression(aurelien_ID, 32, "hemocorde", true).get("ok", false)), "level 32 Hemocorde configures with two charges")
-    _check(_move_aurelien_for_observation(session.runtime, TARGET_ID), "Aurélien reaches observation range")
-    var observe := session.resolve_skill(aurelien_ID, TARGET_ID, "AÏ-HÉM-06", "torso", 1)
-    _check(bool(observe.get("ok", false)), "Ligne vasculaire resolves through canonical skill runtime")
-    var observed_target: Dictionary = session.runtime.combatants[TARGET_ID]
-    _check(int((observed_target.get("vascular_known_zones", {}) as Dictionary).get("torso", 0)) >= 2, "Ligne vasculaire creates real vascular knowledge")
-    _check(_move_aurelien_to_contact(session.runtime, TARGET_ID), "Aurélien reaches Hemocorde contact range")
-    _compromise_target(session, TARGET_ID, 0.30)
-    var ready := session.ultimate_status(aurelien_ID, TARGET_ID, "hemocorde")
-    _check(bool(ready.get("available", false)) and int(ready.get("charges_remaining", 0)) == 2, "Le Dernier Battement becomes available only on compromised known physiology")
+    var seen: Dictionary = {}
+    var ultimate_count := 0
+    for hero_value: Variant in payload.get("heroes", []):
+        var hero: Dictionary = hero_value
+        var hero_id := str(hero.get("hero_id", ""))
+        seen[hero_id] = true
+        var expected_names: Array = EXPECTED_HEROES.get(hero_id, [])
+        var actual_names: Array[String] = []
+        for ultimate_value: Variant in hero.get("ultimates", []):
+            var ultimate: Dictionary = ultimate_value
+            ultimate_count += 1
+            actual_names.append(str(ultimate.get("name", "")))
+            _check(bool(ultimate.get("identity_locked", false)), "%s ultimate identity remains locked" % hero_id)
+            _check(str(ultimate.get("runtime_effect_status", "")) == "PENDING_RESOLVER_BINDING", "%s ultimate mechanics remain pending instead of inheriting legacy mechanics" % hero_id)
+        _check(actual_names == expected_names, "%s exposes the three current canonical ultimate identities" % hero_id)
 
-    var first := session.resolve_ultimate(aurelien_ID, TARGET_ID, "hemocorde")
-    _check(bool(first.get("ok", false)), "Le Dernier Battement resolves")
-    _check(str(first.get("ultimate_name", "")) == "Le Dernier Battement", "ultimate identity remains canonical")
-    _check(str(first.get("commit_state", "")) == "ULTIMATE_RESOLVE", "charge commits at authoritative resolve state")
-    _check(bool(first.get("circulatory_collapse", false)), "ultimate creates circulatory collapse")
-    _check(int(first.get("charges_remaining", -1)) == 1, "first resolution consumes exactly one level-32 charge")
-    _check((first.get("presentation", {}) as Dictionary).get("signature", "") == "silence_then_heartbeat", "resolver exposes presentation contract without using it for mechanics")
+    _check(seen.size() == 4, "exactly four current heroes own ultimate sheets")
+    for hero_id: String in EXPECTED_HEROES.keys():
+        _check(bool(seen.get(hero_id, false)), "current ultimate sheet contains %s" % hero_id)
+    _check(ultimate_count == 12, "current quartet owns twelve signature ultimates")
 
-    var same_encounter := session.ultimate_status(aurelien_ID, TARGET_ID, "hemocorde")
-    _check(not bool(same_encounter.get("available", false)) and str(same_encounter.get("reason", "")) == "ultimate_already_used_this_encounter", "same ultimate cannot be used twice in one encounter while a charge remains")
+    var serialized := JSON.stringify(payload)
+    _check(not serialized.contains("Le Dernier Battement"), "legacy Hemocorde ultimate is not rebound into the current quartet")
+    _check(not serialized.contains("aisha_maren"), "legacy Aïsha binding is absent from the current ultimate authority")
 
-    _check(session.save_snapshot(SAVE_PATH), "v0.6.2 active combat snapshot saves")
-    var restored: VeilleursTacticalSessionV062 = SESSION_SCRIPT.new() as VeilleursTacticalSessionV062
-    add_child(restored)
-    _check(restored.load_snapshot(SAVE_PATH), "v0.6.2 active combat snapshot restores")
-    var restored_aurelien: Dictionary = restored.runtime.combatants[aurelien_ID]
-    var restored_state: Dictionary = restored_aurelien.get("ultimate_state", {})
-    _check(int((restored_state.get("charges", {}) as Dictionary).get("hemocorde", 0)) == 1, "ultimate charge survives save/load")
-    _check(bool((restored_state.get("encounters_used", {}) as Dictionary).get("hemocorde@veilleurs_v062_first_combat", false)), "encounter usage survives save/load")
-
-    var aftermath := restored.watcher_aftermath()
-    var dungeon: VeilleursDungeonSliceRuntimeV062 = DUNGEON_SCRIPT.new() as VeilleursDungeonSliceRuntimeV062
-    _check(bool(dungeon.start().get("ok", false)), "Khar-Sen v0.6.2 state starts")
-    var persist_result := dungeon.complete_current("cleared", {"watcher_aftermath": aftermath})
-    _check(bool(persist_result.get("ok", false)) and int(persist_result.get("watcher_state_persisted", 0)) == 4, "Khar-Sen captures four-Watcher aftermath including ultimate state")
-    var dungeon_copy: VeilleursDungeonSliceRuntimeV062 = DUNGEON_SCRIPT.new() as VeilleursDungeonSliceRuntimeV062
-    _check(dungeon_copy.deserialize(dungeon.serialize()), "Khar-Sen v0.6.2 serializes Watcher state")
-    var persisted_aurelien: Dictionary = dungeon_copy.watcher_state.get(aurelien_ID, {})
-    _check(int(((persisted_aurelien.get("ultimate_state", {}) as Dictionary).get("charges", {}) as Dictionary).get("hemocorde", 0)) == 1, "remaining dungeon charge survives Khar-Sen serialization")
-
-    var next_session: VeilleursTacticalSessionV062 = SESSION_SCRIPT.new() as VeilleursTacticalSessionV062
-    add_child(next_session)
-    var second_encounter := _single_ghoul_encounter("SMOKE_HEMOCORDE_02")
-    _check(bool(next_session.start_authored_encounter_with_state(second_encounter, "khar_sen:SMOKE_HEMOCORDE_02", "khar_sen", dungeon_copy.watcher_state).get("ok", false)), "second authored encounter restores Watcher expedition state")
-    _check(_move_aurelien_to_contact(next_session.runtime, TARGET_ID), "Aurélien reaches contact in second encounter")
-    _check(bool(next_session.note_vascular_knowledge(TARGET_ID, "torso", 3).get("ok", false)), "second encounter records new target knowledge")
-    _compromise_target(next_session, TARGET_ID, 0.30)
-    var second_ready := next_session.ultimate_status(aurelien_ID, TARGET_ID, "hemocorde")
-    _check(bool(second_ready.get("available", false)) and int(second_ready.get("charges_remaining", 0)) == 1, "remaining charge is reusable in a different encounter")
-    var second := next_session.resolve_ultimate(aurelien_ID, TARGET_ID, "hemocorde")
-    _check(bool(second.get("ok", false)) and int(second.get("charges_remaining", -1)) == 0, "second encounter consumes final level-32 dungeon charge")
-
-    var boss_session: VeilleursTacticalSessionV062 = SESSION_SCRIPT.new() as VeilleursTacticalSessionV062
-    add_child(boss_session)
-    _check(bool(boss_session.start_first_combat().get("ok", false)), "boss-floor session starts")
-    _check(bool(boss_session.configure_watcher_progression(aurelien_ID, 16, "hemocorde", true).get("ok", false)), "boss-floor Aurélien progression configures")
-    _check(_move_aurelien_to_contact(boss_session.runtime, TARGET_ID), "Aurélien reaches boss test target")
-    _check(bool(boss_session.note_vascular_knowledge(TARGET_ID, "torso", 3).get("ok", false)), "boss vascular knowledge recorded")
-    var boss_target: Dictionary = boss_session.runtime.combatants[TARGET_ID]
-    boss_target["boss"] = true
-    boss_target["hp"] = maxi(1, int(round(float(boss_target.get("max_hp", 1)) * 0.15)))
-    boss_session.runtime.combatants[TARGET_ID] = boss_target
-    boss_session.apply_bleeding(TARGET_ID, 8, 2)
-    var boss_result := boss_session.resolve_ultimate(aurelien_ID, TARGET_ID, "hemocorde")
-    _check(bool(boss_result.get("ok", false)), "Hemocorde resolves against compromised boss physiology")
-    _check(bool(boss_result.get("boss_floor_applied", false)) and int((boss_session.runtime.combatants[TARGET_ID] as Dictionary).get("hp", 0)) >= 1, "boss survives decisive collapse at explicit floor")
-    _check(not bool(boss_result.get("fatal_collapse", true)), "boss cannot receive nonboss terminal collapse")
-
-    session.delete_snapshot(SAVE_PATH)
-    session.queue_free()
-    restored.queue_free()
-    next_session.queue_free()
-    boss_session.queue_free()
     _finish()
 
-func _compromise_target(session: VeilleursTacticalSessionV062, target_id: String, hp_ratio: float) -> void:
-    var target: Dictionary = session.runtime.combatants[target_id]
-    target["hp"] = maxi(1, int(round(float(target.get("max_hp", 1)) * hp_ratio)))
-    var body: VeilleursBodyComponent = target.get("body") as VeilleursBodyComponent
-    if body != null:
-        body.apply_trauma("torso", 80, 0, 3)
-    session.runtime.combatants[target_id] = target
-    session.apply_bleeding(target_id, 8, 2)
-
-func _move_aurelien_for_observation(runtime: VeilleursTacticalCombatRuntimeV2, target_id: String) -> bool:
-    if runtime.grid.distance(aurelien_ID, target_id) <= 4:
-        return true
-    var path: Array[Vector2i] = [Vector2i(1, 2), Vector2i(2, 2)]
-    return _follow_path(runtime, path) and runtime.grid.distance(aurelien_ID, target_id) <= 4
-
-func _move_aurelien_to_contact(runtime: VeilleursTacticalCombatRuntimeV2, target_id: String) -> bool:
-    if runtime.grid.distance(aurelien_ID, target_id) <= 1:
-        return true
-    var target_position := runtime.grid.position_of(target_id)
-    var desired := Vector2i(target_position.x - 1, target_position.y)
-    var current := runtime.grid.position_of(aurelien_ID)
-    var safety := 0
-    while current != desired and safety < 20:
-        safety += 1
-        var candidates: Array[Vector2i] = []
-        if current.x < desired.x:
-            candidates.append(current + Vector2i(1, 0))
-        elif current.x > desired.x:
-            candidates.append(current + Vector2i(-1, 0))
-        if current.y < desired.y:
-            candidates.append(current + Vector2i(0, 1))
-        elif current.y > desired.y:
-            candidates.append(current + Vector2i(0, -1))
-        candidates.append(current + Vector2i(0, -1))
-        candidates.append(current + Vector2i(0, 1))
-        var moved := false
-        for candidate: Vector2i in candidates:
-            if runtime.grid.inside(candidate) and not runtime.grid.occupied(candidate) and runtime.grid.move(aurelien_ID, candidate):
-                moved = true
-                break
-        if not moved:
-            return false
-        current = runtime.grid.position_of(aurelien_ID)
-    return runtime.grid.distance(aurelien_ID, target_id) <= 1
-
-func _follow_path(runtime: VeilleursTacticalCombatRuntimeV2, path: Array[Vector2i]) -> bool:
-    for cell: Vector2i in path:
-        if runtime.grid.position_of(aurelien_ID) == cell:
-            continue
-        if runtime.grid.occupied(cell) or not runtime.grid.move(aurelien_ID, cell):
-            return false
-    return true
-
-func _single_ghoul_encounter(template_id: String) -> Dictionary:
-    return {
-        "template_id": template_id,
-        "objective": "survive",
-        "counterplay": "Test controlled Hemocorde encounter",
-        "composition": [{"definition_id": TARGET_ID}]
-    }
+func _load_json(path: String) -> Dictionary:
+    var file := FileAccess.open(path, FileAccess.READ)
+    if file == null:
+        failures.append("cannot open current quartet ultimate identity sheet")
+        return {}
+    var parsed: Variant = JSON.parse_string(file.get_as_text())
+    if not (parsed is Dictionary):
+        failures.append("current quartet ultimate identity sheet must parse as an object")
+        return {}
+    return parsed as Dictionary
 
 func _check(condition: bool, message: String) -> void:
     if not condition:
@@ -183,6 +77,6 @@ func _finish() -> void:
         get_tree().quit(0)
         return
     for failure: String in failures:
-        push_error("VEILLEURS_V062_HEMOCORDE: " + failure)
+        push_error("VEILLEURS_V062_ULTIMATE_IDENTITY: " + failure)
     print("VEILLEURS_V062_HEMOCORDE_ULTIMATE_SMOKE_FAILED: %d" % failures.size())
     get_tree().quit(1)
