@@ -13,6 +13,33 @@ func can_rest() -> bool:
         return false
     return true
 
+func interaction_descriptor(_actor: Object = null) -> Dictionary:
+    var stable_id := zone_id if zone_id != "" else str(name)
+    return EnvironmentInteractionContract.descriptor(
+        "campfire:%s" % stable_id,
+        EnvironmentInteractionContract.KIND_MECHANISM,
+        "Feu de camp",
+        "SE REPOSER",
+        can_rest(),
+        "already_used" if not can_rest() else "",
+        used_this_expedition,
+        {"one_use_per_expedition": one_use_per_expedition}
+    )
+
+func perform_interaction(actor: Object = null) -> Dictionary:
+    var current := interaction_descriptor(actor)
+    if not bool(current.get("available", false)):
+        return EnvironmentInteractionContract.result(current, false, "blocked", str(current.get("blocked_reason", "unavailable")))
+    var raw := rest()
+    var success := bool(raw.get("success", false))
+    return EnvironmentInteractionContract.result(
+        current,
+        success,
+        "rested" if success else "blocked",
+        str(raw.get("reason", "interaction_failed" if not success else "")),
+        {"rest": raw}
+    )
+
 func rest() -> Dictionary:
     if not can_rest():
         rest_failed.emit(zone_id, "already_used")
