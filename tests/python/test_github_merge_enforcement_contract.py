@@ -7,7 +7,7 @@ def branch(protected: bool = True) -> dict:
     return {"name": "main", "protected": protected}
 
 
-def strict_ruleset(*, bypass=None, include_check: bool = True) -> dict:
+def strict_ruleset(*, bypass=None, include_check: bool = True, strict_latest_base: bool = True) -> dict:
     checks = [{"context": "Merge Execution Gate"}] if include_check else [{"context": "CI"}]
     return {
         "id": 1,
@@ -22,7 +22,10 @@ def strict_ruleset(*, bypass=None, include_check: bool = True) -> dict:
             {"type": "non_fast_forward"},
             {
                 "type": "required_status_checks",
-                "parameters": {"required_status_checks": checks},
+                "parameters": {
+                    "required_status_checks": checks,
+                    "strict_required_status_checks_policy": strict_latest_base,
+                },
             },
         ],
     }
@@ -52,6 +55,15 @@ class GitHubMergeEnforcementContractTests(unittest.TestCase):
         self.assertFalse(result["external_merge_enforcement_verified"])
         self.assertIn("no_ruleset_enforces_merge_execution_gate_without_bypass", result["blockers"])
 
+    def test_required_checks_must_bind_latest_base(self):
+        result = evaluate(branch(True), [strict_ruleset(strict_latest_base=False)])
+        self.assertFalse(result["external_merge_enforcement_verified"])
+        self.assertIn("no_ruleset_enforces_merge_execution_gate_without_bypass", result["blockers"])
+        self.assertIn(
+            "required_checks_not_strict_to_latest_base",
+            result["matching_rulesets"][0]["blockers"],
+        )
+
     def test_default_branch_token_is_accepted(self):
         ruleset = strict_ruleset()
         ruleset["conditions"]["ref_name"]["include"] = ["~DEFAULT_BRANCH"]
@@ -63,6 +75,7 @@ class GitHubMergeEnforcementContractTests(unittest.TestCase):
         result = evaluate(branch(True), [strict_ruleset()])
         self.assertTrue(result["external_merge_enforcement_verified"])
         self.assertEqual(result["blockers"], [])
+        self.assertTrue(result["strict_latest_base_required"])
 
 
 if __name__ == "__main__":
