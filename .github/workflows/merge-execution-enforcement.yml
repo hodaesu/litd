@@ -1,0 +1,82 @@
+name: Merge Execution Enforcement
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  merge-execution-gate:
+    name: Merge Execution Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout audited head
+        uses: actions/checkout@v4
+
+      - name: Run enforcement contract tests
+        run: python -m pytest -q tests/python/test_github_merge_enforcement_contract.py
+
+      - name: Fetch live main and rulesets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports/live-merge-enforcement/rulesets
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            "https://api.github.com/repos/${REPOSITORY}/branches/main" \
+            > reports/live-merge-enforcement/main-branch.json
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            "https://api.github.com/repos/${REPOSITORY}/rulesets" \
+            > reports/live-merge-enforcement/ruleset-list.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows = json.loads(Path("reports/live-merge-enforcement/ruleset-list.json").read_text())
+          Path("reports/live-merge-enforcement/ruleset-ids.txt").write_text(
+              "\n".join(str(row["id"]) for row in rows if isinstance(row, dict) and "id" in row) + ("\n" if rows else "")
+          )
+          PY
+          while IFS= read -r ruleset_id; do
+            [ -n "${ruleset_id}" ] || continue
+            curl -fsSL \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              "https://api.github.com/repos/${REPOSITORY}/rulesets/${ruleset_id}" \
+              > "reports/live-merge-enforcement/rulesets/${ruleset_id}.json"
+          done < reports/live-merge-enforcement/ruleset-ids.txt
+          python - <<'PY'
+          import glob
+          import json
+          from pathlib import Path
+          details = []
+          for path in sorted(glob.glob("reports/live-merge-enforcement/rulesets/*.json")):
+              details.append(json.loads(Path(path).read_text()))
+          Path("reports/live-merge-enforcement/rulesets.json").write_text(
+              json.dumps(details, sort_keys=True, indent=2) + "\n"
+          )
+          PY
+
+      - name: Verify live external merge enforcement
+        run: |
+          python tools/quality/github_merge_enforcement_contract.py \
+            --branch reports/live-merge-enforcement/main-branch.json \
+            --rulesets reports/live-merge-enforcement/rulesets.json \
+            --output reports/live-merge-enforcement/result.json
+
+      - name: Preserve enforcement evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merge-execution-enforcement-${{ github.sha }}
+          path: reports/live-merge-enforcement
+          if-no-files-found: error
+          retention-days: 30
