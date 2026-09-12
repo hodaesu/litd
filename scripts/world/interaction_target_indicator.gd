@@ -47,7 +47,6 @@ func _ensure_label() -> void:
     _label.modulate = Color(1.0, 0.92, 0.72, 0.92)
     _label.outline_modulate = Color(0.08, 0.07, 0.06, 0.92)
     _label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-    _label.no_depth_test = true
     add_child(_label)
 
 func _sync_to_target() -> void:
