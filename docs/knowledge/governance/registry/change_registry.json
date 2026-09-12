@@ -50,6 +50,16 @@
       "rollback_plan": "Revert merge commit 7ca8b3e6c15f3ea0425a0797f3e2ae61151096ad; no automatic Library, Core or gameplay write is authorized.",
       "evidence_ids": ["EVD-VEILLEUR-AUTONOMY-TESTS-001", "EVD-VEILLEUR-AUTONOMY-MERGE-001", "EVD-VEILLEUR-AUTONOMY-MAIN-CI-001", "EVD-VEILLEUR-AUTONOMY-GUARDIAN-001"],
       "guardian": "GREEN"
+    },
+    {
+      "id": "CHG-GOVERNANCE-IMPACT-005",
+      "decision_id": "DEC-GOVERNANCE-IMPACT-005",
+      "status": "LITD_CHANGE_CANDIDATE",
+      "history": ["LITD_CHANGE_CANDIDATE"],
+      "test_plan": "Run impact contracts, path and deterministic-integrity attacks, concurrency regression tests and the Global Governance Gate.",
+      "rollback_plan": "Revert the isolated impact bridge; Knowledge intake and promotion remain operational.",
+      "evidence_ids": [],
+      "guardian": "ORANGE"
     }
   ]
 }
