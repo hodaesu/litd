@@ -1,10 +1,10 @@
 import pytest
 
-from tools.quality.application_decision_gate import evaluate
+from tools.quality.application_decision_gate import _hash, evaluate
 
 
 def implementation_evaluation():
-    return {
+    payload = {
         "kind": "LITD_BOUNDED_IMPLEMENTATION_EVALUATION",
         "status": "READY_FOR_APPLICATION_REVIEW",
         "source_gate_receipt_hash": "a" * 64,
@@ -20,13 +20,14 @@ def implementation_evaluation():
         "automatic_merge_allowed": False,
         "automatic_application_allowed": False,
         "automatic_target_change_allowed": False,
-        "evaluation_hash": "f" * 64,
     }
+    payload["evaluation_hash"] = _hash(payload)
+    return payload
 
 
 def decision(choice="APPLY_CHANGE"):
     return {
-        "evaluation_hash": "f" * 64,
+        "evaluation_hash": implementation_evaluation()["evaluation_hash"],
         "decision": choice,
         "decided_by": "governed-reviewer",
         "decided_at": "2026-09-12T08:20:00Z",
@@ -89,11 +90,20 @@ def test_mismatched_measurement_hash_fails_closed():
 
 def test_upstream_authority_escalation_fails_closed():
     evaluation = implementation_evaluation(); evaluation["automatic_merge_allowed"] = True
+    evaluation["evaluation_hash"] = _hash({k: v for k, v in evaluation.items() if k != "evaluation_hash"})
     with pytest.raises(ValueError, match="authority violation"):
         evaluate(evaluation, decision())
 
 
 def test_blocked_implementation_cannot_reach_application_decision():
     evaluation = implementation_evaluation(); evaluation["status"] = "IMPLEMENTATION_BLOCKED"
+    evaluation["evaluation_hash"] = _hash({k: v for k, v in evaluation.items() if k != "evaluation_hash"})
     with pytest.raises(ValueError, match="not ready"):
+        evaluate(evaluation, decision())
+
+
+def test_tampered_evaluation_with_stale_hash_fails_closed():
+    evaluation = implementation_evaluation()
+    evaluation["implementation_commit_sha"] = "0" * 40
+    with pytest.raises(ValueError, match="integrity mismatch"):
         evaluate(evaluation, decision())
