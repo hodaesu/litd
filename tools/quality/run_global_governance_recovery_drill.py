@@ -107,6 +107,7 @@ def run(source_sha: str, output_dir: Path) -> dict[str, Any]:
     now = datetime.now(timezone.utc).isoformat()
     report = {
         "kind": "GLOBAL_GOVERNANCE_COMPROMISE_RECOVERY",
+        "evidence_scope": "ISOLATED_SYNTHETIC",
         "incident_id": f"TABLETOP-{source_sha[:12]}",
         "severity": "CRITICAL",
         "detected_at": now,
