@@ -136,6 +136,14 @@
       "uri": "https://github.com/hodaesu/litd/actions/runs/34679992340",
       "observed_at": "2026-09-12T07:15:07.884Z",
       "change_id": "CHG-GOVERNANCE-IMPACT-005"
+    },
+    {
+      "id": "EVD-GOVERNANCE-IMPACT-GUARDIAN-001",
+      "type": "CI",
+      "result": "PASS",
+      "uri": "https://github.com/hodaesu/litd/actions/runs/34680527889",
+      "observed_at": "2026-09-12T07:55:53.153Z",
+      "change_id": "CHG-GOVERNANCE-IMPACT-005"
     }
   ]
 }
