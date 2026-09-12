@@ -120,6 +120,13 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p reports
+          base_sha='${{ github.event.pull_request.base.sha }}'
+          target_registry='docs/knowledge/design-targets.json'
+          if ! git cat-file -e "${base_sha}:${target_registry}" 2>/dev/null; then
+            echo '{"status":"PASS","reason":"target_governance_bootstrap_from_reconciled_history"}' > reports/target-revision-guard.json
+            echo 'Target governance bootstrap accepted because the PR base has no canonical target registry.'
+            exit 0
+          fi
           mapfile -t proposal_files < <(grep '^docs/knowledge/decisions/target-revisions/.*\.json$' reports-target-revision-files.txt || true)
           args=(--changed-files reports-target-revision-files.txt --output reports/target-revision-guard.json)
           for proposal in "${proposal_files[@]:-}"; do
