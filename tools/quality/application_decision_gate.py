@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Final governed application decision for bounded LITD implementations.
 
-This gate consumes a READY_FOR_APPLICATION_REVIEW evaluation and records a
-human/governed decision. Even APPLY_CHANGE only authorizes a later separate
-merge/application action; this module never merges, deploys, edits Core, or
-changes canonical targets.
+This gate consumes a READY_FOR_APPLICATION_REVIEW evaluation, verifies that it
+belongs to the LITD project boundary and records a governed decision. APPLY_CHANGE
+only authorizes a later separate merge/application action; this module never
+merges, deploys, edits Core, or changes canonical targets.
 """
 from __future__ import annotations
 
@@ -14,6 +14,8 @@ from datetime import datetime
 from hashlib import sha256
 from pathlib import Path
 from typing import Any
+
+from tools.quality.veilleur_v2_ingest import PROJECT_ID, TARGET_ROUTE
 
 ALLOWED_DECISIONS = {"APPLY_CHANGE", "REJECT_IMPLEMENTATION", "REQUEST_MORE_EVIDENCE"}
 ALLOWED_MEASUREMENT_ASSESSMENTS = {"NO_BLOCKING_REGRESSION", "BLOCKING_REGRESSION", "INCONCLUSIVE"}
@@ -51,6 +53,10 @@ def evaluate(evaluation: dict[str, Any], decision: dict[str, Any]) -> dict[str, 
     _verify_embedded_hash(evaluation, "evaluation_hash")
     if evaluation.get("kind") != "LITD_BOUNDED_IMPLEMENTATION_EVALUATION":
         raise ValueError("invalid bounded implementation evaluation kind")
+    if evaluation.get("project_id") != PROJECT_ID:
+        raise ValueError("implementation evaluation project scope mismatch")
+    if evaluation.get("target_route") != TARGET_ROUTE:
+        raise ValueError("implementation evaluation route scope mismatch")
     if evaluation.get("status") != "READY_FOR_APPLICATION_REVIEW":
         raise ValueError("implementation is not ready for application review")
     if evaluation.get("blockers") != []:
@@ -113,6 +119,8 @@ def evaluate(evaluation: dict[str, Any], decision: dict[str, Any]) -> dict[str, 
 
     receipt = {
         "kind": "LITD_APPLICATION_DECISION_RECEIPT",
+        "project_id": PROJECT_ID,
+        "target_route": TARGET_ROUTE,
         "source_evaluation_hash": evaluation["evaluation_hash"],
         "source_gate_receipt_hash": evaluation.get("source_gate_receipt_hash"),
         "source_candidate_hash": evaluation.get("source_candidate_hash"),
