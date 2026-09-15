@@ -53,7 +53,7 @@ jobs:
         run: python -m tools.blender.generate_systemic_animation_v44 --output systemic_animation_jobs_v44.json
       - name: Vérifier le plan d'un Veilleur sans Blender
         run: python -m tools.blender.systemic_animation_v44 --job-id aurelien --print-plan > v44_aurelien_plan.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: systemic-animation-v44-jobs
           path: |
