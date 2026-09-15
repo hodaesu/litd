@@ -20,7 +20,7 @@ jobs:
     container:
       image: barichello/godot-ci:4.7.2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Installer Python pour le pont de progression
         run: |
           apt-get update

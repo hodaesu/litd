@@ -19,7 +19,7 @@ jobs:
     container:
       image: barichello/godot-ci:4.7.2
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Strict Godot import
         run: godot --headless --path . --import --quit
       - name: Interaction salience smoke
