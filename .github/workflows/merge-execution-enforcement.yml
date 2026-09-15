@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout audited head
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Run enforcement contract tests
         run: python -m unittest tests.python.test_github_merge_enforcement_contract -v
