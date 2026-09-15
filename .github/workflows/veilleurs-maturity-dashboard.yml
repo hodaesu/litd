@@ -65,7 +65,7 @@ jobs:
           print('VEILLEURS_MATURITY_NO_PROMOTION_OK')
           PY
       - name: Publish maturity dashboard
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: veilleurs-maturity-dashboard
           path: build/qa/veilleurs_maturity_dashboard.json

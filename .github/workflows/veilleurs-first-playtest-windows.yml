@@ -144,7 +144,7 @@ jobs:
           )
 
       - name: Publish Windows playtest build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: veilleurs-windows-first-playtest
           path: build/playtest/windows/
@@ -152,7 +152,7 @@ jobs:
 
       - name: Publish playtest validation logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: veilleurs-windows-first-playtest-log
           path: build/automation/

@@ -32,7 +32,7 @@ jobs:
           GOVERNANCE_DATABASE_URL: ${{ secrets.GOVERNANCE_DATABASE_URL }}
         run: python tools/quality/run_postgres_receipt_registry_live_proof.py
       - name: Upload retained governance evidence
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: postgres-receipt-registry-live-proof
           path: reports/postgres-receipt-registry-live-proof.json

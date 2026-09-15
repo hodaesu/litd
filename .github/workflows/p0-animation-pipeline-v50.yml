@@ -73,7 +73,7 @@ jobs:
           python -m tools.godot.generate_animation_import_manifest_v49 --output animation_import_manifest_v49.json
       - name: Vérifier l'orchestrateur en mode sec
         run: python -m tools.pipeline.run_p0_animation_pipeline_v50 --dry-run --blender blender --godot godot --report p0_animation_pipeline_v50_report.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: p0-animation-pipeline-v50-handoff
           path: |
